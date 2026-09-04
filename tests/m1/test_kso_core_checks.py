@@ -42,6 +42,9 @@ def test_run_all_terminal_preserves_inherited_authority():
     assert t["KS-T12_CONSOLIDATION"] == "OPEN"
 
 
-def test_cli_exit_codes_are_three_and_distinct(capsys):
+def test_cli_exit_codes_are_three_and_distinct(monkeypatch, capsys):
     assert C.main([]) == 0
-    assert set(C.main.__code__.co_consts) & {1, 2}  # both non-zero paths exist in the CLI
+    monkeypatch.setattr(C, "run_all", lambda: (_ for _ in ()).throw(AssertionError("planted")))
+    assert C.main([]) == 1
+    monkeypatch.setattr(C, "run_all", lambda: (_ for _ in ()).throw(W.CannotCheck("planted")))
+    assert C.main([]) == 2
