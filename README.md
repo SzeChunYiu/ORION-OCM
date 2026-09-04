@@ -32,6 +32,16 @@ The stable commitment is the epistemic contract: evidence identity, provenance, 
 
 This repository is being initialized from the OCM research stack developed in `SzeChunYiu/ORION-V2`. A provenance ledger records the exact source PR/commit chain and scientific boundaries. Existing controlled results are migrated as prior evidence, not promoted into broader claims.
 
+## Milestone state
+
+| milestone | terminal | receipt |
+|---|---|---|
+| M0 canonical repository | `M0_CANONICAL_REPO_GREEN` | `docs/provenance/M0_RECEIPT_V1.json` |
+| M1 KSO core consolidation | `M1_KSO_CORE_GREEN` (issue #3) | `docs/provenance/M1_RECEIPT_V1.json`; checker `python -m ocm.kso.checks`; registry `docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json` |
+
+Active core: `src/ocm/kso/` (specs under `docs/spec/`). The build is itself run as an OCM problem —
+see `docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md`.
+
 ## Programme management
 
 - **Issue #1** is the master programme plan and milestone dependency graph.
