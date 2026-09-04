@@ -1,0 +1,50 @@
+name: M0 bootstrap canonical active layer
+
+on:
+  push:
+    branches: [m0-self-contained-ocm]
+    paths:
+      - .github/workflows/m0-bootstrap-active.yml
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: m0-self-contained-ocm
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Materialize canonical active layer bundle
+        run: |
+          set -euo pipefail
+          tar -xzf .m0/m0-active.tar.gz
+      - name: Resolve frozen ORION-V2 source for provenance proof
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/SzeChunYiu/ORION-V2.git /tmp/orion-v2
+          git -C /tmp/orion-v2 checkout 42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3
+      - name: Generate M0 provenance and inventory artifacts
+        run: |
+          set -euo pipefail
+          python scripts/generate_migration_manifest.py --source /tmp/orion-v2 --write
+          python scripts/generate_dependency_audit.py --write
+          python scripts/generate_programme_inventory.py --write
+          python scripts/check_parent_dependencies.py
+          python scripts/check_authority_terminals.py
+          python -m py_compile $(find src/ocm src/orion_v2 scripts tests -name '*.py' -type f | sort)
+      - name: Commit canonical active layer
+        run: |
+          set -euo pipefail
+          rm .m0/m0-active.tar.gz
+          rmdir .m0 || true
+          git config user.name "ORION-OCM M0 bootstrap"
+          git config user.email "52784502+SzeChunYiu@users.noreply.github.com"
+          git add -A
+          git commit -m "m0: add canonical runtime, replay custody, provenance, and hostile tests"
+          git push origin HEAD:m0-self-contained-ocm
