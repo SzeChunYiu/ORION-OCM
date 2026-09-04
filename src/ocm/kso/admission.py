@@ -21,7 +21,7 @@ from typing import Hashable, Iterable, Sequence
 from .navigation import fixed_point, ungated_closure
 from .resources import Meter, ResourceVector
 from .space import Atom, Hyperedge, KnowledgeSpace, TypedRejection
-from .types import Authority, Scope, intersect_scopes, meet_authority
+from .types import Authority, Scope, intersect_scopes, internal_authority, meet_authority
 from .warrant import Liveness, WarrantProfile, meet_all_profiles
 
 
@@ -178,7 +178,7 @@ def compose(
     bridge_warrant = bridge_warrant or WarrantProfile.one()
     warrant = meet_all_profiles([bridge_warrant, *(amap[t].warrant for t in tails)])
     authorities = [amap[t].authority for t in tails] + ([bridge_authority] if bridge_authority is not None else [])
-    authority = meet_authority(authorities)
+    authority = internal_authority(authorities)  # operator factor: commit undeclared ⇒ 0 (MEG-04)
     scope = intersect_scopes([amap[t].scope for t in tails] + ([bridge_scope] if bridge_scope is not None else []))
     if scope.is_empty:
         raise TypedRejection("SCOPE_EMPTY", head_id)

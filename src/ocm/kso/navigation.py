@@ -449,7 +449,10 @@ def navigate(
     m = navigation_matrix(ks, revoked=rv, relevance=relevance)
     p = m.as_lists()
     s = gated_seed(ks, seed, rv)
-    a = list(s)
+    # a_0 = α·s: the iterates are the partial Neumann sums, monotone from below and ≤ a*, so a
+    # FOUND at any budget is sound for the fixed point (MEG-06 / T2).  The frozen reference started
+    # at s, whose iterates overshoot a* — a documented tightening (steps_used may differ).
+    a = [alpha * x for x in s]
     ti = ids.index(target)
     work = 0
     for k in range(1, budget.steps + 1):
@@ -462,6 +465,7 @@ def navigate(
             )
     support = [x for x, v in zip(ids, seed, strict=True) if v > 0]
     ceiling = ungated_closure(ks, support)
+    bracket = (1 - alpha) ** (budget.steps + 1) * sum(s, Fraction(0, 1))  # a*(t) ∈ [a_k(t), a_k(t) + bracket]
     res = ResourceVector(navigation_steps=budget.steps, navigation_work=work)
     if target not in ceiling:
         witness = ObstructionWitness(
@@ -482,7 +486,8 @@ def navigate(
         if amap[target].liveness(rv) is Liveness.UNKNOWN:
             why = "WARRANT_UNKNOWN_TARGET_CLOSURE_REACHABLE"
         return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, why, budget.steps, activation=a[ti], gap_channel_hook="ACQUIRE_WARRANT", resources=res)
-    return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, "BUDGET_EXHAUSTED_TARGET_CLOSURE_REACHABLE", budget.steps, activation=a[ti], gap_channel_hook="MORE_BUDGET", resources=res)
+    decided_negative = a[ti] + bracket < threshold  # the bracket excludes θ: more budget cannot help
+    return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, "BUDGET_EXHAUSTED_TARGET_CLOSURE_REACHABLE" if not decided_negative else "BUDGET_BRACKET_EXCLUDES_THRESHOLD", budget.steps, activation=a[ti], gap_channel_hook="MORE_BUDGET" if not decided_negative else "ACQUIRE_WARRANT_OR_STRUCTURE", resources=res)
 
 
 def identification_witness(ks: KnowledgeSpace, activation: Mapping[str, Fraction], target: str) -> ObstructionWitness | None:

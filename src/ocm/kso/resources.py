@@ -73,6 +73,8 @@ class Meter:
     events: int = 0
 
     def charge(self, delta: ResourceVector) -> "Meter":
+        if delta == ResourceVector():
+            raise ValueError("unmetered mutation: a zero resource delta cannot be charged (KS-S7 / MEG-30)")
         self.total = self.total + delta
         self.events += 1
         return self

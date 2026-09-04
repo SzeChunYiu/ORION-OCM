@@ -30,7 +30,7 @@ from ocm.kso.admission import CertificateKind, WARRANTING_KINDS
 from ocm.kso.ids import content_hash
 from ocm.kso.resources import ResourceVector
 from ocm.kso.space import KnowledgeSpace, TypedRejection
-from ocm.kso.types import Authority, Scope
+from ocm.kso.types import Authority, Scope, internal_authority
 from ocm.kso.warrant import Liveness, WarrantProfile, meet_all_profiles
 
 
@@ -127,9 +127,7 @@ def compose_candidate(
         if x not in amap:
             raise TypedRejection("UNKNOWN_ATOM", x)
     inputs_warrant = meet_all_profiles([op.warrant, *(amap[x].warrant for x in op.input_atoms)])
-    authority = op.authority
-    for x in op.input_atoms:
-        authority = authority.meet(amap[x].authority)
+    authority = internal_authority([op.authority, *(amap[x].authority for x in op.input_atoms)])  # MEG-04
     scope = op.scope
     for x in op.input_atoms:
         scope = scope.intersect(amap[x].scope)

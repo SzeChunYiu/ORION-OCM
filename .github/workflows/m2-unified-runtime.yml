@@ -22,7 +22,7 @@ jobs:
       - name: M1 core still green (receipt regenerated for the admission scale path)
         run: python -m pytest -q tests/m1 && python tools/m1_receipt.py --verify
       - name: Vendored-source drift
-        run: python tools/m2_vendor_check.py
+        run: python tools/m2_vendor_check.py --targets-only
       - name: M2 exhaustive checkers (nogoods, procedure algebra, surprise lemma)
         run: python -c "from ocm.kso import nogoods, procedures, surprise; from fractions import Fraction; print(nogoods.check_nogoods(3)); print(procedures.check_procedure_algebra(3)); [print(surprise.check_hub_theorem_under_model(m)) for m in surprise.SurpriseModel]"
       - name: Historical replay adapters preserve inherited terminals

@@ -23,7 +23,7 @@ from fractions import Fraction
 from typing import Hashable, Iterable, Sequence
 
 from .space import Atom, Hyperedge, KnowledgeSpace, TypedRejection
-from .types import Authority, Scope, intersect_scopes, meet_authority
+from .types import Authority, Scope, intersect_scopes, internal_authority, meet_authority
 from .warrant import WarrantProfile, meet_all_profiles
 
 Partition = tuple[tuple[int, ...], ...]
@@ -155,7 +155,7 @@ def summarize(
         raise TypedRejection("EXPORTED_NOT_SUBSET_OF_CONSTITUENTS", summary_id)
     corr = correspondence_warrant or WarrantProfile.one()
     warrant = meet_all_profiles([corr, *(amap[x].warrant for x in exp)])
-    authority = meet_authority([amap[x].authority for x in constituents])
+    authority = internal_authority([amap[x].authority for x in constituents])  # MEG-04
     scope = intersect_scopes([amap[x].scope for x in constituents])
     atom = Atom(summary_id, "summary", warrant, authority, scope, meta=(("constituents", tuple(constituents)), ("exported", exp)))
     edge = Hyperedge(edge_id or f"summarize:{summary_id}", tuple(constituents), (summary_id,), "REPRESENTATION_TRANSPORT", warrant=corr, authority=authority, scope=scope)

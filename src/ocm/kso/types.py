@@ -144,6 +144,9 @@ class Authority:
         return self <= other and self != other
 
 
+COMMIT_COORDINATE = "commit"
+
+
 def meet_authority(items: Iterable[Authority]) -> Authority:
     items = list(items)
     if not items:
@@ -152,6 +155,14 @@ def meet_authority(items: Iterable[Authority]) -> Authority:
     for a in items[1:]:
         out = out.meet(a)
     return out
+
+
+def internal_authority(items: Iterable[Authority]) -> Authority:
+    """Authority of an internally composed object (MEG-04 / T1): the meet of the components with
+    the operator's own factor, whose ``commit`` coordinate is undeclared (= 0).  Hence no chain of
+    internal operations ever reaches commit authority; only an external ActionReceipt confers it."""
+    m = meet_authority(items)
+    return Authority(tuple(sorted({**m.as_dict(), COMMIT_COORDINATE: 0}.items())))
 
 
 UNBOUNDED_EPOCH = (0, float("inf"))
