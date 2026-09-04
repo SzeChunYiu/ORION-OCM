@@ -1,0 +1,209 @@
+{
+ "schema": "orion-v2.rcl.theorem-ledger.v1",
+ "as_of_date": "2026-09-04",
+ "supersedes": "RCL_THEOREM_LEDGER_V0.json (retained, hash-bound in the review packets; not modified)",
+ "authority": {
+  "all_size_hand_proofs_complete_for_elementary_pack": true,
+  "machine_checked_proofs_complete": false,
+  "external_novelty_established": false,
+  "breakthrough_established": false,
+  "independent_review_returned": false
+ },
+ "dependency_dag_acyclic": true,
+ "proved_theorem_count": 15,
+ "mechanized_theorem_count": 0,
+ "headline_candidate": {
+  "id": "RCL-B / RCL-C",
+  "status": "PARENT_SUFFICIENT_ON_REGISTERED_CLASSES__COUPLED_CLASS_NOT_CONSTRUCTED",
+  "authoring_side_contraction": true,
+  "reason": "RCL-D: every registered natural class (RCL-1b fixed-certificate family, WPL V1/V2, WGPL) is rectangular, hence a direct product of parent problems (current-function exact learning x warrant-object learning/INDEX) with additive complexity; the closure dichotomy (lane-200 record Theorem C) leaves no exact regime in which the warrant is learned but not given. Kill condition of 03_PARENT_SUBTRACTION \u00a78 item 1 met on the registered classes.",
+  "named_obstruction": "A residual would need a non-rectangular (coupled) natural class with a strict equal-information separation and a non-cardinality lower bound; non-rectangularity forfeits current-function blindness, after which the problem is ordinary joint exact learning with two query types (Angluin 1988). No such class is registered.",
+  "review_status": "Issue #245 remains unreturned; this contraction is authored, not reviewed, and is not one of the reviewer terminals."
+ },
+ "theorems": [
+  {
+   "id": "RCL-0",
+   "name": "canonical-profile injectivity",
+   "statement_digest_text": "For antichain warrant profiles, equal full revocation signatures imply equal canonical profiles.",
+   "dependencies": [],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "CALIBRATION_STANDARD_MONOTONE_BOOLEAN_FUNCTION_FACT",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-1",
+   "name": "zero-query summary lower bound",
+   "statement_digest_text": "An exact zero-query summary needs at least the log2 number of admitted revocation-equivalence classes.",
+   "dependencies": [
+    "RCL-0"
+   ],
+   "status": "HAND_PROOF_COMPLETE",
+   "parent_status": "CALIBRATION_STANDARD_DISTINGUISHABILITY",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-1b",
+   "name": "exponential counterfactual-warrant gap",
+   "statement_digest_text": "Profiles sharing one valid current middle-layer warrant realize 2^(C(n,floor(n/2))-1) future signatures and shatter C(n,floor(n/2))-1 revocations.",
+   "dependencies": [
+    "RCL-0",
+    "RCL-1"
+   ],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "NEW_RCL_FORMULATION_ELEMENTARY_ANTICHAIN_COUNTING",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-1c",
+   "name": "exact storage-query frontier",
+   "statement_digest_text": "In the coordinate-query model for the fixed-certificate family, exact completion requires and achieves S+Q=C(n,floor(n/2))-1.",
+   "dependencies": [
+    "RCL-1b"
+   ],
+   "status": "HAND_PROOF_COMPLETE__V0_FINITE_CONSTRUCTION_WITHDRAWN_VACUOUS_CONTRAST__V1_FINITE_CONSTRUCTION_GREEN",
+   "parent_status": "NEW_RCL_FORMULATION_STANDARD_DECISION_TREE_ARGUMENT",
+   "novelty_claimed": false,
+   "v1_checker": "rcl_checks_v1.py::verify_storage_query_frontier_v1",
+   "v1_denominators": {
+    "reconstruction_checks": 28863,
+    "splits_on_or_above_frontier": 22,
+    "splits_below_frontier": 64,
+    "collision_pairs_exhibited": 64
+   },
+   "withdrawn_v0_figure": "storage_query_reconstruction_checks: 5329",
+   "v1_finite_construction": {
+    "distinct_candidate_completeness_checks": 28863,
+    "revision_2026_09_04": "below-frontier arm made falsifiable (dedupe + soundness + completeness; M6); reconstruction_checks unchanged"
+   }
+  },
+  {
+   "id": "RCL-1d",
+   "name": "direct sum across reusable skills",
+   "statement_digest_text": "m independently warranted skills have joint revocation-shattering dimension and exact storage-query lower bound m(C(n,floor(n/2))-1).",
+   "dependencies": [
+    "RCL-1b",
+    "RCL-1c"
+   ],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "CALIBRATION_DIRECT_PRODUCT",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-2",
+   "name": "positive-witness omission theorem",
+   "statement_digest_text": "Every proper positive-only subfamily of an antichain admits a revocation killing all emitted warrants while preserving an omitted warrant.",
+   "dependencies": [],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "NEW_RCL_FORMULATION_LIKELY_PROVENANCE_COROLLARY",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-2a",
+   "name": "bounded positive-witness insufficiency",
+   "statement_digest_text": "For every k, k displayed positive witnesses can hide a (k+1)st warrant that changes a future revocation decision.",
+   "dependencies": [
+    "RCL-2"
+   ],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "CALIBRATION",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-2b",
+   "name": "single-proof over-retraction",
+   "statement_digest_text": "Revoking the displayed proof can leave an unobserved alternate warrant live.",
+   "dependencies": [
+    "RCL-2"
+   ],
+   "status": "COUNTEREXAMPLE_COMPLETE_PLANTED_POSITIVE_GREEN",
+   "parent_status": "CALIBRATION",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-3",
+   "name": "one fixed-size warrant information bound",
+   "statement_digest_text": "One unknown d-subset warrant among n atoms needs exactly ceil(log2 C(n,d)) bits for zero-query arbitrary revocation.",
+   "dependencies": [
+    "RCL-1"
+   ],
+   "status": "HAND_PROOF_COMPLETE_FINITE_ORACLE_GREEN",
+   "parent_status": "CALIBRATION_STANDARD_COUNTING",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-4",
+   "name": "full-antichain sufficiency",
+   "statement_digest_text": "The complete canonical warrant antichain exactly decides liveness after every admitted revocation.",
+   "dependencies": [],
+   "status": "HAND_PROOF_COMPLETE",
+   "parent_status": "PARENT_OWNED_PROVENANCE_TMS",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-5",
+   "name": "false-retain false-retract abstain trilemma",
+   "statement_digest_text": "A non-complete deterministic summary forces false retention, false retraction, or abstention on a decidable compatible instance.",
+   "dependencies": [
+    "RCL-1"
+   ],
+   "status": "HAND_PROOF_COMPLETE",
+   "parent_status": "NEW_RCL_FORMULATION_STANDARD_INDISTINGUISHABILITY",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-6",
+   "name": "semantic-learning revision separation",
+   "statement_digest_text": "Fixed operator semantics and one identical current proof can coexist with exponentially many post-revocation library states.",
+   "dependencies": [
+    "RCL-1b",
+    "RCL-1d"
+   ],
+   "status": "HAND_PROOF_COMPLETE",
+   "parent_status": "NEW_RCL_FORMULATION_DERIVED_FROM_ELEMENTARY_PACK",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-7",
+   "name": "dual-certificate barrier",
+   "statement_digest_text": "If surviving-warrant existence is NP-complete and every no-surviving-warrant instance has a polynomial-size polynomial-time checkable noninteractive extinction certificate, then NP=coNP.",
+   "dependencies": [],
+   "status": "HAND_PROOF_COMPLETE_CONDITIONAL",
+   "parent_status": "PARENT_OWNED_STANDARD_NP_CONP_IMPLICATION",
+   "novelty_claimed": false
+  },
+  {
+   "id": "RCL-E",
+   "name": "RSD is a fibre-wise VC dimension",
+   "statement_digest_text": "RSD(Phi,tau,Gamma) = max over transcript values t of VCdim({R -> Live_J(R): tau(J)=t} on Gamma).",
+   "dependencies": [],
+   "status": "HAND_PROOF_COMPLETE_BY_UNFOLDING_DEFINITIONS__FINITE_ORACLE_GREEN",
+   "parent_status": "PARENT_OWNED_VC_DIMENSION_FIBREWISE",
+   "novelty_claimed": false,
+   "v1_checker": "rcl_checks_v1.py::verify_rsd_is_fibrewise_vc",
+   "v1_denominators": {
+    "admitted_revocations": 16,
+    "equal": true,
+    "n": 4,
+    "planted_single_function_vc": 0,
+    "profiles_on_fibre": 32,
+    "recorded_rsd": 5,
+    "vc_dimension_of_liveness_class": 5
+   },
+   "effect": "RCL-F11 -> PARENT_OWNED; RSD demoted to notation (answers RCL-R33/R34 from the authoring side by contraction; not a review terminal)."
+  },
+  {
+   "id": "RCL-D",
+   "name": "rectangularity / direct-product collapse of the registered classes",
+   "statement_digest_text": "Current-function blindness holds iff the lifecycle class is rectangular; a rectangular class is the Cartesian product of a current-function learning problem and a warrant-object learning problem with additive query complexity and Warrant Lift = log2 |Z|.",
+   "dependencies": [
+    "RCL-1b",
+    "RCL-6"
+   ],
+   "status": "HAND_PROOF_COMPLETE__FINITE_ORACLE_GREEN_ON_WPL_V1_WPL_V2_WGPL",
+   "parent_status": "COLLAPSE__EACH_FACTOR_PARENT_OWNED",
+   "novelty_claimed": false,
+   "checker": "research/orion-machine/reference/ocm_lane200_decomposition_exact.py",
+   "record": "research/orion-machine/theory/OCM_LANE_200_TERMINAL_V1.md Theorem D"
+  }
+ ]
+}

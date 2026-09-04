@@ -1,0 +1,37 @@
+{
+ "schema": "orion-v2.ocm.separation-test-reaudit.v2",
+ "as_of": "2026-09-04",
+ "predecessor": "research/orion-machine/theory/OCM_SEPARATION_TEST_DESIGN_V1.json",
+ "claim_status": "NOT_ESTABLISHED",
+ "test_status": "NOT_FROZEN__CONDITION_1_UNSATISFIABLE_CLASS_INDEPENDENT",
+ "registered_class_audited_against": {
+  "name": "VSW(SINGLETONS_5)",
+  "record": "research/orion-machine/theory/OCM_NONRECTANGULAR_CLASS_V1.md",
+  "checker": "research/orion-machine/reference/ocm_nonrectangular_class_exact.py",
+  "rectangular": false,
+  "decomposable": false,
+  "interaction_term_certified": 1
+ },
+ "theorem_N2": {
+  "statement": "For any finite class and any interface, two zero-error learners at equal information and equal oracle access answer the same coordinates (fibre criterion); if the comparator ranges over the same resource class it may be the procedure-learner itself, so PASS/FAIL separation is unreachable; if it ranges over a proper sub-class, the test measures the restriction.",
+  "parents": ["Mitchell 1980, The need for biases in learning generalizations", "Wolpert 1996, no-free-lunch"],
+  "disposition": "PARENT_OWNED"
+ },
+ "conditions": [
+  {"id": 1, "class_half": "MET", "bound_half": "UNSATISFIABLE_FOR_UNRESTRICTED_COMPARATOR"},
+  {"id": 2, "state": "STATABLE; under it the arms coincide up to bias"},
+  {"id": 3, "state": "NO_MARGIN_FOR_THE_SEPARATION; margin 1 for the restricted-comparator frontier"},
+  {"id": 4, "state": "PLANTABLE (S1 laundering, S3 closure); not the blocker"},
+  {"id": 5, "state": "NO_DYNAMIC_RANGE at matched interface (DEGENERATE_PROBE_STATISTIC)"}
+ ],
+ "freezable_only_as": {
+  "kind": "restricted-comparator resource frontier (lane #202 kind)",
+  "restriction": "behaviour-first ordering: the comparator determines the concept before any liveness query",
+  "margin": 1,
+  "instance": "VSW(SINGLETONS_5): joint 8, B-first 9 (certified)",
+  "owner": "Angluin 1988 (subset queries strictly stronger than membership queries on singletons)",
+  "is_the_directive_claim": false
+ },
+ "ledger_classes_binding": ["STRUCTURALLY_DETERMINED_REGISTERED_CLAUSE", "HANDICAPPED_COMPARATOR", "VACUOUS_CONTRAST", "DONOR_PRODUCT_TIE", "NONIDENTIFIABLE", "FORECLOSED_FAILURE_MODE", "DEGENERATE_PROBE_STATISTIC", "PRESENTATION_DEPENDENT_OBSTRUCTION (OCM ledger)"],
+ "authority": {"novelty_established": false, "separation_established": false, "anything_run": false, "issue_197_checkbox_closed": false}
+}

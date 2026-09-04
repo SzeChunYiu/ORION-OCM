@@ -1,0 +1,675 @@
+{
+  "A_coordinate_rectangularity": {
+    "control_fired": true,
+    "criterion": "R0: |Im(B,Z)| == |Im B| * |Im Z| (equivalently every behaviour fibre carries every warrant value; equivalently H0(B,Z) = H0(B) + H0(Z))",
+    "planted_non_rectangular": [
+      {
+        "behaviour_values": 8,
+        "name": "COUPLED_FULL",
+        "pairs": 8,
+        "product": 64,
+        "rectangular": false,
+        "warrant_values": 8,
+        "worlds": 8
+      },
+      {
+        "behaviour_values": 8,
+        "name": "COUPLED_HALF",
+        "pairs": 256,
+        "product": 512,
+        "rectangular": false,
+        "warrant_values": 64,
+        "worlds": 256
+      },
+      {
+        "behaviour_values": 8,
+        "name": "COUPLED_FORCED",
+        "pairs": 384,
+        "product": 512,
+        "rectangular": false,
+        "warrant_values": 64,
+        "worlds": 384
+      }
+    ],
+    "planted_worlds": 648,
+    "registered": [
+      {
+        "behaviour_values": 8,
+        "name": "WPL_V1_p3_h2",
+        "pairs": 512,
+        "product": 512,
+        "rectangular": true,
+        "warrant_values": 64,
+        "worlds": 512
+      },
+      {
+        "behaviour_values": 8,
+        "name": "WPL_V2_p3_h2",
+        "pairs": 512,
+        "product": 512,
+        "rectangular": true,
+        "warrant_values": 64,
+        "worlds": 512
+      },
+      {
+        "behaviour_values": 16,
+        "name": "WGPL_n4",
+        "pairs": 1024,
+        "product": 1024,
+        "rectangular": true,
+        "warrant_values": 64,
+        "worlds": 1024
+      }
+    ],
+    "registered_worlds": 2048
+  },
+  "B_decomposability": {
+    "definition": "D_joint = exact query complexity with behaviour and warrant queries; B_first = D_B + max_b D(fibre_b); Z_first = D_Z + max_z D(cofibre_z); I = min(B_first, Z_first) - D_joint",
+    "finding": "all three planted non-rectangular classes are decomposable (I = 0); coordinate non-rectangularity is not the obstruction's content",
+    "first_pass_planted_classes": [
+      {
+        "B_first": {
+          "D_first": 3,
+          "cost": 3,
+          "cost_simulated": 3,
+          "cost_solver_b": 3,
+          "fibres": 8,
+          "first": "B",
+          "worst_fibre": 0
+        },
+        "D_joint": 3,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 3,
+        "R0_rectangular": false,
+        "Z_first": {
+          "D_first": 3,
+          "cost": 3,
+          "cost_simulated": 3,
+          "cost_solver_b": 3,
+          "fibres": 8,
+          "first": "Z",
+          "worst_fibre": 0
+        },
+        "b_queries": 8,
+        "behaviour_values": 8,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "decomposable": true,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 3,
+        "log2_worlds": 3.0,
+        "name": "COUPLED_FULL",
+        "solvers_agree_on_D_joint": true,
+        "warrant_values": 8,
+        "worlds": 8,
+        "z_queries": 6
+      },
+      {
+        "B_first": {
+          "D_first": 3,
+          "cost": 8,
+          "cost_simulated": 8,
+          "cost_solver_b": 8,
+          "fibres": 8,
+          "first": "B",
+          "worst_fibre": 5
+        },
+        "D_joint": 8,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 8,
+        "R0_rectangular": false,
+        "Z_first": {
+          "D_first": 6,
+          "cost": 8,
+          "cost_simulated": 8,
+          "cost_solver_b": 8,
+          "fibres": 64,
+          "first": "Z",
+          "worst_fibre": 2
+        },
+        "b_queries": 8,
+        "behaviour_values": 8,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "decomposable": true,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 8,
+        "log2_worlds": 8.0,
+        "name": "COUPLED_HALF",
+        "solvers_agree_on_D_joint": null,
+        "warrant_values": 64,
+        "worlds": 256,
+        "z_queries": 6
+      },
+      {
+        "B_first": {
+          "D_first": 3,
+          "cost": 9,
+          "cost_simulated": 9,
+          "cost_solver_b": 9,
+          "fibres": 8,
+          "first": "B",
+          "worst_fibre": 6
+        },
+        "D_joint": 9,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 9,
+        "R0_rectangular": false,
+        "Z_first": {
+          "D_first": 6,
+          "cost": 9,
+          "cost_simulated": 9,
+          "cost_solver_b": 9,
+          "fibres": 64,
+          "first": "Z",
+          "worst_fibre": 3
+        },
+        "b_queries": 8,
+        "behaviour_values": 8,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "decomposable": true,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 9,
+        "log2_worlds": 8.584962500721156,
+        "name": "COUPLED_FORCED",
+        "solvers_agree_on_D_joint": null,
+        "warrant_values": 64,
+        "worlds": 384,
+        "z_queries": 6
+      }
+    ],
+    "pointer_chasing_control": {
+      "B_first": {
+        "D_first": 2,
+        "cost": 4,
+        "cost_simulated": 4,
+        "cost_solver_b": 4,
+        "fibres": 3,
+        "first": "B",
+        "worst_fibre": 2
+      },
+      "D_joint": 3,
+      "D_joint_meets_counting_bound": true,
+      "D_joint_simulated": 3,
+      "Z_first": {
+        "D_first": 3,
+        "cost": 4,
+        "cost_simulated": 4,
+        "cost_solver_b": 4,
+        "fibres": 6,
+        "first": "Z",
+        "worst_fibre": 1
+      },
+      "b_queries": 2,
+      "behaviour_values": 3,
+      "certified": {
+        "decomposability_certified": false,
+        "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+        "interaction_lower_bound": 1,
+        "interaction_upper_bound": 1,
+        "nondecomposability_certified": true
+      },
+      "decomposable": false,
+      "interaction_term": 1,
+      "joint_lower_bound_counting": 3,
+      "log2_worlds": 3.0,
+      "name": "POINTER_3",
+      "solvers_agree_on_D_joint": true,
+      "warrant_values": 6,
+      "witness": {
+        "tree_of_depth_D_joint_exists": true,
+        "tree_of_depth_D_joint_minus_1_exists": false
+      },
+      "worlds": 8,
+      "z_queries": 5
+    },
+    "rectangular_control": {
+      "B_first": {
+        "D_first": 2,
+        "cost": 4,
+        "cost_simulated": 4,
+        "cost_solver_b": 4,
+        "fibres": 4,
+        "first": "B",
+        "worst_fibre": 2
+      },
+      "D_joint": 4,
+      "D_joint_meets_counting_bound": true,
+      "D_joint_simulated": 4,
+      "Z_first": {
+        "D_first": 2,
+        "cost": 4,
+        "cost_simulated": 4,
+        "cost_solver_b": 4,
+        "fibres": 4,
+        "first": "Z",
+        "worst_fibre": 2
+      },
+      "b_queries": 4,
+      "behaviour_values": 4,
+      "certified": {
+        "decomposability_certified": true,
+        "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+        "interaction_lower_bound": 0,
+        "interaction_upper_bound": 0,
+        "nondecomposability_certified": false
+      },
+      "decomposable": true,
+      "interaction_term": 0,
+      "joint_lower_bound_counting": 4,
+      "log2_worlds": 4.0,
+      "name": "RECT_p2_N2",
+      "solvers_agree_on_D_joint": true,
+      "warrant_values": 4,
+      "witness": {
+        "tree_of_depth_D_joint_exists": true,
+        "tree_of_depth_D_joint_minus_1_exists": false
+      },
+      "worlds": 16,
+      "z_queries": 2
+    }
+  },
+  "C_version_space_warrant_class": {
+    "affinity_census": {
+      "points_2": {
+        "affine_label_dependent": 0,
+        "affine_label_independent": 11,
+        "classes": 15,
+        "nonaffine_label_dependent": 4,
+        "nonaffine_label_independent": 0
+      },
+      "points_3": {
+        "affine_label_dependent": 0,
+        "affine_label_independent": 51,
+        "classes": 255,
+        "nonaffine_label_dependent": 204,
+        "nonaffine_label_independent": 0
+      },
+      "points_4": {
+        "affine_label_dependent": 0,
+        "affine_label_independent": 307,
+        "classes": 65535,
+        "nonaffine_label_dependent": 65228,
+        "nonaffine_label_independent": 0
+      }
+    },
+    "named_families_4_points": [
+      {
+        "B_first": {
+          "D_first": 2,
+          "cost": 5,
+          "cost_simulated": 5,
+          "cost_solver_b": 5,
+          "fibres": 4,
+          "first": "B",
+          "worst_fibre": 3
+        },
+        "D_joint": 5,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 5,
+        "Z_first": {
+          "D_first": 3,
+          "cost": 5,
+          "cost_simulated": 5,
+          "cost_solver_b": 5,
+          "fibres": 8,
+          "first": "Z",
+          "worst_fibre": 2
+        },
+        "affine": true,
+        "atms_label_cells_checked": 2048,
+        "atms_label_mismatches": 0,
+        "b_queries": 4,
+        "behaviour_values": 4,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "concepts": 4,
+        "decomposable": true,
+        "domain_points": 4,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 5,
+        "label_independent": true,
+        "log2_worlds": 5.0,
+        "name": "LINEAR_F2^2",
+        "pairs": 32,
+        "rectangular": true,
+        "solvers_agree_on_D_joint": true,
+        "warrant_values": 8,
+        "worlds": 32,
+        "worlds_quotient": 32,
+        "z_queries": 30
+      },
+      {
+        "B_first": {
+          "D_first": 2,
+          "cost": 5,
+          "cost_simulated": 5,
+          "cost_solver_b": 5,
+          "fibres": 4,
+          "first": "B",
+          "worst_fibre": 3
+        },
+        "D_joint": 5,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 5,
+        "Z_first": {
+          "D_first": 5,
+          "cost": 6,
+          "cost_simulated": 6,
+          "cost_solver_b": 6,
+          "fibres": 21,
+          "first": "Z",
+          "worst_fibre": 2
+        },
+        "affine": false,
+        "atms_label_cells_checked": 2048,
+        "atms_label_mismatches": 0,
+        "b_queries": 4,
+        "behaviour_values": 4,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "concepts": 4,
+        "decomposable": true,
+        "domain_points": 4,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 5,
+        "label_independent": false,
+        "log2_worlds": 5.0,
+        "name": "MONO_CONJ_2",
+        "pairs": 32,
+        "rectangular": false,
+        "solvers_agree_on_D_joint": true,
+        "warrant_values": 21,
+        "worlds": 32,
+        "worlds_quotient": 32,
+        "z_queries": 38
+      },
+      {
+        "B_first": {
+          "D_first": 4,
+          "cost": 8,
+          "cost_simulated": 8,
+          "cost_solver_b": 8,
+          "fibres": 14,
+          "first": "B",
+          "worst_fibre": 4
+        },
+        "D_joint": 8,
+        "D_joint_meets_counting_bound": true,
+        "D_joint_simulated": 8,
+        "Z_first": {
+          "D_first": 8,
+          "cost": 11,
+          "cost_simulated": 11,
+          "cost_solver_b": 11,
+          "fibres": 24,
+          "first": "Z",
+          "worst_fibre": 4
+        },
+        "affine": false,
+        "atms_label_cells_checked": 14336,
+        "atms_label_mismatches": 0,
+        "b_queries": 4,
+        "behaviour_values": 14,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 0,
+          "nondecomposability_certified": false
+        },
+        "concepts": 14,
+        "decomposable": true,
+        "domain_points": 4,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 8,
+        "label_independent": false,
+        "log2_worlds": 7.807354922057604,
+        "name": "LTF_2",
+        "pairs": 224,
+        "rectangular": false,
+        "solvers_agree_on_D_joint": null,
+        "warrant_values": 24,
+        "worlds": 224,
+        "worlds_quotient": 224,
+        "z_queries": 36
+      },
+      {
+        "B_first": {
+          "D_first": 3,
+          "cost": 7,
+          "cost_simulated": 7,
+          "cost_solver_b": 7,
+          "fibres": 4,
+          "first": "B",
+          "worst_fibre": 4
+        },
+        "D_joint": 7,
+        "D_joint_meets_counting_bound": false,
+        "D_joint_simulated": 7,
+        "Z_first": {
+          "D_first": 6,
+          "cost": 7,
+          "cost_simulated": 7,
+          "cost_solver_b": 7,
+          "fibres": 47,
+          "first": "Z",
+          "worst_fibre": 3
+        },
+        "affine": false,
+        "atms_label_cells_checked": 4096,
+        "atms_label_mismatches": 0,
+        "b_queries": 4,
+        "behaviour_values": 4,
+        "certified": {
+          "decomposability_certified": true,
+          "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+          "interaction_lower_bound": 0,
+          "interaction_upper_bound": 1,
+          "nondecomposability_certified": false
+        },
+        "concepts": 4,
+        "decomposable": true,
+        "domain_points": 4,
+        "interaction_term": 0,
+        "joint_lower_bound_counting": 6,
+        "label_independent": false,
+        "log2_worlds": 6.0,
+        "name": "SINGLETONS_4",
+        "pairs": 64,
+        "rectangular": false,
+        "solvers_agree_on_D_joint": true,
+        "warrant_values": 47,
+        "worlds": 64,
+        "worlds_quotient": 64,
+        "z_queries": 60
+      }
+    ],
+    "theorem_R": "VSW(X, C) rectangular <=> agreement label-independent <=> C affine; exhaustive on every nonempty class on 2, 3, 4 points"
+  },
+  "D_registered_natural_nondecomposable_instance": {
+    "SINGLETONS_5": {
+      "B_first": {
+        "D_first": 4,
+        "cost": 9,
+        "cost_simulated": 9,
+        "cost_solver_b": 9,
+        "fibres": 5,
+        "first": "B",
+        "worst_fibre": 5
+      },
+      "D_joint": 8,
+      "D_joint_meets_counting_bound": true,
+      "D_joint_simulated": 8,
+      "Z_first": {
+        "D_first": 7,
+        "cost": 9,
+        "cost_simulated": 9,
+        "cost_solver_b": 9,
+        "fibres": 111,
+        "first": "Z",
+        "worst_fibre": 4
+      },
+      "affine": false,
+      "atms_label_cells_checked": 25600,
+      "atms_label_mismatches": 0,
+      "b_queries": 5,
+      "behaviour_values": 5,
+      "certified": {
+        "decomposability_certified": false,
+        "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+        "interaction_lower_bound": 1,
+        "interaction_upper_bound": 1,
+        "nondecomposability_certified": true
+      },
+      "concepts": 5,
+      "decomposable": false,
+      "domain_points": 5,
+      "interaction_term": 1,
+      "joint_lower_bound_counting": 8,
+      "label_independent": false,
+      "log2_worlds": 7.321928094887363,
+      "name": "SINGLETONS_5",
+      "pairs": 160,
+      "rectangular": false,
+      "solvers_agree_on_D_joint": null,
+      "warrant_values": 111,
+      "worlds": 160,
+      "worlds_quotient": 160,
+      "z_queries": 155
+    },
+    "SINGLETONS_EMPTY_5": {
+      "B_first": {
+        "D_first": 5,
+        "cost": 10,
+        "cost_simulated": 10,
+        "cost_solver_b": 10,
+        "fibres": 6,
+        "first": "B",
+        "worst_fibre": 5
+      },
+      "D_joint": 10,
+      "D_joint_meets_counting_bound": false,
+      "D_joint_simulated": 10,
+      "Z_first": {
+        "D_first": 7,
+        "cost": 10,
+        "cost_simulated": 10,
+        "cost_solver_b": 10,
+        "fibres": 112,
+        "first": "Z",
+        "worst_fibre": 5
+      },
+      "affine": false,
+      "atms_label_cells_checked": 30720,
+      "atms_label_mismatches": 0,
+      "b_queries": 5,
+      "behaviour_values": 6,
+      "certified": {
+        "decomposability_certified": false,
+        "how": "sequential costs: solvers A and B agree and the composite strategy is simulated; joint: explicit tree simulated (upper bound) and counting (lower bound)",
+        "interaction_lower_bound": 0,
+        "interaction_upper_bound": 2,
+        "nondecomposability_certified": false
+      },
+      "concepts": 6,
+      "decomposable": true,
+      "domain_points": 5,
+      "interaction_term": 0,
+      "joint_lower_bound_counting": 8,
+      "label_independent": false,
+      "log2_worlds": 7.584962500721156,
+      "name": "SINGLETONS_EMPTY_5",
+      "pairs": 192,
+      "rectangular": false,
+      "solvers_agree_on_D_joint": null,
+      "warrant_values": 112,
+      "worlds": 192,
+      "worlds_quotient": 192,
+      "z_queries": 155
+    },
+    "mechanism": "liveness queries on singletons are Angluin subset queries; membership queries split 1 : m-1",
+    "subset_query_identity": {
+      "points_4": {
+        "cells": 128,
+        "elimination_cells": 16,
+        "identity_holds_on": 128
+      },
+      "points_5": {
+        "cells": 400,
+        "elimination_cells": 25,
+        "identity_holds_on": 400
+      }
+    }
+  },
+  "authority": {
+    "all_size_authority": "hand proofs and parents in theory/OCM_NONRECTANGULAR_CLASS_V1.md",
+    "architecture_separation": false,
+    "finite_enumeration_only": true,
+    "novelty_established": false,
+    "separation_established": false
+  },
+  "denominators": {
+    "affinity_classes_enumerated": 65805,
+    "atms_label_cells_checked": 78848,
+    "mutations_planted": 4,
+    "named_families": 4,
+    "planted_worlds_non_R0": 648,
+    "registered_worlds_R0": 2048
+  },
+  "mutation_controls": {
+    "M1_sequential_cost_by_formula": {
+      "Z_first_exact": 11,
+      "Z_first_formula": 12,
+      "applied": true,
+      "caught_by": "LTF_2: the simulated Z-first strategy is cheaper than the formula claims, so the formula is not the cost of any strategy of that shape",
+      "detected": true
+    },
+    "M2_subspace_test": {
+      "affine": true,
+      "applied": true,
+      "detected": true,
+      "subspace_test": false
+    },
+    "M3_empty_sample_label_independence": {
+      "applied": true,
+      "detected": true,
+      "full_verdict": false,
+      "vacuous_verdict": true
+    },
+    "M4_joint_solver_without_warrant_queries": {
+      "applied": true,
+      "control_fires_clean": true,
+      "control_fires_mutated": false,
+      "detected": true
+    }
+  },
+  "schema": "orion.ocm.nonrectangular-class.exact-results.v1",
+  "terminal": "NATURAL_NONRECTANGULAR_CLASSES_EXIST__ONE_NATURAL_NONDECOMPOSABLE_INSTANCE_REGISTERED__PARENT_OWNED"
+}

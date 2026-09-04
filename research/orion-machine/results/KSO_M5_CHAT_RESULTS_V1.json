@@ -1,0 +1,53 @@
+{
+  "authority": {
+    "M6": false,
+    "human_level_language": false,
+    "novelty": false,
+    "open_domain_chat": false
+  },
+  "chat": {
+    "answer_after_lesson": 0,
+    "answer_after_reinstatement": 0,
+    "answer_after_revocation": "GAP_REVOKED_PROCEDURE",
+    "learned": "LEARNED",
+    "prelesson_gap": "GAP_UNKNOWN_PROCEDURE"
+  },
+  "codec_answer_injection_rejected": 1,
+  "feedback_false_warrant": 0,
+  "terminal": "M5_CONTROLLED_CODEC_CHAT_GREEN",
+  "transcript": [
+    {
+      "machine": {"combinator": "NOT", "input": [1, 1], "name": "AND", "result": null, "status": "GAP_UNKNOWN_PROCEDURE"},
+      "speaker": "user",
+      "text": "solve NOT AND on 11"
+    },
+    {
+      "machine": {"evidence_id": 80364324881660, "name": "AND", "procedure_digest": "b40711a88c7039756fb8a73827eabe2c0fe5a0346ca7e0a104adc0fc764f528d", "status": "LEARNED"},
+      "speaker": "user",
+      "text": "teach AND where 00=0 01=0 10=0 11=1"
+    },
+    {
+      "machine": {"combinator": "NOT", "input": [1, 1], "name": "AND", "result": 0, "status": "PASS"},
+      "speaker": "user",
+      "text": "{\"kind\":\"solve\",\"name\":\"AND\",\"combinator\":\"NOT\",\"input\":[1,1]}"
+    },
+    {"machine": {"name": "AND", "status": "REVOKED"}, "speaker": "user", "text": "revoke AND"},
+    {
+      "machine": {"combinator": "NOT", "input": [1, 1], "name": "AND", "result": null, "status": "GAP_REVOKED_PROCEDURE"},
+      "speaker": "user",
+      "text": "{\"kind\":\"solve\",\"name\":\"AND\",\"combinator\":\"NOT\",\"input\":[1,1]}"
+    },
+    {"machine": {"name": "AND", "status": "REINSTATED"}, "speaker": "user", "text": "{\"kind\":\"reinstate\",\"name\":\"AND\"}"},
+    {
+      "machine": {"combinator": "XOR_A", "input": [1, 1], "name": "AND", "result": 0, "status": "PASS"},
+      "speaker": "user",
+      "text": "solve XOR_A AND on 11"
+    }
+  ],
+  "translator_invariance": {
+    "answer_equal": true,
+    "lesson_digest_equal": true,
+    "procedure_digest_equal": true,
+    "task_digest_equal": true
+  }
+}

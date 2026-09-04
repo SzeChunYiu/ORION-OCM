@@ -1,0 +1,86 @@
+{
+ "schema": "orion-v2.ocm.receipt.v1",
+ "artifact": "research/orion-machine/receipts/OCM_RCL_V1_AND_LANES_200_201_RECEIPT_V1.json",
+ "as_of": "2026-09-04",
+ "source_commit": "daf0f93db0aa5e7eb7da18cfe20567577fc6f341",
+ "binding_method": "sha256 and byte length over the committed blob via /usr/bin/git show <commit>:<path> from a Python subprocess; no working-tree file hashed; a must-fail control (a path absent at the commit) returned nonzero with 0 bytes in the same run",
+ "python": "3.12.13 (CI pin 3.12)",
+ "validation": {
+  "command": "uv run --python 3.12 --no-project --with pytest python -m pytest -q -p no:cacheprovider tests/unit/test_ocm_lane200_decomposition_exact.py tests/unit/test_ocm_lane201_lattice_exact.py tests/unit/test_rcl_checks_v1.py tests/unit/test_revocation_complete_learning.py",
+  "tests_passed": 40,
+  "tests_failed": 0,
+  "exit_code": 0,
+  "rcl_checks_v1_self_test": {
+   "command": "python3.12 rcl_checks_v1.py --self-test",
+   "exit_code": 0,
+   "planted_mutations": 6,
+   "detected": 6,
+   "no_alarm_denominator": 2688,
+   "planted_incomplete_updater_disagreements": 485,
+   "collision_pairs_below_frontier": 64,
+   "reconstruction_checks": 28863,
+   "distinct_candidate_completeness_checks": 28863
+  }
+ },
+ "withdrawal_scope_carried": "FINITE_CONSTRUCTION_GREEN half of RCL-1c and the figure 5329 remain withdrawn with V0 (VACUOUS_CONTRAST, IA-07); V0 modules and packets are not modified; this receipt binds the V1 successor only",
+ "authority": {
+  "novelty_established": false,
+  "independent_review_obtained": false,
+  "issue_197_checkbox_closed": false,
+  "review_terminal_for_199_or_245_issued": false
+ },
+ "bindings": [
+  {
+   "path": "research/orion-machine/revocation_complete_learning/rcl_checks_v1.py",
+   "bytes": 26424,
+   "sha256": "23a964df1f1cc7f822d4c0d67d838c32709d188e4adcae68d92cbccb6c9a5246"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_THEOREM_LEDGER_V1.json",
+   "bytes": 9138,
+   "sha256": "460de8a51f56b4f903f76d8c1de854d0cfe47c2f2972db96e220c6ed78f1ef64"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/REVOCATION_COMPLETE_LEARNING_EXACT_RESULT_V1.json",
+   "bytes": 3042,
+   "sha256": "b63c99ca721876003309f25dee2d1b328b434b55f5c805529f84d4ba06964649"
+  },
+  {
+   "path": "research/orion-machine/reference/ocm_lane200_decomposition_exact.py",
+   "bytes": 26148,
+   "sha256": "472fbbaa173207c3c3cb84fceff60742c2fdeb3fbe17f86e5ba95a039e5a9c6b"
+  },
+  {
+   "path": "research/orion-machine/reference/ocm_lane201_lattice_exact.py",
+   "bytes": 19615,
+   "sha256": "4db03885e78a246429ae1ba08593e393e646511315bff77a4f009ceb37ab1b46"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_LANE_200_TERMINAL_V1.md",
+   "bytes": 14483,
+   "sha256": "8dc66ba57421cfc46616bc09fc473f46e99788a2cbbcc45942281754105854c8"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_LANE_201_TERMINAL_V1.md",
+   "bytes": 9424,
+   "sha256": "da0f8cd8135d220ddf558fd1f8764a9dc9b4e9278d346026c86ef6da607815a4"
+  },
+  {
+   "path": "tests/unit/test_ocm_lane200_decomposition_exact.py",
+   "bytes": 3737,
+   "sha256": "016afcb1f3fcd1ea0f0b6e32dd5ffcf92abc063233f6aaac7ad23958e8c7527e"
+  },
+  {
+   "path": "tests/unit/test_ocm_lane201_lattice_exact.py",
+   "bytes": 3609,
+   "sha256": "4c09877eb2671e1d4b28833b4ed5cf14dbc7073956de04e91b500c6c0d96ddad"
+  },
+  {
+   "path": "tests/unit/test_rcl_checks_v1.py",
+   "bytes": 6047,
+   "sha256": "fa6d8f36230b3fced941e9c9406ce770f0bf2d70413f16ddba8839f4c6e196f4"
+  }
+ ],
+ "superseded_source_commit": "b732d894dfb49d384174d512c7d182030914cb68",
+ "regenerated_reason": "Cursor Bugbot on PR #281 found the below-frontier arm of verify_storage_query_frontier_v1 true by construction (VACUOUS_CONTRAST). Repaired in place on the merged module with mutation M6 registered; bindings recomputed from the new committed blobs, superseded bindings retained per path. Not a frozen review target. Regenerated again after PR #281 was rebased onto main (squash merges of #278/#279) and pre-rebase commit references were remapped; bindings recomputed from committed blobs."
+}

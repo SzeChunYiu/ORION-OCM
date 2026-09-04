@@ -1,0 +1,140 @@
+{
+ "schema": "orion-v2.ocm.falsifier-register.v1",
+ "as_of": "2026-09-04",
+ "status": "Each row names the artifact whose planted failure, mutation or countermodel would falsify the statement, and the exit/verdict it must produce. A row is not evidence that the statement is true; it is where it can be shown false.",
+ "rows": [
+  {
+   "id": "L200-A",
+   "statement": "Warrant Lift = ceil(max_b H_0(L|B=b))",
+   "falsifier": "reference/ocm_lane200_decomposition_exact.py: H_0 additivity/monotonicity checks over 2,048 worlds; mutation controls",
+   "falsified_by": "any registered class whose lift differs from the fibre count"
+  },
+  {
+   "id": "L200-D",
+   "statement": "blindness <=> rectangularity; registered classes are products",
+   "falsifier": "same checker: three planted coupled classes (648 worlds) must FAIL rectangularity and leak warrant bits; a registered class failing rectangularity falsifies the collapse",
+   "falsified_by": "a registered class that is blind but not rectangular"
+  },
+  {
+   "id": "L200-E",
+   "statement": "RSD = fibre-wise VC dimension",
+   "falsifier": "revocation_complete_learning/rcl_checks_v1.py::verify_rsd_is_fibrewise_vc (planted single-function class has VC 0)",
+   "falsified_by": "recorded RSD != computed VC at any n <= MAX_EXHAUSTIVE_N"
+  },
+  {
+   "id": "L201-L1",
+   "statement": "coarsest sufficient representation = meet of kernels",
+   "falsifier": "reference/ocm_lane201_lattice_exact.py: full enumeration of 4,140 partitions; pair-merge test",
+   "falsified_by": "a coarser sufficient partition than the meet"
+  },
+  {
+   "id": "L201-L4",
+   "statement": "initial state bits + access bits >= log2 |meet ker q_t|",
+   "falsifier": "planted free-reopening strategy must be caught with an unsound witness",
+   "falsified_by": "a sound zero-error strategy below the bound"
+  },
+  {
+   "id": "L201-L5",
+   "statement": "reopen exactly the blocks where the new query is non-constant",
+   "falsifier": "planted under-reopening (unsound) and over-reopening (non-minimal) both caught",
+   "falsified_by": "a sound strategy reopening fewer blocks"
+  },
+  {
+   "id": "L202-F1..F3",
+   "statement": "monotonicity; one-level trade-off frontier; exact subadditivity failure 15 > 5+5",
+   "falsifier": "reference/ocm_lane202_core_frontier_exact.py: P1 wrong claimed table rejected; M1-M3 asserted applied; two computations must agree 112/112",
+   "falsified_by": "a shorter program than the enumerated minimum (would show the enumeration is not exhaustive)"
+  },
+  {
+   "id": "S1..S7",
+   "statement": "substrate constraints (admission gate, conjunctive composition, revocation completeness, coarsest authority-preserving partition, revision preserves signatures, resource conservation)",
+   "falsifier": "reference/ocm_reference_semantics.py: laundering, positive-only store, split coarsening, weaker re-admission, dropped coordinate, free mutation; M1-M4",
+   "falsified_by": "any n <= 4 profile/revocation/partition on which a constraint fails"
+  },
+  {
+   "id": "RCL-1c",
+   "statement": "S + Q >= C_n - 1 (hand proof)",
+   "falsifier": "rcl_checks_v1.py::verify_storage_query_frontier_v1: splits below the frontier must exhibit a collision pair; on/above must reconstruct all",
+   "falsified_by": "an exact reconstruction below the frontier",
+   "note": "V0 construction withdrawn (VACUOUS_CONTRAST); V1 supplies the falsifier"
+  },
+  {
+   "id": "RCL-2b",
+   "statement": "single displayed proof is not retention authority",
+   "falsifier": "planted over-retraction control (V0, compares two distinct expressions) and S3 positive-only store (485 abstention cells)",
+   "falsified_by": "a positive-only store with no abstention and no false retraction on all 2,688 cells"
+  },
+  {
+   "id": "SEP",
+   "statement": "procedure-learner vs large-exposure approximator separation",
+   "falsifier": "none registered: test NOT_FROZEN; theory/OCM_SEPARATION_TEST_REAUDIT_V2.md Theorem N2 shows condition (1) is unsatisfiable for any class with an unrestricted comparator",
+   "falsified_by": "a registered comparator class that excludes no strategy of the procedure-learner and still yields PASS/FAIL on some finite class (would refute N2 ii)"
+  },
+  {
+   "id": "L200-R0",
+   "statement": "coordinate rectangularity: registered classes pass, planted coupled classes fail",
+   "falsifier": "reference/ocm_nonrectangular_class_exact.py §A: 2,048 registered worlds must pass R0, 648 planted must fail",
+   "falsified_by": "a committed class failing R0, or a planted coupled class passing it"
+  },
+  {
+   "id": "L200-N1",
+   "statement": "non-rectangular does not imply non-decomposable; the three planted classes have I = 0; pointer-chasing has I = 1",
+   "falsifier": "same checker §B: two exact solvers must agree; every optimal strategy simulated on every world; existence witness on the pointer control; mutation M1 (formula cost) and M4 (no warrant queries) asserted applied",
+   "falsified_by": "a planted class whose simulated sequential strategy beats the certified joint tree, or a pointer control on which the procedure reports I = 0"
+  },
+  {
+   "id": "VSW-R",
+   "statement": "VSW(X, C) rectangular <=> agreement label-independent <=> C affine",
+   "falsifier": "same checker §C: exhaustive census over 15 + 255 + 65,535 classes; off-diagonal counts must be 0; mutations M2 (subspace test on a coset) and M3 (empty-sample label-independence) asserted applied",
+   "falsified_by": "any class on <= 4 points that is affine and label-dependent, or non-affine and label-independent; at larger sizes, a hand counterexample to (a) => (c)"
+  },
+  {
+   "id": "VSW-ATMS",
+   "statement": "the VSW warrant profile is the ATMS label induced by the hypothesis class",
+   "falsifier": "same checker: rcl_model.live on the minimal-specifying-set antichain must equal the direct version-space evaluator on every (world, x, R) cell (78,848 cells)",
+   "falsified_by": "one mismatched cell"
+  },
+  {
+   "id": "VSW-S5",
+   "statement": "SINGLETONS_5 is non-rectangular with certified interaction term 1 (joint 8 = counting bound, B-first 9, Z-first 9); liveness queries are subset queries",
+   "falsifier": "same checker §D: joint tree simulated on 160 worlds; sequential costs by solvers A and B agreeing and composite strategies simulated; subset-query identity on 400 cells with the 25 elimination cells stated",
+   "falsified_by": "a simulated sequential strategy of cost 8, or an identity cell failing"
+  },
+  {
+   "id": "KSO-T04b",
+   "statement": "exact-share retraction propagates to activation: dead atoms 0; atoms unreachable from any dead atom exactly unchanged; reachable never gain; reinstatement exact",
+   "falsifier": "reference/kso_m0_freeze_checks_v1.py F2 (renormalising parent must differ; unapplied retraction CANNOT_CHECK); reference/kso_m1_mex1_population_v1.py P3 on ME-X1 worlds with a two-way reachability frame",
+   "falsified_by": "any populated world and revocation on which an unreachable atom changes or a dead atom keeps activation"
+  },
+  {
+   "id": "KSO-S1-S7",
+   "statement": "S1-S7 hold as predicates on every governed knowledge space and are never modified by growth or population (genome digest)",
+   "falsifier": "G1 (7 planted violations), G3 (three cancers), M1 P5 on 100 populated spaces",
+   "falsified_by": "a populated or grown space on which a predicate fails, or a digest change during growth"
+  },
+  {
+   "id": "KSO-P2",
+   "statement": "the ATMS label of every ME-X1 claim/family equals the oracle's support under every resolution of the censored base atoms, and the CONSTRAINT tail is load-bearing on derived negative-evidence worlds",
+   "falsifier": "M1 P2 (1,344 cells + 22 oracle-negative; planted merged label; tail-drop mutant on 50 derived worlds)",
+   "falsified_by": "one cell where profile_live differs from evaluate_support, or a derived negative world where the tail-drop mutant passes"
+  },
+  {
+   "id": "KSO-T19",
+   "statement": "navigation outcome is four-valued, exhaustive and exclusive; obstruction only when the ceiling walker also fails; timeout is a gap",
+   "falsifier": "F6 + G2-nonidentifiability; kso_trace_v1 T1-T3",
+   "falsified_by": "a space on which two outcomes hold or a budget timeout is reported as an obstruction"
+  },
+  {
+   "id": "KSO-P1",
+   "statement": "no single parent among the 8 run owns label-gated activation with exact-share retraction; the KSO law equals the JTMS-gate o frozen-denominator spreading product",
+   "falsifier": "F7 rows on the retraction witness",
+   "falsified_by": "a parent implementation faithful to its source that reproduces the KSO law alone, or a witness on which the product and the KSO law differ"
+  },
+  {
+   "id": "KSO-M2",
+   "statement": "the solve loop reproduces the registered ME-X1 transition rule exactly (store) and surfaces every live request atom by navigation on 38/50 (mechanic)",
+   "falsifier": "reference/kso_m2_solve_v1.py G0/G1/G2/G5; DESIGN_DRIFT exit 2",
+   "falsified_by": "a dev instance whose composed decision differs from Expected.decision() with no stage attribution, or two atomizers yielding different extractions"
+  }
+ ]
+}

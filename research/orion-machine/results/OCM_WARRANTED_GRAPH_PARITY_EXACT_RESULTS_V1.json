@@ -1,0 +1,55 @@
+{
+  "schema": "orion.ocm.warranted-graph-parity.exact-results.v1",
+  "terminal": "PASS_GRAPH_PARITY_QUADRATIC_WARRANT_GAP",
+  "family": {
+    "leaf_vertices_n": 4,
+    "current_function_bits": 4,
+    "optional_cross_edges_N": 6,
+    "optional_graphs_per_function": 64,
+    "current_functions": 16,
+    "lifecycle_concepts": 1024,
+    "warrant_lift_bits_given_exact_current_function": 6
+  },
+  "query_complexity": {
+    "current_function_queries": 4,
+    "additional_warrant_queries": 6,
+    "lifecycle_queries": 10
+  },
+  "isolated_edge_challenges": {
+    "checks": 6144,
+    "positive_two_edge_path_certificates": 3072,
+    "negative_cut_flip_certificates": 3072,
+    "false_retain_controls": 3072,
+    "false_retract_controls": 3072
+  },
+  "general_graphical_warrant_theorem": {
+    "vertices_including_root": 5,
+    "all_possible_edges": 10,
+    "graphs_checked": 1024,
+    "graph_theta_vertex_checks": 65536,
+    "criterion": "vertex label is warranted iff connected to the anchored root"
+  },
+  "compiled_summary_frontier": {
+    "exact_zero_error": "B + Q + A >= N over the full N-challenge batch",
+    "frontier_tuples_checked": 343,
+    "under_resourced_tuples": 56,
+    "exact_boundary_tuples": 28,
+    "randomized_average_error_lower_bound": "B >= N(1-h_2(epsilon)) with no ledger access after compilation",
+    "zero_error_summary_bits": 6,
+    "upper_bound": "store the N-bit optional-edge vector"
+  },
+  "asymptotic_theorems": {
+    "current_function_description": "Theta(n) bits",
+    "lifecycle_warrant_description": "Theta(n^2) bits",
+    "quadratic_warrant_gap": true,
+    "communication_lower_bound": "for a uniform optional graph, average bit error epsilon requires at least N(1-h_2(epsilon)) compiled summary bits"
+  },
+  "authority": {
+    "natural_overlapping_proof_class": true,
+    "quadratic_warrant_gap": true,
+    "communication_lower_bound_proved_in_paired_artifact": true,
+    "novelty": false,
+    "architecture_separation": false,
+    "publication_readiness": false
+  }
+}

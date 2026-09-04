@@ -1,0 +1,67 @@
+{
+  "schema": "orion.kso.m0-exact-results.v1",
+  "contract": "KnowledgeSpace.v1-M0",
+  "authority": {
+    "m0_finite_math_core": "GREEN",
+    "novelty_established": false,
+    "architecture_residual_established": false,
+    "language_competence_established": false,
+    "frontier_math_established": false,
+    "finite_checks_are_all_size_proofs": false
+  },
+  "warrant_semiring": {
+    "evidence_atoms": 3,
+    "profiles": 20,
+    "pair_checks": 400,
+    "triple_checks": 8000,
+    "result": "PASS"
+  },
+  "navigation": {
+    "independent_matrix_equalities": 2,
+    "planted_post_revocation_renormalization_detected": 1,
+    "exact_fixed_point_checks": 1,
+    "contraction_checks": 200,
+    "conjunctive_firing_revocation_checks": 2,
+    "result": "PASS"
+  },
+  "representation": {
+    "lumpability_pushforward_commutation_checks": 80,
+    "planted_nonlumpable_control_rejected": 1,
+    "result": "PASS"
+  },
+  "growth_and_reopen": {
+    "semantic_connectivity_cases": 5,
+    "dependency_impact_cone_checks": 1,
+    "result": "PASS"
+  },
+  "unit_test_contract": {
+    "path": "tests/unit/test_kso_math_v1.py",
+    "tests": 9,
+    "local_reproduction": "9 passed in 0.43s",
+    "replay_receipt": "research/orion-machine/results/KSO_M0_REPLAY_RECEIPT_V1.md",
+    "note": "Replay used the repo-relative path structure expected by the committed test loader. The disclosed first scratch invocation lacked that layout and failed before module load; no code or theorem statement changed between the failed layout and green replay."
+  },
+  "planted_controls": {
+    "renormalize_survivors_after_revocation": "DETECTED",
+    "nonlumpable_representation": "DETECTED",
+    "isolated_live_nonquarantined_atom": "DETECTED",
+    "conjunctive_edge_with_revoked_required_tail": "DISABLED",
+    "cannot_check_exit": 2,
+    "fail_exit": 1
+  },
+  "milestones": {
+    "M0_FINITE_MATH_CORE": "GREEN",
+    "M1_KSO_INSTANCE": "NOT_RUN",
+    "M2_SOLVE_LOOP": "NOT_RUN",
+    "M3_GAP_LEARNING": "NOT_RUN",
+    "M4_JUMP_LOOP": "NOT_RUN",
+    "M5_CHAT": "NOT_RUN",
+    "M6_FRONTIER_MATH": "NOT_RUN"
+  },
+  "reopen_conditions": [
+    "any counterexample to an all-size proof in KSO_SUBSTRATE_CONTRACT_V1",
+    "independent implementation disagrees with the exact checker",
+    "a stronger parent product absorbs an asserted residual",
+    "M1 reveals that an M0 invariant is unrealizable without changing its statement"
+  ]
+}

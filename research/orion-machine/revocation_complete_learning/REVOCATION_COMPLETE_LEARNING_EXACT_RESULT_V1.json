@@ -1,0 +1,103 @@
+{
+ "schema": "orion-v2.revocation-complete-learning.exact-result.v1",
+ "as_of_date": "2026-09-04",
+ "supersedes": {
+  "file": "REVOCATION_COMPLETE_LEARNING_EXACT_RESULT_V0.json",
+  "retained": true,
+  "withdrawn_figures": [
+   "storage_query_reconstruction_checks: 5329",
+   "frontier_points[*].exact (literal True)",
+   "controls.mutation_control",
+   "controls.no_alarm"
+  ],
+  "reason": "VACUOUS_CONTRAST (OCM_FAILURE_LEDGER.md; IA-07)"
+ },
+ "checker": "research/orion-machine/revocation_complete_learning/rcl_checks_v1.py",
+ "command": "python3.12 rcl_checks_v1.py --self-test --pretty",
+ "exit_code": 0,
+ "terminal": "PASS",
+ "python": "3.12.13",
+ "result": {
+  "storage_query_frontier_v1": {
+   "collision_pairs_exhibited": 64,
+   "max_n": 5,
+   "n5_profile_count": 512,
+   "n5_variable_bits": 9,
+   "reconstruction_checks": 28863,
+   "splits_below_frontier": 64,
+   "splits_on_or_above_frontier": 22
+  },
+  "mutation_controls_v1": {
+   "cases": {
+    "M0_unmutated": {
+     "frontier": true,
+     "injectivity": true
+    },
+    "M1_live_ignores_revocation": {
+     "applied": true,
+     "injectivity_survives": false
+    },
+    "M2_constant_signature": {
+     "applied": true,
+     "injectivity_survives": false
+    },
+    "M3_negated_coordinate_oracle": {
+     "applied": true,
+     "detected": true
+    },
+    "M4_reconstructor_drops_last_coordinate": {
+     "applied": true,
+     "detected": true
+    },
+    "M5_complement_updater": {
+     "agreement_fraction": 0.0,
+     "applied": true,
+     "detected": true
+    },
+    "M6_reconstructor_collapses_fillings": {
+     "applied": true,
+     "detected": true,
+     "failure": "n=2 S=0 Q=0: expected 2 distinct candidates, observed 1"
+    }
+   },
+   "detected": 6,
+   "planted": 6
+  },
+  "no_alarm_v1": {
+   "agreement": 2688,
+   "complete_updaters": 3,
+   "denominator": 2688,
+   "n": 4,
+   "planted_incomplete_updater_disagreements": 485,
+   "rcl_2b_over_retraction_fires": true
+  },
+  "rsd_is_fibrewise_vc": {
+   "admitted_revocations": 16,
+   "equal": true,
+   "n": 4,
+   "planted_single_function_vc": 0,
+   "profiles_on_fibre": 32,
+   "recorded_rsd": 5,
+   "vc_dimension_of_liveness_class": 5
+  },
+  "authority": {
+   "all_size_theorem_proved_by_enumeration": false,
+   "architecture_superiority_established": false,
+   "novelty_established": false,
+   "rcl_1c_hand_proof_disturbed": false
+  }
+ },
+ "revision_2026_09_04": {
+  "finding": "below-frontier arm of verify_storage_query_frontier_v1 was true by construction (candidate list never deduplicated) \u2014 VACUOUS_CONTRAST, Cursor Bugbot on PR #281",
+  "repair": "candidate_profiles deduplicates; soundness (truth among candidates) and completeness (exactly 2^(N-S-Q) distinct candidates) asserted per profile; mutation M6 (collapsing reconstructor) registered and detected for that reason",
+  "figures_unchanged": [
+   "reconstruction_checks 28863",
+   "collision_pairs_exhibited 64",
+   "splits 64/22"
+  ],
+  "figures_added": [
+   "distinct_candidate_completeness_checks 28863",
+   "mutations planted/detected 6/6"
+  ]
+ }
+}

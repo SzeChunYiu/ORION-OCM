@@ -1,0 +1,175 @@
+{
+ "schema": "orion-v2.ocm.receipt.v1",
+ "artifact": "research/orion-machine/receipts/OCM_DIRECTIVE_RESCOPE_RECEIPT_V1.json",
+ "as_of": "2026-09-04",
+ "source_commit": "248e30feb74ee7b81e770a8f12c8333a0216b6d0",
+ "directive": "ORION-V2 #194 comment 5539487737",
+ "binding_method": "sha256 and byte length over the committed blob via /usr/bin/git show <commit>:<path> from a Python subprocess; a must-fail control (absent path) returned nonzero with 0 bytes in the same run",
+ "python": "3.12.13 (CI pin 3.12)",
+ "validation": {
+  "command": "uv run --python 3.12 --no-project --with pytest python -m pytest -q tests/unit/test_ocm_*.py tests/unit/test_rcl_checks_v1.py tests/unit/test_revocation_complete_learning.py",
+  "exit_code": 0,
+  "note": "includes the byte-exact binding tests of the V0 receipt and V0 review packet after the README rebind cascade"
+ },
+ "rebind_cascade": [
+  "README.md -> REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json, RCL_INDEPENDENT_REVIEW_PACKET_V0.json",
+  "REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json -> RCL_INDEPENDENT_REVIEW_PACKET_V0.json",
+  "RCL_INDEPENDENT_REVIEW_PACKET_V0.json -> RCL_INDEPENDENT_REVIEW_PACKET_V1.json"
+ ],
+ "non_artifacts_keys_unchanged_in_all_carriers": true,
+ "authority": {
+  "novelty_established": false,
+  "separation_claim_established": false,
+  "independent_review_obtained": false,
+  "issue_197_checkbox_closed": false,
+  "review_target_base_sha_moved": false
+ },
+ "bindings": [
+  {
+   "path": "research/orion-machine/README.md",
+   "bytes": 4121,
+   "sha256": "179fb3e25850aefb700fafbc1f8e34a5c24b7bba701731d456f9e7c871437f5a",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 3317,
+    "sha256": "e4420f8247bcf2837328f6bd014c9587ad041a8d9fd49a3e927c6cf57e58e503",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/OCM_TASK_LEDGER_V1.json",
+   "bytes": 25341,
+   "sha256": "12f2566cf0fc40b1954fb999551d10c3611789a4b889a645cc98c81d8b40313a",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 24137,
+    "sha256": "498a0befe86577484324d78ea4cd1c05767de5a32476efc194e461b6f97ec99a",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/OCM_FAILURE_LEDGER.md",
+   "bytes": 30375,
+   "sha256": "37ed5e9055d4c731a8261f2c83f5e25d1a91b5163aaacff68b65e8c5c8e1bf6f",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 25661,
+    "sha256": "962f415cec388b61377c86da5f47d35cccea9a968b1d3e64a3361fce5fac03cf",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_DIRECTIVE_RESCOPE_V1.md",
+   "bytes": 12249,
+   "sha256": "45a9e4f580acab3cd1904c4cd7858083882c1e1b75f74e878481e5d8aa854fd2"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_SEPARATION_TEST_DESIGN_V1.md",
+   "bytes": 9670,
+   "sha256": "21d471c4bc7841b09ea60fbac8f67759b39237e1b301eabfea7461564071e4f5"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_SEPARATION_TEST_DESIGN_V1.json",
+   "bytes": 3550,
+   "sha256": "3bdcd029338169fc2dcf962a21d671bca55b553e1899bc17b4098f75705cac9f"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_FALSIFIER_REGISTER_V1.json",
+   "bytes": 6466,
+   "sha256": "1fc01eb1f35834c2b5008541fe509cd421cb8e2e54d20c4c0ffcc6c032e94aae",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 3973,
+    "sha256": "c52e068eafb34ea0d505533711ffc6e0b12ea726dd4252b10a74084eab7675d8",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_LANES_204_205_PRECONDITION_RECORD_V1.md",
+   "bytes": 4994,
+   "sha256": "aa68926d15dbae7088d06a25a1d1e316af2b0aae21b479b63d1c38e4a3db87e2"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_KILL_GATE_AUDIT_V1.md",
+   "bytes": 7593,
+   "sha256": "1bf11594f2713f5fbe63fd5bf11a00d02679c5824392ec4b63239834c385caf9"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json",
+   "bytes": 10304,
+   "sha256": "3b39c01104a237ca2614fdcad8d312121919fa1082814029a8daab6d8b56b04e",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 10224,
+    "sha256": "1530082555201ef6c1a4bed3fe4cc393df530363ac9e48a7d64feaff63d6a858",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_INDEPENDENT_REVIEW_PACKET_V0.json",
+   "bytes": 12290,
+   "sha256": "bdf4e3acb520f01b23936e6e417b46a9062cd650fa23e4ec7520ed413306ab4a",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 11846,
+    "sha256": "b708ba502a216314b9ce85874d388461a147e71c999826cde0abf302842423c7",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_INDEPENDENT_REVIEW_PACKET_V1.json",
+   "bytes": 4035,
+   "sha256": "1beb3536765027d5a68cfc857124ab2416e139796840c894bec969bdd3b7c8fe",
+   "rebound_at": "2026-09-04",
+   "rebound_in_commit": "7255c37",
+   "rebind_reason": "changed by the lane-200 revival (OCM_NONRECTANGULAR_CLASS_V1); re-bound over the committed blob, previous binding nested",
+   "superseded_binding": {
+    "bytes": 3785,
+    "sha256": "39f72ba1a898b3a6711eb9e762354edfe29bbc1367753dc01d92ad14cb9fb4ac",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "248e30f"
+   }
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/rcl_checks_v1.py",
+   "bytes": 26424,
+   "sha256": "23a964df1f1cc7f822d4c0d67d838c32709d188e4adcae68d92cbccb6c9a5246"
+  },
+  {
+   "path": "research/orion-machine/receipts/OCM_RCL_V1_AND_LANES_200_201_RECEIPT_V1.json",
+   "bytes": 4095,
+   "sha256": "d7866360b7d2a52b8c9aaeb62af26705a296c13884b1d5cca361bd5482991d02",
+   "superseded_binding": {
+    "bytes": 4735,
+    "sha256": "57a8c826de592a1531ae933f0df1188cb34f72da375feabe5348612a9eda94bc",
+    "recorded_at": "2026-09-04",
+    "recorded_in_commit": "daf0f93"
+   }
+  },
+  {
+   "path": "tests/unit/test_rcl_checks_v1.py",
+   "bytes": 6047,
+   "sha256": "fa6d8f36230b3fced941e9c9406ce770f0bf2d70413f16ddba8839f4c6e196f4"
+  }
+ ],
+ "superseded_source_commit": "daf0f93db0aa5e7eb7da18cfe20567577fc6f341",
+ "regenerated_reason": "Two Cursor Bugbot findings on PR #281 (V1 below-frontier vacuity; superseded-binding misattribution) repaired; bindings recomputed from committed blobs. Regenerated again after PR #281 was rebased onto main (squash merges of #278/#279) and pre-rebase commit references were remapped; bindings recomputed from committed blobs. Regenerated once more so that its binding of OCM_RCL_V1_AND_LANES_200_201_RECEIPT_V1.json is over that receipt's committed bytes (the previous pass hashed the pre-regeneration blob)."
+}

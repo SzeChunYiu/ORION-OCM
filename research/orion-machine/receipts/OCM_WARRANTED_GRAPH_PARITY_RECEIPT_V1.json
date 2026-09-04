@@ -1,0 +1,62 @@
+{
+  "schema": "orion.ocm.warranted-graph-parity.receipt.v1",
+  "recorded_at": "2026-09-03",
+  "repository": "SzeChunYiu/ORION-V2",
+  "branch": "research/ocm-p0-theory-hardening-20260903",
+  "draft_pr": 226,
+  "terminal": "PASS_GRAPH_PARITY_QUADRATIC_WARRANT_GAP",
+  "artifacts": [
+    "research/orion-machine/theory/OCM_WARRANTED_GRAPH_PARITY_THEOREMS_V1.md",
+    "research/orion-machine/reference/ocm_warranted_graph_parity_exact.py",
+    "tests/unit/test_ocm_warranted_graph_parity_exact.py",
+    "research/orion-machine/results/OCM_WARRANTED_GRAPH_PARITY_EXACT_RESULTS_V1.json"
+  ],
+  "verification": {
+    "remote_branch_checkout": true,
+    "combined_ocm_checker_suites": 9,
+    "combined_unit_tests_passed": 88,
+    "combined_unit_tests_failed": 0,
+    "graph_parity_test_file_unit_tests": 13,
+    "exact_checker_exit_code": 0
+  },
+  "denominators": {
+    "lifecycle_concepts": 1024,
+    "isolated_edge_challenges": 6144,
+    "positive_path_certificates": 3072,
+    "negative_cut_certificates": 3072,
+    "general_graph_label_query_checks": 65536,
+    "compiled_frontier_tuples": 343
+  },
+  "hostile_controls": {
+    "full_current_function_oracle_leaks_optional_graph": false,
+    "false_retain_controls": 3072,
+    "false_retract_controls": 3072,
+    "zero_error_under_resourced_frontier_tuples_rejected": 56,
+    "zero_error_boundary_tuples_accepted": 28
+  },
+  "result": {
+    "warrant_criterion": "root connectivity in the surviving certified graph",
+    "positive_certificate": "root-to-query path whose parity labels XOR to the vertex label",
+    "negative_certificate": "disconnected component/cut whose label flip preserves every surviving edge equation",
+    "warrant_lift": "binom(n,2) bits conditioned on the exact current function",
+    "current_function_description": "Theta(n) bits",
+    "lifecycle_warrant_description": "Theta(n^2) bits",
+    "exact_batch_frontier": "B + Q + A >= N",
+    "average_error_summary_lower_bound": "B >= N[1-h_2(epsilon)]"
+  },
+  "non_consequences": [
+    "does not establish literature priority or novelty",
+    "does not establish post-Transformer architecture separation",
+    "does not establish practical parameter efficiency",
+    "does not establish natural-language competence",
+    "does not establish quantum advantage or publication readiness"
+  ],
+  "reopen_condition": "reconstruct graph/matroid provenance, dynamic connectivity, robust/deletion learning, version-space certification, TMS/ATMS, knowledge compilation and certified/ticketed unlearning; then learn the proof graph from partial certified traces and prove an acquisition-plus-dynamic-repair frontier",
+  "authority": {
+    "natural_overlapping_proof_class": true,
+    "quadratic_warrant_gap": true,
+    "communication_lower_bound": true,
+    "novelty_established": false,
+    "publication_authority": false
+  }
+}

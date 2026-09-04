@@ -1,0 +1,90 @@
+{
+ "schema": "orion-v2.ocm.receipt.v1",
+ "artifact": "research/orion-machine/receipts/OCM_LANES_202_203_RECEIPT_V1.json",
+ "as_of": "2026-09-04",
+ "source_commit": "a855f5712b5583953523677a6254e459e314c86a",
+ "binding_method": "sha256 and byte length over the committed blob via /usr/bin/git show <commit>:<path> from a Python subprocess; a must-fail control (absent path) returned nonzero with 0 bytes in the same run",
+ "python": "3.12.13 (CI pin 3.12)",
+ "validation": {
+  "lane_202": {
+   "command": "python3.12 research/orion-machine/reference/ocm_lane202_core_frontier_exact.py",
+   "exit_code": 0,
+   "programs_enumerated": 637420,
+   "runs_executed": 2549680,
+   "no_alarm_agreement": "112/112",
+   "planted_fired": 2,
+   "mutations_planted": 3,
+   "mutations_detected": 3,
+   "frontier_census_families": 6560,
+   "frontier_census_two_finite_decreases": 0,
+   "tests": "tests/unit/test_ocm_lane202_core_frontier_exact.py 9 passed"
+  },
+  "lane_203": {
+   "command": "python3.12 research/orion-machine/reference/ocm_reference_semantics.py",
+   "exit_code": 0,
+   "S2_liveness_checks": {
+    "exhaustive_n3": 3200,
+    "sampled_n4": 64000
+   },
+   "S3_checks": 2688,
+   "S3_mismatches": 0,
+   "S3_two_evaluator_agreement": "2688/2688",
+   "S4_partitions": 15,
+   "S6_roundtrip": "168/168",
+   "mutations_planted": 4,
+   "mutations_detected": 4,
+   "tests": "tests/unit/test_ocm_reference_semantics.py 12 passed",
+   "S4_policies_evaluated": [
+    "over",
+    "under"
+   ],
+   "S4_measurability_judge": "is_block_union_b (independent)"
+  }
+ },
+ "terminals": {
+  "lane_202": "TRADEOFF_FRONTIER_ONLY",
+  "lane_202_comparator_equivalence": "CANNOT_CHECK",
+  "lane_203": "PARENT_OBJECT_ADOPTED",
+  "lane_203_proof_assistant": "CANNOT_CHECK"
+ },
+ "authority": {
+  "novelty_established": false,
+  "independent_review_obtained": false,
+  "issue_197_checkbox_closed": false,
+  "semantics_frozen": false
+ },
+ "bindings": [
+  {
+   "path": "research/orion-machine/reference/ocm_lane202_core_frontier_exact.py",
+   "bytes": 36357,
+   "sha256": "0b31081ff4e9e4f87b9ad0536bcbca6de5698595e6b2e4ec232cee4b33ee261d"
+  },
+  {
+   "path": "research/orion-machine/reference/ocm_reference_semantics.py",
+   "bytes": 39876,
+   "sha256": "46f1e4ad1e2ede054f1630aa726e5ffb8697d472a7a1d511c346170506efa4bc"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_LANE_202_TERMINAL_V1.md",
+   "bytes": 9753,
+   "sha256": "c064cb533f673b4c9b1499344497ad0557dc0058cb09f092ab9fc3c7d6514029"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_OPERATIONAL_SEMANTICS_V1.md",
+   "bytes": 13986,
+   "sha256": "b259907ebf05a368996ae6e1df99c5852a56bacad8b8fff02e4cbec3d4fb81a9"
+  },
+  {
+   "path": "tests/unit/test_ocm_lane202_core_frontier_exact.py",
+   "bytes": 4698,
+   "sha256": "5ed1db19bbe459d0f1251dadf3669217f6f72a04c791dc474fc367559539231e"
+  },
+  {
+   "path": "tests/unit/test_ocm_reference_semantics.py",
+   "bytes": 7515,
+   "sha256": "3d5ba0842a2c22157741bf4203d21fb7fc41acf72c99c66bde424f1895780165"
+  }
+ ],
+ "superseded_source_commit": "00f4a32fa517a3fdb07d563f0880eebfcaabbfd5",
+ "regenerated_reason": "S4 census vacuity (VACUOUS_CONTRAST) found by Cursor Bugbot on PR #279 at e9a0222 and repaired before merge; the module, its test and the semantics record changed, so the bindings were recomputed from the new committed blobs. The receipt was not a frozen review target."
+}

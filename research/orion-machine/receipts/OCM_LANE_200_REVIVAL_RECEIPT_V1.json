@@ -1,0 +1,123 @@
+{
+ "schema": "orion-v2.ocm.receipt.v1",
+ "artifact": "research/orion-machine/receipts/OCM_LANE_200_REVIVAL_RECEIPT_V1.json",
+ "as_of": "2026-09-04",
+ "source_commit": "7255c37aa21bc3ee21610c3284e96e799c3de7a9",
+ "lane": "#200 revival \u2014 non-rectangular class",
+ "directive": "ORION-V2 #194 comment 5539487737",
+ "binding_method": "sha256 and byte length over the committed blob via /usr/bin/git show HEAD:<path> from a Python subprocess; a must-fail control (absent path) returned nonzero with 0 bytes in the same run",
+ "python": "3.12.13 (CI pin 3.12)",
+ "checker": {
+  "command": "uv run python research/orion-machine/reference/ocm_nonrectangular_class_exact.py",
+  "exit_code": 0,
+  "wall_seconds_approx": 45,
+  "terminal": "NATURAL_NONRECTANGULAR_CLASSES_EXIST__ONE_NATURAL_NONDECOMPOSABLE_INSTANCE_REGISTERED__PARENT_OWNED",
+  "denominators": {
+   "registered_worlds_R0": 2048,
+   "planted_worlds_non_R0": 648,
+   "affinity_classes_enumerated": 65805,
+   "atms_label_cells_checked": 78848,
+   "named_families": 4,
+   "mutations_planted": 4
+  }
+ },
+ "registered_instance": {
+  "name": "VSW(SINGLETONS_5)",
+  "worlds": 160,
+  "D_joint": 8,
+  "B_first": 9,
+  "Z_first": 9,
+  "interaction_term_certified": 1,
+  "certification": "joint: explicit tree simulated on all 160 worlds (upper) + counting bound (lower); sequential: solvers A and B agree and composite strategies simulated"
+ },
+ "validation": {
+  "command": "uv run --with pytest python -m pytest -q tests/unit/test_ocm_nonrectangular_class_exact.py tests/unit/test_ocm_lane200_decomposition_exact.py tests/unit/test_revocation_complete_learning.py tests/unit/test_rcl_checks_v1.py",
+  "exit_code": 0,
+  "tests": 41
+ },
+ "rebind_cascade": [
+  "README.md -> REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json, RCL_INDEPENDENT_REVIEW_PACKET_V0.json (bc737a0)",
+  "REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json -> RCL_INDEPENDENT_REVIEW_PACKET_V0.json (55a80fc)",
+  "RCL_INDEPENDENT_REVIEW_PACKET_V0.json -> RCL_INDEPENDENT_REVIEW_PACKET_V1.json (04de46c)",
+  "OCM_DIRECTIVE_RESCOPE_RECEIPT_V1.json bindings for the four spine files re-taken with previous bindings nested"
+ ],
+ "exploratory_not_registered": {
+  "four_point_random_sample": "300 random classes on 4 points: 299 decomposable, 1 search-found class with I = 1 (7 concepts, 112 worlds); verified by an independent existence search; not a named family",
+  "three_point_sweep": "all 255 classes on 3 points decomposable",
+  "four_point_census": "running at receipt time; reported on #200 if it finishes"
+ },
+ "authority": {
+  "novelty_established": false,
+  "separation_claim_established": false,
+  "independent_review_obtained": false,
+  "issue_197_checkbox_closed": false,
+  "review_target_base_sha_moved": false
+ },
+ "bindings": [
+  {
+   "path": "research/orion-machine/README.md",
+   "bytes": 4121,
+   "sha256": "179fb3e25850aefb700fafbc1f8e34a5c24b7bba701731d456f9e7c871437f5a"
+  },
+  {
+   "path": "research/orion-machine/OCM_TASK_LEDGER_V1.json",
+   "bytes": 25341,
+   "sha256": "12f2566cf0fc40b1954fb999551d10c3611789a4b889a645cc98c81d8b40313a"
+  },
+  {
+   "path": "research/orion-machine/OCM_FAILURE_LEDGER.md",
+   "bytes": 30375,
+   "sha256": "37ed5e9055d4c731a8261f2c83f5e25d1a91b5163aaacff68b65e8c5c8e1bf6f"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_FALSIFIER_REGISTER_V1.json",
+   "bytes": 6466,
+   "sha256": "1fc01eb1f35834c2b5008541fe509cd421cb8e2e54d20c4c0ffcc6c032e94aae"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_NONRECTANGULAR_CLASS_V1.md",
+   "bytes": 15890,
+   "sha256": "77a3bec00fa290a6c6bc506ebb8b571327655dc9118221a7d170942ff8e871a2"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_SEPARATION_TEST_REAUDIT_V2.md",
+   "bytes": 6272,
+   "sha256": "cf0944dd8b531caaf8cbee81611b7b05dc6566e56a900e32e214ce6a1cde3ef7"
+  },
+  {
+   "path": "research/orion-machine/theory/OCM_SEPARATION_TEST_REAUDIT_V2.json",
+   "bytes": 2429,
+   "sha256": "bf63ebb38ece44e5b754499fc6fbacc37efa5a1186796c68138669815c429ac4"
+  },
+  {
+   "path": "research/orion-machine/reference/ocm_nonrectangular_class_exact.py",
+   "bytes": 40082,
+   "sha256": "5e48551f7b537d1c8420862cd2f88b3ed2b70e91f4376edb86b0c0c234cc9a59"
+  },
+  {
+   "path": "research/orion-machine/results/OCM_NONRECTANGULAR_CLASS_EXACT_RESULTS_V1.json",
+   "bytes": 20410,
+   "sha256": "985e800302801a62365fe623eb754e38201389b9f529f2e987bc272c10bc864b"
+  },
+  {
+   "path": "tests/unit/test_ocm_nonrectangular_class_exact.py",
+   "bytes": 6147,
+   "sha256": "ade912ee90c89f24edcefb6ee9bc3e77acb40067f3ec3a3577e4414b57b3d76a"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/REVOCATION_COMPLETE_LEARNING_RECEIPT_V0.json",
+   "bytes": 10304,
+   "sha256": "3b39c01104a237ca2614fdcad8d312121919fa1082814029a8daab6d8b56b04e"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_INDEPENDENT_REVIEW_PACKET_V0.json",
+   "bytes": 12290,
+   "sha256": "bdf4e3acb520f01b23936e6e417b46a9062cd650fa23e4ec7520ed413306ab4a"
+  },
+  {
+   "path": "research/orion-machine/revocation_complete_learning/RCL_INDEPENDENT_REVIEW_PACKET_V1.json",
+   "bytes": 4035,
+   "sha256": "1beb3536765027d5a68cfc857124ab2416e139796840c894bec969bdd3b7c8fe"
+  }
+ ]
+}
