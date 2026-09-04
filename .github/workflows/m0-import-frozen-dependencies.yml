@@ -52,7 +52,7 @@ jobs:
       - name: Commit frozen dependency custody
         run: |
           set -euo pipefail
-          if git diff --quiet -- research/experiments src/orion_v2 src/ocm/kso/jump.py; then
+          if [ -z "$(git status --porcelain --untracked-files=all -- research/experiments src/orion_v2 src/ocm/kso/jump.py)" ]; then
             exit 0
           fi
           git config user.name "ORION-OCM M0 migration"
