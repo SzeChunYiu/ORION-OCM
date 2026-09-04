@@ -1,0 +1,87 @@
+{
+  "schema_version": "ocm.m0.receipt.v1",
+  "terminal": "M0_CANONICAL_REPO_GREEN",
+  "issue": 2,
+  "parent_issue": 1,
+  "tested_implementation_commit": "697acc6f3488123454089d96f39999b6e006e7ab",
+  "tested_pull_request_merge_commit": "6e13a338c01418cf9d83d6e50b4beb11fdd759c0",
+  "tested_ci_run_id": 33914351778,
+  "source": {
+    "repository": "SzeChunYiu/ORION-V2",
+    "commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+    "research_orion_machine_tree": "9f04028706dfc70dad4606491c84eed72bba753c",
+    "migration_mirror_commit": "430708103525f567633e377f015a7113633d709d"
+  },
+  "measurements": {
+    "migrated_file_count": 158,
+    "byte_identity_pass": 158,
+    "byte_identity_total": 158,
+    "runnable_reference_entrypoints": 33,
+    "reference_entrypoints_total": 33,
+    "external_hidden_dependencies_required": 0,
+    "manifest_drift": 0,
+    "historical_unit_tests_pass": 260,
+    "historical_unit_tests_fail": 0,
+    "historical_unit_tests_cannot_check": 0,
+    "clean_clone_tests_pass": 269,
+    "clean_clone_tests_fail": 0,
+    "clean_clone_tests_cannot_check": 0,
+    "core_subset_tests_pass": 58,
+    "hostile_control_tests_pass": 13,
+    "state_restart_identity_checks": 3
+  },
+  "controlled_demo": {
+    "terminal": "M0_CONTROLLED_DEMO_GREEN",
+    "stages": [
+      {"stage": "KSO_MATH_SANITY", "terminal": "GREEN", "limitation": "finite math calibration; GENERAL_NOVELTY remains NOT_ESTABLISHED"},
+      {"stage": "EXACT_PROCEDURE_LIFECYCLE", "terminal": "M3_EXACT_GAP_LEARNING_GREEN", "limitation": "finite Boolean learning calibration"},
+      {"stage": "GOVERNED_FINITE_JUMP", "terminal": "M4_FINITE_GOVERNED_JUMP_GREEN", "limitation": "finite governed Jump calibration; novelty false"},
+      {"stage": "CONTROLLED_LANGUAGE_L0", "terminal": "LANGUAGE_KSO_L0_CONTROLLED_GREEN", "limitation": "controlled language only; open-domain false"},
+      {"stage": "RECURSIVE_KSO_REVOCATION_ISOLATION", "terminal": "RECURSIVE_KSO_V0_CONTROLLED_GREEN", "limitation": "candidate organization; scale/topology not established"},
+      {"stage": "FORMAL_PROOF_RECEIPT_ADMISSION", "terminal": "M6A_FORMAL_MATH_VERIFIER_CHANNEL_INTEGRATED_PARENT_SUFFICIENT", "limitation": "immutable Lean receipt replay; upstream PARENT_SUFFICIENT"},
+      {"stage": "PERSIST_RESTART_REVOKE_REINSTATE", "terminal": "M0_STATE_REPLAY_GREEN", "limitation": "M0 custody check; not the later M2 unified runtime claim"}
+    ]
+  },
+  "authority": {
+    "M2_full_solve_parent_tie": "PARENT_SUFFICIENT",
+    "M6a_upstream_scientific_terminal": "PARENT_SUFFICIENT",
+    "general_novelty": "NOT_ESTABLISHED",
+    "navigation_only_inherited_negative_result_preserved": true,
+    "M5_controlled_codec_chat_only": true,
+    "recursive_language_wisdom_method_are_candidate_organizations": true,
+    "later_milestones_started": false
+  },
+  "optional_external_checks": {
+    "lean_protected_campaign_rerun": "CANNOT_CHECK_EXTERNAL_LEAN_RERUN_NOT_REQUIRED_FOR_HISTORICAL_REPLAY"
+  },
+  "hostiles": {
+    "parent_sufficient_authority_upgrade_mutation_rejected": true,
+    "language_alpha_laundering_rejected": true,
+    "append_replay_content_tamper_rejected": true,
+    "corrupted_proof_promotion_rejected": true
+  },
+  "commands": [
+    "python -m pytest -q tests/unit",
+    "python -m pytest -q",
+    "python tools/m0_manifest.py --check --write /tmp/MIGRATED_FILE_MANIFEST_V2.json",
+    "python tools/m0_dependency_audit.py --check --write /tmp/DEPENDENCY_AUDIT_V1.generated.json",
+    "python -m ocm.demo --controlled",
+    "python -m ocm.status --live",
+    "python -m ocm.status --strict",
+    "./scripts/m0_clean_clone.sh"
+  ],
+  "ci": {
+    "package_smoke": "PASS",
+    "core_unit": "PASS",
+    "historical_equivalence": "PASS",
+    "hostile_controls": "PASS",
+    "controlled_demo": "PASS",
+    "provenance": "PASS",
+    "dependency_audit": "PASS",
+    "clean_clone_repro": "PASS"
+  },
+  "orion_v2_epistemics_escalation": {
+    "required": false,
+    "reason": "M0 implementation exposed dependency-custody and replay engineering gaps only; no genuinely general new Machine Epistemics problem was required to close the milestone."
+  }
+}

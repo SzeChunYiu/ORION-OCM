@@ -1,0 +1,106 @@
+name: M0 canonical repository
+
+on:
+  pull_request:
+  push:
+    branches: [main, codex/m0-canonical-runtime]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python -c "import ocm, orion_v2; print(ocm.__version__)"
+      - run: ocm --help
+      - run: python -m compileall -q src tools tests/m0
+
+  core-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python -m pytest -q tests/m0 tests/unit/test_kso_math_v1.py tests/unit/test_kso_m0_freeze_v1.py tests/unit/test_kso_m3_m5.py tests/unit/test_kso_language_v0.py tests/unit/test_kso_language_recursive_demo_v0.py
+
+  historical-equivalence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Run complete migrated OCM/KSO unit suite
+        run: python -m pytest -q tests/unit
+
+  hostile-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python -m pytest -q tests/m0/test_authority_guard.py tests/m0/test_runtime_persistence.py tests/unit/test_kso_m6_formal_math.py
+
+  controlled-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: PYTHONHASHSEED=0 python -m ocm.demo --controlled
+
+  provenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python tools/m0_manifest.py --check --write /tmp/MIGRATED_FILE_MANIFEST_V2.json
+      - run: python -m pytest -q tests/m0/test_authority_guard.py tests/m0/test_repository_gates.py::test_frozen_migration_bytes_are_exact tests/m0/test_repository_gates.py::test_historical_authority_anchors_hold
+      - uses: actions/upload-artifact@v4
+        with:
+          name: m0-migrated-file-manifest
+          path: /tmp/MIGRATED_FILE_MANIFEST_V2.json
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python tools/m0_dependency_audit.py --check --write /tmp/DEPENDENCY_AUDIT_V1.generated.json
+      - run: python -m ocm.status --live
+      - run: python -m ocm.status --strict
+      - uses: actions/upload-artifact@v4
+        with:
+          name: m0-dependency-audit
+          path: /tmp/DEPENDENCY_AUDIT_V1.generated.json
+
+  clean-clone-repro:
+    runs-on: ubuntu-latest
+    needs: [package-smoke, core-unit, historical-equivalence, hostile-controls, controlled-demo, provenance, dependency-audit]
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - run: ./scripts/m0_clean_clone.sh
