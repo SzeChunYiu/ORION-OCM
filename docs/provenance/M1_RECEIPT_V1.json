@@ -1,0 +1,345 @@
+{
+  "authority": {
+    "GENERAL_NOVELTY": "NOT_ESTABLISHED",
+    "KS-P1_RETRACTION_LAW": "PARENT_PRODUCT_OWNED",
+    "KS-T10_TRANSLATOR_INVARIANCE": "OPEN_M5",
+    "KS-T12_CONSOLIDATION": "OPEN",
+    "M2_SOLVE_HISTORICAL": "PARENT_SUFFICIENT",
+    "note": "M1 consolidates inherited mathematics; no lower milestone row is implied."
+  },
+  "bound_files": {
+    "docs/provenance/ORION_V2_FAILURE_LEDGER_42b1b0d.md": "532e31eb6af6ac0cf1a168fd39fb60bdc429d5deec2e380b03959d6958928423",
+    "docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json": "8b354ce2f07ce591a1b60baad218be850ad4ca7b0f2cf3054a30b4fc4a6f5f2c",
+    "src/ocm/kso/abstraction.py": "2eb5c4a0db4a288df32453ac886c7a14b3dcff08d06c32001f6b623e55d8a995",
+    "src/ocm/kso/admission.py": "098bfc1b8695d0ab6335c3471feb3d69875c39cf787dc56a16d038d8f41f0452",
+    "src/ocm/kso/checks.py": "688d8ab849713f0e96b57830a8d8bd2d58e552450e6be406de95067bae922387",
+    "src/ocm/kso/extraction.py": "de8b7519ddf297939a600a64c1aad89e1ece2b1eb92978f63629727f906be69c",
+    "src/ocm/kso/firing.py": "e52ad50f90ab802ea94059e3d5a49138d10cf39792e1b33a741a90f08a5c8b04",
+    "src/ocm/kso/ids.py": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
+    "src/ocm/kso/jump.py": "c68c8963123946614cd20b4b2ab2a2b1bef06e7b0bf4804107e8cfa363a43da1",
+    "src/ocm/kso/navigation.py": "7bbe1cf7927bf432e84b9d4f27b57729d48e8e021cd9d4eccd1f9934f1dbf0b5",
+    "src/ocm/kso/obligations.py": "3f382ff2441388a33507e905a19c2a53fd1993baed048aad36ddee013246ed6e",
+    "src/ocm/kso/resources.py": "62ec1a84de7e37838629690a1c918a0933b4449ff6626d110aa3974cfd6e730f",
+    "src/ocm/kso/revocation.py": "bfc8d219fa8711a117a08126cff04814fd5d887f995c0816e92ee9aa9a112165",
+    "src/ocm/kso/space.py": "485778a516245d273a565dbf81f697d0b659d2f91f345f653f3a775052b37f42",
+    "src/ocm/kso/types.py": "b153e4aae1f0a817599e1973e91609494bcc94747dff6091667f5ede45e135f6",
+    "src/ocm/kso/warrant.py": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406"
+  },
+  "commands": [
+    "python -m ocm.kso.checks --json",
+    "python -m pytest -q tests/m1",
+    "python tools/m1_receipt.py --verify"
+  ],
+  "git_head_at_generation": "UNKNOWN",
+  "milestone_issue": 3,
+  "receipt": "M1_RECEIPT_V1",
+  "result": {
+    "checks": {
+      "J2": {
+        "cone_closed_and_least": 60,
+        "kleene_on_edges": 1107,
+        "outside_reach_unchanged": 360,
+        "prune_equal": 360,
+        "reinstate_exact": 360,
+        "reopening_partition": 360,
+        "retraction_monotone": 360,
+        "substochastic": 360
+      },
+      "KS-A1": {
+        "atlas_bound": 1,
+        "new_atom_type_navigates": 1,
+        "new_relation_in_cone": 1,
+        "unregistered_rejected": 1
+      },
+      "KS-A2": {
+        "certified_expansion_allowed": 1,
+        "enabling_differs": 1,
+        "navigation_differs": 1,
+        "uncertified_expansion_refused": 1
+      },
+      "KS-EQ": {
+        "navigate_outcome_equalities": 6,
+        "random_space_matrix_equalities": 320,
+        "substochastic_checks": 9,
+        "witness_fixed_point_equalities": 9,
+        "witness_matrix_equalities": 9
+      },
+      "KS-R1": {
+        "admission_reports_vector": 1,
+        "navigation_reports_vector": 1,
+        "pareto_dominance": 2,
+        "pareto_incomparable": 1,
+        "scalar_collapse_hides_trade": 1
+      },
+      "KS-T00": {
+        "rejections": {
+          "duplicate_atom": "ValueError",
+          "empty_tails": "ValueError",
+          "negative_resource": "ValueError",
+          "negative_weight": "ValueError",
+          "unknown_incident": "ValueError",
+          "unregistered_atom_type": "TypeError_",
+          "unregistered_relation": "TypeError_"
+        },
+        "well_formed_accepted": 1
+      },
+      "KS-T01": {
+        "evidence_atoms": 3,
+        "pair_checks": 400,
+        "profiles": 20,
+        "triple_checks": 8000
+      },
+      "KS-T02": {
+        "disabled_after_tail_revocation": 1,
+        "enabled_before": 1,
+        "mutant_differs": 1,
+        "threshold_disable": 1,
+        "unknown_verdict": 1
+      },
+      "KS-T04": {
+        "prune_equivalences": 212,
+        "reacting_subgraph_prune_equal": 1,
+        "renormalising_mutant_differs": 1
+      },
+      "KS-T04b": {
+        "downstream_dropped": 2,
+        "matches_reference": 1,
+        "monotone": 1,
+        "outside_reach_unchanged": 3,
+        "reinstated_exact": 1,
+        "renormalising_parent_raises_unrelated": 1,
+        "revoked_zero": 1,
+        "unapplied_is_cannot_check": 1,
+        "unrelated_unchanged": 1
+      },
+      "KS-T05": {
+        "alpha_zero_rejected": 1,
+        "contraction_checks": 200,
+        "fixed_point_exact": 1,
+        "float_iterations": 8,
+        "float_vs_exact_within_1e-9": 1
+      },
+      "KS-T06": {
+        "background_zero_surprise_atoms": 6,
+        "direction_i_hub_first_by_popularity": 1,
+        "direction_i_specific_first_by_surprise": 1,
+        "direction_ii_hub_first_by_surprise": 1,
+        "popularity_control_differs": 1,
+        "revoked_specific_path_zero_reaction": 1
+      },
+      "KS-T07": {
+        "admissible": 1,
+        "neither": 1,
+        "nonlumpable_control": 1,
+        "not_lumpable": 1,
+        "not_measurable": 1,
+        "pushforward_commutation_checks": 80
+      },
+      "KS-T08": {
+        "case_count": 13,
+        "cases": {
+          "composition_warrant_mismatch": "COMPOSITION_WARRANT_MISMATCH",
+          "dead_edge_only": "ISOLATED_ATOM_REJECTED",
+          "duplicate": "DUPLICATE_ATOM",
+          "empty_scope": "SCOPE_EMPTY",
+          "exact_checker_warrants_firing": "HELD",
+          "feedback_unwarranted_cannot_fire": "HELD",
+          "imported_warrants": "HELD",
+          "instruction_connected": "ADMITTED",
+          "isolated_live": "ISOLATED_ATOM_REJECTED",
+          "isolated_quarantined": "QUARANTINED",
+          "observation_warrants": "HELD",
+          "unregistered_relation": "UNREGISTERED_RELATION_TYPE",
+          "warranting_channel_without_warrant": "WARRANTING_CHANNEL_WITHOUT_WARRANT"
+        },
+        "inherited_kinds": 6,
+        "kinds": 8
+      },
+      "KS-T09": {
+        "activation_change_within_reach": 1,
+        "alternative_live_path_recheck_only": 1,
+        "cone_exact": 1,
+        "cycle": 1,
+        "deep_chain": 1,
+        "irrelevant_revocation_noop": 1,
+        "least_closed_superset": 3,
+        "mutant_shallow_cone_differs": 1,
+        "shared_dependency": 1
+      },
+      "KS-T11a": {
+        "equal_seeds_identical_extraction": 1,
+        "exact_optimum": "2",
+        "greedy_not_above_exact": 1,
+        "greedy_reports_approximation": 1,
+        "oversize_exact_is_cannot_check": 1,
+        "planted_tie_reported": 10,
+        "unequal_seeds_differ": 1
+      },
+      "KS-T17": {
+        "cancers_caught": 3,
+        "events_metered": 8,
+        "genome_digest": "57aecd57bd831072",
+        "genome_digest_unchanged": 1,
+        "growth_steps": 3
+      },
+      "KS-T19": {
+        "distinct_outcomes": 3,
+        "found_at_step": 6,
+        "nonidentifiability_witness": 1,
+        "timeout_is_gap": 1,
+        "unknown_target_reason": "WARRANT_UNKNOWN_TARGET_CLOSURE_REACHABLE",
+        "unmatched_budget_cannot_check": 1,
+        "witness_binds_jump_trigger": 1,
+        "zero_budget_cannot_check": 1
+      },
+      "KS-T20": {
+        "authority_is_meet": 1,
+        "disjoint_scope_refused": 1,
+        "duplicate_evidence_idempotent": 1,
+        "mutants_differ": 5,
+        "scope_is_intersection": 1,
+        "warrant_is_meet": 1
+      },
+      "KS-T21": {
+        "homomorphism_checks": 225792,
+        "intervals": 168,
+        "reduction_checks": 160,
+        "refinement_monotone_checks": 27920
+      },
+      "KS-T23": {
+        "all_support_dead_summary_dead": 1,
+        "answered_under_certificate": 1,
+        "authority_meet_scope_intersection": 1,
+        "majority_mutant_differs": 1,
+        "not_live_after_revocation": 1,
+        "refine_required": 1,
+        "summary_live_dead_unknown": 3
+      },
+      "KS-T24": {
+        "exploratory_activation_unchanged": 1,
+        "exploratory_extraction_nonempty": 1,
+        "no_enabled_edges": 1,
+        "no_live_atoms": 1,
+        "warranted_activation_zero": 1,
+        "warranted_extraction_empty": 1
+      }
+    },
+    "contract": "KSO_CORE_V1-M1",
+    "genome_digest": "57aecd57bd831072e175976bed1e80bcf2ebb984c06212287011b7a718629d17",
+    "registry": {
+      "outcomes": {
+        "KS-A1": "PASS",
+        "KS-A2": "PASS",
+        "KS-EQ": "PASS",
+        "KS-P1": "NOT_RUNNABLE",
+        "KS-R1": "PASS",
+        "KS-T00": "PASS",
+        "KS-T01": "PASS",
+        "KS-T02": "PASS",
+        "KS-T03": "PASS",
+        "KS-T04": "PASS",
+        "KS-T04b": "PASS",
+        "KS-T04c": "PASS",
+        "KS-T05": "PASS",
+        "KS-T06": "PASS",
+        "KS-T06b": "PASS",
+        "KS-T07": "PASS",
+        "KS-T07b": "PASS",
+        "KS-T08": "PASS",
+        "KS-T09": "PASS",
+        "KS-T10a": "PASS",
+        "KS-T11a": "PASS",
+        "KS-T12": "NOT_RUNNABLE",
+        "KS-T17": "PASS",
+        "KS-T18": "PASS",
+        "KS-T19": "PASS",
+        "KS-T20": "PASS",
+        "KS-T21": "PASS",
+        "KS-T22": "PASS",
+        "KS-T23": "PASS",
+        "KS-T24": "PASS"
+      },
+      "rows": [
+        "KS-T00",
+        "KS-T01",
+        "KS-T21",
+        "KS-T02",
+        "KS-T03",
+        "KS-T04",
+        "KS-T04b",
+        "KS-T04c",
+        "KS-T05",
+        "KS-T06",
+        "KS-T06b",
+        "KS-T07",
+        "KS-T07b",
+        "KS-T08",
+        "KS-T09",
+        "KS-T22",
+        "KS-T10a",
+        "KS-T11a",
+        "KS-T12",
+        "KS-T23",
+        "KS-T17",
+        "KS-T18",
+        "KS-T19",
+        "KS-T20",
+        "KS-T24",
+        "KS-A2",
+        "KS-A1",
+        "KS-R1",
+        "KS-P1",
+        "KS-EQ"
+      ],
+      "summary": {
+        "counts": {
+          "CANNOT_CHECK": 0,
+          "FAIL": 0,
+          "NOT_RUNNABLE": 2,
+          "PASS": 28
+        },
+        "proved_or_calibrated_without_passing_checker": [],
+        "rows": [
+          "KS-T00",
+          "KS-T01",
+          "KS-T21",
+          "KS-T02",
+          "KS-T03",
+          "KS-T04",
+          "KS-T04b",
+          "KS-T04c",
+          "KS-T05",
+          "KS-T06",
+          "KS-T06b",
+          "KS-T07",
+          "KS-T07b",
+          "KS-T08",
+          "KS-T09",
+          "KS-T22",
+          "KS-T10a",
+          "KS-T11a",
+          "KS-T12",
+          "KS-T23",
+          "KS-T17",
+          "KS-T18",
+          "KS-T19",
+          "KS-T20",
+          "KS-T24",
+          "KS-A2",
+          "KS-A1",
+          "KS-R1",
+          "KS-P1",
+          "KS-EQ"
+        ]
+      }
+    },
+    "terminals": {
+      "GENERAL_NOVELTY": "NOT_ESTABLISHED",
+      "KS-T10_TRANSLATOR_INVARIANCE": "OPEN_M5",
+      "KS-T12_CONSOLIDATION": "OPEN",
+      "M1_KSO_CORE": "GREEN",
+      "M2_SOLVE_HISTORICAL": "PARENT_SUFFICIENT"
+    }
+  },
+  "terminal": "M1_KSO_CORE_GREEN"
+}

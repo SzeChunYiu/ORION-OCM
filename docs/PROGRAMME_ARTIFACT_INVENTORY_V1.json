@@ -1,16 +1,119 @@
 {
-  "schema_version":"ocm.programme-artifact-inventory.v1",
-  "active_programme":"M0-M7 LANGUAGE_KSO_ALPHA",
-  "current_implementation_milestone":"M0",
-  "artifacts":[
-    {"artifact":"src/ocm/**","status":"ACTIVE","milestone":"M0","authority":"custody/runtime infrastructure only; no new scientific capability claim","replaces":[],"dependencies":["frozen historical OCM evidence"]},
-    {"artifact":"research/orion-machine/reference/kso_language_*.py","status":"HISTORICAL","milestone":"M0-M7","authority":"controlled candidate language organization; not LANGUAGE_KSO_ALPHA","replaces":[],"dependencies":["historical KSO reference core"]},
-    {"artifact":"research/orion-machine/reference/recursive_kso_v0.py","status":"HISTORICAL","milestone":"M0-M7","authority":"candidate recursive organization; scale/learned topology not established","replaces":[],"dependencies":["historical KSO reference core"]},
-    {"artifact":"research/orion-machine/reference/kso_wisdom_methods_v0.py","status":"PARKED","milestone":null,"authority":"candidate organization only","replaces":[],"dependencies":[]},
-    {"artifact":"research/orion-machine/reference/kso_thought_speech_v0.py","status":"PARKED","milestone":null,"authority":"parked experimental continuation; no language-alpha authority","replaces":[],"dependencies":[]},
-    {"artifact":"src/orion_v2/{required compatibility subset}","status":"PARENT_OWNED","milestone":null,"authority":"exact frozen Machine Epistemics parent implementation for compatibility/replay; not active OCM architecture","replaces":[],"dependencies":[]},
-    {"artifact":"research/experiments/me-x1/**","status":"PARENT_OWNED","milestone":null,"authority":"exact frozen parent experiment support required for historical replay","replaces":[],"dependencies":["src/orion_v2/{required compatibility subset}"]},
-    {"artifact":"research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json","status":"PARENT_OWNED","milestone":null,"authority":"immutable protected receipt; upstream PARENT_SUFFICIENT remains unchanged","replaces":[],"dependencies":[]},
-    {"artifact":"research/orion-machine/**/*FAILURE*|*NEGATIVE*","status":"NEGATIVE","milestone":null,"authority":"negative history is preserved as first-class evidence","replaces":[],"dependencies":[]}
+  "schema_version": "ocm.programme-artifact-inventory.v1",
+  "active_programme": "M0-M7 LANGUAGE_KSO_ALPHA",
+  "current_implementation_milestone": "M1",
+  "artifacts": [
+    {
+      "artifact": "src/ocm/{runtime,demo,status,provenance,dependency_audit,epistemics,historical}.py",
+      "status": "ACTIVE",
+      "milestone": "M0",
+      "authority": "custody/runtime infrastructure only; no new scientific capability claim",
+      "replaces": [],
+      "dependencies": [
+        "frozen historical OCM evidence"
+      ]
+    },
+    {
+      "artifact": "src/ocm/kso/**",
+      "status": "ACTIVE",
+      "milestone": "M1",
+      "authority": "canonical KSO core consolidated from research/orion-machine/reference/{kso_math_v1,kso_m0_freeze_checks_v1}.py under old-vs-new equivalence (tests/m1); inherited terminals unchanged; KS-T12 OPEN; novelty NOT_ESTABLISHED",
+      "replaces": [
+        "research/orion-machine/reference/kso_math_v1.py (as active code; kept as frozen reference)",
+        "research/orion-machine/reference/kso_m0_freeze_checks_v1.py (as active code; kept as frozen reference)"
+      ],
+      "dependencies": [
+        "src/orion_v2/jump.py (byte-identical parent copy at src/ocm/kso/jump.py)",
+        "docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json"
+      ]
+    },
+    {
+      "artifact": "docs/{spec,theorems,parent-subtraction,self-application}/**",
+      "status": "ACTIVE",
+      "milestone": "M1",
+      "authority": "specification, obligation registry, parent table and self-application ledger; no claim beyond the registry statuses",
+      "replaces": [],
+      "dependencies": [
+        "src/ocm/kso/**"
+      ]
+    },
+    {
+      "artifact": "research/orion-machine/reference/kso_language_*.py",
+      "status": "HISTORICAL",
+      "milestone": "M0-M7",
+      "authority": "controlled candidate language organization; not LANGUAGE_KSO_ALPHA",
+      "replaces": [],
+      "dependencies": [
+        "historical KSO reference core"
+      ]
+    },
+    {
+      "artifact": "research/orion-machine/reference/recursive_kso_v0.py",
+      "status": "HISTORICAL",
+      "milestone": "M0-M7",
+      "authority": "candidate recursive organization; scale/learned topology not established",
+      "replaces": [],
+      "dependencies": [
+        "historical KSO reference core"
+      ]
+    },
+    {
+      "artifact": "research/orion-machine/reference/kso_wisdom_methods_v0.py",
+      "status": "PARKED",
+      "milestone": null,
+      "authority": "candidate organization only",
+      "replaces": [],
+      "dependencies": []
+    },
+    {
+      "artifact": "research/orion-machine/reference/kso_thought_speech_v0.py",
+      "status": "PARKED",
+      "milestone": null,
+      "authority": "parked experimental continuation; no language-alpha authority",
+      "replaces": [],
+      "dependencies": []
+    },
+    {
+      "artifact": "src/orion_v2/{required compatibility subset}",
+      "status": "PARENT_OWNED",
+      "milestone": null,
+      "authority": "exact frozen Machine Epistemics parent implementation for compatibility/replay; not active OCM architecture",
+      "replaces": [],
+      "dependencies": []
+    },
+    {
+      "artifact": "research/experiments/me-x1/**",
+      "status": "PARENT_OWNED",
+      "milestone": null,
+      "authority": "exact frozen parent experiment support required for historical replay",
+      "replaces": [],
+      "dependencies": [
+        "src/orion_v2/{required compatibility subset}"
+      ]
+    },
+    {
+      "artifact": "research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json",
+      "status": "PARENT_OWNED",
+      "milestone": null,
+      "authority": "immutable protected receipt; upstream PARENT_SUFFICIENT remains unchanged",
+      "replaces": [],
+      "dependencies": []
+    },
+    {
+      "artifact": "research/orion-machine/**/*FAILURE*|*NEGATIVE*",
+      "status": "NEGATIVE",
+      "milestone": null,
+      "authority": "negative history is preserved as first-class evidence",
+      "replaces": [],
+      "dependencies": []
+    },
+    {
+      "artifact": "docs/provenance/ORION_V2_FAILURE_LEDGER_42b1b0d.md",
+      "status": "PARENT_OWNED",
+      "milestone": null,
+      "authority": "byte-identical ORION-V2 root failure ledger (blob 4394f4b6f066b83cb65aaa19d969f2debdde70c9); the immune-system document dependency of the migrated tree",
+      "replaces": [],
+      "dependencies": []
+    }
   ]
 }

@@ -1,0 +1,51 @@
+name: M1 KSO core
+on:
+  pull_request:
+  push:
+    branches: [main, m1/kso-core-consolidation]
+permissions:
+  contents: read
+concurrency:
+  group: m1-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  core-exhaustive-and-equivalence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M1 self-check (exit 0 = green, 1 = fail, 2 = CANNOT_CHECK)
+        run: python -m ocm.kso.checks --json > m1_checks.json
+      - name: M1 unit, equivalence and mutation suites
+        run: python -m pytest -q tests/m1
+      - name: Obligation registry consistency
+        run: python -c "from ocm.kso.obligations import verify_registry, summarize; s=summarize(verify_registry()); assert s['counts']['FAIL']==0 and not s['proved_or_calibrated_without_passing_checker'], s; print(s)"
+      - name: Receipt drift (committed receipt vs fresh run)
+        run: python tools/m1_receipt.py --verify
+      - uses: actions/upload-artifact@v4
+        with: {name: m1-checks, path: m1_checks.json}
+  inherited-suites-still-green:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python -m pytest -q tests/m0 tests/unit/test_kso_math_v1.py tests/unit/test_kso_m0_freeze_v1.py tests/unit/test_kso_m1_mex1_population_v1.py
+      - run: python -m ocm.demo --controlled
+      - run: python -m ocm.status
+  ledger-materialization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Root failure ledger present and byte-bound to ORION-V2 42b1b0d blob
+        run: |
+          test -s docs/provenance/ORION_V2_FAILURE_LEDGER_42b1b0d.md
+          echo "4394f4b6f066b83cb65aaa19d969f2debdde70c9" > expected_blob
+          git hash-object docs/provenance/ORION_V2_FAILURE_LEDGER_42b1b0d.md > actual_blob
+          diff expected_blob actual_blob
