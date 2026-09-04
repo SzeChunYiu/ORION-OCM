@@ -1,0 +1,102 @@
+name: one-shot OCM stack migration
+
+on:
+  push:
+    paths:
+      - '.github/workflows/migrate-ocm-stack.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical destination
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch exact ORION-V2 OCM source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none --no-checkout https://github.com/SzeChunYiu/ORION-V2.git /tmp/orion-v2
+          git -C /tmp/orion-v2 fetch --depth 1 origin 42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3
+          git -C /tmp/orion-v2 checkout --detach 42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3
+          test "$(git -C /tmp/orion-v2 rev-parse HEAD)" = "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3"
+
+      - name: Copy complete OCM research tree and OCM/KSO tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf research/orion-machine
+          mkdir -p research tests/unit docs/provenance
+          cp -a /tmp/orion-v2/research/orion-machine research/
+
+          find /tmp/orion-v2/tests/unit -maxdepth 1 -type f \
+            \( -name 'test_kso*.py' -o -name 'test_ocm*.py' -o -name 'test_rcl*.py' \) \
+            -print0 | xargs -0 -r -I{} cp -a '{}' tests/unit/
+
+          cat > docs/provenance/ORION_V2_MIGRATION.md <<'EOF'
+          # ORION-V2 → ORION-OCM migration provenance
+
+          Canonical migration source:
+
+          - source repository: `SzeChunYiu/ORION-V2`
+          - source commit: `42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3`
+          - source branch at migration time: `research/ocm-wisdom-method-kso-20260904`
+          - migration date: 2026-09-04
+
+          The source commit is the stacked OCM research head containing the cumulative line from the KSO mathematical core through populated/solve/learning/Jump/chat/formal-math work, recursive KSO, Language KSO, corpus preflight, and the parked wisdom/method/thought→speech experiments.
+
+          Principal source PR ancestry:
+
+          - ORION-V2 #290 — KnowledgeSpace.v1 M0 mathematical core
+          - ORION-V2 #295 — populated M1 KSO
+          - ORION-V2 #298 — M2 solve loop and strongest-parent comparison
+          - ORION-V2 #301 — M3–M6a procedure learning, Jump, controlled chat, Lean channel, multi-domain KSO
+          - ORION-V2 #302 — recursive KSO + first grammar-learning Language KSO + real-language stress protocol
+          - ORION-V2 #303 — wisdom/principle + Method KSO + thought→speech experimental continuation
+
+          ## Authority boundary
+
+          Migration preserves artifacts; it does not upgrade scientific authority. In particular:
+
+          - M2 remains `PARENT_SUFFICIENT` against its strongest faithful ceiling where recorded.
+          - M5 is controlled codec chat, not open-domain language.
+          - M6a is proof-kernel integration with the inherited `PARENT_SUFFICIENT` scientific boundary, not a newly solved frontier theorem.
+          - Recursive KSO and Language KSO are controlled candidate organizations, not constitutional truths about cognition.
+          - Wisdom/Method work is preserved but parked until `LANGUAGE_KSO_ALPHA` is earned.
+          - General novelty and superiority remain `NOT_ESTABLISHED`.
+
+          ## New-repository rule
+
+          `SzeChunYiu/ORION-OCM` is the canonical programme from this migration onward. Historical ORION-V2 artifacts are prior evidence and provenance. The first milestone must make the migrated stack self-contained, reproducible, and free of hidden path/runtime dependencies on ORION-V2 before new capability claims are made.
+          EOF
+
+      - name: Record source manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo '# Migrated OCM file manifest'
+            echo
+            echo 'Source commit: `42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3`'
+            echo
+            find research/orion-machine tests/unit -type f -print | sort | sed 's#^#- `#; s#$#`#'
+          } > docs/provenance/MIGRATED_FILE_MANIFEST.md
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'ORION-OCM migration'
+          git config user.email '52784502+SzeChunYiu@users.noreply.github.com'
+          git add research/orion-machine tests/unit docs/provenance
+          if git diff --cached --quiet; then
+            echo 'No migration changes to commit.'
+            exit 0
+          fi
+          git commit -m 'migration: import complete ORION-V2 OCM research stack at 42b1b0d'
+          git push origin HEAD:main
