@@ -25,7 +25,7 @@ from fractions import Fraction
 from typing import Callable, Hashable, Iterable, Mapping, Sequence
 
 from .resources import ResourceVector
-from .space import KnowledgeSpace, TypedRejection
+from .space import Hyperedge, KnowledgeSpace, TypedRejection
 from .warrant import CannotCheck, Liveness
 
 Relevance = Mapping[str, Fraction] | Callable[[str], Fraction] | None
@@ -316,36 +316,48 @@ def mutant_popularity_rank(activation: Mapping[str, Fraction], exclude: Iterable
 
 
 def ungated_closure(ks: KnowledgeSpace, start: Iterable[str]) -> frozenset[str]:
-    """The ceiling walker C°: unbounded, ungated forward reachability (any tail reached)."""
+    """The ceiling walker C°: unbounded, ungated forward reachability (any tail reached).
+    Worklist over a tail-indexed adjacency: O(|incidences|)."""
+    by_tail: dict[str, list[Hyperedge]] = {}
+    for e in ks.hyperedges:
+        for t in e.tails:
+            by_tail.setdefault(t, []).append(e)
     reached = set(start)
-    grew = True
-    while grew:
-        grew = False
-        for e in ks.hyperedges:
-            if any(t in reached for t in e.tails):
-                for h in e.heads:
-                    if h not in reached:
-                        reached.add(h)
-                        grew = True
+    work = list(reached)
+    while work:
+        v = work.pop()
+        for e in by_tail.get(v, ()):
+            for h in e.heads:
+                if h not in reached:
+                    reached.add(h)
+                    work.append(h)
     return frozenset(reached)
 
 
 def gated_closure(ks: KnowledgeSpace, start: Iterable[str], revoked: Iterable[Hashable] = ()) -> frozenset[str]:
-    """C^R: reachability over LIVE atoms and LIVE edges with all tails reached (conjunctive)."""
+    """C^R: reachability over LIVE atoms and LIVE edges with all tails reached (conjunctive).
+    Worklist with per-edge pending-tail counters: O(|incidences|)."""
     rv = frozenset(revoked)
     amap = ks.atom_map()
-    reached = {x for x in start if amap[x].is_live(rv)}
-    grew = True
-    while grew:
-        grew = False
-        for e in ks.hyperedges:
-            if not e.warrant.is_live(rv):
-                continue
-            if all(t in reached for t in e.tails):
+    live = {x: amap[x].is_live(rv) for x in ks.ids}
+    by_tail: dict[str, list[int]] = {}
+    pending: list[int] = []
+    for i, e in enumerate(ks.hyperedges):
+        pending.append(len(e.tails))
+        for t in e.tails:
+            by_tail.setdefault(t, []).append(i)
+    reached = {x for x in start if live[x]}
+    work = list(reached)
+    while work:
+        v = work.pop()
+        for i in by_tail.get(v, ()):
+            pending[i] -= 1
+            e = ks.hyperedges[i]
+            if pending[i] == 0 and e.warrant.is_live(rv):
                 for h in e.heads:
-                    if h not in reached and amap[h].is_live(rv):
+                    if h not in reached and live[h]:
                         reached.add(h)
-                        grew = True
+                        work.append(h)
     return frozenset(reached)
 
 

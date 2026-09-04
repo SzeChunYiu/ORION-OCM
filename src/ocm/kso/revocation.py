@@ -18,7 +18,7 @@ from fractions import Fraction
 from typing import Hashable, Iterable, Sequence
 
 from .navigation import NavigationMatrix, NavigationMode, fixed_point, navigation_matrix, structural_denominators
-from .space import KnowledgeSpace
+from .space import Hyperedge, KnowledgeSpace
 from .warrant import Liveness
 
 
@@ -127,20 +127,23 @@ def prune_equivalence(ks: KnowledgeSpace, revoked: Iterable[Hashable], seed: Seq
 def impact_cone(ks: KnowledgeSpace, changed: Iterable[str], dependency_types: Iterable[str] | None = None) -> frozenset[str]:
     """Impact_D(X) = μY. X ∪ {u : ∃h, r_h ∈ D, T_h ∩ Y ≠ ∅, u ∈ O_h} (KS-T09: least closed superset).
 
-    Cycles are handled by the fixed point itself (monotone operator on a finite lattice)."""
+    Cycles are handled by the fixed point itself (monotone operator on a finite lattice).
+    Worklist over a tail-indexed adjacency of dependency edges: O(|incidences|)."""
     dep = frozenset(dependency_types) if dependency_types is not None else ks.registry.dependency_types
+    by_tail: dict[str, list[Hyperedge]] = {}
+    for e in ks.hyperedges:
+        if e.relation_type in dep:
+            for t in e.tails:
+                by_tail.setdefault(t, []).append(e)
     impacted = set(changed)
-    grew = True
-    while grew:
-        grew = False
-        for e in ks.hyperedges:
-            if e.relation_type not in dep:
-                continue
-            if any(t in impacted for t in e.tails):
-                for h in e.heads:
-                    if h not in impacted:
-                        impacted.add(h)
-                        grew = True
+    work = list(impacted)
+    while work:
+        v = work.pop()
+        for e in by_tail.get(v, ()):
+            for h in e.heads:
+                if h not in impacted:
+                    impacted.add(h)
+                    work.append(h)
     return frozenset(impacted)
 
 
