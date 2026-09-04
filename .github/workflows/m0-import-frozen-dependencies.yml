@@ -1,0 +1,62 @@
+name: M0 import frozen dependencies
+
+on:
+  push:
+    branches: [m0-self-contained-ocm]
+    paths:
+      - .github/workflows/m0-import-frozen-dependencies.yml
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: m0-self-contained-ocm
+          fetch-depth: 0
+      - name: Checkout frozen ORION-V2 source
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/SzeChunYiu/ORION-V2.git /tmp/orion-v2
+          git -C /tmp/orion-v2 checkout 42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3
+      - name: Materialize exact parent-owned dependency slice
+        run: |
+          set -euo pipefail
+          mkdir -p research/experiments/me-x1
+          for f in mex1_model.py mex1_oracle.py mex1_generator.py mex1_arms.py mex1_parents.py; do
+            cp "/tmp/orion-v2/research/experiments/me-x1/$f" "research/experiments/me-x1/$f"
+          done
+          mkdir -p research/experiments/me-x3/results
+          cp /tmp/orion-v2/research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json \
+             research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json
+          mkdir -p src/orion_v2 src/ocm/kso
+          for f in contracts.py epistemic_atlas.py epistemic_architecture.py jump.py provenance.py reopening.py comparability.py evidence.py structural.py; do
+            cp "/tmp/orion-v2/src/orion_v2/$f" "src/orion_v2/$f"
+          done
+          cp /tmp/orion-v2/src/orion_v2/jump.py src/ocm/kso/jump.py
+      - name: Verify copied blobs against frozen source
+        run: |
+          set -euo pipefail
+          diff -u /tmp/orion-v2/src/orion_v2/jump.py src/ocm/kso/jump.py
+          for f in mex1_model.py mex1_oracle.py mex1_generator.py mex1_arms.py mex1_parents.py; do
+            diff -u "/tmp/orion-v2/research/experiments/me-x1/$f" "research/experiments/me-x1/$f"
+          done
+          for f in contracts.py epistemic_atlas.py epistemic_architecture.py jump.py provenance.py reopening.py comparability.py evidence.py structural.py; do
+            diff -u "/tmp/orion-v2/src/orion_v2/$f" "src/orion_v2/$f"
+          done
+          diff -u /tmp/orion-v2/research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json \
+                  research/experiments/me-x3/results/ME_X3_LEAN_RECEIPT_PROTECTED_V1.json
+      - name: Commit frozen dependency custody
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- research/experiments src/orion_v2 src/ocm/kso/jump.py; then
+            exit 0
+          fi
+          git config user.name "ORION-OCM M0 migration"
+          git config user.email "52784502+SzeChunYiu@users.noreply.github.com"
+          git add research/experiments src/orion_v2 src/ocm/kso/jump.py
+          git commit -m "m0: materialize frozen parent-owned replay dependencies"
+          git push origin HEAD:m0-self-contained-ocm
