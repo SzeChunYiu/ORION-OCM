@@ -1,0 +1,13 @@
+{
+  "schema_version": "ocm.dependency-audit.v1",
+  "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+  "policy": "No inherited reference entrypoint may require an undeclared ORION-V2 checkout.",
+  "dependencies": [
+    {"consumer":"kso_m1_mex1_population_v1.py and kso_m2_*","kind":"repo-relative evidence/runtime","required":true,"available_in_new_repo":true,"replacement_migration_action":"Exact frozen ME-X1 Python modules are materialized under research/experiments/me-x1.","verification_status":"VERIFIED_BY_GIT_BLOB_IDENTITY"},
+    {"consumer":"kso_m4_jump_v1.py and ME-X1 parent comparators","kind":"ORION-V2 parent implementation","required":true,"available_in_new_repo":true,"replacement_migration_action":"Exact frozen ORION-V2 modules required by ME-X1/M4 are vendored as a PARENT_OWNED compatibility subset; Jump is also extracted byte-identically into src/ocm/kso/jump.py.","verification_status":"VERIFIED_BY_GIT_BLOB_IDENTITY"},
+    {"consumer":"kso_m6_formal_math_v1.py","kind":"protected historical evidence","required":true,"available_in_new_repo":true,"replacement_migration_action":"Exact immutable ME-X3 Lean receipt is materialized. The protected campaign is not rerun.","verification_status":"VERIFIED_BY_GIT_BLOB_IDENTITY"},
+    {"consumer":"formal proof campaign rerun","kind":"external tool: Lean","required":false,"available_in_new_repo":false,"replacement_migration_action":"CANNOT_CHECK_EXTERNAL_LEAN_RERUN_NOT_REQUIRED_FOR_HISTORICAL_REPLAY","verification_status":"CANNOT_CHECK"},
+    {"consumer":"canonical M0 commands","kind":"network","required":false,"available_in_new_repo":true,"replacement_migration_action":"No runtime network access is required after clone/install.","verification_status":"VERIFIED"}
+  ],
+  "generated_entrypoint_audit_command": "python tools/m0_dependency_audit.py --check --write /tmp/DEPENDENCY_AUDIT_V1.generated.json"
+}

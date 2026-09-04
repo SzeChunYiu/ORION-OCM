@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools==75.8.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orion-ocm"
+version = "0.1.0"
+description = "Canonical custody runtime for the ORION Cognitive Machine research programme"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest==8.3.5"]
+
+[project.scripts]
+ocm = "ocm.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ocm*", "orion_v2*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
