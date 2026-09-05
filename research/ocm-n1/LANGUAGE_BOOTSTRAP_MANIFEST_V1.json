@@ -1,0 +1,149 @@
+{
+  "schema": "ocm.language-bootstrap.v1",
+  "base_main_commit": "594f78f57f0861b397bde973f0835ad9e0e39a20",
+  "role": "PROSPECTIVE_N1_BOOTSTRAP_AUDIT",
+  "protected_outcomes_read": false,
+  "question": "How much language/communication competence exists before N1 learning begins?",
+  "source_bindings": {
+    "src/ocm/language/bootstrap.py": "9c454fac08b3a2fcc439f47e2436abc4ad5b3c2b",
+    "src/ocm/language/lexicon.py": "8e5a02ab1c1b06b758ffc474e6b1ba541bb7edf9",
+    "src/ocm/language/constructions.py": "bfcab87711603c3465f4d18372b10bfc1e5a1bb3",
+    "src/ocm/language/interpret.py": "08f89920ab99d92925058d0cb06f7ad0607df998",
+    "src/ocm/language/realize.py": "e1beb30b2edda053b3a4dabf6a8bf47dd5ee78d9",
+    "src/ocm/language/session.py": "a2fcb4a83871a6fdb7d7faeb363571c2afe519da",
+    "src/ocm/dialogue/gate.py": "fff25fdbce00f40486b8724e256c8c2c546ee756",
+    "src/ocm/dialogue/planner.py": "726d8ee5d877dc802d608153fbfababcc6620c00",
+    "src/ocm/dialogue/reference.py": "012972c2baea52104c75c77e46e9a831df6ed863",
+    "src/ocm/dialogue/clarify.py": "11646f1a48f34ad2c6f9c2429cbf73f39bb04586",
+    "src/ocm/dialogue/surface_text.py": "296cf8478e6f0365673aaa86d9ef96b07af6f5e4"
+  },
+  "observed_current_runtime": {
+    "microworld_seed_lexemes": 26,
+    "microworld_seed_morph_rules": 10,
+    "acquisition_fixture_seed_lexemes": 8,
+    "acquisition_fixture_seed_morph_rules": 2,
+    "lexical_categories": 12,
+    "seed_constructions": [
+      "en:np",
+      "en:transitive",
+      "en:intransitive",
+      "en:passive",
+      "en:negation-transitive",
+      "en:yesno-transitive",
+      "en:wh-object"
+    ],
+    "seed_construction_families": [
+      "noun_phrase",
+      "transitive",
+      "intransitive",
+      "passive",
+      "negation",
+      "yes_no_question",
+      "wh_question"
+    ],
+    "fixed_dialogue_acts": 11,
+    "fixed_rhetorical_relations": 6,
+    "fixed_reference_pronouns": 9,
+    "fixed_reference_ordinals": 5,
+    "fixed_world_surface_phrase_templates": 16
+  },
+  "prior_classes": [
+    {
+      "id": "P1_seed_lexicon",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "EXCLUDE_FROM_N1_MINIMAL_ARM_OR_COUNT_AS_PRIOR_INFORMATION",
+      "detail": "The historical bounded-world bootstrap supplies English function words plus all microworld nouns/adjectives/verbs."
+    },
+    {
+      "id": "P2_seed_morphology",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "LEARN_OR_COUNT_AS_PRIOR_INFORMATION",
+      "detail": "Productive English -ed/participle rules and irregular did/was plus verb exceptions are authored."
+    },
+    {
+      "id": "P3_seed_constructions",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "REMOVE_FROM_MINIMAL_ARM_EXCEPT_EXPLICIT_BOOTSTRAP_ABLATION",
+      "detail": "NP, transitive, intransitive, passive, negation, yes/no and wh-object form-meaning mappings encode English word order and roles."
+    },
+    {
+      "id": "P4_interpretation_algorithm",
+      "status": "LANGUAGE_GENERAL_MECHANISM_WITH_ORTHOGRAPHIC_ADAPTER_PRIOR",
+      "scientific_disposition": "RETAIN_GENERIC_MATCH_SELECT_WARRANT_LOGIC; DECLARE_TOKENIZER_AND_ANY_LANGUAGE_SPECIFIC_MATCHER_ASSUMPTIONS",
+      "detail": "Ambiguity retention, warrant selection and construction matching are general mechanisms; whitespace/lowercase/punctuation tokenization is a declared corpus adapter, not learned competence."
+    },
+    {
+      "id": "P5_realizer",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "N2_MUST_REPLACE_WITH_LEARNED_MEANING_TO_EXPRESSION_OBJECTS",
+      "detail": "Current realizer directly authors English determiners, active/passive order, did-not contraction choice and question order."
+    },
+    {
+      "id": "P6_dialogue_act_taxonomy",
+      "status": "COMMUNICATION_SPECIFIC_PRIOR",
+      "scientific_disposition": "KEEP_ONLY_MINIMAL_COMMITMENT_CONTROL_STATES_AS_CONSTITUTION; LEARN/REGISTER_RICHER_ACTS",
+      "detail": "ASSERT/ANSWER/ASK/CLARIFY/etc. are a fixed taxonomy. Epistemic commitment markers may remain constitutional, but the full interaction inventory is prior structure."
+    },
+    {
+      "id": "P7_reference_policy",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "N2_LEARN_OR_SCOPE",
+      "detail": "English pronoun feature mappings, determiners and ordinal descriptions are authored."
+    },
+    {
+      "id": "P8_clarification_policy",
+      "status": "MIXED",
+      "scientific_disposition": "RETAIN_INFORMATION_VALUE_OBJECTIVE_AS_GENERAL_CANDIDATE; LEARN_QUESTION_FORMS/COSTS/CONVENTIONS",
+      "detail": "Information-value selection is language-general, while binary question wording and interaction conventions are authored."
+    },
+    {
+      "id": "P9_discourse_planner",
+      "status": "COMMUNICATION_SPECIFIC_PRIOR",
+      "scientific_disposition": "N2_LEARN_RHETORICAL/REFERENCE/STYLE_PROCEDURES_OR_COUNT_THEM_AS_PRIOR",
+      "detail": "ANSWER/ELABORATION/CONTRAST/LIST/TEACH_BACK planning, explanation depth, register length targets and ordering obligations are authored."
+    },
+    {
+      "id": "P10_surface_codec",
+      "status": "LANGUAGE_SPECIFIC_PRIOR",
+      "scientific_disposition": "KEEP_AS_BOUNDED_HISTORICAL_CHECKER_ONLY; DO_NOT_COUNT_AS_LEARNED_SPEAKER",
+      "detail": "World relation phrases, uncertainty/reporting/citation text and contextual response phrasings are authored English."
+    }
+  ],
+  "n1_minimal_target": {
+    "retain_constitutional_or_language_general": [
+      "identity-bearing persistent objects",
+      "evidence/provenance/warrant/scope/authority",
+      "dependency/revocation/relearning semantics",
+      "MeaningGraph data model and exact canonical checking",
+      "Lexeme/MorphRule/Construction object schemas without English instances",
+      "ambiguity-preserving select/clarify interfaces",
+      "generic acquisition/version-space/search procedures",
+      "generic parser/chart algorithm once its grammar is supplied by learned objects",
+      "external commitment/reverse-read gate semantics"
+    ],
+    "exclude_from_time_zero_language_competence": [
+      "microworld lexical senses",
+      "English productive and irregular morphology",
+      "all seven seed English constructions",
+      "English word-order-to-role mappings",
+      "fixed English meaning-to-surface templates",
+      "English pronoun/ordinal mappings",
+      "fixed explanation/summary/register strategies",
+      "fixed clarification wording",
+      "fixed English epistemic marker sentences"
+    ],
+    "dataset_adapter_not_cognitive_constitution": [
+      "UD-provided token boundaries/tags when explicitly counted as teacher annotation",
+      "UTF-8/text normalization required to read a registered corpus"
+    ]
+  },
+  "required_ablations_before_strong_claim": [
+    "full historical bootstrap versus N1 minimal arm",
+    "remove seed construction families and test acquisition recovery",
+    "remove English morphology and test induction/recovery",
+    "controlled SOV/artificial-language conflict",
+    "fixed-template realizer versus learned realization in N2"
+  ],
+  "current_terminal": "CURRENT_RUNTIME_BOOTSTRAP_NOT_MINIMAL__N1_MINIMAL_TARGET_REGISTERED",
+  "claim_authority": "AUDIT_AND_DESIGN_ONLY; no protected language-learning outcome"
+}
