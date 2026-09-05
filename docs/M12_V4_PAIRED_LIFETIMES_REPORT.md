@@ -60,8 +60,9 @@ fresh instance per stream, REFERENCE label (F8), never in the decision. Totals o
 | negative-transfer probes | 35/56 | 56/56 | 40/56 |
 | lessons acquired / reuse / retained / revoked-stops / relearned | 25/48 / 33/48 / 35/48 / 41/48 / 23/48 | 48 / 40 / 48 / 32 / 48 | 24 / 24 / 24 / 48 / 24 |
 
-Four-class grading of the 480 factual questions (G7): licensed 233, unlicensed-true 199,
-unlicensed-false 38, wrong 2. The reference answers 237 of the 240
+Four-class grading (G7) of the 472 questions whose licensed answer is Yes or UNKNOWN (the one
+unverified-source question per stream, expected "a source says so", is outside the four classes):
+licensed 233, unlicensed-true 199, unlicensed-false 38, wrong 2. The reference answers 237 of the 240
 questions the given facts do not settle, and is right in the world on 199 of them — that is the
 unbound pretraining channel, visible only because the world-true half was added (under the all-false
 V3 suite a constant "No" would have scored the same). On lessons the reference acquires 25/48
