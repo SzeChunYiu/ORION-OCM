@@ -1,0 +1,73 @@
+{
+  "scope": "PUBLIC_DEVELOPMENT_ONLY_NOT_MATCHED_COMPARISON",
+  "rows": [
+    {
+      "phase": 1,
+      "language_fields_match": true,
+      "observed_language_status": "ANSWER",
+      "observed_procedure_status": "VERIFIED",
+      "status_schema": "unconstrained string; no format failure established",
+      "program": [
+        "inc",
+        "square",
+        "dec"
+      ],
+      "value": null
+    },
+    {
+      "phase": 2,
+      "language_fields_match": true,
+      "observed_language_status": "interpreted",
+      "observed_procedure_status": "verified",
+      "status_schema": "unconstrained string; no format failure established",
+      "program": [
+        "inc",
+        "square",
+        "dec"
+      ],
+      "value": "91/9"
+    }
+  ],
+  "independent_sympy_check": {
+    "sympy_version": "1.13.3",
+    "checks": [
+      {
+        "phase": 1,
+        "polynomial_identity": true,
+        "degree": 2,
+        "new_input_value": "91/9"
+      },
+      {
+        "phase": 2,
+        "polynomial_identity": true,
+        "degree": 2,
+        "new_input_value": "91/9"
+      }
+    ],
+    "immutable_files_sha256": {
+      "tools/check_polynomial.py": "6c75f623cc78045cb650b43c064332678f48c2e5ce6b5ef86f829c3db3da2554",
+      "response.schema.json": "aad01622f33ba71b9d96a285ba417f9f6d5b4a067eaf2be1caeb3ea3c7c108f7",
+      "INSTRUCTIONS.txt": "087583abbdd0ca5c0b58d930eb8c2298b571bd31b587b23cb2a6352b007af0d2"
+    },
+    "ambient_instruction_files": []
+  },
+  "initial_strict_status_diagnostic": "WITHDRAWN: phase2 was not required by schema or prompt to emit ANSWER; semantic grader/status contract must be frozen before matched comparison",
+  "tool_calls": 11,
+  "failed_then_repaired_tool_calls": 1,
+  "successful_exact_checker_invocations": 3,
+  "requested_model": "gpt-5.5",
+  "requested_effort": "high",
+  "resolved_backend_snapshot": "NOT_EXPOSED_IN_CLI_EVENTS",
+  "totals": {
+    "wall_s": 95.63,
+    "input_tokens": 84285,
+    "cached_input_tokens": 62464,
+    "output_tokens": 2353,
+    "reasoning_output_tokens": 767
+  },
+  "notes": [
+    "reasoning_output_tokens is provider-reported separately; do not add it again to output without provider accounting definition",
+    "two distinct ephemeral CLI threads, with memory file read observed in second",
+    "no fresh protected evaluation or causal memory/no-memory ablation performed"
+  ]
+}

@@ -3,12 +3,14 @@ on:
   pull_request:
     paths:
       - 'research/ocm-n1/**'
+      - 'research/ocm-prototype/**'
       - 'src/ocm/**'
       - '.github/workflows/n1-packed-chart.yml'
   push:
     branches: [main]
     paths:
       - 'research/ocm-n1/**'
+      - 'research/ocm-prototype/**'
       - 'src/ocm/**'
       - '.github/workflows/n1-packed-chart.yml'
 permissions:
@@ -21,5 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: ./scripts/m0_install_dev.sh
-      - name: N1 parser and persistent language checks
-        run: python -m pytest research/ocm-n1 -q
+      - name: Install independent polynomial checker
+        run: python -m pip install sympy==1.14.0
+      - name: N1 parser and shared vessel lifecycle checks
+        run: python -m pytest research/ocm-n1 research/ocm-prototype -q
