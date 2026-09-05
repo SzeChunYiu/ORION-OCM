@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/ME_LIFETIME_RECEIPT_SCHEMA_V1.json",
+  "title": "Machine Epistemics Lifetime Receipt V1",
+  "type": "object",
+  "required": ["receipt_id", "arm_id", "task_id", "state", "integrity_gates"],
+  "properties": {
+    "receipt_id": {"type": "string", "minLength": 1},
+    "arm_id": {"type": "string", "minLength": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "state": {"$ref": "#/$defs/state"},
+    "acquisition": {"anyOf": [{"$ref": "#/$defs/acquisition"}, {"type": "null"}]},
+    "query": {"anyOf": [{"$ref": "#/$defs/query"}, {"type": "null"}]},
+    "revision": {"anyOf": [{"$ref": "#/$defs/revision"}, {"type": "null"}]},
+    "comparator": {"anyOf": [{"$ref": "#/$defs/comparator"}, {"type": "null"}]},
+    "protected_outcome": {"type": "object"},
+    "integrity_gates": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "status": {"enum": ["MEASURED", "CANNOT_CHECK"]},
+    "match_status": {"enum": ["MATCHED", "REFERENCE", "CANNOT_CHECK"]},
+    "nni": {"type": "integer", "minimum": 0},
+    "resource": {
+      "type": "object",
+      "required": ["wall_seconds", "cpu_seconds", "gpu_seconds", "peak_memory_bytes", "persistent_read_bytes", "persistent_write_bytes", "index_read_entries", "index_write_entries", "external_io_calls", "tool_calls", "verifier_calls", "work_units", "preprocessing_work_units", "maintenance_work_units", "static_model_parameters", "persistent_storage_bytes", "index_storage_bytes", "notes"],
+      "properties": {
+        "wall_seconds": {"type": "number", "minimum": 0}, "cpu_seconds": {"type": "number", "minimum": 0}, "gpu_seconds": {"type": "number", "minimum": 0},
+        "peak_memory_bytes": {"$ref": "#/$defs/nni"}, "persistent_read_bytes": {"$ref": "#/$defs/nni"}, "persistent_write_bytes": {"$ref": "#/$defs/nni"},
+        "index_read_entries": {"$ref": "#/$defs/nni"}, "index_write_entries": {"$ref": "#/$defs/nni"}, "external_io_calls": {"$ref": "#/$defs/nni"},
+        "tool_calls": {"$ref": "#/$defs/nni"}, "verifier_calls": {"$ref": "#/$defs/nni"}, "work_units": {"$ref": "#/$defs/nni"},
+        "preprocessing_work_units": {"$ref": "#/$defs/nni"}, "maintenance_work_units": {"$ref": "#/$defs/nni"}, "static_model_parameters": {"$ref": "#/$defs/nni"},
+        "persistent_storage_bytes": {"$ref": "#/$defs/nni"}, "index_storage_bytes": {"$ref": "#/$defs/nni"}, "notes": {"type": "array", "items": {"type": "string"}}
+      }, "additionalProperties": false
+    },
+    "information": {
+      "type": "object",
+      "required": ["words", "tokens", "examples", "demonstrations", "labels", "explicit_lessons", "interaction_turns", "grounded_observations", "source_assertions", "annotations"],
+      "properties": {
+        "words": {"$ref": "#/$defs/nni"}, "tokens": {"$ref": "#/$defs/nni"}, "examples": {"$ref": "#/$defs/nni"}, "demonstrations": {"$ref": "#/$defs/nni"},
+        "labels": {"$ref": "#/$defs/nni"}, "explicit_lessons": {"$ref": "#/$defs/nni"}, "interaction_turns": {"$ref": "#/$defs/nni"},
+        "grounded_observations": {"$ref": "#/$defs/nni"}, "source_assertions": {"$ref": "#/$defs/nni"}, "annotations": {"$ref": "#/$defs/nni"}
+      }, "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "required": ["object_counts", "auxiliary_counts", "bytes_by_class", "index_entries", "index_bytes", "object_grammar", "status", "cannot_check_reason"],
+      "properties": {
+        "object_counts": {"type": "object", "description": "Identity-bearing persistent objects that define N", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "auxiliary_counts": {"type": "object", "description": "Persistent/non-persistent cardinalities reported for accounting but excluded from N unless they gain aligned touchable identities", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "bytes_by_class": {"type": "object", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "index_entries": {"$ref": "#/$defs/nni"}, "index_bytes": {"$ref": "#/$defs/nni"}, "object_grammar": {"type": "string", "minLength": 1},
+        "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}
+      }, "additionalProperties": false
+    },
+    "touch": {
+      "type": "object",
+      "required": ["touched_ids", "touched_by_class", "index_entries_touched", "global_scan_items", "status", "cannot_check_reason"],
+      "properties": {
+        "touched_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "touched_by_class": {"type": "object", "additionalProperties": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}},
+        "index_entries_touched": {"$ref": "#/$defs/nni"}, "global_scan_items": {"$ref": "#/$defs/nni"}, "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}
+      }, "additionalProperties": false
+    },
+    "acquisition": {
+      "type": "object",
+      "required": ["task_id", "threshold_id", "threshold_met", "information", "resources", "new_object_ids", "reused_operator_ids", "reuse_witness_ids", "status", "cannot_check_reason"],
+      "properties": {
+        "task_id": {"type": "string"}, "threshold_id": {"type": "string"}, "threshold_met": {"type": "boolean"}, "information": {"$ref": "#/$defs/information"}, "resources": {"$ref": "#/$defs/resource"},
+        "new_object_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "reused_operator_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "reuse_witness_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}
+      }, "additionalProperties": false
+    },
+    "query": {
+      "type": "object",
+      "required": ["query_id", "state_before", "touches", "resources", "outcome", "status", "cannot_check_reason"],
+      "properties": {"query_id": {"type": "string"}, "state_before": {"$ref": "#/$defs/state"}, "touches": {"$ref": "#/$defs/touch"}, "resources": {"$ref": "#/$defs/resource"}, "outcome": {"type": "string"}, "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}},
+      "additionalProperties": false
+    },
+    "revision": {
+      "type": "object",
+      "required": ["event_id", "trigger_support_ids", "expected_changed_ids", "observed_changed_ids", "touched_ids", "unrelated_probe_ids", "unrelated_changed_ids", "stale_survivor_ids", "collateral_invalidated_ids", "restoration_expected_ids", "restoration_observed_ids", "resources", "status", "cannot_check_reason"],
+      "properties": {
+        "event_id": {"type": "string"}, "trigger_support_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "expected_changed_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "observed_changed_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "touched_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "unrelated_probe_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "unrelated_changed_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "stale_survivor_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "collateral_invalidated_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "restoration_expected_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "restoration_observed_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "resources": {"$ref": "#/$defs/resource"}, "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}
+      }, "additionalProperties": false
+    },
+    "comparator": {
+      "type": "object",
+      "required": ["comparator_id", "persistent_memory", "retrieval_index", "post_deployment_adaptation", "reusable_skill_library", "dependency_truth_maintenance", "exact_revocation", "same_information", "same_tools", "same_verifiers", "full_resource_accounting", "role", "notes"],
+      "properties": {
+        "comparator_id": {"type": "string"}, "persistent_memory": {"type": "boolean"}, "retrieval_index": {"type": "boolean"}, "post_deployment_adaptation": {"type": "boolean"}, "reusable_skill_library": {"type": "boolean"},
+        "dependency_truth_maintenance": {"type": "boolean"}, "exact_revocation": {"type": "boolean"}, "same_information": {"type": "boolean"}, "same_tools": {"type": "boolean"}, "same_verifiers": {"type": "boolean"}, "full_resource_accounting": {"type": "boolean"},
+        "role": {"$ref": "#/$defs/match_status"}, "notes": {"type": "array", "items": {"type": "string"}}
+      }, "additionalProperties": false
+    }
+  },
+  "x-orion-definitions": {
+    "N": "sum(state.object_counts) over identity-bearing persistent objects within one declared grammar; auxiliary_counts cannot pad N; do not compare KSO object count directly with neural parameter count",
+    "k": "union cardinality of actual identity-bearing persistent objects read/checked/traversed/executed/modified during the scoped operation; returned top-k/nonzero activation/incidence count is not k",
+    "acquisition_cost": "information vector plus resource vector until first attainment of a frozen competence threshold",
+    "query_cost": "resource delta from query start through committed/checkable outcome including index/retrieval/verifier/tool work and triggered maintenance",
+    "revision_cone": "objects whose live/usable epistemic status should change, with touched-but-alternate-supported objects reported separately",
+    "reuse_event": "pre-existing operator/method actually executed or composed for the later task with an execution/causal witness",
+    "resource_vector": "non-collapsed compute/time/memory/storage/index/IO/verification/update coordinates"
+  }
+}
