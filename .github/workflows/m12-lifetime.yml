@@ -31,5 +31,16 @@ jobs:
           assert a["deterministic"] == b["deterministic"], "deterministic block drift"
           print("lifetime receipt reproduced")
           PY
+      - name: Paired-lifetimes receipt is reproducible (deterministic block)
+        run: |
+          rm -f /tmp/m12_paired.json
+          python -m ocm.evaluation.m12_paired_eval --out /tmp/m12_paired.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m12_paired.json")); b = json.load(open("research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V1.json"))
+          assert a["deterministic"] == b["deterministic"], "paired deterministic block drift"
+          assert a["stream_manifest_sha256"] == b["stream_manifest_sha256"], "stream manifest drift"
+          print("paired-lifetimes receipt reproduced")
+          PY
       - name: Receipt chain verifies
-        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify
+        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify && python tools/m12_paired_receipt.py --verify
