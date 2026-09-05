@@ -1,0 +1,27 @@
+name: N1 minimal language learning
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/minimal_language_learning.py'
+      - 'research/ocm-n1/test_minimal_language_learning.py'
+      - '.github/workflows/n1-minimal-language-learning.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/minimal_language_learning.py'
+      - 'research/ocm-n1/test_minimal_language_learning.py'
+      - '.github/workflows/n1-minimal-language-learning.yml'
+permissions:
+  contents: read
+jobs:
+  minimal-language:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Empty-inventory SVO/SOV acquisition hostiles
+        run: |
+          python research/ocm-n1/test_minimal_language_learning.py
+          python research/ocm-n1/minimal_language_learning.py
