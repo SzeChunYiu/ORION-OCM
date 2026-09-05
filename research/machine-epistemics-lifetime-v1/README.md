@@ -4,10 +4,12 @@ Owner: ORION-OCM issue #50. Parent roadmap: #42. Corrected evaluation gate: #38.
 
 This directory turns the research thesis into executable measurement and a preregistered decision path. It intentionally does **not** close the scientific question with historical or synthetic results.
 
+The instrumentation is intentionally kept in this **prospective research lane** rather than `src/ocm`: adding it to the canonical runtime would rewrite already-sealed engineering source inventories from earlier milestones. N1–N5 should absorb the contract only through their own new receipts when those mechanisms are authorized.
+
 ## What landed
 
 - `ME_RESEARCH_THESIS_SPEC_V1.md` — D1 definitions of `N`, `k`, acquisition/query cost, revision cone, reuse and resource vector.
-- `src/ocm/evaluation/lifetime_metrics.py` — D2 reusable runtime receipt/counter objects plus KSO state adapter and comparator-parity checks.
+- `lifetime_metrics.py` — D2 reusable prospective receipt/counter objects plus KSO state adapter and comparator-parity checks.
 - `ME_LIFETIME_RECEIPT_SCHEMA_V1.json` — D2 machine-readable common receipt schema.
 - `calibration.py` + `ME_SYNTHETIC_CALIBRATION_V1.json` — D3 exact planted acquisition/scaling/revision worlds and D6 pilot A/B/C/E/F outputs; Figure D correctly returns CANNOT_CHECK rather than inventing a cost scalar.
 - `tests/test_lifetime_metrics.py` — hostile/no-alarm/CANNOT_CHECK tests for the meters, including denominator padding and hidden-global-scan attacks.
@@ -21,7 +23,7 @@ This directory turns the research thesis into executable measurement and a prere
 Run:
 
 ```bash
-PYTHONPATH=src python research/machine-epistemics-lifetime-v1/calibration.py
+python research/machine-epistemics-lifetime-v1/calibration.py
 python -m unittest discover -s tests -p 'test_lifetime_metrics.py' -v
 ```
 
@@ -44,6 +46,7 @@ The confirmatory terminal is:
 5. **`N` cannot be padded by untouchable aggregate counts.** Identity-bearing object counts define the denominator; aggregates such as current warrant-set cardinality are auxiliary until aligned identity-level touch instrumentation exists.
 6. **The current historical matched parent is not a universal #50 parent.** It deliberately omits several tested powers; the confirmatory study requires the composite P6 contract.
 7. **Historical M12 V4 cannot be recycled as confirmation.** #38 prospectively reopened the lifetime matching/persistence inference, so those outcomes are calibration/background only.
+8. **Prospective measurement must not invalidate historical receipts.** The first CI pass correctly caught canonical-source inventory drift when the meter was placed under `src/ocm`; V1 now preserves the old sealed runtime and leaves absorption to future milestone receipts.
 
 These are constructive negative findings: they sharpen the paper from "OCM has several nice mechanisms" into a test of whether their *joint governed lifelong coupling* produces a distinct regime.
 
