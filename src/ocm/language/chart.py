@@ -72,15 +72,30 @@ class ChartCap(Exception):
     """The declared item cap was exceeded: the sentence is CANNOT_CHECK under this inventory (never a silent truncation)."""
 
 
-def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8, max_items: int = 2_000_000) -> dict[str, Any]:
+GAP_CATEGORIES = ("N",)      # an out-of-lexicon token is admitted as an entity placeholder only (proper nouns, numbers, symbols)
+
+
+def gap_readings(token: str, categories: Iterable[str] = GAP_CATEGORIES) -> list[Reading]:
+    """N1 phase D: an out-of-lexicon token becomes an UNDERSPECIFIED reading with an UNKNOWN warrant
+    (⟦0, U⟧: no exhibited evidence, not refuted) — interpretation proceeds with a declared gap and the
+    resulting meaning can never be LIVE (M3 §2 underspecified nodes; batch 5 E1: never a self-grant)."""
+    from ocm.language.lexicon import Category
+    return [Reading(token, token, Category(c), None, (("gap", "yes"),), WarrantProfile.of(complete=False), ("gap",)) for c in categories]
+
+
+def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8, max_items: int = 2_000_000, gaps: bool = False) -> dict[str, Any]:
     rv = frozenset(revoked)
     cons = [c for c in constructions if c.liveness(rv) is not Liveness.DEAD]
     per_token: list[list[Reading]] = []
+    gap_tokens: list[str] = []
     for t in tokens:
         a = lexicon.analyse(t, rv)
         rs = [r for r in a.readings if r.warrant.liveness(rv) is not Liveness.DEAD]
         if not rs:
-            return {"verdict": "UNKNOWN_LEXEME", "token": t, "count": 0, "meanings": []}
+            if not gaps:
+                return {"verdict": "UNKNOWN_LEXEME", "token": t, "count": 0, "meanings": []}
+            rs = gap_readings(t)
+            gap_tokens.append(t)
         per_token.append(rs)
     n = len(tokens)
     # Earley items: (construction index, dot, start) with partial bindings kept only for the representative
@@ -195,7 +210,10 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             meanings.append({"construction_id": c.construction_id, "count": count, "meaning": c.template(resolved), "warrant": meet_all_profiles([c.warrant, *[v.warrant for v in resolved.values()]])})
         except Exception as exc:  # noqa: BLE001
             meanings.append({"construction_id": c.construction_id, "count": count, "meaning": None, "error": f"{type(exc).__name__}: {exc}"})
-    return {"verdict": "INTERPRETED" if total == 1 else f"AMBIGUOUS", "count": total, "meanings": meanings}
+    verdict = "INTERPRETED" if total == 1 else "AMBIGUOUS"
+    if gap_tokens and total == 1:
+        verdict = "INTERPRETED_WITH_GAPS"
+    return {"verdict": verdict, "count": total, "meanings": meanings, "gaps": gap_tokens}
 
 
 def mutant_first_derivation_only(result: dict[str, Any]) -> dict[str, Any]:

@@ -274,7 +274,20 @@ def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: 
     return out
 
 
-def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher", chart_max_items: int = 300_000) -> dict[str, Any]:
+def erase_gaps(g):
+    """Structure match for gap-bearing meanings: labels of underspecified/gap nodes are erased before canonicalisation."""
+    from ocm.language.meaning import MNode, MeaningGraph
+    nodes = tuple(MNode(n.node_id, n.node_type, None, tuple(f for f in n.features if f[0] != "gap"), True) if n.underspecified or ("gap", "yes") in n.features else n for n in g.nodes)
+    return MeaningGraph(nodes, g.edges, g.root)
+
+
+def erase_labels_of(g, node_ids):
+    from ocm.language.meaning import MNode, MeaningGraph
+    nodes = tuple(MNode(n.node_id, n.node_type, None, tuple(f for f in n.features if f[0] != "gap"), True) if n.node_id in node_ids else n for n in g.nodes)
+    return MeaningGraph(nodes, g.edges, g.root)
+
+
+def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher", chart_max_items: int = 300_000, gaps: bool = False) -> dict[str, Any]:
     """Parse protected token strings with the M3 matcher over the induced lexicon and the UD-derived
     constructions; grade INTERPRETED candidates against the gold tree by tree-exact canonical equality.
     Root-level phrases only count as a sentence reading when the top phrase is VP/NP covering all tokens."""
@@ -303,7 +316,7 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
         if engine == "chart":
             from ocm.language import chart as CH
             try:
-                r = CH.parse(utt.split(), ind.lexicon, constructions, max_items=chart_max_items)
+                r = CH.parse(utt.split(), ind.lexicon, constructions, max_items=chart_max_items, gaps=gaps)
             except CH.ChartCap:
                 verdicts["CHART_CAP_CANNOT_CHECK"] += 1
                 continue
@@ -316,6 +329,14 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
                 gd = canonical_any(gold)
                 if r["verdict"] == "INTERPRETED" and ms and canonical_any(ms[0]) == gd:
                     exact += 1
+                elif r["verdict"] == "INTERPRETED_WITH_GAPS" and ms:
+                    # structure match: erase the labels of the gap nodes and of the gold nodes standing for the same tokens
+                    gm = erase_gaps(ms[0])
+                    gap_forms = set(r.get("gaps", []))
+                    gold_gap_ids = {t2.idx for t2 in s.tokens if t2.form.lower() in gap_forms}
+                    gg = erase_labels_of(gold, {f"n{i}" for i in gold_gap_ids})
+                    if canonical_any(gm) == canonical_any(gg):
+                        verdicts["GAP_STRUCTURE_MATCH"] += 1
                 elif r["verdict"] == "AMBIGUOUS":
                     verdicts["AMBIGUOUS_COUNT_TOTAL"] += r["count"]
                     if any(canonical_any(m) == gd for m in ms):
@@ -347,5 +368,5 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
                 pass
         elif len(misses) < 8:
             misses.append((utt[:80], r.verdict.value + ":" + r.reason[:60]))
-    return {"engine": engine, "parsed": n, "verdicts": dict(verdicts), "exact_gold_match": f"{exact}/{n}", "wall_s": round(time.perf_counter() - t0, 1), "misses_sample": misses}
+    return {"engine": engine, "gaps": gaps, "parsed": n, "verdicts": dict(verdicts), "exact_gold_match": f"{exact}/{n}", "wall_s": round(time.perf_counter() - t0, 1), "misses_sample": misses}
 

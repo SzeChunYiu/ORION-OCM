@@ -33,3 +33,16 @@ def test_chart_agrees_with_matcher_on_the_bounded_world_and_counts_ambiguity():
     # unknown word / unknown construction
     assert CH.parse(I.tokenize("the zorb lifted the cup"), lx, cons)["verdict"] == "UNKNOWN_LEXEME"
     assert CH.parse(I.tokenize("girl cup lifted"), lx, cons)["verdict"] == "UNKNOWN_CONSTRUCTION"
+
+
+def test_gap_readings_interpret_with_declared_gaps_and_never_live():
+    from ocm.kso.warrant import Liveness
+    lx = _lexicon()
+    cons = list(C.seed_constructions())
+    r = CH.parse(I.tokenize("the zorb lifted the cup"), lx, cons, gaps=True)
+    assert r["verdict"] == "INTERPRETED_WITH_GAPS" and r["gaps"] == ["zorb"] and r["count"] == 1
+    m = r["meanings"][0]
+    assert m["warrant"].liveness(()) is Liveness.UNKNOWN                            # a gap never yields a LIVE meaning
+    gap_nodes = [n for n in m["meaning"].nodes if ("gap", "yes") in n.features]
+    assert len(gap_nodes) == 1 and gap_nodes[0].node_type == "entity"
+    assert CH.parse(I.tokenize("the zorb lifted the cup"), lx, cons)["verdict"] == "UNKNOWN_LEXEME"   # gaps are opt-in
