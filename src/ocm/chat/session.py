@@ -217,8 +217,9 @@ class ChatSession:
                 subj = " ".join(t for t in toks[1:i] if t not in ("the",)); obj = " ".join(t for t in toks[i + 1:] if t not in ("the",))
                 return triple(subj, "LOCATED_IN", obj)
             if toks[0] == "is" and any(t in ("a", "an") for t in toks[2:]):
-                i = next(k for k, t in enumerate(toks) if k >= 2 and t in ("a", "an"))
-                subj = " ".join(t for t in toks[1:i] if t != "the"); obj = " ".join(toks[i + 1:])
+                start = 2 if toks[1] in ("a", "an", "the") else 1          # "is a whale a mammal" / "is the moon a planet"
+                i = next(k for k, t in enumerate(toks) if k >= start + 1 and t in ("a", "an"))
+                subj = " ".join(t for t in toks[start:i] if t != "the"); obj = " ".join(toks[i + 1:])
                 return triple(subj, "IS_A", obj)
             if toks[0] == "does" and len(body) >= 3 and body[1] in RELATION_WORDS:
                 return triple(body[0], RELATION_WORDS[body[1]], " ".join(body[2:]))
