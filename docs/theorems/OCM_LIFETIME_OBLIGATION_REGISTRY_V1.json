@@ -76,6 +76,17 @@
       "mutant": "same-host re-run is not independent (recorded separately as determinism, not replication)",
       "parent": "reproducibility receipts",
       "limitation": "status set by the replication receipt"
+    },
+    {
+      "id": "KS-T115",
+      "gap": "batch 6 F2 / M12 V3",
+      "statement": "Lifetime-level inference: eight paired lifetimes on per-lifetime protected streams (seeded substitution inside the bounded world, leak-checked, manifest-hash-bound before the run), scored per lifetime and tested by the exact sign test over lifetime differences; identity checked by the ledger chain at every phase boundary.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "M12_PAIRED_LIFETIMES_EVAL_V1: 10 families reject in OCM's favour at p = 0.0078 (8/8), 6 families ties; replication MATCH on a second host",
+      "checker": "src/ocm/evaluation/m12_paired_eval.py; tests/m12/test_paired.py",
+      "mutant": "stream leak check (a nonce word in a pattern before its lesson); pooling orderings (S32)",
+      "parent": "sign test; matched-pairs designs",
+      "limitation": "n = 8 lifetimes: a family rejects only when OCM wins all eight; streams are substitutions of one bounded world"
     }
   ]
 }

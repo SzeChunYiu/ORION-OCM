@@ -55,12 +55,43 @@ def phase_A(arm) -> dict[str, Any]:
     return {"conversations": conv, "factual_in_scope": fin, "honest_unknown": unk, "post_deployment": pd, "negative_transfer": neg, "always_attempts": always_attempts}
 
 
+def phase_A_stream(arm, stream: dict[str, Any]) -> dict[str, Any]:
+    """Phase A on a per-lifetime protected stream (V3): the same families as `phase_A`, read from the
+    stream instead of the frozen V2 files; grading rule unchanged (M7 patterns)."""
+    conv: list[bool] = []
+    for c in stream["conversations"]:
+        for speaker, utt, pat in c["turns"]:
+            reply = arm.say(utt) if speaker == "user" else (arm.s.say(utt, speaker) if isinstance(arm, PersistentOCM) else arm.say(utt))
+            conv.append(M7._match(reply, pat))
+    fin, unk = [], []
+    for q, pat in stream["factual"]:
+        r = arm.say(q)
+        (unk if pat == "I do not know" else fin).append(M7._match(r, pat))
+    steps = {"baseline_unknown": [], "acquired": [], "compositional_reuse": [], "retained_after_restart": [], "revoked_stops": [], "unrelated_intact": [], "relearned": []}
+    for lesson, use, ask, passive in stream["lessons"]:
+        steps["baseline_unknown"].append("cannot interpret" in arm.say(use) or "UNKNOWN" in arm.say(use))
+        arm.say(lesson)
+        arm.say(use)
+        steps["acquired"].append("said so" in arm.say(ask))
+        steps["compositional_reuse"].append("Noted" in arm.say(passive))
+        arm.say("__restart__")
+        steps["retained_after_restart"].append("said so" in arm.say(ask))
+        arm.say("__revoke_last_lesson__")
+        steps["revoked_stops"].append("cannot interpret" in arm.say(use))
+        steps["unrelated_intact"].append(arm.say("is paris in france").startswith("Yes."))
+        arm.say(lesson)
+        steps["relearned"].append("said so" in arm.say(ask) or "Noted" in arm.say(use))
+    arm.say("the robot opened the door")
+    neg = [M7._match(arm.say(u), pat) for u, pat in stream["negative_transfer"]]
+    return {"conversations": conv, "factual_in_scope": fin, "honest_unknown": unk, "post_deployment": steps, "negative_transfer": neg, "always_attempts": sum(1 for ok in unk if not ok)}
+
+
 # ------------------------------------------------------------------ B / C work domains
-def phase_work(arm, domain: str, version: int = 1) -> dict[str, Any]:
+def phase_work(arm, domain: str, version: int = 1, *, task_ids=None, withheld_ids=None) -> dict[str, Any]:
     mk_ops, mk_task = E.DOMAINS[domain]
     ops = mk_ops(version)
-    tasks = [mk_task(i, version=version) for i in PROTECTED_TASKS]
-    withheld = [mk_task(i, version=version) for i in PROTECTED_WITHHELD]
+    tasks = [mk_task(i, version=version) for i in (task_ids if task_ids is not None else PROTECTED_TASKS)]
+    withheld = [mk_task(i, version=version) for i in (withheld_ids if withheld_ids is not None else PROTECTED_WITHHELD)]
     acq = arm.acquire(domain, ops, tasks, withheld)
     results = [arm.solve(domain, ops, t) for t in tasks]
     succ = [bool(r and r.success) for r in results]
@@ -69,7 +100,7 @@ def phase_work(arm, domain: str, version: int = 1) -> dict[str, Any]:
 
 
 # ------------------------------------------------------------------ D data / science
-def phase_D(arm) -> dict[str, Any]:
+def phase_D(arm, *, dataset_ids=None) -> dict[str, Any]:
     is_ocm = isinstance(arm, PersistentOCM)
     is_floor = isinstance(arm, TemplateFloor)
     if is_floor:
@@ -96,7 +127,7 @@ def phase_D(arm) -> dict[str, Any]:
         selection.append(r["live"] == [f"h{truth}"] and r["risk"] < 3.0)
     # pre-registered analysis (same plan for both arms) on fresh datasets
     analysis = []
-    for i in SCIENCE_DATASETS:
+    for i in (dataset_ids if dataset_ids is not None else SCIENCE_DATASETS):
         ds = AN.make_dataset(i, effect=0.0 if i % 2 == 0 else 2.0, seed="OCM-M12-DATA")
         rep = AN.run_lifecycle(ds, AN.AnalysisPlan("mean difference treatment−control", "perm-exact-v1", 0.05))
         analysis.append(rep.significant == (ds.oracle_effect != 0.0))

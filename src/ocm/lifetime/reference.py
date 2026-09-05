@@ -169,3 +169,30 @@ def phase_A_reference(arm: OllamaReferenceArm) -> dict[str, Any]:
     neg = [classify(arm.say(u)) in _expect(pat) for u, pat in M7.NEGATIVE_TRANSFER]
     always = sum(1 for ok in unk if not ok)
     return {"factual_in_scope": fin, "honest_unknown": unk, "post_deployment": steps, "negative_transfer": neg, "conversations": "NOT_MEASURED (graded by OCM surface patterns)", "always_attempts": always, "log": log[:12]}
+
+
+def phase_A_reference_stream(arm: OllamaReferenceArm, stream: dict[str, Any]) -> dict[str, Any]:
+    """The reference arm on a V3 per-lifetime stream (same families as `phase_A_reference`)."""
+    fin, unk = [], []
+    for q, pat in stream["factual"]:
+        r = arm.say(q)
+        (unk if pat == "I do not know" else fin).append(classify(r) in _expect(pat))
+    steps = {"baseline_unknown": [], "acquired": [], "compositional_reuse": [], "retained_after_restart": [], "revoked_stops": [], "unrelated_intact": [], "relearned": []}
+    for lesson, use, ask, passive in stream["lessons"]:
+        name = lesson[len("teach:"):].split("=")[0].strip()
+        steps["baseline_unknown"].append(classify(arm.say(use)) in {"uninterpretable", "unknown", "clarify"})
+        arm.say(lesson)
+        arm.say(use)
+        steps["acquired"].append(classify(arm.say(ask)) == "yes")
+        steps["compositional_reuse"].append(classify(arm.say(passive)) in {"yes", "other"})
+        arm.say("__restart__")
+        steps["retained_after_restart"].append(classify(arm.say(ask)) == "yes")
+        arm.say(f"revoke {name}")
+        steps["revoked_stops"].append(classify(arm.say(use)) in {"uninterpretable", "unknown"})
+        steps["unrelated_intact"].append(classify(arm.say("is paris in france")) == "yes")
+        arm.say(lesson)
+        steps["relearned"].append(classify(arm.say(ask)) == "yes" or classify(arm.say(use)) in {"yes", "other"})
+    arm.say("the robot opened the door")
+    neg = [classify(arm.say(u)) in _expect(pat) for u, pat in stream["negative_transfer"]]
+    return {"factual_in_scope": fin, "honest_unknown": unk, "post_deployment": steps, "negative_transfer": neg, "conversations": "NOT_MEASURED", "always_attempts": sum(1 for ok in unk if not ok)}
+
