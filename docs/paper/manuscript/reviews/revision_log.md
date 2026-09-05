@@ -50,8 +50,12 @@ Re-review packets were sent to the original concern owners with the changed surf
 | R1-2 | reviewer 1 | closed as narrowing; the protected re-evaluation stays open as author evidence |
 | R1-3, R1-4, R1-5, R1-6 | reviewer 1 | closed |
 | R2-2, R2-4 | reviewer 2 | closed |
-| R2-1 | reviewer 2 | open; the added boundary sentence is accepted as honest, not as positioning |
+| R2-1 | reviewer 2 | closed 2026-09-06 (round 2): the seven-family positioning with verified references is Section 1.1 of main.md; assimilation-first, receipt-field per difference, no novelty or superiority sentence |
 | R3-2, R3-3, R3-5 | reviewer 3 | closed |
 | R3-6 | reviewer 3 | partially closed; archive pending |
 
 Post-revision consistency checks: claim verification re-run (246 rows OK, exit 0); word count re-run (body prose 8,726; 9,417 with headings, captions and the header note); no new numbers without a claim row; reference numbering contiguous 1–44 with every entry cited.
+
+## Pipeline round 2 (2026-09-06, in progress)
+
+Opened with R2-1 closed. Remaining round-2 items wait for their receipts to reach main: the V4-R re-evaluation under the corrected adoption gate (decision label CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION with the historical rule kept as diagnostic), the matched transfer cells for E, the batch-8 intake (commitment-gate epoch refusal) and the N1 open-vocabulary results. Claim verification after the merge: 246 rows OK, exit 0.
