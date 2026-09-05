@@ -1,0 +1,27 @@
+name: N1 minimal morphology recovery
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/minimal_morphology_recovery.py'
+      - 'research/ocm-n1/test_minimal_morphology_recovery.py'
+      - '.github/workflows/n1-minimal-morphology.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/minimal_morphology_recovery.py'
+      - 'research/ocm-n1/test_minimal_morphology_recovery.py'
+      - '.github/workflows/n1-minimal-morphology.yml'
+permissions:
+  contents: read
+jobs:
+  minimal-morphology:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Zero-rule morphology acquisition and revocation hostiles
+        run: |
+          python research/ocm-n1/test_minimal_morphology_recovery.py
+          python research/ocm-n1/minimal_morphology_recovery.py
