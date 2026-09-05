@@ -73,12 +73,14 @@ class UDTree:
     head_upos: str
     head_form: str
     children: tuple["UDTree", ...]
+    surface_order: tuple[str, ...] = ()
 
     def structural_tuple(self, *, include_form: bool = False) -> tuple[Any, ...]:
         head = (self.head_upos, self.head_form.lower()) if include_form else self.head_upos
         return (
             self.symbol,
             head,
+            self.surface_order,
             tuple(child.structural_tuple(include_form=include_form) for child in self.children),
         )
 
@@ -265,7 +267,6 @@ def parse_forms(
             return UDParseResult("UNKNOWN_LEXEME", tokens, (), 0, 0, 0, form)
         readings.append(tuple(sorted({upos for _, upos, _ in rs})))
 
-    # Index rules by lhs only for recognition.
     rules = grammar.rules
     table: dict[tuple[int, int], dict[tuple[Any, ...], PackedUDNode]] = {}
     by_start_symbol: dict[tuple[int, str], list[PackedUDNode]] = defaultdict(list)
@@ -286,7 +287,6 @@ def parse_forms(
             target = start + length
             cell: dict[tuple[Any, ...], PackedUDNode] = {}
             for rule in rules:
-                # state = position, bound child trees, head index/form, multiplicity
                 states: list[tuple[int, tuple[UDTree, ...], int | None, str | None, int]] = [(start, (), None, None, 1)]
                 for part in rule.pattern:
                     nxt: dict[tuple[Any, ...], tuple[int, tuple[UDTree, ...], int | None, str | None, int]] = {}
@@ -322,7 +322,13 @@ def parse_forms(
                 for pos, children, head_index, head_form, multiplicity in states:
                     if pos != target or head_index is None or head_form is None:
                         continue
-                    tree = UDTree(rule.lhs, next(p.symbol for p in rule.pattern if p.kind == "HEAD"), head_form, children)
+                    tree = UDTree(
+                        rule.lhs,
+                        next(p.symbol for p in rule.pattern if p.kind == "HEAD"),
+                        head_form,
+                        children,
+                        _order_key(rule.pattern),
+                    )
                     add_node(cell, PackedUDNode(tree, (start, target), head_index, rule.rule_id, multiplicity))
             if cell:
                 table[(start, target)] = cell
@@ -369,7 +375,13 @@ def gold_tree(sentence: UDSentence) -> UDTree:
             children.get(token.token_id, ()),
             key=lambda child: min(_descendants(child.token_id, children)),
         )
-        return UDTree(phrase_symbol(token), token.upos, token.lower_form, tuple(build(c) for c in cs))
+        return UDTree(
+            phrase_symbol(token),
+            token.upos,
+            token.lower_form,
+            tuple(build(c) for c in cs),
+            _order_key(_pattern(sentence, token)),
+        )
 
     return build(sentence.roots[0])
 
