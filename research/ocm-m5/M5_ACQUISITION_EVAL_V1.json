@@ -1,0 +1,224 @@
+{
+  "authority": "synthetic microworld with a given vocabulary; regimes measured separately with disclosed information channels; no comparator, no BabyLM run (CANNOT_CHECK_BABYLM_DATA), no novelty claim",
+  "baseline_frozen": {
+    "exact": 22,
+    "n": 134
+  },
+  "frozen_system": {
+    "constructions_removed": [
+      "en:transitive"
+    ],
+    "lexemes_removed": [
+      "dog",
+      "book",
+      "find"
+    ]
+  },
+  "negative_transfer": {
+    "forced_english_order_gives_correct_roles": false,
+    "sov_under_english_inventory": "UNKNOWN_CONSTRUCTION"
+  },
+  "probes": {
+    "held_out_lexeme_subset": 97,
+    "protected": 134
+  },
+  "receipt": "M5_ACQUISITION_EVAL_V1",
+  "regimes": {
+    "E0_explicit_lessons": {
+      "held_out": {
+        "exact": 97,
+        "n": 97
+      },
+      "information": {
+        "annotations": 0,
+        "demos": 1,
+        "lessons": 6,
+        "words": 0
+      },
+      "protected": {
+        "exact": 134,
+        "n": 134
+      }
+    },
+    "E1_aligned_demonstrations": {
+      "construction_curve": [
+        {
+          "demos": 1,
+          "status": "PASS"
+        }
+      ],
+      "held_out": {
+        "exact": 78,
+        "n": 97
+      },
+      "information": {
+        "annotations": 0,
+        "demos": 7,
+        "lessons": 0,
+        "words": 3
+      },
+      "protected": {
+        "exact": 115,
+        "n": 134
+      }
+    },
+    "E2_raw_corpus": {
+      "forms": {
+        "consultable": 0,
+        "form_hypotheses": 88,
+        "kinds": [
+          "collocation",
+          "suffix",
+          "token"
+        ]
+      },
+      "held_out": {
+        "exact": 0,
+        "n": 97
+      },
+      "information": {
+        "annotations": 0,
+        "demos": 0,
+        "lessons": 0,
+        "words": 661
+      },
+      "protected": {
+        "exact": 22,
+        "n": 134
+      },
+      "semantic_gain_must_be_zero": 0
+    },
+    "E3_grounded_interaction": {
+      "held_out": {
+        "exact": 0,
+        "n": 97
+      },
+      "information": {
+        "annotations": 0,
+        "demos": 0,
+        "interactions": 1,
+        "lessons": 0,
+        "words": 0
+      },
+      "protected": {
+        "exact": 37,
+        "n": 134
+      }
+    },
+    "E4_curricula": {
+      "demos-only": {
+        "constructions_active": 7,
+        "curve": [
+          {
+            "exact": 22,
+            "n": 134,
+            "step": "frozen"
+          },
+          {
+            "exact": 115,
+            "n": 134,
+            "step": "E1"
+          }
+        ],
+        "final": 115
+      },
+      "interaction-first": {
+        "constructions_active": 9,
+        "curve": [
+          {
+            "exact": 22,
+            "n": 134,
+            "step": "frozen"
+          },
+          {
+            "exact": 37,
+            "n": 134,
+            "step": "E3"
+          },
+          {
+            "exact": 115,
+            "n": 134,
+            "step": "E1"
+          },
+          {
+            "exact": 134,
+            "n": 134,
+            "step": "E0"
+          }
+        ],
+        "final": 134
+      },
+      "lessons\u2192interaction\u2192raw": {
+        "constructions_active": 8,
+        "curve": [
+          {
+            "exact": 22,
+            "n": 134,
+            "step": "frozen"
+          },
+          {
+            "exact": 134,
+            "n": 134,
+            "step": "E0"
+          },
+          {
+            "exact": 134,
+            "n": 134,
+            "step": "E3"
+          },
+          {
+            "exact": 134,
+            "n": 134,
+            "step": "E2"
+          }
+        ],
+        "final": 134
+      },
+      "raw\u2192demos\u2192interaction": {
+        "constructions_active": 8,
+        "curve": [
+          {
+            "exact": 22,
+            "n": 134,
+            "step": "frozen"
+          },
+          {
+            "exact": 22,
+            "n": 134,
+            "step": "E2"
+          },
+          {
+            "exact": 115,
+            "n": 134,
+            "step": "E1"
+          },
+          {
+            "exact": 115,
+            "n": 134,
+            "step": "E3"
+          }
+        ],
+        "final": 115
+      }
+    }
+  },
+  "retention_after_E1": {
+    "denominators": {
+      "new": 112,
+      "old": 22,
+      "unrelated": 22
+    },
+    "new_gain": 93,
+    "old_loss": 0,
+    "unrelated_change": 0
+  },
+  "teacher_examples": {
+    "n": 3,
+    "overlap_with_protected": 0,
+    "utterances": [
+      "the robot kicked the dog",
+      "the girl lifted the book",
+      "the robot found the ball"
+    ]
+  }
+}
