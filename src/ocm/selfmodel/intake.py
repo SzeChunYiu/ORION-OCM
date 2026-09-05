@@ -57,6 +57,8 @@ INTAKES: tuple[Intake, ...] = (
     Intake("G7 licence vs truth grading / G8 paired-lifetime sizes and family bound", "batch 7 (PR #349)", ("KS-T117",), "V3 rule had no primary family, unbounded family count and a two-sided unanimous test (S37); out-of-scope suite was all world-false", "M12 V4 (PR #34); ledger S37–S38", IntakeStatus.DEFECT_FOUND),
     Intake("G1 registered-class Jump levels / G5 KS-T12 and KS-T14 clauses", "batch 7 (PR #349)", ("KS-T111", "KS-T12", "KS-T116"), "J4/J5 proposals accepted without a registered class; unconditional improvement claims", "selfmodel/jump_evidence.py (registered_class); registry clauses", IntakeStatus.DEFECT_FOUND),
     Intake("G2 MEG-07 structural clause / G3 CF prefix commitment / G4 MDL decision / G6 (+,×) measure / G9 MEG-34 bound", "batch 7 (PR #349)", (), None, None, IntakeStatus.OPEN),
+    Intake("H1 FDX-01 closure interface / H3 FDX-03 information conservation / H4 FDX-05 reversibility classes", "batch 8 (PR #359)", ("KS-T118", "KS-T120", "KS-T121"), "commitment gate read epoch-bounded scopes as current on context alone; information receipt lacked the channel join; rollback exactness class was implicit", "tests/m11/test_batch8_obligations.py; lifetime.machine.info; AdoptionLedger.last_rollback", IntakeStatus.DEFECT_FOUND),
+    Intake("H2 FDX-02 controlled viability (PARENT_SUFFICIENT)", "batch 8 (PR #359)", ("KS-T119",), "decision/gate lack typed risk, resource and envelope coordinates", None, IntakeStatus.OPEN),
 )
 
 EXPORTS: tuple[Export, ...] = (

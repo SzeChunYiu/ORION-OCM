@@ -246,6 +246,7 @@ class AdoptionLedger:
     adopted: dict[str, RollbackArtifact] = field(default_factory=dict)
     meter: Meter = field(default_factory=Meter)
     window_budget: int = 3
+    last_rollback: dict[str, Any] | None = None
 
     def __post_init__(self):
         charges = []
