@@ -1,0 +1,36 @@
+name: M10 scientific agent
+on:
+  pull_request:
+  push:
+    branches: [main, m10/scientific-agent]
+permissions:
+  contents: read
+concurrency:
+  group: m10-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  science-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M10 science suites
+        run: python -m pytest -q tests/m10
+      - name: M2–M9 still green
+        run: python -m pytest -q tests/m9 tests/m8 tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
+      - name: Science study receipt is reproducible
+        run: |
+          rm -f /tmp/m10_eval.json
+          python -m ocm.evaluation.m10_science_eval --out /tmp/m10_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m10_eval.json")); b = json.load(open("research/ocm-m10/M10_SCIENCE_EVAL_V1.json"))
+          for k in ("causal", "experiment_selection", "analysis", "proof", "retraction", "cross_field_transfer", "communication"):
+              assert a[k] == b[k], (k,)
+          print("science receipt reproduced")
+          PY
+      - name: Receipt chain verifies
+        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10; do python tools/${t}_receipt.py --verify || exit 1; done
