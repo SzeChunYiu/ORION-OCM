@@ -189,3 +189,160 @@ def evaluate(sentences: Iterable[UD.Sentence], g: Grammar, ind: UD.Induction, *,
 def mutant_memorised_as_learned(g: Grammar) -> int:
     """Planted (M9 trajectory-memory hostile): report every memorised rule as a learned construction."""
     return len(g.memorised)
+
+
+# ------------------------------------------------------------------ N1 phase C: rules → M3 constructions → real parsing
+PHRASE_OF_UPOS = {"NOUN": "NP", "PROPN": "NP", "PRON": "NP", "NUM": "NP", "VERB": "VP", "AUX": "VP", "ADJ": "AP", "ADV": "ADVP", "ADP": "PP", "DET": "DP", "SCONJ": "SP", "CCONJ": "CP", "PART": "PARTP", "INTJ": "IP", "SYM": "NP", "X": "NP"}
+
+
+def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: bool = False, evidence_prefix: str = "ud:rule") -> list:
+    """Every phrase rule becomes an M3 Construction whose pattern is the rule's surface items: the head
+    is a lexical slot of the head category; each dependent is a recursive phrase slot of its own
+    head category (a leaf dependent is a phrase produced by its own leaf construction).  The template
+    builds the head node, TENSE / NEGATES annotations, feature-bearing dependents (det 'the', case)
+    as features, and one registered relation edge per contentful dependent — the same shape as
+    `gold_tree`, so parsing a sentence and comparing to its gold tree is an exact test."""
+    from ocm.language.constructions import Construction, Phrase, Slot
+    from ocm.kso.warrant import WarrantProfile as WP
+    lr = g.learned() if learned_only else None
+    out = []
+    # leaf constructions: one per category, produce a phrase whose meaning is the bare head node
+    for upos, cat in UD.UPOS_TO_CATEGORY.items():
+        def leaf_t(b, upos=upos):
+            r = b["h"]
+            return MeaningGraph((MNode("x", NODE_TYPE.get(upos, "entity"), r.sense.concept if r.sense else r.lemma, tuple(sorted(dict(r.features).items()))),), (), root="x")
+        out.append(Construction(f"ud:leaf:{upos}", f"leaf:{upos}", (Slot("h", cat),), leaf_t, WP.of({f"{evidence_prefix}:leaf:{upos}"}), produces=PHRASE_OF_UPOS.get(upos, "NP"), head_slot="h", head_node="x"))
+    for rule, count in g.memorised.items():
+        if count < min_count or (learned_only and lr.get(rule.family) != "LEARNED"):
+            continue
+        head_cat = UD.UPOS_TO_CATEGORY.get(rule.head_upos)
+        if head_cat is None:
+            continue
+        slots, roles = [], []
+        ok = True
+        for i, item in enumerate(rule.pattern):
+            if item == "HEAD":
+                slots.append(Slot("h", head_cat))
+                continue
+            rel, upos = item.split(":", 1) if ":" in item else (item, "X")
+            if upos not in UD.UPOS_TO_CATEGORY and upos != "PUNCT":
+                ok = False
+                break
+            if upos == "PUNCT":
+                continue                                          # punctuation is not a lexical unit for the parser
+            name = f"d{i}"
+            slots.append(Slot(name, UD.UPOS_TO_CATEGORY[upos], phrase=PHRASE_OF_UPOS.get(upos, "NP")))
+            roles.append((name, rel, upos))
+        if not ok:
+            continue
+
+        def tmpl(b, roles=roles, head_upos=rule.head_upos):
+            r = b["h"]
+            feats: dict[str, str] = dict(r.features)
+            nodes: list[MNode] = []
+            edges: list[MEdge] = []
+            mapped_children = []
+            for name, rel, upos in roles:
+                ph = b[name]
+                if rel == "det" and getattr(ph, "meaning", None) is not None and ph.meaning.node(ph.head_node).label == "the":
+                    feats["definite"] = "yes"
+                    continue
+                if rel == "case":
+                    feats["case"] = ph.meaning.node(ph.head_node).label or ""
+                    continue
+                if rel in FEATURE_DEPS:
+                    continue
+                if rel == "advmod" and (ph.meaning.node(ph.head_node).label in ("not", "n't", "never")):
+                    edges.append(MEdge("NEGATES", ("x",), ("x",)))
+                    continue
+                mapping = {n.node_id: f"{name}.{n.node_id}" for n in ph.meaning.nodes}
+                sub = ph.meaning.relabel(mapping)
+                nodes.extend(sub.nodes)
+                edges.extend(sub.edges)
+                mapped_children.append((REL_MAP.get(rel, REL_MAP.get(rel.split(":")[0], "MODIFIES")), mapping[ph.head_node]))
+            tense = feats.pop("tense", None)
+            feats.pop("participle", None)
+            head = MNode("x", NODE_TYPE.get(head_upos, "entity"), r.sense.concept if r.sense else r.lemma, tuple(sorted(feats.items())))
+            all_edges = ([MEdge("TENSE", ("x",), ("x",), tense)] if tense and head_upos in ("VERB", "AUX") else []) + edges + [MEdge(rel, ("x",), (cid,)) for rel, cid in mapped_children]
+            return MeaningGraph((head, *nodes), tuple(all_edges), root="x")
+
+        cid = f"ud:{rule.head_upos}:{'_'.join(p.replace(':', '-') for p in rule.pattern)}"
+        out.append(Construction(cid, f"rule:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"}), produces=PHRASE_OF_UPOS.get(rule.head_upos, "NP"), head_slot="h", head_node="x"))
+        if rule.head_upos in ("VERB", "AUX"):
+            # the same rule at clause level (produces=None): a sentence reading when it spans the whole utterance
+            out.append(Construction(cid + ":clause", f"clause:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"})))
+    return out
+
+
+def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher") -> dict[str, Any]:
+    """Parse protected token strings with the M3 matcher over the induced lexicon and the UD-derived
+    constructions; grade INTERPRETED candidates against the gold tree by tree-exact canonical equality.
+    Root-level phrases only count as a sentence reading when the top phrase is VP/NP covering all tokens."""
+    import time
+    from collections import Counter
+    from ocm.language import interpret as I
+    verdicts: Counter = Counter()
+    n = exact = 0
+    misses = []
+    t0 = time.perf_counter()
+    for s in sentences:
+        if limit is not None and n >= limit:
+            break
+        if time.perf_counter() - t0 > time_budget_s:
+            verdicts["TIME_BUDGET_CANNOT_CHECK"] += 1
+            continue
+        gold = gold_tree(s)
+        if gold is None:
+            continue
+        lexical = [t for t in s.tokens if t.upos != "PUNCT"]
+        if len(lexical) > max_tokens:
+            verdicts["LENGTH_CANNOT_CHECK"] += 1          # the bottom-up span table is exponential in attachment ambiguity; bounded by declaration
+            continue
+        n += 1
+        utt = " ".join(t.form.lower() for t in lexical)
+        if engine == "chart":
+            from ocm.language import chart as CH
+            try:
+                r = CH.parse(utt.split(), ind.lexicon, constructions)
+            except Exception as exc:  # noqa: BLE001
+                verdicts[f"ERROR:{type(exc).__name__}"] += 1
+                continue
+            verdicts[r["verdict"]] += 1
+            ms = [m["meaning"] for m in r["meanings"] if m.get("meaning") is not None]
+            try:
+                gd = canonical_any(gold)
+                if r["verdict"] == "INTERPRETED" and ms and canonical_any(ms[0]) == gd:
+                    exact += 1
+                elif r["verdict"] == "AMBIGUOUS":
+                    verdicts["AMBIGUOUS_COUNT_TOTAL"] += r["count"]
+                    if any(canonical_any(m) == gd for m in ms):
+                        verdicts["AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED"] += 1
+                elif len(misses) < 8:
+                    misses.append((utt[:80], r["verdict"]))
+            except Exception:  # noqa: BLE001
+                verdicts["CANONICAL_CANNOT_CHECK"] += 1
+            continue
+        try:
+            r = I.interpret(utt, ind.lexicon, constructions)
+        except Exception as exc:  # noqa: BLE001
+            verdicts[f"ERROR:{type(exc).__name__}"] += 1
+            continue
+        verdicts[r.verdict.value] += 1
+        if r.verdict is I.Verdict.INTERPRETED:
+            try:
+                if canonical_any(r.candidates[0].meaning) == canonical_any(gold):
+                    exact += 1
+                elif len(misses) < 8:
+                    misses.append((utt[:80], "MEANING_MISMATCH"))
+            except Exception:  # noqa: BLE001
+                verdicts["CANONICAL_CANNOT_CHECK"] += 1
+        elif r.verdict is I.Verdict.AMBIGUOUS:
+            try:
+                if any(canonical_any(c.meaning) == canonical_any(gold) for c in r.candidates):
+                    verdicts["AMBIGUOUS_WITH_GOLD_AMONG_CANDIDATES"] += 1
+            except Exception:  # noqa: BLE001
+                pass
+        elif len(misses) < 8:
+            misses.append((utt[:80], r.verdict.value + ":" + r.reason[:60]))
+    return {"engine": engine, "parsed": n, "verdicts": dict(verdicts), "exact_gold_match": f"{exact}/{n}", "wall_s": round(time.perf_counter() - t0, 1), "misses_sample": misses}
+
