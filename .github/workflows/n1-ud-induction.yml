@@ -4,14 +4,18 @@ on:
     paths:
       - 'research/ocm-n1/ud_induction.py'
       - 'research/ocm-n1/ud_grammar.py'
+      - 'research/ocm-n1/n1_ud_dev_eval.py'
       - 'research/ocm-n1/test_ud_induction_grammar.py'
+      - 'research/ocm-n1/test_ud_dev_eval.py'
       - '.github/workflows/n1-ud-induction.yml'
   push:
     branches: [main]
     paths:
       - 'research/ocm-n1/ud_induction.py'
       - 'research/ocm-n1/ud_grammar.py'
+      - 'research/ocm-n1/n1_ud_dev_eval.py'
       - 'research/ocm-n1/test_ud_induction_grammar.py'
+      - 'research/ocm-n1/test_ud_dev_eval.py'
       - '.github/workflows/n1-ud-induction.yml'
 permissions:
   contents: read
@@ -24,4 +28,6 @@ jobs:
         with: {python-version: '3.11'}
       - run: ./scripts/m0_install_dev.sh
       - name: Synthetic custody, induction, projectivity and parse tests
-        run: python research/ocm-n1/test_ud_induction_grammar.py
+        run: |
+          python research/ocm-n1/test_ud_induction_grammar.py
+          python research/ocm-n1/test_ud_dev_eval.py
