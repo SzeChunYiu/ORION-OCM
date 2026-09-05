@@ -1,0 +1,55 @@
+name: Verified knowledge kernel
+on:
+  push:
+    branches: [perf/verified-knowledge-kernel]
+  pull_request:
+    paths:
+      - 'src/ocm/kso/**'
+      - 'src/ocm/organisation/**'
+      - 'tests/optimization/**'
+      - 'tools/knowledge_kernel_benchmark.py'
+      - '.github/workflows/knowledge-kernel.yml'
+permissions:
+  contents: read
+concurrency:
+  group: knowledge-kernel-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Export tracked history only, with exact head
+        run: |
+          mkdir -p /tmp/ocm-source
+          git bundle create /tmp/ocm-source/source.bundle HEAD
+          git rev-parse HEAD > /tmp/ocm-source/HEAD.txt
+          git rev-parse HEAD^{tree} > /tmp/ocm-source/TREE.txt
+          sha256sum /tmp/ocm-source/source.bundle > /tmp/ocm-source/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocm-source-${{ github.event.pull_request.head.sha || github.sha }}
+          path: /tmp/ocm-source/
+          retention-days: 1
+  full-regression:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: ./scripts/m0_install_dev.sh
+      - name: All repository tests without exclusions
+        run: python -m pytest -q tests
