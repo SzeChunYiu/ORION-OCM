@@ -1,0 +1,36 @@
+name: M4 dialogue cognition
+on:
+  pull_request:
+  push:
+    branches: [main, m4/dialogue-cognition]
+permissions:
+  contents: read
+concurrency:
+  group: m4-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  dialogue-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M4 workspace, reference, clarification, gate, runtime and microworld suites
+        run: python -m pytest -q tests/m4
+      - name: M3 still green under M4
+        run: python -m pytest -q tests/m3 && python tools/m3_receipt.py --verify
+      - name: Dialogue evaluation receipt is reproducible
+        run: |
+          rm -f /tmp/m4_eval.json
+          python -m ocm.evaluation.m4_dialogue_eval --out /tmp/m4_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m4_eval.json")); b = json.load(open("research/ocm-m4/M4_DIALOGUE_EVAL_V1.json"))
+          for k in ("custody", "protected_dialogues", "acts", "state_reference", "correction", "clarification", "epistemic_integrity", "persistence"):
+              assert a[k] == b[k], (k, a[k], b[k])
+          print("dialogue receipt reproduced:", a["acts"]["expected_act_and_committed"])
+          PY
+      - name: M4 receipt drift
+        run: python tools/m4_receipt.py --verify
