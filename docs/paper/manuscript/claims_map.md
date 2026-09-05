@@ -7,7 +7,7 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | # | Sentence (key phrase) | Source file | Field |
 |---|---|---|---|
 | 1 | "Draft V1 (2026-09-05)" | — | draft date, not a claim |
-| 2 | "Numbers that depend on the V4 … pending" | research/ocm-m12/ (no V4 file present); docs/provenance/ (no M12_PAIRED_RECEIPT_V4.json) | absence checked by listing on 2026-09-05 |
+| 2 | "V4 paired-lifetime files were read from the repository's main branch (merge of pull request #34)" | ORION-OCM origin/main at commit 8e3df44 (2026-09-05): docs/provenance/M12_PAIRED_RECEIPT_V4.json, M12_PAIRED_REPLICATION_RECEIPT_V4.json, research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V4.json, M12_V4_REFERENCE_ARM_V1.json, M12_LIFETIME_PREREGISTRATION_V4.md, docs/M12_V4_PAIRED_LIFETIMES_REPORT.md | read with `git show origin/main:<path>`; the paper worktree branch was not rebased |
 
 ## Abstract
 
@@ -16,12 +16,13 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 3 | "roadmap of thirteen milestones" | docs/OCM_PROGRAMME_TERMINALS_V1.md | table rows M0–M12 (13 rows) |
 | 4 | "134 of 134 protected utterances interpreted exactly" | docs/provenance/M3_RECEIPT_V1.json | deterministic_results.microworld_eval.protected.exact_meaning = 134, n = 134 |
 | 5 | "42 of 42 scripted steps, 0 integrity incidents" | docs/provenance/M6_RECEIPT_V1.json | scenario_eval.steps_total = 42, steps_expected = 42; incidents.* = 0 |
-| 6 | "eight paired lifetimes … ten families (each 8 of 8 lifetimes, exact sign test p = 0.0078) and ties on six families" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.*.positive = 8, p_two_sided = 0.00781, verdict OCM_RESIDUAL (10 families); verdict TIES_ONLY (6 families) |
-| 7 | "replicated byte-identically on a second host" | docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V1.json | verdict = MATCH; deterministic_block_sha256.principal = replica |
+| 6 | "primary family, conversations, in 8 of 8 lifetimes (one-sided exact sign test, p = 0.0039), with six pre-registered secondary families also at 8 of 8 but flagged as one coin … ties" | docs/provenance/M12_PAIRED_RECEIPT_V4.json | v4.tests.A_conversations.{role = primary, positive = 8, p_one_sided = 0.00391, collapsed_one_coin = false}; v4.secondary_rejections (6 families, each positive = 8, collapsed_one_coin = true); v4.tests B_enterprise, C_software, D_selection, D_analysis, D_proof, unknown_no_action n_nonzero = 0 |
+| 6b | "an earlier frozen study under a weaker rule had found ten families at 8 of 8 and six ties" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.*.verdict: OCM_RESIDUAL (10), TIES_ONLY (6) |
+| 7 | "replicated byte-identically on a second host" | docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V4.json | verdict = MATCH; deterministic_block_sha256.principal = replica = 599ee69a… |
 | 8 | "learned organisation at 10^5 atoms" (parent sufficient) | docs/provenance/M8_RECEIPT_V1.json; docs/paper/OCM_PAPER_PLAN_V1.md | terminal = M8_PARENT_SUFFICIENT_AT_THIS_SCALE; plan C5 "10^5 atoms" [VERIFY: the receipt does not state the atom count; the plan does] |
 | 9 | "work success without revision" ties | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.B_enterprise, C_software verdict TIES_ONLY |
-| 10 | "0 of 20 licensed unknowns" | docs/provenance/M12_REFERENCE_RECEIPT_V1.json | deterministic_results.summary.honest_unknown = "0/20" |
-| 11 | "24 of 48 acquired" | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json | lifetimes[*].post_deployment.acquired: 6+6+4+2+1+1+3+1 = 24 of 48 (derived; also docs/M12_V3_PAIRED_LIFETIMES_REPORT.md §4) |
+| 10 | "7 of 240 licensed unknowns; 199 of its answers true in the world" | research/ocm-m12/M12_V4_REFERENCE_ARM_V1.json; docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §4 | lifetimes[*].summary.honest_unknown: 0+2+0+0+0+3+2+0 = 7 of 240 (derived); four_class.unlicensed_true: 22+26+27+27+29+21+26+21 = 199 (derived; report §4 states 199) |
+| 11 | "25 of 48 acquired" | research/ocm-m12/M12_V4_REFERENCE_ARM_V1.json | lifetimes[*].post_deployment.acquired: 1+3+0+5+3+5+4+4 = 25 of 48 (derived; report §4 "25/48") |
 | 12 | "remain undetermined … no novelty, consciousness or human-equivalence claim" | docs/OCM_PROGRAMME_TERMINALS_V1.md | "Reading the terminals" bullets 3–4 |
 
 ## 1. Introduction
@@ -67,7 +68,7 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 44 | "self-model fibre … {self_model: 1} … (batch 5, E1)" | docs/M11_SELF_REORGANISATION_REPORT.md §1; V2:KSO_SELF_MODEL_PREREQUISITE_THEOREMS_BATCH5_V1.md §E1 | Theorem E1 |
 | 45 | "stamped double-pushout rewrite … hash-exact … (E6) [25, 26]; metered … (T8; E7) [27]" | V2: batch 5 §E6, §E7; batch 1 §T8 | theorems |
 | 46 | "Gödel-machine reading [28] … certificate produced outside the self-model" | V2: batch 1 §T7 | Theorem T7 (ii) consequence |
-| 47 | "121 rows across twelve registries (86 … 24 … 3 … 6 … 2)" | docs/theorems/*.json (12 files) | derived: row counts 30+9+7+6+8+9+7+7+9+9+13+7 = 121; status tallies summed over files (PROVED variants 86, FINITE_CALIBRATION 24, PARENT_OWNED variants 3, OPEN 6, CANNOT_CHECK 2) |
+| 47 | "123 rows across twelve registries (87 … 25 … 3 … 6 … 2)" | docs/theorems/*.json (12 files; OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json read from origin/main with KS-T116, KS-T117) | derived: row counts 30+9+7+6+8+9+9+7+9+9+13+7 = 123; status tallies summed over files (PROVED, PROVED (finite), PROVED (procedural), PROVED (propositional fragment), PROVED_WITH_CLAUSE = 87; FINITE_CALIBRATION 25; PARENT_OWNED variants 3; OPEN 6; CANNOT_CHECK 2) |
 | 48 | "Twenty-three event families" | docs/provenance/M2_RECEIPT_V1.json | result.event_families (23 entries) |
 | 49 | "eight controlled terminals replay … without any upgrade" | docs/provenance/M2_RECEIPT_V1.json | result.historical_replay.counts.PASS = 8; authority.note |
 
@@ -90,6 +91,8 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 62 | Table 1 M11 row (7/7 vs 2/7, 1/7) | docs/provenance/M11_RECEIPT_V1.json | summary.ocm_solves = 7, parent_parameter_search_solves = 2, parent_reflection_retry_solves = 1; terminal |
 | 63 | Table 1 M12 V2 row | docs/provenance/M12_RECEIPT_V1.json | terminal; tiers.tier6_broad.inferential_residual_families |
 | 64 | Table 1 M12 V3 row | docs/provenance/M12_PAIRED_RECEIPT_V1.json | terminal |
+| 64b | Table 1 M12 V4 row (primary 8 of 8, one-sided p = 0.0039) | docs/provenance/M12_PAIRED_RECEIPT_V4.json | terminal; v4.tests.A_conversations |
+| 72b | "version 4 re-registered the analysis with one primary family and ran on eight fresh streams" | research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V4.md | Streams (seed OCM-M12-V4), Primary family |
 | 65 | "canonical labelling for fragments of at most seven vertices … [29, 30]" | V2: batch 2 §B4; docs/provenance/M3_RECEIPT_V1.json | Theorem B4; wl_collision_witness |
 | 66 | "ambiguity … collapse is an evidence event (batch 1, T6)" | V2: batch 1 §T6 | Theorem T6 (iv) |
 | 67 | "clarification as an information action (C1) [31]; commitment gate (C2) [32]" | V2:KSO_DIALOGUE_PREREQUISITE_THEOREMS_BATCH3_V1.md §C1, §C2 | theorems |
@@ -112,6 +115,7 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 79 | "zero discordant pairs in 540 … margin 7/1000 (row S28)" | docs/M7_PROTECTED_COMPARISON_REPORT.md §8; ledger S28 | addendum |
 | 80 | "p-value falls from 1/4 to 1/64 at three replicas [35, 36] … n = 54" | V2:KSO_LIFETIME_PREREQUISITE_THEOREMS_BATCH6_V1.md §F2 | Theorem (i), (ii) |
 | 81 | "cannot reject below five pairs … power 0.81 at eight pairs … 0.9" | V2: batch 6 §F2 (iii); research/ocm-m12/M12_V3_PAIRED_LIFETIMES_DESIGN_V1.md | power table |
+| 81b | "Batch 7 (G8) … no primary family, unbounded family count, two-sided unanimous test with power 0.43 … V4 re-registered: primary at α = 0.05, one-sided ≥ 7 of 8 (size 9/256), six secondaries at α/6 (reject only at 8 of 8), collapsed-one-coin flag, decision on the primary alone (S37)" | research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V4.md; ledger row S37 (origin/main); V2: batch 7 §G8 | Frozen items table; S37 |
 | 82 | "Kill gates …" list | research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V2.md §4; V3 pre-registration "Kill gates" | list |
 | 83 | "55 for every language arm … 0 … external input and output is 0" | docs/provenance/M7_RECEIPT_V1.json | information_budget.*.knowledge_facts = 55 (template 52), protected_exposure = 0; docs/M7_PROTECTED_COMPARISON_REPORT.md §4 external IO = 0 |
 | 84 | "fresh Python 3.11 environment on a second host; byte-identical" | docs/M12_LIFETIME_REPORT.md §7; docs/provenance/M12_REPLICATION_RECEIPT_V1.json | note; verdict |
@@ -248,9 +252,17 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 165 | "SHA-256 prefix dfc94948" | docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V1.json | deterministic_block_sha256 |
 | 166 | "empty pre-registration hash … repeated (row S36)" | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md row S36; report §3 | row |
 | 167 | "lifetime residual supported in scope; frontier-class parent undetermined" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | terminal; report §2 |
-| 168 | "size 1/128 … power 0.43 … 7 of 8 … 0.81 … at most six families … one coin" | V2:KSO_OPEN_LIST_CLOSURE_THEOREMS_BATCH7_V1.md §G8 | Theorem (i), (ii), (iv) |
-| 169 | "conversation differences vary (0.370 to 0.407); other nine identical" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.A_conversations.diffs (0.3704–0.4074); other families' diffs identical |
-| 170 | "V4 … pending" | — | absence checked (see row 2) |
+| 168 | "V3 stands as the frozen record … size 1/128 … power 0.43 … at most six families … Bonferroni over sixteen families … inconclusive" | ledger row S37 (origin/main); V2:KSO_OPEN_LIST_CLOSURE_THEOREMS_BATCH7_V1.md §G8 | S37; Theorem (i), (ii), (iv) |
+| 169 | "conversation differences vary (0.370 to 0.407); other nine identical … (G8)" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.A_conversations.diffs (0.3704–0.4074); other families' diffs identical |
+| 170 | "eight fresh paired lifetimes … leak check 8 of 8 … frozen on the stream-manifest hash … ten questions per stream true in the world but unlicensed (G7)" | research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V4.md; docs/provenance/M12_PAIRED_RECEIPT_V4.json | Streams row (leak check 8/8; world-true half); stream_manifest_sha256, preregistration_sha256 |
+| 170b | Table 8 rows (V4 sign tests) | docs/provenance/M12_PAIRED_RECEIPT_V4.json | v4.tests.<family>.{role, ocm_mean, parent_mean, positive, p_one_sided, verdict, collapsed_one_coin}: A_conversations 0.9815/0.6065/8/0.00391/OCM_RESIDUAL/false; A_post_deployment 0.881/0.7143; A_honest_unknown 0.9667/0.5667; D_causal 1.0/0.6; E_transfer 1.0/0.0; F_integrity 1.0/0.0; G_self_repair 1.0/0.0 (all secondary, 8/8, 0.00391, collapsed true); A_factual 1.0/0.9, A_negative_transfer 1.0/0.7143, D_communication 1.0/0.5 (descriptive, 8/8); B_enterprise, C_software, D_selection, D_analysis, D_proof, unknown_no_action (n_nonzero = 0) |
+| 170c | "parent means vary across the streams (0.574 to 0.611), so it is not collapsed" | docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §2; docs/provenance/M12_PAIRED_RECEIPT_V4.json | report "parent 0.574–0.611"; v4.tests.A_conversations.collapsed_one_coin = false, diffs {0.3704, 0.3889} |
+| 170d | "All six secondary families reject at 8 of 8, and all six are flagged … deterministic function of the planted design" | docs/provenance/M12_PAIRED_RECEIPT_V4.json; report §2 | v4.secondary_rejections (6); v4.collapsed_one_coin_families includes all six; report ⚑ paragraph |
+| 170e | "operator faults three times, learned-literal three times, drift twice, diagnosed D2, D6, D2 … 8 of 8; revision 0 stale, 3 of 3 reopened, 2 of 2 intact" | docs/provenance/M12_PAIRED_RECEIPT_V4.json | v4.G[*].fault (operator_fault ×3, learning_policy ×3, environment_drift ×2), diagnosed, repaired, preserved, rollback_exact = true ×8; v4.F[*].{stale_behaviours = 0, dependents_reopened = 3, unrelated_intact = 2} |
+| 170f | "All kill gates, including the ledger-chain identity gate, read zero" | docs/provenance/M12_PAIRED_RECEIPT_V4.json | v4.gates.* = 0 |
+| 170g | "one honest-unknown miss per lifetime (29 of 30) … 'is a whale a mammal' … label defect … both arms equally … (row S38)" | docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §2; ledger row S38 (origin/main) | honest-unknown detail paragraph; S38 |
+| 170h | "SHA-256 prefix 599ee69a" | docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V4.json | deterministic_block_sha256 |
+| 170i | "lifetime residual supported in scope … frontier-class parent undetermined" | docs/provenance/M12_PAIRED_RECEIPT_V4.json; report §2 | v4.decision = OCM_LIFETIME_RESIDUAL_SUPPORTED; report "CANNOT_CHECK_MATCHED_PARENT" |
 
 ## 6. Reference arm
 
@@ -258,22 +270,24 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 |---|---|---|---|
 | 171 | "Qwen2.5 7B instruct, 4-bit, digest prefix 845dbda0 … 55 facts … graded" | docs/provenance/M12_REFERENCE_RECEIPT_V1.json | model, model_digest; research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json info.facts_in_prompt = 55; docs/M12_LIFETIME_REPORT.md §10.1 grading description |
 | 172 | "REFERENCE (F8) … mutant flips the decision and is caught" | docs/provenance/M12_REFERENCE_RECEIPT_V1.json label; V2 batch 6 §F8 | mutant_reference_as_matched |
-| 173 | Table 8 V2 columns | docs/provenance/M12_REFERENCE_RECEIPT_V1.json; docs/provenance/M12_RECEIPT_V1.json summary O1; docs/M12_LIFETIME_REPORT.md §10.1 | summary, post_deployment, always_attempts = 20; parent A = 3 |
-| 174 | Table 8 V3 columns | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json (sums over lifetimes[*]); docs/M12_V3_PAIRED_LIFETIMES_REPORT.md §4 | factual 228/240; unknown 0/160; negative 35/56; lessons 24/28/30/30/31 of 48; OCM 240/160/56/48/40/48/32/48; parent 216/136/40/24/24/24/48/24; always_attempts 20 per lifetime; parent V3 always-attempts NOT MEASURED in the paired receipt |
-| 175 | "answered every one of the 20 out-of-scope questions ('is paris in spain' → 'No.')" | docs/M12_LIFETIME_REPORT.md §10.1; reference receipt honest_unknown = "0/20" | quoted example |
+| 173 | Table 9 V2 columns | docs/provenance/M12_REFERENCE_RECEIPT_V1.json; docs/provenance/M12_RECEIPT_V1.json summary O1; docs/M12_LIFETIME_REPORT.md §10.1 | summary, post_deployment, always_attempts = 20; parent A = 3 |
+| 174 | Table 9 V3 columns | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json (sums over lifetimes[*]); docs/M12_V3_PAIRED_LIFETIMES_REPORT.md §4 | factual 228/240; unknown 0/160; negative 35/56; lessons 24/28/30/30/31 of 48; OCM 240/160/56/48/40/48/32/48; parent 216/136/40/24/24/24/48/24; always_attempts 20 per lifetime; parent V3 always-attempts NOT MEASURED in the paired receipt |
+| 174b | Table 9 V4 columns | research/ocm-m12/M12_V4_REFERENCE_ARM_V1.json (sums over lifetimes[*]); docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §4 | factual 229/240 (29+28+29+29+28+29+29+28); unknown 7/240; negative 35/56 (4+4+7+4+4+4+4+4); lessons acquired 25, reuse 33 (2+4+0+5+6+6+5+5), retained 35 (4+4+1+5+6+5+5+5), revoked-stops 41 (6+4+6+6+6+5+2+6), relearned 23 (1+5+0+4+1+5+4+3) of 48; OCM 240/232/56/48/40/48/32/48 and parent 216/136/40/24/24/24/48/24 from report §4; always_attempts per lifetime 27–30; OCM and parent V4 always-attempts NOT MEASURED in the paired receipt |
+| 175 | "On the V2 and V3 suites … answered every out-of-scope question ('is paris in spain' → 'No.')" | docs/M12_LIFETIME_REPORT.md §10.1; reference receipt honest_unknown = "0/20"; V3 reference arm honest_unknown 0/20 per lifetime | quoted example |
 | 176 | "Batch 7 (G7) … licence … unlicensed-true …" | V2: batch 7 §G7 | grading rule |
-| 177 | "truth grader … 20 of 20 … constant policy … all twenty world-false … balanced suite" | V2: batch 7 §G7 (ii)–(iv) | Theorem |
-| 178 | "per-stream acquisition 6, 6, 4, 2, 1, 1, 3, 1 of 6; nonce words carry pretrained meanings" | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json lifetimes[*].post_deployment.acquired; report §4 | values |
-| 179 | "125 to 130 calls per stream, 586.9 s, not bit-reproducible (one item differed)" | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json lifetimes[*].resources.calls (125–130), wall_s = 586.9; research/ocm-m12/M12_REFERENCE_ARM_V1.json reproducibility_note | fields |
+| 177 | "truth grader … 20 of 20 on the V3 items … constant policy … all twenty V3 out-of-scope items world-false" | V2: batch 7 §G7 (ii)–(iv) | Theorem |
+| 177b | "480 factual answers: 233 licensed, 199 unlicensed-true, 38 unlicensed-false, 2 wrong … answers 237 of the 240 … right on 199" | docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §4; research/ocm-m12/M12_V4_REFERENCE_ARM_V1.json lifetimes[*].four_class | report sentence; per-lifetime sums 233/199/38/2 [VERIFY: the four classes sum to 472, not 480; the report's "480 factual questions" and the per-class counts do not reconcile and the generator's own file should be checked] |
+| 178 | "per-stream acquisition 6, 6, 4, 2, 1, 1, 3, 1 of 6 on V3 and 1, 3, 0, 5, 3, 5, 4, 4 of 6 on V4" | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json and M12_V4_REFERENCE_ARM_V1.json lifetimes[*].post_deployment.acquired | values |
+| 179 | "125 to 130 calls per V3 stream and 136 to 140 per V4 stream, 586.9 s … 760.3 s, not bit-reproducible (one item differed)" | research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json (calls 125–130, wall_s 586.9); M12_V4_REFERENCE_ARM_V1.json (calls 136–140, wall_s 760.3); research/ocm-m12/M12_REFERENCE_ARM_V1.json reproducibility_note | fields |
 | 180 | "Conversations not measured for the reference" | docs/provenance/M12_REFERENCE_RECEIPT_V1.json | conversations = "NOT_MEASURED (graded by OCM surface patterns)" |
 
 ## 7. Self-application ledger
 
 | # | Sentence (key phrase) | Source file | Field |
 |---|---|---|---|
-| 181 | "36 rows (S1 to S36)" | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md | rows S1–S36 (36 table rows counted) |
+| 181 | "38 rows (S1 to S38)" | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md (origin/main) | rows S1–S38 (38 table rows counted) |
 | 182 | "S1 … representation change adopted at the core" | ledger row S1 | J3 column |
-| 183 | "S27, S28, S29, S31, S32, S33, S36" | ledger rows | rows |
+| 183 | "S27, S28, S29, S31, S32, S33, S36, S37, S38" | ledger rows (S37, S38 on origin/main) | rows |
 | 184 | "S17 … S14, S31" | ledger rows | rows |
 | 185 | "backlog … per-source normalisation, unbounded exact extraction, directed random-walk comparator" | ledger "Underperforming modules" table | rows 1, 2, 4 |
 
@@ -283,11 +297,11 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 |---|---|---|---|
 | 186 | "35 named gaps (MEG-01 to MEG-35) … seven batches" | V2:ME_THEORY_GAP_ATLAS_V1.md §B; batch files 1–7 | gap list; files |
 | 187 | "open list is empty; impossibilities [15, 38] [39, 40] [41]" | V2: batch 7 header and status block ("OPEN: none"), §G1 (iii), §G9, §G6, §G3 | statements |
-| 188 | Table 9 rows (item ranges, test counts, "89 of 89", "not yet merged") | V2 batch files (header paragraphs: batch 2 12 tests; batch 3 13; batch 4 12; batch 5 13; batch 6 14; batch 7 13 and "batches 1–7 together 89/89"); warrant note §5 (6 obligations); batch 7 absent from ORION-V2 origin/main (git log, 2026-09-05) | headers |
+| 188 | Table 10 rows (item ranges, test counts, "89 of 89", "not yet merged") | V2 batch files (header paragraphs: batch 2 12 tests; batch 3 13; batch 4 12; batch 5 13; batch 6 14; batch 7 13 and "batches 1–7 together 89/89"); warrant note §5 (6 obligations); batch 7 absent from ORION-V2 origin/main (git log, 2026-09-05) | headers |
 | 189 | "intake … 9 intakes (7 defect-found, 1 discharged, 1 open) and 2 exports" | src/ocm/selfmodel/intake.py | INTAKES (9 entries; statuses), EXPORTS (2) |
-| 190 | "ledger counts … 16 across batches 1 to 6: two (batch 1), one (2), one (3), one (4), six (5), five (6), one caveat" | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md rows S10 (a, b), S21, S20, S28, S34 (×6), S35 (×5 + 1 caveat) | derived: 2+1+1+1+6+5 = 16 |
+| 190 | "ledger counts … 16 across batches 1 to 6: two (batch 1), one (2), one (3), one (4), six (5), five (6), one caveat, and from batch 7 the rule and label defects of S37 and S38" | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md rows S10 (a, b), S21, S20, S28, S34 (×6), S35 (×5 + 1 caveat), S37, S38 | derived: 2+1+1+1+6+5 = 16 |
 | 191 | "exported after M11 and returned as F4 and F3" | src/ocm/selfmodel/intake.py EXPORTS; V2 batch 6 §F3, §F4 | records |
-| 192 | "Batch 7 adds obligations … MDL [42] … re-registered" | V2: batch 7 "Consequences" G1, G4, G8 | bullets |
+| 192 | "two registry rows: KS-T116 (proved with clause …) and KS-T117 (finite calibration, discharged by V4); two batch-7 obligations remain … MDL [42]" | docs/theorems/OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json (origin/main) rows KS-T116, KS-T117; V2: batch 7 "Consequences" G1, G4 | status, statement, limitation fields |
 
 ## 9. Limitations and 10. Pending
 
@@ -299,8 +313,8 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 196 | "five external agent benchmarks, three external science benchmarks, miniF2F/Lean 4, frontier target" | docs/provenance/M9_RECEIPT_V1.json external_benchmarks (5); docs/provenance/M10_RECEIPT_V1.json external (SciCode, ResearchGym, LifeSciBench, miniF2F/Lean4, frontier_target) | keys |
 | 197 | "seven criteria, three arms plus reference, seed" | docs/LANGUAGE_KSO_ALPHA_REPORT.md §4 | protocol (7 criteria listed; seed recorded) |
 | 198 | "n between 4 and 12 … descriptive" | docs/provenance/M12_RECEIPT_V1.json | v2.claims B–E n ∈ {4, 5, 8, 10, 12} |
-| 199 | "nine of the ten rejecting families have identical differences" | docs/provenance/M12_PAIRED_RECEIPT_V1.json | v3.tests.*.diffs (derived) |
-| 200 | "V4 … 7 of 8 … pending" | V2 batch 7 §G8 (rule); no V4 receipt present | pending |
+| 199 | "In V4 all six secondary families are flagged as collapsed … deterministic functions of the planted design … rests on one family, conversations, in both V3 and V4" | docs/provenance/M12_PAIRED_RECEIPT_V4.json v4.collapsed_one_coin_families, v4.secondary_rejections; docs/provenance/M12_PAIRED_RECEIPT_V1.json v3.tests diffs; docs/M12_V4_PAIRED_LIFETIMES_REPORT.md §2, §5 | fields; report |
+| 200 | "§10: pipeline not run; batch 7 on a branch; manifest-licence check (S38) and per-lifetime variation are next" | ORION-V2 git (batch 7 absent from origin/main on 2026-09-05); ledger S38; V4 report §2 | status |
 
 ## Methods summary and availability
 
@@ -310,4 +324,4 @@ Every sentence of main.md that contains a number or a terminal is listed with th
 | 202 | "git head unknown at generation" | every M*_RECEIPT_V1.json | git_head_at_generation = "UNKNOWN" (M0 receipt records commits instead) |
 | 203 | Dataset list and licences | docs/provenance/BLIMP_, UD_EWT_, MULTIWOZ24_, SIMPLEWIKI_, GUTENBERG_, BABYLM_CUSTODY_MANIFEST_V1.json | dataset, license, status |
 
-Total rows: 203 (198 numeric or terminal-bearing sentences in the extracted list plus table blocks and derived rows). Rows marked [VERIFY]: 8 (10^5 atoms), 95 (frozen held-out wording). Rows marked NOT MEASURED: 103 (E4 held-out), 174 (parent V3 always-attempts).
+Total rows: 217 (203 numeric or terminal-bearing sentences in the extracted list, plus table blocks and derived rows; the V4 update added rows 6b, 64b, 72b, 81b, 170b–170i, 174b, 177b). Rows marked [VERIFY]: 8 (10^5 atoms), 95 (frozen held-out wording), 177b (four-class counts sum to 472 of a stated 480). Rows marked NOT MEASURED: 103 (E4 held-out), 174 (parent V3 always-attempts), 174b (OCM and parent V4 always-attempts). V4 sources were read from ORION-OCM origin/main at commit 8e3df44; the worktree branch does not yet contain them.
