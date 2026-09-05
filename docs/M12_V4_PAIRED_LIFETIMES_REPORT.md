@@ -44,11 +44,29 @@ frozen and the generator gains a licence check for the next version.
 
 ## 3. Replication
 
-REPLICATION_PLACEHOLDER
+Same frozen code and V4 pre-registration in a fresh uv Python 3.11 environment on billy-laptop
+(principal run on billy-old): deterministic blocks byte-identical (receipt verdict **MATCH**, block
+SHA-256 `599ee69a00bb9f67…`).
 
 ## 4. Reference arm on the same streams, four-class grading (G7)
 
-REFERENCE_PLACEHOLDER
+Local open-weight model (`qwen2.5:7b-instruct-q4_K_M`, digest `845dbda0ea48ed74…`), one
+fresh instance per stream, REFERENCE label (F8), never in the decision. Totals over the eight streams:
+
+| Measure | reference | OCM | parent |
+|---|---|---|---|
+| factual in-scope | 229/240 | 240/240 | 216/240 |
+| honest unknown (20 world-false + 10 world-true per stream) | 7/240 | 232/240 | 136/240 |
+| negative-transfer probes | 35/56 | 56/56 | 40/56 |
+| lessons acquired / reuse / retained / revoked-stops / relearned | 25/48 / 33/48 / 35/48 / 41/48 / 23/48 | 48 / 40 / 48 / 32 / 48 | 24 / 24 / 24 / 48 / 24 |
+
+Four-class grading of the 480 factual questions (G7): licensed 233, unlicensed-true 199,
+unlicensed-false 38, wrong 2. The reference answers 237 of the 240
+questions the given facts do not settle, and is right in the world on 199 of them — that is the
+unbound pretraining channel, visible only because the world-true half was added (under the all-false
+V3 suite a constant "No" would have scored the same). On lessons the reference acquires 25/48
+(nonce words with pretrained meanings resist the lesson) versus OCM 48/48. Wall time 760.3 s.
+Descriptive; runs are not bit-reproducible on the laptop GPU.
 
 ## 5. What V4 does and does not show
 
