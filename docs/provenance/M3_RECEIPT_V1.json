@@ -1,0 +1,107 @@
+{
+  "authority": "engineering receipt for the M3 language milestone on a synthetic microworld with a given vocabulary; real-language custody manifests are bound but no real-language result is claimed; no comparator, no novelty claim; the theory these modules implement is ORION-V2 batch 2 (B1, B2, B3, B4)",
+  "bound_files": {
+    "docs/provenance/BLIMP_CUSTODY_MANIFEST_V1.json": "8818ad9fe47a9a21387f1ef6217241a3381544437e094295befafd3b99d862a0",
+    "docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json": "b89d3fd3472cc7f068ab4637ed0f847d9f9b878a2d22a2666ed8b82c78b80d66",
+    "docs/theorems/OCM_LANGUAGE_OBLIGATION_REGISTRY_V1.json": "e8d690d6487c06cf1b7f33fd1059ab963d4de7fe18e05c140e84b4dc8f64c9ea",
+    "research/ocm-m3/M3_MICROWORLD_EVAL_V1.json": "a9854270acd6d181b35932181273896e7f4186012d6555c4c0b395f2d2ad367a",
+    "scripts/acquire_blimp.sh": "59f8ed86fdd52bf514a55b0a4bfb578cbdcea83dbeb22698877eba292be64dda",
+    "scripts/acquire_ud_ewt.sh": "c7038e1c0ae381ac1ce787e6aac0f2be4f637ba71f5b76dd5b2ece9f1fc43e14",
+    "src/ocm/evaluation/m3_microworld_eval.py": "de9f5613790ea34ef0e87132fb6d54188bc8497f17251e2490e84b9739884d21",
+    "src/ocm/language/acquisition.py": "e1f7b17334bc7069d9d4895e34fbf68c9726ff52e9bb892e9d273ce3b7ff099a",
+    "src/ocm/language/constructions.py": "2a0651b5114f368438aeeba91e2df2831b0359072acb44d975c7c7e0cf73ca3b",
+    "src/ocm/language/interpret.py": "9042649f2785745e2caaa80837ebda87a1cac31920ff33d10e0ab46e13ca06d3",
+    "src/ocm/language/lexicon.py": "6ce467fe8b379163289ca8dec4192a2a38bd78ba1b7b48427ee176368cdacbbc",
+    "src/ocm/language/meaning.py": "fbace514d75681f44ab8706d3bfb82e0c7f9d4ee861c4f1ff27881e1a212827d",
+    "src/ocm/language/microworld.py": "ed15dd574a99fac96b8f7de6c3cc5b65679c2ec816aa8229b65f9fed6d1f2f03",
+    "src/ocm/language/session.py": "d5ea84e99ea159811e3830be6856e735bff45b1bab2dfcdf0bbd056790116cc6"
+  },
+  "deterministic_results": {
+    "microworld_custody": {
+      "dev": 106,
+      "dev_sha256": "b46317be459f308779add3a133521c15cf1e22dd2cc2034f2cb8410915500364",
+      "held_out_lexemes_absent_from_dev": true,
+      "n": 240,
+      "protected": 134,
+      "protected_sha256": "7862afa253e7c63f418e89ce1b5635e72c94cc97b584c19a33c5531ccf6bcece"
+    },
+    "microworld_eval": {
+      "acquisition": {
+        "hypothesis_class_size": 6,
+        "learned": true,
+        "transitive_demonstrations_required": 1
+      },
+      "ambiguity": {
+        "candidate_set_recall": 3,
+        "false_collapse": 0,
+        "suite_n": 3
+      },
+      "paraphrase": {
+        "meaning_equivalent": 6,
+        "pairs": 6
+      },
+      "protected": {
+        "construction_identified": 134,
+        "exact_meaning": 134,
+        "mean_role_f1": 1.0,
+        "n": 134,
+        "negation": "32/32",
+        "per_family": {
+          "negation": {
+            "exact": 32,
+            "identified": 32,
+            "n": 32
+          },
+          "passive": {
+            "exact": 28,
+            "identified": 28,
+            "n": 28
+          },
+          "transitive": {
+            "exact": 31,
+            "identified": 31,
+            "n": 31
+          },
+          "transitive_adj": {
+            "exact": 26,
+            "identified": 26,
+            "n": 26
+          },
+          "yes_no": {
+            "exact": 17,
+            "identified": 17,
+            "n": 17
+          }
+        },
+        "yes_no": "17/17"
+      },
+      "revocation_locality": {
+        "passive_intact": true,
+        "revoked": [
+          "ev:demo:6ba295fecbe045e4"
+        ],
+        "transitive_reopened": true
+      }
+    },
+    "passive_equals_active_minus_modifier": true,
+    "required_meanings": {
+      "did the robot open the door": "a2cd366011e68fe45bd146d40d961ac6fb155759f1f188cc7d0b25906e65bbd0",
+      "every red box contains at least one key": "bfaed8ca75c31618a4ff91de87af9d97c0173c1ae055326c2caf4ddea4c36ed0",
+      "john thinks mary may leave": "9a13e1e3c19201c932af7316ab725fd4c26c9a0c003509bfea538db64e969936",
+      "the door was opened by the robot": "dec29050330aede3ea42b18822168efc579cdef2726ab99cbe62a00177895f54",
+      "the robot did not open the door": "53109f2ea45d00884e3c278f80aec78f250ef6c563997ba1f5d58a6c41bbffa0",
+      "the robot might open the door tomorrow": "ac2d61162dc92fc4b90360b7996511a44c45813e135d0ce3cbbee6914691c3c8",
+      "the robot opened the red door": "8e1895d805b89a534bd6c1dbfbbf944a329bcdba9287846ad543729ab8f4bb49",
+      "the robot that mary repaired opened the door": "e9c783312ba4ec354f1991e35a637f9e79d615c858bb8832ef6658b6262dadd3",
+      "which door did it open": "df1741c45428c14bab0eaf0eabe6b4ead3c96c0a1c126425ca544970d645104a"
+    },
+    "wl_collision_witness": {
+      "canonical_equal": false,
+      "isomorphic": false,
+      "wl1_hash_equal": true
+    }
+  },
+  "git_head_at_generation": "UNKNOWN",
+  "receipt": "M3_RECEIPT_V1",
+  "terminal": "M3_LANGUAGE_UNDERSTANDING_GREEN"
+}
