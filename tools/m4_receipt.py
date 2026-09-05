@@ -69,7 +69,7 @@ def main(argv: list[str]) -> int:
         if drift:
             print("DRIFT:", drift)
             return 1
-        print("M3 receipt verified; bound files:", len(new["bound_files"]))
+        print("M4 receipt verified; bound files:", len(new["bound_files"]))
         return 0
     RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print("wrote", RECEIPT)
