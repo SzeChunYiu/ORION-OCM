@@ -68,7 +68,11 @@ def _lex_key(b: dict[str, Any]) -> tuple:
     return tuple(out)
 
 
-def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8) -> dict[str, Any]:
+class ChartCap(Exception):
+    """The declared item cap was exceeded: the sentence is CANNOT_CHECK under this inventory (never a silent truncation)."""
+
+
+def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8, max_items: int = 2_000_000) -> dict[str, Any]:
     rv = frozenset(revoked)
     cons = [c for c in constructions if c.liveness(rv) is not Liveness.DEAD]
     per_token: list[list[Reading]] = []
@@ -87,9 +91,15 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     chart: list[dict[tuple, tuple[int, dict[str, Any]]]] = [dict() for _ in range(n + 1)]
     completed: dict[tuple[int, int, str], dict[tuple, Packed]] = defaultdict(dict)    # (start, end, phrase type) -> (ci, lexkey) -> Packed
 
+    items = [0]
+
     def add(k: int, key: tuple, count: int, b: dict[str, Any]) -> None:
         key = (key[0], key[1], key[2], _lex_key(b))
         old = chart[k].get(key)
+        if old is None:
+            items[0] += 1
+            if items[0] > max_items:
+                raise ChartCap(f"chart items exceeded {max_items}")
         chart[k][key] = (old[0] + count, old[1]) if old else (count, b)
 
     def predict(k: int) -> None:

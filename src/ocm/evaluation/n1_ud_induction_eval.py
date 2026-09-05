@@ -44,10 +44,11 @@ def main(argv=None) -> int:
     else:
         parse = {s: {"engine": "matcher", "status": "CANNOT_CHECK_MEMORY", "note": "the M3 span matcher exhausted memory on open text even at ≤ 8 tokens with rules attested ≥ 5 (ledger S39); run with --matcher to retry"} for s in ("dev", "test")}
     parse_meta = {"constructions": len(cons), "min_count": min_count, "time_budget_s_per_split": budget, "max_tokens": max_tokens}
-    chart_max = int(argv[argv.index("--chart-max-tokens") + 1]) if "--chart-max-tokens" in argv else 40
+    chart_max = int(argv[argv.index("--chart-max-tokens") + 1]) if "--chart-max-tokens" in argv else 25
+    chart_items = int(argv[argv.index("--chart-max-items") + 1]) if "--chart-max-items" in argv else 300_000
     cons_all = G.constructions_from_grammar(gram, min_count=1)
-    parse_chart = {s: G.parse_protected(UD.read_conllu(files[s]), cons_all, ind, time_budget_s=budget, max_tokens=chart_max, engine="chart") for s in ("dev", "test")}
-    parse_meta["chart"] = {"constructions": len(cons_all), "min_count": 1, "max_tokens": chart_max}
+    parse_chart = {s: G.parse_protected(UD.read_conllu(files[s]), cons_all, ind, time_budget_s=budget, max_tokens=chart_max, engine="chart", chart_max_items=chart_items) for s in ("dev", "test")}
+    parse_meta["chart"] = {"constructions": len(cons_all), "min_count": 1, "max_tokens": chart_max, "max_items": chart_items}
     rec = {"receipt": "N1_UD_INDUCTION_V1", "dataset": "UD_English-EWT r2.14 (custody manifest docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json)", "files_sha256": {s: UD.digest_of(p) for s, p in files.items()},
            "train_induction": ind.receipt(), "coverage": {s: UD.coverage(UD.read_conllu(files[s]), ind) for s in ("dev", "test")},
            "simple_clause_interpretation_seed_constructions": interp,

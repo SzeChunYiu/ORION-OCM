@@ -98,6 +98,8 @@ class Task:
     context: str | None = None             # scope context the answer must cover
     required_authority: Authority = field(default_factory=Authority)
     identification_required: bool = False
+    at: float | None = None                # evaluation time for epoch-bounded scopes (theory batch 8 H1: an epoch-bounded
+                                           # scope may not be read as current on context alone)
 
 
 @dataclass(frozen=True)
@@ -374,8 +376,14 @@ def commitment_gate(outcome: SolveOutcome, task: Task, revoked: Iterable[Hashabl
         return StageResult(Stage.COMMITMENT, Status.FAIL, f"REFUSED:WARRANT_{warrant.liveness(rv).value}")
     if not (task.required_authority <= op.authority.meet(commit_authority)):
         return StageResult(Stage.COMMITMENT, Status.FAIL, "REFUSED:AUTHORITY_INSUFFICIENT")
-    if task.context is not None and not op.scope.covers(task.context):
-        return StageResult(Stage.COMMITMENT, Status.FAIL, "REFUSED:OUT_OF_SCOPE")
+    if task.context is not None:
+        from ocm.kso.types import UNBOUNDED_EPOCH
+        if op.scope.epoch != UNBOUNDED_EPOCH and task.at is None:
+            # batch 8 H1 (FDX-01): current validity of an epoch-bounded scope needs the evaluation time; without it the
+            # certificate is CONDITIONAL_ON_ASSUMPTIONS, not MONITORED_CURRENT — the gate refuses rather than assumes
+            return StageResult(Stage.COMMITMENT, Status.FAIL, "REFUSED:SCOPE_EPOCH_UNDECLARED")
+        if not op.scope.covers(task.context, task.at):
+            return StageResult(Stage.COMMITMENT, Status.FAIL, "REFUSED:OUT_OF_SCOPE")
     return StageResult(Stage.COMMITMENT, Status.PASS, "COMMITTED", object_ids=(op.operator_id,), evidence_ids=tuple(sorted(map(repr, warrant.evidence))))
 
 

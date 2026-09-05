@@ -274,7 +274,7 @@ def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: 
     return out
 
 
-def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher") -> dict[str, Any]:
+def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher", chart_max_items: int = 300_000) -> dict[str, Any]:
     """Parse protected token strings with the M3 matcher over the induced lexicon and the UD-derived
     constructions; grade INTERPRETED candidates against the gold tree by tree-exact canonical equality.
     Root-level phrases only count as a sentence reading when the top phrase is VP/NP covering all tokens."""
@@ -303,7 +303,10 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
         if engine == "chart":
             from ocm.language import chart as CH
             try:
-                r = CH.parse(utt.split(), ind.lexicon, constructions)
+                r = CH.parse(utt.split(), ind.lexicon, constructions, max_items=chart_max_items)
+            except CH.ChartCap:
+                verdicts["CHART_CAP_CANNOT_CHECK"] += 1
+                continue
             except Exception as exc:  # noqa: BLE001
                 verdicts[f"ERROR:{type(exc).__name__}"] += 1
                 continue
