@@ -1,0 +1,27 @@
+name: N1 language acquisition preflight
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/language_acquisition_preflight.py'
+      - 'research/ocm-n1/test_language_acquisition_preflight.py'
+      - '.github/workflows/n1-language-acquisition-preflight.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/language_acquisition_preflight.py'
+      - 'research/ocm-n1/test_language_acquisition_preflight.py'
+      - '.github/workflows/n1-language-acquisition-preflight.yml'
+permissions:
+  contents: read
+jobs:
+  acquisition-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Verify acquisition-cost endpoint is scientifically discriminating
+        run: |
+          python research/ocm-n1/test_language_acquisition_preflight.py
+          python research/ocm-n1/language_acquisition_preflight.py
