@@ -39,6 +39,28 @@ from ocm.work import methods as M
 FRONTIER_REFERENCE = "CANNOT_CHECK (no network / no foundation model in this environment; reference arm not built)"
 
 
+def identity_chain(runtime) -> dict[str, Any]:
+    """Batch 6 F5: the identity of a persistent machine is its ledger *chain* (head hash + length),
+    the component fingerprints and the adoption lineage — not a root path string or a Python handle
+    (both pass a same-path replaced log)."""
+    evs = runtime.events
+    return {"head": evs[-1].event_hash if evs else None, "length": len(evs), "root": str(runtime.root)}
+
+
+def chain_continuous(before: dict[str, Any], runtime) -> bool:
+    """The earlier head must still be an event hash in the current chain at its recorded position."""
+    evs = runtime.events
+    if before["head"] is None:
+        return before["length"] == 0 and str(runtime.root) == before["root"]
+    n = before["length"]
+    return len(evs) >= n and n >= 1 and evs[n - 1].event_hash == before["head"] and str(runtime.root) == before["root"]
+
+
+def mutant_identity_by_path(before: dict[str, Any], runtime) -> bool:
+    """Planted (F5 hostile): identity judged by the root path string alone — passes a replaced log."""
+    return str(runtime.root) == before["root"]
+
+
 class PersistentOCM(M7.OCMArm):
     name = "ocm"
 
@@ -74,7 +96,7 @@ class PersistentOCM(M7.OCMArm):
     def identity(self) -> dict[str, Any]:
         rt = self.s.runtime
         st = rt.state
-        return {"ledger_root": str(rt.root), "evidence_records": len(st.evidence.records), "ks_digest": st.ks.digest(), "skills": sorted(self.work.skills), "science_conclusions": len(self.science.conclusions), "selfmodel_records": len(self.selfmodel.evidence), "one_runtime": rt is self.runtime and all(getattr(c, "runtime", getattr(c, "rt", None)) is rt for c in (self.science, self.selfmodel))}
+        return {"ledger_root": str(rt.root), "evidence_records": len(st.evidence.records), "ks_digest": st.ks.digest(), "skills": sorted(self.work.skills), "science_conclusions": len(self.science.conclusions), "selfmodel_records": len(self.selfmodel.evidence), "one_runtime": rt is self.runtime and all(getattr(c, "runtime", getattr(c, "rt", None)) is rt for c in (self.science, self.selfmodel)), "chain": identity_chain(rt)}
 
     def state_digest(self) -> str:
         return hashlib.sha256(json.dumps(self.identity(), sort_keys=True).encode()).hexdigest()[:16]

@@ -90,3 +90,11 @@ and an obstruction certificate is judged against the component registry's closur
 are derived from their traces, so revoking a trace reopens the diagnosis. The S0–S7 benchmark
 results are unchanged (the defects were invisible to it, which is the point of the intake).
 
+## 7. M11.2 addendum — theory batch 6 intake
+
+Batch 6 (ORION-V2 #347) added five obligations (KS-T110…T114, ledger S35): the F4 false-structural-alarm
+lemma (a DEAD warrant on the path caps the layer at D2 and emits reinstate/reroute candidates), an
+evidence-derived Jump assessment, ledger-chain identity, persisted adoption artifacts, and a
+revocation reply that reports the live remainder of a word. All carry hostiles in
+`tests/m11/test_batch6_obligations.py`. Benchmark results are unchanged.
+

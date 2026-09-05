@@ -341,7 +341,21 @@ class ChatSession:
         if eid not in self.runtime.state.evidence.records:
             return self._commit(text, f"{eid} is not on my ledger.", G.Act.REPORT_UNKNOWN, {}, t0, seq0)
         rep = self.runtime.revoke([eid])
-        return self._commit(text, f"Revoked {eid}; reopened {sorted(rep.reopen)}, rechecked {sorted(rep.recheck)}.", G.Act.ACKNOWLEDGE, {"reopen": sorted(rep.reopen)}, t0, seq0)
+        # batch 6 F1: a revocation names ONE warrant; a word whose other senses stay LIVE remains
+        # interpretable (revoke-named, not revoke-all) — say so instead of leaving it silent
+        remainder = self._live_remainder(eid)
+        note = "".join(f" '{w}' still has {n} live sense(s); say 'revoke all {w}' to remove the word." for w, n in remainder)
+        return self._commit(text, f"Revoked {eid}; reopened {sorted(rep.reopen)}, rechecked {sorted(rep.recheck)}.{note}", G.Act.ACKNOWLEDGE, {"reopen": sorted(rep.reopen), "live_remainder": remainder}, t0, seq0)
+
+    def _live_remainder(self, eid: str) -> list[tuple[str, int]]:
+        revoked = self.runtime.state.evidence.revoked
+        out = []
+        for lx in self.dialogue.lexicon.lexemes.values():
+            if any(eid in s.warrant.evidence for s in lx.senses):
+                n = len(lx.live_senses(revoked))
+                if n:
+                    out.append((lx.lemma, n))
+        return sorted(out)
 
     # ------------------------------------------------------------------ commit + trace
     def _commit(self, utterance: str, reply: str, act: G.Act, bits: dict, t0: float, seq0: int, *, committed: bool = True, evidence: Sequence[str] = (), machine_turn_recorded: bool = False) -> str:

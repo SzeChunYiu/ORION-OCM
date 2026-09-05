@@ -1,0 +1,234 @@
+{
+ "receipt": "M12_REFERENCE_ARM_V1",
+ "arm": "reference_ollama",
+ "info": {
+  "model": "qwen2.5:7b-instruct-q4_K_M",
+  "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+  "facts_in_prompt": 55,
+  "lessons": 12,
+  "restarts": 6,
+  "transcript_turns": 125,
+  "information_binding": "UNBOUND_PRETRAINING (F8): reference only; not a matched comparator; excluded from claim tiers and from the D1 decision"
+ },
+ "resources": {
+  "calls": 125,
+  "tokens": 132646,
+  "wall_s": 61.72,
+  "external_io": 0
+ },
+ "phase_A": {
+  "factual_in_scope": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   false,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   false
+  ],
+  "honest_unknown": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "post_deployment": {
+   "baseline_unknown": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "acquired": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "compositional_reuse": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "retained_after_restart": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "revoked_stops": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "unrelated_intact": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "relearned": [
+    true,
+    false,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "negative_transfer": [
+   true,
+   false,
+   false,
+   true,
+   false,
+   true,
+   false
+  ],
+  "conversations": "NOT_MEASURED (graded by OCM surface patterns)",
+  "always_attempts": 20,
+  "log": [
+   [
+    "is a cat an animal",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is a dog an animal",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is a robot a machine",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is a door an object",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is paris in france",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is berlin in germany",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is france in europe",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is germany in europe",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is stockholm in sweden",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is sweden in europe",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is nile in africa",
+    "Yes.",
+    "Yes.",
+    true
+   ],
+   [
+    "is nile a river",
+    "Yes.",
+    "Yes.",
+    true
+   ]
+  ]
+ },
+ "summary": {
+  "factual_in_scope": "28/30",
+  "honest_unknown": "0/20",
+  "negative_transfer": "3/7"
+ },
+ "post_deployment": {
+  "baseline_unknown": "6/6",
+  "acquired": "6/6",
+  "compositional_reuse": "6/6",
+  "retained_after_restart": "6/6",
+  "revoked_stops": "6/6",
+  "unrelated_intact": "6/6",
+  "relearned": "5/6"
+ },
+ "wall_s": 61.7,
+ "reproducibility_note": "two identical runs (temperature 0, fixed seed) differed on one post-deployment item (relearned 6/6 then 5/6): the local model is not bit-reproducible on this GPU; reference numbers are descriptive"
+}
