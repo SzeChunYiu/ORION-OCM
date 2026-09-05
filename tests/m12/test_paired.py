@@ -31,3 +31,16 @@ def test_one_paired_lifetime_runs_with_chain_identity(tmp_path):
     so, sp = PE.lifetime_scores(o), PE.lifetime_scores(p)
     assert so["G_self_repair"] == 1.0 and sp["G_self_repair"] == 0.0 and so["F_integrity"] == 1.0
     assert PE.sign_test([1, 1, 1, 1, 1, 1, 1, 1])["verdict"] == "OCM_RESIDUAL" and PE.sign_test([1, 1, 1, 1, 1, 1, 1, -1])["verdict"] == "INCONCLUSIVE" and PE.sign_test([0] * 8)["verdict"] == "TIES_ONLY"
+
+
+def test_v4_manifest_is_frozen_and_one_sided_rule_matches_batch7():
+    man = json.loads((ROOT / "research/ocm-m12/M12_V4_STREAM_MANIFEST_V1.json").read_text())
+    assert SR.stream_manifest(8, seed="OCM-M12-V4", world_true_half=True, name="M12_V4_STREAM_MANIFEST_V1")["sha256"] == man["sha256"]
+    s = SR.build_stream(0, seed="OCM-M12-V4", world_true_half=True)
+    assert sum(1 for q, pat in s["factual"] if pat == "I do not know") == 30                       # 20 world-false + 10 world-true
+    r = PE.sign_test_one_sided([1] * 7 + [-1], 0.05)
+    assert r["verdict"] == "OCM_RESIDUAL" and abs(r["p_one_sided"] - 9 / 256) < 1e-4              # ≥ 7/8 rejects at size 9/256 (G8)
+    assert PE.sign_test_one_sided([1] * 6 + [-1, -1], 0.05)["verdict"] == "INCONCLUSIVE"
+    assert PE.sign_test_one_sided([1] * 8, 0.05 / 6)["verdict"] == "OCM_RESIDUAL" and PE.sign_test_one_sided([1] * 7 + [-1], 0.05 / 6)["verdict"] == "INCONCLUSIVE"
+    assert PE.sign_test_one_sided([0.5] * 8, 0.05)["collapsed_one_coin"] and not PE.sign_test_one_sided([0.5, 0.4] * 4, 0.05)["collapsed_one_coin"]
+

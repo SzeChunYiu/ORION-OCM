@@ -142,7 +142,7 @@ def build_stream(k: int, *, seed: str = "OCM-M12-V3", world_true_half: bool = Fa
 
 def stream_manifest(n: int = 8, *, seed: str = "OCM-M12-V3", world_true_half: bool = False, name: str = "M12_V3_STREAM_MANIFEST_V1") -> dict[str, Any]:
     streams = [build_stream(k, seed=seed, world_true_half=world_true_half) for k in range(n)]
-    man = {"manifest": name, "seed": seed, "lifetimes": n, "world_true_half": world_true_half, "streams": [{"lifetime": s["lifetime"], "sha256": s["sha256"], "maps": s["maps"], "ordering": s["ordering"], "work_task_ids": s["work_task_ids"], "science_dataset_ids": s["science_dataset_ids"]} for s in streams]}
+    man = {"manifest": name, "seed": seed, "lifetimes": n, **({"world_true_half": True} if world_true_half else {}), "streams": [{"lifetime": s["lifetime"], "sha256": s["sha256"], "maps": s["maps"], "ordering": s["ordering"], "work_task_ids": s["work_task_ids"], "science_dataset_ids": s["science_dataset_ids"]} for s in streams]}
     man["sha256"] = hashlib.sha256(json.dumps(man, sort_keys=True).encode()).hexdigest()
     return man
 

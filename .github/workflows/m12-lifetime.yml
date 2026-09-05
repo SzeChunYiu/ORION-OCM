@@ -42,5 +42,16 @@ jobs:
           assert a["stream_manifest_sha256"] == b["stream_manifest_sha256"], "stream manifest drift"
           print("paired-lifetimes receipt reproduced")
           PY
+      - name: Paired-lifetimes V4 receipt is reproducible (deterministic block)
+        run: |
+          rm -f /tmp/m12_paired_v4.json
+          python -m ocm.evaluation.m12_paired_eval --v4 --out /tmp/m12_paired_v4.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m12_paired_v4.json")); b = json.load(open("research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V4.json"))
+          assert a["deterministic"] == b["deterministic"], "V4 deterministic block drift"
+          assert a["stream_manifest_sha256"] == b["stream_manifest_sha256"], "V4 stream manifest drift"
+          print("paired-lifetimes V4 receipt reproduced")
+          PY
       - name: Receipt chain verifies
-        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify && python tools/m12_paired_receipt.py --verify
+        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify && python tools/m12_paired_receipt.py --verify && python tools/m12_paired_v4_receipt.py --verify
