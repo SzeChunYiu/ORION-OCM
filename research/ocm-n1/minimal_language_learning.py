@@ -180,13 +180,20 @@ def held_out_check(state: LearnedLanguage, utterance: str, expected: MeaningGrap
     )
 
 
+def learned_order(construction: Construction) -> str:
+    labels = {"subj": "S", "verb": "V", "obj": "O"}
+    try:
+        return "".join(labels[slot.name] for slot in construction.pattern)
+    except KeyError as exc:
+        raise ValueError(f"construction pattern is not the registered transitive family: {exc.args[0]}") from exc
+
+
 def run() -> dict:
     en, en_c = learn_language("lang-svo", "SVO")
     sov, sov_c = learn_language("lang-sov", "SOV")
     expected = transitive_meaning("girl", "push", "ball")
     en_ok = held_out_check(en, "girl push ball", expected)
     sov_ok = held_out_check(sov, "girl ball push", expected)
-    # Cross-order forms must not be accepted by the wrong learned inventory.
     en_rejects_sov = interpret("girl ball push", en.lexicon, en.constructions).verdict is Verdict.UNKNOWN_CONSTRUCTION
     sov_rejects_svo = interpret("girl push ball", sov.lexicon, sov.constructions).verdict is Verdict.UNKNOWN_CONSTRUCTION
     return {
@@ -202,14 +209,14 @@ def run() -> dict:
         ],
         "teacher_information_channel": "explicit (surface, category, concept) word lessons + one aligned clause demonstration",
         "svo": {
-            "learned_hypothesis": en_c.lineage[-1][1] if en_c.lineage else "SVO",
+            "learned_hypothesis": learned_order(en_c),
             "language_specific_objects_after_learning": en.language_specific_objects,
             "information_events": len(en.information_events),
             "held_out_composition": en_ok,
             "rejects_conflicting_order": en_rejects_sov,
         },
         "sov": {
-            "learned_hypothesis": sov_c.lineage[-1][1] if sov_c.lineage else "SOV",
+            "learned_hypothesis": learned_order(sov_c),
             "language_specific_objects_after_learning": sov.language_specific_objects,
             "information_events": len(sov.information_events),
             "held_out_composition": sov_ok,
