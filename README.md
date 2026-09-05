@@ -6,7 +6,9 @@ OCM is a research programme toward a minimal self-extending cognitive machine th
 
 ## Current programme priority
 
-**Roadmap v1 is closed (M0–M12, issue #1).** The Conversational Alpha gate (M6/M7) was earned; method space (M9), science (M10), governed self-reorganisation (M11) and the full lifetime evaluation (M12) followed in order. The next priority is the M12 revival backlog (`docs/OCM_PROGRAMME_TERMINALS_V1.md`) and the ORION-V2 theory loop; new architecture work still starts only when a predecessor closes with an explicit terminal.
+**The revised runtime requires renewed scientific evaluation.** Roadmap v1 recorded historical M0–M12 terminals. The 2026-09-05 review found invalid predecessor bindings in historical M11 adoption cells and M12 phase G, as well as runtime revocation, durability and statistical-guarantee defects. Those defects now have implementation fixes and regression tests. Replays of the authored scenarios are engineering evidence; they do not renew the old protected-evaluation claims.
+
+Current receipt verification and the historical records are separated in [the runtime revision receipts](docs/provenance/runtime_revision_20260905_v3/). The immediate priority is corrected adoption-cell evaluation, stronger matched parents, longer lifetimes and independent assessment; see [the programme terminals](docs/OCM_PROGRAMME_TERMINALS_V1.md) and [runtime revalidation](docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md).
 
 The active target is a runnable machine that can sustain real multi-turn English conversation over a bounded knowledge world while:
 
@@ -20,6 +22,42 @@ The active target is a runnable machine that can sustain real multi-turn English
 - exposing a diagnostic trace from understanding to cognition to committed speech;
 - using no hidden frontier LLM as the central reasoning or writing mechanism in the mechanism arm.
 
+## Run the bounded chat runtime
+
+Install with `python -m pip install .`, then run `ocm chat --state ./ocm-state`.
+The installed wheel includes its checked vocabulary and knowledge manifest; it does not need the
+repository test suite. `python -m ocm.chat` is also available. Repository custody audits (`status`
+and the M0 `demo`) remain checkout-only commands and explain missing custody outside a checkout.
+
+The [continuation report](docs/IMPLEMENTATION_CONTINUATION_2026-09-05.md) records actual-speech
+checks, recoverable data-only rollback, complete assurance measurements, numerical optimizations
+and current validation. Earlier results remain historical evidence.
+
+Current integration: chat now proposes spelling corrections, asks about ambiguous
+spellings, remembers user-reported facts, and learns/reuses checked arithmetic
+methods across restarts. See [the current capability report](docs/CHAT_LEARNING_INTEGRATION_V4.md).
+The [V4 successor evidence](docs/provenance/runtime_revision_20260905_v4/) preserves
+both local and upstream histories. Historical programme terminals are not
+current scientific admission. ChatGPT equivalence and frontier mathematics
+remain unestablished.
+
+```text
+ocm chat --state ./ocm-state
+> is parsi in france
+> remember: mira is a botanist
+> learn method next-square: inc square
+> run next-square on 3
+> list skills
+> find method: 1,2,1
+```
+
+Run `ocm methods` for the checked method-learning demonstration: learn reusable
+program fragments, generate methods for different polynomial specifications,
+verify exact solutions, persist the generator, and reopen it when support is
+revoked. The [method-learning and recovery report](docs/METHOD_LEARNING_AND_RECOVERY_V3.md)
+states the finite convergence conditions, measured search improvements and the
+remaining requirements for real scientific evaluation.
+
 ## Scientific discipline
 
 OCM does **not** assume that Language KSO, Method KSO, Wisdom KSO, field/subject/domain hierarchies, symbolic grammar, hypergraphs, or any other current decomposition is the final architecture of cognition. These are candidate organizations to test and replace when evidence warrants it.
@@ -32,8 +70,7 @@ This repository is being initialized from the OCM research stack developed in `S
 
 ## Milestone state
 
-Roadmap v1 (M0–M12) is complete; every terminal is receipt-bound and indexed in
-`docs/OCM_PROGRAMME_TERMINALS_V1.md`.
+The table below preserves the **historical roadmap v1 terminals**. It does not certify the revised engine. Current M11 is `M11_ENGINEERING_REVALIDATION__HISTORICAL_ADOPTION_CELLS_REOPENED`; current M12 is `M12_ENGINEERING_REVALIDATION__PROTECTED_REEVALUATION_REQUIRED`. Every old receipt remains unchanged, with explicit successor receipts for the revised code.
 
 | milestone | issue | terminal | receipt | report |
 |---|---|---|---|---|

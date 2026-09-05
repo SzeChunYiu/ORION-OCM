@@ -97,6 +97,8 @@ class ResponsePlan:
     required_marker: Marker = Marker.NONE
     referents: tuple[str, ...] = ()            # entity ids the plan needs resolved
     scope: str | None = None
+    source_name: str | None = None
+    reported_negative: bool = False
 
 
 @dataclass(frozen=True)
@@ -125,6 +127,10 @@ def plan_check(plan: ResponsePlan, liveness_of: Callable[[Iterable[str]], Livene
     """Thought→language direction: can this plan be said at all?  Returns reopen events."""
     ev: list[FeedbackEvent] = []
     res = set(resolved)
+    if plan.assertions and plan.required_marker is Marker.NONE:
+        ev.append(FeedbackEvent(FeedbackKind.UNSUPPORTED_ASSERTION, "assertions require an epistemic marker", "warrant"))
+    if plan.meaning is not None and plan.required_marker is Marker.ASSERTED and not plan.assertions:
+        ev.append(FeedbackEvent(FeedbackKind.MISSING_PREMISE, "asserted meaning has no warrant", "warrant"))
     for r in plan.referents:
         if r not in res:
             ev.append(FeedbackEvent(FeedbackKind.MISSING_REFERENT, r, REOPENS[FeedbackKind.MISSING_REFERENT]))
@@ -136,6 +142,8 @@ def plan_check(plan: ResponsePlan, liveness_of: Callable[[Iterable[str]], Livene
             ev.append(FeedbackEvent(kind, f"{a.digest}: state requires {need.value}, plan says {plan.required_marker.value}", REOPENS[kind]))
         if not a.evidence:
             ev.append(FeedbackEvent(FeedbackKind.MISSING_PREMISE, a.digest, REOPENS[FeedbackKind.MISSING_PREMISE]))
+    if plan.meaning is not None and any(a.digest != canonical(plan.meaning)[1] for a in plan.assertions):
+        ev.append(FeedbackEvent(FeedbackKind.MISSING_PREMISE, "assertion evidence does not bind the planned proposition", "warrant"))
     digests = [a.digest for a in plan.assertions]
     if plan.meaning is not None and plan.act in (Act.ASSERT, Act.ANSWER) and any(e.relation == "NEGATES" for e in plan.meaning.edges) and any(not e.relation == "NEGATES" for e in ()):
         pass
@@ -144,7 +152,7 @@ def plan_check(plan: ResponsePlan, liveness_of: Callable[[Iterable[str]], Livene
     return tuple(ev)
 
 
-def commit_gate(plan: ResponsePlan, surface: Surface, liveness_of: Callable[[Iterable[str]], Liveness], *, resolved: Iterable[str] = (), protected_ids: Iterable[str] = ()) -> GateVerdict:
+def commit_gate(plan: ResponsePlan, surface: Surface, liveness_of: Callable[[Iterable[str]], Liveness], *, resolved: Iterable[str] = (), protected_ids: Iterable[str] = (), lexicon=None, constructions=None, revoked: Iterable[str] = ()) -> GateVerdict:
     ev: list[FeedbackEvent] = list(plan_check(plan, liveness_of, resolved))
     if surface.renderer_had_store:
         ev.append(FeedbackEvent(FeedbackKind.RENDERER_CAPABILITY, "renderer held a store handle", REOPENS[FeedbackKind.RENDERER_CAPABILITY]))
@@ -154,7 +162,14 @@ def commit_gate(plan: ResponsePlan, surface: Surface, liveness_of: Callable[[Ite
         ev.append(FeedbackEvent(FeedbackKind.MEANING_DRIFT, f"renderer introduced {list(surface.introduced_digests)}", REOPENS[FeedbackKind.MEANING_DRIFT]))
     if surface.marker is not plan.required_marker:
         ev.append(FeedbackEvent(FeedbackKind.MARKER_MISMATCH, f"surface {surface.marker.value} ≠ required {plan.required_marker.value}", REOPENS[FeedbackKind.MARKER_MISMATCH]))
-    leaked = sorted(set(surface.content_ids) & set(protected_ids))
+    from .surface_text import check_text
+    ev.extend(check_text(plan, surface.text, lexicon=lexicon, constructions=constructions, revoked=revoked))
+    # Interpretation has registered host callbacks; recheck support after they finish.
+    for event in plan_check(plan,liveness_of,resolved):
+        if event not in ev:
+            ev.append(event)
+    protected = tuple(protected_ids)
+    leaked = sorted((set(surface.content_ids) & set(protected)) | {p for p in protected if isinstance(p,str) and p and isinstance(surface.text,str) and p in surface.text})
     if leaked:
         ev.append(FeedbackEvent(FeedbackKind.PROTECTED_LEAK, str(leaked), REOPENS[FeedbackKind.PROTECTED_LEAK]))
     return GateVerdict(not ev, tuple(ev))

@@ -1,8 +1,8 @@
-"""M12 lifetime evaluation: one persistent OCM vs the whole-system parent and the template floor
-across three pre-registered orderings of phases A–G.  Writes research/ocm-m12/M12_LIFETIME_EVAL_V1.json
-with the full per-phase vectors, information/resource receipts, kill-gate checks, the claim-tier
-matrix computed by the pre-registered rules, and the CANNOT_CHECK entries (frontier reference,
-human rating, external benchmarks).  `--out PATH` writes elsewhere (CI reproducibility).
+"""M12 engineering lifetime replay after outcome access.
+
+Runs the historical orderings and preserves descriptive vectors. Incomparable
+case inventories remain CANNOT_CHECK. A new --out path is mandatory; this
+harness cannot rewrite protected history or establish scientific promotion.
 """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ WORK = {"B": "enterprise", "C": "software"}
 def run_lifetime(arm_name: str, ordering: str, root: Path) -> dict[str, Any]:
     arm = MC.ARMS[arm_name](root / arm_name / ordering)
     phases: dict[str, Any] = {}
-    identity = [("start", arm.state_digest(), arm.identity().get("ledger_root"), arm.identity().get("one_runtime", True))]
+    identity = [("start", arm.state_digest(), arm.identity().get("ledger_root"), arm.identity().get("one_runtime", False))]
     t0 = time.perf_counter()
     for k, ph in enumerate(ORDERINGS[ordering]):
         if ph == "A":
@@ -44,7 +44,7 @@ def run_lifetime(arm_name: str, ordering: str, root: Path) -> dict[str, Any]:
             phases["F"] = PH.phase_F(arm)
         elif ph == "G":
             phases["G"] = PH.phase_G(arm, int(ordering[-1]) - 1)
-        identity.append((ph, arm.state_digest(), arm.identity().get("ledger_root"), arm.identity().get("one_runtime", True)))
+        identity.append((ph, arm.state_digest(), arm.identity().get("ledger_root"), arm.identity().get("one_runtime", False)))
     phases["unknown"] = PH.phase_unknown(arm)
     info = arm.info() if hasattr(arm, "info") else {}
     res = arm.resources() if hasattr(arm, "resources") else {}
@@ -55,22 +55,45 @@ def vec(run: dict, ph: str, key: str) -> list[bool]:
     p = run["phases"].get(ph, {})
     v = p.get(key, [])
     if isinstance(v, dict):
-        return [x for vals in v.values() for x in vals]
-    return list(v)
+        v = [x for key in sorted(v) for x in v[key]]
+    v = list(v)
+    if any(type(x) is not bool for x in v):
+        raise ValueError("outcome vectors require explicit booleans")
+    return v
 
 
 def kill_gates(runs: dict[str, dict[str, dict]]) -> dict[str, Any]:
-    gates = {"protected_exposure": 0, "external_io": 0, "live_on_revoked_after_F": 0, "self_change_protected_target": 0, "missing_phase_outcomes": 0, "cannot_check_as_pass": 0, "identity_reset_or_split": 0}
+    gates = {"protected_exposure": 0, "external_io": 0, "live_on_revoked_after_F": 0, "self_change_protected_target": 0, "missing_phase_outcomes": 0, "cannot_check_as_pass": 0, "identity_reset_or_split": 0, "missing_measurements": int(not runs)}
     for arm, by_order in runs.items():
+        gates["missing_measurements"] += int(not by_order)
         for r in by_order.values():
-            gates["protected_exposure"] += int(r["information"].get("protected_exposure", 0) or 0)
-            gates["external_io"] += int(r["resources"].get("external_io", 0) or 0)
-            gates["identity_reset_or_split"] += int(arm == "ocm" and not r["no_reset"])
-            gates["missing_phase_outcomes"] += sum(1 for ph in ("A", "B", "C", "D", "E", "F", "G", "unknown") if ph not in r["phases"])
-            f = r["phases"].get("F", {})
+            for section, key in (("information", "protected_exposure"), ("resources", "external_io")):
+                value = r.get(section, {}).get(key)
+                if type(value) is not int or value < 0:
+                    gates["missing_measurements"] += 1
+                else:
+                    gates[key] += value
+            try:
+                family_vectors(r)
+            except (KeyError, TypeError, ValueError):
+                gates["cannot_check_as_pass"] += 1
+            gates["identity_reset_or_split"] += int(arm == "ocm" and r.get("no_reset") is not True)
+            if arm == "ocm":
+                trace = r.get("identity_trace", ())
+                expected_labels = ["start", *r.get("ordering", "").split("→")]
+                valid = (len(trace) == 8 and len(expected_labels) == 8
+                         and all(isinstance(row, (tuple, list)) and len(row) == 4 for row in trace))
+                if valid:
+                    valid = ([row[0] for row in trace] == expected_labels
+                             and all(type(row[1]) is str and bool(row[1]) and type(row[2]) is str and bool(row[2])
+                                     and row[3] is True for row in trace)
+                             and len({row[2] for row in trace}) == 1)
+                gates["identity_reset_or_split"] += int(not valid)
+            gates["missing_phase_outcomes"] += sum(1 for ph in ("A", "B", "C", "D", "E", "F", "G", "unknown") if ph not in r.get("phases", {}))
+            f = r.get("phases", {}).get("F", {})
             if arm == "ocm" and f.get("work", {}).get("ran_dead_skill"):
                 gates["live_on_revoked_after_F"] += 1
-            g = r["phases"].get("G", {})
+            g = r.get("phases", {}).get("G", {})
             if g.get("assurance_reasons") and "constitutional_invariants" in g["assurance_reasons"]:
                 gates["self_change_protected_target"] += 1
     return {**gates, "hits": sum(gates.values())}
@@ -83,12 +106,60 @@ def family_vectors(run: dict) -> dict[str, list[bool]]:
 
 
 def paired(a: list[bool], b: list[bool]) -> ST.PairedComparison:
-    n = min(len(a), len(b))
-    return ST.PairedComparison(n, sum(a[:n]), sum(b[:n]), sum(1 for x, y in zip(a, b) if x and not y), sum(1 for x, y in zip(a, b) if y and not x))
+    return ST.paired(a, b)
+
+
+def paired_family(a: dict, b: dict, family: str) -> ST.PairedComparison:
+    if family == "E_transfer":
+        ca, cb = a["phases"]["E"]["cells"], b["phases"]["E"]["cells"]
+        if not ca or set(ca) != set(cb) or any(ca[k]["expected"] != cb[k]["expected"] for k in ca):
+            raise ValueError("transfer arms have different registered case identities or expected outcomes")
+        return paired([ca[k]["result"] == ca[k]["expected"] for k in sorted(ca)],
+                      [cb[k]["result"] == cb[k]["expected"] for k in sorted(ca)])
+    return paired(family_vectors(a)[family], family_vectors(b)[family])
 
 
 def claim_tiers(runs: dict[str, dict[str, dict]], gates: dict[str, Any], claims: dict[str, Any]) -> dict[str, Any]:
+    # Per-run diagnostics may inspect O1 alone; a programme tier requires all
+    # declared arms/orderings and complete typed observations.
+    expected = set(ORDERINGS)
+    complete = set(runs) == set(MC.ARMS) and all(set(by) == expected for by in runs.values())
+    measured = kill_gates(runs)
+    if not complete or measured["hits"] or gates != measured:
+        return {f"tier{i}_{name}": {"holds": False, "holds_descriptive": False,
+                "status": "CANNOT_CHECK", "reason": "incomplete or invalid lifetime evidence"}
+                for i, name in enumerate(("operational", "capability", "lifelong_learning", "transfer",
+                                          "epistemic_integrity", "self_reorganisation", "broad"))}
     ocm, par = runs["ocm"], runs["whole_system_parent"]
+    try:
+        for o in expected:
+            for family, values in family_vectors(ocm[o]).items():
+                if family == "E_transfer":
+                    continue  # this separately scoped comparison can be uncheckable
+                paired_family(ocm[o], par[o], family)
+                if not values:
+                    raise ValueError("missing paired family")
+            for arm in (ocm, par):
+                if arm[o]["ordering"] != "→".join(ORDERINGS[o]):
+                    raise ValueError("ordering identity changed")
+                for phase in ("B", "C"):
+                    cost = arm[o]["phases"][phase]["acquisition_cost"]
+                    if type(cost) is not int or cost < 0:
+                        raise ValueError("invalid acquisition cost")
+                for phase, keys in (("E", ("harmful_accepted",)), ("F", ("stale_behaviours", "dependents_reopened", "unrelated_intact"))):
+                    if any(type(arm[o]["phases"][phase][key]) is not int or arm[o]["phases"][phase][key] < 0 for key in keys):
+                        raise ValueError("missing or invalid measured count")
+                for key in ("repaired", "preserved"):
+                    if type(arm[o]["phases"]["G"][key]) is not bool:
+                        raise ValueError("missing self-change outcome")
+            for key in ("diagnosis_correct", "rollback_exact", "minimum_class_correct"):
+                if type(ocm[o]["phases"]["G"][key]) is not bool:
+                    raise ValueError("missing self-change outcome")
+    except (KeyError, TypeError, ValueError):
+        return {f"tier{i}_{name}": {"holds": False, "holds_descriptive": False,
+                "status": "CANNOT_CHECK", "reason": "invalid paired or self-change evidence"}
+                for i, name in enumerate(("operational", "capability", "lifelong_learning", "transfer",
+                                          "epistemic_integrity", "self_reorganisation", "broad"))}
     tiers: dict[str, Any] = {}
     tiers["tier0_operational"] = {"holds": gates["hits"] == 0 and all(r["no_reset"] for r in ocm.values()) and all(len(r["phases"]) == 8 for r in ocm.values())}
     fam_rates = {}
@@ -109,7 +180,16 @@ def claim_tiers(runs: dict[str, dict[str, dict]], gates: dict[str, Any], claims:
     tp = [ocm[o]["phases"]["E"].get("transfer_precision") for o in ocm]
     harm_par = sum(par[o]["phases"]["E"].get("harmful_accepted", 0) for o in par)
     harm_ocm = sum(ocm[o]["phases"]["E"].get("harmful_accepted", 0) for o in ocm)
-    tiers["tier3_transfer"] = {"ocm_precision": tp, "ocm_harmful_accepted": harm_ocm, "parent_harmful_accepted": harm_par, "holds_descriptive": all(x == 1.0 for x in tp) and harm_ocm == 0 and harm_par >= 1, "inferential": claims.get("E_transfer", {}).get("terminal")}
+    transfer_comparable = True
+    for o in expected:
+        try:
+            paired_family(ocm[o], par[o], "E_transfer")
+        except (KeyError, TypeError, ValueError):
+            transfer_comparable = False
+    tiers["tier3_transfer"] = {"ocm_precision": tp, "ocm_harmful_accepted": harm_ocm, "parent_harmful_accepted": harm_par,
+                              "matched_case_inventory": transfer_comparable,
+                              "holds_descriptive": transfer_comparable and all(x == 1.0 for x in tp) and harm_ocm == 0 and harm_par >= 1,
+                              "inferential": claims.get("E_transfer", {}).get("terminal")}
     stale = [ocm[o]["phases"]["F"]["stale_behaviours"] for o in ocm]
     reopened = [ocm[o]["phases"]["F"]["dependents_reopened"] for o in ocm]
     intact = [ocm[o]["phases"]["F"]["unrelated_intact"] for o in ocm]
@@ -124,17 +204,16 @@ def claim_tiers(runs: dict[str, dict[str, dict]], gates: dict[str, Any], claims:
 
 
 def exit_gate(tiers: dict[str, Any], claims: dict[str, Any], replication_matches: bool | None) -> str:
-    if tiers["tier6_broad"]["holds"] and replication_matches:
-        return "FULL_OCM_RESIDUAL_SUPPORTED"
-    verdicts = [c.get("verdict") for c in claims.values() if c.get("n", 0) >= 40]
-    if verdicts and all(v in ("EQUIVALENT", "RESIDUAL_B") for v in verdicts):
-        return "PARENT_SUFFICIENT"
+    # This executable is a development replay after outcome access. Neither a
+    # caller boolean nor a local result can authenticate independent replication
+    # or externally admit a scientific terminal. Keep descriptive tiers above.
     return "CANNOT_CHECK"
 
 
 def main(argv=None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
-    out_path = Path(argv[argv.index("--out") + 1]) if "--out" in argv else OUT
+    from ocm.evaluation.output import new_output_path, write_result
+    out_path = new_output_path(argv, "M12 engineering lifetime replay")
     runs: dict[str, dict[str, dict]] = {}
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
@@ -151,7 +230,12 @@ def main(argv=None) -> int:
         if not a:
             claims[fam] = {"n": 0, "terminal": "CANNOT_CHECK"}
             continue
-        cmp = paired(a, b)
+        try:
+            cmp = paired_family(runs["ocm"]["O1"], runs["whole_system_parent"]["O1"], fam)
+        except (KeyError, TypeError, ValueError) as exc:
+            claims[fam] = {"n": 0, "ocm_observations": len(a), "parent_observations": len(b),
+                           "terminal": "CANNOT_CHECK", "verdict": "CANNOT_CHECK", "reason": str(exc)}
+            continue
         t = ST.tost_equivalence(cmp, 0.05)
         claims[fam] = {"n": cmp.n, "ocm": cmp.a_success, "parent": cmp.b_success, **t, "terminal": ("DESCRIPTIVE (n < 40)" if cmp.n < 40 else {"RESIDUAL_A": "OCM_RESIDUAL", "RESIDUAL_B": "PARENT_RESIDUAL", "EQUIVALENT": "EQUIVALENT", "INCONCLUSIVE": "INCONCLUSIVE", "CANNOT_CHECK": "CANNOT_CHECK"}[t["verdict"]])}
     tiers = claim_tiers(runs, gates, claims)
@@ -160,14 +244,13 @@ def main(argv=None) -> int:
                      "G": {arm: {o: r["phases"]["G"] for o, r in by.items()} for arm, by in runs.items()}, "E": {arm: {o: r["phases"]["E"]["cells"] for o, r in by.items()} for arm, by in runs.items()},
                      "always_attempts": {arm: {o: {"A": r["phases"]["A"].get("always_attempts"), "D": r["phases"]["D"].get("always_attempts"), "unknown": r["phases"]["unknown"].get("always_attempts")} for o, r in by.items()} for arm, by in runs.items()},
                      "acquisition": {arm: {o: {ph: {"route": r["phases"][ph]["route"], "cost": r["phases"][ph]["acquisition_cost"]} for ph in ("B", "C")} for o, r in by.items()} for arm, by in runs.items()}}
-    out = {"receipt": "M12_LIFETIME_EVAL_V2", "study_status": "PROTECTED (V2 pre-registration frozen after the V1 DEV_CALIBRATION; no change after V2 outcome access)", "preregistration_sha256": hashlib.sha256(PREREG.read_bytes()).hexdigest(), "orderings": {k: "→".join(v) for k, v in ORDERINGS.items()},
-           "deterministic": deterministic, "exit_gate_before_replication": exit_gate(tiers, claims, None), "exit_gate_rule": "FULL_OCM_RESIDUAL_SUPPORTED needs tier 6 + a matching replication receipt; PARENT_SUFFICIENT needs inferential EQUIVALENT/parent wins on every n ≥ 40 family; else CANNOT_CHECK with the full vector published",
+    out = {"receipt": "M12_ENGINEERING_REPLAY_V3", "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "scientific_promotion": "NOT_ESTABLISHED", "preregistration_sha256": hashlib.sha256(PREREG.read_bytes()).hexdigest(), "orderings": {k: "→".join(v) for k, v in ORDERINGS.items()},
+           "deterministic": deterministic, "exit_gate_before_replication": exit_gate(tiers, claims, None), "exit_gate_rule": "Engineering replay only; scientific promotion and independent replication require an external protected evaluation.",
            "phases": {arm: {o: r["phases"] for o, r in by.items()} for arm, by in runs.items()},
            "identity": {arm: {o: r["identity_trace"] for o, r in by.items()} for arm, by in runs.items()}, "information": {arm: {o: r["information"] for o, r in by.items()} for arm, by in runs.items()}, "resources": {arm: {o: r["resources"] for o, r in by.items()} for arm, by in runs.items()},
            "cannot_check": {"frontier_reference": MC.FRONTIER_REFERENCE, "human_usefulness_rating": "CANNOT_CHECK (no blinded raters in this environment)", "external_benchmarks": "CANNOT_CHECK (see M7–M10 reports; no network / containers / foundation model)"},
            "authority": "one persistent OCM instance over OCM-authored bounded worlds and oracle environments; the whole-system parent receives identical information, demonstrations, lessons, plans and budgets; the declared experimental difference is the explicit epistemic machinery; no novelty claim"}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, indent=1, default=str) + "\n", encoding="utf-8")
+    write_result(out_path, out)
     print(json.dumps({"gates": gates, "tiers": {k: (v.get("holds", v.get("holds_descriptive"))) for k, v in tiers.items()}, "exit_gate_before_replication": out["exit_gate_before_replication"], "summary_ocm_O1": summary["ocm"]["O1"], "summary_parent_O1": summary["whole_system_parent"]["O1"]}, indent=1))
     return 0
 

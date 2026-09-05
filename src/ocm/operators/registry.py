@@ -9,11 +9,12 @@ MEG-02 (definitional half, adopted here):
   * A STATISTICAL/NEURAL backend's candidate enters with the interval ``⟦0, ONE⟧`` — UNKNOWN under
     every revocation — and a **score outside the lattice** (``Candidate.score``); a score is never
     a warrant (KS-T24 at the operator level).
-  * A candidate becomes LIVE only through (a) an EXACT_CHECKER / OBSERVATION certificate on the
-    candidate itself, or (b) a **scoped coverage certificate** — an EXPERIMENTATION-channel claim
-    *about the operator* ("coverage ≥ 1−δ under the registered exchangeability assumption on scope
-    S") whose warrant becomes the bridge ``P_b`` of the composition, with ``S`` recorded as the
-    candidate's scope.  Outside ``S`` the certificate does not apply and the candidate stays UNKNOWN.
+  * A candidate becomes LIVE through an EXACT_CHECKER certificate on the candidate itself.
+    A scoped coverage certificate instead warrants a distinct OPERATOR_GUARANTEE
+    ("coverage ≥ 1−δ under the registered exchangeability assumption on scope S").
+    Its liveness never becomes exact truth of this output or permission to act.
+    This corrects the earlier MEG-02 coverage-to-output coercion under the typed
+    lifecycle distinction (ORION-V2 foundation_typed_lifecycle_v1, T04).
   * Corollary of KS-T21: no composition whose components are all UNKNOWN is LIVE.
   Parents: selective classification (Chow 1970, verified), conformal prediction (Vovk et al.,
   candidate parent, unverified), PCC admission (Necula 1997, verified).  The graded-semiring half
@@ -75,7 +76,7 @@ class OperatorSpec:
 @dataclass(frozen=True)
 class CoverageCertificate:
     """An EXPERIMENTATION-channel claim about an operator: coverage ≥ 1 − delta on `scope` under a
-    registered assumption; its evidence id is the bridge warrant of every candidate it licenses."""
+    registered assumption; its evidence supports the operator guarantee, not individual output truth."""
 
     operator_fingerprint: str
     scope: Scope
@@ -96,6 +97,23 @@ class CoverageCertificate:
 
 
 @dataclass(frozen=True)
+class OperatorGuarantee:
+    """A typed, scoped statistical statement with its own revocable support.
+
+    Liveness is conditional on the supplied certificate premises. It neither
+    verifies calibration data nor grants exact-output truth or action authority.
+    """
+
+    certificate: CoverageCertificate
+    warrant: WarrantProfile
+    scope: Scope
+    kind: str = field(default="OPERATOR_GUARANTEE", init=False)
+
+    def liveness(self, revoked: Iterable[Hashable]) -> Liveness:
+        return self.warrant.liveness(revoked)
+
+
+@dataclass(frozen=True)
 class Candidate:
     """A backend output as it may enter the store."""
 
@@ -106,6 +124,7 @@ class Candidate:
     authority: Authority
     score: float | None = None      # OUTSIDE the lattice; ranking only, never warrant
     certificate: str | None = None  # how it became LIVE, if it did
+    guarantee: OperatorGuarantee | None = None  # distinct from this output's warrant
 
     def liveness(self, revoked: Iterable[Hashable]) -> Liveness:
         return self.warrant.liveness(revoked)
@@ -149,10 +168,10 @@ def compose_candidate(
         if coverage.operator_fingerprint != op.fingerprint:
             raise TypedRejection("COVERAGE_CERTIFICATE_FOR_ANOTHER_OPERATOR", op.operator_id)
         licensed_scope = scope.intersect(coverage.scope)
-        if licensed_scope.is_empty or (context is not None and not coverage.scope.covers(context)):
+        if licensed_scope.is_empty or (context is not None and not licensed_scope.covers(context)):
             return Candidate(op, output, unknown, scope, authority, score)   # outside S: stays UNKNOWN
         w = inputs_warrant.meet(coverage.bridge_warrant)
-        return Candidate(op, output, w, licensed_scope, authority, score, certificate=f"COVERAGE(delta={coverage.delta})")
+        return Candidate(op, output, unknown, licensed_scope, authority, score, guarantee=OperatorGuarantee(coverage, w, licensed_scope))
     return Candidate(op, output, unknown, scope, authority, score)
 
 

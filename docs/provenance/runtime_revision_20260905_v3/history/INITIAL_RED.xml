@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="13" skipped="0" tests="13" time="0.300" timestamp="2026-09-05T15:15:05.259969+05:30" hostname="localhost"><testcase classname="tests.test_evaluation_integrity_v3" name="test_pairing_refuses_truncation_and_non_boolean_observations[paired0]" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">paired = &lt;function paired at 0x7f30a85f8680&gt;
+
+    @pytest.mark.parametrize("paired", [M7.paired, M12.paired])
+    def test_pairing_refuses_truncation_and_non_boolean_observations(paired):
+        for a, b in [([True], [True, False]), (["CANNOT_CHECK"], [True]), ([1], [True])]:
+&gt;           with pytest.raises(ValueError):
+E           Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:14: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_pairing_refuses_truncation_and_non_boolean_observations[paired1]" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">paired = &lt;function paired at 0x7f30a8505260&gt;
+
+    @pytest.mark.parametrize("paired", [M7.paired, M12.paired])
+    def test_pairing_refuses_truncation_and_non_boolean_observations(paired):
+        for a, b in [([True], [True, False]), (["CANNOT_CHECK"], [True]), ([1], [True])]:
+&gt;           with pytest.raises(ValueError):
+E           Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:14: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_one_agreement_does_not_prove_population_equivalence" time="0.001"><failure message="AssertionError: assert 'EQUIVALENT' == 'INCONCLUSIVE'&#10;  &#10;  - INCONCLUSIVE&#10;  + EQUIVALENT">def test_one_agreement_does_not_prove_population_equivalence():
+        result = ST.tost_equivalence(ST.PairedComparison(1, 1, 1, 0, 0))
+&gt;       assert result["verdict"] == "INCONCLUSIVE"
+E       AssertionError: assert 'EQUIVALENT' == 'INCONCLUSIVE'
+E         
+E         - INCONCLUSIVE
+E         + EQUIVALENT
+
+tests/test_evaluation_integrity_v3.py:20: AssertionError</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_paired_contingency_table_must_exist[values0]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">values = (1, 2, 1, 0, 0)
+
+    @pytest.mark.parametrize("values", [(1, 2, 1, 0, 0), (10, 5, 5, 4, 2), (1, 1, 0, 0, 0), (True, 1, 1, 0, 0)])
+    def test_paired_contingency_table_must_exist(values):
+&gt;       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:26: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_paired_contingency_table_must_exist[values1]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">values = (10, 5, 5, 4, 2)
+
+    @pytest.mark.parametrize("values", [(1, 2, 1, 0, 0), (10, 5, 5, 4, 2), (1, 1, 0, 0, 0), (True, 1, 1, 0, 0)])
+    def test_paired_contingency_table_must_exist(values):
+&gt;       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:26: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_paired_contingency_table_must_exist[values2]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">values = (1, 1, 0, 0, 0)
+
+    @pytest.mark.parametrize("values", [(1, 2, 1, 0, 0), (10, 5, 5, 4, 2), (1, 1, 0, 0, 0), (True, 1, 1, 0, 0)])
+    def test_paired_contingency_table_must_exist(values):
+&gt;       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:26: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_paired_contingency_table_must_exist[values3]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">values = (True, 1, 1, 0, 0)
+
+    @pytest.mark.parametrize("values", [(1, 2, 1, 0, 0), (10, 5, 5, 4, 2), (1, 1, 0, 0, 0), (True, 1, 1, 0, 0)])
+    def test_paired_contingency_table_must_exist(values):
+&gt;       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests/test_evaluation_integrity_v3.py:26: Failed</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_empty_run_inventory_never_passes_operational_gate" time="0.000"><failure message="assert 0 &gt; 0">def test_empty_run_inventory_never_passes_operational_gate():
+&gt;       assert M12.kill_gates({})["hits"] &gt; 0
+E       assert 0 &gt; 0
+
+tests/test_evaluation_integrity_v3.py:31: AssertionError</failure></testcase><testcase classname="tests.test_evaluation_integrity_v3" name="test_truthy_replication_flag_never_promotes_science" time="0.001"><failure message="AssertionError: assert 'FULL_OCM_RESIDUAL_SUPPORTED' != 'FULL_OCM_RESIDUAL_SUPPORTED'&#10; +  where 'FULL_OCM_RESIDUAL_SUPPORTED' = &lt;function exit_gate at 0x7f30a85053a0&gt;({'tier6_broad': {'holds': True}}, {}, True)&#10; +    where &lt;function exit_gate at 0x7f30a85053a0&gt; = M12.exit_gate">def test_truthy_replication_flag_never_promotes_science():
+&gt;       assert M12.exit_gate({"tier6_broad": {"holds": True}}, {}, True) != "FULL_OCM_RESIDUAL_SUPPORTED"
+E       AssertionError: assert 'FULL_OCM_RESIDUAL_SUPPORTED' != 'FULL_OCM_RESIDUAL_SUPPORTED'
+E        +  where 'FULL_OCM_RESIDUAL_SUPPORTED' = &lt;function exit_gate at 0x7f30a85053a0&gt;({'tier6_broad': {'holds': True}}, {}, True)
+E        +    where &lt;function exit_gate at 0x7f30a85053a0&gt; = M12.exit_gate
+
+tests/test_evaluation_integrity_v3.py:35: AssertionError</failure></testcase><testcase classname="tests.m2.test_action_recovery_v3" name="test_complete_declaration_is_bound" time="0.001"><failure message="AssertionError: assert '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' != '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0'&#10; +  where '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' = ActionIntent(intent_id='test', requested_effect='host-operation', arguments={'items': [1]}, scope=Scope(contexts=None,...ation_steps=0, navigation_work=0, composition_work=0, memory_bytes=0, io_calls=0, verification_calls=0, update_work=0)).fingerprint&#10; +  and   '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' = ActionIntent(intent_id='test', requested_effect='host-operation', arguments={'items': [1]}, scope=Scope(contexts=None,...ation_steps=0, navigation_work=0, composition_work=0, memory_bytes=0, io_calls=0, verification_calls=0, update_work=0)).fingerprint">def test_complete_declaration_is_bound():
+        i = intent()
+        for other in (replace(i, expected_outcome="other"), replace(i, risk_estimate="high"),
+                      replace(i, resource_estimate=ResourceVector(io_calls=1))):
+&gt;           assert i.fingerprint != other.fingerprint
+E           AssertionError: assert '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' != '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0'
+E            +  where '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' = ActionIntent(intent_id='test', requested_effect='host-operation', arguments={'items': [1]}, scope=Scope(contexts=None,...ation_steps=0, navigation_work=0, composition_work=0, memory_bytes=0, io_calls=0, verification_calls=0, update_work=0)).fingerprint
+E            +  and   '901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0' = ActionIntent(intent_id='test', requested_effect='host-operation', arguments={'items': [1]}, scope=Scope(contexts=None,...ation_steps=0, navigation_work=0, composition_work=0, memory_bytes=0, io_calls=0, verification_calls=0, update_work=0)).fingerprint
+
+tests/m2/test_action_recovery_v3.py:31: AssertionError</failure></testcase><testcase classname="tests.m2.test_action_recovery_v3" name="test_arguments_are_detached_and_nested_mutation_is_refused" time="0.001"><failure message="AssertionError: assert '4eaf05193650...ef36c4a20ebf7' == '901e154a9b91...89a827a29a6f0'&#10;  &#10;  - 901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0&#10;  + 4eaf05193650c8d70c678c0ae851f16bdbda428398f5de2502fef36c4a20ebf7">def test_arguments_are_detached_and_nested_mutation_is_refused():
+        args = {"items": [1]}
+        i = intent(args)
+        original = i.fingerprint
+        args["items"].append(2)
+&gt;       assert i.fingerprint == original
+E       AssertionError: assert '4eaf05193650...ef36c4a20ebf7' == '901e154a9b91...89a827a29a6f0'
+E         
+E         - 901e154a9b9109ad82fa1050c9454a7ca5833c159ba321cb37d89a827a29a6f0
+E         + 4eaf05193650c8d70c678c0ae851f16bdbda428398f5de2502fef36c4a20ebf7
+
+tests/m2/test_action_recovery_v3.py:39: AssertionError</failure></testcase><testcase classname="tests.m2.test_action_recovery_v3" name="test_exception_after_effect_is_unknown_not_definite_failure" time="0.001"><failure message="AssertionError: assert &lt;ActionStatus.FAILED: 'FAILED'&gt; is &lt;ActionStatus.UNKNOWN: 'UNKNOWN'&gt;&#10; +  where &lt;ActionStatus.FAILED: 'FAILED'&gt; = ActionReceipt(receipt_id='rcpt:test:1', intent_id='test', intent_fingerprint='901e154a9b9109ad82fa1050c9454a7ca5833c15... gate_reasons=(), warrant_liveness='LIVE', authority_granted=True, evidence_ids=('e',), refusal_code='EFFECTOR_FAILED').status&#10; +  and   &lt;ActionStatus.UNKNOWN: 'UNKNOWN'&gt; = &lt;enum 'ActionStatus'&gt;.UNKNOWN&#10; +    where &lt;enum 'ActionStatus'&gt; = A.ActionStatus">def test_exception_after_effect_is_unknown_not_definite_failure():
+        effects = []
+        def effector(i):
+            effects.append(i.intent_id)
+            raise RuntimeError("connection lost after host operation")
+        result = B.commit_external_action(intent(), effector=effector, **boundary_inputs())
+        assert effects == ["test"]
+&gt;       assert result.status is A.ActionStatus.UNKNOWN
+E       AssertionError: assert &lt;ActionStatus.FAILED: 'FAILED'&gt; is &lt;ActionStatus.UNKNOWN: 'UNKNOWN'&gt;
+E        +  where &lt;ActionStatus.FAILED: 'FAILED'&gt; = ActionReceipt(receipt_id='rcpt:test:1', intent_id='test', intent_fingerprint='901e154a9b9109ad82fa1050c9454a7ca5833c15... gate_reasons=(), warrant_liveness='LIVE', authority_granted=True, evidence_ids=('e',), refusal_code='EFFECTOR_FAILED').status
+E        +  and   &lt;ActionStatus.UNKNOWN: 'UNKNOWN'&gt; = &lt;enum 'ActionStatus'&gt;.UNKNOWN
+E        +    where &lt;enum 'ActionStatus'&gt; = A.ActionStatus
+
+tests/m2/test_action_recovery_v3.py:52: AssertionError</failure></testcase><testcase classname="tests.m2.test_action_recovery_v3" name="test_one_shot_observation_evidence_is_preserved" time="0.001"><failure message="AssertionError: assert () == ('e',)&#10;  &#10;  Right contains one more item: 'e'&#10;  Use -v to get more diff">def test_one_shot_observation_evidence_is_preserved():
+        kw = boundary_inputs()
+        kw["observations"] = iter(kw["observations"])
+        result = B.commit_external_action(intent(), effector=lambda i: {"effect": "done"}, **kw)
+&gt;       assert result.evidence_ids == ("e",)
+E       AssertionError: assert () == ('e',)
+E         
+E         Right contains one more item: 'e'
+E         Use -v to get more diff
+
+tests/m2/test_action_recovery_v3.py:59: AssertionError</failure></testcase></testsuite></testsuites>

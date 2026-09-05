@@ -104,7 +104,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({k: r[k] for k in ("scenarios", "steps_total", "steps_expected", "hostiles", "incidents", "latency_s")}, indent=1))
     return 0
 

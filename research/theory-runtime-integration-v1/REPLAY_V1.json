@@ -1,0 +1,160 @@
+{
+  "anchors": {
+    "runtime": "09f8c9527e2c385504b067035d1764e2860d6cc3",
+    "theory": "b15abb41e1f9219ea793a15c5e641ac6579adb35"
+  },
+  "authority": {
+    "M11": "HISTORICAL_ADOPTION_CELLS_REOPENED",
+    "M12": "PROTECTED_REEVALUATION_REQUIRED",
+    "independent_semantic_parity": "NOT_ESTABLISHED",
+    "novelty": "NOT_ESTABLISHED",
+    "runtime_adoption": "NOT_GRANTED",
+    "scientific_validation": "NOT_ESTABLISHED"
+  },
+  "bindings": {
+    "authority": {
+      "M11": "HISTORICAL_ADOPTION_CELLS_REOPENED",
+      "M12": "PROTECTED_REEVALUATION_REQUIRED",
+      "independent_semantic_parity": "NOT_ESTABLISHED",
+      "novelty": "NOT_ESTABLISHED",
+      "runtime_adoption": "NOT_GRANTED",
+      "scientific_validation": "NOT_ESTABLISHED"
+    },
+    "rows": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "source_files": {
+      "runtime": 158,
+      "theory": 3
+    },
+    "status": "SOURCE_BINDINGS_VERIFIED"
+  },
+  "checks": {
+    "M1": {
+      "distinct_targets": 64,
+      "maximum_program_length": 3,
+      "slot_bound_holds": true
+    },
+    "M2": {
+      "numeric_comparisons": 595,
+      "programs": 85,
+      "sample_only_identity_refused": true
+    },
+    "M3": {
+      "held_out": [
+        {
+          "baseline": {
+            "candidates_checked": 35,
+            "checker": "rational-polynomial-coefficients.v1",
+            "counterexamples": [
+              0,
+              1
+            ],
+            "max_length": 4,
+            "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+            "program": [
+              "inc",
+              "square",
+              "dec"
+            ],
+            "slots": 35,
+            "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+            "task_fingerprint": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92"
+          },
+          "both_verified": true,
+          "candidate": {
+            "candidates_checked": 11,
+            "checker": "rational-polynomial-coefficients.v1",
+            "counterexamples": [
+              0,
+              1
+            ],
+            "max_length": 4,
+            "method_fingerprint": "e84c36adc9e1b772fff7bb9eafe61a11449a5d92f80af2b2330c7d3d52a00761",
+            "program": [
+              "inc",
+              "square",
+              "dec"
+            ],
+            "slots": 15,
+            "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+            "task_fingerprint": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92"
+          },
+          "task": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92"
+        },
+        {
+          "baseline": {
+            "candidates_checked": 37,
+            "checker": "rational-polynomial-coefficients.v1",
+            "counterexamples": [
+              0,
+              1
+            ],
+            "max_length": 4,
+            "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+            "program": [
+              "inc",
+              "square",
+              "square"
+            ],
+            "slots": 37,
+            "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+            "task_fingerprint": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02"
+          },
+          "both_verified": true,
+          "candidate": {
+            "candidates_checked": 14,
+            "checker": "rational-polynomial-coefficients.v1",
+            "counterexamples": [
+              0,
+              1
+            ],
+            "max_length": 4,
+            "method_fingerprint": "e84c36adc9e1b772fff7bb9eafe61a11449a5d92f80af2b2330c7d3d52a00761",
+            "program": [
+              "inc",
+              "square",
+              "square"
+            ],
+            "slots": 19,
+            "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+            "task_fingerprint": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02"
+          },
+          "task": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02"
+        }
+      ],
+      "learned_fragments": [
+        [
+          "inc",
+          "square"
+        ]
+      ],
+      "revocation": "REUSE_REFUSED_AFTER_RESTART"
+    },
+    "M4": {
+      "identification_cases": 512,
+      "single_observation_revocations": 904
+    },
+    "limits": "Finite engineering checks; shared premises are not independently validated; no protected study.",
+    "theory_calibration": {
+      "external_science": "NOT_RUN",
+      "fairness_cases": 1024,
+      "identification_cases": 512,
+      "parent_residual": "NOT_CLAIMED",
+      "proof_assistant": "NOT_RUN",
+      "status": "FINITE_CALIBRATION_PASS"
+    }
+  },
+  "package_inventory": {
+    "MANIFEST_V1.json": "c747867fca3776fdee244bee62e114c7e7ae96043cb8f1f39fa45cdc1249ebdf",
+    "README.md": "b9550fed8477d9da3d7c6abe5944641d774d61f6c90bb13ab7c42d31a7e5611f",
+    "check.py": "3a619cc697a1b2effb92aaf68fee8b1f2ea1f5461f023f8f71fd92e1099b7952",
+    "test_bindings.py": "c27b12213e7c08f2a47e465217f1d78f6097c696137c4356548c76f6cbb95b5c"
+  },
+  "python": "3.12.13 (main, Aug  7 2026, 02:25:39) [Clang 22.1.3 ]",
+  "schema": "ocm.theory-runtime-replay.v1",
+  "status": "ENGINEERING_CHECKS_PASS__SCOPED_INTEGRATION_ONLY"
+}

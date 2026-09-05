@@ -257,10 +257,7 @@ def laundering_audit(root: Path) -> dict:
 
 # ------------------------------------------------------------------ run
 def paired(a: list[bool], b: list[bool]) -> ST.PairedComparison:
-    n = min(len(a), len(b))
-    a_only = sum(1 for x, y in zip(a, b) if x and not y)
-    b_only = sum(1 for x, y in zip(a, b) if y and not x)
-    return ST.PairedComparison(n, sum(a[:n]), sum(b[:n]), a_only, b_only)
+    return ST.paired(a, b)
 
 
 def terminal(t: dict) -> str:
@@ -306,10 +303,10 @@ def run(delta: float = 0.05, suite: str = "V1") -> dict:
             t = ST.tost_equivalence(cmp, delta)
             claims[f"RQ3_{step}"][other] = {"n": cmp.n, "ocm": cmp.a_success, "other": cmp.b_success, **t, "terminal": terminal(t)}
     summary = {name: {"conversations": f"{sum(r['conversations'])}/{len(r['conversations'])}", "factual": f"{sum(r['factual_in_scope'])}/{len(r['factual_in_scope'])}", "unknown": f"{sum(r['honest_unknown'])}/{len(r['honest_unknown'])}", "negative_transfer": f"{sum(r['negative_transfer'])}/{len(r['negative_transfer'])}", "post_deployment": {k: f"{sum(v)}/{len(v)}" for k, v in r["post_deployment"].items()}} for name, r in results.items()}
-    return {"receipt": f"M7_COMPARISON_{suite}", "suite": suite, "study_status": "DEV_CALIBRATION (system fixes S22–S24 made after V1 outcome access)" if suite == "V1" else "PROTECTED (frozen after the V1 calibration; no system change after V2 outcome access)", "preregistration_sha256": prereg_hash, "conversations_sha256": convs_hash, "delta": delta, "summary": summary, "claims": claims, "laundering_audit": audit,
+    return {"receipt": f"M7_COMPARISON_{suite}", "suite": suite, "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "preregistration_sha256": prereg_hash, "conversations_sha256": convs_hash, "delta": delta, "summary": summary, "claims": claims, "laundering_audit": audit,
             "information_budget": {n: r["information"] for n, r in results.items()}, "resources": {n: r["resources"] for n, r in results.items()},
             "power_at_planned_n": {str(n): round(ST.power_exact(n, 0.15, delta), 3) for n in (40, 60, 80)},
-            "authority": "protected suites over the bounded world; the matched parent receives identical knowledge, lessons, corrections and budget; BLiMP/UD/BabyLM/CHILDES/human rating are CANNOT_CHECK (coverage 0 / data terms) and reported separately; no novelty claim"}
+            "authority": "engineering replay of historical suites over the bounded world; the matched parent receives identical knowledge, lessons, corrections and budget; BLiMP/UD/BabyLM/CHILDES/human rating are CANNOT_CHECK (coverage 0 / data terms) and reported separately; no novelty claim"}
 
 
 def main(argv=None) -> int:
@@ -319,7 +316,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run(suite=a.suite)
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({"summary": r["summary"], "audit": r["laundering_audit"]}, indent=1))
     return 0
 

@@ -43,9 +43,9 @@ class MatchedParent:
             if f.get("verified_by"):
                 self.verified.add(t)
         self.info["knowledge_facts"] = len(self.facts)
-        from tests.m3.test_microworld import _lexicon_for
+        from ocm.language.bootstrap import microworld_lexicon
 
-        lx = _lexicon_for(())
+        lx = microworld_lexicon()
         self.known_words = {k.split("|")[0] for k in lx.lexemes} | {"the", "a", "an", "is", "in", "did", "do", "does", "not", "was", "by", "which", "it", "bank", "what", "of"}
         self.known_words |= {f["subject"] for f in man["facts"]} | {f["object"] for f in man["facts"]}
 

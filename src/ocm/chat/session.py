@@ -21,6 +21,7 @@ from typing import Any, Iterable, Sequence
 
 from ocm.dialogue import gate as G
 from ocm.dialogue import planner as P
+from ocm.dialogue import surface_text as ST
 from ocm.dialogue.session import DialogueRuntime, _describe, _is_question, _strip
 from ocm.knowledge.world import KnowledgeWorld, triple
 from ocm.kso.warrant import Liveness, WarrantProfile
@@ -34,8 +35,9 @@ from ocm.learning.language import lexical as LX
 from ocm.runtime.ocm_runtime import OCMRuntime
 from ocm.store.evidence import Channel
 from ocm.kso.types import Scope
+from ocm.data import default_manifest_path
 
-DEFAULT_MANIFEST = Path(__file__).resolve().parents[3] / "research" / "ocm-m6" / "KNOWLEDGE_MANIFEST_V1.json"
+DEFAULT_MANIFEST = default_manifest_path()
 
 # relation words the bounded world's question forms use ("is X in Y", "is X a Y", "does X orbit Y", "what is X")
 RELATION_WORDS = {"in": "LOCATED_IN", "a": "IS_A", "an": "IS_A", "orbit": "ORBITS", "orbits": "ORBITS", "part": "PART_OF", "contain": "CONTAINS", "contains": "CONTAINS", "before": "BEFORE", "capital": "CAPITAL_OF"}
@@ -58,10 +60,21 @@ class TurnTrace:
     ledger_events: list[int]
 
 
-def _load_lexicon_and_constructions(state_dir: Path) -> tuple[L.Lexicon, list[C.Construction]]:
-    from tests.m3.test_microworld import _lexicon_for
+def _load_lexicon_and_constructions(state_dir: Path, manifest: Path = DEFAULT_MANIFEST) -> tuple[L.Lexicon, list[C.Construction]]:
+    from ocm.language.bootstrap import microworld_lexicon
 
-    lx = _lexicon_for(())
+    if Path(manifest).resolve() == DEFAULT_MANIFEST.resolve():
+        # The process may outlive a package-file change. Recheck the registered
+        # default for every session; custom manifests have their own custody.
+        manifest = default_manifest_path()
+    lx = microworld_lexicon()
+    # The historical M3 seed equated simple past and past participle. Keep that
+    # frozen fixture intact; the current chat grammar distinguishes see/saw/seen.
+    lx.rules = [rule for rule in lx.rules if rule.rule_id != "pp-see"]
+    lx.add_rule(L.MorphRule("chat:pp-see-v1", L.RuleKind.EXCEPTION, L.Category.VERB,
+                            (("participle", "past"),), lambda lemma: "seen",
+                            lambda surface: "see" if surface == "seen" else None,
+                            WarrantProfile.of({"ev:chat:see-past-participle-v1"}), lemmas=frozenset({"see"})))
     ev = lambda n: WarrantProfile.of({f"ev:lex:{n}"})  # noqa: E731
     # bounded-world vocabulary (nouns from the manifest labels) + question words
     for w in ("which", "what", "who"):
@@ -74,15 +87,12 @@ def _load_lexicon_and_constructions(state_dir: Path) -> tuple[L.Lexicon, list[C.
     lx.add(L.Lexeme("of", L.Category.PREP, ()))
     # a registered polysemous noun (ambiguity set) for the clarification scenario
     lx.add(L.Lexeme("bank", L.Category.NOUN, (L.Sense("bank:fin", "financial_institution", "entity", ev("bank-fin")), L.Sense("bank:river", "river_bank", "entity", ev("bank-river")))))
-    try:
-        man = json.loads(DEFAULT_MANIFEST.read_text(encoding="utf-8"))
-        labels = {f["subject"] for f in man["facts"]} | {f["object"] for f in man["facts"]}
-        for lab in sorted(labels):
-            if "_" in lab or f"{lab}|N" in lx.lexemes:
-                continue
-            lx.add(L.Lexeme(lab, L.Category.NOUN, (L.Sense(lab, lab, "entity", ev(lab)),)))
-    except FileNotFoundError:
-        pass
+    man = json.loads(Path(manifest).read_text(encoding="utf-8"))
+    labels = {f["subject"] for f in man["facts"]} | {f["object"] for f in man["facts"]}
+    for lab in sorted(labels):
+        if "_" in lab or f"{lab}|N" in lx.lexemes:
+            continue
+        lx.add(L.Lexeme(lab, L.Category.NOUN, (L.Sense(lab, lab, "entity", ev(lab)),)))
     return lx, list(C.seed_constructions())
 
 
@@ -99,11 +109,13 @@ class ChatSession:
     style: RZ.Style = field(default_factory=RZ.Style)
     register: str = "neutral"
     learned_state_path: Path = field(init=False)
+    pending_spelling: tuple[str, ...] = field(default=(), init=False)
+    input_guess: dict[str, Any] = field(default_factory=dict, init=False)
 
     def __post_init__(self) -> None:
         self.root = Path(self.root)
         self.runtime = OCMRuntime(self.root / "ledger")
-        lx, cons = _load_lexicon_and_constructions(self.root)
+        lx, cons = _load_lexicon_and_constructions(self.root, self.manifest)
         self.dialogue = DialogueRuntime(self.runtime, lx, cons, self.conversation_id)
         self.world = KnowledgeWorld(self.runtime)
         self.learned_state_path = self.root / "learned.json"
@@ -162,15 +174,85 @@ class ChatSession:
 
     # ------------------------------------------------------------------ the loop
     def say(self, text: str, speaker: str = "user") -> str:
+        from . import spelling
+
+        if not isinstance(text, str):
+            raise TypeError("chat input must be text")
+        self.input_guess = {}
+        original = text
+        low = text.strip().lower().rstrip(".!?")
+        if self.pending_spelling:
+            pending = self.pending_spelling
+            self.pending_spelling = ()
+            chosen = pending[0] if low in ("yes", "yes please") and len(pending) == 1 else next(
+                (c for c in pending if c.lower().rstrip(".!?") == low), None)
+            if chosen:
+                self.input_guess = {"original": original, "interpreted": chosen, "status": "USER_CONFIRMED"}
+                return self._say(chosen, speaker)
+        proposal = spelling.propose(text, self.dialogue.lexicon, self.runtime.state.revoked)
+        if proposal.candidates:
+            candidate = proposal.candidates[0]
+            # Automatic guesses only answer read-only world queries. Statements,
+            # lessons, commands and ambiguous alternatives require clarification.
+            read_only = (self._world_question(candidate.lower()) is not None or
+                         candidate.lower().startswith(("what is ", "explain ", "compare ")))
+            if len(proposal.candidates) == 1 and read_only:
+                self.input_guess = {"original": original, "interpreted": candidate, "status": "SPELLING_GUESS"}
+                try:
+                    return self._say(candidate, speaker)
+                finally:
+                    self.input_guess = {}
+            self.pending_spelling = proposal.candidates
+            options = " or ".join(repr(c) for c in proposal.candidates[:4])
+            reply = f"Did you mean {options}? " + ("Reply yes or write the intended sentence." if len(proposal.candidates) == 1 else "Please write the intended sentence.")
+            return self._commit(original, reply, G.Act.REQUEST, {"interpretation": {"status": proposal.status,
+                "candidates": proposal.candidates}}, time.perf_counter(), len(self.runtime.events))
+        return self._say(text, speaker)
+
+    def _say(self, text: str, speaker: str = "user") -> str:
         t0 = time.perf_counter()
         seq0 = len(self.runtime.events)
         low = text.strip().lower()
+        from .learning import handle
+        learned = handle(self, text)
+        if learned is not None:
+            reply, evidence = learned
+            return self._commit(text, reply, G.Act.ACKNOWLEDGE, {"learning_interface": True}, t0, seq0, evidence=evidence)
+        social = low.rstrip(".!?")
+        if social in ("hi", "hello", "hey", "good morning"):
+            return self._commit(text, "Hello! What would you like to discuss or teach me?", G.Act.ACKNOWLEDGE, {}, t0, seq0)
+        if social in ("thanks", "thank you"):
+            return self._commit(text, "You're welcome.", G.Act.ACKNOWLEDGE, {}, t0, seq0)
+        if social in ("what can you do", "can you learn", "what can you learn", "help"):
+            reply = ("I can discuss my bounded knowledge, remember your reports, learn words and grammar, "
+                "and learn or find checked arithmetic methods. Try 'remember: mira is a botanist', "
+                "'teach: crate = shipping container', 'learn method next-square: inc square', "
+                "'run next-square on 3', or 'find method: 1,2,1'. I ask when spelling is ambiguous. "
+                "I do not yet support unrestricted conversation or unsolved mathematics.")
+            return self._commit(text, reply, G.Act.ACKNOWLEDGE, {}, t0, seq0)
+        for prefix in ("tell me about ", "can you explain ", "please explain "):
+            if low.startswith(prefix):
+                return self._explain(text, low[len(prefix):].strip("?. "), t0, seq0)
+        if low.startswith(("what's ", "what’s ")):
+            return self._explain(text, low[7:].strip("?. "), t0, seq0)
         # style requests (no factual change)
         for reg in ("brief", "detailed", "formal", "casual"):
             if low in (f"be {reg}", f"please be {reg}", f"{reg} please", f"answer {reg}ly"):
                 self.register = reg
                 self.style = RZ.Style(register=reg, contractions=(reg == "casual"))
                 return self._commit(text, f"Understood — I will keep answers {reg}.", G.Act.ACKNOWLEDGE, {}, t0, seq0)
+        # Invalid lesson syntax is a typed conversational refusal, before durable admission.
+        if low.startswith("teach:"):
+            body = text.strip()[6:].strip()
+            aligned = "=>" in body or body.lower().startswith("construction ")
+            if aligned:
+                utterance, sep, target = body.partition("=>")
+                valid = bool(sep and utterance.strip() and len(target.split()) == 3)
+            else:
+                word, sep, concept = body.partition("=")
+                valid = bool(sep and word.strip() and concept.strip())
+            if not valid or any(ch in body for ch in ("\n", "\r")):
+                return self._commit(text, "I cannot learn that format. Use teach: word = concept, or teach: construction sentence => agent verb patient.", G.Act.REQUEST, {}, t0, seq0)
         # diagnostic commands
         if low.startswith("revoke "):
             return self._revoke(text, low.split(" ", 1)[1].strip(), t0, seq0)
@@ -194,7 +276,7 @@ class ChatSession:
         if q is not None:
             return self._answer_world(text, q, t0, seq0)
         # everything else: the M4 dialogue loop (statements, questions over the record, clarification, learning)
-        mt = self.dialogue.hear(text, speaker)
+        mt = self.dialogue.hear(text, speaker, original_utterance=self.input_guess.get("original"))
         trace_bits = {"interpretation": self._interp_dict(mt.interpretation), "act": mt.act.value, "events": [e.kind.value for e in mt.events]}
         reply = mt.text
         if mt.act is G.Act.REQUEST and "cannot interpret" in mt.text:
@@ -206,6 +288,10 @@ class ChatSession:
         toks = tokenize(low)
         if not toks:
             return None
+        if toks[0] == "is" and len(toks) == 3 and all(t not in ("not", "no", "the", "a", "an") for t in toks[1:]):
+            # Registered bare nominal copula: "is ice water". This only creates
+            # a query; the ordinary world warrant/commit gates decide its answer.
+            return triple(toks[1], "IS_A", toks[2])
         if toks[0] in ("is", "does", "do") and len(toks) >= 4:
             body = [t for t in toks[1:] if t not in ("the", "a", "an")]
             if toks[0] == "is" and "capital" in body:
@@ -229,12 +315,21 @@ class ChatSession:
         plan = P.plan_answer(self.world, self.dialogue.workspace, asked, register=self.register)
         subj = asked.node("s").label; rel = asked.edges[0].relation; obj = asked.node("o").label
         gloss = f"{subj} {rel.lower().replace('_', ' ')} {obj}"
+        checkpoint = self.runtime._expectation()
+        rendered = None
+        if plan.content and plan.content[0].layer != "speaker":
+            try:
+                rendered = self._render_item(plan.content[0])
+            except Exception as exc:
+                return self._commit(text, f"I cannot render that meaning yet ({type(exc).__name__}).", G.Act.REPORT_UNCERTAIN, {"gate": ["UNKNOWN_CONSTRUCTION"]}, t0, seq0, committed=False)
         if plan.act is G.Act.ANSWER and plan.required_marker is G.Marker.ASSERTED:
-            reply = f"Yes. {self._render_item(plan.content[0])} That is a verified fact in my knowledge ({plan.content[0].evidence[-1]})."
+            reply = f"Yes. {rendered} That is a verified fact in my knowledge ({plan.content[0].evidence[-1]})."
         elif plan.act is G.Act.ANSWER and plan.required_marker is G.Marker.REPORTED and plan.content and plan.content[0].layer == "source":
-            reply = f"A source ({plan.content[0].source}) says so, but I have not verified it: {self._render_item(plan.content[0])}"
+            reply = f"A source ({plan.content[0].source}) says so, but I have not verified it: {rendered}"
         elif plan.act is G.Act.ANSWER and plan.content and plan.content[0].layer == "speaker":
-            reply = f"Someone in this conversation said so ({plan.content[0].evidence[0]}); I have no independent warrant."
+            item = plan.content[0]
+            polarity = "it did not" if item.negated else "so"
+            reply = f"{item.source} said {polarity} ({item.evidence[0]}); I have no independent warrant."
         elif plan.act is G.Act.REPORT_UNCERTAIN:
             reply = "I have contradictory statements on record about that; I cannot say."
         elif "revoked" in plan.open_checks:
@@ -244,15 +339,34 @@ class ChatSession:
         gp = plan.gate_plan()
         surface = G.Surface(reply, gp.meaning, plan.required_marker)
         verdict = G.commit_gate(gp, surface, self.dialogue._liveness, resolved=[e.entity_id for e in self.dialogue.workspace.entities.values()])
+        if checkpoint != self.runtime._expectation():
+            verdict = G.GateVerdict(False, verdict.events+(G.FeedbackEvent(G.FeedbackKind.RENDERER_CAPABILITY,"runtime changed during codec execution","render"),))
         if not verdict.committed:
             reply = "I cannot say that yet: " + "; ".join(f"{e.kind.value} ({e.reopen_stage})" for e in verdict.events)
         return self._commit(text, reply, plan.act, {"plan": self._plan_dict(plan), "gate": [e.kind.value for e in verdict.events]}, t0, seq0, committed=verdict.committed, evidence=tuple(e for c in plan.content for e in c.evidence))
 
     def _render_item(self, c: P.ContentItem) -> str:
-        if c.gloss:
-            g = c.gloss[0].upper() + c.gloss[1:] + "."
-            return g
-        return _describe(c.meaning)
+        # A free-form source gloss is not a semantic certificate.
+        return ST.world_clause(c.meaning)
+
+    def _checked_items(self, items):
+        checkpoint = self.runtime._expectation()
+        try:
+            rendered = [(c, self._render_item(c)) for c in items]
+        except Exception as exc:
+            return None, (G.FeedbackEvent(G.FeedbackKind.UNKNOWN_CONSTRUCTION, f"renderer unavailable: {type(exc).__name__}", "render"),)
+        # Recheck every warrant after all renderer callbacks, including cross-item revocation.
+        for c, text in rendered:
+            gp = G.ResponsePlan(G.Act.ASSERT, c.meaning,
+                (G.Assertion(c.digest, c.evidence, c.layer),), c.marker,
+                source_name=c.source, reported_negative=c.negated)
+            spoken = f"{c.source} said {text}" if c.marker is G.Marker.REPORTED else text
+            verdict = G.commit_gate(gp, G.Surface(spoken, c.meaning, c.marker), self.dialogue._liveness)
+            if not verdict.committed:
+                return None, verdict.events
+        if checkpoint != self.runtime._expectation():
+            return None, (G.FeedbackEvent(G.FeedbackKind.RENDERER_CAPABILITY, "runtime changed during rendering", "render"),)
+        return [f"{c.source} said {text}" if c.marker is G.Marker.REPORTED else text for c,text in rendered], ()
 
     def _explain(self, text: str, label: str, t0: float, seq0: int) -> str:
         plan = P.plan_explain(self.world, label, register=self.register)
@@ -260,7 +374,9 @@ class ChatSession:
             reply = f"I do not have anything verified about '{label}'."
         else:
             n = {"brief": 1, "neutral": 3, "detailed": 6}.get(self.register, 3)
-            parts = [self._render_item(c) for c in plan.content[:n]]
+            parts, failures = self._checked_items(plan.content[:n])
+            if failures:
+                return self._commit(text, "I cannot say that yet: actual text or warrant failed verification.", G.Act.REPORT_UNCERTAIN, {"plan": self._plan_dict(plan), "gate": [e.kind.value for e in failures]}, t0, seq0, committed=False)
             lead = "" if self.register == "casual" else ""
             reply = " ".join(parts)
             if plan.events:
@@ -340,26 +456,34 @@ class ChatSession:
     def _revoke(self, text: str, eid: str, t0: float, seq0: int) -> str:
         if eid not in self.runtime.state.evidence.records:
             return self._commit(text, f"{eid} is not on my ledger.", G.Act.REPORT_UNKNOWN, {}, t0, seq0)
+        affected = [lex for lex in self.dialogue.lexicon.lexemes.values()
+                    if eid in lex.warrant.evidence or any(eid in sense.warrant.evidence for sense in lex.senses)]
         rep = self.runtime.revoke([eid])
-        # batch 6 F1: a revocation names ONE warrant; a word whose other senses stay LIVE remains
-        # interpretable (revoke-named, not revoke-all) — say so instead of leaving it silent
-        remainder = self._live_remainder(eid)
-        note = "".join(f" '{w}' still has {n} live sense(s); say 'revoke all {w}' to remove the word." for w, n in remainder)
-        return self._commit(text, f"Revoked {eid}; reopened {sorted(rep.reopen)}, rechecked {sorted(rep.recheck)}.{note}", G.Act.ACKNOWLEDGE, {"reopen": sorted(rep.reopen), "live_remainder": remainder}, t0, seq0)
-
-    def _live_remainder(self, eid: str) -> list[tuple[str, int]]:
         revoked = self.runtime.state.evidence.revoked
-        out = []
-        for lx in self.dialogue.lexicon.lexemes.values():
-            if any(eid in s.warrant.evidence for s in lx.senses):
-                n = len(lx.live_senses(revoked))
-                if n:
-                    out.append((lx.lemma, n))
-        return sorted(out)
+        remainder = []
+        for lex in affected:
+            for sense in lex.live_senses(revoked):
+                profile = lex.warrant.meet(sense.warrant)
+                if not profile.is_live(revoked):
+                    continue
+                supports = [sorted(map(str, w)) for w in profile.lower if not (w & revoked)]
+                row = {"word": lex.lemma, "concept": sense.concept, "supports": supports}
+                if row not in remainder:
+                    remainder.append(row)
+        reply = f"Revoked {eid}; reopened {sorted(rep.reopen)}, rechecked {sorted(rep.recheck)}."
+        if remainder:
+            descriptions = [f"'{r['word']}' as '{r['concept']}' still supported by {r['supports']}" for r in remainder]
+            reply += " Other lexical support remains: " + "; ".join(descriptions) + "."
+        return self._commit(text, reply, G.Act.ACKNOWLEDGE, {"reopen": sorted(rep.reopen), "revocation_remainder": remainder}, t0, seq0)
 
     # ------------------------------------------------------------------ commit + trace
     def _commit(self, utterance: str, reply: str, act: G.Act, bits: dict, t0: float, seq0: int, *, committed: bool = True, evidence: Sequence[str] = (), machine_turn_recorded: bool = False) -> str:
         ws = self.dialogue.workspace
+        if self.input_guess:
+            bits = {**bits, "interpretation": {**bits.get("interpretation", {}), "input": dict(self.input_guess)}}
+            utterance = self.input_guess["original"]
+            if self.input_guess["status"] == "SPELLING_GUESS":
+                reply = f"Assuming you meant '{self.input_guess['interpreted']}': " + reply
         if not machine_turn_recorded:
             ws.record_turn("user", utterance, "ASSERT", "INPUT")
             ws.record_turn("machine", reply, act.value, "COMMITTED" if committed else "GATE_REFUSED", evidence=evidence)

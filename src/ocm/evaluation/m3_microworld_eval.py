@@ -27,9 +27,9 @@ from ocm.kso.warrant import WarrantProfile as WP
 
 
 def lexicon_for_corpus() -> L.Lexicon:
-    from tests.m3.test_microworld import _lexicon_for  # the registered vocabulary fixture
+    from ocm.language.bootstrap import microworld_lexicon
 
-    return _lexicon_for(())
+    return microworld_lexicon()
 
 
 def role_f1(pred: M.MeaningGraph, gold: M.MeaningGraph) -> float:
@@ -121,7 +121,8 @@ def main(argv=None) -> int:
     r = run()
     txt = json.dumps(r, indent=2, sort_keys=True)
     if a.out:
-        Path(a.out).write_text(txt + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), json.loads(txt))
     print(json.dumps({k: r[k] for k in ("acquisition", "protected", "ambiguity", "revocation_locality", "paraphrase")}, indent=1))
     return 0
 

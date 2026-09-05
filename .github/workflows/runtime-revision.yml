@@ -1,0 +1,29 @@
+name: Runtime lifecycle and successor custody
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lifecycle-and-custody:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: ./scripts/m0_install_dev.sh
+      - name: Check the complete runtime, installed distribution and successor custody
+        run: python -m pytest tests -q --junitxml="$RUNNER_TEMP/runtime-suite.xml"
+      - name: Verify every declared successor and unchanged historical receipt
+        run: |
+          for n in $(seq 1 12); do
+            python tools/m${n}_receipt.py --verify || exit 1
+          done
+      - run: git diff --exit-code

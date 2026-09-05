@@ -130,16 +130,13 @@ def impact_cone(ks: KnowledgeSpace, changed: Iterable[str], dependency_types: It
     Cycles are handled by the fixed point itself (monotone operator on a finite lattice).
     Worklist over a tail-indexed adjacency of dependency edges: O(|incidences|)."""
     dep = frozenset(dependency_types) if dependency_types is not None else ks.registry.dependency_types
-    by_tail: dict[str, list[Hyperedge]] = {}
-    for e in ks.hyperedges:
-        if e.relation_type in dep:
-            for t in e.tails:
-                by_tail.setdefault(t, []).append(e)
     impacted = set(changed)
     work = list(impacted)
     while work:
         v = work.pop()
-        for e in by_tail.get(v, ()):
+        for e in ks.outgoing_edges(v):
+            if e.relation_type not in dep:
+                continue
             for h in e.heads:
                 if h not in impacted:
                     impacted.add(h)

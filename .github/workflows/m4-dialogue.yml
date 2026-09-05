@@ -21,16 +21,16 @@ jobs:
         run: python -m pytest -q tests/m4
       - name: M3 still green under M4
         run: python -m pytest -q tests/m3 && python tools/m3_receipt.py --verify
-      - name: Dialogue evaluation receipt is reproducible
+      - name: Dialogue reference regression after runtime correction
         run: |
           rm -f /tmp/m4_eval.json
           python -m ocm.evaluation.m4_dialogue_eval --out /tmp/m4_eval.json > /dev/null
           python - <<'PY'
           import json
-          a = json.load(open("/tmp/m4_eval.json")); b = json.load(open("research/ocm-m4/M4_DIALOGUE_EVAL_V1.json"))
+          a = json.load(open("/tmp/m4_eval.json")); b = json.load(open("docs/provenance/runtime_revision_20260905_v4/M4_REFERENCE_REPLAY_V4.json"))
           for k in ("custody", "protected_dialogues", "acts", "state_reference", "correction", "clarification", "epistemic_integrity", "persistence"):
               assert a[k] == b[k], (k, a[k], b[k])
-          print("dialogue receipt reproduced:", a["acts"]["expected_act_and_committed"])
+          print("dialogue reference regression passed:", a["acts"]["expected_act_and_committed"])
           PY
       - name: M4 receipt drift
         run: python tools/m4_receipt.py --verify

@@ -78,7 +78,10 @@ def test_consequence5_adoption_artifacts_survive_a_restart(tmp_path):
     cache = {"c": 2}
     restored, comps_back, exact = led2.rollback(p.fingerprint(), cache=cache)
     assert exact and comps_back == comps and cache == {"c": 1} and restored == {"op": "v1"}
-    assert rt2.state.evidence.liveness([stamp]).value == "DEAD" and not GV.AdoptionLedger.load(rt2).adopted   # rollback persisted too
+    assert rt2.state.evidence.liveness([stamp]).value == "DEAD"
+    assert p.fingerprint() in GV.AdoptionLedger.load(rt2).adopted  # prepared is recoverable until host installation
+    led2.acknowledge_rollback_installation(p.fingerprint(), components=comps_back, cache=cache)
+    assert not GV.AdoptionLedger.load(rt2).adopted
 
 
 def test_F1_revocation_reports_the_live_remainder(tmp_path):
@@ -88,4 +91,5 @@ def test_F1_revocation_reports_the_live_remainder(tmp_path):
     lesson = s.traces[-2].warrant_ids[0] if s.traces[-2].warrant_ids else s.traces[-1].warrant_ids[0]
     s.say("teach: crate = wooden box")                                            # a second live sense for the same word
     r = s.say(f"revoke {lesson}")
-    assert r.startswith("Revoked") and "'crate' still has" in r and "revoke all crate" in r   # revoke-named, remainder reported
+    assert r.startswith("Revoked") and "'crate' as 'wooden box' still supported" in r
+    assert "revoke all crate" not in r  # no nonexistent command is advertised

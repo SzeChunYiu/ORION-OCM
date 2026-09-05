@@ -1,0 +1,732 @@
+{
+  "authority": "Historical custody and current engineering revalidation are separate; no new protected outcome is inferred.",
+  "bound_files": {
+    "docs/KSO_OPTIMIZATION_REPORT_V1.md": "40fb8bf31a69c7ffe6b337d2a90f6f93c78bf11d8c5e00906a12d23965b92ebb",
+    "docs/M7_PROTECTED_COMPARISON_REPORT.md": "56a1488b39742aa959a77948c95ff710ef5a1a96ba953ea9a32518309c8a79d9",
+    "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md": "3178e7f4231c341d41e8ef8f479ff036f393f78b61df946fc09ebb5945ab3d15",
+    "docs/provenance/runtime_revision_20260905/M6_RECEIPT_RUNTIME_20260905_V1.json": "997a02724674b790879e141fe558dbf7352d7ca8074b99247a1b131efc967b4b",
+    "docs/provenance/runtime_revision_20260905/REVISION_V1.json": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a",
+    "docs/theorems/OCM_COMPARISON_OBLIGATION_REGISTRY_V1.json": "0b344156224855a273ad7dd996424014fdea7affee42e0d1c16128d2b2f2974e",
+    "research/ocm-m7/M7_BLIMP_UD_V1.json": "5d6f2bb418105e7ab2b7416554d83b4b6deae7cb95e3eaf5a4176a82a572358e",
+    "research/ocm-m7/M7_COMPARISON_V1.json": "47448a4df290e602c122f00a05550a9961caf3b283c547c1d6a0896b6156904e",
+    "research/ocm-m7/M7_COMPARISON_V2.json": "df2cc6c2712988275bb5f66e18cedda9f43527b50b6473a58af7e5ab81d71d25",
+    "research/ocm-m7/M7_PREREGISTRATION_V1.md": "a24716de77d028660dde0fb334722a96a32926612256688ee52b31321fc38679",
+    "research/ocm-m7/M7_PROTECTED_CONVERSATIONS_V1.json": "ef41bc3ad97cf9912e058e2f849a59d0ab152aa80ef5b41faf3b6804ef47f714",
+    "research/ocm-m7/M7_PROTECTED_CONVERSATIONS_V2.json": "5a567e66cbc0166c4b502b6b29059692a82504cc7e581413a925863ec5792ab1",
+    "src/ocm/chat/session.py": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd",
+    "src/ocm/comparators/matched_parent.py": "4cd957d1c5afa2bfa8bd356640c8babab647a5ab24c3bb885d9a8e944b505b0b",
+    "src/ocm/dialogue/workspace.py": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0",
+    "src/ocm/evaluation/m7_blimp_ud.py": "c34a0f157a4ece07b58beac1fec67e5368a5ea1be706e13114d59f38a7a98a41",
+    "src/ocm/evaluation/m7_comparison.py": "f19722cc5c51a0517cf1d608fc76ae8d70d57544ec9a734875bd31a8ba08b0b1",
+    "src/ocm/evaluation/stats.py": "efce9792b13fa869d33c0ab3a3884abb37e0e3871b8f2090d6fde1d7eeea469a",
+    "src/ocm/kso/admission.py": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab",
+    "src/ocm/kso/navigation.py": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2",
+    "src/ocm/kso/navigation_sparse.py": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88",
+    "src/ocm/kso/revocation.py": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543",
+    "src/ocm/kso/space.py": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd",
+    "src/ocm/lifetime/phases.py": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1",
+    "src/ocm/operators/__init__.py": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6",
+    "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+    "src/ocm/runtime/ocm_runtime.py": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046",
+    "src/ocm/selfmodel/benchmark.py": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108",
+    "src/ocm/selfmodel/govern.py": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0",
+    "tests/m11/test_adoption_lifecycle_regressions.py": "85d96cc6aef734d59838bde3af7faf419164642986ae26345410fb46ffe569fa",
+    "tests/m2/test_operator_registry.py": "99f1cfbe09a990a520f75fcfea9d842a8f6ffc362169d8325ae29fb9a42b8658",
+    "tests/m2/test_runtime_lifecycle_regressions.py": "5990d3c2d4f730fe26dd7bfee24a771700550a40b04c90f953f136ce66877d76",
+    "tests/m2/test_statistical_guarantee_separation.py": "62377fd31a796d11ee64705012a886602e3b73198a02bd366bcef9918ccff33e",
+    "tests/m6/test_revocation_remainder.py": "9fdc014f1b0073d749d01a4eeb09516e02b2fc386c9db5c09a7623fb37ca95fb",
+    "tests/test_kso_optimization.py": "d02dfef719166bb814b822524f21f1e34168427ad3e58f42e01368bdd26cca0c",
+    "tests/test_runtime_revision_receipts.py": "1661df1a9bf9821e6d891a73c3adf83134c1880101ffbaf9d59c1a4f73a5560b",
+    "tools/m10_receipt.py": "41402b50f0bd9f481630d8faa96bfdae673e8a4f34e391ee03c193a87afc94f1",
+    "tools/m11_receipt.py": "c17efcd04ec33104cd2a8af6402fed0ad55518bc9626d92ff838bc96e46fd84c",
+    "tools/m12_receipt.py": "09e7ccfe2d2f7ff33dd2ac1e0aabcd623ea665cb2ab206b48574b7e707cc8b00",
+    "tools/m1_receipt.py": "87b886a23006fec7d987db5ed153785d702174dc150e1ff09a2c2d7d819d4003",
+    "tools/m2_receipt.py": "31f9bd6db79ef480a4609577839dab7d165966392f6e9a63d08d9b2f97a257d1",
+    "tools/m3_receipt.py": "82483b537cc3196d1eeaf46ff69c89f381997fd672e153e68d549a9b47f655ab",
+    "tools/m4_receipt.py": "8a78a023327611de8a3599ff043529bd4252aec916e4e7f510f0889afd07b2da",
+    "tools/m5_receipt.py": "5c52017d5eab4309868cc4438ad92dbad7de729a833c866ad95f7de35ab826d7",
+    "tools/m6_receipt.py": "56a8057fa9e72e95f809ce1dd877874dc9077b2dd6bc72e8b13611ced17fbbf9",
+    "tools/m7_receipt.py": "be1c7c991d6eb6d1a452a7b2e811917656c800862755756afa77beb07c61839f",
+    "tools/m8_receipt.py": "53bf14f8bad1cd3e195b6dc4e516c1951c93a00d09affadc9243b8d529f7bcbf",
+    "tools/m9_receipt.py": "5a646798fc73e96f5ecba52e2f5f4e7d5b3390d47906f79781518a4a3d4475da",
+    "tools/runtime_revision_receipts.py": "9c42b91211aeb4b6a79f18441872a496d335e13e4c2f28c3884f4a5de042fcaa"
+  },
+  "current_replay": {
+    "protected_reevaluation": "NOT_RUN",
+    "status": "NO_NEW_EXPERIMENT_EXECUTED_BY_THIS_RECEIPT"
+  },
+  "dependency_aliases": {
+    "docs/provenance/M6_RECEIPT_V1.json": "docs/provenance/runtime_revision_20260905/M6_RECEIPT_RUNTIME_20260905_V1.json"
+  },
+  "historical_artifact_bindings": {
+    "docs/M7_PROTECTED_COMPARISON_REPORT.md": "56a1488b39742aa959a77948c95ff710ef5a1a96ba953ea9a32518309c8a79d9",
+    "docs/provenance/M6_RECEIPT_V1.json": "84ce570cf70091e70bd5316f6208ac196785f254ca75322aae511009044ae780",
+    "docs/theorems/OCM_COMPARISON_OBLIGATION_REGISTRY_V1.json": "0b344156224855a273ad7dd996424014fdea7affee42e0d1c16128d2b2f2974e",
+    "research/ocm-m7/M7_BLIMP_UD_V1.json": "5d6f2bb418105e7ab2b7416554d83b4b6deae7cb95e3eaf5a4176a82a572358e",
+    "research/ocm-m7/M7_COMPARISON_V1.json": "47448a4df290e602c122f00a05550a9961caf3b283c547c1d6a0896b6156904e",
+    "research/ocm-m7/M7_COMPARISON_V2.json": "df2cc6c2712988275bb5f66e18cedda9f43527b50b6473a58af7e5ab81d71d25",
+    "research/ocm-m7/M7_PREREGISTRATION_V1.md": "a24716de77d028660dde0fb334722a96a32926612256688ee52b31321fc38679",
+    "research/ocm-m7/M7_PROTECTED_CONVERSATIONS_V1.json": "ef41bc3ad97cf9912e058e2f849a59d0ab152aa80ef5b41faf3b6804ef47f714",
+    "research/ocm-m7/M7_PROTECTED_CONVERSATIONS_V2.json": "5a567e66cbc0166c4b502b6b29059692a82504cc7e581413a925863ec5792ab1"
+  },
+  "historical_reference": {
+    "parent_commit": "f2b83e2849b1afb79c45f12bebc3c929080352c9",
+    "path": "docs/provenance/M7_RECEIPT_V1.json",
+    "sha256": "726ed26ba54b9c0e972c505198cde3013444a517a79aedf6df7baf65f6772557",
+    "status": "IMMUTABLE_HISTORICAL_OUTCOME; NOT_PROMOTED_TO_CURRENT_CODE",
+    "terminal_at_that_revision": "MIXED (claim-by-claim; see terminal_table)"
+  },
+  "legacy_recipe_recheck": {
+    "matches_historical_payload": true,
+    "payload": {
+      "authority": "pre-registered protected comparison on the bounded world against the strongest faithful matched parent built here; external families CANNOT_CHECK by coverage/data terms; no human rating; no novelty claim",
+      "deterministic_results": {
+        "external_families": {
+          "BLiMP": {
+            "covered": 0,
+            "pairs": 6000,
+            "terminal": "CANNOT_CHECK (coverage 0 under the frozen admissibility protocol)"
+          },
+          "BabyLM": {
+            "terminal": "CANNOT_CHECK_BABYLM_DATA"
+          },
+          "CHILDES": {
+            "terminal": "CANNOT_CHECK_CHILDES_DATA"
+          },
+          "UD_EWT": {
+            "interpreted": 0,
+            "sentences": 800,
+            "terminal": "CANNOT_CHECK (coverage 0 under the frozen protocol)"
+          },
+          "frontier_reference": {
+            "terminal": "CANNOT_CHECK (external IO disabled; non-matched by design)"
+          },
+          "human_rating": {
+            "terminal": "CANNOT_CHECK (protocol frozen, not run)"
+          }
+        },
+        "information_budget": {
+          "matched_parent": {
+            "interaction_turns": 0,
+            "knowledge_facts": 55,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          },
+          "ocm": {
+            "interaction_turns": 0,
+            "knowledge_facts": 55,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          },
+          "ocm-last_turn_memory": {
+            "interaction_turns": 0,
+            "knowledge_facts": 55,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          },
+          "ocm-no_clarification": {
+            "interaction_turns": 0,
+            "knowledge_facts": 55,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          },
+          "ocm-no_revocation": {
+            "interaction_turns": 0,
+            "knowledge_facts": 55,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          },
+          "template": {
+            "interaction_turns": 0,
+            "knowledge_facts": 52,
+            "lessons": 0,
+            "protected_exposure": 0,
+            "statements": 0
+          }
+        },
+        "laundering_audit": {
+          "forbidden_channel_gold_not_surfaced": true,
+          "incidents": 0,
+          "no_answer_after_knowledge_removed": true,
+          "renderer_follows_supplied_meaning": true
+        },
+        "min_n": 40,
+        "study": {
+          "preregistration_sha256": "a24716de77d028660dde0fb334722a96a32926612256688ee52b31321fc38679",
+          "v1_status": "DEV_CALIBRATION (system fixes S22\u2013S24 made after V1 outcome access)",
+          "v2_conversations_sha256": "5a567e66cbc0166c4b502b6b29059692a82504cc7e581413a925863ec5792ab1",
+          "v2_status": "PROTECTED (frozen after the V1 calibration; no system change after V2 outcome access)"
+        },
+        "summary": {
+          "matched_parent": {
+            "conversations": "33/54",
+            "factual": "27/30",
+            "negative_transfer": "5/7",
+            "post_deployment": {
+              "acquired": "3/6",
+              "baseline_unknown": "6/6",
+              "compositional_reuse": "3/6",
+              "relearned": "3/6",
+              "retained_after_restart": "3/6",
+              "revoked_stops": "6/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "17/20"
+          },
+          "ocm": {
+            "conversations": "53/54",
+            "factual": "30/30",
+            "negative_transfer": "7/7",
+            "post_deployment": {
+              "acquired": "6/6",
+              "baseline_unknown": "6/6",
+              "compositional_reuse": "5/6",
+              "relearned": "6/6",
+              "retained_after_restart": "6/6",
+              "revoked_stops": "6/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "20/20"
+          },
+          "ocm-last_turn_memory": {
+            "conversations": "49/54",
+            "factual": "30/30",
+            "negative_transfer": "7/7",
+            "post_deployment": {
+              "acquired": "6/6",
+              "baseline_unknown": "6/6",
+              "compositional_reuse": "5/6",
+              "relearned": "6/6",
+              "retained_after_restart": "6/6",
+              "revoked_stops": "6/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "20/20"
+          },
+          "ocm-no_clarification": {
+            "conversations": "52/54",
+            "factual": "30/30",
+            "negative_transfer": "7/7",
+            "post_deployment": {
+              "acquired": "6/6",
+              "baseline_unknown": "6/6",
+              "compositional_reuse": "5/6",
+              "relearned": "6/6",
+              "retained_after_restart": "6/6",
+              "revoked_stops": "6/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "20/20"
+          },
+          "ocm-no_revocation": {
+            "conversations": "52/54",
+            "factual": "30/30",
+            "negative_transfer": "7/7",
+            "post_deployment": {
+              "acquired": "6/6",
+              "baseline_unknown": "6/6",
+              "compositional_reuse": "5/6",
+              "relearned": "6/6",
+              "retained_after_restart": "6/6",
+              "revoked_stops": "0/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "20/20"
+          },
+          "template": {
+            "conversations": "10/54",
+            "factual": "8/30",
+            "negative_transfer": "4/7",
+            "post_deployment": {
+              "acquired": "0/6",
+              "baseline_unknown": "0/6",
+              "compositional_reuse": "0/6",
+              "relearned": "0/6",
+              "retained_after_restart": "0/6",
+              "revoked_stops": "0/6",
+              "unrelated_intact": "6/6"
+            },
+            "unknown": "20/20"
+          }
+        },
+        "terminal_table": {
+          "RQ1_conversations": {
+            "matched_parent": {
+              "ci_90": [
+                0.2673,
+                0.3704
+              ],
+              "difference": 0.3704,
+              "n": 54,
+              "ocm": 53,
+              "other": 33,
+              "terminal": "OCM_LANGUAGE_RESIDUAL_SUPPORTED",
+              "test_verdict": "RESIDUAL_A"
+            },
+            "ocm-last_turn_memory": {
+              "ci_90": [
+                -0.004,
+                0.0741
+              ],
+              "difference": 0.0741,
+              "n": 54,
+              "ocm": 53,
+              "other": 49,
+              "terminal": "CANNOT_CHECK (inconclusive at the margin)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-no_clarification": {
+              "ci_90": [
+                -0.0167,
+                0.0185
+              ],
+              "difference": 0.0185,
+              "n": 54,
+              "ocm": 53,
+              "other": 52,
+              "terminal": "PARENT_SUFFICIENT",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                -0.0167,
+                0.0185
+              ],
+              "difference": 0.0185,
+              "n": 54,
+              "ocm": 53,
+              "other": 52,
+              "terminal": "PARENT_SUFFICIENT",
+              "test_verdict": "EQUIVALENT"
+            },
+            "template": {
+              "ci_90": [
+                0.6891,
+                0.7963
+              ],
+              "difference": 0.7963,
+              "n": 54,
+              "ocm": 53,
+              "other": 10,
+              "terminal": "OCM_LANGUAGE_RESIDUAL_SUPPORTED",
+              "test_verdict": "RESIDUAL_A"
+            }
+          },
+          "RQ1_factual": {
+            "matched_parent": {
+              "ci_90": [
+                -0.0263,
+                0.1
+              ],
+              "difference": 0.1,
+              "n": 30,
+              "ocm": 30,
+              "other": 27,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-last_turn_memory": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 30,
+              "ocm": 30,
+              "other": 30,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_clarification": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 30,
+              "ocm": 30,
+              "other": 30,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 30,
+              "ocm": 30,
+              "other": 30,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "template": {
+              "ci_90": [
+                0.5466,
+                0.7333
+              ],
+              "difference": 0.7333,
+              "n": 30,
+              "ocm": 30,
+              "other": 8,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "RESIDUAL_A"
+            }
+          },
+          "RQ3_acquired": {
+            "matched_parent": {
+              "ci_90": [
+                -0.1316,
+                0.5
+              ],
+              "difference": 0.5,
+              "n": 6,
+              "ocm": 6,
+              "other": 3,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ3_compositional_reuse": {
+            "matched_parent": {
+              "ci_90": [
+                -0.1843,
+                0.3333
+              ],
+              "difference": 0.3333,
+              "n": 6,
+              "ocm": 5,
+              "other": 3,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 5,
+              "other": 5,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ3_relearned": {
+            "matched_parent": {
+              "ci_90": [
+                -0.1316,
+                0.5
+              ],
+              "difference": 0.5,
+              "n": 6,
+              "ocm": 6,
+              "other": 3,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ3_retained_after_restart": {
+            "matched_parent": {
+              "ci_90": [
+                -0.1316,
+                0.5
+              ],
+              "difference": 0.5,
+              "n": 6,
+              "ocm": 6,
+              "other": 3,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ3_revoked_stops": {
+            "matched_parent": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.2139,
+                1.0
+              ],
+              "difference": 1.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 0,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "RESIDUAL_A"
+            }
+          },
+          "RQ3_unrelated_intact": {
+            "matched_parent": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 6,
+              "ocm": 6,
+              "other": 6,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ5_honest_unknown": {
+            "matched_parent": {
+              "ci_90": [
+                -0.0395,
+                0.15
+              ],
+              "difference": 0.15,
+              "n": 20,
+              "ocm": 20,
+              "other": 17,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-last_turn_memory": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 20,
+              "ocm": 20,
+              "other": 20,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_clarification": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 20,
+              "ocm": 20,
+              "other": 20,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 20,
+              "ocm": 20,
+              "other": 20,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "template": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 20,
+              "ocm": 20,
+              "other": 20,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            }
+          },
+          "RQ6_negative_transfer": {
+            "matched_parent": {
+              "ci_90": [
+                -0.1579,
+                0.2857
+              ],
+              "difference": 0.2857,
+              "n": 7,
+              "ocm": 7,
+              "other": 5,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            },
+            "ocm-last_turn_memory": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 7,
+              "ocm": 7,
+              "other": 7,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_clarification": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 7,
+              "ocm": 7,
+              "other": 7,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "ocm-no_revocation": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "difference": 0.0,
+              "n": 7,
+              "ocm": 7,
+              "other": 7,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "EQUIVALENT"
+            },
+            "template": {
+              "ci_90": [
+                -0.1128,
+                0.4286
+              ],
+              "difference": 0.4286,
+              "n": 7,
+              "ocm": 7,
+              "other": 4,
+              "terminal": "CANNOT_CHECK (n below pre-registered minimum)",
+              "test_verdict": "INCONCLUSIVE"
+            }
+          }
+        }
+      },
+      "receipt": "M7_RECEIPT_V1",
+      "terminal": "MIXED (claim-by-claim; see terminal_table)"
+    },
+    "scope": "Finite checker execution and/or old result reads; not a protected experiment rerun.",
+    "status": "CURRENT_RECIPE_WITH_EXPLICIT_HISTORICAL_ARTIFACT_READS"
+  },
+  "receipt": "M7_RECEIPT_RUNTIME_20260905_V1",
+  "revision": "runtime_revision_20260905",
+  "revision_config": {
+    "path": "docs/provenance/runtime_revision_20260905/REVISION_V1.json",
+    "sha256": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a"
+  },
+  "schema": "ocm.runtime-successor-receipt.v1",
+  "source_changes": {
+    "src/ocm/chat/session.py": {
+      "at_historical_parent": "04e2291f8ed1153cdf293b10c6c505332d664c8d0bc0428209249ea66ccacb66",
+      "current": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd"
+    },
+    "src/ocm/dialogue/workspace.py": {
+      "at_historical_parent": "1b7b4a696e048d6daaebba0d5b258a8bdf706dc0640e6c8d5eb7ece4071e2cc7",
+      "current": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0"
+    },
+    "src/ocm/kso/admission.py": {
+      "at_historical_parent": "fc7dd13fc233ad4d6b779248b5bd063c9a1515dbc72c35b21e8a48cd43c67604",
+      "current": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab"
+    },
+    "src/ocm/kso/navigation.py": {
+      "at_historical_parent": "b99b667aaa698b58da494863ddc7fa284e6a6a6826e4e662899fda6f106a4923",
+      "current": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2"
+    },
+    "src/ocm/kso/navigation_sparse.py": {
+      "at_historical_parent": "8fc6244ddece9ec6c09c319741ac472544119c86b762098f8b84c13867526aa2",
+      "current": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88"
+    },
+    "src/ocm/kso/revocation.py": {
+      "at_historical_parent": "6444c3a55932419dcbbeac85357b15991d76ecd72eaca4a461f93983fe2001b4",
+      "current": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543"
+    },
+    "src/ocm/kso/space.py": {
+      "at_historical_parent": "485778a516245d273a565dbf81f697d0b659d2f91f345f653f3a775052b37f42",
+      "current": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd"
+    },
+    "src/ocm/lifetime/phases.py": {
+      "at_historical_parent": "689096ad18d51c0c910bb8d3a313e260f3d38be11ac53b12360469abe5158682",
+      "current": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1"
+    },
+    "src/ocm/operators/__init__.py": {
+      "at_historical_parent": "6a814bfc5f9470d63ecc225e612c1dd1dfe77d153f8a84a2d1ebde75e27fdd9c",
+      "current": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6"
+    },
+    "src/ocm/operators/registry.py": {
+      "at_historical_parent": "e704bc821566f564f3a04edbc5cdae69d9b6e68f88c29e17a81470df567aa568",
+      "current": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f"
+    },
+    "src/ocm/runtime/ocm_runtime.py": {
+      "at_historical_parent": "ee0de5a5a489c03a03b27631eae1708e2d99009acafe043821cc00ef57c9bcc1",
+      "current": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046"
+    },
+    "src/ocm/selfmodel/benchmark.py": {
+      "at_historical_parent": "4de70e25fdb515b59397e8136639813377f9bdef498a71505059ae30cec586d9",
+      "current": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108"
+    },
+    "src/ocm/selfmodel/govern.py": {
+      "at_historical_parent": "3973b9600f5306044da721cf6bdb663c1bbed77ed1e7f266d6b4da62ca53caa9",
+      "current": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0"
+    }
+  },
+  "terminal": "M7_HISTORICAL_CUSTODY__CURRENT_BINDINGS_VERIFIED"
+}

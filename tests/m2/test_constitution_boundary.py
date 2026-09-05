@@ -88,9 +88,9 @@ def test_internal_authority_never_reaches_commit_and_self_grant_is_the_mutant():
     assert r.status is A.ActionStatus.EXECUTED and r.gate_state == "SKIPPED"   # the convenience path executes without gates
 
 
-def test_effector_failure_is_a_failed_receipt_never_silent():
+def test_effector_exception_is_an_unknown_receipt_never_silent():
     def boom(intent):
         raise RuntimeError("smtp down")
 
     r = B.commit_external_action(_intent(), ks=_ks(), revoked=(), contract=_contract(1), observations=[_obs()], authority=A.StaticCommitAuthority(Authority.of(commit=1)), effector=boom, log=B.BoundaryLog(), sequence=5)
-    assert r.status is A.ActionStatus.FAILED and "smtp down" in r.actual_effect
+    assert r.status is A.ActionStatus.UNKNOWN and "smtp down" in r.actual_effect

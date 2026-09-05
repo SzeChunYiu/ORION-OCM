@@ -40,9 +40,9 @@ HELD_VERB = "find"
 
 
 def frozen_lexicon() -> L.Lexicon:
-    from tests.m3.test_microworld import _lexicon_for
+    from ocm.language.bootstrap import microworld_lexicon
 
-    lx = _lexicon_for(())
+    lx = microworld_lexicon()
     for n in HELD_NOUNS:
         lx.lexemes.pop(f"{n}|N", None)
     lx.lexemes.pop(f"{HELD_VERB}|V", None)
@@ -214,7 +214,7 @@ def run(seed: str = "OCM-M3-MICROWORLD-20260905") -> dict:
     rv = T.retention(before, after, new_set=new_set, old_set=old_set, unrelated_set=old_set, reopened=0, work=len(dev[:6]))
     out["retention_after_E1"] = {"new_gain": rv.new_gain, "old_loss": rv.old_loss, "unrelated_change": rv.unrelated_change, "denominators": rv.denominators}
     # negative-transfer hostile: English order forced onto the SOV mini-language
-    from tests.m3.test_acquisition import _lexicon as sov_lx
+    from ocm.language.bootstrap import acquisition_lexicon as sov_lx
     utt = T.sov_utterance("robot", "door", "opened")
     forced = T.mutant_transfer_word_order(seed["en:transitive"], "sov")
     r = I.interpret(utt, sov_lx(), [seed["en:np"], forced])
@@ -229,7 +229,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({k: r[k] for k in ("baseline_frozen", "regimes", "retention_after_E1", "negative_transfer")}, indent=1)[:6000])
     return 0
 

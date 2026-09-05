@@ -69,6 +69,7 @@ class RuntimeState:
     nogoods: NogoodSet = field(default_factory=NogoodSet)
     evidence: EvidenceRegistry = field(default_factory=lambda: EvidenceRegistry("ocm"))
     operators: OperatorRegistry = field(default_factory=OperatorRegistry)
+    operator_manifests: dict[str, dict[str, Any]] = field(default_factory=dict)
     quarantine: dict[str, dict[str, Any]] = field(default_factory=dict)
     learned: dict[str, dict[str, Any]] = field(default_factory=dict)
     jumps: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -80,7 +81,10 @@ class RuntimeState:
 
     @property
     def registry_revision(self) -> str:
-        return _digest({"operators": sorted(self.operators.operators), "certs": {k: len(v) for k, v in self.operators.certificates.items()}})
+        body = {"operators": sorted(set(self.operators.operators) | self.operator_manifests.keys()), "certs": {k: len(v) for k, v in self.operators.certificates.items()}}
+        if self.operator_manifests:
+            body["manifests"] = self.operator_manifests
+        return _digest(body)
 
     @property
     def evidence_epoch(self) -> str:
@@ -103,13 +107,15 @@ class RuntimeState:
 
 
 class OCMRuntime:
-    def __init__(self, root: str | Path, *, commit_authority: CA.CommitAuthority | None = None, config: SV.SolveConfig = SV.SolveConfig()) -> None:
+    def __init__(self, root: str | Path, *, commit_authority: CA.CommitAuthority | None = None, config: SV.SolveConfig = SV.SolveConfig(), action_reconciler: CA.ActionReconciler | None = None) -> None:
         self.root = Path(root)
         self.ledger = LedgerStore(self.root)
         self._authority = commit_authority          # held privately; never exposed to operators
+        self._action_reconciler = action_reconciler
         self.config = config
         self.state = RuntimeState()
         self.events: list[OCMEvent] = []
+        self._host_operators: dict[str, OperatorSpec] = {}
         self._replay()
 
     # ------------------------------------------------------------------ persistence / replay
@@ -124,8 +130,10 @@ class OCMRuntime:
             event_type=event_type, status=status, input_object_ids=tuple(inputs), output_object_ids=tuple(outputs), evidence_ids=tuple(sorted(map(str, evidence))),
             operator_fingerprint=operator, seed=seed, observed_at=(prev.sequence + 1 if prev else 1), resource_delta=(delta or ResourceVector()).as_dict(), expectation=self._expectation(), payload=dict(payload or {}),
         )
-        expected_head = self.ledger.head().entry_hash if self.ledger.head() else None
-        self.ledger.append(EVENT_KIND, ev.as_dict(), expected_head=expected_head)
+        # The CAS must bind the state this instance replayed, not a fresh head read
+        # from another writer. Otherwise a stale event can permanently poison replay.
+        entry = self.ledger.append(EVENT_KIND, ev.as_dict(), expected_head=self._ledger_head)
+        self._ledger_head = entry.entry_hash
         self.events.append(ev)
         self.state.meter = self.state.meter + ev.resources
         return ev
@@ -133,8 +141,10 @@ class OCMRuntime:
     def _replay(self) -> None:
         self.state = RuntimeState()
         self.events = []
+        self._ledger_head: str | None = None
         snapshot_hash: str | None = None
         for entry in self.ledger.entries():
+            self._ledger_head = entry.entry_hash
             if entry.kind == SNAPSHOT_KIND:
                 snapshot_hash = entry.payload["kso_state_hash"]
                 continue
@@ -146,6 +156,12 @@ class OCMRuntime:
         verify_chain(self.events)
         if snapshot_hash is not None and snapshot_hash != self.state.kso_state_hash and self.events and self.events[-1].event_type is EventType.SNAPSHOT_WRITTEN:
             raise RuntimeRefusal("SNAPSHOT_STATE_MISMATCH", "replayed state digest differs from the recorded snapshot")
+        # Executable code is supplied by this host, never deserialised from a log.
+        # A fresh process can inspect registration metadata before explicitly
+        # rebinding its implementations with register_operator.
+        for key, op in self._host_operators.items():
+            if self.state.operator_manifests.get(key) == _operator_manifest(op):
+                self.state.operators.register(op)
 
     def _apply(self, ev: OCMEvent) -> None:
         """Deterministic reducer: the epistemically relevant state is a function of the events."""
@@ -154,7 +170,10 @@ class OCMRuntime:
         if t is EventType.EVIDENCE_ADMITTED and ev.status is EventStatus.PASS:
             d = p.get("derived_from")
             a = p.get("authority")
-            self.state.evidence.register(p["payload"], p["channel"], p["source"], scope=_scope(p.get("scope")), authority=None if a is None else Authority.of(**a), derived_from=None if d is None else WarrantProfile.of(*[set(w) for w in d]), contradicts=p.get("contradicts", ()), supersedes=p.get("supersedes"))
+            # Older events recorded exact lower families only. New events retain
+            # both interval bounds so UNKNOWN survives admission and restart.
+            derived = None if d is None else (_wp(d) if isinstance(d, Mapping) else WarrantProfile.of(*[set(w) for w in d]))
+            self.state.evidence.register(p["payload"], p["channel"], p["source"], scope=_scope(p.get("scope")), authority=None if a is None else Authority.of(**a), derived_from=derived, contradicts=p.get("contradicts", ()), supersedes=p.get("supersedes"))
         elif t is EventType.EVIDENCE_REVOKED:
             self.state.revoked = self.state.revoked | frozenset(p["evidence"])
             for e in p["evidence"]:
@@ -178,7 +197,7 @@ class OCMRuntime:
         elif t is EventType.SKILL_QUARANTINED:
             self.state.quarantine[p["target"]] = dict(p)
         elif t is EventType.OPERATOR_REGISTERED:
-            pass  # operator code is host-registered at construction; the event records the fingerprint
+            self.state.operator_manifests[f"{p['operator_id']}@{p['version']}"] = dict(p)
         elif t in (EventType.JUMP_PROPOSED, EventType.JUMP_REJECTED, EventType.JUMP_ADOPTED):
             self.state.jumps[p["proposal_id"]] = {"type": t.value, **p}
         elif t is EventType.OBJECT_REOPENED and p.get("nogood"):
@@ -186,7 +205,8 @@ class OCMRuntime:
 
     def persist(self) -> OCMEvent:
         ev = self._emit(EventType.SNAPSHOT_WRITTEN, EventStatus.PASS, operator="", payload={"kso_state_hash": self.state.kso_state_hash})
-        self.ledger.append(SNAPSHOT_KIND, {"kso_state_hash": self.state.kso_state_hash, "sequence": ev.sequence, "snapshot": self.state.snapshot()})
+        entry = self.ledger.append(SNAPSHOT_KIND, {"kso_state_hash": self.state.kso_state_hash, "sequence": ev.sequence, "snapshot": self.state.snapshot()}, expected_head=self._ledger_head)
+        self._ledger_head = entry.entry_hash
         return ev
 
     def replay(self) -> dict[str, Any]:
@@ -208,17 +228,23 @@ class OCMRuntime:
             if e not in self.state.evidence.records:
                 raise RuntimeRefusal("UNKNOWN_EVIDENCE_REFERENCE", e)
         if derived_from is not None:
-            for w in derived_from.lower:
+            for w in (*derived_from.lower, *derived_from.upper):
                 for e in w:
                     if e not in self.state.evidence.records:
                         raise RuntimeRefusal("UNKNOWN_EVIDENCE_REFERENCE", str(e))
-        ev = self._emit(EventType.EVIDENCE_ADMITTED, EventStatus.PASS, evidence=(), payload={"payload": payload, "channel": ch.value, "source": source, "scope": None if scope is None else scope.as_dict(), "contradicts": list(contradicts), "supersedes": supersedes, "derived_from": None if derived_from is None else [sorted(w) for w in derived_from.lower], "authority": None if authority is None else authority.as_dict()}, delta=ResourceVector(update_work=1))
+        ev = self._emit(EventType.EVIDENCE_ADMITTED, EventStatus.PASS, evidence=(), payload={"payload": payload, "channel": ch.value, "source": source, "scope": None if scope is None else scope.as_dict(), "contradicts": list(contradicts), "supersedes": supersedes, "derived_from": None if derived_from is None else derived_from.as_dict(), "authority": None if authority is None else authority.as_dict()}, delta=ResourceVector(update_work=1))
         self._apply(ev)
         outcome_name, eid, _ = self.state.evidence.log[-1]
         return Admission(outcome_name), eid
 
     def revoke(self, evidence: Iterable[Hashable]) -> RV.ReopeningReport:
         ev_list = [e for e in evidence]
+        # Validate the entire request before emitting or changing either revoked
+        # set. A derived record is not an assumption that can be revoked directly.
+        for e in ev_list:
+            rec = self.state.evidence.records.get(e)
+            if rec is not None and not rec.is_assumption:
+                raise ValueError(f"{e} is derived evidence: revoke its assumptions, not the derivation (R ⊆ A)")
         before = self.state.revoked
         ev = self._emit(EventType.EVIDENCE_REVOKED, EventStatus.PASS, evidence=ev_list, payload={"evidence": [str(e) if isinstance(e, str) else e for e in ev_list]}, delta=ResourceVector(update_work=1))
         self._apply(ev)
@@ -256,8 +282,16 @@ class OCMRuntime:
         return receipt
 
     def register_operator(self, op: OperatorSpec) -> str:
-        key = self.state.operators.register(op)
-        self._emit(EventType.OPERATOR_REGISTERED, EventStatus.PASS, outputs=(key,), operator=op.fingerprint, payload=op.as_dict())
+        key = f"{op.operator_id}@{op.version}"
+        manifest = _operator_manifest(op)
+        previous = self.state.operator_manifests.get(key)
+        if previous is not None and previous != manifest:
+            raise S.TypedRejection("OPERATOR_VERSION_COLLISION", key)
+        if previous is None:
+            ev = self._emit(EventType.OPERATOR_REGISTERED, EventStatus.PASS, outputs=(key,), operator=op.fingerprint, payload=manifest)
+            self._apply(ev)
+        self.state.operators.register(op)
+        self._host_operators[key] = op
         return key
 
     # ------------------------------------------------------------------ solve / navigate / extract
@@ -311,19 +345,122 @@ class OCMRuntime:
         return assessment
 
     # ------------------------------------------------------------------ external action
+    def pending_external_actions(self) -> tuple[dict[str, Any], ...]:
+        """Replay unresolved intents, including an explicitly UNKNOWN receipt.
+
+        A host observation can resolve uncertainty about an old effect. Intent
+        identifiers remain permanently consumed, including NOT_EXECUTED ones.
+        Returned data is detached from the durable event chain.
+        """
+        import copy
+        pending = {}
+        for ev in self.events:
+            if ev.event_type is EventType.ACTION_INTENT:
+                row = ev.payload["intent"]
+                pending[row["intent_id"]] = {"intent": copy.deepcopy(row), "intent_event_hash": ev.event_hash,
+                                            "receipt": None, "observations": []}
+            elif ev.event_type is EventType.ACTION_RECEIPT:
+                receipt = ev.payload["receipt"]
+                key = receipt["intent_id"]
+                if key in pending:
+                    if ((receipt["status"] in {"UNKNOWN", "CANNOT_CHECK"} and receipt["actual_effect"] != "NONE")
+                            or (receipt["status"] == "FAILED" and receipt.get("refusal_code") == "EFFECTOR_FAILED")):
+                        pending[key]["receipt"] = copy.deepcopy(receipt)
+                    else:
+                        pending.pop(key)
+            elif ev.event_type is EventType.ACTION_RECONCILIATION:
+                observation = ev.payload["observation"]
+                key = observation["intent_id"]
+                if key in pending:
+                    if observation["outcome"] == "UNKNOWN":
+                        pending[key]["observations"].append(copy.deepcopy(observation))
+                    else:
+                        pending.pop(key)
+        return tuple(pending.values())
+
+    def reconcile_external_action(self, intent_id: str) -> CA.HostActionObservation:
+        if self._action_reconciler is None:
+            raise RuntimeRefusal("NO_HOST_ACTION_RECONCILER", intent_id)
+        pending = next((p for p in self.pending_external_actions() if p["intent"]["intent_id"] == intent_id), None)
+        if pending is None:
+            raise RuntimeRefusal("NO_PENDING_ACTION", intent_id)
+        fingerprint = pending["intent"]["fingerprint"]
+        event_hash = pending["intent_event_hash"]
+        checkpoint, ledger_head = self._expectation(), self._ledger_head
+        observation = self._action_reconciler.observe(pending)
+        head = self.ledger.head()
+        if checkpoint != self._expectation() or (head.entry_hash if head else None) != ledger_head:
+            raise RuntimeRefusal("RECONCILIATION_STATE_CHANGED", intent_id)
+        if (type(observation) is not CA.HostActionObservation or observation.intent_id != intent_id
+                or observation.intent_fingerprint != fingerprint):
+            raise RuntimeRefusal("RECONCILIATION_IDENTITY_MISMATCH", intent_id)
+        self._emit(EventType.ACTION_RECONCILIATION, EventStatus.CANNOT_CHECK,
+                   inputs=(intent_id,), operator="host.action-reconciliation",
+                   payload={"intent_event_hash": event_hash, "observation": observation.as_dict()},
+                   delta=ResourceVector(verification_calls=1))
+        return observation
+
     def commit_external_action(self, intent: CA.ActionIntent, *, contract: HardGateContract, observations: Sequence[HardGateObservation], effector: CB.Effector) -> CA.ActionReceipt:
         if self._authority is None:
             raise RuntimeRefusal("NO_COMMIT_AUTHORITY_INSTALLED", intent.intent_id)
+        if any(ev.event_type is EventType.ACTION_INTENT and ev.payload.get("intent", {}).get("intent_id") == intent.intent_id for ev in self.events):
+            # A missing receipt means the external outcome is unresolved. Reusing
+            # that intent must not silently invoke the effector again after restart.
+            raise RuntimeRefusal("ACTION_INTENT_ALREADY_RECORDED", intent.intent_id)
         seq = (self.events[-1].sequence + 1) if self.events else 1
-        log = CB.BoundaryLog()
-        receipt = CB.commit_external_action(intent, ks=self.state.ks, revoked=self.state.revoked, contract=contract, observations=observations, authority=self._authority, effector=effector, log=log, sequence=seq)
-        self._emit(EventType.ACTION_INTENT, EventStatus.PROPOSAL, inputs=intent.supporting_object_ids, payload=log.entries[0], operator="constitution.boundary", delta=intent.resource_estimate)
-        status = {CA.ActionStatus.EXECUTED: EventStatus.PASS, CA.ActionStatus.FAILED: EventStatus.FAIL, CA.ActionStatus.REFUSED: EventStatus.FAIL, CA.ActionStatus.UNKNOWN: EventStatus.CANNOT_CHECK, CA.ActionStatus.CANNOT_CHECK: EventStatus.CANNOT_CHECK}[receipt.status]
-        self._emit(EventType.ACTION_RECEIPT, status, inputs=(intent.intent_id,), outputs=(receipt.receipt_id,), evidence=receipt.evidence_ids, payload=log.entries[1], operator="constitution.boundary", delta=receipt.observed_resources)
-        return receipt
+        log = _RuntimeBoundaryLog(self, intent)
+        authority = _RuntimeCommitAuthority(self, self._authority, log)
+        return CB.commit_external_action(intent, ks=self.state.ks, revoked=self.state.revoked, contract=contract, observations=observations, authority=authority, effector=effector, log=log, sequence=seq)
+
+
+class _RuntimeBoundaryLog(CB.BoundaryLog):
+    """Persist each boundary transition synchronously where the boundary emits it.
+
+    In particular ACTION_INTENT is durable before authority/effector callbacks.
+    Receipt persistence failure leaves the real pending intent in the ledger.
+    """
+
+    def __init__(self, runtime: OCMRuntime, intent: CA.ActionIntent) -> None:
+        super().__init__()
+        self.runtime = runtime
+        self.intent = intent
+        self.checkpoint: EventExpectation | None = None
+
+    def append(self, kind: str, body: Mapping[str, Any]) -> int:
+        payload = {"kind": kind, **body}
+        if kind == "ACTION_INTENT":
+            self.runtime._emit(EventType.ACTION_INTENT, EventStatus.PROPOSAL, inputs=self.intent.supporting_object_ids, payload=payload, operator="constitution.boundary", delta=self.intent.resource_estimate)
+            self.checkpoint = self.runtime._expectation()
+        elif kind == "ACTION_RECEIPT":
+            receipt = body["receipt"]
+            status = {"EXECUTED": EventStatus.PASS, "FAILED": EventStatus.FAIL, "REFUSED": EventStatus.FAIL, "UNKNOWN": EventStatus.CANNOT_CHECK, "CANNOT_CHECK": EventStatus.CANNOT_CHECK}[receipt["status"]]
+            self.runtime._emit(EventType.ACTION_RECEIPT, status, inputs=(self.intent.intent_id,), outputs=(receipt["receipt_id"],), evidence=receipt["evidence_ids"], payload=payload, operator="constitution.boundary", delta=ResourceVector(**receipt["observed_resources"]))
+        else:
+            raise RuntimeRefusal("UNKNOWN_BOUNDARY_EVENT", kind)
+        return super().append(kind, body)
+
+
+@dataclass(frozen=True)
+class _RuntimeCommitAuthority:
+    runtime: OCMRuntime
+    delegate: CA.CommitAuthority
+    log: _RuntimeBoundaryLog
+
+    def decide(self, intent: CA.ActionIntent, *, gate_state: str, warrant_liveness: str) -> CA.CommitDecision:
+        decision = self.delegate.decide(intent, gate_state=gate_state, warrant_liveness=warrant_liveness)
+        head = self.runtime.ledger.head()
+        if self.log.checkpoint != self.runtime._expectation() or (head.entry_hash if head else None) != self.runtime._ledger_head:
+            return CA.CommitDecision(False, Authority(), "AUTHORIZATION_STATE_CHANGED", decision.source)
+        return decision
 
 
 # ---------------------------------------------------------------------- (de)serialisation helpers
+
+
+def _operator_manifest(op: OperatorSpec) -> dict[str, Any]:
+    # This is a declared contract, not a code-identity proof. Backend and
+    # checker implementations must be supplied explicitly by the trusted host.
+    return {**op.as_dict(), "warrant": op.warrant.as_dict(), "resource_model": op.resource_model.as_dict(), "expected_effects": list(op.expected_effects), "checker_required": op.checker is not None, "implementation_identity": "HOST_SUPPLIED_UNVERIFIED"}
 
 
 def _wp(d: Mapping[str, Any] | None) -> WarrantProfile | None:

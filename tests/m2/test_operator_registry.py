@@ -36,7 +36,11 @@ def test_coverage_certificate_licenses_only_inside_its_scope():
     op = _op(R.BackendKind.STATISTICAL)
     cert = R.CoverageCertificate(op.fingerprint, Scope.of("en"), F(1, 20), "exchangeability", "ev:calib:1")
     inside = R.compose_candidate(_ks(), op, {"answer": 7}, coverage=cert, context="en")
-    assert inside.liveness(()) is Liveness.LIVE and inside.certificate.startswith("COVERAGE") and inside.liveness(("ev:calib:1",)) is Liveness.DEAD
+    # Typed-lifecycle correction: the statistical statement is live; individual
+    # output truth remains UNKNOWN without an exact target certificate.
+    assert inside.liveness(()) is Liveness.UNKNOWN and inside.certificate is None
+    assert inside.guarantee.kind == "OPERATOR_GUARANTEE" and inside.guarantee.liveness(()) is Liveness.LIVE
+    assert inside.guarantee.liveness(("ev:calib:1",)) is Liveness.DEAD
     outside = R.compose_candidate(_ks(), op, {"answer": 7}, coverage=cert, context="de")
     assert outside.liveness(()) is Liveness.UNKNOWN
     other = R.CoverageCertificate("not-this-operator", Scope.of("en"), F(1, 20), "exch", "ev:calib:2")

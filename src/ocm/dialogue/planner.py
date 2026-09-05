@@ -49,6 +49,7 @@ class ContentItem:
     marker: Marker
     gloss: str
     source: str | None = None
+    negated: bool = False
 
 
 @dataclass(frozen=True)
@@ -69,7 +70,7 @@ class ResponsePlan:
     def gate_plan(self) -> GatePlan:
         assertions = tuple(Assertion(c.digest, c.evidence, c.layer if c.layer in ("speaker", "source") else "machine") for c in self.content)
         meaning = self.content[0].meaning if self.content else None
-        return GatePlan(self.act, meaning, assertions, self.required_marker, self.referents)
+        return GatePlan(self.act, meaning, assertions, self.required_marker, self.referents, source_name=self.content[0].source if self.content else None, reported_negative=self.content[0].negated if self.content else False)
 
 
 def _item(world: KnowledgeWorld, f: Fact) -> ContentItem:
@@ -103,7 +104,7 @@ def plan_answer(world: KnowledgeWorld, ws: DialogueWorkspace, asked: MeaningGrap
         return ResponsePlan(Act.ANSWER, "report source claim", tuple(items), Rhetorical.ANSWER, Marker.REPORTED, "full", register, 1, ("name the source",), ("verification absent",))
     if pos or neg:
         ev = tuple(c.evidence_id for c in pos + neg)
-        it = ContentItem(canonical(asked)[1], asked, "speaker", ev, Marker.REPORTED if not (pos and neg) else Marker.UNCERTAIN, "", None)
+        it = ContentItem(canonical(asked)[1], asked, "speaker", ev, Marker.REPORTED if not (pos and neg) else Marker.UNCERTAIN, "", (pos or neg)[0].speaker, bool(neg and not pos))
         return ResponsePlan(Act.ANSWER if not (pos and neg) else Act.REPORT_UNCERTAIN, "report speaker commitment", (it,), Rhetorical.ANSWER, it.marker, "full", register, 1, ("name the speaker",), ())
     if f is not None and lv is Liveness.DEAD:
         return ResponsePlan(Act.REPORT_UNKNOWN, "fact revoked", (), Rhetorical.NONE, Marker.UNCERTAIN, "full", register, 1, ("say the support was revoked",), ("revoked",))

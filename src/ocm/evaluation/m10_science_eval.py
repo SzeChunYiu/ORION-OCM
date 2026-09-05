@@ -159,7 +159,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({k: r[k] for k in ("causal", "experiment_selection", "analysis", "proof", "retraction", "cross_field_transfer", "communication")}, indent=1)[:6000])
     return 0
 

@@ -330,20 +330,25 @@ def phase_G(arm, seed_index: int) -> dict[str, Any]:
     pred = PR.Prediction(("target",), (), {"steps": 0}, ("preservation",), (), ("none",), 0.1)
     prop = PR.SelfChangeProposal("p:m12:G", "1", (), f"layer.{layer.value}", layer.value, "fp-inc", PR.minimum_class_for(layer.value), {"repair": name}, fn, pred, ("preservation",), (), "target", "restore", "enterprise", "w1", PR.Origin.EXISTING_ALTERNATIVE)
     suites = {"target": target, "preservation": preservation}
+    prediction_receipt = GV.register_prediction(arm.runtime, prop)
     sh = GV.shadow_evaluate(arm.runtime, machine, prop, B.runner, suites)
-    a = GV.assure(prop, sh, protocol_hash="frozen", frozen_protocol_hash="frozen", prediction_digest_before_access=prop.prediction.digest(), budget={"steps": 200}, rollback_exists=True)
+    a = GV.assure(prop, sh, protocol_hash="frozen", frozen_protocol_hash="frozen", prediction_receipt=prediction_receipt,
+                  runtime=arm.runtime, held_out_task_ids=[t.task_id for t in target + preservation],
+                  budget={"steps": 200}, rollback_exists=True)
     ledger = GV.AdoptionLedger(arm.runtime)
     ledger.propose(prop)
     dec = GV.ExternalAdopter("m12-token").decide(prop, a)
     repaired = preserved = rollback_ok = False
     after = before
     if dec.approved:
-        challenger, info = ledger.adopt(prop, dec, machine, {"machine": {"artifact": "fp-inc"}})
+        challenger, info = ledger.adopt(prop, dec, machine, {prop.target_component: {"artifact": prop.incumbent_fingerprint}})
         after = challenger.score(target)
         repaired = after == len(target)
         preserved = challenger.score(preservation) >= pres_before
-        restored, _, ok = ledger.rollback(prop.fingerprint())
+        restored, restored_components, ok = ledger.rollback(prop.fingerprint())
         rollback_ok = ok and restored.score(target) == before and arm.runtime.state.evidence.liveness([info["stamped_evidence"]]) is Liveness.DEAD
+        if rollback_ok:
+            ledger.acknowledge_rollback_installation(prop.fingerprint(), components=restored_components)
     return {"fault": fault, "true_layer": true_layer, "diagnosed": d.minimum_sufficient, "diagnosis_correct": d.minimum_sufficient == true_layer, "chosen_repair": name, "proposal_class": prop.change_class.value, "minimum_class_correct": prop.change_class is PR.minimum_class_for(true_layer), "assurance": a.passed, "assurance_reasons": list(a.reasons), "adopted": dec.approved,
             "target_before": f"{before}/{len(target)}", "target_after": f"{after}/{len(target)}", "repaired": repaired, "preserved": preserved, "rollback_exact": rollback_ok, "escalation_allowed": DG.escalation_allowed(d, None)[0]}
 
