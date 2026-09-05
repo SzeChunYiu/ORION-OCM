@@ -156,7 +156,9 @@ class PersistentOCM(M7.OCMArm):
 
     def info(self) -> dict:
         base = super().info()
-        base.update({"work_skills": len(self.work.skills), "science_observations": len(self.science.observations) if hasattr(self.science, "observations") else None, "protected_exposure": 0})
+        base.update({"work_skills": len(self.work.skills), "science_observations": len(self.science.observations) if hasattr(self.science, "observations") else None, "protected_exposure": 0,
+                     # batch 8 H3 (FDX-03): the information budget names the channel join, the assumption ids and the identification verdict type
+                     "channels": ["manifest", "lessons", "corrections", "demonstrations", "oracle_observations", "revocation_notices"], "undeclared_channels": "NONE_DECLARED", "assumption_ids": ["manifest:curated:v1", "manifest:almanac:v1", "manifest:rumour:v1"], "identification_verdict_type": "GUARANTEED_IDENTIFICATION_NOT_CLAIMED"})
         return base
 
 
@@ -189,7 +191,7 @@ class WholeSystemParent(M7.ParentArm):
 
     def info(self) -> dict:
         base = super().info()
-        base.update({"work_skills": len(self.work.skills), "protected_exposure": 0})
+        base.update({"work_skills": len(self.work.skills), "protected_exposure": 0, "channels": ["manifest", "lessons", "corrections", "demonstrations", "oracle_observations", "revocation_notices"], "undeclared_channels": "NONE_DECLARED", "assumption_ids": ["manifest:curated:v1", "manifest:almanac:v1", "manifest:rumour:v1"], "identification_verdict_type": "GUARANTEED_IDENTIFICATION_NOT_CLAIMED"})
         return base
 
 

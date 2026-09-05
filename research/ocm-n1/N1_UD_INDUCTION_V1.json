@@ -502,10 +502,138 @@
   },
   "hostile_memorised_as_learned": 19642
  },
+ "ud_parse": {
+  "meta": {
+   "constructions": 5329,
+   "min_count": 2,
+   "time_budget_s_per_split": 600.0,
+   "max_tokens": 10,
+   "chart": {
+    "constructions": 20570,
+    "min_count": 1,
+    "max_tokens": 25,
+    "max_items": 300000
+   }
+  },
+  "protected": {
+   "dev": {
+    "engine": "matcher",
+    "status": "CANNOT_CHECK_MEMORY",
+    "note": "the M3 span matcher exhausted memory on open text even at \u2264 8 tokens with rules attested \u2265 5 (ledger S39); run with --matcher to retry"
+   },
+   "test": {
+    "engine": "matcher",
+    "status": "CANNOT_CHECK_MEMORY",
+    "note": "the M3 span matcher exhausted memory on open text even at \u2264 8 tokens with rules attested \u2265 5 (ledger S39); run with --matcher to retry"
+   }
+  },
+  "protected_chart": {
+   "dev": {
+    "engine": "chart",
+    "parsed": 1764,
+    "verdicts": {
+     "UNKNOWN_LEXEME": 1132,
+     "LENGTH_CANNOT_CHECK": 170,
+     "UNKNOWN_CONSTRUCTION": 75,
+     "CHART_CAP_CANNOT_CHECK": 523,
+     "AMBIGUOUS": 34,
+     "AMBIGUOUS_COUNT_TOTAL": 232,
+     "AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED": 8,
+     "TIME_BUDGET_CANNOT_CHECK": 67
+    },
+    "exact_gold_match": "0/1764",
+    "wall_s": 600.1,
+    "misses_sample": [
+     [
+      "from the ap comes this story",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "president bush on tuesday nominated two individuals to replace retiring jurists ",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "the sheikh in wheel chair has been attacked with a f 16 launched bomb",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "nervous people make mistakes so i suppose there will be a wave of succesfull ara",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "a la guerre c'est comme a la guerre",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "in the eastern city of baqubah guerrillas detonated a car bomb outside a police ",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "the us lost yet another helicopter to hostile fire near habbaniyah in the sunni ",
+      "UNKNOWN_LEXEME"
+     ]
+    ]
+   },
+   "test": {
+    "engine": "chart",
+    "parsed": 1839,
+    "verdicts": {
+     "UNKNOWN_LEXEME": 1183,
+     "LENGTH_CANNOT_CHECK": 167,
+     "CHART_CAP_CANNOT_CHECK": 503,
+     "UNKNOWN_CONSTRUCTION": 113,
+     "AMBIGUOUS": 40,
+     "AMBIGUOUS_COUNT_TOTAL": 290,
+     "AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED": 5,
+     "TIME_BUDGET_CANNOT_CHECK": 71
+    },
+    "exact_gold_match": "0/1839",
+    "wall_s": 600.2,
+    "misses_sample": [
+     [
+      "what if google morphed into googleos",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "what if google expanded on its search engine and now e-mail wares into a full fl",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "via microsoft watch from mary jo foley",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "and by the way is anybody else just a little nostalgic for the days when that wa",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "does anybody use it for anything else",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "i 'm staying away from the stock",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "john donovan from argghhh! has put out a excellent slide show on what was actual",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "he makes some good observations on a few of the pic's",
+      "UNKNOWN_LEXEME"
+     ]
+    ]
+   }
+  }
+ },
  "hostile": {
   "frequency_promotes_threshold_100": 171,
   "note": "planted: attestation count never changes a warrant; the count of lemmas the hostile would promote is recorded, none is promoted"
  },
- "wall_s": 13.94,
+ "wall_s": 1214.82,
  "status": "DESCRIPTIVE (no comparator; protected suite and parents are N1 tasks 5\u20136)"
 }
