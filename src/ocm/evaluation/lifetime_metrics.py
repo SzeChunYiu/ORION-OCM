@@ -89,12 +89,14 @@ class StateMeasure:
     """Logical persistent state at a declared measurement boundary.
 
     N is ``logical_n`` = the number of persistent, identity-bearing objects in
-    the declared object grammar. Atom count must not be compared numerically
-    with neural parameter count; cross-architecture comparisons use
-    storage/resource/information vectors.
+    the declared object grammar. Auxiliary non-identity cardinalities are
+    reported separately and cannot pad the denominator of k/N. Atom count must
+    not be compared numerically with neural parameter count; cross-architecture
+    comparisons use storage/resource/information vectors.
     """
 
     object_counts: Mapping[str, int]
+    auxiliary_counts: Mapping[str, int] = field(default_factory=dict)
     bytes_by_class: Mapping[str, int] = field(default_factory=dict)
     index_entries: int = 0
     index_bytes: int = 0
@@ -105,6 +107,8 @@ class StateMeasure:
     def __post_init__(self) -> None:
         if any(v < 0 for v in self.object_counts.values()):
             raise ValueError("object counts must be non-negative")
+        if any(v < 0 for v in self.auxiliary_counts.values()):
+            raise ValueError("auxiliary counts must be non-negative")
         if any(v < 0 for v in self.bytes_by_class.values()):
             raise ValueError("byte counts must be non-negative")
         if self.index_entries < 0 or self.index_bytes < 0:
@@ -137,6 +141,14 @@ class TouchMeasure:
             raise ValueError("touched_ids must be unique; repeated work belongs in resources")
         if self.index_entries_touched < 0 or self.global_scan_items < 0:
             raise ValueError("touch counters must be non-negative")
+        if self.status is CheckStatus.MEASURED and self.global_scan_items > self.k:
+            raise ValueError("a measured global scan must be represented in k")
+        if self.touched_by_class:
+            classified = [item for ids in self.touched_by_class.values() for item in ids]
+            if len(classified) != len(set(classified)):
+                raise ValueError("a touched identity cannot be assigned to multiple object classes")
+            if set(classified) != set(self.touched_ids):
+                raise ValueError("touched_by_class must partition touched_ids when supplied")
         if self.status is CheckStatus.CANNOT_CHECK and not self.cannot_check_reason:
             raise ValueError("CANNOT_CHECK touch measure requires a reason")
 
@@ -342,13 +354,18 @@ class LifetimeReceipt:
 
 
 def kso_state_measure(ks: Any, *, object_grammar: str = "KnowledgeSpace.v1") -> StateMeasure:
-    """Adapter for the current canonical KSO without inventing deep memory bytes."""
+    """Adapter for the current KSO without inventing deep memory bytes.
+
+    Only identity-bearing atom/hyperedge counts enter N. The current
+    ``warrant_size`` aggregate is reported as auxiliary cardinality because the
+    runtime does not yet expose one touchable identity per warrant entry.
+    """
     counts = dict(ks.resource_counts())
     object_counts = {
         "atoms": int(counts.get("object_count", 0)),
         "hyperedges": int(counts.get("relation_count", 0)),
-        "warrant_entries": int(counts.get("warrant_size", 0)),
     }
+    auxiliary_counts = {"warrant_entries": int(counts.get("warrant_size", 0))}
     index_entries = index_bytes = 0
     if hasattr(ks, "index_resources"):
         rv = ks.index_resources()
@@ -356,6 +373,7 @@ def kso_state_measure(ks: Any, *, object_grammar: str = "KnowledgeSpace.v1") -> 
         index_bytes = int(getattr(rv, "memory_bytes", 0))
     return StateMeasure(
         object_counts=object_counts,
+        auxiliary_counts=auxiliary_counts,
         bytes_by_class={},
         index_entries=index_entries,
         index_bytes=index_bytes,
