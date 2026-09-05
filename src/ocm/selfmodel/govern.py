@@ -24,6 +24,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -31,10 +32,12 @@ from typing import Any, Callable, Mapping, Sequence
 
 from ocm.kso.types import Authority, Scope
 from ocm.kso.warrant import WarrantProfile
-from ocm.runtime.ocm_runtime import OCMRuntime
+from ocm.runtime.ocm_runtime import OCMRuntime, RuntimeRefusal
+from ocm.store.event import EventStatus, EventType
 from ocm.store.evidence import Channel, content_hash
 
 from .proposal import ChangeClass, SelfChangeProposal, touches_protected_target
+from . import rollback_data
 
 Runner = Callable[[Any, Sequence[Any]], dict[str, Any]]      # (artifact, tasks) → {"success": k, "n": n, ...}
 
@@ -60,8 +63,10 @@ def shadow_evaluate(runtime: OCMRuntime, incumbent: Any, proposal: SelfChangePro
     external commitment and admission) being unchanged across the shadow run."""
     before, head0, n0 = runtime.state.kso_state_hash, _head(runtime), len(runtime.events)
     challenger = proposal.apply(copy.deepcopy(incumbent))
-    inc = {name: runner(incumbent, tasks) for name, tasks in suites.items()}
-    chal = {name: runner(challenger, tasks) for name, tasks in suites.items()}
+    # Each arm/suite receives its own object and task copies. A runner mutating
+    # an input cannot contaminate the frozen suite or the other comparison arm.
+    inc = {name: runner(copy.deepcopy(incumbent), copy.deepcopy(tasks)) for name, tasks in suites.items()}
+    chal = {name: runner(copy.deepcopy(challenger), copy.deepcopy(tasks)) for name, tasks in suites.items()}
     after, head1 = runtime.state.kso_state_hash, _head(runtime)
     return ShadowResult(inc, chal, before, after, before == after and head0 == head1, n0, head0, head1)
 
@@ -105,7 +110,20 @@ def assure(proposal: SelfChangeProposal, shadow: ShadowResult, *, protocol_hash:
     if prediction_receipt is not None and runtime is not None:
         rec = runtime.state.evidence.records.get(prediction_receipt.evidence_id)
         expected = content_hash({"prediction_receipt": proposal.proposal_id, "digest": proposal.prediction.digest()})
-        checks["no_leakage"] = rec is not None and rec.content_hash == expected and prediction_receipt.digest == proposal.prediction.digest() and prediction_receipt.event_index < shadow.events_before
+        index = prediction_receipt.event_index
+        event = runtime.events[index] if type(index) is int and 0 <= index < len(runtime.events) else None
+        shadow_index = shadow.events_before
+        shadow_head = runtime.events[shadow_index - 1].event_hash if type(shadow_index) is int and 0 < shadow_index <= len(runtime.events) else None
+        checks["no_leakage"] = (
+            rec is not None and rec.content_hash == expected and rec.source == "self_model"
+            and runtime.state.evidence.liveness([prediction_receipt.evidence_id]).value == "LIVE"
+            and prediction_receipt.digest == proposal.prediction.digest()
+            and event is not None and event.event_type is EventType.EVIDENCE_ADMITTED
+            and event.status is EventStatus.PASS and event.payload.get("source") == "self_model"
+            and content_hash(event.payload.get("payload")) == expected
+            and type(shadow_index) is int and 0 <= index < shadow_index
+            and shadow_head == shadow.event_head_before
+        )
     else:
         # legacy path (a caller-supplied digest string): weaker, recorded as such
         checks["no_leakage"] = prediction_digest_before_access is not None and proposal.prediction.digest() == prediction_digest_before_access
@@ -113,19 +131,32 @@ def assure(proposal: SelfChangeProposal, shadow: ShadowResult, *, protocol_hash:
     seen = set(proposal.dev_tasks) & set(held_out_task_ids)
     checks["tasks_unseen_by_proposer"] = not seen
     checks["shadow_non_interference"] = shadow.non_interference
-    pres = [name for name in proposal.preserved_capabilities if name in shadow.challenger]
-    checks["preserved_capabilities"] = all(shadow.challenger[n]["success"] >= shadow.incumbent[n]["success"] for n in pres)
+    required = ({proposal.discriminator} | set(proposal.preserved_capabilities)
+                | set(proposal.prediction.improve) | set(proposal.prediction.invariants_unchanged)
+                | set(proposal.prediction.may_regress))
+
+    def measured(row: Any) -> bool:
+        return (isinstance(row, Mapping) and type(row.get("n")) is int and row["n"] > 0
+                and type(row.get("success")) is int and 0 <= row["success"] <= row["n"])
+
+    measured_all = all(measured(shadow.incumbent.get(n)) and measured(shadow.challenger.get(n))
+                       and shadow.incumbent[n]["n"] == shadow.challenger[n]["n"] for n in required)
+    checks["required_suites_measured"] = measured_all
+    checks["preserved_capabilities"] = measured_all and all(shadow.challenger[n]["success"] >= shadow.incumbent[n]["success"] for n in proposal.preserved_capabilities)
     checks["reopened_marked"] = all(name in proposal.reopened_capabilities or name in proposal.preserved_capabilities or name == proposal.discriminator for name in shadow.challenger)
-    res = shadow.challenger.get(proposal.discriminator, {}).get("resources", {})
-    checks["resource_budget"] = all(res.get(k, 0) <= v for k, v in budget.items())
+    discriminator_row = shadow.challenger.get(proposal.discriminator)
+    res = discriminator_row.get("resources", {}) if isinstance(discriminator_row, Mapping) else None
+    def nonnegative_number(value: Any) -> bool:
+        return (type(value) is int and value >= 0) or (type(value) is float and math.isfinite(value) and value >= 0)
+
+    checks["resource_budget"] = isinstance(res, Mapping) and all(
+        nonnegative_number(v) and k in res and nonnegative_number(res[k]) and res[k] <= v
+        for k, v in budget.items())
     checks["rollback_artifact"] = rollback_exists
-    realised = True
-    for fam in proposal.prediction.improve:
-        if fam in shadow.challenger and not (shadow.challenger[fam]["success"] > shadow.incumbent[fam]["success"]):
-            realised = False
-    for fam in proposal.prediction.invariants_unchanged:
-        if fam in shadow.challenger and shadow.challenger[fam]["success"] < shadow.incumbent[fam]["success"] - proposal.prediction.margin * shadow.incumbent[fam]["n"]:
-            realised = False
+    realised = measured_all and nonnegative_number(proposal.prediction.margin) and proposal.prediction.margin <= 1
+    if realised:
+        realised = all(shadow.challenger[fam]["success"] > shadow.incumbent[fam]["success"] for fam in proposal.prediction.improve)
+        realised = realised and all(shadow.challenger[fam]["success"] >= shadow.incumbent[fam]["success"] - proposal.prediction.margin * shadow.incumbent[fam]["n"] for fam in proposal.prediction.invariants_unchanged)
     checks["prediction_realised"] = realised
     for k, v in checks.items():
         if not v and k != "legacy_digest_string":
@@ -181,8 +212,10 @@ class Meter:
     per window (livelock bound ⌊B/δ_min⌋)."""
 
     def __init__(self, charge: float = 1.0, budget: float = 3.0):
-        if charge <= 0:
+        if type(charge) not in (int, float) or not math.isfinite(charge) or charge <= 0:
             raise ValueError("meter charge must be strictly positive")
+        if type(budget) not in (int, float) or not math.isfinite(budget) or budget < 0:
+            raise ValueError("meter budget must be finite and nonnegative")
         self._charge = charge
         self._budget = budget
         self.charges: list[float] = []
@@ -192,7 +225,7 @@ class Meter:
         return self._charge
 
     def raise_charge(self, new: float) -> None:
-        if new < self._charge:
+        if type(new) not in (int, float) or not math.isfinite(new) or new < self._charge:
             raise ValueError("the charge is non-decreasing (E7)")
         self._charge = new
 
@@ -214,69 +247,241 @@ class AdoptionLedger:
     meter: Meter = field(default_factory=Meter)
     window_budget: int = 3
 
+    def __post_init__(self):
+        charges = []
+        for event in self.runtime.events:
+            if (event.event_type is EventType.EVIDENCE_ADMITTED and event.status is EventStatus.PASS
+                    and event.payload.get("source") == "host-proposal-meter.v1"):
+                value = event.payload.get("payload", {}).get("charge")
+                if type(value) not in (float, int) or not math.isfinite(value) or value <= 0:
+                    raise RuntimeRefusal("CANNOT_CHECK_METER_HISTORY")
+                charges.append(value)
+        if charges:
+            self.meter.charges[:] = charges
+            self.meter.raise_charge(max(self.meter.charge, max(charges)))
+
+    def persist(self) -> None:
+        """The verified ledger and content-bound rollback files are authoritative."""
+        self.runtime.persist()
+
+    @classmethod
+    def load(cls, runtime: OCMRuntime, *, meter: Meter | None = None):
+        led = cls(runtime, meter=meter or Meter())
+        for fp, record in led.adoption_history.items():
+            if "decision" in record:
+                led.decisions.append(AdoptionDecision(**record["decision"]))
+            if not record["rollback_available"] or record["rollback_completed"]:
+                continue
+            data = rollback_data.read(runtime.root, record)
+            led.adopted[fp] = RollbackArtifact(fp, data["previous_artifact"], data["previous_state_hash"],
+                record["evidence_id"], data["previous_components"], data["cache_snapshot"], record["previous_components_digest"])
+        return led
+
     @property
     def meter_charges(self) -> list[float]:
         return self.meter.charges
 
-    # ------------------------------------------------------------------ persistence (batch 6 consequence 5)
     @property
-    def store(self) -> Path:
-        return Path(self.runtime.root) / "adoptions.json"
+    def adoption_history(self) -> dict[str, dict[str, Any]]:
+        """Durable metadata and verified data-only rollback availability."""
+        records = {(r.source, r.content_hash): r for r in self.runtime.state.evidence.records.values()}
+        history: dict[str, dict[str, Any]] = {}
+        completed = self._completed_rollbacks()
+        prepared = self._prepared_rollbacks()
+        for ev in self.runtime.events:
+            if ev.event_type is not EventType.EVIDENCE_ADMITTED or ev.status is not EventStatus.PASS or ev.payload.get("source") != "external_adopter":
+                continue
+            payload = ev.payload.get("payload", {})
+            fingerprint = payload.get("adopted")
+            if fingerprint is None:
+                continue
+            rec = records.get(("external_adopter", content_hash(payload)))
+            if rec is not None:
+                available = fingerprint in self.adopted
+                if not available and fingerprint not in completed:
+                    try:
+                        rollback_data.read(self.runtime.root, payload)
+                        available = True
+                    except (OSError, ValueError, TypeError, KeyError, RecursionError):
+                        pass
+                history[fingerprint] = {**payload, "evidence_id": rec.evidence_id, "liveness": self.runtime.state.evidence.liveness([rec.evidence_id]).value, "rollback_available": available and fingerprint not in completed, "rollback_prepared": fingerprint in prepared, "rollback_completed": fingerprint in completed}
+        return history
 
-    def persist(self) -> None:
-        """Rollback artifacts survive an identity-preserving restart: everything serialisable is
-        written beside the ledger (the previous artifact object itself is re-supplied by its
-        fingerprint; components, cache snapshot, stamp and digests are exact)."""
-        rows = {fp: {"proposal_fingerprint": a.proposal_fingerprint, "previous_state_hash": a.previous_state_hash, "stamped_evidence": a.stamped_evidence, "previous_components": a.previous_components, "cache_snapshot": a.cache_snapshot, "components_digest": a.components_digest, "artifact_persisted": isinstance(a.previous_artifact, (dict, list, str, int, float)), "previous_artifact": a.previous_artifact if isinstance(a.previous_artifact, (dict, list, str, int, float)) else None} for fp, a in self.adopted.items()}
-        self.store.write_text(json.dumps({"adopted": rows, "decisions": [d.__dict__ for d in self.decisions], "charges": self.meter.charges}, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    def _rollback_states(self) -> tuple[set[str], set[str]]:
+        """Validate ordered preparation and host acknowledgment against adoption."""
+        records = {(r.source, r.content_hash): r for r in self.runtime.state.evidence.records.values()}
+        adoptions: dict[str, tuple[dict[str, Any], str]] = {}
+        revoked: set[str] = set()
+        prepared: set[str] = set()
+        acknowledged: set[str] = set()
+        for ev in self.runtime.events:
+            if ev.status is not EventStatus.PASS:
+                continue
+            if ev.event_type is EventType.EVIDENCE_REVOKED:
+                revoked.update(ev.payload.get("evidence", ()))
+            elif ev.event_type is EventType.EVIDENCE_REINSTATED:
+                revoked.difference_update(ev.payload.get("evidence", ()))
+            if ev.event_type is not EventType.EVIDENCE_ADMITTED:
+                continue
+            payload = ev.payload.get("payload")
+            if not isinstance(payload, Mapping):
+                continue
+            source = ev.payload.get("source")
+            rec = records.get((source, content_hash(payload)))
+            if source == "external_adopter" and isinstance(payload.get("adopted"), str) and rec is not None:
+                adoptions[payload["adopted"]] = (dict(payload), rec.evidence_id)
+            if source not in ("external_adopter_rollback", "external_adopter_rollback_ack"):
+                continue
+            field = "rollback_prepared" if source == "external_adopter_rollback" else "rollback_acknowledged"
+            fingerprint = payload.get(field)
+            if not isinstance(fingerprint, str) or fingerprint not in adoptions:
+                continue
+            adoption, eid = adoptions[fingerprint]
+            outstanding = [fp for fp in adoptions if fp not in acknowledged]
+            if (not outstanding or outstanding[-1] != fingerprint or eid not in revoked
+                    or payload.get("adoption_evidence") != eid
+                    or payload.get("components_digest") != adoption.get("previous_components_digest")):
+                continue
+            if source == "external_adopter_rollback":
+                prepared.add(fingerprint)
+            elif fingerprint in prepared and payload.get("confirmation") == "HOST_REPORTED_INSTALLED":
+                acknowledged.add(fingerprint)
+        return prepared, acknowledged
 
-    @classmethod
-    def load(cls, runtime: OCMRuntime, *, meter: "Meter | None" = None) -> "AdoptionLedger":
-        led = cls(runtime, meter=meter or Meter())
-        p = Path(runtime.root) / "adoptions.json"
-        if p.exists():
-            d = json.loads(p.read_text(encoding="utf-8"))
-            for fp, r in d["adopted"].items():
-                led.adopted[fp] = RollbackArtifact(r["proposal_fingerprint"], r["previous_artifact"], r["previous_state_hash"], r["stamped_evidence"], dict(r["previous_components"]), dict(r["cache_snapshot"]), r["components_digest"])
-            led.decisions = [AdoptionDecision(**x) for x in d["decisions"]]
-            led.meter.charges.extend(d.get("charges", []))
-        return led
+    def _completed_rollbacks(self) -> set[str]:
+        return self._rollback_states()[1]
+
+    def _prepared_rollbacks(self) -> set[str]:
+        return self._rollback_states()[0]
 
     def propose(self, proposal: SelfChangeProposal) -> None:
         """Every proposal charges the meter (δ > 0); a proposal touching the meter is refused before charging."""
         if touches_protected_target(proposal):
             raise PermissionError("proposal touches a protected target (evaluator / meter / authority)")
         self.meter.pay()
+        try:
+            self.runtime.admit_evidence({"proposal": proposal.fingerprint(), "charge": self.meter.charge,
+                "sequence": len(self.runtime.events)}, Channel.OBSERVATION, "host-proposal-meter.v1")
+        except Exception:
+            self.meter.charges.pop()
+            raise
 
     def adopt(self, proposal: SelfChangeProposal, decision: AdoptionDecision, incumbent: Any, components: dict[str, Any], *, cache: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
         if not decision.approved or decision.authority_token == "no-token":
             raise PermissionError("adoption requires an external decision with a token")
-        if len(self.adopted) >= self.window_budget:
+        if decision.proposal_fingerprint != proposal.fingerprint():
+            raise PermissionError("external decision names another proposal")
+        if not proposal.adoptable_through_cognition() or touches_protected_target(proposal):
+            raise PermissionError("proposal touches a protected target (evaluator / meter / authority)")
+        if components.get(proposal.target_component, {}).get("artifact") != proposal.incumbent_fingerprint:
+            raise RuntimeRefusal("INCUMBENT_FINGERPRINT_MISMATCH", proposal.target_component)
+        history = self.adoption_history
+        if proposal.fingerprint() in history:
+            raise RuntimeRefusal("ADOPTION_ALREADY_RECORDED", proposal.fingerprint())
+        if any(record["rollback_prepared"] and not record["rollback_completed"] for record in history.values()):
+            raise RuntimeRefusal("ADOPTION_BLOCKED_PENDING_ROLLBACK_ACK")
+        if sum(record["liveness"] == "LIVE" for record in history.values()) >= self.window_budget:
             raise ValueError("adoption budget for this window exhausted")
-        self.decisions.append(decision)
+        previous_artifact = copy.deepcopy(incumbent)
+        previous_components = copy.deepcopy(components)
+        previous_cache = copy.deepcopy(cache or {})
         prev_hash = self.runtime.state.kso_state_hash
-        _, eid = self.runtime.admit_evidence({"adopted": proposal.fingerprint(), "class": proposal.change_class.value, "target": proposal.target_component, "token": decision.authority_token}, Channel.IMPORTED, "external_adopter", scope=Scope.of("self"), authority=Authority.of(self_model=1))
+        before = self.runtime._expectation()
+        # Construct first: an exception is not a completed adoption. The callback
+        # contract is pure; detect writes to this runtime instead of assuming it.
         challenger = proposal.apply(copy.deepcopy(incumbent))
-        new_components = dict(components)
+        after = self.runtime._expectation()
+        before.check(log_head=after.log_head, kso_state_hash=after.kso_state_hash, registry_revision=after.registry_revision, evidence_epoch=after.evidence_epoch)
+        binding = rollback_data.write(self.runtime.root, {
+            "schema": rollback_data.SCHEMA, "proposal_fingerprint": proposal.fingerprint(),
+            "target": proposal.target_component, "incumbent": proposal.incumbent_fingerprint,
+            "previous_artifact": previous_artifact, "previous_components": previous_components,
+            "previous_state_hash": prev_hash, "cache_snapshot": previous_cache,
+        })
+        _, eid = self.runtime.admit_evidence({"adopted": proposal.fingerprint(), "class": proposal.change_class.value, "target": proposal.target_component, "token": decision.authority_token, "decision": vars(decision), "incumbent": proposal.incumbent_fingerprint, "previous_components_digest": _digest(previous_components), "rollback_data": binding}, Channel.IMPORTED, "external_adopter", scope=Scope.of("self"), authority=Authority.of(self_model=1))
+        self.decisions.append(decision)
+        new_components = copy.deepcopy(previous_components)
         new_components[proposal.target_component] = {"artifact": proposal.fingerprint(), "stamped": eid, "lineage": components.get(proposal.target_component, {}).get("artifact")}
-        self.adopted[proposal.fingerprint()] = RollbackArtifact(proposal.fingerprint(), incumbent, prev_hash, eid, dict(components), copy.deepcopy(cache or {}), _digest(components))
-        self.persist()
+        self.adopted[proposal.fingerprint()] = RollbackArtifact(proposal.fingerprint(), previous_artifact, prev_hash, eid, previous_components, previous_cache, _digest(previous_components))
         migration = {"preserved": list(proposal.preserved_capabilities), "revalidate": [c for c in new_components if c != proposal.target_component and new_components[c].get("depends_on") == proposal.target_component], "reopen": list(proposal.reopened_capabilities), "lineage": [proposal.incumbent_fingerprint, proposal.fingerprint()]}
         return challenger, {"components": new_components, "migration": migration, "stamped_evidence": eid}
 
     def rollback(self, fingerprint: str, *, cache: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any], bool]:
-        """Restore the previous artifact, component table AND cache, revoke the stamped evidence so
-        everything derived from the adoption reopens, and assert exactness here (E6): the restored
-        component table's digest equals the pre-adoption digest and the cache equals its snapshot."""
-        art = self.adopted.pop(fingerprint)
-        self.runtime.revoke([art.stamped_evidence])
-        components = dict(art.previous_components)
+        """Prepare/re-deliver exact rollback data and restore a plain dict cache.
+
+        This does not install executable artifacts. The host acknowledges actual
+        installation separately; a crash before delivery leaves a retryable result.
+        """
+        if cache is not None and type(cache) is not dict:
+            raise RuntimeRefusal("CANNOT_CHECK_ROLLBACK_CACHE_TYPE", "cache must be an exact built-in dict")
+        history = self.adoption_history
+        if fingerprint in self._completed_rollbacks():
+            raise RuntimeRefusal("ROLLBACK_ALREADY_COMPLETED", fingerprint)
+        art = self.adopted.get(fingerprint)
+        if art is None:
+            if fingerprint not in history:
+                raise RuntimeRefusal("UNKNOWN_ADOPTION", fingerprint)
+            record = history[fingerprint]
+            try:
+                data = rollback_data.read(self.runtime.root, record)
+                art = RollbackArtifact(fingerprint, data["previous_artifact"], data["previous_state_hash"], record["evidence_id"], data["previous_components"], data["cache_snapshot"], record["previous_components_digest"])
+            except (OSError, ValueError, TypeError, KeyError, RecursionError) as exc:
+                raise RuntimeRefusal("CANNOT_CHECK_ROLLBACK_ARTIFACT_UNAVAILABLE", fingerprint) from exc
+        # This API restores an entire component table, so even adoptions on
+        # different components must unwind in reverse order to preserve them.
+        outstanding = [fp for fp, record in history.items() if not record["rollback_completed"]]
+        if outstanding and outstanding[-1] != fingerprint:
+            raise RuntimeRefusal("ROLLBACK_OUT_OF_ORDER", fingerprint)
+        previous_artifact = copy.deepcopy(art.previous_artifact)
+        components = copy.deepcopy(art.previous_components)
+        restored_cache = copy.deepcopy(art.cache_snapshot) if cache is not None else None
+        if _digest(components) != art.components_digest:
+            raise RuntimeRefusal("CANNOT_CHECK_ROLLBACK_COMPONENTS_CHANGED", fingerprint)
+        if not history[fingerprint]["rollback_prepared"]:
+            self.runtime.revoke([art.stamped_evidence])
+            # A preparation receipt never claims the caller installed the result.
+            self.runtime.admit_evidence({"rollback_prepared": fingerprint, "adoption_evidence": art.stamped_evidence,
+                                        "components_digest": art.components_digest}, Channel.IMPORTED,
+                                       "external_adopter_rollback", scope=Scope.of("self"), authority=Authority.of(self_model=1))
         if cache is not None:
             cache.clear()
-            cache.update(copy.deepcopy(art.cache_snapshot))
+            cache.update(restored_cache)
         exact = _digest(components) == art.components_digest and (cache is None or _digest(cache) == _digest(art.cache_snapshot)) and self.runtime.state.evidence.liveness([art.stamped_evidence]).value == "DEAD"
-        self.persist()
-        return art.previous_artifact, components, exact
+        return previous_artifact, components, exact
+
+    def acknowledge_rollback_installation(self, fingerprint: str, *, components: dict[str, Any], cache: dict[str, Any] | None = None) -> None:
+        """Host-reported installation, bound to the exact prepared data/table.
+
+        This is an explicit host acknowledgment, not a proof of executable code
+        identity. It releases the next predecessor restoration in the LIFO order.
+        """
+        history = self.adoption_history
+        record = history.get(fingerprint)
+        if record is None or not record["rollback_prepared"]:
+            raise RuntimeRefusal("ROLLBACK_NOT_PREPARED", fingerprint)
+        if record["rollback_completed"]:
+            return
+        outstanding = [fp for fp, rec in history.items() if not rec["rollback_completed"]]
+        if outstanding[-1] != fingerprint:
+            raise RuntimeRefusal("ROLLBACK_OUT_OF_ORDER", fingerprint)
+        if type(components) is not dict or _digest(components) != record["previous_components_digest"]:
+            raise RuntimeRefusal("ROLLBACK_ACK_COMPONENTS_MISMATCH", fingerprint)
+        art = self.adopted.get(fingerprint)
+        try:
+            expected_cache = art.cache_snapshot if art is not None else rollback_data.read(self.runtime.root, record)["cache_snapshot"]
+        except (OSError, ValueError, TypeError, KeyError, RecursionError) as exc:
+            raise RuntimeRefusal("CANNOT_CHECK_ROLLBACK_ARTIFACT_UNAVAILABLE", fingerprint) from exc
+        if ((expected_cache or cache is not None) and
+                (type(cache) is not dict or _digest(cache) != _digest(expected_cache))):
+            raise RuntimeRefusal("ROLLBACK_ACK_CACHE_MISMATCH", fingerprint)
+        if self.runtime.state.evidence.liveness([record["evidence_id"]]).value != "DEAD":
+            raise RuntimeRefusal("ROLLBACK_ACK_ADOPTION_NOT_REVOKED", fingerprint)
+        self.runtime.admit_evidence({"rollback_acknowledged": fingerprint,
+                                    "adoption_evidence": record["evidence_id"],
+                                    "components_digest": record["previous_components_digest"],
+                                    "confirmation": "HOST_REPORTED_INSTALLED"}, Channel.IMPORTED,
+                                   "external_adopter_rollback_ack", scope=Scope.of("self"), authority=Authority.of(self_model=1))
+        self.adopted.pop(fingerprint, None)
 
 
 def mutant_rollback_keeps_cache(art: RollbackArtifact, cache: dict[str, Any]) -> dict[str, Any]:

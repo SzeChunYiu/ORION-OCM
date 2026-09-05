@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate or verify docs/provenance/M9_RECEIPT_V1.json.
-    python tools/m9_receipt.py            # (re)generate
-    python tools/m9_receipt.py --verify   # exit 1 on drift of bound files or deterministic results
+"""Verify the active runtime successor; preserve historical M9_RECEIPT_V1.json.
+    python tools/m9_receipt.py --write-current  # create declared successor; never overwrite history
+    python tools/m9_receipt.py --verify         # verify active successor; no historical fallback
 Binds: the M3 language modules, the language obligation registry, the microworld evaluation
 receipt and the dataset custody manifests (UD EWT, BLiMP); records the deterministic checker
 outputs (canonical-form exhaustive check, WL collision witness, the nine required meanings'
@@ -45,27 +45,9 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    new = fresh()
-    if "--verify" in argv:
-        if not RECEIPT.exists():
-            print("MISSING receipt", RECEIPT)
-            return 1
-        old = json.loads(RECEIPT.read_text(encoding="utf-8"))
-        drift = []
-        for rel, digest in new["bound_files"].items():
-            if old["bound_files"].get(rel) != digest:
-                drift.append(rel)
-        if old["deterministic_results"] != new["deterministic_results"]:
-            drift.append("deterministic_results")
-        if drift:
-            print("DRIFT:", drift)
-            return 1
-        print("M9 receipt verified; bound files:", len(new["bound_files"]))
-        return 0
-    RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print("wrote", RECEIPT)
-    return 0
+    from runtime_revision_receipts_v4 import revision_main
 
+    return revision_main(ROOT, argv, 9)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

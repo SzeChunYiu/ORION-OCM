@@ -279,8 +279,9 @@ def fixed_point(
     matrix: NavigationMatrix | None = None,
 ) -> dict[str, Fraction]:
     """a*_{Q,R} with the gated, un-renormalised seed (KS-T04b)."""
-    m = matrix or navigation_matrix(ks, revoked=revoked, relevance=relevance, mode=mode)
-    s = gated_seed(ks, seed, revoked, mode)
+    rv = frozenset(revoked)
+    m = matrix or navigation_matrix(ks, revoked=rv, relevance=relevance, mode=mode)
+    s = gated_seed(ks, seed, rv, mode)
     return dict(zip(ks.ids, restart_fixed_point_exact(m.as_lists(), s, alpha), strict=True))
 
 
@@ -318,15 +319,11 @@ def mutant_popularity_rank(activation: Mapping[str, Fraction], exclude: Iterable
 def ungated_closure(ks: KnowledgeSpace, start: Iterable[str]) -> frozenset[str]:
     """The ceiling walker C°: unbounded, ungated forward reachability (any tail reached).
     Worklist over a tail-indexed adjacency: O(|incidences|)."""
-    by_tail: dict[str, list[Hyperedge]] = {}
-    for e in ks.hyperedges:
-        for t in e.tails:
-            by_tail.setdefault(t, []).append(e)
     reached = set(start)
     work = list(reached)
     while work:
         v = work.pop()
-        for e in by_tail.get(v, ()):
+        for e in ks.outgoing_edges(v):
             for h in e.heads:
                 if h not in reached:
                     reached.add(h)
@@ -340,24 +337,63 @@ def gated_closure(ks: KnowledgeSpace, start: Iterable[str], revoked: Iterable[Ha
     rv = frozenset(revoked)
     amap = ks.atom_map()
     live = {x: amap[x].is_live(rv) for x in ks.ids}
-    by_tail: dict[str, list[int]] = {}
-    pending: list[int] = []
-    for i, e in enumerate(ks.hyperedges):
-        pending.append(len(e.tails))
-        for t in e.tails:
-            by_tail.setdefault(t, []).append(i)
+    pending = {e.edge_id: len(e.tails) for e in ks.hyperedges}
     reached = {x for x in start if live[x]}
     work = list(reached)
     while work:
         v = work.pop()
-        for i in by_tail.get(v, ()):
-            pending[i] -= 1
-            e = ks.hyperedges[i]
-            if pending[i] == 0 and e.warrant.is_live(rv):
+        for e in ks.outgoing_edges(v):
+            pending[e.edge_id] -= 1
+            if pending[e.edge_id] == 0 and e.warrant.is_live(rv):
                 for h in e.heads:
                     if h not in reached and live[h]:
                         reached.add(h)
                         work.append(h)
+    return frozenset(reached)
+
+
+def positive_activation_support(
+    ks: KnowledgeSpace,
+    seed: Sequence[Fraction],
+    alpha: Fraction,
+    *,
+    revoked: Iterable[Hashable] = (),
+) -> frozenset[str]:
+    """Exact support of warranted restart activation, without solving for its values.
+
+    KS-T05's nonnegative Neumann series has positive mass exactly along positive matrix
+    paths from positive gated seeds. For 0 < alpha < 1 an enabled hyperedge contributes
+    from *any* reached tail, provided *every* tail is LIVE. This is matrix support, distinct
+    from the all-tails-reached firing closure in ``gated_closure``. Structural denominators
+    stay frozen; a positive-weight edge implies its tail denominators are positive.
+
+    Only the default nonnegative structural weights are supported here. No relevance,
+    approximation threshold, top-k truncation or novel reachability mechanic is introduced.
+    """
+    if not (Fraction(0) < alpha <= Fraction(1)):
+        raise ValueError("alpha must be in (0,1]")
+    if len(seed) != len(ks.ids) or any(s < 0 for s in seed) or sum(seed, Fraction(0)) > 1:
+        raise ValueError("seed must be a non-negative sub-probability vector")
+    rv = frozenset(revoked)
+    live = {atom.atom_id: atom.is_live(rv) for atom in ks.atoms}
+    reached = {atom_id for atom_id, mass in zip(ks.ids, seed, strict=True) if mass > 0 and live[atom_id]}
+    if alpha == 1:
+        return frozenset(reached)
+    work = list(reached)
+    considered: set[str] = set()
+    while work:
+        for edge in ks.outgoing_edges(work.pop()):
+            if edge.edge_id in considered:
+                continue
+            considered.add(edge.edge_id)
+            if edge.weight <= 0 or not edge.warrant.is_live(rv) or not all(live[t] for t in edge.tails):
+                continue
+            # Normalization has strictly positive total; the original share has the same sign.
+            weights = edge.head_weights or (Fraction(1),) * len(edge.heads)
+            for head, weight in zip(edge.heads, weights, strict=True):
+                if weight > 0 and live[head] and head not in reached:
+                    reached.add(head)
+                    work.append(head)
     return frozenset(reached)
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate or verify docs/provenance/M7_RECEIPT_V1.json and the claim-by-claim terminal table.
-    python tools/m7_receipt.py            # (re)generate
-    python tools/m7_receipt.py --verify   # exit 1 on drift of bound files or deterministic results
+"""Verify the active runtime successor; preserve historical M7_RECEIPT_V1.json.
+    python tools/m7_receipt.py --write-current  # create declared successor; never overwrite history
+    python tools/m7_receipt.py --verify         # verify active successor; no historical fallback
 Binds the pre-registration (its hash is the study identity), the protected suites, the V1
 (DEV_CALIBRATION) and V2 (PROTECTED) comparison receipts, the BLiMP/UD receipt, the matched parent
 and the harness.  Applies the pre-registered decision rules to the V2 claims: a family with fewer
@@ -69,25 +69,9 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    new = fresh()
-    if "--verify" in argv:
-        if not RECEIPT.exists():
-            print("MISSING receipt", RECEIPT)
-            return 1
-        old = json.loads(RECEIPT.read_text(encoding="utf-8"))
-        drift = [rel for rel, d in new["bound_files"].items() if old["bound_files"].get(rel) != d]
-        if old["deterministic_results"] != new["deterministic_results"]:
-            drift.append("deterministic_results")
-        if drift:
-            print("DRIFT:", drift)
-            return 1
-        print("M7 receipt verified; bound files:", len(new["bound_files"]))
-        return 0
-    RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print("wrote", RECEIPT)
-    print(json.dumps({rq: {a: v["terminal"] for a, v in arms.items()} for rq, arms in new["deterministic_results"]["terminal_table"].items()}, indent=1))
-    return 0
+    from runtime_revision_receipts_v4 import revision_main
 
+    return revision_main(ROOT, argv, 7)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

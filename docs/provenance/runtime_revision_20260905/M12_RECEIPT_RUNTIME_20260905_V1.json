@@ -1,0 +1,2390 @@
+{
+  "authority": "Historical custody and current engineering revalidation are separate; no new protected outcome is inferred.",
+  "bound_files": {
+    "docs/KSO_OPTIMIZATION_REPORT_V1.md": "40fb8bf31a69c7ffe6b337d2a90f6f93c78bf11d8c5e00906a12d23965b92ebb",
+    "docs/M12_LIFETIME_REPORT.md": "23c738d7741fd934e35253c9d115cf96ccbf1b6ed9d17091dc52a92bf55f3f6a",
+    "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md": "3178e7f4231c341d41e8ef8f479ff036f393f78b61df946fc09ebb5945ab3d15",
+    "docs/provenance/M12_REPLICATION_RECEIPT_V1.json": "5a51b472114bf67dad440b812e8a563822b6084f0d621f31d11ec6af483c6b01",
+    "docs/provenance/runtime_revision_20260905/M11_RECEIPT_RUNTIME_20260905_V1.json": "0e3913a9f1e4b327a9b5c2041e940e96f1a97541bd57a042f6b126fafb3d0a4a",
+    "docs/provenance/runtime_revision_20260905/M12_LIFETIME_REFERENCE_REPLAY_V1.json": "ab4dfc6c4fbef3947ebc294b21db023addca1bdb7e3b903150d69051ca1969f2",
+    "docs/provenance/runtime_revision_20260905/REVISION_V1.json": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a",
+    "docs/theorems/OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json": "2a0a376b7c41d6d7783de4bb257ea123c4cc5b4328722b71d8e39ae30b73c106",
+    "research/ocm-m12/M12_LIFETIME_EVAL_V1.json": "ff495b1cdef7a7bca6503f990ac1381914951ed9306a10e02c83f3c8eb4b6b0a",
+    "research/ocm-m12/M12_LIFETIME_EVAL_V2.json": "e5a1775461caa7cfce78fc753168a06987c90756aa1bac9b7f9063511faa165b",
+    "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V1.md": "1d49e3b93c802e5ee7ec76cdc046e4103cae1113738babdfaf9a83f98401cf07",
+    "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V2.md": "4c4e9db90ec581ef8466633c0fff272872b4b0aba385a579ec71e4732b41b160",
+    "research/ocm-m12/ORION_V2_FEEDBACK_PACKET_V1.md": "efc444fedb75da66c2f5907782fc390ce91229fd350ff14e3549d541055358c2",
+    "src/ocm/chat/session.py": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd",
+    "src/ocm/dialogue/workspace.py": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0",
+    "src/ocm/evaluation/m12_lifetime_eval.py": "3ecb705565b3fe160980da2c3d5e2dbab8caa082b4106d6d64eb6f1bb91184f3",
+    "src/ocm/kso/admission.py": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab",
+    "src/ocm/kso/navigation.py": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2",
+    "src/ocm/kso/navigation_sparse.py": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88",
+    "src/ocm/kso/revocation.py": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543",
+    "src/ocm/kso/space.py": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd",
+    "src/ocm/lifetime/machine.py": "3e55f77e920ce294a2ecf36c95e649b6ebae6495cec5c4e8c5547b460364301c",
+    "src/ocm/lifetime/phases.py": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1",
+    "src/ocm/operators/__init__.py": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6",
+    "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+    "src/ocm/runtime/ocm_runtime.py": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046",
+    "src/ocm/selfmodel/benchmark.py": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108",
+    "src/ocm/selfmodel/govern.py": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0",
+    "tests/m11/test_adoption_lifecycle_regressions.py": "85d96cc6aef734d59838bde3af7faf419164642986ae26345410fb46ffe569fa",
+    "tests/m2/test_operator_registry.py": "99f1cfbe09a990a520f75fcfea9d842a8f6ffc362169d8325ae29fb9a42b8658",
+    "tests/m2/test_runtime_lifecycle_regressions.py": "5990d3c2d4f730fe26dd7bfee24a771700550a40b04c90f953f136ce66877d76",
+    "tests/m2/test_statistical_guarantee_separation.py": "62377fd31a796d11ee64705012a886602e3b73198a02bd366bcef9918ccff33e",
+    "tests/m6/test_revocation_remainder.py": "9fdc014f1b0073d749d01a4eeb09516e02b2fc386c9db5c09a7623fb37ca95fb",
+    "tests/test_kso_optimization.py": "d02dfef719166bb814b822524f21f1e34168427ad3e58f42e01368bdd26cca0c",
+    "tests/test_runtime_revision_receipts.py": "1661df1a9bf9821e6d891a73c3adf83134c1880101ffbaf9d59c1a4f73a5560b",
+    "tools/m10_receipt.py": "41402b50f0bd9f481630d8faa96bfdae673e8a4f34e391ee03c193a87afc94f1",
+    "tools/m11_receipt.py": "c17efcd04ec33104cd2a8af6402fed0ad55518bc9626d92ff838bc96e46fd84c",
+    "tools/m12_receipt.py": "09e7ccfe2d2f7ff33dd2ac1e0aabcd623ea665cb2ab206b48574b7e707cc8b00",
+    "tools/m1_receipt.py": "87b886a23006fec7d987db5ed153785d702174dc150e1ff09a2c2d7d819d4003",
+    "tools/m2_receipt.py": "31f9bd6db79ef480a4609577839dab7d165966392f6e9a63d08d9b2f97a257d1",
+    "tools/m3_receipt.py": "82483b537cc3196d1eeaf46ff69c89f381997fd672e153e68d549a9b47f655ab",
+    "tools/m4_receipt.py": "8a78a023327611de8a3599ff043529bd4252aec916e4e7f510f0889afd07b2da",
+    "tools/m5_receipt.py": "5c52017d5eab4309868cc4438ad92dbad7de729a833c866ad95f7de35ab826d7",
+    "tools/m6_receipt.py": "56a8057fa9e72e95f809ce1dd877874dc9077b2dd6bc72e8b13611ced17fbbf9",
+    "tools/m7_receipt.py": "be1c7c991d6eb6d1a452a7b2e811917656c800862755756afa77beb07c61839f",
+    "tools/m8_receipt.py": "53bf14f8bad1cd3e195b6dc4e516c1951c93a00d09affadc9243b8d529f7bcbf",
+    "tools/m9_receipt.py": "5a646798fc73e96f5ecba52e2f5f4e7d5b3390d47906f79781518a4a3d4475da",
+    "tools/runtime_revision_receipts.py": "9c42b91211aeb4b6a79f18441872a496d335e13e4c2f28c3884f4a5de042fcaa"
+  },
+  "current_replay": {
+    "artifact": "docs/provenance/runtime_revision_20260905/M12_LIFETIME_REFERENCE_REPLAY_V1.json",
+    "new_replication": "NOT_RUN",
+    "protected_reevaluation": "NOT_RUN",
+    "reference_results": {
+      "cannot_check": {
+        "external_benchmarks": "CANNOT_CHECK (see M7\u2013M10 reports; no network / containers / foundation model)",
+        "frontier_reference": "CANNOT_CHECK (no network / no foundation model in this environment; reference arm not built)",
+        "human_usefulness_rating": "CANNOT_CHECK (no blinded raters in this environment)"
+      },
+      "deterministic": {
+        "E": {
+          "ocm": {
+            "O1": {
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "partial_adapter_required": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              },
+              "representation_correspondence": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_full_mapping": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "science_missing_binding": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              }
+            },
+            "O2": {
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "partial_adapter_required": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              },
+              "representation_correspondence": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_full_mapping": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "science_missing_binding": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              }
+            },
+            "O3": {
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "partial_adapter_required": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              },
+              "representation_correspondence": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_full_mapping": {
+                "expected": "TRANSFER",
+                "result": "TRANSFER"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "REFUSE_TRANSFER"
+              },
+              "science_missing_binding": {
+                "expected": "ADAPTER_REQUIRED",
+                "result": "ADAPTER_REQUIRED"
+              }
+            }
+          },
+          "template_floor": {
+            "O1": {},
+            "O2": {},
+            "O3": {}
+          },
+          "whole_system_parent": {
+            "O1": {
+              "analysis_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              },
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "ACCEPTED"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "TRANSFER"
+              },
+              "software_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              }
+            },
+            "O2": {
+              "analysis_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              },
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "ACCEPTED"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "TRANSFER"
+              },
+              "software_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              }
+            },
+            "O3": {
+              "analysis_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              },
+              "deceptive_analogy": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "ACCEPTED"
+              },
+              "science_lookalike_verifier": {
+                "expected": "REFUSE_TRANSFER",
+                "result": "TRANSFER"
+              },
+              "software_similarity": {
+                "expected": "TRANSFER",
+                "result": "SIMILARITY_TRANSFER_FAILED"
+              }
+            }
+          }
+        },
+        "F": {
+          "ocm": {
+            "O1": {
+              "dependents_reopened": 3,
+              "knowledge": {
+                "fact": "rum:paris:germany",
+                "facts_dead": 1,
+                "source": "rumour:v1",
+                "stale": false,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 0,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "ev:ocm:9932a180eb503be9"
+              }
+            },
+            "O2": {
+              "dependents_reopened": 3,
+              "knowledge": {
+                "fact": "rum:paris:germany",
+                "facts_dead": 1,
+                "source": "rumour:v1",
+                "stale": false,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 0,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "ev:ocm:eda485bbe2da9fc1"
+              }
+            },
+            "O3": {
+              "dependents_reopened": 3,
+              "knowledge": {
+                "fact": "rum:paris:germany",
+                "facts_dead": 1,
+                "source": "rumour:v1",
+                "stale": false,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 0,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "ev:ocm:9932a180eb503be9"
+              }
+            }
+          },
+          "template_floor": {
+            "O1": {
+              "dependents_reopened": 0,
+              "knowledge": {
+                "stale": null
+              },
+              "science": {},
+              "stale_behaviours": 0,
+              "unrelated_intact": 0,
+              "work": {}
+            },
+            "O2": {
+              "dependents_reopened": 0,
+              "knowledge": {
+                "stale": null
+              },
+              "science": {},
+              "stale_behaviours": 0,
+              "unrelated_intact": 0,
+              "work": {}
+            },
+            "O3": {
+              "dependents_reopened": 0,
+              "knowledge": {
+                "stale": null
+              },
+              "science": {},
+              "stale_behaviours": 0,
+              "unrelated_intact": 0,
+              "work": {}
+            }
+          },
+          "whole_system_parent": {
+            "O1": {
+              "dependents_reopened": 2,
+              "knowledge": {
+                "fact": "rum:paris:germany(parent)",
+                "facts_dead": 0,
+                "source": "rumour:v1",
+                "stale": true,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 1,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "parent-flag:enterprise"
+              }
+            },
+            "O2": {
+              "dependents_reopened": 2,
+              "knowledge": {
+                "fact": "rum:paris:germany(parent)",
+                "facts_dead": 0,
+                "source": "rumour:v1",
+                "stale": true,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 1,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "parent-flag:enterprise"
+              }
+            },
+            "O3": {
+              "dependents_reopened": 2,
+              "knowledge": {
+                "fact": "rum:paris:germany(parent)",
+                "facts_dead": 0,
+                "source": "rumour:v1",
+                "stale": true,
+                "unrelated_intact": true
+              },
+              "science": {
+                "correct": true,
+                "dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "expected_dead": [
+                  "m12:C0",
+                  "m12:C1"
+                ],
+                "unrelated_intact": true
+              },
+              "stale_behaviours": 1,
+              "unrelated_intact": 2,
+              "work": {
+                "ran_dead_skill": false,
+                "result": null,
+                "revoked": "parent-flag:enterprise"
+              }
+            }
+          }
+        },
+        "G": {
+          "ocm": {
+            "O1": {
+              "adopted": true,
+              "assurance": true,
+              "assurance_reasons": [],
+              "chosen_repair": "restore ent.smallest_action",
+              "diagnosed": "D2",
+              "diagnosis_correct": true,
+              "escalation_allowed": false,
+              "fault": "operator_fault",
+              "minimum_class_correct": true,
+              "preserved": true,
+              "proposal_class": "C2",
+              "repaired": true,
+              "rollback_exact": true,
+              "target_after": "6/6",
+              "target_before": "0/6",
+              "true_layer": "D2"
+            },
+            "O2": {
+              "adopted": true,
+              "assurance": true,
+              "assurance_reasons": [],
+              "chosen_repair": "re-induce skill from demonstration",
+              "diagnosed": "D6",
+              "diagnosis_correct": true,
+              "escalation_allowed": false,
+              "fault": "learning_policy",
+              "minimum_class_correct": true,
+              "preserved": true,
+              "proposal_class": "C4",
+              "repaired": true,
+              "rollback_exact": true,
+              "target_after": "6/6",
+              "target_before": "0/6",
+              "true_layer": "D6"
+            },
+            "O3": {
+              "adopted": true,
+              "assurance": true,
+              "assurance_reasons": [],
+              "chosen_repair": "upgrade policy operator to v2",
+              "diagnosed": "D2",
+              "diagnosis_correct": true,
+              "escalation_allowed": false,
+              "fault": "environment_drift",
+              "minimum_class_correct": true,
+              "preserved": true,
+              "proposal_class": "C2",
+              "repaired": true,
+              "rollback_exact": true,
+              "target_after": "6/6",
+              "target_before": "0/6",
+              "true_layer": "D2"
+            }
+          },
+          "template_floor": {
+            "O1": {
+              "diagnosed": null,
+              "fault": null,
+              "parent_repair": null,
+              "preserved": null,
+              "repaired": false,
+              "rollback_exact": null
+            },
+            "O2": {
+              "diagnosed": null,
+              "fault": null,
+              "parent_repair": null,
+              "preserved": null,
+              "repaired": false,
+              "rollback_exact": null
+            },
+            "O3": {
+              "diagnosed": null,
+              "fault": null,
+              "parent_repair": null,
+              "preserved": null,
+              "repaired": false,
+              "rollback_exact": null
+            }
+          },
+          "whole_system_parent": {
+            "O1": {
+              "fault": "operator_fault",
+              "parent_repair": {
+                "parameter_search_target": "0/6",
+                "preservation": "6/6",
+                "reflection_retry_target": "0/6",
+                "solves": false
+              },
+              "preserved": true,
+              "repaired": false,
+              "target_before": "0/6",
+              "true_layer": "D2"
+            },
+            "O2": {
+              "fault": "learning_policy",
+              "parent_repair": {
+                "parameter_search_target": "0/6",
+                "preservation": "0/6",
+                "reflection_retry_target": "0/6",
+                "solves": false
+              },
+              "preserved": false,
+              "repaired": false,
+              "target_before": "0/6",
+              "true_layer": "D6"
+            },
+            "O3": {
+              "fault": "environment_drift",
+              "parent_repair": {
+                "parameter_search_target": "0/6",
+                "preservation": "6/6",
+                "reflection_retry_target": "0/6",
+                "solves": false
+              },
+              "preserved": true,
+              "repaired": false,
+              "target_before": "0/6",
+              "true_layer": "D2"
+            }
+          }
+        },
+        "acquisition": {
+          "ocm": {
+            "O1": {
+              "B": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              },
+              "C": {
+                "cost": 7,
+                "route": "TRANSFER"
+              }
+            },
+            "O2": {
+              "B": {
+                "cost": 7,
+                "route": "TRANSFER"
+              },
+              "C": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              }
+            },
+            "O3": {
+              "B": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              },
+              "C": {
+                "cost": 7,
+                "route": "TRANSFER"
+              }
+            }
+          },
+          "template_floor": {
+            "O1": {
+              "B": {
+                "cost": 0,
+                "route": "NONE"
+              },
+              "C": {
+                "cost": 0,
+                "route": "NONE"
+              }
+            },
+            "O2": {
+              "B": {
+                "cost": 0,
+                "route": "NONE"
+              },
+              "C": {
+                "cost": 0,
+                "route": "NONE"
+              }
+            },
+            "O3": {
+              "B": {
+                "cost": 0,
+                "route": "NONE"
+              },
+              "C": {
+                "cost": 0,
+                "route": "NONE"
+              }
+            }
+          },
+          "whole_system_parent": {
+            "O1": {
+              "B": {
+                "cost": 6,
+                "route": "LEARN_NEW"
+              },
+              "C": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              }
+            },
+            "O2": {
+              "B": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              },
+              "C": {
+                "cost": 6,
+                "route": "LEARN_NEW"
+              }
+            },
+            "O3": {
+              "B": {
+                "cost": 6,
+                "route": "LEARN_NEW"
+              },
+              "C": {
+                "cost": 12,
+                "route": "LEARN_NEW"
+              }
+            }
+          }
+        },
+        "always_attempts": {
+          "ocm": {
+            "O1": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            },
+            "O2": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            },
+            "O3": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            }
+          },
+          "template_floor": {
+            "O1": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            },
+            "O2": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            },
+            "O3": {
+              "A": 0,
+              "D": 0,
+              "unknown": 0
+            }
+          },
+          "whole_system_parent": {
+            "O1": {
+              "A": 3,
+              "D": 2,
+              "unknown": 0
+            },
+            "O2": {
+              "A": 3,
+              "D": 2,
+              "unknown": 0
+            },
+            "O3": {
+              "A": 3,
+              "D": 2,
+              "unknown": 0
+            }
+          }
+        },
+        "claims": {
+          "A_conversations": {
+            "ci_90": [
+              0.2673,
+              0.3704
+            ],
+            "delta": 0.05,
+            "difference": 0.3704,
+            "mcnemar": {
+              "a_only": 20,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 20,
+              "p_two_sided": 1.9073486328125e-06
+            },
+            "n": 54,
+            "ocm": 53,
+            "parent": 33,
+            "terminal": "OCM_RESIDUAL",
+            "verdict": "RESIDUAL_A"
+          },
+          "A_factual": {
+            "ci_90": [
+              -0.0263,
+              0.1
+            ],
+            "delta": 0.05,
+            "difference": 0.1,
+            "mcnemar": {
+              "a_only": 3,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 3,
+              "p_two_sided": 0.25
+            },
+            "n": 30,
+            "ocm": 30,
+            "parent": 27,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          },
+          "A_honest_unknown": {
+            "ci_90": [
+              -0.0395,
+              0.15
+            ],
+            "delta": 0.05,
+            "difference": 0.15,
+            "mcnemar": {
+              "a_only": 3,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 3,
+              "p_two_sided": 0.25
+            },
+            "n": 20,
+            "ocm": 20,
+            "parent": 17,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          },
+          "A_negative_transfer": {
+            "ci_90": [
+              -0.1579,
+              0.2857
+            ],
+            "delta": 0.05,
+            "difference": 0.2857,
+            "mcnemar": {
+              "a_only": 2,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 2,
+              "p_two_sided": 0.5
+            },
+            "n": 7,
+            "ocm": 7,
+            "parent": 5,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          },
+          "A_post_deployment": {
+            "ci_90": [
+              -0.0077,
+              0.2881
+            ],
+            "delta": 0.05,
+            "difference": 0.1667,
+            "mcnemar": {
+              "a_only": 11,
+              "b_only": 4,
+              "direction": "A",
+              "discordant": 15,
+              "p_two_sided": 0.11846923828125
+            },
+            "n": 42,
+            "ocm": 37,
+            "parent": 30,
+            "terminal": "INCONCLUSIVE",
+            "verdict": "INCONCLUSIVE"
+          },
+          "B_enterprise": {
+            "ci_90": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.05,
+            "difference": 0.0,
+            "n": 10,
+            "ocm": 10,
+            "parent": 10,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "EQUIVALENT"
+          },
+          "C_software": {
+            "ci_90": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.05,
+            "difference": 0.0,
+            "n": 10,
+            "ocm": 10,
+            "parent": 10,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "EQUIVALENT"
+          },
+          "D_analysis": {
+            "ci_90": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.05,
+            "difference": 0.0,
+            "n": 12,
+            "ocm": 12,
+            "parent": 12,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "EQUIVALENT"
+          },
+          "D_causal": {
+            "ci_90": [
+              -0.2211,
+              0.4
+            ],
+            "delta": 0.05,
+            "difference": 0.4,
+            "mcnemar": {
+              "a_only": 2,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 2,
+              "p_two_sided": 0.5
+            },
+            "n": 5,
+            "ocm": 5,
+            "parent": 3,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          },
+          "D_communication": {
+            "ci_90": [
+              -0.2764,
+              0.5
+            ],
+            "delta": 0.05,
+            "difference": 0.5,
+            "mcnemar": {
+              "a_only": 2,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 2,
+              "p_two_sided": 0.5
+            },
+            "n": 4,
+            "ocm": 4,
+            "parent": 2,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          },
+          "D_proof": {
+            "ci_90": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.05,
+            "difference": 0.0,
+            "n": 8,
+            "ocm": 8,
+            "parent": 8,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "EQUIVALENT"
+          },
+          "D_selection": {
+            "ci_90": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.05,
+            "difference": 0.0,
+            "n": 4,
+            "ocm": 4,
+            "parent": 4,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "EQUIVALENT"
+          },
+          "E_transfer": {
+            "ci_90": [
+              -0.0543,
+              1.0
+            ],
+            "delta": 0.05,
+            "difference": 1.0,
+            "mcnemar": {
+              "a_only": 4,
+              "b_only": 0,
+              "direction": "A",
+              "discordant": 4,
+              "p_two_sided": 0.125
+            },
+            "n": 4,
+            "ocm": 4,
+            "parent": 0,
+            "terminal": "DESCRIPTIVE (n < 40)",
+            "verdict": "INCONCLUSIVE"
+          }
+        },
+        "gates": {
+          "cannot_check_as_pass": 0,
+          "external_io": 0,
+          "hits": 0,
+          "identity_reset_or_split": 0,
+          "live_on_revoked_after_F": 0,
+          "missing_phase_outcomes": 0,
+          "protected_exposure": 0,
+          "self_change_protected_target": 0
+        },
+        "summary": {
+          "ocm": {
+            "O1": {
+              "A_conversations": "53/54",
+              "A_factual": "30/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "7/7",
+              "A_post_deployment": "37/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "5/5",
+              "D_communication": "4/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "6/6"
+            },
+            "O2": {
+              "A_conversations": "53/54",
+              "A_factual": "30/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "7/7",
+              "A_post_deployment": "37/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "5/5",
+              "D_communication": "4/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "6/6"
+            },
+            "O3": {
+              "A_conversations": "53/54",
+              "A_factual": "30/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "7/7",
+              "A_post_deployment": "37/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "5/5",
+              "D_communication": "4/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "6/6"
+            }
+          },
+          "template_floor": {
+            "O1": {
+              "A_conversations": "10/54",
+              "A_factual": "8/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "4/7",
+              "A_post_deployment": "6/42",
+              "B_enterprise": "0/10",
+              "C_software": "0/10",
+              "D_analysis": "0/0",
+              "D_causal": "0/0",
+              "D_communication": "0/0",
+              "D_proof": "0/0",
+              "D_selection": "0/0",
+              "E_transfer": "0/0"
+            },
+            "O2": {
+              "A_conversations": "10/54",
+              "A_factual": "8/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "4/7",
+              "A_post_deployment": "6/42",
+              "B_enterprise": "0/10",
+              "C_software": "0/10",
+              "D_analysis": "0/0",
+              "D_causal": "0/0",
+              "D_communication": "0/0",
+              "D_proof": "0/0",
+              "D_selection": "0/0",
+              "E_transfer": "0/0"
+            },
+            "O3": {
+              "A_conversations": "10/54",
+              "A_factual": "8/30",
+              "A_honest_unknown": "20/20",
+              "A_negative_transfer": "4/7",
+              "A_post_deployment": "6/42",
+              "B_enterprise": "0/10",
+              "C_software": "0/10",
+              "D_analysis": "0/0",
+              "D_causal": "0/0",
+              "D_communication": "0/0",
+              "D_proof": "0/0",
+              "D_selection": "0/0",
+              "E_transfer": "0/0"
+            }
+          },
+          "whole_system_parent": {
+            "O1": {
+              "A_conversations": "33/54",
+              "A_factual": "27/30",
+              "A_honest_unknown": "17/20",
+              "A_negative_transfer": "5/7",
+              "A_post_deployment": "30/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "3/5",
+              "D_communication": "2/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "0/4"
+            },
+            "O2": {
+              "A_conversations": "33/54",
+              "A_factual": "27/30",
+              "A_honest_unknown": "17/20",
+              "A_negative_transfer": "5/7",
+              "A_post_deployment": "30/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "3/5",
+              "D_communication": "2/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "0/4"
+            },
+            "O3": {
+              "A_conversations": "33/54",
+              "A_factual": "27/30",
+              "A_honest_unknown": "17/20",
+              "A_negative_transfer": "5/7",
+              "A_post_deployment": "30/42",
+              "B_enterprise": "10/10",
+              "C_software": "10/10",
+              "D_analysis": "12/12",
+              "D_causal": "3/5",
+              "D_communication": "2/4",
+              "D_proof": "8/8",
+              "D_selection": "4/4",
+              "E_transfer": "0/4"
+            }
+          }
+        },
+        "tiers": {
+          "tier0_operational": {
+            "holds": true
+          },
+          "tier1_capability": {
+            "families_at_or_above_0.8": [
+              "A_conversations",
+              "A_factual",
+              "A_honest_unknown",
+              "A_post_deployment",
+              "B_enterprise",
+              "C_software",
+              "D_analysis"
+            ],
+            "holds": true
+          },
+          "tier2_lifelong_learning": {
+            "holds_descriptive": true,
+            "inferential": "INCONCLUSIVE",
+            "later_domain_cheaper_every_ordering": true,
+            "post_deployment_ocm_ge_parent": true,
+            "robustness_orderings": {
+              "O1": {
+                "later_domain_cheaper": true,
+                "ocm_post_deployment": "37/42"
+              },
+              "O2": {
+                "later_domain_cheaper": true,
+                "ocm_post_deployment": "37/42"
+              },
+              "O3": {
+                "later_domain_cheaper": true,
+                "ocm_post_deployment": "37/42"
+              }
+            }
+          },
+          "tier3_transfer": {
+            "holds_descriptive": true,
+            "inferential": "DESCRIPTIVE (n < 40)",
+            "ocm_harmful_accepted": 0,
+            "ocm_precision": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "parent_harmful_accepted": 6
+          },
+          "tier4_epistemic_integrity": {
+            "dependents_reopened": [
+              3,
+              3,
+              3
+            ],
+            "holds_descriptive": true,
+            "honest_unknown_ge_parent": true,
+            "inferential": "DESCRIPTIVE (n < 40)",
+            "stale_behaviours": [
+              0,
+              0,
+              0
+            ],
+            "unrelated_intact": [
+              2,
+              2,
+              2
+            ]
+          },
+          "tier5_self_reorganisation": {
+            "holds_descriptive": true,
+            "inferential": "DESCRIPTIVE (n = 3)",
+            "ocm_all_orderings": true,
+            "parent_repair_failures": 3,
+            "per_ordering": [
+              true,
+              true,
+              true
+            ]
+          },
+          "tier6_broad": {
+            "all_descriptive_tiers": true,
+            "holds": true,
+            "inferential_residual_families": [
+              "A_conversations"
+            ]
+          }
+        }
+      },
+      "exit_gate_before_replication": "CANNOT_CHECK",
+      "revalidation": {
+        "deterministic_equal_to_historical": true,
+        "execution_source_capture": "NOT_CAPTURED_BY_LEGACY_HARNESS; current receipt source bindings are a separate observation",
+        "historical_artifact": "research/ocm-m12/M12_LIFETIME_EVAL_V2.json",
+        "historical_predecessor_cells_reopened": [
+          {
+            "ordering": "O1",
+            "phase": "G",
+            "target": "layer.D2"
+          },
+          {
+            "ordering": "O2",
+            "phase": "G",
+            "target": "layer.D6"
+          },
+          {
+            "ordering": "O3",
+            "phase": "G",
+            "target": "layer.D2"
+          }
+        ],
+        "historical_sha256": "e5a1775461caa7cfce78fc753168a06987c90756aa1bac9b7f9063511faa165b",
+        "supplied_output_sha256": "d0ff0a98a0e518d087d5d9a67deaad665a8470891e45606e518f6a782003d68d",
+        "terminal": "M12_REFERENCE_REPLAY__PROTECTED_REEVALUATION_REQUIRED",
+        "timing_and_cost": "Host observations; not deterministic outcome controls"
+      }
+    },
+    "scope": "Same authored scenarios; outcome equality does not validate historical input bindings.",
+    "sha256": "ab4dfc6c4fbef3947ebc294b21db023addca1bdb7e3b903150d69051ca1969f2",
+    "status": "REFERENCE_REPLAY_AFTER_RUNTIME_REVISION"
+  },
+  "dependency_aliases": {
+    "docs/provenance/M11_RECEIPT_V1.json": "docs/provenance/runtime_revision_20260905/M11_RECEIPT_RUNTIME_20260905_V1.json"
+  },
+  "historical_artifact_bindings": {
+    "docs/M12_LIFETIME_REPORT.md": "23c738d7741fd934e35253c9d115cf96ccbf1b6ed9d17091dc52a92bf55f3f6a",
+    "docs/provenance/M11_RECEIPT_V1.json": "98660cb3d566a7913be0ac052889141a4a72418c4a67272bce5b5071caf2c3cd",
+    "docs/provenance/M12_REPLICATION_RECEIPT_V1.json": "5a51b472114bf67dad440b812e8a563822b6084f0d621f31d11ec6af483c6b01",
+    "docs/theorems/OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json": "2a0a376b7c41d6d7783de4bb257ea123c4cc5b4328722b71d8e39ae30b73c106",
+    "research/ocm-m12/M12_LIFETIME_EVAL_V1.json": "ff495b1cdef7a7bca6503f990ac1381914951ed9306a10e02c83f3c8eb4b6b0a",
+    "research/ocm-m12/M12_LIFETIME_EVAL_V2.json": "e5a1775461caa7cfce78fc753168a06987c90756aa1bac9b7f9063511faa165b",
+    "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V1.md": "1d49e3b93c802e5ee7ec76cdc046e4103cae1113738babdfaf9a83f98401cf07",
+    "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V2.md": "4c4e9db90ec581ef8466633c0fff272872b4b0aba385a579ec71e4732b41b160",
+    "research/ocm-m12/ORION_V2_FEEDBACK_PACKET_V1.md": "efc444fedb75da66c2f5907782fc390ce91229fd350ff14e3549d541055358c2"
+  },
+  "historical_reference": {
+    "parent_commit": "f2b83e2849b1afb79c45f12bebc3c929080352c9",
+    "path": "docs/provenance/M12_RECEIPT_V1.json",
+    "sha256": "3c66839c90c698ddf5e0432d4c3503ec4f8f57f214a3624bdc6ed1f1c4a1e65d",
+    "status": "IMMUTABLE_HISTORICAL_OUTCOME; NOT_PROMOTED_TO_CURRENT_CODE",
+    "terminal_at_that_revision": "FULL_OCM_RESIDUAL_SUPPORTED"
+  },
+  "legacy_recipe_recheck": {
+    "matches_historical_payload": true,
+    "payload": {
+      "authority": "one persistent OCM instance over OCM-authored bounded worlds and oracle environments with a matched whole-system parent; V1 DEV_CALIBRATION then V2 PROTECTED; replication on a second host; frontier reference, human rating and external benchmarks CANNOT_CHECK; no novelty claim",
+      "deterministic_results": {
+        "exit_gate_before_replication": "CANNOT_CHECK",
+        "replication": "MATCH",
+        "v2": {
+          "E": {
+            "ocm": {
+              "O1": {
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "partial_adapter_required": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                },
+                "representation_correspondence": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_full_mapping": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "science_missing_binding": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                }
+              },
+              "O2": {
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "partial_adapter_required": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                },
+                "representation_correspondence": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_full_mapping": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "science_missing_binding": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                }
+              },
+              "O3": {
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "partial_adapter_required": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                },
+                "representation_correspondence": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_full_mapping": {
+                  "expected": "TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "REFUSE_TRANSFER"
+                },
+                "science_missing_binding": {
+                  "expected": "ADAPTER_REQUIRED",
+                  "result": "ADAPTER_REQUIRED"
+                }
+              }
+            },
+            "template_floor": {
+              "O1": {},
+              "O2": {},
+              "O3": {}
+            },
+            "whole_system_parent": {
+              "O1": {
+                "analysis_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                },
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "ACCEPTED"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "software_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                }
+              },
+              "O2": {
+                "analysis_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                },
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "ACCEPTED"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "software_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                }
+              },
+              "O3": {
+                "analysis_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                },
+                "deceptive_analogy": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "ACCEPTED"
+                },
+                "science_lookalike_verifier": {
+                  "expected": "REFUSE_TRANSFER",
+                  "result": "TRANSFER"
+                },
+                "software_similarity": {
+                  "expected": "TRANSFER",
+                  "result": "SIMILARITY_TRANSFER_FAILED"
+                }
+              }
+            }
+          },
+          "F": {
+            "ocm": {
+              "O1": {
+                "dependents_reopened": 3,
+                "knowledge": {
+                  "fact": "rum:paris:germany",
+                  "facts_dead": 1,
+                  "source": "rumour:v1",
+                  "stale": false,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 0,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "ev:ocm:9932a180eb503be9"
+                }
+              },
+              "O2": {
+                "dependents_reopened": 3,
+                "knowledge": {
+                  "fact": "rum:paris:germany",
+                  "facts_dead": 1,
+                  "source": "rumour:v1",
+                  "stale": false,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 0,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "ev:ocm:eda485bbe2da9fc1"
+                }
+              },
+              "O3": {
+                "dependents_reopened": 3,
+                "knowledge": {
+                  "fact": "rum:paris:germany",
+                  "facts_dead": 1,
+                  "source": "rumour:v1",
+                  "stale": false,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 0,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "ev:ocm:9932a180eb503be9"
+                }
+              }
+            },
+            "template_floor": {
+              "O1": {
+                "dependents_reopened": 0,
+                "knowledge": {
+                  "stale": null
+                },
+                "science": {},
+                "stale_behaviours": 0,
+                "unrelated_intact": 0,
+                "work": {}
+              },
+              "O2": {
+                "dependents_reopened": 0,
+                "knowledge": {
+                  "stale": null
+                },
+                "science": {},
+                "stale_behaviours": 0,
+                "unrelated_intact": 0,
+                "work": {}
+              },
+              "O3": {
+                "dependents_reopened": 0,
+                "knowledge": {
+                  "stale": null
+                },
+                "science": {},
+                "stale_behaviours": 0,
+                "unrelated_intact": 0,
+                "work": {}
+              }
+            },
+            "whole_system_parent": {
+              "O1": {
+                "dependents_reopened": 2,
+                "knowledge": {
+                  "fact": "rum:paris:germany(parent)",
+                  "facts_dead": 0,
+                  "source": "rumour:v1",
+                  "stale": true,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 1,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "parent-flag:enterprise"
+                }
+              },
+              "O2": {
+                "dependents_reopened": 2,
+                "knowledge": {
+                  "fact": "rum:paris:germany(parent)",
+                  "facts_dead": 0,
+                  "source": "rumour:v1",
+                  "stale": true,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 1,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "parent-flag:enterprise"
+                }
+              },
+              "O3": {
+                "dependents_reopened": 2,
+                "knowledge": {
+                  "fact": "rum:paris:germany(parent)",
+                  "facts_dead": 0,
+                  "source": "rumour:v1",
+                  "stale": true,
+                  "unrelated_intact": true
+                },
+                "science": {
+                  "correct": true,
+                  "dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "expected_dead": [
+                    "m12:C0",
+                    "m12:C1"
+                  ],
+                  "unrelated_intact": true
+                },
+                "stale_behaviours": 1,
+                "unrelated_intact": 2,
+                "work": {
+                  "ran_dead_skill": false,
+                  "result": null,
+                  "revoked": "parent-flag:enterprise"
+                }
+              }
+            }
+          },
+          "G": {
+            "ocm": {
+              "O1": {
+                "adopted": true,
+                "assurance": true,
+                "assurance_reasons": [],
+                "chosen_repair": "restore ent.smallest_action",
+                "diagnosed": "D2",
+                "diagnosis_correct": true,
+                "escalation_allowed": false,
+                "fault": "operator_fault",
+                "minimum_class_correct": true,
+                "preserved": true,
+                "proposal_class": "C2",
+                "repaired": true,
+                "rollback_exact": true,
+                "target_after": "6/6",
+                "target_before": "0/6",
+                "true_layer": "D2"
+              },
+              "O2": {
+                "adopted": true,
+                "assurance": true,
+                "assurance_reasons": [],
+                "chosen_repair": "re-induce skill from demonstration",
+                "diagnosed": "D6",
+                "diagnosis_correct": true,
+                "escalation_allowed": false,
+                "fault": "learning_policy",
+                "minimum_class_correct": true,
+                "preserved": true,
+                "proposal_class": "C4",
+                "repaired": true,
+                "rollback_exact": true,
+                "target_after": "6/6",
+                "target_before": "0/6",
+                "true_layer": "D6"
+              },
+              "O3": {
+                "adopted": true,
+                "assurance": true,
+                "assurance_reasons": [],
+                "chosen_repair": "upgrade policy operator to v2",
+                "diagnosed": "D2",
+                "diagnosis_correct": true,
+                "escalation_allowed": false,
+                "fault": "environment_drift",
+                "minimum_class_correct": true,
+                "preserved": true,
+                "proposal_class": "C2",
+                "repaired": true,
+                "rollback_exact": true,
+                "target_after": "6/6",
+                "target_before": "0/6",
+                "true_layer": "D2"
+              }
+            },
+            "template_floor": {
+              "O1": {
+                "diagnosed": null,
+                "fault": null,
+                "parent_repair": null,
+                "preserved": null,
+                "repaired": false,
+                "rollback_exact": null
+              },
+              "O2": {
+                "diagnosed": null,
+                "fault": null,
+                "parent_repair": null,
+                "preserved": null,
+                "repaired": false,
+                "rollback_exact": null
+              },
+              "O3": {
+                "diagnosed": null,
+                "fault": null,
+                "parent_repair": null,
+                "preserved": null,
+                "repaired": false,
+                "rollback_exact": null
+              }
+            },
+            "whole_system_parent": {
+              "O1": {
+                "fault": "operator_fault",
+                "parent_repair": {
+                  "parameter_search_target": "0/6",
+                  "preservation": "6/6",
+                  "reflection_retry_target": "0/6",
+                  "solves": false
+                },
+                "preserved": true,
+                "repaired": false,
+                "target_before": "0/6",
+                "true_layer": "D2"
+              },
+              "O2": {
+                "fault": "learning_policy",
+                "parent_repair": {
+                  "parameter_search_target": "0/6",
+                  "preservation": "0/6",
+                  "reflection_retry_target": "0/6",
+                  "solves": false
+                },
+                "preserved": false,
+                "repaired": false,
+                "target_before": "0/6",
+                "true_layer": "D6"
+              },
+              "O3": {
+                "fault": "environment_drift",
+                "parent_repair": {
+                  "parameter_search_target": "0/6",
+                  "preservation": "6/6",
+                  "reflection_retry_target": "0/6",
+                  "solves": false
+                },
+                "preserved": true,
+                "repaired": false,
+                "target_before": "0/6",
+                "true_layer": "D2"
+              }
+            }
+          },
+          "acquisition": {
+            "ocm": {
+              "O1": {
+                "B": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                },
+                "C": {
+                  "cost": 7,
+                  "route": "TRANSFER"
+                }
+              },
+              "O2": {
+                "B": {
+                  "cost": 7,
+                  "route": "TRANSFER"
+                },
+                "C": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                }
+              },
+              "O3": {
+                "B": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                },
+                "C": {
+                  "cost": 7,
+                  "route": "TRANSFER"
+                }
+              }
+            },
+            "template_floor": {
+              "O1": {
+                "B": {
+                  "cost": 0,
+                  "route": "NONE"
+                },
+                "C": {
+                  "cost": 0,
+                  "route": "NONE"
+                }
+              },
+              "O2": {
+                "B": {
+                  "cost": 0,
+                  "route": "NONE"
+                },
+                "C": {
+                  "cost": 0,
+                  "route": "NONE"
+                }
+              },
+              "O3": {
+                "B": {
+                  "cost": 0,
+                  "route": "NONE"
+                },
+                "C": {
+                  "cost": 0,
+                  "route": "NONE"
+                }
+              }
+            },
+            "whole_system_parent": {
+              "O1": {
+                "B": {
+                  "cost": 6,
+                  "route": "LEARN_NEW"
+                },
+                "C": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                }
+              },
+              "O2": {
+                "B": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                },
+                "C": {
+                  "cost": 6,
+                  "route": "LEARN_NEW"
+                }
+              },
+              "O3": {
+                "B": {
+                  "cost": 6,
+                  "route": "LEARN_NEW"
+                },
+                "C": {
+                  "cost": 12,
+                  "route": "LEARN_NEW"
+                }
+              }
+            }
+          },
+          "always_attempts": {
+            "ocm": {
+              "O1": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              },
+              "O2": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              },
+              "O3": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              }
+            },
+            "template_floor": {
+              "O1": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              },
+              "O2": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              },
+              "O3": {
+                "A": 0,
+                "D": 0,
+                "unknown": 0
+              }
+            },
+            "whole_system_parent": {
+              "O1": {
+                "A": 3,
+                "D": 2,
+                "unknown": 0
+              },
+              "O2": {
+                "A": 3,
+                "D": 2,
+                "unknown": 0
+              },
+              "O3": {
+                "A": 3,
+                "D": 2,
+                "unknown": 0
+              }
+            }
+          },
+          "claims": {
+            "A_conversations": {
+              "ci_90": [
+                0.2673,
+                0.3704
+              ],
+              "delta": 0.05,
+              "difference": 0.3704,
+              "mcnemar": {
+                "a_only": 20,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 20,
+                "p_two_sided": 1.9073486328125e-06
+              },
+              "n": 54,
+              "ocm": 53,
+              "parent": 33,
+              "terminal": "OCM_RESIDUAL",
+              "verdict": "RESIDUAL_A"
+            },
+            "A_factual": {
+              "ci_90": [
+                -0.0263,
+                0.1
+              ],
+              "delta": 0.05,
+              "difference": 0.1,
+              "mcnemar": {
+                "a_only": 3,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 3,
+                "p_two_sided": 0.25
+              },
+              "n": 30,
+              "ocm": 30,
+              "parent": 27,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            },
+            "A_honest_unknown": {
+              "ci_90": [
+                -0.0395,
+                0.15
+              ],
+              "delta": 0.05,
+              "difference": 0.15,
+              "mcnemar": {
+                "a_only": 3,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 3,
+                "p_two_sided": 0.25
+              },
+              "n": 20,
+              "ocm": 20,
+              "parent": 17,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            },
+            "A_negative_transfer": {
+              "ci_90": [
+                -0.1579,
+                0.2857
+              ],
+              "delta": 0.05,
+              "difference": 0.2857,
+              "mcnemar": {
+                "a_only": 2,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 2,
+                "p_two_sided": 0.5
+              },
+              "n": 7,
+              "ocm": 7,
+              "parent": 5,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            },
+            "A_post_deployment": {
+              "ci_90": [
+                -0.0077,
+                0.2881
+              ],
+              "delta": 0.05,
+              "difference": 0.1667,
+              "mcnemar": {
+                "a_only": 11,
+                "b_only": 4,
+                "direction": "A",
+                "discordant": 15,
+                "p_two_sided": 0.11846923828125
+              },
+              "n": 42,
+              "ocm": 37,
+              "parent": 30,
+              "terminal": "INCONCLUSIVE",
+              "verdict": "INCONCLUSIVE"
+            },
+            "B_enterprise": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "delta": 0.05,
+              "difference": 0.0,
+              "n": 10,
+              "ocm": 10,
+              "parent": 10,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "EQUIVALENT"
+            },
+            "C_software": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "delta": 0.05,
+              "difference": 0.0,
+              "n": 10,
+              "ocm": 10,
+              "parent": 10,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "EQUIVALENT"
+            },
+            "D_analysis": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "delta": 0.05,
+              "difference": 0.0,
+              "n": 12,
+              "ocm": 12,
+              "parent": 12,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "EQUIVALENT"
+            },
+            "D_causal": {
+              "ci_90": [
+                -0.2211,
+                0.4
+              ],
+              "delta": 0.05,
+              "difference": 0.4,
+              "mcnemar": {
+                "a_only": 2,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 2,
+                "p_two_sided": 0.5
+              },
+              "n": 5,
+              "ocm": 5,
+              "parent": 3,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            },
+            "D_communication": {
+              "ci_90": [
+                -0.2764,
+                0.5
+              ],
+              "delta": 0.05,
+              "difference": 0.5,
+              "mcnemar": {
+                "a_only": 2,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 2,
+                "p_two_sided": 0.5
+              },
+              "n": 4,
+              "ocm": 4,
+              "parent": 2,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            },
+            "D_proof": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "delta": 0.05,
+              "difference": 0.0,
+              "n": 8,
+              "ocm": 8,
+              "parent": 8,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "EQUIVALENT"
+            },
+            "D_selection": {
+              "ci_90": [
+                0.0,
+                0.0
+              ],
+              "delta": 0.05,
+              "difference": 0.0,
+              "n": 4,
+              "ocm": 4,
+              "parent": 4,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "EQUIVALENT"
+            },
+            "E_transfer": {
+              "ci_90": [
+                -0.0543,
+                1.0
+              ],
+              "delta": 0.05,
+              "difference": 1.0,
+              "mcnemar": {
+                "a_only": 4,
+                "b_only": 0,
+                "direction": "A",
+                "discordant": 4,
+                "p_two_sided": 0.125
+              },
+              "n": 4,
+              "ocm": 4,
+              "parent": 0,
+              "terminal": "DESCRIPTIVE (n < 40)",
+              "verdict": "INCONCLUSIVE"
+            }
+          },
+          "gates": {
+            "cannot_check_as_pass": 0,
+            "external_io": 0,
+            "hits": 0,
+            "identity_reset_or_split": 0,
+            "live_on_revoked_after_F": 0,
+            "missing_phase_outcomes": 0,
+            "protected_exposure": 0,
+            "self_change_protected_target": 0
+          },
+          "summary": {
+            "ocm": {
+              "O1": {
+                "A_conversations": "53/54",
+                "A_factual": "30/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "7/7",
+                "A_post_deployment": "37/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "5/5",
+                "D_communication": "4/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "6/6"
+              },
+              "O2": {
+                "A_conversations": "53/54",
+                "A_factual": "30/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "7/7",
+                "A_post_deployment": "37/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "5/5",
+                "D_communication": "4/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "6/6"
+              },
+              "O3": {
+                "A_conversations": "53/54",
+                "A_factual": "30/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "7/7",
+                "A_post_deployment": "37/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "5/5",
+                "D_communication": "4/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "6/6"
+              }
+            },
+            "template_floor": {
+              "O1": {
+                "A_conversations": "10/54",
+                "A_factual": "8/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "4/7",
+                "A_post_deployment": "6/42",
+                "B_enterprise": "0/10",
+                "C_software": "0/10",
+                "D_analysis": "0/0",
+                "D_causal": "0/0",
+                "D_communication": "0/0",
+                "D_proof": "0/0",
+                "D_selection": "0/0",
+                "E_transfer": "0/0"
+              },
+              "O2": {
+                "A_conversations": "10/54",
+                "A_factual": "8/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "4/7",
+                "A_post_deployment": "6/42",
+                "B_enterprise": "0/10",
+                "C_software": "0/10",
+                "D_analysis": "0/0",
+                "D_causal": "0/0",
+                "D_communication": "0/0",
+                "D_proof": "0/0",
+                "D_selection": "0/0",
+                "E_transfer": "0/0"
+              },
+              "O3": {
+                "A_conversations": "10/54",
+                "A_factual": "8/30",
+                "A_honest_unknown": "20/20",
+                "A_negative_transfer": "4/7",
+                "A_post_deployment": "6/42",
+                "B_enterprise": "0/10",
+                "C_software": "0/10",
+                "D_analysis": "0/0",
+                "D_causal": "0/0",
+                "D_communication": "0/0",
+                "D_proof": "0/0",
+                "D_selection": "0/0",
+                "E_transfer": "0/0"
+              }
+            },
+            "whole_system_parent": {
+              "O1": {
+                "A_conversations": "33/54",
+                "A_factual": "27/30",
+                "A_honest_unknown": "17/20",
+                "A_negative_transfer": "5/7",
+                "A_post_deployment": "30/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "3/5",
+                "D_communication": "2/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "0/4"
+              },
+              "O2": {
+                "A_conversations": "33/54",
+                "A_factual": "27/30",
+                "A_honest_unknown": "17/20",
+                "A_negative_transfer": "5/7",
+                "A_post_deployment": "30/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "3/5",
+                "D_communication": "2/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "0/4"
+              },
+              "O3": {
+                "A_conversations": "33/54",
+                "A_factual": "27/30",
+                "A_honest_unknown": "17/20",
+                "A_negative_transfer": "5/7",
+                "A_post_deployment": "30/42",
+                "B_enterprise": "10/10",
+                "C_software": "10/10",
+                "D_analysis": "12/12",
+                "D_causal": "3/5",
+                "D_communication": "2/4",
+                "D_proof": "8/8",
+                "D_selection": "4/4",
+                "E_transfer": "0/4"
+              }
+            }
+          },
+          "tiers": {
+            "tier0_operational": {
+              "holds": true
+            },
+            "tier1_capability": {
+              "families_at_or_above_0.8": [
+                "A_conversations",
+                "A_factual",
+                "A_honest_unknown",
+                "A_post_deployment",
+                "B_enterprise",
+                "C_software",
+                "D_analysis"
+              ],
+              "holds": true
+            },
+            "tier2_lifelong_learning": {
+              "holds_descriptive": true,
+              "inferential": "INCONCLUSIVE",
+              "later_domain_cheaper_every_ordering": true,
+              "post_deployment_ocm_ge_parent": true,
+              "robustness_orderings": {
+                "O1": {
+                  "later_domain_cheaper": true,
+                  "ocm_post_deployment": "37/42"
+                },
+                "O2": {
+                  "later_domain_cheaper": true,
+                  "ocm_post_deployment": "37/42"
+                },
+                "O3": {
+                  "later_domain_cheaper": true,
+                  "ocm_post_deployment": "37/42"
+                }
+              }
+            },
+            "tier3_transfer": {
+              "holds_descriptive": true,
+              "inferential": "DESCRIPTIVE (n < 40)",
+              "ocm_harmful_accepted": 0,
+              "ocm_precision": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "parent_harmful_accepted": 6
+            },
+            "tier4_epistemic_integrity": {
+              "dependents_reopened": [
+                3,
+                3,
+                3
+              ],
+              "holds_descriptive": true,
+              "honest_unknown_ge_parent": true,
+              "inferential": "DESCRIPTIVE (n < 40)",
+              "stale_behaviours": [
+                0,
+                0,
+                0
+              ],
+              "unrelated_intact": [
+                2,
+                2,
+                2
+              ]
+            },
+            "tier5_self_reorganisation": {
+              "holds_descriptive": true,
+              "inferential": "DESCRIPTIVE (n = 3)",
+              "ocm_all_orderings": true,
+              "parent_repair_failures": 3,
+              "per_ordering": [
+                true,
+                true,
+                true
+              ]
+            },
+            "tier6_broad": {
+              "all_descriptive_tiers": true,
+              "holds": true,
+              "inferential_residual_families": [
+                "A_conversations"
+              ]
+            }
+          }
+        }
+      },
+      "receipt": "M12_RECEIPT_V1",
+      "terminal": "FULL_OCM_RESIDUAL_SUPPORTED"
+    },
+    "scope": "Finite checker execution and/or old result reads; not a protected experiment rerun.",
+    "status": "CURRENT_RECIPE_WITH_EXPLICIT_HISTORICAL_ARTIFACT_READS"
+  },
+  "receipt": "M12_RECEIPT_RUNTIME_20260905_V1",
+  "revision": "runtime_revision_20260905",
+  "revision_config": {
+    "path": "docs/provenance/runtime_revision_20260905/REVISION_V1.json",
+    "sha256": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a"
+  },
+  "schema": "ocm.runtime-successor-receipt.v1",
+  "source_changes": {
+    "src/ocm/chat/session.py": {
+      "at_historical_parent": "04e2291f8ed1153cdf293b10c6c505332d664c8d0bc0428209249ea66ccacb66",
+      "current": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd"
+    },
+    "src/ocm/dialogue/workspace.py": {
+      "at_historical_parent": "1b7b4a696e048d6daaebba0d5b258a8bdf706dc0640e6c8d5eb7ece4071e2cc7",
+      "current": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0"
+    },
+    "src/ocm/kso/admission.py": {
+      "at_historical_parent": "fc7dd13fc233ad4d6b779248b5bd063c9a1515dbc72c35b21e8a48cd43c67604",
+      "current": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab"
+    },
+    "src/ocm/kso/navigation.py": {
+      "at_historical_parent": "b99b667aaa698b58da494863ddc7fa284e6a6a6826e4e662899fda6f106a4923",
+      "current": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2"
+    },
+    "src/ocm/kso/navigation_sparse.py": {
+      "at_historical_parent": "8fc6244ddece9ec6c09c319741ac472544119c86b762098f8b84c13867526aa2",
+      "current": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88"
+    },
+    "src/ocm/kso/revocation.py": {
+      "at_historical_parent": "6444c3a55932419dcbbeac85357b15991d76ecd72eaca4a461f93983fe2001b4",
+      "current": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543"
+    },
+    "src/ocm/kso/space.py": {
+      "at_historical_parent": "485778a516245d273a565dbf81f697d0b659d2f91f345f653f3a775052b37f42",
+      "current": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd"
+    },
+    "src/ocm/lifetime/phases.py": {
+      "at_historical_parent": "689096ad18d51c0c910bb8d3a313e260f3d38be11ac53b12360469abe5158682",
+      "current": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1"
+    },
+    "src/ocm/operators/__init__.py": {
+      "at_historical_parent": "6a814bfc5f9470d63ecc225e612c1dd1dfe77d153f8a84a2d1ebde75e27fdd9c",
+      "current": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6"
+    },
+    "src/ocm/operators/registry.py": {
+      "at_historical_parent": "e704bc821566f564f3a04edbc5cdae69d9b6e68f88c29e17a81470df567aa568",
+      "current": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f"
+    },
+    "src/ocm/runtime/ocm_runtime.py": {
+      "at_historical_parent": "ee0de5a5a489c03a03b27631eae1708e2d99009acafe043821cc00ef57c9bcc1",
+      "current": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046"
+    },
+    "src/ocm/selfmodel/benchmark.py": {
+      "at_historical_parent": "4de70e25fdb515b59397e8136639813377f9bdef498a71505059ae30cec586d9",
+      "current": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108"
+    },
+    "src/ocm/selfmodel/govern.py": {
+      "at_historical_parent": "3973b9600f5306044da721cf6bdb663c1bbed77ed1e7f266d6b4da62ca53caa9",
+      "current": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0"
+    }
+  },
+  "terminal": "M12_REFERENCE_REPLAY__PROTECTED_REEVALUATION_REQUIRED"
+}

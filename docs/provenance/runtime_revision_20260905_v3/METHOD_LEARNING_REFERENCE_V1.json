@@ -1,0 +1,219 @@
+{
+ "schema": "ocm.method-learning-engineering.v1",
+ "status": "ENGINEERING_DEMONSTRATION",
+ "training": [
+  {
+   "task_fingerprint": "034ba9008acfafe3e230eced555147b0fd5293b6a5b5064e396d0f5c448884d3",
+   "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "program": [
+    "inc",
+    "square",
+    "inc"
+   ],
+   "slots": 34,
+   "candidates_checked": 34,
+   "counterexamples": [
+    0,
+    1
+   ],
+   "max_length": 4,
+   "checker": "rational-polynomial-coefficients.v1"
+  },
+  {
+   "task_fingerprint": "a54389fb53c7f66b2b928074ef168867528cac6f7cd4101df6bea2df92a4403a",
+   "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "program": [
+    "inc",
+    "square",
+    "double"
+   ],
+   "slots": 36,
+   "candidates_checked": 36,
+   "counterexamples": [
+    0,
+    1
+   ],
+   "max_length": 4,
+   "checker": "rational-polynomial-coefficients.v1"
+  }
+ ],
+ "learned_fragments": [
+  [
+   "inc",
+   "square"
+  ]
+ ],
+ "validation": {
+  "method": "e84c36adc9e1b772fff7bb9eafe61a11449a5d92f80af2b2330c7d3d52a00761",
+  "training_tasks": [
+   "034ba9008acfafe3e230eced555147b0fd5293b6a5b5064e396d0f5c448884d3",
+   "a54389fb53c7f66b2b928074ef168867528cac6f7cd4101df6bea2df92a4403a"
+  ],
+  "held_out": [
+   {
+    "task": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92",
+    "baseline": {
+     "task_fingerprint": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92",
+     "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+     "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+     "program": [
+      "inc",
+      "square",
+      "dec"
+     ],
+     "slots": 35,
+     "candidates_checked": 35,
+     "counterexamples": [
+      0,
+      1
+     ],
+     "max_length": 4,
+     "checker": "rational-polynomial-coefficients.v1"
+    },
+    "candidate": {
+     "task_fingerprint": "048c0bf0313db627116883be822717b432d1cc8324e3e35d0e08b8c16635fa92",
+     "method_fingerprint": "e84c36adc9e1b772fff7bb9eafe61a11449a5d92f80af2b2330c7d3d52a00761",
+     "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+     "program": [
+      "inc",
+      "square",
+      "dec"
+     ],
+     "slots": 15,
+     "candidates_checked": 11,
+     "counterexamples": [
+      0,
+      1
+     ],
+     "max_length": 4,
+     "checker": "rational-polynomial-coefficients.v1"
+    },
+    "both_verified": true
+   },
+   {
+    "task": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02",
+    "baseline": {
+     "task_fingerprint": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02",
+     "method_fingerprint": "db3492013039a95a423724fd63d382932a051466a4d050397a1cc6a469f2253f",
+     "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+     "program": [
+      "inc",
+      "square",
+      "square"
+     ],
+     "slots": 37,
+     "candidates_checked": 37,
+     "counterexamples": [
+      0,
+      1
+     ],
+     "max_length": 4,
+     "checker": "rational-polynomial-coefficients.v1"
+    },
+    "candidate": {
+     "task_fingerprint": "8d9cc3f885198960e206475d17043be2e889febe3c4a9c02367d048e8ec07a02",
+     "method_fingerprint": "e84c36adc9e1b772fff7bb9eafe61a11449a5d92f80af2b2330c7d3d52a00761",
+     "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+     "program": [
+      "inc",
+      "square",
+      "square"
+     ],
+     "slots": 19,
+     "candidates_checked": 14,
+     "counterexamples": [
+      0,
+      1
+     ],
+     "max_length": 4,
+     "checker": "rational-polynomial-coefficients.v1"
+    },
+    "both_verified": true
+   }
+  ],
+  "accepted": true,
+  "terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+  "scope": "Declared tasks only; no population speedup or scientific novelty claim"
+ },
+ "persistent_generator": "generator:0757f31ccf20d52c02ba1e3040e4ed6a97783b1d3a73859ffdcfdb0f4afde7b2",
+ "revocation": "REUSE_REFUSED_AFTER_RESTART",
+ "science": [
+  {
+   "simulated_truth": "0",
+   "experiments": [
+    {
+     "query": "do(x=1)",
+     "outcome": "1"
+    }
+   ],
+   "assessment": {
+    "status": "IDENTIFIED_WITHIN_DECLARED_MODEL_CLASS",
+    "survivors": [
+     "0"
+    ],
+    "next_query": null,
+    "model_class": "e187d80d3056088c624d187ba40d9c8d0932af71f937d02b55dec355848cde20",
+    "support": [
+     "sim:0:0"
+    ],
+    "history": [
+     "sim:0:0"
+    ],
+    "scope": "Conditional on a complete deterministic model class and accurate live observations; not external scientific truth"
+   }
+  },
+  {
+   "simulated_truth": "1",
+   "experiments": [
+    {
+     "query": "do(x=1)",
+     "outcome": "4"
+    }
+   ],
+   "assessment": {
+    "status": "IDENTIFIED_WITHIN_DECLARED_MODEL_CLASS",
+    "survivors": [
+     "1"
+    ],
+    "next_query": null,
+    "model_class": "e187d80d3056088c624d187ba40d9c8d0932af71f937d02b55dec355848cde20",
+    "support": [
+     "sim:1:0"
+    ],
+    "history": [
+     "sim:1:0"
+    ],
+    "scope": "Conditional on a complete deterministic model class and accurate live observations; not external scientific truth"
+   }
+  },
+  {
+   "simulated_truth": "2",
+   "experiments": [
+    {
+     "query": "do(x=1)",
+     "outcome": "2"
+    }
+   ],
+   "assessment": {
+    "status": "IDENTIFIED_WITHIN_DECLARED_MODEL_CLASS",
+    "survivors": [
+     "2"
+    ],
+    "next_query": null,
+    "model_class": "e187d80d3056088c624d187ba40d9c8d0932af71f937d02b55dec355848cde20",
+    "support": [
+     "sim:2:0"
+    ],
+    "history": [
+     "sim:2:0"
+    ],
+    "scope": "Conditional on a complete deterministic model class and accurate live observations; not external scientific truth"
+   }
+  }
+ ],
+ "convergence": "Finite total grammar with fair fallback; deterministic separating experiments within the declared class",
+ "external_science": "NOT_RUN",
+ "general_intelligence": "NOT_ESTABLISHED"
+}

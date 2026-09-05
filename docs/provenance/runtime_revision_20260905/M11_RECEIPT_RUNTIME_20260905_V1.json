@@ -1,0 +1,968 @@
+{
+  "authority": "Historical custody and current engineering revalidation are separate; no new protected outcome is inferred.",
+  "bound_files": {
+    "docs/KSO_OPTIMIZATION_REPORT_V1.md": "40fb8bf31a69c7ffe6b337d2a90f6f93c78bf11d8c5e00906a12d23965b92ebb",
+    "docs/M11_SELF_REORGANISATION_REPORT.md": "d1d17d3f46b551e7a2de58769ebe1b4a0d959b5bec8f78c25e6239f1b6fffe08",
+    "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md": "3178e7f4231c341d41e8ef8f479ff036f393f78b61df946fc09ebb5945ab3d15",
+    "docs/provenance/runtime_revision_20260905/M10_RECEIPT_RUNTIME_20260905_V1.json": "d9f3d37942980389f50909711573331ae827a26639fb45a7d0fb29d7a1b0ccaa",
+    "docs/provenance/runtime_revision_20260905/REVISION_V1.json": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a",
+    "docs/theorems/OCM_SELF_OBLIGATION_REGISTRY_V1.json": "2e5370f5fdf001bfdb6db9fa709ae31e1a338e3a85cc4a333a1e533e3088c047",
+    "research/ocm-m11/M11_SELF_EVAL_LIFECYCLE_V2.json": "e205adb4418a03a2fe430c52bc75802a688eb0d6d09043762b478bb756091229",
+    "research/ocm-m11/M11_SELF_EVAL_V1.json": "0626b8b78ce1893e88b3ae3fb77ebc83e352882b3607d848ad7dc3412eb3ab4f",
+    "src/ocm/chat/session.py": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd",
+    "src/ocm/dialogue/workspace.py": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0",
+    "src/ocm/evaluation/m11_self_eval.py": "52cdfb0ed6186436295c36e27719b61db369207ef478ccdcf5155aee3a54d212",
+    "src/ocm/kso/admission.py": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab",
+    "src/ocm/kso/navigation.py": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2",
+    "src/ocm/kso/navigation_sparse.py": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88",
+    "src/ocm/kso/revocation.py": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543",
+    "src/ocm/kso/space.py": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd",
+    "src/ocm/lifetime/phases.py": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1",
+    "src/ocm/operators/__init__.py": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6",
+    "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+    "src/ocm/runtime/ocm_runtime.py": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046",
+    "src/ocm/selfmodel/benchmark.py": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108",
+    "src/ocm/selfmodel/diagnose.py": "1be286f8125e3201f35c212ecbca4dfe955a81e4d960efd60083b81fba5db711",
+    "src/ocm/selfmodel/govern.py": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0",
+    "src/ocm/selfmodel/intake.py": "301c59c9ab9ea5d3117c6df146b46bd7fedfb4cc8d7539f26023e0d5a71fa391",
+    "src/ocm/selfmodel/model.py": "ff1d79d50c8c7da9524a4f2f041a344477c5df7584f2235fd66b23d986abc71c",
+    "src/ocm/selfmodel/proposal.py": "834d463300ef5436fac6fd93edb1eac030d24230c36aa9ff58bfb4dc5e45c62d",
+    "src/ocm/selfmodel/replay.py": "70e351b8ff53e76b5d2ae4933160505483992a349520687ca465c37d1d452c6b",
+    "tests/m11/test_adoption_lifecycle_regressions.py": "85d96cc6aef734d59838bde3af7faf419164642986ae26345410fb46ffe569fa",
+    "tests/m2/test_operator_registry.py": "99f1cfbe09a990a520f75fcfea9d842a8f6ffc362169d8325ae29fb9a42b8658",
+    "tests/m2/test_runtime_lifecycle_regressions.py": "5990d3c2d4f730fe26dd7bfee24a771700550a40b04c90f953f136ce66877d76",
+    "tests/m2/test_statistical_guarantee_separation.py": "62377fd31a796d11ee64705012a886602e3b73198a02bd366bcef9918ccff33e",
+    "tests/m6/test_revocation_remainder.py": "9fdc014f1b0073d749d01a4eeb09516e02b2fc386c9db5c09a7623fb37ca95fb",
+    "tests/test_kso_optimization.py": "d02dfef719166bb814b822524f21f1e34168427ad3e58f42e01368bdd26cca0c",
+    "tests/test_runtime_revision_receipts.py": "1661df1a9bf9821e6d891a73c3adf83134c1880101ffbaf9d59c1a4f73a5560b",
+    "tools/m10_receipt.py": "41402b50f0bd9f481630d8faa96bfdae673e8a4f34e391ee03c193a87afc94f1",
+    "tools/m11_receipt.py": "c17efcd04ec33104cd2a8af6402fed0ad55518bc9626d92ff838bc96e46fd84c",
+    "tools/m12_receipt.py": "09e7ccfe2d2f7ff33dd2ac1e0aabcd623ea665cb2ab206b48574b7e707cc8b00",
+    "tools/m1_receipt.py": "87b886a23006fec7d987db5ed153785d702174dc150e1ff09a2c2d7d819d4003",
+    "tools/m2_receipt.py": "31f9bd6db79ef480a4609577839dab7d165966392f6e9a63d08d9b2f97a257d1",
+    "tools/m3_receipt.py": "82483b537cc3196d1eeaf46ff69c89f381997fd672e153e68d549a9b47f655ab",
+    "tools/m4_receipt.py": "8a78a023327611de8a3599ff043529bd4252aec916e4e7f510f0889afd07b2da",
+    "tools/m5_receipt.py": "5c52017d5eab4309868cc4438ad92dbad7de729a833c866ad95f7de35ab826d7",
+    "tools/m6_receipt.py": "56a8057fa9e72e95f809ce1dd877874dc9077b2dd6bc72e8b13611ced17fbbf9",
+    "tools/m7_receipt.py": "be1c7c991d6eb6d1a452a7b2e811917656c800862755756afa77beb07c61839f",
+    "tools/m8_receipt.py": "53bf14f8bad1cd3e195b6dc4e516c1951c93a00d09affadc9243b8d529f7bcbf",
+    "tools/m9_receipt.py": "5a646798fc73e96f5ecba52e2f5f4e7d5b3390d47906f79781518a4a3d4475da",
+    "tools/runtime_revision_receipts.py": "9c42b91211aeb4b6a79f18441872a496d335e13e4c2f28c3884f4a5de042fcaa"
+  },
+  "current_replay": {
+    "artifact": "research/ocm-m11/M11_SELF_EVAL_LIFECYCLE_V2.json",
+    "new_replication": "NOT_RUN",
+    "protected_reevaluation": "NOT_RUN",
+    "reference_results": {
+      "engineering_revalidation": {
+        "bound_files": {
+          "src/ocm/dialogue/workspace.py": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0",
+          "src/ocm/lifetime/phases.py": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1",
+          "src/ocm/operators/__init__.py": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6",
+          "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+          "src/ocm/runtime/ocm_runtime.py": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046",
+          "src/ocm/selfmodel/benchmark.py": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108",
+          "src/ocm/selfmodel/govern.py": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0",
+          "tests/m11/test_adoption_lifecycle_regressions.py": "85d96cc6aef734d59838bde3af7faf419164642986ae26345410fb46ffe569fa",
+          "tests/m2/test_operator_registry.py": "99f1cfbe09a990a520f75fcfea9d842a8f6ffc362169d8325ae29fb9a42b8658",
+          "tests/m2/test_runtime_lifecycle_regressions.py": "5990d3c2d4f730fe26dd7bfee24a771700550a40b04c90f953f136ce66877d76",
+          "tests/m2/test_statistical_guarantee_separation.py": "62377fd31a796d11ee64705012a886602e3b73198a02bd366bcef9918ccff33e"
+        },
+        "correction": "Bind the component table under the exact proposal target and incumbent fingerprint before adoption. Historical rows used machine instead of the named layer target.",
+        "historical_predecessor_cells_reopened": [
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D1",
+            "new_incumbent": "fp-inc",
+            "scenario": "S1_router_fault"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D2",
+            "new_incumbent": "fp-inc",
+            "scenario": "S2_operator_fault"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D3",
+            "new_incumbent": "fp-inc",
+            "scenario": "S3_representation_ceiling"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D6",
+            "new_incumbent": "fp-inc",
+            "scenario": "S4_learning_policy"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D2",
+            "new_incumbent": "fp-inc",
+            "scenario": "S5_false_structural_alarm"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D2",
+            "new_incumbent": "fp-inc",
+            "scenario": "S6_harmful_jump"
+          },
+          {
+            "legacy_component_key": "machine",
+            "missing_target": "layer.D2",
+            "new_incumbent": "fp-inc",
+            "scenario": "S7_environment_drift"
+          }
+        ],
+        "historical_result": "research/ocm-m11/M11_SELF_EVAL_V1.json",
+        "historical_result_sha256": "0626b8b78ce1893e88b3ae3fb77ebc83e352882b3607d848ad7dc3412eb3ab4f",
+        "historical_summary_equal": true,
+        "limitations": [
+          "Same authored controlled scenarios; no new protected suite or independent evaluation.",
+          "Recorded historical self-application replay is re-read metadata, not new execution.",
+          "Host implementations and cold-restart rollback artifacts are not reconstructed from metadata.",
+          "No exactly-once external action or arbitrary concurrent-writer guarantee."
+        ],
+        "scientific_terminal": "NO_NEW_ADMISSION_OR_PROMOTION",
+        "statistical_followup": {
+          "focused_tests_passed": 32,
+          "foundation_absorption_parity": "NOT_ESTABLISHED",
+          "new_behavior": "Selected output remains UNKNOWN; separately typed OPERATOR_GUARANTEE has scoped revocable support.",
+          "new_tests_red_to_green": 5,
+          "old_behavior": "Population coverage promoted a selected answer to LIVE.",
+          "status": "TYPED_GUARANTEE_OUTPUT_SEPARATION_CORRECTED"
+        },
+        "status": "CONTROLLED_ENGINEERING_REPLAY_ONLY",
+        "summary_delta": {},
+        "validation": {
+          "command": "PYTHONPATH=src python -m pytest -q tests/m2 tests/m4 tests/m11 tests/m12",
+          "compatibility_controls": 2,
+          "new_lifecycle_regressions": 34,
+          "passed": 174,
+          "red_to_green_regressions": 32
+        }
+      },
+      "parents": [
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": true,
+            "target": "6/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "6/6",
+            "solves": true,
+            "target": "6/6"
+          },
+          "scenario": "S0_no_fault_control"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": true,
+            "target": "6/6"
+          },
+          "reflection_retry": {
+            "attempts": 12,
+            "preservation": "6/6",
+            "solves": true,
+            "target": "6/6"
+          },
+          "scenario": "S1_router_fault"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "0/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "0/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S2_operator_fault"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S3_representation_ceiling"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S4_learning_policy"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": true,
+            "target": "6/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "0/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S5_false_structural_alarm"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S6_harmful_jump"
+        },
+        {
+          "parameter_search": {
+            "configurations_tried": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "reflection_retry": {
+            "attempts": 6,
+            "preservation": "6/6",
+            "solves": false,
+            "target": "0/6"
+          },
+          "scenario": "S7_environment_drift"
+        }
+      ],
+      "scenarios": [
+        {
+          "adopted": false,
+          "architecture_alarm": false,
+          "assurance": null,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": null,
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "no failure",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "no_failure": true,
+          "prediction_realised": null,
+          "preservation_after": "6/6",
+          "preservation_before": "6/6",
+          "proposal_class": null,
+          "proposal_cost_meter": 0.0,
+          "rollback_exact": null,
+          "scenario": "S0_no_fault_control",
+          "target_after": "6/6",
+          "target_before": "6/6",
+          "true_layer": "none",
+          "unknown": [],
+          "weights": {}
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": "D1",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D1 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "0/6",
+          "proposal_class": "C1",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S1_router_fault",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D1",
+          "unknown": [
+            "D2",
+            "D3",
+            "D6",
+            "D7"
+          ],
+          "weights": {
+            "D1": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": "D2",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "0/6",
+          "proposal_class": "C2",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S2_operator_fault",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D2",
+          "unknown": [
+            "D3",
+            "D6",
+            "D7"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D2": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": true,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": "D3",
+          "diagnosis_correct": true,
+          "escalation_allowed": true,
+          "escalation_reason": "escalate to D3 under certificate",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "6/6",
+          "proposal_class": "C3",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S3_representation_ceiling",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D3",
+          "unknown": [
+            "D2",
+            "D6",
+            "D7"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D3": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": "D6",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D6 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "6/6",
+          "proposal_class": "C4",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S4_learning_policy",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D6",
+          "unknown": [
+            "D2",
+            "D3",
+            "D7"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D6": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": {
+            "assurance": true,
+            "minimum_sufficient": false,
+            "preservation": "6/6",
+            "reasons": [],
+            "refused": true,
+            "target": "6/6"
+          },
+          "diagnosed": "D2",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "0/6",
+          "proposal_class": "C2",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S5_false_structural_alarm",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D2",
+          "unknown": [
+            "D3",
+            "D6"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D2": 1.0,
+            "D7": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": {
+            "assurance": false,
+            "minimum_sufficient": false,
+            "preservation": "0/6",
+            "reasons": [
+              "preserved_capabilities",
+              "prediction_realised"
+            ],
+            "refused": true,
+            "target": "6/6"
+          },
+          "diagnosed": "D2",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "6/6",
+          "proposal_class": "C2",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S6_harmful_jump",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D2",
+          "unknown": [
+            "D3",
+            "D6"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D2": 1.0,
+            "D7": 1.0
+          }
+        },
+        {
+          "adopted": true,
+          "architecture_alarm": false,
+          "assurance": true,
+          "assurance_reasons": [],
+          "broad_rewrite": null,
+          "diagnosed": "D2",
+          "diagnosis_correct": true,
+          "escalation_allowed": false,
+          "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+          "false_jump": false,
+          "minimum_class_correct": true,
+          "missed_jump": false,
+          "prediction_realised": true,
+          "preservation_after": "6/6",
+          "preservation_before": "6/6",
+          "proposal_class": "C2",
+          "proposal_cost_meter": 1.0,
+          "rollback_exact": true,
+          "scenario": "S7_environment_drift",
+          "target_after": "6/6",
+          "target_before": "0/6",
+          "true_layer": "D2",
+          "unknown": [
+            "D3",
+            "D6",
+            "D7"
+          ],
+          "weights": {
+            "D1": 0.0,
+            "D2": 1.0
+          }
+        }
+      ],
+      "summary": {
+        "adopted": 7,
+        "assurance_passed": 7,
+        "broad_rewrites_offered": 2,
+        "broad_rewrites_refused": 2,
+        "control_no_fault": {
+          "count": 1,
+          "no_proposal_raised": true
+        },
+        "diagnosis_correct": 7,
+        "false_jumps": 0,
+        "minimum_class_correct": 7,
+        "missed_jumps": 0,
+        "ocm_solves": 7,
+        "parent_parameter_search_solves": 2,
+        "parent_reflection_retry_solves": 1,
+        "prediction_realised": 7,
+        "preservation_kept": 7,
+        "rollback_exact": 7,
+        "scenarios": 7,
+        "target_restored": 7
+      }
+    },
+    "scope": "Same authored scenarios; outcome equality does not validate historical input bindings.",
+    "sha256": "e205adb4418a03a2fe430c52bc75802a688eb0d6d09043762b478bb756091229",
+    "status": "REFERENCE_REPLAY_AFTER_RUNTIME_REVISION"
+  },
+  "dependency_aliases": {
+    "docs/provenance/M10_RECEIPT_V1.json": "docs/provenance/runtime_revision_20260905/M10_RECEIPT_RUNTIME_20260905_V1.json"
+  },
+  "historical_artifact_bindings": {
+    "docs/M11_SELF_REORGANISATION_REPORT.md": "d1d17d3f46b551e7a2de58769ebe1b4a0d959b5bec8f78c25e6239f1b6fffe08",
+    "docs/provenance/M10_RECEIPT_V1.json": "7dc26e59595623d5954ffb5a10174a33e582b427d80fbed6bec7925c7ad62545",
+    "docs/theorems/OCM_SELF_OBLIGATION_REGISTRY_V1.json": "2e5370f5fdf001bfdb6db9fa709ae31e1a338e3a85cc4a333a1e533e3088c047",
+    "research/ocm-m11/M11_SELF_EVAL_V1.json": "0626b8b78ce1893e88b3ae3fb77ebc83e352882b3607d848ad7dc3412eb3ab4f"
+  },
+  "historical_reference": {
+    "parent_commit": "f2b83e2849b1afb79c45f12bebc3c929080352c9",
+    "path": "docs/provenance/M11_RECEIPT_V1.json",
+    "sha256": "98660cb3d566a7913be0ac052889141a4a72418c4a67272bce5b5071caf2c3cd",
+    "status": "IMMUTABLE_HISTORICAL_OUTCOME; NOT_PROMOTED_TO_CURRENT_CODE",
+    "terminal_at_that_revision": "M11_MIXED_CLAIM_BY_CLAIM"
+  },
+  "legacy_recipe_recheck": {
+    "matches_historical_payload": true,
+    "payload": {
+      "authority": "controlled self-reorganisation benchmark on OCM-authored planted causes with an oracle ablation channel; recorded replay of the self-application ledger; external adoption only; no novelty claim",
+      "deterministic_results": {
+        "historical_replay_summary": {
+          "escalated_cannot_check": 0,
+          "escalated_rows": 8,
+          "escalated_with_witness": 8,
+          "kind": "RECORDED_REPLAY (outcomes re-read, code not re-executed; layer assignment is the ledger attribution)",
+          "local_layer_rows": 10,
+          "narrow": 18,
+          "rows": 18
+        },
+        "parents": [
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": true,
+              "target": "6/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "6/6",
+              "solves": true,
+              "target": "6/6"
+            },
+            "scenario": "S0_no_fault_control"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": true,
+              "target": "6/6"
+            },
+            "reflection_retry": {
+              "attempts": 12,
+              "preservation": "6/6",
+              "solves": true,
+              "target": "6/6"
+            },
+            "scenario": "S1_router_fault"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "0/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "0/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S2_operator_fault"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S3_representation_ceiling"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S4_learning_policy"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": true,
+              "target": "6/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "0/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S5_false_structural_alarm"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S6_harmful_jump"
+          },
+          {
+            "parameter_search": {
+              "configurations_tried": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "reflection_retry": {
+              "attempts": 6,
+              "preservation": "6/6",
+              "solves": false,
+              "target": "0/6"
+            },
+            "scenario": "S7_environment_drift"
+          }
+        ],
+        "scenarios": [
+          {
+            "adopted": false,
+            "architecture_alarm": false,
+            "assurance": null,
+            "broad_rewrite": null,
+            "diagnosed": null,
+            "escalation_allowed": false,
+            "prediction_realised": null,
+            "preservation_after": "6/6",
+            "preservation_before": "6/6",
+            "proposal_class": null,
+            "rollback_exact": null,
+            "scenario": "S0_no_fault_control",
+            "target_after": "6/6",
+            "target_before": "6/6",
+            "true_layer": "none"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": null,
+            "diagnosed": "D1",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "0/6",
+            "proposal_class": "C1",
+            "rollback_exact": true,
+            "scenario": "S1_router_fault",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D1"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": null,
+            "diagnosed": "D2",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "0/6",
+            "proposal_class": "C2",
+            "rollback_exact": true,
+            "scenario": "S2_operator_fault",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D2"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": true,
+            "assurance": true,
+            "broad_rewrite": null,
+            "diagnosed": "D3",
+            "escalation_allowed": true,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "6/6",
+            "proposal_class": "C3",
+            "rollback_exact": true,
+            "scenario": "S3_representation_ceiling",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D3"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": null,
+            "diagnosed": "D6",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "6/6",
+            "proposal_class": "C4",
+            "rollback_exact": true,
+            "scenario": "S4_learning_policy",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D6"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": {
+              "assurance": true,
+              "minimum_sufficient": false,
+              "preservation": "6/6",
+              "reasons": [],
+              "refused": true,
+              "target": "6/6"
+            },
+            "diagnosed": "D2",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "0/6",
+            "proposal_class": "C2",
+            "rollback_exact": true,
+            "scenario": "S5_false_structural_alarm",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D2"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": {
+              "assurance": false,
+              "minimum_sufficient": false,
+              "preservation": "0/6",
+              "reasons": [
+                "preserved_capabilities",
+                "prediction_realised"
+              ],
+              "refused": true,
+              "target": "6/6"
+            },
+            "diagnosed": "D2",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "6/6",
+            "proposal_class": "C2",
+            "rollback_exact": true,
+            "scenario": "S6_harmful_jump",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D2"
+          },
+          {
+            "adopted": true,
+            "architecture_alarm": false,
+            "assurance": true,
+            "broad_rewrite": null,
+            "diagnosed": "D2",
+            "escalation_allowed": false,
+            "prediction_realised": true,
+            "preservation_after": "6/6",
+            "preservation_before": "6/6",
+            "proposal_class": "C2",
+            "rollback_exact": true,
+            "scenario": "S7_environment_drift",
+            "target_after": "6/6",
+            "target_before": "0/6",
+            "true_layer": "D2"
+          }
+        ],
+        "summary": {
+          "adopted": 7,
+          "assurance_passed": 7,
+          "broad_rewrites_offered": 2,
+          "broad_rewrites_refused": 2,
+          "control_no_fault": {
+            "count": 1,
+            "no_proposal_raised": true
+          },
+          "diagnosis_correct": 7,
+          "false_jumps": 0,
+          "minimum_class_correct": 7,
+          "missed_jumps": 0,
+          "ocm_solves": 7,
+          "parent_parameter_search_solves": 2,
+          "parent_reflection_retry_solves": 1,
+          "prediction_realised": 7,
+          "preservation_kept": 7,
+          "rollback_exact": 7,
+          "scenarios": 7,
+          "target_restored": 7
+        }
+      },
+      "receipt": "M11_RECEIPT_V1",
+      "terminal": "M11_MIXED_CLAIM_BY_CLAIM"
+    },
+    "scope": "Finite checker execution and/or old result reads; not a protected experiment rerun.",
+    "status": "CURRENT_RECIPE_WITH_EXPLICIT_HISTORICAL_ARTIFACT_READS"
+  },
+  "receipt": "M11_RECEIPT_RUNTIME_20260905_V1",
+  "revision": "runtime_revision_20260905",
+  "revision_config": {
+    "path": "docs/provenance/runtime_revision_20260905/REVISION_V1.json",
+    "sha256": "cf8bd8785fb1faa2c60ce7b3d44e5a1e9bb420a0a6b0a6cc93ea392602897e8a"
+  },
+  "schema": "ocm.runtime-successor-receipt.v1",
+  "source_changes": {
+    "src/ocm/chat/session.py": {
+      "at_historical_parent": "04e2291f8ed1153cdf293b10c6c505332d664c8d0bc0428209249ea66ccacb66",
+      "current": "bcb9628b96db93283a04743091115475e2b817919e255ade5a5fd2b29af309fd"
+    },
+    "src/ocm/dialogue/workspace.py": {
+      "at_historical_parent": "1b7b4a696e048d6daaebba0d5b258a8bdf706dc0640e6c8d5eb7ece4071e2cc7",
+      "current": "872b7169e6ec81d2f8cb3628335c686b638c18d645f58bcc847210fe3090dcc0"
+    },
+    "src/ocm/kso/admission.py": {
+      "at_historical_parent": "fc7dd13fc233ad4d6b779248b5bd063c9a1515dbc72c35b21e8a48cd43c67604",
+      "current": "0d1c8b5e89b112597fcd33714fe99a7fcbbd52f725eaa9e09bd0962181f52aab"
+    },
+    "src/ocm/kso/navigation.py": {
+      "at_historical_parent": "b99b667aaa698b58da494863ddc7fa284e6a6a6826e4e662899fda6f106a4923",
+      "current": "47819c3967ae7e12e380b5bbeb73e74e7d29d8c3dd88ffbfcc087c49e9ecdaa2"
+    },
+    "src/ocm/kso/navigation_sparse.py": {
+      "at_historical_parent": "8fc6244ddece9ec6c09c319741ac472544119c86b762098f8b84c13867526aa2",
+      "current": "5b23aad776f02bcaec39c458eda04eaad2856f7833fbd50911abcae861474c88"
+    },
+    "src/ocm/kso/revocation.py": {
+      "at_historical_parent": "6444c3a55932419dcbbeac85357b15991d76ecd72eaca4a461f93983fe2001b4",
+      "current": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543"
+    },
+    "src/ocm/kso/space.py": {
+      "at_historical_parent": "485778a516245d273a565dbf81f697d0b659d2f91f345f653f3a775052b37f42",
+      "current": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd"
+    },
+    "src/ocm/lifetime/phases.py": {
+      "at_historical_parent": "689096ad18d51c0c910bb8d3a313e260f3d38be11ac53b12360469abe5158682",
+      "current": "5afbe9ec9cd2d20dfccb60ce9779cb78eaf2036dc49437b2fa9d584fb0f6efa1"
+    },
+    "src/ocm/operators/__init__.py": {
+      "at_historical_parent": "6a814bfc5f9470d63ecc225e612c1dd1dfe77d153f8a84a2d1ebde75e27fdd9c",
+      "current": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6"
+    },
+    "src/ocm/operators/registry.py": {
+      "at_historical_parent": "e704bc821566f564f3a04edbc5cdae69d9b6e68f88c29e17a81470df567aa568",
+      "current": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f"
+    },
+    "src/ocm/runtime/ocm_runtime.py": {
+      "at_historical_parent": "ee0de5a5a489c03a03b27631eae1708e2d99009acafe043821cc00ef57c9bcc1",
+      "current": "490f8d93ae2a15ae1f62dbd944152aa91ad89258ac07eac5fbca74b35289d046"
+    },
+    "src/ocm/selfmodel/benchmark.py": {
+      "at_historical_parent": "4de70e25fdb515b59397e8136639813377f9bdef498a71505059ae30cec586d9",
+      "current": "dec9b348f34ab2453f7d0f4dcf367c28cac3e4f26ff99a072c7f4d15182af108"
+    },
+    "src/ocm/selfmodel/govern.py": {
+      "at_historical_parent": "3973b9600f5306044da721cf6bdb663c1bbed77ed1e7f266d6b4da62ca53caa9",
+      "current": "65f70250272edfc491aa597bebe300ec3939054556e39b67a31376c3dbc820e0"
+    }
+  },
+  "terminal": "M11_REFERENCE_REVALIDATED__HISTORICAL_ADOPTION_CELLS_REOPENED"
+}

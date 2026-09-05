@@ -19,7 +19,8 @@ from pathlib import Path
 from typing import Any
 
 from ocm.evaluation import stats as ST
-from ocm.evaluation.m12_lifetime_eval import ORDERINGS, WORK, family_vectors, paired, vec
+from ocm.evaluation.m12_lifetime_eval import ORDERINGS, WORK, family_vectors, paired_family, vec
+from ocm.evaluation.output import new_output_path, write_result
 from ocm.lifetime import machine as MC
 from ocm.lifetime import phases as PH
 from ocm.lifetime import streams as SR
@@ -106,25 +107,27 @@ def sign_test_one_sided(diffs: list[float], alpha: float) -> dict[str, Any]:
 def main(argv=None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     v4 = "--v4" in argv
+    manifest_only = "--manifest-only" in argv
+    out_path = new_output_path([a for a in argv if a not in ("--v4", "--manifest-only")],
+        "Current engineering replay on historically exposed streams; new output required")
     seed = V4["seed"] if v4 else "OCM-M12-V3"
     manifest_path, prereg_path, out_default = (V4["manifest"], V4["prereg"], V4["out"]) if v4 else (MANIFEST, PREREG, OUT)
     build = lambda k: SR.build_stream(k, seed=seed, world_true_half=v4)  # noqa: E731
-    if "--manifest-only" in argv:
+    if manifest_only:
         man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name="M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
         leaks = [SR.leak_check(build(k)) for k in range(N_LIFETIMES)]
         man["leak_checks"] = leaks
-        manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        manifest_path.write_text(json.dumps(man, indent=1, default=str) + "\n", encoding="utf-8")
+        write_result(out_path, man)
         print(json.dumps({"manifest_sha256": man["sha256"], "leaks_ok": all(l["ok"] for l in leaks)}))
         return 0
-    out_path = Path(argv[argv.index("--out") + 1]) if "--out" in argv else out_default
     man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name="M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
     runs: dict[str, list[dict]] = {"ocm": [], "whole_system_parent": []}
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         for k in range(N_LIFETIMES):
             stream = build(k)
-            assert stream["sha256"] == man["streams"][k]["sha256"]
+            if stream["sha256"] != man["streams"][k]["sha256"]:
+                raise ValueError("stream identity mismatch")
             for arm in runs:
                 runs[arm].append(run_lifetime(arm, stream, root))
     scores = {arm: [lifetime_scores(r) for r in rs] for arm, rs in runs.items()}
@@ -142,7 +145,18 @@ def main(argv=None) -> int:
             tests[fam] = {**base, "role": role, "alpha": alpha, **st}
         else:
             tests[fam] = {**base, **sign_test(diffs)}
-    within = {fam: [{"lifetime": k, **{kk: vv for kk, vv in ST.tost_equivalence(paired(family_vectors(runs["ocm"][k])[fam], family_vectors(runs["whole_system_parent"][k])[fam]), 0.05).items() if kk in ("verdict", "p_mcnemar", "n")}} for k in range(N_LIFETIMES) if family_vectors(runs["ocm"][k])[fam]] for fam in family_vectors(runs["ocm"][0])}
+    within = {}
+    for fam in family_vectors(runs["ocm"][0]):
+        within[fam] = []
+        for k in range(N_LIFETIMES):
+            try:
+                pair = paired_family(runs["ocm"][k], runs["whole_system_parent"][k], fam)
+                row = {kk: vv for kk, vv in ST.tost_equivalence(pair, 0.05).items() if kk in ("verdict", "p_mcnemar", "n")}
+            except ValueError as exc:
+                row = {"verdict": "CANNOT_CHECK", "reason": str(exc)}
+            within[fam].append({"lifetime": k, **row})
+        if any(row["verdict"] == "CANNOT_CHECK" for row in within[fam]):
+            tests[fam]["verdict"] = "CANNOT_CHECK_MATCHED_CASES"
     gates = {"identity_chain_broken": sum(1 for r in runs["ocm"] if not r["chain_continuous"]), "protected_exposure": sum(int(r["information"].get("protected_exposure", 0) or 0) for rs in runs.values() for r in rs), "external_io": sum(int(r["resources"].get("external_io", 0) or 0) for rs in runs.values() for r in rs),
              "live_on_revoked_after_F": sum(1 for r in runs["ocm"] if r["phases"]["F"].get("work", {}).get("ran_dead_skill")), "missing_phase_outcomes": sum(1 for rs in runs.values() for r in rs if len(r["phases"]) != 8), "stream_leaks": sum(1 for k in range(N_LIFETIMES) if not SR.leak_check(build(k))["ok"])}
     gates["hits"] = sum(gates.values())
@@ -160,12 +174,13 @@ def main(argv=None) -> int:
     if v4:
         deterministic["secondary_rejections"] = secondaries
         deterministic["collapsed_one_coin_families"] = [f for f, t_ in tests.items() if t_.get("collapsed_one_coin")]
-    out = {"receipt": "M12_PAIRED_LIFETIMES_EVAL_V4" if v4 else "M12_PAIRED_LIFETIMES_EVAL_V1", "study_status": "PROTECTED (pre-registration frozen with the stream-manifest hash before this run)", "preregistration_sha256": hashlib.sha256(prereg_path.read_bytes()).hexdigest() if prereg_path.exists() else None, "stream_manifest_sha256": man["sha256"], "lifetimes": N_LIFETIMES,
+    deterministic["historical_rule_diagnostic"] = deterministic["decision"]
+    deterministic["decision"] = "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+    out = {"receipt": "M12_PAIRED_LIFETIMES_ENGINEERING_REPLAY", "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "preregistration_sha256": hashlib.sha256(prereg_path.read_bytes()).hexdigest() if prereg_path.exists() else None, "stream_manifest_sha256": man["sha256"], "lifetimes": N_LIFETIMES,
            "deterministic": deterministic, "phases": {arm: [r["phases"] for r in rs] for arm, rs in runs.items()}, "chains": [r["chain"] for r in runs["ocm"]], "information": {arm: [r["information"] for r in rs] for arm, rs in runs.items()}, "resources": {arm: [r["resources"] for r in rs] for arm, rs in runs.items()},
            "rule": rule, "authority": "eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched whole-system parent; no novelty claim"}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, indent=1, default=str) + "\n", encoding="utf-8")
-    print(json.dumps({"decision": decision, "gates": gates, "tests": {f: (t_["ocm_mean"], t_["parent_mean"], t_["positive"], t_["n_nonzero"], t_.get("p_one_sided", t_.get("p_two_sided")), t_["verdict"]) for f, t_ in tests.items()}}, indent=1))
+    write_result(out_path, out)
+    print(json.dumps({"decision": deterministic["decision"], "gates": gates, "tests": {f: (t_["ocm_mean"], t_["parent_mean"], t_["positive"], t_["n_nonzero"], t_.get("p_one_sided", t_.get("p_two_sided")), t_["verdict"]) for f, t_ in tests.items()}}, indent=1))
     return 0
 
 

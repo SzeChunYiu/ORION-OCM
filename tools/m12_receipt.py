@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate or verify docs/provenance/M12_RECEIPT_V1.json.
-    python tools/m12_receipt.py            # (re)generate
-    python tools/m12_receipt.py --verify   # exit 1 on drift of bound files or deterministic results
+"""Verify the active runtime successor; preserve historical M12_RECEIPT_V1.json.
+    python tools/m12_receipt.py --write-current  # create declared successor; never overwrite history
+    python tools/m12_receipt.py --verify         # verify active successor; no historical fallback
 Binds: the lifetime modules, the evaluation, both pre-registrations, the V1 (DEV_CALIBRATION) and
 V2 (PROTECTED) receipts, the replication receipt, the M11 receipt, the registry and the report;
 records the V2 deterministic block.  No claim.
@@ -46,24 +46,9 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    new = fresh()
-    if "--verify" in argv:
-        if not RECEIPT.exists():
-            print("MISSING receipt", RECEIPT)
-            return 1
-        old = json.loads(RECEIPT.read_text(encoding="utf-8"))
-        drift = [rel for rel, digest in new["bound_files"].items() if old["bound_files"].get(rel) != digest]
-        if old["deterministic_results"] != new["deterministic_results"]:
-            drift.append("deterministic_results")
-        if drift:
-            print("DRIFT:", drift)
-            return 1
-        print("M12 receipt verified; bound files:", len(new["bound_files"]))
-        return 0
-    RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print("wrote", RECEIPT)
-    return 0
+    from runtime_revision_receipts_v4 import revision_main
 
+    return revision_main(ROOT, argv, 12)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

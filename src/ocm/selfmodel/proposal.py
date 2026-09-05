@@ -83,7 +83,21 @@ class SelfChangeProposal:
         return self.change_class is not ChangeClass.C6_CONSTITUTION
 
     def fingerprint(self) -> str:
-        return hashlib.sha256(json.dumps({"id": self.proposal_id, "v": self.version, "target": self.target_component, "class": self.change_class.value, "change": self.change, "pred": self.prediction.digest(), "incumbent": self.incumbent_fingerprint}, sort_keys=True, default=str).encode()).hexdigest()[:16]
+        # The external decision binds the complete declarative contract. The
+        # host-supplied apply callback is deliberately not a code-identity proof.
+        contract = {
+            "schema": "ocm.self_change.declarative.v2", "id": self.proposal_id,
+            "v": self.version, "trigger_evidence": self.trigger_evidence,
+            "target": self.target_component, "target_layer": self.target_layer,
+            "class": self.change_class.value, "change": self.change,
+            "pred": self.prediction.digest(), "incumbent": self.incumbent_fingerprint,
+            "preserved": self.preserved_capabilities, "reopened": self.reopened_capabilities,
+            "discriminator": self.discriminator, "rollback_plan": self.rollback_plan,
+            "scope": self.scope, "expiry": self.expiry, "origin": self.origin.value,
+            "origin_ref": self.origin_ref, "dev_tasks": self.dev_tasks,
+            "authority": self.authority.as_dict(), "implementation_identity": "HOST_SUPPLIED_UNVERIFIED",
+        }
+        return hashlib.sha256(json.dumps(contract, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
 def minimum_class_for(layer: str) -> ChangeClass:

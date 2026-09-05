@@ -1,0 +1,641 @@
+{
+ "version": "M11_ENGINEERING_REPLAY_V3",
+ "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS",
+ "summary": {
+  "scenarios": 7,
+  "control_no_fault": {
+   "count": 1,
+   "no_proposal_raised": true
+  },
+  "diagnosis_correct": 7,
+  "minimum_class_correct": 7,
+  "false_jumps": 0,
+  "missed_jumps": 0,
+  "assurance_passed": 7,
+  "adopted": 7,
+  "target_restored": 7,
+  "preservation_kept": 7,
+  "rollback_exact": 7,
+  "broad_rewrites_refused": 2,
+  "broad_rewrites_offered": 2,
+  "prediction_realised": 7,
+  "parent_parameter_search_solves": 2,
+  "parent_reflection_retry_solves": 1,
+  "ocm_solves": 7
+ },
+ "scenarios": [
+  {
+   "scenario": "S0_no_fault_control",
+   "true_layer": "none",
+   "diagnosed": null,
+   "diagnosis_correct": true,
+   "weights": {},
+   "unknown": [],
+   "escalation_allowed": false,
+   "escalation_reason": "no failure",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": null,
+   "minimum_class_correct": true,
+   "assurance": null,
+   "assurance_reasons": [],
+   "adopted": false,
+   "target_before": "6/6",
+   "target_after": "6/6",
+   "preservation_before": "6/6",
+   "preservation_after": "6/6",
+   "rollback_exact": null,
+   "broad_rewrite": null,
+   "prediction_realised": null,
+   "proposal_cost_meter": 0.0,
+   "no_failure": true
+  },
+  {
+   "scenario": "S1_router_fault",
+   "true_layer": "D1",
+   "diagnosed": "D1",
+   "diagnosis_correct": true,
+   "weights": {
+    "D1": 1.0
+   },
+   "unknown": [
+    "D2",
+    "D3",
+    "D6",
+    "D7"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D1 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C1",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "0/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": null,
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S2_operator_fault",
+   "true_layer": "D2",
+   "diagnosed": "D2",
+   "diagnosis_correct": true,
+   "weights": {
+    "D2": 1.0,
+    "D1": 0.0
+   },
+   "unknown": [
+    "D3",
+    "D6",
+    "D7"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C2",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "0/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": null,
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S3_representation_ceiling",
+   "true_layer": "D3",
+   "diagnosed": "D3",
+   "diagnosis_correct": true,
+   "weights": {
+    "D3": 1.0,
+    "D1": 0.0
+   },
+   "unknown": [
+    "D2",
+    "D6",
+    "D7"
+   ],
+   "escalation_allowed": true,
+   "escalation_reason": "escalate to D3 under certificate",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": true,
+   "proposal_class": "C3",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "6/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": null,
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S4_learning_policy",
+   "true_layer": "D6",
+   "diagnosed": "D6",
+   "diagnosis_correct": true,
+   "weights": {
+    "D6": 1.0,
+    "D1": 0.0
+   },
+   "unknown": [
+    "D2",
+    "D3",
+    "D7"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D6 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C4",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "6/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": null,
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S5_false_structural_alarm",
+   "true_layer": "D2",
+   "diagnosed": "D2",
+   "diagnosis_correct": true,
+   "weights": {
+    "D2": 1.0,
+    "D1": 0.0,
+    "D7": 1.0
+   },
+   "unknown": [
+    "D3",
+    "D6"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C2",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "0/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": {
+    "assurance": true,
+    "reasons": [],
+    "minimum_sufficient": false,
+    "target": "6/6",
+    "preservation": "6/6",
+    "refused": true
+   },
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S6_harmful_jump",
+   "true_layer": "D2",
+   "diagnosed": "D2",
+   "diagnosis_correct": true,
+   "weights": {
+    "D2": 1.0,
+    "D1": 0.0,
+    "D7": 1.0
+   },
+   "unknown": [
+    "D3",
+    "D6"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C2",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "6/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": {
+    "assurance": false,
+    "reasons": [
+     "preserved_capabilities",
+     "prediction_realised"
+    ],
+    "minimum_sufficient": false,
+    "target": "6/6",
+    "preservation": "0/6",
+    "refused": true
+   },
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  },
+  {
+   "scenario": "S7_environment_drift",
+   "true_layer": "D2",
+   "diagnosed": "D2",
+   "diagnosis_correct": true,
+   "weights": {
+    "D2": 1.0,
+    "D1": 0.0
+   },
+   "unknown": [
+    "D3",
+    "D6",
+    "D7"
+   ],
+   "escalation_allowed": false,
+   "escalation_reason": "minimum-sufficient layer D2 is local: repair there",
+   "false_jump": false,
+   "missed_jump": false,
+   "architecture_alarm": false,
+   "proposal_class": "C2",
+   "minimum_class_correct": true,
+   "assurance": true,
+   "assurance_reasons": [],
+   "adopted": true,
+   "target_before": "0/6",
+   "target_after": "6/6",
+   "preservation_before": "6/6",
+   "preservation_after": "6/6",
+   "rollback_exact": true,
+   "broad_rewrite": null,
+   "prediction_realised": true,
+   "proposal_cost_meter": 1.0
+  }
+ ],
+ "parents": [
+  {
+   "scenario": "S0_no_fault_control",
+   "parameter_search": {
+    "target": "6/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": true
+   },
+   "reflection_retry": {
+    "target": "6/6",
+    "preservation": "6/6",
+    "attempts": 6,
+    "solves": true
+   }
+  },
+  {
+   "scenario": "S1_router_fault",
+   "parameter_search": {
+    "target": "6/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": true
+   },
+   "reflection_retry": {
+    "target": "6/6",
+    "preservation": "6/6",
+    "attempts": 12,
+    "solves": true
+   }
+  },
+  {
+   "scenario": "S2_operator_fault",
+   "parameter_search": {
+    "target": "0/6",
+    "preservation": "0/6",
+    "configurations_tried": 6,
+    "solves": false
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "0/6",
+    "attempts": 6,
+    "solves": false
+   }
+  },
+  {
+   "scenario": "S3_representation_ceiling",
+   "parameter_search": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": false
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "attempts": 6,
+    "solves": false
+   }
+  },
+  {
+   "scenario": "S4_learning_policy",
+   "parameter_search": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": false
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "attempts": 6,
+    "solves": false
+   }
+  },
+  {
+   "scenario": "S5_false_structural_alarm",
+   "parameter_search": {
+    "target": "6/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": true
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "0/6",
+    "attempts": 6,
+    "solves": false
+   }
+  },
+  {
+   "scenario": "S6_harmful_jump",
+   "parameter_search": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": false
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "attempts": 6,
+    "solves": false
+   }
+  },
+  {
+   "scenario": "S7_environment_drift",
+   "parameter_search": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "configurations_tried": 6,
+    "solves": false
+   },
+   "reflection_retry": {
+    "target": "0/6",
+    "preservation": "6/6",
+    "attempts": 6,
+    "solves": false
+   }
+  }
+ ],
+ "historical_replay": {
+  "summary": {
+   "rows": 18,
+   "narrow": 18,
+   "local_layer_rows": 10,
+   "escalated_rows": 8,
+   "escalated_with_witness": 8,
+   "escalated_cannot_check": 0,
+   "kind": "RECORDED_REPLAY (outcomes re-read, code not re-executed; layer assignment is the ledger attribution)"
+  },
+  "rows": [
+   {
+    "row": "S11",
+    "module": "M3 interpretation",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "the construction under-specified its slot (requires/forbids), not the morphology"
+   },
+   {
+    "row": "S12",
+    "module": "M3 morphology",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "override predicate keyed on the token instead of the lemma"
+   },
+   {
+    "row": "S13",
+    "module": "M3 evaluation",
+    "attributed_layer": "D3",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "the construction grammar lacked recursion"
+   },
+   {
+    "row": "S14",
+    "module": "M3 evaluation tooling",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "no freshness binding between run and receipt file (stale receipt read as a result)"
+   },
+   {
+    "row": "S15",
+    "module": "M4 correction",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "supersession target chosen by recency instead of proposition identity"
+   },
+   {
+    "row": "S16",
+    "module": "M4 clarification",
+    "attributed_layer": "D3",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "value defined as a cardinality instead of an expectation"
+   },
+   {
+    "row": "S17",
+    "module": "M5 regime E1",
+    "attributed_layer": "D4",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "the regime's information design"
+   },
+   {
+    "row": "S18",
+    "module": "M6 gate",
+    "attributed_layer": "D5",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "the gate's layer vocabulary lagged the planner's"
+   },
+   {
+    "row": "S19",
+    "module": "M6 question forms",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "a registered question form under-specified its determiner handling"
+   },
+   {
+    "row": "S20",
+    "module": "M2 solve loop",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "the enabled set computed by fire_stage was discarded"
+   },
+   {
+    "row": "S21",
+    "module": "M4 promotion",
+    "attributed_layer": "D3",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "admit_evidence had no way to admit derived evidence"
+   },
+   {
+    "row": "S22",
+    "module": "M7 negative-transfer probe",
+    "attributed_layer": "D1",
+    "shipped_class": "C1",
+    "minimum_class": "C1",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "the session treated the pending question as blocking"
+   },
+   {
+    "row": "S23",
+    "module": "M7 factual suite",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "contradiction by object difference is wrong for non-functional relations"
+   },
+   {
+    "row": "S24",
+    "module": "M7 post-deployment relearn",
+    "attributed_layer": "D3",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "a lesson event lacked a turn stamp"
+   },
+   {
+    "row": "S25",
+    "module": "M8 cross-scale navigation",
+    "attributed_layer": "D2",
+    "shipped_class": "C2",
+    "minimum_class": "C2",
+    "narrow": true,
+    "local": true,
+    "escalation_witness": null,
+    "attribution": "entry points defined by region membership"
+   },
+   {
+    "row": "S26",
+    "module": "M8 language stream",
+    "attributed_layer": "D3",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "retrieval stream modelled with warrant semantics"
+   },
+   {
+    "row": "S27",
+    "module": "M9 comparators",
+    "attributed_layer": "D4",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "information/discipline accounting, not the mechanism"
+   },
+   {
+    "row": "S28",
+    "module": "M2.1 / M7 statistics",
+    "attributed_layer": "D4",
+    "shipped_class": "C3",
+    "minimum_class": "C3",
+    "narrow": true,
+    "local": false,
+    "escalation_witness": "WITNESSED",
+    "attribution": "pre-registered rule without an explicit scale"
+   }
+  ]
+ },
+ "notes": [
+  "target = outage cases, preservation = non-outage cases (oracle-built from protected hidden state; the machine never reads it)",
+  "the ablation channel is available to the self-model only; parents search configurations or retry skills",
+  "n = 7 scenarios: any rate is descriptive; SUPPORTED/REFUTED terminals need the pre-registered n (see report)"
+ ]
+}

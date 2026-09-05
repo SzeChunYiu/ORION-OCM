@@ -37,7 +37,7 @@ class CertificateKind(str, Enum):
 
 
 WARRANTING_KINDS = frozenset(k for k in CertificateKind if k is not CertificateKind.FEEDBACK)
-EXACT_ADMISSION_MAX_ATOMS = 200  # above this the admission reachability check uses the sparse solver (KS-T32)
+EXACT_ADMISSION_MAX_ATOMS = 200  # above this use exact positive matrix support (KS-T05)
 INHERITED_KINDS = frozenset(
     {
         CertificateKind.INSTRUCTION,
@@ -63,18 +63,17 @@ class AdmissionReceipt:
 
 def semantically_connected(ks: KnowledgeSpace, atom_id: str, revoked: Iterable[Hashable] = ()) -> bool:
     """KS-T08: a live, non-quarantined atom must touch a live typed relation with a live peer."""
-    amap = ks.atom_map()
-    atom = amap[atom_id]
+    atom = ks.atom(atom_id)
     if atom.quarantined:
         return True
     rv = frozenset(revoked)
     if not atom.is_live(rv):
         return True
-    for e in ks.hyperedges:
-        if atom_id not in e.incident or not e.warrant.is_live(rv):
+    for e in ks.incident_edges(atom_id):
+        if not e.warrant.is_live(rv):
             continue
         peers = e.incident - {atom_id}
-        if any(amap[p].is_live(rv) for p in peers):
+        if any(ks.atom(p).is_live(rv) for p in peers):
             return True
     return False
 
@@ -89,7 +88,9 @@ def admit(
     revoked: Iterable[Hashable] = (),
 ) -> tuple[KnowledgeSpace, AdmissionReceipt]:
     certificate = CertificateKind(certificate)
-    if atom.atom_id in ks.ids:
+    rv = frozenset(revoked)
+    existing = ks.atom_map()
+    if atom.atom_id in existing:
         raise TypedRejection("DUPLICATE_ATOM", atom.atom_id)
     if atom.scope.is_empty:
         raise TypedRejection("SCOPE_EMPTY", atom.atom_id)
@@ -111,7 +112,7 @@ def admit(
         raise TypedRejection("UNREGISTERED_ATOM_TYPE", atom.atom_type)
     # KS-S2 at admission: a COMPOSITION edge whose head is the new atom must carry the composite
     # warrant (bridge ⊗ tails) — otherwise the new atom would mint warrant the composition denies.
-    amap = ks.atom_map()
+    amap = existing
     for e in edges:
         if e.relation_type == "COMPOSITION" and atom.atom_id in e.heads and warranted:
             expected = meet_all_profiles([e.warrant, *(amap[t].warrant for t in e.tails if t in amap)])
@@ -120,20 +121,22 @@ def admit(
     new = ks.with_atoms(atom).with_edges(*edges)
     reachable = True
     if not atom.quarantined:
-        if not semantically_connected(new, atom.atom_id, revoked):
+        if not semantically_connected(new, atom.atom_id, rv):
             raise TypedRejection("ISOLATED_ATOM_REJECTED", atom.atom_id)
         if atom.atom_id not in ungated_closure(new, ks.ids):
             raise TypedRejection("UNREACHABLE_BY_NAVIGATION", atom.atom_id)
         if warranted:
-            seed = [Fraction(1, len(ks.ids)) if x in ks.ids else Fraction(0, 1) for x in new.ids]
+            # Membership in a tuple (and rebuilding ``ids``) here made admission quadratic.
+            # Reuse the existing atom lookup and one immutable rational seed mass.
+            mass = Fraction(1, len(existing)) if existing else Fraction(0, 1)
+            seed = [mass if x in existing else Fraction(0, 1) for x in new.ids]
             if len(new.ids) <= EXACT_ADMISSION_MAX_ATOMS:
-                act = fixed_point(new, seed, alpha, revoked=revoked)
+                act = fixed_point(new, seed, alpha, revoked=rv)
                 reachable = act[atom.atom_id] > 0
-            else:  # scale path: sparse float iteration (KS-T32); positivity is what is asked, not the value
-                from .navigation_sparse import sparse_activation
+            else:  # an existence decision must not depend on float underflow or a tolerance
+                from .navigation import positive_activation_support
 
-                act_f, _, _ = sparse_activation(new, seed, float(alpha), revoked=revoked, tol=1e-12)
-                reachable = act_f[atom.atom_id] > 0.0
+                reachable = atom.atom_id in positive_activation_support(new, seed, alpha, revoked=rv)
             if not reachable:
                 raise TypedRejection("UNREACHABLE_BY_NAVIGATION", atom.atom_id)
     res = ResourceVector(object_count=1, relation_count=len(edges), update_work=1 + len(edges), navigation_work=len(new.ids) ** 2)

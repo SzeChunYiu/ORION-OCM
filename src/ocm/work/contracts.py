@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from copy import deepcopy
 from enum import Enum
 from typing import Any, Callable, Hashable, Iterable, Mapping, Sequence
 
@@ -76,6 +77,7 @@ class StepOutcome(str, Enum):
     CHECK_FAILED = "CHECK_FAILED"
     FORBIDDEN = "FORBIDDEN"
     UNAUTHORIZED = "UNAUTHORIZED"
+    CANNOT_CHECK = "CANNOT_CHECK"
 
 
 @dataclass(frozen=True)
@@ -92,13 +94,27 @@ def apply_operator(op: Operator, state: dict[str, Any], contract: TaskContract) 
         return state, Step(op.operator_id, StepOutcome.FORBIDDEN)
     if not (op.authority <= contract.authority):
         return state, Step(op.operator_id, StepOutcome.UNAUTHORIZED)
-    if not op.preconditions(state):
-        return state, Step(op.operator_id, StepOutcome.PRECONDITION_FAILED)
     try:
-        new = op.backend(dict(state))
+        precondition = op.preconditions(deepcopy(state))
+        if type(precondition) is not bool:
+            return state, Step(op.operator_id, StepOutcome.CANNOT_CHECK, "precondition returned no boolean verdict")
+        if not precondition:
+            return state, Step(op.operator_id, StepOutcome.PRECONDITION_FAILED)
+    except Exception as exc:
+        return state, Step(op.operator_id, StepOutcome.CANNOT_CHECK, f"precondition unavailable: {type(exc).__name__}")
+    try:
+        new = op.backend(deepcopy(state))
     except Exception as exc:  # noqa: BLE001
         return state, Step(op.operator_id, StepOutcome.BACKEND_FAILED, f"{type(exc).__name__}: {exc}")
-    if not op.checker(new):
+    if type(new) is not dict:
+        return state, Step(op.operator_id, StepOutcome.BACKEND_FAILED, "backend returned no state")
+    try:
+        checked = op.checker(deepcopy(new))
+        if type(checked) is not bool:
+            return state, Step(op.operator_id, StepOutcome.CANNOT_CHECK, "checker returned no boolean verdict")
+    except Exception as exc:
+        return state, Step(op.operator_id, StepOutcome.CANNOT_CHECK, f"checker unavailable: {type(exc).__name__}")
+    if not checked:
         return state, Step(op.operator_id, StepOutcome.CHECK_FAILED)
     return new, Step(op.operator_id, StepOutcome.APPLIED)
 

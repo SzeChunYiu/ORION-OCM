@@ -1,0 +1,70 @@
+..........F.F...........F.F.............................                 [100%]
+=================================== FAILURES ===================================
+_ test_typo_questions_are_conditional_answers_with_original_input[is pars in france] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-88/test_typo_questions_are_condit2')
+text = 'is pars in france'
+
+    @pytest.mark.parametrize("text", ["is parsi in france", "is pariss in france", "is pars in france", "is pariz in france", "iz paris in france"])
+    def test_typo_questions_are_conditional_answers_with_original_input(tmp_path, text):
+        s = ChatSession(tmp_path)
+        reply = s.say(text)
+>       assert "Assuming you meant" in reply and "Yes." in reply
+E       assert ('Assuming you meant' in "Did you mean 'is mars in france' or 'is paris in france'? Please write the intended sentence.")
+
+tests/m6/test_chat_learning_spelling_v4.py:14: AssertionError
+_ test_typo_questions_are_conditional_answers_with_original_input[iz paris in france] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-88/test_typo_questions_are_condit4')
+text = 'iz paris in france'
+
+    @pytest.mark.parametrize("text", ["is parsi in france", "is pariss in france", "is pars in france", "is pariz in france", "iz paris in france"])
+    def test_typo_questions_are_conditional_answers_with_original_input(tmp_path, text):
+        s = ChatSession(tmp_path)
+        reply = s.say(text)
+>       assert "Assuming you meant" in reply and "Yes." in reply
+E       AssertionError: assert ('Assuming you meant' in 'I cannot interpret this yet (UNKNOWN_LEXEME). Show me what it means. (say: teach: <word> = <concept>, or teach: construction <utterance> => <agent> <verb> <patient>)')
+
+tests/m6/test_chat_learning_spelling_v4.py:14: AssertionError
+_________ test_new_knowledge_survives_restart_and_remains_user_report __________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-88/test_new_knowledge_survives_re0')
+
+    def test_new_knowledge_survives_restart_and_remains_user_report(tmp_path):
+        s = ChatSession(tmp_path)
+        assert "not independently verified" in s.say("remember: mira is a botanist")
+        evidence = s.traces[-1].warrant_ids[0]
+        s = ChatSession(tmp_path)
+        reply = s.say("is mira a botanist")
+        assert "source" in reply.lower() and "not verified" in reply and not reply.startswith("Yes")
+        s.say("revoke " + evidence)
+>       assert "not know" in s.say("is mira a botanist").lower()
+E       assert 'not know' in "i used to have support for 'mira is a botanist', but it was revoked; i do not assert it now."
+E        +  where "i used to have support for 'mira is a botanist', but it was revoked; i do not assert it now." = <built-in method lower of str object at 0x7fdd40159e90>()
+E        +    where <built-in method lower of str object at 0x7fdd40159e90> = "I used to have support for 'mira is a botanist', but it was revoked; I do not assert it now.".lower
+E        +      where "I used to have support for 'mira is a botanist', but it was revoked; I do not assert it now." = say('is mira a botanist')
+E        +        where say = ChatSession(root=PosixPath('/tmp/pytest-of-root/pytest-88/test_new_knowledge_survives_re0'), conversation_id='alpha', ...ath('/tmp/pytest-of-root/pytest-88/test_new_knowledge_survives_re0/learned.json'), pending_spelling=(), input_guess={}).say
+
+tests/m6/test_chat_learning_spelling_v4.py:55: AssertionError
+____________ test_dead_lexical_support_is_not_restored_by_spelling _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-88/test_dead_lexical_support_is_n0')
+
+    def test_dead_lexical_support_is_not_restored_by_spelling(tmp_path):
+        s = ChatSession(tmp_path)
+        s.say("teach: lantern = lamp")
+        eid = s.traces[-1].warrant_ids[0]
+>       assert propose("the lantner", s.dialogue.lexicon).candidates
+E       AssertionError: assert ()
+E        +  where () = InputHypotheses(original='the lantner', candidates=(), edits=(), status='UNCHANGED').candidates
+E        +    where InputHypotheses(original='the lantner', candidates=(), edits=(), status='UNCHANGED') = propose('the lantner', Lexicon(lexemes={'the|D': Lexeme(lemma='the', category=<Category.DET: 'D'>, senses=(), features=(), warrant=WarrantPro...zenset({'ev:chat:see-past-participle-v1'}),)), scope=Scope(contexts=None, epoch=(0, inf)), lemmas=frozenset({'see'}))]))
+E        +      where Lexicon(lexemes={'the|D': Lexeme(lemma='the', category=<Category.DET: 'D'>, senses=(), features=(), warrant=WarrantPro...zenset({'ev:chat:see-past-participle-v1'}),)), scope=Scope(contexts=None, epoch=(0, inf)), lemmas=frozenset({'see'}))]) = DialogueRuntime(runtime=<ocm.runtime.ocm_runtime.OCMRuntime object at 0x7fdd3ff30230>, lexicon=Lexicon(lexemes={'the|D...ferences={}, assumptions=[], machine_commitments=[], _counter=0), pending={}, asked=[], families={}, demonstrations={}).lexicon
+E        +        where DialogueRuntime(runtime=<ocm.runtime.ocm_runtime.OCMRuntime object at 0x7fdd3ff30230>, lexicon=Lexicon(lexemes={'the|D...ferences={}, assumptions=[], machine_commitments=[], _counter=0), pending={}, asked=[], families={}, demonstrations={}) = ChatSession(root=PosixPath('/tmp/pytest-of-root/pytest-88/test_dead_lexical_support_is_n0'), conversation_id='alpha', ...ath('/tmp/pytest-of-root/pytest-88/test_dead_lexical_support_is_n0/learned.json'), pending_spelling=(), input_guess={}).dialogue
+
+tests/m6/test_chat_learning_spelling_v4.py:78: AssertionError
+=========================== short test summary info ============================
+FAILED tests/m6/test_chat_learning_spelling_v4.py::test_typo_questions_are_conditional_answers_with_original_input[is pars in france]
+FAILED tests/m6/test_chat_learning_spelling_v4.py::test_typo_questions_are_conditional_answers_with_original_input[iz paris in france]
+FAILED tests/m6/test_chat_learning_spelling_v4.py::test_new_knowledge_survives_restart_and_remains_user_report
+FAILED tests/m6/test_chat_learning_spelling_v4.py::test_dead_lexical_support_is_not_restored_by_spelling
+4 failed, 52 passed in 16.20s

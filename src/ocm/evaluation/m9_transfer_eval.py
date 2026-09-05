@@ -233,7 +233,7 @@ def transfer_matrix(arm: OCMArm) -> dict[str, Any]:
 
 def run() -> dict[str, Any]:
     arms = {"ocm": lambda: OCMArm(), "ocm-no_transfer": lambda: OCMArm(use_transfer=False), "ocm-no_router": lambda: OCMArm(use_router=False), "fresh_start": lambda: FreshStartArm(True), "fresh_start_unvalidated(not matched)": lambda: FreshStartArm(False), "trajectory_memory": TrajectoryMemoryArm, "skill_library": SkillLibraryArm}
-    out: dict[str, Any] = {"receipt": "M9_TRANSFER_EVAL_V2", "study_status": "PROTECTED (V1 = DEV_CALIBRATION: the fresh-start comparator skipped the withheld acceptance every other arm pays; matched in V2, ledger S27)", "orderings": {}, "transfer_matrix": None, "external_benchmarks": {"WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)", "CRMArena-Pro": "CANNOT_CHECK", "TUA-Bench": "CANNOT_CHECK", "SWE-bench Verified": "CANNOT_CHECK", "TheAgentCompany": "CANNOT_CHECK"}}
+    out: dict[str, Any] = {"receipt": "M9_TRANSFER_EVAL_V2", "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "orderings": {}, "transfer_matrix": None, "external_benchmarks": {"WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)", "CRMArena-Pro": "CANNOT_CHECK", "TUA-Bench": "CANNOT_CHECK", "SWE-bench Verified": "CANNOT_CHECK", "TheAgentCompany": "CANNOT_CHECK"}}
     t0 = time.perf_counter()
     for oname, order in ORDERINGS.items():
         out["orderings"][oname] = {}
@@ -253,7 +253,7 @@ def run() -> dict[str, Any]:
         summary[aname] = {"success": f"{succ}/{tasks}", "mean_later_domain_acquisition_cost": round(sum(later) / len(later), 2) if later else None, "later_routes": sorted(set(routes)), "unauthorized_attempts": unauth}
     out["summary"] = summary
     # transfer precision for the OCM arm: transfers attempted vs beneficial (success on the domain)
-    tp = [(d["route"] == "TRANSFER", d["success"] == d["tasks"]) for o in out["orderings"].values() for d in out["orderings"][next(iter(out["orderings"]))]["ocm"]["domains"][1:]]
+    tp = [(d["route"] == "TRANSFER", d["success"] == d["tasks"]) for o in out["orderings"].values() for d in o["ocm"]["domains"][1:]]
     attempted = [b for a, b in tp if a]
     out["transfer_precision"] = {"attempted": len(attempted), "beneficial": sum(attempted), "precision": (sum(attempted) / len(attempted)) if attempted else None}
     # paired comparison on task success across orderings (pre-registered δ = 0.05)
@@ -261,8 +261,8 @@ def run() -> dict[str, Any]:
     for other in ("fresh_start", "trajectory_memory", "skill_library", "ocm-no_transfer"):
         oth = [d["success"] == d["tasks"] for o in out["orderings"].values() for d in o[other]["domains"]]
         n = len(ocm)
-        cmp = ST.PairedComparison(n, sum(ocm), sum(oth), sum(1 for a, b in zip(ocm, oth) if a and not b), sum(1 for a, b in zip(ocm, oth) if b and not a))
-        out.setdefault("claims", {})[other] = {"n": n, **ST.tost_equivalence(cmp, 0.05)}
+        cmp = ST.paired(ocm, oth)
+        out.setdefault("claims", {})[other] = {"n": n, **ST.tost_equivalence(cmp, 0.05), "inference_scope": "DESCRIPTIVE_AUTHOR_DEFINED_REPEATED_ORDERINGS"}
     out["wall_s"] = round(time.perf_counter() - t0, 3)
     out["authority"] = "OCM-authored self-contained environments with exact oracle state; matched arms receive the same demonstrations and budgets; external agent benchmarks CANNOT_CHECK; no novelty claim"
     return out
@@ -274,7 +274,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({"summary": r["summary"], "transfer_matrix": r["transfer_matrix"], "transfer_precision": r["transfer_precision"], "claims": {k: v["verdict"] for k, v in r.get("claims", {}).items()}}, indent=1))
     return 0
 

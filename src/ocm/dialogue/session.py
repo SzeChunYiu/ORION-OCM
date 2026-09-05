@@ -12,7 +12,7 @@ workspace file plus the runtime ledger reconstruct the session after restart (`D
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Iterable, Sequence
 
 from ocm.kso.warrant import Liveness
@@ -125,7 +125,11 @@ class DialogueRuntime:
             plan = G.ResponsePlan(act, None, (), G.Marker.NONE)
         if surface is None:
             surface = G.Surface(text, plan.meaning, plan.required_marker)
-        verdict = G.commit_gate(plan, surface, self._liveness, resolved=resolved)
+        checkpoint = self.runtime._expectation()
+        surface = replace(surface, text=text)
+        verdict = G.commit_gate(plan, surface, self._liveness, resolved=resolved, lexicon=self.lexicon, constructions=self.constructions, revoked=self._revoked())
+        if checkpoint != self.runtime._expectation():
+            verdict = G.GateVerdict(False, verdict.events+(G.FeedbackEvent(G.FeedbackKind.RENDERER_CAPABILITY,"runtime changed during codec execution","render"),))
         if not verdict.committed:
             ws.record_turn("machine", f"[reopen {sorted({e.reopen_stage for e in verdict.events})}]", "REPORT_UNCERTAIN", "GATE_REFUSED")
             return MachineTurn(act, "I cannot say that yet: " + "; ".join(f"{e.kind.value} ({e.reopen_stage})" for e in verdict.events), False, tuple(evidence), verdict.events, tuple(candidates), interp)
@@ -133,7 +137,7 @@ class DialogueRuntime:
         return MachineTurn(act, text, True, tuple(evidence), (), tuple(candidates), interp)
 
     # ------------------------------------------------------------------ main entry
-    def hear(self, utterance: str, speaker: str = "user") -> MachineTurn:
+    def hear(self, utterance: str, speaker: str = "user", *, original_utterance: str | None = None) -> MachineTurn:
         ws = self.workspace
         if self.pending.get("clarify") is not None:
             return self._resolve_clarification(utterance, speaker)
@@ -146,7 +150,7 @@ class DialogueRuntime:
                     body = utterance[len(p):].strip()
                     break
         r = interpret(body, self.lexicon, self.constructions, speaker=speaker, conversation=self.conversation_id, revoked=self._revoked())
-        turn = ws.record_turn(speaker, utterance, "CORRECT" if correction else ("ASK" if r.verdict is Verdict.INTERPRETED and _is_question(r.meaning) else "ASSERT"), r.verdict.value, meaning_digest=None if r.meaning is None else canonical(r.meaning)[1])
+        turn = ws.record_turn(speaker, original_utterance if original_utterance is not None else utterance, "CORRECT" if correction else ("ASK" if r.verdict is Verdict.INTERPRETED and _is_question(r.meaning) else "ASSERT"), r.verdict.value, meaning_digest=None if r.meaning is None else canonical(r.meaning)[1])
         if r.verdict is Verdict.INTERPRETED:
             m = r.meaning
             self._entities_from(m, turn.turn_id)
@@ -201,14 +205,17 @@ class DialogueRuntime:
         if machine:
             ev = tuple(mc["evidence_id"] for mc in machine)
             plan = G.ResponsePlan(G.Act.ANSWER, asked, (G.Assertion(dg, ev, "machine"),), G.Marker.ASSERTED)
-            return self._reply(G.Act.ANSWER, f"Yes — {_describe(asked)} ({', '.join(ev)}).", plan=plan, surface=G.Surface("Yes.", asked, G.Marker.ASSERTED), evidence=ev, interp=r)
+            from ocm.language.realize import best, realize
+            rendered = best(realize(asked, self.lexicon, self.constructions, revoked=self._revoked()))
+            clause = rendered.text.removesuffix(".") if rendered else "CANNOT_CHECK"
+            return self._reply(G.Act.ANSWER, f"Yes — {clause} ({', '.join(ev)}).", plan=plan, surface=G.Surface("Yes.", asked, G.Marker.ASSERTED), evidence=ev, interp=r)
         if pos and not neg:
             ev = tuple(c.evidence_id for c in pos)
-            plan = G.ResponsePlan(G.Act.ANSWER, asked, (G.Assertion(dg, ev, "speaker"),), G.Marker.REPORTED)
+            plan = G.ResponsePlan(G.Act.ANSWER, asked, (G.Assertion(dg, ev, "speaker"),), G.Marker.REPORTED, source_name=pos[0].speaker)
             return self._reply(G.Act.ANSWER, f"{pos[0].speaker} said so ({ev[0]}); I have no independent warrant.", plan=plan, surface=G.Surface("reported", asked, G.Marker.REPORTED), evidence=ev, interp=r)
         if neg and not pos:
             ev = tuple(c.evidence_id for c in neg)
-            plan = G.ResponsePlan(G.Act.ANSWER, asked, (G.Assertion(dg, ev, "speaker"),), G.Marker.REPORTED)
+            plan = G.ResponsePlan(G.Act.ANSWER, asked, (G.Assertion(dg, ev, "speaker"),), G.Marker.REPORTED, source_name=neg[0].speaker, reported_negative=True)
             return self._reply(G.Act.ANSWER, f"{neg[0].speaker} said it did not ({ev[0]}); I have no independent warrant.", plan=plan, surface=G.Surface("reported-negative", asked, G.Marker.REPORTED), evidence=ev, interp=r)
         if pos and neg:
             ev = tuple(c.evidence_id for c in pos + neg)

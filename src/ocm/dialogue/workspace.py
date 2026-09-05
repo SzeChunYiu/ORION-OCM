@@ -267,7 +267,7 @@ class DialogueWorkspace:
         authority = Authority.of(speaker=1).meet(bridge_authority)
         # B1(ii)/C7: the promoted atom is *derived* from the bridge (its warrant is the bridge's interval
         # ⊗ the commitment's own evidence), so revoking the bridge kills it and reopens its dependents
-        derived = WarrantProfile.of(set(bridge_evidence)).meet(WarrantProfile.of({c.evidence_id}))
+        derived = self.runtime.state.evidence.citation_warrant((*bridge_evidence, c.evidence_id))
         _, eid = self.runtime.admit_evidence({"promoted_from": commitment_id, "digest": c.digest, "bridge": list(bridge_evidence)}, Channel.IMPORTED, "dialogue.promote", scope=target_scope, derived_from=derived, authority=authority)
         self.machine_commitments.append({"commitment_id": commitment_id, "evidence_id": eid, "scope": target_scope.as_dict(), "authority": authority.as_dict() if hasattr(authority, "as_dict") else str(authority)})
         self.save()

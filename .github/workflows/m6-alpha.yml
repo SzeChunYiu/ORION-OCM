@@ -23,16 +23,16 @@ jobs:
         run: python -m pytest -q tests/m5 tests/m4 tests/m3 && python tools/m5_receipt.py --verify && python tools/m4_receipt.py --verify && python tools/m3_receipt.py --verify
       - name: Scripted Alpha demonstration runs on a clean state
         run: python -m ocm.chat --demo --state /tmp/ocm_demo_ci | tail -5
-      - name: Scenario receipt is reproducible
+      - name: Alpha reference regression after runtime correction
         run: |
           rm -f /tmp/m6_eval.json
           python -m ocm.evaluation.m6_alpha_eval --out /tmp/m6_eval.json > /dev/null
           python - <<'PY'
           import json
-          a = json.load(open("/tmp/m6_eval.json")); b = json.load(open("research/ocm-m6/M6_ALPHA_SCENARIO_EVAL_V1.json"))
+          a = json.load(open("/tmp/m6_eval.json")); b = json.load(open("docs/provenance/runtime_revision_20260905_v4/M6_REFERENCE_REPLAY_V4.json"))
           for k in ("scenarios", "steps_total", "steps_expected", "hostiles", "incidents", "external_io"):
               assert a[k] == b[k], (k,)
-          print("scenario receipt reproduced")
+          print("alpha reference regression passed")
           PY
       - name: M6 receipt drift
         run: python tools/m6_receipt.py --verify

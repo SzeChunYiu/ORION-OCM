@@ -21,19 +21,20 @@ jobs:
         run: python -m pytest -q tests/m11
       - name: M2–M10 still green
         run: python -m pytest -q tests/m10 tests/m9 tests/m8 tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
-      - name: Self-reorganisation receipt is reproducible
+      - name: Self-reorganisation reference regression; historical adoption cells remain reopened
         run: |
           rm -f /tmp/m11_eval.json
           python -m ocm.evaluation.m11_self_eval --out /tmp/m11_eval.json > /dev/null
           python - <<'PY'
           import json
-          a = json.load(open("/tmp/m11_eval.json")); b = json.load(open("research/ocm-m11/M11_SELF_EVAL_V1.json"))
+          a = json.load(open("/tmp/m11_eval.json")); b = json.load(open("docs/provenance/runtime_revision_20260905_v4/M11_REFERENCE_REPLAY_V4.json"))
           assert a["summary"] == b["summary"], "summary drift"
           assert a["historical_replay"] == b["historical_replay"], "replay drift"
+          assert len(a["scenarios"]) == len(b["scenarios"]), "scenario count drift"
           for x, y in zip(a["scenarios"], b["scenarios"]):
               for k in ("diagnosed", "proposal_class", "assurance", "adopted", "target_after", "preservation_after", "rollback_exact", "broad_rewrite"):
                   assert x[k] == y[k], (x["scenario"], k)
-          print("self-reorganisation receipt reproduced")
+          print("self-reorganisation reference regression passed; no scientific promotion")
           PY
       - name: Receipt chain verifies
         run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11; do python tools/${t}_receipt.py --verify || exit 1; done

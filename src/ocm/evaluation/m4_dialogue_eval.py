@@ -33,9 +33,9 @@ from ocm.kso.warrant import WarrantProfile as WP
 
 
 def dialogue_lexicon() -> L.Lexicon:
-    from tests.m3.test_microworld import _lexicon_for
+    from ocm.language.bootstrap import microworld_lexicon
 
-    lx = _lexicon_for(())
+    lx = microworld_lexicon()
     lx.add(L.Lexeme("which", L.Category.WH, ()))
     lx.add(L.Lexeme("it", L.Category.PRON, ()))
     return lx
@@ -158,7 +158,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     print(json.dumps({k: r[k] for k in ("acts", "state_reference", "correction", "clarification", "epistemic_integrity", "persistence")}, indent=1))
     return 0
 

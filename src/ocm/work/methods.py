@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from copy import deepcopy
 from difflib import SequenceMatcher
 from enum import Enum
 from typing import Any, Callable, Hashable, Iterable, Mapping, Sequence
@@ -40,19 +41,23 @@ class RunResult:
 
 
 def run_skill(skill: Skill, ops: Mapping[str, Operator], contract: TaskContract, *, revoked: Iterable[Hashable] = ()) -> RunResult:
+    revoked = frozenset(revoked)
     if skill.liveness(revoked) is not Liveness.LIVE:
         return RunResult(contract.task_id, skill.skill_id, False, (Step("*", StepOutcome.PRECONDITION_FAILED, "skill not live"),), dict(contract.initial_state), 0, 0, 0)
-    state = dict(contract.initial_state)
+    state = deepcopy(dict(contract.initial_state))
     steps: list[Step] = []
     cost = unauth = forb = 0
     for role in skill.skeleton:
-        oid = skill.bindings[role]
+        oid = skill.bindings.get(role, "unbound:" + role)
         op = ops.get(oid)
         if op is None:
             steps.append(Step(oid, StepOutcome.PRECONDITION_FAILED, "unknown operator"))
             break
         if op.warrant.liveness(revoked) is not Liveness.LIVE:
             steps.append(Step(oid, StepOutcome.PRECONDITION_FAILED, "operator not live"))
+            break
+        if type(op.cost) is not int or op.cost < 0 or type(contract.budget_steps) is not int or cost + op.cost > contract.budget_steps:
+            steps.append(Step(oid, StepOutcome.BACKEND_FAILED, "budget exhausted"))
             break
         state, st = apply_operator(op, state, contract)
         steps.append(st)
@@ -64,7 +69,15 @@ def run_skill(skill: Skill, ops: Mapping[str, Operator], contract: TaskContract,
         if cost > contract.budget_steps:
             steps.append(Step(oid, StepOutcome.BACKEND_FAILED, "budget exhausted"))
             break
-    ok = all(s.outcome is StepOutcome.APPLIED for s in steps) and contract.checker(state, contract.hidden)
+    ok = False
+    if all(s.outcome is StepOutcome.APPLIED for s in steps):
+        try:
+            checked = contract.checker(deepcopy(state), deepcopy(dict(contract.hidden)))
+            ok = checked is True
+            if type(checked) is not bool:
+                steps.append(Step("goal", StepOutcome.CANNOT_CHECK, "checker returned no boolean verdict"))
+        except Exception as exc:
+            steps.append(Step("goal", StepOutcome.CANNOT_CHECK, f"checker unavailable: {type(exc).__name__}"))
     return RunResult(contract.task_id, skill.skill_id, ok, tuple(steps), state, cost, unauth, forb)
 
 
@@ -180,6 +193,8 @@ def diagnose(result: RunResult, skill: Skill, ops: Mapping[str, Operator], contr
         return Layer.NONE
     last = result.steps[-1] if result.steps else None
     if last is None:
+        return Layer.CANNOT_CHECK
+    if last.outcome is StepOutcome.CANNOT_CHECK:
         return Layer.CANNOT_CHECK
     if last.outcome is StepOutcome.UNAUTHORIZED or last.outcome is StepOutcome.FORBIDDEN:
         return Layer.AUTHORITY_PREVENTED

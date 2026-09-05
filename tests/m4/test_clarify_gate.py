@@ -40,8 +40,8 @@ def _plan_and_surface(liveness, layer="machine"):
     m = M.example_meanings()["the robot did not open the door"]
     dg = M.canonical(m)[1]
     marker = G.required_marker(liveness, layer)
-    plan = G.ResponsePlan(G.Act.ANSWER, m, (G.Assertion(dg, ("ev:1",), layer),), marker, referents=("ent:robot",))
-    text = {G.Marker.ASSERTED: "The robot did not open the door.", G.Marker.UNCERTAIN: "I am not sure whether the robot opened the door.", G.Marker.REPORTED: "Alice said the robot did not open the door.", G.Marker.DENIED: "No: the robot did not open the door."}[marker]
+    plan = G.ResponsePlan(G.Act.ANSWER, m, (G.Assertion(dg, ("ev:1",), layer),), marker, referents=("ent:robot",), source_name="Alice" if layer == "speaker" else None)
+    text = {G.Marker.ASSERTED: "The robot did not open the door.", G.Marker.UNCERTAIN: "I am not sure whether the robot did not open the door.", G.Marker.REPORTED: "Alice said the robot did not open the door.", G.Marker.DENIED: "No: the robot did not open the door."}[marker]
     return plan, G.Surface(text, m, marker)
 
 

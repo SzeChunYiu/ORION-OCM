@@ -60,6 +60,7 @@ def commit_external_action(
     log: BoundaryLog,
     sequence: int,
 ) -> ActionReceipt:
+    observations = tuple(observations)
     log.append("ACTION_INTENT", {"intent": intent.as_dict(), "status": "PROPOSAL", "sequence": sequence})
     liveness = supporting_liveness(ks, intent.supporting_object_ids, revoked)
     report: HardGateReport = evaluate_hard_gates(contract, list(observations), subject_id=intent.intent_id, round_index=sequence)
@@ -77,8 +78,8 @@ def commit_external_action(
         try:
             result = effector(intent)
             receipt = ActionReceipt(rid, status=ActionStatus.EXECUTED, actual_effect=str(result.get("effect", intent.requested_effect)), observed_resources=ResourceVector(**result.get("resources", {})), **base)
-        except Exception as exc:  # noqa: BLE001 — an effector failure is a FAILED receipt, never silence
-            receipt = ActionReceipt(rid, status=ActionStatus.FAILED, actual_effect=f"{type(exc).__name__}: {exc}", observed_resources=ResourceVector(), refusal_code="EFFECTOR_FAILED", **base)
+        except Exception as exc:  # noqa: BLE001 — an exception cannot establish absence of an effect
+            receipt = ActionReceipt(rid, status=ActionStatus.UNKNOWN, actual_effect=f"{type(exc).__name__}: {exc}", observed_resources=ResourceVector(), resource_observation="UNKNOWN", refusal_code="EFFECT_OUTCOME_UNKNOWN", **base)
     log.append("ACTION_RECEIPT", {"receipt": receipt.as_dict(), "sequence": sequence + 1})
     return receipt
 

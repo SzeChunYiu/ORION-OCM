@@ -15,13 +15,32 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+import json
+from types import MappingProxyType
 from typing import Any, Mapping, Protocol
 
 from ocm.kso.ids import content_hash
 from ocm.kso.resources import ResourceVector
 from ocm.kso.types import Authority, Scope
+from ocm.selfmodel.rollback_data import encoded
 
 COMMIT_COORDINATE = "commit"
+
+
+def _freeze(value):
+    if isinstance(value, dict):
+        return MappingProxyType({k: _freeze(v) for k, v in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze(v) for v in value)
+    return value
+
+
+def _plain(value):
+    if isinstance(value, Mapping):
+        return {k: _plain(v) for k, v in value.items()}
+    if isinstance(value, tuple):
+        return [_plain(v) for v in value]
+    return value
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,17 +56,25 @@ class ActionIntent:
     resource_estimate: ResourceVector = field(default_factory=ResourceVector)
 
     def __post_init__(self) -> None:
+        if not isinstance(self.arguments, Mapping):
+            raise ValueError("action arguments must be a data mapping")
         if not self.intent_id.strip() or not self.requested_effect.strip():
             raise ValueError("intent needs an id and an effect")
         if not self.supporting_object_ids:
             raise ValueError("an intent must name the objects that support it")
+        # Snapshot a bounded data-only declaration before any host callback.
+        object.__setattr__(self, "arguments", _freeze(json.loads(encoded(_plain(self.arguments)))))
+        object.__setattr__(self, "supporting_object_ids", tuple(self.supporting_object_ids))
 
     @property
     def fingerprint(self) -> str:
-        return content_hash({"id": self.intent_id, "effect": self.requested_effect, "args": self.arguments, "support": list(self.supporting_object_ids), "scope": self.scope.as_dict(), "authority": self.required_authority.as_dict()})
+        return content_hash({"schema": "ocm.action-intent.v2", **self._declaration()})
 
     def as_dict(self) -> dict[str, Any]:
-        return {"intent_id": self.intent_id, "requested_effect": self.requested_effect, "arguments": dict(self.arguments), "scope": self.scope.as_dict(), "required_authority": self.required_authority.as_dict(), "supporting_object_ids": list(self.supporting_object_ids), "expected_outcome": self.expected_outcome, "risk_estimate": self.risk_estimate, "resource_estimate": self.resource_estimate.as_dict(), "fingerprint": self.fingerprint}
+        return {**self._declaration(), "fingerprint": self.fingerprint}
+
+    def _declaration(self) -> dict[str, Any]:
+        return {"intent_id": self.intent_id, "requested_effect": self.requested_effect, "arguments": _plain(self.arguments), "scope": self.scope.as_dict(), "required_authority": self.required_authority.as_dict(), "supporting_object_ids": list(self.supporting_object_ids), "expected_outcome": self.expected_outcome, "risk_estimate": self.risk_estimate, "resource_estimate": self.resource_estimate.as_dict()}
 
 
 class ActionStatus(str, Enum):
@@ -56,6 +83,35 @@ class ActionStatus(str, Enum):
     FAILED = "FAILED"
     UNKNOWN = "UNKNOWN"
     CANNOT_CHECK = "CANNOT_CHECK"
+
+
+@dataclass(frozen=True, slots=True)
+class HostActionObservation:
+    """Host-reported outcome, never a new execution or a retroactive grant."""
+    intent_id: str
+    intent_fingerprint: str
+    outcome: str                 # EXECUTED | NOT_EXECUTED | UNKNOWN
+    source: str
+    evidence_refs: tuple[str, ...]
+    detail: str = ""
+
+    def __post_init__(self):
+        if (self.outcome not in {"EXECUTED", "NOT_EXECUTED", "UNKNOWN"}
+                or not self.source.strip() or not self.evidence_refs
+                or any(type(x) is not str or not x.strip() for x in self.evidence_refs)):
+            raise ValueError("host reconciliation needs an explicit outcome, source and evidence")
+        object.__setattr__(self, "evidence_refs", tuple(self.evidence_refs))
+
+    def as_dict(self):
+        return {"intent_id": self.intent_id, "intent_fingerprint": self.intent_fingerprint,
+                "outcome": self.outcome, "source": self.source,
+                "evidence_refs": list(self.evidence_refs), "detail": self.detail,
+                "authority": "HOST_REPORTED_ONLY__NO_NEW_EXECUTION_OR_GRANT"}
+
+
+class ActionReconciler(Protocol):
+    """Read-only outcome lookup installed by the trusted host; not deserialised."""
+    def observe(self, pending: Mapping[str, Any]) -> HostActionObservation: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -73,9 +129,10 @@ class ActionReceipt:
     authority_granted: bool
     evidence_ids: tuple[str, ...]
     refusal_code: str = ""
+    resource_observation: str = "HOST_REPORTED"
 
     def as_dict(self) -> dict[str, Any]:
-        return {"receipt_id": self.receipt_id, "intent_id": self.intent_id, "intent_fingerprint": self.intent_fingerprint, "status": self.status.value, "actual_effect": self.actual_effect, "authoritative_source": self.authoritative_source, "observed_resources": self.observed_resources.as_dict(), "gate_state": self.gate_state, "gate_reasons": list(self.gate_reasons), "warrant_liveness": self.warrant_liveness, "authority_granted": self.authority_granted, "evidence_ids": list(self.evidence_ids), "refusal_code": self.refusal_code}
+        return {"receipt_id": self.receipt_id, "intent_id": self.intent_id, "intent_fingerprint": self.intent_fingerprint, "status": self.status.value, "actual_effect": self.actual_effect, "authoritative_source": self.authoritative_source, "observed_resources": self.observed_resources.as_dict(), "resource_observation": self.resource_observation, "gate_state": self.gate_state, "gate_reasons": list(self.gate_reasons), "warrant_liveness": self.warrant_liveness, "authority_granted": self.authority_granted, "evidence_ids": list(self.evidence_ids), "refusal_code": self.refusal_code}
 
 
 @dataclass(frozen=True, slots=True)

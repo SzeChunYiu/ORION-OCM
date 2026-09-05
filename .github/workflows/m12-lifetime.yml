@@ -21,37 +21,21 @@ jobs:
         run: python -m pytest -q tests/m12
       - name: M2–M11 still green
         run: python -m pytest -q tests/m11 tests/m10 tests/m9 tests/m8 tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
-      - name: Lifetime receipt is reproducible (deterministic block)
+      - name: Lifetime reference regression; protected reevaluation remains required
         run: |
           rm -f /tmp/m12_eval.json
           python -m ocm.evaluation.m12_lifetime_eval --out /tmp/m12_eval.json > /dev/null
           python - <<'PY'
           import json
-          a = json.load(open("/tmp/m12_eval.json")); b = json.load(open("research/ocm-m12/M12_LIFETIME_EVAL_V2.json"))
+          a = json.load(open("/tmp/m12_eval.json")); b = json.load(open("docs/provenance/runtime_revision_20260905_v4/M12_REFERENCE_REPLAY_V4.json"))
           assert a["deterministic"] == b["deterministic"], "deterministic block drift"
-          print("lifetime receipt reproduced")
+          print("lifetime reference regression passed; no protected reevaluation")
           PY
-      - name: Paired-lifetimes receipt is reproducible (deterministic block)
+      - name: Current chat learning and spelling controls
+        run: python -m pytest -q tests/m6/test_chat_learning_spelling_v4.py
+      - name: Preserve both upstream paired studies as historical evidence
         run: |
-          rm -f /tmp/m12_paired.json
-          python -m ocm.evaluation.m12_paired_eval --out /tmp/m12_paired.json > /dev/null
-          python - <<'PY'
-          import json
-          a = json.load(open("/tmp/m12_paired.json")); b = json.load(open("research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V1.json"))
-          assert a["deterministic"] == b["deterministic"], "paired deterministic block drift"
-          assert a["stream_manifest_sha256"] == b["stream_manifest_sha256"], "stream manifest drift"
-          print("paired-lifetimes receipt reproduced")
-          PY
-      - name: Paired-lifetimes V4 receipt is reproducible (deterministic block)
-        run: |
-          rm -f /tmp/m12_paired_v4.json
-          python -m ocm.evaluation.m12_paired_eval --v4 --out /tmp/m12_paired_v4.json > /dev/null
-          python - <<'PY'
-          import json
-          a = json.load(open("/tmp/m12_paired_v4.json")); b = json.load(open("research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V4.json"))
-          assert a["deterministic"] == b["deterministic"], "V4 deterministic block drift"
-          assert a["stream_manifest_sha256"] == b["stream_manifest_sha256"], "V4 stream manifest drift"
-          print("paired-lifetimes V4 receipt reproduced")
-          PY
+          python tools/m12_paired_receipt.py --verify
+          python tools/m12_paired_v4_receipt.py --verify
       - name: Receipt chain verifies
         run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify && python tools/m12_paired_receipt.py --verify && python tools/m12_paired_v4_receipt.py --verify

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate or verify docs/provenance/M2_RECEIPT_V1.json.
+"""Verify the active runtime successor; preserve historical M2_RECEIPT_V1.json.
 
-    python tools/m2_receipt.py            # (re)generate
-    python tools/m2_receipt.py --verify   # exit 1 on drift of bound files or deterministic results
+    python tools/m2_receipt.py --write-current  # create declared successor; never overwrite history
+    python tools/m2_receipt.py --verify         # verify active successor; no historical fallback
 
 Binds: the M2 source modules, the runtime obligation registry, the vendored-source manifest, the
 M2.1 revival and scaling receipts; records the deterministic checker outputs (nogoods, procedure
@@ -75,23 +75,9 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    new = fresh()
-    if "--verify" in argv:
-        if not RECEIPT.exists():
-            print("receipt missing", file=sys.stderr)
-            return 1
-        old = json.loads(RECEIPT.read_text(encoding="utf-8"))
-        drift = [k for k in ("terminal", "result", "authority", "m2_1_revival") if old.get(k) != new.get(k)]
-        bound_drift = [p for p, h in new["bound_files"].items() if old.get("bound_files", {}).get(p) != h]
-        if drift or bound_drift or new["missing_bound_files"]:
-            print(json.dumps({"drift": drift, "bound_file_drift": bound_drift, "missing": new["missing_bound_files"]}, indent=2))
-            return 1
-        print("M2 receipt: no drift")
-        return 0
-    RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"wrote {RECEIPT}; missing bound files: {new['missing_bound_files']}")
-    return 0
+    from runtime_revision_receipts_v4 import revision_main
 
+    return revision_main(ROOT, argv, 2)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

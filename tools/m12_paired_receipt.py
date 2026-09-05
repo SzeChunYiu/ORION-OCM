@@ -56,4 +56,5 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    from runtime_revision_receipts_v4 import upstream_main
+    sys.exit(upstream_main(ROOT, sys.argv[1:], "docs/provenance/M12_PAIRED_RECEIPT_V1.json"))

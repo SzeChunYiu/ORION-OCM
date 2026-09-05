@@ -1,6 +1,6 @@
 """M11 self-reorganisation evaluation: the controlled benchmark S1–S7 vs the two parents, the
 historical failure replay (ledger rows S11–S28 with their human minimal fixes) and the
-adoption-governance hostiles.  Writes research/ocm-m11/M11_SELF_EVAL_V1.json.
+adoption-governance hostiles. Requires a new --out path for engineering evidence.
 
 Every number is bound to the frozen scenario list; the terminal per claim is decided in the
 report (docs/M11_SELF_REORGANISATION_REPORT.md), not here.
@@ -18,8 +18,9 @@ from ocm.selfmodel import replay as R
 OUT = Path("research/ocm-m11/M11_SELF_EVAL_V1.json")
 
 
-def main() -> int:
-    out_path = Path(sys.argv[sys.argv.index("--out") + 1]) if "--out" in sys.argv else OUT
+def main(argv=None) -> int:
+    from ocm.evaluation.output import new_output_path, write_result
+    out_path = new_output_path(sys.argv[1:] if argv is None else argv, "M11 engineering replay")
     rows = []
     parents = []
     with tempfile.TemporaryDirectory() as td:
@@ -51,12 +52,11 @@ def main() -> int:
         "ocm_solves": sum(r["target_after"].split("/")[0] == r["target_after"].split("/")[1] and r["adopted"] for r in rows_f),
     }
     replay = R.replay_all()
-    out = {"version": "M11_SELF_EVAL_V1", "summary": summary, "scenarios": rows, "parents": parents, "historical_replay": replay,
+    out = {"version": "M11_ENGINEERING_REPLAY_V3", "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "summary": summary, "scenarios": rows, "parents": parents, "historical_replay": replay,
            "notes": ["target = outage cases, preservation = non-outage cases (oracle-built from protected hidden state; the machine never reads it)",
                      "the ablation channel is available to the self-model only; parents search configurations or retry skills",
                      "n = 7 scenarios: any rate is descriptive; SUPPORTED/REFUTED terminals need the pre-registered n (see report)"]}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, indent=1, default=str) + "\n")
+    write_result(out_path, out)
     print(json.dumps(summary, indent=1))
     print(json.dumps(replay["summary"], indent=1))
     return 0

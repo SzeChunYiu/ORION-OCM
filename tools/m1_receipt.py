@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate or verify docs/provenance/M1_RECEIPT_V1.json from a fresh run of the M1 checkers.
+"""Verify the active runtime successor; preserve historical M1_RECEIPT_V1.json.
 
-    python tools/m1_receipt.py            # (re)generate the receipt
-    python tools/m1_receipt.py --verify   # exit 1 if the committed receipt's check payload drifted
+    python tools/m1_receipt.py --write-current  # create declared successor; never overwrite history
+    python tools/m1_receipt.py --verify         # verify active successor; no historical fallback
 """
 from __future__ import annotations
 
@@ -65,23 +65,9 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    new = fresh()
-    if "--verify" in argv:
-        if not RECEIPT.exists():
-            print("receipt missing", file=sys.stderr)
-            return 1
-        old = json.loads(RECEIPT.read_text(encoding="utf-8"))
-        drift = [k for k in ("terminal", "result", "authority") if old.get(k) != new.get(k)]
-        bound_drift = [p for p, h in new["bound_files"].items() if old.get("bound_files", {}).get(p) != h]
-        if drift or bound_drift:
-            print(json.dumps({"drift": drift, "bound_file_drift": bound_drift}, indent=2))
-            return 1
-        print("M1 receipt: no drift")
-        return 0
-    RECEIPT.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"wrote {RECEIPT}")
-    return 0
+    from runtime_revision_receipts_v4 import revision_main
 
+    return revision_main(ROOT, argv, 1)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

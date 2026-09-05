@@ -1,0 +1,179 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_ test_renderer_metadata_cannot_hide_actual_text_change[The robot opened the door.] _
+
+text = 'The robot opened the door.'
+
+    @pytest.mark.parametrize('text', ['The robot opened the door.', 'The robot did not open the door. The cat flew.', 'The robot did not open the red door.'])
+    def test_renderer_metadata_cannot_hide_actual_text_change(text):
+        p=plan()
+>       assert not G.commit_gate(p,G.Surface(text,p.meaning,p.required_marker),lambda _:Liveness.LIVE).committed
+E       AssertionError: assert not True
+E        +  where True = GateVerdict(committed=True, events=()).committed
+E        +    where GateVerdict(committed=True, events=()) = <function commit_gate at 0x7ffae60a5f80>(ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None), Surface(text='The robot opened the door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', labe...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False), <function test_renderer_metadata_cannot_hide_actual_text_change.<locals>.<lambda> at 0x7ffae6050f40>)
+E        +      where <function commit_gate at 0x7ffae60a5f80> = G.commit_gate
+E        +      and   Surface(text='The robot opened the door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', labe...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False) = <class 'ocm.dialogue.gate.Surface'>('The robot opened the door.', MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open'), <Marker.ASSERTED: 'ASSERTED'>)
+E        +        where <class 'ocm.dialogue.gate.Surface'> = G.Surface
+E        +        and   MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open') = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).meaning
+E        +        and   <Marker.ASSERTED: 'ASSERTED'> = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).required_marker
+
+tests/m6/test_surface_text_boundary.py:17: AssertionError
+_ test_renderer_metadata_cannot_hide_actual_text_change[The robot did not open the door. The cat flew.] _
+
+text = 'The robot did not open the door. The cat flew.'
+
+    @pytest.mark.parametrize('text', ['The robot opened the door.', 'The robot did not open the door. The cat flew.', 'The robot did not open the red door.'])
+    def test_renderer_metadata_cannot_hide_actual_text_change(text):
+        p=plan()
+>       assert not G.commit_gate(p,G.Surface(text,p.meaning,p.required_marker),lambda _:Liveness.LIVE).committed
+E       AssertionError: assert not True
+E        +  where True = GateVerdict(committed=True, events=()).committed
+E        +    where GateVerdict(committed=True, events=()) = <function commit_gate at 0x7ffae60a5f80>(ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None), Surface(text='The robot did not open the door. The cat flew.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False), <function test_renderer_metadata_cannot_hide_actual_text_change.<locals>.<lambda> at 0x7ffae6051e40>)
+E        +      where <function commit_gate at 0x7ffae60a5f80> = G.commit_gate
+E        +      and   Surface(text='The robot did not open the door. The cat flew.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False) = <class 'ocm.dialogue.gate.Surface'>('The robot did not open the door. The cat flew.', MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open'), <Marker.ASSERTED: 'ASSERTED'>)
+E        +        where <class 'ocm.dialogue.gate.Surface'> = G.Surface
+E        +        and   MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open') = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).meaning
+E        +        and   <Marker.ASSERTED: 'ASSERTED'> = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).required_marker
+
+tests/m6/test_surface_text_boundary.py:17: AssertionError
+_ test_renderer_metadata_cannot_hide_actual_text_change[The robot did not open the red door.] _
+
+text = 'The robot did not open the red door.'
+
+    @pytest.mark.parametrize('text', ['The robot opened the door.', 'The robot did not open the door. The cat flew.', 'The robot did not open the red door.'])
+    def test_renderer_metadata_cannot_hide_actual_text_change(text):
+        p=plan()
+>       assert not G.commit_gate(p,G.Surface(text,p.meaning,p.required_marker),lambda _:Liveness.LIVE).committed
+E       AssertionError: assert not True
+E        +  where True = GateVerdict(committed=True, events=()).committed
+E        +    where GateVerdict(committed=True, events=()) = <function commit_gate at 0x7ffae60a5f80>(ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None), Surface(text='The robot did not open the red door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='ent...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False), <function test_renderer_metadata_cannot_hide_actual_text_change.<locals>.<lambda> at 0x7ffae6052200>)
+E        +      where <function commit_gate at 0x7ffae60a5f80> = G.commit_gate
+E        +      and   Surface(text='The robot did not open the red door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='ent...), root='open'), marker=<Marker.ASSERTED: 'ASSERTED'>, introduced_digests=(), content_ids=(), renderer_had_store=False) = <class 'ocm.dialogue.gate.Surface'>('The robot did not open the red door.', MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open'), <Marker.ASSERTED: 'ASSERTED'>)
+E        +        where <class 'ocm.dialogue.gate.Surface'> = G.Surface
+E        +        and   MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open') = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).meaning
+E        +        and   <Marker.ASSERTED: 'ASSERTED'> = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...ffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.ASSERTED: 'ASSERTED'>, referents=(), scope=None).required_marker
+
+tests/m6/test_surface_text_boundary.py:17: AssertionError
+______________ test_marker_none_does_not_bypass_truth_requirement ______________
+
+    def test_marker_none_does_not_bypass_truth_requirement():
+        p=replace(plan(),required_marker=G.Marker.NONE)
+>       assert not G.commit_gate(p,G.Surface('The robot did not open the door.',p.meaning,G.Marker.NONE),lambda _:Liveness.DEAD).committed
+E       AssertionError: assert not True
+E        +  where True = GateVerdict(committed=True, events=()).committed
+E        +    where GateVerdict(committed=True, events=()) = <function commit_gate at 0x7ffae60a5f80>(ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...8a6c41bbffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.NONE: 'NONE'>, referents=(), scope=None), Surface(text='The robot did not open the door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity'...ue=None)), root='open'), marker=<Marker.NONE: 'NONE'>, introduced_digests=(), content_ids=(), renderer_had_store=False), <function test_marker_none_does_not_bypass_truth_requirement.<locals>.<lambda> at 0x7ffae6052660>)
+E        +      where <function commit_gate at 0x7ffae60a5f80> = G.commit_gate
+E        +      and   Surface(text='The robot did not open the door.', meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity'...ue=None)), root='open'), marker=<Marker.NONE: 'NONE'>, introduced_digests=(), content_ids=(), renderer_had_store=False) = <class 'ocm.dialogue.gate.Surface'>('The robot did not open the door.', MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open'), <Marker.NONE: 'NONE'>)
+E        +        where <class 'ocm.dialogue.gate.Surface'> = G.Surface
+E        +        and   MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label='robot', features=(('definite', 'yes'),), undersp... heads=('open',), value='past'), MEdge(relation='NEGATES', tails=('open',), heads=('open',), value=None)), root='open') = ResponsePlan(act=<Act.ANSWER: 'ANSWER'>, meaning=MeaningGraph(nodes=(MNode(node_id='robot', node_type='entity', label=...8a6c41bbffa0', evidence=('ev:1',), layer='machine'),), required_marker=<Marker.NONE: 'NONE'>, referents=(), scope=None).meaning
+E        +        and   <Marker.NONE: 'NONE'> = <enum 'Marker'>.NONE
+E        +          where <enum 'Marker'> = G.Marker
+
+tests/m6/test_surface_text_boundary.py:22: AssertionError
+_______ test_actual_protected_identifier_cannot_be_omitted_from_metadata _______
+
+    def test_actual_protected_identifier_cannot_be_omitted_from_metadata():
+        p=G.ResponsePlan(G.Act.ACKNOWLEDGE,None)
+>       assert not G.commit_gate(p,G.Surface('hidden:gold',None,G.Marker.NONE),lambda _:Liveness.LIVE,protected_ids=('hidden:gold',)).committed
+E       AssertionError: assert not True
+E        +  where True = GateVerdict(committed=True, events=()).committed
+E        +    where GateVerdict(committed=True, events=()) = <function commit_gate at 0x7ffae60a5f80>(ResponsePlan(act=<Act.ACKNOWLEDGE: 'ACKNOWLEDGE'>, meaning=None, assertions=(), required_marker=<Marker.NONE: 'NONE'>, referents=(), scope=None), Surface(text='hidden:gold', meaning=None, marker=<Marker.NONE: 'NONE'>, introduced_digests=(), content_ids=(), renderer_had_store=False), <function test_actual_protected_identifier_cannot_be_omitted_from_metadata.<locals>.<lambda> at 0x7ffae6052b60>, protected_ids=('hidden:gold',))
+E        +      where <function commit_gate at 0x7ffae60a5f80> = G.commit_gate
+E        +      and   Surface(text='hidden:gold', meaning=None, marker=<Marker.NONE: 'NONE'>, introduced_digests=(), content_ids=(), renderer_had_store=False) = <class 'ocm.dialogue.gate.Surface'>('hidden:gold', None, <Marker.NONE: 'NONE'>)
+E        +        where <class 'ocm.dialogue.gate.Surface'> = G.Surface
+E        +        and   <Marker.NONE: 'NONE'> = <enum 'Marker'>.NONE
+E        +          where <enum 'Marker'> = G.Marker
+
+tests/m6/test_surface_text_boundary.py:27: AssertionError
+_ test_actual_chat_output_is_checked_after_renderer_returns[is paris in france] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-42/test_actual_chat_output_is_che0')
+question = 'is paris in france'
+
+    @pytest.mark.parametrize('question',['is paris in france','explain paris'])
+    def test_actual_chat_output_is_checked_after_renderer_returns(tmp_path,question):
+        s=ChatSession(tmp_path)
+        s._render_item=lambda _: 'Paris is in Germany.'
+        response=s.say(question)
+>       assert not response.startswith('Yes.') and response != 'Paris is in Germany.'
+E       AssertionError: assert (not True)
+E        +  where True = <built-in method startswith of str object at 0x7ffae635f000>('Yes.')
+E        +    where <built-in method startswith of str object at 0x7ffae635f000> = 'Yes. Paris is in Germany. That is a verified fact in my knowledge (ev:ocm:9acce2126faafc9d).'.startswith
+
+tests/m6/test_surface_text_boundary.py:35: AssertionError
+___ test_actual_chat_output_is_checked_after_renderer_returns[explain paris] ___
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-42/test_actual_chat_output_is_che1')
+question = 'explain paris'
+
+    @pytest.mark.parametrize('question',['is paris in france','explain paris'])
+    def test_actual_chat_output_is_checked_after_renderer_returns(tmp_path,question):
+        s=ChatSession(tmp_path)
+        s._render_item=lambda _: 'Paris is in Germany.'
+        response=s.say(question)
+        assert not response.startswith('Yes.') and response != 'Paris is in Germany.'
+>       assert 'cannot' in response.lower()
+E       AssertionError: assert 'cannot' in 'paris is in germany. paris is in germany. paris is in germany. some of this is source-reported, not verified.'
+E        +  where 'paris is in germany. paris is in germany. paris is in germany. some of this is source-reported, not verified.' = <built-in method lower of str object at 0x7ffae6897d70>()
+E        +    where <built-in method lower of str object at 0x7ffae6897d70> = 'Paris is in Germany. Paris is in Germany. Paris is in Germany. Some of this is source-reported, not verified.'.lower
+
+tests/m6/test_surface_text_boundary.py:36: AssertionError
+_________ test_render_callback_revocation_is_rechecked_for_explanation _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-42/test_render_callback_revocatio0')
+
+    def test_render_callback_revocation_is_rechecked_for_explanation(tmp_path):
+        s=ChatSession(tmp_path)
+        original=s._render_item
+        def render(item):
+            s.runtime.revoke(item.evidence)
+            return original(item)
+        s._render_item=render
+>       assert 'cannot' in s.say('explain paris').lower()
+E       AssertionError: assert 'cannot' in 'paris is in france. paris is the capital of france. paris has a large population. some of this is source-reported, not verified.'
+E        +  where 'paris is in france. paris is the capital of france. paris has a large population. some of this is source-reported, not verified.' = <built-in method lower of str object at 0x7ffae5efec30>()
+E        +    where <built-in method lower of str object at 0x7ffae5efec30> = 'Paris is in france. Paris is the capital of france. Paris has a large population. Some of this is source-reported, not verified.'.lower
+E        +      where 'Paris is in france. Paris is the capital of france. Paris has a large population. Some of this is source-reported, not verified.' = say('explain paris')
+E        +        where say = ChatSession(root=PosixPath('/tmp/pytest-of-root/pytest-42/test_render_callback_revocatio0'), conversation_id='alpha', ...='neutral', learned_state_path=PosixPath('/tmp/pytest-of-root/pytest-42/test_render_callback_revocatio0/learned.json')).say
+
+tests/m6/test_surface_text_boundary.py:46: AssertionError
+__________ test_malformed_teaching_does_not_crash_or_create_evidence ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-42/test_malformed_teaching_does_n0')
+
+    def test_malformed_teaching_does_not_crash_or_create_evidence(tmp_path):
+        s=ChatSession(tmp_path)
+        for request in ['teach: construction broken', 'teach: example => too few', 'teach: =', 'teach: word without definition']:
+            before=len(s.runtime.state.evidence.records)
+>           response=s.say(request)
+
+tests/m6/test_surface_text_boundary.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/ocm/chat/session.py:179: in say
+    return self._teach(text, t0, seq0)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ChatSession(root=PosixPath('/tmp/pytest-of-root/pytest-42/test_malformed_teaching_does_n0'), conversation_id='alpha', ...='neutral', learned_state_path=PosixPath('/tmp/pytest-of-root/pytest-42/test_malformed_teaching_does_n0/learned.json'))
+text = 'teach: construction broken', t0 = 13318.188900092, seq0 = 107
+
+    def _teach(self, text: str, t0: float, seq0: int) -> str:
+        body = text.strip()[len("teach:"):].strip()
+        low = body.lower()
+        if low.startswith("construction "):
+            # teach: construction <utterance> => <agent> <verb> <patient>
+            utt, _, gold = body[len("construction "):].partition("=>")
+>           a, v, p = [x.strip() for x in gold.strip().split()]
+E           ValueError: not enough values to unpack (expected 3, got 0)
+
+src/ocm/chat/session.py:295: ValueError
+=========================== short test summary info ============================
+FAILED tests/m6/test_surface_text_boundary.py::test_renderer_metadata_cannot_hide_actual_text_change[The robot opened the door.]
+FAILED tests/m6/test_surface_text_boundary.py::test_renderer_metadata_cannot_hide_actual_text_change[The robot did not open the door. The cat flew.]
+FAILED tests/m6/test_surface_text_boundary.py::test_renderer_metadata_cannot_hide_actual_text_change[The robot did not open the red door.]
+FAILED tests/m6/test_surface_text_boundary.py::test_marker_none_does_not_bypass_truth_requirement
+FAILED tests/m6/test_surface_text_boundary.py::test_actual_protected_identifier_cannot_be_omitted_from_metadata
+FAILED tests/m6/test_surface_text_boundary.py::test_actual_chat_output_is_checked_after_renderer_returns[is paris in france]
+FAILED tests/m6/test_surface_text_boundary.py::test_actual_chat_output_is_checked_after_renderer_returns[explain paris]
+FAILED tests/m6/test_surface_text_boundary.py::test_render_callback_revocation_is_rechecked_for_explanation
+FAILED tests/m6/test_surface_text_boundary.py::test_malformed_teaching_does_not_crash_or_create_evidence
+9 failed in 1.90s

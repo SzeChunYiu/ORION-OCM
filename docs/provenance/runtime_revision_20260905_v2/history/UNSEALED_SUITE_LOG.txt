@@ -1,0 +1,1458 @@
+........................................................................ [  9%]
+........................................................................ [ 19%]
+........................................................................ [ 29%]
+........................................................................ [ 38%]
+........................................................................ [ 48%]
+........................................................................ [ 58%]
+...........EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE.EEEEEE..................... [ 67%]
+........................................................................ [ 77%]
+........................................................................ [ 87%]
+........................................................................ [ 96%]
+.......................                                                  [100%]
+==================================== ERRORS ====================================
+___ ERROR at setup of test_complete_chain_binds_archive_and_current_sources ____
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_required_inputs_never_fall_back[parent_archive] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_required_inputs_never_fall_back[parent_manifest] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_required_inputs_never_fall_back[old_receipt] __
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_required_inputs_never_fall_back[current_receipt] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+____ ERROR at setup of test_missing_required_inputs_never_fall_back[source] ____
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+____ ERROR at setup of test_missing_required_inputs_never_fall_back[replay] ____
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_relabelled_current_receipt_is_rejected[terminal-FULL_RESIDUAL_SUPPORTED] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_relabelled_current_receipt_is_rejected[revision-prior_revision] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_relabelled_current_receipt_is_rejected[legacy_recipe_execution-CURRENT_CODE_RECHECK] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_relabelled_current_receipt_is_rejected[dependency_aliases-value3] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[status-PROTECTED_REEVALUATION] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[protected_reevaluation-PASS] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[scientific_promotion-SUPPORTED] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[independent_replication-COMPLETE] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[executions-value4] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_replay_cannot_inherit_historical_scientific_authority[validation_artifacts-value5] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_exact_inventory_and_immutable_history_are_enforced[new_source] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_exact_inventory_and_immutable_history_are_enforced[new_resource] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_exact_inventory_and_immutable_history_are_enforced[source_drift] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_exact_inventory_and_immutable_history_are_enforced[validation_drift] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_exact_inventory_and_immutable_history_are_enforced[predecessor_drift] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_____ ERROR at setup of test_memoized_object_rechecks_after_source_change ______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_no_recipe_execution_and_exclusive_idempotent_creation _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_____ ERROR at setup of test_no_argument_command_refuses_historical_writes _____
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[duplicate] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[extra] __
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[missing] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[traversal] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[changed_blob] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_entry_attacks_fail_without_extraction[symlink_mode] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+______ ERROR at setup of test_forged_parent_commit_label_fails_git_proof _______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_archive_source_membership_is_verified_against_git_tree _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+__ ERROR at setup of test_direct_build_rechecks_parent_evidence_on_each_call ___
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_current_dependency_refuses_without_historical_fallback[3] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_current_dependency_refuses_without_historical_fallback[4] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_current_dependency_refuses_without_historical_fallback[6] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_current_dependency_refuses_without_historical_fallback[9] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+_ ERROR at setup of test_missing_current_dependency_refuses_without_historical_fallback[11] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f48cd30cb00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-55'), _retention_count=3, _retention_policy='all')
+
+        save(root, config["engineering_replay_path"], {
+            "schema": "ocm.engineering-replay.v2", "revision": R.REVISION,
+            "status": "ENGINEERING_REGRESSION_ONLY", "protected_reevaluation": "NOT_RUN",
+            "scientific_promotion": "NOT_ESTABLISHED", "independent_replication": "NOT_RUN",
+            "current_source_inventory": R.source_inventory(root),
+            "executions": executions, "validation_artifacts": artifacts,
+        })
+    
+    
+    @pytest.fixture(scope="module")
+    def baseline(tmp_path_factory):
+        root = tmp_path_factory.mktemp("receipt-v2-parent")
+        config = R.read_json(ROOT, R.CONFIG_PATH)
+        manifest = R.read_json(ROOT, config["parent_manifest"]["path"])
+        for rel in (R.CONFIG_PATH, config["parent_manifest"]["path"], manifest["archive"]["path"]):
+            path = root / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+>           shutil.copyfile(ROOT / rel, path)
+
+tests/test_runtime_revision_receipts_v2.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <receipt_revision_v2_tests.CurrentReceipts object at 0x7f48cc7e2690>
+root = PosixPath('/tmp/pytest-of-root/pytest-55/receipt-v2-parent0')
+
+    class CurrentReceipts:
+        def __init__(self, root: Path):
+            self.root = root
+>           if sha(root, CONFIG_PATH) != CONFIG_SHA256:
+E           receipt_revision_v2_tests.ReceiptError: immutable second-revision config changed
+
+tools/runtime_revision_receipts_v2.py:190: ReceiptError
+- generated xml file: /workspace/scratch/57b4973284eb/ocm-continuation-suite.xml -
+=========================== short test summary info ============================
+ERROR tests/test_runtime_revision_receipts_v2.py::test_complete_chain_binds_archive_and_current_sources
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[parent_archive]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[parent_manifest]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[old_receipt]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[current_receipt]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[source]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_required_inputs_never_fall_back[replay]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_relabelled_current_receipt_is_rejected[terminal-FULL_RESIDUAL_SUPPORTED]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_relabelled_current_receipt_is_rejected[revision-prior_revision]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_relabelled_current_receipt_is_rejected[legacy_recipe_execution-CURRENT_CODE_RECHECK]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_relabelled_current_receipt_is_rejected[dependency_aliases-value3]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[status-PROTECTED_REEVALUATION]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[protected_reevaluation-PASS]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[scientific_promotion-SUPPORTED]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[independent_replication-COMPLETE]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[executions-value4]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_replay_cannot_inherit_historical_scientific_authority[validation_artifacts-value5]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_exact_inventory_and_immutable_history_are_enforced[new_source]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_exact_inventory_and_immutable_history_are_enforced[new_resource]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_exact_inventory_and_immutable_history_are_enforced[source_drift]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_exact_inventory_and_immutable_history_are_enforced[validation_drift]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_exact_inventory_and_immutable_history_are_enforced[predecessor_drift]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_memoized_object_rechecks_after_source_change
+ERROR tests/test_runtime_revision_receipts_v2.py::test_no_recipe_execution_and_exclusive_idempotent_creation
+ERROR tests/test_runtime_revision_receipts_v2.py::test_no_argument_command_refuses_historical_writes
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[duplicate]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[extra]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[missing]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[traversal]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[changed_blob]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_entry_attacks_fail_without_extraction[symlink_mode]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_forged_parent_commit_label_fails_git_proof
+ERROR tests/test_runtime_revision_receipts_v2.py::test_archive_source_membership_is_verified_against_git_tree
+ERROR tests/test_runtime_revision_receipts_v2.py::test_direct_build_rechecks_parent_evidence_on_each_call
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_current_dependency_refuses_without_historical_fallback[3]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_current_dependency_refuses_without_historical_fallback[4]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_current_dependency_refuses_without_historical_fallback[6]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_current_dependency_refuses_without_historical_fallback[9]
+ERROR tests/test_runtime_revision_receipts_v2.py::test_missing_current_dependency_refuses_without_historical_fallback[11]
+704 passed, 39 errors in 328.93s (0:05:28)

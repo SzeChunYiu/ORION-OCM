@@ -172,11 +172,13 @@ def run_scenario(sc: Scenario, root) -> dict[str, Any]:
     dec = GV.ExternalAdopter("token").decide(prop, a)
     adopted, after, pres_after, rollback_ok = False, before, pres_before, None
     if dec.approved:
-        challenger, info = ledger.adopt(prop, dec, m, {"machine": {"artifact": "fp-inc"}})
+        challenger, info = ledger.adopt(prop, dec, m, {prop.target_component: {"artifact": prop.incumbent_fingerprint}})
         adopted = True
         after, pres_after = challenger.score(target), challenger.score(preservation)
-        restored, _, ok = ledger.rollback(prop.fingerprint())
+        restored, restored_components, ok = ledger.rollback(prop.fingerprint())
         rollback_ok = ok and restored.score(target) == before and rt.state.evidence.liveness([info["stamped_evidence"]]).value == "DEAD"
+        if rollback_ok:
+            ledger.acknowledge_rollback_installation(prop.fingerprint(), components=restored_components)
     broad = None
     if sc.broad is not None:
         bprop = PR.SelfChangeProposal(f"pb:{sc.scenario_id}", "1", (failure_eid,), "organisation", "D7", "fp-inc", PR.ChangeClass.C5_ORGANISATION, {"rewrite": sc.scenario_id}, sc.broad, pred, ("preservation",), (), "target", "restore", "enterprise", "w1", PR.Origin.LEARNED)

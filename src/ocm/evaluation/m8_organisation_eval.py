@@ -112,7 +112,8 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     r = run()
     if a.out:
-        Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        from ocm.evaluation.output import write_result
+        write_result(Path(a.out), r)
     for w in r["worlds"]:
         print(w["family"], {k: (round(v["task_success"], 2), round(v["navigation_work"], 1), v["partition_recovery"]["exact_regions"], v["revocation_commutation"]["macro_live_over_dead_children"]) for k, v in w["arms"].items()}, "flat", r["worlds"][0]["flat_baseline"]["navigation_work"] if False else round(w["flat_baseline"]["navigation_work"], 1))
     print("language", {k: (round(v["task_success"], 2), round(v["navigation_work"], 1)) for k, v in r["language_stream"]["arms"].items()}, "flat", round(r["language_stream"]["flat_baseline"]["navigation_work"], 1))

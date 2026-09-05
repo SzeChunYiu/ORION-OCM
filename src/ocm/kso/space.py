@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass, field, replace
 from fractions import Fraction
+from functools import cached_property
 from typing import Any, Hashable, Iterable, Mapping
 
 from .ids import canonical_json
@@ -79,6 +80,10 @@ class Hyperedge:
     meta: tuple[tuple[str, Any], ...] = ()
 
     def __post_init__(self) -> None:
+        # Freeze accepted sequence inputs as well as the dataclass attributes themselves.
+        object.__setattr__(self, "tails", tuple(self.tails))
+        object.__setattr__(self, "heads", tuple(self.heads))
+        object.__setattr__(self, "head_weights", tuple(self.head_weights))
         if not self.tails or not self.heads:
             raise ValueError(f"hyperedge {self.edge_id} needs non-empty tails and heads")
         if len(set(self.tails)) != len(self.tails) or len(set(self.heads)) != len(self.heads):
@@ -130,22 +135,49 @@ class KnowledgeSpace:
     registry: TypeRegistry = field(default_factory=lambda: DEFAULT_REGISTRY, compare=False, repr=False)
 
     def __post_init__(self) -> None:
+        object.__setattr__(self, "atoms", tuple(self.atoms))
+        object.__setattr__(self, "hyperedges", tuple(self.hyperedges))
         self.validate()
 
     # --- structure -----------------------------------------------------------------------
-    @property
+    @cached_property
     def ids(self) -> tuple[str, ...]:
         return tuple(a.atom_id for a in self.atoms)
 
-    def atom_map(self) -> dict[str, Atom]:
+    @cached_property
+    def _atom_index(self) -> dict[str, Atom]:
         return {a.atom_id: a for a in self.atoms}
 
-    def edge_map(self) -> dict[str, Hyperedge]:
+    @cached_property
+    def _edge_index(self) -> dict[str, Hyperedge]:
         return {e.edge_id: e for e in self.hyperedges}
+
+    @cached_property
+    def _incident_index(self) -> dict[str, tuple[Hyperedge, ...]]:
+        by_atom: dict[str, list[Hyperedge]] = {}
+        for edge in self.hyperedges:
+            for atom_id in edge.incident:
+                by_atom.setdefault(atom_id, []).append(edge)
+        return {atom_id: tuple(edges) for atom_id, edges in by_atom.items()}
+
+    @cached_property
+    def _outgoing_index(self) -> dict[str, tuple[Hyperedge, ...]]:
+        by_tail: dict[str, list[Hyperedge]] = {}
+        for edge in self.hyperedges:
+            for tail in edge.tails:
+                by_tail.setdefault(tail, []).append(edge)
+        return {tail: tuple(edges) for tail, edges in by_tail.items()}
+
+    def atom_map(self) -> dict[str, Atom]:
+        # Preserve the public mutable-copy API; callers cannot mutate a cached index.
+        return self._atom_index.copy()
+
+    def edge_map(self) -> dict[str, Hyperedge]:
+        return self._edge_index.copy()
 
     def atom(self, atom_id: str) -> Atom:
         try:
-            return self.atom_map()[atom_id]
+            return self._atom_index[atom_id]
         except KeyError:
             raise TypedRejection("UNKNOWN_ATOM", atom_id) from None
 
@@ -165,7 +197,40 @@ class KnowledgeSpace:
             self.registry.require_relation_type(e.relation_type)
 
     def incident_edges(self, atom_id: str) -> tuple[Hyperedge, ...]:
-        return tuple(e for e in self.hyperedges if atom_id in e.incident)
+        return self._incident_index.get(atom_id, ())
+
+    def outgoing_edges(self, atom_id: str) -> tuple[Hyperedge, ...]:
+        """Structural tail adjacency in insertion order, independent of warrant/registry state.
+
+        The cache belongs to this immutable space. ``dataclasses.replace`` creates a new
+        instance without cached properties, so persistent edits cannot inherit stale indexes.
+        No liveness, relevance, dependency classification or activation is cached.
+        """
+        return self._outgoing_index.get(atom_id, ())
+
+    def index_resources(self):
+        """Storage of currently materialized structural indexes, separate from logical content.
+
+        ``index_size`` counts tuple references and dict entries (including adjacency entries).
+        ``memory_bytes`` counts the shallow containers on this Python host; existing atom,
+        edge and string objects are shared and are not charged again. This is a storage
+        observation, not an admission work count or a process-RSS estimate.
+        """
+        import sys
+
+        from .resources import ResourceVector
+
+        entries = memory = 0
+        for name in ("ids", "_atom_index", "_edge_index", "_incident_index", "_outgoing_index"):
+            value = self.__dict__.get(name)
+            if value is None:
+                continue
+            entries += len(value)
+            memory += sys.getsizeof(value)
+            if name in ("_incident_index", "_outgoing_index"):
+                entries += sum(len(edges) for edges in value.values())
+                memory += sum(sys.getsizeof(edges) for edges in value.values())
+        return ResourceVector(index_size=entries, memory_bytes=memory)
 
     # --- liveness ------------------------------------------------------------------------
     def live_atoms(self, revoked: Iterable[Hashable] = ()) -> frozenset[str]:
