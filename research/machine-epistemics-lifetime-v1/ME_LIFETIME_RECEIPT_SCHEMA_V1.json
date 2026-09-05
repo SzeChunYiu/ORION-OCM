@@ -44,9 +44,11 @@
     },
     "state": {
       "type": "object",
-      "required": ["object_counts", "bytes_by_class", "index_entries", "index_bytes", "object_grammar", "status", "cannot_check_reason"],
+      "required": ["object_counts", "auxiliary_counts", "bytes_by_class", "index_entries", "index_bytes", "object_grammar", "status", "cannot_check_reason"],
       "properties": {
-        "object_counts": {"type": "object", "additionalProperties": {"$ref": "#/$defs/nni"}}, "bytes_by_class": {"type": "object", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "object_counts": {"type": "object", "description": "Identity-bearing persistent objects that define N", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "auxiliary_counts": {"type": "object", "description": "Persistent/non-persistent cardinalities reported for accounting but excluded from N unless they gain aligned touchable identities", "additionalProperties": {"$ref": "#/$defs/nni"}},
+        "bytes_by_class": {"type": "object", "additionalProperties": {"$ref": "#/$defs/nni"}},
         "index_entries": {"$ref": "#/$defs/nni"}, "index_bytes": {"$ref": "#/$defs/nni"}, "object_grammar": {"type": "string", "minLength": 1},
         "status": {"$ref": "#/$defs/status"}, "cannot_check_reason": {"type": ["string", "null"]}
       }, "additionalProperties": false
@@ -95,7 +97,7 @@
     }
   },
   "x-orion-definitions": {
-    "N": "sum(state.object_counts) within one declared persistent object grammar; do not compare KSO atom count directly with neural parameter count",
+    "N": "sum(state.object_counts) over identity-bearing persistent objects within one declared grammar; auxiliary_counts cannot pad N; do not compare KSO object count directly with neural parameter count",
     "k": "union cardinality of actual identity-bearing persistent objects read/checked/traversed/executed/modified during the scoped operation; returned top-k/nonzero activation/incidence count is not k",
     "acquisition_cost": "information vector plus resource vector until first attainment of a frozen competence threshold",
     "query_cost": "resource delta from query start through committed/checkable outcome including index/retrieval/verifier/tool work and triggered maintenance",
