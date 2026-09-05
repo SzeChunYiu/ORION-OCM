@@ -1,38 +1,315 @@
 {
   "registry": "KSO_OBLIGATION_REGISTRY_V1",
   "milestone": "M1",
-  "status_vocabulary": ["PROVED", "FINITE_CALIBRATION", "CONJECTURE", "PARENT_OWNED", "CANNOT_CHECK", "OPEN"],
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "CONJECTURE",
+    "PARENT_OWNED",
+    "CANNOT_CHECK",
+    "OPEN"
+  ],
   "rule": "No lower row is implied by an upper row. Finite enumeration calibrates an implementation; it is not authority for an all-size claim. A PARENT_OWNED row may not be cited in any novelty statement.",
   "obligations": [
-    {"id": "KS-T00", "statement": "Finite object/relation space is well-formed: unique ids, incident atoms exist, registered types, non-negative weights and resources.", "status": "PROVED", "proof": "by construction (validate) ; docs/spec/KSO_CORE_V1.md §2", "checker": "ocm.kso.checks:check_well_formedness", "mutant": "duplicate id / unknown incident atom / negative weight rejected", "parent": "—", "limitation": "finite spaces only"},
-    {"id": "KS-T01", "statement": "Antichain profiles with ⊕ (alternative) and ⊗ (conjunctive) form a commutative idempotent semiring with 0 = ∅, 1 = {∅}.", "status": "PROVED", "proof": "monotone Boolean function bijection; KSO_SUBSTRATE_CONTRACT_V1.md §3", "checker": "ocm.kso.warrant:check_semiring", "mutant": "warrant.mutant_meet_as_union", "parent": "ATMS labels (de Kleer 1986); provenance semirings (Green et al. 2007)", "limitation": "exhaustive at n=3 (20 profiles, 400 pairs, 8000 triples)"},
-    {"id": "KS-T21", "statement": "Three-valued liveness on warrant intervals (lower = exhibited, upper = possible) is an exact homomorphism from (⊕, ⊗) to Kleene strong (∨, ∧); certified profiles reduce to two-valued ℓ_R; refinement is monotone (UNKNOWN → LIVE|DEAD only).", "status": "PROVED", "proof": "docs/spec/KSO_WARRANT_V1.md §4 (and ORION-V2 theory note KSO_THREE_VALUED_WARRANT_AND_REOPENING_V1)", "checker": "ocm.kso.warrant:check_three_valued_reduction", "mutant": "warrant.mutant_unknown_as_live; warrant.mutant_unknown_as_dead", "parent": "Kleene 1938; Belnap 1977; rough-set lower/upper approximation (Pawlak 1982)", "limitation": "exhaustive at n=3 (168 intervals, 225,792 homomorphism checks)"},
-    {"id": "KS-T02", "statement": "Revocation of any required tail or of the edge disables conjunctive firing for every activation vector; with three-valued liveness the verdict is ENABLED/DISABLED/UNKNOWN.", "status": "PROVED", "proof": "one false conjunct; KSO_SUBSTRATE_CONTRACT_V1.md §4", "checker": "ocm.kso.checks:check_firing", "mutant": "firing.mutant_enable_ignores_tail_warrant", "parent": "Petri nets (Reisig)", "limitation": "—"},
-    {"id": "KS-T03", "statement": "The warranted navigation matrix is substochastic.", "status": "PROVED", "proof": "gates in {0,1} only remove mass; §5", "checker": "ocm.kso.checks:check_navigation_reference_equivalence", "mutant": "—", "parent": "personalised PageRank (Andersen, Chung & Lang 2006)", "limitation": "—"},
-    {"id": "KS-T04", "statement": "Gate-based exact-share revocation equals pruning with the original pre-revocation denominators (matrix level).", "status": "PROVED", "proof": "entry-wise identity of live incidences; §5", "checker": "ocm.kso.checks:check_prune_equivalence", "mutant": "navigation.mutant_navigation_matrix_renormalize", "parent": "PARENT_PRODUCT_OWNED: (JTMS/ATMS gate) ∘ spreading activation with frozen denominators", "limitation": "—"},
-    {"id": "KS-T04b", "statement": "Exact-share retraction propagates to the fixed point: (i) revoked atoms have zero activation, (ii) atoms outside Reach(dead) are exactly unchanged, (iii) activation is monotone non-increasing, (iv) reinstatement restores the pre-revocation vector exactly.", "status": "PROVED", "proof": "Neumann series term-wise; contract §25", "checker": "ocm.kso.checks:check_retraction_propagation", "mutant": "renormalising parent must differ; unapplied retraction is CANNOT_CHECK", "parent": "as KS-T04", "limitation": "—"},
-    {"id": "KS-T04c", "statement": "Prune–solve equivalence at the fixed point and at the reacting subgraph: Solve_warranted(K, R, q) = Solve_warranted(Prune_R(K), ∅, q) under identical normalisation.", "status": "PROVED", "proof": "KS-T04 + KS-T05 uniqueness + KS-T11a; docs/spec/KSO_NAVIGATION_REFERENCE_V1.md §5", "checker": "ocm.kso.checks:check_prune_equivalence", "mutant": "navigation.mutant_navigation_matrix_renormalize", "parent": "as KS-T04", "limitation": "requires the same denominator convention on both sides"},
-    {"id": "KS-T05", "statement": "Restart navigation a ← α s + (1−α) Pᵀ a is an ℓ1 contraction with a unique fixed point; iteration converges geometrically.", "status": "PROVED", "proof": "Banach; substochastic transpose is ℓ1-nonexpansive; §6", "checker": "ocm.kso.checks:check_restart_contraction", "mutant": "α = 0 rejected", "parent": "Banach fixed point; PPR", "limitation": "float solver agreement checked against exact within frozen tolerance"},
-    {"id": "KS-T06", "statement": "Reaction surprise is zero for an atom whose query activation equals its background activation; a universal hub has zero surprise under a query-independent seed.", "status": "PROVED", "proof": "log 1 = 0; §6", "checker": "ocm.kso.checks:check_hub_two_directions", "mutant": "navigation.mutant_popularity_rank", "parent": "IDF / degree normalisation; Bayesian surprise (design choice, replaceable)", "limitation": "the surprise function is a registered design choice, not a theorem of optimality"},
-    {"id": "KS-T06b", "statement": "Two-direction hub theorem: a query touching hub and specific atom ranks the specific atom first by surprise while the hub is first by popularity; a hub-only query ranks the hub first by both.", "status": "FINITE_CALIBRATION", "proof": "exact rational computation on the registered witness; contract §26", "checker": "ocm.kso.checks:check_hub_two_directions", "mutant": "navigation.mutant_popularity_rank", "parent": "as KS-T06", "limitation": "finite witness only"},
-    {"id": "KS-T07", "statement": "Quotient navigation commutes with pushforward iff the partition is Kemeny–Snell lumpable.", "status": "PARENT_OWNED", "proof": "Kemeny & Snell 1976", "checker": "ocm.kso.checks:check_quotient", "mutant": "abstraction.mutant_bad_quotient", "parent": "Kemeny–Snell lumpability", "limitation": "—"},
-    {"id": "KS-T07b", "statement": "A representation move is admissible only under navigation lumpability ∧ warrant measurability (identical three-valued liveness within each block under every registered revocation).", "status": "PROVED", "proof": "conjunction of KS-T07 and the S4 measurability requirement; docs/spec/KSO_REPRESENTATION_ABSTRACTION_V1.md §3", "checker": "ocm.kso.checks:check_quotient", "mutant": "lumpable-but-not-measurable and measurable-but-not-lumpable partitions both refused", "parent": "lumpability (parent) ∧ measurability (S4)", "limitation": "—"},
-    {"id": "KS-T08", "statement": "Every newly admitted live non-quarantined atom is incident to at least one live typed relation (semantic connectivity or quarantine).", "status": "PROVED", "proof": "immediate from the admission rule; §10", "checker": "ocm.kso.checks:check_admission_channels", "mutant": "isolated live atom rejected; quarantined isolated atom no-alarm", "parent": "—", "limitation": "invariant by construction, not a novelty theorem"},
-    {"id": "KS-T09", "statement": "The dependency impact cone is the least dependency-closed superset of the changed set; cycles are handled by the fixed point.", "status": "PROVED", "proof": "monotone operator on a finite lattice; §13", "checker": "ocm.kso.checks:check_impact_and_reopening", "mutant": "revocation.mutant_impact_cone_direct_only", "parent": "least fixed point (Knaster–Tarski)", "limitation": "—"},
-    {"id": "KS-T22", "statement": "Reopening locality: after a revocation delta the forced reopening set is cone ∩ liveness-changed; cone members whose liveness is unchanged (alternative live warrant) need re-check only; activation outside Reach(dead) is exactly unchanged; unrelated evidence revocation is a no-op.", "status": "PROVED", "proof": "KS-T09 + KS-T04b(ii); docs/spec/KSO_CORE_V1.md §6 and ORION-V2 theory note", "checker": "ocm.kso.checks:check_impact_and_reopening", "mutant": "revocation.mutant_impact_cone_direct_only (stale deep dependent stays live)", "parent": "dependency-directed backtracking (Doyle 1979); ATMS label update; incremental computation", "limitation": "reopening = re-evaluation obligation, not automatic repair"},
-    {"id": "KS-T10a", "statement": "Translator invariance reduces to seed equality: equal seed vectors yield identical extraction.", "status": "PROVED", "proof": "extraction is a function of (K, R, s_Q, α) by KS-T11a", "checker": "ocm.kso.checks:check_extraction", "mutant": "unequal seeds must differ", "parent": "—", "limitation": "KS-T10 (two independent codecs agree on s_Q) stays OPEN_M5"},
-    {"id": "KS-T11a", "statement": "The reacting subgraph is well-defined and unique; the prize-collecting optimiser is a distinct object whose optima may tie.", "status": "PROVED", "proof": "a* unique (KS-T05); contract §30", "checker": "ocm.kso.checks:check_extraction", "mutant": "planted prize = cost tie reported", "parent": "prize-collecting Steiner (Goemans–Williamson family)", "limitation": "exact optimiser bounded (≤ 12 free atoms); greedy arm reports its approximation"},
-    {"id": "KS-T12", "statement": "Lifecycle-safe consolidation: a macro can be maintained/reopened in work proportional to the affected dependency region.", "status": "OPEN", "proof": "—", "checker": "—", "mutant": "—", "parent": "DreamCoder/LILO library learning", "limitation": "not proved at M1; summaries implement only the warrant/authority law (KS-T23)"},
-    {"id": "KS-T23", "statement": "No authority from abstraction: Λ(summary) = Λ_corr ⊗ ⊗ Λ(exported); LIVE(summary) ⇒ live support exists below; DEAD/UNKNOWN propagate by KS-T21; authority is the meet and scope the intersection; a summary answers a query family only under a registered sufficiency certificate, else REFINE_REQUIRED.", "status": "PROVED", "proof": "KS-T21 applied to the summary warrant; docs/spec/KSO_REPRESENTATION_ABSTRACTION_V1.md §4", "checker": "ocm.kso.checks:check_summary_no_authority", "mutant": "abstraction.mutant_summary_majority", "parent": "ATMS conjunction; recursive_kso_v0 macro warrant", "limitation": "—"},
-    {"id": "KS-T17", "statement": "Stem-cell growth invariant: the loop acquire → compose → revoke → reinstate preserves KS-S1…S7, keeps the genome digest unchanged, and reaches a fixed point when nothing new can be acquired.", "status": "PROVED", "proof": "each operator enforces S1/S2 and meters (S7); labels of existing atoms untouched (S5); contract §32", "checker": "ocm.kso.checks:check_growth_invariant", "mutant": "admission.mutant_feedback_retains_warrant; admission.mutant_unmetered_mutation; admission.mutant_compose_merge", "parent": "inductive invariants / type preservation; #203 S1–S7", "limitation": "finite loop"},
-    {"id": "KS-T18", "statement": "Feedback cannot warrant: a FEEDBACK-admitted atom carries the certified-zero interval and is never LIVE, hence never enables firing; an EXACT_CHECKER atom enters with exact warrant.", "status": "PROVED", "proof": "ℓ_R(0) = 0 ∀R and KS-T02", "checker": "ocm.kso.checks:check_admission_channels", "mutant": "WARRANTING_CHANNEL_WITHOUT_WARRANT rejection; admission.mutant_feedback_retains_warrant", "parent": "proof-carrying code (Necula 1997); TMS premise/assumption distinction", "limitation": "—"},
-    {"id": "KS-T19", "statement": "Navigation outcome is four-valued (FOUND / GAP_NOT_FOUND / OBSTRUCTION_WITNESSED / CANNOT_CHECK), exhaustive and exclusive; an obstruction is witnessed only when the ungated ceiling walker also fails; timeout alone is a gap; a zero budget is CANNOT_CHECK.", "status": "PROVED", "proof": "case split on target ∈ V, target ∈ C°, target ∈ C^R; contract §29", "checker": "ocm.kso.checks:check_navigation_outcomes", "mutant": "zero budget; timeout is not obstruction", "parent": "CEGAR-style escalation; ME-X2 / H-EXT-1R", "limitation": "—"},
-    {"id": "KS-T20", "statement": "Composition warrant is ⊗ (never ⊕); authority is the meet; scope the intersection — no amplification.", "status": "PROVED", "proof": "contract §3 composition law; WLL-4 union-scope countermodel", "checker": "ocm.kso.checks:check_composition_law", "mutant": "admission.mutant_compose_merge; admission.mutant_compose_drop_bridge; types.mutant_authority_max; types.mutant_scope_union", "parent": "ATMS/provenance composition; lattice information flow (Denning 1976)", "limitation": "—"},
-    {"id": "KS-T24", "statement": "Navigation is not truth: with every warrant certified-zero and identical weights, no atom is LIVE, warranted extraction is empty, and no edge is enabled, while exploratory activation is unchanged.", "status": "PROVED", "proof": "gates are functions of liveness only; docs/spec/KSO_NAVIGATION_REFERENCE_V1.md §7", "checker": "ocm.kso.checks:check_navigation_is_not_truth", "mutant": "firing.mutant_enable_ignores_tail_warrant", "parent": "—", "limitation": "—"},
-    {"id": "KS-A2", "statement": "A conjunctive hyperrelation is not equivalent to its pairwise expansion (enabling and navigation differ); pairwise reading requires an explicit certificate.", "status": "PROVED", "proof": "two-tail witness; docs/spec/KSO_CORE_V1.md §3", "checker": "ocm.kso.checks:check_conjunctive_not_pairwise", "mutant": "space.pairwise_expansion accepted without certificate", "parent": "hypergraph vs clique expansion (Chitra & Raphael 2019)", "limitation": "—"},
-    {"id": "KS-A1", "statement": "A new object type can be registered without changing warrant/navigation code.", "status": "PROVED", "proof": "registry is data; core code is type-agnostic", "checker": "ocm.kso.checks:check_type_extensibility", "mutant": "unregistered type is a typed rejection", "parent": "—", "limitation": "—"},
-    {"id": "KS-R1", "statement": "Every reference mechanic reports a non-compensatory resource vector; vectors are compared by Pareto dominance, never a scalar.", "status": "PROVED", "proof": "by construction", "checker": "ocm.kso.checks:check_resources", "mutant": "resources.mutant_scalar_collapse hides a trade", "parent": "multi-objective dominance; ORION-V2 CostVector", "limitation": "—"},
-    {"id": "KS-P1", "statement": "No single parent among eight owns label-gated activation with exact-share retraction; the KSO law equals the two-parent product (JTMS/ATMS gate ∘ frozen-denominator spreading activation) — PARENT_PRODUCT_OWNED.", "status": "PARENT_OWNED", "proof": "shown on the witness (freeze checker F7), inherited", "checker": "research/orion-machine/reference/kso_m0_freeze_checks_v1.py:check_f7_parent_subtraction", "mutant": "—", "parent": "KSO_PARENT_SUBTRACTION_V1.md §Executable rows", "limitation": "one witness"},
-    {"id": "KS-EQ", "statement": "Old-vs-new equivalence: the canonical package reproduces the frozen reference on every registered witness (matrices, fixed points, navigate outcomes, retraction report, F-check outcomes) and on seeded random spaces.", "status": "FINITE_CALIBRATION", "proof": "—", "checker": "ocm.kso.checks:check_navigation_reference_equivalence", "mutant": "—", "parent": "—", "limitation": "documented tightening: COMPOSITION_WARRANT_MISMATCH is rejected at admission (KS-S2), which the reference F4 case 1 did not check"}
+    {
+      "id": "KS-T00",
+      "statement": "Finite object/relation space is well-formed: unique ids, incident atoms exist, registered types, non-negative weights and resources.",
+      "status": "PROVED",
+      "proof": "by construction (validate) ; docs/spec/KSO_CORE_V1.md §2",
+      "checker": "ocm.kso.checks:check_well_formedness",
+      "mutant": "duplicate id / unknown incident atom / negative weight rejected",
+      "parent": "—",
+      "limitation": "finite spaces only"
+    },
+    {
+      "id": "KS-T01",
+      "statement": "Antichain profiles with ⊕ (alternative) and ⊗ (conjunctive) form a commutative idempotent semiring with 0 = ∅, 1 = {∅}.",
+      "status": "PROVED",
+      "proof": "monotone Boolean function bijection; KSO_SUBSTRATE_CONTRACT_V1.md §3",
+      "checker": "ocm.kso.warrant:check_semiring",
+      "mutant": "warrant.mutant_meet_as_union",
+      "parent": "ATMS labels (de Kleer 1986); provenance semirings (Green et al. 2007)",
+      "limitation": "exhaustive at n=3 (20 profiles, 400 pairs, 8000 triples)"
+    },
+    {
+      "id": "KS-T21",
+      "statement": "Three-valued liveness on warrant intervals (lower = exhibited, upper = possible) is an exact homomorphism from (⊕, ⊗) to Kleene strong (∨, ∧); certified profiles reduce to two-valued ℓ_R; refinement is monotone (UNKNOWN → LIVE|DEAD only).",
+      "status": "PROVED",
+      "proof": "docs/spec/KSO_WARRANT_V1.md §4 (and ORION-V2 theory note KSO_THREE_VALUED_WARRANT_AND_REOPENING_V1)",
+      "checker": "ocm.kso.warrant:check_three_valued_reduction",
+      "mutant": "warrant.mutant_unknown_as_live; warrant.mutant_unknown_as_dead",
+      "parent": "Kleene 1938; Belnap 1977; rough-set lower/upper approximation (Pawlak 1982)",
+      "limitation": "exhaustive at n=3 (168 intervals, 225,792 homomorphism checks)"
+    },
+    {
+      "id": "KS-T02",
+      "statement": "Revocation of any required tail or of the edge disables conjunctive firing for every activation vector; with three-valued liveness the verdict is ENABLED/DISABLED/UNKNOWN.",
+      "status": "PROVED",
+      "proof": "one false conjunct; KSO_SUBSTRATE_CONTRACT_V1.md §4",
+      "checker": "ocm.kso.checks:check_firing",
+      "mutant": "firing.mutant_enable_ignores_tail_warrant",
+      "parent": "Petri nets (Reisig)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T03",
+      "statement": "The warranted navigation matrix is substochastic.",
+      "status": "PROVED",
+      "proof": "gates in {0,1} only remove mass; §5",
+      "checker": "ocm.kso.checks:check_navigation_reference_equivalence",
+      "mutant": "—",
+      "parent": "personalised PageRank (Andersen, Chung & Lang 2006)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T04",
+      "statement": "Gate-based exact-share revocation equals pruning with the original pre-revocation denominators (matrix level).",
+      "status": "PROVED",
+      "proof": "entry-wise identity of live incidences; §5",
+      "checker": "ocm.kso.checks:check_prune_equivalence",
+      "mutant": "navigation.mutant_navigation_matrix_renormalize",
+      "parent": "PARENT_PRODUCT_OWNED: (JTMS/ATMS gate) ∘ spreading activation with frozen denominators",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T04b",
+      "statement": "Exact-share retraction propagates to the fixed point: (i) revoked atoms have zero activation, (ii) atoms outside Reach(dead) are exactly unchanged, (iii) activation is monotone non-increasing, (iv) reinstatement restores the pre-revocation vector exactly.",
+      "status": "PROVED",
+      "proof": "Neumann series term-wise; contract §25",
+      "checker": "ocm.kso.checks:check_retraction_propagation",
+      "mutant": "renormalising parent must differ; unapplied retraction is CANNOT_CHECK",
+      "parent": "as KS-T04",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T04c",
+      "statement": "Prune–solve equivalence at the fixed point and at the reacting subgraph: Solve_warranted(K, R, q) = Solve_warranted(Prune_R(K), ∅, q) under identical normalisation.",
+      "status": "PROVED",
+      "proof": "KS-T04 + KS-T05 uniqueness + KS-T11a; docs/spec/KSO_NAVIGATION_REFERENCE_V1.md §5",
+      "checker": "ocm.kso.checks:check_prune_equivalence",
+      "mutant": "navigation.mutant_navigation_matrix_renormalize",
+      "parent": "as KS-T04",
+      "limitation": "requires the same denominator convention on both sides"
+    },
+    {
+      "id": "KS-T05",
+      "statement": "Restart navigation a ← α s + (1−α) Pᵀ a is an ℓ1 contraction with a unique fixed point; iteration converges geometrically.",
+      "status": "PROVED",
+      "proof": "Banach; substochastic transpose is ℓ1-nonexpansive; §6",
+      "checker": "ocm.kso.checks:check_restart_contraction",
+      "mutant": "α = 0 rejected",
+      "parent": "Banach fixed point; PPR",
+      "limitation": "float solver agreement checked against exact within frozen tolerance"
+    },
+    {
+      "id": "KS-T06",
+      "statement": "Reaction surprise is zero for an atom whose query activation equals its background activation; a universal hub has zero surprise under a query-independent seed.",
+      "status": "PROVED",
+      "proof": "log 1 = 0; §6",
+      "checker": "ocm.kso.checks:check_hub_two_directions",
+      "mutant": "navigation.mutant_popularity_rank",
+      "parent": "IDF / degree normalisation; Bayesian surprise (design choice, replaceable)",
+      "limitation": "the surprise function is a registered design choice, not a theorem of optimality"
+    },
+    {
+      "id": "KS-T06b",
+      "statement": "Two-direction hub theorem: a query touching hub and specific atom ranks the specific atom first by surprise while the hub is first by popularity; a hub-only query ranks the hub first by both.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "exact rational computation on the registered witness; contract §26",
+      "checker": "ocm.kso.checks:check_hub_two_directions",
+      "mutant": "navigation.mutant_popularity_rank",
+      "parent": "as KS-T06",
+      "limitation": "finite witness only"
+    },
+    {
+      "id": "KS-T07",
+      "statement": "Quotient navigation commutes with pushforward iff the partition is Kemeny–Snell lumpable.",
+      "status": "PARENT_OWNED",
+      "proof": "Kemeny & Snell 1976",
+      "checker": "ocm.kso.checks:check_quotient",
+      "mutant": "abstraction.mutant_bad_quotient",
+      "parent": "Kemeny–Snell lumpability",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T07b",
+      "statement": "A representation move is admissible only under navigation lumpability ∧ warrant measurability (identical three-valued liveness within each block under every registered revocation).",
+      "status": "PROVED",
+      "proof": "conjunction of KS-T07 and the S4 measurability requirement; docs/spec/KSO_REPRESENTATION_ABSTRACTION_V1.md §3",
+      "checker": "ocm.kso.checks:check_quotient",
+      "mutant": "lumpable-but-not-measurable and measurable-but-not-lumpable partitions both refused",
+      "parent": "lumpability (parent) ∧ measurability (S4)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T08",
+      "statement": "Every newly admitted live non-quarantined atom is incident to at least one live typed relation (semantic connectivity or quarantine).",
+      "status": "PROVED",
+      "proof": "immediate from the admission rule; §10",
+      "checker": "ocm.kso.checks:check_admission_channels",
+      "mutant": "isolated live atom rejected; quarantined isolated atom no-alarm",
+      "parent": "—",
+      "limitation": "invariant by construction, not a novelty theorem"
+    },
+    {
+      "id": "KS-T09",
+      "statement": "The dependency impact cone is the least dependency-closed superset of the changed set; cycles are handled by the fixed point.",
+      "status": "PROVED",
+      "proof": "monotone operator on a finite lattice; §13",
+      "checker": "ocm.kso.checks:check_impact_and_reopening",
+      "mutant": "revocation.mutant_impact_cone_direct_only",
+      "parent": "least fixed point (Knaster–Tarski)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T22",
+      "statement": "Reopening locality: after a revocation delta the forced reopening set is cone ∩ liveness-changed; cone members whose liveness is unchanged (alternative live warrant) need re-check only; activation outside Reach(dead) is exactly unchanged; unrelated evidence revocation is a no-op.",
+      "status": "PROVED",
+      "proof": "KS-T09 + KS-T04b(ii); docs/spec/KSO_CORE_V1.md §6 and ORION-V2 theory note",
+      "checker": "ocm.kso.checks:check_impact_and_reopening",
+      "mutant": "revocation.mutant_impact_cone_direct_only (stale deep dependent stays live)",
+      "parent": "dependency-directed backtracking (Doyle 1979); ATMS label update; incremental computation",
+      "limitation": "reopening = re-evaluation obligation, not automatic repair"
+    },
+    {
+      "id": "KS-T10a",
+      "statement": "Translator invariance reduces to seed equality: equal seed vectors yield identical extraction.",
+      "status": "PROVED",
+      "proof": "extraction is a function of (K, R, s_Q, α) by KS-T11a",
+      "checker": "ocm.kso.checks:check_extraction",
+      "mutant": "unequal seeds must differ",
+      "parent": "—",
+      "limitation": "KS-T10 (two independent codecs agree on s_Q) stays OPEN_M5"
+    },
+    {
+      "id": "KS-T11a",
+      "statement": "The reacting subgraph is well-defined and unique; the prize-collecting optimiser is a distinct object whose optima may tie.",
+      "status": "PROVED",
+      "proof": "a* unique (KS-T05); contract §30",
+      "checker": "ocm.kso.checks:check_extraction",
+      "mutant": "planted prize = cost tie reported",
+      "parent": "prize-collecting Steiner (Goemans–Williamson family)",
+      "limitation": "exact optimiser bounded (≤ 12 free atoms); greedy arm reports its approximation"
+    },
+    {
+      "id": "KS-T12",
+      "statement": "Lifecycle-safe consolidation: a macro can be maintained/reopened in work proportional to the affected dependency region — CLAUSE (theory batch 7 G5): holds for query sets Q ⊆ exports of the consolidated region (gain (k−1)[t∈Q] − 2|Q∩internals|); the unconditional form is refuted (k = 1, Q = {x1}: 1 → 3).",
+      "status": "PROVED_WITH_CLAUSE",
+      "proof": "—",
+      "checker": "—",
+      "mutant": "—",
+      "parent": "DreamCoder/LILO library learning",
+      "limitation": "not proved at M1; summaries implement only the warrant/authority law (KS-T23)"
+    },
+    {
+      "id": "KS-T23",
+      "statement": "No authority from abstraction: Λ(summary) = Λ_corr ⊗ ⊗ Λ(exported); LIVE(summary) ⇒ live support exists below; DEAD/UNKNOWN propagate by KS-T21; authority is the meet and scope the intersection; a summary answers a query family only under a registered sufficiency certificate, else REFINE_REQUIRED.",
+      "status": "PROVED",
+      "proof": "KS-T21 applied to the summary warrant; docs/spec/KSO_REPRESENTATION_ABSTRACTION_V1.md §4",
+      "checker": "ocm.kso.checks:check_summary_no_authority",
+      "mutant": "abstraction.mutant_summary_majority",
+      "parent": "ATMS conjunction; recursive_kso_v0 macro warrant",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T17",
+      "statement": "Stem-cell growth invariant: the loop acquire → compose → revoke → reinstate preserves KS-S1…S7, keeps the genome digest unchanged, and reaches a fixed point when nothing new can be acquired.",
+      "status": "PROVED",
+      "proof": "each operator enforces S1/S2 and meters (S7); labels of existing atoms untouched (S5); contract §32",
+      "checker": "ocm.kso.checks:check_growth_invariant",
+      "mutant": "admission.mutant_feedback_retains_warrant; admission.mutant_unmetered_mutation; admission.mutant_compose_merge",
+      "parent": "inductive invariants / type preservation; #203 S1–S7",
+      "limitation": "finite loop"
+    },
+    {
+      "id": "KS-T18",
+      "statement": "Feedback cannot warrant: a FEEDBACK-admitted atom carries the certified-zero interval and is never LIVE, hence never enables firing; an EXACT_CHECKER atom enters with exact warrant.",
+      "status": "PROVED",
+      "proof": "ℓ_R(0) = 0 ∀R and KS-T02",
+      "checker": "ocm.kso.checks:check_admission_channels",
+      "mutant": "WARRANTING_CHANNEL_WITHOUT_WARRANT rejection; admission.mutant_feedback_retains_warrant",
+      "parent": "proof-carrying code (Necula 1997); TMS premise/assumption distinction",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T19",
+      "statement": "Navigation outcome is four-valued (FOUND / GAP_NOT_FOUND / OBSTRUCTION_WITNESSED / CANNOT_CHECK), exhaustive and exclusive; an obstruction is witnessed only when the ungated ceiling walker also fails; timeout alone is a gap; a zero budget is CANNOT_CHECK.",
+      "status": "PROVED",
+      "proof": "case split on target ∈ V, target ∈ C°, target ∈ C^R; contract §29",
+      "checker": "ocm.kso.checks:check_navigation_outcomes",
+      "mutant": "zero budget; timeout is not obstruction",
+      "parent": "CEGAR-style escalation; ME-X2 / H-EXT-1R",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T20",
+      "statement": "Composition warrant is ⊗ (never ⊕); authority is the meet; scope the intersection — no amplification.",
+      "status": "PROVED",
+      "proof": "contract §3 composition law; WLL-4 union-scope countermodel",
+      "checker": "ocm.kso.checks:check_composition_law",
+      "mutant": "admission.mutant_compose_merge; admission.mutant_compose_drop_bridge; types.mutant_authority_max; types.mutant_scope_union",
+      "parent": "ATMS/provenance composition; lattice information flow (Denning 1976)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T24",
+      "statement": "Navigation is not truth: with every warrant certified-zero and identical weights, no atom is LIVE, warranted extraction is empty, and no edge is enabled, while exploratory activation is unchanged.",
+      "status": "PROVED",
+      "proof": "gates are functions of liveness only; docs/spec/KSO_NAVIGATION_REFERENCE_V1.md §7",
+      "checker": "ocm.kso.checks:check_navigation_is_not_truth",
+      "mutant": "firing.mutant_enable_ignores_tail_warrant",
+      "parent": "—",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-A2",
+      "statement": "A conjunctive hyperrelation is not equivalent to its pairwise expansion (enabling and navigation differ); pairwise reading requires an explicit certificate.",
+      "status": "PROVED",
+      "proof": "two-tail witness; docs/spec/KSO_CORE_V1.md §3",
+      "checker": "ocm.kso.checks:check_conjunctive_not_pairwise",
+      "mutant": "space.pairwise_expansion accepted without certificate",
+      "parent": "hypergraph vs clique expansion (Chitra & Raphael 2019)",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-A1",
+      "statement": "A new object type can be registered without changing warrant/navigation code.",
+      "status": "PROVED",
+      "proof": "registry is data; core code is type-agnostic",
+      "checker": "ocm.kso.checks:check_type_extensibility",
+      "mutant": "unregistered type is a typed rejection",
+      "parent": "—",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-R1",
+      "statement": "Every reference mechanic reports a non-compensatory resource vector; vectors are compared by Pareto dominance, never a scalar.",
+      "status": "PROVED",
+      "proof": "by construction",
+      "checker": "ocm.kso.checks:check_resources",
+      "mutant": "resources.mutant_scalar_collapse hides a trade",
+      "parent": "multi-objective dominance; ORION-V2 CostVector",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-P1",
+      "statement": "No single parent among eight owns label-gated activation with exact-share retraction; the KSO law equals the two-parent product (JTMS/ATMS gate ∘ frozen-denominator spreading activation) — PARENT_PRODUCT_OWNED.",
+      "status": "PARENT_OWNED",
+      "proof": "shown on the witness (freeze checker F7), inherited",
+      "checker": "research/orion-machine/reference/kso_m0_freeze_checks_v1.py:check_f7_parent_subtraction",
+      "mutant": "—",
+      "parent": "KSO_PARENT_SUBTRACTION_V1.md §Executable rows",
+      "limitation": "one witness"
+    },
+    {
+      "id": "KS-EQ",
+      "statement": "Old-vs-new equivalence: the canonical package reproduces the frozen reference on every registered witness (matrices, fixed points, navigate outcomes, retraction report, F-check outcomes) and on seeded random spaces.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "—",
+      "checker": "ocm.kso.checks:check_navigation_reference_equivalence",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "documented tightening: COMPOSITION_WARRANT_MISMATCH is rejected at admission (KS-S2), which the reference F4 case 1 did not check"
+    }
   ]
 }

@@ -12,7 +12,11 @@ from __future__ import annotations
 from ocm.kso.jump import JumpAssessment, JumpProposal
 
 
-def assess_jump_from_evidence(proposal: JumpProposal, *, minimum_sufficient_local: bool | None, certificate_valid: bool, donor_product_ties: bool) -> JumpAssessment:
+def assess_jump_from_evidence(proposal: JumpProposal, *, minimum_sufficient_local: bool | None, certificate_valid: bool, donor_product_ties: bool, registered_class: tuple[str, ...] | None = ()) -> JumpAssessment:
+    """Batch 7 G1: the Jump level is relative to the registered class of maps/tools; a J4/J5 proposal
+    without a registered class is JUMP_PROPOSAL_INCOMPLETE (no uniform ceiling exists)."""
+    if registered_class is None:
+        return JumpAssessment.JUMP_PROPOSAL_INCOMPLETE
     if minimum_sufficient_local is None or not proposal.trigger.is_admissible:
         return JumpAssessment.INCUMBENT_INSUFFICIENCY_NOT_IDENTIFIED
     if minimum_sufficient_local:
