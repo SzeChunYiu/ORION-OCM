@@ -1,0 +1,103 @@
+{
+  "registry": "OCM_DIALOGUE_OBLIGATION_REGISTRY_V1",
+  "milestone": "M4",
+  "extends": "OCM_LANGUAGE_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T43",
+      "gap": "MEG-05",
+      "statement": "Three-layer separation: speaker commitments are OBSERVATION evidence with speaker authority and conversation scope; the machine layer changes only by propose_promote under a LIVE bridge with the authority meet; ten speakers' agreement leaves the machine layer empty.",
+      "status": "PROVED",
+      "proof": "ORION-V2 batch-2 B1; src/ocm/dialogue/workspace.py propose_promote",
+      "checker": "tests/m4/test_workspace.py::test_ten_speakers_do_not_promote_and_promotion_needs_a_live_bridge; research/ocm-m4/M4_DIALOGUE_EVAL_V1.json leakage 0/51",
+      "mutant": "workspace.mutant_promote_all_assertions",
+      "parent": "ATMS assumptions (de Kleer 1986); commitment stores (Hamblin 1970)",
+      "limitation": "finite fixtures"
+    },
+    {
+      "id": "KS-T44",
+      "gap": "MEG-03",
+      "statement": "Correction is supersession: the new commitment's evidence supersedes the old, the old evidence is revoked (KS-T22 reopens exactly the dependents), both records are linked, history is never edited; unrelated commitments are untouched; retraction revokes without a successor.",
+      "status": "PROVED",
+      "proof": "ORION-V2 batch-2 B5; src/ocm/dialogue/workspace.py commit/retract",
+      "checker": "tests/m4/test_workspace.py; tests/m4/test_dialogue_runtime.py::test_correction_supersedes_and_the_answer_reopens_while_unrelated_state_stays",
+      "mutant": "workspace.mutant_correction_overwrites_history",
+      "parent": "bitemporal validity (Snodgrass 1999, candidate)",
+      "limitation": "supersession target = same canonical proposition by the same speaker (ledger S15)"
+    },
+    {
+      "id": "KS-T45",
+      "gap": "—",
+      "statement": "Reference is four-valued from constraints; recency and mention count order an ambiguity set only; an unconstrained referent is UNKNOWN_REFERENT, never the nearest string.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/dialogue/reference.py",
+      "checker": "tests/m4/test_workspace.py::test_reference_resolution_is_four_valued_and_never_nearest_noun",
+      "mutant": "reference.mutant_nearest_noun; reference.mutant_most_recent_turn_only",
+      "parent": "centering/constraint-based anaphora (Grosz–Joshi–Weinstein 1995) — candidate",
+      "limitation": "pronouns, descriptions, aliases, ordinals only"
+    },
+    {
+      "id": "KS-T46",
+      "gap": "MEG-33",
+      "statement": "Clarification value = expected number of registered query cells determined after the answer (uniform prior over the ambiguity set) − cost − repeat penalty; irrelevant ambiguity has value 0 (no question); a question pinning every candidate dominates one isolating a single candidate under matched cost; repeats have non-positive value; the answer is INTERACTION evidence and never a score collapse.",
+      "status": "PROVED (finite)",
+      "proof": "ORION-V2 batch-3 C1 (in progress); src/ocm/dialogue/clarify.py",
+      "checker": "tests/m4/test_clarify_gate.py",
+      "mutant": "clarify.mutant_always_ask; clarify.mutant_never_ask",
+      "parent": "value of information (Howard 1966)",
+      "limitation": "uniform prior; query family registered by the task"
+    },
+    {
+      "id": "KS-T47",
+      "gap": "MEG-25",
+      "statement": "External commitment gate: a surface commits iff its meaning digest equals the plan's, every asserted proposition is LIVE (or REPORTED when resting on speaker commitments), the epistemic marker equals the state's required marker, referents are resolved, no protected content id appears, and the renderer held no store handle; refusals are structured feedback events naming the stage to reopen.",
+      "status": "PROVED (finite)",
+      "proof": "ORION-V2 batch-3 C2 (in progress); src/ocm/dialogue/gate.py",
+      "checker": "tests/m4/test_clarify_gate.py; tests/m4/test_dialogue_runtime.py::test_gate_refuses_a_plan_the_state_cannot_support",
+      "mutant": "gate.mutant_renderer_injects_fact; gate.mutant_drop_uncertainty",
+      "parent": "object capabilities (Miller 2006); noninterference",
+      "limitation": "the codec's reverse reading is supplied by the plan in this milestone (M6 realises surfaces)"
+    },
+    {
+      "id": "KS-T48",
+      "gap": "MEG-16",
+      "statement": "Contradictory commitments (p and ¬p) are both kept; a question on p is answered REPORT_UNCERTAIN citing both; majority never resolves; resolution only by supersession, retraction or a bridge.",
+      "status": "PROVED (finite)",
+      "proof": "ORION-V2 batch-3 C7 (in progress); src/ocm/dialogue/session.py _answer",
+      "checker": "research/ocm-m4/M4_DIALOGUE_EVAL_V1.json contradiction 7/7; tests/m4/test_workspace.py",
+      "mutant": "(majority promotion — batch-1 T1 mutant_majority_promote)",
+      "parent": "ATMS nogoods",
+      "limitation": "finite fixtures"
+    },
+    {
+      "id": "KS-T49",
+      "gap": "—",
+      "statement": "Persistence: the workspace is written atomically after every mutation and reloaded on resume with the runtime ledger; a reference to evidence absent from the ledger is CANNOT_CHECK; a midway restart changes no behaviour.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/dialogue/workspace.py save/load; src/ocm/evaluation/m4_dialogue_eval.py restart_at",
+      "checker": "tests/m4/test_workspace.py; tests/m4/test_dialogue_runtime.py; receipt: 18 restarted dialogues",
+      "mutant": "(ghost evidence id — tested)",
+      "parent": "ORION ledger durability (vendored)",
+      "limitation": "single process; no concurrent writers"
+    },
+    {
+      "id": "KS-T50",
+      "gap": "MEG-09/23",
+      "statement": "Real-conversation evaluation (MultiWOZ 2.4 comparator, protected human conversations) — custody script provided; results are M4 follow-ups.",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "scripts/acquire_multiwoz.sh (custody only)",
+      "mutant": "—",
+      "parent": "MultiWOZ 2.4 (Ye et al. 2022)",
+      "limitation": "no result claimed"
+    }
+  ]
+}
