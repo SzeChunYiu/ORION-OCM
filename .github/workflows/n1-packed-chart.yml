@@ -2,14 +2,14 @@ name: N1 packed construction parser
 on:
   pull_request:
     paths:
-      - 'research/ocm-n1/packed_chart.py'
-      - 'research/ocm-n1/test_packed_chart.py'
+      - 'research/ocm-n1/**'
+      - 'src/ocm/**'
       - '.github/workflows/n1-packed-chart.yml'
   push:
     branches: [main]
     paths:
-      - 'research/ocm-n1/packed_chart.py'
-      - 'research/ocm-n1/test_packed_chart.py'
+      - 'research/ocm-n1/**'
+      - 'src/ocm/**'
       - '.github/workflows/n1-packed-chart.yml'
 permissions:
   contents: read
@@ -21,5 +21,5 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: ./scripts/m0_install_dev.sh
-      - name: Exact packed chart tests
-        run: python research/ocm-n1/test_packed_chart.py
+      - name: N1 parser and persistent language checks
+        run: python -m pytest research/ocm-n1 -q
