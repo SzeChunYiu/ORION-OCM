@@ -11,7 +11,7 @@ import math
 from pathlib import Path
 from typing import Iterable
 
-from ocm.evaluation.lifetime_metrics import (
+from lifetime_metrics import (
     AcquisitionMeasure, CheckStatus, ComparatorManifest, InformationVector,
     ResourceVector, RevisionMeasure, StateMeasure, TouchMeasure,
 )
