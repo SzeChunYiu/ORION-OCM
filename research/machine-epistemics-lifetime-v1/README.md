@@ -10,7 +10,7 @@ This directory turns the research thesis into executable measurement and a prere
 - `src/ocm/evaluation/lifetime_metrics.py` — D2 reusable runtime receipt/counter objects plus KSO state adapter and comparator-parity checks.
 - `ME_LIFETIME_RECEIPT_SCHEMA_V1.json` — D2 machine-readable common receipt schema.
 - `calibration.py` + `ME_SYNTHETIC_CALIBRATION_V1.json` — D3 exact planted acquisition/scaling/revision worlds and D6 pilot A/B/C/E/F outputs; Figure D correctly returns CANNOT_CHECK rather than inventing a cost scalar.
-- `tests/test_lifetime_metrics.py` — hostile/no-alarm/CANNOT_CHECK tests for the meters.
+- `tests/test_lifetime_metrics.py` — hostile/no-alarm/CANNOT_CHECK tests for the meters, including denominator padding and hidden-global-scan attacks.
 - `ME_LIFETIME_BENCHMARK_V0.md` — D4 frozen lifetime topology/orders/scales; protected instance hashes remain gated on N3/N5.
 - `ME_COMPARATOR_MANIFEST_V1.md` — D5 strongest-parent contract and explicit finding that the current simple matched parent is not strong enough for all #50 hypotheses.
 - `ME_CONFIRMATORY_PREREGISTRATION_V0.md` — D7 analysis rules frozen prospectively; V1 cannot bind task hashes while N3/N5 are locked.
@@ -25,7 +25,7 @@ PYTHONPATH=src python research/machine-epistemics-lifetime-v1/calibration.py
 python -m unittest discover -s tests -p 'test_lifetime_metrics.py' -v
 ```
 
-V1 local authoring replay: 9/9 tests GREEN.
+V1 local authoring replay after reviewer hardening: **12/12 tests GREEN**.
 
 The synthetic pilot terminal is:
 
@@ -41,8 +41,9 @@ The confirmatory terminal is:
 2. **Sparse retrieval is not unique by itself.** A strong indexed parent can avoid global corpus scans too.
 3. **Local exact revision is not unique by itself.** TMS/ATMS-style reason maintenance is the strongest parent family and must be subtracted.
 4. **The current `navigation_sparse.py` is adjacency-sparse but not yet evidence for `O(k)` task cost.** Its fixed-point iteration still updates every state row, so #50's `k` meter must expose rather than hide that work.
-5. **The current historical matched parent is not a universal #50 parent.** It deliberately omits several tested powers; the confirmatory study requires the composite P6 contract.
-6. **Historical M12 V4 cannot be recycled as confirmation.** #38 prospectively reopened the lifetime matching/persistence inference, so those outcomes are calibration/background only.
+5. **`N` cannot be padded by untouchable aggregate counts.** Identity-bearing object counts define the denominator; aggregates such as current warrant-set cardinality are auxiliary until aligned identity-level touch instrumentation exists.
+6. **The current historical matched parent is not a universal #50 parent.** It deliberately omits several tested powers; the confirmatory study requires the composite P6 contract.
+7. **Historical M12 V4 cannot be recycled as confirmation.** #38 prospectively reopened the lifetime matching/persistence inference, so those outcomes are calibration/background only.
 
 These are constructive negative findings: they sharpen the paper from "OCM has several nice mechanisms" into a test of whether their *joint governed lifelong coupling* produces a distinct regime.
 
