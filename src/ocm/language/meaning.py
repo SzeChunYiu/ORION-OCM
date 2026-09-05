@@ -33,6 +33,17 @@ RELATION_TYPES: tuple[str, ...] = tuple(f"ROLE:{r}" for r in ROLES) + (
 MAX_EXACT_CANONICAL = 7
 
 
+# knowledge-world relations (M6 §4): registry data, extendable at runtime via register_relations
+KNOWLEDGE_RELATIONS: tuple[str, ...] = ("IS_A", "PART_OF", "USED_FOR", "HAS_PROPERTY", "CONTAINS", "LOCATED_IN", "CAPITAL_OF", "HAS_COUNT", "BEFORE", "AFTER", "BOILS_AT", "FREEZES_AT", "ORBITS", "HAPPENS_IN", "HAPPENS_AT", "EQUALS", "HAPPENED_IN", "SUPERSEDED_BY")
+RELATION_TYPES = tuple(RELATION_TYPES) + tuple(r for r in KNOWLEDGE_RELATIONS if r not in RELATION_TYPES)
+
+
+def register_relations(*names: str) -> None:
+    """Extend the relation registry (data, not constitution)."""
+    global RELATION_TYPES
+    RELATION_TYPES = tuple(RELATION_TYPES) + tuple(n for n in names if n not in RELATION_TYPES)
+
+
 def meaning_registry(base: TypeRegistry | None = None) -> TypeRegistry:
     """The KSO type registry extended with the meaning vocabulary (data, not code)."""
     reg = base or TypeRegistry()
