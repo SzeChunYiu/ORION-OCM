@@ -1,0 +1,170 @@
+{
+  "authority": "lifetime transfer study on OCM-authored environments with exact oracle state against matched parents built here; external benchmarks CANNOT_CHECK; no novelty claim",
+  "bound_files": {
+    "docs/M9_TRANSFER_REPORT.md": "d8b9be2a9570899c979651a1628a4c6605fe7e07487fcee8e1bc4321e9b7af5d",
+    "docs/provenance/M8_RECEIPT_V1.json": "56b9b31faf97c076a51312be7408b487fba63639b4154f8e5f9eb88a479f7851",
+    "docs/theorems/OCM_WORK_OBLIGATION_REGISTRY_V1.json": "2d45e970290cb329c263b0e9970e659b014c08a94c5774f48ccad70ac84f224f",
+    "research/ocm-m9/M9_TRANSFER_EVAL_V2.json": "93d4d9998753ad9ba3e3729f9d582b6b4caee74b748587e563440f99c2f6bbf9",
+    "src/ocm/evaluation/m9_transfer_eval.py": "be93bab4f887775d2b50eb9dfa3018174d8d0a6a3ce77f2b7f2b419f04b2a477",
+    "src/ocm/work/contracts.py": "5c8b5e0b64b5ff651f741d3eacb264027f132e222313c5615ee3d0098a435a67",
+    "src/ocm/work/envs.py": "4aa5540706d6e0805af4e9962ec9bcc83f6bfecc14c45d22762f07a531aca8ed",
+    "src/ocm/work/methods.py": "fd559a2aa3a28fb8b6bd4e33032c73519dcf5d1a32c52fa2f4afb965096312d3"
+  },
+  "deterministic_results": {
+    "claims": {
+      "fresh_start": {
+        "n": 9,
+        "verdict": "EQUIVALENT"
+      },
+      "ocm-no_transfer": {
+        "n": 9,
+        "verdict": "EQUIVALENT"
+      },
+      "skill_library": {
+        "n": 9,
+        "verdict": "EQUIVALENT"
+      },
+      "trajectory_memory": {
+        "n": 9,
+        "verdict": "EQUIVALENT"
+      }
+    },
+    "external_benchmarks": {
+      "CRMArena-Pro": "CANNOT_CHECK",
+      "SWE-bench Verified": "CANNOT_CHECK",
+      "TUA-Bench": "CANNOT_CHECK",
+      "TheAgentCompany": "CANNOT_CHECK",
+      "WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)"
+    },
+    "study_status": "PROTECTED (V1 = DEV_CALIBRATION: the fresh-start comparator skipped the withheld acceptance every other arm pays; matched in V2, ledger S27)",
+    "summary": {
+      "fresh_start": {
+        "later_routes": [
+          "LEARN_NEW"
+        ],
+        "mean_later_domain_acquisition_cost": 12.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "fresh_start_unvalidated(not matched)": {
+        "later_routes": [
+          "LEARN_NEW"
+        ],
+        "mean_later_domain_acquisition_cost": 6.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "ocm": {
+        "later_routes": [
+          "TRANSFER"
+        ],
+        "mean_later_domain_acquisition_cost": 7.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "ocm-no_router": {
+        "later_routes": [
+          "TRANSFER"
+        ],
+        "mean_later_domain_acquisition_cost": 7.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "ocm-no_transfer": {
+        "later_routes": [
+          "LEARN_NEW"
+        ],
+        "mean_later_domain_acquisition_cost": 12.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "skill_library": {
+        "later_routes": [
+          "LEARN_NEW"
+        ],
+        "mean_later_domain_acquisition_cost": 12.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      },
+      "trajectory_memory": {
+        "later_routes": [
+          "LEARN_NEW"
+        ],
+        "mean_later_domain_acquisition_cost": 12.0,
+        "success": "54/54",
+        "unauthorized_attempts": 0
+      }
+    },
+    "transfer_matrix": {
+      "cells": {
+        "T0_identical_new_instance": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T10_environment_drift": {
+          "diagnosis": "OPERATOR_WRONG",
+          "expected": "REFINE_REQUIRED",
+          "result": "REFINE_REQUIRED"
+        },
+        "T11_conflicting_lessons": {
+          "expected": "LEARN_NEW",
+          "result": "LEARN_NEW"
+        },
+        "T12_router_wrong_skill": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T13_short_horizon_helps_final_hurts": {
+          "expected": "REFUSE_TRANSFER",
+          "result": "REFUSE_TRANSFER"
+        },
+        "T1_new_parameters": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T2_subprocedure": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T3_composition": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T4_new_vocabulary_domain": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T5_partial_adapter_required": {
+          "expected": "ADAPTER_REQUIRED",
+          "result": "ADAPTER_REQUIRED"
+        },
+        "T6_representation_correspondence": {
+          "expected": "TRANSFER",
+          "result": "TRANSFER"
+        },
+        "T7_superficial_similarity": {
+          "expected": "REFUSE_TRANSFER",
+          "result": "REFUSE_TRANSFER"
+        },
+        "T8_outside_authority": {
+          "expected": "REFUSE_TRANSFER",
+          "result": "REFUSE_TRANSFER"
+        },
+        "T9_source_revoked": {
+          "expected": "REFUSE_TRANSFER",
+          "result": "REFUSE_TRANSFER"
+        }
+      },
+      "expected_met": 14,
+      "n": 14
+    },
+    "transfer_precision": {
+      "attempted": 6,
+      "beneficial": 6,
+      "precision": 1.0
+    }
+  },
+  "git_head_at_generation": "UNKNOWN",
+  "receipt": "M9_RECEIPT_V1",
+  "terminal": "M9_CANNOT_CHECK_FOR_SUPPORTED_AT_THIS_N"
+}

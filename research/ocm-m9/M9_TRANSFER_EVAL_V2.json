@@ -1,0 +1,966 @@
+{
+  "authority": "OCM-authored self-contained environments with exact oracle state; matched arms receive the same demonstrations and budgets; external agent benchmarks CANNOT_CHECK; no novelty claim",
+  "claims": {
+    "fresh_start": {
+      "ci_90": [
+        0.0,
+        0.0
+      ],
+      "delta": 0.05,
+      "difference": 0.0,
+      "n": 9,
+      "verdict": "EQUIVALENT"
+    },
+    "ocm-no_transfer": {
+      "ci_90": [
+        0.0,
+        0.0
+      ],
+      "delta": 0.05,
+      "difference": 0.0,
+      "n": 9,
+      "verdict": "EQUIVALENT"
+    },
+    "skill_library": {
+      "ci_90": [
+        0.0,
+        0.0
+      ],
+      "delta": 0.05,
+      "difference": 0.0,
+      "n": 9,
+      "verdict": "EQUIVALENT"
+    },
+    "trajectory_memory": {
+      "ci_90": [
+        0.0,
+        0.0
+      ],
+      "delta": 0.05,
+      "difference": 0.0,
+      "n": 9,
+      "verdict": "EQUIVALENT"
+    }
+  },
+  "external_benchmarks": {
+    "CRMArena-Pro": "CANNOT_CHECK",
+    "SWE-bench Verified": "CANNOT_CHECK",
+    "TUA-Bench": "CANNOT_CHECK",
+    "TheAgentCompany": "CANNOT_CHECK",
+    "WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)"
+  },
+  "orderings": {
+    "A\u2192B\u2192C": {
+      "fresh_start": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 36
+      },
+      "fresh_start_unvalidated(not matched)": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "software",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "analysis",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          6,
+          6
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 18
+      },
+      "ocm": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "software",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "analysis",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_router": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "software",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "analysis",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_transfer": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 36
+      },
+      "skill_library": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 30
+      },
+      "trajectory_memory": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "enterprise\u2192software\u2192analysis",
+        "total_acquisition_cost": 36
+      }
+    },
+    "B\u2192C\u2192A": {
+      "fresh_start": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 36
+      },
+      "fresh_start_unvalidated(not matched)": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "analysis",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          6,
+          6
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 18
+      },
+      "ocm": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "analysis",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_router": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "analysis",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_transfer": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 36
+      },
+      "skill_library": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 30
+      },
+      "trajectory_memory": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "software\u2192analysis\u2192enterprise",
+        "total_acquisition_cost": 36
+      }
+    },
+    "C\u2192A\u2192B": {
+      "fresh_start": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 36
+      },
+      "fresh_start_unvalidated(not matched)": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 6,
+            "domain": "software",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          6,
+          6
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 18
+      },
+      "ocm": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "software",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_router": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 7,
+            "domain": "software",
+            "position": 2,
+            "route": "TRANSFER",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          7,
+          7
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 26
+      },
+      "ocm-no_transfer": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 36
+      },
+      "skill_library": {
+        "domains": [
+          {
+            "acquisition_cost": 6,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 30
+      },
+      "trajectory_memory": {
+        "domains": [
+          {
+            "acquisition_cost": 12,
+            "domain": "analysis",
+            "position": 0,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "enterprise",
+            "position": 1,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          },
+          {
+            "acquisition_cost": 12,
+            "domain": "software",
+            "position": 2,
+            "route": "LEARN_NEW",
+            "success": 6,
+            "tasks": 6,
+            "unauthorized_attempts": 0
+          }
+        ],
+        "later_domain_costs": [
+          12,
+          12
+        ],
+        "ordering": "analysis\u2192enterprise\u2192software",
+        "total_acquisition_cost": 36
+      }
+    }
+  },
+  "receipt": "M9_TRANSFER_EVAL_V2",
+  "study_status": "PROTECTED (V1 = DEV_CALIBRATION: the fresh-start comparator skipped the withheld acceptance every other arm pays; matched in V2, ledger S27)",
+  "summary": {
+    "fresh_start": {
+      "later_routes": [
+        "LEARN_NEW"
+      ],
+      "mean_later_domain_acquisition_cost": 12.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "fresh_start_unvalidated(not matched)": {
+      "later_routes": [
+        "LEARN_NEW"
+      ],
+      "mean_later_domain_acquisition_cost": 6.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "ocm": {
+      "later_routes": [
+        "TRANSFER"
+      ],
+      "mean_later_domain_acquisition_cost": 7.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "ocm-no_router": {
+      "later_routes": [
+        "TRANSFER"
+      ],
+      "mean_later_domain_acquisition_cost": 7.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "ocm-no_transfer": {
+      "later_routes": [
+        "LEARN_NEW"
+      ],
+      "mean_later_domain_acquisition_cost": 12.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "skill_library": {
+      "later_routes": [
+        "LEARN_NEW"
+      ],
+      "mean_later_domain_acquisition_cost": 12.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    },
+    "trajectory_memory": {
+      "later_routes": [
+        "LEARN_NEW"
+      ],
+      "mean_later_domain_acquisition_cost": 12.0,
+      "success": "54/54",
+      "unauthorized_attempts": 0
+    }
+  },
+  "transfer_matrix": {
+    "cells": {
+      "T0_identical_new_instance": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T10_environment_drift": {
+        "diagnosis": "OPERATOR_WRONG",
+        "expected": "REFINE_REQUIRED",
+        "result": "REFINE_REQUIRED"
+      },
+      "T11_conflicting_lessons": {
+        "expected": "LEARN_NEW",
+        "result": "LEARN_NEW"
+      },
+      "T12_router_wrong_skill": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T13_short_horizon_helps_final_hurts": {
+        "expected": "REFUSE_TRANSFER",
+        "result": "REFUSE_TRANSFER"
+      },
+      "T1_new_parameters": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T2_subprocedure": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T3_composition": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T4_new_vocabulary_domain": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T5_partial_adapter_required": {
+        "expected": "ADAPTER_REQUIRED",
+        "result": "ADAPTER_REQUIRED"
+      },
+      "T6_representation_correspondence": {
+        "expected": "TRANSFER",
+        "result": "TRANSFER"
+      },
+      "T7_superficial_similarity": {
+        "expected": "REFUSE_TRANSFER",
+        "result": "REFUSE_TRANSFER"
+      },
+      "T8_outside_authority": {
+        "expected": "REFUSE_TRANSFER",
+        "result": "REFUSE_TRANSFER"
+      },
+      "T9_source_revoked": {
+        "expected": "REFUSE_TRANSFER",
+        "result": "REFUSE_TRANSFER"
+      }
+    },
+    "expected_met": 14,
+    "n": 14
+  },
+  "transfer_precision": {
+    "attempted": 6,
+    "beneficial": 6,
+    "precision": 1.0
+  },
+  "wall_s": 0.102
+}
