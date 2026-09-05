@@ -28,7 +28,8 @@ from ocm.language import meaning as M
 from ocm.language import realize as RZ
 
 ROOT = Path(__file__).resolve().parents[3]
-CONVS = ROOT / "research" / "ocm-m7" / "M7_PROTECTED_CONVERSATIONS_V1.json"
+SUITES = {"V1": ROOT / "research" / "ocm-m7" / "M7_PROTECTED_CONVERSATIONS_V1.json", "V2": ROOT / "research" / "ocm-m7" / "M7_PROTECTED_CONVERSATIONS_V2.json"}
+CONVS = SUITES["V1"]
 PREREG = ROOT / "research" / "ocm-m7" / "M7_PREREGISTRATION_V1.md"
 OUT_OF_SCOPE = ["is paris in spain", "is the sun a planet", "is mars a star", "is berlin in france", "is the moon a star", "is a cat a machine", "is a robot an animal", "is water a planet", "is stockholm in germany", "does the sun orbit the earth", "does the moon orbit mars", "is a whale a planet", "is rome in france", "is the nile a planet", "is a violin a river", "is a key a mammal", "is a dog a machine", "is ice a star", "is a book a river", "is a cup a planet"]
 
@@ -184,9 +185,18 @@ def factual(arm_factory: Callable[[Path], Any], root: Path) -> tuple[list[bool],
     return in_scope, unknowns
 
 
-LESSONS = [("teach: crate = shipping container", "the robot lifted the crate", "did the robot lift the crate", "the crate was lifted by the robot"),
+LESSON_SETS = {
+    "V1": [("teach: crate = shipping container", "the robot lifted the crate", "did the robot lift the crate", "the crate was lifted by the robot"),
            ("teach: zorb = small robot", "the zorb opened the door", "did the zorb open the door", "the door was opened by the zorb"),
-           ("teach: flute = instrument", "the girl held the flute", "did the girl hold the flute", "the flute was held by the girl")]
+           ("teach: flute = instrument", "the girl held the flute", "did the girl hold the flute", "the flute was held by the girl")],
+    "V2": [("teach: lantern = lamp", "the girl held the lantern", "did the girl hold the lantern", "the lantern was held by the girl"),
+           ("teach: ledge = shelf", "the robot held the ledge", "did the robot hold the ledge", "the ledge was held by the robot"),
+           ("teach: pebble = small stone", "the dog kicked the pebble", "did the dog kick the pebble", "the pebble was kicked by the dog"),
+           ("teach: wagon = cart", "the girl pushed the wagon", "did the girl push the wagon", "the wagon was pushed by the girl"),
+           ("teach: gnome = garden statue", "the cat saw the gnome", "did the cat see the gnome", "the gnome was seen by the cat"),
+           ("teach: kettle = pot", "the robot lifted the kettle", "did the robot lift the kettle", "the kettle was lifted by the robot")],
+}
+LESSONS = LESSON_SETS["V1"]
 
 
 def post_deployment(arm_factory: Callable[[Path], Any], root: Path) -> dict[str, list[bool]]:
@@ -208,6 +218,7 @@ def post_deployment(arm_factory: Callable[[Path], Any], root: Path) -> dict[str,
     return steps
 
 
+NEGATIVE_TRANSFER_V2 = [("girl cup lifted", "cannot interpret|I do not know|UNKNOWN"), ("the bank kicked the ball", "Did you mean|Which did you mean|Noted"), ("did the cup lift the girl", "I do not know|Unknown"), ("the girl holded the cup", "cannot interpret|UNKNOWN"), ("be casual", "casual|I do not know|cannot interpret"), ("the dog seed the ball", "cannot interpret|UNKNOWN"), ("did the ball kick the dog", "I do not know|Unknown")]
 NEGATIVE_TRANSFER = [("robot door opened", "cannot interpret|I do not know|UNKNOWN"),           # SOV order must not be forced
                      ("the bank saw the robot", "Did you mean|Which did you mean|Noted"),         # polysemy retained (either clarify or record both)
                      ("did the door open the robot", "I do not know|Unknown"),                     # surface-similar, role-incompatible
@@ -256,7 +267,12 @@ def terminal(t: dict) -> str:
     return {"RESIDUAL_A": "OCM_LANGUAGE_RESIDUAL_SUPPORTED", "RESIDUAL_B": "PARENT_SUFFICIENT", "EQUIVALENT": "PARENT_SUFFICIENT", "INCONCLUSIVE": "CANNOT_CHECK", "CANNOT_CHECK": "CANNOT_CHECK"}[t["verdict"]]
 
 
-def run(delta: float = 0.05) -> dict:
+def run(delta: float = 0.05, suite: str = "V1") -> dict:
+    global CONVS, LESSONS, NEGATIVE_TRANSFER
+    CONVS = SUITES[suite]
+    LESSONS = LESSON_SETS[suite]
+    if suite == "V2":
+        NEGATIVE_TRANSFER = NEGATIVE_TRANSFER_V2
     prereg_hash = hashlib.sha256(PREREG.read_bytes()).hexdigest()
     convs_hash = hashlib.sha256(CONVS.read_bytes()).hexdigest()
     arms: dict[str, Callable[[Path], Any]] = {"ocm": lambda r: OCMArm(r), "matched_parent": lambda r: ParentArm(r), "template": lambda r: TemplateArm(r),
@@ -290,7 +306,7 @@ def run(delta: float = 0.05) -> dict:
             t = ST.tost_equivalence(cmp, delta)
             claims[f"RQ3_{step}"][other] = {"n": cmp.n, "ocm": cmp.a_success, "other": cmp.b_success, **t, "terminal": terminal(t)}
     summary = {name: {"conversations": f"{sum(r['conversations'])}/{len(r['conversations'])}", "factual": f"{sum(r['factual_in_scope'])}/{len(r['factual_in_scope'])}", "unknown": f"{sum(r['honest_unknown'])}/{len(r['honest_unknown'])}", "negative_transfer": f"{sum(r['negative_transfer'])}/{len(r['negative_transfer'])}", "post_deployment": {k: f"{sum(v)}/{len(v)}" for k, v in r["post_deployment"].items()}} for name, r in results.items()}
-    return {"receipt": "M7_COMPARISON_V1", "preregistration_sha256": prereg_hash, "conversations_sha256": convs_hash, "delta": delta, "summary": summary, "claims": claims, "laundering_audit": audit,
+    return {"receipt": f"M7_COMPARISON_{suite}", "suite": suite, "study_status": "DEV_CALIBRATION (system fixes S22–S24 made after V1 outcome access)" if suite == "V1" else "PROTECTED (frozen after the V1 calibration; no system change after V2 outcome access)", "preregistration_sha256": prereg_hash, "conversations_sha256": convs_hash, "delta": delta, "summary": summary, "claims": claims, "laundering_audit": audit,
             "information_budget": {n: r["information"] for n, r in results.items()}, "resources": {n: r["resources"] for n, r in results.items()},
             "power_at_planned_n": {str(n): round(ST.power_exact(n, 0.15, delta), 3) for n in (40, 60, 80)},
             "authority": "protected suites over the bounded world; the matched parent receives identical knowledge, lessons, corrections and budget; BLiMP/UD/BabyLM/CHILDES/human rating are CANNOT_CHECK (coverage 0 / data terms) and reported separately; no novelty claim"}
@@ -299,8 +315,9 @@ def run(delta: float = 0.05) -> dict:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--out", default=None)
+    p.add_argument("--suite", default="V1")
     a = p.parse_args(argv)
-    r = run()
+    r = run(suite=a.suite)
     if a.out:
         Path(a.out).write_text(json.dumps(r, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"summary": r["summary"], "audit": r["laundering_audit"]}, indent=1))

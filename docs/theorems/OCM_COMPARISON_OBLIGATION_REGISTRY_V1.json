@@ -1,0 +1,81 @@
+{
+  "registry": "OCM_COMPARISON_OBLIGATION_REGISTRY_V1",
+  "milestone": "M7",
+  "extends": "OCM_ALPHA_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T67",
+      "gap": "MEG-32",
+      "statement": "Decision rules adopted, not invented: exact binomial / exact McNemar on discordant pairs, Clopper–Pearson intervals, TOST at a pre-registered margin; a family below the pre-registered minimum n is CANNOT_CHECK whatever its test verdict; 'p > α ⇒ equivalent' is a caught hostile.",
+      "status": "PARENT_OWNED (adopted)",
+      "proof": "src/ocm/evaluation/stats.py; ORION-V2 batch 4 D1 (in progress)",
+      "checker": "tests/m7/test_stats.py",
+      "mutant": "stats.mutant_p_greater_than_alpha_means_equivalent",
+      "parent": "McNemar 1947; Clopper–Pearson 1934; Schuirmann 1987 (TOST)",
+      "limitation": "exact only; small n"
+    },
+    {
+      "id": "KS-T68",
+      "gap": "—",
+      "statement": "Strongest faithful matched parent: identical knowledge, lessons, corrections and budget from known components (retrieval memory, dialogue-state memory, in-context lesson memory, template renderer); what is subtracted is exactly warrant intervals, reopening, version spaces and the gate.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/comparators/matched_parent.py; information receipts equal per lesson count",
+      "checker": "research/ocm-m7/M7_COMPARISON_V2.json information_budget",
+      "mutant": "(under-tuned parent — excluded by identical lessons)",
+      "parent": "—",
+      "limitation": "no neural fine-tuning arm (CANNOT_CHECK off-GPU)"
+    },
+    {
+      "id": "KS-T69",
+      "gap": "—",
+      "statement": "Pre-registration discipline: metrics, suites, comparators, margin, minimum n, hostile mutations and terminals are frozen and hashed before protected outcome access; a run whose system was changed after outcome access is DEV_CALIBRATION and carries no claim (V1); the protected study is a new frozen suite (V2).",
+      "status": "PROVED (procedural)",
+      "proof": "research/ocm-m7/M7_PREREGISTRATION_V1.md §8; tools/m7_receipt.py asserts the V2 receipt's pre-registration hash",
+      "checker": "tools/m7_receipt.py --verify",
+      "mutant": "(split chosen after tuning — hash mismatch refuses)",
+      "parent": "pre-registration practice",
+      "limitation": "self-administered; no external registry"
+    },
+    {
+      "id": "KS-T70",
+      "gap": "MEG-25",
+      "statement": "Answer-laundering audit: the renderer follows the supplied meaning (random-meaning injection), removing the knowledge removes the answer (no hidden corpus), a gold field in a forbidden channel does not surface; incidents 0 on V2.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/evaluation/m7_comparison.py laundering_audit; KS-T47/T63",
+      "checker": "research/ocm-m7/M7_COMPARISON_V2.json laundering_audit",
+      "mutant": "gate.mutant_renderer_injects_fact; corpus.mutant_frequency_grounds",
+      "parent": "—",
+      "limitation": "three probes"
+    },
+    {
+      "id": "KS-T71",
+      "gap": "—",
+      "statement": "Claim-by-claim terminals on V2: RQ1 conversations OCM_LANGUAGE_RESIDUAL_SUPPORTED vs the matched parent (53/54 vs 33/54, n=54, TOST RESIDUAL_A) with mechanism attribution CANNOT_CHECK (ablations −clarification and −revocation EQUIVALENT on this suite; −workspace INCONCLUSIVE); RQ1 factual, RQ3, RQ5, RQ6 CANNOT_CHECK (n below minimum); external families CANNOT_CHECK by coverage or data terms.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "docs/M7_PROTECTED_COMPARISON_REPORT.md; docs/provenance/M7_RECEIPT_V1.json terminal_table",
+      "checker": "tools/m7_receipt.py",
+      "mutant": "(stopping when OCM leads — fixed n)",
+      "parent": "—",
+      "limitation": "bounded world; one protected suite"
+    },
+    {
+      "id": "KS-T72",
+      "gap": "MEG-09/34",
+      "statement": "Coverage revival: structural-alignment learner over UD EWT gold relations; protected suites at n ≥ 40; neural comparator; human rating — M7 follow-ups (revival backlog §7).",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "research/ocm-m7/M7_BLIMP_UD_V1.json (coverage 0 recorded)",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "no result claimed"
+    }
+  ]
+}

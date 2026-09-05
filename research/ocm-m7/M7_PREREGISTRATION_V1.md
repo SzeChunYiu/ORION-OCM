@@ -92,3 +92,13 @@ Fixed item counts (no sequential stopping). Terminals per claim: `OCM_LANGUAGE_R
 (pre-registered test rejects equivalence in OCM's favour and survives the relevant ablation),
 `PARENT_SUFFICIENT` (equivalence not rejected, or parent matches), `CANNOT_CHECK` (data/tooling/
 protocol failure). Mixed outcomes are expected and reported claim by claim.
+
+## 8. Addendum (frozen 2026-09-05, before any V2 outcome access)
+
+The V1 run exposed three system defects (ledger S22 clarification trap, S23 contradiction heuristic,
+S24 lesson-bytes deduplication) which were fixed after V1 outcome access. V1 is therefore recorded as
+`DEV_CALIBRATION` and carries no claim. The protected study is suite **V2**: new hand-authored
+conversations `M7_PROTECTED_CONVERSATIONS_V2.json` (12, different content), six new lessons for the
+post-deployment challenge, seven new negative-transfer items, the same generated factual suite (its
+items were not changed; the S23 fix is a general planner rule). No system change is permitted after
+V2 outcome access; the V2 receipt binds this file's hash.
