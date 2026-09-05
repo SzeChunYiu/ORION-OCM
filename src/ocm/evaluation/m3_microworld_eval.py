@@ -51,11 +51,11 @@ def run(seed: str = "OCM-M3-MICROWORLD-20260905") -> dict:
     dev = [e for e in ex if e.split == "dev"]
     prot = [e for e in ex if e.split == "protected"]
     cons = list(C.seed_constructions())  # seed inventory (marked SEED) for families not learned here
-    # learn the transitive family from dev demonstrations (the M3 acquisition path)
-    D, N, V = L.Category.DET, L.Category.NOUN, L.Category.VERB
-    base = AQ.order_hypotheses([("S", C.Slot("subj_n", N)), ("V", C.Slot("verb", V, requires=("tense",))), ("O", C.Slot("obj_n", N))])
-    hyps = {k: (C.Slot("subj_d", D),) + p[:1] + (p[1], C.Slot("obj_d", D), p[2]) if k == "SVO" else (C.Slot("subj_d", D),) + p + (C.Slot("obj_d", D),) for k, p in base.items()}
-    fam = AQ.ConstructionFamily("transitive", hyps, C.seed_constructions()[0].template, query_family=tuple(e.utterance for e in dev if e.family == "transitive")[:5])
+    seed_inv = {c.construction_id: c for c in cons}
+    # learn the transitive family from dev demonstrations (the M3 acquisition path); NP is a helper
+    N, V = L.Category.NOUN, L.Category.VERB
+    hyps = AQ.order_hypotheses([("S", C.Slot("subj", N, phrase="NP")), ("V", C.Slot("verb", V, requires=("tense",))), ("O", C.Slot("obj", N, phrase="NP"))])
+    fam = AQ.ConstructionFamily("transitive", hyps, seed_inv["en:transitive"].template, query_family=tuple(e.utterance for e in dev if e.family == "transitive")[:5], helpers=(seed_inv["en:np"],))
     demos_all = [AQ.Demonstration(e.utterance, e.meaning, f"ev:demo:{e.example_id}") for e in dev if e.family == "transitive"]
     lessons_needed = None
     learned = None
@@ -72,7 +72,7 @@ def run(seed: str = "OCM-M3-MICROWORLD-20260905") -> dict:
     neg_ok = neg_n = q_ok = q_n = 0
     for e in prot:
         r = I.interpret(e.utterance, lx, inventory)
-        fam_hit = r.verdict is I.Verdict.INTERPRETED and (r.candidates[0].construction_id.split(":")[1].startswith(e.family.split("_")[0]))
+        fam_hit = r.verdict is I.Verdict.INTERPRETED and (r.candidates[0].construction_id.split(":")[1].startswith(e.family.split("_")[0]) or (e.family == "yes_no" and "yesno" in r.candidates[0].construction_id))
         ok = r.verdict is I.Verdict.INTERPRETED and M.isomorphic(r.meaning, e.meaning)
         d = per_family.setdefault(e.family, {"n": 0, "exact": 0, "identified": 0})
         d["n"] += 1

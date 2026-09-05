@@ -78,12 +78,13 @@ def test_unknown_lexeme_and_unknown_construction_are_learn_gaps_not_guesses():
 
 def test_hostile_mutants_differ_and_are_detectable():
     lx = _lexicon()
+    np_ = next(c for c in CONS if c.construction_id == "en:np")
     tr = next(c for c in CONS if c.construction_id == "en:transitive")
-    swapped = I.interpret("the robot opened the door", lx, [C.mutant_word_order_swap(tr)])
-    good = I.interpret("the robot opened the door", lx, [tr])
+    swapped = I.interpret("the robot opened the door", lx, [np_, C.mutant_word_order_swap(tr)])
+    good = I.interpret("the robot opened the door", lx, [np_, tr])
     assert not M.isomorphic(swapped.meaning, good.meaning)
     neg = next(c for c in CONS if c.construction_id == "en:negation-transitive")
-    dropped = I.interpret("the robot did not open the door", lx, [C.mutant_drop_negation(neg)])
+    dropped = I.interpret("the robot did not open the door", lx, [np_, C.mutant_drop_negation(neg)])
     assert not any(e.relation == "NEGATES" for e in dropped.meaning.edges)
 
 

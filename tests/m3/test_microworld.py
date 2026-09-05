@@ -51,21 +51,20 @@ def test_learned_transitive_construction_generalises_to_protected_and_held_out_l
     dev = [e for e in ex if e.split == "dev" and e.family == "transitive"]
     prot = [e for e in ex if e.split == "protected" and e.family == "transitive"]
 
-    def template(b):
-        return C.seed_constructions()[0].template(b)
-
-    D, N, V = L.Category.DET, L.Category.NOUN, L.Category.VERB
-    hyps = AQ.order_hypotheses([("S", C.Slot("subj_n", N)), ("V", C.Slot("verb", V, requires=("tense",))), ("O", C.Slot("obj_n", N))])
-    hyps = {k: (C.Slot("subj_d", D), p[0], p[1], C.Slot("obj_d", D), p[2]) if k.startswith("S") and k.endswith("O") else (C.Slot("subj_d", D),) + p + (C.Slot("obj_d", D),) for k, p in hyps.items()}
-    # only the SVO-shaped orders keep the determiners in place; the family is still a 6-way class
-    fam = AQ.ConstructionFamily("transitive", hyps, template, query_family=tuple(e.utterance for e in dev[:5]))
+    seed = {c.construction_id: c for c in C.seed_constructions()}
+    template = seed["en:transitive"].template
+    N, V = L.Category.NOUN, L.Category.VERB
+    # the six orders of {NP, V, NP}; noun phrases are their own recursive construction (helper)
+    hyps = AQ.order_hypotheses([("S", C.Slot("subj", N, phrase="NP")), ("V", C.Slot("verb", V, requires=("tense",))), ("O", C.Slot("obj", N, phrase="NP"))])
+    fam = AQ.ConstructionFamily("transitive", hyps, template, query_family=tuple(e.utterance for e in dev[:5]), helpers=(seed["en:np"],))
     demos = [AQ.Demonstration(e.utterance, e.meaning, f"ev:demo:{e.example_id}") for e in dev[:6]]
     p = AQ.acquire(fam, lx, demos)
     assert p.status.value == "PASS", p.detail
     c = AQ.construction_from_proposal(fam, p)
-    exact_prot = sum(1 for e in prot if (r := I.interpret(e.utterance, lx, [c])).verdict is I.Verdict.INTERPRETED and M.isomorphic(r.meaning, e.meaning))
+    inv = [seed["en:np"], c]
+    exact_prot = sum(1 for e in prot if (r := I.interpret(e.utterance, lx, inv)).verdict is I.Verdict.INTERPRETED and M.isomorphic(r.meaning, e.meaning))
     held = [e for e in prot if e.held_out]
-    exact_held = sum(1 for e in held if (r := I.interpret(e.utterance, lx, [c])).verdict is I.Verdict.INTERPRETED and M.isomorphic(r.meaning, e.meaning))
+    exact_held = sum(1 for e in held if (r := I.interpret(e.utterance, lx, inv)).verdict is I.Verdict.INTERPRETED and M.isomorphic(r.meaning, e.meaning))
     assert exact_prot == len(prot) and exact_held == len(held) and len(held) > 0
     # lessons required: six demonstrations pinned the hypothesis; warrant is exactly those lessons
     assert len(p.warrant.evidence) <= 6

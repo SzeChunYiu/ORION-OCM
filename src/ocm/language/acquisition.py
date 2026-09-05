@@ -46,6 +46,7 @@ class ConstructionFamily:
     template: Template
     query_family: tuple[str, ...]                  # held-out utterances every surviving hypothesis must agree on
     language: str = "en"
+    helpers: tuple[Construction, ...] = ()         # phrase-producing constructions the family composes over (e.g. NP)
 
 
 def order_hypotheses(roles: Sequence[tuple[str, Slot]]) -> dict[str, tuple[Slot, ...]]:
@@ -56,14 +57,14 @@ def order_hypotheses(roles: Sequence[tuple[str, Slot]]) -> dict[str, tuple[Slot,
     return out
 
 
-def _parse_under(pattern: tuple[Slot, ...], template: Template, lexicon: Lexicon, utterance: str, family: str):
+def _parse_under(pattern: tuple[Slot, ...], template: Template, lexicon: Lexicon, utterance: str, family: str, helpers: Sequence[Construction] = ()):
     from .interpret import tokenize
 
     toks = tokenize(utterance)
     per = [list(lexicon.analyse(t).readings) for t in toks]
     c = Construction(f"{family}:hyp", family, pattern, template, WarrantProfile.one())
-    ms = match_constructions([c], per)
-    return [realise_candidate(m).meaning for m in ms]
+    ms = match_constructions([c, *helpers], per)
+    return [realise_candidate(m).meaning for m in ms if m.construction.construction_id == c.construction_id]
 
 
 def acquire(family: ConstructionFamily, lexicon: Lexicon, demonstrations: Sequence[Demonstration], *, instruction: tuple[str, str] | None = None) -> UpdateProposal:
@@ -72,7 +73,7 @@ def acquire(family: ConstructionFamily, lexicon: Lexicon, demonstrations: Sequen
     # hypothesis as a function: utterance → canonical meaning digest set (None = no parse)
     def make(pattern: tuple[Slot, ...]) -> Callable[[str], Any]:
         def h(u: str):
-            ms = _parse_under(pattern, family.template, lexicon, u, family.family)
+            ms = _parse_under(pattern, family.template, lexicon, u, family.family, family.helpers)
             from .meaning import canonical
 
             return tuple(sorted(canonical(m)[1] for m in ms)) if ms else None
