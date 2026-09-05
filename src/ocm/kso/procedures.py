@@ -33,7 +33,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable, Hashable, Iterable, Union
 
-from .warrant import ONE, Liveness, Profile, WarrantProfile, all_profiles, leq, meet, meet_all, powerset
+from .warrant import ONE, Liveness, Profile, WarrantProfile, all_profiles, join, leq, meet, meet_all, powerset
 
 
 class Reading(str, Enum):
@@ -80,9 +80,25 @@ class Loop:
     body: "Proc"
     guard: Test
     bound: int
+    charge: int = 1                     # meter charge per iteration (C5 / MEG-30): must be > 0
+
+    def __post_init__(self) -> None:
+        if self.charge <= 0:
+            raise ValueError("Loop.charge must be strictly positive (termination by the meter)")
 
 
-Proc = Union[Prim, Seq, Par, If, Loop]
+@dataclass(frozen=True)
+class Alt:
+    """An alternative derivation of the *same* result.  With a registered equivalence certificate
+    the alternatives are ⊕ (either suffices); without one the static reading stays conjunctive
+    (C5 tightening: choice ⊕ is sound only for certified alternatives)."""
+
+    left: "Proc"
+    right: "Proc"
+    certified: bool = False
+
+
+Proc = Union[Prim, Seq, Par, If, Loop, Alt]
 
 
 @dataclass(frozen=True)
@@ -108,6 +124,14 @@ def run(p: Proc, x: Any) -> Run:
         branch = p.then if p.guard.pred(x) else p.otherwise
         r = run(branch, x)
         return Run(r.output, (p.guard.name,) + r.fired, meet(p.guard.warrant, r.trace_warrant))
+    if isinstance(p, Alt):
+        try:
+            a = run(p.left, x)
+            if a.output is not None:
+                return a
+        except Exception:  # noqa: BLE001 — the left derivation failed; try the alternative
+            pass
+        return run(p.right, x)
     if isinstance(p, Loop):
         fired: tuple[str, ...] = ()
         w = ONE
@@ -131,6 +155,8 @@ def static_warrant(p: Proc) -> Profile:
         return meet(static_warrant(p.left), static_warrant(p.right))
     if isinstance(p, If):
         return meet_all([p.guard.warrant, static_warrant(p.then), static_warrant(p.otherwise)])
+    if isinstance(p, Alt):
+        return join(static_warrant(p.left), static_warrant(p.right)) if p.certified else meet(static_warrant(p.left), static_warrant(p.right))
     if isinstance(p, Loop):
         return meet(p.guard.warrant, static_warrant(p.body)) if p.bound >= 1 else p.guard.warrant
     raise TypeError(type(p))
