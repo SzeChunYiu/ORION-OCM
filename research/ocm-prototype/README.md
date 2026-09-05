@@ -40,6 +40,12 @@ independently checked mathematical truths can remain valid.
 
 ## Scope and evidence
 
+The [registered receipt](results/shared-vessel-20260906.json) passes 20 controls
+across 16 fresh query processes; the [test report](results/shared-vessel-tests-20260906.xml)
+records 53 passing tests. The direct donors are parent-sufficient at this tiny
+capability scope. The [evidence manifest](results/shared-vessel-evidence-20260906.json)
+binds these records, the independent source review and the hosted pilot manifest.
+
 This is a trusted-host engineering gate for governed donor orchestration.
 The parser and arithmetic search perform domain work as disclosed operators.
 The source-bound checker fixture does not establish isolation from arbitrary
