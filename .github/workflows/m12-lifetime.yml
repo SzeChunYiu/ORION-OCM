@@ -1,0 +1,35 @@
+name: M12 lifetime evaluation
+on:
+  pull_request:
+  push:
+    branches: [main, m12/lifetime]
+permissions:
+  contents: read
+concurrency:
+  group: m12-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  lifetime-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M12 lifetime suites
+        run: python -m pytest -q tests/m12
+      - name: M2–M11 still green
+        run: python -m pytest -q tests/m11 tests/m10 tests/m9 tests/m8 tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
+      - name: Lifetime receipt is reproducible (deterministic block)
+        run: |
+          rm -f /tmp/m12_eval.json
+          python -m ocm.evaluation.m12_lifetime_eval --out /tmp/m12_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m12_eval.json")); b = json.load(open("research/ocm-m12/M12_LIFETIME_EVAL_V2.json"))
+          assert a["deterministic"] == b["deterministic"], "deterministic block drift"
+          print("lifetime receipt reproduced")
+          PY
+      - name: Receipt chain verifies
+        run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done
