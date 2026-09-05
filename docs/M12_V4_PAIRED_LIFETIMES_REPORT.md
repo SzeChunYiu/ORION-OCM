@@ -35,7 +35,7 @@ parent remains CANNOT_CHECK_MATCHED_PARENT.
 these families are deterministic functions of the planted design (which fault, which revision event,
 which transfer cells), so the stream substitution does not vary them and the eight differences carry
 the evidence of one coin (G8). They are reported as rejections with the flag; the inferential weight
-of V4 rests on the primary family, whose differences vary across streams (parent 0.574–0.611).
+of V4 rests on the primary family, whose differences vary across streams (parent 0.593–0.611).
 
 Honest-unknown detail (G7): OCM 29/30 in every lifetime; the one miss is "is a whale a mammal",
 which the world-true half labelled unlicensed although the manifest holds it as a verified fact —
@@ -60,8 +60,9 @@ fresh instance per stream, REFERENCE label (F8), never in the decision. Totals o
 | negative-transfer probes | 35/56 | 56/56 | 40/56 |
 | lessons acquired / reuse / retained / revoked-stops / relearned | 25/48 / 33/48 / 35/48 / 41/48 / 23/48 | 48 / 40 / 48 / 32 / 48 | 24 / 24 / 24 / 48 / 24 |
 
-Four-class grading of the 480 factual questions (G7): licensed 233, unlicensed-true 199,
-unlicensed-false 38, wrong 2. The reference answers 237 of the 240
+Four-class grading (G7) of the 472 questions whose licensed answer is Yes or UNKNOWN (the one
+unverified-source question per stream, expected "a source says so", is outside the four classes):
+licensed 233, unlicensed-true 199, unlicensed-false 38, wrong 2. The reference answers 237 of the 240
 questions the given facts do not settle, and is right in the world on 199 of them — that is the
 unbound pretraining channel, visible only because the world-true half was added (under the all-false
 V3 suite a constant "No" would have scored the same). On lessons the reference acquires 25/48

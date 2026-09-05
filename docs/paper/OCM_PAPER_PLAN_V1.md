@@ -20,7 +20,7 @@ negative-results section (PARENT_SUFFICIENT families are results, not omissions)
 | C2 | Bounded-world language understanding, dialogue and continual acquisition with exact obligations | M3/M4/M5 GREEN (134/134 microworld protected; acquisition regimes E0–E4) | `M3…M5_RECEIPT_V1.json` |
 | C3 | A conversational alpha that refuses, clarifies, learns and revokes without a hidden LLM | LANGUAGE_KSO_ALPHA (42/42 scenarios, 0 incidents) | `M6_RECEIPT_V1.json` |
 | C4 | Protected matched comparison: a residual on conversations; PARENT_SUFFICIENT / CANNOT_CHECK elsewhere | M7 MIXED: RQ1 conversations 53/54 vs 33/54 (n = 54, δ = 0.05) | `M7_RECEIPT_V1.json`, `research/ocm-m7/M7_COMPARISON_V2.json` |
-| C5 | Learned organisation is parent-sufficient at 10^5 atoms | M8 PARENT_SUFFICIENT_AT_THIS_SCALE | `M8_RECEIPT_V1.json` |
+| C5 | Learned organisation is parent-sufficient at the evaluated scale (4 regions × 8 atoms; 167-atom language stream); the 10^5-atom scaling row is the M2 runtime baseline | M8 PARENT_SUFFICIENT_AT_THIS_SCALE | `M8_RECEIPT_V1.json` |
 | C6 | Role-typed partial transfer across work domains: later-domain cost 7 vs 12; deceptive analogies refused | M9 (matrix 14/14; SUPPORTED CANNOT_CHECK at n = 9) | `M9_RECEIPT_V1.json` |
 | C7 | Scientific reasoning with identification gates, discriminating experiments, pre-registered analysis, kernel/correspondence warrants, retraction | M10 MIXED | `M10_RECEIPT_V1.json` |
 | C8 | Governed self-reorganisation: diagnosis distribution, obstruction certificates, external adoption, exact rollback; 7/7 vs 2/7, 1/7 | M11 MIXED (exact invariants SUPPORTED) | `M11_RECEIPT_V1.json` |

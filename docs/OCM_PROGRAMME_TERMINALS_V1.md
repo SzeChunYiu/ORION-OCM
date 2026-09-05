@@ -24,7 +24,7 @@ registries and reports that produced the terminal, and the chain `python tools/m
 ## Reading the terminals
 
 * **PARENT_SUFFICIENT / EQUIVALENT** rows are successes of the method: the strongest matched parent
-  explains the result at the stated scale (M2.1 discordant-scale equivalence; M8 at 10^5 atoms).
+  explains the result at the stated scale (M2.1 discordant-scale equivalence; M8 at the evaluated organisation scale — oracle worlds of 4 regions × 8 atoms and a 167-atom language stream; the 10^5-atom runtime scaling row is M2's, `research/ocm-m2/M2_SCALING_BASELINE_V1.json`).
 * **MIXED_CLAIM_BY_CLAIM** rows carry a table in their report with one terminal per claim
   (SUPPORTED at the stated n, DESCRIPTIVE, PARENT_SUFFICIENT, CANNOT_CHECK, NOT ATTEMPTED).
 * **M12 `FULL_OCM_RESIDUAL_SUPPORTED`** is in scope: relative to the matched whole-system parent
