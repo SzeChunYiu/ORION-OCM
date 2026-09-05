@@ -93,3 +93,19 @@ def test_F1_revocation_reports_the_live_remainder(tmp_path):
     r = s.say(f"revoke {lesson}")
     assert r.startswith("Revoked") and "'crate' as 'wooden box' still supported" in r
     assert "revoke all crate" not in r  # no nonexistent command is advertised
+
+
+def test_integration_review_invented_adoption_predecessor_is_refused(tmp_path):
+    rt = OCMRuntime(tmp_path / "rt")
+    pred = PR.Prediction(("target",), (), {}, ("preservation",), (), (), 0.1)
+    p = PR.SelfChangeProposal("p", "1", (), "operator.x", "D2", "inc", PR.ChangeClass.C2_OPERATOR, {"replace": "v2"}, lambda a: {**a, "op": "v2"}, pred, ("preservation",), (), "target", "restore", "s", "w", PR.Origin.RECOMBINATION)
+    led = GV.AdoptionLedger(rt)
+    led.propose(p)
+    led.adopt(p, GV.ExternalAdopter("tok").decide(p, GV.Assurance(True, {}, ())), {"op": "v1"}, {"operator.x": {"artifact": "inc"}})
+    ok, why = MC.adoption_predecessors_bound(rt, led.adopted)
+    assert ok, why
+    invented = dict(led.adopted)
+    invented["fake"] = GV.RollbackArtifact("fake", None, "0" * 64, "ev:never-admitted", {}, {}, "")
+    ok2, why2 = MC.adoption_predecessors_bound(rt, invented)
+    assert not ok2 and "not in the replayed ledger" in why2[0] and MC.mutant_accept_invented_predecessor(rt, invented)
+
