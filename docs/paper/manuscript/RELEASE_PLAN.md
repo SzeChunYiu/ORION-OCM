@@ -1,0 +1,28 @@
+# Release plan for the OCM manuscript package
+
+Purpose: close the readiness report's release blockers (archived release with a persistent identifier; release-integrity binding) in the way the programme's rules allow, and name the one action that stays with the operator.
+
+## 1. Package contents (built by `tools/paper/build_release.py`, to be written when the text is final)
+
+| Item | Source |
+|---|---|
+| `main.md`, `claims_map.md`, `claims_verification.txt`, `figures.md`, `positioning.md`, `positioning_refs.md` | `docs/paper/manuscript/` at the release commit |
+| `reviews/*` (venue contract, three blind reviews, editor synthesis, revision log, readiness report) | same |
+| receipt chain | `docs/provenance/M1…M12_RECEIPT_V1.json`, `M12_REPLICATION_RECEIPT_V1.json`, `M12_PAIRED_RECEIPT_V1.json`, `M12_PAIRED_RECEIPT_V4.json`, `M12_PAIRED_REPLICATION_RECEIPT_V4.json`, `M12_REFERENCE_RECEIPT_V1.json`, and the current-runtime successor receipts under `docs/provenance/runtime_revision_20260905_v4/` |
+| evaluation results | `research/ocm-m*/…json`, `research/ocm-n1/…json` (whatever the text cites) |
+| theory | ORION-V2 `research/machine-epistemics-theory/` batch documents and checkers at the ORION-V2 commit named in the manuscript |
+
+## 2. Release-integrity binding
+
+1. `SHA256SUMS` over every packaged file, plus the ORION-OCM and ORION-V2 commit ids.
+2. `RELEASE_MANIFEST.json`: for every number-bearing sentence of `main.md`, the `claims_map.md` row and the receipt field it reads (the claim-verification script re-run at release time must print 0 MISMATCH / 0 MISSING).
+3. The manifest's own SHA-256 recorded in the receipt chain as `docs/provenance/PAPER_RELEASE_RECEIPT_V1.json` (bound files = the package list; deterministic result = the claims-verification counts).
+4. CI verifies the release receipt like every other receipt.
+
+## 3. Persistent identifier (human gate)
+
+Minting a DOI (Zenodo or the institutional archive) requires the operator's account. Until it exists, the manuscript's data-availability statement names the GitHub release tag and commit ids and carries the label `HUMAN_GATE_BYPASSED__MODEL_PROXY` for the identifier line, per the programme's rule on human-only gates; the operator's upload replaces the label with the DOI.
+
+## 4. Order
+
+Positioning text merged → pipeline round 2 (re-review with V4-R and the matched transfer cells) → text frozen → package built and bound → release tag → DOI by the operator → submission.
