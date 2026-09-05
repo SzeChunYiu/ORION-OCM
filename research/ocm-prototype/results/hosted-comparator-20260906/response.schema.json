@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "phase": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "string"
+        },
+        "verb": {
+          "type": "string"
+        },
+        "patient": {
+          "type": "string"
+        },
+        "tense": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "agent",
+        "verb",
+        "patient",
+        "tense"
+      ]
+    },
+    "procedure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "program": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checker_used": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "program",
+        "value",
+        "checker_used"
+      ]
+    },
+    "memory_file": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "phase",
+    "language",
+    "procedure",
+    "memory_file"
+  ]
+}
