@@ -1,0 +1,114 @@
+{
+  "registry": "OCM_LANGUAGE_OBLIGATION_REGISTRY_V1",
+  "milestone": "M3",
+  "extends": "OCM_RUNTIME_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T34",
+      "gap": "MEG-24",
+      "statement": "Canonical meaning form: for typed hypergraph fragments with ≤ 7 nodes, canonical(g1) = canonical(g2) iff g1 ≅ g2 (exhaustive within colour classes); beyond the bound CANNOT_CHECK, never a hash; seed = seed ∘ can so two parsers with different node numbering seed navigation identically.",
+      "status": "PROVED",
+      "proof": "ORION-V2 KSO_LANGUAGE_PREREQUISITE_THEOREMS_BATCH2_V1 B4; src/ocm/language/meaning.py docstring",
+      "checker": "tests/m3/test_meaning_graph.py",
+      "mutant": "meaning.wl1_hash (C6 vs 2·C3 collision)",
+      "parent": "canonical labelling (McKay–Piperno 2014); WL-1 limit (Cai–Fürer–Immerman 1992)",
+      "limitation": "exact only up to the registered bound MAX_EXACT_CANONICAL = 7"
+    },
+    {
+      "id": "KS-T35",
+      "gap": "MEG-26",
+      "statement": "Lexical ambiguity is an ambiguity set: a token's readings are candidates each with its own interval; the token is READINGS iff exactly one LIVE and none UNKNOWN, AMBIGUOUS otherwise; collapse only by revocation/clarification evidence; same-analysis derivations merge as ⊕; unknown tokens are UNKNOWN_LEXEME (no spelling-similarity guess).",
+      "status": "PROVED",
+      "proof": "batch-1 T6 (candidate warrant) applied to readings; src/ocm/language/lexicon.py",
+      "checker": "tests/m3/test_lexicon.py",
+      "mutant": "lexicon.mutant_merge_senses; lexicon.mutant_nearest_spelling",
+      "parent": "candidate/alternative semantics of the antichain semiring (KS-T01)",
+      "limitation": "finite fixtures"
+    },
+    {
+      "id": "KS-T36",
+      "gap": "MEG-03",
+      "statement": "Morphological override law: a LIVE EXCEPTION rule for (lemma, category, features) pre-empts every PRODUCTIVE rule for that key whatever token is analysed; revoking the exception's evidence makes the regularised form available and touches no other lemma.",
+      "status": "PROVED",
+      "proof": "inherited L0 more-specific-live-rule-wins; src/ocm/language/lexicon.py Lexicon._rule_readings",
+      "checker": "tests/m3/test_lexicon.py::test_irregular_exception_overrides_the_productive_rule_and_revocation_is_local",
+      "mutant": "(override keyed on the token instead of the lemma — ledger S12, fixed)",
+      "parent": "default logic specificity (Reiter 1980) / elsewhere condition (Kiparsky 1973)",
+      "limitation": "finite fixtures"
+    },
+    {
+      "id": "KS-T37",
+      "gap": "MEG-26",
+      "statement": "Candidate warrant of a parse: Λ(candidate) = Λ(construction) ⊗ ⨂ Λ(parts), a phrase contributing its own ⊗; isomorphic candidates from different derivations merge as ⊕; the verdict is INTERPRETED iff exactly one LIVE candidate and none UNKNOWN; AMBIGUOUS retains all candidates and a score outside the lattice may only order them.",
+      "status": "PROVED",
+      "proof": "batch-1 T6; src/ocm/language/interpret.py select",
+      "checker": "tests/m3/test_interpretation.py",
+      "mutant": "interpret.mutant_force_top1; constructions.mutant_word_order_swap; constructions.mutant_drop_negation",
+      "parent": "KS-T20 composition",
+      "limitation": "finite fixtures; nogood filter applied after composition (KS-T25)"
+    },
+    {
+      "id": "KS-T38",
+      "gap": "MEG-05",
+      "statement": "Grounding boundary: parsing success yields said(speaker, meaning) as OBSERVATION evidence with Authority.of(speaker=1); world_truth is 0 and stays 0 under any composition of speakers; answers cite evidence and return UNKNOWN when nothing on record supports or denies; contradictory statements are both kept; the only promotion is the authority meet with a bridge.",
+      "status": "PROVED",
+      "proof": "ORION-V2 batch-2 B1; src/ocm/language/interpret.py promote_authority; src/ocm/language/session.py",
+      "checker": "tests/m3/test_session.py; tests/m3/test_interpretation.py::test_promotion_never_exceeds_the_bridge_and_speaker_record",
+      "mutant": "interpret.mutant_promote_said_to_world_truth",
+      "parent": "ATMS assumptions (de Kleer 1986); commitment stores (Hamblin 1970)",
+      "limitation": "the discourse record is in-session state plus ledger evidence; anaphora and context binding beyond explicit bindings are open"
+    },
+    {
+      "id": "KS-T39",
+      "gap": "MEG-12/13",
+      "statement": "Construction acquisition: over a registered finite pattern class, a demonstration (utterance, meaning) is consistent with h iff parsing under h realises an isomorphic meaning; promotion iff agreement on the query family; warrant = ⊗ of the pinning demonstrations; AMBIGUOUS is not promoted; CONTRADICTION is preserved; an instruction names a hypothesis and is refuted by a contradicting demonstration; constructions are language-scoped.",
+      "status": "PROVED",
+      "proof": "ORION-V2 batch-2 B2/B3; src/ocm/language/acquisition.py",
+      "checker": "tests/m3/test_acquisition.py; tests/m3/test_microworld.py",
+      "mutant": "acquisition.mutant_transfer_to_other_language; learner mutants (KS-T31)",
+      "parent": "Mitchell 1982 version spaces",
+      "limitation": "finite classes only; recursive/infinite grammars are OPEN"
+    },
+    {
+      "id": "KS-T40",
+      "gap": "—",
+      "statement": "Recursive composition: phrase-level constructions (produces=NP) are built bottom-up over spans and bound as single arguments by clause constructions; the merged fragment relabels the phrase head onto the argument node and keeps the phrase's ⊗ warrant.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/language/constructions.py phrase_table/_arg; ledger S13",
+      "checker": "tests/m3/test_microworld.py; research/ocm-m3/M3_MICROWORLD_EVAL_V1.json (transitive_adj 26/26)",
+      "mutant": "(flat pattern without a modifier slot — ledger S13)",
+      "parent": "construction grammar (Goldberg 1995); CKY bottom-up parsing",
+      "limitation": "no general theorem yet: locality of phrase warrants under revocation is the KS-T22 corollary but is not separately checked"
+    },
+    {
+      "id": "KS-T41",
+      "gap": "—",
+      "statement": "Freeze-before-outcome for evaluation: the protected split is fixed by content hash before tuning; held-out lexemes never appear in dev; the evaluation receipt is deleted before each run and its exit code checked (stale receipts are CANNOT_CHECK, ledger S14).",
+      "status": "PROVED",
+      "proof": "src/ocm/language/microworld.py; tools/m3_receipt.py; .github/workflows/m3-language.yml",
+      "checker": "tests/m3/test_microworld.py::test_corpus_is_deterministic_and_protected_split_is_frozen_before_tuning",
+      "mutant": "(stale receipt read as result — ledger S14)",
+      "parent": "pre-registration",
+      "limitation": "synthetic corpus"
+    },
+    {
+      "id": "KS-T42",
+      "gap": "MEG-09/23",
+      "statement": "Real-language evaluation (UD EWT structural, BLiMP acceptability comparator) — custody manifests bound; evaluators and results are M3 follow-ups.",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "scripts/acquire_ud_ewt.sh; scripts/acquire_blimp.sh (custody only)",
+      "mutant": "—",
+      "parent": "UD (Nivre et al. 2020); BLiMP (Warstadt et al. 2020)",
+      "limitation": "no result claimed"
+    }
+  ]
+}

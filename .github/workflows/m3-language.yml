@@ -1,0 +1,36 @@
+name: M3 language understanding
+on:
+  pull_request:
+  push:
+    branches: [main, m3/language-understanding]
+permissions:
+  contents: read
+concurrency:
+  group: m3-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  language-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M3 unit, acquisition, session and microworld suites
+        run: python -m pytest -q tests/m3
+      - name: M2 still green under M3
+        run: python -m pytest -q tests/m2 && python tools/m2_receipt.py --verify
+      - name: Microworld evaluation receipt is reproducible
+        run: |
+          rm -f /tmp/m3_eval.json
+          python -m ocm.evaluation.m3_microworld_eval --out /tmp/m3_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m3_eval.json")); b = json.load(open("research/ocm-m3/M3_MICROWORLD_EVAL_V1.json"))
+          for k in ("custody", "acquisition", "protected", "ambiguity", "paraphrase", "revocation_locality"):
+              assert a[k] == b[k], (k, a[k], b[k])
+          print("microworld receipt reproduced:", a["protected"]["exact_meaning"], "/", a["protected"]["n"])
+          PY
+      - name: M3 receipt drift
+        run: python tools/m3_receipt.py --verify
