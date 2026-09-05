@@ -63,6 +63,7 @@ Machine-epistemics theory batches 1–5 (ORION-V2 `research/machine-epistemics-t
 |---|---|---|---|
 | M11.1 / M11.2 theory intake (batches 5–6: eleven runtime obligations) | applied with hostiles; benchmark results unchanged | `docs/provenance/M11_RECEIPT_V1.json` | `docs/M11_SELF_REORGANISATION_REPORT.md` §6–§7 |
 | M12 V3 eight paired lifetimes on protected streams | `OCM_LIFETIME_RESIDUAL_SUPPORTED` (10 families 8/8 at p = 0.0078, 6 ties; replication MATCH) | `docs/provenance/M12_PAIRED_RECEIPT_V1.json` | `docs/M12_V3_PAIRED_LIFETIMES_REPORT.md` |
+| M12 V4 paired lifetimes with a pre-registered primary family (batch-7 G7/G8 intake) | `OCM_LIFETIME_RESIDUAL_SUPPORTED` (primary 8/8, one-sided p = 0.0039; six secondaries reject but collapsed-one-coin; replication MATCH) | `docs/provenance/M12_PAIRED_RECEIPT_V4.json` | `docs/M12_V4_PAIRED_LIFETIMES_REPORT.md` |
 | Reference arm (local open-weight LLM, F8) | REFERENCE (descriptive; never in a decision) | `docs/provenance/M12_REFERENCE_RECEIPT_V1.json` | `docs/M12_LIFETIME_REPORT.md` §10.1, V3 report §4 |
 | Paper plan | claims → receipts map; gates | — | `docs/paper/OCM_PAPER_PLAN_V1.md` |
 
