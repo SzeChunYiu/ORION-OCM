@@ -1,22 +1,22 @@
 """Reduced-bootstrap construction-family recovery for N1/#54/#55.
 
 The historical bounded-world machine starts with seven English Construction
-objects.  This calibration starts with an empty construction inventory.  Surface
+objects. This calibration starts with an empty construction inventory. Surface
 word/category/concept lessons and semantic target schemas are explicit teacher
 information; finite form-order hypotheses are learned from aligned examples.
 
-The goal is narrow but exact: recover the seven *functional construction
-families* (NP, transitive, intransitive, passive, negation, yes/no question,
-wh-object question), generalize each to a held-out lexical composition, and make
-each learned construction unavailable when its own demonstration support is
-revoked.  The function-word and inflected-form lessons are deliberately counted;
-this is not raw-corpus English acquisition.
+The exact target is deliberately narrower than English acquisition: recover the
+seven historical *functional families* (NP, transitive, intransitive, passive,
+negation, yes/no question, wh-object question), generalize each to a held-out
+lexical composition, and make each learned construction unavailable when its own
+demonstration support is revoked. Function-word and inflected-form lessons are
+counted; morphology is tested separately in #63.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 import itertools
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Mapping, Sequence
 
 from ocm.kso.types import Scope
 from ocm.kso.warrant import Liveness, WarrantProfile
@@ -54,9 +54,7 @@ def _teach(
     senses = () if concept is None else (
         Sense(f"{state.language}:{surface}:{concept}", concept, node_type, warrant, scope=scope),
     )
-    state.lexicon.add(
-        Lexeme(surface, category, senses, features=features, warrant=warrant, scope=scope)
-    )
+    state.lexicon.add(Lexeme(surface, category, senses, features=features, warrant=warrant, scope=scope))
     state.information_events.append(evidence)
 
 
@@ -67,18 +65,18 @@ def teach_inventory(state: LearnedLanguage) -> None:
         _teach(state, word, Category.ADJ, concept=word, node_type="property")
     for word in ("open", "push", "move"):
         _teach(state, word, Category.VERB, concept=word, node_type="event", features=(("tense", "present"),))
-    # Construction recovery isolates form-order learning from morphology.  These
-    # inflected forms are explicit teacher items; #63 separately tests learning
-    # morphology from zero rules.
     _teach(state, "opened", Category.VERB, concept="open", node_type="event", features=(("participle", "past"),))
     _teach(state, "pushed", Category.VERB, concept="push", node_type="event", features=(("participle", "past"),))
-    _teach(state, "the", Category.DET)
-    _teach(state, "was", Category.AUX, features=(("tense", "past"),))
-    _teach(state, "did", Category.AUX, features=(("tense", "past"),))
-    _teach(state, "not", Category.NEG)
-    _teach(state, "by", Category.PREP)
-    _teach(state, "which", Category.WH)
-    _teach(state, "it", Category.PRON)
+    for surface, category, features in (
+        ("the", Category.DET, ()),
+        ("was", Category.AUX, (("tense", "past"),)),
+        ("did", Category.AUX, (("tense", "past"),)),
+        ("not", Category.NEG, ()),
+        ("by", Category.PREP, ()),
+        ("which", Category.WH, ()),
+        ("it", Category.PRON, ()),
+    ):
+        _teach(state, surface, category, features=features)
 
 
 def _concept(value: Any) -> str | None:
@@ -91,7 +89,7 @@ def _concept(value: Any) -> str | None:
 def _np_graph(noun: str, adjective: str | None = None, *, definite: bool = False) -> MeaningGraph:
     feats = (("definite", "yes"),) if definite else ()
     nodes = [MNode("x", "entity", noun, feats)]
-    edges = []
+    edges: list[MEdge] = []
     if adjective is not None:
         nodes.append(MNode("p", "property", adjective))
         edges.append(MEdge("MODIFIES", ("p",), ("x",)))
@@ -106,7 +104,14 @@ def np_template(binding: Mapping[str, Any]) -> MeaningGraph:
     )
 
 
-def clause_graph(subj: str | None, verb: str, obj: str | None = None, *, negated: bool = False, question: bool = False) -> MeaningGraph:
+def clause_graph(
+    subj: str | None,
+    verb: str,
+    obj: str | None = None,
+    *,
+    negated: bool = False,
+    question: bool = False,
+) -> MeaningGraph:
     nodes = [MNode("s", "entity", subj, underspecified=subj is None), MNode("e", "event", verb)]
     edges = [MEdge("ROLE:agent", ("e",), ("s",))]
     if obj is not None:
@@ -120,52 +125,62 @@ def clause_graph(subj: str | None, verb: str, obj: str | None = None, *, negated
     return MeaningGraph(tuple(nodes), tuple(edges), root="e")
 
 
-def transitive_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    return clause_graph(_concept(binding["subj"]), _concept(binding["verb"]) or binding["verb"].lemma, _concept(binding["obj"]))
+def transitive_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return clause_graph(_concept(b["subj"]), _concept(b["verb"]) or b["verb"].lemma, _concept(b["obj"]))
 
 
-def intransitive_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    return clause_graph(_concept(binding["subj"]), _concept(binding["verb"]) or binding["verb"].lemma)
+def intransitive_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return clause_graph(_concept(b["subj"]), _concept(b["verb"]) or b["verb"].lemma)
 
 
-def passive_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    # Surface grammatical subject is the semantic patient in this family.
-    patient = _concept(binding["patient"])
-    agent = _concept(binding["agent"])
-    verb = _concept(binding["verb"]) or binding["verb"].lemma
-    nodes = (MNode("s", "entity", agent), MNode("e", "event", verb), MNode("o", "entity", patient))
-    edges = (
-        MEdge("ROLE:agent", ("e",), ("s",)),
-        MEdge("ROLE:patient", ("e",), ("o",)),
-        MEdge("TENSE", ("e",), ("e",), "past"),
+def _passive_expected(patient: str, verb: str, agent: str) -> MeaningGraph:
+    return MeaningGraph(
+        (MNode("s", "entity", agent), MNode("e", "event", verb), MNode("o", "entity", patient)),
+        (
+            MEdge("ROLE:agent", ("e",), ("s",)),
+            MEdge("ROLE:patient", ("e",), ("o",)),
+            MEdge("TENSE", ("e",), ("e",), "past"),
+        ),
+        root="e",
     )
-    return MeaningGraph(nodes, edges, root="e")
 
 
-def negation_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    return clause_graph(_concept(binding["subj"]), _concept(binding["verb"]) or binding["verb"].lemma, _concept(binding["obj"]), negated=True)
-
-
-def yesno_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    return clause_graph(_concept(binding["subj"]), _concept(binding["verb"]) or binding["verb"].lemma, _concept(binding["obj"]), question=True)
-
-
-def wh_template(binding: Mapping[str, Any]) -> MeaningGraph:
-    verb = _concept(binding["verb"]) or binding["verb"].lemma
-    obj = _concept(binding["obj_n"])
-    nodes = (
-        MNode("s", "entity", None, underspecified=True),
-        MNode("e", "event", verb),
-        MNode("o", "entity", obj),
-        MNode("q", "question_variable", None, underspecified=True),
+def passive_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return _passive_expected(
+        _concept(b["patient"]) or "",
+        _concept(b["verb"]) or b["verb"].lemma,
+        _concept(b["agent"]) or "",
     )
-    edges = (
-        MEdge("ROLE:agent", ("e",), ("s",)),
-        MEdge("ROLE:patient", ("e",), ("o",)),
-        MEdge("ASKS", ("q",), ("o",)),
-        MEdge("TENSE", ("e",), ("e",), "past"),
+
+
+def negation_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return clause_graph(_concept(b["subj"]), _concept(b["verb"]) or b["verb"].lemma, _concept(b["obj"]), negated=True)
+
+
+def yesno_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return clause_graph(_concept(b["subj"]), _concept(b["verb"]) or b["verb"].lemma, _concept(b["obj"]), question=True)
+
+
+def _wh_expected(obj: str, verb: str) -> MeaningGraph:
+    return MeaningGraph(
+        (
+            MNode("s", "entity", None, underspecified=True),
+            MNode("e", "event", verb),
+            MNode("o", "entity", obj),
+            MNode("q", "question_variable", None, underspecified=True),
+        ),
+        (
+            MEdge("ROLE:agent", ("e",), ("s",)),
+            MEdge("ROLE:patient", ("e",), ("o",)),
+            MEdge("ASKS", ("q",), ("o",)),
+            MEdge("TENSE", ("e",), ("e",), "past"),
+        ),
+        root="e",
     )
-    return MeaningGraph(nodes, edges, root="e")
+
+
+def wh_template(b: Mapping[str, Any]) -> MeaningGraph:
+    return _wh_expected(_concept(b["obj_n"]) or "", _concept(b["verb"]) or b["verb"].lemma)
 
 
 def _patterns(roles: Sequence[tuple[str, Slot]]) -> dict[str, tuple[Slot, ...]]:
@@ -175,56 +190,14 @@ def _patterns(roles: Sequence[tuple[str, Slot]]) -> dict[str, tuple[Slot, ...]]:
     }
 
 
-def _learn_clause(
-    state: LearnedLanguage,
-    *,
-    family_name: str,
-    roles: Sequence[tuple[str, Slot]],
-    template,
-    teaching_utterance: str,
-    teaching_meaning: MeaningGraph,
-    held_out_utterance: str,
-    evidence_id: str,
-    helpers: Sequence[Construction] = (),
-) -> tuple[Construction, int]:
-    family = AQ.ConstructionFamily(
-        family_name,
-        _patterns(roles),
-        template,
-        (held_out_utterance,),
-        language=state.language,
-        helpers=tuple(helpers),
-    )
-    proposal = AQ.acquire(
-        family,
-        state.lexicon,
-        (AQ.Demonstration(teaching_utterance, teaching_meaning, evidence_id),),
-    )
-    if proposal.status.value != "PASS":
-        raise AssertionError(f"{family_name} acquisition failed: {proposal.status.value}: {proposal.detail}")
-    construction = AQ.construction_from_proposal(
-        family,
-        proposal,
-        f"{state.language}:{family_name}:learned",
-    )
-    state.constructions.append(construction)
-    state.information_events.append(evidence_id)
-    return construction, len(family.hypotheses)
-
-
 def _learn_np(state: LearnedLanguage) -> tuple[Construction, int]:
-    D, A, N = Category.DET, Category.ADJ, Category.NOUN
     roles = (
-        ("D", Slot("d", D, optional=True)),
-        ("A", Slot("a", A, optional=True)),
-        ("N", Slot("n", N)),
+        ("D", Slot("d", Category.DET, optional=True)),
+        ("A", Slot("a", Category.ADJ, optional=True)),
+        ("N", Slot("n", Category.NOUN)),
     )
     family = AQ.ConstructionFamily(
-        "noun_phrase",
-        _patterns(roles),
-        np_template,
-        ("the green girl",),
-        language=state.language,
+        "noun_phrase", _patterns(roles), np_template, ("the green girl",), language=state.language
     )
     evidence = "demo:construction:np"
     proposal = AQ.acquire(
@@ -234,11 +207,10 @@ def _learn_np(state: LearnedLanguage) -> tuple[Construction, int]:
     )
     if proposal.status.value != "PASS":
         raise AssertionError(f"noun_phrase acquisition failed: {proposal.status.value}: {proposal.detail}")
-    pattern = family.hypotheses[proposal.payload["hypothesis"]]
     construction = Construction(
         f"{state.language}:noun_phrase:learned",
         "noun_phrase",
-        pattern,
+        family.hypotheses[proposal.payload["hypothesis"]],
         np_template,
         proposal.warrant,
         language=state.language,
@@ -252,18 +224,75 @@ def _learn_np(state: LearnedLanguage) -> tuple[Construction, int]:
     return construction, len(family.hypotheses)
 
 
-def _np_held_out(state: LearnedLanguage, np: Construction, revoked=()) -> bool:
+def _learn_clause(
+    state: LearnedLanguage,
+    np: Construction | None,
+    *,
+    family_name: str,
+    roles: Sequence[tuple[str, Slot]],
+    template,
+    teaching_utterance: str,
+    teaching_meaning: MeaningGraph,
+    held_out_utterance: str,
+    evidence_id: str,
+) -> tuple[Construction, int]:
+    family = AQ.ConstructionFamily(
+        family_name,
+        _patterns(roles),
+        template,
+        (held_out_utterance,),
+        language=state.language,
+        helpers=() if np is None else (np,),
+    )
+    proposal = AQ.acquire(
+        family,
+        state.lexicon,
+        (AQ.Demonstration(teaching_utterance, teaching_meaning, evidence_id),),
+    )
+    if proposal.status.value != "PASS":
+        raise AssertionError(f"{family_name} acquisition failed: {proposal.status.value}: {proposal.detail}")
+    construction = AQ.construction_from_proposal(family, proposal, f"{state.language}:{family_name}:learned")
+    state.constructions.append(construction)
+    state.information_events.append(evidence_id)
+    return construction, len(family.hypotheses)
+
+
+def _np_ok(state: LearnedLanguage, np: Construction, revoked=()) -> bool:
     utterance = "the green girl"
-    analyses = [list(state.lexicon.analyse(token, revoked).readings) for token in tokenize(utterance)]
-    table = phrase_table((np,), analyses, revoked=revoked)
-    candidates = table.get((0, len(analyses)), ())
-    expected = canonical(_np_graph("girl", "green", definite=True))[1]
-    return any(canonical(p.meaning)[1] == expected for p in candidates)
+    per = [list(state.lexicon.analyse(token, revoked).readings) for token in tokenize(utterance)]
+    candidates = phrase_table((np,), per, revoked=revoked).get((0, len(per)), ())
+    target = canonical(_np_graph("girl", "green", definite=True))[1]
+    return any(canonical(p.meaning)[1] == target for p in candidates)
 
 
-def _clause_held_out(state: LearnedLanguage, utterance: str, expected: MeaningGraph, revoked=()) -> bool:
+def _clause_ok(state: LearnedLanguage, utterance: str, expected: MeaningGraph, revoked=()) -> bool:
     result = interpret(utterance, state.lexicon, state.constructions, revoked=revoked)
-    return result.verdict is Verdict.INTERPRETED and canonical(result.meaning)[1] == canonical(expected)[1]
+    if result.verdict not in {Verdict.INTERPRETED, Verdict.NEEDS_CONTEXT} or len(result.candidates) != 1:
+        return False
+    return canonical(result.candidates[0].meaning)[1] == canonical(expected)[1]
+
+
+def _receipt(
+    state: LearnedLanguage,
+    construction: Construction,
+    family: str,
+    evidence: str,
+    hypothesis_count: int,
+    held_utterance: str,
+    expected: MeaningGraph | None,
+    *,
+    np: bool = False,
+) -> FamilyReceipt:
+    held = _np_ok(state, construction) if np else _clause_ok(state, held_utterance, expected)
+    after = _np_ok(state, construction, {evidence}) if np else _clause_ok(state, held_utterance, expected, {evidence})
+    return FamilyReceipt(
+        family,
+        evidence,
+        hypothesis_count,
+        tuple(slot.name for slot in construction.pattern),
+        held,
+        not after and construction.liveness({evidence}) is Liveness.DEAD,
+    )
 
 
 def learn_all() -> tuple[LearnedLanguage, tuple[FamilyReceipt, ...]]:
@@ -273,206 +302,117 @@ def learn_all() -> tuple[LearnedLanguage, tuple[FamilyReceipt, ...]]:
         raise AssertionError("construction inventory must start empty")
     receipts: list[FamilyReceipt] = []
 
-    np, n_h = _learn_np(state)
-    np_eid = "demo:construction:np"
-    receipts.append(FamilyReceipt(
-        "noun_phrase", np_eid, n_h, tuple(slot.name for slot in np.pattern),
-        _np_held_out(state, np),
-        not _np_held_out(state, np, {np_eid}) and np.liveness({np_eid}) is Liveness.DEAD,
-    ))
-
+    np, n = _learn_np(state)
+    receipts.append(_receipt(state, np, "noun_phrase", "demo:construction:np", n, "the green girl", None, np=True))
     NP = lambda name: Slot(name, Category.NOUN, phrase="NP")  # noqa: E731
-    helper = (np,)
 
-    trans, n_h = _learn_clause(
-        state,
-        family_name="transitive",
-        roles=(("S", NP("subj")), ("V", Slot("verb", Category.VERB)), ("O", NP("obj"))),
-        template=transitive_template,
-        teaching_utterance="the robot open the door",
-        teaching_meaning=clause_graph("robot", "open", "door"),
-        held_out_utterance="the girl push the ball",
-        evidence_id="demo:construction:transitive",
-        helpers=helper,
-    )
-    receipts.append(FamilyReceipt(
-        "transitive", "demo:construction:transitive", n_h, tuple(slot.name for slot in trans.pattern),
-        _clause_held_out(state, "the girl push the ball", clause_graph("girl", "push", "ball")),
-        not _clause_held_out(state, "the girl push the ball", clause_graph("girl", "push", "ball"), {"demo:construction:transitive"})
-        and trans.liveness({"demo:construction:transitive"}) is Liveness.DEAD,
-    ))
-
-    intr, n_h = _learn_clause(
-        state,
-        family_name="intransitive",
-        roles=(("S", NP("subj")), ("V", Slot("verb", Category.VERB))),
-        template=intransitive_template,
-        teaching_utterance="the robot move",
-        teaching_meaning=clause_graph("robot", "move"),
-        held_out_utterance="the girl move",
-        evidence_id="demo:construction:intransitive",
-        helpers=helper,
-    )
-    receipts.append(FamilyReceipt(
-        "intransitive", "demo:construction:intransitive", n_h, tuple(slot.name for slot in intr.pattern),
-        _clause_held_out(state, "the girl move", clause_graph("girl", "move")),
-        not _clause_held_out(state, "the girl move", clause_graph("girl", "move"), {"demo:construction:intransitive"})
-        and intr.liveness({"demo:construction:intransitive"}) is Liveness.DEAD,
-    ))
-
-    passive, n_h = _learn_clause(
-        state,
-        family_name="passive",
-        roles=(
-            ("P", NP("patient")),
-            ("AUX", Slot("aux", Category.AUX, lemma="was")),
-            ("V", Slot("verb", Category.VERB, features=(("participle", "past"),))),
-            ("BY", Slot("by", Category.PREP, lemma="by")),
-            ("AG", NP("agent")),
+    specs = (
+        (
+            "transitive",
+            (("S", NP("subj")), ("V", Slot("verb", Category.VERB)), ("O", NP("obj"))),
+            transitive_template,
+            "the robot open the door",
+            clause_graph("robot", "open", "door"),
+            "the girl push the ball",
+            clause_graph("girl", "push", "ball"),
+            "demo:construction:transitive",
+            np,
         ),
-        template=passive_template,
-        teaching_utterance="the door was opened by the robot",
-        teaching_meaning=passive_template({"patient": _fake_phrase("door"), "verb": _fake_reading("open", Category.VERB), "agent": _fake_phrase("robot")}),
-        held_out_utterance="the ball was pushed by the girl",
-        evidence_id="demo:construction:passive",
-        helpers=helper,
-    )
-    expected_passive = _passive_expected("ball", "push", "girl")
-    receipts.append(FamilyReceipt(
-        "passive", "demo:construction:passive", n_h, tuple(slot.name for slot in passive.pattern),
-        _clause_held_out(state, "the ball was pushed by the girl", expected_passive),
-        not _clause_held_out(state, "the ball was pushed by the girl", expected_passive, {"demo:construction:passive"})
-        and passive.liveness({"demo:construction:passive"}) is Liveness.DEAD,
-    ))
-
-    neg, n_h = _learn_clause(
-        state,
-        family_name="negation",
-        roles=(
-            ("S", NP("subj")),
-            ("AUX", Slot("aux", Category.AUX, lemma="did")),
-            ("NEG", Slot("neg", Category.NEG, lemma="not")),
-            ("V", Slot("verb", Category.VERB)),
-            ("O", NP("obj")),
+        (
+            "intransitive",
+            (("S", NP("subj")), ("V", Slot("verb", Category.VERB))),
+            intransitive_template,
+            "the robot move",
+            clause_graph("robot", "move"),
+            "the girl move",
+            clause_graph("girl", "move"),
+            "demo:construction:intransitive",
+            np,
         ),
-        template=negation_template,
-        teaching_utterance="the robot did not open the door",
-        teaching_meaning=clause_graph("robot", "open", "door", negated=True),
-        held_out_utterance="the girl did not push the ball",
-        evidence_id="demo:construction:negation",
-        helpers=helper,
-    )
-    expected_neg = clause_graph("girl", "push", "ball", negated=True)
-    receipts.append(FamilyReceipt(
-        "negation", "demo:construction:negation", n_h, tuple(slot.name for slot in neg.pattern),
-        _clause_held_out(state, "the girl did not push the ball", expected_neg),
-        not _clause_held_out(state, "the girl did not push the ball", expected_neg, {"demo:construction:negation"})
-        and neg.liveness({"demo:construction:negation"}) is Liveness.DEAD,
-    ))
-
-    yesno, n_h = _learn_clause(
-        state,
-        family_name="yes_no_question",
-        roles=(
-            ("AUX", Slot("aux", Category.AUX, lemma="did")),
-            ("S", NP("subj")),
-            ("V", Slot("verb", Category.VERB)),
-            ("O", NP("obj")),
+        (
+            "passive",
+            (
+                ("P", NP("patient")),
+                ("AUX", Slot("aux", Category.AUX, lemma="was")),
+                ("V", Slot("verb", Category.VERB, features=(("participle", "past"),))),
+                ("BY", Slot("by", Category.PREP, lemma="by")),
+                ("AG", NP("agent")),
+            ),
+            passive_template,
+            "the door was opened by the robot",
+            _passive_expected("door", "open", "robot"),
+            "the ball was pushed by the girl",
+            _passive_expected("ball", "push", "girl"),
+            "demo:construction:passive",
+            np,
         ),
-        template=yesno_template,
-        teaching_utterance="did the robot open the door",
-        teaching_meaning=clause_graph("robot", "open", "door", question=True),
-        held_out_utterance="did the girl push the ball",
-        evidence_id="demo:construction:yesno",
-        helpers=helper,
-    )
-    expected_yesno = clause_graph("girl", "push", "ball", question=True)
-    receipts.append(FamilyReceipt(
-        "yes_no_question", "demo:construction:yesno", n_h, tuple(slot.name for slot in yesno.pattern),
-        _clause_held_out(state, "did the girl push the ball", expected_yesno),
-        not _clause_held_out(state, "did the girl push the ball", expected_yesno, {"demo:construction:yesno"})
-        and yesno.liveness({"demo:construction:yesno"}) is Liveness.DEAD,
-    ))
-
-    wh, n_h = _learn_clause(
-        state,
-        family_name="wh_question",
-        roles=(
-            ("WH", Slot("wh", Category.WH, lemma="which")),
-            ("O", Slot("obj_n", Category.NOUN)),
-            ("AUX", Slot("aux", Category.AUX, lemma="did")),
-            ("S", Slot("subj_n", Category.PRON, lemma="it")),
-            ("V", Slot("verb", Category.VERB)),
+        (
+            "negation",
+            (
+                ("S", NP("subj")),
+                ("AUX", Slot("aux", Category.AUX, lemma="did")),
+                ("NEG", Slot("neg", Category.NEG, lemma="not")),
+                ("V", Slot("verb", Category.VERB)),
+                ("O", NP("obj")),
+            ),
+            negation_template,
+            "the robot did not open the door",
+            clause_graph("robot", "open", "door", negated=True),
+            "the girl did not push the ball",
+            clause_graph("girl", "push", "ball", negated=True),
+            "demo:construction:negation",
+            np,
         ),
-        template=wh_template,
-        teaching_utterance="which door did it open",
-        teaching_meaning=_wh_expected("door", "open"),
-        held_out_utterance="which ball did it push",
-        evidence_id="demo:construction:wh",
+        (
+            "yes_no_question",
+            (
+                ("AUX", Slot("aux", Category.AUX, lemma="did")),
+                ("S", NP("subj")),
+                ("V", Slot("verb", Category.VERB)),
+                ("O", NP("obj")),
+            ),
+            yesno_template,
+            "did the robot open the door",
+            clause_graph("robot", "open", "door", question=True),
+            "did the girl push the ball",
+            clause_graph("girl", "push", "ball", question=True),
+            "demo:construction:yesno",
+            np,
+        ),
+        (
+            "wh_question",
+            (
+                ("WH", Slot("wh", Category.WH, lemma="which")),
+                ("O", Slot("obj_n", Category.NOUN)),
+                ("AUX", Slot("aux", Category.AUX, lemma="did")),
+                ("S", Slot("subj_n", Category.PRON, lemma="it")),
+                ("V", Slot("verb", Category.VERB)),
+            ),
+            wh_template,
+            "which door did it open",
+            _wh_expected("door", "open"),
+            "which ball did it push",
+            _wh_expected("ball", "push"),
+            "demo:construction:wh",
+            None,
+        ),
     )
-    expected_wh = _wh_expected("ball", "push")
-    receipts.append(FamilyReceipt(
-        "wh_question", "demo:construction:wh", n_h, tuple(slot.name for slot in wh.pattern),
-        _clause_held_out(state, "which ball did it push", expected_wh),
-        not _clause_held_out(state, "which ball did it push", expected_wh, {"demo:construction:wh"})
-        and wh.liveness({"demo:construction:wh"}) is Liveness.DEAD,
-    ))
+
+    for family, roles, template, teach_u, teach_m, held_u, held_m, evidence, helper_np in specs:
+        construction, n = _learn_clause(
+            state,
+            helper_np,
+            family_name=family,
+            roles=roles,
+            template=template,
+            teaching_utterance=teach_u,
+            teaching_meaning=teach_m,
+            held_out_utterance=held_u,
+            evidence_id=evidence,
+        )
+        receipts.append(_receipt(state, construction, family, evidence, n, held_u, held_m))
 
     return state, tuple(receipts)
-
-
-# Tiny teacher-side stand-ins used only to generate registered target meanings;
-# they are not inserted into the learned language state.
-@dataclass(frozen=True)
-class _FakeSense:
-    concept: str
-
-
-@dataclass(frozen=True)
-class _FakeReading:
-    lemma: str
-    category: Category
-    sense: _FakeSense
-
-
-def _fake_reading(concept: str, category: Category) -> _FakeReading:
-    return _FakeReading(concept, category, _FakeSense(concept))
-
-
-@dataclass(frozen=True)
-class _FakePhrase:
-    meaning: MeaningGraph
-    head_node: str = "x"
-
-
-def _fake_phrase(concept: str) -> _FakePhrase:
-    return _FakePhrase(_np_graph(concept))
-
-
-def _passive_expected(patient: str, verb: str, agent: str) -> MeaningGraph:
-    nodes = (MNode("s", "entity", agent), MNode("e", "event", verb), MNode("o", "entity", patient))
-    edges = (
-        MEdge("ROLE:agent", ("e",), ("s",)),
-        MEdge("ROLE:patient", ("e",), ("o",)),
-        MEdge("TENSE", ("e",), ("e",), "past"),
-    )
-    return MeaningGraph(nodes, edges, root="e")
-
-
-def _wh_expected(obj: str, verb: str) -> MeaningGraph:
-    nodes = (
-        MNode("s", "entity", None, underspecified=True),
-        MNode("e", "event", verb),
-        MNode("o", "entity", obj),
-        MNode("q", "question_variable", None, underspecified=True),
-    )
-    edges = (
-        MEdge("ROLE:agent", ("e",), ("s",)),
-        MEdge("ROLE:patient", ("e",), ("o",)),
-        MEdge("ASKS", ("q",), ("o",)),
-        MEdge("TENSE", ("e",), ("e",), "past"),
-    )
-    return MeaningGraph(nodes, edges, root="e")
 
 
 def run() -> dict:
@@ -486,7 +426,7 @@ def run() -> dict:
             "token_lessons": len([e for e in state.information_events if e.startswith("lesson:")]),
             "aligned_family_demonstrations": len(receipts),
             "semantic_target_schemas_registered": 7,
-            "note": "semantic target schemas and strongly supervised function-word/inflected-form lessons are counted teacher information",
+            "note": "semantic target schemas and supervised function-word/inflected-form lessons are explicit teacher information",
         },
         "families": [
             {
