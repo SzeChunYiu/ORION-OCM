@@ -218,6 +218,30 @@ class AdoptionLedger:
     def meter_charges(self) -> list[float]:
         return self.meter.charges
 
+    # ------------------------------------------------------------------ persistence (batch 6 consequence 5)
+    @property
+    def store(self) -> Path:
+        return Path(self.runtime.root) / "adoptions.json"
+
+    def persist(self) -> None:
+        """Rollback artifacts survive an identity-preserving restart: everything serialisable is
+        written beside the ledger (the previous artifact object itself is re-supplied by its
+        fingerprint; components, cache snapshot, stamp and digests are exact)."""
+        rows = {fp: {"proposal_fingerprint": a.proposal_fingerprint, "previous_state_hash": a.previous_state_hash, "stamped_evidence": a.stamped_evidence, "previous_components": a.previous_components, "cache_snapshot": a.cache_snapshot, "components_digest": a.components_digest, "artifact_persisted": isinstance(a.previous_artifact, (dict, list, str, int, float)), "previous_artifact": a.previous_artifact if isinstance(a.previous_artifact, (dict, list, str, int, float)) else None} for fp, a in self.adopted.items()}
+        self.store.write_text(json.dumps({"adopted": rows, "decisions": [d.__dict__ for d in self.decisions], "charges": self.meter.charges}, sort_keys=True, default=str) + "\n", encoding="utf-8")
+
+    @classmethod
+    def load(cls, runtime: OCMRuntime, *, meter: "Meter | None" = None) -> "AdoptionLedger":
+        led = cls(runtime, meter=meter or Meter())
+        p = Path(runtime.root) / "adoptions.json"
+        if p.exists():
+            d = json.loads(p.read_text(encoding="utf-8"))
+            for fp, r in d["adopted"].items():
+                led.adopted[fp] = RollbackArtifact(r["proposal_fingerprint"], r["previous_artifact"], r["previous_state_hash"], r["stamped_evidence"], dict(r["previous_components"]), dict(r["cache_snapshot"]), r["components_digest"])
+            led.decisions = [AdoptionDecision(**x) for x in d["decisions"]]
+            led.meter.charges.extend(d.get("charges", []))
+        return led
+
     def propose(self, proposal: SelfChangeProposal) -> None:
         """Every proposal charges the meter (δ > 0); a proposal touching the meter is refused before charging."""
         if touches_protected_target(proposal):
@@ -236,6 +260,7 @@ class AdoptionLedger:
         new_components = dict(components)
         new_components[proposal.target_component] = {"artifact": proposal.fingerprint(), "stamped": eid, "lineage": components.get(proposal.target_component, {}).get("artifact")}
         self.adopted[proposal.fingerprint()] = RollbackArtifact(proposal.fingerprint(), incumbent, prev_hash, eid, dict(components), copy.deepcopy(cache or {}), _digest(components))
+        self.persist()
         migration = {"preserved": list(proposal.preserved_capabilities), "revalidate": [c for c in new_components if c != proposal.target_component and new_components[c].get("depends_on") == proposal.target_component], "reopen": list(proposal.reopened_capabilities), "lineage": [proposal.incumbent_fingerprint, proposal.fingerprint()]}
         return challenger, {"components": new_components, "migration": migration, "stamped_evidence": eid}
 
@@ -250,6 +275,7 @@ class AdoptionLedger:
             cache.clear()
             cache.update(copy.deepcopy(art.cache_snapshot))
         exact = _digest(components) == art.components_digest and (cache is None or _digest(cache) == _digest(art.cache_snapshot)) and self.runtime.state.evidence.liveness([art.stamped_evidence]).value == "DEAD"
+        self.persist()
         return art.previous_artifact, components, exact
 
 

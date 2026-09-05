@@ -147,3 +147,31 @@ def minimum_level(proposals: tuple[JumpProposal, ...]) -> JumpProposal:
     if not admissible:
         raise ValueError("no complete admissible jump proposal")
     return min(admissible, key=lambda proposal: int(proposal.level))
+
+
+def assess_jump_from_evidence(proposal: JumpProposal, *, minimum_sufficient_local: bool | None, certificate_valid: bool, donor_product_ties: bool) -> JumpAssessment:
+    """Batch 6 (F3/F4) tightening of `assess_jump`: `lower_level_sufficient` is not a caller flag but
+    is derived from the diagnosis — the minimum-sufficient layer computed from ablation evidence is
+    local (D0–D2/D5/D6) ⇒ no Jump; UNKNOWN (no restoring ablation) ⇒ insufficiency not identified;
+    non-local without a valid obstruction certificate ⇒ insufficiency not identified either."""
+    if minimum_sufficient_local is None or not proposal.trigger.is_admissible:
+        return JumpAssessment.INCUMBENT_INSUFFICIENCY_NOT_IDENTIFIED
+    if minimum_sufficient_local:
+        return JumpAssessment.NO_JUMP_NEEDED_LOWER_LEVEL_SUFFICIENT
+    if not certificate_valid:
+        return JumpAssessment.INCUMBENT_INSUFFICIENCY_NOT_IDENTIFIED
+    if donor_product_ties:
+        return JumpAssessment.DONOR_SUBSUMES_JUMP
+    if not proposal.is_formally_complete:
+        return JumpAssessment.JUMP_PROPOSAL_INCOMPLETE
+    return JumpAssessment.CANDIDATE_FOR_PROTECTED_EVALUATION
+
+
+def minimum_sufficient_proposal(proposals: tuple[JumpProposal, ...], minimum_sufficient_level: int) -> JumpProposal:
+    """The lowest complete proposal at or above the *minimum sufficient* level established by
+    evidence — not merely the lowest admissible proposal (batch 6 consequence 7)."""
+    admissible = [p for p in proposals if p.is_formally_complete and int(p.level) >= minimum_sufficient_level]
+    if not admissible:
+        raise ValueError("no complete admissible jump proposal at or above the minimum sufficient level")
+    return min(admissible, key=lambda p: int(p.level))
+

@@ -129,3 +129,39 @@ def mutant_dead_warrant_obstruction(cert: ObstructionCertificate) -> bool:
     """Planted (E3 hostile): certificate accepted without the LIVE-warrant clause."""
     tried = {a.alternative_id for a in cert.attempts}
     return all(alt in tried for alt in cert.registered_alternatives) and not any(a.succeeded for a in cert.attempts) and bool(cert.ceiling_evidence)
+
+
+@dataclass(frozen=True)
+class LocalCandidate:
+    """A repair below the diagnosed layer that the F4 lemma licenses before any escalation."""
+    kind: str                       # "reinstate" | "reroute"
+    layer: Layer
+    target: str
+    why: str
+
+
+def local_candidates(dead_on_path: Iterable[str], alternatives: Iterable[str] = ()) -> tuple[LocalCandidate, ...]:
+    """Batch 6 F4: a failure explained by a DEAD warrant on the execution path has minimum-sufficient
+    layer ≤ D2 — reinstatement (D2) and rerouting to a registered alternative (D1) are emitted as
+    candidates that must be tried (and fail with LIVE warrants) before the layer can be read as higher."""
+    out = [LocalCandidate("reinstate", Layer.D2_OPERATOR, e, "DEAD warrant on the path: reinstate or replace before escalating (F4)") for e in dead_on_path]
+    out += [LocalCandidate("reroute", Layer.D1_ROUTING, a, "registered alternative not yet tried (F4 converse)") for a in alternatives]
+    return tuple(out)
+
+
+def diagnose_with_path(f: FailureRecord, *, dead_on_path: Iterable[str], certificate: "ObstructionCertificate | None" = None, registry: "Mapping[Layer, Sequence[str]] | None" = None) -> tuple[Diagnosis, tuple[LocalCandidate, ...]]:
+    """`diagnose` plus the F4 bound: with a DEAD warrant on the path and no LIVE-warrant ablation
+    evidence above D2, the minimum-sufficient layer is capped at D2 and the local candidates are
+    returned; an escalation is refused until they were tried."""
+    dead = tuple(dead_on_path)
+    base = diagnose(f, certificate=certificate, registry=registry)
+    cands = local_candidates(dead, registry.get(Layer.D1_ROUTING, ()) if registry else ())
+    if dead and (base.minimum_sufficient is None or Layer(base.minimum_sufficient) not in LOCAL):
+        return Diagnosis(base.weights, base.unknown, Layer.D2_OPERATOR.value, False, base.evidence + ("F4:dead-warrant-on-path",)), cands
+    return base, cands
+
+
+def mutant_escalate_over_dead_path(f: FailureRecord, dead_on_path: Iterable[str]) -> str | None:
+    """Planted (F4 hostile): reads the layer from the ablations alone, ignoring the DEAD warrant on the path."""
+    return diagnose(f).minimum_sufficient
+

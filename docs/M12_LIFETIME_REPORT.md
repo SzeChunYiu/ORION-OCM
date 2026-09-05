@@ -120,3 +120,42 @@ Longer lifetimes (n ≥ 40 per work/science family from one instance), a second 
 that A is not identical across orderings, a stronger repair parent (learned failure classifier over
 traces) with the same candidate channel, a foundation-model reference arm when one is available,
 and blinded human rating of the A conversations.
+
+## 10. Batch-6 caveats and the V3 design (added after theory batch 6, ORION-V2 #347)
+
+* **Item exchangeability (F2).** The inferential family (A conversations, n = 54) treats turns as
+  exchangeable items; turns inside one conversation share state, so the exact paired test is a
+  turn-level statement with a block-dependence caveat (batch 6 gives the block-adjusted sizes). O2/O3
+  add no inferential units because phase A is identical across orderings.
+* **Unit of inference.** The valid unit for a lifetime residual is the lifetime: paired lifetimes with
+  matched but distinct task streams need at least 5 to reject at α = 0.05 and 8 for power 0.81 at
+  p = 0.9 (batch 6 F2). The V3 design therefore freezes 8 paired lifetimes with per-lifetime protected
+  streams (language variants generated inside the bounded world by seeded lexical substitution, work
+  and science ids per lifetime), scored per lifetime by the sign test and the exact paired test.
+* **Post-deployment `revoked_stops`** measures revoke-named (F1): the machine now reports the live
+  remainder; a revoke-all step is added in the V3 suite.
+* **Reference arm.** A local open-weight model is run as a REFERENCE arm (F8: pretraining exposure is
+  unbound, so it is never a matched comparator): `research/ocm-m12/M12_REFERENCE_ARM_V1.json`.
+
+### 10.1 Reference arm result (REFERENCE, not a comparator)
+
+Local open-weight model `qwen2.5:7b-instruct-q4_K_M` (Ollama digest `845dbda0ea48ed74…`) given the same
+manifest facts (tagged verified / unverified / rumour), lessons and questions in its prompt, graded
+semantically (yes / no / unknown / clarify), transcript kept across restarts as its memory:
+
+| Family | reference | OCM (V2, O1) | parent (V2, O1) |
+|---|---|---|---|
+| factual in-scope | 28/30 | 30/30 | 27/30 |
+| honest unknown (out-of-scope questions) | 0/20 | 20/20 | 17/20 |
+| negative-transfer probes | 3/7 | 7/7 | 5/7 |
+| post-deployment lessons (7 steps × 6) | 41/42 | 37/42 | 30/42 |
+| always attempts (answered where unknown was licensed) | 20/20 | 0 | 3 |
+
+The reference model answers every out-of-scope question from pretraining ("is paris in spain" → No.)
+although the given facts do not settle it: exactly the unbound information channel F8 names, which
+is why it is a reference and not a matched comparator. On lessons it is strong (transcript memory
+restores after restart; revocation by name works). Conversations are NOT_MEASURED for the reference
+arm (graded by OCM surface patterns). Runs are not bit-reproducible on the laptop GPU (one item
+differed between two identical runs); numbers are descriptive. Receipt:
+`docs/provenance/M12_REFERENCE_RECEIPT_V1.json`.
+

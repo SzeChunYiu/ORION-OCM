@@ -98,6 +98,61 @@
       "mutant": "S0 no-fault control raises no proposal; S6 harmful rewrite refused on preservation",
       "parent": "parameter search; reflection-retry",
       "limitation": "no inferential terminal (n = 7); historical diagnostic accuracy CANNOT_CHECK"
+    },
+    {
+      "id": "KS-T110",
+      "gap": "batch 6 F4",
+      "statement": "A failure explained by a DEAD warrant on the execution path has minimum-sufficient layer ≤ D2: reinstatement (D2) and rerouting (D1) candidates are emitted and must be tried with LIVE warrants before any escalation; the layer read from ablations alone is capped.",
+      "status": "PROVED",
+      "proof": "diagnose_with_path caps the layer and returns the local candidates; F4 proved in ORION-V2 batch 6 (26 208 fixtures)",
+      "checker": "tests/m11/test_batch6_obligations.py::test_F4_dead_warrant_on_path_caps_the_layer_and_emits_local_candidates",
+      "mutant": "selfmodel.diagnose.mutant_escalate_over_dead_path",
+      "parent": "reinstatement precedes escalation (ATMS-style dependency repair)",
+      "limitation": "the path's DEAD warrants must be supplied by the runner"
+    },
+    {
+      "id": "KS-T111",
+      "gap": "batch 6 consequence 7",
+      "statement": "Jump assessment derives lower-level sufficiency from the diagnosis (minimum-sufficient layer local ⇒ no Jump; UNKNOWN or no valid certificate ⇒ insufficiency not identified); the minimum proposal is the lowest complete one at or above the evidence's minimum-sufficient level.",
+      "status": "PROVED",
+      "proof": "assess_jump_from_evidence / minimum_sufficient_proposal; the caller flag remains only in the M1 legacy signature",
+      "checker": "tests/m11/test_batch6_obligations.py::test_consequence7_jump_assessment_is_derived_from_evidence",
+      "mutant": "the legacy caller flag (assess_jump) accepts any claim of insufficiency",
+      "parent": "—",
+      "limitation": "proposal levels are integers"
+    },
+    {
+      "id": "KS-T112",
+      "gap": "batch 6 F5",
+      "statement": "The identity of a persistent machine is its ledger chain (head hash at a recorded length), component fingerprints and adoption lineage; a same-path replaced log is not the same machine.",
+      "status": "PROVED",
+      "proof": "chain_continuous checks the recorded head at its position in the current chain",
+      "checker": "tests/m11/test_batch6_obligations.py::test_F5_identity_is_the_ledger_chain_not_the_path",
+      "mutant": "lifetime.machine.mutant_identity_by_path",
+      "parent": "hash-chained logs",
+      "limitation": "the M12 V2 kill gate used root path + single-runtime; the chain check applies from the next lifetime version"
+    },
+    {
+      "id": "KS-T113",
+      "gap": "batch 6 consequence 5",
+      "statement": "Adoption artifacts (stamp, previous components, cache snapshot, digests, decisions, meter charges) persist beside the ledger and survive an identity-preserving restart; rollback after restart is exact and revokes the stamp.",
+      "status": "PROVED",
+      "proof": "AdoptionLedger.persist/load; rollback persisted",
+      "checker": "tests/m11/test_batch6_obligations.py::test_consequence5_adoption_artifacts_survive_a_restart",
+      "mutant": "an in-memory ledger loses the artifact across restart",
+      "parent": "—",
+      "limitation": "a non-serialisable previous artifact is re-supplied by fingerprint"
+    },
+    {
+      "id": "KS-T114",
+      "gap": "batch 6 F1",
+      "statement": "A revocation names one warrant; when a word keeps other LIVE senses the machine reports the live remainder (revoke-named) instead of silently keeping the capability; revoke-all is a distinct instruction.",
+      "status": "PROVED",
+      "proof": "ChatSession._revoke reports the remainder; F1 policy over the ⊕ lattice (batch 6)",
+      "checker": "tests/m11/test_batch6_obligations.py::test_F1_revocation_reports_the_live_remainder",
+      "mutant": "silent capability persistence (the pre-batch-6 reply)",
+      "parent": "ATMS label maintenance",
+      "limitation": "the M7 post-deployment step named revoked_stops measures revoke-named; a revoke-all step is a V3 suite item"
     }
   ]
 }
