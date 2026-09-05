@@ -1,78 +1,104 @@
 {
-  "study": "M2_SCALING_BASELINE_V1",
   "authority": "engineering baseline on synthetic hypergraphs; not a cognition benchmark; no claim",
   "rows": [
     {
+      "admission": {
+        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up",
+        "wall_s": 0.7865
+      },
       "atoms": 100,
+      "build_s": 0.0064,
+      "cpu_s": 0.8012,
       "hyperedges": 297,
       "incidences": 336,
-      "build_s": 0.0064,
       "navigation": {
+        "active_atoms": 88,
         "iterations": 53,
-        "wall_s": 0.0073,
-        "active_atoms": 88
+        "wall_s": 0.0073
       },
-      "sparse_vs_exact_max_error": null,
+      "peak_rss_mb": 23.9,
       "reopening": {
-        "wall_s": 0.0011,
         "cone": 73,
         "reopen": 2,
-        "unaffected": 27
+        "unaffected": 27,
+        "wall_s": 0.0011
       },
-      "admission": {
-        "wall_s": 0.7865,
-        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up"
-      },
-      "cpu_s": 0.8012,
-      "peak_rss_mb": 23.9
+      "sparse_vs_exact_max_error": null
     },
     {
+      "admission": {
+        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up",
+        "wall_s": 0.1053
+      },
       "atoms": 1000,
+      "build_s": 0.0454,
+      "cpu_s": 0.2206,
       "hyperedges": 2994,
       "incidences": 3449,
-      "build_s": 0.0454,
       "navigation": {
+        "active_atoms": 931,
         "iterations": 49,
-        "wall_s": 0.0615,
-        "active_atoms": 931
+        "wall_s": 0.0615
       },
-      "sparse_vs_exact_max_error": null,
+      "peak_rss_mb": 25.2,
       "reopening": {
-        "wall_s": 0.0084,
         "cone": 858,
         "reopen": 2,
-        "unaffected": 142
+        "unaffected": 142,
+        "wall_s": 0.0084
       },
-      "admission": {
-        "wall_s": 0.1053,
-        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up"
-      },
-      "cpu_s": 0.2206,
-      "peak_rss_mb": 25.2
+      "sparse_vs_exact_max_error": null
     },
     {
+      "admission": {
+        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up",
+        "wall_s": 6.5321
+      },
       "atoms": 10000,
+      "build_s": 0.5,
+      "cpu_s": 7.8011,
       "hyperedges": 29994,
       "incidences": 34436,
-      "build_s": 0.5,
       "navigation": {
+        "active_atoms": 9414,
         "iterations": 51,
-        "wall_s": 0.6569,
-        "active_atoms": 9414
+        "wall_s": 0.6569
       },
-      "sparse_vs_exact_max_error": null,
+      "peak_rss_mb": 60.9,
       "reopening": {
-        "wall_s": 0.114,
         "cone": 8647,
         "reopen": 6,
-        "unaffected": 1353
+        "unaffected": 1353,
+        "wall_s": 0.114
       },
+      "sparse_vs_exact_max_error": null
+    },
+    {
       "admission": {
-        "wall_s": 6.5321,
-        "note": "exact fixed point (O(n^3)); sparse admission path is an M2 follow-up"
+        "note": "sparse reachability path (KS-T32)",
+        "wall_s": 1063.8517
       },
-      "cpu_s": 7.8011,
-      "peak_rss_mb": 60.9
+      "atoms": 100000,
+      "build_s": 6.2161,
+      "cpu_s": 1080.2878,
+      "host": "billy-old",
+      "hyperedges": 299992,
+      "incidences": 345368,
+      "navigation": {
+        "active_atoms": 94336,
+        "iterations": 51,
+        "wall_s": 10.0351
+      },
+      "note": "admission uses the sparse reachability path (KS-T32) above 200 atoms; wall dominated by admission (1064 s); navigation 51 iterations 10.0 s; reopening 0.62 s; peak RSS 411 MB",
+      "peak_rss_mb": 411.0,
+      "reopening": {
+        "cone": 86428,
+        "reopen": 3,
+        "unaffected": 13572,
+        "wall_s": 0.6151
+      },
+      "sparse_vs_exact_max_error": null
     }
-  ]
+  ],
+  "study": "M2_SCALING_BASELINE_V1"
 }
