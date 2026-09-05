@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from ocm.chat.session import ChatSession
-from ocm.kso import jump as J
+from ocm.selfmodel import jump_evidence as J
 from ocm.kso.warrant import WarrantProfile as WP
 from ocm.lifetime import machine as MC
 from ocm.runtime.ocm_runtime import OCMRuntime

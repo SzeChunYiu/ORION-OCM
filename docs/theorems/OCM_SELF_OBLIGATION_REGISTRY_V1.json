@@ -115,7 +115,7 @@
       "gap": "batch 6 consequence 7",
       "statement": "Jump assessment derives lower-level sufficiency from the diagnosis (minimum-sufficient layer local ⇒ no Jump; UNKNOWN or no valid certificate ⇒ insufficiency not identified); the minimum proposal is the lowest complete one at or above the evidence's minimum-sufficient level.",
       "status": "PROVED",
-      "proof": "assess_jump_from_evidence / minimum_sufficient_proposal; the caller flag remains only in the M1 legacy signature",
+      "proof": "selfmodel.jump_evidence.assess_jump_from_evidence / minimum_sufficient_proposal (OCM-owned; ocm.kso.jump stays frozen under the M0 dependency audit)",
       "checker": "tests/m11/test_batch6_obligations.py::test_consequence7_jump_assessment_is_derived_from_evidence",
       "mutant": "the legacy caller flag (assess_jump) accepts any claim of insufficiency",
       "parent": "—",
