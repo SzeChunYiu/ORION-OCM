@@ -88,7 +88,7 @@ def runtime_lifecycle(manifest, repo):
         ("alternate-run-preserved", combined.liveness({"kernel:run-1"}), Live.LIVE),
         ("all-runs-revoked", combined.liveness({"kernel:run-1", "kernel:run-2"}), Live.DEAD),
         ("run-evidence-restored", primary.liveness(()), Live.LIVE),
-        ("kernel-does-not-create-correspondence", WP.zero().liveness(()), Live.DEAD),
+        ("kernel-does-not-create-correspondence", WP.partial(()).liveness(()), Live.UNKNOWN),
         ("correspondence-can-be-revoked-separately",
          correspondence.liveness({"correspondence:external-review"}), Live.DEAD),
     ]
@@ -110,7 +110,6 @@ def replay(archive, root=HERE, repo=None):
         archive_identity(pinned_archive, manifest)
         env = {k: v for k, v in os.environ.items()
                if not k.startswith(("LEAN", "LAKE", "ELAN", "PYTHON"))}
-        env["HOME"] = str(work)
         env["PYTHONNOUSERSITE"] = "1"
         # Exact archive identity pins the kernel and its entire standard-library payload.
         extracted = run(["tar", "--zstd", "-xf", str(pinned_archive), "-C", str(work)], work, env, 180)

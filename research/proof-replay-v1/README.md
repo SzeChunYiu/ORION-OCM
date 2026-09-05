@@ -35,6 +35,8 @@ correspondence. The fixture evidence identifiers are authored inputs, not
 authenticated external reviews. Revoking reliance on a run does not make an
 immutable mathematical theorem false. This finite support check does not
 prove arbitrary Lean-to-OCM semantic correspondence.
+Missing correspondence remains UNKNOWN: a kernel run supplies neither
+correspondence evidence nor an exhaustive certificate that no such evidence exists.
 
 ```sh
 python research/proof-replay-v1/test_replay.py

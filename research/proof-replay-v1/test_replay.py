@@ -76,6 +76,7 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(len(cells), 7)
         self.assertEqual(cells["alternate-run-preserved"], "LIVE")
         self.assertEqual(cells["revoked-run-evidence"], "DEAD")
+        self.assertEqual(cells["kernel-does-not-create-correspondence"], "UNKNOWN")
 
     def test_changed_runtime_source_refused(self):
         with tempfile.TemporaryDirectory() as tmp:
