@@ -78,21 +78,26 @@ def cross_scale(org: Organisation, ks: KnowledgeSpace, seed: str, target: str, *
     transports = 0
     unnecessary = 0
     answered_macro = False
+    reached: set[str] = {seed}                     # atoms actually reached so far (propagation, not region membership)
     for rid in coarse:
         macro = org.macro(rid)
         q = f"{rid}:{target}"
         if q in certified and macro_liveness(ks, macro, rv) is Liveness.LIVE and target in macro.exported_claims:
             answered_macro = True
             return CrossScaleResult("FOUND", target, tuple(coarse), tuple(descended), visited + 1, transports, unnecessary, missed, True)
-        # descend: local gated closure restricted to the region
-        local = N.gated_closure(ks, [a for a in regs[rid].atoms if a == seed or a in _entry_points(ks, regs[rid], coarse, org)], rv) & regs[rid].atoms
+        # descend: local gated closure inside the region, started from what has actually been reached
+        # (the seed, or heads of edges whose tails were all reached in earlier regions)
+        entries = {a for a in regs[rid].atoms if a in reached} | _entry_points(ks, regs[rid], reached)
+        if not entries:
+            continue
+        local = N.gated_closure(ks, sorted(entries), rv) & regs[rid].atoms
+        reached |= local
         visited += len(local)
         descended.append(rid)
         if q in certified and target in macro.exported_claims:
             unnecessary += 1
         if target in local and ks.atom(target).liveness(rv) is Liveness.LIVE:
             return CrossScaleResult("FOUND", target, tuple(coarse), tuple(descended), visited, transports, unnecessary, missed, False)
-        # transport out of this region if a live applicable map exists
         for t in org.transports():
             if t.source == rid and transport_applicable(t, contexts) and t.warrant.liveness(rv) is Liveness.LIVE:
                 transports += 1
@@ -103,14 +108,12 @@ def cross_scale(org: Organisation, ks: KnowledgeSpace, seed: str, target: str, *
     return CrossScaleResult("GAP", target, tuple(coarse), tuple(descended), visited, transports, unnecessary, missed, False)
 
 
-def _entry_points(ks: KnowledgeSpace, region: Region, coarse: Sequence[str], org: Organisation) -> set[str]:
-    """Atoms of the region that receive an edge from an already-activated region (or the seed)."""
+def _entry_points(ks: KnowledgeSpace, region: Region, reached: set[str]) -> set[str]:
+    """Heads inside the region of edges whose tails were all actually reached (propagation)."""
     entries: set[str] = set()
     for e in ks.hyperedges:
         heads = set(e.heads) & region.atoms
-        if not heads:
-            continue
-        if any(rid in coarse for a in e.tails for rid in org.regions_of(a)):
+        if heads and all(t in reached for t in e.tails):
             entries |= heads
     return entries
 

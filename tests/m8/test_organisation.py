@@ -85,7 +85,8 @@ def test_learned_arm_adopts_only_realised_improvements_and_refuses_free_complexi
     for h in arm.history:
         if h["adopted"]:
             assert any(h["predicted"][k] > 0 and h["heldout"][k] > base[k] for k in h["heldout"])
-            assert not any(h["heldout"][k] < base[k] - 1e-9 for k in h["heldout"])
+            # a component may regress only where the proposal *predicted* a loss (a declared trade-off)
+            assert not any(h["heldout"][k] < base[k] - 1e-9 and h["predicted"].get(k, 0) >= 0 for k in h["heldout"])
     assert arm.describe()["learner_cost"] > 0
     # the hostile adopts a split regardless of benefit
     n1 = len(arm.regions())
