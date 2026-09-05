@@ -1,0 +1,27 @@
+name: N1 minimal construction recovery
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/minimal_construction_recovery.py'
+      - 'research/ocm-n1/test_minimal_construction_recovery.py'
+      - '.github/workflows/n1-minimal-constructions.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/minimal_construction_recovery.py'
+      - 'research/ocm-n1/test_minimal_construction_recovery.py'
+      - '.github/workflows/n1-minimal-constructions.yml'
+permissions:
+  contents: read
+jobs:
+  minimal-constructions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Seven-family acquisition, composition and revocation hostiles
+        run: |
+          python research/ocm-n1/test_minimal_construction_recovery.py
+          python research/ocm-n1/minimal_construction_recovery.py
