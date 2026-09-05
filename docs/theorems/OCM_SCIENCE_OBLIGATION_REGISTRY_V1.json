@@ -1,0 +1,114 @@
+{
+  "registry": "OCM_SCIENCE_OBLIGATION_REGISTRY_V1",
+  "milestone": "M10",
+  "extends": "OCM_WORK_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T87",
+      "gap": "MEG-01",
+      "statement": "Evidence dependence in science: corroboration counts distinct sources; replicates from one dependent source count once; a hypothesis's warrant is ⊕ over distinct-source supports and dies under a live counter-observation.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/evidence.py; KS-T33; batch-1 T11",
+      "checker": "tests/m10/test_science_core.py",
+      "mutant": "evidence.mutant_replicates_as_corroboration",
+      "parent": "—",
+      "limitation": "source identity declared"
+    },
+    {
+      "id": "KS-T88",
+      "gap": "—",
+      "statement": "A causal conclusion requires registered identification assumptions (randomised intervention or a registered back-door set); graph structure or correlation alone never licenses it; naive regression on confounded worlds is biased while back-door and interventional estimators recover the oracle effect; adjusting on a collider is flagged non-identified.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/causal.py; src/ocm/science/evidence.py causal_claim_allowed",
+      "checker": "tests/m10/test_science_core.py; receipt causal",
+      "mutant": "evidence.mutant_correlation_as_causation; causal.estimate('collider_adjusted')",
+      "parent": "Pearl 2009 (back-door); randomised experiments",
+      "limitation": "linear-Gaussian SCMs; small worlds"
+    },
+    {
+      "id": "KS-T89",
+      "gap": "MEG-33",
+      "statement": "Experiment selection by expected elimination of live hypotheses minus cost and risk (batch-3 C1 applied to hypotheses) prefers the discriminating low-risk test, stops when nothing is worth its cost or one hypothesis remains, and never runs an experiment to confirm a preferred hypothesis (hostile).",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/selection.py",
+      "checker": "tests/m10/test_science_core.py; receipt experiment_selection",
+      "mutant": "selection.select_greedy_confirmation",
+      "parent": "value of information / Bayesian experimental design (Lindley 1956) — candidate",
+      "limitation": "uniform prior; discretised predictions"
+    },
+    {
+      "id": "KS-T90",
+      "gap": "MEG-32",
+      "statement": "Analysis lifecycle is pre-registered per task (estimand and test fixed before the outcome); exact permutation tests; the number of analyses tried is reported; the p-hacking hostile searches subsets until significance and is counted separately.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/analysis.py",
+      "checker": "tests/m10/test_science_core.py; receipt analysis",
+      "mutant": "analysis.mutant_p_hack",
+      "parent": "permutation tests (Fisher 1935)",
+      "limitation": "two-group mean difference"
+    },
+    {
+      "id": "KS-T91",
+      "gap": "—",
+      "statement": "Proof-kernel boundary: PASS(certificate) | FAIL | CANNOT_CHECK from a registered kernel; a warranted proof object exists only on PASS; the kernel warrant and the formalisation-correspondence warrant are separate records; a FAIL is evidence of falsity only from a complete kernel with a countermodel; Lean 4 is CANNOT_CHECK in this study.",
+      "status": "PROVED (propositional fragment)",
+      "proof": "src/ocm/science/proof.py",
+      "checker": "tests/m10/test_proof_lifecycle.py; receipt proof",
+      "mutant": "proof.mutant_fail_means_false; proof.mutant_accept_mistranslation",
+      "parent": "truth-table decision procedure",
+      "limitation": "propositional kernel only; no Lean toolchain"
+    },
+    {
+      "id": "KS-T92",
+      "gap": "MEG-03/17",
+      "statement": "Scientific retraction: a conclusion is a derived record (⊗ of its supporting observations), so retracting one observation kills exactly the conclusions that rested on it, unrelated conclusions stay, replacement support is a new record with lineage and the old stays dead; replay reproduces it.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/lifecycle.py ScienceLedger; KS-T22; batch-2 B6",
+      "checker": "tests/m10/test_proof_lifecycle.py; receipt retraction",
+      "mutant": "(retracted evidence remaining in a derived conclusion — excluded by derived_from)",
+      "parent": "DRed / B-F maintenance",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T93",
+      "gap": "—",
+      "statement": "Cross-field transfer maps M9 work roles to science roles through TransferMap.v1: full mapping TRANSFER with ⊗ warrant; a missing science binding ADAPTER_REQUIRED; a work verifier bound as statistical validation REFUSE_TRANSFER.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/lifecycle.py science_transfer_map; KS-T81",
+      "checker": "tests/m10/test_proof_lifecycle.py; receipt cross_field_transfer",
+      "mutant": "(lookalike verifier)",
+      "parent": "—",
+      "limitation": "registered role map"
+    },
+    {
+      "id": "KS-T94",
+      "gap": "MEG-25",
+      "statement": "Communication gate: the strongest licensed marker is fixed by the epistemic state (proves / causes / suggests / is consistent with / cannot determine); an overclaim is downgraded, a sentence without a marker is refused, and fluent wording never hides CANNOT_CHECK.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/science/lifecycle.py gate_sentence; KS-T47/T63",
+      "checker": "tests/m10/test_proof_lifecycle.py; receipt communication",
+      "mutant": "lifecycle.mutant_fluent_overclaim",
+      "parent": "—",
+      "limitation": "marker vocabulary registered"
+    },
+    {
+      "id": "KS-T95",
+      "gap": "—",
+      "statement": "External scientific benchmarks (SciCode-Verified, ResearchGym, LifeSciBench full, miniF2F/Lean 4) and any frontier target: CANNOT_CHECK in this study; no discovery claim.",
+      "status": "CANNOT_CHECK",
+      "proof": "—",
+      "checker": "receipt external",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "no result claimed"
+    }
+  ]
+}

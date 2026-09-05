@@ -86,3 +86,13 @@ language programme's scientific gate closes with this mixed table; it does not c
 3. Parent strength: add a fine-tuning/adapter comparator when a matched neural learner becomes
    feasible off-Mac (billy-old CPU) — reported as CANNOT_CHECK here.
 4. Human rating: run the frozen blinded protocol with ≥ 3 raters.
+
+## 8. Addendum after theory batch 4 (D1 / MEG-32)
+
+The equivalence scale is the **paired rate difference** d = (a_only − b_only)/n with margin δ = 0.05,
+tested through the exact Clopper–Pearson interval of the discordant proportion; at n = 54 a single
+discordant pair bounds |d| ≤ 1/54 < δ, so the EQUIVALENT verdicts for the ablations are exact on
+that scale. On the discordant-proportion scale p_d at δ = 1/10 (D1's scale) equivalence needs
+n_d ≥ 76 discordant pairs and is therefore CANNOT_CHECK here — both scales are now named. The M2.1
+revival terminal (0/540 discordant) is a θ-scale equivalence at δ_u ≥ 7/1000 and is relabelled as
+such in the ledger (S28).
