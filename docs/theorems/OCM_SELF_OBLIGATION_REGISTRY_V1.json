@@ -2,16 +2,102 @@
   "registry": "OCM_SELF_OBLIGATION_REGISTRY_V1",
   "milestone": "M11",
   "extends": "OCM_SCIENCE_OBLIGATION_REGISTRY_V1",
-  "status_vocabulary": ["PROVED", "FINITE_CALIBRATION", "PARENT_OWNED", "OPEN", "CANNOT_CHECK"],
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
   "rule": "every row names a runnable checker test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
   "obligations": [
-    {"id": "KS-T96", "gap": "MEG-35 / batch 5 E1", "statement": "Self-model without self-authority: every self-statement is an OBSERVATION in scope self with authority self_model only; the meet with any object authority never raises it; statements are tied to evidence identities.", "status": "PROVED", "proof": "authority product lattice: meet with a vector whose object coordinates are 0 has object coordinates 0", "checker": "tests/m11/test_selfmodel.py::test_self_model_records_tie_to_identities_and_never_raise_object_authority", "mutant": "selfmodel.model.mutant_self_description_as_authority", "parent": "reflective architectures with self-evaluation authority (Schmidhuber 2003 Gödel machine; self-refine loops)", "limitation": "finite component kinds"},
-    {"id": "KS-T97", "gap": "batch 5 E2", "statement": "Diagnosis is a distribution over layers D0–D8 computed from counterfactual (ablation) evidence, with UNKNOWN for layers without evidence and a minimum-sufficient layer = lowest restoring layer in the local-first order.", "status": "FINITE_CALIBRATION", "proof": "definition + 7 planted causes (M11_SELF_EVAL_V1: diagnosis_correct 7/7)", "checker": "tests/m11/test_selfmodel.py::test_diagnosis_is_a_distribution_minimum_sufficient_and_escalation_needs_a_valid_certificate; tests/m11/test_benchmark.py", "mutant": "selfmodel.diagnose.mutant_low_score_is_architecture", "parent": "root-cause analysis by counterfactual ablation (Pearl 2009; software fault localisation)", "limitation": "oracle-provided ablation channel; one environment"},
-    {"id": "KS-T98", "gap": "batch 5 E3", "statement": "Escalation above the local layers requires a valid ObstructionCertificate: every registered lower-level alternative tried with a LIVE warrant and failed, plus a ceiling witness; a DEAD-warrant failure, an untried alternative, a succeeded alternative or a missing witness invalidates it.", "status": "PROVED", "proof": "validity predicate is a conjunction over the finite attempt set; the LIVE clause is checked against the revoked set", "checker": "tests/m11/test_selfmodel.py (untried / dead-warrant / false-structural-alarm cases); S3 and S5 in tests/m11/test_benchmark.py", "mutant": "selfmodel.diagnose.mutant_dead_warrant_obstruction", "parent": "obstruction-witness escalation (proof-theoretic obstruction certificates; batch 5 E3)", "limitation": "ceiling witness is a recorded string, not a checked impossibility proof"},
-    {"id": "KS-T99", "gap": "batch 5 E4", "statement": "A self-change proposal carries proposal-only authority, names its pre-outcome prediction by digest before any protected outcome access, and cannot change its own adoption status; C6 constitutional proposals are recommendation packets and never adoptable through cognition; proposals touching protected targets are refused at the meter.", "status": "PROVED", "proof": "status lives in the adoption ledger, not on the frozen proposal; digest equality is the leakage check", "checker": "tests/m11/test_selfmodel.py::test_shadow_assurance_external_adoption_and_exact_rollback", "mutant": "selfmodel.proposal.mutant_proposal_edits_evaluator", "parent": "governed self-modification (constitutional AI; change-management gates)", "limitation": "protected-target detection is by name prefix"},
-    {"id": "KS-T100", "gap": "batch 5 E5", "statement": "Shadow evaluation of a challenger leaves the object-level state hash unchanged (non-interference), and assurance checks are computed fresh from the shadow record, not from the challenger's own report.", "status": "PROVED", "proof": "shadow runs on deep copies; hash before/after compared", "checker": "tests/m11/test_selfmodel.py; benchmark shadow_non_interference 7/7", "mutant": "tampered protocol hash and prediction digest fail protocol_intact / no_leakage", "parent": "shadow deployment / canary evaluation", "limitation": "the runner is supplied; a runner with side effects would be caught only through the hash"},
-    {"id": "KS-T101", "gap": "batch 5 E6", "statement": "Adoption requires an external decision with a token (self-approval is refused); rollback restores the previous artifact and component table exactly and revokes the stamped adoption evidence so dependents reopen; the object-level knowledge-space digest is unchanged by the adopt/rollback episode while the ledger keeps it as history.", "status": "PROVED", "proof": "revocation of the stamped evidence id makes every derived atom DEAD by KS-T22 reopening; component table restored by value", "checker": "tests/m11/test_selfmodel.py; benchmark rollback_exact 7/7", "mutant": "selfmodel.govern.mutant_self_approve; selfmodel.govern.mutant_rollback_keeps_cache", "parent": "transactional rollback; evidence-stamped deployment", "limitation": "compiled caches outside the component table are the caller's responsibility (mutant documents the failure mode)"},
-    {"id": "KS-T102", "gap": "batch 5 E7", "statement": "Every proposal charges a strictly positive meter and adoptions per window are bounded; a proposal may not edit the meter or the adoption thresholds.", "status": "PROVED", "proof": "charge > 0 enforced; window budget enforced; protected targets refused before charging", "checker": "tests/m11/test_selfmodel.py", "mutant": "selfmodel.proposal.mutant_proposal_edits_evaluator", "parent": "resource-bounded self-improvement", "limitation": "window is a count, not wall-clock"},
-    {"id": "KS-T103", "gap": "M11 §13–§14", "statement": "Controlled self-reorganisation benchmark S0–S7 vs the two parents, and the recorded replay of ledger rows S11–S28 (narrowness and escalation witnesses).", "status": "FINITE_CALIBRATION", "proof": "M11_SELF_EVAL_V1 summary (descriptive at n = 7; replay is recorded, not re-executed)", "checker": "src/ocm/evaluation/m11_self_eval.py; tests/m11/test_benchmark.py", "mutant": "S0 no-fault control raises no proposal; S6 harmful rewrite refused on preservation", "parent": "parameter search; reflection-retry", "limitation": "no inferential terminal (n = 7); historical diagnostic accuracy CANNOT_CHECK"}
+    {
+      "id": "KS-T96",
+      "gap": "MEG-35 / batch 5 E1",
+      "statement": "Self-model without self-authority: every self-statement is an OBSERVATION in scope self with authority self_model only; the meet with any object authority never raises it; statements are tied to evidence identities.",
+      "status": "PROVED",
+      "proof": "authority product lattice: meet with a vector whose object coordinates are 0 has object coordinates 0",
+      "checker": "tests/m11/test_selfmodel.py::test_self_model_records_tie_to_identities_and_never_raise_object_authority; M11.1: tests/m11/test_batch5_defects.py::test_E1_failure_records_are_derived_from_their_traces (revoking a trace reopens the diagnosis record)",
+      "mutant": "selfmodel.model.mutant_self_description_as_authority",
+      "parent": "reflective architectures with self-evaluation authority (Schmidhuber 2003 Gödel machine; self-refine loops)",
+      "limitation": "finite component kinds; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T97",
+      "gap": "batch 5 E2",
+      "statement": "Diagnosis is a distribution over layers D0–D8 computed from counterfactual (ablation) evidence, with UNKNOWN for layers without evidence and a minimum-sufficient layer = lowest restoring layer in the local-first order.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "definition + 7 planted causes (M11_SELF_EVAL_V1: diagnosis_correct 7/7)",
+      "checker": "tests/m11/test_selfmodel.py::test_diagnosis_is_a_distribution_minimum_sufficient_and_escalation_needs_a_valid_certificate; tests/m11/test_benchmark.py; M11.1: tests/m11/test_batch5_defects.py::test_E2_E3_alarm_needs_certificate_not_frequency_and_registry_closure (frequency never contributes)",
+      "mutant": "selfmodel.diagnose.mutant_low_score_is_architecture",
+      "parent": "root-cause analysis by counterfactual ablation (Pearl 2009; software fault localisation)",
+      "limitation": "oracle-provided ablation channel; one environment; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T98",
+      "gap": "batch 5 E3",
+      "statement": "Escalation above the local layers requires a valid ObstructionCertificate: every registered lower-level alternative tried with a LIVE warrant and failed, plus a ceiling witness; a DEAD-warrant failure, an untried alternative, a succeeded alternative or a missing witness invalidates it.",
+      "status": "PROVED",
+      "proof": "validity predicate is a conjunction over the finite attempt set; the LIVE clause is checked against the revoked set",
+      "checker": "tests/m11/test_selfmodel.py (untried / dead-warrant / false-structural-alarm cases); S3 and S5 in tests/m11/test_benchmark.py; M11.1: tests/m11/test_batch5_defects.py (registry closure: a certificate listing only its own alternatives is invalid against the component registry)",
+      "mutant": "selfmodel.diagnose.mutant_dead_warrant_obstruction",
+      "parent": "obstruction-witness escalation (proof-theoretic obstruction certificates; batch 5 E3)",
+      "limitation": "ceiling witness is a recorded string, not a checked impossibility proof; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T99",
+      "gap": "batch 5 E4",
+      "statement": "A self-change proposal carries proposal-only authority, names its pre-outcome prediction by digest before any protected outcome access, and cannot change its own adoption status; C6 constitutional proposals are recommendation packets and never adoptable through cognition; proposals touching protected targets are refused at the meter.",
+      "status": "PROVED",
+      "proof": "status lives in the adoption ledger, not on the frozen proposal; digest equality is the leakage check",
+      "checker": "tests/m11/test_selfmodel.py::test_shadow_assurance_external_adoption_and_exact_rollback; M11.1: tests/m11/test_batch5_defects.py::test_E4_E5_prediction_receipt_precedes_shadow_and_dev_tasks_are_refused (K_self prediction receipt must precede the shadow; REFUSED_TASKS_SEEN_BY_PROPOSER)",
+      "mutant": "selfmodel.proposal.mutant_proposal_edits_evaluator",
+      "parent": "governed self-modification (constitutional AI; change-management gates)",
+      "limitation": "protected-target detection is by name prefix; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T100",
+      "gap": "batch 5 E5",
+      "statement": "Shadow evaluation of a challenger leaves the object-level state hash unchanged (non-interference), and assurance checks are computed fresh from the shadow record, not from the challenger's own report.",
+      "status": "PROVED",
+      "proof": "shadow runs on deep copies; hash before/after compared",
+      "checker": "tests/m11/test_selfmodel.py; benchmark shadow_non_interference 7/7; M11.1: tests/m11/test_batch5_defects.py::test_E5_shadow_runner_that_writes_the_ledger_breaks_non_interference (ledger head compared, covering external commitments)",
+      "mutant": "tampered protocol hash and prediction digest fail protocol_intact / no_leakage",
+      "parent": "shadow deployment / canary evaluation",
+      "limitation": "the runner is supplied; a runner with side effects would be caught only through the hash; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T101",
+      "gap": "batch 5 E6",
+      "statement": "Adoption requires an external decision with a token (self-approval is refused); rollback restores the previous artifact and component table exactly and revokes the stamped adoption evidence so dependents reopen; the object-level knowledge-space digest is unchanged by the adopt/rollback episode while the ledger keeps it as history.",
+      "status": "PROVED",
+      "proof": "revocation of the stamped evidence id makes every derived atom DEAD by KS-T22 reopening; component table restored by value",
+      "checker": "tests/m11/test_selfmodel.py; benchmark rollback_exact 7/7; M11.1: tests/m11/test_batch5_defects.py::test_E6_ledger_owns_cache_and_exactness (the ledger restores the cache and asserts exactness itself)",
+      "mutant": "selfmodel.govern.mutant_self_approve; selfmodel.govern.mutant_rollback_keeps_cache",
+      "parent": "transactional rollback; evidence-stamped deployment",
+      "limitation": "compiled caches outside the component table are the caller's responsibility (mutant documents the failure mode); tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T102",
+      "gap": "batch 5 E7",
+      "statement": "Every proposal charges a strictly positive meter and adoptions per window are bounded; a proposal may not edit the meter or the adoption thresholds.",
+      "status": "PROVED",
+      "proof": "charge > 0 enforced; window budget enforced; protected targets refused before charging",
+      "checker": "tests/m11/test_selfmodel.py; M11.1: tests/m11/test_batch5_defects.py::test_E7_meter_is_outside_every_proposal_write_set_and_non_decreasing (Meter object outside proposals; nested-key hostile refused; ⌊B/δ⌋ bound)",
+      "mutant": "selfmodel.proposal.mutant_proposal_edits_evaluator",
+      "parent": "resource-bounded self-improvement",
+      "limitation": "window is a count, not wall-clock; tightened per ORION-V2 theory batch 5 (PR #344)"
+    },
+    {
+      "id": "KS-T103",
+      "gap": "M11 §13–§14",
+      "statement": "Controlled self-reorganisation benchmark S0–S7 vs the two parents, and the recorded replay of ledger rows S11–S28 (narrowness and escalation witnesses).",
+      "status": "FINITE_CALIBRATION",
+      "proof": "M11_SELF_EVAL_V1 summary (descriptive at n = 7; replay is recorded, not re-executed)",
+      "checker": "src/ocm/evaluation/m11_self_eval.py; tests/m11/test_benchmark.py",
+      "mutant": "S0 no-fault control raises no proposal; S6 harmful rewrite refused on preservation",
+      "parent": "parameter search; reflection-retry",
+      "limitation": "no inferential terminal (n = 7); historical diagnostic accuracy CANNOT_CHECK"
+    }
   ]
 }

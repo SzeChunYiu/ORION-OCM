@@ -75,3 +75,18 @@ OCM's diagnostic accuracy on history, for which no ablation channel exists.
   the ablation channel there.
 * The intake protocol is data plus an audit; the theorem → obligation mapping for batch 5 is
   IMPORTED, not DISCHARGED, until the batch lands.
+
+## 6. M11.1 addendum — theory batch 5 intake
+
+ORION-V2 theory batch 5 (E1–E8, PR #344) read this build and reported six side-condition defects
+(ledger S34). All six are fixed with their hostiles in `tests/m11/test_batch5_defects.py`: the
+proposer's dev tasks must be disjoint from the held-out suite (REFUSED_TASKS_SEEN_BY_PROPOSER);
+the pre-outcome prediction is a K_self receipt admitted before the shadow, not a string; shadow
+non-interference compares the ledger head as well as the object state hash (a runner that admits
+evidence is caught); the adoption ledger owns the cache and asserts rollback exactness itself; the
+meter is an object outside every proposal's write set with a nested-token refusal, a read-only
+non-decreasing charge and the ⌊B/δ⌋ livelock bound; the architecture alarm has no frequency term
+and an obstruction certificate is judged against the component registry's closure; failure records
+are derived from their traces, so revoking a trace reopens the diagnosis. The S0–S7 benchmark
+results are unchanged (the defects were invisible to it, which is the point of the intake).
+

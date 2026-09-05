@@ -75,6 +75,7 @@ class SelfChangeProposal:
     expiry: str
     origin: Origin
     origin_ref: str = ""
+    dev_tasks: tuple[str, ...] = ()                   # task ids the proposer saw while forming the change (E4 disjointness clause)
     authority: Authority = field(default_factory=lambda: Authority.of(proposal=1))
 
     def adoptable_through_cognition(self) -> bool:
@@ -102,7 +103,34 @@ def mutant_proposal_edits_evaluator(p: SelfChangeProposal) -> SelfChangeProposal
 
 
 PROTECTED_TARGETS = ("adoption.", "assurance.", "constitution.", "meter.", "authority.")
+PROTECTED_TOKENS = ("adoption", "assurance", "constitution", "meter", "authority", "charge", "budget", "threshold", "evaluator")
+
+
+def _walk(x):
+    if isinstance(x, Mapping):
+        for k, v in x.items():
+            yield str(k)
+            yield from _walk(v)
+    elif isinstance(x, (list, tuple, set)):
+        for v in x:
+            yield from _walk(v)
+    elif isinstance(x, str):
+        yield x
 
 
 def touches_protected_target(p: SelfChangeProposal) -> bool:
-    return any(p.target_component.startswith(t) for t in PROTECTED_TARGETS) or any(str(k).startswith("adoption") or str(k).startswith("meter") for k in p.change)
+    """The meter, thresholds and the evaluator lie structurally outside every proposal's write set
+    (batch 5 E7): any protected token anywhere in the change (keys or string values, nested) refuses."""
+    if any(p.target_component.startswith(t) for t in PROTECTED_TARGETS):
+        return True
+    return any(any(tok in item.lower() for tok in PROTECTED_TOKENS) for item in _walk(p.change))
+
+
+def mutant_nested_meter_edit(p: SelfChangeProposal) -> SelfChangeProposal:
+    """Planted (E7 hostile): the meter reached through a nested key that a prefix test misses."""
+    return SelfChangeProposal(p.proposal_id + "#nested", p.version, p.trigger_evidence, "router.policy", p.target_layer, p.incumbent_fingerprint, p.change_class, {"params": {"Meter": {"charge": 0.0}}}, lambda a: a, p.prediction, p.preserved_capabilities, p.reopened_capabilities, p.discriminator, p.rollback_plan, p.scope, p.expiry, p.origin)
+
+
+def mutant_graded_on_dev_tasks(p: SelfChangeProposal, held_out: Sequence[str]) -> SelfChangeProposal:
+    """Planted (E4 hostile): the proposer saw the held-out tasks while forming the change."""
+    return SelfChangeProposal(p.proposal_id + "#dev", p.version, p.trigger_evidence, p.target_component, p.target_layer, p.incumbent_fingerprint, p.change_class, p.change, p.apply, p.prediction, p.preserved_capabilities, p.reopened_capabilities, p.discriminator, p.rollback_plan, p.scope, p.expiry, p.origin, dev_tasks=tuple(held_out))
