@@ -21,17 +21,18 @@ For one arm and one declared object grammar at time `t`,
 
 `N_t = sum_c count(persistent identity-bearing objects of class c)`.
 
-For the current KSO grammar, candidate classes include atoms, hyperedges and warrant/dependency entries. Methods, evidence objects, dialogue objects, caches and learned indexes must be counted if they persist and can affect future behavior.
+For the current KSO adapter, atoms and hyperedges are identity-bearing classes. Aggregate cardinalities such as total warrant-set entries are reported as **auxiliary counts** and do not enter `N` unless the runtime exposes aligned persistent identities that can also be counted in `k`. Methods, evidence objects, dialogue objects, caches and learned indexes must enter an appropriate accounting coordinate if they persist and can affect future behavior.
 
 Rules:
 
-1. Report the class vector and bytes, not only `N`.
-2. `N` is a within-grammar scaling coordinate. **Do not compare one KSO atom with one neural parameter.** Cross-architecture comparisons use resource/storage/information vectors.
-3. Task-specific ephemeral intermediates do not enter `N`, but their compute/memory cost enters the resource vector.
-4. Persistent caches and indexes cannot be hidden as implementation detail; storage and maintenance are separate coordinates.
-5. If a persistent class can affect behavior but cannot be enumerated or sized, `N` for that run is `CANNOT_CHECK`.
+1. Report the identity-bearing class vector, auxiliary cardinalities, bytes and index resources—not only `N`.
+2. A non-identity aggregate may not pad `N`; otherwise `k/N` can be made artificially small without changing execution.
+3. `N` is a within-grammar scaling coordinate. **Do not compare one KSO atom with one neural parameter.** Cross-architecture comparisons use resource/storage/information vectors.
+4. Task-specific ephemeral intermediates do not enter `N`, but their compute/memory cost enters the resource vector.
+5. Persistent caches and indexes cannot be hidden as implementation detail; storage and maintenance are separate coordinates.
+6. If a persistent identity-bearing class can affect behavior but cannot be enumerated or touched by the meter, `N`/`k` for that run is `CANNOT_CHECK` until the grammar is aligned.
 
-Current implementation bridge: `KnowledgeSpace.resource_counts()` supplies atom/relation/warrant logical counts and `KnowledgeSpace.index_resources()` exposes currently materialized shallow structural-index entries/bytes. The latter is **not** a deep process-memory measure.
+Current implementation bridge: `KnowledgeSpace.resource_counts()` supplies atom/relation counts and an aggregate `warrant_size`; `KnowledgeSpace.index_resources()` exposes currently materialized shallow structural-index entries/bytes. V1 therefore puts atom/relation identities in `N`, reports `warrant_size` as auxiliary cardinality, and treats the shallow index bytes as index accounting rather than a deep process-memory measure.
 
 ### Relevant active state `k`
 
@@ -39,7 +40,7 @@ For a scoped operation `o`,
 
 `k(o) = | union of identity-bearing persistent objects actually semantically touched during o |`.
 
-A touch includes a persistent-object read, liveness/warrant check, dependency traversal, operator execution, modification, or validation. Repeated touches count once in `k`; repeated work remains in resource counters.
+A touch includes a persistent-object read, liveness/warrant check, dependency traversal, operator execution, modification, or validation. Repeated touches count once in `k`; repeated work remains in resource counters. When class labels are supplied, they must partition the touched identities. A measured global scan must therefore appear in `k`; a backend that may scan globally without identity instrumentation is `CANNOT_CHECK`.
 
 `k` explicitly does **not** mean:
 
