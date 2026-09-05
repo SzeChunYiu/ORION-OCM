@@ -152,7 +152,9 @@ class OCMRuntime:
         p = ev.payload
         t = ev.event_type
         if t is EventType.EVIDENCE_ADMITTED and ev.status is EventStatus.PASS:
-            self.state.evidence.register(p["payload"], p["channel"], p["source"], scope=_scope(p.get("scope")), derived_from=None, contradicts=p.get("contradicts", ()), supersedes=p.get("supersedes"))
+            d = p.get("derived_from")
+            a = p.get("authority")
+            self.state.evidence.register(p["payload"], p["channel"], p["source"], scope=_scope(p.get("scope")), authority=None if a is None else Authority.of(**a), derived_from=None if d is None else WarrantProfile.of(*[set(w) for w in d]), contradicts=p.get("contradicts", ()), supersedes=p.get("supersedes"))
         elif t is EventType.EVIDENCE_REVOKED:
             self.state.revoked = self.state.revoked | frozenset(p["evidence"])
             for e in p["evidence"]:
@@ -197,13 +199,20 @@ class OCMRuntime:
         return [e.as_dict() for e in evs]
 
     # ------------------------------------------------------------------ evidence
-    def admit_evidence(self, payload: Any, channel: Channel | str, source: str, *, scope: Scope | None = None, contradicts: Sequence[str] = (), supersedes: str | None = None) -> tuple[Admission, str]:
-        """The reducer is the single writer: emit first (expectation = state before), then apply."""
+    def admit_evidence(self, payload: Any, channel: Channel | str, source: str, *, scope: Scope | None = None, contradicts: Sequence[str] = (), supersedes: str | None = None, derived_from: WarrantProfile | None = None, authority: Authority | None = None) -> tuple[Admission, str]:
+        """The reducer is the single writer: emit first (expectation = state before), then apply.
+        ``derived_from`` makes the record *derived* (its warrant is the given interval, so revoking
+        what it rests on kills it — B1(ii)); ``authority`` declares the record's authority vector."""
         ch = Channel(channel)
         for e in list(contradicts) + ([supersedes] if supersedes else []):
             if e not in self.state.evidence.records:
                 raise RuntimeRefusal("UNKNOWN_EVIDENCE_REFERENCE", e)
-        ev = self._emit(EventType.EVIDENCE_ADMITTED, EventStatus.PASS, evidence=(), payload={"payload": payload, "channel": ch.value, "source": source, "scope": None if scope is None else scope.as_dict(), "contradicts": list(contradicts), "supersedes": supersedes}, delta=ResourceVector(update_work=1))
+        if derived_from is not None:
+            for w in derived_from.lower:
+                for e in w:
+                    if e not in self.state.evidence.records:
+                        raise RuntimeRefusal("UNKNOWN_EVIDENCE_REFERENCE", str(e))
+        ev = self._emit(EventType.EVIDENCE_ADMITTED, EventStatus.PASS, evidence=(), payload={"payload": payload, "channel": ch.value, "source": source, "scope": None if scope is None else scope.as_dict(), "contradicts": list(contradicts), "supersedes": supersedes, "derived_from": None if derived_from is None else [sorted(w) for w in derived_from.lower], "authority": None if authority is None else authority.as_dict()}, delta=ResourceVector(update_work=1))
         self._apply(ev)
         outcome_name, eid, _ = self.state.evidence.log[-1]
         return Admission(outcome_name), eid

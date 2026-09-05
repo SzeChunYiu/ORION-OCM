@@ -255,9 +255,11 @@ class DialogueRuntime:
             hits = [c for c in r.candidates if tok and tok in _describe(c.meaning).lower() + " " + " ".join(n.label or "" for n in c.meaning.nodes).lower()]
             chosen = hits[0] if len(hits) == 1 else None
         if chosen is None:
-            self.pending["clarify"] = (r, sp, q)
-            self.pending["clarify_item"] = item
-            return self._reply(G.Act.CLARIFY, "I still cannot tell which; answer with the number.", candidates=r.candidates, interp=r)
+            # not an answer to the question: the speaker moved on.  The ambiguity stays *open* in the
+            # workspace (never forced) and the new utterance is processed on its own (ledger S22)
+            if item:
+                ws.open("ambiguity", {"utterance": r.utterance, "candidates": len(r.candidates), "abandoned_after": utterance})
+            return self.hear(utterance, speaker)
         _, eid = self.runtime.admit_evidence({"clarification": r.utterance, "chosen": canonical(chosen.meaning)[1]}, Channel.INTERACTION, speaker, scope=Scope.of(self.conversation_id))
         if item:
             ws.resolve(item)

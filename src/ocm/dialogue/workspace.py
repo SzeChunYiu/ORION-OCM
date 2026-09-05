@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from ocm.kso.types import Authority, Scope
-from ocm.kso.warrant import Liveness
+from ocm.kso.warrant import Liveness, WarrantProfile
 from ocm.runtime.ocm_runtime import OCMRuntime
 from ocm.store.evidence import Channel
 
@@ -227,6 +227,20 @@ class DialogueWorkspace:
         rv = self.runtime.state.revoked
         return [c for c in self.commitments.values() if c.status is CommitmentStatus.ACTIVE and c.evidence_id not in rv and (speaker is None or c.speaker == speaker)]
 
+    def verdict(self, meaning: MeaningGraph) -> str:
+        """C7 / MEG-16 contradiction policy over the discourse layer: ASSERTED_BY_SPEAKERS when only
+        positive live commitments exist, DENIED_BY_SPEAKERS when only negative, UNKNOWN when both are
+        live on an overlapping scope (resolution only by supersession, retraction or a bridge —
+        never by majority), and NO_RECORD when nothing is on record."""
+        pos, neg = self.commitments_on(meaning)
+        if pos and neg:
+            return "UNKNOWN"
+        if pos:
+            return "ASSERTED_BY_SPEAKERS"
+        if neg:
+            return "DENIED_BY_SPEAKERS"
+        return "NO_RECORD"
+
     def commitments_on(self, meaning: MeaningGraph) -> tuple[list[Commitment], list[Commitment]]:
         """(asserting, denying) active commitments on the proposition."""
         d = canonical(meaning)[1]
@@ -251,7 +265,10 @@ class DialogueWorkspace:
         if live is not Liveness.LIVE:
             return {"promoted": False, "reason": f"bridge evidence is {live.value}"}
         authority = Authority.of(speaker=1).meet(bridge_authority)
-        _, eid = self.runtime.admit_evidence({"promoted_from": commitment_id, "digest": c.digest, "bridge": list(bridge_evidence)}, Channel.IMPORTED, "dialogue.promote", scope=target_scope)
+        # B1(ii)/C7: the promoted atom is *derived* from the bridge (its warrant is the bridge's interval
+        # ⊗ the commitment's own evidence), so revoking the bridge kills it and reopens its dependents
+        derived = WarrantProfile.of(set(bridge_evidence)).meet(WarrantProfile.of({c.evidence_id}))
+        _, eid = self.runtime.admit_evidence({"promoted_from": commitment_id, "digest": c.digest, "bridge": list(bridge_evidence)}, Channel.IMPORTED, "dialogue.promote", scope=target_scope, derived_from=derived, authority=authority)
         self.machine_commitments.append({"commitment_id": commitment_id, "evidence_id": eid, "scope": target_scope.as_dict(), "authority": authority.as_dict() if hasattr(authority, "as_dict") else str(authority)})
         self.save()
         return {"promoted": True, "evidence_id": eid, "authority": authority}

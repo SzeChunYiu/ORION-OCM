@@ -320,11 +320,15 @@ class ChatSession:
         cat = L.Category.NOUN
         if concept.endswith(" as verb"):
             concept, cat = concept[: -len(" as verb")].strip(), L.Category.VERB
-        _, eid = self.runtime.admit_evidence({"lesson": f"{word} = {concept}"}, Channel.INSTRUCTION, "user", scope=Scope.of(self.conversation_id))
+        # each giving of a lesson is a distinct observation (turn-stamped): relearning after a
+        # revocation must not collapse onto the revoked record's bytes (ledger S24)
+        _, eid = self.runtime.admit_evidence({"lesson": f"{word} = {concept}", "turn": len(self.dialogue.workspace.turns) + 1}, Channel.INSTRUCTION, "user", scope=Scope.of(self.conversation_id))
         ntype = "event" if cat is L.Category.VERB else "entity"
         lx = self.dialogue.lexicon
         key = f"{word}|{cat.value}"
-        sense = L.Sense(f"{word}:{concept}", concept, ntype, WarrantProfile.of({eid}))
+        prior = [s_ for s_ in (lx.lexemes[key].senses if key in lx.lexemes else ()) if s_.concept == concept]
+        sense_id = f"{word}:{concept}" + (f"#{len(prior) + 1}" if prior else "")     # relearn = new record with lineage
+        sense = L.Sense(sense_id, concept, ntype, WarrantProfile.of({eid}))
         if key in lx.lexemes:
             old = lx.lexemes[key]
             lx.add(L.Lexeme(old.lemma, old.category, old.senses + (sense,), old.features, old.warrant, old.scope))

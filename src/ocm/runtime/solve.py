@@ -324,8 +324,9 @@ class SolveOutcome:
 def decide(trace: SolveTrace, nav: Mapping[str, Any], checked: Sequence[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile, Status]], task: Task) -> tuple[StageResult, SolveOutcome]:
     statuses = {s.stage: s for s in trace.stages}
     nav_stage = statuses.get(Stage.NAVIGATION)
-    if nav_stage is not None and nav_stage.status is Status.CANNOT_CHECK:
-        r = StageResult(Stage.DECISION, Status.CANNOT_CHECK, "UPSTREAM_CANNOT_CHECK")
+    upstream = next((st for st in trace.stages if st.status is Status.CANNOT_CHECK and st.stage is not Stage.DECISION), None)
+    if upstream is not None:                                   # CANNOT_CHECK is absorbing along the pipeline (C4 / MEG-11)
+        r = StageResult(Stage.DECISION, Status.CANNOT_CHECK, f"UPSTREAM_CANNOT_CHECK:{upstream.stage.value}")
         return r, SolveOutcome(Decision.CANNOT_CHECK, trace)
     if nav.get("witness") is not None:
         r = StageResult(Stage.DECISION, Status.PROPOSAL, "JUMP_PROPOSAL_FROM_OBSTRUCTION")
@@ -410,12 +411,18 @@ def solve(
     if nav_res.status is not Status.CANNOT_CHECK:
         ext_res, ext = extract_stage(ks, seed, nav, config, rv)
         trace.add(ext_res)
-        fire_res, _ = fire_stage(ks, nav, ext["g_w"], config, rv, task.context)
+        fire_res, enabled = fire_stage(ks, nav, ext["g_w"], config, rv, task.context)
         trace.add(fire_res)
-        comp_res, candidates = compose_stage(ks, operators, ext["g_w"], rv)
-        trace.add(comp_res)
-        chk_res, checked = check_stage(candidates, rv)
-        trace.add(chk_res)
+        if fire_res.status is not Status.CANNOT_CHECK:
+            # C4 (MEG-11): composition runs only over the *enabled* part of the reacting subgraph;
+            # a FIRE-stage CANNOT_CHECK is absorbing (no composition, no check, decision CANNOT_CHECK)
+            g_w = ext["g_w"]
+            enabled_atoms = {a for e in ks.hyperedges if e.edge_id in enabled for a in (*e.tails, *e.heads)} | set(g_w.seed_support)
+            g_enabled = EX.ReactingSubgraph(frozenset(g_w.atoms & enabled_atoms), frozenset(enabled), g_w.mode, g_w.seed_support)
+            comp_res, candidates = compose_stage(ks, operators, g_enabled, rv)
+            trace.add(comp_res)
+            chk_res, checked = check_stage(candidates, rv)
+            trace.add(chk_res)
     dec_res, outcome = decide(trace, nav, checked, task)
     trace.add(dec_res)
     trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))

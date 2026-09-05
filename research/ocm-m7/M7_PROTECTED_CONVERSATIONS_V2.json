@@ -1,0 +1,337 @@
+{
+ "suite": "M7_PROTECTED_CONVERSATIONS_V2",
+ "authored": "hand-written 2026-09-05 AFTER the V1 dev-calibration run exposed three defects (ledger S22\u2013S24); V2 is the protected study: frozen before any V2 outcome access; different content from V1",
+ "vocabulary_note": "Alpha bounded-world vocabulary; adversarial surface similarity included",
+ "conversations": [
+  {
+   "id": "d01_two_threads_delayed",
+   "turns": [
+    [
+     "user",
+     "the girl lifted the cup",
+     "Noted"
+    ],
+    [
+     "user",
+     "the dog kicked the ball",
+     "Noted"
+    ],
+    [
+     "user",
+     "is stockholm in sweden",
+     "Yes."
+    ],
+    [
+     "user",
+     "is rome in italy",
+     "Yes."
+    ],
+    [
+     "user",
+     "is a violin an instrument",
+     "Yes."
+    ],
+    [
+     "user",
+     "did the dog kick the ball",
+     "said so"
+    ],
+    [
+     "user",
+     "did the girl lift the cup",
+     "said so"
+    ]
+   ]
+  },
+  {
+   "id": "d02_correction_of_second_statement",
+   "turns": [
+    [
+     "user",
+     "the robot held the key",
+     "Noted"
+    ],
+    [
+     "user",
+     "the cat saw the book",
+     "Noted"
+    ],
+    [
+     "user",
+     "correction, the cat did not see the book",
+     "supersedes|Noted"
+    ],
+    [
+     "user",
+     "did the cat see the book",
+     "said it did not"
+    ],
+    [
+     "user",
+     "did the robot hold the key",
+     "said so"
+    ]
+   ]
+  },
+  {
+   "id": "d03_ambiguity_then_move_on",
+   "turns": [
+    [
+     "user",
+     "the girl saw the bank",
+     "Did you mean|Which did you mean"
+    ],
+    [
+     "user",
+     "the robot opened the door",
+     "Noted"
+    ],
+    [
+     "user",
+     "did the robot open the door",
+     "said so"
+    ]
+   ]
+  },
+  {
+   "id": "d04_three_speakers_contradiction",
+   "turns": [
+    [
+     "alice",
+     "the robot found the key",
+     "Noted"
+    ],
+    [
+     "bob",
+     "the robot found the key",
+     "Noted"
+    ],
+    [
+     "carol",
+     "the robot did not find the key",
+     "contradicts|Noted"
+    ],
+    [
+     "dave",
+     "did the robot find the key",
+     "Contradictory|contradictory|both"
+    ]
+   ]
+  },
+  {
+   "id": "d05_unknown_and_source_only",
+   "turns": [
+    [
+     "user",
+     "is sweden in europe",
+     "Yes."
+    ],
+    [
+     "user",
+     "is stockholm in germany",
+     "I do not know"
+    ],
+    [
+     "user",
+     "is a whale a planet",
+     "I do not know"
+    ],
+    [
+     "user",
+     "explain nothingness",
+     "I do not have anything verified|I do not know"
+    ]
+   ]
+  },
+  {
+   "id": "d06_explain_moon_compare_planets",
+   "turns": [
+    [
+     "user",
+     "explain the moon",
+     "The moon orbits|moon orbits"
+    ],
+    [
+     "user",
+     "compare earth and mars",
+     "share|differ"
+    ],
+    [
+     "user",
+     "does the moon orbit the earth",
+     "Yes."
+    ]
+   ]
+  },
+  {
+   "id": "d07_style_then_facts",
+   "turns": [
+    [
+     "user",
+     "be detailed",
+     "detailed"
+    ],
+    [
+     "user",
+     "is water a planet",
+     "I do not know"
+    ],
+    [
+     "user",
+     "is ice water",
+     "Yes."
+    ],
+    [
+     "user",
+     "be brief",
+     "brief"
+    ],
+    [
+     "user",
+     "is a mammal an animal",
+     "Yes."
+    ]
+   ]
+  },
+  {
+   "id": "d08_teach_verb_less_word",
+   "turns": [
+    [
+     "user",
+     "teach: lantern = lamp",
+     "Noted: 'lantern'"
+    ],
+    [
+     "user",
+     "the girl held the lantern",
+     "Noted"
+    ],
+    [
+     "user",
+     "did the girl hold the lantern",
+     "said so"
+    ],
+    [
+     "user",
+     "the lantern was held by the girl",
+     "Noted"
+    ]
+   ]
+  },
+  {
+   "id": "d09_restart_after_two",
+   "turns": [
+    [
+     "user",
+     "the cat pushed the cup",
+     "Noted"
+    ],
+    [
+     "user",
+     "the dog saw the door",
+     "Noted"
+    ],
+    [
+     "user",
+     "__restart__",
+     "restarted"
+    ],
+    [
+     "user",
+     "did the cat push the cup",
+     "said so"
+    ],
+    [
+     "user",
+     "did the dog see the door",
+     "said so"
+    ]
+   ]
+  },
+  {
+   "id": "d10_revoke_then_relearn",
+   "turns": [
+    [
+     "user",
+     "teach: ledge = shelf",
+     "Noted: 'ledge'"
+    ],
+    [
+     "user",
+     "the robot held the ledge",
+     "Noted"
+    ],
+    [
+     "user",
+     "__revoke_last_lesson__",
+     "Revoked"
+    ],
+    [
+     "user",
+     "the robot held the ledge",
+     "cannot interpret"
+    ],
+    [
+     "user",
+     "teach: ledge = shelf",
+     "Noted: 'ledge'"
+    ],
+    [
+     "user",
+     "the robot held the ledge",
+     "Noted"
+    ]
+   ]
+  },
+  {
+   "id": "d11_role_swap_surface",
+   "turns": [
+    [
+     "user",
+     "the key opened the door",
+     "Noted"
+    ],
+    [
+     "user",
+     "did the door open the key",
+     "I do not know|Unknown"
+    ],
+    [
+     "user",
+     "the door was opened by the key",
+     "Noted"
+    ],
+    [
+     "user",
+     "did the key open the door",
+     "said so"
+    ]
+   ]
+  },
+  {
+   "id": "d12_source_claim_asked_twice",
+   "turns": [
+    [
+     "user",
+     "is sweden in europe",
+     "Yes."
+    ],
+    [
+     "user",
+     "is paris in germany",
+     "A source (rumour:v1) says so|rumour"
+    ],
+    [
+     "user",
+     "is paris in germany",
+     "A source (rumour:v1) says so|rumour"
+    ],
+    [
+     "user",
+     "is paris in france",
+     "Yes."
+    ]
+   ]
+  }
+ ]
+}

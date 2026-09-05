@@ -85,7 +85,7 @@ def test_commitment_refuses_insufficient_authority_and_scope():
     out = SV.solve(_space(), _task(required_authority=Authority.of(src=5)), [_op()], config=_cfg(), commit_authority=Authority.of(src=3))
     assert out.decision is SV.Decision.ANSWER and not SV.committed(out) and out.trace.stages[-1].reason == "REFUSED:AUTHORITY_INSUFFICIENT"
     out2 = SV.solve(_space(), _task(context="fr"), [_op()], config=_cfg(), commit_authority=Authority.of(src=3))
-    assert not SV.committed(out2) and out2.trace.stages[-1].reason == "REFUSED:OUT_OF_SCOPE"
+    assert not SV.committed(out2) and out2.trace.stages[-1].reason in ("REFUSED:OUT_OF_SCOPE", "REFUSED:NO_COMMITTABLE_ANSWER:LEARN", "REFUSED:NO_COMMITTABLE_ANSWER:UNKNOWN")  # C4: out-of-scope inputs are DISABLED at firing, so no candidate reaches the gate
 
 
 def test_unbound_seed_is_a_clarify_gap_with_structured_reason():

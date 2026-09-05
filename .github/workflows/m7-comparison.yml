@@ -1,0 +1,25 @@
+name: M7 protected comparison
+on:
+  pull_request:
+  push:
+    branches: [main, m7/protected-comparison]
+permissions:
+  contents: read
+concurrency:
+  group: m7-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  comparison-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M7 obligations and statistics
+        run: python -m pytest -q tests/m7
+      - name: M2–M6 still green under the batch-3 runtime fixes
+        run: python -m pytest -q tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
+      - name: Receipt chain verifies
+        run: for t in m2 m3 m4 m5 m6 m7; do python tools/${t}_receipt.py --verify || exit 1; done
