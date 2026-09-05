@@ -1,0 +1,114 @@
+{
+  "registry": "OCM_ACQUISITION_OBLIGATION_REGISTRY_V1",
+  "milestone": "M5",
+  "extends": "OCM_DIALOGUE_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T51",
+      "gap": "MEG-12/13",
+      "statement": "Lexical acquisition by exact alignment: one unknown token ↔ one meaning node no known lexeme accounts for; the new sense's warrant is exactly the demonstration's evidence; a second aligned concept adds a sense to the ambiguity set; revoking one sense's evidence kills that sense only; relearning yields a new record with lineage.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/learning/language/lexical.py; KS-T22 locality; batch-2 B2",
+      "checker": "tests/m5/test_lexical.py",
+      "mutant": "lexical.mutant_learn_from_cooccurrence",
+      "parent": "cross-situational word learning (Siskind 1996) — candidate",
+      "limitation": "label-level alignment; multi-unknown utterances are refused (TOO_MANY_UNKNOWN)"
+    },
+    {
+      "id": "KS-T52",
+      "gap": "—",
+      "statement": "Morphology induction over a registered suffix-rewrite class: a pure rule is CONTRADICTED by irregular pairs; HYBRID keeps the rule (⊗ of the covered pairs) plus exception rules (each pair's evidence) under the override law; exceptions beyond a registered fraction trigger SPLIT_RECOMMENDED; ablaut outside the class stays an exception (recorded class limit).",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/learning/language/morphology.py; KS-T36",
+      "checker": "tests/m5/test_morphology.py",
+      "mutant": "morphology.mutant_rule_overrides_exception",
+      "parent": "rules-and-exceptions models of inflection (Pinker–Prince 1988); minimal generalisation (Albright–Hayes 2003) — candidates",
+      "limitation": "suffix class only; no stem-internal change"
+    },
+    {
+      "id": "KS-T53",
+      "gap": "MEG-02",
+      "statement": "Raw-corpus form induction yields UNGROUNDED_FORM_ONLY hypotheses with corpus authority and no world_truth/meaning coordinate; the interpreter never consults them; grounding requires aligned/grounded evidence (bind) — frequency never grounds; semantic gain of E2 alone is exactly zero.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/learning/language/corpus.py; batch-1 T7 / MEG-02 candidate rule",
+      "checker": "tests/m5/test_corpus.py; research/ocm-m5/M5_ACQUISITION_EVAL_V1.json E2 semantic_gain_must_be_zero = 0",
+      "mutant": "corpus.mutant_frequency_grounds",
+      "parent": "distributional semantics (Harris 1954) as form evidence only",
+      "limitation": "token/suffix/collocation hypotheses; no clustering yet"
+    },
+    {
+      "id": "KS-T54",
+      "gap": "MEG-15",
+      "statement": "Grounded interaction: outcome observations of a registered outcome function eliminate hypotheses in the version space and warrant the object with those observations; an unregistered outcome is refused; success bits are FEEDBACK and never admit an object (KS-T18).",
+      "status": "PROVED (finite)",
+      "proof": "ORION-V2 batch-3 C6 (in progress); src/ocm/learning/language/interaction.py",
+      "checker": "tests/m5/test_interaction.py",
+      "mutant": "interaction.mutant_success_bit_as_observation",
+      "parent": "membership queries (Angluin 1988); KS-T18",
+      "limitation": "finite classes"
+    },
+    {
+      "id": "KS-T55",
+      "gap": "MEG-33",
+      "statement": "Active learning: actions are chosen by expected elimination per unit cost over the version space (uniform prior); the gold-label action is prohibited; a singleton version space acts no further; hindsight regret is reported.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/learning/language/active.py; M4 clarify is the one-utterance case",
+      "checker": "tests/m5/test_active_transfer.py",
+      "mutant": "active.mutant_ask_gold_label",
+      "parent": "query-by-committee / VOI (Seung et al. 1992; Howard 1966)",
+      "limitation": "uniform prior; registered action set"
+    },
+    {
+      "id": "KS-T56",
+      "gap": "MEG-34",
+      "statement": "Transfer is a registered scope move: meaning structures transfer across languages; lexemes, morphology and word order are language-scoped; senses are domain-scoped; style is not grammar; counter-evidence in the target scope refuses; the SOV mini-language under the English inventory yields UNKNOWN_CONSTRUCTION (detected, not forced) and its order is learned from demonstrations with meaning graphs intact.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/learning/language/transfer.py; language-scoped constructions (KS-T39)",
+      "checker": "tests/m5/test_active_transfer.py::test_multilingual_preflight_sov_is_not_forced_into_english_order; receipt negative_transfer",
+      "mutant": "transfer.mutant_transfer_word_order",
+      "parent": "—",
+      "limitation": "one mini-language; no real second-language corpus"
+    },
+    {
+      "id": "KS-T57",
+      "gap": "MEG-14",
+      "statement": "Retention protocol: after every episode the vector (new gain, old loss, unrelated change, reopened objects, update work) is reported with denominators; old loss after the E1 episode is 0/22.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/learning/language/transfer.py retention; receipt retention_after_E1",
+      "checker": "tests/m5/test_active_transfer.py::test_retention_vector_after_a_lexical_update",
+      "mutant": "—",
+      "parent": "continual-learning evaluation protocols (Lopez-Paz–Ranzato 2017) — candidate",
+      "limitation": "synthetic probes"
+    },
+    {
+      "id": "KS-T58",
+      "gap": "MEG-14",
+      "statement": "Regimes measured separately with disclosed information: E0 explicit lessons, E1 aligned demonstrations (with leakage-checked teacher examples), E2 raw corpus, E3 grounded interaction, E4 fixed curricula; no aggregate replaces the vector.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/evaluation/m5_acquisition_eval.py",
+      "checker": "research/ocm-m5/M5_ACQUISITION_EVAL_V1.json (reproduced in CI)",
+      "mutant": "(curriculum chosen after inspecting protected outcomes — excluded by fixed orders)",
+      "parent": "—",
+      "limitation": "microworld; BabyLM 10M run CANNOT_CHECK_BABYLM_DATA; no matched comparators yet"
+    },
+    {
+      "id": "KS-T59",
+      "gap": "—",
+      "statement": "BabyLM sample-efficiency programme, CHILDES adapters, matched comparator curves — custody manifests only (Gutenberg acquired; BabyLM CANNOT_CHECK_BABYLM_DATA).",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "scripts/acquire_gutenberg.sh; scripts/acquire_babylm.sh",
+      "mutant": "—",
+      "parent": "BabyLM (Warstadt et al. 2023)",
+      "limitation": "no result claimed"
+    }
+  ]
+}

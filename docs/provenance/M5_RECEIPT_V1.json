@@ -1,0 +1,246 @@
+{
+  "authority": "engineering receipt for the M5 acquisition milestone on the synthetic microworld with disclosed information channels per regime; BabyLM CANNOT_CHECK_BABYLM_DATA; no comparator, no novelty claim; the theory these modules implement is ORION-V2 batch 2 (B2, B3) and batch 3 (C6)",
+  "bound_files": {
+    "docs/provenance/BABYLM_CUSTODY_MANIFEST_V1.json": "f6bf1c1e384388bcfe3fbc4004d531a78b4923bb495c64d55bf6284cfd04107a",
+    "docs/provenance/GUTENBERG_CUSTODY_MANIFEST_V1.json": "c6ea3f842a8e7bb0cb53d1d1f0e11a30667ef99ec89513fc29c5d9d9c359ee6b",
+    "docs/provenance/M4_RECEIPT_V1.json": "4d4322c61e0e41137329ff49ceed0a0e041f48f822dff62de507b269107543f5",
+    "docs/theorems/OCM_ACQUISITION_OBLIGATION_REGISTRY_V1.json": "35c74d30e9aa461188ccd8547792051c6fbfb2e5c45b07d15d16c5662e71f551",
+    "research/ocm-m5/M5_ACQUISITION_EVAL_V1.json": "69b1f3ebe0c6b577782988956dada17532ae36a9a15cae87820aba12663764ac",
+    "scripts/acquire_babylm.sh": "dffae13b153b437679233020379420ba8fae89854f9cb5372f1071c8719fa384",
+    "scripts/acquire_gutenberg.sh": "8ba4d07eac8d0d25bbed9af4b9f264dbdb565c73308f04db92dd86c109b416e4",
+    "src/ocm/evaluation/m5_acquisition_eval.py": "690ae70d6b4f14647149e7de8d30383ee979d2a8947d721df084a5191155b55a",
+    "src/ocm/learning/language/active.py": "3ed7eaced2d54b9c00dbcfd0bf423a31b093d8a4430eb4532aeb9b36b4ed6ed6",
+    "src/ocm/learning/language/corpus.py": "ed5bc81ecec1cdc260a665a68e12e6da34761455ff0a1fc6e0ed675cbfe70fc1",
+    "src/ocm/learning/language/interaction.py": "07198a26d132a07540fa45cb608840dd8059930e87c7c819513223f2f6f88a04",
+    "src/ocm/learning/language/lexical.py": "a0afe6756ea4a975ef97c7bc20eecb5fa538539625ff8de33e14f6a9b4caedb4",
+    "src/ocm/learning/language/morphology.py": "601432fa7a2691793d1a95f2bd29db1b5f380a7c734a088abf79acf8fbf9cced",
+    "src/ocm/learning/language/transfer.py": "2e3798053e88cf4b8f7779c59c36b7fe74dbaa6b6bbb5e5a2cc694f296b5b533"
+  },
+  "deterministic_results": {
+    "acquisition_eval": {
+      "baseline_frozen": {
+        "exact": 22,
+        "n": 134
+      },
+      "frozen_system": {
+        "constructions_removed": [
+          "en:transitive"
+        ],
+        "lexemes_removed": [
+          "dog",
+          "book",
+          "find"
+        ]
+      },
+      "negative_transfer": {
+        "forced_english_order_gives_correct_roles": false,
+        "sov_under_english_inventory": "UNKNOWN_CONSTRUCTION"
+      },
+      "probes": {
+        "held_out_lexeme_subset": 97,
+        "protected": 134
+      },
+      "regimes": {
+        "E0_explicit_lessons": {
+          "held_out": {
+            "exact": 97,
+            "n": 97
+          },
+          "information": {
+            "annotations": 0,
+            "demos": 1,
+            "lessons": 6,
+            "words": 0
+          },
+          "protected": {
+            "exact": 134,
+            "n": 134
+          }
+        },
+        "E1_aligned_demonstrations": {
+          "construction_curve": [
+            {
+              "demos": 1,
+              "status": "PASS"
+            }
+          ],
+          "held_out": {
+            "exact": 78,
+            "n": 97
+          },
+          "information": {
+            "annotations": 0,
+            "demos": 7,
+            "lessons": 0,
+            "words": 3
+          },
+          "protected": {
+            "exact": 115,
+            "n": 134
+          }
+        },
+        "E2_raw_corpus": {
+          "forms": {
+            "consultable": 0,
+            "form_hypotheses": 88,
+            "kinds": [
+              "collocation",
+              "suffix",
+              "token"
+            ]
+          },
+          "held_out": {
+            "exact": 0,
+            "n": 97
+          },
+          "information": {
+            "annotations": 0,
+            "demos": 0,
+            "lessons": 0,
+            "words": 661
+          },
+          "protected": {
+            "exact": 22,
+            "n": 134
+          },
+          "semantic_gain_must_be_zero": 0
+        },
+        "E3_grounded_interaction": {
+          "held_out": {
+            "exact": 0,
+            "n": 97
+          },
+          "information": {
+            "annotations": 0,
+            "demos": 0,
+            "interactions": 1,
+            "lessons": 0,
+            "words": 0
+          },
+          "protected": {
+            "exact": 37,
+            "n": 134
+          }
+        },
+        "E4_curricula": {
+          "demos-only": {
+            "constructions_active": 7,
+            "curve": [
+              {
+                "exact": 22,
+                "n": 134,
+                "step": "frozen"
+              },
+              {
+                "exact": 115,
+                "n": 134,
+                "step": "E1"
+              }
+            ],
+            "final": 115
+          },
+          "interaction-first": {
+            "constructions_active": 9,
+            "curve": [
+              {
+                "exact": 22,
+                "n": 134,
+                "step": "frozen"
+              },
+              {
+                "exact": 37,
+                "n": 134,
+                "step": "E3"
+              },
+              {
+                "exact": 115,
+                "n": 134,
+                "step": "E1"
+              },
+              {
+                "exact": 134,
+                "n": 134,
+                "step": "E0"
+              }
+            ],
+            "final": 134
+          },
+          "lessons\u2192interaction\u2192raw": {
+            "constructions_active": 8,
+            "curve": [
+              {
+                "exact": 22,
+                "n": 134,
+                "step": "frozen"
+              },
+              {
+                "exact": 134,
+                "n": 134,
+                "step": "E0"
+              },
+              {
+                "exact": 134,
+                "n": 134,
+                "step": "E3"
+              },
+              {
+                "exact": 134,
+                "n": 134,
+                "step": "E2"
+              }
+            ],
+            "final": 134
+          },
+          "raw\u2192demos\u2192interaction": {
+            "constructions_active": 8,
+            "curve": [
+              {
+                "exact": 22,
+                "n": 134,
+                "step": "frozen"
+              },
+              {
+                "exact": 22,
+                "n": 134,
+                "step": "E2"
+              },
+              {
+                "exact": 115,
+                "n": 134,
+                "step": "E1"
+              },
+              {
+                "exact": 115,
+                "n": 134,
+                "step": "E3"
+              }
+            ],
+            "final": 115
+          }
+        }
+      },
+      "retention_after_E1": {
+        "denominators": {
+          "new": 112,
+          "old": 22,
+          "unrelated": 22
+        },
+        "new_gain": 93,
+        "old_loss": 0,
+        "unrelated_change": 0
+      },
+      "teacher_examples": {
+        "n": 3,
+        "overlap_with_protected": 0,
+        "utterances": [
+          "the robot kicked the dog",
+          "the girl lifted the book",
+          "the robot found the ball"
+        ]
+      }
+    }
+  },
+  "git_head_at_generation": "UNKNOWN",
+  "receipt": "M5_RECEIPT_V1",
+  "terminal": "M5_CONTINUAL_LANGUAGE_LEARNING_GREEN"
+}

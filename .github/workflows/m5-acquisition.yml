@@ -1,0 +1,36 @@
+name: M5 continual acquisition
+on:
+  pull_request:
+  push:
+    branches: [main, m5/continual-acquisition]
+permissions:
+  contents: read
+concurrency:
+  group: m5-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  acquisition-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M5 lexical, morphology, corpus, interaction, active and transfer suites
+        run: python -m pytest -q tests/m5
+      - name: M4 and M3 still green under M5
+        run: python -m pytest -q tests/m4 tests/m3 && python tools/m4_receipt.py --verify && python tools/m3_receipt.py --verify
+      - name: Acquisition receipt is reproducible
+        run: |
+          rm -f /tmp/m5_eval.json
+          python -m ocm.evaluation.m5_acquisition_eval --out /tmp/m5_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m5_eval.json")); b = json.load(open("research/ocm-m5/M5_ACQUISITION_EVAL_V1.json"))
+          for k in ("frozen_system", "probes", "teacher_examples", "baseline_frozen", "regimes", "retention_after_E1", "negative_transfer"):
+              assert a[k] == b[k], (k,)
+          print("acquisition receipt reproduced")
+          PY
+      - name: M5 receipt drift
+        run: python tools/m5_receipt.py --verify
