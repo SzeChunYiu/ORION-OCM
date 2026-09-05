@@ -111,6 +111,12 @@ class MeaningGraph:
     def as_dict(self) -> dict[str, Any]:
         return {"nodes": [{"id": n.node_id, "type": n.node_type, "label": n.label, "features": sorted(n.features), "underspecified": n.underspecified} for n in self.nodes], "edges": [{"rel": e.relation, "tails": list(e.tails), "heads": list(e.heads), "value": e.value} for e in self.edges], "root": self.root}
 
+    @staticmethod
+    def from_dict(d: Mapping[str, Any]) -> "MeaningGraph":
+        nodes = tuple(MNode(n["id"], n["type"], n["label"], tuple(tuple(f) for f in n.get("features", ())), bool(n.get("underspecified", False))) for n in d["nodes"])
+        edges = tuple(MEdge(e["rel"], tuple(e["tails"]), tuple(e["heads"]), e.get("value")) for e in d["edges"])
+        return MeaningGraph(nodes, edges, d.get("root"))
+
     def relabel(self, mapping: Mapping[str, str]) -> "MeaningGraph":
         return MeaningGraph(
             tuple(MNode(mapping[n.node_id], n.node_type, n.label, n.features, n.underspecified) for n in self.nodes),

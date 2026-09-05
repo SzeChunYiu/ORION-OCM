@@ -64,7 +64,7 @@ class ResponsePlan:
     events: tuple[FeedbackEvent, ...] = ()
 
     def gate_plan(self) -> GatePlan:
-        assertions = tuple(Assertion(c.digest, c.evidence, "speaker" if c.layer == "speaker" else "machine") for c in self.content)
+        assertions = tuple(Assertion(c.digest, c.evidence, c.layer if c.layer in ("speaker", "source") else "machine") for c in self.content)
         meaning = self.content[0].meaning if self.content else None
         return GatePlan(self.act, meaning, assertions, self.required_marker, self.referents)
 
@@ -137,10 +137,11 @@ def plan_explain(world: KnowledgeWorld, label: str, *, depth: int = 2, register:
 def plan_compare(world: KnowledgeWorld, a: str, b: str, *, register: str = "neutral") -> ResponsePlan:
     """Compare/contrast = shared relations (same object) vs differing; only live facts; an
     unsupported comparative ('bigger') is never minted (no size facts ⇒ not expressible)."""
+    fmt = lambda pair: f"{pair[0]}={pair[1]}" if pair[1] else str(pair[0])  # noqa: E731
     ra, rb = world.relations_of(a), world.relations_of(b)
     shared, diff = [], []
     for rel in sorted(set(ra) | set(rb)):
-        oa, ob = set(ra.get(rel, [])), set(rb.get(rel, []))
+        oa, ob = {fmt(x) for x in ra.get(rel, [])}, {fmt(x) for x in rb.get(rel, [])}
         if oa & ob:
             shared.append((rel, sorted(oa & ob)))
         if oa ^ ob:
