@@ -9,7 +9,8 @@ and, for every row, does three things:
 
 1. checks that ``Phrase`` occurs verbatim in main.md (the sentence the row binds);
 2. resolves ``Source`` (one or more repository paths separated by ``;``, optionally
-   prefixed ``V2:`` for the ORION-V2 theory directory) and confirms the file exists
+   prefixed ``V2:`` for the ORION-V2 theory directory, or ``main:`` for a file read from
+   this repository's ``origin/main`` with ``git show``) and confirms the file exists
    (a missing ORION-V2 working-tree file is read with ``git show origin/main:``);
 3. evaluates every clause in ``Check`` (clauses separated by ``;``).
 
@@ -18,6 +19,9 @@ Clause grammar (whitespace-insensitive around ``=``):
     <expr> = <value>
     @<k> <expr> = <value>         evaluate against the k-th source file (1-based)
     contains "literal"            the source file contains the literal text
+    count "literal" = N           the literal occurs exactly N times in the source text
+    regexcount "pattern" = N      the regular expression matches exactly N times (re.M)
+    filecount = N                 a glob source matches exactly N files
     note: free text               no check; the row is UNCHECKABLE with that note
 
 ``<expr>`` for JSON sources is a dotted path such as ``deterministic_results.v4.tests.A_conversations.positive``;
@@ -52,6 +56,7 @@ from fractions import Fraction
 
 V2_PREFIX = "V2:"
 V2_SUBDIR = "research/machine-epistemics-theory"
+MAIN_PREFIX = "main:"
 
 
 # ----------------------------------------------------------------------------- parsing helpers
@@ -267,6 +272,8 @@ class Sources:
 
     def resolve(self, spec: str) -> list[str]:
         spec = spec.strip()
+        if spec.startswith(MAIN_PREFIX):
+            return [MAIN_PREFIX + spec[len(MAIN_PREFIX):].strip()]
         if spec.startswith(V2_PREFIX):
             name = spec[len(V2_PREFIX):].strip()
             return [os.path.join(self.v2_root, V2_SUBDIR, name)]
@@ -278,7 +285,14 @@ class Sources:
         if path in self.cache:
             return self.cache[path]
         txt = None
-        if os.path.exists(path):
+        if path.startswith(MAIN_PREFIX):
+            rel = path[len(MAIN_PREFIX):]
+            try:
+                txt = subprocess.run(["/usr/bin/git", "-C", self.repo, "show", f"origin/main:{rel}"],
+                                     capture_output=True, text=True, check=True).stdout
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                txt = None
+        elif os.path.exists(path):
             with open(path, encoding="utf-8") as fh:
                 txt = fh.read()
         elif path.startswith(self.v2_root):
@@ -333,6 +347,18 @@ def check_row(row: dict, src: Sources, manuscript: str) -> tuple[str, str]:
             if not any(lit in (src.text(f) or "") for f in files):
                 return "MISMATCH", f"literal not found: {lit[:70]!r}"
             details.append(f"contains ok: {lit[:40]!r}")
+            continue
+        m = re.match(r'^(count|regexcount)\s+"(.*)"\s*=\s*(\d+)$', clause.strip(), re.S)
+        if m:
+            fn, lit, want = m.group(1), m.group(2), int(m.group(3))
+            texts = [src.text(f) or "" for f in files]
+            if fn == "count":
+                got = sum(t.count(lit) for t in texts)
+            else:
+                got = sum(len(re.findall(lit, t, re.M)) for t in texts)
+            if got != want:
+                return "MISMATCH", f"{fn} {lit[:50]!r} expected {want} but found {got}"
+            details.append(f"{fn} {lit[:30]!r} = {want}")
             continue
         if "=" not in clause:
             return "MISMATCH", f"cannot parse clause {clause!r}"
