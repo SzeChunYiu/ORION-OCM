@@ -1,0 +1,26 @@
+name: N1 language lifetime calibration
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/language_lifetime_calibration.py'
+      - 'research/ocm-n1/test_language_lifetime_calibration.py'
+      - '.github/workflows/n1-language-lifetime-calibration.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/language_lifetime_calibration.py'
+      - 'research/ocm-n1/test_language_lifetime_calibration.py'
+      - '.github/workflows/n1-language-lifetime-calibration.yml'
+permissions:
+  contents: read
+jobs:
+  lifetime-language:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Exact nested-family acquisition calibration
+        run: |
+          python research/ocm-n1/test_language_lifetime_calibration.py
+          python research/ocm-n1/language_lifetime_calibration.py
