@@ -21,7 +21,7 @@ from typing import Hashable, Iterable, Sequence
 from .navigation import fixed_point, ungated_closure
 from .resources import Meter, ResourceVector
 from .space import Atom, Hyperedge, KnowledgeSpace, TypedRejection
-from .types import Authority, Scope, intersect_scopes, meet_authority
+from .types import Authority, Scope, intersect_scopes, internal_authority, meet_authority
 from .warrant import Liveness, WarrantProfile, meet_all_profiles
 
 
@@ -37,6 +37,7 @@ class CertificateKind(str, Enum):
 
 
 WARRANTING_KINDS = frozenset(k for k in CertificateKind if k is not CertificateKind.FEEDBACK)
+EXACT_ADMISSION_MAX_ATOMS = 200  # above this the admission reachability check uses the sparse solver (KS-T32)
 INHERITED_KINDS = frozenset(
     {
         CertificateKind.INSTRUCTION,
@@ -125,8 +126,14 @@ def admit(
             raise TypedRejection("UNREACHABLE_BY_NAVIGATION", atom.atom_id)
         if warranted:
             seed = [Fraction(1, len(ks.ids)) if x in ks.ids else Fraction(0, 1) for x in new.ids]
-            act = fixed_point(new, seed, alpha, revoked=revoked)
-            reachable = act[atom.atom_id] > 0
+            if len(new.ids) <= EXACT_ADMISSION_MAX_ATOMS:
+                act = fixed_point(new, seed, alpha, revoked=revoked)
+                reachable = act[atom.atom_id] > 0
+            else:  # scale path: sparse float iteration (KS-T32); positivity is what is asked, not the value
+                from .navigation_sparse import sparse_activation
+
+                act_f, _, _ = sparse_activation(new, seed, float(alpha), revoked=revoked, tol=1e-12)
+                reachable = act_f[atom.atom_id] > 0.0
             if not reachable:
                 raise TypedRejection("UNREACHABLE_BY_NAVIGATION", atom.atom_id)
     res = ResourceVector(object_count=1, relation_count=len(edges), update_work=1 + len(edges), navigation_work=len(new.ids) ** 2)
@@ -171,7 +178,7 @@ def compose(
     bridge_warrant = bridge_warrant or WarrantProfile.one()
     warrant = meet_all_profiles([bridge_warrant, *(amap[t].warrant for t in tails)])
     authorities = [amap[t].authority for t in tails] + ([bridge_authority] if bridge_authority is not None else [])
-    authority = meet_authority(authorities)
+    authority = internal_authority(authorities)  # operator factor: commit undeclared ⇒ 0 (MEG-04)
     scope = intersect_scopes([amap[t].scope for t in tails] + ([bridge_scope] if bridge_scope is not None else []))
     if scope.is_empty:
         raise TypedRejection("SCOPE_EMPTY", head_id)

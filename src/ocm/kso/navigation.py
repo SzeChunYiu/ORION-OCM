@@ -25,7 +25,7 @@ from fractions import Fraction
 from typing import Callable, Hashable, Iterable, Mapping, Sequence
 
 from .resources import ResourceVector
-from .space import KnowledgeSpace, TypedRejection
+from .space import Hyperedge, KnowledgeSpace, TypedRejection
 from .warrant import CannotCheck, Liveness
 
 Relevance = Mapping[str, Fraction] | Callable[[str], Fraction] | None
@@ -316,36 +316,48 @@ def mutant_popularity_rank(activation: Mapping[str, Fraction], exclude: Iterable
 
 
 def ungated_closure(ks: KnowledgeSpace, start: Iterable[str]) -> frozenset[str]:
-    """The ceiling walker C°: unbounded, ungated forward reachability (any tail reached)."""
+    """The ceiling walker C°: unbounded, ungated forward reachability (any tail reached).
+    Worklist over a tail-indexed adjacency: O(|incidences|)."""
+    by_tail: dict[str, list[Hyperedge]] = {}
+    for e in ks.hyperedges:
+        for t in e.tails:
+            by_tail.setdefault(t, []).append(e)
     reached = set(start)
-    grew = True
-    while grew:
-        grew = False
-        for e in ks.hyperedges:
-            if any(t in reached for t in e.tails):
-                for h in e.heads:
-                    if h not in reached:
-                        reached.add(h)
-                        grew = True
+    work = list(reached)
+    while work:
+        v = work.pop()
+        for e in by_tail.get(v, ()):
+            for h in e.heads:
+                if h not in reached:
+                    reached.add(h)
+                    work.append(h)
     return frozenset(reached)
 
 
 def gated_closure(ks: KnowledgeSpace, start: Iterable[str], revoked: Iterable[Hashable] = ()) -> frozenset[str]:
-    """C^R: reachability over LIVE atoms and LIVE edges with all tails reached (conjunctive)."""
+    """C^R: reachability over LIVE atoms and LIVE edges with all tails reached (conjunctive).
+    Worklist with per-edge pending-tail counters: O(|incidences|)."""
     rv = frozenset(revoked)
     amap = ks.atom_map()
-    reached = {x for x in start if amap[x].is_live(rv)}
-    grew = True
-    while grew:
-        grew = False
-        for e in ks.hyperedges:
-            if not e.warrant.is_live(rv):
-                continue
-            if all(t in reached for t in e.tails):
+    live = {x: amap[x].is_live(rv) for x in ks.ids}
+    by_tail: dict[str, list[int]] = {}
+    pending: list[int] = []
+    for i, e in enumerate(ks.hyperedges):
+        pending.append(len(e.tails))
+        for t in e.tails:
+            by_tail.setdefault(t, []).append(i)
+    reached = {x for x in start if live[x]}
+    work = list(reached)
+    while work:
+        v = work.pop()
+        for i in by_tail.get(v, ()):
+            pending[i] -= 1
+            e = ks.hyperedges[i]
+            if pending[i] == 0 and e.warrant.is_live(rv):
                 for h in e.heads:
-                    if h not in reached and amap[h].is_live(rv):
+                    if h not in reached and live[h]:
                         reached.add(h)
-                        grew = True
+                        work.append(h)
     return frozenset(reached)
 
 
@@ -449,7 +461,10 @@ def navigate(
     m = navigation_matrix(ks, revoked=rv, relevance=relevance)
     p = m.as_lists()
     s = gated_seed(ks, seed, rv)
-    a = list(s)
+    # a_0 = α·s: the iterates are the partial Neumann sums, monotone from below and ≤ a*, so a
+    # FOUND at any budget is sound for the fixed point (MEG-06 / T2).  The frozen reference started
+    # at s, whose iterates overshoot a* — a documented tightening (steps_used may differ).
+    a = [alpha * x for x in s]
     ti = ids.index(target)
     work = 0
     for k in range(1, budget.steps + 1):
@@ -462,6 +477,7 @@ def navigate(
             )
     support = [x for x, v in zip(ids, seed, strict=True) if v > 0]
     ceiling = ungated_closure(ks, support)
+    bracket = (1 - alpha) ** (budget.steps + 1) * sum(s, Fraction(0, 1))  # a*(t) ∈ [a_k(t), a_k(t) + bracket]
     res = ResourceVector(navigation_steps=budget.steps, navigation_work=work)
     if target not in ceiling:
         witness = ObstructionWitness(
@@ -482,7 +498,8 @@ def navigate(
         if amap[target].liveness(rv) is Liveness.UNKNOWN:
             why = "WARRANT_UNKNOWN_TARGET_CLOSURE_REACHABLE"
         return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, why, budget.steps, activation=a[ti], gap_channel_hook="ACQUIRE_WARRANT", resources=res)
-    return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, "BUDGET_EXHAUSTED_TARGET_CLOSURE_REACHABLE", budget.steps, activation=a[ti], gap_channel_hook="MORE_BUDGET", resources=res)
+    decided_negative = a[ti] + bracket < threshold  # the bracket excludes θ: more budget cannot help
+    return NavigationResult(NavigationOutcome.GAP_NOT_FOUND, target, "BUDGET_EXHAUSTED_TARGET_CLOSURE_REACHABLE" if not decided_negative else "BUDGET_BRACKET_EXCLUDES_THRESHOLD", budget.steps, activation=a[ti], gap_channel_hook="MORE_BUDGET" if not decided_negative else "ACQUIRE_WARRANT_OR_STRUCTURE", resources=res)
 
 
 def identification_witness(ks: KnowledgeSpace, activation: Mapping[str, Fraction], target: str) -> ObstructionWitness | None:

@@ -42,10 +42,21 @@ def reacting_subgraph(
     revoked: Iterable[Hashable] = (),
     mode: NavigationMode = NavigationMode.WARRANTED,
 ) -> ReactingSubgraph:
+    return reacting_subgraph_from_surprise(ks, surprise_vector(activation, background), seed, revoked=revoked, mode=mode)
+
+
+def reacting_subgraph_from_surprise(
+    ks: KnowledgeSpace,
+    rho: Mapping[str, float],
+    seed: Sequence[Fraction],
+    *,
+    revoked: Iterable[Hashable] = (),
+    mode: NavigationMode = NavigationMode.WARRANTED,
+) -> ReactingSubgraph:
+    """KS-T11a object for any registered surprise vector (the surprise model is a parameter)."""
     rv = frozenset(revoked)
     support = frozenset(x for x, v in zip(ks.ids, seed, strict=True) if v > 0)
     closure = gated_closure(ks, support, rv) if mode is NavigationMode.WARRANTED else ungated_closure(ks, support)
-    rho = surprise_vector(activation, background)
     atoms = frozenset(x for x in closure if rho[x] > 0) | support
     if mode is NavigationMode.WARRANTED:
         amap = ks.atom_map()

@@ -115,6 +115,14 @@ class Authority:
 
     ranks: tuple[tuple[str, int], ...] = ()
 
+    def __post_init__(self) -> None:
+        # canonical form: a zero rank is the same as an undeclared coordinate (missing = 0)
+        canon = tuple(sorted((k, int(v)) for k, v in dict(self.ranks).items() if int(v) != 0))
+        for k, v in canon:
+            if v < 0:
+                raise ValueError(f"authority rank must be non-negative: {k}={v}")
+        object.__setattr__(self, "ranks", canon)
+
     @staticmethod
     def of(**ranks: int) -> "Authority":
         for k, v in ranks.items():
@@ -144,6 +152,9 @@ class Authority:
         return self <= other and self != other
 
 
+COMMIT_COORDINATE = "commit"
+
+
 def meet_authority(items: Iterable[Authority]) -> Authority:
     items = list(items)
     if not items:
@@ -152,6 +163,14 @@ def meet_authority(items: Iterable[Authority]) -> Authority:
     for a in items[1:]:
         out = out.meet(a)
     return out
+
+
+def internal_authority(items: Iterable[Authority]) -> Authority:
+    """Authority of an internally composed object (MEG-04 / T1): the meet of the components with
+    the operator's own factor, whose ``commit`` coordinate is undeclared (= 0).  Hence no chain of
+    internal operations ever reaches commit authority; only an external ActionReceipt confers it."""
+    m = meet_authority(items)
+    return Authority(tuple((k, v) for k, v in m.ranks if k != COMMIT_COORDINATE))
 
 
 UNBOUNDED_EPOCH = (0, float("inf"))

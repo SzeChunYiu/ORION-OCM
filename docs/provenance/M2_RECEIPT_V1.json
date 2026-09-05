@@ -1,0 +1,134 @@
+{
+  "authority": {
+    "GENERAL_NOVELTY": "NOT_ESTABLISHED",
+    "M2_PROTECTED_SPLIT": "NOT_RUN",
+    "M2_SOLVE_HISTORICAL": "PARENT_SUFFICIENT",
+    "note": "one canonical runtime replays the inherited controlled results without upgrading any claim; the surprise-model comparison is a dev-split design-choice study."
+  },
+  "bound_files": {
+    "docs/provenance/VENDORED_SOURCE_MANIFEST_V1.json": "0979e368063a5e7ca7fa59ea001449ee5b84080705db41e206a545d48d9c7a90",
+    "docs/theorems/OCM_RUNTIME_OBLIGATION_REGISTRY_V1.json": "83171f7f0feec030f1458ca2a5ec104afb04f18d58d66ca1400dbba0d16d2d0a",
+    "research/ocm-m2/M2_1_SURPRISE_REVIVAL_RECEIPT_V1.json": "1f1275fc6dc18406930b43a6b8cf237865aa65188789e8feac0dc84774c7434e",
+    "research/ocm-m2/M2_SCALING_BASELINE_V1.json": "8d3d3f6b23605b6e9c82a242de3a51e70d6223f77b59be00689fc3ac9faea537",
+    "src/ocm/constitution/action.py": "59eff066705206cebd1401d4474265b56f4ec8bd33b7472e958b2c6536f6fa8c",
+    "src/ocm/constitution/boundary.py": "62e74ed7fc3cd2f913d8e0b40c2ad1f7ce1120f996ae782ae95d90be3889587e",
+    "src/ocm/constitution/hard_gates.py": "419bf679f3080a432c0b684aafcc1f18d5e93194c6ab99374db1a4665c14e9e8",
+    "src/ocm/evaluation/historical.py": "d917c83f7b5fdce6a28fe8da3da7de970e6808571bc7d83a9676c699e84de115",
+    "src/ocm/evaluation/m21_surprise_revival.py": "55eae81ba6542c1c1119f3bc16c848af83104fb1461b3bced805e27278bab5ce",
+    "src/ocm/evaluation/scaling.py": "aa79fe006770450699f2432d4971ab5ee455b89e8b2af67b3efdaf2a0c364bb3",
+    "src/ocm/kso/navigation_sparse.py": "8fc6244ddece9ec6c09c319741ac472544119c86b762098f8b84c13867526aa2",
+    "src/ocm/kso/nogoods.py": "6c9e554ee29a391564502ac83c3ac4fb6de3f30137a4dfc1fe8133ba808e969b",
+    "src/ocm/kso/procedures.py": "69ba3fa9c8eec1a84ed92a37df2f996dd3451fe391b023a4b8ca2765b47ee73f",
+    "src/ocm/kso/surprise.py": "c321d6ac4c55c8928804c8acdebb147b9ca550eb1037dc8f851a3ea3aabebc14",
+    "src/ocm/learning/learner.py": "68c1e059a226e8f5ca8a8f667973c3f4fc04abe1bd16722652edfe11be93a8a1",
+    "src/ocm/operators/registry.py": "e704bc821566f564f3a04edbc5cdae69d9b6e68f88c29e17a81470df567aa568",
+    "src/ocm/runtime/ocm_runtime.py": "0aaaeb710e7311e8e44a5c0bfff377628a482258c3905c2ea51a23246ce8dd96",
+    "src/ocm/runtime/solve.py": "2a872d23bbd225174336a68fb5b537f379c932a5b1465234cea180b019fc5551",
+    "src/ocm/runtime/trace.py": "41c35e6618fa8200a432fd45c2e4adae6d587adef195dbc7a34c7327d8e26cca",
+    "src/ocm/runtime/transition.py": "f33378c86017e4f032105748f5f1f85ebab5f91eae1573f7d682c9629f994b45",
+    "src/ocm/store/canonical.py": "914ccfdb97f37f3f476175c4307ddc80eebd4839ff90f579b77403f6d4605cf8",
+    "src/ocm/store/event.py": "e648238588c811c74b045c055d1b22f4112505235a0a29633cb986c85d827d88",
+    "src/ocm/store/evidence.py": "f2a4ef7080566829515c50334905098b7e343879ea87b2931336c81a544662d6",
+    "src/ocm/store/ledger.py": "2252fc5d72e645ac558cd3877f70213673c1ca28d00add7aae710093e45a52b5"
+  },
+  "commands": [
+    "python -m pytest -q tests/m2",
+    "python tools/m2_vendor_check.py",
+    "python tools/m2_receipt.py --verify"
+  ],
+  "git_head_at_generation": "UNKNOWN",
+  "m2_1_revival": {
+    "default_model_changed": false,
+    "guards": {
+      "baseline_reproduced": true,
+      "hub_theorem_kept": true,
+      "no_live_atom_lost": true,
+      "translator_invariance_kept": true
+    },
+    "propagated": 47,
+    "uniform": 38,
+    "verdict": "POSITIVE__EXTRACT_MISSES_REDUCED"
+  },
+  "milestone_issue": 4,
+  "missing_bound_files": [],
+  "receipt": "M2_RECEIPT_V1",
+  "result": {
+    "event_families": [
+      "EVIDENCE_ADMITTED",
+      "EVIDENCE_REVOKED",
+      "EVIDENCE_REINSTATED",
+      "OBJECT_ADMITTED",
+      "OBJECT_QUARANTINED",
+      "OBJECT_REOPENED",
+      "RELATION_ADMITTED",
+      "QUERY_OPENED",
+      "NAVIGATION",
+      "EXTRACTION",
+      "CANDIDATE_COMPOSED",
+      "CHECKER_RESULT",
+      "LEARNER_UPDATE",
+      "SKILL_PROMOTED",
+      "SKILL_QUARANTINED",
+      "REPRESENTATION_PROPOSAL",
+      "OPERATOR_REGISTERED",
+      "JUMP_PROPOSED",
+      "JUMP_ADOPTED",
+      "JUMP_REJECTED",
+      "ACTION_INTENT",
+      "ACTION_RECEIPT",
+      "SNAPSHOT_WRITTEN"
+    ],
+    "historical_replay": {
+      "counts": {
+        "CANNOT_CHECK": 0,
+        "FAIL": 0,
+        "PASS": 8
+      },
+      "terminals": {
+        "M0_MATH_SANITY": "GREEN",
+        "M1_POPULATION_FIXTURE": "M1_KSO_INSTANCE",
+        "M2_SOLVE_STRONGEST_PARENT_TIE": "PARENT_SUFFICIENT",
+        "M3_EXACT_PROCEDURE_LEARNING": "M3_EXACT_GAP_LEARNING_GREEN",
+        "M4_GOVERNED_FINITE_JUMP": "M4_FINITE_GOVERNED_JUMP_GREEN",
+        "M5_CONTROLLED_CODEC_CHAT": "M5_CONTROLLED_CODEC_CHAT_GREEN",
+        "M6A_LEAN_PROOF_ADMISSION": "M6A_FORMAL_MATH_VERIFIER_CHANNEL_INTEGRATED_PARENT_SUFFICIENT",
+        "MULTIDOMAIN_NON_INTERFERENCE": "CONTROLLED_MULTIDOMAIN_KSO_GREEN"
+      }
+    },
+    "hub_theorem_under_models": {
+      "PROPAGATED": {
+        "background_zero": 6,
+        "direction_i": 1,
+        "direction_ii": 1,
+        "model": "PROPAGATED"
+      },
+      "UNIFORM": {
+        "background_zero": 6,
+        "direction_i": 1,
+        "direction_ii": 1,
+        "model": "UNIFORM"
+      }
+    },
+    "nogoods": {
+      "constraint_nogood_kills_composite": 1,
+      "empty_family_no_alarm": 20,
+      "evidence_atoms": 3,
+      "families": 22,
+      "join_commutation_checks": 8800,
+      "kleene_checks": 70400,
+      "meet_inequality_checks": 8800,
+      "meet_strict_cases": 294,
+      "refinement_checks": 3520,
+      "strict_witness": 1
+    },
+    "procedure_algebra": {
+      "guard_composes_with_taken_branch_only": 800,
+      "iteration_idempotent": 400,
+      "live_static_implies_live_trace": 2116,
+      "static_below_trace": 800,
+      "strict_witness": 1,
+      "trace_is_meet_of_fired": 800
+    }
+  },
+  "terminal": "M2_UNIFIED_RUNTIME_GREEN"
+}

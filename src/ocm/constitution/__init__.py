@@ -1,1 +1,1 @@
-"""Constitution namespace reserved for later milestones; M0 adds no new authority."""
+"""Constitution namespace (M2 §9): hard gates, action intents/receipts, the commit boundary."""

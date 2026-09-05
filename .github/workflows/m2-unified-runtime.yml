@@ -1,0 +1,41 @@
+name: M2 unified runtime
+on:
+  pull_request:
+  push:
+    branches: [main, m2/unified-runtime]
+permissions:
+  contents: read
+concurrency:
+  group: m2-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  runtime-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M2 unit, lifecycle, hostile and vendored suites
+        run: python -m pytest -q tests/m2
+      - name: M1 core still green (receipt regenerated for the admission scale path)
+        run: python -m pytest -q tests/m1 && python tools/m1_receipt.py --verify
+      - name: Vendored-source drift
+        run: python tools/m2_vendor_check.py --targets-only
+      - name: M2 exhaustive checkers (nogoods, procedure algebra, surprise lemma)
+        run: python -c "from ocm.kso import nogoods, procedures, surprise; from fractions import Fraction; print(nogoods.check_nogoods(3)); print(procedures.check_procedure_algebra(3)); [print(surprise.check_hub_theorem_under_model(m)) for m in surprise.SurpriseModel]"
+      - name: Historical replay adapters preserve inherited terminals
+        run: python -c "from ocm.evaluation.historical import replay_all; r=replay_all(); assert r['counts']['FAIL']==0 and r['counts']['PASS']==8, r['counts']; print(r['counts'])"
+      - name: M2 receipt drift
+        run: python tools/m2_receipt.py --verify
+  inherited-and-m0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - run: python -m pytest -q tests/m0 tests/unit/test_kso_math_v1.py tests/unit/test_kso_m0_freeze_v1.py tests/unit/test_kso_m3_m5.py tests/unit/test_kso_multidomain.py
+      - run: python -m ocm.demo --controlled && python -m ocm.status
