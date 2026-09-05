@@ -91,7 +91,14 @@ def learn_word(lexicon: Lexicon, utterance: str, meaning: MeaningGraph, evidence
         lx = lexicon.lexemes[key]
         lexicon.add(Lexeme(lx.lemma, lx.category, lx.senses + (sense,), lx.features, lx.warrant, lx.scope))
         return LexicalUpdate("NEW_SENSE", lemma, sense.sense_id, (evidence_id,), f"{source}: {lemma} ↦ {node.label}", tuple(lineage))
-    lexicon.add(Lexeme(lemma, cat, (sense,)))
+    # an aligned *form* carries the grammatical features the meaning attributes to its node (an
+    # event's TENSE); the surface is the lemma until morphology relates it to a base form
+    feats: tuple[tuple[str, str], ...] = ()
+    if node.node_type == "event":
+        t = next((e.value for e in meaning.edges if e.relation == "TENSE" and e.tails == (node.node_id,)), None)
+        if t:
+            feats = (("tense", t),)
+    lexicon.add(Lexeme(lemma, cat, (sense,), feats))
     return LexicalUpdate("NEW_LEXEME", lemma, sense.sense_id, (evidence_id,), f"{source}: {lemma} ↦ {node.label} ({cat.value})", tuple(lineage))
 
 
