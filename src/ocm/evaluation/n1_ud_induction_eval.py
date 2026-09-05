@@ -39,7 +39,10 @@ def main(argv=None) -> int:
     budget = float(argv[argv.index("--budget") + 1]) if "--budget" in argv else 300.0
     max_tokens = int(argv[argv.index("--max-tokens") + 1]) if "--max-tokens" in argv else 10
     cons = G.constructions_from_grammar(gram, min_count=min_count)
-    parse = {s: G.parse_protected(UD.read_conllu(files[s]), cons, ind, time_budget_s=budget, max_tokens=max_tokens) for s in ("dev", "test")}
+    if "--matcher" in argv:
+        parse = {s: G.parse_protected(UD.read_conllu(files[s]), cons, ind, time_budget_s=budget, max_tokens=max_tokens) for s in ("dev", "test")}
+    else:
+        parse = {s: {"engine": "matcher", "status": "CANNOT_CHECK_MEMORY", "note": "the M3 span matcher exhausted memory on open text even at ≤ 8 tokens with rules attested ≥ 5 (ledger S39); run with --matcher to retry"} for s in ("dev", "test")}
     parse_meta = {"constructions": len(cons), "min_count": min_count, "time_budget_s_per_split": budget, "max_tokens": max_tokens}
     chart_max = int(argv[argv.index("--chart-max-tokens") + 1]) if "--chart-max-tokens" in argv else 40
     cons_all = G.constructions_from_grammar(gram, min_count=1)

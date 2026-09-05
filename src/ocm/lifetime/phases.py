@@ -158,7 +158,7 @@ def phase_D(arm, *, dataset_ids=None) -> dict[str, Any]:
 
 
 # ------------------------------------------------------------------ E cross-domain
-def phase_E(arm) -> dict[str, Any]:
+def phase_E(arm, *, matched_cells: bool = False) -> dict[str, Any]:
     if isinstance(arm, TemplateFloor):
         return {"cells": {}, "success": [], "harmful_accepted": 0, "transfer_precision": None}
     src = arm.work.skills.get("enterprise") if hasattr(arm.work, "skills") else None
@@ -183,8 +183,27 @@ def phase_E(arm) -> dict[str, Any]:
         tm = LC.science_transfer_map(src, sci, "corr")
         bad = C.TransferMap(tm.transfer_id, tm.source_skill, "science", {**tm.role_mapping, "verify": "sci.lookalike"}, tm.shared_preconditions, tm.invariant_core, tm.discarded, tm.adapter, 0.4, tm.required_tests, tm.correspondence_warrant)
         cells["science_lookalike_verifier"] = {"expected": "REFUSE_TRANSFER", "result": LC.transported_science_skill(src, bad, sci)[0].value}
+    elif matched_cells:
+        # V5+: the parent answers the SAME six cell questions on identical inputs with its own mechanism (name-similarity
+        # transfer, no role/semantics check) — a prospectively matched comparison (issue #38: replace the 6-vs-4 mismatch)
+        def sim(src_skill, domain, ops):
+            return C.mutant_similarity_transfer(src_skill, domain, ops, 0.9)
+        partial_ops = {k: v for k, v in da.items() if v.role != "document"}
+        sk5 = sim(src, "analysis", partial_ops)
+        cells["partial_adapter_required"] = {"expected": "ADAPTER_REQUIRED", "result": "ADAPTER_REQUIRED" if sk5 is None else ("TRANSFER" if ok(M.run_skill(sk5, partial_ops, E.analysis_task(300))) else "SIMILARITY_TRANSFER_FAILED")}
+        sk6 = sim(src, "analysis", da)
+        cells["representation_correspondence"] = {"expected": "TRANSFER", "result": "TRANSFER" if sk6 is not None and ok(M.run_skill(sk6, da, E.analysis_task(300))) else ("SIMILARITY_TRANSFER_FAILED" if sk6 is not None else "NO_CANDIDATE")}
+        sk7 = sim(C.Skill(src.skill_id, src.skeleton, {**src.bindings, "act_smallest": "sw.rewrite_all"}, src.domain, src.warrant), "software", sw)
+        cells["deceptive_analogy"] = {"expected": "REFUSE_TRANSFER", "result": "ACCEPTED" if sk7 is not None else "NO_CANDIDATE"}
+        sci = _science_ops()
+        sk_full = sim(src, "science", sci)
+        cells["science_full_mapping"] = {"expected": "TRANSFER", "result": "TRANSFER" if sk_full is not None else "NO_CANDIDATE"}
+        partial_sci = {k: v for k, v in sci.items() if k != "sci.report"}
+        sk_part = sim(src, "science", partial_sci)
+        cells["science_missing_binding"] = {"expected": "ADAPTER_REQUIRED", "result": "ADAPTER_REQUIRED" if sk_part is None else "TRANSFER"}
+        cells["science_lookalike_verifier"] = {"expected": "REFUSE_TRANSFER", "result": "ACCEPTED" if sk_full is not None and sk_full.bindings.get("verify") == "sci.lookalike" else ("NO_CANDIDATE" if sk_full is None else "TRANSFER")}
     else:
-        # the parent's mechanism: name-similarity transfer with no role/semantics check
+        # the parent's mechanism: name-similarity transfer with no role/semantics check (V2–V4 cells: 4 parent cells vs 6 OCM cells)
         for name, ops, task, expected in (("analysis_similarity", da, E.analysis_task(300), "TRANSFER"), ("software_similarity", sw, E.software_task(300), "TRANSFER")):
             sk = C.mutant_similarity_transfer(src, task.domain, ops, 0.9)
             cells[name] = {"expected": expected, "result": "TRANSFER" if sk is not None and ok(M.run_skill(sk, ops, task)) else ("SIMILARITY_TRANSFER_FAILED" if sk is not None else "NO_CANDIDATE")}

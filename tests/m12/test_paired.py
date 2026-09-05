@@ -44,3 +44,15 @@ def test_v4_manifest_is_frozen_and_one_sided_rule_matches_batch7():
     assert PE.sign_test_one_sided([1] * 8, 0.05 / 6)["verdict"] == "OCM_RESIDUAL" and PE.sign_test_one_sided([1] * 7 + [-1], 0.05 / 6)["verdict"] == "INCONCLUSIVE"
     assert PE.sign_test_one_sided([0.5] * 8, 0.05)["collapsed_one_coin"] and not PE.sign_test_one_sided([0.5, 0.4] * 4, 0.05)["collapsed_one_coin"]
 
+
+def test_matched_parent_transfer_cells_answer_the_same_six_questions(tmp_path):
+    from ocm.lifetime import machine as MC
+    from ocm.lifetime import phases as PH
+    parent = MC.WholeSystemParent(tmp_path / "p")
+    PH.phase_work(parent, "enterprise", task_ids=range(500, 504), withheld_ids=range(700, 703))
+    e = PH.phase_E(parent, matched_cells=True)
+    assert set(e["cells"]) == {"partial_adapter_required", "representation_correspondence", "deceptive_analogy", "science_full_mapping", "science_missing_binding", "science_lookalike_verifier"}
+    assert len(e["success"]) == 6 and e["harmful_accepted"] >= 0
+    old = PH.phase_E(parent)                                                    # V2–V4 cells kept for the frozen studies
+    assert len(old["cells"]) == 4
+
