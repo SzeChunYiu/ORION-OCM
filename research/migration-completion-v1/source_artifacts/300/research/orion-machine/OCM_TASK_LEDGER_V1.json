@@ -1,0 +1,517 @@
+{
+ "schema": "orion.ocm.task-ledger.v1",
+ "artifact": "research/orion-machine/OCM_TASK_LEDGER_V1.json",
+ "as_of": "2026-09-04T12:00:00+00:00",
+ "repository": "SzeChunYiu/ORION-V2",
+ "scientific_umbrella_issue": 194,
+ "execution_master_issue": 197,
+ "focused_p0_issue": 221,
+ "independent_review_issues": [
+  199,
+  245
+ ],
+ "status": "NO NOVELTY OR BREAKTHROUGH CLAIM. This ledger records where each declared deliverable of issue 221 stands and what file evidences it. It accepts nothing, closes nothing and adjudicates no theorem.",
+ "status_vocabulary": {
+  "PRESENT": "A file satisfying the deliverable as declared exists on a named carrier, at a bound sha256.",
+  "PARTIAL": "Files exist that serve the deliverable's function, but they do not satisfy it as declared. The gap is stated on the row.",
+  "NOT_OBTAINED__DISCLOSED_LIMITATION": "The deliverable is well defined and executable, was not performed, and cannot be performed by this programme's own sessions without destroying the authority it exists to supply. Distinct from CANNOT_CHECK, which is reserved for a check that could not be run.",
+  "CANNOT_CHECK": "The check could not be run. Not used on any row below."
+ },
+ "checkbox_authority": {
+  "does_this_ledger_close_any_issue_197_checkbox": false,
+  "reason": "Issue 197 OPS-012 requires the backlog and the issue checkbox to be updated after acceptance, never before. Acceptance of this child requires the independent hostile review of issue 199, which is unreturned (row D10). Every correspondence below is a correspondence, not a completion.",
+  "does_this_ledger_close_any_issue_221_deliverable": false,
+  "reason_221": "Issue 221's own gate states that same-session theorem authorship cannot close the independent review issue 199, and its closing terminals (CANDIDATE_SURVIVES_FOR_PROOF_FREEZE, PARENT_SUFFICIENT, REFORMULATE, exact CANNOT_CHECK) are not issued here."
+ },
+ "deliverables": [
+  {
+   "id": "D01",
+   "declared_in_issue_221_as": "research/orion-machine/README.md",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/README.md",
+     "bytes": 1076,
+     "sha256": "1907d7a905ba4ddc800883b0bd2ca9eebd29bef6d36aeb2554769c2f83ff3a4a",
+     "binding_of_record": "research/orion-machine/OCM_SNAPSHOT_V1.json content_bindings",
+     "source_commit": "d4eb281dc17cb02cf9b78ae5d1e2071225617b1c"
+    }
+   ],
+   "carrier": {
+    "pull_request": 244,
+    "head_oid": "d4eb281dc17cb02cf9b78ae5d1e2071225617b1c"
+   },
+   "execution_master_correspondence": [
+    "OM-WP0-001 (partial: issue 197 registers this spine file as CORE.md, and the file that exists is README.md; it carries authority, current terminal and a start-here pointer, and does not carry an owners table or a dependency map)"
+   ],
+   "note": "The terminal block it carries is quoted, not asserted, in OCM_SNAPSHOT_V1.json."
+  },
+  {
+   "id": "D02",
+   "declared_in_issue_221_as": "research/orion-machine/OCM_SNAPSHOT_V1.json",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/OCM_SNAPSHOT_V1.json",
+     "binding_of_record": "self-describing; bindings inside it are of other files, taken from committed blobs"
+    }
+   ],
+   "carrier": {
+    "pull_request": 254,
+    "head_oid": "authored in this lane on the 254 carrier"
+   },
+   "execution_master_correspondence": [
+    "OM-WP0-008 (partial: 'source/version custody rules and a current-main snapshot receipt' — the snapshot receipt exists; standing custody rules are not written by it)"
+   ],
+   "note": "Records the import-authority audit IA-01..IA-06, including one dangling cross-reference, two stale review targets, one unrecoverable binding drift, one late-landed recorded repair, and one identifier that could not be resolved and was therefore not synthesized."
+  },
+  {
+   "id": "D03",
+   "declared_in_issue_221_as": "research/orion-machine/OCM_TASK_LEDGER_V1.json",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/OCM_TASK_LEDGER_V1.json",
+     "binding_of_record": "this file"
+    }
+   ],
+   "carrier": {
+    "pull_request": 254,
+    "head_oid": "authored in this lane on the 254 carrier"
+   },
+   "execution_master_correspondence": [
+    "OM-WP0-002 (partial: issue 197 registers the machine-readable backlog as OCM_EXECUTION_BACKLOG_V1.json over the full OM-WP0..WP10 task universe; this ledger covers issue 221's ten declared deliverables only)"
+   ],
+   "note": "OM-WP0-003 (JSON Schema), OM-WP0-004 (validator with exit 0/1/2), OM-WP0-005 (hash-chained event ledger) and OM-WP0-006 (chained verifier runner and CI workflow) are not delivered by this child and are listed under open_spine_tasks below."
+  },
+  {
+   "id": "D04",
+   "declared_in_issue_221_as": "research/orion-machine/OCM_FAILURE_LEDGER.md",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/OCM_FAILURE_LEDGER.md",
+     "binding_of_record": "this lane"
+    }
+   ],
+   "carrier": {
+    "pull_request": 254,
+    "head_oid": "authored in this lane on the 254 carrier"
+   },
+   "execution_master_correspondence": [
+    "OM-WP0-007 (partial: registered in issue 197 as OCM_FAILURE_AND_NEGATIVE_LEDGER_V1.md; issue 221 declares it as OCM_FAILURE_LEDGER.md and that is the name used)"
+   ],
+   "note": "Follows the repository's root FAILURE_LEDGER.md form: retained failure classes, retained concrete failure records, reopening rule; append-only, and a later green result may not erase how it was obtained. It points at the RCL lane's own ledger rather than restating its rows."
+  },
+  {
+   "id": "D05",
+   "declared_in_issue_221_as": "parent-source protocol and parent-atlas seed",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/revocation_complete_learning/RCL_PARENT_ATLAS_V0.json"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/03_PARENT_SUBTRACTION_AND_BREAKTHROUGH_TARGET_V0.md"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/RCL_PARENT_DELTA_V1.json"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/04_POSTFREEZE_PARENT_DELTA_AND_REVISED_RESIDUAL_V1.md"
+    },
+    {
+     "path": "research/orion-machine/parent-space/OCM_WLL_NOVELTY_SEARCH_RUN_V1.md"
+    },
+    {
+     "path": "research/orion-machine/parent-space/OCM_WGPL_NOVELTY_SEARCH_PASS_A_V1.md"
+    }
+   ],
+   "carrier": {
+    "pull_requests": [
+     244,
+     254
+    ]
+   },
+   "execution_master_correspondence": [
+    "OM-WP1-S01, OM-WP1-S02, OM-WP1-S04 (correspondence only)"
+   ],
+   "note": "Atlas and seed exist. RCL_NOVELTY_SEARCH_AND_RESIDUAL_V0.json records its own dimension_search authority as TARGETED_SEARCH_ONLY_NOT_SATURATION, so this row is a seed and not a saturation."
+  },
+  {
+   "id": "D06",
+   "declared_in_issue_221_as": "strongest-parent product and parity comparator",
+   "status": "PARTIAL",
+   "evidence": [
+    {
+     "path": "research/orion-machine/revocation_complete_learning/RCL_NOVELTY_SEARCH_AND_RESIDUAL_V0.json",
+     "supplies": "strongest_parent_product, a nine-member composition ending in 'recurrent/looped Transformer implementation with identical interfaces'"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANTED_PARITY_LEARNING_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANTED_PARITY_DISTINCT_PATHS_V2.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANTED_GRAPH_PARITY_THEOREMS_V1.md"
+    },
+    {
+     "path": "research/orion-machine/receipts/OCM_WARRANTED_GRAPH_PARITY_RECEIPT_V1.json"
+    },
+    {
+     "path": "research/orion-machine/receipts/OCM_WARRANTED_PARITY_DISTINCT_PATHS_RECEIPT_V2.json"
+    }
+   ],
+   "carrier": {
+    "pull_requests": [
+     244,
+     254
+    ]
+   },
+   "execution_master_correspondence": [
+    "OM-WP1-S04, OM-WP5-G02 (correspondence only)"
+   ],
+   "gap": "The strongest-parent product is specified but, by the lane's own record, not independently reconstructed from complete proofs: RCL_NOVELTY_SEARCH_AND_RESIDUAL_V0.json search_limitations states 'The strongest parent product has not yet been independently reconstructed from complete proofs.' The word 'parity' in the artifacts above denotes the parity concept class of Warranted Parity Learning. Whether issue 221's phrase 'parity comparator' means that, or a V1/V2 capability-parity comparator, is not determined by any text in issues 194, 197 or 221; the ambiguity is recorded rather than resolved by assumption."
+  },
+  {
+   "id": "D07",
+   "declared_in_issue_221_as": "theorem/falsifier register",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/revocation_complete_learning/RCL_THEOREM_LEDGER_V0.json",
+     "supplies": "12 theorems with statement digests, an acyclic dependency DAG, per-theorem status, parent_status and novelty_claimed flags; mechanized_theorem_count 0"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/RCL_FAILURE_AND_PARENT_COLLAPSE_LEDGER_V0.md",
+     "supplies": "RCL-F01..F11, each with disposition, strongest reason and an explicit reopen condition"
+    },
+    {
+     "path": "research/orion-machine/receipts/OCM_WLL_P0_THEOREM_BUNDLE_RECEIPT_V1.json",
+     "supplies": "six checker suites, each with a key denominator and a planted positive"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_FALSIFIER_REGISTER_V1.json",
+     "supplies": "a register under the name falsifier: 11 rows, each naming the artifact and planted control that would falsify the statement"
+    }
+   ],
+   "carrier": {
+    "pull_requests": [
+     244,
+     254
+    ]
+   },
+   "execution_master_correspondence": [
+    "OM-WP6 theorem ladder (correspondence only; no OM-T row is claimed complete)"
+   ],
+   "gap": "A theorem register exists. A register under the name 'falsifier' does not: the token 'falsifier' occurs 0 times across all 52 files under research/orion-machine/ on both carriers, against a control of 1214 occurrences of 'the' in the same sweep. The falsifying function is carried instead by 11 reopen conditions across 9 files and by planted-positive and mutation controls (57 and 15 occurrences). This is a naming and structure gap, not an absence of falsifying content.",
+   "gap_closed_2026_09_04": "The naming/structure gap is closed by OCM_FALSIFIER_REGISTER_V1.json. The register does not make any statement true; it says where each can be shown false."
+  },
+  {
+   "id": "D08",
+   "declared_in_issue_221_as": "lifecycle-identifiability, Warranted Lifecycle Learning, Warrant Lift and strict-interface theorem artifacts",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/theory/OCM_LIFECYCLE_IDENTIFIABILITY_THEOREM_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_LIFECYCLE_IDENTIFIABILITY_PROOF_AND_FRONTIER_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANTED_LIFECYCLE_LEARNING_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANT_LIFT_THEORY_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WLL_STRICT_INTERFACE_HIERARCHY_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_OPEN_WORLD_AND_ASYMMETRIC_WARRANT_THEOREMS_V1.md"
+    },
+    {
+     "path": "research/orion-machine/theory/OCM_WARRANT_BLINDNESS_ORACLE_SEPARATION_V1.md"
+    }
+   ],
+   "carrier": {
+    "pull_request": 254,
+    "head_oid": "4cb6dca70b9a7b36730f93a248e9d5425e58df7f"
+   },
+   "execution_master_correspondence": [
+    "OM-WP5-B (Authority-Indexed Representation Lattice) and OM-T10 (correspondence only; no completion claimed)"
+   ],
+   "note": "The receipt binding these records mechanized_theorem_count 0 in the RCL lane and 'machine_checked_proofs_complete: false'. The artifacts are hand proofs with exact finite checkers, not mechanized proofs."
+  },
+  {
+   "id": "D09",
+   "declared_in_issue_221_as": "exact finite checkers with planted failures",
+   "status": "PRESENT",
+   "evidence": [
+    {
+     "path": "research/orion-machine/reference/",
+     "supplies": "nine exact checkers: ocm_lifecycle_identifiability_exact.py, ocm_warranted_lifecycle_exact.py, ocm_warrant_asymmetry_exact.py, ocm_wll_interface_hierarchy_exact.py, ocm_warrant_lift_exact.py, ocm_warrant_blindness_exact.py, ocm_warranted_parity_exact.py, ocm_warranted_parity_distinct_paths_exact.py, ocm_warranted_graph_parity_exact.py"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/",
+     "supplies": "rcl_model.py, rcl_checks_core.py, rcl_checks_finish.py, revocation_complete_oracle.py"
+    },
+    {
+     "path": "research/orion-machine/receipts/OCM_WLL_P0_THEOREM_BUNDLE_RECEIPT_V1.json",
+     "supplies": "per-suite key_denominator and planted_positive for six of the nine suites"
+    },
+    {
+     "path": "research/orion-machine/revocation_complete_learning/rcl_checks_v1.py",
+     "supplies": "versioned successor to the three VACUOUS_CONTRAST controls: bits withheld and queries charged, five mutations asserted applied, three distinct complete updaters plus a planted incomplete one; V0 untouched and still hash-bound for RCL-R03"
+    },
+    {
+     "path": "research/orion-machine/reference/",
+     "supplies": "four further exact checkers: ocm_lane200_decomposition_exact.py, ocm_lane201_lattice_exact.py, ocm_lane202_core_frontier_exact.py, ocm_reference_semantics.py, each with planted failures, mutations asserted applied, a no-alarm control and exit 2 = CANNOT_CHECK"
+    }
+   ],
+   "carrier": {
+    "pull_requests": [
+     244,
+     254
+    ]
+   },
+   "execution_master_correspondence": [
+    "OM-WP9-004 ('every no-alarm gate has a planted positive and no-false-alarm control'), correspondence only"
+   ],
+   "note": "The interface-hierarchy checker additionally carries a denominator pin (answerable + abstentions == target_width) that refuses a vacuous (0, 0) satisfaction of a theorem bound, and mutation controls M1..M5 with M0 as the no-alarm case. Recorded as import-authority finding IA-05 in OCM_SNAPSHOT_V1.json because the receipt declared this repair before the module carried it.",
+   "gap": "Checkers and planted failures exist, and the nine WLL/parity suites carry key denominators and planted positives. Three controls in the RCL lane cannot fail and are withdrawn to CANNOT_CHECK: the RCL-1c storage/query frontier reconstruction is an identity over the full bit vector with a hardcoded exact flag; the mutation control compares a one-bit-flipped copy to its original, which is true for every boolean vector; and the no-alarm control stores one expression twice and calls the equality agreement. Found by the Cursor Bugbot check run on pull request 244 and each confirmed independently against the committed source before being recorded. Recorded, not repaired: the files are hash-bound in the frozen review target of issues 199 and 245, and checkbox RCL-R03 of issue 245 is chartered to test exactly these three controls. See audit row IA-07 in OCM_SNAPSHOT_V1.json. Downstream scope, stated rather than assumed: the FINITE_CONSTRUCTION_GREEN half of RCL-1c's status ('exact storage-query frontier') is produced by this checker and is withdrawn with it, as is the storage_query_reconstruction_checks figure of 5329 carried in two receipts. RCL-1c's HAND_PROOF_COMPLETE half is not implicated. The six FINITE_ORACLE_GREEN rows come from other verifiers, and RCL-2b rests on the planted over-retraction control, which compares two distinct expressions.",
+   "gap_closed_2026_09_04": "The three V0 controls remain VACUOUS_CONTRAST and withdrawn; the deliverable is satisfied by the V1 successor and the four lane checkers. RCL-R03 of #245 still tests V0 as chartered."
+  },
+  {
+   "id": "D10",
+   "declared_in_issue_221_as": "independent hostile review stating which candidates collapse and what exact residual remains",
+   "status": "NOT_OBTAINED__DISCLOSED_LIMITATION",
+   "evidence": [
+    {
+     "issue": 199,
+     "state": "OPEN",
+     "note": "carries only a packet-availability notice and an administrative restoration note"
+    },
+    {
+     "issue": 245,
+     "state": "OPEN",
+     "note": "'THE AUTHORING SESSION MAY NOT CLOSE THIS ISSUE'"
+    }
+   ],
+   "carrier": {
+    "pull_requests": [
+     244,
+     254
+    ]
+   },
+   "execution_master_correspondence": [
+    "OM-WP0-010, OM-WP9-010, OM-WP5-G03 (all correspondence only; all open)"
+   ],
+   "not_simulated": true,
+   "why_not_simulated": "Issue 221's gate reads 'same-session theorem authorship cannot close the independent review issue #199'. A generated or role-played reviewer would supply, from inside the authoring session, exactly the independent authority this P0 exists to withhold, and would poison a parent-subtraction record whose only purpose is to keep that authority external. No review was simulated.",
+   "not_cannot_check": "The check is well defined and executable by any independent party. It was not run. Recording it as CANNOT_CHECK would conflate 'nobody available' with 'not checkable'.",
+   "cost": [
+    "literature_priority_established: false and novelty_established: false remain, verbatim from OCM_WLL_CANDIDATE_TERMINAL_V3.json",
+    "clean_post_material_passes: 0, verbatim from the same artifact",
+    "Every promotion_blocker list in the carriers names independent hostile proof reconstruction, so no candidate advances past its recorded terminal",
+    "RCL-F10 stays BLOCKED and RCL-F11 stays BLOCKED_HIGH_COLLISION"
+   ],
+   "reopen_condition": "An independent party, not the authoring session, returns one of the terminals each issue registers, with denominators and artifact hashes."
+  }
+ ],
+ "open_spine_tasks_not_delivered_by_this_child": [
+  {
+   "id": "OM-WP0-003",
+   "text": "JSON Schema for the backlog",
+   "status": "OPEN"
+  },
+  {
+   "id": "OM-WP0-004",
+   "text": "Validator with exit 0=valid, 1=defect, 2=cannot-check",
+   "status": "OPEN"
+  },
+  {
+   "id": "OM-WP0-005",
+   "text": "Hash-chained JSONL event ledger for claims, status transitions, theorem revisions, refutations and supersessions",
+   "status": "OPEN"
+  },
+  {
+   "id": "OM-WP0-006",
+   "text": "Chained verifier runner and CI workflow",
+   "status": "OPEN",
+   "note": "The six repository checks that run on the carriers are the repository's standing workflows, not a spine verifier for this backlog."
+  },
+  {
+   "id": "OM-WP0-009",
+   "text": "Hostile fixtures proving the spine catches false green, empty denominator, stale evidence pointer, proof hash drift and unrecognized status",
+   "status": "OPEN",
+   "note": "Three of the five conditions this task names were realised, not fixtured, during this child: a stale evidence pointer (IA-02, IA-03), a proof hash drift (IA-04) and a receipt-versus-module divergence (IA-05). They are recorded in OCM_FAILURE_LEDGER.md. A realised defect is not a fixture and does not close this task."
+  },
+  {
+   "id": "OM-WP0-010",
+   "text": "Independent second-session review of WP0",
+   "status": "OPEN",
+   "same_as": "D10"
+  }
+ ],
+ "carried_open_obligations": {
+  "note": "Quoted verbatim from the carriers. This ledger neither adds to nor discharges any of them.",
+  "from_OCM_WLL_P0_THEOREM_BUNDLE_RECEIPT_V1_promotion_blockers": [
+   "primary full-text strongest-parent reconstruction",
+   "natural compositional target class replacing direct bits",
+   "non-cardinality computational/query/communication lower bound under equal information",
+   "output-sensitive constructive learner and repair upper bound",
+   "independent hostile proof reconstruction",
+   "three post-material-addition changed-vocabulary searches",
+   "equal-interface recurrent-Transformer parity compilation"
+  ],
+  "from_OCM_WLL_CANDIDATE_TERMINAL_V3_blocking_obligations": [
+   "primary full-text theorem reconstruction for all parent lanes",
+   "learned proof graph rather than an explicit optional-edge vector",
+   "output-sensitive dynamic repair bound for the learned graph",
+   "partial/corrupt certificate theorem",
+   "independent hostile proof reconstruction in issue 199",
+   "two further post-material-addition changed-vocabulary searches after the final parent addition",
+   "equal-interface recurrent-Transformer parity compilation"
+  ]
+ },
+ "closing_terminal_for_issue_221": {
+  "issued": false,
+  "permitted_terminals": [
+   "CANDIDATE_SURVIVES_FOR_PROOF_FREEZE",
+   "PARENT_SUFFICIENT",
+   "REFORMULATE",
+   "CANNOT_CHECK"
+  ],
+  "why_none_is_issued": "Nine of the ten declared deliverables are present or partial and one, the independent hostile review, is NOT_OBTAINED__DISCLOSED_LIMITATION. Issue 221's own gate forbids the authoring session from supplying it. A child whose deliverable 10 is unreturned cannot issue CANDIDATE_SURVIVES_FOR_PROOF_FREEZE, and nothing in the record supports PARENT_SUFFICIENT or REFORMULATE. CANNOT_CHECK is not the right terminal either, because every check that could be run was run; the missing item is an unperformed independent review, not an unrunnable one.",
+  "smallest_next_action": "Route issues 199 and 245 to a party outside the authoring sessions."
+ },
+ "non_consequences": [
+  "This ledger establishes no novelty, priority, residual, superiority or architecture claim, and quotes every terminal it mentions from the artifact that recorded it.",
+  "A PRESENT row means a file exists and is bound. It does not mean the file is correct, accepted or reviewed.",
+  "No checkbox in issue 197 or issue 221 is closed by this file."
+ ],
+ "directive_rescope_2026_09_04": {
+  "directive": "ORION-V2 #194 comment 5539487737",
+  "record": "research/orion-machine/theory/OCM_DIRECTIVE_RESCOPE_V1.md",
+  "lane_terminals": {
+   "200": {
+    "substrate_form": "(a) channel sufficiency",
+    "terminal": "INTERFACE_HIERARCHY_ONLY",
+    "residual": "NOT_EARNED__OBSTRUCTION_NAMED",
+    "strongest_parent": "version space/KWIK fibre criterion; trace identification; PCC; closed-world assumption; conditional Hartley entropy",
+    "record": "theory/OCM_LANE_200_TERMINAL_V1.md"
+   },
+   "201": {
+    "substrate_form": "(c) representation revision preserving authority",
+    "terminal": "PARENT_SUFFICIENT",
+    "strongest_parent": "Blackwell sufficiency; partition lattice; CEGAR; cell-probe trade-offs",
+    "record": "theory/OCM_LANE_201_TERMINAL_V1.md"
+   },
+   "202": {
+    "substrate_form": "cost of the substrate: C_core*(F;t) and the interpreter constant",
+    "terminal": "TRADEOFF_FRONTIER_ONLY",
+    "comparator_equivalence": "CANNOT_CHECK",
+    "strongest_parent": "time-bounded Kolmogorov complexity; invariance theorem",
+    "record": "theory/OCM_LANE_202_TERMINAL_V1.md"
+   },
+   "203": {
+    "substrate_form": "the substrate",
+    "terminal": "PARENT_OBJECT_ADOPTED",
+    "freeze": "CANNOT_CHECK (assumption audit unreturned)",
+    "proof_assistant": "CANNOT_CHECK (no toolchain)",
+    "strongest_parent": "ATMS (de Kleer 1986); PCC; TMS",
+    "record": "theory/OCM_OPERATIONAL_SEMANTICS_V1.md"
+   },
+   "204": {
+    "substrate_form": "dissolves: language is an encoding of the instruction channel",
+    "terminal": "FORMAL_ONLY",
+    "record": "theory/OCM_LANES_204_205_PRECONDITION_RECORD_V1.md"
+   },
+   "205": {
+    "substrate_form": "dissolves: no classical operator with an access model to lift",
+    "terminal": "NO_ELIGIBLE_OPERATOR",
+    "record": "theory/OCM_LANES_204_205_PRECONDITION_RECORD_V1.md"
+   }
+  },
+  "separation_claim": {
+   "status": "NOT_ESTABLISHED",
+   "test": "NOT_FROZEN",
+   "audit": "FAILED_REACHABILITY_AND_COMPARATOR_MATCHING",
+   "record": "theory/OCM_SEPARATION_TEST_DESIGN_V1.md"
+  },
+  "rcl": {
+   "role": "authority-preservation constraint on (c)",
+   "elementary_pack": "CALIBRATION",
+   "RCL_C": "OPEN_NOT_PROVED__NO_REGISTERED_CLASS_QUALIFIES",
+   "formal_object_parent": "ATMS label (de Kleer 1986)",
+   "authoring_side_audit": "revocation_complete_learning/RCL_KILL_GATE_AUDIT_V1.md (not the #245 terminal)"
+  },
+  "carriers": {
+   "pr_278": "RCL V1 checker; lanes 200/201",
+   "pr_279": "lanes 202/203",
+   "pr_rescope": "this record, README, ledgers, separation-test design, kill-gate audit, falsifier register"
+  },
+  "checkbox_authority": "No checkbox in #197, #200-#205 or #221 is closed by these entries (OPS-012)."
+ },
+ "lane_200_revival_2026_09_04": {
+  "status": "NATURAL_NONRECTANGULAR_CLASSES_EXIST__ONE_NATURAL_NONDECOMPOSABLE_INSTANCE_REGISTERED__PARENT_OWNED",
+  "residual_STRICT_WARRANTED_LIFECYCLE_RESIDUAL": "NOT_EARNED (obstruction restated: non-decomposability, not non-rectangularity)",
+  "RCL_C": "NOT_EARNED__NONDECOMPOSABLE_INSTANCE_PARENT_OWNED",
+  "separation_test": "NOT_FROZEN__CONDITION_1_UNSATISFIABLE_CLASS_INDEPENDENT (Theorem N2)",
+  "artifacts": [
+   "research/orion-machine/theory/OCM_NONRECTANGULAR_CLASS_V1.md",
+   "research/orion-machine/theory/OCM_SEPARATION_TEST_REAUDIT_V2.md",
+   "research/orion-machine/theory/OCM_SEPARATION_TEST_REAUDIT_V2.json",
+   "research/orion-machine/reference/ocm_nonrectangular_class_exact.py",
+   "research/orion-machine/results/OCM_NONRECTANGULAR_CLASS_EXACT_RESULTS_V1.json",
+   "tests/unit/test_ocm_nonrectangular_class_exact.py"
+  ],
+  "registered_class": {
+   "name": "VSW(SINGLETONS_5)",
+   "rectangular": false,
+   "interaction_term_certified": 1,
+   "strongest_parent": "Angluin 1988 (subset queries); Balcazar-Castro-Guijarro 2001 (general dimension)"
+  },
+  "checkbox_authority": "closes nothing (OPS-012); #199/#245 unreturned and not simulated"
+ },
+ "kso_m0_freeze_and_m1_2026_09_04": {
+  "issue": "ORION-V2 #284 (prototype plan) / #194 / #197",
+  "prs": [
+   "#290 (relanded as #296, main 68d8e59)",
+   "#295"
+  ],
+  "records": [
+   "theory/KSO_SUBSTRATE_CONTRACT_V1.md",
+   "theory/KSO_ARCHITECTURE_V1.md",
+   "theory/KSO_PARENT_SUBTRACTION_V1.md",
+   "theory/KSO_M2_SOLVE_DESIGN_V1.md",
+   "CONVERGENCE_MAP_V1.md"
+  ],
+  "checkers": [
+   "reference/kso_math_v1.py",
+   "reference/kso_m0_freeze_checks_v1.py",
+   "reference/kso_m1_mex1_population_v1.py",
+   "reference/kso_m2_solve_v1.py",
+   "reference/kso_trace_v1.py"
+  ],
+  "results": [
+   "results/KSO_M0_EXACT_RESULTS_V1.json",
+   "results/KSO_M0_FREEZE_RESULTS_V1.json",
+   "results/KSO_M1_POPULATION_RECEIPT_V1.json",
+   "results/KSO_M0_FREEZE_V1.json",
+   "results/KSO_M2_SOLVE_RECEIPT_V1.json",
+   "results/KSO_M2_SOLVE_OUTCOME_V1.md",
+   "results/KSO_TRACES_V1.json"
+  ],
+  "terminals": {
+   "KSO_M0": "FROZEN_V1",
+   "KSO_M1": "GREEN_DEV_SPLIT (ME-X1 50 worlds; protected NOT_RUN)",
+   "KSO_M2": "M2_EXACT_ON_DEV (store 50/50) / NAVIGATION_EXACT 38/50, EXTRACT attributed; comparator PARENT_SUFFICIENT vs B5 ceiling",
+   "KSO_NOVELTY": "NOT_ESTABLISHED",
+   "label_gated_exact_share_retraction": "PARENT_PRODUCT_OWNED ((JTMS/ATMS gate) o (spreading activation, frozen denominators))"
+  },
+  "next": "M2.1 extraction revival (surprise baseline); M2b algebra domain through the instruction channel with SymPy EXACT_CHECKER; parameter study; M3 gap loop; M5 codecs"
+ }
+}

@@ -1,0 +1,217 @@
+{
+  "G_GROWTH_LOOP": {
+    "cancers": {
+      "composite_outlives_revoked_component": "CAUGHT",
+      "feedback_retained_as_warrant": "CAUGHT",
+      "genome_edited_by_growth": "CAUGHT"
+    },
+    "declared_outcome": "FIXED_POINT_GENOME_UNCHANGED",
+    "final_size": [
+      11,
+      10
+    ],
+    "fixed_point_reached": 1,
+    "genome_digest_unchanged": 1,
+    "genome_held_every_step": 1,
+    "growth_steps": 3,
+    "reached": true
+  },
+  "T1_FOUND": {
+    "1_atomize": {
+      "seed_atoms": [
+        "claim:c2",
+        "res:r1",
+        "req:dev-X1-A_CLAIM_PROBLEM_IDENTITY-000"
+      ],
+      "seed_vector_nonzero": {
+        "claim:c2": "1/3",
+        "req:dev-X1-A_CLAIM_PROBLEM_IDENTITY-000": "1/3",
+        "res:r1": "1/3"
+      }
+    },
+    "2_navigate": {
+      "hyperedge_visits": 21,
+      "outcome": "FOUND",
+      "steps": 57,
+      "target_activation": "4369/28431",
+      "target_live": true
+    },
+    "3_fire": {
+      "enabled_hyperedges": 37
+    },
+    "4_extract": {
+      "extraction_sha256": "72f28ff804b70fb1799176d6a0bd03893146a5ffc87a717e16d5013a79dd6b38",
+      "reacting_atoms": 4,
+      "reacting_hyperedges": 3,
+      "top_by_surprise": [
+        "claim:c2",
+        "res:r1",
+        "req:dev-X1-A_CLAIM_PROBLEM_IDENTITY-000",
+        "claim:c1"
+      ],
+      "translator_invariant": true
+    },
+    "5_compose": {
+      "decisive_atom": "identity:r1"
+    },
+    "6_check": {
+      "label_vs_oracle_mismatches": 0,
+      "stage_failures": {
+        "EXTRACT": "live request atoms outside G_Q: ['criterion:c2', 'src:e04', 'ident:e04', 'cal:e04', 'src:e05', 'ident:e05', 'cal:e05', 'evaluator:r1', 'authority']"
+      }
+    },
+    "7_render": {
+      "action": "REVALIDATE",
+      "reopened": []
+    },
+    "attribution": "",
+    "declared_outcome": "FOUND",
+    "exact": true,
+    "family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+    "graph": {
+      "atoms": 57,
+      "censored_evidence": 0,
+      "hyperedges": 38,
+      "request_level_atoms_added": 6,
+      "revoked_evidence": 1
+    },
+    "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-000",
+    "oracle": {
+      "action": "REVALIDATE",
+      "reopened": []
+    },
+    "reached": true,
+    "request": "ACCEPT_RESULT",
+    "target": "claim:c2"
+  },
+  "T2_GAP_NOT_FOUND": {
+    "1_atomize": {
+      "seed_atoms": [
+        "claim:c1",
+        "res:r1",
+        "req:dev-X1-B_MEASUREMENT_CALIBRATION-003"
+      ],
+      "seed_vector_nonzero": {
+        "claim:c1": "1/3",
+        "req:dev-X1-B_MEASUREMENT_CALIBRATION-003": "1/3",
+        "res:r1": "1/3"
+      }
+    },
+    "2_navigate": {
+      "hook": "MORE_BUDGET_OR_ACQUIRE_WARRANT: the target claim's label is dead under the registered revocations; an acquisition (new warranted evidence family) or a reinstatement would make it live",
+      "hyperedge_visits": 13,
+      "outcome": "GAP_NOT_FOUND",
+      "steps": 88,
+      "target_activation": "0",
+      "target_live": false
+    },
+    "3_fire": {
+      "enabled_hyperedges": 42
+    },
+    "4_extract": {
+      "extraction_sha256": "d96c314ffcf2a42fcd16e0264b6edef21934a1473be0c31fd04dc728dbe4bc88",
+      "reacting_atoms": 10,
+      "reacting_hyperedges": 9,
+      "top_by_surprise": [
+        "req:dev-X1-B_MEASUREMENT_CALIBRATION-003",
+        "src:e05",
+        "identity:r1",
+        "ident:e06",
+        "evaluator:r1"
+      ],
+      "translator_invariant": true
+    },
+    "5_compose": {
+      "decisive_atom": "cal:e05"
+    },
+    "6_check": {
+      "label_vs_oracle_mismatches": 0,
+      "stage_failures": {
+        "NAVIGATE": "target claim:c1 GAP_NOT_FOUND"
+      }
+    },
+    "7_render": {
+      "action": "REVALIDATE",
+      "reopened": []
+    },
+    "attribution": "",
+    "declared_outcome": "GAP_NOT_FOUND",
+    "exact": true,
+    "family": "X1-B_MEASUREMENT_CALIBRATION",
+    "graph": {
+      "atoms": 88,
+      "censored_evidence": 0,
+      "hyperedges": 51,
+      "request_level_atoms_added": 6,
+      "revoked_evidence": 2
+    },
+    "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-003",
+    "oracle": {
+      "action": "REVALIDATE",
+      "reopened": []
+    },
+    "reached": true,
+    "request": "ACCEPT_RESULT",
+    "target": "claim:c1"
+  },
+  "T3_OBSTRUCTION_WITNESSED": {
+    "controls": {
+      "found_with_budget": "FOUND",
+      "timeout_is_gap": "GAP_NOT_FOUND"
+    },
+    "declared_outcome": "OBSTRUCTION_WITNESSED",
+    "jump_trigger": {
+      "incumbent_level": 1,
+      "is_admissible": true,
+      "kind": "GLOBAL_OBSTRUCTION",
+      "lower_level_dispositions": [
+        "BUDGET: irrelevant, closure is exact and budget-independent",
+        "WARRANT: irrelevant, closure is ungated",
+        "RESTART: irrelevant, every seed-support atom is in the closure"
+      ],
+      "witness_ids": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "s",
+        "t",
+        "w"
+      ]
+    },
+    "outcome": "OBSTRUCTION_WITNESSED",
+    "reached": true,
+    "reason": "TARGET_OUTSIDE_UNGATED_CLOSURE",
+    "seed_atoms": [
+      "s"
+    ],
+    "space": "M0 \u00a729 witness: chain s\u2192a1\u2192\u2026\u2192a5\u2192t, island i1\u2192i2, w behind a revocable edge",
+    "target": "i2",
+    "witness": {
+      "failed_obligation": "reach i2 from seed support ('s',)",
+      "frontier": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "s",
+        "t",
+        "w"
+      ],
+      "incumbent_mechanism": "restart_navigation_over_registered_relations",
+      "lower_level_dispositions": [
+        "BUDGET: irrelevant, closure is exact and budget-independent",
+        "WARRANT: irrelevant, closure is ungated",
+        "RESTART: irrelevant, every seed-support atom is in the closure"
+      ],
+      "resource_bound": "steps=12,restarts=1,depth=12"
+    }
+  },
+  "all_reached": true,
+  "immune_system": {
+    "exit_codes": "0 reached / 1 not reached / 2 could not check",
+    "genome_digest": "b258f92f292bf6031f79a9b6cc43489cfc31abf106d3bb50caaddfc11843f87e"
+  }
+}
