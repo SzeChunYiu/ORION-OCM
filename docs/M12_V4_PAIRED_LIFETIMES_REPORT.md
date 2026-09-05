@@ -35,7 +35,7 @@ parent remains CANNOT_CHECK_MATCHED_PARENT.
 these families are deterministic functions of the planted design (which fault, which revision event,
 which transfer cells), so the stream substitution does not vary them and the eight differences carry
 the evidence of one coin (G8). They are reported as rejections with the flag; the inferential weight
-of V4 rests on the primary family, whose differences vary across streams (parent 0.574–0.611).
+of V4 rests on the primary family, whose differences vary across streams (parent 0.593–0.611).
 
 Honest-unknown detail (G7): OCM 29/30 in every lifetime; the one miss is "is a whale a mammal",
 which the world-true half labelled unlicensed although the manifest holds it as a verified fact —
