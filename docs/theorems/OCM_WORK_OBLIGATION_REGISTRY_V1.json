@@ -1,0 +1,92 @@
+{
+  "registry": "OCM_WORK_OBLIGATION_REGISTRY_V1",
+  "milestone": "M9",
+  "extends": "OCM_ORGANISATION_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T80",
+      "gap": "MEG-04",
+      "statement": "Task contract boundary: forbidden actions and actions above the task's authority are refused before any backend runs; a run with unauthorized attempts is never success; hidden protected state is read only by the checker.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/work/contracts.py apply_operator; M2 constitution (KS-T30)",
+      "checker": "tests/m9/test_work.py; receipt unauthorized_attempts 0 for every arm",
+      "mutant": "(destroy operators in every domain)",
+      "parent": "object capabilities",
+      "limitation": "sandboxed environments"
+    },
+    {
+      "id": "KS-T81",
+      "gap": "MEG-22",
+      "statement": "Transfer contract: Λ(transported skill) = Λ(source) ⊗ Λ(correspondence); a missing role binding is ADAPTER_REQUIRED, a target operator whose registered role differs from the source role is REFUSE_TRANSFER (superficial similarity); revoking the correspondence or the source kills the transferred skill.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/work/contracts.py transported_skill; batch-1 T5",
+      "checker": "tests/m9/test_work.py; transfer matrix T5/T7/T9",
+      "mutant": "contracts.mutant_similarity_transfer",
+      "parent": "—",
+      "limitation": "role registry declared per operator"
+    },
+    {
+      "id": "KS-T82",
+      "gap": "MEG-12/13",
+      "statement": "Skill induction is accepted only by the withheld intervention test (same distribution, unseen instances), never because the source episode succeeded; memoised, skeleton and subtrace inductions are compared.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/work/methods.py accept_skill; KS-T31",
+      "checker": "tests/m9/test_work.py::test_induction_requires_the_withheld_test_and_routers_differ",
+      "mutant": "(broad-action trace accepted without the test)",
+      "parent": "program induction / version spaces",
+      "limitation": "finite traces"
+    },
+    {
+      "id": "KS-T83",
+      "gap": "—",
+      "statement": "Routing is a separate learning problem: the OCM router requires domain match, liveness, allowed actions, role agreement and no recorded failure; router error is measured separately from operator failure; brute-force 'try every skill' is the planted hostile.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/work/methods.py OCMRouter",
+      "checker": "tests/m9/test_work.py; transfer matrix T12",
+      "mutant": "methods.mutant_try_every_skill",
+      "parent": "—",
+      "limitation": "small skill sets"
+    },
+    {
+      "id": "KS-T84",
+      "gap": "—",
+      "statement": "Diagnosis targets the responsible layer (authority prevented, resource exhaustion, bad adapter, bad order, missing information, environment drift, wrong operator selected, operator wrong); revision under drift re-binds with lineage and ⊗ evidence; the old skill is never a timeless truth.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/work/methods.py diagnose / revise_for_version",
+      "checker": "tests/m9/test_work.py::test_diagnosis_targets_the_responsible_layer_and_drift_is_detected_then_revised; matrix T10/T11",
+      "mutant": "(router swap with fixed skill — T12)",
+      "parent": "—",
+      "limitation": "rule-based classifier over step outcomes"
+    },
+    {
+      "id": "KS-T85",
+      "gap": "—",
+      "statement": "Lifetime transfer study on OCM-authored environments with exact oracle state: transfer matrix T0–T13 all as expected (14/14); transfer precision 6/6; later-domain acquisition cost 7 (transfer: one correspondence + one withheld run) vs 12 for matched parents that re-learn (fresh start with matched validation, trajectory memory, similarity skill library); success 54/54 for every arm; unauthorized attempts 0; paired success claims EQUIVALENT at n=9 (below the pre-registered minimum → CANNOT_CHECK for a SUPPORTED terminal).",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/evaluation/m9_transfer_eval.py",
+      "checker": "research/ocm-m9/M9_TRANSFER_EVAL_V2.json",
+      "mutant": "(unvalidated fresh start reported as not matched — ledger S27)",
+      "parent": "episodic memory / skill libraries (Voyager-style) — candidates",
+      "limitation": "three synthetic domains; no external benchmark"
+    },
+    {
+      "id": "KS-T86",
+      "gap": "—",
+      "statement": "External agent benchmarks (WorkArena++, CRMArena-Pro, TUA-Bench, SWE-bench Verified, TheAgentCompany): CANNOT_CHECK in this study (no network, no container runtime, no LLM agent in the mechanism arm); custody by name only.",
+      "status": "CANNOT_CHECK",
+      "proof": "—",
+      "checker": "receipt external_benchmarks",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "no result claimed"
+    }
+  ]
+}

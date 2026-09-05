@@ -95,17 +95,24 @@ class OCMArm:
 
 
 class FreshStartArm:
-    """No memory across domains: learns from a demonstration every time."""
+    """No memory across domains: learns from a demonstration every time.  *Matched* acceptance
+    discipline: like every other arm it must validate the induced skill on one withheld task before
+    use (ledger S27); `validated=False` gives the unmatched variant reported separately."""
     name = "fresh_start"
 
-    def __init__(self):
+    def __init__(self, validated: bool = True):
         self.skills: dict[str, C.Skill] = {}
         self.revoked: set[str] = set()
+        self.validated = validated
 
     def acquire(self, domain, ops, tasks, withheld):
         sk = M.induce_skeleton(demo_trace(domain, ops), ops, domain, f"ev:demo:{domain}")
+        cost = DEMO_TRACE_COST
+        if self.validated:
+            M.accept_skill(sk, ops, withheld[:1])
+            cost += DEMO_TRACE_COST
         self.skills[domain] = sk
-        return {"route": "LEARN_NEW", "cost": DEMO_TRACE_COST, "reused_operators": 0, "new_operators": len(E.ROLES)}
+        return {"route": "LEARN_NEW", "cost": cost, "reused_operators": 0, "new_operators": len(E.ROLES)}
 
     def solve(self, domain, ops, task):
         sk = self.skills.get(domain)
@@ -225,8 +232,8 @@ def transfer_matrix(arm: OCMArm) -> dict[str, Any]:
 
 
 def run() -> dict[str, Any]:
-    arms = {"ocm": lambda: OCMArm(), "ocm-no_transfer": lambda: OCMArm(use_transfer=False), "ocm-no_router": lambda: OCMArm(use_router=False), "fresh_start": FreshStartArm, "trajectory_memory": TrajectoryMemoryArm, "skill_library": SkillLibraryArm}
-    out: dict[str, Any] = {"receipt": "M9_TRANSFER_EVAL_V1", "orderings": {}, "transfer_matrix": None, "external_benchmarks": {"WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)", "CRMArena-Pro": "CANNOT_CHECK", "TUA-Bench": "CANNOT_CHECK", "SWE-bench Verified": "CANNOT_CHECK", "TheAgentCompany": "CANNOT_CHECK"}}
+    arms = {"ocm": lambda: OCMArm(), "ocm-no_transfer": lambda: OCMArm(use_transfer=False), "ocm-no_router": lambda: OCMArm(use_router=False), "fresh_start": lambda: FreshStartArm(True), "fresh_start_unvalidated(not matched)": lambda: FreshStartArm(False), "trajectory_memory": TrajectoryMemoryArm, "skill_library": SkillLibraryArm}
+    out: dict[str, Any] = {"receipt": "M9_TRANSFER_EVAL_V2", "study_status": "PROTECTED (V1 = DEV_CALIBRATION: the fresh-start comparator skipped the withheld acceptance every other arm pays; matched in V2, ledger S27)", "orderings": {}, "transfer_matrix": None, "external_benchmarks": {"WorkArena++": "CANNOT_CHECK (no network/container runtime; no LLM agent in the mechanism arm)", "CRMArena-Pro": "CANNOT_CHECK", "TUA-Bench": "CANNOT_CHECK", "SWE-bench Verified": "CANNOT_CHECK", "TheAgentCompany": "CANNOT_CHECK"}}
     t0 = time.perf_counter()
     for oname, order in ORDERINGS.items():
         out["orderings"][oname] = {}

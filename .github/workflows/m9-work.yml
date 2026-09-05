@@ -1,0 +1,36 @@
+name: M9 method transfer
+on:
+  pull_request:
+  push:
+    branches: [main, m9/work-methods]
+permissions:
+  contents: read
+concurrency:
+  group: m9-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  work-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M9 work suites
+        run: python -m pytest -q tests/m9
+      - name: M2–M8 still green
+        run: python -m pytest -q tests/m8 tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
+      - name: Transfer study receipt is reproducible
+        run: |
+          rm -f /tmp/m9_eval.json
+          python -m ocm.evaluation.m9_transfer_eval --out /tmp/m9_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m9_eval.json")); b = json.load(open("research/ocm-m9/M9_TRANSFER_EVAL_V2.json"))
+          for k in ("summary", "transfer_matrix", "transfer_precision"):
+              assert a[k] == b[k], (k,)
+          print("transfer receipt reproduced")
+          PY
+      - name: Receipt chain verifies
+        run: for t in m2 m3 m4 m5 m6 m7 m8 m9; do python tools/${t}_receipt.py --verify || exit 1; done
