@@ -1,0 +1,39 @@
+name: Pinned fixed proof replay
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  kernel-and-lifecycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source custody and runtime lifecycle controls
+        run: |
+          python research/proof-replay-v1/test_replay.py
+          python -O research/proof-replay-v1/test_replay.py
+      - name: Obtain registered Lean release
+        run: |
+          curl --fail --location --retry 2 --max-time 180 \
+            https://github.com/leanprover/lean4/releases/download/v4.19.0/lean-4.19.0-linux.tar.zst \
+            -o "$RUNNER_TEMP/lean-4.19.0-linux.tar.zst"
+      - name: Required fresh kernel replay and axiom audit
+        run: |
+          python research/proof-replay-v1/replay.py \
+            --archive "$RUNNER_TEMP/lean-4.19.0-linux.tar.zst" \
+            --out "$RUNNER_TEMP/proof-replay.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fixed-proof-replay
+          path: ${{ runner.temp }}/proof-replay.json
+          if-no-files-found: error
+      - run: git diff --exit-code
