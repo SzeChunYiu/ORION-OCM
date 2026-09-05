@@ -1,0 +1,81 @@
+{
+  "registry": "OCM_LIFETIME_OBLIGATION_REGISTRY_V1",
+  "milestone": "M12",
+  "extends": "OCM_SELF_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker test and a planted mutant or kill gate; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T104",
+      "gap": "M12 §2",
+      "statement": "One runtime identity across the lifetime: the ledger root is constant and every component (chat, science ledger, self-model, work warrants) points at the same runtime at every phase boundary; a restart reopens the same ledger.",
+      "status": "PROVED",
+      "proof": "identity trace records (ledger_root, one_runtime) per phase; kill gate identity_reset_or_split",
+      "checker": "tests/m12/test_lifetime.py::test_one_persistent_instance_no_reset_and_no_kill_gate_hits",
+      "mutant": "the inherited M7 restart (reopens a session at a different path) — caught in V1 (ledger S31)",
+      "parent": "persistent agents with episodic memory",
+      "limitation": "identity is a ledger root, not a cryptographic attestation"
+    },
+    {
+      "id": "KS-T105",
+      "gap": "M12 §1, §16",
+      "statement": "Freeze-before-outcome: the pre-registration hash is recorded in the receipt; a protocol change after outcome access relabels the run DEV_CALIBRATION and requires a new frozen version.",
+      "status": "PROVED",
+      "proof": "V1 relabelled DEV_CALIBRATION with the three changes listed; V2 frozen with a changelog; preregistration_sha256 bound",
+      "checker": "tools/m12_receipt.py --verify (binds both pre-registrations and both receipts)",
+      "mutant": "editing the protocol and keeping the PROTECTED label (drift is detected by the bound hash)",
+      "parent": "pre-registration in experimental science",
+      "limitation": "the author of the freeze is also the author of the fix"
+    },
+    {
+      "id": "KS-T106",
+      "gap": "M12 §16 / batch 4 D1",
+      "statement": "Inferential claims use one lifetime (the principal ordering); repeated orderings of the same tasks are robustness replicates reported descriptively, never pooled.",
+      "status": "PROVED",
+      "proof": "pooling identical phase-A tasks across orderings triples n without new information (S32)",
+      "checker": "src/ocm/evaluation/m12_lifetime_eval.py (claims computed on O1 only); tests/m12",
+      "mutant": "the V1 pooled computation (n = 162 for 54 turns)",
+      "parent": "pseudo-replication (Hurlbert 1984)",
+      "limitation": "one lifetime per claim keeps n small: most families are DESCRIPTIVE"
+    },
+    {
+      "id": "KS-T107",
+      "gap": "M12 §7",
+      "statement": "Revision inside a lifetime: revoking a knowledge source, retracting an observation and revoking a demonstration each reopen exactly their dependents while unrelated capabilities stay live; running a dead skill is a stale behaviour and a kill gate.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "phase F: stale 0/3 per ordering, dependents 3/3, unrelated 2/2 (OCM); the parent keeps the rumour fact live (1 stale)",
+      "checker": "tests/m12/test_lifetime.py::test_phase_outcomes_on_the_principal_ordering",
+      "mutant": "kill gate live_on_revoked_after_F",
+      "parent": "belief revision (AGM) without evidence identities",
+      "limitation": "three revision events per lifetime"
+    },
+    {
+      "id": "KS-T108",
+      "gap": "M12 §3 G",
+      "statement": "Self-repair inside a lifetime with an undisclosed fault layer: the machine's own candidate repairs produce the ablation evidence; diagnosis, minimum class, shadow, external adoption and exact rollback hold on all three drawn faults; the parent repair mechanisms (parameter search, retry) fail on all three.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "M12_LIFETIME_EVAL_V2 tier 5: 3/3 vs 0/3",
+      "checker": "tests/m12/test_lifetime.py; src/ocm/lifetime/phases.py::phase_G",
+      "mutant": "V1 learning-policy fault plantable at the operator table (diagnosed D2, correctly by the minimum rule; replanted at the skill level, S33)",
+      "parent": "reflection / retry; hyper-parameter search",
+      "limitation": "n = 3 faults; candidates are the machine's registered alternatives"
+    },
+    {
+      "id": "KS-T109",
+      "gap": "M12 §17",
+      "statement": "Independent replication: the same frozen code on a second host reproduces the deterministic block byte-for-byte; the exit gate cannot read FULL_OCM_RESIDUAL_SUPPORTED without a MATCH receipt.",
+      "status": "PROVED",
+      "proof": "M12_REPLICATION_RECEIPT_V1: MATCH between billy-old (principal) and billy-laptop (fresh uv Python 3.11 environment); same-host re-run identical",
+      "checker": "tools/m12_replication.py; docs/provenance/M12_REPLICATION_RECEIPT_V1.json",
+      "mutant": "same-host re-run is not independent (recorded separately as determinism, not replication)",
+      "parent": "reproducibility receipts",
+      "limitation": "status set by the replication receipt"
+    }
+  ]
+}
