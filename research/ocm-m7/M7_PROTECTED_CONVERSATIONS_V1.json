@@ -1,0 +1,69 @@
+{
+  "suite": "M7_PROTECTED_CONVERSATIONS_V1",
+  "authored": "hand-written 2026-09-05, not generated from the microworld templates; frozen before any protected run",
+  "vocabulary_note": "restricted to the Alpha bounded-world vocabulary so that both arms can parse; adversarial surface similarity is included",
+  "conversations": [
+    {"id": "c01_followup_delayed_reference", "turns": [
+      ["user", "the robot opened the door", "Noted|Noted:"],
+      ["user", "the girl kicked the ball", "Noted"],
+      ["user", "is paris in france", "Yes."],
+      ["user", "is berlin in germany", "Yes."],
+      ["user", "did the robot open the door", "said so"],
+      ["user", "did the girl kick the ball", "said so"]]},
+    {"id": "c02_correction_then_dependent_answer", "turns": [
+      ["user", "the cat pushed the box", "Noted"],
+      ["user", "did the cat push the box", "said so"],
+      ["user", "correction, the cat did not push the box", "supersedes|Noted"],
+      ["user", "did the cat push the box", "said it did not"],
+      ["user", "the robot lifted the cup", "Noted"],
+      ["user", "did the robot lift the cup", "said so"]]},
+    {"id": "c03_ambiguity_consequential", "turns": [
+      ["user", "the robot saw the bank", "Did you mean|Which did you mean"],
+      ["user", "2", "Noted"],
+      ["user", "did the robot see the bank", "said so|Which did you mean|Did you mean"]]},
+    {"id": "c04_contradiction_two_speakers", "turns": [
+      ["alice", "the dog kicked the ball", "Noted"],
+      ["bob", "the dog did not kick the ball", "contradicts|Noted"],
+      ["carol", "did the dog kick the ball", "Contradictory|contradictory|both"]]},
+    {"id": "c05_unknown_outside_world", "turns": [
+      ["user", "is paris in spain", "I do not know"],
+      ["user", "is the sun a planet", "I do not know"],
+      ["user", "is mars a star", "I do not know"],
+      ["user", "explain zorbulon", "I do not have anything verified|I do not know"]]},
+    {"id": "c06_explain_compare_summarize", "turns": [
+      ["user", "explain paris", "Paris is in france|paris located in france"],
+      ["user", "compare paris and berlin", "share|differ"],
+      ["user", "the robot opened the door", "Noted"],
+      ["user", "summarize", "So far|you said"]]},
+    {"id": "c07_style_shift_facts_invariant", "turns": [
+      ["user", "is paris in france", "Yes."],
+      ["user", "be brief", "brief"],
+      ["user", "is paris in france", "Yes."],
+      ["user", "be casual", "casual"],
+      ["user", "is berlin in germany", "Yes."]]},
+    {"id": "c08_teach_word_then_reuse", "turns": [
+      ["user", "teach: crate = shipping container", "Noted: 'crate'"],
+      ["user", "the robot lifted the crate", "Noted"],
+      ["user", "did the robot lift the crate", "said so"],
+      ["user", "the crate was lifted by the robot", "Noted"]]},
+    {"id": "c09_restart_continuation", "turns": [
+      ["user", "the girl held the cup", "Noted"],
+      ["user", "__restart__", "restarted"],
+      ["user", "did the girl hold the cup", "said so"]]},
+    {"id": "c10_revocation_mid_dialogue", "turns": [
+      ["user", "teach: zorb = small robot", "Noted: 'zorb'"],
+      ["user", "the zorb opened the door", "Noted"],
+      ["user", "__revoke_last_lesson__", "Revoked"],
+      ["user", "the zorb opened the door", "cannot interpret"],
+      ["user", "is paris in france", "Yes."]]},
+    {"id": "c11_adversarial_surface_similarity", "turns": [
+      ["user", "the robot opened the door", "Noted"],
+      ["user", "did the door open the robot", "I do not know|Unknown"],
+      ["user", "did the robot open the door", "said so"]]},
+    {"id": "c12_source_claim_vs_verified", "turns": [
+      ["user", "is paris in germany", "A source (rumour:v1) says so|rumour"],
+      ["user", "paris is in germany", "Noted|cannot interpret"],
+      ["user", "is paris in germany", "A source (rumour:v1) says so|rumour|said so"],
+      ["user", "is paris in france", "Yes."]]}
+  ]
+}

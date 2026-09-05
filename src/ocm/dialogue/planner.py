@@ -28,6 +28,9 @@ from .gate import Act, Assertion, FeedbackEvent, FeedbackKind, Marker, REOPENS, 
 from .workspace import DialogueWorkspace
 
 
+FUNCTIONAL_RELATIONS = frozenset({"CAPITAL_OF", "BOILS_AT", "FREEZES_AT", "HAS_COUNT", "EQUALS", "HAPPENED_IN"})   # registry data: one object per subject
+
+
 class Rhetorical(str, Enum):
     ANSWER = "ANSWER"
     ELABORATION = "ELABORATION"       # explanation chain
@@ -88,8 +91,11 @@ def plan_answer(world: KnowledgeWorld, ws: DialogueWorkspace, asked: MeaningGrap
     items: list[ContentItem] = []
     if f is not None and lv is Liveness.LIVE:
         items.append(_item(world, f))
-    # a contradicting live fact on record (same subject/relation, different object) → both cited
-    contra = [g for g in world.about(asked.node(asked.root).label) if g.fact_id != (f.fact_id if f else None) and any(e.relation == asked.edges[0].relation and g.meaning.node(e.heads[0]).label != asked.node(asked.edges[0].heads[0]).label for e in g.meaning.edges)] if asked.edges else []
+    # a contradicting live fact: only for *registered functional* relations (one value per subject),
+    # same subject, different object; IS_A / LOCATED_IN admit several true objects (ledger S23)
+    subj = asked.node(asked.root).label if asked.root else None
+    rel = asked.edges[0].relation if asked.edges else None
+    contra = [g for g in world.about(subj) if rel in FUNCTIONAL_RELATIONS and g.fact_id != (f.fact_id if f else None) and any(e.relation == rel and g.meaning.node(e.tails[0]).label == subj and g.meaning.node(e.heads[0]).label != asked.node(asked.edges[0].heads[0]).label for e in g.meaning.edges)] if asked.edges else []
     verified_contra = [g for g in contra if world.authority(g.fact_id).rank("verified") == 1]
     if items and items[0].marker is Marker.ASSERTED and not verified_contra:
         return ResponsePlan(Act.ANSWER, "answer yes/no", tuple(items), Rhetorical.ANSWER, Marker.ASSERTED, "full", register, 1, ("cite evidence",), ())
