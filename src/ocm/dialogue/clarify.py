@@ -5,7 +5,7 @@ task's registered query family Q (the answers the task needs), the value of aski
 of query cells whose answer *differs* across the candidates, i.e. cells that move from UNKNOWN to
 LIVE/DEAD once the ambiguity is collapsed — minus the interaction cost and a repeat penalty.
 
-    value(question) = |{q ∈ Q : answer_q(a_i) ≠ answer_q(a_j) for some i, j in the question's split}|
+    value(question) = E[# cells of Q determined after the answer]   (uniform prior over candidates)
                       − cost(question) − repeat_penalty(question)
     ask  iff  max over questions value > 0
 
@@ -39,17 +39,24 @@ class Decision:
     reason: str
 
 
-def cells_separated(candidates: Sequence[Hashable], queries: Mapping[str, Answer], split: Sequence[frozenset]) -> int:
-    """Query cells whose answer is not constant on some block-pair the question separates —
-    counted as cells that would leave UNKNOWN if the question were answered."""
-    moved = 0
+def cells_separated(candidates: Sequence[Hashable], queries: Mapping[str, Answer], split: Sequence[frozenset]) -> float:
+    """Expected number of query cells that become *determined* once the question is answered,
+    under a uniform prior over the candidates: for each cell whose answer varies across the
+    candidates, Σ_blocks (|block| / n) · [answer constant on the block].  A question that pins
+    every candidate scores the full cell; one that isolates a single candidate scores 1/n of it."""
+    cs = [c for c in candidates]
+    n = len(cs)
+    if n == 0:
+        return 0.0
+    moved = 0.0
     for name, ans in queries.items():
-        by_block = [frozenset(ans(c) for c in block if c in candidates) for block in split]
-        overall = {ans(c) for c in candidates}
+        overall = {ans(c) for c in cs}
         if len(overall) <= 1:
             continue                                   # constant across candidates: irrelevant cell
-        if any(len(b) == 1 for b in by_block if b):    # some block pins the answer
-            moved += 1
+        for block in split:
+            members = [c for c in block if c in cs]
+            if members and len({ans(c) for c in members}) == 1:
+                moved += len(members) / n
     return moved
 
 
@@ -67,12 +74,12 @@ def decide(candidates: Sequence[Hashable], queries: Mapping[str, Answer], questi
     best = next(q for q in questions if q.question_id == best_id)
     if values[best_id] > 0:
         return Decision(True, best, values[best_id], values, "ambiguity changes a needed answer")
-    if all(cells_separated(candidates, queries, q.split) == 0 for q in questions):
+    if all(cells_separated(candidates, queries, q.split) == 0.0 for q in questions):
         return Decision(False, None, values[best_id], values, "ambiguity irrelevant to the pending queries")
     return Decision(False, None, values[best_id], values, "value does not cover cost")
 
 
-def binary_questions(candidates: Sequence[Hashable], describe: Callable[[Hashable], str], cost: float = 1.0) -> list[Question]:
+def binary_questions(candidates: Sequence[Hashable], describe: Callable[[Hashable], str], cost: float = 0.5) -> list[Question]:
     """One 'did you mean X?' question per candidate (splits {X} vs rest) plus the full menu."""
     cs = list(candidates)
     qs = [Question(f"is:{c}", f"Did you mean {describe(c)}?", (frozenset({c}), frozenset(x for x in cs if x != c)), cost) for c in cs]
