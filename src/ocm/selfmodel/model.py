@@ -109,15 +109,17 @@ class SelfModel:
         self.components[c.component_id] = c
         return self.record(f"component:{c.component_id}@{c.version}", {"component": c.component_id, "kind": c.kind.value, "version": c.version, "fingerprint": c.fingerprint})
 
-    def record(self, key: str, payload: Mapping[str, Any], *, channel: Channel = Channel.OBSERVATION) -> str:
-        """A self-observation: OBSERVATION evidence scoped to `self` with self-model authority only."""
-        _, eid = self.runtime.admit_evidence({"self": key, **payload}, channel, "self_model", scope=Scope.of("self"), authority=self.authority)
+    def record(self, key: str, payload: Mapping[str, Any], *, channel: Channel = Channel.OBSERVATION, derived_from: Sequence[str] = ()) -> str:
+        """A self-observation: evidence scoped to `self` with self-model authority only.  A record
+        derived from traces cites them (E1): revoking a trace reopens every diagnosis built on it."""
+        known = [e for e in derived_from if e in self.runtime.state.evidence.records]
+        _, eid = self.runtime.admit_evidence({"self": key, **payload}, channel, "self_model", scope=Scope.of("self"), authority=self.authority, derived_from=WarrantProfile.of(set(known)) if known else None)
         self.evidence[key] = eid
         return eid
 
     def ingest_failure(self, f: FailureRecord) -> str:
         self.failures[f.failure_id] = f
-        return self.record(f"failure:{f.failure_id}", {"task": f.task_id, "env": f.environment, "observed": f.observed, "expected": f.expected, "traces": list(f.trace_ids), "layers": [l.value for l in f.candidate_layers], "frequency": f.frequency, "severity": f.severity})
+        return self.record(f"failure:{f.failure_id}", {"task": f.task_id, "env": f.environment, "observed": f.observed, "expected": f.expected, "traces": list(f.trace_ids), "layers": [l.value for l in f.candidate_layers], "frequency": f.frequency, "severity": f.severity}, derived_from=f.trace_ids)
 
     def record_benchmark(self, name: str, result: Mapping[str, Any]) -> str:
         self.benchmarks.append({"name": name, **result})

@@ -46,8 +46,11 @@ INTAKES: tuple[Intake, ...] = (
     Intake("C4 enabling verdict absorbs CANNOT_CHECK", "batch 3 (PR #341)", ("KS-T68", "KS-T69"), "solve loop discarded the enabled set (S20)", "ledger S20", IntakeStatus.DEFECT_FOUND),
     Intake("C7 verdict policy", "batch 3 (PR #341)", ("KS-T70",), None, None, IntakeStatus.DISCHARGED),
     Intake("D1 equivalence names its scale", "batch 4 (PR #343)", ("KS-T71",), "equivalence verdicts without a scale (S28)", "M7 report §8 addendum; ledger S28", IntakeStatus.DEFECT_FOUND),
-    Intake("E2 diagnosis distribution / E3 obstruction LIVE-warrant clause", "batch 5 (in progress)", ("KS-T97", "KS-T98"), None, None, IntakeStatus.IMPORTED),
-    Intake("E4 proposal-only authority / E5 shadow non-interference / E6 exact rollback / E7 meter", "batch 5 (in progress)", ("KS-T99", "KS-T100", "KS-T101", "KS-T102"), None, None, IntakeStatus.IMPORTED),
+    Intake("E1 self-model fibre without self-authority", "batch 5 (PR #344)", ("KS-T96",), "failure records were plain observations: revoking a trace did not reopen the diagnoses built on it", "ledger S34; tests/m11/test_batch5_defects.py::test_E1", IntakeStatus.DEFECT_FOUND),
+    Intake("E2 diagnosis distribution / E3 obstruction certificate ⇔ Jump precondition", "batch 5 (PR #344)", ("KS-T97", "KS-T98"), "alarm took a frequency term; certificate judged its own alternative list instead of the registry closure", "ledger S34; tests/m11/test_batch5_defects.py::test_E2_E3", IntakeStatus.DEFECT_FOUND),
+    Intake("E4 proposal object and pre-outcome prediction / E5 shadow non-interference and assurance chain", "batch 5 (PR #344)", ("KS-T99", "KS-T100"), "no disjointness clause on the proposer's dev tasks; digest string instead of a K_self receipt; non-interference compared the state hash only", "ledger S34; tests/m11/test_batch5_defects.py::test_E4_E5, ::test_E5", IntakeStatus.DEFECT_FOUND),
+    Intake("E6 stamped DPO adoption and hash-exact rollback / E7 meter and livelock bound", "batch 5 (PR #344)", ("KS-T101", "KS-T102"), "rollback left caches and exactness to the caller; the meter was a mutable field reachable through a nested key", "ledger S34; tests/m11/test_batch5_defects.py::test_E6, ::test_E7", IntakeStatus.DEFECT_FOUND),
+    Intake("E8 KS-T12/T14 improvement halves", "batch 5 (PR #344)", ("KS-T12", "KS-T14"), None, None, IntakeStatus.OPEN),
 )
 
 EXPORTS: tuple[Export, ...] = (

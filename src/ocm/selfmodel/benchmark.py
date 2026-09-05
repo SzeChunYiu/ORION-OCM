@@ -163,10 +163,10 @@ def run_scenario(sc: Scenario, root) -> dict[str, Any]:
     cls = PR.minimum_class_for(d.minimum_sufficient) if d.minimum_sufficient else PR.ChangeClass.C0_PARAMETERS
     pred = PR.Prediction(("target",), (), {"steps": 0}, ("preservation",), (), ("none",), 0.1)
     prop = PR.SelfChangeProposal(f"p:{sc.scenario_id}", "1", (failure_eid,), f"layer.{d.minimum_sufficient}", d.minimum_sufficient or "D0", "fp-inc", cls, {"fix": sc.scenario_id}, sc.fix, pred, ("preservation",), (), "target", "restore previous machine", "enterprise", "w1", PR.Origin.EXISTING_ALTERNATIVE)
-    pred_digest = prop.prediction.digest()
+    receipt = GV.register_prediction(rt, prop)                                   # K_self receipt before any outcome access (E5)
     suites = {"target": target, "preservation": preservation}
     sh = GV.shadow_evaluate(rt, m, prop, runner, suites)
-    a = GV.assure(prop, sh, protocol_hash="frozen", frozen_protocol_hash="frozen", prediction_digest_before_access=pred_digest, budget={"steps": 200}, rollback_exists=True)
+    a = GV.assure(prop, sh, protocol_hash="frozen", frozen_protocol_hash="frozen", budget={"steps": 200}, rollback_exists=True, prediction_receipt=receipt, runtime=rt, held_out_task_ids=[t.task_id for t in target + preservation])
     ledger = GV.AdoptionLedger(rt)
     ledger.propose(prop)
     dec = GV.ExternalAdopter("token").decide(prop, a)
@@ -180,8 +180,9 @@ def run_scenario(sc: Scenario, root) -> dict[str, Any]:
     broad = None
     if sc.broad is not None:
         bprop = PR.SelfChangeProposal(f"pb:{sc.scenario_id}", "1", (failure_eid,), "organisation", "D7", "fp-inc", PR.ChangeClass.C5_ORGANISATION, {"rewrite": sc.scenario_id}, sc.broad, pred, ("preservation",), (), "target", "restore", "enterprise", "w1", PR.Origin.LEARNED)
+        breceipt = GV.register_prediction(rt, bprop)
         shb = GV.shadow_evaluate(rt, m, bprop, runner, suites)
-        ab = GV.assure(bprop, shb, protocol_hash="frozen", frozen_protocol_hash="frozen", prediction_digest_before_access=bprop.prediction.digest(), budget={"steps": 200}, rollback_exists=True)
+        ab = GV.assure(bprop, shb, protocol_hash="frozen", frozen_protocol_hash="frozen", budget={"steps": 200}, rollback_exists=True, prediction_receipt=breceipt, runtime=rt, held_out_task_ids=[t.task_id for t in target + preservation])
         broad = {"assurance": ab.passed, "reasons": list(ab.reasons), "minimum_sufficient": PR.is_minimum_sufficient(bprop, sc.true_layer), "target": f"{shb.challenger['target']['success']}/{len(target)}", "preservation": f"{shb.challenger['preservation']['success']}/{len(preservation)}", "refused": (not ab.passed) or not PR.is_minimum_sufficient(bprop, sc.true_layer)}
     return {"scenario": sc.scenario_id, "true_layer": sc.true_layer, "diagnosed": d.minimum_sufficient, "diagnosis_correct": d.minimum_sufficient == sc.true_layer, "weights": d.weights, "unknown": list(d.unknown), "escalation_allowed": esc_ok, "escalation_reason": esc_why,
             "false_jump": esc_ok and sc.true_layer in ("D1", "D2", "D6"), "missed_jump": (not esc_ok) and sc.true_layer == "D3", "architecture_alarm": d.architecture_alarm,

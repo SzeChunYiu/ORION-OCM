@@ -33,7 +33,7 @@ class Diagnosis:
     evidence: tuple[str, ...]
 
 
-def diagnose(f: FailureRecord, *, certificate: "ObstructionCertificate | None" = None) -> Diagnosis:
+def diagnose(f: FailureRecord, *, certificate: "ObstructionCertificate | None" = None, registry: "Mapping[Layer, Sequence[str]] | None" = None) -> Diagnosis:
     touched: dict[Layer, list[bool]] = {}
     for a in f.ablations:
         touched.setdefault(a.layer, []).append(a.task_succeeded)
@@ -41,7 +41,8 @@ def diagnose(f: FailureRecord, *, certificate: "ObstructionCertificate | None" =
     unknown = tuple(l.value for l in f.candidate_layers if l not in touched)
     restoring = [l for l in ORDER if l in touched and any(touched[l])]
     minimum = restoring[0].value if restoring else None
-    alarm = minimum is not None and Layer(minimum) not in LOCAL and f.frequency >= 3 and certificate is not None and certificate.valid()
+    # E2: repeated failure never contributes; the alarm is the certificate's, never the symptom count's
+    alarm = minimum is not None and Layer(minimum) not in LOCAL and certificate is not None and certificate.valid(registry)
     return Diagnosis(weights, unknown, minimum, alarm, tuple(a.evidence_id for a in f.ablations))
 
 
@@ -68,9 +69,14 @@ class ObstructionCertificate:
     narrower_insufficient_because: str
     revoked: frozenset = frozenset()
 
-    def valid(self) -> bool:
+    def valid(self, registry: "Mapping[Layer, Sequence[str]] | None" = None) -> bool:
+        """E3(iii): when a component registry is supplied, the alternatives that must have been tried
+        are the registry's closure for the incumbent layer, not the certificate's own list."""
+        required = tuple(registry.get(self.incumbent_layer, ())) if registry is not None else self.registered_alternatives
+        if registry is not None and set(required) - set(self.registered_alternatives):
+            return False                        # the certificate omitted a registered alternative
         tried = {a.alternative_id: a for a in self.attempts}
-        if any(alt not in tried for alt in self.registered_alternatives):
+        if any(alt not in tried for alt in required):
             return False
         if any(a.succeeded for a in tried.values()):
             return False
@@ -94,14 +100,24 @@ class ObstructionCertificate:
         return out
 
 
-def escalation_allowed(d: Diagnosis, certificate: ObstructionCertificate | None) -> tuple[bool, str]:
+def escalation_allowed(d: Diagnosis, certificate: ObstructionCertificate | None, registry: "Mapping[Layer, Sequence[str]] | None" = None) -> tuple[bool, str]:
     if d.minimum_sufficient is None:
         return False, "no ablation restored the task: gather more evidence (UNKNOWN), do not escalate"
     if Layer(d.minimum_sufficient) in LOCAL:
         return False, f"minimum-sufficient layer {d.minimum_sufficient} is local: repair there"
-    if certificate is None or not certificate.valid():
-        return False, "no valid obstruction certificate: " + ("; ".join(certificate.reasons()) if certificate else "none supplied")
+    if certificate is None or not certificate.valid(registry):
+        return False, "no valid obstruction certificate: " + ("; ".join(certificate.reasons()) if certificate else "none supplied") + ("" if registry is None or certificate is None else "; registry closure required")
     return True, f"escalate to {d.minimum_sufficient} under certificate"
+
+
+def mutant_repeated_failure_is_architecture(f: FailureRecord) -> bool:
+    """Planted (E2 hostile): frequency ≥ 3 raises the architecture alarm without a certificate."""
+    return f.frequency >= 3
+
+
+def mutant_certificate_lists_its_own_alternatives(cert: ObstructionCertificate) -> bool:
+    """Planted (E3(iii) hostile): validity judged against the certificate's own list, ignoring the registry."""
+    return cert.valid(None)
 
 
 def mutant_low_score_is_architecture(f: FailureRecord) -> bool:
