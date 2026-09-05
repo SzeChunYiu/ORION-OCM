@@ -20,6 +20,18 @@ class LifetimeMetricTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             TouchMeasure(("a", "a"))
 
+    def test_auxiliary_counts_cannot_pad_n(self):
+        state = StateMeasure({"atoms": 2}, auxiliary_counts={"warrant_entries": 100}, object_grammar="test")
+        self.assertEqual(state.logical_n, 2)
+
+    def test_measured_global_scan_must_be_in_k(self):
+        with self.assertRaises(ValueError):
+            TouchMeasure(("a",), global_scan_items=2)
+
+    def test_touch_classification_partitions_ids(self):
+        with self.assertRaises(ValueError):
+            TouchMeasure(("a", "b"), {"atoms": ("a",)})
+
     def test_k_cannot_exceed_n(self):
         state = StateMeasure({"objects": 1}, object_grammar="test")
         with self.assertRaises(ValueError):
