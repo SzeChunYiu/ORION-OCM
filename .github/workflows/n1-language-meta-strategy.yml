@@ -1,0 +1,26 @@
+name: N1 language meta strategy
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-n1/language_meta_strategy.py'
+      - 'research/ocm-n1/test_language_meta_strategy.py'
+      - '.github/workflows/n1-language-meta-strategy.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-n1/language_meta_strategy.py'
+      - 'research/ocm-n1/test_language_meta_strategy.py'
+      - '.github/workflows/n1-language-meta-strategy.yml'
+permissions:
+  contents: read
+jobs:
+  meta-strategy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Learned acquisition-policy calibration and parent subtraction
+        run: |
+          python research/ocm-n1/test_language_meta_strategy.py
+          python research/ocm-n1/language_meta_strategy.py
