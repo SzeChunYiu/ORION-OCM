@@ -29,7 +29,7 @@ from ocm.language import lexicon as L
 
 UPOS_TO_CATEGORY = {"NOUN": L.Category.NOUN, "PROPN": L.Category.NOUN, "VERB": L.Category.VERB, "AUX": L.Category.AUX, "ADJ": L.Category.ADJ, "DET": L.Category.DET,
                     "PRON": L.Category.PRON, "ADP": L.Category.PREP, "CCONJ": L.Category.CONJ, "SCONJ": L.Category.CONJ, "ADV": L.Category.ADV, "PART": L.Category.NEG}
-NODE_TYPE = {L.Category.NOUN: "entity", L.Category.VERB: "event", L.Category.ADJ: "property", L.Category.ADV: "manner", L.Category.PRON: "entity"}
+NODE_TYPE = {L.Category.NOUN: "entity", L.Category.VERB: "event", L.Category.ADJ: "property", L.Category.ADV: "property", L.Category.PRON: "entity", L.Category.AUX: "event", L.Category.DET: "quantifier"}
 CORE_RELS = ("nsubj", "nsubj:pass", "obj", "iobj", "obl", "xcomp", "ccomp", "cop", "aux", "aux:pass", "expl")
 
 
@@ -133,7 +133,7 @@ def induce(sentences: Iterable[Sentence], *, evidence_prefix: str = "ud") -> Ind
     for key, ev in senses.items():
         lemma, _ = key.split("|")
         cat = cat_of[key]
-        node_type = NODE_TYPE.get(cat, "function")
+        node_type = NODE_TYPE.get(cat, "value")
         lx.add(L.Lexeme(lemma, cat, (L.Sense(f"{lemma}:{cat.value}", lemma, node_type, WP.of(set(ev))),)))
         ind.attestations[key] = len(ev)
     for lemma, past in ind.irregular_past.items():
