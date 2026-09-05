@@ -4,7 +4,8 @@ The historical M3 matcher materialises every recursive phrase attachment.  That
 is exact on the bounded microworld but its N1 EWT experiment exhausted memory.
 This research-lane parser keeps the *same* Lexeme/Reading/Construction semantics
 while packing subderivations that have the same span, phrase type, construction,
-head-reading identity and canonical meaning.
+head-reading identity and meaning (canonical within the existing size bound,
+structurally identical above it).
 
 The chart reports exact derivation multiplicity for the represented construction
 inventory.  It does not silently equate derivation multiplicity with semantic
@@ -22,7 +23,7 @@ receipt; it does not rewrite sealed historical M1-M12 source inventories.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any, Hashable, Iterable, Mapping, Sequence
 
 from ocm.kso.nogoods import NogoodSet
@@ -31,7 +32,7 @@ from ocm.kso.warrant import Liveness, meet_all_profiles
 from ocm.language.constructions import CandidateMeaning, Construction, Match, Phrase, Slot, realise_candidate
 from ocm.language.interpret import Interpretation, SaidRecord, Verdict, select, tokenize
 from ocm.language.lexicon import Analysis, AnalysisStatus, Lexicon, Reading
-from ocm.language.meaning import canonical
+from ocm.language.meaning import MAX_EXACT_CANONICAL, MeaningGraph, canonical
 
 
 class ChartCannotCheck(ValueError):
@@ -88,9 +89,19 @@ def _reading_signature(r: Reading) -> tuple[Any, ...]:
     )
 
 
+def _meaning_signature(meaning: MeaningGraph) -> tuple[Any, ...]:
+    # Intermediate phrases need not become clause candidates. Above the exact
+    # canonical bound, use the immutable graph itself: this packs fewer graphs
+    # but neither merges distinct structures nor rejects unused phrases. Final
+    # candidates still pass through the historical bounded canonical checker.
+    if len(meaning.nodes) > MAX_EXACT_CANONICAL:
+        return ("structural", meaning)
+    return ("canonical", canonical(meaning)[1])
+
+
 def _value_signature(value: Any) -> tuple[Any, ...]:
     if isinstance(value, Reading):
-        return ("R", *_reading_signature(value))
+        return ("R", *_reading_signature(value), value.warrant)
     if isinstance(value, Phrase):
         return (
             "P",
@@ -98,7 +109,8 @@ def _value_signature(value: Any) -> tuple[Any, ...]:
             value.span,
             value.construction_id,
             _reading_signature(value.head),
-            canonical(value.meaning)[1],
+            _meaning_signature(value.meaning),
+            value.warrant,
         )
     raise TypeError(f"unsupported chart binding: {type(value).__name__}")
 
@@ -113,7 +125,7 @@ def _phrase_key(phrase: Phrase) -> tuple[Any, ...]:
         phrase.phrase_type,
         phrase.construction_id,
         _reading_signature(phrase.head),
-        canonical(phrase.meaning)[1],
+        _meaning_signature(phrase.meaning),
     )
 
 
@@ -244,7 +256,10 @@ def packed_phrase_table(
                     key = _phrase_key(phrase)
                     if key in cell:
                         old = cell[key]
-                        cell[key] = PackedPhrase(old.phrase, old.derivations + multiplicity)
+                        cell[key] = PackedPhrase(
+                            replace(old.phrase, warrant=old.phrase.warrant.join(phrase.warrant)),
+                            old.derivations + multiplicity,
+                        )
                     else:
                         cell[key] = PackedPhrase(phrase, multiplicity)
             if cell:
@@ -282,6 +297,7 @@ def packed_matches(
             match = Match(c, bindings, (0, end))
             key = (
                 c.construction_id,
+                c.warrant,
                 match.span,
                 _bindings_signature(bindings),
             )
