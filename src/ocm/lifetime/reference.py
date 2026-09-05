@@ -196,3 +196,28 @@ def phase_A_reference_stream(arm: OllamaReferenceArm, stream: dict[str, Any]) ->
     neg = [classify(arm.say(u)) in _expect(pat) for u, pat in stream["negative_transfer"]]
     return {"factual_in_scope": fin, "honest_unknown": unk, "post_deployment": steps, "negative_transfer": neg, "conversations": "NOT_MEASURED", "always_attempts": sum(1 for ok in unk if not ok)}
 
+
+def four_class(reply: str, licensed_answer: str | None, world_truth: bool | None) -> str:
+    """Batch 7 G7 grading: licensed (answer follows from the given facts and rules) / unlicensed-true
+    (not derivable, but true in the world) / unlicensed-false / wrong."""
+    c = classify(reply)
+    if licensed_answer is not None:
+        return "licensed" if c == licensed_answer else "wrong"
+    if c == "unknown":
+        return "licensed"                                    # the licensed answer for an unsettled question is UNKNOWN
+    if world_truth is None:
+        return "unlicensed"
+    return "unlicensed_true" if (c == "yes") == world_truth else "unlicensed_false"
+
+
+def four_class_vector(arm: OllamaReferenceArm, stream: dict[str, Any]) -> dict[str, int]:
+    from ocm.lifetime.streams import OUT_OF_SCOPE_TRUE
+    out = {"licensed": 0, "unlicensed_true": 0, "unlicensed_false": 0, "wrong": 0, "unlicensed": 0}
+    for q, pat in stream["factual"]:
+        if pat == "I do not know":
+            truth = True if q in OUT_OF_SCOPE_TRUE else False    # the M7 out-of-scope items are world-false by construction
+            out[four_class(arm.say(q), None, truth)] += 1
+        elif pat == "Yes.":
+            out[four_class(arm.say(q), "yes", None)] += 1
+    return out
+

@@ -27,6 +27,9 @@ OBJECTS = ("door", "box", "key", "ball", "cup", "book")
 REGULAR = tuple(v for v, p in W.VERBS_PAST.items() if p == v + "ed")
 IRREGULAR = tuple(v for v, p in W.VERBS_PAST.items() if p != v + "ed")
 NONCE_POOL = ("torch", "plank", "marble", "sled", "totem", "urn", "vial", "yoke", "zither", "quill", "bolt", "hinge", "ladle", "mortar", "pulley", "rudder", "spool", "trowel", "visor", "wick", "awl", "bobbin", "chisel", "dowel")
+# Batch 7 G7: the M7 out-of-scope questions are all world-false; a world-TRUE but unlicensed half
+# lets the grading separate "licensed by the given facts" from "true in the world".
+OUT_OF_SCOPE_TRUE = ("is tokyo in japan", "is madrid in spain", "is a whale a mammal", "is a rose a plant", "is oslo in norway", "is a piano an instrument", "is lisbon in portugal", "is an oak a tree", "is a salmon a fish", "is vienna in austria")
 NONCE_MEANINGS = ("lamp", "shelf", "small stone", "cart", "garden statue", "pot", "shipping container", "small robot", "instrument", "tool", "rope", "basket")
 
 
@@ -50,7 +53,7 @@ def _verified_questions() -> dict[str, list[str]]:
     return out
 
 
-def build_stream(k: int, *, seed: str = "OCM-M12-V3") -> dict[str, Any]:
+def build_stream(k: int, *, seed: str = "OCM-M12-V3", world_true_half: bool = False) -> dict[str, Any]:
     rng = random.Random(f"{seed}|lifetime|{k}")
     agents = list(AGENTS); rng.shuffle(agents)
     objects = list(OBJECTS); rng.shuffle(objects)
@@ -128,15 +131,18 @@ def build_stream(k: int, *, seed: str = "OCM-M12-V3") -> dict[str, Any]:
         lessons.append((l2, word_sub(use), word_sub(ask), word_sub(passive)))
     negatives = [(word_sub(u), p) for u, p in M7.NEGATIVE_TRANSFER_V2]
     factual = [(question_sub(q, pat) if pat in ("Yes.",) or pat.startswith("I do not know") else q, pat) for q, pat in M7.factual_suite()]
+    if world_true_half:
+        wt = list(OUT_OF_SCOPE_TRUE); rng.shuffle(wt)
+        factual += [(q, "I do not know") for q in wt]                              # unlicensed by the given facts although world-true
     stream = {"lifetime": k, "seed": seed, "maps": {"noun": noun_map, "verb": verb_map, "nonce": dict(state["nonce"])}, "conversations": new_convs, "lessons": lessons, "negative_transfer": negatives, "factual": factual,
               "work_task_ids": list(range(500 + 20 * k, 500 + 20 * k + 10)), "work_withheld_ids": list(range(700 + 3 * k, 700 + 3 * k + 3)), "science_dataset_ids": list(range(200 + 12 * k, 212 + 12 * k)), "ordering": ("O1", "O2", "O3")[k % 3]}
     stream["sha256"] = hashlib.sha256(json.dumps({kk: v for kk, v in stream.items() if kk != "sha256"}, sort_keys=True, default=str).encode()).hexdigest()
     return stream
 
 
-def stream_manifest(n: int = 8, *, seed: str = "OCM-M12-V3") -> dict[str, Any]:
-    streams = [build_stream(k, seed=seed) for k in range(n)]
-    man = {"manifest": "M12_V3_STREAM_MANIFEST_V1", "seed": seed, "lifetimes": n, "streams": [{"lifetime": s["lifetime"], "sha256": s["sha256"], "maps": s["maps"], "ordering": s["ordering"], "work_task_ids": s["work_task_ids"], "science_dataset_ids": s["science_dataset_ids"]} for s in streams]}
+def stream_manifest(n: int = 8, *, seed: str = "OCM-M12-V3", world_true_half: bool = False, name: str = "M12_V3_STREAM_MANIFEST_V1") -> dict[str, Any]:
+    streams = [build_stream(k, seed=seed, world_true_half=world_true_half) for k in range(n)]
+    man = {"manifest": name, "seed": seed, "lifetimes": n, **({"world_true_half": True} if world_true_half else {}), "streams": [{"lifetime": s["lifetime"], "sha256": s["sha256"], "maps": s["maps"], "ordering": s["ordering"], "work_task_ids": s["work_task_ids"], "science_dataset_ids": s["science_dataset_ids"]} for s in streams]}
     man["sha256"] = hashlib.sha256(json.dumps(man, sort_keys=True).encode()).hexdigest()
     return man
 
