@@ -51,6 +51,8 @@ class MinimalLanguageLearningTests(unittest.TestCase):
         result = run()
         self.assertEqual(result["time_zero_language_specific_objects"], 0)
         self.assertFalse(result["protected_claim_authority"])
+        self.assertEqual(result["svo"]["learned_hypothesis"], "SVO")
+        self.assertEqual(result["sov"]["learned_hypothesis"], "SOV")
         self.assertTrue(result["svo"]["held_out_composition"])
         self.assertTrue(result["sov"]["held_out_composition"])
         self.assertTrue(result["construction_warrant_revocable"])
