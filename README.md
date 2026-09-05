@@ -6,9 +6,7 @@ OCM is a research programme toward a minimal self-extending cognitive machine th
 
 ## Current programme priority
 
-**Finish one vertical product before expanding the architecture: `LANGUAGE_KSO_ALPHA` / Conversational OCM Alpha.**
-
-Until that gate is earned, Method-KSO, Science-KSO, frontier-math, wisdom/principle, and broader self-reorganization work are preserved as research candidates but are not the active execution priority.
+**Roadmap v1 is closed (M0–M12, issue #1).** The Conversational Alpha gate (M6/M7) was earned; method space (M9), science (M10), governed self-reorganisation (M11) and the full lifetime evaluation (M12) followed in order. The next priority is the M12 revival backlog (`docs/OCM_PROGRAMME_TERMINALS_V1.md`) and the ORION-V2 theory loop; new architecture work still starts only when a predecessor closes with an explicit terminal.
 
 The active target is a runnable machine that can sustain real multi-turn English conversation over a bounded knowledge world while:
 
@@ -34,10 +32,24 @@ This repository is being initialized from the OCM research stack developed in `S
 
 ## Milestone state
 
-| milestone | terminal | receipt |
-|---|---|---|
-| M0 canonical repository | `M0_CANONICAL_REPO_GREEN` | `docs/provenance/M0_RECEIPT_V1.json` |
-| M1 KSO core consolidation | `M1_KSO_CORE_GREEN` (issue #3) | `docs/provenance/M1_RECEIPT_V1.json`; checker `python -m ocm.kso.checks`; registry `docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json` |
+Roadmap v1 (M0–M12) is complete; every terminal is receipt-bound and indexed in
+`docs/OCM_PROGRAMME_TERMINALS_V1.md`.
+
+| milestone | issue | terminal | receipt | report |
+|---|---|---|---|---|
+| M0 canonical repository | #2 | `M0_CANONICAL_REPO_GREEN` | `docs/provenance/M0_RECEIPT_V1.json` | — |
+| M1 KSO core | #3 | `M1_KSO_CORE_GREEN` | `docs/provenance/M1_RECEIPT_V1.json` | — |
+| M2 unified KSO runtime | #4 | `M2_UNIFIED_RUNTIME_GREEN` | `docs/provenance/M2_RECEIPT_V1.json` | — |
+| M3 language understanding + meaning | #5 | `M3_LANGUAGE_UNDERSTANDING_GREEN` | `docs/provenance/M3_RECEIPT_V1.json` | — |
+| M4 dialogue workspace | #6 | `M4_DIALOGUE_COGNITIVE_LOOP_GREEN` | `docs/provenance/M4_RECEIPT_V1.json` | — |
+| M5 continual language acquisition | #7 | `M5_CONTINUAL_LANGUAGE_LEARNING_GREEN` | `docs/provenance/M5_RECEIPT_V1.json` | — |
+| M6 Conversational Alpha | #8 | `LANGUAGE_KSO_ALPHA` | `docs/provenance/M6_RECEIPT_V1.json` | `docs/LANGUAGE_KSO_ALPHA_REPORT.md` |
+| M7 protected matched comparison | #9 | `MIXED (claim-by-claim; see terminal_table)` | `docs/provenance/M7_RECEIPT_V1.json` | `docs/M7_PROTECTED_COMPARISON_REPORT.md` |
+| M8 learned KSO organisation | #10 | `M8_PARENT_SUFFICIENT_AT_THIS_SCALE` | `docs/provenance/M8_RECEIPT_V1.json` | `docs/M8_ORGANISATION_REPORT.md` |
+| M9 method space + work transfer | #11 | `M9_CANNOT_CHECK_FOR_SUPPORTED_AT_THIS_N` | `docs/provenance/M9_RECEIPT_V1.json` | `docs/M9_TRANSFER_REPORT.md` |
+| M10 scientific/formal reasoning | #12 | `M10_MIXED_CLAIM_BY_CLAIM` | `docs/provenance/M10_RECEIPT_V1.json` | `docs/M10_SCIENCE_REPORT.md` |
+| M11 governed self-reorganisation | #13 | `M11_MIXED_CLAIM_BY_CLAIM` | `docs/provenance/M11_RECEIPT_V1.json` | `docs/M11_SELF_REORGANISATION_REPORT.md` |
+| M12 full heterogeneous lifetime | #14 | `FULL_OCM_RESIDUAL_SUPPORTED` | `docs/provenance/M12_RECEIPT_V1.json` | `docs/M12_LIFETIME_REPORT.md` |
 
 Active core: `src/ocm/kso/` (specs under `docs/spec/`). The build is itself run as an OCM problem —
 see `docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md`.
