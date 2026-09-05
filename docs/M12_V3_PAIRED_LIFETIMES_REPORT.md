@@ -60,7 +60,23 @@ mid-run (ledger S36); it was re-run from the correct tree with an identical dete
 
 ## 4. Reference arm on the same streams
 
-REFERENCE_PLACEHOLDER
+Local open-weight model `qwen2.5:7b-instruct-q4_K_M` (Ollama digest `845dbda0ea48ed74…`), one fresh
+instance per stream, same facts/lessons/questions in the prompt, semantic grading, REFERENCE label
+(F8), never in the decision. Totals over the eight streams (reference / OCM / parent):
+
+| Family | reference | OCM | parent |
+|---|---|---|---|
+| factual in-scope | 228/240 | 240/240 | 216/240 |
+| honest unknown | 0/160 (answers every out-of-scope question from pretraining) | 160/160 | 136/160 |
+| negative-transfer probes | 35/56 | 56/56 | 40/56 |
+| lessons: acquired / reuse / retained / revoked-stops / relearned | 24/48 / 28/48 / 30/48 / 30/48 / 31/48 | 48 / 40 / 48 / 32 / 48 | 24 / 24 / 24 / 48 / 24 |
+
+Per-stream acquisition varies from 6/6 to 1/6 (6/6, 6/6, 4/6, 2/6, 1/6, 1/6, 3/6, 1/6): the nonce words carry pretrained
+meanings (a "spool", a "zither") that the model will not override with the lesson's meaning, so
+the unbound pretraining channel that lets it answer out-of-scope questions also blocks it from
+learning the bounded world's lessons — the two faces of F8, and the reason a reference arm is not
+a matched comparator. Wall time 586.9 s for 8 × 124 calls; runs are not bit-reproducible on
+the laptop GPU (descriptive). Receipt fields: `research/ocm-m12/M12_V3_REFERENCE_ARM_V1.json`.
 
 ## 5. What V3 does and does not show
 
