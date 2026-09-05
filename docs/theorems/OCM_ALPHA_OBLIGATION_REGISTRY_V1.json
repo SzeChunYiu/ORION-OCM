@@ -1,0 +1,92 @@
+{
+  "registry": "OCM_ALPHA_OBLIGATION_REGISTRY_V1",
+  "milestone": "M6",
+  "extends": "OCM_ACQUISITION_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T60",
+      "gap": "MEG-05/16",
+      "statement": "Knowledge provenance: 'source asserts P' (IMPORTED, source=1), 'P parsed' (digest) and 'P verified' (separate evidence, verified=1) are distinct records; the fact warrant is ⊕ assertions ⊗ verification; repetition of assertions never raises authority; revoking one source kills exactly the facts it alone supported.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/knowledge/world.py; KS-T22; batch-2 B1",
+      "checker": "tests/m6/test_world_realize.py",
+      "mutant": "world.mutant_repetition_raises_authority",
+      "parent": "provenance semirings (Green–Karvounarakis–Tannen 2007) — candidate",
+      "limitation": "hand-authored manifest; Simple Wikipedia text ingestion is custody-only"
+    },
+    {
+      "id": "KS-T61",
+      "gap": "MEG-25",
+      "statement": "Realisation is a codec: every candidate surface is re-interpreted and kept only if its canonical digest equals the intended meaning; style (passive preference, contractions, certified pronouns) selects among checked variants and never changes meaning; a paraphrase that drops negation fails the reverse reading.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/language/realize.py; batch-3 C2",
+      "checker": "tests/m6/test_world_realize.py::test_realisation_is_a_checked_codec",
+      "mutant": "realize.mutant_paraphrase_changes_negation",
+      "parent": "bidirectional grammar / reversible generation (Kay 1984) — candidate",
+      "limitation": "four clause constructions"
+    },
+    {
+      "id": "KS-T62",
+      "gap": "MEG-25/27",
+      "statement": "ResponsePlan.v1 sits above realisation; content is selected only from live world facts and speaker commitments; unverified claims carry REPORTED, unknowns REPORT_UNKNOWN, contradictions REPORT_UNCERTAIN; a missing intermediate premise in an explanation is a feedback event naming the gap; the planner cannot mint a premise (the mutant does).",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/dialogue/planner.py",
+      "checker": "tests/m6/test_chat_alpha.py; research/ocm-m6/M6_ALPHA_SCENARIO_EVAL_V1.json",
+      "mutant": "planner.mutant_invent_premise",
+      "parent": "RST / content planning (Mann–Thompson 1988; Reiter–Dale 2000) — candidates",
+      "limitation": "registered question forms and rhetorical relations"
+    },
+    {
+      "id": "KS-T63",
+      "gap": "MEG-25",
+      "statement": "Every committed response passes the M4 gate; an unverified source claim or a speaker commitment cannot be rendered ASSERTED (MARKER_MISMATCH); the diagnostic trace is assembled from the runtime's actual ledger events and the plan/gate objects of the turn.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/chat/session.py _commit/_answer_world; KS-T47",
+      "checker": "tests/m6/test_chat_alpha.py (trace ties to ledger events and warrant ids)",
+      "mutant": "gate.mutant_drop_uncertainty; gate.mutant_renderer_injects_fact",
+      "parent": "—",
+      "limitation": "trace fields are those emitted; no separate explanation model exists"
+    },
+    {
+      "id": "KS-T64",
+      "gap": "—",
+      "statement": "Learning in chat persists across process restart: learned senses/constructions are stored keyed on their ledger evidence and restored; the world index is checked against the ledger (missing evidence ⇒ CANNOT_CHECK); revoking a lesson's evidence stops the capability, reinstating restores it, unrelated knowledge intact.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/chat/session.py; KS-T49",
+      "checker": "tests/m6/test_chat_alpha.py::test_alpha_demonstration_points; receipt restart_lost_state 0",
+      "mutant": "(ghost evidence on restart — tested in M4)",
+      "parent": "—",
+      "limitation": "single process"
+    },
+    {
+      "id": "KS-T65",
+      "gap": "—",
+      "statement": "Protected scenario suite (nine families) and hostile probes: 42/42 expected replies; incidents answer_laundering 0, revoked_asserted_live 0, assertion_became_belief 0, restart_lost_state 0; external IO 0.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/evaluation/m6_alpha_eval.py",
+      "checker": "research/ocm-m6/M6_ALPHA_SCENARIO_EVAL_V1.json (reproduced in CI)",
+      "mutant": "(the three hostile probes)",
+      "parent": "—",
+      "limitation": "scripted; synthetic; no human rating"
+    },
+    {
+      "id": "KS-T66",
+      "gap": "MEG-32",
+      "statement": "Blinded human evaluation (frozen protocol, report §4), matched comparators, Simple Wikipedia / Wikidata text ingestion, real protected conversations — M7 / follow-ups.",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "docs/LANGUAGE_KSO_ALPHA_REPORT.md §4 (protocol only)",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "no result claimed"
+    }
+  ]
+}

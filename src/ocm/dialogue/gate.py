@@ -116,7 +116,7 @@ class GateVerdict:
 
 
 def required_marker(liveness: Liveness, layer: str) -> Marker:
-    if layer == "speaker":
+    if layer in ("speaker", "source"):          # commitments and unverified source claims are *reported*
         return Marker.REPORTED if liveness is Liveness.LIVE else Marker.UNCERTAIN
     return {Liveness.LIVE: Marker.ASSERTED, Liveness.UNKNOWN: Marker.UNCERTAIN, Liveness.DEAD: Marker.DENIED}[liveness]
 
