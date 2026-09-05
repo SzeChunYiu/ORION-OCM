@@ -1,0 +1,35 @@
+.....................F............                                       [100%]
+=================================== FAILURES ===================================
+_____ test_checker_agrees_with_the_quadratic_oracle_on_every_dev_instance ______
+
+m = <module 'kso_exact_checker_sympy_v1' from '/workspace/scratch/d4f32334f6f3/migration-replay-dev/research/orion-machine/reference/kso_exact_checker_sympy_v1.py'>
+
+    def test_checker_agrees_with_the_quadratic_oracle_on_every_dev_instance(m):
+        alg = _load_algebra()
+        gen = getattr(alg, "generate_split", None) or getattr(alg, "generate_dev", None) or getattr(alg, "dev_instances", None)
+        assert gen is not None, "kso_algebra_quadratic_v1 exposes no generate_split/generate_dev/dev_instances"
+        try:
+>           instances = gen("dev", "ALGEBRA-DEV-20260904")
+E           TypeError: generate_split() missing 1 required positional argument: 'per_family'
+
+tests/unit/test_kso_exact_checker_sympy_v1.py:160: TypeError
+
+During handling of the above exception, another exception occurred:
+
+m = <module 'kso_exact_checker_sympy_v1' from '/workspace/scratch/d4f32334f6f3/migration-replay-dev/research/orion-machine/reference/kso_exact_checker_sympy_v1.py'>
+
+    def test_checker_agrees_with_the_quadratic_oracle_on_every_dev_instance(m):
+        alg = _load_algebra()
+        gen = getattr(alg, "generate_split", None) or getattr(alg, "generate_dev", None) or getattr(alg, "dev_instances", None)
+        assert gen is not None, "kso_algebra_quadratic_v1 exposes no generate_split/generate_dev/dev_instances"
+        try:
+            instances = gen("dev", "ALGEBRA-DEV-20260904")
+        except TypeError:
+>           instances = gen()
+E           TypeError: generate_split() missing 3 required positional arguments: 'split', 'seed', and 'per_family'
+
+tests/unit/test_kso_exact_checker_sympy_v1.py:162: TypeError
+- generated xml file: /workspace/scratch/d4f32334f6f3/migration-original-tests.xml -
+=========================== short test summary info ============================
+FAILED tests/unit/test_kso_exact_checker_sympy_v1.py::test_checker_agrees_with_the_quadratic_oracle_on_every_dev_instance
+1 failed, 33 passed in 9.01s
