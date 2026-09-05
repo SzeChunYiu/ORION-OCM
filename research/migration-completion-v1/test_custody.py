@@ -10,6 +10,14 @@ class CustodyTests(unittest.TestCase):
     def test_complete_inventory_verifies(self):
         self.assertEqual(len(replay.verify()["files"]), 39)
 
+    def test_checkout_ancestor_symlink_does_not_invalidate_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            parent = Path(td)
+            source = parent / "real" / "checkout" / "package"
+            shutil.copytree(replay.PACKAGE, source)
+            (parent / "alias").symlink_to(parent / "real", target_is_directory=True)
+            self.assertEqual(len(replay.verify(parent / "alias" / "checkout" / "package")["files"]), 39)
+
     def test_missing_changed_or_forged_source_is_refused(self):
         for mutation in ("missing", "bytes", "inventory", "adapter", "symlink"):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as td:

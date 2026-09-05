@@ -33,9 +33,13 @@ def regular(root, relative):
     path = PurePosixPath(relative)
     if path.is_absolute() or ".." in path.parts or not path.parts:
         raise CannotCheck("invalid relative path")
-    result = root / path
-    if any(p.is_symlink() for p in (result, *result.parents) if p != root.parent):
-        raise CannotCheck("symlink source is unsupported")
+    # The package location is the caller's trusted root. Inspect only its
+    # descendants; an unrelated symlink above a checkout is not source drift.
+    result = Path(root).resolve()
+    for part in path.parts:
+        result = result / part
+        if result.is_symlink():
+            raise CannotCheck("symlink source is unsupported")
     if not result.is_file():
         raise CannotCheck("missing source: " + relative)
     return result
