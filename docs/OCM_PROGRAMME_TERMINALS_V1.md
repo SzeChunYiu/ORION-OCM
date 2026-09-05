@@ -56,6 +56,16 @@ Machine-epistemics theory batches 1–5 (ORION-V2 `research/machine-epistemics-t
 5. A foundation-model reference arm with a bound information budget (batch-6 F8) when one is available.
 6. Blinded human rating of the conversation suites.
 
+
+## Post-roadmap additions (2026-09-05)
+
+| item | terminal | receipt | report |
+|---|---|---|---|
+| M11.1 / M11.2 theory intake (batches 5–6: eleven runtime obligations) | applied with hostiles; benchmark results unchanged | `docs/provenance/M11_RECEIPT_V1.json` | `docs/M11_SELF_REORGANISATION_REPORT.md` §6–§7 |
+| M12 V3 eight paired lifetimes on protected streams | `OCM_LIFETIME_RESIDUAL_SUPPORTED` (10 families 8/8 at p = 0.0078, 6 ties; replication MATCH) | `docs/provenance/M12_PAIRED_RECEIPT_V1.json` | `docs/M12_V3_PAIRED_LIFETIMES_REPORT.md` |
+| Reference arm (local open-weight LLM, F8) | REFERENCE (descriptive; never in a decision) | `docs/provenance/M12_REFERENCE_RECEIPT_V1.json` | `docs/M12_LIFETIME_REPORT.md` §10.1, V3 report §4 |
+| Paper plan | claims → receipts map; gates | — | `docs/paper/OCM_PAPER_PLAN_V1.md` |
+
 ## Branch inventory (2026-09-05)
 
 | branch | state | disposition |
