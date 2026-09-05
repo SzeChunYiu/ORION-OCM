@@ -1,0 +1,66 @@
+{
+  "schema": "ocm.comparator-development-pilot.v1",
+  "model_requested": "gpt-5.5",
+  "reasoning_effort": "high",
+  "root": "/home/billy/orion-director-work/20260906/comparator-smoke",
+  "version": "codex-cli 0.129.0-alpha.15",
+  "claim_scope": "PUBLIC_DEVELOPMENT_PLUMBING_ONLY",
+  "runs": [
+    {
+      "phase": 1,
+      "exit_code": 0,
+      "stop_reason": null,
+      "wall_s": 72.598,
+      "usage": [
+        {
+          "input_tokens": 53179,
+          "cached_input_tokens": 40448,
+          "output_tokens": 1672,
+          "reasoning_output_tokens": 461
+        }
+      ],
+      "tool_commands": [
+        "/bin/bash -lc \"sed -n '1,240p' INSTRUCTIONS.txt\"",
+        "/bin/bash -lc 'pwd && rg --files'",
+        "/bin/bash -lc \"if [ -f memory/learned.md ]; then sed -n '1,240p' memory/learned.md; else printf 'NO_MEMORY_FILE\\\\n'; fi\"",
+        "/bin/bash -lc 'python3 tools/check_polynomial.py --program inc,square,dec --coefficients 0,2,1'",
+        "/bin/bash -lc \"sed -n '1,220p' response.schema.json\"",
+        "/bin/bash -lc 'mkdir -p memory'",
+        "/bin/bash -lc \"sed -n '1,240p' memory/learned.md\"",
+        "/bin/bash -lc 'python3 tools/check_polynomial.py --program inc,square,dec --coefficients 0,2,1'"
+      ],
+      "response_present": true,
+      "raw_jsonl": "/home/billy/orion-director-work/20260906/comparator-smoke/logs/phase1.jsonl",
+      "stderr": "/home/billy/orion-director-work/20260906/comparator-smoke/logs/phase1.stderr.log"
+    },
+    {
+      "phase": 2,
+      "exit_code": 0,
+      "stop_reason": null,
+      "wall_s": 23.032,
+      "usage": [
+        {
+          "input_tokens": 31106,
+          "cached_input_tokens": 22016,
+          "output_tokens": 681,
+          "reasoning_output_tokens": 306
+        }
+      ],
+      "tool_commands": [
+        "/bin/bash -lc \"sed -n '1,220p' memory/learned.md\"",
+        "/bin/bash -lc 'python3 tools/check_polynomial.py --program inc,square,dec --coefficients 0,2,1 --input 7/3'",
+        "/bin/bash -lc 'python3 tools/check_polynomial.py --program inc,square,dec --coefficients 0,2,1 --x 7/3'"
+      ],
+      "response_present": true,
+      "raw_jsonl": "/home/billy/orion-director-work/20260906/comparator-smoke/logs/phase2.jsonl",
+      "stderr": "/home/billy/orion-director-work/20260906/comparator-smoke/logs/phase2.stderr.log"
+    }
+  ],
+  "ambient_limitations": [
+    "existing ChatGPT login reused without credential inspection",
+    "model alias is advertised but not an immutable provider snapshot",
+    "workspace sandbox restricts writes; read isolation relies additionally on instructions and audit",
+    "existing user/project execpolicy rules retained; user config and model memories ignored/disabled",
+    "no OCM repository or evaluation oracle copied into workspace"
+  ]
+}

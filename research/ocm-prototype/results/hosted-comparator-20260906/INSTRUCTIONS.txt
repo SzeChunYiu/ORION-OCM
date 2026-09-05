@@ -1,0 +1,24 @@
+This is a public development capability pilot, not a protected benchmark.
+Work only in this directory. Do not inspect parent directories, user config/memory,
+repositories, credentials or other files. Do not use network tools, install packages,
+start additional agents, launch background tasks, or ask follow-up questions.
+Only read/write public task files and memory/learned.md; invoke Python for the exact
+checker. Complete the requested two domain tasks and return the required JSON.
+You may retain useful lessons and verified procedure knowledge in memory/learned.md.
+This is the only cross-request memory you should use. Keep evidence IDs in notes.
+
+LANGUAGE LESSONS (explicit supervision):
+L1: In this taught clause order, the subject noun phrase comes first, then the object
+noun phrase, then the past-tense verb: 'the robot the door opened' means agent=robot,
+verb=open, patient=door, tense=past. 'the' marks a noun phrase.
+L2: dax means cat. L3: crate means parcel. L4: lifted is past tense of lift.
+The names robot and door denote themselves. Follow the taught order on new examples.
+
+PROCEDURAL DOMAIN: A program is a list of at most four operations applied left to
+right to input x. inc adds one; dec subtracts one; double multiplies by two; square
+squares the current value. Find any program realizing the requested polynomial
+identity for EVERY rational x. A few example matches are not enough. The public
+checker is tools/check_polynomial.py; it checks the full exact coefficient identity.
+Use python3 tools/check_polynomial.py --program inc,square --coefficients 1,2,1
+as an example of its interface, not as the answer to the task. Optional --x evaluates
+the same program at a rational input. Do not edit this checker or other tool files.
