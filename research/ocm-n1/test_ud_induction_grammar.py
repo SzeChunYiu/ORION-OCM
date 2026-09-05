@@ -16,7 +16,7 @@ from ud_induction import (  # noqa: E402
     past_morphology,
     verify_custody_file,
 )
-from ud_grammar import coverage, induce_grammar, is_projective, parse_forms  # noqa: E402
+from ud_grammar import coverage, gold_tree, induce_grammar, is_projective, parse_forms  # noqa: E402
 
 
 TRAIN = """# sent_id = train-1
@@ -98,6 +98,12 @@ class UDInductionGrammarTests(unittest.TestCase):
         self.assertEqual(cov.projective_sentences, 2)
         self.assertEqual(cov.parsed_projective_sentences, 2)
         self.assertEqual(cov.exact_gold_structure_sentences, 2)
+
+    def test_gold_tree_identity_distinguishes_head_surface_position(self):
+        svo = gold_tree(parse_conllu(TRAIN)[0])
+        sov = gold_tree(parse_conllu(SOV)[0])
+        self.assertNotEqual(svo.surface_order, sov.surface_order)
+        self.assertNotEqual(svo.digest(), sov.digest())
 
     def test_nonprojective_dependency_tree_is_explicitly_outside_cfg_bridge(self):
         sentence = parse_conllu(NONPROJECTIVE)[0]
