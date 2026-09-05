@@ -1,0 +1,38 @@
+name: M8 learned organisation
+on:
+  pull_request:
+  push:
+    branches: [main, m8/organisation]
+permissions:
+  contents: read
+concurrency:
+  group: m8-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  organisation-suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: M8 organisation suites
+        run: python -m pytest -q tests/m8
+      - name: M2–M7 still green
+        run: python -m pytest -q tests/m7 tests/m6 tests/m5 tests/m4 tests/m3 tests/m2
+      - name: Organisation study receipt is reproducible
+        run: |
+          rm -f /tmp/m8_eval.json
+          python -m ocm.evaluation.m8_organisation_eval --out /tmp/m8_eval.json > /dev/null
+          python - <<'PY'
+          import json
+          a = json.load(open("/tmp/m8_eval.json")); b = json.load(open("research/ocm-m8/M8_ORGANISATION_EVAL_V1.json"))
+          for wa, wb in zip(a["worlds"], b["worlds"]):
+              for arm in wa["arms"]:
+                  for k in ("task_success", "navigation_work", "partition_recovery", "revocation_commutation"):
+                      assert wa["arms"][arm][k] == wb["arms"][arm][k], (wa["family"], arm, k)
+          print("organisation receipt reproduced")
+          PY
+      - name: Receipt chain verifies
+        run: for t in m2 m3 m4 m5 m6 m7 m8; do python tools/${t}_receipt.py --verify || exit 1; done

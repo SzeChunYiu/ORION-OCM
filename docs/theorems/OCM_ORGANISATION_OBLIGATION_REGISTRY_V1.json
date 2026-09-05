@@ -1,0 +1,92 @@
+{
+  "registry": "OCM_ORGANISATION_OBLIGATION_REGISTRY_V1",
+  "milestone": "M8",
+  "extends": "OCM_COMPARISON_OBLIGATION_REGISTRY_V1",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker or test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T73",
+      "gap": "MEG-19/20",
+      "statement": "Macro/interface contract: a region's macro is derived from its children (exports, ⊗ warrant, scope intersection, reopen summary); LIVE(macro) ⇔ every exported child LIVE, DEAD when all are dead, UNKNOWN otherwise; computed on every query — a cached macro liveness is the planted hostile.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/organisation/interface.py macro_for/macro_liveness; KS-T20/T23; batch-2 B7",
+      "checker": "tests/m8/test_organisation.py; research/ocm-m8/M8_ORGANISATION_EVAL_V1.json revocation_commutation (macro_live_over_dead_children 0 everywhere)",
+      "mutant": "interface.mutant_macro_cache",
+      "parent": "—",
+      "limitation": "exports = claim/procedure/summary atoms of the region"
+    },
+    {
+      "id": "KS-T74",
+      "gap": "MEG-22",
+      "statement": "Transport contract: a transported object's warrant is Λ(source) ⊗ Λ(correspondence), never stronger; applicability is a registered scope condition; similarity is not a proof.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/organisation/interface.py transported_warrant; batch-1 T5",
+      "checker": "tests/m8/test_organisation.py",
+      "mutant": "interface.mutant_transport_similarity_as_proof",
+      "parent": "—",
+      "limitation": "declared correspondences only"
+    },
+    {
+      "id": "KS-T75",
+      "gap": "MEG-09",
+      "statement": "Cross-scale navigation: coarse region activation, descent only where no registered sufficiency certificate covers the query (a certified query answers from the macro without descent), local gated closure started from what was actually reached, transport where a live applicable map exists, ascent; a coarse miss is REFINE_REQUIRED, never an obstruction; navigation work is measured against flat closure on identical tasks.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/organisation/navigate.py; ORION-V2 batch 4 D7 (in progress)",
+      "checker": "tests/m8/test_organisation.py; receipt navigation_work per arm vs flat_baseline",
+      "mutant": "navigate.mutant_summary_answers_outside_scope",
+      "parent": "multilevel PPR / coarsening — candidate",
+      "limitation": "BFS coarse walk bounded by max_regions"
+    },
+    {
+      "id": "KS-T76",
+      "gap": "MEG-23",
+      "statement": "Learned organisation proposals (split/merge) carry a predicted objective effect from dev tasks and are adopted only if a predicted improvement is realised on held-out tasks with no unpredicted regression and no free growth; the learner's own cost is counted; topology complexity is never rewarded (mutant).",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/organisation/arms.py LearnedArm; ORION-V2 batch 4 D8 (in progress)",
+      "checker": "tests/m8/test_organisation.py; receipt R6_learned history",
+      "mutant": "arms.mutant_reward_complexity",
+      "parent": "—",
+      "limitation": "split/merge only; overlap/promote/drop-macro proposals not yet generated"
+    },
+    {
+      "id": "KS-T77",
+      "gap": "—",
+      "statement": "Containment consistency: cycles and non-contained children are refused; multiple membership is shared, never duplicated.",
+      "status": "PROVED (finite)",
+      "proof": "src/ocm/organisation/interface.py containment_consistent; arms.CommunityArm overlaps",
+      "checker": "tests/m8/test_organisation.py",
+      "mutant": "(cyclic containment fixture)",
+      "parent": "—",
+      "limitation": "—"
+    },
+    {
+      "id": "KS-T78",
+      "gap": "MEG-09/23",
+      "statement": "Synthetic oracle study: exact partition recovery and navigation regret per arm and family; communities/nested/fibred/learned recover the four latent regions exactly on clean, misleading, dynamic, bridged and revocation families at roughly half the flat navigation work; overlapping communities are not recovered by label propagation (parent limit, reported); the language lifetime stream is reported per arm.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "src/ocm/evaluation/m8_organisation_eval.py",
+      "checker": "research/ocm-m8/M8_ORGANISATION_EVAL_V1.json",
+      "mutant": "(labels hard-coded into the oracle — excluded by construction)",
+      "parent": "label propagation (Raghavan et al. 2007); Kemeny–Snell lumpability via abstraction",
+      "limitation": "small worlds (32 atoms); R5/R7 CANNOT_CHECK"
+    },
+    {
+      "id": "KS-T79",
+      "gap": "—",
+      "statement": "M8 admissible terminal: PARENT_SUFFICIENT for the organisation question at this scale — the learned arm adopts no proposal that the community parent had not already realised on the oracle families (one adoption on the overlapping family improves navigation over its own base but not recovery); no pre-registered residual on held-out tasks after learner cost.",
+      "status": "FINITE_CALIBRATION",
+      "proof": "docs/M8_ORGANISATION_REPORT.md",
+      "checker": "tools/m8_receipt.py",
+      "mutant": "—",
+      "parent": "—",
+      "limitation": "synthetic worlds + one language stream; larger worlds and overlap-aware parents (Leiden, ego-splitting) are the revival backlog"
+    }
+  ]
+}
