@@ -55,3 +55,12 @@ Machine-epistemics theory batches 1–5 (ORION-V2 `research/machine-epistemics-t
 4. Real-language coverage (UD structural alignment; BLiMP/BabyLM pinning) — CANNOT_CHECK today.
 5. A foundation-model reference arm with a bound information budget (batch-6 F8) when one is available.
 6. Blinded human rating of the conversation suites.
+
+## Branch inventory (2026-09-05)
+
+| branch | state | disposition |
+|---|---|---|
+| `m0-self-contained-ocm` | 9 commits, 2026-09-04: M0 staging (frozen-dependency import, `.m0/` bundle chunks, two bootstrap workflows); 16/23 files already byte-identical on main | SUPERSEDED by the merged M0 (`m0-canonical.yml`); not merged; kept as history |
+| `research/m2b-v3-migration-20260904` | 1 WIP commit ("NOT gated"): V2-only file copies + design notes + M2b V3 algebra results | design notes, results and domain fixtures (20 md/json files) archived on main under `research/orion-machine/` by this PR; the V2 file copies duplicate `src/orion_v2` and the ungated tests are not merged |
+| `perf/verified-knowledge-kernel` | 1 commit, 2026-09-05 07:50: a workflow for a knowledge-kernel benchmark lane (`tools/knowledge_kernel_benchmark.py`, `tests/optimization/` — not yet present) | ACTIVE external lane; merged when it opens its PR and its own checks are green |
+| `m1/…` … `m12/lifetime`, `m11.1/…`, `docs/…`, `codex/m0-canonical-runtime` | 0 ahead of main | merged |
