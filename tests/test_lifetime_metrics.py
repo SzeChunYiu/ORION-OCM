@@ -4,10 +4,9 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "research" / "machine-epistemics-lifetime-v1"))
 
-from ocm.evaluation.lifetime_metrics import CheckStatus, ResourceVector, StateMeasure, TouchMeasure  # noqa: E402
+from lifetime_metrics import CheckStatus, ResourceVector, StateMeasure, TouchMeasure  # noqa: E402
 import calibration  # noqa: E402
 
 
