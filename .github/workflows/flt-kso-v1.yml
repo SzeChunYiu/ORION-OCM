@@ -1,0 +1,194 @@
+name: FLT KSO v1 prospective tranche
+
+on:
+  push:
+    branches: [codex/flt-kso-tranche-a-20260906]
+    paths:
+      - 'research/flt-kso-v1/**'
+      - '.github/workflows/flt-kso-v1.yml'
+  pull_request:
+    paths:
+      - 'research/flt-kso-v1/**'
+      - '.github/workflows/flt-kso-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: flt-kso-v1-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  f0-r1-native-kernel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned development environment
+        run: ./scripts/m0_install_dev.sh
+      - name: Install syscall guard used by custody hostiles
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y strace
+      - name: Run FLT-KSO hostiles and production-KSO integration
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            research/flt-kso-v1/test_flt_kso.py \
+            research/flt-kso-v1/test_anthropic_dag_edgecases.py \
+            research/flt-kso-v1/test_f0.py
+      - name: Run historical proof-replay control tests
+        env:
+          PYTHONPATH: src
+        run: python -m pytest -q research/proof-replay-v1/test_replay.py
+      - name: Run full engineering suite
+        run: python -m pytest -q
+      - name: Verify current M1-M12 source-bound receipts
+        env:
+          PYTHONPATH: src
+        run: |
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify
+          done
+      - name: Install pinned elan v4.2.4 and Lean 4.33.1
+        run: |
+          set -euo pipefail
+          curl -fsSL \
+            https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz \
+            -o /tmp/elan.tar.gz
+          echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan.tar.gz' | sha256sum -c -
+          tar -xzf /tmp/elan.tar.gz -C /tmp elan-init
+          /tmp/elan-init -y --no-modify-path --default-toolchain none
+          "$HOME/.elan/bin/elan" toolchain install leanprover/lean4:v4.33.1
+          "$HOME/.elan/bin/elan" default leanprover/lean4:v4.33.1
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Verify exact Lean identity
+        run: |
+          set -euo pipefail
+          lean --version
+          lean --version | grep -F 'Lean (version 4.33.1'
+      - name: Execute governed F0 masked-composition apparatus gate
+        env:
+          PYTHONPATH: src
+        run: |
+          python research/flt-kso-v1/run_f0.py --source-sha "$GITHUB_SHA" --lean "$(command -v lean)" --out /tmp/f0.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/f0.json'))
+          assert r['terminal'] == 'F0_MASKED_COMPOSITION_APPARATUS_SUPPORTED', r
+          assert r['comparison_terminal'] == 'PARENT_SUFFICIENT', r
+          assert r['claim_scope'] == 'APPARATUS_ONLY_NO_DISCOVERY_NOVELTY', r
+          assert r['discovery_claim'] == 'NONE_AUTHORED_PUBLIC_FIXTURE', r
+          assert r['composition_body_given_to_generator'] is False
+          assert r['foundation_source_given_to_generator'] is False
+          assert r['generator_custody_trace'] == 'CLEAR', r
+          assert r['goal_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_after_check'] == 'LIVE'
+          assert r['claim_liveness_after_admission'] == 'LIVE'
+          assert r['llm_calls'] == r['llm_tokens'] == r['foundation_model_calls'] == 0
+          assert r['proof_state_expansions'] <= 128
+          assert r['operator_candidates_considered'] <= 256
+          assert r['checker_calls'] <= 16
+          print(json.dumps({k:r[k] for k in (
+              'terminal','comparison_terminal','proof_state_expansions',
+              'operator_candidates_considered','checker_calls','generator_custody_trace')}, indent=2))
+          PY
+      - name: Execute preregistered R1 unseen composition and matched parent
+        env:
+          PYTHONPATH: src
+        run: |
+          python research/flt-kso-v1/run_r1.py --source-sha "$GITHUB_SHA" --lean "$(command -v lean)" --out /tmp/r1.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/r1.json'))
+          assert r['terminal'] == 'UNSEEN_COMPOSITION_SUPPORTED', r
+          assert r['comparison_terminal'] == 'PARENT_SUFFICIENT', r
+          assert r['llm_calls'] == r['llm_tokens'] == r['foundation_model_calls'] == 0
+          assert r['goal_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_after_check'] == 'LIVE'
+          assert r['claim_liveness_after_admission'] == 'LIVE'
+          assert r['checker_calls'] <= 16
+          assert r['mathlib_loaded_for_r1'] is False
+          print(json.dumps({k:r[k] for k in (
+              'terminal','comparison_terminal','proof_state_expansions',
+              'operator_candidates_considered','checker_calls','proof_source_sha256')}, indent=2))
+          PY
+
+  frozen-anthropic-dag:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout OCM tranche source
+        uses: actions/checkout@v4
+        with:
+          path: ocm
+      - name: Checkout frozen Anthropic evaluator source privately
+        uses: actions/checkout@v4
+        with:
+          repository: anthropics/fermats-last-theorem
+          ref: aa2d8b34692b16c70f699536de0d8e75b9a3e9ef
+          path: private-flt
+          fetch-depth: 1
+          sparse-checkout: |
+            Theorems
+            P2M/Sol
+            lean-toolchain
+            lake-manifest.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate frozen identities and repository-wide DAG/signature extraction
+        id: frozen_validation
+        continue-on-error: true
+        env:
+          PYTHONPATH: ocm/research/flt-kso-v1
+        run: python ocm/research/flt-kso-v1/validate_anthropic.py private-flt --out /tmp/anthropic.json
+      - name: Publish source-bound frozen-validator diagnostic on failure
+        if: steps.frozen_validation.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          pr="$(gh pr list --head "$GITHUB_HEAD_REF" --state open --json number --jq '.[0].number' 2>/dev/null || true)"
+          if [ -z "$pr" ]; then
+            pr="$(gh pr list --head "$GITHUB_REF_NAME" --state open --json number --jq '.[0].number' 2>/dev/null || true)"
+          fi
+          if [ -n "$pr" ]; then
+            {
+              echo '### Frozen Anthropic DAG validator — fail-closed diagnostic'
+              echo
+              echo "Source SHA: \`$GITHUB_SHA\`"
+              echo
+              echo '```json'
+              cat /tmp/anthropic.json
+              echo '```'
+              echo
+              echo 'This diagnostic is not a positive benchmark result. Full 29,511-module coverage remains blocked until this exact terminal is resolved.'
+            } > /tmp/diagnostic.md
+            gh pr comment "$pr" --body-file /tmp/diagnostic.md
+          fi
+          exit 1
+      - name: Assert complete frozen validator receipt
+        if: steps.frozen_validation.outcome == 'success'
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/anthropic.json'))
+          assert r['terminal'] == 'ANTHROPIC_DAG_EXTRACTION_VALIDATED', r
+          assert r['wrapper_count'] == r['solution_count'] == 29511
+          assert r['html_consumed'] is False
+          assert r['llm_calls'] == r['llm_tokens'] == 0
+          print(json.dumps(r, indent=2))
+          PY

@@ -1,0 +1,54 @@
+{
+  "schema": "flt-kso-v1.prospective-challenges.v1",
+  "source_base_at_registration": "787a5d2c1611cdf9acbb87cb44fa1b878c8a4d1f",
+  "challenges": [
+    {
+      "challenge_id": "F0_MASKED_COMPOSITION_001",
+      "regime": "F0",
+      "status": "REGISTERED",
+      "fixture": "research/proof-replay-v1/Composition.lean",
+      "fixture_blob": "bd32922dd220085b5695140f7e684d87cb6f37c7",
+      "proof_body_given_to_generator": false,
+      "target_constant_given_to_generator": false,
+      "allowed_lemmas": ["MEFoundation.agreement_sound", "MEFoundation.agreement_refinement"],
+      "allowed_ast_ops": ["LOCAL_HYPOTHESIS", "APPLY_LEMMA"],
+      "max_proof_state_expansions": 128,
+      "max_rule_or_hypothesis_candidates": 256,
+      "max_checker_calls_total_native_plus_parent": 16,
+      "success_terminal": "F0_MASKED_COMPOSITION_APPARATUS_SUPPORTED",
+      "claim_scope": "APPARATUS_ONLY_NO_DISCOVERY_NOVELTY",
+      "mechanism_model_calls": 0
+    },
+    {
+      "challenge_id": "R1_PROP_CHAIN_001",
+      "regime": "R1",
+      "status": "REGISTERED",
+      "statement": "(P → Q) → (Q → R) → P → R",
+      "allowed_operators": ["proof.intro", "proof.assumption", "proof.apply_local"],
+      "max_proof_state_expansions": 64,
+      "max_checker_calls_total_native_plus_parent": 16,
+      "success_terminal": "UNSEEN_COMPOSITION_SUPPORTED",
+      "mechanism_model_calls": 0
+    },
+    {
+      "challenge_id": "R2_FROZEN_FIRST_ELIGIBLE_001",
+      "regime": "R2",
+      "status": "PREREGISTERED_NOT_YET_SELECTED_OR_EXECUTED",
+      "selection_order": ["depth", "dependency_count", "theorem_id"],
+      "proof_body_hidden": true,
+      "dependency_topology_hidden": false,
+      "requires_full_signature_extraction_coverage": true,
+      "success_terminal": "MECHANICAL_HIDDEN_PROOF_RECONSTRUCTION_SUPPORTED"
+    },
+    {
+      "challenge_id": "R3_FROZEN_FIRST_ELIGIBLE_001",
+      "regime": "R3",
+      "status": "PREREGISTERED_NOT_YET_SELECTED_OR_EXECUTED",
+      "selection_order": ["depth", "dependency_count", "theorem_id"],
+      "proof_body_hidden": true,
+      "dependency_topology_hidden": true,
+      "requires_full_signature_extraction_coverage": true,
+      "success_terminal": "MECHANICAL_DEPENDENCY_DISCOVERY_SUPPORTED"
+    }
+  ]
+}
