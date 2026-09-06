@@ -1,8 +1,9 @@
 {
   "claim_verification": {
+    "MISMATCH": 2,
     "OK": 279,
-    "exit_code": 0,
-    "rows": 279
+    "exit_code": 1,
+    "rows": 281
   },
   "claims": [
     {
@@ -1957,6 +1958,20 @@
       "row": 279,
       "section": "8",
       "source": "V2:OCM_OBLIGATION_REGISTRY_DERIVED_V1.json"
+    },
+    {
+      "check": "ud_parse.protected_chart.test.parsed = 358; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 74; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_COUNT_TOTAL = 1173665; ud_parse.protected_chart.test.exact_gold_match = 0/358",
+      "phrase": "the exact forest reaches fewer sentences inside the same time budget and the share of reached sentences at the cap falls only from 25% to 21%",
+      "row": 280,
+      "section": "5.10",
+      "source": "research/ocm-n1/N1_UD_INDUCTION_V3_PACKING.json"
+    },
+    {
+      "check": "contains \"S42\"; contains \"undercount\"",
+      "phrase": "the earlier chart had undercounted them",
+      "row": 281,
+      "section": "5.10",
+      "source": "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md"
     }
   ],
   "identifier": {
@@ -1964,7 +1979,7 @@
     "note": "the operator's upload replaces this with the DOI",
     "status": "PENDING"
   },
-  "ocm_commit": "5f42e853ef01b0e13a12139a0f48f05a05b4a175",
+  "ocm_commit": "6224947de36a209b6db4c0ce017ce46da92ee96a",
   "orion_v2": {
     "note": "ORION-V2 paths are bound by the batch documents' merge commits named in main.md (Data and code availability); not hashed here",
     "paths": [
@@ -2003,22 +2018,26 @@
     "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md": "3178e7f4231c341d41e8ef8f479ff036f393f78b61df946fc09ebb5945ab3d15",
     "docs/paper/manuscript/README.md": "7359a27533d41f5946d76ed15f9f26c95ffe6b4d9e6255e38c1951d462869795",
     "docs/paper/manuscript/RELEASE_PLAN.md": "023509e4f00ba1e1c267150d1a48b929d99dd0ebda99d6080f1cb6726473403f",
-    "docs/paper/manuscript/claims_map.md": "60f3640a127156188eba2c8bea322bbda10a634e828f9022f25e44dd7bdbba44",
-    "docs/paper/manuscript/claims_verification.txt": "2944a3109e57a17f0e9181da138054445fc206200185f135cb3da6cfb6ef7a30",
+    "docs/paper/manuscript/claims_map.md": "727f71339894aaec63c9e6cab21ce422d30e5311a40db1fe47bd3b2c8c4e4065",
+    "docs/paper/manuscript/claims_verification.txt": "f32c2189edfe208cec03129dfbfbddb91ac713cef000285d0d6ae680fa3b516e",
     "docs/paper/manuscript/figures.md": "513bd11e02ca2084cb34e13217c5a45f0c9eb8ee1cd93644d086bf378780b50a",
-    "docs/paper/manuscript/main.md": "7cded7ad32f250325c5100fb351c5f9920411a92d5d3b97b0499bbeec21b45f9",
+    "docs/paper/manuscript/main.md": "4c4699e214c9e3a142cb11f510a9cbc949826bd4be407f6327e0caf43555f779",
     "docs/paper/manuscript/positioning.md": "c0c044e93345bfe68659199212d1d55c47e0470ed9e51a5f69b6d721361fcefb",
     "docs/paper/manuscript/positioning_refs.md": "57b76efef3e51d18d3f0abc4a133f0c6fbe2e08a2425917dc4dfdae3031e6ffa",
     "docs/paper/manuscript/reviews/editor_synthesis.md": "dcd8c3e21b06943a96d90c60518f87d0607b29c004d70e33a3acdda5c2a6d422",
     "docs/paper/manuscript/reviews/editor_synthesis_round2.md": "bf91f2da4b8ab47c5d6489173d5078483cce9b2d379041ea32aff9fa6f96fccb",
-    "docs/paper/manuscript/reviews/readiness_report.md": "dd4517ea8518dca083bf3551c27db2940e2e122985237f7f636fbb248f659b03",
+    "docs/paper/manuscript/reviews/editor_synthesis_round3.md": "41d3bfea9010ba7b1b41a0edfc9a27728e7344dec863ff5486d015e050bc6e01",
+    "docs/paper/manuscript/reviews/readiness_report.md": "2c04bd01609bfe5272f167a04729bd3fbcee3c7f92bfd0b13c7c3f748a84893e",
     "docs/paper/manuscript/reviews/reviewer_1.md": "73ec542c0fba08e6a0d49a2a14be3b292e0ecb53c3324aebe69646e5b2696803",
     "docs/paper/manuscript/reviews/reviewer_1_round2.md": "457da41d1c9e502f143860c1ede0e9d021c11e1af476347d5ecbf5f604c637a7",
+    "docs/paper/manuscript/reviews/reviewer_1_round3.md": "b96dac2652ce123f33d56c42d4b6a43758a7f33fdcdc80659eeb363941230b02",
     "docs/paper/manuscript/reviews/reviewer_2.md": "82a0eda2b5421c8f57806052230ce9d27b16df9d005e980ecf5ba8a608b172c5",
     "docs/paper/manuscript/reviews/reviewer_2_round2.md": "a6a8d9c5d290e8d3d6505aada95ca12e31364b704b83d24a0882411814be2b22",
+    "docs/paper/manuscript/reviews/reviewer_2_round3.md": "14c27b9bf35d4916321acbea8783ccfc28b69ed0796d0cbd0aa7d3ebccb22cf6",
     "docs/paper/manuscript/reviews/reviewer_3.md": "16daf90b599fe4f3364d5bdb458e95773ae34ce9659f388369b4471e309405a6",
     "docs/paper/manuscript/reviews/reviewer_3_round2.md": "4046f00455e2275890d386f58679f9c8f39f0da6ca85aac7dd99d7413fcca426",
-    "docs/paper/manuscript/reviews/revision_log.md": "6f278cdb4690a5eca791971ba5f22a38eddab4965019af58a082c85551eb0068",
+    "docs/paper/manuscript/reviews/reviewer_3_round3.md": "35399db582e9ae4def72e7ca872203f02ffdb71fe5f4195f3fa6b9a055e2ee1a",
+    "docs/paper/manuscript/reviews/revision_log.md": "45e80c1b3444b05c249999f99b1b04d76dac8d034f5e7fbbc71ee27b51fd5c0e",
     "docs/paper/manuscript/reviews/venue_contract.md": "7648f513168e6c6bb184c7f3183290fea69359c549d172586a20b1f7231d1964",
     "docs/provenance/BABYLM_CUSTODY_MANIFEST_V1.json": "f6bf1c1e384388bcfe3fbc4004d531a78b4923bb495c64d55bf6284cfd04107a",
     "docs/provenance/BLIMP_CUSTODY_MANIFEST_V1.json": "8818ad9fe47a9a21387f1ef6217241a3381544437e094295befafd3b99d862a0",
@@ -2050,7 +2069,7 @@
     "docs/provenance/SIMPLEWIKI_CUSTODY_MANIFEST_V1.json": "1c43a3e6d769ba2d0f2c211c681a6678da2b16881a2526fd799b2a6cd9b4defb",
     "docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json": "b89d3fd3472cc7f068ab4637ed0f847d9f9b878a2d22a2666ed8b82c78b80d66",
     "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md": "0a91d95ce09585350e6b4cba5ad2cb84a6bec39de218565abb99777a1f795c88",
-    "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md": "57e8ac01d823f7ac3684173523d5564973de354659b9bdde91314dceac4de833",
+    "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md": "5f11305f1ab6128ed7d096fa65cc30fa0298f4d2b1ac0b826553f7ae6f4d898b",
     "docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json": "fb0dec5c226b2a3330f617db896186d1e4f0c6230c815d7b9b3f30e54e9580c8",
     "docs/theorems/OCM_ACQUISITION_OBLIGATION_REGISTRY_V1.json": "35c74d30e9aa461188ccd8547792051c6fbfb2e5c45b07d15d16c5662e71f551",
     "docs/theorems/OCM_ALPHA_OBLIGATION_REGISTRY_V1.json": "0ae4e6efbd607d87ba22d6913b8839ce976011179057112e0d1434fcbfaee3e5",
@@ -2058,6 +2077,7 @@
     "docs/theorems/OCM_DIALOGUE_OBLIGATION_REGISTRY_V1.json": "5de0f335b48c749040262fbf432327a0fa258260574f66225ed81bbdcab3b41d",
     "docs/theorems/OCM_LANGUAGE_OBLIGATION_REGISTRY_V1.json": "e8d690d6487c06cf1b7f33fd1059ab963d4de7fe18e05c140e84b4dc8f64c9ea",
     "docs/theorems/OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json": "8608b2e046571e351024333818360d0596667ce1e4ad4dd363327bf57ccf8767",
+    "docs/theorems/OCM_OBLIGATION_REGISTRY_DERIVED_V1.json": "99208701dd5fe03c1d1af5966a684262d1ceda62e1fa231899cd87bc5cacaba1",
     "docs/theorems/OCM_ORGANISATION_OBLIGATION_REGISTRY_V1.json": "1dee64069fe24e7652abbf0afaeff0e65e6f40c410a27e2cb9ffed4217d323dc",
     "docs/theorems/OCM_RUNTIME_OBLIGATION_REGISTRY_V1.json": "83171f7f0feec030f1458ca2a5ec104afb04f18d58d66ca1400dbba0d16d2d0a",
     "docs/theorems/OCM_SCIENCE_OBLIGATION_REGISTRY_V1.json": "11a722297d786e176e76f4fe4caae325260c056d1d5ce7a6d531f58264c073cd",
@@ -2081,7 +2101,8 @@
     "research/ocm-n1/N1_UD_INDUCTION_V1.json": "debea13acfdae23a137ef8fb1ebd1252493b0be1043a73322ca009c799816405",
     "research/ocm-n1/N1_UD_INDUCTION_V2_CAP1M.json": "2d705d6b13b2188abc97525b18e3a845bce716b6a047402ef5edaae98bb219cc",
     "research/ocm-n1/N1_UD_INDUCTION_V2_RANKING.json": "59dae84f303d73e56cfdc6a0e5c01db334a41c8f75555d0f71f286e7ce1443ce",
-    "src/ocm/selfmodel/intake.py": "3132e06e4bead6c84d66f75be7107ea937e1523dce04f387f25ce072329e6aa6",
+    "research/ocm-n1/N1_UD_INDUCTION_V3_PACKING.json": "bfc576b13f38f9dc204d3cff4f1d4eb0f5927656c6811f0fae0cb9ed91ee80d3",
+    "src/ocm/selfmodel/intake.py": "0177aee157a9e7fbe13f3f1c1a58877e5dc5918a1af4dde520db619133bf0482",
     "tools/paper/verify_claims.py": "429588e5230d7ae90d7c3aad375e0de4f9b664cb097b03d93ffe740afccf40d1"
   },
   "schema": "ocm.paper-release-manifest.v1"
