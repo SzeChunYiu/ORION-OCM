@@ -77,3 +77,15 @@ no grading process was rerun to correct it.
 Measured reconstruction/regrading was 2.056904 s under strace; wrapper self CPU
 0.818834 s and reaped grader-child CPU0.655435 s are separately observed scopes.
 These are new verification costs, not replacements for original missing measures.
+
+After the immutable actor/source archive and reconstruction were verified, result
+commit acd4b5c was normally merged with main55bb317 at f85624d. This integration
+adds the already published Stanza modules and main's shared vessel change; it is
+not the source that produced the v3 observations. Exact post-run differences and
+the 186-file current actor inventory are in integration/. The original 180-file
+executed F0 and source copies remain unchanged inside the raw archive.
+
+The integrated N1/G1 suite passed 205 tests in 32.84 s with ambient PYTHONPATH
+removed. The current generic 310-file engineering source and selected e4dc56b5
+receipt are unchanged and verified; no replacement engineering run was created.
+This integration control is distinct from the recorded original actor experiment.
