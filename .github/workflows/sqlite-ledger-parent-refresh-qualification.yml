@@ -1,0 +1,53 @@
+name: SQLite WAL ledger parent refresh qualification
+
+on:
+  push:
+    branches:
+      - codex/sqlite-wal-ledger-parent-refresh-20260906
+    paths:
+      - src/ocm/store/sqlite_ledger.py
+      - tests/m2/test_sqlite_ledger_parent.py
+      - .github/workflows/sqlite-ledger-parent-refresh-qualification.yml
+
+permissions:
+  contents: write
+
+jobs:
+  qualify-and-record:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: codex/sqlite-wal-ledger-parent-refresh-20260906
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned development environment
+        run: ./scripts/m0_install_dev.sh
+      - name: Run SQLite ledger parity controls
+        env:
+          PYTHONPATH: src
+        run: python -m pytest tests/m2/test_sqlite_ledger_parent.py -q
+      - name: Run and select exact engineering gates
+        env:
+          PYTHONPATH: src
+        run: python tools/record_engineering_revision.py
+      - name: Verify all milestone wrappers against selected run
+        env:
+          PYTHONPATH: src
+        run: |
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify
+          done
+      - name: Commit immutable engineering qualification
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/provenance/engineering_revisions/
+          if git diff --cached --quiet; then
+            echo "Recorder produced no new qualification bytes"
+            exit 1
+          fi
+          git commit -m "test: record refreshed SQLite ledger engineering qualification"
+          git push origin HEAD:codex/sqlite-wal-ledger-parent-refresh-20260906
