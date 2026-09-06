@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = ROOT / "docs" / "provenance" / "M12_PAIRED_RECEIPT_V5.json"
 BOUND = ("src/ocm/lifetime/streams.py", "src/ocm/evaluation/m12_paired_eval.py", "src/ocm/lifetime/phases.py", "src/ocm/lifetime/machine.py",
-         "research/ocm-m12/M12_V5_STREAM_MANIFEST_V1.json", "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md", "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5.json",
+         "research/ocm-m12/M12_V5_STREAM_MANIFEST_V1.json", "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md", "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5.json", "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5_REPLAY_POSTREFACTOR.json",
          "docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V5.json", "research/ocm-m12/M12_V5_REFERENCE_ARM_V1.json", "docs/M12_V5_PAIRED_LIFETIMES_REPORT.md", "docs/provenance/M12_PAIRED_RECEIPT_V4.json")
 
 

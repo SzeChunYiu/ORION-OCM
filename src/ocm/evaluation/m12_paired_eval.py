@@ -69,7 +69,7 @@ def run_lifetime(arm_name: str, stream: dict[str, Any], root: Path, *, matched_c
         elif ph == "F":
             phases["F"] = PH.phase_F(arm)
         elif ph == "G":
-            phases["G"] = PH.phase_G(arm, k)
+            phases["G"] = PH.phase_G(arm, k, report_predecessors=matched_cells)   # V5 only: the historical replays keep their deterministic block
         if isinstance(arm, MC.PersistentOCM):
             prev = chain[-1][1]
             continuous = continuous and MC.chain_continuous(prev, arm.s.runtime)
