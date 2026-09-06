@@ -1,0 +1,53 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_nonpass_manual_rewrite_never_ready[FAIL-REFUSED_REWRITE] _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f37268ea9e0>
+check_status = 'FAIL', terminal = 'REFUSED_REWRITE'
+
+    @pytest.mark.parametrize('check_status,terminal', [('FAIL','REFUSED_REWRITE'), ('CANNOT_CHECK','CANNOT_CHECK_REWRITE')])
+    def test_nonpass_manual_rewrite_never_ready(monkeypatch, check_status, terminal):
+        from types import SimpleNamespace
+        task = load_task('jmbl_fg_max3')
+        rewritten = '(lam (lam (lam $0)))'
+        prepared = [{'task': task, 'candidate': 'MANUAL_UNUSED', 'program': rewritten}]
+        # An explicit fabricated donor record tests gating; no donor backend runs.
+        fake = SimpleNamespace(json={'manual_fixture': True}, abstractions=[], rewritten=[rewritten])
+        monkeypatch.setattr(D, 'prepare', lambda _: prepared)
+        monkeypatch.setattr(D, 'donor', lambda: SimpleNamespace(compress=lambda *a, **k: fake))
+        monkeypatch.setattr(D, 'equivalent', lambda *a: {'status': check_status})
+>       assert D.induce([])['status'] == terminal
+E       AssertionError: assert 'NO_NEW_ABSTRACTION' == 'REFUSED_REWRITE'
+E         
+E         - REFUSED_REWRITE
+E         + NO_NEW_ABSTRACTION
+
+research/ocm-prototype/generation_tests/test_generation.py:126: AssertionError
+__ test_nonpass_manual_rewrite_never_ready[CANNOT_CHECK-CANNOT_CHECK_REWRITE] __
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f37268ead70>
+check_status = 'CANNOT_CHECK', terminal = 'CANNOT_CHECK_REWRITE'
+
+    @pytest.mark.parametrize('check_status,terminal', [('FAIL','REFUSED_REWRITE'), ('CANNOT_CHECK','CANNOT_CHECK_REWRITE')])
+    def test_nonpass_manual_rewrite_never_ready(monkeypatch, check_status, terminal):
+        from types import SimpleNamespace
+        task = load_task('jmbl_fg_max3')
+        rewritten = '(lam (lam (lam $0)))'
+        prepared = [{'task': task, 'candidate': 'MANUAL_UNUSED', 'program': rewritten}]
+        # An explicit fabricated donor record tests gating; no donor backend runs.
+        fake = SimpleNamespace(json={'manual_fixture': True}, abstractions=[], rewritten=[rewritten])
+        monkeypatch.setattr(D, 'prepare', lambda _: prepared)
+        monkeypatch.setattr(D, 'donor', lambda: SimpleNamespace(compress=lambda *a, **k: fake))
+        monkeypatch.setattr(D, 'equivalent', lambda *a: {'status': check_status})
+>       assert D.induce([])['status'] == terminal
+E       AssertionError: assert 'NO_NEW_ABSTRACTION' == 'CANNOT_CHECK_REWRITE'
+E         
+E         - CANNOT_CHECK_REWRITE
+E         + NO_NEW_ABSTRACTION
+
+research/ocm-prototype/generation_tests/test_generation.py:126: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/generation-feasibility-qualification/gate-red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/generation_tests/test_generation.py::test_nonpass_manual_rewrite_never_ready[FAIL-REFUSED_REWRITE]
+FAILED research/ocm-prototype/generation_tests/test_generation.py::test_nonpass_manual_rewrite_never_ready[CANNOT_CHECK-CANNOT_CHECK_REWRITE]
+2 failed, 41 deselected in 0.04s

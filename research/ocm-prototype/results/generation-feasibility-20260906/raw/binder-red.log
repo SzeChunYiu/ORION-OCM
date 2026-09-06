@@ -1,0 +1,14 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_quoted_outer_binder_is_not_a_symbol ___________________
+
+    def test_quoted_outer_binder_is_not_a_symbol():
+        assert G.decode('(lam (lam $0))', 'f', SIG)['candidate'] == fun('y')
+>       with pytest.raises(ValueError, match='outer binders'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/generation_tests/test_generation.py:77: Failed
+- generated xml file: /home/billy/orion-director-work/20260906/generation-feasibility-qualification/binder-red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/generation_tests/test_generation.py::test_quoted_outer_binder_is_not_a_symbol
+1 failed, 43 deselected in 0.04s

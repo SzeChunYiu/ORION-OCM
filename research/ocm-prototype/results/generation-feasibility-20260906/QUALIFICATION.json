@@ -1,0 +1,98 @@
+{
+  "schema": "ocm.generation-feasibility.qualification.v1",
+  "created_utc": "2026-09-06T13:18:43.447736+00:00",
+  "base_commit": "1a6c99bdcb08a8a94bef4d51c0da9188a4c4e959",
+  "classification": "SUPPORTING / INFRASTRUCTURE",
+  "status": "IMPORT_AND_MANUAL_CONTROLS_QUALIFIED",
+  "scientific_generation": "NOT_RUN",
+  "protected_outcomes_read": false,
+  "stitch_discovery_calls": 0,
+  "cvc5_synthesis_calls": 0,
+  "manual_z3_checks": 10,
+  "checks": {
+    "manual-v1": {
+      "tests": "41",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.223"
+    },
+    "gate-red": {
+      "tests": "2",
+      "failures": "2",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.042"
+    },
+    "manual-v2": {
+      "tests": "43",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.243"
+    },
+    "binder-red": {
+      "tests": "1",
+      "failures": "1",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.038"
+    },
+    "manual-v3": {
+      "tests": "44",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.229"
+    },
+    "manual-v4": {
+      "tests": "45",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.230"
+    },
+    "manual-final": {
+      "tests": "46",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.227"
+    }
+  },
+  "final_scope": "46 manual controls, zero failures/errors/skips; numeric checker used only for explicit manual equivalence and wrong-value fixtures.",
+  "repairs": [
+    "Non-PASS rewrite does not become ready; 2 failing controls retained.",
+    "Quoted string outer binder refused; actual failing control retained.",
+    "Malformed donor result retains raw JSON with explicit typed refusal; no retry."
+  ],
+  "python": "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+  "python_version": "Python 3.13.12",
+  "qualification_command": [
+    "env",
+    "PYTHONPATH=src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+    "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+    "-m",
+    "pytest",
+    "research/ocm-prototype/generation_tests",
+    "-q"
+  ],
+  "cwd": "/home/billy/orion-director-work/20260906/ocm-generation-feasibility",
+  "current_source_bindings": "source-bindings.json",
+  "unchanged_paths": [
+    "src/",
+    "all existing clia_*.py",
+    "workflows",
+    "old fixtures and evidence"
+  ],
+  "unresolved": [
+    "Actual learned abstraction generation",
+    "Native diagnostic stream/marker qualification",
+    "Returned learned-derivation membership",
+    "Later use/transfer and matched B-C gain",
+    "OCM A-B residual"
+  ],
+  "limits": "No corpus discovery, public lifetime, scientific timing, protected task or capability comparison. Manual fixtures are hand authored; native annotations can be reconstructed and do not prove causal search guidance."
+}

@@ -1,0 +1,124 @@
+{
+  "schema": "ocm.generation.public-interface-proposal.v1",
+  "status": "PROPOSED_NOT_EXECUTED",
+  "core_commit": "1a6c99bdcb08a8a94bef4d51c0da9188a4c4e959",
+  "task_id": "jmbl_fg_max3",
+  "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+  "original_source_sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+  "scope": "One exposed task; manual macro only; four parser/output routes, not learning or a lifetime study.",
+  "execution_order": [
+    "implicit_primitive",
+    "explicit_primitive",
+    "explicit_macro",
+    "forced_manual_macro"
+  ],
+  "cwd": "/home/billy/orion-director-work/20260906/ocm-generation-feasibility",
+  "resource_envelope": {
+    "one_cpu": 0,
+    "address_space_bytes": 4294967296,
+    "native_timeout_ms": 5000,
+    "outer_seconds_per_case": 20,
+    "kill_grace_seconds": 2,
+    "attempts_per_case": 1
+  },
+  "proposed_cases": [
+    {
+      "case": "implicit_primitive",
+      "role": "PUBLIC_INTERFACE_QUALIFICATION",
+      "input": "implicit_primitive.json",
+      "input_sha256": "c76cea0757a9b79dbf07304f536cfa0bed3cbe64dabd67f7a8d50388420bb954",
+      "sygus_sha256": "9188f28355739ba94230e078a85507c64563fbe5b1307f9067c63ce36537b19f",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=2s",
+        "20s",
+        "/usr/bin/taskset",
+        "-c",
+        "0",
+        "/usr/bin/prlimit",
+        "--as=4294967296",
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "research/ocm-prototype/clia_worker.py"
+      ],
+      "shell_proposal": "/usr/bin/timeout --kill-after=2s 20s /usr/bin/taskset -c 0 /usr/bin/prlimit --as=4294967296 /home/billy/orion-director-work/20260906/generation-env/bin/python research/ocm-prototype/clia_worker.py < research/ocm-prototype/results/generation-feasibility-20260906/prospective/implicit_primitive.json > implicit_primitive.stdout 2> implicit_primitive.stderr"
+    },
+    {
+      "case": "explicit_primitive",
+      "role": "PUBLIC_INTERFACE_QUALIFICATION",
+      "input": "explicit_primitive.json",
+      "input_sha256": "ebb8400966e8c82afafc88d021a61b1e1e079ed10104d53692388951af4c03eb",
+      "sygus_sha256": "de9258d2b27f788086a1a8a6e4ef62c6ba33d8f4ad009f50306ebff931251d15",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=2s",
+        "20s",
+        "/usr/bin/taskset",
+        "-c",
+        "0",
+        "/usr/bin/prlimit",
+        "--as=4294967296",
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "research/ocm-prototype/clia_worker.py"
+      ],
+      "shell_proposal": "/usr/bin/timeout --kill-after=2s 20s /usr/bin/taskset -c 0 /usr/bin/prlimit --as=4294967296 /home/billy/orion-director-work/20260906/generation-env/bin/python research/ocm-prototype/clia_worker.py < research/ocm-prototype/results/generation-feasibility-20260906/prospective/explicit_primitive.json > explicit_primitive.stdout 2> explicit_primitive.stderr"
+    },
+    {
+      "case": "explicit_macro",
+      "role": "PUBLIC_INTERFACE_QUALIFICATION",
+      "input": "explicit_macro.json",
+      "input_sha256": "f117a7e80913a23b96575f7ee3280eb94cae225e49bcdaf91800a5f7726609a9",
+      "sygus_sha256": "6bdd863ef94c8d9458930f80be22fc710a60af71877811f65337e7514df43cee",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=2s",
+        "20s",
+        "/usr/bin/taskset",
+        "-c",
+        "0",
+        "/usr/bin/prlimit",
+        "--as=4294967296",
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "research/ocm-prototype/clia_worker.py"
+      ],
+      "shell_proposal": "/usr/bin/timeout --kill-after=2s 20s /usr/bin/taskset -c 0 /usr/bin/prlimit --as=4294967296 /home/billy/orion-director-work/20260906/generation-env/bin/python research/ocm-prototype/clia_worker.py < research/ocm-prototype/results/generation-feasibility-20260906/prospective/explicit_macro.json > explicit_macro.stdout 2> explicit_macro.stderr"
+    },
+    {
+      "case": "forced_manual_macro",
+      "role": "MANUAL_FORCED_PARSER_CONTROL",
+      "input": "forced_manual_macro.json",
+      "input_sha256": "8f16a9f784de3d2f134dd70cbe4b4a48d83b2749483e7063430636f8328caffa",
+      "sygus_sha256": "89a7496bfbfcc204821738a4821792a6935a93bef6b5ebc9a91a4b40b67dc14c",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=2s",
+        "20s",
+        "/usr/bin/taskset",
+        "-c",
+        "0",
+        "/usr/bin/prlimit",
+        "--as=4294967296",
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "research/ocm-prototype/clia_worker.py"
+      ],
+      "shell_proposal": "/usr/bin/timeout --kill-after=2s 20s /usr/bin/taskset -c 0 /usr/bin/prlimit --as=4294967296 /home/billy/orion-director-work/20260906/generation-env/bin/python research/ocm-prototype/clia_worker.py < research/ocm-prototype/results/generation-feasibility-20260906/prospective/forced_manual_macro.json > forced_manual_macro.stdout 2> forced_manual_macro.stderr"
+    }
+  ],
+  "required_before_launch": "Root review, exact source/input registration and explicit launch; retain all stdout/stderr/exit and elapsed, including failures. A tiny capture boundary remains to be qualified; shell commands are a concrete proposal, not an executed capture.",
+  "output_semantics": {
+    "native_tag": "sygus-sol-gterm",
+    "manual_marker": "GEN_fn_0",
+    "marker_authority": "Returned grammar-derivation membership only; reconstruction from a builtin solution is possible; no causal search benefit.",
+    "full_grammar": "All original primitive alternatives plus a uniquely named singleton macro nonterminal. This grammar adaptation may change ordering/size; match it in adaptive native parent.",
+    "forced_route": "Removes primitive root alternatives except parameters and GEN_fn_0 solely to qualify parser/native output. Not a fair comparator or learned-generation result.",
+    "required_checks": [
+      "exact public spec/task/source hashes",
+      "effective output option and native stream routing",
+      "expanded returned program passes unchanged host grammar and fixed Z3 universal checker",
+      "primitive-only has no manual marker",
+      "forced control exposes unambiguous registered marker or CANNOT_CHECK_CONSUMPTION",
+      "full macro route reports native returned membership or NO_OBSERVED_USE; never infer use from compressibility"
+    ],
+    "failure": "Missing/unmapped diagnostic, parse failure, timeout or incomplete raw => CANNOT_CHECK_CONSUMPTION; preserve failed attempt without silent option fallback/retry."
+  },
+  "learning": "Stitch compress/rewrite and later learned-task discovery have NOT been executed. Learned abstractions, transfer and benefit remain NOT_ESTABLISHED."
+}
