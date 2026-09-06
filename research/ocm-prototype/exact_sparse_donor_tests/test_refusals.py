@@ -63,7 +63,7 @@ def test_repeated_call_and_changed_relevance_rebuild_exact_values():
     assert D.fixed_point(ks, seed, F(1,3), relevance=relevance) == second
 
 
-def test_reference_consumer_does_not_import_unused_sympy():
+def test_reference_consumer_does_not_import_unused_sympy(prototype_subprocess_env):
     code = """
 import json, sys
 from representation_donor_fixture import fixture
@@ -74,7 +74,7 @@ out=evaluate(f['ks'],f['task'],f['operators'],arm='reference',
 print(json.dumps({'sympy_imported': any(x == 'sympy' or x.startswith('sympy.') for x in sys.modules),
                   'status':out['consumer']['status'], 'channels':len(out['vectors'])}))
 """
-    run = subprocess.run([sys.executable, "-c", code], text=True, capture_output=True, timeout=15)
+    run = subprocess.run([sys.executable, "-c", code], text=True, capture_output=True, timeout=15, env=prototype_subprocess_env)
     assert run.returncode == 0, run.stderr
     assert json.loads(run.stdout) == {"sympy_imported": False, "status": "COMPLETED", "channels": 4}
 
