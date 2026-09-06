@@ -1,0 +1,224 @@
+{
+  "cwd": "/home/billy/orion-director-work/20260906/ocm-registered-research",
+  "executions": [
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "-c",
+        "import sys,json,os\nfrom pathlib import Path\nimport pytest\naudit=Path(sys.argv[1]).open('x')\ndef record(value):\n    audit.write(json.dumps(value,sort_keys=True)+'\\n'); audit.flush()\nclass NoNative:\n    def find_spec(self,fullname,path=None,target=None):\n        if fullname.split('.')[0] in ('cvc5','z3'):\n            record({'blocked_native_import':fullname})\n            raise RuntimeError('native solver import forbidden in mocked integration qualification')\nsys.meta_path.insert(0,NoNative())\nlogger=\"import os; from explicit_phase_worker import phase; phase('test.before'); os._exit(17)\"\ndef hook(event,args):\n    if event=='subprocess.Popen':\n        argv=args[1]\n        isgit=(argv==['/usr/bin/git','-C',str(Path.cwd()/'research/ocm-prototype'),'rev-parse','HEAD'] or argv==['/usr/bin/git','rev-parse','HEAD'])\n        islogger=argv==[sys.executable,'-B','-c',logger]\n        record({'event':event,'argv':argv,'cwd':str(args[2]),'classification':'git_lineage' if isgit else 'phase_log_flush' if islogger else 'FORBIDDEN'})\n        if not (isgit or islogger): raise RuntimeError('unregistered child process forbidden')\n    elif event in ('os.system','os.posix_spawn','os.spawn'):\n        record({'blocked_process_event':event}); raise RuntimeError('native dispatch forbidden')\nsys.addaudithook(hook)\nstatus=pytest.main(sys.argv[2:])\nrecord({'pytest_exit_code':status,'native_assay_executions':0,'native_checker_executions':0})\naudit.close()\nraise SystemExit(status)\n",
+        "/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_integration_20260906/mocked-integration.process-audit.jsonl",
+        "-q",
+        "research/ocm-prototype/generation_tests/test_later_consumption_contract.py",
+        "research/ocm-prototype/generation_tests/test_later_consumption_protocol.py",
+        "research/ocm-prototype/generation_tests/test_later_consumption_drift.py",
+        "research/ocm-prototype/generation_tests/test_later_consumption_decode.py",
+        "research/ocm-prototype/generation_tests/test_explicit_phase_worker.py",
+        "research/ocm-prototype/generation_tests/test_explicit_phase_diagnostic.py",
+        "--junitxml=/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_integration_20260906/mocked-integration.xml"
+      ],
+      "elapsed_s": 14.428909195994493,
+      "environment_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "junit": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 57
+      },
+      "label": "mocked-integration"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "-c",
+        "import sys,json,os\nfrom pathlib import Path\nimport pytest\naudit=Path(sys.argv[1]).open('x')\ndef record(value):\n    audit.write(json.dumps(value,sort_keys=True)+'\\n'); audit.flush()\nclass NoNative:\n    def find_spec(self,fullname,path=None,target=None):\n        if fullname.split('.')[0] in ('cvc5','z3'):\n            record({'blocked_native_import':fullname})\n            raise RuntimeError('native solver import forbidden in mocked integration qualification')\nsys.meta_path.insert(0,NoNative())\nlogger=\"import os; from explicit_phase_worker import phase; phase('test.before'); os._exit(17)\"\ndef hook(event,args):\n    if event=='subprocess.Popen':\n        argv=args[1]\n        isgit=(argv==['/usr/bin/git','-C',str(Path.cwd()/'research/ocm-prototype'),'rev-parse','HEAD'] or argv==['/usr/bin/git','rev-parse','HEAD'])\n        islogger=argv==[sys.executable,'-B','-c',logger]\n        record({'event':event,'argv':argv,'cwd':str(args[2]),'classification':'git_lineage' if isgit else 'phase_log_flush' if islogger else 'FORBIDDEN'})\n        if not (isgit or islogger): raise RuntimeError('unregistered child process forbidden')\n    elif event in ('os.system','os.posix_spawn','os.spawn'):\n        record({'blocked_process_event':event}); raise RuntimeError('native dispatch forbidden')\nsys.addaudithook(hook)\nstatus=pytest.main(sys.argv[2:])\nrecord({'pytest_exit_code':status,'native_assay_executions':0,'native_checker_executions':0})\naudit.close()\nraise SystemExit(status)\n",
+        "/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_integration_20260906/original-five-grammar.process-audit.jsonl",
+        "-q",
+        "research/ocm-prototype/generation_tests/test_generation.py",
+        "-k",
+        "requests_keep_primitive_grammar",
+        "--junitxml=/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_integration_20260906/original-five-grammar.xml"
+      ],
+      "elapsed_s": 0.17630220897262916,
+      "environment_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "junit": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "label": "original-five-grammar"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m1_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.263767741038464,
+      "exit_code": 0,
+      "label": "m1-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8cd9e54e5159d79932f9e7937bedc0ad451dcdb68998dba99c4c083d6472929b"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m2_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.25941950001288205,
+      "exit_code": 0,
+      "label": "m2-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a3906e0b6610066ad405cd4b2cd9cdc7abced98f647fc9d0fa76b4dfd508c61e"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m3_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.2566797050531022,
+      "exit_code": 0,
+      "label": "m3-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3c68e782a5636354715a3faf04784b56fc56a0fa8cd9216e93ac5776d8e0f15f"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m4_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.2550962989917025,
+      "exit_code": 0,
+      "label": "m4-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "f6412673507d172a3c979ac1f32575a754027793c4662018e244dda19ff7d3d5"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m5_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.26390834094490856,
+      "exit_code": 0,
+      "label": "m5-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "73b48d8d29b5f6248d2110623af3097bef4e46b045fa98099c81c96ee0c6bfb9"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m6_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.2547966379788704,
+      "exit_code": 0,
+      "label": "m6-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6001a595fa99dffda1719be1ea95aa2425ad94069d02e7c5bfe2e3919c978def"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m7_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.25997921300586313,
+      "exit_code": 0,
+      "label": "m7-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "208db3ae452d5ef5f45aebadb9f6dce60debfe650efb932bbec48a62ade8709c"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m8_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.261035670991987,
+      "exit_code": 0,
+      "label": "m8-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6dcd3b15f715466d8490ccf3bc838dcba53b6c4bd6ece5905a83e41f2ff1112f"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m9_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.25673323700902984,
+      "exit_code": 0,
+      "label": "m9-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "1796728b224fbec6a98ab58947562b3cb9b1943e2dca2d40513cb448deb66960"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m10_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.25428024103166535,
+      "exit_code": 0,
+      "label": "m10-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "049d9187cfa7e192b32259b36c9736ac422453ab0d06edb1cf8b52ac5068bbd4"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m11_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.2580703280400485,
+      "exit_code": 0,
+      "label": "m11-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c0db8939446d0cbce8cf5c77e0135f7ccba199abf862c7b0cece40c54e952a1a"
+    },
+    {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+        "-B",
+        "tools/m12_receipt.py",
+        "--verify"
+      ],
+      "elapsed_s": 0.25869487394811586,
+      "exit_code": 0,
+      "label": "m12-verify",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6c2b9dad3ebaf4f627e14f7ddba4dfe40d904853b4c772be7404217ca8a6ee90"
+    }
+  ],
+  "native_assay_executions": 0,
+  "native_checker_executions": 0,
+  "native_scope": "This integration qualification only; historical registered native captures remain preserved.",
+  "source_after_head": "b95b2329d59b0b29a94a312366eb710fcbc91e60",
+  "source_before_head": "b95b2329d59b0b29a94a312366eb710fcbc91e60",
+  "source_unchanged": true
+}

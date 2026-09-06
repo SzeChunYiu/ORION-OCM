@@ -1,0 +1,7 @@
+{
+  "action": "synthesize",
+  "payload": {
+    "sygus": "(set-logic LIA)\n(define-fun fn_0 ((h0 Int)) Bool (not (>= h0 1)))\n(synth-fun absdiff2 ((x Int) (y Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int) (GEN_fn_0 Bool)) ((OCM_I Int (x y OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I) GEN_fn_0)) (OCM_K Int ((Constant Int))) (GEN_fn_0 Bool ((fn_0 OCM_I)))))\n(declare-var x Int)\n(declare-var y Int)\n(constraint (>= (absdiff2 x y) (- x y)))\n(constraint (>= (absdiff2 x y) (- y x)))\n(constraint (or (= (absdiff2 x y) (- x y)) (= (absdiff2 x y) (- y x))))\n(check-synth)\n"
+  },
+  "timeout_ms": 5000
+}
