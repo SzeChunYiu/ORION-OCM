@@ -1,0 +1,40 @@
+{
+  "scope": "UNIT_FIXTURE_NOT_PANEL",
+  "spec": "(set-logic LIA)\n(synth-fun unit_const ((u Int)) Int)\n(declare-var u Int)\n(constraint (= (unit_const u) 7))\n(check-synth)",
+  "result": {
+    "status": "SOLUTION",
+    "native_invoked": true,
+    "metrics": {
+      "external_deadline_s": 15,
+      "native_timeout_ms": 5000,
+      "worker_cpu_s": 0.02520622,
+      "peak_rss_kib": 46280,
+      "worker_pid": 3437388,
+      "unmeasured": [
+        "energy",
+        "native internal active bytes",
+        "installation/pretraining costs"
+      ],
+      "request_bytes": 194,
+      "response_bytes": 478,
+      "worker_wall_s": 0.02520659999572672,
+      "envelope_wall_s": 0.061768815998220816
+    },
+    "candidate": "(\n(define-fun unit_const ((u Int)) Int 7)\n)\n",
+    "solver_result": "solution",
+    "reason": "",
+    "solver": "cvc5 1.3.4",
+    "logical_counters_not_physical_cost": {
+      "global::totalTime": {
+        "default": false,
+        "internal": false,
+        "value": "3ms"
+      },
+      "resource::resourceUnitsUsed": {
+        "default": false,
+        "internal": true,
+        "value": 700
+      }
+    }
+  }
+}

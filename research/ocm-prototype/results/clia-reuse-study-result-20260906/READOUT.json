@@ -1,0 +1,406 @@
+{
+  "actual_backend_calls": {
+    "native": {
+      "acquire": {
+        "application": 0,
+        "syntax": 0,
+        "synthesize": 2,
+        "verify": 2
+      },
+      "history": {
+        "application": 4,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "restart": {
+        "application": 12,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "restore": {
+        "application": 4,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "warm": {
+        "application": 12,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "withdraw": {
+        "application": 2,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      }
+    },
+    "ocm": {
+      "acquire": {
+        "application": 0,
+        "syntax": 0,
+        "synthesize": 2,
+        "verify": 6
+      },
+      "history": {
+        "application": 4,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "restart": {
+        "application": 12,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "restore": {
+        "application": 4,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "warm": {
+        "application": 12,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      },
+      "withdraw": {
+        "application": 2,
+        "syntax": 1,
+        "synthesize": 0,
+        "verify": 0
+      }
+    }
+  },
+  "all_prior_attempts_retained": [
+    "v1",
+    "v2"
+  ],
+  "arms": {
+    "native": {
+      "assigned": {
+        "acquisitions": 2,
+        "authorized_values": 34,
+        "math": 36,
+        "policy_refusals": 2,
+        "syntax": 5
+      },
+      "math_counts": {
+        "CORRECT_VALUE": 34,
+        "EXPECTED_POLICY_REFUSAL": 2
+      },
+      "math_unchecked": 0,
+      "syntax_retained": true,
+      "syntax_unchecked": 0
+    },
+    "ocm": {
+      "assigned": {
+        "acquisitions": 2,
+        "authorized_values": 34,
+        "math": 36,
+        "policy_refusals": 2,
+        "syntax": 5
+      },
+      "math_counts": {
+        "CORRECT_VALUE": 34,
+        "EXPECTED_POLICY_REFUSAL": 2
+      },
+      "math_unchecked": 0,
+      "syntax_retained": true,
+      "syntax_unchecked": 0
+    }
+  },
+  "capture_internal_wall_s": 26.84955797099974,
+  "capture_manifest_sha256": "8204dd4bbd9f14777a5d8b0523c7b983d688a04827a62996ae80f809ebf8e4c8",
+  "capture_receipt_sha256": "7954fd7e07dc5d244979d7fc7af69edc6d171d3e1aef200dc43f6878aa52267f",
+  "cost": {
+    "reason": "No verified complete descendant CPU custody; raw scopes retained. Capture excludes F0 construction and original donor training; no whole-lifetime efficiency inference.",
+    "status": "CANNOT_CHECK_COST",
+    "total_process_tree_cpu_s": null
+  },
+  "executed_source_commit": "1509d23217a43e4024b442f66b242316bc877e55",
+  "f0_sha256": "629172c51fa0e6dc1ce6419de3ffe8e347d65b3e8136de4e7a7b66a3b8edd213",
+  "f1_sha256": "b890f876d754b82b220fd6fd988b1780c697cf8428cba6cdca02df702f46450b",
+  "function": "EXECUTABLE_REUSE_DEVELOPMENT_SUPPORTED",
+  "grade_sha256": "a34e53904838959f969174cb39410356631d61f0c634ebd85ebac6c7fe1ba1d9",
+  "outer_supervisor_exit_cpu_wall": null,
+  "outer_supervisor_reason": "Preserved reporting error after wait4 reaped the capture actor; not reconstructed.",
+  "parent": "PARENT_SUFFICIENT_FUNCTION_ONLY",
+  "phase_resource_observations": [
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.276096,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.138114
+      },
+      "arm": "native",
+      "assigned_rows": 2,
+      "direct_actor_wait4_cpu_s": 0.43226,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 4456,
+        "ru_maxrss": 57756,
+        "ru_nivcsw": 91,
+        "ru_nvcsw": 87,
+        "ru_oublock": 23296,
+        "ru_stime": 0.078844,
+        "ru_utime": 0.353416
+      },
+      "phase": "acquire",
+      "wall_s": 0.4513562119973358
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.5434749999999999,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.304566
+      },
+      "arm": "ocm",
+      "assigned_rows": 2,
+      "direct_actor_wait4_cpu_s": 0.8689999999999999,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 80,
+        "ru_maxrss": 57880,
+        "ru_nivcsw": 153,
+        "ru_nvcsw": 325,
+        "ru_oublock": 32328,
+        "ru_stime": 0.186468,
+        "ru_utime": 0.6825319999999999
+      },
+      "phase": "acquire",
+      "wall_s": 1.0592327800113708
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.839816
+      },
+      "arm": "native",
+      "assigned_rows": 13,
+      "direct_actor_wait4_cpu_s": 0.864653,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 16,
+        "ru_maxrss": 137988,
+        "ru_nivcsw": 105,
+        "ru_nvcsw": 3,
+        "ru_oublock": 680,
+        "ru_stime": 0.040029999999999996,
+        "ru_utime": 0.824623
+      },
+      "phase": "warm",
+      "wall_s": 0.8707601010100916
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 2.176556
+      },
+      "arm": "ocm",
+      "assigned_rows": 13,
+      "direct_actor_wait4_cpu_s": 2.204299,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 143816,
+        "ru_nivcsw": 425,
+        "ru_nvcsw": 2040,
+        "ru_oublock": 125944,
+        "ru_stime": 0.118298,
+        "ru_utime": 2.086001
+      },
+      "phase": "warm",
+      "wall_s": 2.860899986990262
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 4.234469
+      },
+      "arm": "ocm",
+      "assigned_rows": 13,
+      "direct_actor_wait4_cpu_s": 4.26525,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 148096,
+        "ru_nivcsw": 488,
+        "ru_nvcsw": 4522,
+        "ru_oublock": 361136,
+        "ru_stime": 0.191876,
+        "ru_utime": 4.073374
+      },
+      "phase": "restart",
+      "wall_s": 4.97003293200396
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.8501629999999999
+      },
+      "arm": "native",
+      "assigned_rows": 13,
+      "direct_actor_wait4_cpu_s": 0.8747969999999999,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 138208,
+        "ru_nivcsw": 101,
+        "ru_nvcsw": 1,
+        "ru_oublock": 904,
+        "ru_stime": 0.044141,
+        "ru_utime": 0.830656
+      },
+      "phase": "restart",
+      "wall_s": 0.8813674740085844
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.8103689999999999
+      },
+      "arm": "native",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 0.835253,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 138136,
+        "ru_nivcsw": 94,
+        "ru_nvcsw": 1,
+        "ru_oublock": 912,
+        "ru_stime": 0.047957,
+        "ru_utime": 0.787296
+      },
+      "phase": "history",
+      "wall_s": 0.8376509730005637
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 3.343674
+      },
+      "arm": "ocm",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 3.373186,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 150620,
+        "ru_nivcsw": 417,
+        "ru_nvcsw": 2705,
+        "ru_oublock": 272664,
+        "ru_stime": 0.221711,
+        "ru_utime": 3.151475
+      },
+      "phase": "history",
+      "wall_s": 3.7004840789886657
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 3.7114279999999997
+      },
+      "arm": "ocm",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 3.741679,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 153840,
+        "ru_nivcsw": 541,
+        "ru_nvcsw": 3342,
+        "ru_oublock": 318760,
+        "ru_stime": 0.200733,
+        "ru_utime": 3.540946
+      },
+      "phase": "withdraw",
+      "wall_s": 4.034412373002851
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.813893
+      },
+      "arm": "native",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 0.8387419999999999,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 138404,
+        "ru_nivcsw": 101,
+        "ru_nvcsw": 1,
+        "ru_oublock": 936,
+        "ru_stime": 0.055916,
+        "ru_utime": 0.7828259999999999
+      },
+      "phase": "withdraw",
+      "wall_s": 0.8419401250139344
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 0.8313159999999999
+      },
+      "arm": "native",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 0.8572899999999999,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 138216,
+        "ru_nivcsw": 102,
+        "ru_nvcsw": 1,
+        "ru_oublock": 1040,
+        "ru_stime": 0.052078,
+        "ru_utime": 0.8052119999999999
+      },
+      "phase": "restore",
+      "wall_s": 0.8696050890139304
+    },
+    {
+      "actor_self_and_reaped_child_cpu": {
+        "reaped_children_s": 0.0,
+        "scope": "separate direct self and reaped-child rusage; no full-tree completeness claim",
+        "self_s": 4.761769
+      },
+      "arm": "ocm",
+      "assigned_rows": 5,
+      "direct_actor_wait4_cpu_s": 4.793623,
+      "direct_actor_wait4_raw": {
+        "ru_inblock": 0,
+        "ru_maxrss": 157112,
+        "ru_nivcsw": 568,
+        "ru_nvcsw": 4807,
+        "ru_oublock": 425672,
+        "ru_stime": 0.216253,
+        "ru_utime": 4.57737
+      },
+      "phase": "restore",
+      "wall_s": 5.1298595370026305
+    }
+  ],
+  "resource_scope": "Descriptive process scopes and logical bytes; includes neither complete process-tree CPU nor all prior training/acquisition/engineering cost. All attempts remain chargeable; no whole-lifetime efficiency conclusion.",
+  "schema": "ocm.reuse.result-summary.v1",
+  "scope": "FINITE_PUBLIC_DEVELOPMENT_FUNCTION_CONTROL",
+  "state_bytes": {
+    "native": {
+      "allocated_file_bytes": 11915264,
+      "files": 54,
+      "logical_bytes": 11768213,
+      "scope": "sum over files; filesystem dedup/compression unknown"
+    },
+    "ocm": {
+      "allocated_file_bytes": 15925248,
+      "files": 6,
+      "logical_bytes": 15916017,
+      "scope": "sum over files; filesystem dedup/compression unknown"
+    }
+  },
+  "syntax_parent_equality": true
+}

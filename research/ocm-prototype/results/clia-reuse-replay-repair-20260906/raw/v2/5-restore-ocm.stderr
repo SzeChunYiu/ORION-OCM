@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/research/ocm-prototype/clia_reuse_study_worker.py", line 112, in <module>
+    path = Path(sys.argv[1]); result = execute(json.loads(path.read_text()), path)
+                                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/research/ocm-prototype/clia_reuse_study_worker.py", line 44, in execute
+    actor = Actor(config["state"], config["arm"])
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/research/ocm-prototype/clia_reuse_study_state.py", line 22, in __init__
+    self.runtime = G.OCMRuntime(self.root, config=G.CONFIG)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/src/ocm/runtime/ocm_runtime.py", line 119, in __init__
+    self._replay()
+    ~~~~~~~~~~~~^^
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/src/ocm/runtime/ocm_runtime.py", line 152, in _replay
+    ev.expectation.check(log_head=(self.events[-1].event_hash if self.events else None), kso_state_hash=self.state.kso_state_hash, registry_revision=self.state.registry_revision, evidence_epoch=self.state.evidence_epoch)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/src/ocm/store/event.py", line 105, in check
+    raise StaleStateHash("kso_state_hash", self.kso_state_hash, kso_state_hash)
+ocm.store.event.StaleStateHash: kso_state_hash: expected '8c235b497adf46fe3d29e32c98f33c5dac70d176ae8a30f964feb67e7ae379e3', actual '372ab7dfd446bed5531d8a2cc81f266da8e41778466f1da113b9b54c7a0e0226'

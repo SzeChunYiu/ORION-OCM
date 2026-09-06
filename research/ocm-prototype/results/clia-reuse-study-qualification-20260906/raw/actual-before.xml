@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.036" timestamp="2026-09-06T06:54:58.876176+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_actual_native_and_ocm_unit_outputs_qualify_external_grader" time="0.001"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7fc3139d8180&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7fc3139d8180&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-78/test_actual_native_and_ocm_uni0')
+
+    def test_actual_native_and_ocm_unit_outputs_qualify_external_grader(tmp_path):
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7fc3139d8180&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7fc3139d8180&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase></testsuite></testsuites>

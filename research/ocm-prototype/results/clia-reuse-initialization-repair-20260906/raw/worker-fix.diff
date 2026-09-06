@@ -1,0 +1,27 @@
+diff --git a/research/ocm-prototype/clia_reuse_study_worker.py b/research/ocm-prototype/clia_reuse_study_worker.py
+index c3b454c..e3f4f8a 100644
+--- a/research/ocm-prototype/clia_reuse_study_worker.py
++++ b/research/ocm-prototype/clia_reuse_study_worker.py
+@@ -38,8 +38,11 @@ def event_delta(events):
+ 
+ def execute(config, input_path):
+     if source_files() != config["source_files"]: raise ValueError("SOURCE_CHANGED_BEFORE_ACTOR")
++    phase = config["phase"]; state = Path(config["state"])
++    if phase == "acquire" and state.exists() and (not state.is_dir() or any(state.iterdir())):
++        raise ValueError("ACQUISITION_STATE_NOT_FRESH")
+     actor = Actor(config["state"], config["arm"])
+-    phase = config["phase"]; rows = Path(config["rows"])
++    rows = Path(config["rows"])
+     if rows.exists(): raise ValueError("refuse rows overwrite")
+     receipt = {"schema": "ocm.reuse.stage.v1", "arm": config["arm"], "phase": phase, "pid": os.getpid(),
+                "f0_sha256": config["f0_sha256"], "f1_sha256": config.get("f1_sha256"),
+@@ -50,9 +53,6 @@ def execute(config, input_path):
+         actor.model_path()
+         receipt["entry_audit"] = actor.audit()
+     else:
+-        if any(Path(config["state"]).iterdir()):
+-            # Actor constructors may create only empty native library directories.
+-            if any(p.is_file() for p in Path(config["state"]).rglob("*")): raise ValueError("ACQUISITION_STATE_NOT_FRESH")
+         actor.setup(config["model"], config["training_manifest"])
+         receipt["entry_audit"] = actor.audit()
+     event_path = Path(config["events"])
