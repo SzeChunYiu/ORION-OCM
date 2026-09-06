@@ -1,7 +1,8 @@
 # Prepared engineering qualification
 
 The focused tests use manual donor responses and mocked native checker calls.
-No real cvc5 synthesis, Z3 obligation or Stitch induction has executed for this assay.
+These controls ran before the native freeze; they invoked no real cvc5 synthesis,
+Z3 obligation or Stitch induction. The later once-only native result is in [RESULT.md](RESULT.md).
 
 The RED tests first failed because the task successor and protocol modules were
 missing. Additional RED controls caught command drift and excessive expansion of
