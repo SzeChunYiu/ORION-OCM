@@ -5,18 +5,16 @@
   work skills (demonstration evidence admitted into the same ledger; liveness read from it), the
   M10 ScienceLedger and the M11 SelfModel.  Nothing is reset between phases; `identity()` returns
   the ledger root and the state digest so the receipt can prove continuity.
-* `WholeSystemParent` — the strongest faithful parent buildable here without a foundation model:
-  the M7 MatchedParent for language (same manifest, lessons, corrections), the M9 SkillLibraryArm
-  for work (explicit skill library with name-similarity transfer), the M10 parent procedures for
-  science (entropy selection, naive/backdoor estimators with the *same* pre-registered analysis
-  plan and kernel), and parameter search + reflection-retry for repair.  It receives identical
-  tasks, demonstrations, lessons and budgets.  The experimental difference is declared, not
-  hidden: explicit warrant/revocation/scope machinery, role-typed transfer, evidence dependence
-  and identification gates, and the M11 governed self-change path.
+* `WholeSystemParent` — conventional persistent language records with the shared bounded
+  interpretation donor and work skill library. Current exposed A/E correct input/frontend/
+  transfer parity, with unsupported routes explicit. Science, global domain-revocation and
+  repair procedures retain legacy comparator gaps: this is NOT whole-system matched evidence.
+  `LegacyWholeSystemParent` retains the old M7 regex/similarity arm as a labelled ablation.
 * `TemplateFloor` — the M7 template arm for language plus no-op work/science (a floor, not a parent).
 
-A frontier foundation-model reference arm cannot be built in this environment (no network, no
-model): `FRONTIER_REFERENCE = CANNOT_CHECK` is recorded, never silently omitted.
+This harness has no registered frontier foundation-model reference execution.
+`FRONTIER_REFERENCE = CANNOT_CHECK` records that missing comparison, not a
+claim about the host's network access or available models.
 """
 from __future__ import annotations
 
@@ -35,8 +33,9 @@ from ocm.store.evidence import Channel
 from ocm.work import contracts as C
 from ocm.work import envs as E
 from ocm.work import methods as M
+from .native_parent import WholeSystemParent
 
-FRONTIER_REFERENCE = "CANNOT_CHECK (no network / no foundation model in this environment; reference arm not built)"
+FRONTIER_REFERENCE = "CANNOT_CHECK (no registered frontier reference execution in this harness)"
 
 
 def identity_chain(runtime) -> dict[str, Any]:
@@ -101,7 +100,7 @@ class PersistentOCM(M7.OCMArm):
         self.phase_log: list[dict[str, Any]] = []
 
     # ------------------------------------------------------------------ restart = same identity
-    def say(self, utt: str) -> str:
+    def say(self, utt: str, speaker: str = "user") -> str:
         if utt == "__restart__":
             # persist and reopen the SAME ledger root; every component is re-pointed at the reopened runtime
             # (the inherited restart reopened a session at a different path: ledger S31)
@@ -113,7 +112,12 @@ class PersistentOCM(M7.OCMArm):
                     if hasattr(comp, attr):
                         setattr(comp, attr, self.runtime)
             return "restarted"
-        return super().say(utt)
+        if utt == "__revoke_last_lesson__":
+            utt = f"revoke {self.last_lesson}"
+        reply = self.s.say(utt, speaker)
+        if utt.strip().lower().startswith("teach:") and self.s.traces[-1].warrant_ids:
+            self.last_lesson = self.s.traces[-1].warrant_ids[0]
+        return reply
 
     # ------------------------------------------------------------------ identity
     def identity(self) -> dict[str, Any]:
@@ -162,14 +166,17 @@ class PersistentOCM(M7.OCMArm):
         return base
 
 
-class WholeSystemParent(M7.ParentArm):
-    name = "whole_system_parent"
+class LegacyWholeSystemParent(M7.ParentArm):
+    name = "legacy_whole_system_parent_ablation"
 
     def __init__(self, root: Path):
         super().__init__(Path(root) / "parent")
         self.work = M9.SkillLibraryArm()
         self.phase_log: list[dict[str, Any]] = []
         self.revoked_domains: set[str] = set()
+
+    def say(self, utt: str, speaker: str = "user") -> str:
+        return super().say(utt)
 
     def identity(self) -> dict[str, Any]:
         return {"state_file": str(self.state), "skills": sorted(self.work.skills), "lessons": self.p.info.get("lessons")}
@@ -201,6 +208,9 @@ class TemplateFloor(M7.TemplateArm):
     def __init__(self, root: Path):
         super().__init__(Path(root))
         self.phase_log: list[dict[str, Any]] = []
+
+    def say(self, utt: str, speaker: str = "user") -> str:
+        return super().say(utt)
 
     def identity(self) -> dict[str, Any]:
         return {"facts": len(self.facts)}

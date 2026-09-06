@@ -8,6 +8,7 @@ reads a protected answer: the science oracle worlds and task checkers are the gr
 from __future__ import annotations
 
 import time
+import json
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -47,7 +48,12 @@ def phase_A(arm) -> dict[str, Any]:
     M7.NEGATIVE_TRANSFER = M7.NEGATIVE_TRANSFER_V2
     fac = _same(arm)
     root = Path("/nonexistent")                            # the factory ignores the root: one instance
-    conv = M7.conversations(fac, root)
+    # The lifetime wrapper accepts named speakers for every current arm.
+    # Do not route through the historical M7 parent adapter that drops them.
+    conv = []
+    for conversation in json.loads(M7.CONVS.read_text(encoding="utf-8"))["conversations"]:
+        for speaker, utterance, pattern in conversation["turns"]:
+            conv.append(M7._match(arm.say(utterance, speaker=speaker), pattern))
     fin, unk = M7.factual(fac, root)
     pd = M7.post_deployment(fac, root)
     neg = M7.negative_transfer(fac, root)
@@ -61,7 +67,7 @@ def phase_A_stream(arm, stream: dict[str, Any]) -> dict[str, Any]:
     conv: list[bool] = []
     for c in stream["conversations"]:
         for speaker, utt, pat in c["turns"]:
-            reply = arm.say(utt) if speaker == "user" else (arm.s.say(utt, speaker) if isinstance(arm, PersistentOCM) else arm.say(utt))
+            reply = arm.say(utt, speaker=speaker)
             conv.append(M7._match(reply, pat))
     fin, unk = [], []
     for q, pat in stream["factual"]:
@@ -168,12 +174,16 @@ def phase_E(arm, *, matched_cells: bool = False) -> dict[str, Any]:
     da, sw = E.analysis_operators(1), E.software_operators(1)
     is_ocm = isinstance(arm, PersistentOCM)
     ok = lambda r: bool(r and r.success)  # noqa: E731
-    if is_ocm:
+    # Fixed role-checking and correspondence donors are available to the
+    # conventional parent too. The regex/similarity route is an explicit ablation.
+    shared_contract = (isinstance(arm, WholeSystemParent)
+                       and arm.frontend == "semantic")
+    if is_ocm or shared_contract:
         tm5 = C.TransferMap("m12:t5", src.skill_id, "analysis", {r: o for r, o in M7_bindings(da).items() if r != "document"}, (), E.ROLES, (), {}, 0.5, (), WP.of({"corr:da"}))
         cells["partial_adapter_required"] = {"expected": "ADAPTER_REQUIRED", "result": C.transported_skill(src, tm5, da)[0].value}
         tm6 = C.TransferMap("m12:t6", src.skill_id, "analysis", M7_bindings(da), (), E.ROLES, (), {"facts": "summary"}, 0.5, (), WP.of({"corr:da"}))
         v6, sk6, _ = C.transported_skill(src, tm6, da)
-        cells["representation_correspondence"] = {"expected": "TRANSFER", "result": "TRANSFER" if v6 is C.TransferVerdict.TRANSFER and ok(M.run_skill(sk6, da, E.analysis_task(300))) else v6.value}
+        cells["representation_correspondence"] = {"expected": "TRANSFER", "result": "TRANSFER" if v6 is C.TransferVerdict.TRANSFER and ok(M.run_skill(sk6, da, E.analysis_task(300))) else ("TRANSFER_EXECUTION_FAILED" if v6 is C.TransferVerdict.TRANSFER else v6.value)}
         tm7 = C.TransferMap("m12:t7", src.skill_id, "software", {**M7_bindings(sw), "act_smallest": "sw.rewrite_all"}, (), E.ROLES, (), {}, 0.5, (), WP.of({"corr:sw"}))
         cells["deceptive_analogy"] = {"expected": "REFUSE_TRANSFER", "result": C.transported_skill(src, tm7, sw)[0].value}
         sci = _science_ops()

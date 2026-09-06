@@ -25,13 +25,13 @@ from ocm.language.constructions import CandidateMeaning, Construction
 from ocm.language.interpret import Interpretation, Verdict, interpret, tokenize
 from ocm.language.lexicon import Lexicon
 from ocm.language.meaning import MeaningGraph, canonical
+from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe, correction_body, CORRECTION_PREFIXES, clarification_choice
 
 from . import clarify as CL
 from . import gate as G
 from . import reference as R
 from .workspace import Commitment, DialogueWorkspace, WorkspaceRefusal
 
-CORRECTION_PREFIXES = ("correction,", "correction:", "no,", "actually,", "i was wrong,", "i meant")
 PRONOUN_NODE_LABELS = {None}
 
 
@@ -46,22 +46,6 @@ class MachineTurn:
     interpretation: Interpretation | None = None
 
 
-def _is_question(m: MeaningGraph) -> bool:
-    return any(e.relation == "ASKS" for e in m.edges)
-
-
-def _strip(m: MeaningGraph, relation: str, node_type: str | None = None) -> MeaningGraph:
-    nodes = tuple(n for n in m.nodes if node_type is None or n.node_type != node_type)
-    return MeaningGraph(nodes, tuple(e for e in m.edges if e.relation != relation), m.root)
-
-
-def _is_negated(m: MeaningGraph) -> bool:
-    return any(e.relation == "NEGATES" for e in m.edges)
-
-
-def _describe(m: MeaningGraph) -> str:
-    parts = [f"{e.relation[5:]}={m.node(e.heads[0]).label}" for e in m.edges if e.relation.startswith("ROLE:")]
-    return f"{m.node(m.root).label if m.root else '?'}({', '.join(parts)})"
 
 
 @dataclass
@@ -141,14 +125,7 @@ class DialogueRuntime:
         ws = self.workspace
         if self.pending.get("clarify") is not None:
             return self._resolve_clarification(utterance, speaker)
-        low = utterance.strip().lower()
-        correction = any(low.startswith(p) for p in CORRECTION_PREFIXES)
-        body = utterance
-        if correction:
-            for p in CORRECTION_PREFIXES:
-                if low.startswith(p):
-                    body = utterance[len(p):].strip()
-                    break
+        body, correction = correction_body(utterance)
         r = interpret(body, self.lexicon, self.constructions, speaker=speaker, conversation=self.conversation_id, revoked=self._revoked())
         turn = ws.record_turn(speaker, original_utterance if original_utterance is not None else utterance, "CORRECT" if correction else ("ASK" if r.verdict is Verdict.INTERPRETED and _is_question(r.meaning) else "ASSERT"), r.verdict.value, meaning_digest=None if r.meaning is None else canonical(r.meaning)[1])
         if r.verdict is Verdict.INTERPRETED:
@@ -252,15 +229,7 @@ class DialogueRuntime:
         r, sp, q = self.pending.pop("clarify")
         item = self.pending.pop("clarify_item", None)
         ws.record_turn(speaker, utterance, "CONFIRM", "CLARIFICATION_ANSWER")
-        tok = utterance.strip().lower().strip(".!?")
-        chosen = None
-        if tok.isdigit() and 1 <= int(tok) <= len(r.candidates):
-            chosen = r.candidates[int(tok) - 1]
-        elif tok in ("yes", "y") and q.question_id.startswith("is:"):
-            chosen = r.candidates[int(q.question_id.split(":")[1])]
-        else:
-            hits = [c for c in r.candidates if tok and tok in _describe(c.meaning).lower() + " " + " ".join(n.label or "" for n in c.meaning.nodes).lower()]
-            chosen = hits[0] if len(hits) == 1 else None
+        chosen = clarification_choice(utterance, r.candidates, q.question_id)
         if chosen is None:
             # not an answer to the question: the speaker moved on.  The ambiguity stays *open* in the
             # workspace (never forced) and the new utterance is processed on its own (ledger S22)

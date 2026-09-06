@@ -53,6 +53,9 @@ def test_matched_parent_transfer_cells_answer_the_same_six_questions(tmp_path):
     e = PH.phase_E(parent, matched_cells=True)
     assert set(e["cells"]) == {"partial_adapter_required", "representation_correspondence", "deceptive_analogy", "science_full_mapping", "science_missing_binding", "science_lookalike_verifier"}
     assert len(e["success"]) == 6 and e["harmful_accepted"] >= 0
-    old = PH.phase_E(parent)                                                    # V2–V4 cells kept for the frozen studies
+    legacy = MC.LegacyWholeSystemParent(tmp_path / "legacy")
+    PH.phase_work(legacy, "enterprise", task_ids=range(500, 504), withheld_ids=range(700, 703))
+    old = PH.phase_E(legacy)
     assert len(old["cells"]) == 4
+    assert PH.phase_E(parent)["cells"] == e["cells"]  # current donor, independent of historical inventory flag
 
