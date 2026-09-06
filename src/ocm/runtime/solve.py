@@ -263,6 +263,11 @@ def extract_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], nav: Mapping[str
 
 
 Backend = Callable[[KnowledgeSpace, str, Mapping[str, Any]], Mapping[str, Any]]
+CallbackGuard = Callable[..., Any]
+
+
+class CallbackStateChanged(RuntimeError):
+    """The host callback changed the runtime state used by this solve."""
 
 
 @dataclass(frozen=True)
@@ -296,7 +301,7 @@ def fire_stage(ks: KnowledgeSpace, nav: Mapping[str, Any], g: EX.ReactingSubgrap
     return StageResult(Stage.EXECUTION, status, reason, object_ids=enabled, payload={"enabled": list(enabled), "unknown": list(unknown), "disabled": [v.edge_id for v in verdicts if v.enabling is FI.Enabling.DISABLED]}), enabled
 
 
-def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.ReactingSubgraph, revoked: Iterable[Hashable]) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]]]:
+def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.ReactingSubgraph, revoked: Iterable[Hashable], *, callback_guard: CallbackGuard | None = None) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]]]:
     """Retrieve applicable operators (inputs inside the reacting subgraph) and *simulate* them via
     their registered backend; the candidate's warrant is bridge ⊗ inputs (KS-T20).  Nothing is
     written to the store here."""
@@ -319,7 +324,13 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
         if not op.warrant.is_live(rv) or any(not amap[x].is_live(rv) for x in op.input_atoms):
             continue
         try:
-            out = op.backend(ks, op.operator_id, {"inputs": op.input_atoms})
+            out = (op.backend(ks, op.operator_id, {"inputs": op.input_atoms}) if callback_guard is None
+                   else callback_guard(op.backend, ks, op.operator_id, {"inputs": op.input_atoms}))
+        except CallbackStateChanged:
+            return StageResult(Stage.COMPOSITION, Status.CANNOT_CHECK, "BACKEND_RUNTIME_STATE_CHANGED",
+                               payload={"operator": op.operator_id, "operator_selection": selection_work},
+                               resources=res + ResourceVector(composition_work=len(op.input_atoms),
+                                                              verification_calls=1)), []
         except Exception as exc:  # noqa: BLE001 — a crashing backend is a failed candidate, never a pass
             candidates.append((op, {"error": f"{type(exc).__name__}: {exc}"}, WarrantProfile.zero()))
             continue
@@ -330,7 +341,7 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
     return StageResult(Stage.COMPOSITION, status, "CANDIDATES_COMPOSED" if candidates else "NO_APPLICABLE_OPERATOR", object_ids=tuple(op.operator_id for op, _, _ in candidates), payload={"candidates": len(candidates), "operator_selection": selection_work}, resources=res), candidates
 
 
-def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]], revoked: Iterable[Hashable]) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile, Status]]]:
+def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]], revoked: Iterable[Hashable], *, callback_guard: CallbackGuard | None = None) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile, Status]]]:
     rv = frozenset(revoked)
     checked = []
     worst = Status.PASS
@@ -341,7 +352,15 @@ def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], Warr
             verdict = Status.CANNOT_CHECK  # a required checker that cannot run never becomes success
         else:
             try:
-                verdict = op.checker(out)
+                verdict = op.checker(out) if callback_guard is None else callback_guard(op.checker, out)
+            except CallbackStateChanged:
+                # Earlier passes belong to the abandoned state too, not to the changed runtime.
+                invalid = [(o, value, w, Status.CANNOT_CHECK) for o, value, w, _ in checked]
+                invalid.append((op, out, warrant, Status.CANNOT_CHECK))
+                return StageResult(Stage.CHECK, Status.CANNOT_CHECK, "CHECKER_RUNTIME_STATE_CHANGED",
+                                   payload={"operator": op.operator_id,
+                                            "verdicts": {o.operator_id: v.value for o, _, _, v in invalid}},
+                                   resources=ResourceVector(verification_calls=len(invalid))), invalid
             except CannotCheck:
                 verdict = Status.CANNOT_CHECK
             except Exception:  # noqa: BLE001
@@ -452,6 +471,7 @@ def solve(
     config: SolveConfig = SolveConfig(),
     commit_authority: Authority | None = None,
     extraction_index: ExtractionIndex | None = None,
+    callback_guard: CallbackGuard | None = None,
 ) -> SolveOutcome:
     rv = frozenset(revoked)
     trace = SolveTrace(task.task_id)
@@ -486,10 +506,11 @@ def solve(
                 g_w = ext["g_w"]
                 enabled_atoms = {a for e in ks.hyperedges if e.edge_id in enabled for a in (*e.tails, *e.heads)} | set(g_w.seed_support)
                 g_enabled = EX.ReactingSubgraph(frozenset(g_w.atoms & enabled_atoms), frozenset(enabled), g_w.mode, g_w.seed_support)
-                comp_res, candidates = compose_stage(ks, operators, g_enabled, rv)
+                comp_res, candidates = compose_stage(ks, operators, g_enabled, rv, callback_guard=callback_guard)
                 trace.add(comp_res)
-                chk_res, checked = check_stage(candidates, rv)
-                trace.add(chk_res)
+                if comp_res.status is not Status.CANNOT_CHECK:
+                    chk_res, checked = check_stage(candidates, rv, callback_guard=callback_guard)
+                    trace.add(chk_res)
     dec_res, outcome = decide(trace, nav, checked, task)
     trace.add(dec_res)
     trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))
