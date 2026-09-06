@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_public_checker_preserves_one_shot_revocation_iterable __________
+
+    def test_public_checker_preserves_one_shot_revocation_iterable():
+        from exact_sparse_donor_check import verify
+        ks, seed = field(), [F(0), F(1), F(0), F(0), F(0)]
+        values = N.fixed_point(ks, seed, F(1,3), revoked=("a",))
+        assert not any(values.values())
+>       assert verify(ks, seed, F(1,3), values, revoked=iter(("a",)))["independent_residual"] == "EXACT_ZERO"
+
+research/ocm-prototype/exact_sparse_donor_tests/test_refusals.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ks = KnowledgeSpace(atoms=(Atom(atom_id='s', atom_type='claim', warrant=WarrantProfile(lower=(frozenset(),), upper=(frozens...zenset(),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())))
+seed = [Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)]
+alpha = Fraction(1, 3)
+values = {'a': Fraction(0, 1), 'b': Fraction(0, 1), 'isolated': Fraction(0, 1), 's': Fraction(0, 1), ...}
+
+    def verify(ks, seed, alpha, values, *, revoked=(), relevance=None,
+               mode=N.NavigationMode.WARRANTED):
+        if tuple(values) != ks.ids or any(type(v) is not Fraction for v in values.values()):
+            raise CannotCheck("EXACT_DONOR_OUTPUT_CONTRACT")
+        matrix = N.navigation_matrix(ks, revoked=revoked, relevance=relevance, mode=mode)
+        gated = N.gated_seed(ks, seed, revoked, mode)
+        original_step = N.restart_step(matrix.rows, gated, list(values.values()), alpha)
+        if list(values.values()) != original_step:
+>           raise CannotCheck("EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO")
+E           ocm.kso.warrant.CannotCheck: EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO
+
+research/ocm-prototype/exact_sparse_donor_check.py:19: CannotCheck
+- generated xml file: /home/billy/orion-director-work/20260906/exact-sparse-controls/iterator-red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/exact_sparse_donor_tests/test_refusals.py::test_public_checker_preserves_one_shot_revocation_iterable
+1 failed in 0.20s

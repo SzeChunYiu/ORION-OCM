@@ -1,0 +1,43 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___ test_named_fixture_cli_has_complete_stage_and_channel_counts[reference] ____
+
+arm = 'reference'
+
+    @pytest.mark.parametrize("arm", ["reference", "sympy"])
+    def test_named_fixture_cli_has_complete_stage_and_channel_counts(arm):
+        run = subprocess.run([sys.executable, "-m", "exact_sparse_donor_consumer",
+                              "--arm", arm, "--fixture", "base"],
+                             capture_output=True, text=True, timeout=15)
+        assert run.returncode == 0, run.stderr
+>       assert run.stdout.strip(), "missing untimed JSON CLI output"
+E       AssertionError: missing untimed JSON CLI output
+E       assert ''
+E        +  where '' = <built-in method strip of str object at 0x14f83a8>()
+E        +    where <built-in method strip of str object at 0x14f83a8> = ''.strip
+E        +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'reference', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout
+
+research/ocm-prototype/exact_sparse_donor_tests/test_cli.py:14: AssertionError
+_____ test_named_fixture_cli_has_complete_stage_and_channel_counts[sympy] ______
+
+arm = 'sympy'
+
+    @pytest.mark.parametrize("arm", ["reference", "sympy"])
+    def test_named_fixture_cli_has_complete_stage_and_channel_counts(arm):
+        run = subprocess.run([sys.executable, "-m", "exact_sparse_donor_consumer",
+                              "--arm", arm, "--fixture", "base"],
+                             capture_output=True, text=True, timeout=15)
+        assert run.returncode == 0, run.stderr
+>       assert run.stdout.strip(), "missing untimed JSON CLI output"
+E       AssertionError: missing untimed JSON CLI output
+E       assert ''
+E        +  where '' = <built-in method strip of str object at 0x14f83a8>()
+E        +    where <built-in method strip of str object at 0x14f83a8> = ''.strip
+E        +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'sympy', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout
+
+research/ocm-prototype/exact_sparse_donor_tests/test_cli.py:14: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/exact-sparse-controls/cli-red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/exact_sparse_donor_tests/test_cli.py::test_named_fixture_cli_has_complete_stage_and_channel_counts[reference]
+FAILED research/ocm-prototype/exact_sparse_donor_tests/test_cli.py::test_named_fixture_cli_has_complete_stage_and_channel_counts[sympy]
+2 failed in 0.17s
