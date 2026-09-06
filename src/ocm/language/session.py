@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Hashable, Iterable, Mapping, Sequence
 
-from ocm.kso.types import Scope
+from ocm.kso.types import Authority, Scope
 from ocm.kso.warrant import Liveness, WarrantProfile
 from ocm.runtime.ocm_runtime import OCMRuntime
 from ocm.store.evidence import Channel
@@ -140,7 +140,8 @@ class DialogueSession:
         conflicting = negs if not neg else pos
         outcome, eid = self.runtime.admit_evidence(
             {"said": True, "utterance": utterance, "meaning": base.as_dict(), "digest": digest, "negated": neg, "speaker": speaker},
-            Channel.OBSERVATION, speaker, scope=Scope.of(self.conversation), contradicts=tuple(s.evidence_id for s in conflicting),
+            Channel.OBSERVATION, speaker, scope=Scope.of(self.conversation), authority=Authority.of(speaker=1),
+            contradicts=tuple(s.evidence_id for s in conflicting),
         )
         self.said.append(SaidEntry(eid, speaker, utterance, base, digest, neg))
         text = f"Recorded: {speaker} said {'not ' if neg else ''}{self._describe_meaning(base)}."
