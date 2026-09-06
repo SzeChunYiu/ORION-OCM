@@ -1,5 +1,9 @@
 # OCM paper plan V1 — claims, evidence, gates (planning document; no manuscript text yet)
 
+> Historical plan, 5 September 2026. The current research-first objective and
+> candidate contributions are in [the scientific programme](../../research/programme/CORE.md).
+> Historical receipt-bound outcomes below are not automatically current claims after comparator correction.
+
 Operator goal (2026-09-05): merge everything, compare OCM with LLM references and benchmarks, then
 a top-tier journal paper. Craft rules: the manuscript is written with the `nature-*` skills package
 and passes the full `academic-paper-pipeline` before it is called submission-ready; claim
