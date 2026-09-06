@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "task_id": "jmbl_fg_max3",
+      "status": "PASS",
+      "encoded": [
+        {
+          "name": "mux_3",
+          "program": "(lam (lam (lam (ite (and (>= (- $2 $1) 0) (>= (- $2 $0) 0)) $2 (ite (and (>= (- $1 $0) 0) (not (>= (- $2 $1) 1))) $1 $0)))))"
+        }
+      ],
+      "restored": {
+        "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (and (>= (- x y) 0) (>= (- x z) 0)) x (ite (and (>= (- y z) 0) (not (>= (- x y) 1))) y z)))",
+        "macro_calls_in_input": []
+      },
+      "candidate_sha256": "7dbdfa680b8ccd7b0440ffaf085ef81edf83999840949a37e17fde792eed805c"
+    },
+    {
+      "task_id": "jmbl_fg_mpg_guard2",
+      "status": "PASS",
+      "encoded": [
+        {
+          "name": "eq_1",
+          "program": "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (- $2 $1)))))"
+        }
+      ],
+      "restored": {
+        "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (- x y)))",
+        "macro_calls_in_input": []
+      },
+      "candidate_sha256": "9370957eaa4a6797bddb7dcdbaffde2d9c6dd09ded7a0b6db6c2cf399d2ce88e"
+    }
+  ],
+  "native_calls": 0,
+  "native_modules_loaded": [],
+  "scope": "Exact saved input and pure encode/decode only"
+}

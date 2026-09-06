@@ -1,0 +1,64 @@
+test_clean_declared_rewrites_use_original_on_left (__main__.QualificationTests.test_clean_declared_rewrites_use_original_on_left) ... FAIL
+test_inventory_loss_is_not_success (__main__.QualificationTests.test_inventory_loss_is_not_success) ... FAIL
+test_noop_cannot_pass_effective_normalization (__main__.QualificationTests.test_noop_cannot_pass_effective_normalization) ... FAIL
+test_prepare_retains_exact_opposite_side_and_assignment (__main__.QualificationTests.test_prepare_retains_exact_opposite_side_and_assignment) ... FAIL
+test_shadowing_refused_before_native (__main__.QualificationTests.test_shadowing_refused_before_native) ... FAIL
+
+======================================================================
+FAIL: test_clean_declared_rewrites_use_original_on_left (__main__.QualificationTests.test_clean_declared_rewrites_use_original_on_left)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_qualification.py", line 34, in test_clean_declared_rewrites_use_original_on_left
+    self.assertEqual(receipt['status'],'MANUAL_BOUNDARY_QUALIFIED')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'NOT_IMPLEMENTED' != 'MANUAL_BOUNDARY_QUALIFIED'
+- NOT_IMPLEMENTED
++ MANUAL_BOUNDARY_QUALIFIED
+
+
+======================================================================
+FAIL: test_inventory_loss_is_not_success (__main__.QualificationTests.test_inventory_loss_is_not_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_qualification.py", line 42, in test_inventory_loss_is_not_success
+    self.assertEqual(receipt['status'],'CANNOT_CHECK_NORMALIZATION')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'NOT_IMPLEMENTED' != 'CANNOT_CHECK_NORMALIZATION'
+- NOT_IMPLEMENTED
++ CANNOT_CHECK_NORMALIZATION
+
+
+======================================================================
+FAIL: test_noop_cannot_pass_effective_normalization (__main__.QualificationTests.test_noop_cannot_pass_effective_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_qualification.py", line 25, in test_noop_cannot_pass_effective_normalization
+    self.assertEqual(receipt['status'],'CANNOT_CHECK_NORMALIZATION')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'NOT_IMPLEMENTED' != 'CANNOT_CHECK_NORMALIZATION'
+- NOT_IMPLEMENTED
++ CANNOT_CHECK_NORMALIZATION
+
+
+======================================================================
+FAIL: test_prepare_retains_exact_opposite_side_and_assignment (__main__.QualificationTests.test_prepare_retains_exact_opposite_side_and_assignment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_qualification.py", line 18, in test_prepare_retains_exact_opposite_side_and_assignment
+    self.assertEqual(len(rows),4)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 0 != 4
+
+======================================================================
+FAIL: test_shadowing_refused_before_native (__main__.QualificationTests.test_shadowing_refused_before_native)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_qualification.py", line 45, in test_shadowing_refused_before_native
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+FAILED (failures=5)

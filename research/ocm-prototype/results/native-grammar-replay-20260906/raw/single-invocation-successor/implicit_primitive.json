@@ -1,0 +1,7 @@
+{
+  "action": "synthesize",
+  "payload": {
+    "sygus": "(set-logic LIA)\n(set-option :output sygus-sol-gterm)\n(set-option :out \"stderr\")\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n"
+  },
+  "timeout_ms": 5000
+}

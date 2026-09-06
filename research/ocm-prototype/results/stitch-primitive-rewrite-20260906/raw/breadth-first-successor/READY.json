@@ -1,0 +1,19 @@
+{
+  "status": "READY_FOR_ROOT_FREEZE_ONLY",
+  "manifest_sha256": "ef452dce82da99586e2baee9895859833bace6c86a695bb259e727490004cb86",
+  "launch_sha256": "291e9ed6f9a4e4e9f76ddf2844de003408a91ae5e9c125230ffe15b5716641a2",
+  "artifacts_sha256": "66129af775599671f35c78af38a98e8e0efc6e2897d1592f6bd381cdc8631673",
+  "binding_only_command": [
+    "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+    "-B",
+    "-E",
+    "-s",
+    "-c",
+    "import json; from pathlib import Path; import launch_once as L; m=json.loads(Path('manifest.json').read_text()); L.verify(m); print(json.dumps({'bindings_verified':len(m['bindings']),'capture_exists':Path(m['output']).exists(),'actual_native_calls':0}))"
+  ],
+  "exit": 0,
+  "stdout": "{\"bindings_verified\": 100, \"capture_exists\": false, \"actual_native_calls\": 0}\n",
+  "stderr": "",
+  "harmless_passed": 8,
+  "actual_native_calls": 0
+}

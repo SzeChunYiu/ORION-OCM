@@ -1,0 +1,50 @@
+diff --git a/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/caller.py b/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/caller.py
+index aa4df79..8fbf3fd 100644
+--- a/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/caller.py
++++ b/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/caller.py
+@@ -52,10 +52,10 @@ def main(input_path,output):
+         state['calls']=observe_verifier(directory)
+         donor=G.donor()
+         abstraction=donor.Abstraction(**Q.RULE)
+-        write(directory/'rewrite-request.json',{'programs':programs,'abstractions':[vars(abstraction)],'kwargs':{}})
++        write(directory/'rewrite-request.json',{'programs':programs,'abstractions':[vars(abstraction)],'kwargs':{'hole_choice':'breadth-first'}})
+         state['rewrite_dispatches']=1
+         try:
+-            returned=donor.rewrite(programs,[abstraction])
++            returned=donor.rewrite(programs,[abstraction],hole_choice='breadth-first')
+         except BaseException as exc:
+             write(directory/'rewrite-exception.json',{'type':type(exc).__name__,'message':str(exc)})
+             raise
+
+diff --git a/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_capture.py b/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/test_capture.py
+index 5277a0b..d647651 100644
+--- a/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/test_capture.py
++++ b/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/test_capture.py
+@@ -22,8 +22,8 @@ class CaptureTests(unittest.TestCase):
+         dispatch=[]
+         class FakeDonor:
+             Abstraction=SimpleNamespace
+-            def rewrite(self,programs,abstractions):
+-                dispatch.append((programs,[vars(x) for x in abstractions]))
++            def rewrite(self,programs,abstractions,**kwargs):
++                dispatch.append((programs,[vars(x) for x in abstractions],kwargs))
+                 return SimpleNamespace(json={'source':'HARMLESS_FAKE','rewritten':rewritten},rewritten=rewritten)
+         with tempfile.TemporaryDirectory() as tmp, patch.object(D,'donor',return_value=FakeDonor()), patch.object(clia_process,'invoke',return_value={'status':'PASS','native_invoked':False}):
+             directory=Path(tmp)/'calls'
+@@ -31,13 +31,15 @@ class CaptureTests(unittest.TestCase):
+             receipt=json.loads((directory/'caller-receipt.json').read_text())
+             self.assertEqual(receipt['qualification_status'],'MANUAL_BOUNDARY_QUALIFIED')
+             self.assertEqual(len(dispatch),1);self.assertEqual(dispatch[0][1],[Q.RULE])
++            self.assertEqual(dispatch[0][2],{'hole_choice':'breadth-first'})
++            self.assertEqual(json.loads((directory/'rewrite-request.json').read_text())['kwargs'],{'hole_choice':'breadth-first'})
+             self.assertEqual(len(list(directory.glob('verify-*-request.json'))),4)
+             self.assertEqual(json.loads((directory/'rewrite-return.json').read_text())['source'],'HARMLESS_FAKE')
+     def test_train_noop_is_separate_and_uses_exact_four_checks(self):
+         group=json.loads((ROOT/'train.json').read_text()); prepared=Q.prepare(group)
+         class FakeDonor:
+             Abstraction=SimpleNamespace
+-            def rewrite(self,programs,abstractions):
++            def rewrite(self,programs,abstractions,**kwargs):
+                 return SimpleNamespace(json={'source':'HARMLESS_NOOP','rewritten':programs},rewritten=programs)
+         fake={'status':'PASS','native_invoked':False,'metrics':{},'solver_result':'FAKE_NOT_NATIVE'}
+         with tempfile.TemporaryDirectory() as tmp, patch.object(D,'donor',return_value=FakeDonor()), patch.object(clia_process,'invoke',return_value=fake):

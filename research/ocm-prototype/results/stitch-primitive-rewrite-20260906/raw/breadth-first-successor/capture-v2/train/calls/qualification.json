@@ -1,0 +1,140 @@
+{
+  "assigned": 2,
+  "effective_rows": 2,
+  "passed": 2,
+  "rows": [
+    {
+      "binary_minus_after": 4,
+      "binary_minus_before": 0,
+      "changed": true,
+      "decoded": {
+        "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (and (>= (- x y) 0) (>= (- x z) 0)) x (ite (and (>= (- y z) 0) (not (>= (- x y) 1))) y z)))",
+        "macro_calls_in_input": []
+      },
+      "effective_binary_normalization": true,
+      "equivalence": {
+        "metrics": {
+          "envelope_wall_s": 0.07181984698399901,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 53108,
+          "request_bytes": 544,
+          "response_bytes": 203,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.033407875999999996,
+          "worker_pid": 880489,
+          "worker_wall_s": 0.03340749896597117
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      },
+      "fixed_spec": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.07184023602167144,
+          "envelope_wall_s": 0.07082445098785684,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.0007671969942748547,
+          "host_check_cpu_s": 0.0013597360000000003,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 57904,
+          "request_bytes": 435,
+          "response_bytes": 204,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.032556088999999996,
+          "worker_pid": 880491,
+          "worker_wall_s": 0.032582750951405615
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "verification_sha256": "7b582ed53481c3c06d19065fc9e12ca24a0c6c96249a0b1553a26117c1bd8ac3"
+      },
+      "grammar": "PASS",
+      "id": "jmbl_fg_max3",
+      "rewritten": "(lam (lam (lam (ite (and (>= (- $2 $1) 0) (>= (- $2 $0) 0)) $2 (ite (and (>= (- $1 $0) 0) (not (>= (- $2 $1) 1))) $1 $0)))))",
+      "status": "PASS"
+    },
+    {
+      "binary_minus_after": 1,
+      "binary_minus_before": 0,
+      "changed": true,
+      "decoded": {
+        "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (- x y)))",
+        "macro_calls_in_input": []
+      },
+      "effective_binary_normalization": true,
+      "equivalence": {
+        "metrics": {
+          "envelope_wall_s": 0.07400394399883226,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 52248,
+          "request_bytes": 460,
+          "response_bytes": 203,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.034585148999999996,
+          "worker_pid": 880493,
+          "worker_wall_s": 0.03459672199096531
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      },
+      "fixed_spec": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.0742155599873513,
+          "envelope_wall_s": 0.07148062298074365,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.0024708390119485557,
+          "host_check_cpu_s": 0.0030461970000000005,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 57448,
+          "request_bytes": 1879,
+          "response_bytes": 204,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.033030070999999994,
+          "worker_pid": 880499,
+          "worker_wall_s": 0.033041096990928054
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+        "verification_sha256": "4a39e5e08e2abb0cb0598684eaf07d9d71f40e5fb130fca851904e6c84a47cd9"
+      },
+      "grammar": "PASS",
+      "id": "jmbl_fg_mpg_guard2",
+      "rewritten": "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (- $2 $1)))))",
+      "status": "PASS"
+    }
+  ],
+  "status": "TRAIN_NORMALIZATION_QUALIFIED"
+}

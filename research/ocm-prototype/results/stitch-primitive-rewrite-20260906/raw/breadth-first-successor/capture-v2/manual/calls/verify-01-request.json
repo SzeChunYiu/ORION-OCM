@@ -1,0 +1,10 @@
+{
+  "action": "verify",
+  "kwargs": {
+    "deadline_s": 10,
+    "timeout_ms": 5000
+  },
+  "payload": {
+    "smt2": "(define-fun left ((x Int) (y Int)) Int (let ((a (+ x 1))) (let ((b (+ y 2))) (+ a (* (- 1) b)))))\n(define-fun right ((x Int) (y Int)) Int (- (+ x 1) (+ y 2)))\n(declare-const x Int)\n(declare-const y Int)\n(assert (not (= (left x y) (right x y))))\n"
+  }
+}
