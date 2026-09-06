@@ -59,7 +59,7 @@ def reacting_subgraph_from_surprise(
     closure = gated_closure(ks, support, rv) if mode is NavigationMode.WARRANTED else ungated_closure(ks, support)
     atoms = frozenset(x for x in closure if rho[x] > 0) | support
     if mode is NavigationMode.WARRANTED:
-        amap = ks.atom_map()
+        amap = ks.atom_view
         atoms = frozenset(x for x in atoms if amap[x].is_live(rv))
         edges = frozenset(e.edge_id for e in ks.hyperedges if e.incident <= atoms and e.warrant.is_live(rv))
     else:
@@ -137,7 +137,7 @@ def pcst_exact_bounded(
 ) -> ExtractionResult:
     """Exact optimiser over every seed-connected atom subset; bounded to ``max_atoms`` free atoms."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     seeds = frozenset(seeds)
     edge_prizes = edge_prizes or {}
     cost = cost or (lambda atoms, edges: Fraction(len(atoms) + len(edges), 1))
@@ -186,7 +186,7 @@ def pcst_greedy(
 ) -> ExtractionResult:
     """Greedy growth by marginal objective gain; the reported approximation flag is mandatory."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     seeds = frozenset(seeds)
     edge_prizes = edge_prizes or {}
     cost = cost or (lambda atoms, edges: Fraction(len(atoms) + len(edges), 1))

@@ -36,7 +36,7 @@ def sparse_navigation_matrix(ks: KnowledgeSpace, *, revoked: Iterable[Hashable] 
     rv = frozenset(revoked)
     ids = ks.ids
     idx = {x: i for i, x in enumerate(ids)}
-    amap = ks.atom_map()
+    amap = ks.atom_view
     denom = structural_denominators(ks, relevance)
     gate = {x: float(_gate(amap[x].liveness(rv), mode)) for x in ids}
     incoming: list[list[tuple[int, float]]] = [[] for _ in ids]
@@ -201,7 +201,7 @@ def sparse_fixed_point(m: SparseMatrix, seed: Sequence[float], alpha: float, *, 
 def sparse_activation(ks: KnowledgeSpace, seed: Sequence[Fraction] | Sequence[float], alpha: float, *, revoked: Iterable[Hashable] = (), relevance=None, mode: NavigationMode = NavigationMode.WARRANTED, tol: float = 1e-12) -> tuple[dict[str, float], int, int]:
     """Returns (activation, iterations, incidences).  The seed is gated exactly as in the exact path."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     gated = [float(s) * float(_gate(amap[x].liveness(rv), mode)) for x, s in zip(ks.ids, seed, strict=True)]
     m = sparse_navigation_matrix(ks, revoked=rv, relevance=relevance, mode=mode)
     a, iters = sparse_fixed_point(m, gated, alpha, tol=tol)
