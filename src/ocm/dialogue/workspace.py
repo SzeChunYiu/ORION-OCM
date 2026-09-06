@@ -48,13 +48,13 @@ class WorkspaceRefusal(RuntimeError):
 @dataclass
 class Entity:
     entity_id: str
-    kind: str                                  # registry node type (entity, event, value, …)
-    descriptions: list[str] = field(default_factory=list)   # "the robot", "it"
-    aliases: list[str] = field(default_factory=list)        # names
+    kind: str
+    descriptions: list[str] = field(default_factory=list)
+    aliases: list[str] = field(default_factory=list)
     introduced_turn: int = 0
-    mentions: list[int] = field(default_factory=list)       # turn ids
+    mentions: list[int] = field(default_factory=list)
     features: dict[str, str] = field(default_factory=dict)
-    kso_atom: str | None = None                # link to a long-term KSO object, if any
+    kso_atom: str | None = None
 
 
 @dataclass
@@ -62,9 +62,9 @@ class Commitment:
     commitment_id: str
     turn_id: int
     speaker: str
-    digest: str                                # canonical meaning digest of the (positive) proposition
+    digest: str
     negated: bool
-    evidence_id: str                           # runtime evidence backing this commitment
+    evidence_id: str
     meaning: dict[str, Any]
     status: CommitmentStatus = CommitmentStatus.ACTIVE
     superseded_by: str | None = None
@@ -77,7 +77,7 @@ class Turn:
     turn_id: int
     speaker: str
     utterance: str
-    act: str                                   # dialogue act (M4 §9)
+    act: str
     verdict: str
     evidence: list[str] = field(default_factory=list)
     meaning_digest: str | None = None
@@ -87,7 +87,7 @@ class Turn:
 @dataclass
 class OpenItem:
     item_id: str
-    kind: str                                  # question | obligation | reference | ambiguity
+    kind: str
     turn_id: int
     detail: dict[str, Any]
     resolved_turn: int | None = None
@@ -102,13 +102,12 @@ class DialogueWorkspace:
     entities: dict[str, Entity] = field(default_factory=dict)
     commitments: dict[str, Commitment] = field(default_factory=dict)
     open_items: dict[str, OpenItem] = field(default_factory=dict)
-    topics: list[str] = field(default_factory=list)          # focus stack; last = current
-    preferences: dict[str, Any] = field(default_factory=dict)  # conversation-scoped only
+    topics: list[str] = field(default_factory=list)
+    preferences: dict[str, Any] = field(default_factory=dict)
     assumptions: list[str] = field(default_factory=list)
     machine_commitments: list[dict[str, Any]] = field(default_factory=list)
     _counter: int = 0
 
-    # ------------------------------------------------------------------ persistence
     @property
     def path(self) -> Path:
         return Path(self.runtime.root) / "dialogue" / f"{self.conversation_id}.json"
@@ -148,14 +147,12 @@ class DialogueWorkspace:
         ws.assumptions = list(d["assumptions"])
         ws.machine_commitments = list(d["machine_commitments"])
         ws._counter = int(d["counter"])
-        # every referenced evidence id must exist in the runtime registry; a missing one is CANNOT_CHECK
         known = set(runtime.state.evidence.records)
         missing = sorted({c.evidence_id for c in ws.commitments.values()} - known)
         if missing:
             raise WorkspaceRefusal("CANNOT_CHECK", f"workspace references evidence absent from the ledger: {missing}")
         return ws
 
-    # ------------------------------------------------------------------ ids
     def _next(self, prefix: str) -> str:
         self._counter += 1
         return f"{prefix}:{self.conversation_id}:{self._counter}"
@@ -164,7 +161,6 @@ class DialogueWorkspace:
     def current_topic(self) -> str | None:
         return self.topics[-1] if self.topics else None
 
-    # ------------------------------------------------------------------ turns
     def record_turn(self, speaker: str, utterance: str, act: str, verdict: str, *, evidence: Iterable[str] = (), meaning_digest: str | None = None) -> Turn:
         if speaker not in self.participants:
             self.participants.append(speaker)
@@ -173,7 +169,6 @@ class DialogueWorkspace:
         self.save()
         return t
 
-    # ------------------------------------------------------------------ entities
     def introduce(self, kind: str, description: str | None = None, alias: str | None = None, *, features: Mapping[str, str] | None = None, turn_id: int | None = None, kso_atom: str | None = None) -> Entity:
         e = Entity(self._next("ent"), kind, [description] if description else [], [alias] if alias else [], turn_id or len(self.turns), [turn_id or len(self.turns)], dict(features or {}), kso_atom)
         self.entities[e.entity_id] = e
@@ -189,10 +184,8 @@ class DialogueWorkspace:
             e.aliases.append(alias)
         self.save()
 
-    # ------------------------------------------------------------------ commitments (speaker layer)
     def commit(self, speaker: str, meaning: MeaningGraph, *, negated: bool = False, turn_id: int | None = None, supersedes: str | None = None, utterance: str = "") -> Commitment:
-        """Record a speaker commitment backed by OBSERVATION evidence.  Supersession revokes the old
-        commitment's evidence (dependents reopen), links both ways, and keeps the old record."""
+        """Record a speaker commitment backed by OBSERVATION evidence with speaker authority."""
         digest = canonical(meaning)[1]
         old = self.commitments.get(supersedes) if supersedes else None
         if supersedes and old is None:
@@ -200,7 +193,11 @@ class DialogueWorkspace:
         conflicting = [c for c in self.active_commitments() if c.digest == digest and c.negated != negated and c.commitment_id != supersedes]
         _, eid = self.runtime.admit_evidence(
             {"dialogue": self.conversation_id, "said": True, "speaker": speaker, "utterance": utterance, "digest": digest, "negated": negated, "supersedes": old.evidence_id if old else None},
-            Channel.OBSERVATION, speaker, scope=Scope.of(self.conversation_id), contradicts=tuple(c.evidence_id for c in conflicting),
+            Channel.OBSERVATION,
+            speaker,
+            scope=Scope.of(self.conversation_id),
+            authority=Authority.of(speaker=1),
+            contradicts=tuple(c.evidence_id for c in conflicting),
             supersedes=old.evidence_id if old else None,
         )
         c = Commitment(self._next("cmt"), turn_id or len(self.turns), speaker, digest, negated, eid, meaning.as_dict(), supersedes=supersedes, topic=self.current_topic)
@@ -208,7 +205,7 @@ class DialogueWorkspace:
         if old is not None:
             old.status = CommitmentStatus.SUPERSEDED
             old.superseded_by = c.commitment_id
-            self.runtime.revoke([old.evidence_id])          # dependents of the old commitment reopen exactly (KS-T22)
+            self.runtime.revoke([old.evidence_id])
         self.save()
         return c
 
@@ -228,10 +225,6 @@ class DialogueWorkspace:
         return [c for c in self.commitments.values() if c.status is CommitmentStatus.ACTIVE and c.evidence_id not in rv and (speaker is None or c.speaker == speaker)]
 
     def verdict(self, meaning: MeaningGraph) -> str:
-        """C7 / MEG-16 contradiction policy over the discourse layer: ASSERTED_BY_SPEAKERS when only
-        positive live commitments exist, DENIED_BY_SPEAKERS when only negative, UNKNOWN when both are
-        live on an overlapping scope (resolution only by supersession, retraction or a bridge —
-        never by majority), and NO_RECORD when nothing is on record."""
         pos, neg = self.commitments_on(meaning)
         if pos and neg:
             return "UNKNOWN"
@@ -242,18 +235,14 @@ class DialogueWorkspace:
         return "NO_RECORD"
 
     def commitments_on(self, meaning: MeaningGraph) -> tuple[list[Commitment], list[Commitment]]:
-        """(asserting, denying) active commitments on the proposition."""
         d = canonical(meaning)[1]
         act = self.active_commitments()
         return [c for c in act if c.digest == d and not c.negated], [c for c in act if c.digest == d and c.negated]
 
-    # ------------------------------------------------------------------ machine layer
     def machine_liveness(self, evidence_ids: Iterable[str]) -> Liveness:
         return self.runtime.state.evidence.liveness(evidence_ids)
 
     def propose_promote(self, commitment_id: str, target_scope: Scope, *, bridge_evidence: Sequence[str] = (), bridge_authority: Authority | None = None) -> dict[str, Any]:
-        """M4 §10: promotion of a dialogue object to longer-lived knowledge needs a bridge (independent
-        evidence with authority) — the result authority is the meet; no bridge ⇒ refused."""
         c = self.commitments.get(commitment_id)
         if c is None:
             raise WorkspaceRefusal("UNKNOWN_COMMITMENT", commitment_id)
@@ -265,15 +254,12 @@ class DialogueWorkspace:
         if live is not Liveness.LIVE:
             return {"promoted": False, "reason": f"bridge evidence is {live.value}"}
         authority = Authority.of(speaker=1).meet(bridge_authority)
-        # B1(ii)/C7: the promoted atom is *derived* from the bridge (its warrant is the bridge's interval
-        # ⊗ the commitment's own evidence), so revoking the bridge kills it and reopens its dependents
         derived = self.runtime.state.evidence.citation_warrant((*bridge_evidence, c.evidence_id))
         _, eid = self.runtime.admit_evidence({"promoted_from": commitment_id, "digest": c.digest, "bridge": list(bridge_evidence)}, Channel.IMPORTED, "dialogue.promote", scope=target_scope, derived_from=derived, authority=authority)
         self.machine_commitments.append({"commitment_id": commitment_id, "evidence_id": eid, "scope": target_scope.as_dict(), "authority": authority.as_dict() if hasattr(authority, "as_dict") else str(authority)})
         self.save()
         return {"promoted": True, "evidence_id": eid, "authority": authority}
 
-    # ------------------------------------------------------------------ open items / topics
     def open(self, kind: str, detail: Mapping[str, Any], turn_id: int | None = None) -> OpenItem:
         it = OpenItem(self._next(kind), kind, turn_id or len(self.turns), dict(detail))
         self.open_items[it.item_id] = it
@@ -289,24 +275,22 @@ class DialogueWorkspace:
 
     def push_topic(self, topic: str) -> None:
         if topic in self.topics:
-            self.topics.remove(topic)              # return to an earlier topic: re-focus, never clip
+            self.topics.remove(topic)
         self.topics.append(topic)
         self.save()
 
     def set_preference(self, key: str, value: Any) -> None:
-        self.preferences[key] = value              # conversation scope only; never global
+        self.preferences[key] = value
         self.save()
 
 
 def mutant_correction_overwrites_history(ws: DialogueWorkspace, commitment_id: str, new_meaning: MeaningGraph) -> None:
-    """Planted (M4 §5 hostile): edit the old commitment in place instead of superseding it."""
     c = ws.commitments[commitment_id]
     c.meaning = new_meaning.as_dict()
     c.digest = canonical(new_meaning)[1]
 
 
 def mutant_promote_all_assertions(ws: DialogueWorkspace) -> list[str]:
-    """Planted (M4 §14 hostile): every active speaker commitment becomes machine knowledge."""
     out = []
     for c in ws.active_commitments():
         _, eid = ws.runtime.admit_evidence({"promoted_from": c.commitment_id, "digest": c.digest, "bridge": []}, Channel.IMPORTED, "dialogue.promote#mutant", scope=Scope.universal())
