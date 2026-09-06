@@ -65,3 +65,5 @@ Not blockers: the frontier-parent, human-rating and external-benchmark boundarie
 ## V5 addendum (2026-09-06)
 
 Blocker 1 (protected re-evaluation of the self-repair cells): the historical M11 V1 and M12 V2 phase-G cells remain reopened and are reported as such; the V5 self-repair family is pre-registered as categorical, so no inferential self-repair claim rests on them. Blocker 2 (prospectively matched transfer cells): closed by V5 (6 vs 6 cells, categorical). The lifetime residual now has a study of record on the corrected runtime (V5: OCM_LIFETIME_RESIDUAL_SUPPORTED, replication MATCH). Terminal state unchanged in kind, `current_claims_partly_established`, with the primary residual established at its stated scope on both the historical (V4) and the corrected (V5) runtime.
+
+Acceptance-lane correction (2026-09-06, ORION-OCM #82): current scientific promotion of V5 is NOT_ESTABLISHED under the repository's acceptance ledger; the manuscript reports V5's pre-registered decision with that label and the freeze/replication evidence, and does not call it a promoted terminal. Terminal state unchanged: `current_claims_partly_established`.
