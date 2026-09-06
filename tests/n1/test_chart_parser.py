@@ -75,3 +75,32 @@ def test_evidence_ranking_reports_the_best_supported_reading_without_licensing_i
     rest = [c for c in others if c.produces != "NP"]
     r2 = CH.parse(I.tokenize(utt), lx, rest + weak_nps + [strong])
     assert r2["verdict"] == "INTERPRETED" and r2["meanings"][0]["evidence_score"] == 2
+
+
+def test_exact_derivation_counts_follow_the_catalan_numbers():
+    """Batch 11 K1 (ix): with NP → N and NP → NP NP the string of k+1 nouns has Cat(k) derivations
+    (1, 2, 5, 14, 42); the packed forest must return the exact count (the pre-phase-F chart undercounted
+    once a packed node's count grew after its first use)."""
+    from ocm.kso.warrant import WarrantProfile as WP
+    from ocm.language import constructions as C
+    from ocm.language import lexicon as L
+    from ocm.language.meaning import MeaningGraph, MNode, MEdge
+    lx = L.Lexicon()
+    for w in ("a", "b", "c", "d", "e", "f"):
+        lx.add(L.Lexeme(w, L.Category.NOUN, (L.Sense(f"{w}:1", w, "entity", WP.of({"e"})),)))
+    def leaf(b):
+        r = b["h"]; return MeaningGraph((MNode("x", "entity", r.lemma, ()),), (), root="x")
+    def compound(b):
+        l, r = b["l"].meaning, b["r"].meaning
+        lm = l.relabel({n.node_id: "l." + n.node_id for n in l.nodes}); rm = r.relabel({n.node_id: "r." + n.node_id for n in r.nodes})
+        return MeaningGraph((MNode("x", "entity", None, ()), *lm.nodes, *rm.nodes), (*lm.edges, *rm.edges, MEdge("MODIFIES", ("x",), ("l." + l.root,)), MEdge("MODIFIES", ("x",), ("r." + r.root,))), root="x")
+    def clause(b):
+        return b["np"].meaning
+    cons = [C.Construction("t:leaf", "leaf", (C.Slot("h", L.Category.NOUN),), leaf, WP.of({"e"}), produces="NP", head_slot="h"),
+            C.Construction("t:compound", "compound", (C.Slot("l", L.Category.NOUN, phrase="NP"), C.Slot("r", L.Category.NOUN, phrase="NP")), compound, WP.of({"e"}), produces="NP", head_slot="l"),
+            C.Construction("t:clause", "clause", (C.Slot("np", L.Category.NOUN, phrase="NP"),), clause, WP.of({"e"}))]
+    expected = {1: 1, 2: 1, 3: 2, 4: 5, 5: 14, 6: 42}
+    for k, cat in expected.items():
+        r = CH.parse(list("abcdef")[:k], lx, cons)
+        assert r["count"] == cat, (k, r["count"])
+        assert r["verdict"] == ("INTERPRETED" if cat == 1 else "AMBIGUOUS")

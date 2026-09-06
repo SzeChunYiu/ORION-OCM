@@ -141,6 +141,8 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     def rid(r: Reading) -> tuple:
         return (r.lemma, r.sense.sense_id if r.sense else None, tuple(sorted(r.features)))
 
+    waiting: list[dict[str, list[tuple]]] = [defaultdict(list) for _ in range(n + 1)]   # k -> phrase type -> item keys waiting for it
+
     def add(k: int, key: tuple, count: int, b: dict[str, Any], score: int | None, lexspan: tuple) -> None:
         key = (key[0], key[1], key[2], lexspan)
         old = chart[k].get(key)
@@ -149,6 +151,13 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             if items[0] > max_items:
                 raise ChartCap(f"chart items exceeded {max_items}")
             chart[k][key] = (count, b, score)
+            c, dot = cons[key[0]], key[1]
+            if dot < len(c.pattern):
+                slot = c.pattern[dot]
+                if slot.phrase is not None:
+                    waiting[k][slot.phrase].append(key)
+                elif slot.optional and dot + 1 < len(c.pattern) and c.pattern[dot + 1].phrase is not None:
+                    waiting[k][c.pattern[dot + 1].phrase].append(key)
         else:
             better = score is not None and (old[2] is None or score > old[2])
             chart[k][key] = (old[0] + count, b if better else old[1], score if better else old[2])
@@ -171,18 +180,16 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     def advance(pack: Packed, start: int, k: int) -> bool:
         """Advance every item at `start` waiting for this pack's phrase type by the pack's count delta."""
         changed = False
-        for key2, (count2, b2, score2) in list(chart[start].items()):
+        produces = pack.construction.produces
+        for key2 in list(waiting[start].get(produces, ())):
+            count2, b2, score2 = chart[start][key2]
             cj, dot2, start2, lex2 = key2
             c2 = cons[cj]
-            if dot2 >= len(c2.pattern):
-                continue
             slot = c2.pattern[dot2]
-            if slot.phrase == pack.construction.produces:
+            if slot.phrase == produces:
                 nxt, name = dot2 + 1, slot.name
-            elif slot.optional and dot2 + 1 < len(c2.pattern) and c2.pattern[dot2 + 1].phrase == pack.construction.produces:
-                nxt, name = dot2 + 2, c2.pattern[dot2 + 1].name
             else:
-                continue
+                nxt, name = dot2 + 2, c2.pattern[dot2 + 1].name
             ak = (key2, id(pack))
             product = count2 * pack.count
             delta = product - applied.get(ak, 0)
@@ -191,7 +198,7 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             applied[ak] = product
             nb = dict(b2)
             nb[name] = pack
-            add(k, (cj, nxt, start2), delta, nb, _min_score(score2, pack.score), tuple(sorted(lex2 + pack.key)))
+            add(k, (cj, nxt, start2), delta, nb, _min_score(score2, pack.score), lex2 + pack.key)
             changed = True
         return changed
 
