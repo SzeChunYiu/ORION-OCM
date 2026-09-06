@@ -101,7 +101,7 @@ def test_bridge_persists_replays_and_revokes_through_one_runtime_field(tmp_path)
     assert atom.atom_type == "representation"
     assert atom.authority == Authority.of(speaker=1)
     assert atom.authority.rank("world_truth") == 0
-    edge = runtime.state.ks.edge(receipt.edge_id)
+    edge = runtime.state.ks.edge_map()[receipt.edge_id]
     assert edge.relation_type == "REPRESENTATION_TRANSPORT"
     assert set(edge.tails) == {"field:alice", "field:bob"}
 
@@ -109,7 +109,7 @@ def test_bridge_persists_replays_and_revokes_through_one_runtime_field(tmp_path)
     restarted = OCMRuntime(tmp_path)
     loaded = load_meaning_binding(restarted, receipt.representation_id)
     assert loaded.joint_digest == receipt.joint_digest
-    assert dict(loaded.bindings).values() >= {"field:alice", "field:bob"}
+    assert set(dict(loaded.bindings).values()) >= {"field:alice", "field:bob"}
     assert binding_liveness(restarted, receipt.representation_id) is Liveness.LIVE
 
     report = restarted.revoke([said])
