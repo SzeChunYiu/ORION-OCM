@@ -30,6 +30,7 @@ def successor(donor_fixture, tmp_path, monkeypatch):
         donor="stanza-recurrent", donor_profile_id=profile["id"],
         predecessor_plan_sha256=B.PREDECESSOR_SHA,
         model_role="IMPORTED_FIXED_RECURRENT_DONOR",
+        source_identity=C.G.content_hash(C.G.identities("syntax:stanza-recurrent")),
         training_lineage_sha256=P.LINEAGE_SHA, required_model="Fixed imported recurrent Stanza")
     (plan_dir/"plan.json").write_text(json.dumps(plan))
     return plan_dir, plan, model, lineage, profile_path, profile
@@ -78,6 +79,11 @@ def test_capture_fixed_worker_and_unknown_cpu_without_inference(successor, tmp_p
         C.run(directory, model, lineage, output, donor="stanza-recurrent", profile_path=profile_path)
     with pytest.raises(ValueError, match="only fixed"):
         C.run(directory, model, lineage, tmp_path/"bad", donor="arbitrary-worker")
+    (directory/"plan.json").write_text(json.dumps(plan | {"source_identity":"0"*64}))
+    changed_output = tmp_path/"changed-source"
+    with pytest.raises(ValueError, match="prospective source"):
+        C.run(directory, model, lineage, changed_output, donor="stanza-recurrent", profile_path=profile_path)
+    assert not changed_output.exists()
 
 
 def test_legacy_resource_accessor_is_unchanged():
