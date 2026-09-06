@@ -1,0 +1,4675 @@
+{
+  "G1_exact_vs_oracle": {
+    "attributions": {},
+    "exact": 30,
+    "met": true,
+    "n": 30,
+    "threshold": {
+      "min_exact": 30,
+      "n": 30
+    }
+  },
+  "G6_exact_checker_verdicts": {
+    "CANNOT_CHECK": 0,
+    "INVALID": 0,
+    "VALID": 90
+  },
+  "contract": "KnowledgeSpace.v1-M2b-V3",
+  "design": {
+    "design": "KSO_M2B_DESIGN_V3.json",
+    "pins": {
+      "checker_sha256": "46f89a06406f",
+      "generator_sha256": "001abf33d82e",
+      "module_sha256": "9246b1b770bf",
+      "source_sha256": "f38638456cea"
+    },
+    "supersedes": {
+      "v1": "712a33e4ec1c",
+      "v2": "af9e7ed6a98c"
+    },
+    "threshold": {
+      "min_exact": 30,
+      "n": 30
+    }
+  },
+  "instances": [
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "5/4",
+        "b": "-5",
+        "c": "15/4"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 6
+        },
+        "warranted": [
+          "root:dev-RATIONAL_DISTINCT-000:proc:quadratic_formula:0",
+          "root:dev-RATIONAL_DISTINCT-000:proc:quadratic_formula:1",
+          "root:dev-RATIONAL_DISTINCT-000:proc:complete_square:0",
+          "root:dev-RATIONAL_DISTINCT-000:proc:complete_square:1",
+          "root:dev-RATIONAL_DISTINCT-000:proc:factor:0",
+          "root:dev-RATIONAL_DISTINCT-000:proc:factor:1"
+        ]
+      },
+      "family": "RATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-RATIONAL_DISTINCT-000",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta>0 rational",
+        "discriminant": "25/4",
+        "family": "RATIONAL_DISTINCT",
+        "rational_roots": true,
+        "real_root_count": 2,
+        "roots": [
+          "3",
+          "1"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "1",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "1",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-000:proc:factor:1",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(5/4)*x**2 + (-5)*x + (15/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "1",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "3",
+          "1"
+        ],
+        "proc:factor": [
+          "3",
+          "1"
+        ],
+        "proc:quadratic_formula": [
+          "3",
+          "1"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "25/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "2"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "1"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "1"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "25/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "5/2"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "1"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "25/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "5/2"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "1"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "1/4",
+        "b": "13/16",
+        "c": "-3/4"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 6
+        },
+        "warranted": [
+          "root:dev-RATIONAL_DISTINCT-001:proc:quadratic_formula:0",
+          "root:dev-RATIONAL_DISTINCT-001:proc:quadratic_formula:1",
+          "root:dev-RATIONAL_DISTINCT-001:proc:complete_square:0",
+          "root:dev-RATIONAL_DISTINCT-001:proc:complete_square:1",
+          "root:dev-RATIONAL_DISTINCT-001:proc:factor:0",
+          "root:dev-RATIONAL_DISTINCT-001:proc:factor:1"
+        ]
+      },
+      "family": "RATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-RATIONAL_DISTINCT-001",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta>0 rational",
+        "discriminant": "361/256",
+        "family": "RATIONAL_DISTINCT",
+        "rational_roots": true,
+        "real_root_count": 2,
+        "roots": [
+          "3/4",
+          "-4"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "3/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "3/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "3/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-001:proc:factor:1",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(1/4)*x**2 + (13/16)*x + (-3/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-4",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "3/4",
+          "-4"
+        ],
+        "proc:factor": [
+          "3/4",
+          "-4"
+        ],
+        "proc:quadratic_formula": [
+          "3/4",
+          "-4"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "361/256"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-13/8"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "19/8"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "3/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-4"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "361/256"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "19/16"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "3/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-4"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "361/256"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "19/16"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "3/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-4"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "4",
+        "b": "0",
+        "c": "-484/9"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 6
+        },
+        "warranted": [
+          "root:dev-RATIONAL_DISTINCT-002:proc:quadratic_formula:0",
+          "root:dev-RATIONAL_DISTINCT-002:proc:quadratic_formula:1",
+          "root:dev-RATIONAL_DISTINCT-002:proc:complete_square:0",
+          "root:dev-RATIONAL_DISTINCT-002:proc:complete_square:1",
+          "root:dev-RATIONAL_DISTINCT-002:proc:factor:0",
+          "root:dev-RATIONAL_DISTINCT-002:proc:factor:1"
+        ]
+      },
+      "family": "RATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-RATIONAL_DISTINCT-002",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta>0 rational",
+        "discriminant": "7744/9",
+        "family": "RATIONAL_DISTINCT",
+        "rational_roots": true,
+        "real_root_count": 2,
+        "roots": [
+          "11/3",
+          "-11/3"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "11/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-11/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "11/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-11/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "11/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-002:proc:factor:1",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (0)*x + (-484/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-11/3",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "11/3",
+          "-11/3"
+        ],
+        "proc:factor": [
+          "11/3",
+          "-11/3"
+        ],
+        "proc:quadratic_formula": [
+          "11/3",
+          "-11/3"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "7744/9"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "11/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "11/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-11/3"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "7744/9"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "88/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "11/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-11/3"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "7744/9"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "88/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "11/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-11/3"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "3/2",
+        "b": "10",
+        "c": "-7/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 6
+        },
+        "warranted": [
+          "root:dev-RATIONAL_DISTINCT-003:proc:quadratic_formula:0",
+          "root:dev-RATIONAL_DISTINCT-003:proc:quadratic_formula:1",
+          "root:dev-RATIONAL_DISTINCT-003:proc:complete_square:0",
+          "root:dev-RATIONAL_DISTINCT-003:proc:complete_square:1",
+          "root:dev-RATIONAL_DISTINCT-003:proc:factor:0",
+          "root:dev-RATIONAL_DISTINCT-003:proc:factor:1"
+        ]
+      },
+      "family": "RATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-RATIONAL_DISTINCT-003",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta>0 rational",
+        "discriminant": "121",
+        "family": "RATIONAL_DISTINCT",
+        "rational_roots": true,
+        "real_root_count": 2,
+        "roots": [
+          "1/3",
+          "-7"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "1/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-7",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "1/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-7",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "1/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-003:proc:factor:1",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(3/2)*x**2 + (10)*x + (-7/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-7",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "1/3",
+          "-7"
+        ],
+        "proc:factor": [
+          "1/3",
+          "-7"
+        ],
+        "proc:quadratic_formula": [
+          "1/3",
+          "-7"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "121"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-10/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "11/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "1/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-7"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "121"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "11"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "1/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-7"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "121"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "11"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "1/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-7"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "2",
+        "b": "37/2",
+        "c": "20"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 6
+        },
+        "warranted": [
+          "root:dev-RATIONAL_DISTINCT-004:proc:quadratic_formula:0",
+          "root:dev-RATIONAL_DISTINCT-004:proc:quadratic_formula:1",
+          "root:dev-RATIONAL_DISTINCT-004:proc:complete_square:0",
+          "root:dev-RATIONAL_DISTINCT-004:proc:complete_square:1",
+          "root:dev-RATIONAL_DISTINCT-004:proc:factor:0",
+          "root:dev-RATIONAL_DISTINCT-004:proc:factor:1"
+        ]
+      },
+      "family": "RATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-RATIONAL_DISTINCT-004",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta>0 rational",
+        "discriminant": "729/4",
+        "family": "RATIONAL_DISTINCT",
+        "rational_roots": true,
+        "real_root_count": 2,
+        "roots": [
+          "-5/4",
+          "-8"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-5/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-8",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-5/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-8",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-5/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-RATIONAL_DISTINCT-004:proc:factor:1",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (37/2)*x + (20)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-8",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "-5/4",
+          "-8"
+        ],
+        "proc:factor": [
+          "-5/4",
+          "-8"
+        ],
+        "proc:quadratic_formula": [
+          "-5/4",
+          "-8"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "729/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-37/8"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "27/8"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "-5/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-8"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "729/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "27/2"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "-5/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-8"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "729/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "27/2"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "-5/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-8"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "2",
+        "b": "7/2",
+        "c": "-4/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-IRRATIONAL_DISTINCT-000:proc:quadratic_formula:0",
+          "root:dev-IRRATIONAL_DISTINCT-000:proc:quadratic_formula:1",
+          "root:dev-IRRATIONAL_DISTINCT-000:proc:complete_square:0",
+          "root:dev-IRRATIONAL_DISTINCT-000:proc:complete_square:1"
+        ]
+      },
+      "family": "IRRATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-IRRATIONAL_DISTINCT-000",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta>0 irrational",
+        "discriminant": "275/12",
+        "family": "IRRATIONAL_DISTINCT",
+        "rational_roots": false,
+        "real_root_count": 2,
+        "roots": [
+          "(-7/8) + (1/4)*sqrt(275/12)",
+          "(-7/8) + (-1/4)*sqrt(275/12)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-000:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (7/2)*x + (-4/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-7/8) + (1/4)*sqrt(275/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-000:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (7/2)*x + (-4/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-7/8) + (-1/4)*sqrt(275/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-000:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (7/2)*x + (-4/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-7/8) + (1/4)*sqrt(275/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-000:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (7/2)*x + (-4/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-7/8) + (-1/4)*sqrt(275/12)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-7/8) + (1/4)*sqrt(275/12)",
+          "(-7/8) + (-1/4)*sqrt(275/12)"
+        ],
+        "proc:quadratic_formula": [
+          "(-7/8) + (1/4)*sqrt(275/12)",
+          "(-7/8) + (-1/4)*sqrt(275/12)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "275/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-7/8"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/4)*sqrt(275/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-7/8) + (1/4)*sqrt(275/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-7/8) + (-1/4)*sqrt(275/12)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "275/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*sqrt(275/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-7/8) + (1/4)*sqrt(275/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-7/8) + (-1/4)*sqrt(275/12)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "-4/3",
+        "b": "3/2",
+        "c": "1/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-IRRATIONAL_DISTINCT-001:proc:quadratic_formula:0",
+          "root:dev-IRRATIONAL_DISTINCT-001:proc:quadratic_formula:1",
+          "root:dev-IRRATIONAL_DISTINCT-001:proc:complete_square:0",
+          "root:dev-IRRATIONAL_DISTINCT-001:proc:complete_square:1"
+        ]
+      },
+      "family": "IRRATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-IRRATIONAL_DISTINCT-001",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta>0 irrational",
+        "discriminant": "59/12",
+        "family": "IRRATIONAL_DISTINCT",
+        "rational_roots": false,
+        "real_root_count": 2,
+        "roots": [
+          "(9/16) + (-3/8)*sqrt(59/12)",
+          "(9/16) + (3/8)*sqrt(59/12)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-001:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-4/3)*x**2 + (3/2)*x + (1/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(9/16) + (-3/8)*sqrt(59/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-001:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-4/3)*x**2 + (3/2)*x + (1/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(9/16) + (3/8)*sqrt(59/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-001:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-4/3)*x**2 + (3/2)*x + (1/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(9/16) + (-3/8)*sqrt(59/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-001:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-4/3)*x**2 + (3/2)*x + (1/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(9/16) + (3/8)*sqrt(59/12)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(9/16) + (-3/8)*sqrt(59/12)",
+          "(9/16) + (3/8)*sqrt(59/12)"
+        ],
+        "proc:quadratic_formula": [
+          "(9/16) + (-3/8)*sqrt(59/12)",
+          "(9/16) + (3/8)*sqrt(59/12)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "59/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "9/16"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (-3/8)*sqrt(59/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(9/16) + (-3/8)*sqrt(59/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(9/16) + (3/8)*sqrt(59/12)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "59/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*sqrt(59/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(9/16) + (-3/8)*sqrt(59/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(9/16) + (3/8)*sqrt(59/12)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "2",
+        "b": "-3",
+        "c": "-9/4"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-IRRATIONAL_DISTINCT-002:proc:quadratic_formula:0",
+          "root:dev-IRRATIONAL_DISTINCT-002:proc:quadratic_formula:1",
+          "root:dev-IRRATIONAL_DISTINCT-002:proc:complete_square:0",
+          "root:dev-IRRATIONAL_DISTINCT-002:proc:complete_square:1"
+        ]
+      },
+      "family": "IRRATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-IRRATIONAL_DISTINCT-002",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta>0 irrational",
+        "discriminant": "27",
+        "family": "IRRATIONAL_DISTINCT",
+        "rational_roots": false,
+        "real_root_count": 2,
+        "roots": [
+          "(3/4) + (1/4)*sqrt(27)",
+          "(3/4) + (-1/4)*sqrt(27)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-002:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (-3)*x + (-9/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(3/4) + (1/4)*sqrt(27)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-002:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (-3)*x + (-9/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(3/4) + (-1/4)*sqrt(27)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-002:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (-3)*x + (-9/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(3/4) + (1/4)*sqrt(27)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-002:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2)*x**2 + (-3)*x + (-9/4)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(3/4) + (-1/4)*sqrt(27)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(3/4) + (1/4)*sqrt(27)",
+          "(3/4) + (-1/4)*sqrt(27)"
+        ],
+        "proc:quadratic_formula": [
+          "(3/4) + (1/4)*sqrt(27)",
+          "(3/4) + (-1/4)*sqrt(27)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "27"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "3/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/4)*sqrt(27)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(3/4) + (1/4)*sqrt(27)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(3/4) + (-1/4)*sqrt(27)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "27"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*sqrt(27)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(3/4) + (1/4)*sqrt(27)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(3/4) + (-1/4)*sqrt(27)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "-1/3",
+        "b": "-12",
+        "c": "-5/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-IRRATIONAL_DISTINCT-003:proc:quadratic_formula:0",
+          "root:dev-IRRATIONAL_DISTINCT-003:proc:quadratic_formula:1",
+          "root:dev-IRRATIONAL_DISTINCT-003:proc:complete_square:0",
+          "root:dev-IRRATIONAL_DISTINCT-003:proc:complete_square:1"
+        ]
+      },
+      "family": "IRRATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-IRRATIONAL_DISTINCT-003",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta>0 irrational",
+        "discriminant": "422/3",
+        "family": "IRRATIONAL_DISTINCT",
+        "rational_roots": false,
+        "real_root_count": 2,
+        "roots": [
+          "(-18) + (-3/2)*sqrt(422/3)",
+          "(-18) + (3/2)*sqrt(422/3)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-003:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/3)*x**2 + (-12)*x + (-5/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-18) + (-3/2)*sqrt(422/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-003:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/3)*x**2 + (-12)*x + (-5/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-18) + (3/2)*sqrt(422/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-003:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/3)*x**2 + (-12)*x + (-5/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-18) + (-3/2)*sqrt(422/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-003:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/3)*x**2 + (-12)*x + (-5/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-18) + (3/2)*sqrt(422/3)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-18) + (-3/2)*sqrt(422/3)",
+          "(-18) + (3/2)*sqrt(422/3)"
+        ],
+        "proc:quadratic_formula": [
+          "(-18) + (-3/2)*sqrt(422/3)",
+          "(-18) + (3/2)*sqrt(422/3)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "422/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-18"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (-3/2)*sqrt(422/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-18) + (-3/2)*sqrt(422/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-18) + (3/2)*sqrt(422/3)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "422/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*sqrt(422/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-18) + (-3/2)*sqrt(422/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-18) + (3/2)*sqrt(422/3)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "-1/2",
+        "b": "9/2",
+        "c": "-2/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-IRRATIONAL_DISTINCT-004:proc:quadratic_formula:0",
+          "root:dev-IRRATIONAL_DISTINCT-004:proc:quadratic_formula:1",
+          "root:dev-IRRATIONAL_DISTINCT-004:proc:complete_square:0",
+          "root:dev-IRRATIONAL_DISTINCT-004:proc:complete_square:1"
+        ]
+      },
+      "family": "IRRATIONAL_DISTINCT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-IRRATIONAL_DISTINCT-004",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta>0 irrational",
+        "discriminant": "227/12",
+        "family": "IRRATIONAL_DISTINCT",
+        "rational_roots": false,
+        "real_root_count": 2,
+        "roots": [
+          "(9/2) + (-1)*sqrt(227/12)",
+          "(9/2) + (1)*sqrt(227/12)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-004:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/2)*x**2 + (9/2)*x + (-2/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(9/2) + (-1)*sqrt(227/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-004:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/2)*x**2 + (9/2)*x + (-2/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(9/2) + (1)*sqrt(227/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-004:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/2)*x**2 + (9/2)*x + (-2/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(9/2) + (-1)*sqrt(227/12)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-IRRATIONAL_DISTINCT-004:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-1/2)*x**2 + (9/2)*x + (-2/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(9/2) + (1)*sqrt(227/12)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(9/2) + (-1)*sqrt(227/12)",
+          "(9/2) + (1)*sqrt(227/12)"
+        ],
+        "proc:quadratic_formula": [
+          "(9/2) + (-1)*sqrt(227/12)",
+          "(9/2) + (1)*sqrt(227/12)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_pos"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "227/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "9/2"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (-1)*sqrt(227/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(9/2) + (-1)*sqrt(227/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(9/2) + (1)*sqrt(227/12)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "227/12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*sqrt(227/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(9/2) + (-1)*sqrt(227/12)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(9/2) + (1)*sqrt(227/12)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "2/3",
+        "b": "28/3",
+        "c": "98/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 3
+        },
+        "warranted": [
+          "root:dev-DOUBLE_ROOT-000:proc:quadratic_formula:0",
+          "root:dev-DOUBLE_ROOT-000:proc:complete_square:0",
+          "root:dev-DOUBLE_ROOT-000:proc:factor:0"
+        ]
+      },
+      "family": "DOUBLE_ROOT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-DOUBLE_ROOT-000",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta==0",
+        "discriminant": "0",
+        "family": "DOUBLE_ROOT",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "-7"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_pos"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-000:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (28/3)*x + (98/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-7",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-000:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (28/3)*x + (98/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-7",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-000:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (28/3)*x + (98/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-7",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "-7"
+        ],
+        "proc:factor": [
+          "-7"
+        ],
+        "proc:quadratic_formula": [
+          "-7"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-7"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "-7"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-7"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "-7"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-7"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "-7"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-7"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "-7",
+        "b": "-7/2",
+        "c": "-7/16"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 3
+        },
+        "warranted": [
+          "root:dev-DOUBLE_ROOT-001:proc:quadratic_formula:0",
+          "root:dev-DOUBLE_ROOT-001:proc:complete_square:0",
+          "root:dev-DOUBLE_ROOT-001:proc:factor:0"
+        ]
+      },
+      "family": "DOUBLE_ROOT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-DOUBLE_ROOT-001",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta==0",
+        "discriminant": "0",
+        "family": "DOUBLE_ROOT",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "-1/4"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_pos"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-001:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-7)*x**2 + (-7/2)*x + (-7/16)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-1/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-001:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(-7)*x**2 + (-7/2)*x + (-7/16)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-1/4",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-001:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(-7)*x**2 + (-7/2)*x + (-7/16)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-1/4",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "-1/4"
+        ],
+        "proc:factor": [
+          "-1/4"
+        ],
+        "proc:quadratic_formula": [
+          "-1/4"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-1/4"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "-1/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-1/4"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "-1/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-1/4"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "-1/4"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-1/4"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "10/3",
+        "b": "200/9",
+        "c": "1000/27"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 3
+        },
+        "warranted": [
+          "root:dev-DOUBLE_ROOT-002:proc:quadratic_formula:0",
+          "root:dev-DOUBLE_ROOT-002:proc:complete_square:0",
+          "root:dev-DOUBLE_ROOT-002:proc:factor:0"
+        ]
+      },
+      "family": "DOUBLE_ROOT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-DOUBLE_ROOT-002",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta==0",
+        "discriminant": "0",
+        "family": "DOUBLE_ROOT",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "-10/3"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_pos"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-002:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(10/3)*x**2 + (200/9)*x + (1000/27)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-10/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-002:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(10/3)*x**2 + (200/9)*x + (1000/27)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-10/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-002:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(10/3)*x**2 + (200/9)*x + (1000/27)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-10/3",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "-10/3"
+        ],
+        "proc:factor": [
+          "-10/3"
+        ],
+        "proc:quadratic_formula": [
+          "-10/3"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-10/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "-10/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-10/3"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "-10/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-10/3"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "-10/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-10/3"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "7",
+        "b": "56/3",
+        "c": "112/9"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 3
+        },
+        "warranted": [
+          "root:dev-DOUBLE_ROOT-003:proc:quadratic_formula:0",
+          "root:dev-DOUBLE_ROOT-003:proc:complete_square:0",
+          "root:dev-DOUBLE_ROOT-003:proc:factor:0"
+        ]
+      },
+      "family": "DOUBLE_ROOT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-DOUBLE_ROOT-003",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta==0",
+        "discriminant": "0",
+        "family": "DOUBLE_ROOT",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "-4/3"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_pos"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-003:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(7)*x**2 + (56/3)*x + (112/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "-4/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-003:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(7)*x**2 + (56/3)*x + (112/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "-4/3",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-003:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(7)*x**2 + (56/3)*x + (112/9)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "-4/3",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "-4/3"
+        ],
+        "proc:factor": [
+          "-4/3"
+        ],
+        "proc:quadratic_formula": [
+          "-4/3"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-4/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "-4/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "-4/3"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "-4/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "-4/3"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "-4/3"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "-4/3"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "2/3",
+        "b": "-16",
+        "c": "96"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 3
+        },
+        "warranted": [
+          "root:dev-DOUBLE_ROOT-004:proc:quadratic_formula:0",
+          "root:dev-DOUBLE_ROOT-004:proc:complete_square:0",
+          "root:dev-DOUBLE_ROOT-004:proc:factor:0"
+        ]
+      },
+      "family": "DOUBLE_ROOT",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ],
+      "instance_id": "dev-DOUBLE_ROOT-004",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square",
+          "proc:factor"
+        ],
+        "case": "Delta==0",
+        "discriminant": "0",
+        "family": "DOUBLE_ROOT",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "12"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_neg",
+        "con:delta_pos"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-004:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (-16)*x + (96)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "12",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-004:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (-16)*x + (96)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "12",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-DOUBLE_ROOT-004:proc:factor:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(2/3)*x**2 + (-16)*x + (96)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:factor",
+          "root": "12",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "12"
+        ],
+        "proc:factor": [
+          "12"
+        ],
+        "proc:quadratic_formula": [
+          "12"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "12"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "12"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "12"
+          }
+        ],
+        "proc:factor": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:fa:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:3",
+            "template": "(-b + R)/(2*a)",
+            "value": "12"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:fa:4",
+            "template": "(-b - R)/(2*a)",
+            "value": "12"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "0"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "0"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "12"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "12"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "9",
+        "b": "5/3",
+        "c": "3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-COMPLEX_PAIR-000:proc:quadratic_formula:0",
+          "root:dev-COMPLEX_PAIR-000:proc:quadratic_formula:1",
+          "root:dev-COMPLEX_PAIR-000:proc:complete_square:0",
+          "root:dev-COMPLEX_PAIR-000:proc:complete_square:1"
+        ]
+      },
+      "family": "COMPLEX_PAIR",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-COMPLEX_PAIR-000",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta<0",
+        "discriminant": "-947/9",
+        "family": "COMPLEX_PAIR",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [
+          "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "(-5/54) + (-1/18)*I*sqrt(947/9)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-000:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(9)*x**2 + (5/3)*x + (3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-000:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(9)*x**2 + (5/3)*x + (3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-5/54) + (-1/18)*I*sqrt(947/9)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-000:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(9)*x**2 + (5/3)*x + (3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-000:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(9)*x**2 + (5/3)*x + (3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-5/54) + (-1/18)*I*sqrt(947/9)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "(-5/54) + (-1/18)*I*sqrt(947/9)"
+        ],
+        "proc:quadratic_formula": [
+          "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "(-5/54) + (-1/18)*I*sqrt(947/9)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_neg"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-947/9"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-5/54"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/18)*I*sqrt(947/9)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-5/54) + (1/18)*I*sqrt(947/9)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-5/54) + (-1/18)*I*sqrt(947/9)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-947/9"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*I*sqrt(947/9)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-5/54) + (1/18)*I*sqrt(947/9)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-5/54) + (-1/18)*I*sqrt(947/9)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "5",
+        "b": "3",
+        "c": "8/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-COMPLEX_PAIR-001:proc:quadratic_formula:0",
+          "root:dev-COMPLEX_PAIR-001:proc:quadratic_formula:1",
+          "root:dev-COMPLEX_PAIR-001:proc:complete_square:0",
+          "root:dev-COMPLEX_PAIR-001:proc:complete_square:1"
+        ]
+      },
+      "family": "COMPLEX_PAIR",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-COMPLEX_PAIR-001",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta<0",
+        "discriminant": "-133/3",
+        "family": "COMPLEX_PAIR",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [
+          "(-3/10) + (1/10)*I*sqrt(133/3)",
+          "(-3/10) + (-1/10)*I*sqrt(133/3)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-001:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (3)*x + (8/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-3/10) + (1/10)*I*sqrt(133/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-001:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (3)*x + (8/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-3/10) + (-1/10)*I*sqrt(133/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-001:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (3)*x + (8/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-3/10) + (1/10)*I*sqrt(133/3)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-001:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (3)*x + (8/3)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-3/10) + (-1/10)*I*sqrt(133/3)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-3/10) + (1/10)*I*sqrt(133/3)",
+          "(-3/10) + (-1/10)*I*sqrt(133/3)"
+        ],
+        "proc:quadratic_formula": [
+          "(-3/10) + (1/10)*I*sqrt(133/3)",
+          "(-3/10) + (-1/10)*I*sqrt(133/3)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_neg"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-133/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-3/10"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/10)*I*sqrt(133/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-3/10) + (1/10)*I*sqrt(133/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-3/10) + (-1/10)*I*sqrt(133/3)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-133/3"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*I*sqrt(133/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-3/10) + (1/10)*I*sqrt(133/3)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-3/10) + (-1/10)*I*sqrt(133/3)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "4",
+        "b": "4",
+        "c": "8"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-COMPLEX_PAIR-002:proc:quadratic_formula:0",
+          "root:dev-COMPLEX_PAIR-002:proc:quadratic_formula:1",
+          "root:dev-COMPLEX_PAIR-002:proc:complete_square:0",
+          "root:dev-COMPLEX_PAIR-002:proc:complete_square:1"
+        ]
+      },
+      "family": "COMPLEX_PAIR",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-COMPLEX_PAIR-002",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta<0",
+        "discriminant": "-112",
+        "family": "COMPLEX_PAIR",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [
+          "(-1/2) + (1/8)*I*sqrt(112)",
+          "(-1/2) + (-1/8)*I*sqrt(112)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-002:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (4)*x + (8)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1/2) + (1/8)*I*sqrt(112)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-002:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (4)*x + (8)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1/2) + (-1/8)*I*sqrt(112)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-002:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (4)*x + (8)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1/2) + (1/8)*I*sqrt(112)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-002:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(4)*x**2 + (4)*x + (8)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1/2) + (-1/8)*I*sqrt(112)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-1/2) + (1/8)*I*sqrt(112)",
+          "(-1/2) + (-1/8)*I*sqrt(112)"
+        ],
+        "proc:quadratic_formula": [
+          "(-1/2) + (1/8)*I*sqrt(112)",
+          "(-1/2) + (-1/8)*I*sqrt(112)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_neg"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-112"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-1/2"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/8)*I*sqrt(112)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-1/2) + (1/8)*I*sqrt(112)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-1/2) + (-1/8)*I*sqrt(112)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-112"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*I*sqrt(112)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-1/2) + (1/8)*I*sqrt(112)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-1/2) + (-1/8)*I*sqrt(112)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "5/2",
+        "b": "5",
+        "c": "6"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-COMPLEX_PAIR-003:proc:quadratic_formula:0",
+          "root:dev-COMPLEX_PAIR-003:proc:quadratic_formula:1",
+          "root:dev-COMPLEX_PAIR-003:proc:complete_square:0",
+          "root:dev-COMPLEX_PAIR-003:proc:complete_square:1"
+        ]
+      },
+      "family": "COMPLEX_PAIR",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-COMPLEX_PAIR-003",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta<0",
+        "discriminant": "-35",
+        "family": "COMPLEX_PAIR",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [
+          "(-1) + (1/5)*I*sqrt(35)",
+          "(-1) + (-1/5)*I*sqrt(35)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-003:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/2)*x**2 + (5)*x + (6)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1) + (1/5)*I*sqrt(35)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-003:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/2)*x**2 + (5)*x + (6)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1) + (-1/5)*I*sqrt(35)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-003:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/2)*x**2 + (5)*x + (6)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1) + (1/5)*I*sqrt(35)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-003:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5/2)*x**2 + (5)*x + (6)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1) + (-1/5)*I*sqrt(35)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-1) + (1/5)*I*sqrt(35)",
+          "(-1) + (-1/5)*I*sqrt(35)"
+        ],
+        "proc:quadratic_formula": [
+          "(-1) + (1/5)*I*sqrt(35)",
+          "(-1) + (-1/5)*I*sqrt(35)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_neg"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-35"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-1"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/5)*I*sqrt(35)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-1) + (1/5)*I*sqrt(35)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-1) + (-1/5)*I*sqrt(35)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-35"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*I*sqrt(35)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-1) + (1/5)*I*sqrt(35)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-1) + (-1/5)*I*sqrt(35)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "5",
+        "b": "2",
+        "c": "5"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 4
+        },
+        "warranted": [
+          "root:dev-COMPLEX_PAIR-004:proc:quadratic_formula:0",
+          "root:dev-COMPLEX_PAIR-004:proc:quadratic_formula:1",
+          "root:dev-COMPLEX_PAIR-004:proc:complete_square:0",
+          "root:dev-COMPLEX_PAIR-004:proc:complete_square:1"
+        ]
+      },
+      "family": "COMPLEX_PAIR",
+      "fired_procedures": [
+        "proc:quadratic_formula",
+        "proc:complete_square"
+      ],
+      "instance_id": "dev-COMPLEX_PAIR-004",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:quadratic_formula",
+          "proc:complete_square"
+        ],
+        "case": "Delta<0",
+        "discriminant": "-96",
+        "family": "COMPLEX_PAIR",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [
+          "(-1/5) + (1/10)*I*sqrt(96)",
+          "(-1/5) + (-1/10)*I*sqrt(96)"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_zero",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-004:proc:quadratic_formula:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (2)*x + (5)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1/5) + (1/10)*I*sqrt(96)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-004:proc:quadratic_formula:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (2)*x + (5)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:quadratic_formula",
+          "root": "(-1/5) + (-1/10)*I*sqrt(96)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-004:proc:complete_square:0",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (2)*x + (5)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1/5) + (1/10)*I*sqrt(96)",
+          "variable": "x"
+        },
+        {
+          "atom_id": "root:dev-COMPLEX_PAIR-004:proc:complete_square:1",
+          "domain": "C",
+          "exact_checker": "VALID",
+          "expr": "(5)*x**2 + (2)*x + (5)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:complete_square",
+          "root": "(-1/5) + (-1/10)*I*sqrt(96)",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:complete_square": [
+          "(-1/5) + (1/10)*I*sqrt(96)",
+          "(-1/5) + (-1/10)*I*sqrt(96)"
+        ],
+        "proc:quadratic_formula": [
+          "(-1/5) + (1/10)*I*sqrt(96)",
+          "(-1/5) + (-1/10)*I*sqrt(96)"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_nonzero",
+        "con:delta_neg"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:complete_square": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-96"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:2",
+            "template": "-b/(2*a)",
+            "value": "-1/5"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:cs:3",
+            "template": "sqrt(Delta)/(2*a)",
+            "value": "(0) + (1/10)*I*sqrt(96)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:4",
+            "template": "H + Q",
+            "value": "(-1/5) + (1/10)*I*sqrt(96)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:cs:5",
+            "template": "H - Q",
+            "value": "(-1/5) + (-1/10)*I*sqrt(96)"
+          }
+        ],
+        "proc:quadratic_formula": [
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:1",
+            "template": "b**2 - 4*a*c",
+            "value": "-96"
+          },
+          {
+            "operation": "BIND_EXACT",
+            "step": "step:qf:2",
+            "template": "sqrt(Delta)",
+            "value": "(0) + (1)*I*sqrt(96)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:3",
+            "template": "(-b + S)/(2*a)",
+            "value": "(-1/5) + (1/10)*I*sqrt(96)"
+          },
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:qf:4",
+            "template": "(-b - S)/(2*a)",
+            "value": "(-1/5) + (-1/10)*I*sqrt(96)"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "11",
+        "c": "-7"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 1
+        },
+        "warranted": [
+          "root:dev-LINEAR_DEGENERATE-000:proc:linear:0"
+        ]
+      },
+      "family": "LINEAR_DEGENERATE",
+      "fired_procedures": [
+        "proc:linear"
+      ],
+      "instance_id": "dev-LINEAR_DEGENERATE-000",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:linear"
+        ],
+        "case": "a==0 linear",
+        "discriminant": null,
+        "family": "LINEAR_DEGENERATE",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "7/11"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-LINEAR_DEGENERATE-000:proc:linear:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(0)*x**2 + (11)*x + (-7)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:linear",
+          "root": "7/11",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:linear": [
+          "7/11"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:linear": [
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:li:1",
+            "template": "-c/b",
+            "value": "7/11"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "-8/3",
+        "c": "9/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 1
+        },
+        "warranted": [
+          "root:dev-LINEAR_DEGENERATE-001:proc:linear:0"
+        ]
+      },
+      "family": "LINEAR_DEGENERATE",
+      "fired_procedures": [
+        "proc:linear"
+      ],
+      "instance_id": "dev-LINEAR_DEGENERATE-001",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:linear"
+        ],
+        "case": "a==0 linear",
+        "discriminant": null,
+        "family": "LINEAR_DEGENERATE",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "27/16"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-LINEAR_DEGENERATE-001:proc:linear:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(0)*x**2 + (-8/3)*x + (9/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:linear",
+          "root": "27/16",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:linear": [
+          "27/16"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:linear": [
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:li:1",
+            "template": "-c/b",
+            "value": "27/16"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "1",
+        "c": "-2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 1
+        },
+        "warranted": [
+          "root:dev-LINEAR_DEGENERATE-002:proc:linear:0"
+        ]
+      },
+      "family": "LINEAR_DEGENERATE",
+      "fired_procedures": [
+        "proc:linear"
+      ],
+      "instance_id": "dev-LINEAR_DEGENERATE-002",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:linear"
+        ],
+        "case": "a==0 linear",
+        "discriminant": null,
+        "family": "LINEAR_DEGENERATE",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "2"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-LINEAR_DEGENERATE-002:proc:linear:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(0)*x**2 + (1)*x + (-2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:linear",
+          "root": "2",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:linear": [
+          "2"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:linear": [
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:li:1",
+            "template": "-c/b",
+            "value": "2"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "3",
+        "c": "-5/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 1
+        },
+        "warranted": [
+          "root:dev-LINEAR_DEGENERATE-003:proc:linear:0"
+        ]
+      },
+      "family": "LINEAR_DEGENERATE",
+      "fired_procedures": [
+        "proc:linear"
+      ],
+      "instance_id": "dev-LINEAR_DEGENERATE-003",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:linear"
+        ],
+        "case": "a==0 linear",
+        "discriminant": null,
+        "family": "LINEAR_DEGENERATE",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "5/6"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-LINEAR_DEGENERATE-003:proc:linear:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(0)*x**2 + (3)*x + (-5/2)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:linear",
+          "root": "5/6",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:linear": [
+          "5/6"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:linear": [
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:li:1",
+            "template": "-c/b",
+            "value": "5/6"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "-5/4",
+        "c": "1"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 1
+        },
+        "warranted": [
+          "root:dev-LINEAR_DEGENERATE-004:proc:linear:0"
+        ]
+      },
+      "family": "LINEAR_DEGENERATE",
+      "fired_procedures": [
+        "proc:linear"
+      ],
+      "instance_id": "dev-LINEAR_DEGENERATE-004",
+      "navigation_outcome": "FOUND",
+      "oracle": {
+        "applicable_procedures": [
+          "proc:linear"
+        ],
+        "case": "a==0 linear",
+        "discriminant": null,
+        "family": "LINEAR_DEGENERATE",
+        "rational_roots": true,
+        "real_root_count": 1,
+        "roots": [
+          "4/5"
+        ],
+        "status": "SOLVED"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [
+        {
+          "atom_id": "root:dev-LINEAR_DEGENERATE-004:proc:linear:0",
+          "domain": "Q",
+          "exact_checker": "VALID",
+          "expr": "(0)*x**2 + (-5/4)*x + (1)",
+          "kind": "ROOT_CLAIM",
+          "label_channel": "INSTRUCTION",
+          "produced_by": "proc:linear",
+          "root": "4/5",
+          "variable": "x"
+        }
+      ],
+      "roots_by_procedure": {
+        "proc:linear": [
+          "4/5"
+        ]
+      },
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {
+        "proc:linear": [
+          {
+            "operation": "EMIT_ROOT",
+            "step": "step:li:1",
+            "template": "-c/b",
+            "value": "4/5"
+          }
+        ]
+      },
+      "warrant": "EXACT_CHECKER"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "0",
+        "c": "4/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 0
+        },
+        "warranted": []
+      },
+      "family": "NO_EQUATION",
+      "fired_procedures": [],
+      "instance_id": "dev-NO_EQUATION-000",
+      "navigation_outcome": "GAP_NOT_FOUND",
+      "oracle": {
+        "applicable_procedures": [],
+        "case": "a==0 b==0",
+        "discriminant": null,
+        "family": "NO_EQUATION",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [],
+        "status": "CANNOT_CHECK"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:b_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [],
+      "roots_by_procedure": {},
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {},
+      "warrant": "UNWARRANTED"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "0",
+        "c": "-8/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 0
+        },
+        "warranted": []
+      },
+      "family": "NO_EQUATION",
+      "fired_procedures": [],
+      "instance_id": "dev-NO_EQUATION-001",
+      "navigation_outcome": "GAP_NOT_FOUND",
+      "oracle": {
+        "applicable_procedures": [],
+        "case": "a==0 b==0",
+        "discriminant": null,
+        "family": "NO_EQUATION",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [],
+        "status": "CANNOT_CHECK"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:b_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [],
+      "roots_by_procedure": {},
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {},
+      "warrant": "UNWARRANTED"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "0",
+        "c": "-10/3"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 0
+        },
+        "warranted": []
+      },
+      "family": "NO_EQUATION",
+      "fired_procedures": [],
+      "instance_id": "dev-NO_EQUATION-002",
+      "navigation_outcome": "GAP_NOT_FOUND",
+      "oracle": {
+        "applicable_procedures": [],
+        "case": "a==0 b==0",
+        "discriminant": null,
+        "family": "NO_EQUATION",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [],
+        "status": "CANNOT_CHECK"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:b_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [],
+      "roots_by_procedure": {},
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {},
+      "warrant": "UNWARRANTED"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "0",
+        "c": "1/2"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 0
+        },
+        "warranted": []
+      },
+      "family": "NO_EQUATION",
+      "fired_procedures": [],
+      "instance_id": "dev-NO_EQUATION-003",
+      "navigation_outcome": "GAP_NOT_FOUND",
+      "oracle": {
+        "applicable_procedures": [],
+        "case": "a==0 b==0",
+        "discriminant": null,
+        "family": "NO_EQUATION",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [],
+        "status": "CANNOT_CHECK"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:b_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [],
+      "roots_by_procedure": {},
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {},
+      "warrant": "UNWARRANTED"
+    },
+    {
+      "attribution": "",
+      "bindings": {
+        "a": "0",
+        "b": "0",
+        "c": "6"
+      },
+      "exact": true,
+      "exact_checker": {
+        "verdicts": {
+          "CANNOT_CHECK": 0,
+          "INVALID": 0,
+          "VALID": 0
+        },
+        "warranted": []
+      },
+      "family": "NO_EQUATION",
+      "fired_procedures": [],
+      "instance_id": "dev-NO_EQUATION-004",
+      "navigation_outcome": "GAP_NOT_FOUND",
+      "oracle": {
+        "applicable_procedures": [],
+        "case": "a==0 b==0",
+        "discriminant": null,
+        "family": "NO_EQUATION",
+        "rational_roots": false,
+        "real_root_count": 0,
+        "roots": [],
+        "status": "CANNOT_CHECK"
+      },
+      "query_revoked_constraints": [
+        "con:a_nonzero",
+        "con:b_nonzero",
+        "con:delta_neg",
+        "con:delta_pos",
+        "con:delta_zero",
+        "con:rational_roots"
+      ],
+      "root_claims": [],
+      "roots_by_procedure": {},
+      "seeds": [
+        "rep:standard_form",
+        "con:a_zero"
+      ],
+      "stage_failures": {},
+      "step_traces": {},
+      "warrant": "UNWARRANTED"
+    }
+  ],
+  "no_alarm_controls": {
+    "nothing_fires_on_no_equation": true,
+    "proc_factor_never_fires_on_complex": true,
+    "proc_factor_never_fires_on_irrational": true,
+    "zero_cannot_check_root_claims": true,
+    "zero_invalid_root_claims": true
+  },
+  "plants": {
+    "a_corrupt_step_in_the_source": {
+      "CAUGHT": true,
+      "attribution": "COMPOSE",
+      "clean_root": [
+        "(-7/8) + (1/4)*sqrt(275/12)",
+        "(-7/8) + (-1/4)*sqrt(275/12)"
+      ],
+      "corrupted_root": [
+        "1/4",
+        "-2"
+      ],
+      "exact_checker_invalid": true,
+      "instance": "dev-IRRATIONAL_DISTINCT-000",
+      "invalid_procedures": [
+        "proc:quadratic_formula"
+      ],
+      "locality": "only the corrupted procedure's roots are INVALID; proc:complete_square walks a DIFFERENT step (step:cs:1), is untouched by the plant, and is still warranted -- the corruption is local to the step that was corrupted, which is what 'knowledge lives in the source' means",
+      "locality_holds": true,
+      "mutation_landed__root_differs_from_clean": true,
+      "oracle_disagrees": true,
+      "step_corrupted": "step:qf:1",
+      "still_warranted_procedures": [
+        "proc:complete_square"
+      ],
+      "template_now": "b**2 - 3*a*c"
+    },
+    "b_flip_one_constraint_label": {
+      "case_licence_flip_complex": {
+        "CAUGHT": true,
+        "exact_checker_invalid": true,
+        "flipped": [
+          "con:rational_roots",
+          "con:delta_pos"
+        ],
+        "instance": "dev-COMPLEX_PAIR-000",
+        "proc_factor_fired": true,
+        "root_claimed_over_Q": [
+          "(-5/54) + (1/18)*I*sqrt(947/9)",
+          "(-5/54) + (-1/18)*I*sqrt(947/9)"
+        ]
+      },
+      "one_flip_irrational": {
+        "CAUGHT": true,
+        "attribution": "FIRE",
+        "exact_checker_invalid": true,
+        "flipped": "con:rational_roots",
+        "instance": "dev-IRRATIONAL_DISTINCT-000",
+        "proc_factor_fired": true,
+        "reason": "root:dev-IRRATIONAL_DISTINCT-000:proc:factor:0 is INVALID under the EXACT_CHECKER: equality holds but the root -7/8 + 5*sqrt(33)/24 is not in the declared domain Q"
+      }
+    },
+    "c_three_instance_corruption_exits_1": {
+      "CAUGHT": true,
+      "exact": 0,
+      "exit_code_would_be": 1,
+      "instances": [
+        "dev-IRRATIONAL_DISTINCT-000",
+        "dev-IRRATIONAL_DISTINCT-001",
+        "dev-IRRATIONAL_DISTINCT-002"
+      ],
+      "n": 3
+    },
+    "d_oracle_disagreement_is_cannot_check": {
+      "CAUGHT": true,
+      "exit_code_would_be": 2,
+      "instance_named": "instance dev-COMPLEX_PAIR-000 (a=9, b=5/3, c=3)",
+      "never_redrawn": true
+    },
+    "e_out_of_range_is_typed_rejection": {
+      "CAUGHT": true,
+      "at_oracle": "planted-out-of-range: coefficients outside REGISTERED_RANGE_V3 (abs <= 1728, denominator <= 64): {'c",
+      "at_solver": "planted-out-of-range: coefficients outside REGISTERED_RANGE_V3 (abs <= 1728, denominator <= 64): {'c",
+      "exit_code_would_be": 2
+    }
+  },
+  "population": {
+    "P1_dense": {
+      "atoms": 38,
+      "hyperedges": 81,
+      "isolated": 0,
+      "planted_isolated_rejected": 1,
+      "quarantined": 0
+    },
+    "atoms": 38,
+    "channel": "INSTRUCTION via admit() for every atom",
+    "genome": {
+      "S1": true,
+      "S2": true,
+      "S7": true,
+      "digest_unchanged": true
+    },
+    "hyperedges": 81,
+    "meter": {
+      "admit": 38,
+      "compose": 4
+    }
+  },
+  "provenance": {
+    "command": "python research/orion-machine/reference/kso_m2b_algebra_v3.py --per-family 5 --out research/orion-machine/results/KSO_M2B_ALGEBRA_RECEIPT_V3.json",
+    "parameters": {
+      "alpha": "1/3",
+      "status": "PRE_STUDY_PLACEHOLDER (KSO_PARAMETER_STUDY_V1)"
+    },
+    "python": "3.13.12",
+    "split_seed": "ALGEBRA-DEV-20260904",
+    "sympy": "SymPy 1.14.0 checkeq: simplify(expr.subs(x, root)) == 0"
+  },
+  "rejections": {
+    "COMPLEX_PAIR": {
+      "family_mismatch": 5,
+      "proposal_declined": 0
+    },
+    "DOUBLE_ROOT": {
+      "family_mismatch": 0,
+      "proposal_declined": 1
+    },
+    "IRRATIONAL_DISTINCT": {
+      "family_mismatch": 3,
+      "proposal_declined": 0
+    },
+    "LINEAR_DEGENERATE": {
+      "family_mismatch": 0,
+      "proposal_declined": 0
+    },
+    "NO_EQUATION": {
+      "family_mismatch": 0,
+      "proposal_declined": 0
+    },
+    "RATIONAL_DISTINCT": {
+      "family_mismatch": 0,
+      "proposal_declined": 0
+    }
+  },
+  "retraction_both_directions": {
+    "dead_zero": 26,
+    "parent_raised": 25,
+    "restored": 26,
+    "revocations": 26,
+    "unreachable_unchanged": 26
+  },
+  "schema": "orion.kso.m2b-algebra-receipt.v3",
+  "source": {
+    "atoms": 37,
+    "file": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V3.json",
+    "procedures_are_data": true,
+    "sha256": "f38638456ceafadd0a89f20c1f4870ce0c328bae5d64f79373c6fd4d1f242f85",
+    "steps": 14
+  },
+  "terminal": "M2B_V3_SOLVED_FROM_THE_SOURCE_AND_WARRANTED",
+  "warrant_status": "a ROOT_CLAIM is warranted iff kso_exact_checker_sympy_v1 returns VALID under the EXACT_CHECKER certificate; the producing label channel is INSTRUCTION and is ignored for the verdict"
+}
