@@ -13,6 +13,13 @@ attribution, polarity, same-proposition correction lineage, separate repeated
 lessons and lexical revocation/reinstatement. Language session restart preserves
 those records. The parent constructs no OCM runtime or ChatSession.
 
+Report IDs and observation support identities are separate. The existing OCM
+donor content-addresses attributed observations: repeating identical input bytes
+shares support; a distinct paraphrase does not. The parent matches this policy
+with an ordinary content key, including supersession lineage. Withdrawing one
+observation invalidates every report backed by that key; replaying its identical
+bytes after restart does not silently reinstate it.
+
 Both lifetime Phase A entry points forward named speakers to both arms.
 Phase E gives the current parent the same explicit transfer maps, role contracts,
 operators and task checker as OCM. Fixed role-contract checking is an adopted

@@ -153,3 +153,28 @@ def test_transfer_success_requires_successful_execution(tmp_path, monkeypatch):
     cell = result["cells"]["representation_correspondence"]
     assert cell["result"] == "TRANSFER_EXECUTION_FAILED"
     assert not all(result["success"])
+
+
+
+@pytest.mark.parametrize("arm_class", [MC.PersistentOCM, MC.WholeSystemParent])
+def test_identical_report_support_is_withdrawn_together_without_resurrection(tmp_path, arm_class):
+    arm = arm_class(tmp_path)
+    original = "the robot opened the door"
+    arm.say(original, speaker="Alice")
+    arm.say(original, speaker="Alice")
+    arm.say("correction, the robot did not open the door", speaker="Alice")
+    assert "Alice said it did not" in arm.say("did the robot open the door")
+    arm.say("__restart__")
+    # Replaying the identical source payload is not independent new evidence.
+    arm.say(original, speaker="Alice")
+    assert "Alice said it did not" in arm.say("did the robot open the door")
+
+
+@pytest.mark.parametrize("arm_class", [MC.PersistentOCM, MC.WholeSystemParent])
+def test_distinct_report_payloads_do_not_share_withdrawal(tmp_path, arm_class):
+    arm = arm_class(tmp_path)
+    arm.say("the robot opened the door", speaker="Alice")
+    arm.say("the door was opened by the robot", speaker="Alice")
+    arm.say("correction, the robot did not open the door", speaker="Alice")
+    # Latest report is withdrawn; the distinct earlier observation remains.
+    assert "Contradictory" in arm.say("did the robot open the door")

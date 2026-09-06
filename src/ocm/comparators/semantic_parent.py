@@ -122,7 +122,7 @@ class SemanticParent(MatchedParent):
                     if rows else 'Unknown — nothing on record supports or denies it.')
         negated = _is_negated(meaning)
         base = _strip(meaning, 'NEGATES') if negated else meaning
-        record = m.record(base, speaker, negated, bool(correction))
+        record = m.record(base, speaker, negated, correction, text)
         if record is None:
             return self.unsupported('CANNOT_CHECK_TOPIC_CORRECTION_PARITY')
         pos, neg = m.reports(base)
