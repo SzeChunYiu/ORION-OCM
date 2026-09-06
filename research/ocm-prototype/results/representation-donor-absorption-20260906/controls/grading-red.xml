@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.258" timestamp="2026-09-06T11:22:00.159365+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_grading" name="test_error_does_not_hide_observed_fine_vector_or_request_mismatch" time="0.069"><failure message="AssertionError: assert 'CANNOT_CHECK...SUMER_FAILURE' == 'FUNCTIONAL_MISMATCH'&#10;  &#10;  - FUNCTIONAL_MISMATCH&#10;  + CANNOT_CHECK_CONSUMER_FAILURE">def test_error_does_not_hide_observed_fine_vector_or_request_mismatch():
+        D, G = module("representation_donor"), module("representation_donor_grade")
+        p = D.prepare(D.fixture("alternative"))
+        reference = D.evaluate(p, arm="full", revoked=(2,))
+        actual = D.evaluate(p, arm="ocm", revoked=(2,))
+        assert G.compare(reference, actual)["terminal"] == "CANNOT_CHECK_CONSUMER_FAILURE"
+        for kind in ("vectors", "request"):
+            wrong = copy.deepcopy(actual)
+            if kind == "vectors":
+                atom = next(iter(wrong["vectors"][0]["values"]))
+                wrong["vectors"][0]["values"][atom] = "999/1"
+            else:
+                wrong["request"]["task"]["task_id"] = "wrong-task"
+            grade = G.compare(reference, wrong)
+&gt;           assert grade["terminal"] == "FUNCTIONAL_MISMATCH"
+E           AssertionError: assert 'CANNOT_CHECK...SUMER_FAILURE' == 'FUNCTIONAL_MISMATCH'
+E             
+E             - FUNCTIONAL_MISMATCH
+E             + CANNOT_CHECK_CONSUMER_FAILURE
+
+research/ocm-prototype/representation_donor_tests/test_grading.py:26: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_grading" name="test_capture_arms_are_bound_and_partial_cli_is_distinct" time="0.160"><failure message="KeyError: 'recorded_scenarios'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-119/test_capture_arms_are_bound_an0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f56bd41f820&gt;
+
+    def test_capture_arms_are_bound_and_partial_cli_is_distinct(tmp_path, monkeypatch):
+        C = module("representation_donor_capture")
+        output = tmp_path / "capture"
+        C.capture(output, scenarios=("base", "withdraw_rule"))
+        grade = C.grade_archive(output)
+&gt;       assert grade["recorded_scenarios"] == 2 and grade["completed_scenarios"] == 1
+E       KeyError: 'recorded_scenarios'
+
+research/ocm-prototype/representation_donor_tests/test_grading.py:35: KeyError</failure></testcase></testsuite></testsuites>

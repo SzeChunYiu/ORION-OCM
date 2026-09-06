@@ -1,0 +1,571 @@
+{
+  "arm": "full",
+  "calls": [
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "WARRANTED",
+      "seed_kind": "registered_query",
+      "selected": "full",
+      "solve_dimension": 14
+    },
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "EXPLORATORY",
+      "seed_kind": "registered_query",
+      "selected": "full",
+      "solve_dimension": 14
+    },
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "WARRANTED",
+      "seed_kind": "global_uniform",
+      "selected": "full",
+      "solve_dimension": 14
+    }
+  ],
+  "consumer": {
+    "answer": {
+      "inputs": [
+        "fact",
+        "rule"
+      ],
+      "result": 42
+    },
+    "committed": true,
+    "decision": "ANSWER",
+    "gap_hook": "",
+    "status": "COMPLETED",
+    "trace": {
+      "resources": {
+        "composition_work": 7,
+        "index_size": 0,
+        "io_calls": 0,
+        "memory_bytes": 0,
+        "navigation_steps": 2,
+        "navigation_work": 980,
+        "object_count": 0,
+        "relation_count": 0,
+        "update_work": 0,
+        "verification_calls": 2,
+        "warrant_size": 0
+      },
+      "stages": [
+        {
+          "evidence_ids": [],
+          "object_ids": [],
+          "payload": {
+            "parts": 1,
+            "targets": [
+              "rule"
+            ]
+          },
+          "reason": "RECEIVED",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "TASK",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "q"
+          ],
+          "payload": {
+            "parts": 1,
+            "seed_support": [
+              "q"
+            ]
+          },
+          "reason": "SEEDS_BOUND",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "GROUNDING",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [],
+          "payload": {
+            "atoms": 14,
+            "representation": "typed_hypergraph_v1"
+          },
+          "reason": "ACTIVE_REPRESENTATION_SELECTED",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "REPRESENTATION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "rule"
+          ],
+          "payload": {
+            "live_atoms": 14,
+            "outcomes": {
+              "rule": "FOUND:ACTIVATION_ABOVE_THRESHOLD"
+            },
+            "unknown_atoms": 0
+          },
+          "reason": "ACTIVATION_COMPUTED",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 2,
+            "navigation_work": 980,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "NAVIGATION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "fact",
+            "far",
+            "maybe",
+            "q",
+            "rule"
+          ],
+          "payload": {
+            "exploratory_only_atoms": [],
+            "optimiser": "GREEDY_PRIZE_DENSITY",
+            "optimiser_ties": 0,
+            "surprise_model": "PROPAGATED",
+            "warranted_atoms": [
+              "fact",
+              "far",
+              "maybe",
+              "q",
+              "rule"
+            ]
+          },
+          "reason": "REACTING_SUBGRAPH",
+          "resources": {
+            "composition_work": 5,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "EXTRACTION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "fr",
+            "qf",
+            "qm",
+            "rfar"
+          ],
+          "payload": {
+            "disabled": [],
+            "enabled": [
+              "fr",
+              "qf",
+              "qm",
+              "rfar"
+            ],
+            "unknown": []
+          },
+          "reason": "ENABLED_SET_COMPUTED",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "EXECUTION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "apply_rule"
+          ],
+          "payload": {
+            "candidates": 1
+          },
+          "reason": "CANDIDATES_COMPOSED",
+          "resources": {
+            "composition_work": 2,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 1,
+            "warrant_size": 0
+          },
+          "stage": "COMPOSITION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "apply_rule"
+          ],
+          "payload": {
+            "verdicts": {
+              "apply_rule": "PASS"
+            }
+          },
+          "reason": "1_OF_1_CANDIDATES_PASS",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 1,
+            "warrant_size": 0
+          },
+          "stage": "CHECK",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [],
+          "object_ids": [
+            "apply_rule"
+          ],
+          "payload": {},
+          "reason": "ANSWER_FROM_CHECKED_CANDIDATE",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "DECISION",
+          "status": "PASS"
+        },
+        {
+          "evidence_ids": [
+            "1",
+            "2"
+          ],
+          "object_ids": [
+            "apply_rule"
+          ],
+          "payload": {},
+          "reason": "COMMITTED",
+          "resources": {
+            "composition_work": 0,
+            "index_size": 0,
+            "io_calls": 0,
+            "memory_bytes": 0,
+            "navigation_steps": 0,
+            "navigation_work": 0,
+            "object_count": 0,
+            "relation_count": 0,
+            "update_work": 0,
+            "verification_calls": 0,
+            "warrant_size": 0
+          },
+          "stage": "COMMITMENT",
+          "status": "PASS"
+        }
+      ],
+      "task_id": "t1",
+      "worst_status": "PASS"
+    },
+    "witness": null
+  },
+  "eligibility": {
+    "available_states": 1,
+    "exploratory": "CANNOT_CHECK_MISSING_REGISTERED_STATE",
+    "reconstruction": "CANNOT_CHECK_MISSING_REGISTERED_STATE",
+    "registered_states": 8,
+    "revision_scope": "SNAPSHOT_FAMILY_ONLY; unregistered updates invalidate; finite-map checker is separate",
+    "warranted": "CANNOT_CHECK_MISSING_REGISTERED_STATE"
+  },
+  "request": {
+    "config": {
+      "alpha": "1/3",
+      "budget": {
+        "depth": 24,
+        "restarts": 1,
+        "steps": 24
+      },
+      "exact_extraction_max_atoms": 12,
+      "firing_threshold": "1/1000",
+      "relevance": null,
+      "surprise_model": "PROPAGATED",
+      "threshold": "1/1000"
+    },
+    "revoked": [],
+    "state": "9ec8b9c606416a9d1de805d3ab8ec9412e8ff266b885aaa27974a8ad8eae7b4b",
+    "task": {
+      "at": null,
+      "context": "en",
+      "identification_required": false,
+      "parts": [
+        {
+          "atom_type": "claim",
+          "refs": [
+            "q"
+          ],
+          "text": "what follows"
+        }
+      ],
+      "required_authority": {
+        "ranks": [
+          [
+            "src",
+            1
+          ]
+        ]
+      },
+      "targets": [
+        "rule"
+      ],
+      "task_id": "t1"
+    }
+  },
+  "resources": {
+    "canonical_decoder_partition_bytes": 174,
+    "canonical_field_bytes": 5496,
+    "canonical_prepared_matrix_bytes": 3037,
+    "donor_calls": {
+      "ocm.original_fixed_point": 3,
+      "router.choose": 3
+    },
+    "exact_rational_outputs": true,
+    "fine_output_entries": 42,
+    "materialized_matrix_cells": 392,
+    "performance_claim": "NOT_TESTED; serialized bytes are not resident memory; runtime work proxy unchanged; no process-tree CPU claim",
+    "preparation_donor_calls": {
+      "f2.validate_multiscale_certificate": 1
+    },
+    "runtime_reported_vector": {
+      "composition_work": 7,
+      "index_size": 0,
+      "io_calls": 0,
+      "memory_bytes": 0,
+      "navigation_steps": 2,
+      "navigation_work": 980,
+      "object_count": 0,
+      "relation_count": 0,
+      "update_work": 0,
+      "verification_calls": 2,
+      "warrant_size": 0
+    }
+  },
+  "surprise": [
+    {
+      "background_0": 0.0,
+      "background_1": 0.0,
+      "background_2": 0.0,
+      "background_3": 0.0,
+      "background_4": 0.0,
+      "background_5": 0.0,
+      "background_6": 0.0,
+      "background_7": 0.0,
+      "fact": 0.2932285921664732,
+      "far": 0.02464153906695728,
+      "island": 0.0,
+      "maybe": 0.2932285921664732,
+      "q": 0.0,
+      "rule": 0.09279725692308283
+    },
+    {
+      "background_0": 0.0,
+      "background_1": 0.0,
+      "background_2": 0.0,
+      "background_3": 0.0,
+      "background_4": 0.0,
+      "background_5": 0.0,
+      "background_6": 0.0,
+      "background_7": 0.0,
+      "fact": 0.2932285921664732,
+      "far": 0.02464153906695728,
+      "island": 0.0,
+      "maybe": 0.2932285921664732,
+      "q": 0.0,
+      "rule": 0.09279725692308283
+    }
+  ],
+  "vectors": [
+    {
+      "alpha": "1/3",
+      "mode": "WARRANTED",
+      "revoked": [],
+      "seed": [
+        "1/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1"
+      ],
+      "values": {
+        "background_0": "0/1",
+        "background_1": "0/1",
+        "background_2": "0/1",
+        "background_3": "0/1",
+        "background_4": "0/1",
+        "background_5": "0/1",
+        "background_6": "0/1",
+        "background_7": "0/1",
+        "fact": "1/9",
+        "far": "4/81",
+        "island": "0/1",
+        "maybe": "1/9",
+        "q": "1/3",
+        "rule": "2/27"
+      }
+    },
+    {
+      "alpha": "1/3",
+      "mode": "EXPLORATORY",
+      "revoked": [],
+      "seed": [
+        "1/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1"
+      ],
+      "values": {
+        "background_0": "0/1",
+        "background_1": "0/1",
+        "background_2": "0/1",
+        "background_3": "0/1",
+        "background_4": "0/1",
+        "background_5": "0/1",
+        "background_6": "0/1",
+        "background_7": "0/1",
+        "fact": "1/9",
+        "far": "4/81",
+        "island": "0/1",
+        "maybe": "1/9",
+        "q": "1/3",
+        "rule": "2/27"
+      }
+    },
+    {
+      "alpha": "1/3",
+      "mode": "WARRANTED",
+      "revoked": [],
+      "seed": [
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14"
+      ],
+      "values": {
+        "background_0": "1/42",
+        "background_1": "1/42",
+        "background_2": "1/42",
+        "background_3": "1/42",
+        "background_4": "1/42",
+        "background_5": "1/42",
+        "background_6": "1/42",
+        "background_7": "1/42",
+        "fact": "2/63",
+        "far": "61/1134",
+        "island": "1/42",
+        "maybe": "2/63",
+        "q": "1/42",
+        "rule": "17/378"
+      }
+    }
+  ]
+}
