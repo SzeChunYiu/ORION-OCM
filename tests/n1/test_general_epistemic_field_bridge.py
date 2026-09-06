@@ -111,6 +111,18 @@ def test_bridge_persists_replays_and_revokes_through_one_runtime_field(tmp_path)
     assert loaded.joint_digest == receipt.joint_digest
     assert set(dict(loaded.bindings).values()) >= {"field:alice", "field:bob"}
     assert binding_liveness(restarted, receipt.representation_id) is Liveness.LIVE
+    events_before_repeat = len(restarted.events)
+    replay_repeat = bind_meaning(
+        restarted,
+        _seeing_graph(),
+        {"left": "field:alice", "right": "field:bob"},
+        warrant=warrant,
+        certificate=CertificateKind.OBSERVATION,
+        authority=Authority.of(speaker=1),
+        scope=Scope.of("conv:1"),
+    )
+    assert replay_repeat.existing
+    assert len(restarted.events) == events_before_repeat
 
     report = restarted.revoke([said])
     assert receipt.representation_id in report.cone
