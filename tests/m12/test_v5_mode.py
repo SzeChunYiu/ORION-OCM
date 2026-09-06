@@ -1,4 +1,4 @@
-"""M12 V5 mode: protected pre-registered study on fresh streams (issue #38 M12 gates)."""
+"""Historical V5 configuration and stream identity; new executions are engineering only."""
 from __future__ import annotations
 
 import json
@@ -15,10 +15,10 @@ def test_v5_config_is_the_preregistered_rule():
     assert PE.V5["secondary"] == ("A_post_deployment", "A_honest_unknown", "D_causal")          # three inferential secondaries
     assert PE.V5["categorical"] == ("E_transfer", "F_integrity", "G_self_repair")                 # never tested
     assert set(PE.V5["secondary"]).isdisjoint(PE.V5["categorical"])
-    assert PE.V5["seed"] != PE.V4["seed"]                                                        # fresh, never-exposed streams
+    assert PE.V5["seed"] != PE.V4["seed"]                                                        # distinct historical stream seeds
 
 
-def test_v5_streams_are_fresh_and_leak_free():
+def test_v5_streams_differ_from_v4_and_preserve_historical_manifest():
     v4 = {SR.build_stream(k, seed=PE.V4["seed"], world_true_half=True)["sha256"] for k in range(PE.N_LIFETIMES)}
     v5 = [SR.build_stream(k, seed=PE.V5["seed"], world_true_half=True) for k in range(PE.N_LIFETIMES)]
     assert not (v4 & {s["sha256"] for s in v5})
