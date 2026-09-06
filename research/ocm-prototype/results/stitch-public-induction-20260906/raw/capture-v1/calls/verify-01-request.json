@@ -1,0 +1,10 @@
+{
+  "action": "verify",
+  "kwargs": {
+    "deadline_s": 10,
+    "timeout_ms": 5000
+  },
+  "payload": {
+    "smt2": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (+ x (* (- 1) y))))\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int b1)\n(define-fun two_times ((b1 Int)) Int (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int (- 0 b1))\n(declare-const x Int)\n(declare-const y Int)\n(declare-const z Int)\n(assert (not (and (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))))\n"
+  }
+}

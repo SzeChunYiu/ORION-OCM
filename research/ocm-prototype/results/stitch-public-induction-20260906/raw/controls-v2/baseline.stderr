@@ -1,0 +1,48 @@
+test_clean_return_no_alarm (__main__.ObservationControls.test_clean_return_no_alarm) ... ok
+test_nonobject_timeout_retains_receipt_seal_and_unknown (__main__.ObservationControls.test_nonobject_timeout_retains_receipt_seal_and_unknown) ... ERROR
+test_truncated_timeout_retains_receipt_seal_and_unknown (__main__.ObservationControls.test_truncated_timeout_retains_receipt_seal_and_unknown) ... ERROR
+
+======================================================================
+ERROR: test_nonobject_timeout_retains_receipt_seal_and_unknown (__main__.ObservationControls.test_nonobject_timeout_retains_receipt_seal_and_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/observation_controls.py", line 53, in test_nonobject_timeout_retains_receipt_seal_and_unknown
+    r=self.exercise('nonobject',b'[]','CANNOT_CHECK_EXECUTION')
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/observation_controls.py", line 34, in exercise
+    code=L.run(path)
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/preflight-history-v1/launch_once.py", line 53, in run
+    'native_verify_true_in_returned_responses':sum(json.loads(p.read_text()).get('native_invoked') is True for p in responses),
+                                               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/preflight-history-v1/launch_once.py", line 53, in <genexpr>
+    'native_verify_true_in_returned_responses':sum(json.loads(p.read_text()).get('native_invoked') is True for p in responses),
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+
+======================================================================
+ERROR: test_truncated_timeout_retains_receipt_seal_and_unknown (__main__.ObservationControls.test_truncated_timeout_retains_receipt_seal_and_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/observation_controls.py", line 47, in test_truncated_timeout_retains_receipt_seal_and_unknown
+    r=self.exercise('truncated',b'{"native_invoked":','CANNOT_CHECK_EXECUTION')
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/observation_controls.py", line 34, in exercise
+    code=L.run(path)
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/preflight-history-v1/launch_once.py", line 53, in run
+    'native_verify_true_in_returned_responses':sum(json.loads(p.read_text()).get('native_invoked') is True for p in responses),
+                                               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/preflight-history-v1/launch_once.py", line 53, in <genexpr>
+    'native_verify_true_in_returned_responses':sum(json.loads(p.read_text()).get('native_invoked') is True for p in responses),
+                                                   ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 19 (char 18)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (errors=2)

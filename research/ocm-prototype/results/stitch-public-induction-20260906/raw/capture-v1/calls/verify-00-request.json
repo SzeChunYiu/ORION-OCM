@@ -1,0 +1,10 @@
+{
+  "action": "verify",
+  "kwargs": {
+    "deadline_s": 10,
+    "timeout_ms": 5000
+  },
+  "payload": {
+    "smt2": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))\n(declare-const x Int)\n(declare-const y Int)\n(declare-const z Int)\n(assert (not (and (>= (mux_3 x y z) x) (>= (mux_3 x y z) y) (>= (mux_3 x y z) z) (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))))\n"
+  }
+}
