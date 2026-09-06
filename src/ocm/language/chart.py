@@ -14,6 +14,12 @@ polynomial to compute while only one meaning per packed node is ever built.  Ver
   UNKNOWN_LEXEME        a token has no live reading
   UNKNOWN_CONSTRUCTION  no clause-level derivation spans the utterance
 
+Evidence ranking (N1 phase E): a learned construction may carry its demonstration count in its lineage
+(``count:N``).  Every derivation is scored by the MINIMUM count over the constructions it uses (the weakest
+evidence licenses the whole derivation; across packings the best score is kept).  An AMBIGUOUS result
+reports the clause items ranked by that score.  Ranking never turns AMBIGUOUS into INTERPRETED: the
+top-ranked reading is a hypothesis with its own warrant, and the alternatives are not refuted by it.
+
 Templates are applied exactly as in the M3 matcher (bindings: slot name → Reading or Phrase), so a
 parse agrees with the matcher wherever the matcher terminates.
 """
@@ -40,6 +46,7 @@ class Packed:
     bindings: dict[str, Any] | None = None          # one representative binding (slot → Reading | Packed)
     warrant: WarrantProfile | None = None
     phrase: Phrase | None = None                    # built lazily from the representative binding
+    score: int | None = None                        # evidence score: min demonstration count along the best derivation
 
 
 def _slot_accepts_reading(slot: Slot, r: Reading) -> bool:
@@ -66,6 +73,25 @@ def _lex_key(b: dict[str, Any]) -> tuple:
         else:
             out.append((k, "P", v.key))
     return tuple(out)
+
+
+def evidence_count(c: Construction) -> int | None:
+    """Demonstration count recorded in a learned construction's lineage (``count:N``); None if not recorded."""
+    for tag in getattr(c, "lineage", ()) or ():
+        if isinstance(tag, str) and tag.startswith("count:"):
+            try:
+                return int(tag.split(":", 1)[1])
+            except ValueError:
+                return None
+    return None
+
+
+def _min_score(a, b):
+    if a is None:
+        return b
+    if b is None:
+        return a
+    return min(a, b)
 
 
 class ChartCap(Exception):
@@ -103,24 +129,29 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     for i, c in enumerate(cons):
         by_produces[c.produces].append(i)
     # chart[k] = dict[(ci, dot, start)] -> (count, representative bindings)
-    chart: list[dict[tuple, tuple[int, dict[str, Any]]]] = [dict() for _ in range(n + 1)]
+    chart: list[dict[tuple, tuple[int, dict[str, Any], int | None]]] = [dict() for _ in range(n + 1)]
+    ccount = [evidence_count(c) for c in cons]
     completed: dict[tuple[int, int, str], dict[tuple, Packed]] = defaultdict(dict)    # (start, end, phrase type) -> (ci, lexkey) -> Packed
 
     items = [0]
 
-    def add(k: int, key: tuple, count: int, b: dict[str, Any]) -> None:
+    def add(k: int, key: tuple, count: int, b: dict[str, Any], score: int | None = None) -> None:
         key = (key[0], key[1], key[2], _lex_key(b))
         old = chart[k].get(key)
         if old is None:
             items[0] += 1
             if items[0] > max_items:
                 raise ChartCap(f"chart items exceeded {max_items}")
-        chart[k][key] = (old[0] + count, old[1]) if old else (count, b)
+            chart[k][key] = (count, b, score)
+        else:
+            # keep the representative with the BEST evidence score (ties keep the first)
+            better = score is not None and (old[2] is None or score > old[2])
+            chart[k][key] = (old[0] + count, b if better else old[1], score if better else old[2])
 
     def predict(k: int) -> None:
         # every construction may start at k (no top symbol: any clause-level or phrase construction)
         for ci in range(len(cons)):
-            add(k, (ci, 0, k), 1, {})
+            add(k, (ci, 0, k), 1, {}, ccount[ci])
 
     def phrase_of(p: Packed) -> Phrase:
         if p.phrase is None:
@@ -137,7 +168,7 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
         changed = True
         while changed:
             changed = False
-            for key, (count, b) in list(chart[k].items()):
+            for key, (count, b, score) in list(chart[k].items()):
                 ci, dot, start, lk = key
                 c = cons[ci]
                 if dot < len(c.pattern):
@@ -150,11 +181,13 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
                     if packs[pk].count != count:
                         packs[pk].count = count
                         changed = True
+                    if score is not None and (packs[pk].score is None or score > packs[pk].score):
+                        packs[pk].score, packs[pk].bindings = score, b
                     continue
-                packs[pk] = Packed(c, start, k, pk, count, b)
+                packs[pk] = Packed(c, start, k, pk, count, b, score=score)
                 changed = True
                 # advance every item waiting for this phrase type at position `start`
-                for key2, (count2, b2) in list(chart[start].items()):
+                for key2, (count2, b2, score2) in list(chart[start].items()):
                     cj, dot2, start2, _ = key2
                     c2 = cons[cj]
                     if dot2 >= len(c2.pattern):
@@ -163,14 +196,14 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
                     if slot.phrase == c.produces:
                         nb = dict(b2)
                         nb[slot.name] = packs[pk]
-                        add(k, (cj, dot2 + 1, start2), count2 * count, nb)
+                        add(k, (cj, dot2 + 1, start2), count2 * count, nb, _min_score(score2, score))
                     elif slot.optional and dot2 + 1 < len(c2.pattern) and c2.pattern[dot2 + 1].phrase == c.produces:
                         nb = dict(b2)
                         nb[c2.pattern[dot2 + 1].name] = packs[pk]
-                        add(k, (cj, dot2 + 2, start2), count2 * count, nb)
+                        add(k, (cj, dot2 + 2, start2), count2 * count, nb, _min_score(score2, score))
 
     def scan(k: int) -> None:
-        for key, (count, b) in list(chart[k].items()):
+        for key, (count, b, score) in list(chart[k].items()):
             ci, dot, start, _ = key
             c = cons[ci]
             # optional lexical slots may be skipped
@@ -180,16 +213,16 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
                     if _slot_accepts_reading(c.pattern[d], r):
                         nb = dict(b)
                         nb[c.pattern[d].name] = r
-                        add(k + 1, (ci, d + 1, start), count, nb)
+                        add(k + 1, (ci, d + 1, start), count, nb, score)
                 d += 1
                 if d < len(c.pattern):
-                    add(k, (ci, d, start), count, b)
+                    add(k, (ci, d, start), count, b, score)
             if d < len(c.pattern) and c.pattern[d].phrase is None:
                 for r in per_token[k]:
                     if _slot_accepts_reading(c.pattern[d], r):
                         nb = dict(b)
                         nb[c.pattern[d].name] = r
-                        add(k + 1, (ci, d + 1, start), count, nb)
+                        add(k + 1, (ci, d + 1, start), count, nb, score)
 
     for k in range(n + 1):
         predict(k)
@@ -201,19 +234,26 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     total = sum(cb[0] for _, cb in clause_items)
     if total == 0:
         return {"verdict": "UNKNOWN_CONSTRUCTION", "count": 0, "meanings": []}
+    # evidence ranking: best-scored clause items first (None scores last); the order is a report, not a licence
+    clause_items.sort(key=lambda kc: (-(kc[1][2] if kc[1][2] is not None else -1), kc[0]))
     meanings = []
-    for (ci, _, _, _), (count, b) in clause_items[:max_unpack]:
+    for (ci, _, _, _), (count, b, score) in clause_items[:max_unpack]:
         c = cons[ci]
         # resolve packed phrases in the representative binding
         resolved = {k_: (phrase_of(v) if isinstance(v, Packed) else v) for k_, v in b.items()}
         try:
-            meanings.append({"construction_id": c.construction_id, "count": count, "meaning": c.template(resolved), "warrant": meet_all_profiles([c.warrant, *[v.warrant for v in resolved.values()]])})
+            meanings.append({"construction_id": c.construction_id, "count": count, "evidence_score": score, "meaning": c.template(resolved), "warrant": meet_all_profiles([c.warrant, *[v.warrant for v in resolved.values()]])})
         except Exception as exc:  # noqa: BLE001
-            meanings.append({"construction_id": c.construction_id, "count": count, "meaning": None, "error": f"{type(exc).__name__}: {exc}"})
+            meanings.append({"construction_id": c.construction_id, "count": count, "evidence_score": score, "meaning": None, "error": f"{type(exc).__name__}: {exc}"})
     verdict = "INTERPRETED" if total == 1 else "AMBIGUOUS"
     if gap_tokens and total == 1:
         verdict = "INTERPRETED_WITH_GAPS"
-    return {"verdict": verdict, "count": total, "meanings": meanings, "gaps": gap_tokens}
+    scores = [cb[2] for _, cb in clause_items]
+    top = scores[0] if scores else None
+    ranking = {"scored": top is not None, "top_score": top, "top_items": sum(1 for x in scores if x == top) if top is not None else 0,
+               "top_unique_derivation": bool(top is not None and sum(1 for x in scores if x == top) == 1 and clause_items[0][1][0] == 1),
+               "licence": "RANKED_BY_MIN_EVIDENCE_COUNT (a report; not a unique parse)"}
+    return {"verdict": verdict, "count": total, "meanings": meanings, "gaps": gap_tokens, "ranking": ranking}
 
 
 def mutant_first_derivation_only(result: dict[str, Any]) -> dict[str, Any]:
