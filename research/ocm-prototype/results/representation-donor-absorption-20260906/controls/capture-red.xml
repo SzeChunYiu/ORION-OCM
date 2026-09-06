@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.027" timestamp="2026-09-06T11:15:42.204145+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_capture" name="test_actual_capture_is_create_only_sealed_and_independently_graded" time="0.001"><failure message="AssertionError: Missing donor-absorption implementation: representation_donor_capture&#10;assert False&#10; +  where False = is_file()&#10; +    where is_file = PosixPath('/home/billy/orion-director-work/20260906/ocm-representation-donor/research/ocm-prototype/representation_donor_capture.py').is_file">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-117/test_actual_capture_is_create_0')
+
+    def test_actual_capture_is_create_only_sealed_and_independently_graded(tmp_path):
+&gt;       C = module("representation_donor_capture")
+
+research/ocm-prototype/representation_donor_tests/test_capture.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'representation_donor_capture'
+
+    def module(name):
+        path = PROTOTYPE / (name + ".py")
+&gt;       assert path.is_file(), f"Missing donor-absorption implementation: {name}"
+E       AssertionError: Missing donor-absorption implementation: representation_donor_capture
+E       assert False
+E        +  where False = is_file()
+E        +    where is_file = PosixPath('/home/billy/orion-director-work/20260906/ocm-representation-donor/research/ocm-prototype/representation_donor_capture.py').is_file
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:14: AssertionError</failure></testcase></testsuite></testsuites>

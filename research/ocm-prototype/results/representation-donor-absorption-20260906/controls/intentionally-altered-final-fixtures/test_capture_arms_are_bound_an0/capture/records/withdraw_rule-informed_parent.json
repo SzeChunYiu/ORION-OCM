@@ -1,0 +1,246 @@
+{
+  "arm": "informed_parent",
+  "calls": [
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "WARRANTED",
+      "seed_kind": "registered_query",
+      "selected": "compact",
+      "solve_dimension": 6
+    },
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "EXPLORATORY",
+      "seed_kind": "registered_query",
+      "selected": "compact",
+      "solve_dimension": 6
+    },
+    {
+      "binding": "MATCHED",
+      "fine_dimension": 14,
+      "mode": "WARRANTED",
+      "seed_kind": "global_uniform",
+      "selected": "compact",
+      "solve_dimension": 6
+    }
+  ],
+  "consumer": {
+    "committed": false,
+    "error": "math domain error",
+    "error_type": "ValueError",
+    "status": "ERROR",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/research/ocm-prototype/representation_donor.py\", line 72, in evaluate\n    outcome = SV.solve(ks, task, f[\"operators\"], revoked=rv, config=cfg, commit_authority=f[\"authority\"])\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/src/ocm/runtime/solve.py\", line 420, in solve\n    ext_res, ext = extract_stage(ks, seed, nav, config, rv)\n                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/src/ocm/runtime/solve.py\", line 202, in extract_stage\n    rho_x = SP.surprise(ks, nav[\"act_x\"], nav[\"background\"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/research/ocm-prototype/representation_donor.py\", line 64, in observed_surprise\n    result = surprise_original(*args, **kwargs)\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/src/ocm/kso/surprise.py\", line 62, in surprise\n    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}\n               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/billy/orion-director-work/20260906/ocm-representation-donor/src/ocm/kso/navigation.py\", line 297, in reaction_surprise\n    return max(0.0, q * math.log((q + eps) / (b + eps)))\n                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\nValueError: math domain error\n"
+  },
+  "eligibility": {
+    "available_states": 8,
+    "exploratory": "DYNAMIC_LUMPABILITY_ONLY",
+    "reconstruction": "EXACT_ZERO_INCIDENT_DECODER",
+    "registered_states": 8,
+    "revision_scope": "SNAPSHOT_FAMILY_ONLY; unregistered updates invalidate; finite-map checker is separate",
+    "warranted": "CERTIFIED"
+  },
+  "request": {
+    "config": {
+      "alpha": "1/3",
+      "budget": {
+        "depth": 24,
+        "restarts": 1,
+        "steps": 24
+      },
+      "exact_extraction_max_atoms": 12,
+      "firing_threshold": "1/1000",
+      "relevance": null,
+      "surprise_model": "PROPAGATED",
+      "threshold": "1/1000"
+    },
+    "revoked": [
+      2
+    ],
+    "state": "8eb9566139f7dafc4547f0763498f3c1abf658ffa1a9c156e7c03278219cfd24",
+    "task": {
+      "at": null,
+      "context": "en",
+      "identification_required": false,
+      "parts": [
+        {
+          "atom_type": "claim",
+          "refs": [
+            "q"
+          ],
+          "text": "what follows"
+        }
+      ],
+      "required_authority": {
+        "ranks": [
+          [
+            "src",
+            1
+          ]
+        ]
+      },
+      "targets": [
+        "rule"
+      ],
+      "task_id": "t1"
+    }
+  },
+  "resources": {
+    "canonical_decoder_partition_bytes": 174,
+    "canonical_field_bytes": 5518,
+    "canonical_prepared_matrix_bytes": 24395,
+    "donor_calls": {
+      "f2.fixed_point": 3,
+      "f2.push": 3,
+      "f2.quotient": 3,
+      "router.choose": 3
+    },
+    "exact_rational_outputs": true,
+    "fine_output_entries": 42,
+    "materialized_matrix_cells": 3136,
+    "performance_claim": "NOT_TESTED; serialized bytes are not resident memory; runtime work proxy unchanged; no process-tree CPU claim",
+    "preparation_donor_calls": {
+      "f2.strong_lumpable": 8,
+      "f2.validate_multiscale_certificate": 1
+    },
+    "runtime_reported_vector": null
+  },
+  "surprise": [
+    {
+      "background_0": 0.0,
+      "background_1": 0.0,
+      "background_2": 0.0,
+      "background_3": 0.0,
+      "background_4": 0.0,
+      "background_5": 0.0,
+      "background_6": 0.0,
+      "background_7": 0.0,
+      "fact": 0.2932285921664732,
+      "far": 0.0,
+      "island": 0.0,
+      "maybe": 0.2932285921664732,
+      "q": 0.0,
+      "rule": 0.0
+    }
+  ],
+  "vectors": [
+    {
+      "alpha": "1/3",
+      "mode": "WARRANTED",
+      "revoked": [
+        2
+      ],
+      "seed": [
+        "1/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1"
+      ],
+      "values": {
+        "background_0": "0/1",
+        "background_1": "0/1",
+        "background_2": "0/1",
+        "background_3": "0/1",
+        "background_4": "0/1",
+        "background_5": "0/1",
+        "background_6": "0/1",
+        "background_7": "0/1",
+        "fact": "1/9",
+        "far": "0/1",
+        "island": "0/1",
+        "maybe": "1/9",
+        "q": "1/3",
+        "rule": "0/1"
+      }
+    },
+    {
+      "alpha": "1/3",
+      "mode": "EXPLORATORY",
+      "revoked": [
+        2
+      ],
+      "seed": [
+        "1/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1",
+        "0/1"
+      ],
+      "values": {
+        "background_0": "0/1",
+        "background_1": "0/1",
+        "background_2": "0/1",
+        "background_3": "0/1",
+        "background_4": "0/1",
+        "background_5": "0/1",
+        "background_6": "0/1",
+        "background_7": "0/1",
+        "fact": "1/9",
+        "far": "4/81",
+        "island": "0/1",
+        "maybe": "1/9",
+        "q": "1/3",
+        "rule": "2/27"
+      }
+    },
+    {
+      "alpha": "1/3",
+      "mode": "WARRANTED",
+      "revoked": [
+        2
+      ],
+      "seed": [
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14",
+        "1/14"
+      ],
+      "values": {
+        "background_0": "1/42",
+        "background_1": "1/42",
+        "background_2": "1/42",
+        "background_3": "1/42",
+        "background_4": "1/42",
+        "background_5": "1/42",
+        "background_6": "1/42",
+        "background_7": "1/42",
+        "fact": "2/63",
+        "far": "1/42",
+        "island": "1/42",
+        "maybe": "2/63",
+        "q": "1/42",
+        "rule": "0/1"
+      }
+    }
+  ]
+}

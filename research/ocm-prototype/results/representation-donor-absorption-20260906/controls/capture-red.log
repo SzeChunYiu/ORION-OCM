@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_actual_capture_is_create_only_sealed_and_independently_graded ______
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-117/test_actual_capture_is_create_0')
+
+    def test_actual_capture_is_create_only_sealed_and_independently_graded(tmp_path):
+>       C = module("representation_donor_capture")
+
+research/ocm-prototype/representation_donor_tests/test_capture.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'representation_donor_capture'
+
+    def module(name):
+        path = PROTOTYPE / (name + ".py")
+>       assert path.is_file(), f"Missing donor-absorption implementation: {name}"
+E       AssertionError: Missing donor-absorption implementation: representation_donor_capture
+E       assert False
+E        +  where False = is_file()
+E        +    where is_file = PosixPath('/home/billy/orion-director-work/20260906/ocm-representation-donor/research/ocm-prototype/representation_donor_capture.py').is_file
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:14: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/representation-donor-diagnostic/capture-red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/representation_donor_tests/test_capture.py::test_actual_capture_is_create_only_sealed_and_independently_graded
+1 failed in 0.03s
