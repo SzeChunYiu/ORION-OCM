@@ -28,8 +28,17 @@ jobs:
           python - <<'PY'
           import json
           a = json.load(open("/tmp/m12_eval.json")); b = json.load(open("docs/provenance/runtime_revision_20260905_v4/M12_REFERENCE_REPLAY_V4.json"))
-          assert a["deterministic"] == b["deterministic"], "deterministic block drift"
-          print("lifetime reference regression passed; no protected reevaluation")
+          # Preserve OCM regression outcomes without requiring the corrected
+          # parent to reproduce the weaker historical parent's deficits.
+          for key in ("summary", "F", "G", "E", "always_attempts", "acquisition"):
+              assert a["deterministic"][key]["ocm"] == b["deterministic"][key]["ocm"], key
+          assert a["deterministic"]["gates"]["hits"] == 0
+          for ordering, information in a["information"]["whole_system_parent"].items():
+              assert information["comparison_scope"] == "EXPOSED_A_E_ONLY_WITH_UNSUPPORTED_ROUTES"
+              assert information["whole_system_parity"] == "CANNOT_CHECK"
+              assert a["phases"]["ocm"][ordering]["E"]["cells"] == a["phases"]["whole_system_parent"][ordering]["E"]["cells"]
+          assert a["scientific_promotion"] == "NOT_ESTABLISHED"
+          print("OCM reference and corrected A/E donor contracts passed; no protected reevaluation")
           PY
       - name: Current chat learning and spelling controls
         run: python -m pytest -q tests/m6/test_chat_learning_spelling_v4.py

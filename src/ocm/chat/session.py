@@ -36,6 +36,7 @@ from ocm.runtime.ocm_runtime import OCMRuntime
 from ocm.store.evidence import Channel
 from ocm.kso.types import Scope
 from ocm.data import default_manifest_path
+from ocm.language.chat_frontend import seed_frontend, world_query, add_lexical_lesson, parse_lexical_lesson
 
 DEFAULT_MANIFEST = default_manifest_path()
 
@@ -61,39 +62,8 @@ class TurnTrace:
 
 
 def _load_lexicon_and_constructions(state_dir: Path, manifest: Path = DEFAULT_MANIFEST) -> tuple[L.Lexicon, list[C.Construction]]:
-    from ocm.language.bootstrap import microworld_lexicon
-
-    if Path(manifest).resolve() == DEFAULT_MANIFEST.resolve():
-        # The process may outlive a package-file change. Recheck the registered
-        # default for every session; custom manifests have their own custody.
-        manifest = default_manifest_path()
-    lx = microworld_lexicon()
-    # The historical M3 seed equated simple past and past participle. Keep that
-    # frozen fixture intact; the current chat grammar distinguishes see/saw/seen.
-    lx.rules = [rule for rule in lx.rules if rule.rule_id != "pp-see"]
-    lx.add_rule(L.MorphRule("chat:pp-see-v1", L.RuleKind.EXCEPTION, L.Category.VERB,
-                            (("participle", "past"),), lambda lemma: "seen",
-                            lambda surface: "see" if surface == "seen" else None,
-                            WarrantProfile.of({"ev:chat:see-past-participle-v1"}), lemmas=frozenset({"see"})))
-    ev = lambda n: WarrantProfile.of({f"ev:lex:{n}"})  # noqa: E731
-    # bounded-world vocabulary (nouns from the manifest labels) + question words
-    for w in ("which", "what", "who"):
-        lx.add(L.Lexeme(w, L.Category.WH, ()))
-    lx.add(L.Lexeme("it", L.Category.PRON, ()))
-    lx.add(L.Lexeme("is", L.Category.AUX, (), (("tense", "present"),)))
-    lx.add(L.Lexeme("a", L.Category.DET, ()))
-    lx.add(L.Lexeme("an", L.Category.DET, ()))
-    lx.add(L.Lexeme("in", L.Category.PREP, ()))
-    lx.add(L.Lexeme("of", L.Category.PREP, ()))
-    # a registered polysemous noun (ambiguity set) for the clarification scenario
-    lx.add(L.Lexeme("bank", L.Category.NOUN, (L.Sense("bank:fin", "financial_institution", "entity", ev("bank-fin")), L.Sense("bank:river", "river_bank", "entity", ev("bank-river")))))
-    man = json.loads(Path(manifest).read_text(encoding="utf-8"))
-    labels = {f["subject"] for f in man["facts"]} | {f["object"] for f in man["facts"]}
-    for lab in sorted(labels):
-        if "_" in lab or f"{lab}|N" in lx.lexemes:
-            continue
-        lx.add(L.Lexeme(lab, L.Category.NOUN, (L.Sense(lab, lab, "entity", ev(lab)),)))
-    return lx, list(C.seed_constructions())
+    """Compatibility export of the shared, pure bounded-language donor."""
+    return seed_frontend(manifest)
 
 
 @dataclass
@@ -285,31 +255,8 @@ class ChatSession:
 
     # ------------------------------------------------------------------ bounded-world questions
     def _world_question(self, low: str) -> MeaningGraph | None:
-        toks = tokenize(low)
-        if not toks:
-            return None
-        if toks[0] == "is" and len(toks) == 3 and all(t not in ("not", "no", "the", "a", "an") for t in toks[1:]):
-            # Registered bare nominal copula: "is ice water". This only creates
-            # a query; the ordinary world warrant/commit gates decide its answer.
-            return triple(toks[1], "IS_A", toks[2])
-        if toks[0] in ("is", "does", "do") and len(toks) >= 4:
-            body = [t for t in toks[1:] if t not in ("the", "a", "an")]
-            if toks[0] == "is" and "capital" in body:
-                i = body.index("capital")
-                subj = " ".join(body[:i]); obj = " ".join(body[i + 1:]).replace("of ", "")
-                return triple(subj, "CAPITAL_OF", obj)
-            if toks[0] == "is" and "in" in toks:
-                i = toks.index("in")
-                subj = " ".join(t for t in toks[1:i] if t not in ("the",)); obj = " ".join(t for t in toks[i + 1:] if t not in ("the",))
-                return triple(subj, "LOCATED_IN", obj)
-            if toks[0] == "is" and any(t in ("a", "an") for t in toks[2:]):
-                start = 2 if toks[1] in ("a", "an", "the") else 1          # "is a whale a mammal" / "is the moon a planet"
-                i = next(k for k, t in enumerate(toks) if k >= start + 1 and t in ("a", "an"))
-                subj = " ".join(t for t in toks[start:i] if t != "the"); obj = " ".join(toks[i + 1:])
-                return triple(subj, "IS_A", obj)
-            if toks[0] == "does" and len(body) >= 3 and body[1] in RELATION_WORDS:
-                return triple(body[0], RELATION_WORDS[body[1]], " ".join(body[2:]))
-        return None
+        query = world_query(low)
+        return triple(*query) if query is not None else None
 
     def _answer_world(self, text: str, asked: MeaningGraph, t0: float, seq0: int) -> str:
         plan = P.plan_answer(self.world, self.dialogue.workspace, asked, register=self.register)
@@ -431,25 +378,14 @@ class ChatSession:
             self._save_learned()
             reply = f"Learned '{u.lemma}' ↦ {u.detail.split('↦')[-1].strip()} from your example ({eid})." if u.kind in ("NEW_LEXEME", "NEW_SENSE") else f"I could not learn from that example: {u.detail}"
             return self._commit(text, reply, G.Act.ACKNOWLEDGE, {"learning": u.kind, "evidence": [eid]}, t0, seq0, evidence=(eid,))
-        word, _, concept = body.partition("=")
-        word, concept = word.strip().lower(), concept.strip().lower()
-        cat = L.Category.NOUN
-        if concept.endswith(" as verb"):
-            concept, cat = concept[: -len(" as verb")].strip(), L.Category.VERB
+        try:
+            word, concept, cat = parse_lexical_lesson(body)
+        except ValueError:
+            return self._commit(text, "I cannot learn that format. Give a word and its meaning.", G.Act.REQUEST, {}, t0, seq0)
         # each giving of a lesson is a distinct observation (turn-stamped): relearning after a
         # revocation must not collapse onto the revoked record's bytes (ledger S24)
         _, eid = self.runtime.admit_evidence({"lesson": f"{word} = {concept}", "turn": len(self.dialogue.workspace.turns) + 1}, Channel.INSTRUCTION, "user", scope=Scope.of(self.conversation_id))
-        ntype = "event" if cat is L.Category.VERB else "entity"
-        lx = self.dialogue.lexicon
-        key = f"{word}|{cat.value}"
-        prior = [s_ for s_ in (lx.lexemes[key].senses if key in lx.lexemes else ()) if s_.concept == concept]
-        sense_id = f"{word}:{concept}" + (f"#{len(prior) + 1}" if prior else "")     # relearn = new record with lineage
-        sense = L.Sense(sense_id, concept, ntype, WarrantProfile.of({eid}))
-        if key in lx.lexemes:
-            old = lx.lexemes[key]
-            lx.add(L.Lexeme(old.lemma, old.category, old.senses + (sense,), old.features, old.warrant, old.scope))
-        else:
-            lx.add(L.Lexeme(word, cat, (sense,)))
+        add_lexical_lesson(self.dialogue.lexicon, word, concept, eid, cat)
         self._save_learned()
         return self._commit(text, f"Noted: '{word}' means {concept} ({eid}). I will use it.", G.Act.ACKNOWLEDGE, {"learning": "lesson", "evidence": [eid]}, t0, seq0, evidence=(eid,))
 

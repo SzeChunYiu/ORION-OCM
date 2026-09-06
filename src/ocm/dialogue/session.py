@@ -25,6 +25,7 @@ from ocm.language.constructions import CandidateMeaning, Construction
 from ocm.language.interpret import Interpretation, Verdict, interpret, tokenize
 from ocm.language.lexicon import Lexicon
 from ocm.language.meaning import MeaningGraph, canonical
+from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe
 
 from . import clarify as CL
 from . import gate as G
@@ -46,22 +47,6 @@ class MachineTurn:
     interpretation: Interpretation | None = None
 
 
-def _is_question(m: MeaningGraph) -> bool:
-    return any(e.relation == "ASKS" for e in m.edges)
-
-
-def _strip(m: MeaningGraph, relation: str, node_type: str | None = None) -> MeaningGraph:
-    nodes = tuple(n for n in m.nodes if node_type is None or n.node_type != node_type)
-    return MeaningGraph(nodes, tuple(e for e in m.edges if e.relation != relation), m.root)
-
-
-def _is_negated(m: MeaningGraph) -> bool:
-    return any(e.relation == "NEGATES" for e in m.edges)
-
-
-def _describe(m: MeaningGraph) -> str:
-    parts = [f"{e.relation[5:]}={m.node(e.heads[0]).label}" for e in m.edges if e.relation.startswith("ROLE:")]
-    return f"{m.node(m.root).label if m.root else '?'}({', '.join(parts)})"
 
 
 @dataclass

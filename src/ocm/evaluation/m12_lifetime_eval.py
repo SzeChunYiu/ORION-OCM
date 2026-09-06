@@ -249,7 +249,7 @@ def main(argv=None) -> int:
            "phases": {arm: {o: r["phases"] for o, r in by.items()} for arm, by in runs.items()},
            "identity": {arm: {o: r["identity_trace"] for o, r in by.items()} for arm, by in runs.items()}, "information": {arm: {o: r["information"] for o, r in by.items()} for arm, by in runs.items()}, "resources": {arm: {o: r["resources"] for o, r in by.items()} for arm, by in runs.items()},
            "cannot_check": {"frontier_reference": MC.FRONTIER_REFERENCE, "human_usefulness_rating": "CANNOT_CHECK (no blinded raters in this environment)", "external_benchmarks": "CANNOT_CHECK (see M7–M10 reports; no network / containers / foundation model)"},
-           "authority": "one persistent OCM instance over OCM-authored bounded worlds and oracle environments; the whole-system parent receives identical information, demonstrations, lessons, plans and budgets; the declared experimental difference is the explicit epistemic machinery; no novelty claim"}
+           "authority": "Engineering replay over OCM-authored bounded worlds. The current conventional parent shares supported A language donors and E role-transfer contracts; unsupported A routes and B/C/D/F/G comparator gaps remain. Whole-system adequacy and scientific promotion are not established."}
     write_result(out_path, out)
     print(json.dumps({"gates": gates, "tiers": {k: (v.get("holds", v.get("holds_descriptive"))) for k, v in tiers.items()}, "exit_gate_before_replication": out["exit_gate_before_replication"], "summary_ocm_O1": summary["ocm"]["O1"], "summary_parent_O1": summary["whole_system_parent"]["O1"]}, indent=1))
     return 0

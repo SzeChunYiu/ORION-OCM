@@ -32,7 +32,8 @@ def test_phase_outcomes_on_the_principal_ordering(lifetimes):
     assert sum(o["A"]["conversations"]) >= 50 and o["A"]["always_attempts"] == 0
     assert all(o["B"]["success"]) and all(o["C"]["success"]) and o["C"]["route"] == "TRANSFER" and o["C"]["acquisition_cost"] < p["C"]["acquisition_cost"]
     assert all(o["D"]["causal"]) and all(o["D"]["communication"]) and not all(p["D"]["causal"])
-    assert o["E"]["transfer_precision"] == 1.0 and o["E"]["harmful_accepted"] == 0 and p["E"]["harmful_accepted"] >= 1
+    assert o["E"]["transfer_precision"] == 1.0 and o["E"]["harmful_accepted"] == 0 and p["E"]["harmful_accepted"] == 0
+    assert o["E"]["cells"] == p["E"]["cells"]
     assert o["F"]["stale_behaviours"] == 0 and o["F"]["dependents_reopened"] == 3 and o["F"]["unrelated_intact"] == 2 and p["F"]["stale_behaviours"] >= 1
     assert o["G"]["diagnosis_correct"] and o["G"]["repaired"] and o["G"]["preserved"] and o["G"]["rollback_exact"] and not p["G"]["repaired"]
     assert o["unknown"]["unregistered_domain_no_action"]
