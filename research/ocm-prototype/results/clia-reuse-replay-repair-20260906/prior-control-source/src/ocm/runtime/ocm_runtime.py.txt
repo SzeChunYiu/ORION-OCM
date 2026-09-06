@@ -269,8 +269,7 @@ class OCMRuntime:
         try:
             new_ks, receipt = AD.admit(self.state.ks, atom, tuple(edges), cert, revoked=self.state.revoked)
         except S.TypedRejection as exc:
-            ev = self._emit(EventType.OBJECT_QUARANTINED if exc.code == "ISOLATED_ATOM_REJECTED" else EventType.OBJECT_ADMITTED, EventStatus.FAIL, inputs=(atom.atom_id,), payload={"object_id": atom.atom_id, "rejection": exc.code, "certificate": cert.value}, operator="kso.admit")
-            self._apply(ev)
+            self._emit(EventType.OBJECT_QUARANTINED if exc.code == "ISOLATED_ATOM_REJECTED" else EventType.OBJECT_ADMITTED, EventStatus.FAIL, inputs=(atom.atom_id,), payload={"object_id": atom.atom_id, "rejection": exc.code, "certificate": cert.value}, operator="kso.admit")
             raise
         ev = self._emit(EventType.OBJECT_ADMITTED if not edges else EventType.RELATION_ADMITTED, EventStatus.PASS, outputs=(atom.atom_id, *(e.edge_id for e in edges)), evidence=atom.warrant.evidence, operator="kso.admit", payload={"atom": _atom_to(atom), "edges": [_edge_to(e) for e in edges], "certificate": cert.value}, delta=receipt.resources)
         self._apply(ev)
@@ -306,8 +305,7 @@ class OCMRuntime:
             status = {SV.Status.PASS: EventStatus.PASS, SV.Status.FAIL: EventStatus.FAIL, SV.Status.CANNOT_CHECK: EventStatus.CANNOT_CHECK, SV.Status.PROPOSAL: EventStatus.PROPOSAL}[s.status]
             self._emit(et, status, inputs=s.object_ids if s.stage is not SV.Stage.COMPOSITION else (), outputs=s.object_ids, evidence=s.evidence_ids, operator="kso.solve", payload={**s.as_dict(), "admitted": False}, delta=s.resources)
         if out.decision is SV.Decision.JUMP_PROPOSAL and out.witness is not None:
-            ev = self._emit(EventType.JUMP_PROPOSED, EventStatus.PROPOSAL, inputs=out.witness.witness_atoms, payload={"proposal_id": f"jump:{task.task_id}", "witness": out.witness.failed_obligation, "kind": out.witness.kind, "adopted": False}, operator="kso.solve")
-            self._apply(ev)
+            self._emit(EventType.JUMP_PROPOSED, EventStatus.PROPOSAL, inputs=out.witness.witness_atoms, payload={"proposal_id": f"jump:{task.task_id}", "witness": out.witness.failed_obligation, "kind": out.witness.kind, "adopted": False}, operator="kso.solve")
         return out
 
     def navigate(self, seeds: Mapping[str, Fraction], target: str, budget: N.NavigationBudget | None = None) -> N.NavigationResult:

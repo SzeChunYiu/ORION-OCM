@@ -1,0 +1,81 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+____ test_two_dead_parent_refusals_apply_quarantine_without_admitting_atoms ____
+
+tmp_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-replay-repair/red-unit/test_two_dead_parent_refusals_0')
+
+    def test_two_dead_parent_refusals_apply_quarantine_without_admitting_atoms(tmp_path):
+        rt = _root(tmp_path)
+        rt.admit_object(S.Atom("program", "procedure", WP.of({"registration"})),
+            (S.Hyperedge("root-program", ("root",), ("program",), "SUPPORT"),), "INSTRUCTION")
+        rt.revoke(["registration"])
+        before = rt.state.ks.digest()
+        for qid in ("fresh-request-1", "fresh-request-2"):
+            with pytest.raises(S.TypedRejection, match="ISOLATED_ATOM_REJECTED"):
+                rt.admit_object(S.Atom(qid, "query_seed"),
+                    (S.Hyperedge("program-" + qid, ("program",), (qid,), "SUPPORT"),), "INSTRUCTION")
+            assert rt.state.ks.digest() == before and qid not in rt.state.ks.ids
+            event = rt.events[-1]
+            assert event.event_type is EventType.OBJECT_QUARANTINED and event.status is EventStatus.FAIL
+>           assert rt.state.quarantine[qid] == event.payload
+E           KeyError: 'fresh-request-1'
+
+tests/m2/test_event_reducer_consistency.py:54: KeyError
+_ test_real_solve_obstruction_records_non_authoritative_jump_live_and_replays __
+
+tmp_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-replay-repair/red-unit/test_real_solve_obstruction_re0')
+
+    def test_real_solve_obstruction_records_non_authoritative_jump_live_and_replays(tmp_path):
+        rt = _root(tmp_path)
+        rt.admit_object(S.Atom("island", "claim", quarantined=True), (), "INSTRUCTION")
+        before = rt.state.ks.digest()
+        out = rt.solve(SV.Task("island-task",
+            (SV.QueryPart("reach the island", "claim", ("root",)),), targets=("island",)))
+        assert out.decision is SV.Decision.JUMP_PROPOSAL and out.witness is not None
+        assert not SV.committed(out) and out.answer is None and rt.state.ks.digest() == before
+        event = rt.events[-1]
+        assert event.event_type is EventType.JUMP_PROPOSED and event.status is EventStatus.PROPOSAL
+>       assert rt.state.jumps["jump:island-task"] == {"type": event.event_type.value, **event.payload}
+E       KeyError: 'jump:island-task'
+
+tests/m2/test_event_reducer_consistency.py:71: KeyError
+__ test_new_request_after_fresh_withdrawal_refuses_then_same_request_recovers __
+
+tmp_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-replay-repair/red-unit/test_new_request_after_fresh_w0')
+
+    def test_new_request_after_fresh_withdrawal_refuses_then_same_request_recovers(tmp_path):
+        state = tmp_path / "state"
+        runtime, records, history, _ = fixture_state(state)
+        descs = {name: V.adopt(runtime, record[0], history=[history]) for name, record in records.items()}
+        for desc in descs.values(): V.bind(runtime, desc["id"])
+        maximum, guard = [descs[k] for k in ("jmbl_fg_max3", "jmbl_fg_mpg_guard2")]
+        request = {"kind": "clia_apply", "program_id": maximum["id"], "arguments": [41, -7, 12]}
+        assert "clia:application:" + content_hash(request) not in runtime.state.ks.ids
+        registration = records["jmbl_fg_max3"][1]
+        runtime.revoke([registration]); runtime.persist()
+        config = {"max3": maximum["id"], "guard2": guard["id"], "request": request,
+                  "registration": registration, "support": maximum["support"]}
+        for phase in ("withdraw", "restore"):
+            process = subprocess.run([sys.executable, "-c", WORKER, str(state), json.dumps(config), phase],
+                text=True, capture_output=True, timeout=30)
+            (tmp_path / (phase + ".stdout")).write_text(process.stdout)
+            (tmp_path / (phase + ".stderr")).write_text(process.stderr)
+>           assert process.returncode == 0, process.stderr
+E           AssertionError: Traceback (most recent call last):
+E               File "<string>", line 31, in <module>
+E                 assert r.state.ks.atom(qid).is_live(r.state.revoked)
+E                        ~~~~~~~~~~~~~~~^^^^^
+E               File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/src/ocm/kso/space.py", line 182, in atom
+E                 raise TypedRejection("UNKNOWN_ATOM", atom_id) from None
+E             ocm.kso.space.TypedRejection: UNKNOWN_ATOM: clia:application:f58c43a43f877089169595d385dcc1bd16246a61d045c919cd1ae01b2e3bdefa
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', '\nimport json,sys\nfrom pa...ace.TypedRejection: UNKNOWN_ATOM: clia:application:f58c43a43f877089169595d385dcc1bd16246a61d045c919cd1ae01b2e3bdefa\n').returncode
+
+research/ocm-prototype/test_clia_reuse_cold_withdrawal.py:96: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-replay-repair/red.xml -
+=========================== short test summary info ============================
+FAILED tests/m2/test_event_reducer_consistency.py::test_two_dead_parent_refusals_apply_quarantine_without_admitting_atoms
+FAILED tests/m2/test_event_reducer_consistency.py::test_real_solve_obstruction_records_non_authoritative_jump_live_and_replays
+FAILED research/ocm-prototype/test_clia_reuse_cold_withdrawal.py::test_new_request_after_fresh_withdrawal_refuses_then_same_request_recovers
+3 failed in 0.70s

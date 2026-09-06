@@ -1,0 +1,75 @@
+"""Real refusal/proposal paths must apply the same event reducer live and on restart."""
+import json
+import subprocess
+import sys
+
+import pytest
+
+from ocm.kso import space as S
+from ocm.kso.warrant import WarrantProfile as WP
+from ocm.runtime import solve as SV
+from ocm.runtime.ocm_runtime import OCMRuntime
+from ocm.store.event import EventStatus, EventType
+
+
+def _restart_matches(runtime):
+    runtime.persist()
+    expected = {
+        "snapshot": runtime.state.snapshot(), "jumps": runtime.state.jumps,
+        "quarantine": runtime.state.quarantine, "head": runtime._ledger_head,
+        "events": [e.event_hash for e in runtime.events],
+    }
+    script = """import json,sys
+from ocm.runtime.ocm_runtime import OCMRuntime
+r=OCMRuntime(sys.argv[1])
+print(json.dumps({"snapshot":r.state.snapshot(),"jumps":r.state.jumps,
+"quarantine":r.state.quarantine,"head":r._ledger_head,
+"events":[e.event_hash for e in r.events]}))
+"""
+    process = subprocess.run([sys.executable, "-c", script, str(runtime.root)],
+        text=True, capture_output=True, check=True, timeout=20)
+    assert json.loads(process.stdout) == json.loads(json.dumps(expected))
+
+
+def _root(path):
+    rt = OCMRuntime(path)
+    rt.admit_object(S.Atom("root", "query_seed", quarantined=True), (), "INSTRUCTION")
+    return rt
+
+
+def test_two_dead_parent_refusals_apply_quarantine_without_admitting_atoms(tmp_path):
+    rt = _root(tmp_path)
+    rt.admit_object(S.Atom("program", "procedure", WP.of({"registration"})),
+        (S.Hyperedge("root-program", ("root",), ("program",), "SUPPORT"),), "INSTRUCTION")
+    rt.revoke(["registration"])
+    before = rt.state.ks.digest()
+    for qid in ("fresh-request-1", "fresh-request-2"):
+        with pytest.raises(S.TypedRejection, match="ISOLATED_ATOM_REJECTED"):
+            rt.admit_object(S.Atom(qid, "query_seed"),
+                (S.Hyperedge("program-" + qid, ("program",), (qid,), "SUPPORT"),), "INSTRUCTION")
+        assert rt.state.ks.digest() == before and qid not in rt.state.ks.ids
+        event = rt.events[-1]
+        assert event.event_type is EventType.OBJECT_QUARANTINED and event.status is EventStatus.FAIL
+        assert rt.state.quarantine[qid] == event.payload
+    rt.admit_object(S.Atom("unrelated", "claim"),
+        (S.Hyperedge("root-unrelated", ("root",), ("unrelated",), "SUPPORT"),), "INSTRUCTION")
+    assert not rt.state.ks.atom("program").is_live(rt.state.revoked)
+    _restart_matches(rt)
+
+
+def test_real_solve_obstruction_records_non_authoritative_jump_live_and_replays(tmp_path):
+    rt = _root(tmp_path)
+    rt.admit_object(S.Atom("island", "claim", quarantined=True), (), "INSTRUCTION")
+    before = rt.state.ks.digest()
+    out = rt.solve(SV.Task("island-task",
+        (SV.QueryPart("reach the island", "claim", ("root",)),), targets=("island",)))
+    assert out.decision is SV.Decision.JUMP_PROPOSAL and out.witness is not None
+    assert not SV.committed(out) and out.answer is None and rt.state.ks.digest() == before
+    event = rt.events[-1]
+    assert event.event_type is EventType.JUMP_PROPOSED and event.status is EventStatus.PROPOSAL
+    assert rt.state.jumps["jump:island-task"] == {"type": event.event_type.value, **event.payload}
+    assert rt.state.jumps["jump:island-task"]["adopted"] is False
+    assert not any(e.event_type is EventType.JUMP_ADOPTED for e in rt.events)
+    rt.admit_object(S.Atom("unrelated", "claim"),
+        (S.Hyperedge("root-unrelated", ("root",), ("unrelated",), "SUPPORT"),), "INSTRUCTION")
+    _restart_matches(rt)

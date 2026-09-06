@@ -1,0 +1,1721 @@
+{
+  "acquisition_receipts": {
+    "native": "f53c70484258b235b30da0b6156873c3f983c89db9f046874409638074c48449",
+    "ocm": "6e7e647dacafc68adab665a7c3793bdc1b3ea19f28a3a045aa314ffa14989bba"
+  },
+  "arms": {
+    "native": {
+      "model_file": "archive/7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9.udpipe",
+      "model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+      "model_support": {
+        "file_sha256": "53a5552f81cd533b255e9ba85443cd2d81e7b1d5c0710de2e01a1e3c84fb1884",
+        "id": "native:dcda68355e5476204746e9a642ecc573d6e13ec71dbff1ee01d0d8687c38ac0b",
+        "path": "study-evidence/19ad02aa4787fe6ca7e1ba8b6d3c4754acaebad9f293f21fa6cf911b5e90ef67.json",
+        "payload_sha256": "2794e7355181f3040282a38e1ffeb10f60a7f750940468cdbc0fe697f27c7f73",
+        "record": {
+          "content_sha256": "2794e7355181f3040282a38e1ffeb10f60a7f750940468cdbc0fe697f27c7f73",
+          "evidence_id": "native:dcda68355e5476204746e9a642ecc573d6e13ec71dbff1ee01d0d8687c38ac0b",
+          "kind": "assumption",
+          "role": "model"
+        }
+      },
+      "prior": {
+        "file_sha256": "a03fa27d29911768dded5cceb86cd750ea0aa52590359df554fbaad24876fa67",
+        "id": "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00",
+        "path": "study-evidence/493b0d66d7ee05eec27ff0dc86c3f9f3b9ef7459c8d96765d3a24ff6fc255af3.json",
+        "payload_sha256": "0f0648a6105d8f7f222ca5d85d8342b4460dfd73ac3ae228b43ecd755d38c9ed",
+        "record": {
+          "content_sha256": "0f0648a6105d8f7f222ca5d85d8342b4460dfd73ac3ae228b43ecd755d38c9ed",
+          "evidence_id": "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00",
+          "kind": "assumption",
+          "role": "prior"
+        }
+      },
+      "programs": {
+        "guard2": {
+          "checker_identity": "e06ab8b71f592627a315338571fdfa71cbdd813120eeb0183559b21e3c6feaad",
+          "descriptor": {
+            "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (+ x (* (- 1) y))))",
+            "checker_prior": {
+              "files": {
+                "clia_checker.py": "d3c4d2062170afc209263e9cd1f8038c46001381fb5dbc78df4a89dab2363d3a",
+                "clia_grammar.py": "9d24501dfebc535ad8c92a9978f90e237a07f150ecf96a5a346ba2c07b1a05db",
+                "clia_process.py": "ae5e36c200802af1723911a56e4a0d59dba1f17fbad56079cd8f51f575f2dff2",
+                "clia_reuse_apply.py": "af316b3ed2a753647214697ed1a379154bba51f820da67f3f80857831d42614f",
+                "clia_reuse_descriptor.py": "861d0bc62c7698eff7fe21e2ae7fc1cc136f446bcc350436afb4fc97691fc1ff",
+                "clia_tasks.py": "2e538701d3018e1a0fcc2610d5b7d4d246d716fefd203654b303760ff9b573a9",
+                "clia_worker.py": "470d95cbb7b08a5528b750aac4a7cc716d7dac194c8fd9c9d8719cea2c44cb94"
+              },
+              "z3": "5.1.0.0"
+            },
+            "history_only": [
+              "native:6c435a3bc8beed827002c32a7347ab7e3e2bcffb5c42c92989754de57077ac3c"
+            ],
+            "id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0",
+            "program_sha256": "fac131cbefaa563fff21c0c6bc4f1588c134494c5af10c79d6f137539899fd30",
+            "schema": "ocm.clia-executable.v1",
+            "support": {
+              "lower": [
+                [
+                  "native:ea2892660770172688d87704cc1abaa6893b033c6f5da48596d79a73dc3a9323",
+                  "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+                ]
+              ],
+              "upper": [
+                [
+                  "native:ea2892660770172688d87704cc1abaa6893b033c6f5da48596d79a73dc3a9323",
+                  "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+                ]
+              ]
+            },
+            "task": {
+              "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+              "adapted_sha256": "09e33508d9dcf29833244aa4e44f1ac141679ec4b72058f5d7d326a39a9d9986",
+              "grammar": {
+                "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+                "bounds": {
+                  "ast_depth": 160,
+                  "ast_nodes": 20000,
+                  "candidate_bytes": 65536,
+                  "integer_bits": 4096
+                },
+                "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+                "excluded": [
+                  "division",
+                  "modulo",
+                  "nonlinear variable multiplication",
+                  "quantifiers",
+                  "function calls",
+                  "extra SMT commands"
+                ],
+                "id": "ocm.clia-total-expressions.v1",
+                "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+                "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+                "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+              },
+              "kind": "clia",
+              "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+              "original_sygus": "(set-logic LIA)\n\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int)\n\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int\n    (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int\n    (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int\n    (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int\n    (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int\n    (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int\n    (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int\n    (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int\n    (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int\n    b1)\n(define-fun two_times ((b1 Int)) Int\n    (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int\n    (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int\n    (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int\n    (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int\n    (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n\n(check-synth)\n\n",
+              "source": {
+                "bytes": 1797,
+                "family": "mpg-guard",
+                "file": "jmbl_fg_mpg_guard2.sl",
+                "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+                "sha256": "2305bef24fcb825fbb837464f5e3d3e9d38afad1a732152b1c138a08fdf6fb05",
+                "split": "PUBLIC_DEVELOPMENT_ONLY",
+                "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_mpg_guard2.sl"
+              },
+              "sygus": "(set-logic LIA)\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int b1)\n(define-fun two_times ((b1 Int)) Int (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n(check-synth)\n",
+              "task_id": "jmbl_fg_mpg_guard2",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+            },
+            "universal_certificate": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "status": "PASS",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+              "verification_sha256": "5a91848443bb5039b3611994d3af8d204836c442e9dcbbf019401d4d8b7441c4"
+            },
+            "universal_check": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "metrics": {
+                "check_total_wall_s": 0.07299733100808226,
+                "envelope_wall_s": 0.070470321981702,
+                "external_deadline_s": 10,
+                "grammar_wall_s": 0.0024096289998851717,
+                "host_check_cpu_s": 0.0028776270000000076,
+                "native_timeout_ms": 5000,
+                "peak_rss_kib": 57372,
+                "request_bytes": 1889,
+                "response_bytes": 196,
+                "unmeasured": [
+                  "energy",
+                  "native internal active bytes",
+                  "installation/pretraining costs"
+                ],
+                "worker_cpu_s": 0.032175513,
+                "worker_pid": 3523185,
+                "worker_wall_s": 0.032231543998932466
+              },
+              "native_checker_invoked": true,
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "solver_result": "unsat",
+              "status": "PASS",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+              "verification_sha256": "5a91848443bb5039b3611994d3af8d204836c442e9dcbbf019401d4d8b7441c4"
+            }
+          },
+          "descriptor_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0",
+          "history_ids": [
+            "native:6c435a3bc8beed827002c32a7347ab7e3e2bcffb5c42c92989754de57077ac3c"
+          ],
+          "history_records": [
+            {
+              "file_sha256": "8909d1a6c2ec29436bb73a8d9f0483d8a357f4c490fbc52b8eeffa77da462488",
+              "id": "native:6c435a3bc8beed827002c32a7347ab7e3e2bcffb5c42c92989754de57077ac3c",
+              "path": "study-evidence/82fa91a1c820720d4ea44d800fa9a3c9c836d45743b53b701858238c6906ef55.json",
+              "payload_sha256": "05d26dfeab9a1feb217a913794cdc84abe4408bb133de87e4ca08afd90c5a17f",
+              "record": {
+                "content_sha256": "05d26dfeab9a1feb217a913794cdc84abe4408bb133de87e4ca08afd90c5a17f",
+                "evidence_id": "native:6c435a3bc8beed827002c32a7347ab7e3e2bcffb5c42c92989754de57077ac3c",
+                "kind": "assumption",
+                "role": "history"
+              }
+            }
+          ],
+          "program_sha256": "fac131cbefaa563fff21c0c6bc4f1588c134494c5af10c79d6f137539899fd30",
+          "proof_id": "acquisitions/guard2.json",
+          "registration": [
+            "native:ea2892660770172688d87704cc1abaa6893b033c6f5da48596d79a73dc3a9323"
+          ],
+          "support": {
+            "lower": [
+              [
+                "native:ea2892660770172688d87704cc1abaa6893b033c6f5da48596d79a73dc3a9323",
+                "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+              ]
+            ],
+            "upper": [
+              [
+                "native:ea2892660770172688d87704cc1abaa6893b033c6f5da48596d79a73dc3a9323",
+                "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+              ]
+            ]
+          },
+          "task_id": "jmbl_fg_mpg_guard2",
+          "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+        },
+        "max3": {
+          "checker_identity": "e06ab8b71f592627a315338571fdfa71cbdd813120eeb0183559b21e3c6feaad",
+          "descriptor": {
+            "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))",
+            "checker_prior": {
+              "files": {
+                "clia_checker.py": "d3c4d2062170afc209263e9cd1f8038c46001381fb5dbc78df4a89dab2363d3a",
+                "clia_grammar.py": "9d24501dfebc535ad8c92a9978f90e237a07f150ecf96a5a346ba2c07b1a05db",
+                "clia_process.py": "ae5e36c200802af1723911a56e4a0d59dba1f17fbad56079cd8f51f575f2dff2",
+                "clia_reuse_apply.py": "af316b3ed2a753647214697ed1a379154bba51f820da67f3f80857831d42614f",
+                "clia_reuse_descriptor.py": "861d0bc62c7698eff7fe21e2ae7fc1cc136f446bcc350436afb4fc97691fc1ff",
+                "clia_tasks.py": "2e538701d3018e1a0fcc2610d5b7d4d246d716fefd203654b303760ff9b573a9",
+                "clia_worker.py": "470d95cbb7b08a5528b750aac4a7cc716d7dac194c8fd9c9d8719cea2c44cb94"
+              },
+              "z3": "5.1.0.0"
+            },
+            "history_only": [
+              "native:d807bcd935543d861a80a8c89f75080246f9c3d91451af1dec1cdf940ef3b0b4"
+            ],
+            "id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7",
+            "program_sha256": "3ac00c37400fc26525779a0ba0cf002cad5e3c5a175a5f304dee04464cb0b5fd",
+            "schema": "ocm.clia-executable.v1",
+            "support": {
+              "lower": [
+                [
+                  "native:298ef317e05e471b86122100b875c3c9a133d7f8b683d5a378d13767969a323e",
+                  "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+                ]
+              ],
+              "upper": [
+                [
+                  "native:298ef317e05e471b86122100b875c3c9a133d7f8b683d5a378d13767969a323e",
+                  "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+                ]
+              ]
+            },
+            "task": {
+              "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+              "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+              "grammar": {
+                "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+                "bounds": {
+                  "ast_depth": 160,
+                  "ast_nodes": 20000,
+                  "candidate_bytes": 65536,
+                  "integer_bits": 4096
+                },
+                "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+                "excluded": [
+                  "division",
+                  "modulo",
+                  "nonlinear variable multiplication",
+                  "quantifiers",
+                  "function calls",
+                  "extra SMT commands"
+                ],
+                "id": "ocm.clia-total-expressions.v1",
+                "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+                "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+                "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+              },
+              "kind": "clia",
+              "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+              "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+              "source": {
+                "bytes": 327,
+                "family": "maximum",
+                "file": "jmbl_fg_max3.sl",
+                "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+                "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+                "split": "PUBLIC_DEVELOPMENT_ONLY",
+                "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+              },
+              "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+              "task_id": "jmbl_fg_max3",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+            },
+            "universal_certificate": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "status": "PASS",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+              "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+            },
+            "universal_check": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "metrics": {
+                "check_total_wall_s": 0.07080071300151758,
+                "envelope_wall_s": 0.07000801700633019,
+                "external_deadline_s": 10,
+                "grammar_wall_s": 0.0006869590142741799,
+                "host_check_cpu_s": 0.001123421999999999,
+                "native_timeout_ms": 5000,
+                "peak_rss_kib": 57876,
+                "request_bytes": 507,
+                "response_bytes": 196,
+                "unmeasured": [
+                  "energy",
+                  "native internal active bytes",
+                  "installation/pretraining costs"
+                ],
+                "worker_cpu_s": 0.032112511,
+                "worker_pid": 3523182,
+                "worker_wall_s": 0.032181747985305265
+              },
+              "native_checker_invoked": true,
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "solver_result": "unsat",
+              "status": "PASS",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+              "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+            }
+          },
+          "descriptor_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7",
+          "history_ids": [
+            "native:d807bcd935543d861a80a8c89f75080246f9c3d91451af1dec1cdf940ef3b0b4"
+          ],
+          "history_records": [
+            {
+              "file_sha256": "a5d3e71c446c66010098a922dd90949c2dff0d912a3d067c84afffbf8f6b64ab",
+              "id": "native:d807bcd935543d861a80a8c89f75080246f9c3d91451af1dec1cdf940ef3b0b4",
+              "path": "study-evidence/91571f2d4c8631162ba0346e768f5a68280ed4e39f34eafb0b47fab180a0e7d0.json",
+              "payload_sha256": "bc1f15258451c73a4aeb4016f1076b51dd601ef9e23ddc8c0747d04bbbc3255f",
+              "record": {
+                "content_sha256": "bc1f15258451c73a4aeb4016f1076b51dd601ef9e23ddc8c0747d04bbbc3255f",
+                "evidence_id": "native:d807bcd935543d861a80a8c89f75080246f9c3d91451af1dec1cdf940ef3b0b4",
+                "kind": "assumption",
+                "role": "history"
+              }
+            }
+          ],
+          "program_sha256": "3ac00c37400fc26525779a0ba0cf002cad5e3c5a175a5f304dee04464cb0b5fd",
+          "proof_id": "acquisitions/max3.json",
+          "registration": [
+            "native:298ef317e05e471b86122100b875c3c9a133d7f8b683d5a378d13767969a323e"
+          ],
+          "support": {
+            "lower": [
+              [
+                "native:298ef317e05e471b86122100b875c3c9a133d7f8b683d5a378d13767969a323e",
+                "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+              ]
+            ],
+            "upper": [
+              [
+                "native:298ef317e05e471b86122100b875c3c9a133d7f8b683d5a378d13767969a323e",
+                "native:f9dbb3c7d7bbaf8f204c64a66ba1895f027dba467fc00ed681a493c187ee9c00"
+              ]
+            ]
+          },
+          "task_id": "jmbl_fg_max3",
+          "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+        }
+      }
+    },
+    "ocm": {
+      "fixture": {
+        "archive_bytes": 11631918,
+        "model_evidence": "ev:ocm:11947d11c8fd7899",
+        "model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+        "prior": "ev:ocm:5fb99389ad61c8f4",
+        "revocation_unit": "whole model version"
+      },
+      "model_file": "archive/7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9.udpipe",
+      "model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+      "programs": {
+        "guard2": {
+          "checker_identity": "e06ab8b71f592627a315338571fdfa71cbdd813120eeb0183559b21e3c6feaad",
+          "descriptor": {
+            "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (+ x (* (- 1) y))))",
+            "checker_prior": {
+              "files": {
+                "clia_checker.py": "d3c4d2062170afc209263e9cd1f8038c46001381fb5dbc78df4a89dab2363d3a",
+                "clia_grammar.py": "9d24501dfebc535ad8c92a9978f90e237a07f150ecf96a5a346ba2c07b1a05db",
+                "clia_process.py": "ae5e36c200802af1723911a56e4a0d59dba1f17fbad56079cd8f51f575f2dff2",
+                "clia_reuse_apply.py": "af316b3ed2a753647214697ed1a379154bba51f820da67f3f80857831d42614f",
+                "clia_reuse_descriptor.py": "861d0bc62c7698eff7fe21e2ae7fc1cc136f446bcc350436afb4fc97691fc1ff",
+                "clia_tasks.py": "2e538701d3018e1a0fcc2610d5b7d4d246d716fefd203654b303760ff9b573a9",
+                "clia_worker.py": "470d95cbb7b08a5528b750aac4a7cc716d7dac194c8fd9c9d8719cea2c44cb94"
+              },
+              "z3": "5.1.0.0"
+            },
+            "history_only": [
+              "ev:ocm:9427789ad9be712b"
+            ],
+            "id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c",
+            "program_sha256": "fac131cbefaa563fff21c0c6bc4f1588c134494c5af10c79d6f137539899fd30",
+            "schema": "ocm.clia-executable.v1",
+            "support": {
+              "lower": [
+                [
+                  "ev:ocm:5fb99389ad61c8f4",
+                  "ev:ocm:e3e485c4a9396d65"
+                ]
+              ],
+              "upper": [
+                [
+                  "ev:ocm:5fb99389ad61c8f4",
+                  "ev:ocm:e3e485c4a9396d65"
+                ]
+              ]
+            },
+            "task": {
+              "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+              "adapted_sha256": "09e33508d9dcf29833244aa4e44f1ac141679ec4b72058f5d7d326a39a9d9986",
+              "grammar": {
+                "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+                "bounds": {
+                  "ast_depth": 160,
+                  "ast_nodes": 20000,
+                  "candidate_bytes": 65536,
+                  "integer_bits": 4096
+                },
+                "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+                "excluded": [
+                  "division",
+                  "modulo",
+                  "nonlinear variable multiplication",
+                  "quantifiers",
+                  "function calls",
+                  "extra SMT commands"
+                ],
+                "id": "ocm.clia-total-expressions.v1",
+                "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+                "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+                "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+              },
+              "kind": "clia",
+              "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+              "original_sygus": "(set-logic LIA)\n\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int)\n\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int\n    (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int\n    (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int\n    (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int\n    (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int\n    (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int\n    (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int\n    (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int\n    (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int\n    b1)\n(define-fun two_times ((b1 Int)) Int\n    (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int\n    (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int\n    (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int\n    (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int\n    (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n\n(check-synth)\n\n",
+              "source": {
+                "bytes": 1797,
+                "family": "mpg-guard",
+                "file": "jmbl_fg_mpg_guard2.sl",
+                "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+                "sha256": "2305bef24fcb825fbb837464f5e3d3e9d38afad1a732152b1c138a08fdf6fb05",
+                "split": "PUBLIC_DEVELOPMENT_ONLY",
+                "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_mpg_guard2.sl"
+              },
+              "sygus": "(set-logic LIA)\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int b1)\n(define-fun two_times ((b1 Int)) Int (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n(check-synth)\n",
+              "task_id": "jmbl_fg_mpg_guard2",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+            },
+            "universal_certificate": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "status": "PASS",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+              "verification_sha256": "5a91848443bb5039b3611994d3af8d204836c442e9dcbbf019401d4d8b7441c4"
+            },
+            "universal_check": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "metrics": {
+                "check_total_wall_s": 0.07319029601057991,
+                "envelope_wall_s": 0.07075367798097432,
+                "external_deadline_s": 10,
+                "grammar_wall_s": 0.0023002390225883573,
+                "host_check_cpu_s": 0.002770197000000002,
+                "native_timeout_ms": 5000,
+                "peak_rss_kib": 57336,
+                "request_bytes": 1889,
+                "response_bytes": 195,
+                "unmeasured": [
+                  "energy",
+                  "native internal active bytes",
+                  "installation/pretraining costs"
+                ],
+                "worker_cpu_s": 0.032248135,
+                "worker_pid": 3523213,
+                "worker_wall_s": 0.03232772200135514
+              },
+              "native_checker_invoked": true,
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "solver_result": "unsat",
+              "status": "PASS",
+              "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+              "verification_sha256": "5a91848443bb5039b3611994d3af8d204836c442e9dcbbf019401d4d8b7441c4"
+            }
+          },
+          "descriptor_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c",
+          "history_ids": [
+            "ev:ocm:9427789ad9be712b"
+          ],
+          "history_records": [
+            {
+              "file_sha256": "fb399a075ddc68241cf85e400a015544efd818aebb2240dd991583f037d5368c",
+              "id": "ev:ocm:9427789ad9be712b",
+              "path": "study-evidence/6c1986e43a232c0c98dd3fdca05391b64dd4b915ad64cd291a399b004fc38b1c.json",
+              "payload_sha256": "bd1ca6b3ee2427706944104cca6e11e0b91c5bfa1bf43b97696264f67ab0ff55",
+              "record": {
+                "authority": {},
+                "certificate": "OBSERVATION",
+                "channel": "observation",
+                "content_hash": "bd1ca6b3ee2427706944104cca6e11e0b91c5bfa1bf43b97696264f67ab0ff55",
+                "derived_from": null,
+                "evidence_id": "ev:ocm:9427789ad9be712b",
+                "kind": "assumption",
+                "links": [],
+                "scope": {
+                  "contexts": [
+                    "g1-pilot"
+                  ],
+                  "epoch": [
+                    0,
+                    Infinity
+                  ]
+                },
+                "source": "reuse-study-history",
+                "superseded_by": null
+              }
+            }
+          ],
+          "program_sha256": "fac131cbefaa563fff21c0c6bc4f1588c134494c5af10c79d6f137539899fd30",
+          "proof_id": "g1:answer:459e32fb693e980f94af007ccc6e5ad3f8ea9709f47009175419adbbd9e96543",
+          "registration": [
+            "ev:ocm:e3e485c4a9396d65"
+          ],
+          "support": {
+            "lower": [
+              [
+                "ev:ocm:5fb99389ad61c8f4",
+                "ev:ocm:e3e485c4a9396d65"
+              ]
+            ],
+            "upper": [
+              [
+                "ev:ocm:5fb99389ad61c8f4",
+                "ev:ocm:e3e485c4a9396d65"
+              ]
+            ]
+          },
+          "task_id": "jmbl_fg_mpg_guard2",
+          "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+        },
+        "max3": {
+          "checker_identity": "e06ab8b71f592627a315338571fdfa71cbdd813120eeb0183559b21e3c6feaad",
+          "descriptor": {
+            "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))",
+            "checker_prior": {
+              "files": {
+                "clia_checker.py": "d3c4d2062170afc209263e9cd1f8038c46001381fb5dbc78df4a89dab2363d3a",
+                "clia_grammar.py": "9d24501dfebc535ad8c92a9978f90e237a07f150ecf96a5a346ba2c07b1a05db",
+                "clia_process.py": "ae5e36c200802af1723911a56e4a0d59dba1f17fbad56079cd8f51f575f2dff2",
+                "clia_reuse_apply.py": "af316b3ed2a753647214697ed1a379154bba51f820da67f3f80857831d42614f",
+                "clia_reuse_descriptor.py": "861d0bc62c7698eff7fe21e2ae7fc1cc136f446bcc350436afb4fc97691fc1ff",
+                "clia_tasks.py": "2e538701d3018e1a0fcc2610d5b7d4d246d716fefd203654b303760ff9b573a9",
+                "clia_worker.py": "470d95cbb7b08a5528b750aac4a7cc716d7dac194c8fd9c9d8719cea2c44cb94"
+              },
+              "z3": "5.1.0.0"
+            },
+            "history_only": [
+              "ev:ocm:0ec480b1c9c93d48"
+            ],
+            "id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868",
+            "program_sha256": "3ac00c37400fc26525779a0ba0cf002cad5e3c5a175a5f304dee04464cb0b5fd",
+            "schema": "ocm.clia-executable.v1",
+            "support": {
+              "lower": [
+                [
+                  "ev:ocm:36a214b2965f18b3",
+                  "ev:ocm:5fb99389ad61c8f4"
+                ]
+              ],
+              "upper": [
+                [
+                  "ev:ocm:36a214b2965f18b3",
+                  "ev:ocm:5fb99389ad61c8f4"
+                ]
+              ]
+            },
+            "task": {
+              "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+              "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+              "grammar": {
+                "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+                "bounds": {
+                  "ast_depth": 160,
+                  "ast_nodes": 20000,
+                  "candidate_bytes": 65536,
+                  "integer_bits": 4096
+                },
+                "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+                "excluded": [
+                  "division",
+                  "modulo",
+                  "nonlinear variable multiplication",
+                  "quantifiers",
+                  "function calls",
+                  "extra SMT commands"
+                ],
+                "id": "ocm.clia-total-expressions.v1",
+                "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+                "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+                "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+              },
+              "kind": "clia",
+              "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+              "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+              "source": {
+                "bytes": 327,
+                "family": "maximum",
+                "file": "jmbl_fg_max3.sl",
+                "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+                "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+                "split": "PUBLIC_DEVELOPMENT_ONLY",
+                "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+              },
+              "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+              "task_id": "jmbl_fg_max3",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+            },
+            "universal_certificate": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "status": "PASS",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+              "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+            },
+            "universal_check": {
+              "grammar": "PASS",
+              "grammar_id": "ocm.clia-total-expressions.v1",
+              "metrics": {
+                "check_total_wall_s": 0.07561318401712924,
+                "envelope_wall_s": 0.07480449302238412,
+                "external_deadline_s": 10,
+                "grammar_wall_s": 0.0006563920178450644,
+                "host_check_cpu_s": 0.0010879989999999784,
+                "native_timeout_ms": 5000,
+                "peak_rss_kib": 57744,
+                "request_bytes": 507,
+                "response_bytes": 204,
+                "unmeasured": [
+                  "energy",
+                  "native internal active bytes",
+                  "installation/pretraining costs"
+                ],
+                "worker_cpu_s": 0.032537170000000004,
+                "worker_pid": 3523198,
+                "worker_wall_s": 0.03262884699506685
+              },
+              "native_checker_invoked": true,
+              "semantic": "PASS",
+              "solver": "Z3 5.1.0.0",
+              "solver_result": "unsat",
+              "status": "PASS",
+              "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+              "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+            }
+          },
+          "descriptor_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868",
+          "history_ids": [
+            "ev:ocm:0ec480b1c9c93d48"
+          ],
+          "history_records": [
+            {
+              "file_sha256": "c72f302c5743445f0ea378ac3c2a6c240154a962279a455b284e0bb0c329e0cb",
+              "id": "ev:ocm:0ec480b1c9c93d48",
+              "path": "study-evidence/8c3c68fba1d2247ffb74090aa1e9dbbe553df8765729b458f14c51c6d2aba03a.json",
+              "payload_sha256": "cb22880b78ae82435d64fd6d34bee969bf09050362f49c27b18274a27bf48624",
+              "record": {
+                "authority": {},
+                "certificate": "OBSERVATION",
+                "channel": "observation",
+                "content_hash": "cb22880b78ae82435d64fd6d34bee969bf09050362f49c27b18274a27bf48624",
+                "derived_from": null,
+                "evidence_id": "ev:ocm:0ec480b1c9c93d48",
+                "kind": "assumption",
+                "links": [],
+                "scope": {
+                  "contexts": [
+                    "g1-pilot"
+                  ],
+                  "epoch": [
+                    0,
+                    Infinity
+                  ]
+                },
+                "source": "reuse-study-history",
+                "superseded_by": null
+              }
+            }
+          ],
+          "program_sha256": "3ac00c37400fc26525779a0ba0cf002cad5e3c5a175a5f304dee04464cb0b5fd",
+          "proof_id": "g1:answer:38bfce14071597c2e6c82ba398bd787ce3190cc9700afb4670abd64122a6c26a",
+          "registration": [
+            "ev:ocm:36a214b2965f18b3"
+          ],
+          "support": {
+            "lower": [
+              [
+                "ev:ocm:36a214b2965f18b3",
+                "ev:ocm:5fb99389ad61c8f4"
+              ]
+            ],
+            "upper": [
+              [
+                "ev:ocm:36a214b2965f18b3",
+                "ev:ocm:5fb99389ad61c8f4"
+              ]
+            ]
+          },
+          "task_id": "jmbl_fg_max3",
+          "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+        }
+      }
+    }
+  },
+  "f0_sha256": "2f5ddb7a5a90fc73488a4496e75ab605a8991b35613f0d1651e735bdcc1f8f97",
+  "resolved_requests": {
+    "native": [
+      {
+        "id": "warm.max3.01",
+        "request": {
+          "arguments": [
+            23,
+            -11,
+            7
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.02",
+        "request": {
+          "arguments": [
+            -8,
+            29,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.03",
+        "request": {
+          "arguments": [
+            5,
+            -13,
+            31
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.04",
+        "request": {
+          "arguments": [
+            -2,
+            -17,
+            -9
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.05",
+        "request": {
+          "arguments": [
+            -23,
+            -3,
+            -11
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.06",
+        "request": {
+          "arguments": [
+            -19,
+            -8,
+            -1
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.07",
+        "request": {
+          "arguments": [
+            13,
+            13,
+            -6
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.max3.08",
+        "request": {
+          "arguments": [
+            11,
+            -5,
+            11
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "warm.guard2.01",
+        "request": {
+          "arguments": [
+            6,
+            -2,
+            -3
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "warm.guard2.02",
+        "request": {
+          "arguments": [
+            6,
+            -2,
+            -4
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "warm.guard2.03",
+        "request": {
+          "arguments": [
+            -5,
+            3,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "warm.guard2.04",
+        "request": {
+          "arguments": [
+            -5,
+            3,
+            -4
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "warm.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "restart.max3.01",
+        "request": {
+          "arguments": [
+            37,
+            9,
+            -15
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.02",
+        "request": {
+          "arguments": [
+            8,
+            43,
+            -21
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.03",
+        "request": {
+          "arguments": [
+            -12,
+            6,
+            47
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.04",
+        "request": {
+          "arguments": [
+            -4,
+            -27,
+            -18
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.05",
+        "request": {
+          "arguments": [
+            -7,
+            17,
+            17
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.06",
+        "request": {
+          "arguments": [
+            19,
+            19,
+            19
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.07",
+        "request": {
+          "arguments": [
+            -12,
+            -12,
+            -12
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.max3.08",
+        "request": {
+          "arguments": [
+            0,
+            -6,
+            -22
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restart.guard2.01",
+        "request": {
+          "arguments": [
+            -9,
+            4,
+            6
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restart.guard2.02",
+        "request": {
+          "arguments": [
+            -9,
+            4,
+            5
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restart.guard2.03",
+        "request": {
+          "arguments": [
+            14,
+            -5,
+            2
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restart.guard2.04",
+        "request": {
+          "arguments": [
+            14,
+            -5,
+            -16
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restart.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "history.max3.01",
+        "request": {
+          "arguments": [
+            52,
+            -16,
+            9
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "history.max3.02",
+        "request": {
+          "arguments": [
+            -14,
+            -2,
+            -8
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "history.guard2.01",
+        "request": {
+          "arguments": [
+            10,
+            -4,
+            -5
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "history.guard2.02",
+        "request": {
+          "arguments": [
+            10,
+            -4,
+            -6
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "history.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "withdraw.max3.01",
+        "request": {
+          "arguments": [
+            -31,
+            11,
+            18
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "withdraw.max3.02",
+        "request": {
+          "arguments": [
+            26,
+            26,
+            -9
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "withdraw.guard2.01",
+        "request": {
+          "arguments": [
+            -8,
+            5,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "withdraw.guard2.02",
+        "request": {
+          "arguments": [
+            -8,
+            5,
+            3
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "withdraw.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "restore.max3.01",
+        "request": {
+          "arguments": [
+            -28,
+            7,
+            24
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restore.max3.02",
+        "request": {
+          "arguments": [
+            35,
+            -10,
+            35
+          ],
+          "kind": "clia_apply",
+          "program_id": "6351aedbd5d8dab08942ceaf42b8b9fa9da7bace7e4b3a238510679e38685be7"
+        }
+      },
+      {
+        "id": "restore.guard2.01",
+        "request": {
+          "arguments": [
+            17,
+            -6,
+            -10
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restore.guard2.02",
+        "request": {
+          "arguments": [
+            17,
+            -6,
+            -11
+          ],
+          "kind": "clia_apply",
+          "program_id": "72b3246e17aa084a5aa524a6ff0110bf3bbb225e32fa43c5701b3834c092a7f0"
+        }
+      },
+      {
+        "id": "restore.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      }
+    ],
+    "ocm": [
+      {
+        "id": "warm.max3.01",
+        "request": {
+          "arguments": [
+            23,
+            -11,
+            7
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.02",
+        "request": {
+          "arguments": [
+            -8,
+            29,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.03",
+        "request": {
+          "arguments": [
+            5,
+            -13,
+            31
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.04",
+        "request": {
+          "arguments": [
+            -2,
+            -17,
+            -9
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.05",
+        "request": {
+          "arguments": [
+            -23,
+            -3,
+            -11
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.06",
+        "request": {
+          "arguments": [
+            -19,
+            -8,
+            -1
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.07",
+        "request": {
+          "arguments": [
+            13,
+            13,
+            -6
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.max3.08",
+        "request": {
+          "arguments": [
+            11,
+            -5,
+            11
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "warm.guard2.01",
+        "request": {
+          "arguments": [
+            6,
+            -2,
+            -3
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "warm.guard2.02",
+        "request": {
+          "arguments": [
+            6,
+            -2,
+            -4
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "warm.guard2.03",
+        "request": {
+          "arguments": [
+            -5,
+            3,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "warm.guard2.04",
+        "request": {
+          "arguments": [
+            -5,
+            3,
+            -4
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "warm.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "restart.max3.01",
+        "request": {
+          "arguments": [
+            37,
+            9,
+            -15
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.02",
+        "request": {
+          "arguments": [
+            8,
+            43,
+            -21
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.03",
+        "request": {
+          "arguments": [
+            -12,
+            6,
+            47
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.04",
+        "request": {
+          "arguments": [
+            -4,
+            -27,
+            -18
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.05",
+        "request": {
+          "arguments": [
+            -7,
+            17,
+            17
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.06",
+        "request": {
+          "arguments": [
+            19,
+            19,
+            19
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.07",
+        "request": {
+          "arguments": [
+            -12,
+            -12,
+            -12
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.max3.08",
+        "request": {
+          "arguments": [
+            0,
+            -6,
+            -22
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restart.guard2.01",
+        "request": {
+          "arguments": [
+            -9,
+            4,
+            6
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restart.guard2.02",
+        "request": {
+          "arguments": [
+            -9,
+            4,
+            5
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restart.guard2.03",
+        "request": {
+          "arguments": [
+            14,
+            -5,
+            2
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restart.guard2.04",
+        "request": {
+          "arguments": [
+            14,
+            -5,
+            -16
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restart.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "history.max3.01",
+        "request": {
+          "arguments": [
+            52,
+            -16,
+            9
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "history.max3.02",
+        "request": {
+          "arguments": [
+            -14,
+            -2,
+            -8
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "history.guard2.01",
+        "request": {
+          "arguments": [
+            10,
+            -4,
+            -5
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "history.guard2.02",
+        "request": {
+          "arguments": [
+            10,
+            -4,
+            -6
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "history.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "withdraw.max3.01",
+        "request": {
+          "arguments": [
+            -31,
+            11,
+            18
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "withdraw.max3.02",
+        "request": {
+          "arguments": [
+            26,
+            26,
+            -9
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "withdraw.guard2.01",
+        "request": {
+          "arguments": [
+            -8,
+            5,
+            4
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "withdraw.guard2.02",
+        "request": {
+          "arguments": [
+            -8,
+            5,
+            3
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "withdraw.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      },
+      {
+        "id": "restore.max3.01",
+        "request": {
+          "arguments": [
+            -28,
+            7,
+            24
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restore.max3.02",
+        "request": {
+          "arguments": [
+            35,
+            -10,
+            35
+          ],
+          "kind": "clia_apply",
+          "program_id": "8c3eaa102e965b5d81a82dabf4ad15032137bf3ef930e86c9a8f48c8fc52a868"
+        }
+      },
+      {
+        "id": "restore.guard2.01",
+        "request": {
+          "arguments": [
+            17,
+            -6,
+            -10
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restore.guard2.02",
+        "request": {
+          "arguments": [
+            17,
+            -6,
+            -11
+          ],
+          "kind": "clia_apply",
+          "program_id": "1a6979898ea9145f166ac86fe5c84503d728f0454560c00fbe5687d2bea6214c"
+        }
+      },
+      {
+        "id": "restore.syntax",
+        "request": {
+          "kind": "syntax",
+          "tokens": [
+            "The",
+            "team",
+            "solved",
+            "the",
+            "problem",
+            "."
+          ]
+        }
+      }
+    ]
+  },
+  "schema": "ocm.reuse.f1.v1"
+}
