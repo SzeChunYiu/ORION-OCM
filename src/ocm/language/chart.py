@@ -4,9 +4,10 @@ The M3 matcher enumerates every phrase over every span and is exponential in att
 This parser is an Earley recogniser over the construction inventory whose items are slots: a
 lexical slot matches one token reading of the slot's category (with the slot's feature/lemma
 requirements), a phrase slot matches a completed phrase of the slot's `phrase` type.  Completed
-phrases are *packed* per (start, end, phrase type, construction, bound-readings digest): the chart
-records derivation COUNTS and one representative derivation, so the number of analyses is exact and
-polynomial to compute while only one meaning per packed node is ever built.  Verdicts:
+phrases are *packed* per (start, end, phrase type, lexical readings of the span) — batch 11 K1 (ix): never
+by sub-derivation identity — the chart records derivation COUNTS (exact, by summation with delta
+propagation) and one representative derivation per node, so the number of analyses is exact and the item
+count is polynomial in the token count while only one meaning per packed node is ever built.  Verdicts:
 
   INTERPRETED           exactly one clause-level derivation spans the whole utterance
   AMBIGUOUS(k)          k > 1 derivations (k is exact; the representative meanings of up to
@@ -124,34 +125,81 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             gap_tokens.append(t)
         per_token.append(rs)
     n = len(tokens)
-    # Earley items: (construction index, dot, start) with partial bindings kept only for the representative
-    by_produces: dict[str | None, list[int]] = defaultdict(list)
-    for i, c in enumerate(cons):
-        by_produces[c.produces].append(i)
-    # chart[k] = dict[(ci, dot, start)] -> (count, representative bindings)
-    chart: list[dict[tuple, tuple[int, dict[str, Any], int | None]]] = [dict() for _ in range(n + 1)]
+    # Earley items keyed by (construction, dot, start, lexspan): `lexspan` is the tuple of (position, reading
+    # identity) the item has consumed so far.  Completed phrases are PACKED per (start, end, phrase type, lexspan)
+    # — theory batch 11 K1 (ix): packing by span and lexical readings, never by sub-derivation identity — so the
+    # forest holds one node per span reading, exact derivation COUNTS are kept by summation (deltas are propagated
+    # to waiting items, so a node whose count grows after first use still yields exact totals), and one
+    # representative derivation per node is built lazily.
     ccount = [evidence_count(c) for c in cons]
-    completed: dict[tuple[int, int, str], dict[tuple, Packed]] = defaultdict(dict)    # (start, end, phrase type) -> (ci, lexkey) -> Packed
-
+    chart: list[dict[tuple, tuple[int, dict[str, Any], int | None]]] = [dict() for _ in range(n + 1)]
+    completed: dict[tuple[int, int, str], dict[tuple, Packed]] = defaultdict(dict)    # (start, end, produces) -> lexspan -> Packed
+    contributed: dict[tuple, int] = {}          # completed item key -> count already added to its pack
+    applied: dict[tuple, int] = {}              # (parent item key at `start`, pack id) -> product already added to the advanced item
     items = [0]
 
-    def add(k: int, key: tuple, count: int, b: dict[str, Any], score: int | None = None) -> None:
-        key = (key[0], key[1], key[2], _lex_key(b))
+    def rid(r: Reading) -> tuple:
+        return (r.lemma, r.sense.sense_id if r.sense else None, tuple(sorted(r.features)))
+
+    waiting: list[dict[str, list[tuple]]] = [defaultdict(list) for _ in range(n + 1)]   # k -> phrase type -> item keys waiting for it
+
+    def add(k: int, key: tuple, count: int, b: dict[str, Any], score: int | None, lexspan: tuple) -> None:
+        key = (key[0], key[1], key[2], lexspan)
         old = chart[k].get(key)
         if old is None:
             items[0] += 1
             if items[0] > max_items:
                 raise ChartCap(f"chart items exceeded {max_items}")
             chart[k][key] = (count, b, score)
+            c, dot = cons[key[0]], key[1]
+            if dot < len(c.pattern):
+                slot = c.pattern[dot]
+                if slot.phrase is not None:
+                    waiting[k][slot.phrase].append(key)
+                elif slot.optional and dot + 1 < len(c.pattern) and c.pattern[dot + 1].phrase is not None:
+                    waiting[k][c.pattern[dot + 1].phrase].append(key)
         else:
-            # keep the representative with the BEST evidence score (ties keep the first)
             better = score is not None and (old[2] is None or score > old[2])
             chart[k][key] = (old[0] + count, b if better else old[1], score if better else old[2])
 
+    by_produces: dict[str | None, list[int]] = defaultdict(list)
+    for i, c in enumerate(cons):
+        by_produces[c.produces].append(i)
+
+    def can_start(ci: int, k: int, wanted: set) -> tuple[bool, str | None]:
+        """Top-down filtered prediction: a construction is predicted at k only if its pattern can begin here —
+        its leading lexical slot (after any optional prefix) accepts a reading at k, or its leading phrase slot's
+        type is itself wanted at k.  Returns (predict?, phrase type this construction wants at k, if any)."""
+        c = cons[ci]
+        for d, slot in enumerate(c.pattern):
+            if slot.phrase is not None:
+                return (slot.phrase in wanted), slot.phrase
+            if k < n and any(_slot_accepts_reading(slot, r) for r in per_token[k]):
+                return True, None
+            if not slot.optional:
+                return False, None
+        return False, None
+
     def predict(k: int) -> None:
-        # every construction may start at k (no top symbol: any clause-level or phrase construction)
-        for ci in range(len(cons)):
-            add(k, (ci, 0, k), 1, {}, ccount[ci])
+        # phrase types wanted at k: closure from every clause-level construction and every construction that can start here
+        wanted: set = set()
+        candidates = list(range(len(cons)))
+        predicted: set = set()
+        changed = True
+        while changed:
+            changed = False
+            for ci in candidates:
+                if ci in predicted:
+                    continue
+                c = cons[ci]
+                if c.produces is not None and c.produces not in wanted:
+                    continue                      # a phrase construction is predicted only when its type is wanted here
+                ok, want = can_start(ci, k, wanted)
+                if want is not None and want not in wanted and (c.produces is None or c.produces in wanted):
+                    wanted.add(want); changed = True
+                if ok:
+                    predicted.add(ci); changed = True
+                    add(k, (ci, 0, k), 1, {}, ccount[ci], ())
 
     def phrase_of(p: Packed) -> Phrase:
         if p.phrase is None:
@@ -164,72 +212,79 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             p.phrase = Phrase(c.produces, head, meaning, c.head_node, meet_all_profiles([c.warrant, *parts]), (p.start, p.end), c.construction_id)
         return p.phrase
 
+    def advance(pack: Packed, start: int, k: int) -> bool:
+        """Advance every item at `start` waiting for this pack's phrase type by the pack's count delta."""
+        changed = False
+        produces = pack.construction.produces
+        for key2 in list(waiting[start].get(produces, ())):
+            count2, b2, score2 = chart[start][key2]
+            cj, dot2, start2, lex2 = key2
+            c2 = cons[cj]
+            slot = c2.pattern[dot2]
+            if slot.phrase == produces:
+                nxt, name = dot2 + 1, slot.name
+            else:
+                nxt, name = dot2 + 2, c2.pattern[dot2 + 1].name
+            ak = (key2, id(pack))
+            product = count2 * pack.count
+            delta = product - applied.get(ak, 0)
+            if delta <= 0:
+                continue
+            applied[ak] = product
+            nb = dict(b2)
+            nb[name] = pack
+            add(k, (cj, nxt, start2), delta, nb, _min_score(score2, pack.score), lex2 + pack.key)
+            changed = True
+        return changed
+
     def complete(k: int) -> None:
         changed = True
         while changed:
             changed = False
             for key, (count, b, score) in list(chart[k].items()):
-                ci, dot, start, lk = key
+                ci, dot, start, lexspan = key
                 c = cons[ci]
-                if dot < len(c.pattern):
-                    continue
-                if c.produces is None:
+                if dot < len(c.pattern) or c.produces is None:
                     continue
                 packs = completed[(start, k, c.produces)]
-                pk = (ci, lk)
-                if pk in packs:
-                    if packs[pk].count != count:
-                        packs[pk].count = count
+                pack = packs.get(lexspan)
+                delta = count - contributed.get(key, 0)
+                if pack is None:
+                    pack = packs[lexspan] = Packed(c, start, k, lexspan, 0, b, score=score)
+                elif score is not None and (pack.score is None or score > pack.score):
+                    pack.score, pack.bindings, pack.construction = score, b, c
+                if delta > 0:
+                    pack.count += delta
+                    contributed[key] = count
+                    if advance(pack, start, k):
                         changed = True
-                    if score is not None and (packs[pk].score is None or score > packs[pk].score):
-                        packs[pk].score, packs[pk].bindings = score, b
-                    continue
-                packs[pk] = Packed(c, start, k, pk, count, b, score=score)
-                changed = True
-                # advance every item waiting for this phrase type at position `start`
-                for key2, (count2, b2, score2) in list(chart[start].items()):
-                    cj, dot2, start2, _ = key2
-                    c2 = cons[cj]
-                    if dot2 >= len(c2.pattern):
-                        continue
-                    slot = c2.pattern[dot2]
-                    if slot.phrase == c.produces:
-                        nb = dict(b2)
-                        nb[slot.name] = packs[pk]
-                        add(k, (cj, dot2 + 1, start2), count2 * count, nb, _min_score(score2, score))
-                    elif slot.optional and dot2 + 1 < len(c2.pattern) and c2.pattern[dot2 + 1].phrase == c.produces:
-                        nb = dict(b2)
-                        nb[c2.pattern[dot2 + 1].name] = packs[pk]
-                        add(k, (cj, dot2 + 2, start2), count2 * count, nb, _min_score(score2, score))
 
     def scan(k: int) -> None:
         for key, (count, b, score) in list(chart[k].items()):
-            ci, dot, start, _ = key
+            ci, dot, start, lexspan = key
             c = cons[ci]
-            # optional lexical slots may be skipped
             d = dot
             while d < len(c.pattern) and c.pattern[d].optional and c.pattern[d].phrase is None:
                 for r in per_token[k]:
                     if _slot_accepts_reading(c.pattern[d], r):
                         nb = dict(b)
                         nb[c.pattern[d].name] = r
-                        add(k + 1, (ci, d + 1, start), count, nb, score)
+                        add(k + 1, (ci, d + 1, start), count, nb, score, lexspan + ((k, rid(r)),))
                 d += 1
                 if d < len(c.pattern):
-                    add(k, (ci, d, start), count, b, score)
+                    add(k, (ci, d, start), count, b, score, lexspan)
             if d < len(c.pattern) and c.pattern[d].phrase is None:
                 for r in per_token[k]:
                     if _slot_accepts_reading(c.pattern[d], r):
                         nb = dict(b)
                         nb[c.pattern[d].name] = r
-                        add(k + 1, (ci, d + 1, start), count, nb, score)
+                        add(k + 1, (ci, d + 1, start), count, nb, score, lexspan + ((k, rid(r)),))
 
     for k in range(n + 1):
         predict(k)
         complete(k)
         if k < n:
             scan(k)
-    # clause-level readings spanning [0, n): items with dot == len(pattern), start == 0, produces None
     clause_items = [(key, cb) for key, cb in chart[n].items() if key[2] == 0 and cons[key[0]].produces is None and key[1] == len(cons[key[0]].pattern)]
     total = sum(cb[0] for _, cb in clause_items)
     if total == 0:
