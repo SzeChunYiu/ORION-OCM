@@ -24,12 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: ./scripts/m0_install_dev.sh
       - name: Run field-binding hostile and replay controls
-        run: pytest -q tests/n1/test_general_epistemic_field_bridge.py
+        run: python -m pytest -q tests/n1/test_general_epistemic_field_bridge.py
       - name: Re-run inherited language semantics
-        run: pytest -q tests/m3
+        run: python -m pytest -q tests/m3
       - name: Re-run runtime persistence semantics
-        run: pytest -q tests/m2
+        run: python -m pytest -q tests/m2
