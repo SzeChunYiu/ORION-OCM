@@ -1,0 +1,185 @@
+{
+  "files": {
+    "Target.lean": {
+      "bytes": 334,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-1/checker/Target.lean",
+      "input_sha256": "0694094c1851d5fb72827f4af8a5de0e7d5fd14b646ad9926319f573206273ce",
+      "method": "actual_episode_copy",
+      "recovered_sha256": "0694094c1851d5fb72827f4af8a5de0e7d5fd14b646ad9926319f573206273ce",
+      "reverse_delta": ""
+    },
+    "episode.py": {
+      "bytes": 8200,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/episode.py",
+      "input_sha256": "47d2ce47323cedb164ad0223a6dd95cd23886aa0bb7e58026d04d184b7dc43e1",
+      "method": "retrospective_known_delta_reversal",
+      "recovered_sha256": "89e33991ca78a38d97927f94df0ea0c96cb46ab0551c66ad58cf2cbd2696b77a",
+      "reverse_delta": "--- successor/episode.py\n+++ episode1/episode.py\n@@ -103,12 +103,6 @@\n               'registered_task_sha256': registered_sha256, 'source_files': _source_inventory(),\n               'worker': None, 'checker': None}\n     try:\n-        snapshot = destination / 'source-snapshot'\n-        snapshot.mkdir()\n-        for name, digest in result['source_files'].items():\n-            shutil.copyfile(HERE / name, snapshot / name)\n-            if file_hash(snapshot / name) != digest:\n-                raise ValueError('source snapshot changed during capture')\n         raw = canonical_task(task)\n         if sha256(raw).hexdigest() != registered_sha256:\n             raise ValueError('task differs from separately registered input')\n"
+    },
+    "f0_fixture.py": {
+      "bytes": 2951,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/f0_fixture.py",
+      "input_sha256": "6b38240390878eb8f1a316eadb1321a43b6610546ebb8c1cbbf687438b1e2d38",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "6b38240390878eb8f1a316eadb1321a43b6610546ebb8c1cbbf687438b1e2d38",
+      "reverse_delta": ""
+    },
+    "f0_search.py": {
+      "bytes": 5682,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-1/app/f0_search.py",
+      "input_sha256": "8aadc17b655dbe05a039d116cdfb63e620a0a305307deae247f0e43c9c69cb41",
+      "method": "actual_episode_copy",
+      "recovered_sha256": "8aadc17b655dbe05a039d116cdfb63e620a0a305307deae247f0e43c9c69cb41",
+      "reverse_delta": ""
+    },
+    "f0_terms.py": {
+      "bytes": 5642,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-1/app/f0_terms.py",
+      "input_sha256": "c252fca67eb4004c18685194e63f40a674465e04901871fd38a8d99a5991d9f5",
+      "method": "actual_episode_copy",
+      "recovered_sha256": "c252fca67eb4004c18685194e63f40a674465e04901871fd38a8d99a5991d9f5",
+      "reverse_delta": ""
+    },
+    "isolation.py": {
+      "bytes": 9988,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/isolation.py",
+      "input_sha256": "23b5452a33a5740e71fb5b8c8ada233770a80990043b9ee8d1dd8755ed07f3f4",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "23b5452a33a5740e71fb5b8c8ada233770a80990043b9ee8d1dd8755ed07f3f4",
+      "reverse_delta": ""
+    },
+    "kernel_check.py": {
+      "bytes": 5167,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/kernel_check.py",
+      "input_sha256": "2dd5b105548e0d9c3572b5447cecdb2dd9a900ac9b7555dfda656cf315173187",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "2dd5b105548e0d9c3572b5447cecdb2dd9a900ac9b7555dfda656cf315173187",
+      "reverse_delta": ""
+    },
+    "lean_transport.py": {
+      "bytes": 3065,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/lean_transport.py",
+      "input_sha256": "31e941c219158065b612817828fdff4e85309bf1de6fb0a2143172a9cffacaa4",
+      "method": "retrospective_known_delta_reversal",
+      "recovered_sha256": "68cc7f44e039ae75b9497b298ba3256dbf0555a43aed53600bd1e4f5949b68b7",
+      "reverse_delta": "--- successor/lean_transport.py\n+++ episode1/lean_transport.py\n@@ -39,13 +39,7 @@\n         first = render(node[1], binders, depth + 1)\n         if tag == 'app':\n             second = render(node[2], binders, depth + 1)\n-            # Keep the complete application spine inside Lean's explicit-argument\n-            # marker. Parenthesizing @Eq before later applications loses that scope.\n-            if node[1][0] == 'app':\n-                return first[:-1] + f' {second})'\n-            if node[1][0] == 'const':\n-                return f'(@{CONSTANTS[node[1][1]]} {second})'\n-            return f'(@{first} {second})'\n+            return f'({first} {second})'\n         name = f'v{len(binders)}'\n         body = render(node[2], binders + (name,), depth + 1)\n         if tag == 'pi':\n"
+    },
+    "proof_check.py": {
+      "bytes": 2440,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/proof_check.py",
+      "input_sha256": "e2a20981223804a327f1a08257a21baff9aca4a130d2a18a874b930515e925a5",
+      "method": "retrospective_known_delta_reversal",
+      "recovered_sha256": "42117c17a935d5b35194d657e871827da0a687e8d87599bfb5c327cc5c4d00da",
+      "reverse_delta": "--- successor/proof_check.py\n+++ episode1/proof_check.py\n@@ -13,8 +13,7 @@\n def source_bytes(candidate):\n     term = render_term(candidate)\n     return ('import Target\\n\\nnamespace OCMMechanicalProof\\n'\n-            'def proposed :=\\n  ' + term + '\\n\\n'\n-            'theorem constructed : F0Target.statement := @proposed\\n'\n+            'theorem constructed : F0Target.statement :=\\n  ' + term + '\\n'\n             'end OCMMechanicalProof\\n\\n'\n             '#print axioms OCMMechanicalProof.constructed\\n').encode()\n \n"
+    },
+    "runtime_bundle.py": {
+      "bytes": 2832,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/runtime_bundle.py",
+      "input_sha256": "89389ee3e282b6894f161f471ce872900189c43790794ea4e74adc86bb39713d",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "89389ee3e282b6894f161f471ce872900189c43790794ea4e74adc86bb39713d",
+      "reverse_delta": ""
+    },
+    "runtime_recipe.py": {
+      "bytes": 9817,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/runtime_recipe.py",
+      "input_sha256": "dd313f2909745567d7330053a5f1da9de55a24bff71151dcf436b2e9679150f8",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "dd313f2909745567d7330053a5f1da9de55a24bff71151dcf436b2e9679150f8",
+      "reverse_delta": ""
+    },
+    "test_episode.py": {
+      "bytes": 3044,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_episode.py",
+      "input_sha256": "5a8ea4a6e1b3a303168121295a2d3955d087bc277a9c4cc8ad7f43cd28a507b9",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "5a8ea4a6e1b3a303168121295a2d3955d087bc277a9c4cc8ad7f43cd28a507b9",
+      "reverse_delta": ""
+    },
+    "test_f0_terms_search.py": {
+      "bytes": 5367,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_f0_terms_search.py",
+      "input_sha256": "cb1ab39a011d993eb5bf7d81da951b744b2afb2ea22c9f16c77d0ca8a38bc921",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "cb1ab39a011d993eb5bf7d81da951b744b2afb2ea22c9f16c77d0ca8a38bc921",
+      "reverse_delta": ""
+    },
+    "test_isolation.py": {
+      "bytes": 9060,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_isolation.py",
+      "input_sha256": "e847f415a8186f2c8f7c67cd13f803559c42399fd985e1d98b70d94b65d2b8f6",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "e847f415a8186f2c8f7c67cd13f803559c42399fd985e1d98b70d94b65d2b8f6",
+      "reverse_delta": ""
+    },
+    "test_kernel_check.py": {
+      "bytes": 4320,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_kernel_check.py",
+      "input_sha256": "1ec85d88f7fc9ab53a7486cd7e3b6cbdba9d5bd4974a8bc2498528f4f91965f6",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "1ec85d88f7fc9ab53a7486cd7e3b6cbdba9d5bd4974a8bc2498528f4f91965f6",
+      "reverse_delta": ""
+    },
+    "test_lean_transport.py": {
+      "bytes": 2903,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_lean_transport.py",
+      "input_sha256": "4b203c90d19a2258c9fe56b435ccfd48aaa131c9901ff35881b49f0f1fc8c3fa",
+      "method": "retrospective_known_delta_reversal",
+      "recovered_sha256": "3a0a14b26f169e222df0848edfbbce7d8025c666b94962a7eabc0075f1d76786",
+      "reverse_delta": "--- successor/test_lean_transport.py\n+++ episode1/test_lean_transport.py\n@@ -31,7 +31,7 @@\n         term = [\"lam\", [\"sort\", 1], [\"pi\", [\"var\", 0], [\"app\", [\"const\", 0], [\"var\", 1]]]]\n         text = render_term(term)\n         self.assertIn(\"forall (v1 : v0)\", text)\n-        self.assertIn(\"(@Eq.{1} v0)\", text)\n+        self.assertIn(\"((@Eq.{1}) v0)\", text)\n \n     def test_axiom_empty_and_permitted_reports(self):\n         self.assertEqual(audit_axioms(\"'M.proof' does not depend on any axioms\\n\", \"M.proof\"), [])\n"
+    },
+    "test_proof_check.py": {
+      "bytes": 2512,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_proof_check.py",
+      "input_sha256": "eba38845641e5520a748eeabd76c91e5013706e0807df3fd8711feb3a59564ca",
+      "method": "retrospective_known_delta_reversal",
+      "recovered_sha256": "1c18dc5994209deccc20bfb97ad57b0a6590d7f36075f5c30073d79ed0fe0e0d",
+      "reverse_delta": "--- successor/test_proof_check.py\n+++ episode1/test_proof_check.py\n@@ -17,8 +17,6 @@\n             text = (target / 'Candidate.lean').read_text()\n             self.assertIn('theorem constructed : F0Target.statement :=', text)\n             self.assertIn('(@Eq.{1})', text)\n-            self.assertIn('def proposed :=', text)\n-            self.assertIn(':= @proposed', text)\n             self.assertNotIn('Composition', text)\n             self.assertEqual(set(p.name for p in target.iterdir()),\n                              {'Foundation.lean', 'Target.lean', 'Candidate.lean', 'candidate.json'})\n"
+    },
+    "test_runtime_bundle.py": {
+      "bytes": 2969,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_runtime_bundle.py",
+      "input_sha256": "b8f3bc08635f9bf353c7c8c7e666be0a93bc4825299b39f49a4bfec519c99c34",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "b8f3bc08635f9bf353c7c8c7e666be0a93bc4825299b39f49a4bfec519c99c34",
+      "reverse_delta": ""
+    },
+    "test_runtime_recipe.py": {
+      "bytes": 6824,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_runtime_recipe.py",
+      "input_sha256": "3cf8ea63ca2b05a479d4cbe4379c1a3169140b8d0b2dd8a1c8df343937092580",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "3cf8ea63ca2b05a479d4cbe4379c1a3169140b8d0b2dd8a1c8df343937092580",
+      "reverse_delta": ""
+    },
+    "test_worker.py": {
+      "bytes": 5133,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-2/source-snapshot/test_worker.py",
+      "input_sha256": "fe85241622c5868c0920190ca69a1601f1a5e8071ee2d687dc00e80a19e5bbd2",
+      "method": "unchanged_successor_snapshot_hash_match",
+      "recovered_sha256": "fe85241622c5868c0920190ca69a1601f1a5e8071ee2d687dc00e80a19e5bbd2",
+      "reverse_delta": ""
+    },
+    "worker.py": {
+      "bytes": 4939,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-1/app/worker.py",
+      "input_sha256": "65e726f145765187629094659a4fa4ef0e434fc7daa61ca2de6c638bc7f48ce2",
+      "method": "actual_episode_copy",
+      "recovered_sha256": "65e726f145765187629094659a4fa4ef0e434fc7daa61ca2de6c638bc7f48ce2",
+      "reverse_delta": ""
+    },
+    "worker_guard.py": {
+      "bytes": 4507,
+      "input_path": "/home/billy/orion-director-work/20260906/f0-development-episode-1/app/worker_guard.py",
+      "input_sha256": "8b3ce7c023e3681034281a53e00c7e5a3b47bba9783182796253cdeb2874a7c9",
+      "method": "actual_episode_copy",
+      "recovered_sha256": "8b3ce7c023e3681034281a53e00c7e5a3b47bba9783182796253cdeb2874a7c9",
+      "reverse_delta": ""
+    }
+  },
+  "label": "Retrospective hash-matched assembly; not a contemporaneous host source snapshot.",
+  "missing_source_files": [],
+  "preserved_at_utc": "2026-09-06T22:57:17.459598+00:00",
+  "schema": "f0-first-episode-source-recovery-v1",
+  "scope": "All 22 recovered files match the SHA256 values already recorded in raw/episode.json. Five known successor deltas were reversed from episode2 source-snapshot. Nothing was executed."
+}

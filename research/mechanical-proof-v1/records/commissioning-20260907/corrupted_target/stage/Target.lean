@@ -1,0 +1,1 @@
+def statement : Prop := True
