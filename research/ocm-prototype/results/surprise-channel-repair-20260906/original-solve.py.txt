@@ -166,11 +166,10 @@ def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg
         act_w = N.fixed_point(ks, seed, cfg.alpha, revoked=rv, relevance=cfg.relevance)
         act_x = N.fixed_point(ks, seed, cfg.alpha, revoked=rv, relevance=cfg.relevance, mode=N.NavigationMode.EXPLORATORY)
         background = N.fixed_point(ks, N.uniform_seed(ks), cfg.alpha, revoked=rv, relevance=cfg.relevance)
-        background_x = N.fixed_point(ks, N.uniform_seed(ks), cfg.alpha, revoked=rv, relevance=cfg.relevance, mode=N.NavigationMode.EXPLORATORY)
     except CannotCheck as exc:
         return StageResult(Stage.NAVIGATION, Status.CANNOT_CHECK, str(exc)), {}
     n = len(ks.ids)
-    res = ResourceVector(navigation_work=4 * n * n)
+    res = ResourceVector(navigation_work=3 * n * n)
     outcomes: dict[str, N.NavigationResult] = {}
     witness: N.ObstructionWitness | None = None
     worst = Status.PASS
@@ -194,13 +193,13 @@ def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg
                 witness, worst, reason = w, Status.PROPOSAL, f"NONIDENTIFIABLE:{t}"
                 break
     payload = {"outcomes": {t: f"{r.outcome.value}:{r.reason}" for t, r in outcomes.items()}, "live_atoms": len(ks.live_atoms(rv)), "unknown_atoms": len(ks.unknown_atoms(rv))}
-    return StageResult(Stage.NAVIGATION, worst, reason, object_ids=tuple(task.targets), payload=payload, resources=res), {"act_w": act_w, "act_x": act_x, "background": background, "background_x": background_x, "witness": witness, "outcomes": outcomes}
+    return StageResult(Stage.NAVIGATION, worst, reason, object_ids=tuple(task.targets), payload=payload, resources=res), {"act_w": act_w, "act_x": act_x, "background": background, "witness": witness, "outcomes": outcomes}
 
 
 def extract_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], nav: Mapping[str, Any], cfg: SolveConfig, revoked: Iterable[Hashable]) -> tuple[StageResult, dict[str, Any]]:
     rv = frozenset(revoked)
     rho_w = SP.surprise(ks, nav["act_w"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv)
-    rho_x = SP.surprise(ks, nav["act_x"], nav["background_x"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
     g_w = EX.reacting_subgraph_from_surprise(ks, rho_w, seed, revoked=rv, mode=N.NavigationMode.WARRANTED)
     g_x = EX.reacting_subgraph_from_surprise(ks, rho_x, seed, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
     approx = "NONE"
