@@ -27,7 +27,7 @@ class KernelHostiles(unittest.TestCase):
     def test_absent_archive_no_fallback(self):
         with KernelSession(None) as s:
             result=s.check(imp(atom('A'),atom('A')),('lam','h0',('var','h0')))
-            self.assertEqual(result['terminal'],'CANNOT_CHECK_TOOLCHAINCHAIN' if False else 'CANNOT_CHECK_TOOLCHAIN')
+            self.assertEqual(result['terminal'],'CANNOT_CHECK_TOOLCHAIN')
             self.assertEqual(s.metrics['Lean_checker_calls'],0)
             self.assertFalse(s.authentic_for({'run_id':'forged'},imp(atom('A'),atom('A')),('lam','h0',('var','h0'))))
     def test_wrong_archive_refused(self):
