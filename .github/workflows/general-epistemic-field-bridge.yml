@@ -1,0 +1,35 @@
+name: General Epistemic Field bridge
+on:
+  pull_request:
+    paths:
+      - 'src/ocm/language/field_bridge.py'
+      - 'src/ocm/language/meaning.py'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/runtime/**'
+      - 'tests/n1/test_general_epistemic_field_bridge.py'
+      - '.github/workflows/general-epistemic-field-bridge.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/ocm/language/field_bridge.py'
+      - 'src/ocm/language/meaning.py'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/runtime/**'
+      - 'tests/n1/test_general_epistemic_field_bridge.py'
+      - '.github/workflows/general-epistemic-field-bridge.yml'
+permissions:
+  contents: read
+jobs:
+  field-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: ./scripts/m0_install_dev.sh
+      - name: Run field-binding hostile and replay controls
+        run: pytest -q tests/n1/test_general_epistemic_field_bridge.py
+      - name: Re-run inherited language semantics
+        run: pytest -q tests/m3
+      - name: Re-run runtime persistence semantics
+        run: pytest -q tests/m2
