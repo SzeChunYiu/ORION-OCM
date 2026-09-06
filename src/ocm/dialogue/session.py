@@ -25,7 +25,7 @@ from ocm.language.constructions import CandidateMeaning, Construction
 from ocm.language.interpret import Interpretation, Verdict, interpret, tokenize
 from ocm.language.lexicon import Lexicon
 from ocm.language.meaning import MeaningGraph, canonical
-from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe, correction_body, CORRECTION_PREFIXES
+from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe, correction_body, CORRECTION_PREFIXES, clarification_choice
 
 from . import clarify as CL
 from . import gate as G
@@ -229,15 +229,7 @@ class DialogueRuntime:
         r, sp, q = self.pending.pop("clarify")
         item = self.pending.pop("clarify_item", None)
         ws.record_turn(speaker, utterance, "CONFIRM", "CLARIFICATION_ANSWER")
-        tok = utterance.strip().lower().strip(".!?")
-        chosen = None
-        if tok.isdigit() and 1 <= int(tok) <= len(r.candidates):
-            chosen = r.candidates[int(tok) - 1]
-        elif tok in ("yes", "y") and q.question_id.startswith("is:"):
-            chosen = r.candidates[int(q.question_id.split(":")[1])]
-        else:
-            hits = [c for c in r.candidates if tok and tok in _describe(c.meaning).lower() + " " + " ".join(n.label or "" for n in c.meaning.nodes).lower()]
-            chosen = hits[0] if len(hits) == 1 else None
+        chosen = clarification_choice(utterance, r.candidates, q.question_id)
         if chosen is None:
             # not an answer to the question: the speaker moved on.  The ambiguity stays *open* in the
             # workspace (never forced) and the new utterance is processed on its own (ledger S22)

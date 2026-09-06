@@ -136,3 +136,14 @@ def _describe(m: MeaningGraph) -> str:
     parts = [f"{e.relation[5:]}={m.node(e.heads[0]).label}" for e in m.edges if e.relation.startswith("ROLE:")]
     return f"{m.node(m.root).label if m.root else '?'}({', '.join(parts)})"
 
+
+def clarification_choice(utterance, candidates, question_id):
+    """Recognize the existing dialogue donor's answer; None means the speaker moved on."""
+    tok = utterance.strip().lower().strip(".!?")
+    if tok.isdigit() and 1 <= int(tok) <= len(candidates):
+        return candidates[int(tok) - 1]
+    if tok in ("yes", "y") and question_id.startswith("is:"):
+        return candidates[int(question_id.split(":")[1])]
+    hits = [c for c in candidates if tok and tok in _describe(c.meaning).lower()
+            + " " + " ".join(n.label or "" for n in c.meaning.nodes).lower()]
+    return hits[0] if len(hits) == 1 else None

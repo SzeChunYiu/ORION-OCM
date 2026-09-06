@@ -6,7 +6,7 @@ or whole-lifetime parity certification. The historical regex parent is intact.
 import re
 from ocm.chat.spelling import propose
 from ocm.dialogue import clarify as CL
-from ocm.language.chat_frontend import world_query, _describe, _strip, _is_question, _is_negated, parse_lexical_lesson, correction_body
+from ocm.language.chat_frontend import world_query, _describe, _strip, _is_question, _is_negated, parse_lexical_lesson, correction_body, clarification_choice
 from ocm.language.interpret import interpret, Verdict
 from ocm.language.meaning import canonical
 from .matched_parent import MatchedParent
@@ -89,8 +89,11 @@ class SemanticParent(MatchedParent):
             self.last_frontend['world_query'] = list(query)
             return self._fact(*query)
         if self.pending is not None:
+            pending, question = self.pending
             self.pending = None
-            return self.unsupported('CANNOT_CHECK_CLARIFICATION_ANSWER_PARITY')
+            if clarification_choice(text, pending.candidates, question.question_id) is not None:
+                return self.unsupported('CANNOT_CHECK_CLARIFICATION_ANSWER_PARITY')
+            # Match the donor's abandoned-clarification route: interpret the new turn.
         body, correction = correction_body(text)
         result = interpret(body, m.lexicon, m.constructions, speaker=speaker, revoked=m.revoked)
         self.last_frontend.update(verdict=result.verdict.value,
@@ -105,7 +108,7 @@ class SemanticParent(MatchedParent):
             decision = CL.decide(cs, {'asserted': lambda c: canonical(result.candidates[c].meaning)[1]},
                                  CL.binary_questions(cs, describe), asked_before=m.asked)
             if decision.ask:
-                self.pending = result
+                self.pending = (result, decision.question)
                 m.asked.append(decision.question.question_id)
                 return decision.question.text
             return f'Noted ({len(cs)} readings retained; {decision.reason}).'

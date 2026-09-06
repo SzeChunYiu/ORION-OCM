@@ -38,8 +38,11 @@ unchanged.
   nonlexical revocation and arithmetic-method chat routes are not qualified.
   Unsupported attempts return CANNOT_CHECK in last_frontend; cumulative
   unsupported-route counts survive language session restart.
-- An initial ambiguity can share the donor's candidate proposal. Full contextual
-  clarification-policy parity is not established.
+- An initial ambiguity shares the donor's candidate proposal and exact answer
+  recognition. An unrelated next turn is interpreted normally, including after
+  intervening lesson, revision, world, spelling or style routes. Actual
+  clarification answers remain unsupported; full contextual policy parity is
+  not established.
 - Work acquisition/routing, science, domain-wide revision and repair retain
   historical comparator gaps. Whole-system parity is CANNOT_CHECK.
 - Restart here means reopening the language session while the lifetime wrapper
@@ -59,3 +62,8 @@ The initial seven controls on unmodified main 179ad15 produced six failures
 and one passing OCM lexical lifecycle control. New implementation tests and the
 related M3–M6/M10/M12 suites are run on laptop billy. This document is a scope
 contract; final-head CI remains the publication gate.
+
+The clarification-boundary controls reproduce six abandoned-clarification
+sequences against both arms and retain three genuine-answer refusal controls.
+Before correction, all six OCM sequences passed and their parent counterparts
+failed. The shared helper preserves the existing OCM recognition rule.
