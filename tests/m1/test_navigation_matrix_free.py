@@ -6,18 +6,20 @@ import pytest
 
 from ocm.kso.navigation import (
     NavigationMode,
+    fixed_point,
     gated_seed,
     mutant_navigation_matrix_renormalize,
     navigation_matrix,
     restart_step,
 )
 from ocm.kso.navigation_matrix_free import (
+    fixed_point_matrix_free_certified,
     restart_iterate_matrix_free,
     restart_step_matrix_free,
     transpose_matvec,
 )
 from ocm.kso.space import Atom, Hyperedge, KnowledgeSpace
-from ocm.kso.warrant import WarrantProfile as WP
+from ocm.kso.warrant import CannotCheck, WarrantProfile as WP
 
 
 def _space() -> KnowledgeSpace:
@@ -103,6 +105,45 @@ def test_matrix_free_restart_step_and_iteration_match_dense_operator():
     assert steps == 4 and matrix_free == current
 
 
+def test_certified_matrix_free_fixed_point_bounds_distance_to_dense_exact_solution():
+    ks = _space()
+    seed = (F(1), F(0), F(0), F(0))
+    alpha = F(1, 3)
+    relevance = {"DEPENDENCE": F(4, 3), "SUPPORT": F(7, 5)}
+    tol = F(1, 10**8)
+
+    certificate = fixed_point_matrix_free_certified(
+        ks,
+        seed,
+        alpha,
+        relevance=relevance,
+        tol=tol,
+        max_iter=500,
+    )
+    exact = fixed_point(ks, seed, alpha, relevance=relevance)
+    actual_error = sum(
+        (abs(value - exact[atom_id]) for atom_id, value in zip(ks.ids, certificate.activation, strict=True)),
+        F(0),
+    )
+
+    assert certificate.residual_l1 / alpha == certificate.error_bound_l1
+    assert actual_error <= certificate.error_bound_l1 <= tol
+    assert certificate.iterations >= 1
+    assert certificate.matvec_calls == 2 * certificate.iterations
+
+
+def test_matrix_free_certificate_fails_closed_outside_nonnegative_contraction_contract():
+    ks = _space()
+    seed = (F(1), F(0), F(0), F(0))
+    with pytest.raises(CannotCheck):
+        fixed_point_matrix_free_certified(
+            ks,
+            seed,
+            F(1, 3),
+            relevance={"DEPENDENCE": F(-1), "SUPPORT": F(1)},
+        )
+
+
 def test_matrix_free_preserves_frozen_denominator_instead_of_renormalizing():
     ks = KnowledgeSpace(
         (Atom("a", "claim"), Atom("b", "claim"), Atom("c", "claim", WP.of({"ev:c"}))),
@@ -130,3 +171,5 @@ def test_matrix_free_refuses_dimension_and_alpha_errors():
         restart_step_matrix_free(ks, (F(1),), (F(1),) * 4, F(1, 2))
     with pytest.raises(ValueError):
         restart_step_matrix_free(ks, (F(1),) * 4, (F(1),) * 4, F(0))
+    with pytest.raises(ValueError):
+        fixed_point_matrix_free_certified(ks, (F(1),) * 4, F(1, 2), tol=F(0))
