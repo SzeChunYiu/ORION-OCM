@@ -74,12 +74,15 @@ def mutant_bad_quotient(p: Sequence[Sequence[Fraction]], blocks: Partition) -> l
 
 def warrant_measurable(ks: KnowledgeSpace, blocks: Iterable[Iterable[str]], registered_revocations: Iterable[frozenset]) -> bool:
     """Every registered revocation R yields identical three-valued liveness within each block."""
-    amap = ks.atom_map()
-    gammas = list(registered_revocations) or [frozenset()]
+    # Reuse the same immutable evidence scenario for every member, including
+    # when callers supplied one-shot iterables. No liveness result is cached.
+    gammas = tuple(frozenset(R) for R in registered_revocations) or (frozenset(),)
     for block in blocks:
-        members = list(block)
+        # The space provides a structural index; do not copy the whole atom map
+        # to check a small block. A cold index build is still whole-space work.
+        members = tuple(ks.atom(x) for x in block)
         for R in gammas:
-            sigs = {amap[x].liveness(R) for x in members}
+            sigs = {atom.liveness(R) for atom in members}
             if len(sigs) > 1:
                 return False
     return True
@@ -93,10 +96,17 @@ class QuotientVerdict(str, Enum):
 
 
 def quotient_admissible(ks: KnowledgeSpace, p: Sequence[Sequence[Fraction]], blocks: Iterable[Iterable[str]], registered_revocations: Iterable[frozenset]) -> QuotientVerdict:
-    ids = ks.ids
-    idx_blocks: Partition = tuple(tuple(ids.index(x) for x in block) for block in blocks)
+    # Both obligations must see precisely the SAME partition. Consuming an
+    # outer or inner generator twice otherwise makes measurability vacuous.
+    frozen_blocks = tuple(tuple(block) for block in blocks)
+    positions = {atom_id: i for i, atom_id in enumerate(ks.ids)}
+    try:
+        idx_blocks: Partition = tuple(tuple(positions[x] for x in block) for block in frozen_blocks)
+    except KeyError as exc:
+        # Preserve the public ValueError boundary of the previous tuple.index.
+        raise ValueError(f"unknown atom in partition: {exc.args[0]}") from None
     lumpable = is_lumpable(p, idx_blocks)
-    measurable = warrant_measurable(ks, blocks, registered_revocations)
+    measurable = warrant_measurable(ks, frozen_blocks, registered_revocations)
     if lumpable and measurable:
         return QuotientVerdict.ADMISSIBLE
     if lumpable:
@@ -170,7 +180,7 @@ def mutant_summary_majority(ks: KnowledgeSpace, constituents: Sequence[str], sum
     for x in constituents:
         w = w.join(amap[x].warrant)
     atom = Atom(summary_id, "summary", w)
-    return ks.with_atoms(atom).with_edges(Hyperedge(f"summarize:{summary_id}", tuple(constituents), (summary_id,), "REPRESENTATION_TRANSPORT"))
+    return ks.with_atoms(atom).with_edges(Hyperedge(f"summarize:{summary_id}", tuple(constituents), (summary_id,), "REPRESENTATION_TRANSPORT", warrant=WarrantProfile.one()))
 
 
 class SummaryAnswer(str, Enum):
