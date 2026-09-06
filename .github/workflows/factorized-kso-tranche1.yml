@@ -6,9 +6,11 @@ on:
     paths:
       - 'src/ocm/kso/navigation_matrix_free.py'
       - 'src/ocm/kso/warrant_expr.py'
+      - 'src/ocm/kso/extraction_indexed.py'
       - 'src/ocm/operators/indexed_registry.py'
       - 'tests/m1/test_navigation_matrix_free.py'
       - 'tests/m1/test_warrant_expr.py'
+      - 'tests/m1/test_extraction_indexed.py'
       - 'tests/m2/test_indexed_operator_registry.py'
       - '.github/workflows/factorized-kso-tranche1.yml'
   workflow_dispatch:
@@ -38,6 +40,7 @@ jobs:
           python -m pytest -q
           tests/m1/test_navigation_matrix_free.py
           tests/m1/test_warrant_expr.py
+          tests/m1/test_extraction_indexed.py
           tests/m2/test_indexed_operator_registry.py
           tests/m1/test_kso_core_checks.py
           tests/m1/test_mutants.py
