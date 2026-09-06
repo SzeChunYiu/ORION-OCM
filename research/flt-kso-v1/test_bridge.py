@@ -16,6 +16,24 @@ class BridgeControls(unittest.TestCase):
             self.assertTrue(row['restart_identical'])
             self.assertGreater(len(row['construction']['events']), 0)
 
+    def test_nonfresh_or_missing_run_witness_does_not_commit(self):
+        from native import identity, render
+        from bridge import identity_source
+        task = EqualityTask(('x', 'y'), (('x', 'y'),), ('y', 'x'))
+        environment = {'identity': 'test-only-mock'}
+        for delta in ({'fresh_kernel': False}, {'lean_checker_calls': 0},
+                      {'lean_checker_calls': True}, {'run_id': ''}, {'run_id': None}):
+            def fake(t, proof):
+                return {'terminal': 'KERNEL_ACCEPTED',
+                        'environment_id': identity(environment),
+                        'source_sha256': identity_source(render(t, proof)),
+                        'statement_id': t.statement_id, 'fresh_kernel': True,
+                        'lean_checker_calls': 1, 'run_id': '0' * 32, **delta}
+            with tempfile.TemporaryDirectory() as d:
+                row = run_ocm(task, environment, d, fake, 32)
+                self.assertEqual(row['terminal'], 'CANNOT_CHECK_FRESH_KERNEL_EVIDENCE')
+                self.assertEqual(row['new_theorems_admitted'], 0)
+
     def test_forged_environment_and_source_receipts_are_not_accepted(self):
         from native import identity, render
         from bridge import identity_source

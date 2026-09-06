@@ -6,6 +6,7 @@ arbitrary-proof admission adapter. A later tranche must earn that boundary.
 """
 from __future__ import annotations
 from pathlib import Path
+import re
 import time
 from native import EqualityTask, construct, identity, render, statement
 from ocm.kso.space import Atom
@@ -49,7 +50,16 @@ def run_ocm(task: EqualityTask, environment: dict, store: str, checker=None, bud
         if receipt.get('environment_id') != identity(environment) or receipt.get('statement_id') != task.statement_id or receipt.get('source_sha256') != identity_source(render(task, candidate['proof'])):
             checked['terminal'] = 'CHECKER_OR_ENVIRONMENT_MISMATCH'
             return SV.Status.CANNOT_CHECK
-        return SV.Status.PASS if receipt['terminal'] == 'KERNEL_ACCEPTED' else SV.Status.CANNOT_CHECK
+        if receipt.get('terminal') == 'KERNEL_ACCEPTED':
+            if (receipt.get('fresh_kernel') is not True
+                    or type(receipt.get('lean_checker_calls')) is not int
+                    or receipt['lean_checker_calls'] != 1
+                    or type(receipt.get('run_id')) is not str
+                    or re.fullmatch(r'[0-9a-f]{32}', receipt['run_id']) is None):
+                checked['terminal'] = 'CANNOT_CHECK_FRESH_KERNEL_EVIDENCE'
+                return SV.Status.CANNOT_CHECK
+            return SV.Status.PASS
+        return SV.Status.CANNOT_CHECK
     operators = SolveOperatorIndex((SV.OperatorSpec('math.equality.bfs', 'v1', backend,
                                    (goal,), output_type='proof', checker=check),))
     outcome = runtime.solve(SV.Task(key, (SV.QueryPart(statement(task), 'goal', (goal,)),),

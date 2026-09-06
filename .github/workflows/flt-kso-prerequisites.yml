@@ -50,6 +50,14 @@ jobs:
           status=$?
           echo "$status" > "$RUNNER_TEMP/flt-evidence/micro.exit"
           test "$status" = 0 || test "$status" = 2
+      - name: Preserve the micro-row before longer qualification
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flt-micro-${{ github.event_name }}-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/flt-evidence/micro/
+          retention-days: 14
+          if-no-files-found: warn
       - name: Full source-bound engineering recorder
         if: always()
         env: {PYTHONPATH: src}
