@@ -35,6 +35,12 @@ from ocm.learning.language import ud as UD
 
 register_relations("ROLE:recipient", "ROLE:oblique", "ROLE:complement", "ROLE:predicate", "COORDINATES", "LOCATED_IN")
 
+# Batch 11 K2 (v), obligation H5: a representation introduction carries a search-and-evaluation receipt.  These
+# relation types enter the meaning vocabulary as a GIVEN inventory (Universal Dependencies v2 relation names),
+# not as a discovery: 0 selection bits, no evaluated candidates, no adoption gain, source named.
+REPRESENTATION_INTRODUCTION_RECEIPT = {"relations": ["ROLE:recipient", "ROLE:oblique", "ROLE:complement", "ROLE:predicate", "COORDINATES", "LOCATED_IN"], "kind": "GIVEN", "selection_bits": 0, "candidates_evaluated": 0, "adoption_gain": None,
+                                       "source": "Universal Dependencies v2 relation inventory (de Marneffe et al. 2021), mapped by REL_MAP", "external_evaluator": None}
+
 REL_MAP = {"nsubj": "ROLE:agent", "nsubj:pass": "ROLE:patient", "csubj": "ROLE:agent", "obj": "ROLE:patient", "iobj": "ROLE:recipient", "obl": "ROLE:oblique", "obl:tmod": "ROLE:oblique", "obl:npmod": "ROLE:oblique",
            "xcomp": "ROLE:complement", "ccomp": "ROLE:complement", "advcl": "ROLE:complement", "acl": "MODIFIES", "acl:relcl": "MODIFIES", "amod": "MODIFIES", "advmod": "MODIFIES", "nmod": "MODIFIES", "nmod:poss": "MODIFIES",
            "nummod": "MODIFIES", "appos": "MODIFIES", "compound": "MODIFIES", "flat": "MODIFIES", "conj": "COORDINATES", "parataxis": "COORDINATES", "vocative": "MODIFIES", "dislocated": "MODIFIES", "list": "COORDINATES"}
@@ -123,10 +129,29 @@ class Grammar:
             out[fam] = "LEARNED" if len(pats) == 1 else f"AMBIGUOUS_ORDER({len(pats)})"
         return out
 
+    def identification(self) -> dict[str, Any]:
+        """Identifiability receipt (ORION-V2 batch 11 K1, obligations H1/H2): what class this inventory identifies
+        and what it cannot.  The class is category-level (slots constrained by phrase type only) with a finite
+        arity bound; a family LEARNED from a single demonstration is LEARNED-at-n=1 (no lifecycle warrant past its
+        demonstration); an inventory with rules attested once is NOT_CONVERGED (a Good–Turing reading, not a
+        certificate); and for any string whose category shape admits two attested decompositions a unique parse is
+        UNREACHABLE_FROM_POSITIVE_DATA — no further positive demonstration lowers the derivation count."""
+        lr = self.learned()
+        arity = max((len(r.pattern) - 1 for r in self.memorised), default=0)
+        singletons = sum(1 for c in self.memorised.values() if c == 1)
+        fam_total = {fam: sum(pats.values()) for fam, pats in self.families.items()}
+        learned_at_1 = sum(1 for fam, v in lr.items() if v == "LEARNED" and fam_total[fam] == 1)
+        return {"class": "category-level slots (phrase type only), dependency-order families, finite arity", "arity_bound": arity,
+                "learned_families": sum(1 for v in lr.values() if v == "LEARNED"), "learned_at_n1": learned_at_1,
+                "rules_attested_once": singletons, "rules_total": len(self.memorised),
+                "convergence": ("NOT_CONVERGED (Good–Turing reading: %d of %d rules attested once; not a certificate)" % (singletons, len(self.memorised))) if singletons else "NO_SINGLETON_RULES (convergence still not certified: finite sample)",
+                "unique_parse": "UNREACHABLE_FROM_POSITIVE_DATA for strings whose category shape has ≥ 2 attested decompositions (batch 11 K1 ii–iv); a unique reading needs a registered negative/membership channel or a finer (lexicalised) class"}
+
     def receipt(self) -> dict[str, Any]:
         lr = self.learned()
         return {"sentences": self.sentences, "memorised_rules": len(self.memorised), "families": len(self.families), "learned_single_order": sum(1 for v in lr.values() if v == "LEARNED"),
-                "ambiguous_order": sum(1 for v in lr.values() if v.startswith("AMBIGUOUS")), "singleton_rules": sum(1 for c in self.memorised.values() if c == 1), "top_rules": [(f"{r.head_upos} ← {' '.join(r.pattern)}", c) for r, c in self.memorised.most_common(8)]}
+                "ambiguous_order": sum(1 for v in lr.values() if v.startswith("AMBIGUOUS")), "singleton_rules": sum(1 for c in self.memorised.values() if c == 1), "top_rules": [(f"{r.head_upos} ← {' '.join(r.pattern)}", c) for r, c in self.memorised.most_common(8)],
+                "identification": self.identification(), "representation_introduction": REPRESENTATION_INTRODUCTION_RECEIPT}
 
 
 def induce_grammar(sentences: Iterable[UD.Sentence]) -> Grammar:
