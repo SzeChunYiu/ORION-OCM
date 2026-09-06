@@ -19,3 +19,12 @@ Terminal for phase E: NEGATIVE, reported as such. Next lever named: the grammar,
 
 The `AMBIGUOUS_COUNT_TOTAL` fields of `N1_UD_INDUCTION_V1.json` and `N1_UD_INDUCTION_V2_RANKING.json` are undercounts: the phase C–E chart packed nodes by sub-derivation identity and did not propagate a node's count growth after its first use. Sentence-level verdicts (INTERPRETED / AMBIGUOUS / caps / budgets) and the top-is-gold counts are unaffected. The phase-F chart (span-lexical packing, delta-propagated counts, Catalan exactness test) supersedes the derivation-count fields; its receipt is `N1_UD_INDUCTION_V3_PACKING.json`.
 
+## Phase F result (exact packed forest; `N1_UD_INDUCTION_V3_PACKING.json`)
+
+| chart | test reached (600 s) | cap | cap share | ambiguous | derivations (exact) | top is gold |
+|---|---|---|---|---|---|---|
+| phase E (sub-derivation packing, undercounted) | 1,606 | 406 | 25% | 37 | 229 (undercount) | 4 |
+| phase F (span-lexical packing, exact, filtered prediction) | 358 | 74 | 21% | 13 | 1,173,665 | 1 |
+
+Reading: the exact forest is correct (Catalan test; S42) and its item bound is polynomial as batch 11 K1 (ix) states, but on this inventory (20,570 constructions admitting every attachment, about 10^5–10^6 derivations per ambiguous sentence) the forest is still large and the Python implementation is slower per sentence than the undercounting chart, so fewer sentences are reached inside the budget and the cap share falls only from 25% to 21%. Filtered prediction removed the prediction items but did not change the outcome. Terminal for phase F: PARSER_EXACT__THROUGHPUT_WORSE, reported as such; the cap's cause is the inventory class, not the parser, which is the batch-11 K1 (ii–iv) statement and the S41 Jump proposal restated. INTERPRETED stays 0.
+
