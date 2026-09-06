@@ -2,7 +2,7 @@
 
 Purpose: close the readiness report's release blockers (archived release with a persistent identifier; release-integrity binding) in the way the programme's rules allow, and name the one action that stays with the operator.
 
-## 1. Package contents (built by `tools/paper/build_release.py`, to be written when the text is final)
+## 1. Package contents (built by `tools/paper/build_release.py`; rebuilt on every manuscript commit, verified by `.github/workflows/paper-release.yml`)
 
 | Item | Source |
 |---|---|
@@ -17,7 +17,7 @@ Purpose: close the readiness report's release blockers (archived release with a 
 
 1. `SHA256SUMS` over every packaged file, plus the ORION-OCM and ORION-V2 commit ids.
 2. `RELEASE_MANIFEST.json`: for every number-bearing sentence of `main.md`, the `claims_map.md` row and the receipt field it reads (the claim-verification script re-run at release time must print 0 MISMATCH / 0 MISSING).
-3. The manifest's own SHA-256 recorded in the receipt chain as `docs/provenance/PAPER_RELEASE_RECEIPT_V1.json` (bound files = the package list; deterministic result = the claims-verification counts).
+3. The manifest's own SHA-256 recorded in the receipt chain as `docs/provenance/PAPER_RELEASE_RECEIPT_V1.json` (bound files = the package list; deterministic result = the claims-verification counts). Built 2026-09-06: 87 package files, 257 claims rows OK, terminal `PACKAGE_BOUND__IDENTIFIER_PENDING`; the package is rebuilt whenever the manuscript or a bound file changes, so the receipt on the branch head is always the binding of that head.
 4. CI verifies the release receipt like every other receipt.
 
 ## 3. Persistent identifier (human gate)

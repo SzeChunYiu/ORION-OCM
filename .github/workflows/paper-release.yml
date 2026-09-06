@@ -1,0 +1,18 @@
+name: paper release binding
+on:
+  push:
+    branches: [main, "paper/**"]
+    paths: ["docs/paper/**", "tools/paper/**", "docs/provenance/PAPER_RELEASE_RECEIPT_V1.json", "docs/provenance/*.json", "research/**/*.json", "docs/theorems/*.json"]
+  pull_request:
+    paths: ["docs/paper/**", "tools/paper/**"]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Claims map against the receipt-bound files
+        run: python tools/paper/verify_claims.py
+      - name: Release package binding (SHA256SUMS, manifest, receipt)
+        run: python tools/paper/build_release.py --verify
