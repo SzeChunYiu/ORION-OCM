@@ -91,3 +91,31 @@ def test_representation_introduction_is_receipted_as_given():
     assert r["kind"] == "GIVEN" and r["selection_bits"] == 0 and r["candidates_evaluated"] == 0 and "Universal Dependencies" in r["source"]
     assert "ROLE:recipient" in r["relations"]
     assert G.Grammar().receipt()["representation_introduction"] is r
+
+
+def test_attachment_evidence_classes_and_gate():
+    """N1 phase G: attachment evidence is attested per (head lemma, relation, dependent lemma) with two backoff
+    classes; the gate admits only attested attachments and passes feature dependencies."""
+    from ocm.learning.language import ud as UD
+    from ocm.learning.language import ud_grammar as G
+    from ocm.language import lexicon as L
+    ind = UD.Induction(L.Lexicon())
+    ind.attachments[("open", "obj", "door")] = 2
+    ind.attach_head_class[("open", "obj", "NOUN")] = 2
+    ind.attach_dep_class[("VERB", "obj", "door")] = 2
+    assert ind.attachment_evidence("open", "VERB", "obj", "door", "NOUN") == ("LEXICAL", 2)
+    assert ind.attachment_evidence("open", "VERB", "obj", "window", "NOUN") == ("HEAD_CLASS", 2)
+    assert ind.attachment_evidence("push", "VERB", "obj", "door", "NOUN") == ("DEP_CLASS", 2)
+    assert ind.attachment_evidence("push", "VERB", "obj", "window", "NOUN") == (None, 0)
+    assert ind.attachment_evidence("open", "VERB", "obj:dir", "door", "NOUN")[0] == "LEXICAL"     # relation subtypes fold
+    rec = ind.receipt()["attachment_evidence"]
+    assert rec["lexical_triples"] == 1 and rec["class"].startswith("ATTACHMENT")
+    admit = G.attachment_admit(ind)
+    class R:  # a minimal reading stand-in
+        def __init__(self, lemma): self.lemma = lemma
+    class Cn:
+        def __init__(self, cid): self.construction_id = cid
+    G.ATTACHMENT_ROLES["t:verb"] = ("VERB", (("d1", "obj", "NOUN"), ("d2", "det", "DET")))
+    assert admit(Cn("t:verb"), {"h": R("open"), "d1": R("door"), "d2": R("the")}) is True
+    assert admit(Cn("t:verb"), {"h": R("push"), "d1": R("window"), "d2": R("the")}) is False
+    assert admit(Cn("seed:whatever"), {"h": R("push")}) is True                                    # no attachment claim registered

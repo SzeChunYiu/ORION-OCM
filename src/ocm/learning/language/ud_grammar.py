@@ -220,6 +220,44 @@ def mutant_memorised_as_learned(g: Grammar) -> int:
 PHRASE_OF_UPOS = {"NOUN": "NP", "PROPN": "NP", "PRON": "NP", "NUM": "NP", "VERB": "VP", "AUX": "VP", "ADJ": "AP", "ADV": "ADVP", "ADP": "PP", "DET": "DP", "SCONJ": "SP", "CCONJ": "CP", "PART": "PARTP", "INTJ": "IP", "SYM": "NP", "X": "NP"}
 
 
+ATTACHMENT_ROLES: dict[str, tuple[str, tuple]] = {}     # construction id -> (head UPOS, ((slot, rel, dep UPOS), ...))
+
+
+def _head_lemma(x) -> str | None:
+    """Head lemma of a bound value: a Reading's lemma, or a packed phrase's head reading (recursively)."""
+    from ocm.language.chart import Packed
+    while isinstance(x, Packed):
+        b = x.bindings or {}
+        x = b.get("h") if "h" in b else next((v for v in b.values()), None)
+    return getattr(x, "lemma", None)
+
+
+def attachment_admit(ind: UD.Induction, *, min_count: int = 1):
+    """N1 phase G: the evidence gate for the chart — a completion is admitted iff every attachment it makes
+    (head lemma, relation, dependent lemma) is attested by a demonstration at some registered evidence class
+    (LEXICAL, HEAD_CLASS or DEP_CLASS).  Refusal is by absent evidence; nothing is ranked.  Attachments whose
+    relation is a feature dependency (det, case, tense …) are not lexical attachments and pass."""
+    def admit(c, b) -> bool:
+        meta = ATTACHMENT_ROLES.get(c.construction_id)
+        if meta is None:
+            return True                                   # seed / leaf constructions carry no attachment claim
+        head_upos, roles = meta
+        hl = _head_lemma(b.get("h"))
+        if hl is None:
+            return True
+        for name, rel, upos in roles:
+            if rel in FEATURE_DEPS or rel in ("det", "case", "punct"):
+                continue
+            dl = _head_lemma(b.get(name))
+            if dl is None:
+                continue
+            cls, n = ind.attachment_evidence(hl, head_upos, rel, dl, upos)
+            if cls is None or n < min_count:
+                return False
+        return True
+    return admit
+
+
 def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: bool = False, evidence_prefix: str = "ud:rule") -> list:
     """Every phrase rule becomes an M3 Construction whose pattern is the rule's surface items: the head
     is a lexical slot of the head category; each dependent is a recursive phrase slot of its own
@@ -292,6 +330,8 @@ def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: 
             return MeaningGraph((head, *nodes), tuple(all_edges), root="x")
 
         cid = f"ud:{rule.head_upos}:{'_'.join(p.replace(':', '-') for p in rule.pattern)}"
+        ATTACHMENT_ROLES[cid] = (rule.head_upos, tuple(roles))
+        ATTACHMENT_ROLES[cid + ":clause"] = (rule.head_upos, tuple(roles))
         out.append(Construction(cid, f"rule:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"}), lineage=(f"count:{count}",), produces=PHRASE_OF_UPOS.get(rule.head_upos, "NP"), head_slot="h", head_node="x"))
         if rule.head_upos in ("VERB", "AUX"):
             # the same rule at clause level (produces=None): a sentence reading when it spans the whole utterance
@@ -312,7 +352,7 @@ def erase_labels_of(g, node_ids):
     return MeaningGraph(nodes, g.edges, g.root)
 
 
-def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher", chart_max_items: int = 300_000, gaps: bool = False) -> dict[str, Any]:
+def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Induction, *, limit: int | None = None, time_budget_s: float = 600.0, max_tokens: int = 12, engine: str = "matcher", chart_max_items: int = 300_000, gaps: bool = False, admit=None) -> dict[str, Any]:
     """Parse protected token strings with the M3 matcher over the induced lexicon and the UD-derived
     constructions; grade INTERPRETED candidates against the gold tree by tree-exact canonical equality.
     Root-level phrases only count as a sentence reading when the top phrase is VP/NP covering all tokens."""
@@ -341,7 +381,7 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
         if engine == "chart":
             from ocm.language import chart as CH
             try:
-                r = CH.parse(utt.split(), ind.lexicon, constructions, max_items=chart_max_items, gaps=gaps)
+                r = CH.parse(utt.split(), ind.lexicon, constructions, max_items=chart_max_items, gaps=gaps, admit=admit)
             except CH.ChartCap:
                 verdicts["CHART_CAP_CANNOT_CHECK"] += 1
                 continue
@@ -400,5 +440,5 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
                 pass
         elif len(misses) < 8:
             misses.append((utt[:80], r.verdict.value + ":" + r.reason[:60]))
-    return {"engine": engine, "gaps": gaps, "parsed": n, "verdicts": dict(verdicts), "exact_gold_match": f"{exact}/{n}", "wall_s": round(time.perf_counter() - t0, 1), "misses_sample": misses}
+    return {"engine": engine, "gaps": gaps, "attachment_gate": admit is not None, "parsed": n, "verdicts": dict(verdicts), "exact_gold_match": f"{exact}/{n}", "wall_s": round(time.perf_counter() - t0, 1), "misses_sample": misses}
 

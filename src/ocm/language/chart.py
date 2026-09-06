@@ -110,7 +110,10 @@ def gap_readings(token: str, categories: Iterable[str] = GAP_CATEGORIES) -> list
     return [Reading(token, token, Category(c), None, (("gap", "yes"),), WarrantProfile.of(complete=False), ("gap",)) for c in categories]
 
 
-def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8, max_items: int = 2_000_000, gaps: bool = False) -> dict[str, Any]:
+def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Construction], *, revoked: Iterable[Hashable] = (), max_unpack: int = 8, max_items: int = 2_000_000, gaps: bool = False, admit=None) -> dict[str, Any]:
+    """`admit(construction, bindings) -> bool` (N1 phase G): an optional evidence gate applied to every completed
+    phrase and clause; a completion it refuses is not packed and not counted — refutation by absent attachment
+    evidence, never a ranking.  None admits everything (the phase C–F behaviour)."""
     rv = frozenset(revoked)
     cons = [c for c in constructions if c.liveness(rv) is not Liveness.DEAD]
     per_token: list[list[Reading]] = []
@@ -135,6 +138,7 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
     chart: list[dict[tuple, tuple[int, dict[str, Any], int | None]]] = [dict() for _ in range(n + 1)]
     completed: dict[tuple[int, int, str], dict[tuple, Packed]] = defaultdict(dict)    # (start, end, produces) -> lexspan -> Packed
     contributed: dict[tuple, int] = {}          # completed item key -> count already added to its pack
+    admitted_cache: dict[tuple, bool] = {}      # completed item key -> admit verdict (phase G)
     applied: dict[tuple, int] = {}              # (parent item key at `start`, pack id) -> product already added to the advanced item
     items = [0]
 
@@ -244,7 +248,13 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             for key, (count, b, score) in list(chart[k].items()):
                 ci, dot, start, lexspan = key
                 c = cons[ci]
-                if dot < len(c.pattern) or c.produces is None:
+                if dot < len(c.pattern):
+                    continue
+                if admit is not None and key not in admitted_cache:
+                    admitted_cache[key] = bool(admit(c, b))
+                if admit is not None and not admitted_cache[key]:
+                    continue
+                if c.produces is None:
                     continue
                 packs = completed[(start, k, c.produces)]
                 pack = packs.get(lexspan)
@@ -285,7 +295,8 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
         complete(k)
         if k < n:
             scan(k)
-    clause_items = [(key, cb) for key, cb in chart[n].items() if key[2] == 0 and cons[key[0]].produces is None and key[1] == len(cons[key[0]].pattern)]
+    clause_items = [(key, cb) for key, cb in chart[n].items() if key[2] == 0 and cons[key[0]].produces is None and key[1] == len(cons[key[0]].pattern)
+                    and (admit is None or admitted_cache.get(key, admit(cons[key[0]], cb[1])))]
     total = sum(cb[0] for _, cb in clause_items)
     if total == 0:
         return {"verdict": "UNKNOWN_CONSTRUCTION", "count": 0, "meanings": []}

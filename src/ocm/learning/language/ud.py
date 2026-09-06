@@ -87,12 +87,35 @@ class Induction:
     sentences: int = 0
     tokens: int = 0
     skipped_upos: Counter = field(default_factory=Counter)
+    # N1 phase G (ledger S41 Jump: a new evidence class): lexicalised attachment evidence from the demonstrations.
+    # Keys: (head lemma, relation, dependent lemma); backoff classes (head lemma, relation, dependent UPOS) and
+    # (head UPOS, relation, dependent lemma).  Counts are attesting sentences; frequency never raises a warrant.
+    attachments: Counter = field(default_factory=Counter)
+    attach_head_class: Counter = field(default_factory=Counter)
+    attach_dep_class: Counter = field(default_factory=Counter)
+
+    def attachment_evidence(self, head_lemma: str, head_upos: str, rel: str, dep_lemma: str, dep_upos: str) -> tuple[str | None, int]:
+        """The finest evidence class attesting this attachment: LEXICAL (both lemmas), HEAD_CLASS (head lemma with the
+        dependent's category), DEP_CLASS (head category with the dependent lemma), or None (no demonstration attests
+        it at any registered class).  Returns (class, attesting count)."""
+        rel = rel.split(":")[0]
+        n = self.attachments.get((head_lemma, rel, dep_lemma), 0)
+        if n:
+            return "LEXICAL", n
+        n = self.attach_head_class.get((head_lemma, rel, dep_upos), 0)
+        if n:
+            return "HEAD_CLASS", n
+        n = self.attach_dep_class.get((head_upos, rel, dep_lemma), 0)
+        if n:
+            return "DEP_CLASS", n
+        return None, 0
 
     def receipt(self) -> dict[str, Any]:
         cats = Counter(k.split("|")[1] for k in self.attestations)
         return {"channel": "DEMONSTRATION (UD annotations are teacher labels)", "status": "TEACHER_ANNOTATED (not grounded in the M5 sense)", "sentences": self.sentences, "tokens": self.tokens,
                 "lexemes": len(self.attestations), "by_category": dict(sorted(cats.items())), "singletons": sum(1 for v in self.attestations.values() if v == 1), "irregular_past_exceptions": len(self.irregular_past), "irregular_present_exceptions": len(self.irregular_present),
-                "skeleton_families": len(self.skeletons), "top_skeletons": self.skeletons.most_common(12), "skipped_upos": dict(self.skipped_upos), "frequency_raises_warrant": False}
+                "skeleton_families": len(self.skeletons), "top_skeletons": self.skeletons.most_common(12), "skipped_upos": dict(self.skipped_upos), "frequency_raises_warrant": False,
+                "attachment_evidence": {"class": "ATTACHMENT (new evidence class, ledger S41/S43; parent-owned: lexicalised attachment preferences)", "lexical_triples": len(self.attachments), "head_class_triples": len(self.attach_head_class), "dep_class_triples": len(self.attach_dep_class), "lexical_singletons": sum(1 for v in self.attachments.values() if v == 1)}}
 
 
 def skeleton_of(s: Sentence) -> str | None:
@@ -130,6 +153,20 @@ def induce(sentences: Iterable[Sentence], *, evidence_prefix: str = "ud") -> Ind
         sk = skeleton_of(s)
         if sk:
             ind.skeletons[sk] += 1
+        by_idx = {t.idx: t for t in s.tokens}
+        seen_triples: set = set()
+        for t in s.tokens:
+            h = by_idx.get(t.head)
+            if h is None or t.upos == "PUNCT" or t.upos not in UPOS_TO_CATEGORY or h.upos not in UPOS_TO_CATEGORY:
+                continue
+            rel = t.deprel.split(":")[0]
+            trip = (h.lemma.lower(), rel, t.lemma.lower())
+            if trip in seen_triples:
+                continue                                  # one attesting sentence counts once
+            seen_triples.add(trip)
+            ind.attachments[trip] += 1
+            ind.attach_head_class[(h.lemma.lower(), rel, t.upos)] += 1
+            ind.attach_dep_class[(h.upos, rel, t.lemma.lower())] += 1
     for key, ev in senses.items():
         lemma, _ = key.split("|")
         cat = cat_of[key]

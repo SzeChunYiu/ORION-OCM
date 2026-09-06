@@ -104,3 +104,22 @@ def test_exact_derivation_counts_follow_the_catalan_numbers():
         r = CH.parse(list("abcdef")[:k], lx, cons)
         assert r["count"] == cat, (k, r["count"])
         assert r["verdict"] == ("INTERPRETED" if cat == 1 else "AMBIGUOUS")
+
+
+def test_admit_gate_refutes_completions_instead_of_ranking_them():
+    """N1 phase G: an evidence gate refuses a completion; refused derivations are not counted, so an
+    AMBIGUOUS sentence whose alternatives lack evidence becomes INTERPRETED — by refutation, not by score."""
+    import dataclasses
+    lx = _lexicon()
+    cons = list(C.seed_constructions())
+    clause = [c for c in cons if c.produces is None and any(s.phrase == "NP" for s in c.pattern)]
+    base = clause[0]
+    alt = dataclasses.replace(base, construction_id=base.construction_id + ":unattested")
+    others = [c for c in cons if c is not base]
+    utt = "the girl lifted the cup"
+    r = CH.parse(I.tokenize(utt), lx, others + [base, alt])
+    assert r["verdict"] == "AMBIGUOUS" and r["count"] == 2
+    gate = lambda c, b: not c.construction_id.endswith(":unattested")   # noqa: E731
+    r2 = CH.parse(I.tokenize(utt), lx, others + [base, alt], admit=gate)
+    assert r2["verdict"] == "INTERPRETED" and r2["count"] == 1 and r2["meanings"][0]["construction_id"] == base.construction_id
+    assert CH.parse(I.tokenize(utt), lx, others + [base, alt], admit=lambda c, b: False)["verdict"] == "UNKNOWN_CONSTRUCTION"
