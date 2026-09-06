@@ -1,0 +1,33 @@
+name: FLT prerequisite source export
+
+on:
+  push:
+    branches: [codex/flt-kso-prerequisites-20260906-b7f4]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Export exact tracked source, not a qualification receipt
+        run: |
+          mkdir -p "${RUNNER_TEMP}/flt-source"
+          git rev-parse HEAD > "${RUNNER_TEMP}/flt-source/COMMIT"
+          git rev-parse HEAD^{tree} > "${RUNNER_TEMP}/flt-source/TREE"
+          git archive --format=tar.gz --output="${RUNNER_TEMP}/flt-source/source.tar.gz" HEAD
+          cd "${RUNNER_TEMP}/flt-source"
+          sha256sum source.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flt-source-${{ github.sha }}
+          path: ${{ runner.temp }}/flt-source/
+          retention-days: 3
+          if-no-files-found: error
