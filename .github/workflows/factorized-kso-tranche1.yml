@@ -1,0 +1,66 @@
+name: Factorized KSO tranche 1 qualification
+
+on:
+  push:
+    branches: [codex/factorized-kso-tranche1-20260906]
+    paths:
+      - 'src/ocm/kso/navigation_matrix_free.py'
+      - 'src/ocm/kso/warrant_expr.py'
+      - 'src/ocm/operators/indexed_registry.py'
+      - 'tests/m1/test_navigation_matrix_free.py'
+      - 'tests/m1/test_warrant_expr.py'
+      - 'tests/m2/test_indexed_operator_registry.py'
+      - '.github/workflows/factorized-kso-tranche1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: factorized-kso-tranche1-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualify-and-record:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: codex/factorized-kso-tranche1-20260906
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned development environment
+        run: ./scripts/m0_install_dev.sh
+      - name: Run factorized-KSO tranche and inherited controls
+        run: >-
+          python -m pytest -q
+          tests/m1/test_navigation_matrix_free.py
+          tests/m1/test_warrant_expr.py
+          tests/m2/test_indexed_operator_registry.py
+          tests/m1/test_kso_core_checks.py
+          tests/m1/test_mutants.py
+          tests/m2/test_operator_registry.py
+      - name: Run and select exact engineering gates
+        env:
+          PYTHONPATH: src
+        run: python tools/record_engineering_revision.py
+      - name: Verify all milestone wrappers against selected run
+        env:
+          PYTHONPATH: src
+        run: |
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify
+          done
+      - name: Commit immutable engineering qualification
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/provenance/engineering_revisions/
+          if git diff --cached --quiet; then
+            echo "Recorder produced no new qualification bytes"
+            exit 1
+          fi
+          git commit -m "test: record factorized KSO tranche 1 qualification"
+          git push origin HEAD:codex/factorized-kso-tranche1-20260906
