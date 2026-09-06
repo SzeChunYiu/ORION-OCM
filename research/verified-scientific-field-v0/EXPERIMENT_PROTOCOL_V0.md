@@ -1,99 +1,185 @@
-# EXPERIMENT_PROTOCOL_V0 — verified scientific field calibration
+# EXPERIMENT_PROTOCOL_V0 — General Epistemic Field hardening campaign
 
 Status: **prospective design; no outcome claim.**  
 Owner: #93.  
-Purpose: make the scientific-field idea falsifiable before introducing a large implementation.
+Purpose: test whether language, science, mathematics and procedural cognition can use one typed KSO-compatible field without collapsing their distinct semantics or creating a giant universal ontology.
 
 ## 1. Primary question
 
-Does adding a small set of scientific-field semantics to the current KSO reduce whole-task/lifetime scientific work or false authority beyond the strongest parent composition?
-
-Candidate additions under test:
+Can the existing OCM substrate support multiple cognitive domains as **typed context-relative views of one persistent field** while preserving:
 
 ```text
-A = context-bound relation certificates
-B = unresolved-alternative preservation
-C = active/robust distinguishing probes
-D = formal-validity / empirical-applicability separation
-E = resource-responsibility escalation
+shared identity where justified
+representation plurality where required
+warrant / authority / scope
+ambiguity and underdetermination
+local revision
+safe abstraction/refinement
+small active state k << N
+one small executive architecture
 ```
 
-Current KSO abstraction/warrant/navigation remains incumbent and is not counted as a new mechanism.
+and does this organization provide any residual beyond the strongest cognitive-architecture / knowledge-space parent product?
 
-## 2. Baselines
+The experiment must distinguish three possible outcomes:
 
-- `B0`: flat task-local solver/controller, no persistent shared field.
-- `B1`: theorem/knowledge DAG + exact dependency lookup.
-- `B2`: knowledge graph / relational store + provenance + TMS/ATMS-style revision.
-- `B3`: B2 + active diagnosis / experiment-selection parent.
-- `B4`: B3 + algorithm-selection/metareasoning parent.
-- `B5`: current OCM/KSO incumbent without A–E.
-- `B6`: current OCM/KSO + the minimal subset of A–E that survives ablation.
+1. `CURRENT_KSO_ALREADY_GENERAL_ENOUGH` — the field unification is primarily a conceptual clarification/refactoring;
+2. `PARENT_PRODUCT_SUFFICIENT` — OpenCog/Soar/NARS/blackboard/KG/TMS/etc. own the substantive mechanism;
+3. a narrower Machine-Epistemics residual survives, such as exact authority/revocation + context-certified abstraction + lifetime sparse activation + learned communication over the same state.
 
-The strongest fair parent product receives first right of refusal. Do not compare full OCM only against B0/B1.
+## 2. Incumbent and parent ladder
 
-## 3. Frozen calibration worlds
+- `B0`: domain-specific isolated systems; no shared persistent field.
+- `B1`: shared theorem/knowledge DAG or ordinary knowledge graph.
+- `B2`: KG/relational store + provenance + TMS/ATMS + domain adapters.
+- `B3`: blackboard / production-system / Soar-like persistent cognitive architecture with comparable memory powers.
+- `B4`: OpenCog AtomSpace/Hyperon-style typed metagraph + executable procedures + language/reasoning adapters.
+- `B5`: NARS-like domain-independent representation/memory/control under insufficient knowledge/resources.
+- `B6`: strongest parent product: typed shared store + procedures + provenance/TMS + active retrieval + language interface + algorithm selection.
+- `B7`: current OCM/KSO incumbent.
+- `B8`: hardened General Epistemic Field candidate using only mechanisms that survive subtraction.
+
+A positive OCM result must survive B6. Beating isolated domain systems is insufficient.
+
+## 3. Domain-view principle under test
+
+A domain is not a separate field. It supplies:
+
+```text
+registry / schema
+representation mappings
+operators
+checker / authority interfaces
+query / action contexts
+```
+
+over one persistent field `F_t`.
+
+Candidate logical view:
+
+```text
+View(F_t, domain, context, obligation)
+    -> active typed subfield F_q
+```
+
+A view must not duplicate state merely to make APIs convenient. Physical caches/materializations are allowed but count toward storage/update cost and must carry invalidation identities.
+
+## 4. Frozen calibration worlds
+
+### W0 — substrate extensibility
+
+Register language, theorem/science and procedural object/relation types without modifying warrant, navigation, revocation or constitutional code.
+
+Required outcome:
+
+```text
+same core invariants
+same authority law
+same reopening law
+```
+
+A domain-specific branch inside the core is a failure for the strong one-field claim.
 
 ### W1 — theorem DAG
 
-Generate/curate an exact finite theorem world with known dependencies, reusable lemmas and a binary checker.
+Exact formal statements, proof dependencies and binary checker.
 
-Hidden task families require different lemma subsets.
+Purpose: calibrate the clean special case. Expected possible terminal: `THEOREM_DAG_PARENT_SUFFICIENT`.
 
-Metrics:
+### W2 — language ambiguity
 
-```text
-proof obligations expanded
-nodes touched k
-checker calls
-reused theorem identities
-wall/CPU work
-```
-
-Expectation: B1 or B5 may be sufficient. A–E should not win merely because the benchmark is formal mathematics.
-
-Valid terminal: `THEOREM_DAG_PARENT_SUFFICIENT`.
-
-### W2 — same summary, different defect
-
-Plant detailed states `x1,x2` such that:
-
-```text
-summary(x1) = summary(x2)
-answer_Q1(x1) = answer_Q1(x2)
-answer_Q2(x1) != answer_Q2(x2)
-```
+An utterance has two LIVE interpretations with different downstream consequences.
 
 Requirements:
 
-- answer Q1 from the existing KSO summary certificate;
-- return `REFINE_REQUIRED` for Q2;
-- identify the discriminating residual after descent;
-- never mint equivalence for Q2.
+- retain both candidate meanings;
+- ranking may order but not collapse them;
+- select a clarification question only if the answer changes a protected query/action;
+- clarification response becomes scoped interaction evidence;
+- speaker assertion does not become world truth.
 
-This is primarily an incumbent calibration. If current KSO passes, report `CURRENT_KSO_ABSTRACTION_SUFFICIENT`.
+### W3 — scientific underdetermination
 
-### W3 — underdetermined competing models
+Two models fit all current observations but differ on an available intervention.
 
-Create models `m1,m2` with identical visible observations under `O0`, but different predictions under a hidden available intervention `p*`.
+Requirements mirror W2:
 
-Requirements:
+- retain both live alternatives;
+- propose/identify a discriminating experiment if useful under cost;
+- preserve `CANNOT_CHECK` if no allowed probe separates them.
 
-- preserve both live models;
-- do not randomly collapse to one;
-- distinguish observational equivalence from representational equality;
-- identify/propose `p*` or another valid discriminator under budget;
-- update only the affected model/support state after receiving the result.
+W2 and W3 test whether one abstract `DISTINGUISH`/probe mechanism can serve language and science without forcing identical domain semantics.
 
-Negative control: no allowed probe distinguishes `m1,m2`; correct terminal is unresolved multiplicity / `CANNOT_CHECK`, not forced choice.
+### W4 — shared referent, plural representations
 
-### W4 — formal/empirical applicability trap
+Create one underlying external object/event with:
 
-Supply:
+```text
+language description(s)
+scientific/model representation
+formal/procedural representation
+```
 
-- a formally valid theorem in model `M`;
-- an explicit assumption `a` required by `M`;
-- observations showing the target regime does not establish `a`.
+The field should share identity **only where a correspondence warrant licenses it**.
+
+Negative twins:
+
+- two phrases are co-referential but carry different speaker commitments;
+- two scientific models are observationally equivalent but interventionally distinct;
+- two representations look structurally similar but have no established correspondence.
+
+A universal interlingua that merges them by similarity fails.
+
+### W5 — form/meaning bidirectional language interface
+
+Learn or supply scoped form→meaning and meaning→form mappings.
+
+Input requirement:
+
+```text
+utterance -> candidate field deltas / meanings + warrants
+```
+
+Output requirement:
+
+```text
+intended field meaning + discourse intent -> candidate utterance
+```
+
+Before commitment, reverse-read the utterance and check:
+
+```text
+intended semantic obligations == recovered obligations
+warrant/uncertainty markers preserved
+referents resolved
+no renderer-injected proposition
+```
+
+Fluency and semantic fidelity are separate endpoints.
+
+### W6 — same summary, different protected answer
+
+Two detailed states share a coarse summary. `Q1` is summary-sufficient; `Q2` is not.
+
+Use current KSO `SufficiencyCertificate` / `REFINE_REQUIRED` first. If it passes, record `CURRENT_KSO_ABSTRACTION_SUFFICIENT` rather than inventing a new field mechanism.
+
+Run this world in at least language and science representations.
+
+### W7 — cross-domain correction/revocation
+
+One language expression/lexical sense or scientific support object is corrected/revoked.
+
+Require:
+
+- dependent interpretations/claims reopen;
+- unrelated domain competence remains intact;
+- correspondence caches invalidate locally;
+- alternate support preserves live competence where valid;
+- no stale utterance/answer may be committed from a dead mapping.
+
+### W8 — formal/empirical applicability trap
+
+A theorem is correct under model assumptions but the empirical correspondence is not established.
 
 Required output:
 
@@ -102,199 +188,192 @@ FORMALLY_VALID_WITHIN_MODEL
 EMPIRICAL_APPLICABILITY_NOT_ESTABLISHED
 ```
 
-Mutant system collapses the two and grants world-level authority.
+Natural-language realization must preserve this distinction rather than fluent-overstate it.
 
-### W5 — resource-responsibility trap
+### W9 — resource-responsibility trap
 
-Build a two- or three-layer pipeline:
+Build a pipeline where an internal proxy can either be irrelevant to or decisive for the final objective depending on regime.
+
+Controller must escalate only when the active layer cannot materially control the end-to-end result.
+
+Run one quantum-derived task and one non-quantum analogue.
+
+### W10 — local-to-global obstruction
+
+All local views look compatible, but no global object satisfies the full constraints.
+
+Run with a strong CSP/sheaf/consistency parent. Do not credit quantum language if the classical parent owns the result.
+
+### W11 — lifetime field growth
+
+Accumulate unrelated language, scientific, mathematical and procedural competence while holding target queries fixed.
+
+Measure whether query cost tracks relevant `k` rather than total `N`, charging index build/update, router training, consolidation, materialization and verification.
+
+### W12 — same executive, different domains
+
+Use the same `Π` architecture across at least:
 
 ```text
-representation/compiler layer -> implementation layer -> end objective
+language clarification/response
+formal or scientific reasoning
+coding/tool/procedural task
 ```
 
-In visible development tasks, improving an inner proxy looks attractive. In protected tasks, either:
+Domain registries/features/operators may differ. A separately hand-authored domain controller fails the strong claim.
 
-- `R1`: inner proxy is <1% of total cost and cannot change the winner;
-- `R2`: inner proxy crosses a real end-to-end threshold and does change the winner.
+## 5. Language-specific capability target
 
-Controller must:
+The General Epistemic Field does **not** imply that a tiny symbolic renderer will speak like an LLM.
 
-- escalate in R1;
-- continue optimizing the inner layer in R2.
-
-This prevents a trivial always-escalate policy.
-
-Primary metric: wasted search/operator budget before selecting the responsible layer, plus final end-to-end objective.
-
-### W6 — one-corruption evidence robustness
-
-Generate identity/hypothesis classes and a finite probe library. For each class, exact response words are known.
-
-One selected probe response may be adversarially corrupted.
+Language production is tested as an operator/interface family over the field.
 
 Compare:
 
-- ordinary minimum test cover;
-- robust multicover/code-distance solution;
-- repeated independent check baseline;
-- OCM proposal + exact verifier.
-
-Required: no identity authority unless the declared corruption model is covered by a checked discriminator/decoder.
-
-### W7 — local-to-global obstruction
-
-Plant local scientific constraints such that every small local view passes but no global assignment/model exists.
-
-Compare CSP consistency / exact global checker / local-global parent methods.
-
-Required:
-
 ```text
-LOCAL_CONSISTENCY_ONLY
-GLOBAL_MODEL_NOT_ESTABLISHED
+hand grammar/template realizer
+construction/grammar-based learned realizer
+compact recurrent/SSM/neural realizer
+strong Transformer realizer/reference
 ```
 
-and, where available, an obstruction/counterexample witness.
+under matched semantic input and allowed training information.
 
-Do not credit “quantum contextuality” if ordinary CSP/global consistency already explains the case.
-
-### W8 — lifetime sparse-field growth
-
-Grow unrelated persistent competence from `N0` to `Nmax` while holding W2–W5 target families structurally fixed.
-
-Measure:
+Measure separately:
 
 ```text
-N total logical state
-persistent bytes
-k touched state
-active bytes
-storage/index probes
-query work
-index maintenance
-consolidation work
-revision work
+semantic round-trip fidelity
+warrant/uncertainty preservation
+reference correctness
+held-out compositionality
+fluency / human preference where authorized
+parameter bytes
+training cost
+inference cost
+persistent language-state bytes
 ```
 
-A positive result requires useful task work to track relevant `k` materially better than `N` after charging all hidden maintenance.
+A large Transformer realizer may be a reference or declared boundary component, but if LLM-like fluency requires it to store/reconstruct the cognition attributed to `F/O/Π`, report `PARAMETRIC_LANGUAGE_CORE_DOMINATES`.
 
-## 4. Ablation ladder
+## 6. No-universal-interlingua hostile
 
-Run at least:
+The field must support plural representations and partial mappings.
+
+Forbidden assumption:
 
 ```text
-KSO incumbent
-KSO + A
-KSO + B
-KSO + C
-KSO + D
-KSO + E
-KSO + pairwise combinations where interaction is predicted
-KSO + all surviving mechanisms
-strongest non-OCM parent product
+all language/science/math states -> one perfect canonical meaning graph
 ```
 
-Do not assume all A–E belong in the final architecture.
+Instead require typed `Representation` objects and explicit correspondence/transport warrants.
 
-The preferred endpoint is the **smallest Pareto-efficient subset**.
+A mapping may be:
 
-## 5. Quantum-donor-specific hypotheses
+```text
+exact
+query-sufficient only
+partial
+ambiguous
+lossy with bound
+unknown
+```
 
-### H-Q1 — bounded residual
+and these statuses must affect use.
 
-After consolidation, protected query/revision work can operate on schema + a small defect/residual support for planted families.
+## 7. Quantum-donor hypotheses
 
-Falsifier: residual grows with total history or global scan/index maintenance dominates.
+- `H-Q1 bounded residual`: reusable bulk/schema + small residual reduces active/revision work.
+- `H-Q2 anti-overcompression`: failed quotient counterexamples improve later representation choices.
+- `H-Q3 active discrimination`: a checked probe policy lowers clarification/experiment cost.
+- `H-Q4 robust evidence`: redundancy protects authority under a declared corruption model.
+- `H-Q5 responsibility routing`: wrong-layer optimization is detected and avoided.
+- `H-Q6 research-operator transfer`: an abstract operator learned/derived in quantum work transfers to a reminted non-quantum task without quantum constants.
 
-### H-Q2 — active discrimination
+Each hypothesis loses to its strongest classical parent when reproduced there.
 
-A checked active-probe policy lowers experiment/query count versus matched nonadaptive controls without increasing false authority.
+## 8. Ablation ladder
 
-Falsifier: standard active-diagnosis/experimental-design parent matches or beats it.
+At minimum:
 
-### H-Q3 — evidence reliability scope
+```text
+current KSO
++ domain views only
++ representation correspondence only
++ ambiguity/alternative preservation only
++ active DISTINGUISH only
++ resource responsibility only
++ language bidirectional interface only
++ all surviving mechanisms
+strongest parent product
+```
 
-Robust probe/certificate requirements prevent authority failures under the declared corruption model at acceptable overhead.
+Prefer the smallest Pareto-efficient subset. Do not retain a mechanism because it makes the architecture story prettier.
 
-Falsifier: ordinary replication is cheaper/equally strong, or the model of corruption does not match the task.
+## 9. Authority invariants
 
-### H-Q4 — responsibility routing
-
-Explicit responsibility/resource state reduces repeated work on scientifically irrelevant sublayers and selects the correct layer on held-out traps.
-
-Falsifier: generic metareasoning parent obtains the same result or OCM over-escalates R2 cases.
-
-### H-Q5 — cross-domain research-operator transfer
-
-At least one abstract operator learned/derived from quantum research — e.g. `find exact referee`, `search for safe quotient`, `probe competing states`, `escalate to responsible layer` — improves a reminted non-quantum held-out domain without transferring quantum constants.
-
-Falsifier: benefit disappears under semantic reminting or requires target-specific feature engineering.
-
-## 6. Authority invariants
-
-Across all worlds:
+Across all domains:
 
 ```text
 false-authority count = 0
-revoked/stale authority survivors = 0
-router/embedding score never grants truth
-formal proof never grants empirical correspondence by itself
-failure-to-find never becomes impossibility
+speaker belief != world truth
+formal validity != empirical applicability
+router/retrieval score != warrant
+failure to retrieve/probe != proof of absence
+representation similarity != identity/correspondence
+language fluency != semantic correctness
 ```
 
-A resource win cannot compensate for any violation above.
+No resource win compensates for a violation.
 
-## 7. Resource receipt
+## 10. Resource receipt
 
 Every run records:
 
 ```text
-persistent bytes
+persistent bytes by domain/view/index
 active bytes
 logical N
 active/touched k
-parameters and parameter bytes
+parameters / parameter bytes
 training/update compute
 index build/update work
 storage reads
 relations traversed
-operator candidates
-operator executions
+operator candidates/executions
 checker/verifier calls
-scientific probes/experiments
+clarifications/probes/experiments
 refinement descents
 failed searches
 revision/reopen cone
 wall/CPU/GPU time
-external tool/QPU calls
+external-tool calls
 final outcome
 terminal
 ```
 
-## 8. Adoption gate
+## 11. Adoption gate
 
-A mechanism enters an OCM implementation proposal only if:
+A new field mechanism enters OCM only if:
 
-1. it wins or gives a required correctness capability against the current KSO incumbent;
-2. it survives the strongest faithful parent comparison;
-3. its gain survives full maintenance/index/training cost;
-4. it does not enlarge the executive into domain-specific cognition;
-5. it preserves exact authority/revision semantics;
-6. the same mechanism transfers to at least one materially different domain if a domain-general claim is made.
+1. current KSO cannot already express the required behavior faithfully;
+2. the strongest parent product does not reproduce it at matched information/resources;
+3. it improves capability, authority safety, or whole-lifetime Pareto behavior;
+4. it does not require a growing domain-specific executive;
+5. it preserves exact local revision;
+6. a domain-general claim transfers to at least two materially different domains.
 
-Otherwise retain the negative result and prefer the parent.
-
-## 9. Intended first execution order
+## 12. Execution order
 
 ```text
-W2  -> verify current KSO already covers safe coarse-to-fine behavior
-W5  -> test resource-responsibility residual
-W3  -> test unresolved alternatives + active probe
-W6  -> test reliability-aware probes
-W4  -> harden formal/empirical boundary
-W8  -> scale lifetime field
-W7  -> only then test local/global obstruction
-W1  -> theorem-DAG parent calibration can run in parallel
+W0  substrate extensibility
+W6  prove current KSO abstraction first-right-of-refusal
+W2/W3 shared ambiguity-underdetermination pattern
+W5  bidirectional language interface / reverse-read
+W7  cross-domain local revision
+W9  resource responsibility
+W12 same-controller cross-domain test
+W11 lifetime scaling
+W10 local-global obstruction only after simpler parents
 ```
 
-Reason: W5/W3/W6 target the most plausible residuals; W2 prevents duplication; W7 is theory-heavy and should not be allowed to become decorative mathematics before simpler parents are exhausted.
+This order is designed to kill unnecessary architecture before building it.
