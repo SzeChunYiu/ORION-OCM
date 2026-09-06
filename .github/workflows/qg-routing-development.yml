@@ -1,0 +1,19 @@
+name: QG routing development controls
+on:
+  pull_request:
+    paths:
+      - 'research/qg_routing/**'
+      - '.github/workflows/qg-routing-development.yml'
+permissions:
+  contents: read
+jobs:
+  development-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Unit, reference-equivalence, and planted-failure checks
+        run: python research/qg_routing/run_checks.py "$RUNNER_TEMP/qg-routing-development.json"
