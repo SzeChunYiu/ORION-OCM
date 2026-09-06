@@ -1,0 +1,25 @@
+{
+  "status": "READY_FOR_ROOT_FREEZE_ONLY",
+  "created_utc": "2026-09-06T15:52:10.709122+00:00",
+  "manifest_sha256": "69161d47654314fa1de0c98f6456e59e03153e0ab82d07a5eb5aac1a7dff1961",
+  "launch_sha256": "270e2c30a1746af833b32b839ea1c37955d8919975c576869992105d3a399152",
+  "artifact_inventory_sha256": "93f6fa43501e68dfee5b1245a0c859a73eb449c61491397915f2fe8dcee6dbce",
+  "binding_only_command": [
+    "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+    "-B",
+    "-E",
+    "-s",
+    "-c",
+    "import json; from pathlib import Path; import launch_once as L; m=json.loads(Path('manifest.json').read_text()); L.verify(m); print(json.dumps({'bindings_verified':len(m['bindings']),'actual_native_calls':0,'capture_exists':Path(m['output']).exists()}))"
+  ],
+  "binding_only_exit_code": 0,
+  "binding_only_stdout": "{\"bindings_verified\": 77, \"actual_native_calls\": 0, \"capture_exists\": false}\n",
+  "binding_only_stderr": "",
+  "harmless_controls": {
+    "passed": 8,
+    "native_Stitch_calls": 0,
+    "native_Z3_calls": 0
+  },
+  "rewrite_native_qualification": "NOT_RUN",
+  "root_registration_required": true
+}

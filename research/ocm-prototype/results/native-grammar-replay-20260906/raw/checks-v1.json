@@ -1,0 +1,61 @@
+{
+  "capture_seal_sha256": "71c247f6a6ec4d5771929d6e3cdb5ddd6fc59d9a45459a40de99d42b1665b0d3",
+  "cases": [
+    {
+      "case": "implicit_primitive",
+      "check": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.06335586099885404,
+          "envelope_wall_s": 0.06232128100236878,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.0010099890059791505,
+          "host_check_cpu_s": 0.0014437719999999994,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 57820,
+          "request_bytes": 507,
+          "response_bytes": 195,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.026066017,
+          "worker_pid": 855999,
+          "worker_wall_s": 0.026032866968307644
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+      },
+      "native_status": "SOLUTION",
+      "process_exit": 0
+    },
+    {
+      "case": "explicit_primitive",
+      "check": {
+        "native_checker_invoked": false,
+        "reason": "AssertionError: ",
+        "status": "CANNOT_CHECK"
+      },
+      "process_exit": 124
+    },
+    {
+      "case": "native_grammar_replay",
+      "check": {
+        "native_checker_invoked": false,
+        "reason": "AssertionError: ",
+        "status": "CANNOT_CHECK"
+      },
+      "process_exit": 124
+    }
+  ],
+  "learning": "NOT_TESTED",
+  "membership": "SEPARATE_NATIVE_RAW_REVIEW_REQUIRED",
+  "scope": "Existing fixed checker on unchanged native output; no candidate rewriting or synthesis retry."
+}

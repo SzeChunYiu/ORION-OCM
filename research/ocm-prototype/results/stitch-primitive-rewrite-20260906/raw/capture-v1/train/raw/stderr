@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py", line 238, in rewrite
+    (rewritten,json_res) = rewrite_backend(
+                           ~~~~~~~~~~~~~~~^
+        programs,
+        ^^^^^^^^^
+    ...<2 lines>...
+        args
+        ^^^^
+    )
+    ^
+pyo3_runtime.PanicException: assertion `left == right` failed: found something other than the followed abstraction somehow
+  left: "(+ #0 (* (- 1) #1))"
+ right: "(+ #1 (* (- 1) #0))"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/caller.py", line 58, in main
+    returned=donor.rewrite(programs,[abstraction])
+  File "/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py", line 256, in rewrite
+    raise StitchException(f"Rust backend panicked with exception: {e}")
+stitch_core.StitchException: Rust backend panicked with exception: assertion `left == right` failed: found something other than the followed abstraction somehow
+  left: "(+ #0 (* (- 1) #1))"
+ right: "(+ #1 (* (- 1) #0))"

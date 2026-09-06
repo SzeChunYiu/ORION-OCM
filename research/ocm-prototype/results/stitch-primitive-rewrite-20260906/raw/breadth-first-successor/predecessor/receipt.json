@@ -1,0 +1,134 @@
+{
+  "assigned_groups": [
+    "manual",
+    "train"
+  ],
+  "completed_utc": "2026-09-06T16:03:43.498839+00:00",
+  "compression": "NOT_RUN",
+  "error": null,
+  "groups": [
+    {
+      "caller": {
+        "acquisition_cost": "IMPORTED_PRIOR_NOT_EXECUTED_OR_CHARGED_HERE",
+        "caller_self_cpu_s": 0.026536301,
+        "caller_self_peak_rss_kib": 25252,
+        "caller_wall_s": 0.026553383970167488,
+        "calls": {
+          "verify_boundary_calls": 0
+        },
+        "compression": "NOT_RUN",
+        "exception": {
+          "message": "Rust backend panicked with exception: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py\", line 238, in rewrite\n    (rewritten,json_res) = rewrite_backend(\n                           ~~~~~~~~~~~~~~~^\n        programs,\n        ^^^^^^^^^\n    ...<2 lines>...\n        args\n        ^^^^\n    )\n    ^\npyo3_runtime.PanicException: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/caller.py\", line 58, in main\n    returned=donor.rewrite(programs,[abstraction])\n  File \"/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py\", line 256, in rewrite\n    raise StitchException(f\"Rust backend panicked with exception: {e}\")\nstitch_core.StitchException: Rust backend panicked with exception: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"\n",
+          "type": "StitchException"
+        },
+        "persistence": "NOT_RUN",
+        "process_tree_cpu": "UNKNOWN",
+        "process_tree_peak_rss": "UNKNOWN",
+        "qualification_status": "CANNOT_CHECK_NORMALIZATION",
+        "rewrite_dispatches": 1,
+        "status": "CALLER_EXCEPTION",
+        "supplied_identity": "IMPORTED_EXISTING_PRIMITIVE_NOT_LEARNED",
+        "synthesis": "NOT_RUN",
+        "useful_operator": "NOT_ESTABLISHED"
+      },
+      "group": "manual",
+      "observations": {
+        "invalid_or_incomplete_response_files": [],
+        "native_invocations_overall": 0,
+        "native_verify_true_in_returned_responses": 0,
+        "note": "Only completed matched responses establish native entry; malformed or missing evidence remains UNKNOWN. Raw files are unchanged.",
+        "orphan_response_keys": [],
+        "rewrite_dispatch_request_present": true,
+        "rewrite_exception_present": true,
+        "rewrite_return_present": false,
+        "verify_boundary_requests": 0,
+        "verify_completed_responses": 0,
+        "verify_response_files": 0,
+        "verify_without_response": 0
+      },
+      "process": {
+        "cleanup_signal_sent": false,
+        "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+        "elapsed_ns": 64046237,
+        "error": null,
+        "exit_code": 2,
+        "gnu_timeout_exit": false,
+        "pid": 856254,
+        "stderr_bytes": 1241,
+        "stderr_sha256": "cbd60ae874bf991c29c54cfae5e836cf74992fd5a4bcf688c5c3b2a6a1f6a6b0",
+        "stdout_bytes": 2122,
+        "stdout_sha256": "c88f12bab3543694a7ce71087cacf60dc18539f8e6406f8ef91de7b0e300a259",
+        "supervisor_timeout": false
+      },
+      "raw_complete": false,
+      "side_error": null
+    },
+    {
+      "caller": {
+        "acquisition_cost": "IMPORTED_PRIOR_NOT_EXECUTED_OR_CHARGED_HERE",
+        "caller_self_cpu_s": 0.029506301,
+        "caller_self_peak_rss_kib": 25152,
+        "caller_wall_s": 0.029514613037463278,
+        "calls": {
+          "verify_boundary_calls": 0
+        },
+        "compression": "NOT_RUN",
+        "exception": {
+          "message": "Rust backend panicked with exception: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py\", line 238, in rewrite\n    (rewritten,json_res) = rewrite_backend(\n                           ~~~~~~~~~~~~~~~^\n        programs,\n        ^^^^^^^^^\n    ...<2 lines>...\n        args\n        ^^^^\n    )\n    ^\npyo3_runtime.PanicException: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/billy/orion-director-work/20260906/stitch-primitive-rewrite-20260906/caller.py\", line 58, in main\n    returned=donor.rewrite(programs,[abstraction])\n  File \"/home/billy/orion-director-work/20260906/generation-env/lib/python3.13/site-packages/stitch_core/__init__.py\", line 256, in rewrite\n    raise StitchException(f\"Rust backend panicked with exception: {e}\")\nstitch_core.StitchException: Rust backend panicked with exception: assertion `left == right` failed: found something other than the followed abstraction somehow\n  left: \"(+ #0 (* (- 1) #1))\"\n right: \"(+ #1 (* (- 1) #0))\"\n",
+          "type": "StitchException"
+        },
+        "persistence": "NOT_RUN",
+        "process_tree_cpu": "UNKNOWN",
+        "process_tree_peak_rss": "UNKNOWN",
+        "qualification_status": "CANNOT_CHECK_NORMALIZATION",
+        "rewrite_dispatches": 1,
+        "status": "CALLER_EXCEPTION",
+        "supplied_identity": "IMPORTED_EXISTING_PRIMITIVE_NOT_LEARNED",
+        "synthesis": "NOT_RUN",
+        "useful_operator": "NOT_ESTABLISHED"
+      },
+      "group": "train",
+      "observations": {
+        "invalid_or_incomplete_response_files": [],
+        "native_invocations_overall": 0,
+        "native_verify_true_in_returned_responses": 0,
+        "note": "Only completed matched responses establish native entry; malformed or missing evidence remains UNKNOWN. Raw files are unchanged.",
+        "orphan_response_keys": [],
+        "rewrite_dispatch_request_present": true,
+        "rewrite_exception_present": true,
+        "rewrite_return_present": false,
+        "verify_boundary_requests": 0,
+        "verify_completed_responses": 0,
+        "verify_response_files": 0,
+        "verify_without_response": 0
+      },
+      "process": {
+        "cleanup_signal_sent": false,
+        "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+        "elapsed_ns": 64092863,
+        "error": null,
+        "exit_code": 2,
+        "gnu_timeout_exit": false,
+        "pid": 856256,
+        "stderr_bytes": 1241,
+        "stderr_sha256": "cbd60ae874bf991c29c54cfae5e836cf74992fd5a4bcf688c5c3b2a6a1f6a6b0",
+        "stdout_bytes": 2122,
+        "stdout_sha256": "5352898cfdcc6cb47521c14e6db243590ae2e05864f8dfbe9429935aeae43ee8",
+        "supervisor_timeout": false
+      },
+      "raw_complete": false,
+      "side_error": null
+    }
+  ],
+  "manifest_sha256": "69161d47654314fa1de0c98f6456e59e03153e0ab82d07a5eb5aac1a7dff1961",
+  "new_useful_operator": "NOT_ESTABLISHED",
+  "normalization_status": "CANNOT_CHECK_NORMALIZATION",
+  "not_run": [],
+  "process_tree_cpu": "UNKNOWN",
+  "process_tree_peak_rss": "UNKNOWN",
+  "started_utc": "2026-09-06T16:03:42.809478+00:00",
+  "status": "CANNOT_CHECK_EXECUTION",
+  "supervisor_wall_including_all_pre_post_binding_s": 0.689674957015086
+}

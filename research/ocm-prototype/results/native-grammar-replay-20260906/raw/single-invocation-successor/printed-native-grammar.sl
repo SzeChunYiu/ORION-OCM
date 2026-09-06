@@ -1,0 +1,1 @@
+(sygus-grammar mux_3 ((A_Int_489 Int) (A_Bool_491 Bool)) ((A_Int_489 Int (x y z 1 0 (+ A_Int_489 A_Int_489) (- A_Int_489 A_Int_489) (ite A_Bool_491 A_Int_489 A_Int_489))) (A_Bool_491 Bool (true false (= A_Int_489 A_Int_489) (<= A_Int_489 A_Int_489) (not A_Bool_491) (and A_Bool_491 A_Bool_491) (or A_Bool_491 A_Bool_491)))))

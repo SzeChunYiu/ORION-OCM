@@ -1,0 +1,120 @@
+{
+  "abstractions": [
+    {
+      "arity": 2,
+      "body": "(+ #0 (* (- 1) #1))",
+      "compression_ratio": 1.5444743935309972,
+      "cumulative_compression_ratio": 1.5444743935309972,
+      "dc_comparison_millis": null,
+      "dreamcoder": "#(lambda (lambda (+ $1 (* (- 1) $0))))",
+      "final_cost": 2226,
+      "name": "-",
+      "num_uses": 4,
+      "rewritten": null,
+      "tdfa_annotation": null,
+      "uses": [
+        {
+          "- $1 $0": "(+ $1 (* (- 1) $0))"
+        },
+        {
+          "- $1 (- 3)": "(+ $1 (* (- 1) (- 3)))"
+        },
+        {
+          "- (+ $1 (* (- 1) (- 3))) $0": "(+ (+ $1 (* (- 1) (- 3))) (* (- 1) $0))"
+        },
+        {
+          "- (+ $1 1) (+ $0 2)": "(+ (+ $1 1) (* (- 1) (+ $0 2)))"
+        }
+      ],
+      "utility": 807,
+      "variable_types": [
+        "M",
+        "M"
+      ]
+    }
+  ],
+  "args": {
+    "abstraction_prefix": "fn_",
+    "iterations": 1,
+    "no_opt": true,
+    "previous_abstractions": 0,
+    "shuffle": false,
+    "silent": true,
+    "step": {
+      "allow_single_task": true,
+      "batch": 1,
+      "cost": {
+        "cost_app": 1,
+        "cost_ivar": 100,
+        "cost_lam": 1,
+        "cost_prim": "{}",
+        "cost_prim_default": 100,
+        "cost_var": 100
+      },
+      "dreamcoder_comparison": false,
+      "dynamic_batch": false,
+      "eta_long": false,
+      "follow": null,
+      "follow_prune": false,
+      "follow_types": null,
+      "fused_lambda_tags": {
+        "tags": null
+      },
+      "hole_choice": "BreadthFirst",
+      "inv_arg_cap": false,
+      "inv_candidates": 1,
+      "max_arity": 2,
+      "no_curried_bodies": false,
+      "no_curried_metavars": false,
+      "no_mismatch_check": false,
+      "no_opt_arity_zero": true,
+      "no_opt_force_multiuse": true,
+      "no_opt_single_use": false,
+      "no_opt_upper_bound": true,
+      "no_opt_useless_abstract": true,
+      "no_other_util": false,
+      "no_stats": false,
+      "print_stats": 0,
+      "quiet": true,
+      "rewrite_check": false,
+      "rewritten_dreamcoder": false,
+      "rewritten_intermediates": false,
+      "show_rewritten": false,
+      "structure_penalty": 1.0,
+      "symvar": {
+        "symvar_prefix": null
+      },
+      "tdfa": {
+        "tdfa_json_path": null,
+        "tdfa_non_eta_long_states": null,
+        "tdfa_root": null,
+        "tdfa_split": null,
+        "valid_metavars": null,
+        "valid_roots": null
+      },
+      "threads": 1,
+      "utility_by_rewrite": false,
+      "verbose_best": false,
+      "verbose_worklist": false
+    },
+    "truncate": null,
+    "verbose_rewrite": false
+  },
+  "cmd": "/home/billy/orion-director-work/20260906/generation-env/bin/python -B -E -s /home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/caller.py --input /home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/manual.json --output /home/billy/orion-director-work/20260906/stitch-primitive-rewrite-breadth-20260906/capture-v2/manual/calls",
+  "compression_ratio": 1.5444743935309972,
+  "final_cost": 2226,
+  "num_abstractions": 1,
+  "original": [
+    "(lam (lam (+ $1 (* (- 1) $0))))",
+    "(lam (lam (+ (+ $1 1) (* (- 1) (+ $0 2)))))",
+    "(lam (lam (+ (- $1) (- $1 $0))))",
+    "(lam (lam (+ (+ $1 (* (- 1) (- 3))) (* (- 1) $0))))"
+  ],
+  "original_cost": 3438,
+  "rewritten": [
+    "(lam (lam (- $1 $0)))",
+    "(lam (lam (- (+ $1 1) (+ $0 2))))",
+    "(lam (lam (+ (- $1) (- $1 $0))))",
+    "(lam (lam (- (- $1 (- 3)) $0)))"
+  ]
+}

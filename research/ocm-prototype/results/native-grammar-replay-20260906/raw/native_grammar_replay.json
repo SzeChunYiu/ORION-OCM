@@ -1,0 +1,7 @@
+{
+  "action": "synthesize",
+  "payload": {
+    "sygus": "(set-logic LIA)\n(set-option :output sygus-sol-gterm)\n(set-option :out \"stderr\")\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((A_Int_489 Int) (A_Bool_491 Bool)) ((A_Int_489 Int (x y z 1 0 (+ A_Int_489 A_Int_489) (- A_Int_489 A_Int_489) (ite A_Bool_491 A_Int_489 A_Int_489))) (A_Bool_491 Bool (true false (= A_Int_489 A_Int_489) (<= A_Int_489 A_Int_489) (not A_Bool_491) (and A_Bool_491 A_Bool_491) (or A_Bool_491 A_Bool_491)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n"
+  },
+  "timeout_ms": 5000
+}

@@ -1,0 +1,15 @@
+{
+  "group": "train",
+  "ids": [
+    "jmbl_fg_max3",
+    "jmbl_fg_mpg_guard2"
+  ],
+  "originals": [
+    "(\n(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))\n)\n",
+    "(\n(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (+ x (* (- 1) y))))\n)\n"
+  ],
+  "programs": [
+    "(lam (lam (lam (ite (and (>= (+ $2 (* (- 1) $1)) 0) (>= (+ $2 (* (- 1) $0)) 0)) $2 (ite (and (>= (+ $1 (* (- 1) $0)) 0) (not (>= (+ $2 (* (- 1) $1)) 1))) $1 $0)))))",
+    "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (+ $2 (* (- 1) $1))))))"
+  ]
+}

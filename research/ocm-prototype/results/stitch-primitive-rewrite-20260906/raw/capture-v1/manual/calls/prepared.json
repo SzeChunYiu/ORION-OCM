@@ -1,0 +1,21 @@
+{
+  "group": "manual",
+  "ids": [
+    "orientation",
+    "bound_variables",
+    "existing_unary_binary",
+    "signed_nested"
+  ],
+  "originals": [
+    "(define-fun orientation ((x Int) (y Int)) Int (+ x (* (- 1) y)))",
+    "(define-fun binding ((x Int) (y Int)) Int (let ((a (+ x 1))) (let ((b (+ y 2))) (+ a (* (- 1) b)))))",
+    "(define-fun existing ((x Int) (y Int)) Int (+ (- x) (- x y)))",
+    "(define-fun signed ((x Int) (y Int)) Int (+ (+ x (* (- 1) -3)) (* (- 1) y)))"
+  ],
+  "programs": [
+    "(lam (lam (+ $1 (* (- 1) $0))))",
+    "(lam (lam (+ (+ $1 1) (* (- 1) (+ $0 2)))))",
+    "(lam (lam (+ (- $1) (- $1 $0))))",
+    "(lam (lam (+ (+ $1 (* (- 1) (- 3))) (* (- 1) $0))))"
+  ]
+}

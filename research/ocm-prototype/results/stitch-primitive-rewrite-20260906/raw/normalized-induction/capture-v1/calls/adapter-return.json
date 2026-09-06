@@ -1,0 +1,345 @@
+{
+  "later_generation_consumption": "NOT_RUN",
+  "library": {
+    "fn_0": {
+      "body": "(not (>= #0 1))",
+      "name": "fn_0",
+      "result": "Bool",
+      "sorts": [
+        "Int"
+      ]
+    }
+  },
+  "raw": {
+    "abstractions": [
+      {
+        "arity": 1,
+        "body": "(not (>= #0 1))",
+        "compression_ratio": 1.0815667272360185,
+        "cumulative_compression_ratio": 1.0815667272360185,
+        "dc_comparison_millis": null,
+        "dreamcoder": "#(lambda (not (>= $0 1)))",
+        "final_cost": 4953,
+        "name": "fn_0",
+        "num_uses": 2,
+        "rewritten": null,
+        "rewritten_dreamcoder": null,
+        "tdfa_annotation": null,
+        "uses": [
+          {
+            "fn_0 (+ $2 $0)": "(not (>= (+ $2 $0) 1))"
+          },
+          {
+            "fn_0 (- $2 $1)": "(not (>= (- $2 $1) 1))"
+          }
+        ],
+        "utility": 101,
+        "variable_types": [
+          "M"
+        ]
+      }
+    ],
+    "args": {
+      "abstraction_prefix": "fn_",
+      "iterations": 1,
+      "no_opt": false,
+      "previous_abstractions": 0,
+      "shuffle": false,
+      "silent": true,
+      "step": {
+        "allow_single_task": false,
+        "batch": 1,
+        "cost": {
+          "cost_app": 1,
+          "cost_ivar": 100,
+          "cost_lam": 1,
+          "cost_prim": "{}",
+          "cost_prim_default": 100,
+          "cost_var": 100
+        },
+        "dreamcoder_comparison": false,
+        "dynamic_batch": false,
+        "eta_long": false,
+        "follow": null,
+        "follow_prune": false,
+        "follow_types": null,
+        "fused_lambda_tags": {
+          "tags": null
+        },
+        "hole_choice": "DepthFirst",
+        "inv_arg_cap": false,
+        "inv_candidates": 1,
+        "max_arity": 2,
+        "no_curried_bodies": false,
+        "no_curried_metavars": false,
+        "no_mismatch_check": false,
+        "no_opt_arity_zero": false,
+        "no_opt_force_multiuse": false,
+        "no_opt_single_use": false,
+        "no_opt_upper_bound": false,
+        "no_opt_useless_abstract": false,
+        "no_other_util": false,
+        "no_stats": false,
+        "print_stats": 0,
+        "quiet": true,
+        "rewrite_check": false,
+        "rewritten_dreamcoder": false,
+        "rewritten_intermediates": false,
+        "show_rewritten": false,
+        "structure_penalty": 1.0,
+        "symvar": {
+          "symvar_prefix": null
+        },
+        "tdfa": {
+          "tdfa_json_path": null,
+          "tdfa_non_eta_long_states": null,
+          "tdfa_root": null,
+          "tdfa_split": null,
+          "valid_metavars": null,
+          "valid_roots": null
+        },
+        "threads": 1,
+        "utility_by_rewrite": false,
+        "verbose_best": false,
+        "verbose_worklist": false
+      },
+      "truncate": null,
+      "verbose_rewrite": false
+    },
+    "cmd": "/home/billy/orion-director-work/20260906/generation-env/bin/python -B -E -s /home/billy/orion-director-work/20260906/stitch-normalized-induction-public-20260906/caller.py --input /home/billy/orion-director-work/20260906/stitch-normalized-induction-public-20260906/experiences.json --output /home/billy/orion-director-work/20260906/stitch-normalized-induction-public-20260906/capture-v1/calls",
+    "compression_ratio": 1.0815667272360185,
+    "final_cost": 4953,
+    "num_abstractions": 1,
+    "original": [
+      "(lam (lam (lam (ite (and (>= (- $2 $1) 0) (>= (- $2 $0) 0)) $2 (ite (and (>= (- $1 $0) 0) (not (>= (- $2 $1) 1))) $1 $0)))))",
+      "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (- $2 $1)))))"
+    ],
+    "original_cost": 5357,
+    "rewritten": [
+      "(lam (lam (lam (ite (and (>= (- $2 $1) 0) (>= (- $2 $0) 0)) $2 (ite (and (>= (- $1 $0) 0) (fn_0 (- $2 $1))) $1 $0)))))",
+      "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (fn_0 (+ $2 $0)))) (+ $2 $1) (- $2 $1)))))"
+    ],
+    "rewritten_dreamcoder": null
+  },
+  "rewrite_checks": [
+    {
+      "decoded": {
+        "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (and (>= (- x y) 0) (>= (- x z) 0)) x (ite (and (>= (- y z) 0) (not (>= (- x y) 1))) y z)))",
+        "macro_calls_in_input": [
+          "fn_0"
+        ]
+      },
+      "equivalence": {
+        "metrics": {
+          "envelope_wall_s": 0.07144647097447887,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 52180,
+          "request_bytes": 472,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.032711193,
+          "worker_pid": 906581,
+          "worker_wall_s": 0.03273148700827733
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      }
+    },
+    {
+      "decoded": {
+        "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (- x y)))",
+        "macro_calls_in_input": [
+          "fn_0"
+        ]
+      },
+      "equivalence": {
+        "metrics": {
+          "envelope_wall_s": 0.07150302099762484,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 52544,
+          "request_bytes": 450,
+          "response_bytes": 193,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.03327297,
+          "worker_pid": 906584,
+          "worker_wall_s": 0.03332191304070875
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      }
+    }
+  ],
+  "settings": {
+    "iterations": 1,
+    "max_arity": 2,
+    "silent": true,
+    "threads": 1
+  },
+  "status": "PROPOSED_ABSTRACTIONS",
+  "training": [
+    {
+      "candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (and (>= (- x y) 0) (>= (- x z) 0)) x (ite (and (>= (- y z) 0) (not (>= (- x y) 1))) y z)))",
+      "check": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.0702843620092608,
+          "envelope_wall_s": 0.06927979702595621,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.0007544480031356215,
+          "host_check_cpu_s": 0.0013695629999999973,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 57760,
+          "request_bytes": 435,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.031852722,
+          "worker_pid": 906574,
+          "worker_wall_s": 0.03185656399000436
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "verification_sha256": "7b582ed53481c3c06d19065fc9e12ca24a0c6c96249a0b1553a26117c1bd8ac3"
+      },
+      "program": "(lam (lam (lam (ite (and (>= (- $2 $1) 0) (>= (- $2 $0) 0)) $2 (ite (and (>= (- $1 $0) 0) (not (>= (- $2 $1) 1))) $1 $0)))))",
+      "task": {
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+        "grammar": {
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "bounds": {
+            "ast_depth": 160,
+            "ast_nodes": 20000,
+            "candidate_bytes": 65536,
+            "integer_bits": 4096
+          },
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ],
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+        },
+        "kind": "clia",
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+        "source": {
+          "bytes": 327,
+          "family": "maximum",
+          "file": "jmbl_fg_max3.sl",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+          "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+        },
+        "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+        "task_id": "jmbl_fg_max3",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+      }
+    },
+    {
+      "candidate": "(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (- x y)))",
+      "check": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.07322165201185271,
+          "envelope_wall_s": 0.07050484098726884,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.0024543320178054273,
+          "host_check_cpu_s": 0.003068198000000001,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 56644,
+          "request_bytes": 1879,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.032628404,
+          "worker_pid": 906576,
+          "worker_wall_s": 0.03266018896829337
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+        "verification_sha256": "4a39e5e08e2abb0cb0598684eaf07d9d71f40e5fb130fca851904e6c84a47cd9"
+      },
+      "program": "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (- $2 $1)))))",
+      "task": {
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "09e33508d9dcf29833244aa4e44f1ac141679ec4b72058f5d7d326a39a9d9986",
+        "grammar": {
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "bounds": {
+            "ast_depth": 160,
+            "ast_nodes": 20000,
+            "candidate_bytes": 65536,
+            "integer_bits": 4096
+          },
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ],
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+        },
+        "kind": "clia",
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int)\n\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int\n    (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int\n    (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int\n    (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int\n    (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int\n    (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int\n    (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int\n    (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int\n    (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int\n    b1)\n(define-fun two_times ((b1 Int)) Int\n    (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int\n    (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int\n    (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int\n    (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int\n    (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n\n(check-synth)\n\n",
+        "source": {
+          "bytes": 1797,
+          "family": "mpg-guard",
+          "file": "jmbl_fg_mpg_guard2.sl",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+          "sha256": "2305bef24fcb825fbb837464f5e3d3e9d38afad1a732152b1c138a08fdf6fb05",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_mpg_guard2.sl"
+        },
+        "sygus": "(set-logic LIA)\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int b1)\n(define-fun two_times ((b1 Int)) Int (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n(check-synth)\n",
+        "task_id": "jmbl_fg_mpg_guard2",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+      }
+    }
+  ]
+}
