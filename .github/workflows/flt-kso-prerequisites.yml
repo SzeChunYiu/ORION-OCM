@@ -2,13 +2,9 @@ name: FLT KSO prerequisite engineering
 on:
   push:
     branches: [codex/flt-kso-prerequisites-20260906]
-    paths:
-      - 'research/flt-kso-v1/**'
-      - '.github/workflows/flt-kso-prerequisites.yml'
+    paths: ['research/flt-kso-v1/**', '.github/workflows/flt-kso-prerequisites.yml']
   pull_request:
-    paths:
-      - 'research/flt-kso-v1/**'
-      - '.github/workflows/flt-kso-prerequisites.yml'
+    paths: ['research/flt-kso-v1/**', '.github/workflows/flt-kso-prerequisites.yml']
 permissions:
   contents: read
 concurrency:
@@ -17,7 +13,7 @@ concurrency:
 jobs:
   controls:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,23 +21,69 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Export exact public source for reproducible offline editing
+        with: {python-version: '3.11'}
+      - name: Install pinned engineering dependencies
+        run: ./scripts/m0_install_dev.sh
+      - name: Development and historical Python controls
+        env: {PYTHONPATH: src}
         run: |
           mkdir -p "$RUNNER_TEMP/flt-evidence"
           git rev-parse HEAD > "$RUNNER_TEMP/flt-evidence/source.commit"
           git rev-parse HEAD^{tree} > "$RUNNER_TEMP/flt-evidence/source.tree"
-          git archive --format=tar HEAD | gzip -n > "$RUNNER_TEMP/flt-evidence/ocm-source.tar.gz"
-          sha256sum "$RUNNER_TEMP/flt-evidence/ocm-source.tar.gz" > "$RUNNER_TEMP/flt-evidence/source.sha256"
-      - name: Existing replay Python controls (not a kernel result)
-        run: python research/proof-replay-v1/test_replay.py
-      - name: New development controls (initial commit is expected RED)
-        run: python research/flt-kso-v1/test_native.py
+          python research/proof-replay-v1/test_replay.py
+          python -m unittest discover -s research/flt-kso-v1 -p 'test_*.py' -v
+      - name: Acquire independently pinned control and successor releases
+        run: |
+          for v in 4.19.0 4.33.1; do
+            curl --fail --location --retry 2 --max-time 180 \
+              "https://github.com/leanprover/lean4/releases/download/v$v/lean-$v-linux.tar.zst" \
+              -o "$RUNNER_TEMP/lean-$v-linux.tar.zst" || echo "CANNOT_CHECK_ARCHIVE_$v"
+          done
+      - name: Registered R0 then R1; retain negative terminals
+        env: {PYTHONPATH: src}
+        run: |
+          set +e
+          python research/flt-kso-v1/run.py \
+            --control-archive "$RUNNER_TEMP/lean-4.19.0-linux.tar.zst" \
+            --archive "$RUNNER_TEMP/lean-4.33.1-linux.tar.zst" \
+            --out "$RUNNER_TEMP/flt-evidence/micro"
+          status=$?
+          echo "$status" > "$RUNNER_TEMP/flt-evidence/micro.exit"
+          test "$status" = 0 || test "$status" = 2
+      - name: Full source-bound engineering recorder
+        if: always()
+        env: {PYTHONPATH: src}
+        run: python tools/record_engineering_revision.py
+      - name: Verify all M1-M12 wrappers
+        if: always()
+        env: {PYTHONPATH: src}
+        run: |
+          for m in $(seq 1 12); do python "tools/m${m}_receipt.py" --verify || exit 1; done
+      - name: Acquire evaluator only after the mechanism run
+        uses: actions/checkout@v4
+        with:
+          repository: anthropics/fermats-last-theorem
+          ref: aa2d8b34692b16c70f699536de0d8e75b9a3e9ef
+          path: .private-flt
+          persist-credentials: false
+          sparse-checkout: |
+            Theorems
+            P2M/Sol
+          sparse-checkout-cone-mode: true
+      - name: Inventory evaluator and test the explicit sealing boundary
+        env: {PYTHONPATH: src}
+        run: |
+          python research/flt-kso-v1/audit.py --source .private-flt \
+            --out "$RUNNER_TEMP/flt-evidence/evaluator"
+      - name: Preserve engineering receipts without rewriting history
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/flt-evidence"
+          tar -czf "$RUNNER_TEMP/flt-evidence/engineering-revisions.tar.gz" docs/provenance/engineering_revisions
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: flt-prerequisite-${{ github.sha }}
+          name: flt-prerequisite-${{ github.event.pull_request.head.sha || github.sha }}
           path: ${{ runner.temp }}/flt-evidence/
-          retention-days: 7
+          retention-days: 14
           if-no-files-found: error
