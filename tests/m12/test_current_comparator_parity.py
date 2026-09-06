@@ -15,7 +15,7 @@ def test_named_reports_correction_and_restart_preserve_attribution(tmp_path, arm
     assert "Alice says" in arm.say("the robot opened the door", speaker="Alice")
     assert "Bob says not" in arm.say("the robot did not open the door", speaker="Bob")
     assert "Contradictory" in arm.say("did the robot open the door")
-    assert "supersedes" in arm.say("correction, the robot opened the door", speaker="Bob")
+    assert "supersedes" in arm.say("  Correction, the robot opened the door  ", speaker="Bob")
     assert "Alice said so" in arm.say("did the robot open the door")
     arm.say("__restart__")
     assert "Alice said so" in arm.say("did the robot open the door")

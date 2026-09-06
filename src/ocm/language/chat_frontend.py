@@ -14,6 +14,18 @@ from ocm.language.meaning import MeaningGraph
 DEFAULT_MANIFEST = default_manifest_path()
 RELATION_WORDS = {"in": "LOCATED_IN", "a": "IS_A", "an": "IS_A", "orbit": "ORBITS", "orbits": "ORBITS", "part": "PART_OF", "contain": "CONTAINS", "contains": "CONTAINS", "before": "BEFORE", "capital": "CAPITAL_OF"}
 
+CORRECTION_PREFIXES = ("correction,", "correction:", "no,", "actually,", "i was wrong,", "i meant")
+
+
+def correction_body(utterance: str) -> tuple[str, bool]:
+    """Separate a registered correction cue without dropping attributed content."""
+    stripped = utterance.strip()
+    for prefix in CORRECTION_PREFIXES:
+        if stripped.lower().startswith(prefix):
+            return stripped[len(prefix):].strip(), True
+    return utterance, False
+
+
 def seed_frontend(manifest: Path = DEFAULT_MANIFEST) -> tuple[L.Lexicon, list[C.Construction]]:
     from ocm.language.bootstrap import microworld_lexicon
 

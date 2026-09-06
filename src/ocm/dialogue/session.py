@@ -25,14 +25,13 @@ from ocm.language.constructions import CandidateMeaning, Construction
 from ocm.language.interpret import Interpretation, Verdict, interpret, tokenize
 from ocm.language.lexicon import Lexicon
 from ocm.language.meaning import MeaningGraph, canonical
-from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe
+from ocm.language.chat_frontend import _is_question, _strip, _is_negated, _describe, correction_body, CORRECTION_PREFIXES
 
 from . import clarify as CL
 from . import gate as G
 from . import reference as R
 from .workspace import Commitment, DialogueWorkspace, WorkspaceRefusal
 
-CORRECTION_PREFIXES = ("correction,", "correction:", "no,", "actually,", "i was wrong,", "i meant")
 PRONOUN_NODE_LABELS = {None}
 
 
@@ -126,14 +125,7 @@ class DialogueRuntime:
         ws = self.workspace
         if self.pending.get("clarify") is not None:
             return self._resolve_clarification(utterance, speaker)
-        low = utterance.strip().lower()
-        correction = any(low.startswith(p) for p in CORRECTION_PREFIXES)
-        body = utterance
-        if correction:
-            for p in CORRECTION_PREFIXES:
-                if low.startswith(p):
-                    body = utterance[len(p):].strip()
-                    break
+        body, correction = correction_body(utterance)
         r = interpret(body, self.lexicon, self.constructions, speaker=speaker, conversation=self.conversation_id, revoked=self._revoked())
         turn = ws.record_turn(speaker, original_utterance if original_utterance is not None else utterance, "CORRECT" if correction else ("ASK" if r.verdict is Verdict.INTERPRETED and _is_question(r.meaning) else "ASSERT"), r.verdict.value, meaning_digest=None if r.meaning is None else canonical(r.meaning)[1])
         if r.verdict is Verdict.INTERPRETED:

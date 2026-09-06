@@ -6,13 +6,11 @@ or whole-lifetime parity certification. The historical regex parent is intact.
 import re
 from ocm.chat.spelling import propose
 from ocm.dialogue import clarify as CL
-from ocm.language.chat_frontend import world_query, _describe, _strip, _is_question, _is_negated, parse_lexical_lesson
+from ocm.language.chat_frontend import world_query, _describe, _strip, _is_question, _is_negated, parse_lexical_lesson, correction_body
 from ocm.language.interpret import interpret, Verdict
 from ocm.language.meaning import canonical
 from .matched_parent import MatchedParent
 from .semantic_memory import SemanticMemory
-
-CORRECTIONS = ('correction,', 'correction:', 'no,', 'actually,', 'i was wrong,', 'i meant')
 
 
 class SemanticParent(MatchedParent):
@@ -93,8 +91,7 @@ class SemanticParent(MatchedParent):
         if self.pending is not None:
             self.pending = None
             return self.unsupported('CANNOT_CHECK_CLARIFICATION_ANSWER_PARITY')
-        correction = next((p for p in CORRECTIONS if low.startswith(p)), None)
-        body = text.strip()[len(correction):].strip() if correction else text
+        body, correction = correction_body(text)
         result = interpret(body, m.lexicon, m.constructions, speaker=speaker, revoked=m.revoked)
         self.last_frontend.update(verdict=result.verdict.value,
             candidates=[canonical(c.meaning)[1] for c in result.candidates])
