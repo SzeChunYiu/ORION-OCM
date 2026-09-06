@@ -1,0 +1,105 @@
+{
+  "PYTHONPATH": "src:research/ocm-prototype",
+  "all_tracked_src_bytes_equal_HEAD": true,
+  "base_commit": "f4f3f55a42e1458e24d36036ce17a2abf4289763",
+  "base_src_tree": "e8ea28540777159cc000260440e959ef35f09da4",
+  "environment": {
+    "QQ_dtype": "<class 'sympy.external.pythonmpq.PythonMPQ'>",
+    "executable": "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+    "gmpy2": "NOT_INSTALLED",
+    "mpmath": "1.3.0",
+    "optimize": 0,
+    "pytest": "8.3.5",
+    "python": "3.13.12",
+    "python-flint": "NOT_INSTALLED",
+    "sympy": "1.14.0",
+    "sympy_domainmatrix_source_sha256": "32f8d647343894acd7dab0a5f2646da6221749eeb8d7fc7a38cad3afc8ac70f0"
+  },
+  "prior_tracked_scope_diff_bytes": 0,
+  "raw_resource_role": "test qualification only; no performance comparison",
+  "runs": {
+    "cli-red": {
+      "errors": "0",
+      "failures": "2",
+      "skipped": "0",
+      "tests": "2",
+      "time": "0.173"
+    },
+    "compatibility": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "109",
+      "time": "1.050"
+    },
+    "final": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "111",
+      "time": "1.363"
+    },
+    "first-implementation": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "45",
+      "time": "0.548"
+    },
+    "focused": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "53",
+      "time": "0.787"
+    },
+    "red": {
+      "errors": "0",
+      "failures": "45",
+      "skipped": "0",
+      "tests": "45",
+      "time": "0.196"
+    }
+  },
+  "source": {
+    "research/ocm-prototype/exact_sparse_donor.py": {
+      "bytes": 5194,
+      "sha256": "55e598078ad5a43001314a5d41fa3928b55a8d93a17551fef3a6d769f1b7b1fb"
+    },
+    "research/ocm-prototype/exact_sparse_donor_check.py": {
+      "bytes": 1177,
+      "sha256": "91b9b4ccb11f455e07ba92354662cf61382e6c94d00acf82baa1eba3a4fcbfe1"
+    },
+    "research/ocm-prototype/exact_sparse_donor_consumer.py": {
+      "bytes": 3533,
+      "sha256": "0ba00dfc1d028a85666ce25aaeff3f4cbe1b7c3ffccd6ffb6edd0ba2fcc76c0d"
+    },
+    "research/ocm-prototype/exact_sparse_donor_tests/test_cli.py": {
+      "bytes": 979,
+      "sha256": "96299cd4f3a4b4ea488522128f8fb6d217647183fc0b0612a1e91f14539bb2ae"
+    },
+    "research/ocm-prototype/exact_sparse_donor_tests/test_consumer.py": {
+      "bytes": 3374,
+      "sha256": "57ff9cddc1598f238abee412acdacc3b86a111105aca19bc4bcd008099fa183a"
+    },
+    "research/ocm-prototype/exact_sparse_donor_tests/test_exact.py": {
+      "bytes": 5453,
+      "sha256": "1ffcceac94076c9e17b4c27da454a244cda3eb422807d438efd90f8883ca3d89"
+    },
+    "research/ocm-prototype/exact_sparse_donor_tests/test_refusals.py": {
+      "bytes": 4333,
+      "sha256": "58aae669f9c2fbd4dfe331dec04b8ad7da0a16d5853865551efe03e00c6b6ef3"
+    }
+  },
+  "test_recipe": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "research/ocm-prototype/exact_sparse_donor_tests",
+    "tests/m2/test_solve_loop.py",
+    "tests/m2/test_surprise_channel_backgrounds.py",
+    "tests/m1/test_equivalence_reference.py",
+    "tests/m1/test_mutants.py"
+  ]
+}
