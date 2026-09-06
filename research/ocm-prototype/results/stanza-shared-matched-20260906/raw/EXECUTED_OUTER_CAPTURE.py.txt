@@ -1,0 +1,81 @@
+"""Execute the exact registered command once; no source edits or retries."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,importlib.metadata as M,json,os,resource,subprocess,sys,time
+BASE=Path('/home/billy/orion-director-work/20260906')
+REPO=BASE/'ocm-stanza-shared'
+PLAN=REPO/'research/ocm-prototype/results/g1-stanza-matched-plan-v1'
+OUT=BASE/'stanza-shared-matched-prospective-v1'
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(path,data):
+    with path.open('x') as f:json.dump(data,f,indent=2);f.write('\n')
+start=time.perf_counter(); cpu=time.process_time()
+assert sha(PLAN/'launch.json')=='102c145a51a2307f12fa303d395ad7ba75f1d394b02a98f09daad86445a8c1ae'
+launch=json.loads((PLAN/'launch.json').read_text())
+plan=json.loads((PLAN/'plan.json').read_text())
+bind=json.loads((PLAN/'source-runtime-model-binding.json').read_text())
+assert sha(PLAN/'plan.json')==launch['plan_sha256']=='14c6c7ed9f621cc733fb3538a1954cda2fdec698952d2796e50fb6c804b0fdd3'
+assert sha(PLAN/'source-runtime-model-binding.json')==launch['bindings_sha256']
+assert subprocess.check_output(['/usr/bin/git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip()=='7557ab98201f828f222e48dc4afc9aeb15516185'
+assert subprocess.check_output(['/usr/bin/git','-C',str(REPO),'status','--porcelain=v1','-uall'])==b''
+assert not Path(launch['output_directory']).exists() and list(OUT.iterdir())==[]
+for collection in ('source_files','execution_and_grading_scripts','public_clia_fixture_data'):
+    for path,digest in bind[collection].items():assert sha(REPO/path)==digest,path
+assert sha(launch['profile_path'])==launch['profile_sha256']
+assert sha(launch['runtime_lock_path'])==launch['runtime_lock_sha256']==bind['runtime_lock_sha256']
+lock=json.loads(Path(launch['runtime_lock_path']).read_text())
+versions={}
+for item in lock['original_packages']+lock['added_packages']:
+    dist=M.distribution(item['name'])
+    assert dist.version==item['version'],item['name']
+    assert json.loads(dist.read_text('direct_url.json'))['url']==item['url'],item['name']
+    versions[item['name']]=dist.version
+assert sha(bind['python_executable'])==bind['python_binary_sha256']
+assert sha(launch['argv'][0])==launch['taskset_sha256']
+assert set(plan['cpu_affinity'])<=os.sched_getaffinity(0)
+sys.path.insert(0,str(REPO/'research/ocm-prototype'))
+import g1_stanza_capture as B,g1_stanza_worker as W
+profile,_,_=B.bind(PLAN,plan,Path(launch['argv'][launch['argv'].index('--model')+1]),
+    Path(launch['argv'][launch['argv'].index('--training')+1]),Path(launch['profile_path']))
+assert W.source_files()==bind['source_files'] and 'ocm.runtime.ocm_runtime' not in sys.modules
+preflight={'status':'PASS','role':'PRELAUNCH_SOURCE_RUNTIME_MODEL_CUSTODY_NO_PREDICTION',
+'verified_utc':datetime.now(timezone.utc).isoformat(),'source_commit':launch['source_commit'],
+'head':'7557ab98201f828f222e48dc4afc9aeb15516185','source_identity':plan['source_identity'],
+'plan_sha256':sha(PLAN/'plan.json'),'launch_sha256':sha(PLAN/'launch.json'),
+'runtime_versions':versions,'runtime_lock_sha256':launch['runtime_lock_sha256'],
+'model_profile_sha256':launch['profile_sha256'],'model_files':bind['model_files'],
+'cpu_affinity':plan['cpu_affinity'],'output_did_not_exist':True,'fresh_parent_empty':True,
+'wall_s':time.perf_counter()-start,'self_cpu_s':time.process_time()-cpu,
+'model_loaded':False,'ocm_runtime_imported':False}
+write(OUT/'preflight.json',preflight)
+before=resource.getrusage(resource.RUSAGE_CHILDREN);begin=time.perf_counter()
+begun={'role':'REGISTERED_SINGLE_ACTUAL_ATTEMPT','started_utc':datetime.now(timezone.utc).isoformat(),
+'cwd':launch['cwd'],'argv':launch['argv'],'preflight_sha256':sha(OUT/'preflight.json'),
+'launch_sha256':sha(PLAN/'launch.json'),'root_authorization':'#73 issuecomment-5557323635; preceding reuse processes confirmed absent'}
+write(OUT/'outer-launch-started.json',begun)
+with Path(launch['stdout']).open('x') as stdout,Path(launch['stderr']).open('x') as stderr:
+    process=subprocess.Popen(launch['argv'],cwd=launch['cwd'],stdout=stdout,stderr=stderr)
+    write(OUT/'outer-process.json',{'pid':process.pid,'argv':launch['argv']})
+    code=process.wait()
+after=resource.getrusage(resource.RUSAGE_CHILDREN)
+changed=[]
+for collection in ('source_files','execution_and_grading_scripts','public_clia_fixture_data'):
+    for path,digest in bind[collection].items():
+        if sha(REPO/path)!=digest:changed.append(path)
+model_changed=[]
+for path,item in bind['model_files'].items():
+    actual=BASE/'stanza-qualification/models'/path.removeprefix('models/')
+    if sha(actual)!=item['sha256']:model_changed.append(path)
+result={'role':'SEALED_ACTUAL_ATTEMPT_NO_AUTOMATIC_RETRY','ended_utc':datetime.now(timezone.utc).isoformat(),
+'pid':process.pid,'exit_code':code,'outer_wall_s':time.perf_counter()-begin,
+'outer_reaped_direct_child_cpu_s':after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
+'wrapper_self_cpu_since_preflight_s':time.process_time()-cpu,'total_process_tree_cpu_s':None,
+'complete_cpu_custody':False,'cpu_scope':'Wrapper direct-child RUSAGE delta and wrapper self separately; total tree completeness UNKNOWN.',
+'stdout_sha256':sha(launch['stdout']),'stderr_sha256':sha(launch['stderr']),
+'source_drift_paths':changed,'model_drift_paths':model_changed,
+'plan_stable':sha(PLAN/'plan.json')==launch['plan_sha256'],
+'profile_stable':sha(launch['profile_path'])==launch['profile_sha256'],
+'runtime_lock_stable':sha(launch['runtime_lock_path'])==launch['runtime_lock_sha256'],
+'raw_capture_receipt_sha256':sha(Path(launch['output_directory'])/'receipt.json') if (Path(launch['output_directory'])/'receipt.json').is_file() else None}
+write(OUT/'outer-launch-sealed.json',result)
+print(json.dumps(result,indent=2),flush=True)
