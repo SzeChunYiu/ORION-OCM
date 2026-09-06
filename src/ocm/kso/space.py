@@ -5,9 +5,10 @@ v0) · ``UnifiedKSO`` (multidomain) all become views of this one object: atoms a
 hyperedges, each carrying a warrant interval, authority, scope, epoch and resource/provenance
 metadata (contract §2).  Certificates and the meter live on ``GovernedSpace`` in ``admission.py``.
 
-Every structure is immutable; edits return a new space.  ``to_reference``/``from_reference`` convert
-to and from the frozen historical ``kso_math_v1`` types so old-vs-new equivalence can be asserted on
-the registered witnesses (M1 D3: no architecture laundering).
+Structural edits return a new space. Nested metadata and the shared TypeRegistry are not deeply
+immutable: content digests must observe current values, and edits must revalidate against the
+current registry. ``to_reference``/``from_reference`` convert to and from the frozen historical
+``kso_math_v1`` types for old-vs-new equivalence checks (M1 D3: no architecture laundering).
 """
 from __future__ import annotations
 
@@ -140,26 +141,6 @@ class KnowledgeSpace:
         object.__setattr__(self, "hyperedges", tuple(self.hyperedges))
         self.validate()
 
-    @classmethod
-    def _from_locally_validated(
-        cls,
-        atoms: tuple[Atom, ...],
-        hyperedges: tuple[Hyperedge, ...],
-        registry: TypeRegistry,
-    ) -> "KnowledgeSpace":
-        """Construct after a local edit has discharged the invariants it can affect.
-
-        ``KnowledgeSpace`` is immutable, so adding valid atoms or edges cannot invalidate
-        pre-existing atoms/edges. The public constructor remains the full validation oracle;
-        hot persistent edits use this constructor only after checking duplicate identity, type,
-        relation registration and edge endpoints for newly introduced objects.
-        """
-        obj = object.__new__(cls)
-        object.__setattr__(obj, "atoms", atoms)
-        object.__setattr__(obj, "hyperedges", hyperedges)
-        object.__setattr__(obj, "registry", registry)
-        return obj
-
     # --- structure -----------------------------------------------------------------------
     @cached_property
     def ids(self) -> tuple[str, ...]:
@@ -178,12 +159,13 @@ class KnowledgeSpace:
         """Read-only zero-copy view for internal hot paths.
 
         ``atom_map`` intentionally remains a mutable detached copy for compatibility.
+        The mapping is read-only; nested metadata on its values is not deeply frozen.
         """
         return MappingProxyType(self._atom_index)
 
     @cached_property
     def edge_view(self) -> Mapping[str, Hyperedge]:
-        """Read-only zero-copy edge lookup for internal hot paths."""
+        """Read-only zero-copy edge lookup; nested metadata remains caller-owned."""
         return MappingProxyType(self._edge_index)
 
     @cached_property
@@ -304,29 +286,12 @@ class KnowledgeSpace:
 
     # --- edits (persistent) --------------------------------------------------------------
     def with_atoms(self, *atoms: Atom) -> "KnowledgeSpace":
-        additions = tuple(atoms)
-        if not additions:
-            return self
-        new_ids = [a.atom_id for a in additions]
-        if len(set(new_ids)) != len(new_ids) or any(atom_id in self._atom_index for atom_id in new_ids):
-            raise ValueError("duplicate atom id")
-        for atom in additions:
-            self.registry.require_atom_type(atom.atom_type)
-        return self._from_locally_validated(self.atoms + additions, self.hyperedges, self.registry)
+        # The registry is shared and mutable; old types may have been withdrawn since
+        # construction. Retain full validation until a versioned registry contract exists.
+        return replace(self, atoms=self.atoms + tuple(atoms))
 
     def with_edges(self, *edges: Hyperedge) -> "KnowledgeSpace":
-        additions = tuple(edges)
-        if not additions:
-            return self
-        new_ids = [e.edge_id for e in additions]
-        if len(set(new_ids)) != len(new_ids) or any(edge_id in self._edge_index for edge_id in new_ids):
-            raise ValueError("duplicate edge id")
-        known = self._atom_index
-        for edge in additions:
-            if any(x not in known for x in (*edge.tails, *edge.heads)):
-                raise ValueError(f"hyperedge {edge.edge_id} references an unknown atom")
-            self.registry.require_relation_type(edge.relation_type)
-        return self._from_locally_validated(self.atoms, self.hyperedges + additions, self.registry)
+        return replace(self, hyperedges=self.hyperedges + tuple(edges))
 
     def replace_atom(self, atom: Atom) -> "KnowledgeSpace":
         return replace(self, atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms))
@@ -338,13 +303,11 @@ class KnowledgeSpace:
         return replace(self, atoms=atoms, hyperedges=edges)
 
     # --- identity ------------------------------------------------------------------------
-    @cached_property
-    def _digest_value(self) -> str:
+    def digest(self) -> str:
+        # A frozen dataclass does not freeze nested Atom/Hyperedge.meta values.
+        # Hash current canonical content, including mutations through as_dict aliases.
         body = {"atoms": [a.as_dict() for a in self.atoms], "hyperedges": [e.as_dict() for e in self.hyperedges]}
         return hashlib.sha256(canonical_json(body).encode("utf-8")).hexdigest()
-
-    def digest(self) -> str:
-        return self._digest_value
 
     def resource_counts(self) -> dict[str, int]:
         warrant_size = sum(len(a.warrant.lower) + len(a.warrant.upper) for a in self.atoms)
