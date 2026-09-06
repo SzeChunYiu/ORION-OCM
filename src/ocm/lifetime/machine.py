@@ -12,8 +12,9 @@
   `LegacyWholeSystemParent` retains the old M7 regex/similarity arm as a labelled ablation.
 * `TemplateFloor` — the M7 template arm for language plus no-op work/science (a floor, not a parent).
 
-A frontier foundation-model reference arm cannot be built in this environment (no network, no
-model): `FRONTIER_REFERENCE = CANNOT_CHECK` is recorded, never silently omitted.
+This harness has no registered frontier foundation-model reference execution.
+`FRONTIER_REFERENCE = CANNOT_CHECK` records that missing comparison, not a
+claim about the host's network access or available models.
 """
 from __future__ import annotations
 
@@ -34,7 +35,7 @@ from ocm.work import envs as E
 from ocm.work import methods as M
 from .native_parent import WholeSystemParent
 
-FRONTIER_REFERENCE = "CANNOT_CHECK (no network / no foundation model in this environment; reference arm not built)"
+FRONTIER_REFERENCE = "CANNOT_CHECK (no registered frontier reference execution in this harness)"
 
 
 def identity_chain(runtime) -> dict[str, Any]:
