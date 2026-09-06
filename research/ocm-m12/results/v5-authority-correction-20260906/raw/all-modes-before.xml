@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.332" timestamp="2026-09-06T05:17:25.145372+02:00" hostname="billy"><testcase classname="tests.m12.test_v5_execution_authority" name="test_every_new_mode_has_engineering_authority[flags0-V3]" time="0.147"><failure message="KeyError: 'current_scientific_promotion'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-51/test_every_new_mode_has_engine0')
+archived_phases = {'authority': 'eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched...s'], 'identification_verdict_type': 'GUARANTEED_IDENTIFICATION_NOT_CLAIMED', 'interaction_turns': 18, ...}, ...]}, ...}
+flags = [], mode = 'V3'
+
+    @pytest.mark.parametrize("flags,mode", [([], "V3"), (["--v4"], "V4"), (["--v5"], "V5")])
+    def test_every_new_mode_has_engineering_authority(tmp_path, archived_phases, flags, mode):
+        output = tmp_path / "mode.json"
+        assert PE.main([*flags, "--out", str(output)]) == 0
+        result = json.loads(output.read_text())
+        assert result["deterministic"]["decision"] == "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+        assert "historical_rule_diagnostic" in result["deterministic"]
+&gt;       assert result["current_scientific_promotion"] == "NOT_ESTABLISHED"
+E       KeyError: 'current_scientific_promotion'
+
+tests/m12/test_v5_execution_authority.py:66: KeyError</failure></testcase><testcase classname="tests.m12.test_v5_execution_authority" name="test_every_new_mode_has_engineering_authority[flags1-V4]" time="0.029"><failure message="KeyError: 'current_scientific_promotion'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-51/test_every_new_mode_has_engine1')
+archived_phases = {'authority': 'eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched...s'], 'identification_verdict_type': 'GUARANTEED_IDENTIFICATION_NOT_CLAIMED', 'interaction_turns': 18, ...}, ...]}, ...}
+flags = ['--v4'], mode = 'V4'
+
+    @pytest.mark.parametrize("flags,mode", [([], "V3"), (["--v4"], "V4"), (["--v5"], "V5")])
+    def test_every_new_mode_has_engineering_authority(tmp_path, archived_phases, flags, mode):
+        output = tmp_path / "mode.json"
+        assert PE.main([*flags, "--out", str(output)]) == 0
+        result = json.loads(output.read_text())
+        assert result["deterministic"]["decision"] == "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+        assert "historical_rule_diagnostic" in result["deterministic"]
+&gt;       assert result["current_scientific_promotion"] == "NOT_ESTABLISHED"
+E       KeyError: 'current_scientific_promotion'
+
+tests/m12/test_v5_execution_authority.py:66: KeyError</failure></testcase><testcase classname="tests.m12.test_v5_execution_authority" name="test_every_new_mode_has_engineering_authority[flags2-V5]" time="0.030"><failure message="AssertionError: assert 'Engineering ...t established' == 'Engineering ...t established'&#10;  &#10;  - Engineering replay on exposed V5 streams; historical-rule diagnostic only; comparator adequacy and scientific promotion are not established&#10;  ?               -- ^^&#10;  + Engineering reaggregation on exposed V5 streams; historical-rule diagnostic only; comparator adequacy and scientific promotion are not established&#10;  ?                ^^^^^^^^  +++">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-51/test_every_new_mode_has_engine2')
+archived_phases = {'authority': 'eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched...s'], 'identification_verdict_type': 'GUARANTEED_IDENTIFICATION_NOT_CLAIMED', 'interaction_turns': 18, ...}, ...]}, ...}
+flags = ['--v5'], mode = 'V5'
+
+    @pytest.mark.parametrize("flags,mode", [([], "V3"), (["--v4"], "V4"), (["--v5"], "V5")])
+    def test_every_new_mode_has_engineering_authority(tmp_path, archived_phases, flags, mode):
+        output = tmp_path / "mode.json"
+        assert PE.main([*flags, "--out", str(output)]) == 0
+        result = json.loads(output.read_text())
+        assert result["deterministic"]["decision"] == "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+        assert "historical_rule_diagnostic" in result["deterministic"]
+        assert result["current_scientific_promotion"] == "NOT_ESTABLISHED"
+        assert result["protected_reevaluation"] == "NOT_RUN"
+        assert result["study_status"] == "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS"
+&gt;       assert result["authority"] == (f"Engineering replay on exposed {mode} streams; historical-rule diagnostic only; "
+                                       "comparator adequacy and scientific promotion are not established")
+E       AssertionError: assert 'Engineering ...t established' == 'Engineering ...t established'
+E         
+E         - Engineering replay on exposed V5 streams; historical-rule diagnostic only; comparator adequacy and scientific promotion are not established
+E         ?               -- ^^
+E         + Engineering reaggregation on exposed V5 streams; historical-rule diagnostic only; comparator adequacy and scientific promotion are not established
+E         ?                ^^^^^^^^  +++
+
+tests/m12/test_v5_execution_authority.py:69: AssertionError</failure></testcase></testsuite></testsuites>
