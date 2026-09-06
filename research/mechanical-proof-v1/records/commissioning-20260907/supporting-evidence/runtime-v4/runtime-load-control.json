@@ -1,0 +1,162 @@
+{
+  "manifest_sha256": "93aa17a738a8511bbb8996eff91e81da0ec5868db50d0f81ab26809e38661894",
+  "process": {
+    "bwrap": {
+      "path": "/usr/bin/bwrap",
+      "sha256": "af662c55cd85178a58da083220a9348c4a7d3c24333fd0bc7badb18c93392987"
+    },
+    "cleanup": {
+      "group_absent": true,
+      "kill_sent": false,
+      "reaped": true
+    },
+    "completion_scope": "Isolated process envelope; caller must validate executable response before attributing native work or proof status.",
+    "cost_scope": "Validation through cleanup; limit/hashes bind captured raw bytes; text decoding may expand bytes. CPU/RSS unmeasured.",
+    "cpu_s": null,
+    "environment": {},
+    "executable": {
+      "sha256": "edca1fc80dbd58182c849c13707fb6bfb522b0d7049adc408225f7c69b124d3b",
+      "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/python/bin/python3.11"
+    },
+    "execution_timeout_s": 5,
+    "invocation": [
+      "/usr/bin/bwrap",
+      "--unshare-all",
+      "--unshare-user",
+      "--unshare-pid",
+      "--unshare-net",
+      "--die-with-parent",
+      "--new-session",
+      "--cap-drop",
+      "ALL",
+      "--proc",
+      "/proc",
+      "--dev",
+      "/dev",
+      "--tmpfs",
+      "/tmp",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/python",
+      "/python",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/ebaed8bd64291875c908cc6e7f5115ae7bf605a5da56ce3da4028e2fcfb0d8e5-libc.so.6",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/5744b3669e4574920dfac2b33207db4e8cb501df88ef28c3801ba0673a7c7d6f-libcrypt.so.1.1.0",
+      "/lib/x86_64-linux-gnu/libcrypt.so.1",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/8b7cda1e23cbb3629a65d8b4425407808b112ae433230270f6c8f93985fbefa9-libdl.so.2",
+      "/lib/x86_64-linux-gnu/libdl.so.2",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/0554e0d02070ac994921f8523828259bef149b532cb24fbbb31a265995a889d5-libm.so.6",
+      "/lib/x86_64-linux-gnu/libm.so.6",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/3e4091283381ce818db1485938098acb2b2a6245c90dcb33a045d803b9b9cade-libpthread.so.0",
+      "/lib/x86_64-linux-gnu/libpthread.so.0",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/ef3144a2348d84b0b219e59ea4228235ae8e47c4b5e148ae322d336ff55a6c8c-librt.so.1",
+      "/lib/x86_64-linux-gnu/librt.so.1",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/25fa35a725efd801997c0fe91193ad21db4633fb077f692981edbcb173e83b0f-libtcl9.0.so",
+      "/lib/x86_64-linux-gnu/libtcl9.0.so",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/755c2cfcf4d0cc58a5214398b57647da244fd7aa0fcb9ef54e9328631bec2f58-libtcl9tk9.0.so",
+      "/lib/x86_64-linux-gnu/libtcl9tk9.0.so",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/c51fa35d1a945d0616cf9b7b84c04f697d5051d8f2364e87c3bb5d0efa2b3c2f-libutil.so.1",
+      "/lib/x86_64-linux-gnu/libutil.so.1",
+      "--ro-bind",
+      "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/b30a5d834a1c820db8eda3a6bafbc5d1b0e51d29de47579ada264f69c18003dd-ld-linux-x86-64.so.2",
+      "/lib64/ld-linux-x86-64.so.2",
+      "--tmpfs",
+      "/work",
+      "--remount-ro",
+      "/",
+      "--chdir",
+      "/work",
+      "--",
+      "/python/bin/python3.11",
+      "-I",
+      "-S",
+      "-B",
+      "-c",
+      "import _tkinter,json,os; print(json.dumps({'tcl':_tkinter.TCL_VERSION,'tk':_tkinter.TK_VERSION,'ld_library_path':os.environ.get('LD_LIBRARY_PATH')}))"
+    ],
+    "max_output_bytes": 4096,
+    "mounts": [
+      {
+        "destination": "/python",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/python"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libc.so.6",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/ebaed8bd64291875c908cc6e7f5115ae7bf605a5da56ce3da4028e2fcfb0d8e5-libc.so.6"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libcrypt.so.1",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/5744b3669e4574920dfac2b33207db4e8cb501df88ef28c3801ba0673a7c7d6f-libcrypt.so.1.1.0"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libdl.so.2",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/8b7cda1e23cbb3629a65d8b4425407808b112ae433230270f6c8f93985fbefa9-libdl.so.2"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libm.so.6",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/0554e0d02070ac994921f8523828259bef149b532cb24fbbb31a265995a889d5-libm.so.6"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libpthread.so.0",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/3e4091283381ce818db1485938098acb2b2a6245c90dcb33a045d803b9b9cade-libpthread.so.0"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/librt.so.1",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/ef3144a2348d84b0b219e59ea4228235ae8e47c4b5e148ae322d336ff55a6c8c-librt.so.1"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libtcl9.0.so",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/25fa35a725efd801997c0fe91193ad21db4633fb077f692981edbcb173e83b0f-libtcl9.0.so"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libtcl9tk9.0.so",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/755c2cfcf4d0cc58a5214398b57647da244fd7aa0fcb9ef54e9328631bec2f58-libtcl9tk9.0.so"
+      },
+      {
+        "destination": "/lib/x86_64-linux-gnu/libutil.so.1",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/c51fa35d1a945d0616cf9b7b84c04f697d5051d8f2364e87c3bb5d0efa2b3c2f-libutil.so.1"
+      },
+      {
+        "destination": "/lib64/ld-linux-x86-64.so.2",
+        "mode": "read-only",
+        "source": "/home/billy/orion-director-work/20260906/f0-development-runtime-v4/shared-libraries/b30a5d834a1c820db8eda3a6bafbc5d1b0e51d29de47579ada264f69c18003dd-ld-linux-x86-64.so.2"
+      }
+    ],
+    "output_truncated": false,
+    "peak_rss_bytes": null,
+    "pid": 2589037,
+    "reason": "",
+    "returncode": 0,
+    "stderr": "",
+    "stderr_base64": "",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "{\"tcl\": \"9.0\", \"tk\": \"9.0\", \"ld_library_path\": null}\n",
+    "stdout_base64": "eyJ0Y2wiOiAiOS4wIiwgInRrIjogIjkuMCIsICJsZF9saWJyYXJ5X3BhdGgiOiBudWxsfQo=",
+    "stdout_bytes": 53,
+    "stdout_sha256": "7b8197803b9ecdb59c32da3e607eadda5b01f6881538e3e37040a1aa48fa2797",
+    "terminal": "COMPLETED",
+    "timed_out": false,
+    "wall_s": 0.08549695496913046,
+    "work_dir": null
+  },
+  "scope": "Runtime dependency-load control only: no GUI creation, search, proof, learning or application task."
+}

@@ -1,7 +1,7 @@
 # OCM research programme — current objective
 
 Research and top-tier journal papers come first; product development follows.
-Formal science is the flagship: [FLT reconstruction and transfer](FLT_RECONSTRUCTION.md), beginning with the exposed F0 mechanical proposer. Richer language follows later.
+Formal science is the flagship: [FLT reconstruction and transfer](FLT_RECONSTRUCTION.md). The exposed [finite F0 proposer](../mechanical-proof-v1/RESULT.md) now passes its 14-case commissioning; broader proof mechanics and learning remain open. Richer language follows later.
 [No neural networks](NO_NEURAL_CONTRACT.md) is the governing requirement across OCM cognition and learning; current whole-machine enforcement remains to be qualified.
 
 Two candidate scientific contributions:

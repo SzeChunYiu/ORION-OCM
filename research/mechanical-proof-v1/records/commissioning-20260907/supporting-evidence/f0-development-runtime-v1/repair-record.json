@@ -1,0 +1,13 @@
+{
+  "terminal": "PREPARATION_RECIPE_CORRECTED",
+  "initial_recipe_sha256": "f5105aff1ba1a2d1ad0b1d47377a8b75faf4e2419c5e86eb0ab658e2b1d8195a",
+  "repaired_recipe_sha256": "6316552bd8f29806e5f983fa5a1f5b855175baffb11f08e80bec1bbdd57fde42",
+  "snapshot_method": "Initial source reconstructed from captured creation text by reversing the sole subsequent ordering edit; hashes computed when preserving this record.",
+  "cause": "Internal ldd RPATH dependencies were checked as external guest mount paths before resolving registered-root membership.",
+  "verified_real_form": "First inspected ELF was lean-4.33.1-linux/bin/cadical; read-only ldd probe returned libc++.so.1 and others via bin/../lib, including libatomic.so.1 via bin/../lib/../lib.",
+  "repair": "Resolve dependency and exclude registered-root contents before validating external guest mount canonicality.",
+  "regression": "Both real-form dot-segment control and full runtime recipe controls pass; 10 passed in 0.07s.",
+  "failed_preparation_record": "preparation-failure.json",
+  "fresh_successor": "/home/billy/orion-director-work/20260906/f0-development-runtime-v2",
+  "scope": "Development preparation only; no proof or search execution."
+}

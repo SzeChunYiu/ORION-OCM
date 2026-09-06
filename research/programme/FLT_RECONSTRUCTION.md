@@ -1,8 +1,9 @@
 # FLT reconstruction and mechanical transfer
 
 [Programme](CORE.md) · [no-neural contract](NO_NEURAL_CONTRACT.md) · [parents](PARENTS.md).
-Prospective protocol: no FLT gate is claimed passed. Formal science is the flagship;
-richer language remains a later independent claim. Exact checking gives a clearer
+Prospective FLT protocol. The [finite exposed F0 tranche](../mechanical-proof-v1/RESULT.md)
+passes 14 commissioning controls; F1–F4 and broader F0 mechanics remain unqualified.
+Formal science is the flagship; richer language is a later independent claim. Exact checking gives a clearer
 correctness boundary, not a promise that mathematical search is easier.
 
 ## Five gates, including apparatus qualification
@@ -32,12 +33,15 @@ The existing [fixed proof package](../proof-replay-v1/README.md) pins Lean 4.19.
 Foundation theorems and one authored two-lemma composition. It has no Mathlib and performs
 fixed replay, not search. The installed science API's default kernel is propositional.
 
-Create a separate successor; preserve the fixed package's manifests, sources and receipts.
-For exposed commissioning, mask `Composition.lean`'s body while allowing the two Foundation
-lemma signatures and exact target. The theorem is already public/inspected, so this is not
-held-out discovery. Generic typed AST constructors, unification, binder introduction and
-lemma application must find the term through deterministic bounded search. Retain all
-attempts and refusals; do not select the known two-lemma script by theorem name.
+The separate [mechanical successor](../mechanical-proof-v1/README.md) preserves that package.
+Its exposed worker sees the exact goal and allowed numeric signatures, without the
+Composition body. Typed binder introduction and indexed finite application search
+construct a direct hypothesis-composition proof; neither Foundation proof lemma is used.
+Fresh Lean 4.33.1 checking accepts the original, restart and equality-only cases with no
+axioms. All fourteen controls pass, and all prior failures remain preserved. This is
+PARENT_SUFFICIENT apparatus evidence, not held-out discovery or a learning result.
+Internal witness/lambda synthesis, general unification, induction, learned-method
+eligibility and integration with the installed science API remain separate work.
 
 Candidate input is registered proof-term data, not unrestricted Lean source. A trusted host
 translates permitted constructors; reject new imports, commands, tactics/plugins or arbitrary

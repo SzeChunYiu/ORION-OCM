@@ -1,0 +1,42 @@
+name: Mechanical proof protocol controls
+on:
+  pull_request:
+    paths:
+      - 'research/mechanical-proof-v1/**'
+      - 'research/proof-replay-v1/Foundation.lean'
+      - '.github/workflows/mechanical-proof-commissioning.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/mechanical-proof-v1/**'
+      - 'research/proof-replay-v1/Foundation.lean'
+      - '.github/workflows/mechanical-proof-commissioning.yml'
+permissions:
+  contents: read
+jobs:
+  portable-protocol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Closed terms, worker, exact-target transport and receipt controls
+        run: |
+          python -B -m pytest research/mechanical-proof-v1 \
+            --ignore=research/mechanical-proof-v1/records \
+            --ignore=research/mechanical-proof-v1/test_isolation.py \
+            --ignore=research/mechanical-proof-v1/test_runtime_recipe.py \
+            --junitxml="$RUNNER_TEMP/mechanical-proof-protocol.xml" -q
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mechanical-proof-protocol
+          path: ${{ runner.temp }}/mechanical-proof-protocol.xml
+          if-no-files-found: error
+      - name: Check source remains unchanged
+        run: /usr/bin/git diff --exit-code
