@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="12" time="0.060" timestamp="2026-09-06T22:23:30.874357+02:00" hostname="billy"><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[None-PASS]" time="0.001"><failure message="AssertionError: assert 'native return unavailable' == ''&#10;  &#10;  + native return unavailable">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-201/test_completed_native_result_d0')
+status = 'PASS', reason = None
+
+    @pytest.mark.parametrize("status", ["PASS", "FAIL", "SOLUTION"])
+    @pytest.mark.parametrize("reason", [None, "explicit native explanation"])
+    def test_completed_native_result_does_not_inherit_unavailable_reason(tmp_path, status, reason):
+        value = {"status": status, "candidate": "(define-fun f () Int 1)",
+                 "metrics": {"worker_pid": 123}, "solver_result": "unsat"}
+        if reason is not None:
+            value["reason"] = reason
+        (tmp_path / "stdout").write_text(json.dumps(value))
+        got = decode_result(tmp_path, {"exit_code": 0, "pid": 123, "elapsed_ns": 100})
+        assert got["status"] == status and got["native_invoked"] is True
+&gt;       assert got["reason"] == ("" if reason is None else reason)
+E       AssertionError: assert 'native return unavailable' == ''
+E         
+E         + native return unavailable
+
+research/ocm-prototype/generation_tests/test_later_consumption_decode.py:22: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[None-FAIL]" time="0.001"><failure message="AssertionError: assert 'native return unavailable' == ''&#10;  &#10;  + native return unavailable">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-201/test_completed_native_result_d1')
+status = 'FAIL', reason = None
+
+    @pytest.mark.parametrize("status", ["PASS", "FAIL", "SOLUTION"])
+    @pytest.mark.parametrize("reason", [None, "explicit native explanation"])
+    def test_completed_native_result_does_not_inherit_unavailable_reason(tmp_path, status, reason):
+        value = {"status": status, "candidate": "(define-fun f () Int 1)",
+                 "metrics": {"worker_pid": 123}, "solver_result": "unsat"}
+        if reason is not None:
+            value["reason"] = reason
+        (tmp_path / "stdout").write_text(json.dumps(value))
+        got = decode_result(tmp_path, {"exit_code": 0, "pid": 123, "elapsed_ns": 100})
+        assert got["status"] == status and got["native_invoked"] is True
+&gt;       assert got["reason"] == ("" if reason is None else reason)
+E       AssertionError: assert 'native return unavailable' == ''
+E         
+E         + native return unavailable
+
+research/ocm-prototype/generation_tests/test_later_consumption_decode.py:22: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[None-SOLUTION]" time="0.001"><failure message="AssertionError: assert 'native return unavailable' == ''&#10;  &#10;  + native return unavailable">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-201/test_completed_native_result_d2')
+status = 'SOLUTION', reason = None
+
+    @pytest.mark.parametrize("status", ["PASS", "FAIL", "SOLUTION"])
+    @pytest.mark.parametrize("reason", [None, "explicit native explanation"])
+    def test_completed_native_result_does_not_inherit_unavailable_reason(tmp_path, status, reason):
+        value = {"status": status, "candidate": "(define-fun f () Int 1)",
+                 "metrics": {"worker_pid": 123}, "solver_result": "unsat"}
+        if reason is not None:
+            value["reason"] = reason
+        (tmp_path / "stdout").write_text(json.dumps(value))
+        got = decode_result(tmp_path, {"exit_code": 0, "pid": 123, "elapsed_ns": 100})
+        assert got["status"] == status and got["native_invoked"] is True
+&gt;       assert got["reason"] == ("" if reason is None else reason)
+E       AssertionError: assert 'native return unavailable' == ''
+E         
+E         + native return unavailable
+
+research/ocm-prototype/generation_tests/test_later_consumption_decode.py:22: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[explicit native explanation-PASS]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[explicit native explanation-FAIL]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_completed_native_result_does_not_inherit_unavailable_reason[explicit native explanation-SOLUTION]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_malformed_native_result_remains_refusal[not JSON]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_malformed_native_result_remains_refusal[[]]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_malformed_native_result_remains_refusal[{}]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_malformed_native_result_remains_refusal[{&quot;status&quot;:&quot;PASS&quot;,&quot;metrics&quot;:{&quot;worker_pid&quot;:true}}]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_malformed_native_result_remains_refusal[{&quot;status&quot;:&quot;SOLUTION&quot;,&quot;candidate&quot;:null,&quot;metrics&quot;:{&quot;worker_pid&quot;:123}}]" time="0.000" /><testcase classname="research.ocm-prototype.generation_tests.test_later_consumption_decode" name="test_incomplete_native_result_keeps_reason_and_timeout_refuses" time="0.000" /></testsuite></testsuites>
