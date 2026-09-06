@@ -1,0 +1,216 @@
+.......................................EEEEE.E.......................... [ 54%]
+.............................................................            [100%]
+==================================== ERRORS ====================================
+_____ ERROR at setup of test_clean_wheel_chat_learns_queries_and_restarts ______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+_ ERROR at setup of test_repository_audit_routes_report_absent_custody_without_traceback[status] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+_ ERROR at setup of test_repository_audit_routes_report_absent_custody_without_traceback[demo] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+___ ERROR at setup of test_clean_wheel_help_describes_chat_and_audit_scopes ____
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+_ ERROR at setup of test_installed_method_learning_needs_no_repository_or_test_imports _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+_ ERROR at setup of test_installed_comparator_and_evaluation_bootstraps_use_runtime_only _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f80f9328640>, _basetemp=PosixPath('/tmp/pytest-of-billy/pytest-39'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def installed_wheel(tmp_path_factory):
+        base = tmp_path_factory.mktemp("ocm-wheel")
+        source = base / "source"
+        source.mkdir()
+        shutil.copytree(ROOT / "src", source / "src", ignore=shutil.ignore_patterns("__pycache__", "*.egg-info"))
+        for name in ("pyproject.toml", "LICENSE", "NOTICE"):
+            shutil.copyfile(ROOT / name, source / name)
+        wheelhouse = base / "wheels"
+        wheelhouse.mkdir()
+        # CI uses the declared build dependencies. The Work runtime also exposes an
+        # installed build interpreter; no test downloads dependencies from a network.
+        builder = sys.executable
+        if importlib.util.find_spec("setuptools") is None or importlib.util.find_spec("wheel") is None:
+            builder = os.environ.get("CODEX_PRIMARY_RUNTIME_PYTHON", builder)
+        built = subprocess.run(
+            [builder, "-c", "from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])", str(wheelhouse)],
+            cwd=source, capture_output=True, text=True,
+        )
+>       assert built.returncode == 0, built.stdout + built.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from setuptools.build_meta import build_wheel; import sys; build_wheel(sys.argv[1])
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         ModuleNotFoundError: No module named 'setuptools'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-c', 'from setuptools.build_meta...ys.argv[1])\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'setuptools\'\n').returncode
+
+tests/test_distribution.py:38: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/ocm-g1-support/docs/provenance/engineering_revisions/runs/9c4278649aef8e6ac633f7bf6d2c14b2433c9646a01e54fe03522e777f9c78e0/897c425465014059/FOCUSED_SUITE.xml -
+=========================== short test summary info ============================
+ERROR tests/test_distribution.py::test_clean_wheel_chat_learns_queries_and_restarts
+ERROR tests/test_distribution.py::test_repository_audit_routes_report_absent_custody_without_traceback[status]
+ERROR tests/test_distribution.py::test_repository_audit_routes_report_absent_custody_without_traceback[demo]
+ERROR tests/test_distribution.py::test_clean_wheel_help_describes_chat_and_audit_scopes
+ERROR tests/test_distribution.py::test_installed_method_learning_needs_no_repository_or_test_imports
+ERROR tests/test_distribution.py::test_installed_comparator_and_evaluation_bootstraps_use_runtime_only
+127 passed, 6 errors in 30.86s

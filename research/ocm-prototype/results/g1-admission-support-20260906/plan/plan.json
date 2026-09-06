@@ -1,0 +1,25 @@
+{
+  "classification": "PUBLIC_DEVELOPMENT_NOT_PROTECTED",
+  "registered_utc": "2026-09-06T00:38:19.983370+00:00",
+  "public_items_sha256": "7ece4dd05bdc5c07caa88213fb5952b75f8a22e26bdc4a379bb83644cfaa48d0",
+  "selection_sha256": "880d696abb2ac2397658beed9bff3f9829e785dd7fe0c609c91593d682f16c47",
+  "forms_only_source_sha256": "d5ec5358e16d7ec5f3dcf2e0433c7822f16ab397e138fc8cc442f0a75cd86c18",
+  "freeze_source_sha256": "84f8a793c1b0df31e001cce02c3841cfa060abddbb1a18ef189dd326eaa716cb",
+  "syntax_count": 100,
+  "clia_count": 5,
+  "order": "SHA256(G1-STREAM-V1|id), CLIA after each20 syntax",
+  "restart_after_every_items": 21,
+  "chunks": 5,
+  "outer_seconds_per_chunk": 600,
+  "native_bounds": {
+    "synthesis_timeout_ms": 5000,
+    "synthesis_outer_s": 15,
+    "check_timeout_ms": 5000,
+    "check_outer_s": 10
+  },
+  "arm_order": "even chunks native then OCM; odd chunks OCM then native",
+  "retries": "one default proposal per item in native/OCM; hosted allowances separately frozen before calls",
+  "metrics": "per-domain external gold scoring and native/shared agreement; no pooled quality or efficiency claim",
+  "cost_scope": "all observed process work, model copies/reloads, training/failed attempts separately charged",
+  "required_model": "completed checkpointed TRAIN-only UDPipe repeat; identity bound before inference"
+}

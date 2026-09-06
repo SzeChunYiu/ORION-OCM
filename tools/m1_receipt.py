@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Verify the active runtime successor; preserve historical M1_RECEIPT_V1.json.
+"""Verify the selected immutable engineering run; preserve all historical receipts.
 
-    python tools/m1_receipt.py --write-current  # create declared successor; never overwrite history
-    python tools/m1_receipt.py --verify         # verify active successor; no historical fallback
+Use tools/record_engineering_revision.py to execute and record the current gates.
+This wrapper accepts --verify only and never executes a historical recipe.
 """
 from __future__ import annotations
 
@@ -65,7 +65,7 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    from runtime_revision_receipts_v4 import revision_main
+    from engineering_receipts import revision_main
 
     return revision_main(ROOT, argv, 1)
 
