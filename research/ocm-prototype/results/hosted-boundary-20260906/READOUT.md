@@ -8,6 +8,8 @@
 | Old-to-native SSH transport | Passed; inputs/source/model bindings unchanged | controls/ssh/ |
 | Fable 5 READY | Authentication failure; exit 1, zero reported tokens/cost | availability/billy/ |
 | Fable 5.1 READY | Authentication failure; exit 1, zero reported tokens/cost | availability/billy-old/ |
+| Fresh minimal CI environment | 3 passed in 0.04 s, no skips | tests/offline-fresh-ci-v1* |
+| Ordinary N1/G1 collection | 96 passed in 14.24 s, no hosted/archive tests, no skips | tests/ordinary-ci-v1* |
 | Publication offline selection | 3 passed in 0.05 s | tests/offline-current* |
 | Current portable-path full controls | 8 passed in 5.54 s, no skips | tests/full-v3* |
 | Historical full tests | 8 passed in 5.59 s; revised controls 8 in 5.52 s | tests/ |
@@ -41,3 +43,10 @@ passed without skips; the donor bytes were unchanged. Its original test bytes
 are preserved in bindings/test_hosted_native.pre-portability.py. The SSH route
 retains its V2 controls; no new hosted cognition or SSH qualification is claimed.
 The pre-portability three-test offline record remains separate.
+
+The initial CI exposed a missing sexpdata dependency that the earlier complete
+hosted environment concealed. The fresh environment now contains pytest, sexpdata
+and their test dependencies only; solver/MCP/UDPipe packages are absent. Ordinary
+N1/G1 CI excludes host-only tests and archived source before collection. The
+three explicit offline validators remain covered separately. See
+[CI correction receipt](tests/ci-fix-receipt.json); historical controls are unchanged.

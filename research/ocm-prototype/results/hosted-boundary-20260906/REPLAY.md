@@ -3,7 +3,9 @@
 ## Offline checks
 
 From repository root, create an isolated Python 3.13 environment and install
-pytest==8.3.5 into it. No project installation or src change is required. Run:
+pytest==8.3.5 and sexpdata==1.0.2 into it. The schema imports the public CLIA
+S-expression contract; no solver package is needed for these checks.
+No project installation or src change is required. Run:
 
 ```sh
 PYTHONPATH=research/ocm-prototype PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q \
@@ -14,6 +16,8 @@ PYTHONPATH=research/ocm-prototype PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pyt
 
 These three named tests use no network, client executable, credentials or model.
 The dedicated CI job uses a separate temporary environment and the same selection.
+Ordinary N1/G1 CI explicitly excludes test_hosted_*.py and the results/ archive;
+these are collection exclusions, not skipped tests counted as qualification.
 
 Embedded hashes in sanitized receipts bind their original bytes. SHA256SUMS
 binds the published copies. See origins.json for that mapping; do not replace

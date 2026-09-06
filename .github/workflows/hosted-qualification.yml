@@ -32,7 +32,7 @@ jobs:
       - name: Create a small separate test environment
         run: |
           python -m venv "${{ runner.temp }}/ocm-hosted-ci"
-          "${{ runner.temp }}/ocm-hosted-ci/bin/python" -m pip install pytest==8.3.5
+          "${{ runner.temp }}/ocm-hosted-ci/bin/python" -m pip install pytest==8.3.5 sexpdata==1.0.2
       - name: Offline validators only; no clients, models or network calls
         env:
           PYTHONPATH: research/ocm-prototype
