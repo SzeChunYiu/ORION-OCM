@@ -23,16 +23,36 @@ jobs:
           git archive --format=tar.gz HEAD > qg-qualification/source.tar.gz
           sha256sum qg-qualification/source.tar.gz > qg-qualification/source.sha256
       - run: ./scripts/m0_install_dev.sh
+      - name: Reproduce corrected RED tests on unchanged pinned source
+        run: |
+          BASE_DIR="$RUNNER_TEMP/qg-baseline-$GITHUB_RUN_ID"
+          OUT_DIR="$GITHUB_WORKSPACE/qg-qualification"
+          git worktree add --detach "$BASE_DIR" 29085f80c727f1cb47d3a76df39837b0b6a585d1
+          cp tests/m1/test_quotient_iterable_safety.py "$BASE_DIR/tests/m1/"
+          set +e
+          (cd "$BASE_DIR" && PYTHONPATH=src python -m pytest -q tests/m1/test_quotient_iterable_safety.py -k 'not small_measurability_check' --junitxml="$OUT_DIR/corrected-red.xml") > "$OUT_DIR/corrected-red.log" 2>&1
+          RESULT=$?
+          set -e
+          test "$RESULT" -eq 1
+          python - <<'PY'
+          import xml.etree.ElementTree as E
+          root = E.parse('qg-qualification/corrected-red.xml').getroot()
+          cases = list(root.iter('testcase'))
+          assert len(cases) == 19, len(cases)
+          assert sum(c.find('failure') is not None for c in cases) == 10
+          assert not any(c.find('error') is not None or c.find('skipped') is not None for c in cases)
+          print('Pinned actual baseline: 10 expected failures / 9 passes; no stub dependencies')
+          PY
+          git worktree remove --force "$BASE_DIR"
       - name: Real M1 unit and regression tests
         run: |
           set -o pipefail
           python -m pytest -q tests/m1 --junitxml=qg-qualification/m1.xml 2>&1 | tee qg-qualification/m1.log
-      - name: Additive finite-view tests when present
+      - name: Finite-view developer tests and non-protected diagnostic
         if: always()
         run: |
-          if [ -f research/qg-transfer/test_finite_views.py ]; then
-            python -m unittest discover -s research/qg-transfer -p 'test_*.py' -v > qg-qualification/finite-views.log 2>&1
-          fi
+          python -m unittest discover -s research/qg-transfer -p 'test_*.py' -v > qg-qualification/finite-views.log 2>&1
+          python research/qg-transfer/diagnostic.py > qg-qualification/diagnostic.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
