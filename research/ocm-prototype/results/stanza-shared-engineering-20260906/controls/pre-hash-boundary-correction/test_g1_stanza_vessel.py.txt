@@ -1,0 +1,97 @@
+"""Fixture-only same-donor, shared-solver and liveness controls."""
+from pathlib import Path
+from types import SimpleNamespace
+import json
+import subprocess
+import sys
+import pytest
+from test_g1_stanza_donor import donor_fixture, document
+import g1_stanza_profile as P
+import g1_stanza_donor as D
+import g1_stanza_vessel as V
+import g1_stanza_worker as W
+import g1_vessel as G
+from g1_field import MODEL, payload
+from matched_g1_worker import source_files as udpipe_sources
+from clia_tasks import load_task
+
+TOKENS = ["Birds", "fly"]
+REQUEST = {"kind": "syntax", "tokens": TOKENS}
+
+
+@pytest.fixture
+def vessel(donor_fixture, tmp_path, monkeypatch):
+    source, profile = donor_fixture
+    monkeypatch.setattr(D, "load_pipeline", lambda *args, **kwargs:
+        (lambda nested: document(nested[0]), sorted(profile["models"])))
+    runtime = G.OCMRuntime(tmp_path/"ocm", config=G.CONFIG)
+    fixture = V.setup(runtime, source, profile)
+    return runtime, fixture, source, profile
+
+
+def test_default_and_stanza_source_inventories_stay_aligned():
+    assert G.identities() == udpipe_sources()
+    assert G.identities(D.SYNTAX_OPERATOR) == W.source_files()
+    assert "research/ocm-prototype/stanza_donor.py" in G.identities(D.SYNTAX_OPERATOR)
+    with pytest.raises(ValueError): G.identities("arbitrary:checker")
+
+
+def test_native_import_has_no_ocm_runtime():
+    here = Path(__file__).resolve().parent
+    code = "import g1_stanza_worker,sys; print('ocm.runtime.ocm_runtime' in sys.modules)"
+    p = subprocess.run([sys.executable, "-c", code], cwd=here, capture_output=True, text=True)
+    assert p.returncode == 0, p.stderr
+    assert p.stdout.strip() == "False"
+
+
+def test_same_native_answer_shared_trace_reload_and_withdrawal(vessel, tmp_path):
+    runtime, fixture, source, profile = vessel
+    native_bundle = P.prepare(tmp_path/"native", source, profile)
+    parent = W.native(REQUEST, native_bundle, profile)
+    result = V.query(runtime, REQUEST)
+    assert parent["accepted"] and result["status"] == "ADMITTED"
+    assert parent["answer"]["words"] == result["answer"]["words"]
+    assert result["catalogue"] == [D.SYNTAX_OPERATOR, "procedure:cvc5"]
+    assert result["claim"] == "MODEL_SUPPORTED_SYNTAX_OBSERVATION"
+    assert result["pure_proposals"] and result["trace"]
+    sid = result["admitted_id"]
+    arithmetic = V.query(runtime, {"kind":"clia", "task":load_task("jmbl_fg_max3")})
+    assert arithmetic["status"] == "ADMITTED"
+    restored = G.OCMRuntime(runtime.root, config=G.CONFIG)
+    assert payload(restored.state.ks, MODEL)["stanza_profile"] == profile
+    assert V.query(restored, REQUEST)["status"] == "ADMITTED"
+    V.worker(runtime.root, {"action":"revoke", "evidence":[fixture["model_evidence"]]})
+    withdrawn = G.OCMRuntime(runtime.root, config=G.CONFIG)
+    assert not withdrawn.state.ks.atom_map()[sid].is_live(withdrawn.state.revoked)
+    assert withdrawn.state.ks.atom_map()[arithmetic["admitted_id"]].is_live(withdrawn.state.revoked)
+    refusal = V.query(withdrawn, REQUEST)
+    assert refusal["admitted_id"] is None and refusal["answer"] is None
+    V.worker(runtime.root, {"action":"reinstate", "evidence":[fixture["model_evidence"]]})
+    assert V.query(G.OCMRuntime(runtime.root, config=G.CONFIG), REQUEST)["status"] == "ADMITTED"
+
+
+def test_new_host_checker_keeps_missing_and_changed_bindings_refused(vessel, monkeypatch):
+    runtime, fixture, source, profile = vessel
+    refused = V.query(runtime, REQUEST, "missing_checker")
+    assert refused["admitted_id"] is None and refused["answer"] is None
+    assert V.query(runtime, {**REQUEST, "gold":[]})["status"] == "INPUT_REFUSED"
+    monkeypatch.setattr(D, "predict", lambda *args: {"status":"PREDICTED",
+        "words":[{"id":1,"form":"Birds","head":0,"deprel":"root","upos":"NOUN"}],
+        "model_sha256":"0"*64})
+    assert V.query(runtime, REQUEST)["admitted_id"] is None
+
+
+def test_chunk_protocol_native_memory_and_complete_archive(vessel, tmp_path):
+    runtime, fixture, source, profile = vessel
+    state = tmp_path/"native-worker"
+    config = {"arm":"native", "chunk":0, "items":[{"id":"UNIT:0","request":REQUEST}],
+        "state":str(state), "rows":str(tmp_path/"first.rows.jsonl"), "model":str(source),
+        "model_sha256":profile["model_sha256"], "donor_profile":profile}
+    first = W.execute(config)
+    second = W.execute({**config, "chunk":1, "rows":str(tmp_path/"second.rows.jsonl")})
+    assert first["rows"] == second["rows"] == 1
+    assert len((state/"memory.jsonl").read_text().splitlines()) == 2
+    assert second["durable_state_bytes"] == sum(second["durable_state_file_bytes"].values())
+    assert first["complete_cpu_custody"] is False and first["total_process_tree_cpu_s"] is None
+    assert len([p for p in second["durable_state_file_bytes"] if p.endswith(".pt")]) == 4
+    with pytest.raises(ValueError, match="overwrite"): W.execute(config)

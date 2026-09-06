@@ -1,0 +1,56 @@
+{
+  "classification": "PUBLIC_DEVELOPMENT_NOT_PROTECTED",
+  "registered_utc": "2026-09-06T05:47:47.582005+00:00",
+  "public_items_sha256": "7ece4dd05bdc5c07caa88213fb5952b75f8a22e26bdc4a379bb83644cfaa48d0",
+  "selection_sha256": "880d696abb2ac2397658beed9bff3f9829e785dd7fe0c609c91593d682f16c47",
+  "forms_only_source_sha256": "d5ec5358e16d7ec5f3dcf2e0433c7822f16ab397e138fc8cc442f0a75cd86c18",
+  "freeze_source_sha256": "84f8a793c1b0df31e001cce02c3841cfa060abddbb1a18ef189dd326eaa716cb",
+  "syntax_count": 100,
+  "clia_count": 5,
+  "order": "SHA256(G1-STREAM-V1|id), CLIA after each20 syntax",
+  "restart_after_every_items": 21,
+  "chunks": 5,
+  "outer_seconds_per_chunk": 600,
+  "native_bounds": {
+    "synthesis_timeout_ms": 5000,
+    "synthesis_outer_s": 15,
+    "check_timeout_ms": 5000,
+    "check_outer_s": 10
+  },
+  "arm_order": "even chunks native then OCM; odd chunks OCM then native",
+  "retries": "one default proposal per item in native/OCM; hosted allowances separately frozen before calls",
+  "metrics": "per-domain external gold scoring and native/shared agreement; no pooled quality or efficiency claim",
+  "cost_scope": "Same one-CPU inherited affinity; all cold copy/hash/load, proposal/check/commit/replay and durable state measured where observed. Direct-child and self CPU separately scoped; total tree CPU and imported training cost UNKNOWN.",
+  "required_model": "Exact qualified Stanza1.14.0 combined_nocharlm recurrent POS/lemma/depparse plus conll17 vectors; imported training partly known, no TRAIN-only claim.",
+  "predecessor_plan_sha256": "b1175b39f06f8399dd96884f8013195062a44a64c76cb5d0bb7df36984f928c6",
+  "donor": "stanza-recurrent",
+  "donor_profile_id": "d34b913bf18979537588c170b069fa5eaadc30c2839aef2e72da80d7f60b9782",
+  "model_role": "IMPORTED_FIXED_RECURRENT_DONOR",
+  "training_lineage_sha256": "48d9feb2e1e7cd04ac1daf4181f00b1273645f64f13f472037a863ce90ce4519",
+  "source_commit": "b0454c01d5fde8c367dc7c1ea16b8066931c7883",
+  "source_identity": "fab81567776ce382b3ab6866f96093527af5f6d94134ee035034ad574155e86b",
+  "source_runtime_model_binding_sha256": "959dbcece039eb742e4d1c6090dce4d1fe0c5ee62de185fc64b3a38525ed36d9",
+  "runtime_lock_sha256": "0b53a3cefcdc1db063a5f655a0f0180ab82017b17ccd226b9fc11bf4c44dca72",
+  "profile_sha256": "f356d36f03079b3fb45b086f683d0d3a09eb42944860b4da6b95943715ccd8b5",
+  "model_cache": "One fixed pipeline per process in both arms; full archive verification on load and worker entry/end, no repeated per-sentence full-model scan.",
+  "cpu_affinity": [
+    0
+  ],
+  "owner_issue": "https://github.com/SzeChunYiu/ORION-OCM/issues/73",
+  "anchors": [
+    50,
+    62,
+    69,
+    42,
+    38
+  ],
+  "paper_claim": "SUPPORTING engineering feasibility: same fixed recurrent donor can run through existing persistent shared G1 vessel. No new paper-level capability, LLM parity or efficiency claim.",
+  "hypothesis": "The existing shared vessel preserves the fixed donor capability across the same mixed-domain stream and four resumes, with independently executed faithful native comparison.",
+  "parent_interpretation": "If both actual arms complete with100 matching valid selected syntax trees and5 independently checked programs, native capability is parent-sufficient on this finite development stream. Persistence/authority overhead is measured separately.",
+  "negative_terminals": [
+    "CANNOT_CHECK for source/model/runtime/timeout/missing execution or checker unknown",
+    "Completed refusal or capability mismatch remains an observed failure; never remove it from the assigned denominator"
+  ],
+  "exposure": "This fixed public development panel and prior qualification outputs are already exposed. Imported training/exposure partly unknown. No protected generalization or training-fair comparison.",
+  "launch_precondition": "Root publishes this exact prospective registration under #73 and completes the earlier reuse pilot before launching. No retries or changed donor configuration without a new explicit successor."
+}

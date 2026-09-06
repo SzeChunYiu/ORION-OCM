@@ -1,0 +1,78 @@
+"""Unit-fixture qualification only; no trained model is loaded or queried."""
+from contextlib import nullcontext
+from pathlib import Path
+from types import SimpleNamespace
+import copy
+import sys
+import pytest
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import g1_stanza_profile as P
+import g1_stanza_donor as D
+
+
+@pytest.fixture
+def donor_fixture(tmp_path, monkeypatch):
+    data = {name: ("UNIT_FIXTURE:" + name).encode() for name in P.MODELS}
+    monkeypatch.setattr(P, "MODELS", {k: P.digest_bytes(v) for k, v in data.items()})
+    monkeypatch.setattr(P, "SIZES", {k: len(v) for k, v in data.items()})
+    monkeypatch.setattr(P, "CLOSURE", P.digest(P.MODELS))
+    monkeypatch.setattr(P, "RESOURCES_SHA", P.digest_bytes(b"{}"))
+    monkeypatch.setattr(P, "RESOURCES_BYTES", 2)
+    monkeypatch.setattr(P, "PACKAGES_SHA", P.digest([]))
+    source = tmp_path/"UNIT_MODEL_FILES"
+    for name, content in data.items():
+        path = source/name.removeprefix("models/")
+        path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(content)
+    (source/"resources.json").write_bytes(b"{}")
+    profile = P.describe([])
+    D._PIPELINES.clear()
+    monkeypatch.setattr(D, "inference_context", nullcontext)
+    return source, profile
+
+
+def document(forms):
+    words = [SimpleNamespace(id=i, text=form, head=0 if i==1 else 1,
+        deprel="root" if i==1 else "dep", upos="NOUN") for i, form in enumerate(forms, 1)]
+    return SimpleNamespace(sentences=[SimpleNamespace(words=words,
+        tokens=[SimpleNamespace(text=w.text, words=[w]) for w in words])])
+
+
+def test_same_bound_archive_and_forms_only_cache(donor_fixture, tmp_path, monkeypatch):
+    source, profile = donor_fixture
+    root = tmp_path/"state"; bundle = P.prepare(root, source, profile)
+    calls = []
+    def loader(plan, model_root):
+        assert model_root == bundle/"models"
+        def pipeline(nested):
+            assert isinstance(nested, list) and len(nested)==1
+            calls.append(copy.deepcopy(nested)); return document(nested[0])
+        return pipeline, sorted(profile["models"])
+    monkeypatch.setattr(D, "load_pipeline", loader)
+    first = D.predict(["Birds", "fly"], bundle, profile)
+    second = D.predict(["Fish", "swim"], bundle, profile)
+    assert first["status"] == second["status"] == "PREDICTED"
+    assert first["model_loaded"] is True and second["model_loaded"] is False
+    assert second["load_boundary_hash_seconds"] == 0
+    assert calls == [[["Birds","fly"]], [["Fish","swim"]]]
+    assert D.check(profile, {"kind":"syntax","tokens":["Fish","swim"]}, second)["status"] == "PASS"
+    changed = copy.deepcopy(profile); changed["model_sha256"] = "0"*64
+    with pytest.raises(ValueError): P.validate(changed)
+    path = bundle/next(iter(profile["models"])); path.write_bytes(b"changed")
+    assert D.predict(["Fish","swim"], bundle, profile)["status"] == "PREDICTED"
+    with pytest.raises(ValueError): P.verify_archive(bundle, profile)  # worker end barrier
+    D._PIPELINES.clear()  # a later cold load must refuse changed bytes
+    assert D.predict(["Fish","swim"], bundle, profile)["status"] == "CANNOT_CHECK"
+
+
+def test_donor_failure_and_invalid_completed_tree_are_distinct(donor_fixture, tmp_path, monkeypatch):
+    source, profile = donor_fixture; bundle = P.prepare(tmp_path/"state", source, profile)
+    def broken(_): raise RuntimeError("UNIT_UNAVAILABLE")
+    monkeypatch.setattr(D, "load_pipeline", lambda *args, **kwargs:(broken, []))
+    assert D.predict(["Birds"], bundle, profile)["status"] == "CANNOT_CHECK"
+    D._PIPELINES.clear()
+    monkeypatch.setattr(D, "load_pipeline", lambda *args, **kwargs:(lambda nested:document(["wrong"]), []))
+    output = D.predict(["Birds"], bundle, profile)
+    assert output["status"] == "INPUT_CONTRACT_MISMATCH" and "words" not in output
+    assert D.check(profile, {"kind":"syntax","tokens":["Birds"]}, output)["status"] == "FAIL"
