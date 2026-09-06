@@ -78,7 +78,7 @@ def catalogue(runtime, query_id, request, checks, fault=None):
     return tuple(result)
 
 
-def query(runtime, request, fault=None):
+def query(runtime, request, fault=None, *, catalogue_builder=None):
     start = time.perf_counter()
     fixture = identities()
     try:
@@ -90,7 +90,8 @@ def query(runtime, request, fault=None):
         _, evidence = runtime.admit_evidence(request, Channel.INSTRUCTION, "public-task", scope=SCOPE)
         put(runtime, qid, request, WarrantProfile.of({evidence}), kind="query_seed")
     checks = []
-    operators = catalogue(runtime, qid, request, checks, fault)
+    builder = catalogue if catalogue_builder is None else catalogue_builder
+    operators = builder(runtime, qid, request, checks, fault)
     task = SV.Task(qid, (SV.QueryPart(encode(request), "query_seed", (qid, MODEL, CLIA)),), context="g1-pilot")
     before = runtime.state.ks.digest()
     outcome = runtime.solve(task, operators)
@@ -123,7 +124,7 @@ def query(runtime, request, fault=None):
     return {"status": final_status, "solve_status": outcome.decision.value,
             "admitted_id": admitted, "claim": claim,
             "selected": selected, "answer": outcome.answer if admitted else None,
-            "proposal_diagnostic": outcome.answer if not admitted else None, "catalogue": list(CATALOGUE),
+            "proposal_diagnostic": outcome.answer if not admitted else None, "catalogue": [op.operator_id for op in operators],
             "checks": checks, "trace": outcome.trace.as_dict(), "pure_proposals": pure,
             "source_identity": content_hash(fixture), "query_wall_seconds": time.perf_counter() - start}
 
