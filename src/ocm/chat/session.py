@@ -62,7 +62,9 @@ class TurnTrace:
 
 
 def _load_lexicon_and_constructions(state_dir: Path, manifest: Path = DEFAULT_MANIFEST) -> tuple[L.Lexicon, list[C.Construction]]:
-    """Compatibility export of the shared, pure bounded-language donor."""
+    """Compatibility export retaining this entry point's default custody check."""
+    if Path(manifest).resolve() == DEFAULT_MANIFEST.resolve():
+        manifest = default_manifest_path()
     return seed_frontend(manifest)
 
 
