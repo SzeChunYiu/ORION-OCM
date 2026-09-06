@@ -71,3 +71,7 @@ Opened with R2-1 closed. Remaining round-2 items wait for their receipts to reac
 | R3-r2-2 | 3 | applied: identifier proxy label named in data availability |
 | R3-r2-3 | 3 | applied: release package list extended |
 
+### V5 intake (2026-09-06)
+
+Section 5.9 gains the V5 paragraph (study of record for the lifetime residual on the corrected runtime); Section 6 gains the V5 reference-arm sentence; Section 9's revalidation paragraph now names V5 as the corrected runtime's terminal. Claims rows 258–267 read the V5 evaluation, receipt, replication receipt, manifest and reference-arm file.
+

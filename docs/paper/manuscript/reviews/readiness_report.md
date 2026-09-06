@@ -61,3 +61,7 @@ Not blockers: the frontier-parent, human-rating and external-benchmark boundarie
 ## 5. Terminal state
 
 `current_claims_partly_established`: the primary-family lifetime residual, the language, dialogue, acquisition, organisation and work results are established at their stated scope and verified against receipts; the self-repair and cross-domain transfer results are reported but not established pending author evidence. Decision-ready for a long-form venue once items 3 and 4 close; not `simulated_publication_ready_for_target`; not `submission_ready`.
+
+## V5 addendum (2026-09-06)
+
+Blocker 1 (protected re-evaluation of the self-repair cells): the historical M11 V1 and M12 V2 phase-G cells remain reopened and are reported as such; the V5 self-repair family is pre-registered as categorical, so no inferential self-repair claim rests on them. Blocker 2 (prospectively matched transfer cells): closed by V5 (6 vs 6 cells, categorical). The lifetime residual now has a study of record on the corrected runtime (V5: OCM_LIFETIME_RESIDUAL_SUPPORTED, replication MATCH). Terminal state unchanged in kind, `current_claims_partly_established`, with the primary residual established at its stated scope on both the historical (V4) and the corrected (V5) runtime.
