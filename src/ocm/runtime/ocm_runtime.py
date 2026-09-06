@@ -320,7 +320,16 @@ class OCMRuntime:
 
     def solve(self, task: SV.Task, operators: Sequence[SV.OperatorSpec] = (), *, extraction_index: ExtractionIndex | None = None) -> SV.SolveOutcome:
         self._emit(EventType.QUERY_OPENED, EventStatus.PASS, inputs=tuple(r for p in task.parts for r in p.refs), payload={"task_id": task.task_id, "targets": list(task.targets)}, operator="kso.solve")
-        work = {"callbacks": 0, "checkpoint_reads": 0}
+        initial = self._solve_callback_checkpoint()
+        work = {"callbacks": 0, "checkpoint_reads": 0, "solve_checkpoint_reads": 1}
+        def changed(before, after):
+            return (any(a is not b for a, b in zip(before[0], after[0], strict=True))
+                    or before[1:] != after[1:])
+        def check_commitment():
+            after = self._solve_callback_checkpoint()
+            work["solve_checkpoint_reads"] += 1
+            if changed(initial, after):
+                raise SV.CallbackStateChanged("RUNTIME_STATE_CHANGED_DURING_SOLVE")
         def guarded(callback, *args):
             before = self._solve_callback_checkpoint()
             work["callbacks"] += 1
@@ -330,11 +339,11 @@ class OCMRuntime:
             finally:
                 after = self._solve_callback_checkpoint()
                 work["checkpoint_reads"] += 1
-                if (any(a is not b for a, b in zip(before[0], after[0], strict=True))
-                        or before[1:] != after[1:]):
+                if changed(before, after):
                     raise SV.CallbackStateChanged("RUNTIME_STATE_CHANGED_DURING_CALLBACK")
         out = SV.solve(self.state.ks, task, operators, revoked=self.state.revoked, config=self.config,
-                       commit_authority=Authority(), extraction_index=extraction_index, callback_guard=guarded)
+                       commit_authority=Authority(), extraction_index=extraction_index, callback_guard=guarded,
+                       commitment_guard=check_commitment)
         received = out.trace.stages[0]
         out.trace.stages[0] = replace(received, payload={**received.payload, "runtime_callback_guard": {
             **work, "contract": "API_MEDIATED_STATE_AND_CALLBACK_EVENT_POSITION",

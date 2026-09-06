@@ -12,7 +12,7 @@ only through admission/composition performed by the runtime under its authority 
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 from fractions import Fraction
 from typing import Any, Callable, Hashable, Iterable, Mapping, Sequence
@@ -270,6 +270,54 @@ class CallbackStateChanged(RuntimeError):
     """The host callback changed the runtime state used by this solve."""
 
 
+class CandidateDataRefused(ValueError):
+    """A candidate cannot defer executable behavior to later consumers."""
+
+
+def _candidate_data(value: Any, work: dict[str, int], active: set[int] | None = None) -> Any:
+    """Detach finite data while inside a guarded interval; charge returned-payload work."""
+    work["nodes_visited"] += 1
+    kind = type(value)
+    if kind in (str, int, float, bool, type(None)):
+        return value
+    if kind not in (list, tuple) and not isinstance(value, Mapping):
+        raise CandidateDataRefused("opaque candidate value; provide plain data")
+    active = set() if active is None else active
+    identity = id(value)
+    if identity in active:
+        raise CandidateDataRefused("cyclic candidate data")
+    active.add(identity)
+    try:
+        if isinstance(value, Mapping):
+            result = {}
+            for key, item in value.items():
+                if type(key) is not str:
+                    raise CandidateDataRefused("candidate mapping keys must be plain strings")
+                result[key] = _candidate_data(item, work, active)
+            return result
+        items = [_candidate_data(item, work, active) for item in value]
+        return tuple(items) if kind is tuple else items
+    finally:
+        active.remove(identity)
+
+
+def _same_candidate_data(left: Any, right: Any, work: dict[str, int]) -> bool:
+    """Compare exact detached types; bool/int equality must not hide checker rewrites."""
+    work["comparison_nodes"] = work.get("comparison_nodes", 0) + 1
+    kind = type(left)
+    if kind is not type(right):
+        return False
+    if kind is dict:
+        return left.keys() == right.keys() and all(
+            _same_candidate_data(value, right[key], work) for key, value in left.items())
+    if kind in (list, tuple):
+        return len(left) == len(right) and all(
+            _same_candidate_data(a, b, work) for a, b in zip(left, right, strict=True))
+    if kind is float:
+        return left.hex() == right.hex()
+    return left == right
+
+
 @dataclass(frozen=True)
 class OperatorSpec:
     """Registered executable operator (M2 §7): controlled backends only at M2."""
@@ -309,6 +357,7 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
     amap = ks.atom_view
     candidates = []
     res = ResourceVector()
+    data_work = {"nodes_visited": 0}
     if isinstance(ops, SolveOperatorIndex):
         selected = ops.select(g.atoms)
         candidate_ops = selected.operators
@@ -323,45 +372,69 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
             continue
         if not op.warrant.is_live(rv) or any(not amap[x].is_live(rv) for x in op.input_atoms):
             continue
+        def produce():
+            value = op.backend(ks, op.operator_id, {"inputs": op.input_atoms})
+            if not isinstance(value, Mapping):
+                raise CandidateDataRefused("backend result must be a mapping")
+            # Existing error probing and all Mapping methods stay inside the guard.
+            has_error = "error" in value
+            data = _candidate_data(value, data_work)
+            if has_error and "error" not in data:
+                data["error"] = "backend mapping reported an error"
+            return data
         try:
-            out = (op.backend(ks, op.operator_id, {"inputs": op.input_atoms}) if callback_guard is None
-                   else callback_guard(op.backend, ks, op.operator_id, {"inputs": op.input_atoms}))
+            out = produce() if callback_guard is None else callback_guard(produce)
+        except (CandidateDataRefused, RecursionError):
+            return StageResult(Stage.COMPOSITION, Status.CANNOT_CHECK, "BACKEND_OUTPUT_NOT_DATA",
+                               payload={"operator": op.operator_id, "operator_selection": selection_work,
+                                        "candidate_data": data_work}, resources=res), []
         except CallbackStateChanged:
             return StageResult(Stage.COMPOSITION, Status.CANNOT_CHECK, "BACKEND_RUNTIME_STATE_CHANGED",
-                               payload={"operator": op.operator_id, "operator_selection": selection_work},
+                               payload={"operator": op.operator_id, "operator_selection": selection_work,
+                                        "candidate_data": data_work},
                                resources=res + ResourceVector(composition_work=len(op.input_atoms),
                                                               verification_calls=1)), []
-        except Exception as exc:  # noqa: BLE001 — a crashing backend is a failed candidate, never a pass
-            candidates.append((op, {"error": f"{type(exc).__name__}: {exc}"}, WarrantProfile.zero()))
+        except Exception:  # noqa: BLE001 — never invoke an opaque exception's delayed __str__
+            candidates.append((op, {"error": "BACKEND_CALLBACK_FAILED"}, WarrantProfile.zero()))
             continue
         warrant = AD.meet_all_profiles([op.warrant, *(amap[x].warrant for x in op.input_atoms)])
         candidates.append((op, out, warrant))
         res = res + ResourceVector(composition_work=len(op.input_atoms), verification_calls=1)
     status = Status.PASS if candidates else Status.FAIL
-    return StageResult(Stage.COMPOSITION, status, "CANDIDATES_COMPOSED" if candidates else "NO_APPLICABLE_OPERATOR", object_ids=tuple(op.operator_id for op, _, _ in candidates), payload={"candidates": len(candidates), "operator_selection": selection_work}, resources=res), candidates
+    return StageResult(Stage.COMPOSITION, status, "CANDIDATES_COMPOSED" if candidates else "NO_APPLICABLE_OPERATOR", object_ids=tuple(op.operator_id for op, _, _ in candidates), payload={"candidates": len(candidates), "operator_selection": selection_work,
+                   "candidate_data": data_work}, resources=res), candidates
 
 
 def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]], revoked: Iterable[Hashable], *, callback_guard: CallbackGuard | None = None) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile, Status]]]:
     rv = frozenset(revoked)
     checked = []
     worst = Status.PASS
+    data_work = {"nodes_visited": 0}
     for op, out, warrant in candidates:
         if "error" in out:
             verdict = Status.FAIL
         elif op.checker is None:
             verdict = Status.CANNOT_CHECK  # a required checker that cannot run never becomes success
         else:
+            def verify():
+                supplied = _candidate_data(out, data_work)
+                status = op.checker(supplied)
+                if type(status) is not Status:
+                    raise CandidateDataRefused("checker must return a registered Status")
+                if not _same_candidate_data(_candidate_data(supplied, data_work), out, data_work):
+                    raise CandidateDataRefused("checker changed the candidate it was asked to verify")
+                return status
             try:
-                verdict = op.checker(out) if callback_guard is None else callback_guard(op.checker, out)
+                verdict = verify() if callback_guard is None else callback_guard(verify)
             except CallbackStateChanged:
                 # Earlier passes belong to the abandoned state too, not to the changed runtime.
                 invalid = [(o, value, w, Status.CANNOT_CHECK) for o, value, w, _ in checked]
                 invalid.append((op, out, warrant, Status.CANNOT_CHECK))
                 return StageResult(Stage.CHECK, Status.CANNOT_CHECK, "CHECKER_RUNTIME_STATE_CHANGED",
-                                   payload={"operator": op.operator_id,
+                                   payload={"operator": op.operator_id, "candidate_data": data_work,
                                             "verdicts": {o.operator_id: v.value for o, _, _, v in invalid}},
                                    resources=ResourceVector(verification_calls=len(invalid))), invalid
-            except CannotCheck:
+            except (CannotCheck, CandidateDataRefused, RecursionError):
                 verdict = Status.CANNOT_CHECK
             except Exception:  # noqa: BLE001
                 verdict = Status.FAIL
@@ -372,7 +445,8 @@ def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], Warr
             worst = verdict
     passed = [c for c in checked if c[3] is Status.PASS]
     status = Status.PASS if passed else (worst if checked else Status.FAIL)
-    return StageResult(Stage.CHECK, status, f"{len(passed)}_OF_{len(checked)}_CANDIDATES_PASS", object_ids=tuple(op.operator_id for op, _, _, v in checked if v is Status.PASS), payload={"verdicts": {op.operator_id: v.value for op, _, _, v in checked}}, resources=ResourceVector(verification_calls=len(checked))), checked
+    return StageResult(Stage.CHECK, status, f"{len(passed)}_OF_{len(checked)}_CANDIDATES_PASS", object_ids=tuple(op.operator_id for op, _, _, v in checked if v is Status.PASS), payload={"verdicts": {op.operator_id: v.value for op, _, _, v in checked},
+                   "candidate_data": data_work}, resources=ResourceVector(verification_calls=len(checked))), checked
 
 
 # ---------------------------------------------------------------------------------------------
@@ -457,6 +531,29 @@ def commitment_gate(outcome: SolveOutcome, task: Task, revoked: Iterable[Hashabl
     return StageResult(Stage.COMMITMENT, Status.PASS, "COMMITTED", object_ids=(op.operator_id,), evidence_ids=tuple(sorted(map(repr, warrant.evidence))))
 
 
+def _finish_commitment(outcome: SolveOutcome, task: Task, revoked, authority: Authority,
+                       commitment_guard: Callable[[], None] | None) -> SolveOutcome:
+    """Recheck the solve's original API state after all candidate consumption."""
+    if commitment_guard is not None:
+        try:
+            commitment_guard()
+        except CallbackStateChanged:
+            stages = []
+            for stage in outcome.trace.stages:
+                if stage.stage is Stage.CHECK and stage.status is Status.PASS:
+                    verdicts = {name: Status.CANNOT_CHECK.value for name in stage.payload.get("verdicts", {})}
+                    stage = replace(stage, status=Status.CANNOT_CHECK, reason="SOLVE_STATE_CHANGED_AFTER_CHECK",
+                                    object_ids=(), payload={**stage.payload, "verdicts": verdicts})
+                elif stage.stage is Stage.DECISION:
+                    stage = replace(stage, status=Status.CANNOT_CHECK,
+                                    reason="SOLVE_RUNTIME_STATE_CHANGED_BEFORE_COMMITMENT", object_ids=())
+                stages.append(stage)
+            outcome.trace.stages[:] = stages
+            outcome = SolveOutcome(Decision.CANNOT_CHECK, outcome.trace)
+    outcome.trace.add(commitment_gate(outcome, task, revoked, commit_authority=authority))
+    return outcome
+
+
 # ---------------------------------------------------------------------------------------------
 # the loop
 # ---------------------------------------------------------------------------------------------
@@ -472,6 +569,7 @@ def solve(
     commit_authority: Authority | None = None,
     extraction_index: ExtractionIndex | None = None,
     callback_guard: CallbackGuard | None = None,
+    commitment_guard: Callable[[], None] | None = None,
 ) -> SolveOutcome:
     rv = frozenset(revoked)
     trace = SolveTrace(task.task_id)
@@ -480,16 +578,14 @@ def solve(
         trace.add(failure)
         decision, outcome = decide(trace, {}, (), task)
         trace.add(decision)
-        trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))
-        return outcome
+        return _finish_commitment(outcome, task, rv, commit_authority or Authority(), commitment_guard)
     grounding, seed = atomise(ks, task)
     trace.add(grounding)
     if seed is None:
         dec = StageResult(Stage.DECISION, Status.FAIL, f"GAP:{grounding.reason}")
         trace.add(dec)
         out = SolveOutcome(Decision.CLARIFY if grounding.reason != "EMPTY_QUESTION" else Decision.UNKNOWN, trace, gap_hook="RE_ATOMISE")
-        trace.add(commitment_gate(out, task, rv, commit_authority=commit_authority or Authority()))
-        return out
+        return _finish_commitment(out, task, rv, commit_authority or Authority(), commitment_guard)
     trace.add(StageResult(Stage.REPRESENTATION, Status.PASS, "ACTIVE_REPRESENTATION_SELECTED", payload={"representation": "typed_hypergraph_v1", "atoms": len(ks.ids)}))
     nav_res, nav = navigate_stage(ks, seed, task, config, rv)
     trace.add(nav_res)
@@ -513,8 +609,7 @@ def solve(
                     trace.add(chk_res)
     dec_res, outcome = decide(trace, nav, checked, task)
     trace.add(dec_res)
-    trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))
-    return outcome
+    return _finish_commitment(outcome, task, rv, commit_authority or Authority(), commitment_guard)
 
 
 def committed(outcome: SolveOutcome) -> bool:

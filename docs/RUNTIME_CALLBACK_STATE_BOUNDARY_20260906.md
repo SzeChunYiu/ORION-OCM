@@ -32,9 +32,10 @@ The text adapter's separate content-digest checks remain in place.
 
 ## Cost and qualification scope
 
-Each invoked callback adds two constant-size checkpoints. The task trace records
-callback and checkpoint counts, the API-mediated contract, and zero full-state
-hashes/catalogue traversals performed by this guard. Existing ledger emission
+Each invoked callback adds two constant-size checkpoints; the solve adds one
+initial checkpoint and one immediately before commitment. The task trace records
+these counts separately, the API-mediated contract, and zero full-state
+hashes/catalogue traversals performed by checkpoint comparison. Existing ledger emission
 still computes state digests; navigation and other global work remain unchanged.
 No end-to-end locality or speedup follows from this fix.
 
@@ -45,3 +46,30 @@ A prepared 1,001-operator index is exercised while full iteration is forbidden;
 only one structurally applicable operator is considered. Guard checkpoints are
 also exercised with global state-digest properties forbidden, while ordinary
 query audit events remain enabled.
+
+## Returned data and delayed methods
+
+Backend error probing and Mapping materialization run inside the backend guard.
+Returned data is detached into plain dictionaries with exact string keys, lists,
+tuples and exact built-in scalar values (str/int/float/bool/None). Lists, tuples
+and numeric types remain distinct; current CLIA and language donors retain these
+types. Cycles and opaque values require an explicit data adapter and otherwise
+return CANNOT_CHECK. Callback exception objects are not formatted afterward.
+
+The checker receives a detached copy. Its exact Status and unchanged, type-aware
+input are checked before leaving its guard; mutating the candidate and then
+approving it cannot establish a pass. Checker-retained references do not alias
+the returned answer. Mapping subclasses are materialized before later consumers
+can invoke their methods; opaque nested objects are not admitted as answer data.
+
+Copying/validation takes work proportional to returned payload size, not O(1).
+Composition/check stages report candidate_data nodes_visited and comparison_nodes
+(where comparison occurs). These counts are additional output-processing work,
+not evidence of end-to-end locality. No field or catalogue is traversed for it.
+
+The final checkpoint invalidates earlier checker passes if state changed after
+checking; no candidate or answer is returned. Additional controls cover delayed
+contains/items/getitem, nested values, mutation then exception, a late transition,
+checker-owned mutation/retained references, exact bool/int distinction, opaque
+values, cycles, and ordinary pure nested mappings. Arbitrary host code remains
+outside a Python sandbox; the guard does not undo already recorded effects.
