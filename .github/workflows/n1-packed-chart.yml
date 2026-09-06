@@ -30,4 +30,10 @@ jobs:
       - name: N1 parser and shared vessel lifecycle checks
         env:
           OCM_G1_DEV_PATH: ${{ runner.temp }}/en_ewt-ud-dev.conllu
-        run: python -m pytest research/ocm-n1 research/ocm-prototype -q
+        # Host/client controls require an explicitly qualified laptop route.
+        # Archived evidence includes historical test source, never live tests.
+        # Portable hosted validators run in hosted-qualification.yml.
+        run: |
+          python -m pytest research/ocm-n1 research/ocm-prototype -q \
+            --ignore=research/ocm-prototype/results \
+            --ignore-glob='research/ocm-prototype/test_hosted_*.py'

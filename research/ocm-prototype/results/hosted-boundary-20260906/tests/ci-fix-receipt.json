@@ -1,0 +1,100 @@
+{
+  "purpose": "FOLLOWUP_CI_ENVIRONMENT_AND_COLLECTION_REPAIR_ONLY",
+  "source_base_commit": "2c2bd1da576f7d1e98e3dcde908315b560c91f6f",
+  "changes": {
+    "offline_install": "pytest==8.3.5 sexpdata==1.0.2",
+    "ordinary_exclusions": [
+      "research/ocm-prototype/results",
+      "research/ocm-prototype/test_hosted_*.py"
+    ]
+  },
+  "cause": "The original offline environment lacked sexpdata imported by clia_tasks/clia_grammar; the earlier three-test receipt used the complete hosted environment. Broad prototype collection also included host-only and historical source tests.",
+  "counts": {
+    "offline": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 0.038
+    },
+    "ordinary": {
+      "tests": 96,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 14.242
+    }
+  },
+  "fresh_environment": {
+    "python": "3.13.12 (main, Feb  3 2026, 22:52:12) [Clang 21.1.4 ]",
+    "packages": {
+      "packaging": "26.3",
+      "sexpdata": "1.0.2",
+      "pip": "25.3",
+      "pluggy": "1.6.0",
+      "iniconfig": "2.3.0",
+      "pytest": "8.3.5"
+    },
+    "absent_native_packages": {
+      "cvc5": true,
+      "z3": true,
+      "mcp": true,
+      "ufal": true
+    }
+  },
+  "ordinary_collection_hosted_or_archive_nodes": 0,
+  "ordinary_environment": "Existing isolated G1 environment, Python 3.13.12; hosted packages/model/client controls not invoked. CI itself requests Python 3.11.",
+  "hosted13_source_hashes_unchanged": true,
+  "historical8_test_receipts_preserved": true,
+  "model_provider_inference_requests": 0,
+  "authentication_operations": 0,
+  "workflow_bindings": {
+    ".github/workflows/hosted-qualification.yml": "5b0bd5e39d96dd51ac85a765ab1ccc067573134c4b53df4299bd2fc8a0ad132e",
+    ".github/workflows/n1-packed-chart.yml": "93ce32f47a482e49b1373ff072a42da7708ebaa3a54f00b234a74ac059d9d828"
+  },
+  "original_artifacts": {
+    "offline-fresh-ci-v1.log": {
+      "original_sha256": "be28b13a04c3ad9b05a7f0bf2114b5aa062d1e17b025628d50e947296efc445c",
+      "original_bytes": 206,
+      "published_sha256": "d2685e146030ac0599b7958c9864884f7869c8d1ea9e72ec3481a2dddc556d43",
+      "published_bytes": 155,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    },
+    "offline-fresh-ci-v1.xml": {
+      "original_sha256": "8659da0a8b666f7c93a5b1009320623b09c70b6e2605c2742f9883fcc15fb55f",
+      "original_bytes": 630,
+      "published_sha256": "7abd6696a137ccc3232b7d901c0d632bb0ca2b743f0f4e532a061adf933ca039",
+      "published_bytes": 606,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    },
+    "offline-fresh-ci-v1-receipt.json": {
+      "original_sha256": "e981c4a952f1266cff388bb341f77407cb70273c7ec5c08d2a7030a7708a0a6c",
+      "original_bytes": 951,
+      "published_sha256": "e981c4a952f1266cff388bb341f77407cb70273c7ec5c08d2a7030a7708a0a6c",
+      "published_bytes": 951,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    },
+    "ordinary-ci-v1.log": {
+      "original_sha256": "1afd8cd0a0bf0eac6e9e6517ad7969e8beb3e8515cd3a927ed8f26dedca064f6",
+      "original_bytes": 290,
+      "published_sha256": "86b18030f9e08ab7f15bdc4a6dc731c0207900cce899b3fbdb95827983f8ef2e",
+      "published_bytes": 238,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    },
+    "ordinary-ci-v1.xml": {
+      "original_sha256": "e1441338ba57f8bb771a966c62b9ce64cf3cc511cc1115b9d6fb20ba81d66ffe",
+      "original_bytes": 16597,
+      "published_sha256": "ca3e61b145d5a5869ee0c462e754fb64deccb0a774f6da077be9856a840206a9",
+      "published_bytes": 16573,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    },
+    "ordinary-ci-v1-collection.log": {
+      "original_sha256": "41f9f0fd1b7a04b5c2f9b7c8e66abde1d1f4bbe16feba045eb8fccfb285a1d6d",
+      "original_bytes": 12474,
+      "published_sha256": "41f9f0fd1b7a04b5c2f9b7c8e66abde1d1f4bbe16feba045eb8fccfb285a1d6d",
+      "published_bytes": 12474,
+      "transformation": "Declared local path/hostname placeholders only; numerical results unchanged."
+    }
+  },
+  "gitHub_execution": "Not inferred from local qualification; exact-head GitHub gate remains separate."
+}

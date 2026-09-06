@@ -1,0 +1,61 @@
+[
+  {
+    "id": "s",
+    "request": {
+      "kind": "syntax",
+      "tokens": [
+        "A",
+        "dog",
+        "runs",
+        "."
+      ]
+    }
+  },
+  {
+    "id": "p",
+    "request": {
+      "kind": "clia",
+      "task": {
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+        "grammar": {
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "bounds": {
+            "ast_depth": 160,
+            "ast_nodes": 20000,
+            "candidate_bytes": 65536,
+            "integer_bits": 4096
+          },
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ],
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+        },
+        "kind": "clia",
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+        "source": {
+          "bytes": 327,
+          "family": "maximum",
+          "file": "jmbl_fg_max3.sl",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+          "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+        },
+        "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+        "task_id": "jmbl_fg_max3",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+      }
+    }
+  }
+]

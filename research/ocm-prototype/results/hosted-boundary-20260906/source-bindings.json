@@ -1,0 +1,97 @@
+{
+  "schema": "ocm.hosted-publication-source.v1",
+  "base_commit": "b7432a204e1a8bf2d3a22fb60014ff47931848c2",
+  "source_files": {
+    "research/ocm-prototype/hosted_claude.py": {
+      "bytes": 6628,
+      "sha256": "fa18db5cf1a4a63182282c49384c9da83c8ba58324c3d8a5a0600ddce4b90476",
+      "lines": 112
+    },
+    "research/ocm-prototype/hosted_codex.py": {
+      "bytes": 5681,
+      "sha256": "991d011335f8cd13c4e6c47620910744d662c5ee6cc375dcbc6275b536b6c84d",
+      "lines": 99
+    },
+    "research/ocm-prototype/hosted_controls.py": {
+      "bytes": 7605,
+      "sha256": "773f087084e1298e272a5eacbc1fe99bd3779e429cf1eb1d6a8f5d4fa5581881",
+      "lines": 116
+    },
+    "research/ocm-prototype/hosted_custody.py": {
+      "bytes": 3951,
+      "sha256": "bdd233ff96e93ca40c9f3dcb8c4fc4e806b445f05429caf2a10efa1664ebae3b",
+      "lines": 85
+    },
+    "research/ocm-prototype/hosted_mcp.py": {
+      "bytes": 2620,
+      "sha256": "0306eb99186ffb16a38a4c3b20df6daaab835fd9f0af57d6b52948000541fd5a",
+      "lines": 66
+    },
+    "research/ocm-prototype/hosted_reference/BOUNDARY_STATUS.md": {
+      "bytes": 4786,
+      "sha256": "a08aa3d13c15a72ef8edf6076ff5559284fcdb75458642e0987f51b3e24157f0",
+      "lines": 71
+    },
+    "research/ocm-prototype/hosted_reference/README.md": {
+      "bytes": 5493,
+      "sha256": "4a38339613106528805d0e15c46db6353921264aed0345cf7c85eff2c5a3915e",
+      "lines": 84
+    },
+    "research/ocm-prototype/hosted_stage.py": {
+      "bytes": 6047,
+      "sha256": "dff190b24571dbfa3579643c009c1240164ea4c4367026e983a4ad7187b60b73",
+      "lines": 115
+    },
+    "research/ocm-prototype/hosted_tools.py": {
+      "bytes": 4343,
+      "sha256": "ff4cd07c08f39eb09591b886174b0ac1b20d2e40ebbe4211d2ac0eec7c4a94b3",
+      "lines": 87
+    },
+    "research/ocm-prototype/requirements-hosted.txt": {
+      "bytes": 94,
+      "sha256": "64b21da51cf875bed79de18f2f3fea82f7ee21fa6d5984c95a943990500297b1",
+      "lines": 6
+    },
+    "research/ocm-prototype/test_hosted_catalogue.py": {
+      "bytes": 956,
+      "sha256": "0e5b8a1db8e2dd1f2b9764f3b798e56389102b812fa009a68967b456a6252717",
+      "lines": 23
+    },
+    "research/ocm-prototype/test_hosted_claude.py": {
+      "bytes": 1854,
+      "sha256": "0d7a1b3eee910b626df18fe8d8e0e20cbfa88396f3f43f72266cf33a4082a1c5",
+      "lines": 43
+    },
+    "research/ocm-prototype/test_hosted_native.py": {
+      "bytes": 2466,
+      "sha256": "1084ad50a49f3ce19407b65208431557b1acf25845dad50283bac187293493fa",
+      "lines": 60
+    },
+    "research/ocm-prototype/test_hosted_memory.py": {
+      "bytes": 2547,
+      "sha256": "6bf33e33eba2d84cd8bd4aafc11e7d23ae8e62a744eed1b00d6c735c833f2975",
+      "lines": 56
+    }
+  },
+  "source_changes_during_packaging": [
+    {
+      "path": "research/ocm-prototype/test_hosted_native.py",
+      "change": "Read OCM_HOSTED_MODEL_PATH with unchanged original fallback and fixed model SHA",
+      "original_bytes_path": "bindings/test_hosted_native.pre-portability.py",
+      "original_sha256": "42c2648e214a30b24943b0bdf7f9f284899ccbc57789a6bf6652155a267c2722",
+      "validation": "tests/full-v3-receipt.json"
+    },
+    {
+      "path": "research/ocm-prototype/hosted_stage.py",
+      "change": "Reject symlink memory root/ancestors before resolution/output creation; retain ordinary-directory resume.",
+      "original_bytes_path": "bindings/hosted_stage.before-memory-path-v4.py",
+      "original_sha256": "cdc0654709afc869075d678fb02ec3230522b6a3ad97d75005e61899ebfd696f",
+      "validation": "tests/memory-path-v4-receipt.json"
+    }
+  ],
+  "source_generation": "V4_MEMORY_PATH_VALIDATION",
+  "previous_publication_binding": {
+    "path": "bindings/source-bindings-v3.json",
+    "sha256": "b0e3d9e01b28f4e7b698810942a3e0a390dce0f2d1639e31e20b67262c9d5255"
+  }
+}

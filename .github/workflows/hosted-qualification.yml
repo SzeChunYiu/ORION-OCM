@@ -1,0 +1,59 @@
+name: Hosted comparator offline qualification
+on:
+  pull_request:
+    paths:
+      - 'research/ocm-prototype/hosted*'
+      - 'research/ocm-prototype/hosted_reference/**'
+      - 'research/ocm-prototype/test_hosted*'
+      - 'research/ocm-prototype/requirements-hosted.txt'
+      - 'research/ocm-prototype/results/hosted-boundary-20260906/**'
+      - '.github/workflows/hosted-qualification.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/ocm-prototype/hosted*'
+      - 'research/ocm-prototype/hosted_reference/**'
+      - 'research/ocm-prototype/test_hosted*'
+      - 'research/ocm-prototype/requirements-hosted.txt'
+      - 'research/ocm-prototype/results/hosted-boundary-20260906/**'
+      - '.github/workflows/hosted-qualification.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-validators:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Create a small separate test environment
+        run: |
+          python -m venv "${{ runner.temp }}/ocm-hosted-ci"
+          "${{ runner.temp }}/ocm-hosted-ci/bin/python" -m pip install pytest==8.3.5 sexpdata==1.0.2
+      - name: Offline validators only; no clients, models or network calls
+        env:
+          PYTHONPATH: research/ocm-prototype
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          "${{ runner.temp }}/ocm-hosted-ci/bin/python" -m pytest -q \
+            research/ocm-prototype/test_hosted_catalogue.py::test_catalogue_refuses_unexpected_builtin \
+            research/ocm-prototype/test_hosted_claude.py::test_claude_catalogue_rejects_every_extra_or_missing_tool \
+            research/ocm-prototype/test_hosted_native.py::test_public_schema_rejects_extra_outcome_fields \
+            research/ocm-prototype/test_hosted_memory.py
+      - name: Verify published evidence and its source bindings
+        run: |
+          cd research/ocm-prototype/results/hosted-boundary-20260906
+          sha256sum --check SHA256SUMS
+          python - <<'PYTHON'
+          import hashlib, json
+          from pathlib import Path
+          root = Path.cwd().parents[3]
+          binding = json.loads(Path('source-bindings.json').read_text())
+          for path, spec in binding['source_files'].items():
+              assert hashlib.sha256((root / path).read_bytes()).hexdigest() == spec['sha256'], path
+          print(f"{len(binding['source_files'])} current published sources match; historical receipts remain separate.")
+          PYTHON

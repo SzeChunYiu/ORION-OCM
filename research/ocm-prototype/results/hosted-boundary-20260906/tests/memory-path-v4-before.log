@@ -1,0 +1,93 @@
+..FFFF                                                                   [100%]
+=================================== FAILURES ===================================
+___ test_symlink_memory_paths_refused_without_stage_or_target_mutation[root] ___
+
+tmp_path = PosixPath('<pytest-root>/test_symlink_memory_paths_refu0')
+model = (PosixPath('<pytest-root>/test_symlink_memory_paths_refu0/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'root'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+>       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed
+_ test_symlink_memory_paths_refused_without_stage_or_target_mutation[ancestor] _
+
+tmp_path = PosixPath('<pytest-root>/test_symlink_memory_paths_refu1')
+model = (PosixPath('<pytest-root>/test_symlink_memory_paths_refu1/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'ancestor'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+>       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed
+_ test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_root] _
+
+tmp_path = PosixPath('<pytest-root>/test_symlink_memory_paths_refu2')
+model = (PosixPath('<pytest-root>/test_symlink_memory_paths_refu2/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'dangling_root'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+>       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed
+_ test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_ancestor] _
+
+tmp_path = PosixPath('<pytest-root>/test_symlink_memory_paths_refu3')
+model = (PosixPath('<pytest-root>/test_symlink_memory_paths_refu3/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'dangling_ancestor'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+>       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed
+- generated xml file: <memory-path-qualification-root>/before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_hosted_memory.py::test_symlink_memory_paths_refused_without_stage_or_target_mutation[root]
+FAILED research/ocm-prototype/test_hosted_memory.py::test_symlink_memory_paths_refused_without_stage_or_target_mutation[ancestor]
+FAILED research/ocm-prototype/test_hosted_memory.py::test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_root]
+FAILED research/ocm-prototype/test_hosted_memory.py::test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_ancestor]
+4 failed, 2 passed in 0.05s

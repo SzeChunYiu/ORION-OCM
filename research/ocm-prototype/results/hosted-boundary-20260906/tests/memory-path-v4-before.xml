@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="6" time="0.049" timestamp="2026-09-06T05:49:06.676713+02:00" hostname="qualification-host"><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_new_memory_directory_created_and_existing_memory_resumed" time="0.007" /><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_relative_memory_directory_preserves_normal_resume" time="0.002" /><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_symlink_memory_paths_refused_without_stage_or_target_mutation[root]" time="0.002"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">tmp_path = PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu0')
+model = (PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu0/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'root'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+&gt;       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed</failure></testcase><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_symlink_memory_paths_refused_without_stage_or_target_mutation[ancestor]" time="0.003"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">tmp_path = PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu1')
+model = (PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu1/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'ancestor'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+&gt;       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed</failure></testcase><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_root]" time="0.002"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">tmp_path = PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu2')
+model = (PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu2/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'dangling_root'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+&gt;       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed</failure></testcase><testcase classname="research.ocm-prototype.test_hosted_memory" name="test_symlink_memory_paths_refused_without_stage_or_target_mutation[dangling_ancestor]" time="0.002"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">tmp_path = PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu3')
+model = (PosixPath('&lt;pytest-root&gt;/test_symlink_memory_paths_refu3/UNIT_FIXTURE_NOT_A_DONOR.bin'), 'e0ed269ac123c8379d08d2fb3b0f372cc1aba74ed581b6325aa88d8029cdfed1')
+case = 'dangling_ancestor'
+
+    @pytest.mark.parametrize("case", ["root", "ancestor", "dangling_root", "dangling_ancestor"])
+    def test_symlink_memory_paths_refused_without_stage_or_target_mutation(tmp_path, model, case):
+        target = tmp_path / "target"
+        if not case.startswith("dangling"):
+            target.mkdir()
+            (target / "saved.txt").write_text("PUBLIC_REFUSAL_CONTROL")
+        alias = tmp_path / "alias"
+        alias.symlink_to(target, target_is_directory=True)
+        memory = alias / "child" if "ancestor" in case else alias
+        output = tmp_path / "stage"
+        before = sorted((p.relative_to(target).as_posix(), p.read_bytes()) for p in target.rglob("*") if p.is_file())
+&gt;       with pytest.raises(ValueError, match="memory.*symlink"):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+research/ocm-prototype/test_hosted_memory.py:51: Failed</failure></testcase></testsuite></testsuites>
