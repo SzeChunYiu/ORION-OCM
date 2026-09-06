@@ -39,7 +39,10 @@ def enabling_verdict(
     context: str | None = None,
 ) -> EnablingVerdict:
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    # ``atom_map`` is the public compatibility API and intentionally returns a detached copy.
+    # Firing is a read-only hot path, so use the zero-copy read-only index introduced by #90.
+    # Otherwise one full |V|-sized dict is copied for every edge verdict.
+    amap = ks.atom_view
     liveness = edge.liveness(rv)
     for t in edge.tails:
         liveness = kleene_and(liveness, amap[t].liveness(rv))
