@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  r1-native-kernel:
+  f0-r1-native-kernel:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -34,14 +34,18 @@ jobs:
           python-version: '3.11'
       - name: Install pinned development environment
         run: ./scripts/m0_install_dev.sh
-      - name: Install syscall guard used by hostile test
+      - name: Install syscall guard used by custody hostiles
         run: |
           sudo apt-get update
           sudo apt-get install -y strace
       - name: Run FLT-KSO hostiles and production-KSO integration
         env:
           PYTHONPATH: src
-        run: python -m pytest -q research/flt-kso-v1/test_flt_kso.py
+        run: |
+          python -m pytest -q \
+            research/flt-kso-v1/test_flt_kso.py \
+            research/flt-kso-v1/test_anthropic_dag_edgecases.py \
+            research/flt-kso-v1/test_f0.py
       - name: Run historical proof-replay control tests
         env:
           PYTHONPATH: src
@@ -55,25 +59,55 @@ jobs:
           for m in $(seq 1 12); do
             python "tools/m${m}_receipt.py" --verify
           done
-      - name: Bind exact R1 Lean kernel
-        run: printf '%s\n' 'leanprover/lean4:v4.33.1' > lean-toolchain
-      - name: Install Lean 4.33.1 only (no automatic build/test)
-        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
-        with:
-          build: 'false'
-          test: 'false'
-          lint: 'false'
-          use-github-cache: 'false'
-          use-mathlib-cache: 'false'
+      - name: Install pinned elan v4.2.4 and Lean 4.33.1
+        run: |
+          set -euo pipefail
+          curl -fsSL \
+            https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz \
+            -o /tmp/elan.tar.gz
+          echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan.tar.gz' | sha256sum -c -
+          tar -xzf /tmp/elan.tar.gz -C /tmp elan-init
+          /tmp/elan-init -y --no-modify-path --default-toolchain none
+          "$HOME/.elan/bin/elan" toolchain install leanprover/lean4:v4.33.1
+          "$HOME/.elan/bin/elan" default leanprover/lean4:v4.33.1
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Verify exact Lean identity
         run: |
+          set -euo pipefail
           lean --version
           lean --version | grep -F 'Lean (version 4.33.1'
-      - name: Execute preregistered R1 native and matched-parent arms
+      - name: Execute governed F0 masked-composition apparatus gate
         env:
           PYTHONPATH: src
         run: |
-          python research/flt-kso-v1/run_r1.py --source-sha "$GITHUB_SHA" --out /tmp/r1.json
+          python research/flt-kso-v1/run_f0.py --source-sha "$GITHUB_SHA" --lean "$(command -v lean)" --out /tmp/f0.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/f0.json'))
+          assert r['terminal'] == 'F0_MASKED_COMPOSITION_APPARATUS_SUPPORTED', r
+          assert r['comparison_terminal'] == 'PARENT_SUFFICIENT', r
+          assert r['claim_scope'] == 'APPARATUS_ONLY_NO_DISCOVERY_NOVELTY', r
+          assert r['discovery_claim'] == 'NONE_AUTHORED_PUBLIC_FIXTURE', r
+          assert r['composition_body_given_to_generator'] is False
+          assert r['foundation_source_given_to_generator'] is False
+          assert r['generator_custody_trace'] == 'CLEAR', r
+          assert r['goal_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_before_check'] == 'UNKNOWN'
+          assert r['candidate_liveness_after_check'] == 'LIVE'
+          assert r['claim_liveness_after_admission'] == 'LIVE'
+          assert r['llm_calls'] == r['llm_tokens'] == r['foundation_model_calls'] == 0
+          assert r['proof_state_expansions'] <= 128
+          assert r['operator_candidates_considered'] <= 256
+          assert r['checker_calls'] <= 16
+          print(json.dumps({k:r[k] for k in (
+              'terminal','comparison_terminal','proof_state_expansions',
+              'operator_candidates_considered','checker_calls','generator_custody_trace')}, indent=2))
+          PY
+      - name: Execute preregistered R1 unseen composition and matched parent
+        env:
+          PYTHONPATH: src
+        run: |
+          python research/flt-kso-v1/run_r1.py --source-sha "$GITHUB_SHA" --lean "$(command -v lean)" --out /tmp/r1.json
           python - <<'PY'
           import json
           r=json.load(open('/tmp/r1.json'))
