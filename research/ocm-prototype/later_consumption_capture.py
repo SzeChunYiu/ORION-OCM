@@ -74,6 +74,8 @@ def decode_result(directory, capture):
             raise ValueError('missing native worker completion identity')
         if value['status'] == 'SOLUTION' and not isinstance(value.get('candidate'), str):
             raise ValueError('malformed candidate')
+        if value['status'] in ('SOLUTION', 'PASS', 'FAIL'):
+            result['reason'] = ''
         result.update(value)
         result['native_invoked'] = True  # Completed worker boundary, not proof of solver search work.
         result['metrics']['envelope_wall_s'] = capture.get('elapsed_ns',0)/1e9
