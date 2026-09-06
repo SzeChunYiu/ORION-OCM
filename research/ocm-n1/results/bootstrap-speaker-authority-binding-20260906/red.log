@@ -1,0 +1,92 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+______ BootstrapAuditTests.test_audit_binds_current_sources_and_inventory ______
+
+self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_audit_binds_current_sources_and_inventory>
+
+    def test_audit_binds_current_sources_and_inventory(self):
+>       r = bootstrap_audit.verify()
+
+research/ocm-n1/test_bootstrap_audit.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def verify() -> dict[str, Any]:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        if manifest.get("schema") != "ocm.language-bootstrap.v1":
+            raise AssertionError("unexpected bootstrap manifest schema")
+        if manifest.get("protected_outcomes_read") is not False:
+            raise AssertionError("bootstrap audit lost prospective-only scope")
+    
+        binding_errors = {}
+        for rel, expected in manifest["source_bindings"].items():
+            path = ROOT / rel
+            actual = git_blob_sha(path) if path.is_file() else "MISSING"
+            if actual != expected:
+                binding_errors[rel] = {"expected": expected, "actual": actual}
+        if binding_errors:
+>           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+
+research/ocm-n1/bootstrap_audit.py:79: AssertionError
+______ BootstrapAuditTests.test_current_runtime_is_not_mislabeled_minimal ______
+
+self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_current_runtime_is_not_mislabeled_minimal>
+
+    def test_current_runtime_is_not_mislabeled_minimal(self):
+>       r = bootstrap_audit.verify()
+
+research/ocm-n1/test_bootstrap_audit.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def verify() -> dict[str, Any]:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        if manifest.get("schema") != "ocm.language-bootstrap.v1":
+            raise AssertionError("unexpected bootstrap manifest schema")
+        if manifest.get("protected_outcomes_read") is not False:
+            raise AssertionError("bootstrap audit lost prospective-only scope")
+    
+        binding_errors = {}
+        for rel, expected in manifest["source_bindings"].items():
+            path = ROOT / rel
+            actual = git_blob_sha(path) if path.is_file() else "MISSING"
+            if actual != expected:
+                binding_errors[rel] = {"expected": expected, "actual": actual}
+        if binding_errors:
+>           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+
+research/ocm-n1/bootstrap_audit.py:79: AssertionError
+_ BootstrapAuditTests.test_language_prior_counts_include_communication_policy __
+
+self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_language_prior_counts_include_communication_policy>
+
+    def test_language_prior_counts_include_communication_policy(self):
+>       r = bootstrap_audit.verify()
+
+research/ocm-n1/test_bootstrap_audit.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def verify() -> dict[str, Any]:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        if manifest.get("schema") != "ocm.language-bootstrap.v1":
+            raise AssertionError("unexpected bootstrap manifest schema")
+        if manifest.get("protected_outcomes_read") is not False:
+            raise AssertionError("bootstrap audit lost prospective-only scope")
+    
+        binding_errors = {}
+        for rel, expected in manifest["source_bindings"].items():
+            path = ROOT / rel
+            actual = git_blob_sha(path) if path.is_file() else "MISSING"
+            if actual != expected:
+                binding_errors[rel] = {"expected": expected, "actual": actual}
+        if binding_errors:
+>           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+
+research/ocm-n1/bootstrap_audit.py:79: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/ocm-exact-sparse/research/ocm-n1/results/bootstrap-speaker-authority-binding-20260906/red.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_audit_binds_current_sources_and_inventory
+FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_current_runtime_is_not_mislabeled_minimal
+FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_language_prior_counts_include_communication_policy
+3 failed in 0.02s

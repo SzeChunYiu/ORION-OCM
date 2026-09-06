@@ -1,0 +1,109 @@
+packed-chart	N1 parser and shared vessel lifecycle checks	﻿2026-09-06T12:40:02.2733297Z ##[group]Run python -m pytest research/ocm-n1 research/ocm-prototype -q \
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2733636Z [36;1mpython -m pytest research/ocm-n1 research/ocm-prototype -q \[0m
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2733864Z [36;1m  --ignore=research/ocm-prototype/results \[0m
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2734084Z [36;1m  --ignore-glob='research/ocm-prototype/test_hosted_*.py'[0m
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2765615Z shell: /usr/bin/bash -e {0}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2765760Z env:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2765911Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2766150Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2766404Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2766613Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2766830Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2767052Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2767278Z   OCM_G1_DEV_PATH: /home/runner/work/_temp/en_ewt-ud-dev.conllu
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:02.2767507Z ##[endgroup]
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:10.0837847Z FFF..................................................................... [ 25%]
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:13.4198613Z ........................................................................ [ 50%]
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:29.6637899Z ........................................................................ [ 75%]
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0805520Z ......................................................................   [100%]
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0806003Z =================================== FAILURES ===================================
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0806392Z ______ BootstrapAuditTests.test_audit_binds_current_sources_and_inventory ______
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0806573Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0806757Z self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_audit_binds_current_sources_and_inventory>
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0807131Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0807267Z     def test_audit_binds_current_sources_and_inventory(self):
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0807601Z >       r = bootstrap_audit.verify()
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0807776Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0807878Z research/ocm-n1/test_bootstrap_audit.py:15: 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0808166Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0808381Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0808499Z     def verify() -> dict[str, Any]:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0808924Z         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0809284Z         if manifest.get("schema") != "ocm.language-bootstrap.v1":
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0809648Z             raise AssertionError("unexpected bootstrap manifest schema")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0810006Z         if manifest.get("protected_outcomes_read") is not False:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0810382Z             raise AssertionError("bootstrap audit lost prospective-only scope")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0810695Z     
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0810862Z         binding_errors = {}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0811047Z         for rel, expected in manifest["source_bindings"].items():
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0811489Z             path = ROOT / rel
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0811670Z             actual = git_blob_sha(path) if path.is_file() else "MISSING"
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0811864Z             if actual != expected:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0812054Z                 binding_errors[rel] = {"expected": expected, "actual": actual}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0812249Z         if binding_errors:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0812461Z >           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0812986Z E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0813368Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0813453Z research/ocm-n1/bootstrap_audit.py:79: AssertionError
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0813700Z ______ BootstrapAuditTests.test_current_runtime_is_not_mislabeled_minimal ______
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814134Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814306Z self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_current_runtime_is_not_mislabeled_minimal>
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814533Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814617Z     def test_current_runtime_is_not_mislabeled_minimal(self):
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814805Z >       r = bootstrap_audit.verify()
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814905Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0814970Z research/ocm-n1/test_bootstrap_audit.py:23: 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815155Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815284Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815343Z     def verify() -> dict[str, Any]:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815524Z         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815749Z         if manifest.get("schema") != "ocm.language-bootstrap.v1":
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0815974Z             raise AssertionError("unexpected bootstrap manifest schema")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0816199Z         if manifest.get("protected_outcomes_read") is not False:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0816440Z             raise AssertionError("bootstrap audit lost prospective-only scope")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0816641Z     
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0816750Z         binding_errors = {}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0816920Z         for rel, expected in manifest["source_bindings"].items():
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0817100Z             path = ROOT / rel
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0817273Z             actual = git_blob_sha(path) if path.is_file() else "MISSING"
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0817463Z             if actual != expected:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0817648Z                 binding_errors[rel] = {"expected": expected, "actual": actual}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0817840Z         if binding_errors:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0818048Z >           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0818558Z E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0819096Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0819178Z research/ocm-n1/bootstrap_audit.py:79: AssertionError
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0819426Z _ BootstrapAuditTests.test_language_prior_counts_include_communication_policy __
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0819597Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0819784Z self = <test_bootstrap_audit.BootstrapAuditTests testMethod=test_language_prior_counts_include_communication_policy>
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820022Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820119Z     def test_language_prior_counts_include_communication_policy(self):
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820317Z >       r = bootstrap_audit.verify()
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820413Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820478Z research/ocm-n1/test_bootstrap_audit.py:28: 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820659Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820787Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0820844Z     def verify() -> dict[str, Any]:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0821021Z         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0821246Z         if manifest.get("schema") != "ocm.language-bootstrap.v1":
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0821592Z             raise AssertionError("unexpected bootstrap manifest schema")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0821814Z         if manifest.get("protected_outcomes_read") is not False:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822047Z             raise AssertionError("bootstrap audit lost prospective-only scope")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822244Z     
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822349Z         binding_errors = {}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822513Z         for rel, expected in manifest["source_bindings"].items():
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822692Z             path = ROOT / rel
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0822862Z             actual = git_blob_sha(path) if path.is_file() else "MISSING"
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0823071Z             if actual != expected:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0823387Z                 binding_errors[rel] = {"expected": expected, "actual": actual}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0823580Z         if binding_errors:
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0823895Z >           raise AssertionError(f"language bootstrap source binding drift: {binding_errors}")
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0824404Z E           AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0824778Z 
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0824858Z research/ocm-n1/bootstrap_audit.py:79: AssertionError
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0825062Z =========================== short test summary info ============================
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0825759Z FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_audit_binds_current_sources_and_inventory - AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0827817Z FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_current_runtime_is_not_mislabeled_minimal - AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0829075Z FAILED research/ocm-n1/test_bootstrap_audit.py::BootstrapAuditTests::test_language_prior_counts_include_communication_policy - AssertionError: language bootstrap source binding drift: {'src/ocm/language/session.py': {'expected': 'a2fcb4a83871a6fdb7d7faeb363571c2afe519da', 'actual': 'a9f2bd11b2387997a7fdb618f5683b21b0b070ca'}}
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.0829719Z 3 failed, 283 passed in 42.33s
+packed-chart	N1 parser and shared vessel lifecycle checks	2026-09-06T12:40:45.2576226Z ##[error]Process completed with exit code 1.
