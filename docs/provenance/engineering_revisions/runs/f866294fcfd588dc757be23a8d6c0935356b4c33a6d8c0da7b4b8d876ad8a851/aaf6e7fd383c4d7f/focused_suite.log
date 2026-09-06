@@ -1,0 +1,28 @@
+...................................................F.................... [ 54%]
+.............................................................            [100%]
+=================================== FAILURES ===================================
+_______ test_each_default_session_rechecks_resource_custody_after_import _______
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-147/test_each_default_session_rech0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f29dd333090>
+
+    def test_each_default_session_rechecks_resource_custody_after_import(tmp_path, monkeypatch):
+        from ocm import data
+        from ocm.chat import session as chat
+    
+        package_data = tmp_path / "package-data"
+        package_data.mkdir()
+        manifest = package_data / data.MANIFEST_NAME
+        manifest.write_bytes(data.default_manifest_path().read_bytes())
+        monkeypatch.setattr(data, "files", lambda _: package_data)
+        monkeypatch.setattr(chat, "DEFAULT_MANIFEST", manifest)
+        assert chat.ChatSession(tmp_path / "before", manifest=manifest).world.facts
+        manifest.write_text('{"facts": [], "documents": []}')
+>       with pytest.raises(ValueError, match="CANNOT_CHECK_PACKAGED_RESOURCE_CUSTODY"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/test_distribution.py:188: Failed
+- generated xml file: /home/billy/orion-director-work/20260906/ocm-completion-comparator/docs/provenance/engineering_revisions/runs/f866294fcfd588dc757be23a8d6c0935356b4c33a6d8c0da7b4b8d876ad8a851/aaf6e7fd383c4d7f/FOCUSED_SUITE.xml -
+=========================== short test summary info ============================
+FAILED tests/test_distribution.py::test_each_default_session_rechecks_resource_custody_after_import
+1 failed, 132 passed in 32.04s
