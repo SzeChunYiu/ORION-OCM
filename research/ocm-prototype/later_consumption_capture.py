@@ -92,15 +92,22 @@ def run(manifest_path):
     (candidates/'manifest.json').write_bytes(manifest_path.read_bytes())
     rows = []
     for route in ROUTES:
+        row = {'route':route}
+        phase = 'pre_dispatch'
         try:
             verify(manifest)
-            raw = capture_one(manifest['candidate_commands'][route], Path(manifest['requests'][route]).read_bytes(),
-                              candidates/route, ROOT, manifest['candidate_watchdog_s'])
-            rows.append({'route':route, 'capture':raw})
+            phase = 'dispatch'
+            row['capture'] = capture_one(manifest['candidate_commands'][route], Path(manifest['requests'][route]).read_bytes(),
+                                         candidates/route, ROOT, manifest['candidate_watchdog_s'])
+            phase = 'post_dispatch'
             verify(manifest)
+            row['status'] = 'CAPTURE_BOUNDARY_PASSED'
         except (OSError, ValueError, KeyError) as exc:
-            rows.append({'route':route, 'status':'CANNOT_CHECK_EXECUTION', 'reason':str(exc)})
-            # Frozen source drift must not trigger further calls on changed bytes.
+            row.update(status='CANNOT_CHECK_EXECUTION',
+                       boundary_failure={'phase':phase,'reason':type(exc).__name__+': '+str(exc)})
+        rows.append(row)
+        if 'boundary_failure' in row:
+            # Retain the capture on its sole assignment row; later assignments stay unrun.
             break
     done = {x['route'] for x in rows}
     rows += [{'route':r, 'status':'NOT_RUN_FROZEN_BOUNDARY_FAILURE'} for r in ROUTES if r not in done]
