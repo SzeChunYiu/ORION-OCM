@@ -1,0 +1,31 @@
+{
+  "expected": "WITNESS_EQUIVALENT",
+  "expected_outcome_matched": true,
+  "id": "saved_integer_predicate",
+  "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+  "observed": "WITNESS_EQUIVALENT",
+  "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 0) 1 0))",
+  "verifier": {
+    "metrics": {
+      "envelope_wall_s": 0.06954136595595628,
+      "external_deadline_s": 10,
+      "native_timeout_ms": 5000,
+      "peak_rss_kib": 55884,
+      "request_bytes": 245,
+      "response_bytes": 194,
+      "unmeasured": [
+        "energy",
+        "native internal active bytes",
+        "installation/pretraining costs"
+      ],
+      "worker_cpu_s": 0.031920694,
+      "worker_pid": 974209,
+      "worker_wall_s": 0.03193049394758418
+    },
+    "native_invoked": true,
+    "solver": "Z3 5.1.0.0",
+    "solver_result": "unsat",
+    "status": "PASS"
+  },
+  "verify_boundary_calls": 1
+}

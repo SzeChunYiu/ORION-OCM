@@ -1,0 +1,10 @@
+{
+  "action": "verify",
+  "kwargs": {
+    "deadline_s": 10,
+    "timeout_ms": 5000
+  },
+  "payload": {
+    "smt2": "(define-fun left ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))\n(define-fun right ((h0 Int)) Int (ite (<= h0 1) 1 0))\n(declare-const h0 Int)\n(assert (not (= (left h0) (right h0))))\n"
+  }
+}
