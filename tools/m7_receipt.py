@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""Verify the active runtime successor; preserve historical M7_RECEIPT_V1.json.
-    python tools/m7_receipt.py --write-current  # create declared successor; never overwrite history
-    python tools/m7_receipt.py --verify         # verify active successor; no historical fallback
-Binds the pre-registration (its hash is the study identity), the protected suites, the V1
-(DEV_CALIBRATION) and V2 (PROTECTED) comparison receipts, the BLiMP/UD receipt, the matched parent
-and the harness.  Applies the pre-registered decision rules to the V2 claims: a family with fewer
-pairs than the pre-registered minimum (40) is CANNOT_CHECK whatever its test verdict; a residual
-over the matched parent is OCM_LANGUAGE_RESIDUAL_SUPPORTED; EQUIVALENT or RESIDUAL_B is
-PARENT_SUFFICIENT; INCONCLUSIVE at n ≥ 40 is CANNOT_CHECK.  No claim beyond the table.
+"""Verify the selected immutable engineering run; preserve all historical receipts.
+
+Use tools/record_engineering_revision.py to execute and record the current gates.
+This wrapper accepts --verify only and never executes a historical recipe.
 """
 from __future__ import annotations
 
@@ -69,7 +64,7 @@ def fresh() -> dict:
 
 
 def main(argv: list[str]) -> int:
-    from runtime_revision_receipts_v4 import revision_main
+    from engineering_receipts import revision_main
 
     return revision_main(ROOT, argv, 7)
 

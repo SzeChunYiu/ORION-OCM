@@ -1,0 +1,38 @@
+........................................................................ [  7%]
+........................................................................ [ 14%]
+........................................................................ [ 22%]
+........................................................................ [ 29%]
+........................................................................ [ 36%]
+........................................................................ [ 44%]
+........................................................................ [ 51%]
+........................................................................ [ 59%]
+............F....................................................F...... [ 66%]
+........................................................................ [ 73%]
+........................................................................ [ 81%]
+........................................................................ [ 88%]
+........................................................................ [ 96%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_____ test_wrapper_dispatch_has_explicit_successor_without_recipe_loading ______
+
+    def test_wrapper_dispatch_has_explicit_successor_without_recipe_loading():
+        for i in range(1, 13):
+            text = (ROOT / f"tools/m{i}_receipt.py").read_text()
+>           assert "from runtime_revision_receipts_v" in text and "import revision_main" in text
+E           assert ('from runtime_revision_receipts_v' in '#!/usr/bin/env python3\n"""Verify the selected immutable engineering run; preserve all historical receipts.\n\nUse to...sion_main\n\n    return revision_main(ROOT, argv, 1)\n\nif __name__ == "__main__":\n    sys.exit(main(sys.argv[1:]))\n')
+
+tests/test_runtime_revision_receipts_v2.py:242: AssertionError
+_____ test_wrapper_dispatch_has_explicit_successor_without_recipe_loading ______
+
+    def test_wrapper_dispatch_has_explicit_successor_without_recipe_loading():
+        for i in range(1, 13):
+            text = (ROOT / f"tools/m{i}_receipt.py").read_text()
+>           assert "from runtime_revision_receipts_v" in text and " import revision_main" in text
+E           assert ('from runtime_revision_receipts_v' in '#!/usr/bin/env python3\n"""Verify the selected immutable engineering run; preserve all historical receipts.\n\nUse to...sion_main\n\n    return revision_main(ROOT, argv, 1)\n\nif __name__ == "__main__":\n    sys.exit(main(sys.argv[1:]))\n')
+
+tests/test_runtime_revision_receipts_v3.py:255: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/ocm-g1-support/docs/provenance/engineering_revisions/runs/9c4278649aef8e6ac633f7bf6d2c14b2433c9646a01e54fe03522e777f9c78e0/3775d5e1bc294a3b/FULL_SUITE.xml -
+=========================== short test summary info ============================
+FAILED tests/test_runtime_revision_receipts_v2.py::test_wrapper_dispatch_has_explicit_successor_without_recipe_loading
+FAILED tests/test_runtime_revision_receipts_v3.py::test_wrapper_dispatch_has_explicit_successor_without_recipe_loading
+2 failed, 973 passed in 228.47s (0:03:48)
