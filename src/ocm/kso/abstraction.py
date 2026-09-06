@@ -30,6 +30,8 @@ Partition = tuple[tuple[int, ...], ...]
 
 
 def is_lumpable(p: Sequence[Sequence[Fraction]], blocks: Partition) -> bool:
+    if any(not block for block in blocks):
+        raise ValueError("blocks must partition all states into non-empty blocks")
     universe = sorted(i for block in blocks for i in block)
     if universe != list(range(len(p))) or len(universe) != len(set(universe)):
         raise ValueError("blocks must partition all states")
@@ -93,10 +95,18 @@ class QuotientVerdict(str, Enum):
 
 
 def quotient_admissible(ks: KnowledgeSpace, p: Sequence[Sequence[Fraction]], blocks: Iterable[Iterable[str]], registered_revocations: Iterable[frozenset]) -> QuotientVerdict:
-    ids = ks.ids
-    idx_blocks: Partition = tuple(tuple(ids.index(x) for x in block) for block in blocks)
+    # Both predicates must inspect the same partition. The public contract accepts
+    # one-shot outer AND inner iterables; consuming either before the warrant
+    # check would make that check vacuously true.
+    stable_blocks = tuple(tuple(block) for block in blocks)
+    index_by_id = {atom_id: i for i, atom_id in enumerate(ks.ids)}
+    try:
+        idx_blocks: Partition = tuple(tuple(index_by_id[x] for x in block) for block in stable_blocks)
+    except KeyError as error:
+        # Preserve the ValueError category of the previous tuple.index lookup.
+        raise ValueError(f"unknown atom in quotient partition: {error.args[0]!r}") from None
     lumpable = is_lumpable(p, idx_blocks)
-    measurable = warrant_measurable(ks, blocks, registered_revocations)
+    measurable = warrant_measurable(ks, stable_blocks, registered_revocations)
     if lumpable and measurable:
         return QuotientVerdict.ADMISSIBLE
     if lumpable:
