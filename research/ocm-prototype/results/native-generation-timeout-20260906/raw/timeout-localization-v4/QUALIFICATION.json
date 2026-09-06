@@ -1,0 +1,66 @@
+{
+  "actual_public_task_invocations": 0,
+  "check_synth_dispatches": 0,
+  "constraints": 0,
+  "controls": "Success, parse/invoke errors, hard invocation timeout, statistics collection error/timeout, serialization error; completed output retained. Real cvc5 setup includes exactly quoted-v2 first3 commands and clean EOF.",
+  "generations": [
+    {
+      "case": "controls-v1",
+      "command_receipt": "controls-v1-command.json",
+      "control_exit": 0,
+      "result": "7_PASS_INITIAL_STUB",
+      "scope": "STUB_ONLY",
+      "seal_sha256": "0a2434977f354124c847317897766db364d018309f4863442512ecd79775f505",
+      "source_directory": "initial-sources"
+    },
+    {
+      "case": "native-setup-v1",
+      "command_receipt": "native-setup-v1-command.json",
+      "control_exit": 1,
+      "result": "OBSERVER_GETOPTION_OUTPUT_ERROR_AFTER_ONE_INVOKE",
+      "scope": "THREE_SETUP_COMMANDS_ONLY",
+      "seal_sha256": "3cc33676ecc5aad7a4de278c67f9cd51a1596021c19aa36bc98b1597be562c48",
+      "source_directory": "initial-sources"
+    },
+    {
+      "case": "native-setup-v2",
+      "command_receipt": "native-setup-v2-command.json",
+      "control_exit": 1,
+      "result": "NULL_COMMAND_NAME_ERROR_AFTER_THREE_INVOKES",
+      "scope": "THREE_SETUP_COMMANDS_ONLY",
+      "seal_sha256": "a3ed28893db1914c21e50efb7adf349969d2a243fd264fbc5a25e94e76b131fa",
+      "source_directory": "getter-repair-sources"
+    },
+    {
+      "case": "native-setup-v3",
+      "command_receipt": "native-setup-v3-command.json",
+      "control_exit": 0,
+      "result": "SETUP_API_PASS_THREE_INVOKES_THREE_FULL_STATS_AND_EOF",
+      "scope": "THREE_SETUP_COMMANDS_ONLY",
+      "seal_sha256": "302bdd20c6f93a3205409d142d15528cac4a027f531cec9e8d2053ad56b5634a",
+      "source_directory": "."
+    },
+    {
+      "case": "controls-v2",
+      "command_receipt": "controls-v2-command.json",
+      "control_exit": 0,
+      "result": "7_PASS_FINAL_STUB",
+      "scope": "STUB_ONLY",
+      "seal_sha256": "1a6b128200d36155a1327d6e0126860fd1981f52729842ca27f7e5054bc3cbb2",
+      "source_directory": "."
+    }
+  ],
+  "manifest_sha256": "0a083e1e49552ef5c27ca1f4fb9c26415716029b2f7de4e5c3299e9c638a86fc",
+  "native_api_limit": "getOption(output) is ungettable. Actual requested setters completed; native tag emission is not established by setup alone.",
+  "proposal_sha256": "8a1578417d5d12f0644f881f5d43c7faa926e8cd74ac5d9ca6d3cfb38fe9d683",
+  "source_sha256": {
+    "control.py": "48a56a36a7ba221583b1ae9f3d6558f6399c37eb383a604eb427ae336d5b6470",
+    "diagnostic_worker.py": "dcdc3f773f54e3c7a22b24ca4af889a5ea4c9608bc2970f87d113fab7a1b4d98",
+    "native_setup_control.py": "796768b8cd422f11f5bf449b4d66527d7eac26c0aef24bd609362fa2cb72dec2",
+    "prepare.py": "066ea77853c55fc00e65cb4d217ff156ad99d682c1ccd9b4bb04ffb15b9f718f"
+  },
+  "status": "RECORDER_QUALIFIED_PUBLIC_TASKS_NOT_RUN",
+  "stitch_discovery_calls": 0,
+  "synth_fun_dispatches": 0,
+  "z3_checks": 0
+}

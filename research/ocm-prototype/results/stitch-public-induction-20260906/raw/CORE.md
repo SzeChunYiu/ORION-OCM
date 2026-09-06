@@ -1,0 +1,13 @@
+# Public Stitch induction only — awaiting root freeze
+- Two imported, previously checked native programs: max3 and mpg_guard2, in that order.
+- One fixed `generation_stitch.induce` call: one compression attempt, iterations1 / max_arity2 / threads1.
+- No later target specification/answer, persistence, synthesis, retry, donor rewrite API or example replacement.
+- At most four actual Z3 children: two TRAIN specification checks, then two rewrite-equivalence checks if reached. Each retains existing native5000ms/outer10s.
+- Earlier acquisition, corpus selection, installation and training are external priors; no whole-lifetime economics.
+- Nonempty output is proposed syntax only. Signed subtraction aliases the existing minus primitive; useful-operator and primitive-alias assessment are NOT_RUN.
+- Preserve nulls, proposed definitions, typed/refused rewrites, exceptions, partial outputs and process termination.
+- `manifest.json` and `launch.json` are the frozen prospective inputs. `controls/` records harmless qualification only.
+- Source is exact b03b749 copies; only two TRAIN fixture bodies are staged. The unchanged five-entry fixture manifest contains registry metadata, not other task bodies/answers.
+- This is an allowlisted input/export and trusted fixed-source execution, not OS isolation; host filesystem/credential access is not technically sandboxed.
+- Runtime binds actual interpreter, libpython, relevant package source/native files and wrapper binaries; complete OS/library transitive closure is not claimed.
+- Parent self CPU/RSS and child receipts are separately scoped. Total process-tree CPU/RSS, energy and native internal memory remain UNKNOWN.

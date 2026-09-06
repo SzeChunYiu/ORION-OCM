@@ -1,0 +1,115 @@
+{
+  "abstractions": [
+    {
+      "arity": 2,
+      "body": "(+ #1 (* (- 1) #0))",
+      "compression_ratio": 1.2828075415344409,
+      "cumulative_compression_ratio": 1.2828075415344409,
+      "dc_comparison_millis": null,
+      "dreamcoder": "#(lambda (lambda (+ $0 (* (- 1) $1))))",
+      "final_cost": 5357,
+      "name": "fn_0",
+      "num_uses": 5,
+      "rewritten": null,
+      "rewritten_dreamcoder": null,
+      "tdfa_annotation": null,
+      "uses": [
+        {
+          "fn_0 $0 $1": "(+ $1 (* (- 1) $0))"
+        },
+        {
+          "fn_0 $0 $2": "(+ $2 (* (- 1) $0))"
+        },
+        {
+          "fn_0 $1 $2": "(+ $2 (* (- 1) $1))"
+        }
+      ],
+      "utility": 1110,
+      "variable_types": [
+        "M",
+        "M"
+      ]
+    }
+  ],
+  "args": {
+    "abstraction_prefix": "fn_",
+    "iterations": 1,
+    "no_opt": false,
+    "previous_abstractions": 0,
+    "shuffle": false,
+    "silent": true,
+    "step": {
+      "allow_single_task": false,
+      "batch": 1,
+      "cost": {
+        "cost_app": 1,
+        "cost_ivar": 100,
+        "cost_lam": 1,
+        "cost_prim": "{}",
+        "cost_prim_default": 100,
+        "cost_var": 100
+      },
+      "dreamcoder_comparison": false,
+      "dynamic_batch": false,
+      "eta_long": false,
+      "follow": null,
+      "follow_prune": false,
+      "follow_types": null,
+      "fused_lambda_tags": {
+        "tags": null
+      },
+      "hole_choice": "DepthFirst",
+      "inv_arg_cap": false,
+      "inv_candidates": 1,
+      "max_arity": 2,
+      "no_curried_bodies": false,
+      "no_curried_metavars": false,
+      "no_mismatch_check": false,
+      "no_opt_arity_zero": false,
+      "no_opt_force_multiuse": false,
+      "no_opt_single_use": false,
+      "no_opt_upper_bound": false,
+      "no_opt_useless_abstract": false,
+      "no_other_util": false,
+      "no_stats": false,
+      "print_stats": 0,
+      "quiet": true,
+      "rewrite_check": false,
+      "rewritten_dreamcoder": false,
+      "rewritten_intermediates": false,
+      "show_rewritten": false,
+      "structure_penalty": 1.0,
+      "symvar": {
+        "symvar_prefix": null
+      },
+      "tdfa": {
+        "tdfa_json_path": null,
+        "tdfa_non_eta_long_states": null,
+        "tdfa_root": null,
+        "tdfa_split": null,
+        "valid_metavars": null,
+        "valid_roots": null
+      },
+      "threads": 1,
+      "utility_by_rewrite": false,
+      "verbose_best": false,
+      "verbose_worklist": false
+    },
+    "truncate": null,
+    "verbose_rewrite": false
+  },
+  "cmd": "/home/billy/orion-director-work/20260906/generation-env/bin/python -B -E -s /home/billy/orion-director-work/20260906/stitch-induction-public-20260906/caller.py --input /home/billy/orion-director-work/20260906/stitch-induction-public-20260906/experiences.json --output /home/billy/orion-director-work/20260906/stitch-induction-public-20260906/capture-v1/calls",
+  "compression_ratio": 1.2828075415344409,
+  "final_cost": 5357,
+  "num_abstractions": 1,
+  "original": [
+    "(lam (lam (lam (ite (and (>= (+ $2 (* (- 1) $1)) 0) (>= (+ $2 (* (- 1) $0)) 0)) $2 (ite (and (>= (+ $1 (* (- 1) $0)) 0) (not (>= (+ $2 (* (- 1) $1)) 1))) $1 $0)))))",
+    "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (+ $2 (* (- 1) $1))))))"
+  ],
+  "original_cost": 6872,
+  "rewritten": [
+    "(lam (lam (lam (ite (and (>= (fn_0 $1 $2) 0) (>= (fn_0 $0 $2) 0)) $2 (ite (and (>= (fn_0 $0 $1) 0) (not (>= (fn_0 $1 $2) 1))) $1 $0)))))",
+    "(lam (lam (lam (ite (and (>= (+ $2 $1 $0) 1) (or (not (= $1 0)) (not (>= (+ $2 $0) 1)))) (+ $2 $1) (fn_0 $1 $2)))))"
+  ],
+  "rewritten_dreamcoder": null
+}
