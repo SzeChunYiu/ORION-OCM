@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "checks": {
+    "public_input_readable": true,
+    "outside_unmounted": true,
+    "symlink_escape_denied": true,
+    "public_write_denied": true,
+    "memory_writable": true,
+    "host_network_denied": true,
+    "credential_paths_absent": true,
+    "repo_path_absent": true
+  },
+  "exit_code": 0,
+  "stderr": "",
+  "wall_seconds": 0.21057892398675904,
+  "host_listener_positive": true,
+  "synthetic_data_only": true,
+  "transport_command": [
+    "/usr/bin/ssh",
+    "-T",
+    "-oBatchMode=yes",
+    "-oStrictHostKeyChecking=yes",
+    "-oConnectTimeout=8",
+    "billy@100.104.240.15",
+    "/usr/bin/ssh -T -oBatchMode=yes -oStrictHostKeyChecking=yes -oConnectTimeout=8 billy@100.75.122.10 '/usr/bin/env -i /usr/bin/bwrap --unshare-all --die-with-parent --new-session --cap-drop ALL --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib64 --proc /proc --dev /dev --tmpfs /tmp --ro-bind <operator-home>/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu /runtime --ro-bind <qualification-root>/hosted-env /env --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/tools /tools --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/public /public --bind <qualification-root>/hosted-old-transport-qualification-v1/stage/memory /memory --setenv PATH /usr/bin:/bin --setenv PYTHONPATH /tools:/env/lib/python3.13/site-packages --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTHONNOUSERSITE 1 --setenv LC_ALL C.UTF-8 --chdir /tools /runtime/bin/python3.13 -c '\"'\"'\nimport json, socket\nfrom pathlib import Path\nchecks = {}\nchecks['\"'\"'\"'\"'\"'\"'\"'\"'public_input_readable'\"'\"'\"'\"'\"'\"'\"'\"'] = isinstance(json.loads(Path('\"'\"'\"'\"'\"'\"'\"'\"'/public/items.json'\"'\"'\"'\"'\"'\"'\"'\"').read_text()), list)\nfor name, path in [('\"'\"'\"'\"'\"'\"'\"'\"'outside_unmounted'\"'\"'\"'\"'\"'\"'\"'\"', '\"'\"'\"'\"'\"'\"'\"'\"'<qualification-root>/hosted-old-transport-qualification-v1/namespace/synthetic-outside-canary.txt'\"'\"'\"'\"'\"'\"'\"'\"'), ('\"'\"'\"'\"'\"'\"'\"'\"'symlink_escape_denied'\"'\"'\"'\"'\"'\"'\"'\"', '\"'\"'\"'\"'\"'\"'\"'\"'/memory/outside-link'\"'\"'\"'\"'\"'\"'\"'\"')]:\n    try: Path(path).read_bytes(); checks[name] = False\n    except (OSError, PermissionError): checks[name] = True\ntry: Path('\"'\"'\"'\"'\"'\"'\"'\"'/public/items.json'\"'\"'\"'\"'\"'\"'\"'\"').write_text('\"'\"'\"'\"'\"'\"'\"'\"'UNAUTHORIZED_WRITE'\"'\"'\"'\"'\"'\"'\"'\"'); checks['\"'\"'\"'\"'\"'\"'\"'\"'public_write_denied'\"'\"'\"'\"'\"'\"'\"'\"'] = False\nexcept OSError: checks['\"'\"'\"'\"'\"'\"'\"'\"'public_write_denied'\"'\"'\"'\"'\"'\"'\"'\"'] = True\nPath('\"'\"'\"'\"'\"'\"'\"'\"'/memory/control.txt'\"'\"'\"'\"'\"'\"'\"'\"').write_text('\"'\"'\"'\"'\"'\"'\"'\"'PUBLIC_WRITE_CONTROL'\"'\"'\"'\"'\"'\"'\"'\"')\nchecks['\"'\"'\"'\"'\"'\"'\"'\"'memory_writable'\"'\"'\"'\"'\"'\"'\"'\"'] = Path('\"'\"'\"'\"'\"'\"'\"'\"'/memory/control.txt'\"'\"'\"'\"'\"'\"'\"'\"').read_text() == '\"'\"'\"'\"'\"'\"'\"'\"'PUBLIC_WRITE_CONTROL'\"'\"'\"'\"'\"'\"'\"'\"'\ns = socket.socket(); s.settimeout(1)\ntry: s.connect(('\"'\"'\"'\"'\"'\"'\"'\"'127.0.0.1'\"'\"'\"'\"'\"'\"'\"'\"', 36315)); checks['\"'\"'\"'\"'\"'\"'\"'\"'host_network_denied'\"'\"'\"'\"'\"'\"'\"'\"'] = False\nexcept OSError: checks['\"'\"'\"'\"'\"'\"'\"'\"'host_network_denied'\"'\"'\"'\"'\"'\"'\"'\"'] = True\ns.close()\nchecks['\"'\"'\"'\"'\"'\"'\"'\"'credential_paths_absent'\"'\"'\"'\"'\"'\"'\"'\"'] = not Path('\"'\"'\"'\"'\"'\"'\"'\"'<operator-home>/.claude'\"'\"'\"'\"'\"'\"'\"'\"').exists() and not Path('\"'\"'\"'\"'\"'\"'\"'\"'<operator-home>/.codex'\"'\"'\"'\"'\"'\"'\"'\"').exists()\nchecks['\"'\"'\"'\"'\"'\"'\"'\"'repo_path_absent'\"'\"'\"'\"'\"'\"'\"'\"'] = not Path('\"'\"'\"'\"'\"'\"'\"'\"'<qualification-root>/ocm-g1'\"'\"'\"'\"'\"'\"'\"'\"').exists()\nprint(json.dumps(checks))\n'\"'\"''"
+  ]
+}

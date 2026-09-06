@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "g1": {
+      "type": "stdio",
+      "command": "/usr/bin/ssh",
+      "args": [
+        "-T",
+        "-oBatchMode=yes",
+        "-oStrictHostKeyChecking=yes",
+        "-oConnectTimeout=8",
+        "billy@100.75.122.10",
+        "/usr/bin/env -i /usr/bin/bwrap --unshare-all --die-with-parent --new-session --cap-drop ALL --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib64 --proc /proc --dev /dev --tmpfs /tmp --ro-bind <operator-home>/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu /runtime --ro-bind <qualification-root>/hosted-env /env --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/tools /tools --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/public /public --bind <qualification-root>/hosted-old-transport-qualification-v1/stage/memory /memory --setenv PATH /usr/bin:/bin --setenv PYTHONPATH /tools:/env/lib/python3.13/site-packages --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTHONNOUSERSITE 1 --setenv LC_ALL C.UTF-8 --chdir /tools /runtime/bin/python3.13 /tools/hosted_mcp.py"
+      ]
+    }
+  }
+}

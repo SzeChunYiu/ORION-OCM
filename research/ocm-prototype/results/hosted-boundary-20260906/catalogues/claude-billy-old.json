@@ -1,0 +1,308 @@
+{
+  "purpose": "LOCAL_NON_INFERENCE_CATALOGUE",
+  "hosted_inference_requests": 0,
+  "captured_requests": 2,
+  "tools": [
+    {
+      "name": "mcp__g1__clia_check",
+      "description": "Validate exact grammar then independently check the public specification with Z3.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "additionalProperties": true,
+            "title": "Task",
+            "type": "object"
+          },
+          "proposal": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Proposal"
+          },
+          "proposal_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Proposal Ref"
+          },
+          "timeout_ms": {
+            "default": 5000,
+            "title": "Timeout Ms",
+            "type": "integer"
+          },
+          "deadline_s": {
+            "default": 10,
+            "title": "Deadline S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "task"
+        ],
+        "title": "clia_checkArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__clia_synthesize",
+      "description": "Run cvc5 with the same full public specification and checked accepted grammar.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "additionalProperties": true,
+            "title": "Task",
+            "type": "object"
+          },
+          "timeout_ms": {
+            "default": 5000,
+            "title": "Timeout Ms",
+            "type": "integer"
+          },
+          "deadline_s": {
+            "default": 15,
+            "title": "Deadline S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "task"
+        ],
+        "title": "clia_synthesizeArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__final_submit",
+      "description": "Commit one final output per item, by native reference OR a custom answer; no gold grading.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "title": "Item Id",
+            "type": "string"
+          },
+          "proposal_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Proposal Ref"
+          },
+          "custom_answer": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Custom Answer"
+          }
+        },
+        "required": [
+          "item_id"
+        ],
+        "title": "final_submitArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__memory_read",
+      "description": "Read the actor's bounded persistent public notes.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "title": "memory_readArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__memory_write",
+      "description": "Replace public notes, retaining them across fresh processes; maximum 1 MiB.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "memory_writeArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__proposal_read",
+      "description": "Read a complete native result by opaque reference; no general path access.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "proposal_ref": {
+            "title": "Proposal Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_ref"
+        ],
+        "title": "proposal_readArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__public_task",
+      "description": "Read one released public task. Contains no gold, expected program or scores.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "title": "Item Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_id"
+        ],
+        "title": "public_taskArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__syntax_check",
+      "description": "Check only tree structure/token binding, never gold correctness.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tokens",
+            "type": "array"
+          },
+          "words": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Words"
+          },
+          "proposal_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Proposal Ref"
+          }
+        },
+        "required": [
+          "tokens"
+        ],
+        "title": "syntax_checkArguments"
+      }
+    },
+    {
+      "name": "mcp__g1__syntax_predict",
+      "description": "Run the identical fixed UDPipe model. Read full words through proposal_read if useful.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tokens",
+            "type": "array"
+          }
+        },
+        "required": [
+          "tokens"
+        ],
+        "title": "syntax_predictArguments"
+      }
+    }
+  ],
+  "parse_errors": [],
+  "captured_models": [
+    "claude-fable-5-1",
+    "claude-fable-5-1"
+  ],
+  "exit_code": 1,
+  "outer_timeout": false,
+  "wall_seconds": 1.5751526644453406,
+  "dummy_auth_verified": true,
+  "ambient_canary_absent": true,
+  "passed": true,
+  "unexpected_tools": [],
+  "missing_tools": [],
+  "terminal_tools": [],
+  "command": [
+    "<operator-home>/.npm-global/lib/node_modules/@anthropic-ai/claude-code/bin/claude.exe",
+    "--print",
+    "--model",
+    "claude-fable-5-1",
+    "--effort",
+    "high",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\": {\"g1\": {\"type\": \"stdio\", \"command\": \"/usr/bin/ssh\", \"args\": [\"-T\", \"-oBatchMode=yes\", \"-oStrictHostKeyChecking=yes\", \"-oConnectTimeout=8\", \"billy@100.75.122.10\", \"/usr/bin/env -i /usr/bin/bwrap --unshare-all --die-with-parent --new-session --cap-drop ALL --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib64 --proc /proc --dev /dev --tmpfs /tmp --ro-bind <operator-home>/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu /runtime --ro-bind <qualification-root>/hosted-env /env --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/tools /tools --ro-bind <qualification-root>/hosted-old-transport-qualification-v1/stage/public /public --bind <qualification-root>/hosted-old-transport-qualification-v1/stage/memory /memory --setenv PATH /usr/bin:/bin --setenv PYTHONPATH /tools:/env/lib/python3.13/site-packages --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTHONNOUSERSITE 1 --setenv LC_ALL C.UTF-8 --chdir /tools /runtime/bin/python3.13 /tools/hosted_mcp.py\"]}}}",
+    "--setting-sources",
+    "",
+    "--disable-slash-commands",
+    "--no-chrome",
+    "--no-session-persistence",
+    "--permission-mode",
+    "dontAsk",
+    "--settings",
+    "{\"disableAllHooks\": true, \"autoMemoryEnabled\": false}",
+    "--system-prompt",
+    "Use only the supplied public tasks and explicitly attached tools.",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--allowedTools",
+    "mcp__g1__public_task,mcp__g1__syntax_predict,mcp__g1__syntax_check,mcp__g1__clia_synthesize,mcp__g1__clia_check,mcp__g1__proposal_read,mcp__g1__memory_read,mcp__g1__memory_write,mcp__g1__final_submit"
+  ],
+  "bare_mode": false,
+  "request_hashes": [
+    "6d05d39ab6679d21ecf4569fd1e4a7fcff5f15add358d38b927a137135f96806",
+    "6d05d39ab6679d21ecf4569fd1e4a7fcff5f15add358d38b927a137135f96806"
+  ],
+  "client_version": "2.1.258 (Claude Code)",
+  "requested_model": "claude-fable-5-1"
+}
