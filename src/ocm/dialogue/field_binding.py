@@ -104,6 +104,7 @@ def bind_commitment(
         certificate=record.channel.certificate,
         authority=record.authority,
         scope=record.scope,
+        support_evidence_id=commitment.evidence_id,
     )
     return DialogueFieldBindingReceipt(
         commitment_id,

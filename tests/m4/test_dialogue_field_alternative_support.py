@@ -226,7 +226,7 @@ def test_support_extension_refuses_authority_or_scope_change_without_event(tmp_p
             warrant=runtime.state.evidence.records[wrong_scope].warrant,
             certificate=CertificateKind.OBSERVATION,
             authority=authority,
-            scope=Scope.of("conv:other"),
+            scope=scope,
             support_evidence_id=wrong_scope,
         )
     assert len(runtime.events) == events_after_scope_evidence

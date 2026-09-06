@@ -67,6 +67,8 @@ class MeaningFieldBindingReceipt:
     unbound_nodes: tuple[str, ...]
     existing: bool
     admission: AdmissionReceipt | None
+    support_extended: bool = False
+    support_event_id: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -78,6 +80,8 @@ class MeaningFieldBindingReceipt:
             "canonical_bindings": [list(x) for x in self.canonical_bindings],
             "unbound_nodes": list(self.unbound_nodes),
             "existing": self.existing,
+            "support_extended": self.support_extended,
+            "support_event_id": self.support_event_id,
             "admission": None
             if self.admission is None
             else {
@@ -206,6 +210,33 @@ def _effective_epistemic_state(
     return effective_warrant, effective_scope
 
 
+def _validate_assumption_support(
+    runtime: OCMRuntime,
+    support_evidence_id: str,
+    warrant: WarrantProfile,
+    certificate: CertificateKind,
+    authority: Authority,
+    scope: Scope,
+) -> None:
+    record = runtime.state.evidence.records.get(support_evidence_id)
+    if record is None:
+        raise TypedRejection("UNKNOWN_SUPPORT_EVIDENCE", support_evidence_id)
+    if not record.is_assumption:
+        raise TypedRejection("SUPPORT_EVIDENCE_NOT_ASSUMPTION", support_evidence_id)
+    if record.warrant.is_zero:
+        raise TypedRejection("ZERO_SUPPORT_WARRANT", support_evidence_id)
+    if record.warrant.liveness(runtime.state.revoked) is not Liveness.LIVE:
+        raise TypedRejection("SUPPORT_EVIDENCE_NOT_LIVE", support_evidence_id)
+    if record.warrant != warrant:
+        raise TypedRejection("SUPPORT_WARRANT_MISMATCH", support_evidence_id)
+    if record.channel.certificate is not certificate:
+        raise TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", support_evidence_id)
+    if record.authority != authority:
+        raise TypedRejection("SUPPORT_AUTHORITY_ARGUMENT_MISMATCH", support_evidence_id)
+    if record.scope != scope:
+        raise TypedRejection("SUPPORT_SCOPE_MISMATCH", support_evidence_id)
+
+
 def bind_meaning(
     runtime: OCMRuntime,
     meaning: MeaningGraph,
@@ -215,6 +246,7 @@ def bind_meaning(
     certificate: CertificateKind | str = CertificateKind.OBSERVATION,
     authority: Authority | None = None,
     scope: Scope | None = None,
+    support_evidence_id: str | None = None,
 ) -> MeaningFieldBindingReceipt:
     """Admit a bounded meaning/field correspondence through the normal runtime boundary.
 
@@ -240,6 +272,11 @@ def bind_meaning(
     requested_scope = scope or Scope.universal()
     if requested_scope.is_empty:
         raise TypedRejection("SCOPE_EMPTY", "meaning-field binding")
+    certificate = CertificateKind(certificate)
+    if support_evidence_id is not None:
+        _validate_assumption_support(
+            runtime, support_evidence_id, warrant, certificate, authority, requested_scope
+        )
 
     bound = canonical_bound_meaning(meaning, bindings)
     tails = bound.bound_field_atoms
@@ -259,17 +296,45 @@ def bind_meaning(
 
     if representation_id in runtime.state.ks.ids:
         existing = runtime.state.ks.atom(representation_id)
-        if (
+        existing_edge = runtime.state.ks.edge_view.get(edge_id)
+        structural_conflict = (
             existing.atom_type != "representation"
             or existing.content_ref != content_ref
             or existing.meta != meta
-            or existing.warrant != effective_warrant
-            or existing.authority != authority
             or existing.scope != effective_scope
+            or existing_edge is None
+            or existing_edge.tails != tails
+            or existing_edge.heads != (representation_id,)
+            or existing_edge.relation_type != "REPRESENTATION_TRANSPORT"
+        )
+        if structural_conflict:
+            raise TypedRejection("BINDING_IDENTITY_STATE_CONFLICT", "same binding identity has different structure")
+        if support_evidence_id is not None:
+            event = runtime.extend_representation_support(
+                representation_id, edge_id, support_evidence_id, certificate
+            )
+            return MeaningFieldBindingReceipt(
+                representation_id,
+                edge_id,
+                bound.meaning_digest,
+                bound.joint_digest,
+                bound.bindings,
+                bound.unbound_nodes,
+                True,
+                None,
+                event is not None,
+                None if event is None else event.event_id,
+            )
+        if (
+            existing.warrant != effective_warrant
+            or existing.authority != authority
+            or existing_edge.warrant != warrant
+            or existing_edge.authority != authority
+            or runtime.state.certificates.get(representation_id) != certificate.value
         ):
             raise TypedRejection(
                 "BINDING_IDENTITY_STATE_CONFLICT",
-                "same semantic binding already exists with different epistemic state; support-extension event not implemented",
+                "same semantic binding already exists with different epistemic state",
             )
         return MeaningFieldBindingReceipt(
             representation_id,

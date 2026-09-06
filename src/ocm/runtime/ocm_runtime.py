@@ -33,8 +33,8 @@ from ocm.kso import space as S
 from ocm.kso.jump import JumpAssessment, JumpProposal, assess_jump
 from ocm.kso.nogoods import NogoodSet
 from ocm.kso.resources import ResourceVector
-from ocm.kso.types import Authority, Scope
-from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile
+from ocm.kso.types import Authority, Scope, intersect_scopes
+from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile, meet_all_profiles
 from ocm.learning.learner import UpdateKind, UpdateProposal, UpdateStatus
 from ocm.operators.registry import OperatorRegistry, OperatorSpec
 from ocm.store.canonical import canonical_bytes
@@ -104,6 +104,63 @@ class RuntimeState:
             "quarantine": sorted(self.quarantine),
             "meter": self.meter.as_dict(),
         }
+
+
+def _representation_support_extension(
+    state: RuntimeState,
+    representation_id: str,
+    edge_id: str,
+    support_evidence_id: str,
+    certificate: AD.CertificateKind | str,
+) -> tuple[S.KnowledgeSpace, bool]:
+    """Pure reducer/preflight for one homogeneous alternative support on a meaning representation."""
+    cert = AD.CertificateKind(certificate)
+    atom = state.ks.atom(representation_id)
+    edge = state.ks.edge_view.get(edge_id)
+    if edge is None:
+        raise S.TypedRejection("UNKNOWN_EDGE", edge_id)
+    if (
+        atom.atom_type != "representation"
+        or edge.relation_type != "REPRESENTATION_TRANSPORT"
+        or edge.heads != (representation_id,)
+    ):
+        raise S.TypedRejection("NOT_REPRESENTATION_SUPPORT_TARGET", representation_id)
+    if state.certificates.get(representation_id) != cert.value:
+        raise S.TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", representation_id)
+
+    record = state.evidence.records.get(support_evidence_id)
+    if record is None:
+        raise S.TypedRejection("UNKNOWN_SUPPORT_EVIDENCE", support_evidence_id)
+    if not record.is_assumption:
+        raise S.TypedRejection("SUPPORT_EVIDENCE_NOT_ASSUMPTION", support_evidence_id)
+    if record.warrant.is_zero:
+        raise S.TypedRejection("ZERO_SUPPORT_WARRANT", support_evidence_id)
+    if record.warrant.liveness(state.revoked) is not Liveness.LIVE:
+        raise S.TypedRejection("SUPPORT_EVIDENCE_NOT_LIVE", support_evidence_id)
+    if record.channel.certificate is not cert:
+        raise S.TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", support_evidence_id)
+    if record.authority != atom.authority or record.authority != edge.authority:
+        raise S.TypedRejection("SUPPORT_AUTHORITY_MISMATCH", support_evidence_id)
+    if record.scope != edge.scope:
+        raise S.TypedRejection("SUPPORT_SCOPE_MISMATCH", support_evidence_id)
+
+    tails = edge.tails
+    expected_warrant = meet_all_profiles([edge.warrant, *(state.ks.atom(t).warrant for t in tails)])
+    if atom.warrant != expected_warrant:
+        raise S.TypedRejection("SUPPORT_BASE_WARRANT_MISMATCH", representation_id)
+    expected_scope = intersect_scopes([edge.scope, *(state.ks.atom(t).scope for t in tails)])
+    if atom.scope != expected_scope:
+        raise S.TypedRejection("SUPPORT_BASE_SCOPE_MISMATCH", representation_id)
+
+    new_edge_warrant = edge.warrant.join(record.warrant)
+    if new_edge_warrant == edge.warrant:
+        return state.ks, False
+    new_edge = replace(edge, warrant=new_edge_warrant)
+    new_atom = replace(
+        atom,
+        warrant=meet_all_profiles([new_edge_warrant, *(state.ks.atom(t).warrant for t in tails)]),
+    )
+    return state.ks.replace_atom_and_edge(new_atom, new_edge), True
 
 
 class OCMRuntime:
@@ -187,6 +244,14 @@ class OCMRuntime:
             edges = tuple(_edge_from(e) for e in p["edges"])
             self.state.ks, _ = AD.admit(self.state.ks, atom, edges, p["certificate"], revoked=self.state.revoked)
             self.state.certificates[atom.atom_id] = p["certificate"]
+        elif t is EventType.OBJECT_SUPPORT_EXTENDED and ev.status is EventStatus.PASS:
+            self.state.ks, _ = _representation_support_extension(
+                self.state,
+                p["representation_id"],
+                p["edge_id"],
+                p["support_evidence_id"],
+                p["certificate"],
+            )
         elif t is EventType.OBJECT_QUARANTINED:
             self.state.quarantine[p["object_id"]] = dict(p)
         elif t is EventType.CANDIDATE_COMPOSED and ev.status is EventStatus.PASS and p.get("admitted"):
@@ -275,6 +340,38 @@ class OCMRuntime:
         ev = self._emit(EventType.OBJECT_ADMITTED if not edges else EventType.RELATION_ADMITTED, EventStatus.PASS, outputs=(atom.atom_id, *(e.edge_id for e in edges)), evidence=atom.warrant.evidence, operator="kso.admit", payload={"atom": _atom_to(atom), "edges": [_edge_to(e) for e in edges], "certificate": cert.value}, delta=receipt.resources)
         self._apply(ev)
         return receipt
+
+    def extend_representation_support(
+        self,
+        representation_id: str,
+        edge_id: str,
+        support_evidence_id: str,
+        certificate: AD.CertificateKind | str,
+    ) -> OCMEvent | None:
+        """Atomically add one independently revocable homogeneous support alternative."""
+        cert = AD.CertificateKind(certificate)
+        _, changed = _representation_support_extension(
+            self.state, representation_id, edge_id, support_evidence_id, cert
+        )
+        if not changed:
+            return None
+        ev = self._emit(
+            EventType.OBJECT_SUPPORT_EXTENDED,
+            EventStatus.PASS,
+            inputs=(representation_id, edge_id),
+            outputs=(representation_id, edge_id),
+            evidence=(support_evidence_id,),
+            operator="kso.extend-representation-support",
+            payload={
+                "representation_id": representation_id,
+                "edge_id": edge_id,
+                "support_evidence_id": support_evidence_id,
+                "certificate": cert.value,
+            },
+            delta=ResourceVector(update_work=2, verification_calls=1),
+        )
+        self._apply(ev)
+        return ev
 
     def compose(self, tails: Sequence[str], head_id: str, *, head_type: str = "procedure", bridge_warrant: WarrantProfile | None = None, executable_ref: str | None = None) -> AD.CompositionReceipt:
         new_ks, receipt = AD.compose(self.state.ks, tails, head_id, head_type=head_type, bridge_warrant=bridge_warrant, executable_ref=executable_ref)

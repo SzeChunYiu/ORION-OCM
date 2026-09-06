@@ -301,6 +301,18 @@ class KnowledgeSpace:
     def replace_atom(self, atom: Atom) -> "KnowledgeSpace":
         return replace(self, atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms))
 
+    def replace_atom_and_edge(self, atom: Atom, edge: Hyperedge) -> "KnowledgeSpace":
+        """Replace one existing atom and edge in one validated immutable-space construction."""
+        if atom.atom_id not in self._atom_index:
+            raise TypedRejection("UNKNOWN_ATOM", atom.atom_id)
+        if edge.edge_id not in self._edge_index:
+            raise TypedRejection("UNKNOWN_EDGE", edge.edge_id)
+        return replace(
+            self,
+            atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms),
+            hyperedges=tuple(edge if e.edge_id == edge.edge_id else e for e in self.hyperedges),
+        )
+
     def without(self, atom_ids: Iterable[str] = (), edge_ids: Iterable[str] = ()) -> "KnowledgeSpace":
         drop_a, drop_e = set(atom_ids), set(edge_ids)
         atoms = tuple(a for a in self.atoms if a.atom_id not in drop_a)
