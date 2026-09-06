@@ -1,7 +1,5 @@
 """Exposed unit programs; new query after cold withdrawal, no prospective panel."""
 import json
-import os
-from pathlib import Path
 import subprocess
 import sys
 
@@ -87,11 +85,9 @@ def test_new_request_after_fresh_withdrawal_refuses_then_same_request_recovers(t
     runtime.revoke([registration]); runtime.persist()
     config = {"max3": maximum["id"], "guard2": guard["id"], "request": request,
               "registration": registration, "support": maximum["support"]}
-    prototype = Path(__file__).resolve().parent; repo = prototype.parents[1]
-    child_env = {**os.environ, "PYTHONPATH": os.pathsep.join((str(repo / "src"), str(prototype)))}
     for phase in ("withdraw", "restore"):
         process = subprocess.run([sys.executable, "-c", WORKER, str(state), json.dumps(config), phase],
-            text=True, capture_output=True, timeout=30, cwd=repo, env=child_env)
+            text=True, capture_output=True, timeout=30)
         (tmp_path / (phase + ".stdout")).write_text(process.stdout)
         (tmp_path / (phase + ".stderr")).write_text(process.stderr)
         assert process.returncode == 0, process.stderr
