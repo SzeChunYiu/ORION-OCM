@@ -1,0 +1,8 @@
+(set-logic LIA)
+(synth-fun absdiff2 ((x Int) (y Int)) Int)
+(declare-var x Int)
+(declare-var y Int)
+(constraint (>= (absdiff2 x y) (- x y)))
+(constraint (>= (absdiff2 x y) (- y x)))
+(constraint (or (= (absdiff2 x y) (- x y)) (= (absdiff2 x y) (- y x))))
+(check-synth)

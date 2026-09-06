@@ -1,0 +1,7 @@
+{
+  "action": "synthesize",
+  "payload": {
+    "sygus": "(set-logic LIA)\n(synth-fun absdiff2 ((x Int) (y Int)) Int)\n(declare-var x Int)\n(declare-var y Int)\n(constraint (>= (absdiff2 x y) (- x y)))\n(constraint (>= (absdiff2 x y) (- y x)))\n(constraint (or (= (absdiff2 x y) (- x y)) (= (absdiff2 x y) (- y x))))\n(check-synth)\n"
+  },
+  "timeout_ms": 5000
+}

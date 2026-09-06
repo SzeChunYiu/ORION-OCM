@@ -1,4 +1,4 @@
-"""Five public, source-bound task contracts; explicit same grammar for every arm."""
+"""Public, source-bound task contracts; explicit same grammar for every arm."""
 from __future__ import annotations
 from copy import deepcopy
 import hashlib
@@ -31,6 +31,8 @@ def _explicit_grammar(parameters):
 
 def load_task(task_id):
     manifest = json.loads((FIXTURES / 'manifest.json').read_text())
+    if task_id == 'public_absdiff2_v1':
+        manifest = json.loads((FIXTURES / 'later_consumption_v1.json').read_text())
     if not isinstance(task_id, str) or task_id not in manifest['fixtures']:
         raise ValueError('unknown public CLIA fixture')
     source = manifest['fixtures'][task_id]
