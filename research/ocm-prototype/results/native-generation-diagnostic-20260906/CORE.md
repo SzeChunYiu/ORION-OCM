@@ -1,10 +1,10 @@
 # Native generation diagnostic
 **Expanded-output checking qualified. Whole four-case gate NOT_ESTABLISHED.**
-The ordinary implicit cvc5 parent passes. Explicit-primitive parsing/search
-times out; its stage and the no-alarm control remain unresolved.
+The ordinary implicit cvc5 parent passes. Explicit-primitive invocation timed out; its internal stage and the no-alarm
+control remain unresolved.
 
 Two manually supplied macro routes return native GEN_fn_0 membership. An
-additive bridge expands their sealed outputs; four independent native Z3
+additive bridge expands their sealed outputs; four native Z3
 equivalence/original-specification checks pass. The earlier primitive-checker
 FAILs are preserved: unexpanded helper calls were correctly outside its grammar.
 
