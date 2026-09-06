@@ -1,0 +1,53 @@
+name: Generation adapter qualification
+
+on:
+  push:
+    branches: [codex/generation-feasibility-20260906]
+    paths:
+      - 'research/ocm-prototype/generation_*.py'
+      - 'research/ocm-prototype/generation_tests/**'
+      - 'research/ocm-prototype/requirements-generation.txt'
+      - 'research/ocm-prototype/results/generation-feasibility-20260906/**'
+      - '.github/workflows/generation-feasibility-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: generation-feasibility-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  adapter-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned generation environment
+        run: python -m pip install --requirement research/ocm-prototype/requirements-generation.txt
+      - name: Run typed adapter and refusal controls
+        env:
+          PYTHONPATH: research/ocm-prototype
+        run: python -m pytest -q research/ocm-prototype/generation_tests
+      - name: Verify frozen packet hashes
+        run: |
+          cd research/ocm-prototype/results/generation-feasibility-20260906
+          sha256sum --check SHA256SUMS
+      - name: Preserve claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('research/ocm-prototype/results/generation-feasibility-20260906/prospective/PROPOSAL.json')
+          d = json.loads(p.read_text())
+          assert d['status'] == 'PROPOSED_NOT_EXECUTED'
+          assert d['learning'].endswith('NOT_ESTABLISHED.')
+          assert d['resource_envelope']['attempts_per_case'] == 1
+          print('Adapter correctness only: donor discovery and native consumption study remain unexecuted.')
+          PY
