@@ -2,6 +2,8 @@
 
 Every numeric or terminal-bearing statement of main.md is one row: a verbatim key phrase of the manuscript, the receipt-bound source file(s) and a machine-checkable clause list read by `tools/paper/verify_claims.py` (grammar in that file's docstring). Paths are relative to the ORION-OCM repository root; `V2:` prefixes the ORION-V2 theory directory (read from that repository's `origin/main` when the working tree lacks the file); `main:` reads a file from this repository's `origin/main`, used only where the paper branch is behind main (the 472-denominator V4 report, the M8 scale wording, the batch-6 and batch-7 intake records, the runtime revalidation documents). Rows whose only clause is `note:` are UNCHECKABLE by machine and say why. Derived numbers show their arithmetic in the note.
 
+Superseded fields (ledger S42): the `AMBIGUOUS_COUNT_TOTAL` fields of `research/ocm-n1/N1_UD_INDUCTION_V1.json` and `N1_UD_INDUCTION_V2_RANKING.json` are undercounts and are not read by any row; the exact totals are in `N1_UD_INDUCTION_V3_PACKING.json`.
+
 Conventions in the Phrase column: `&#124;` stands for a table pipe.
 
 | # | Section | Phrase | Source | Check |
@@ -288,3 +290,5 @@ Total rows: 246. Rows whose only check is a note: none; rows carrying a derivati
 | 277 | 8 | mechanises the core semantics (three-valued liveness, warrant intervals, the two composition operators, the reopening cone and the authority meet) in Lean 4 | V2:KSO_MECHANISED_CORE_BATCH12_V1.md | contains "Lean"; contains "4.14.0" |
 | 278 | 8 | 77 theorems across the eleven theorem batches (48 proved, 16 proved on finite fixtures, 7 parent-owned, 4 parent-sufficient, 1 conjecture, 1 open), 22 exactly bounded impossibilities, 7 current open items | V2:MACHINE_EPISTEMICS_FIELD_MAP_V1.md | contains "KSO FIELD MAP V1"; contains "PROVED 48, PROVED (finite) 16, PARENT_OWNED 7, PARENT_SUFFICIENT 4, CONJECTURE 1, OPEN 1"; contains "exactly_bounded_impossibilities               22"; contains "open_items_current                            7" |
 | 279 | 8 | a derived registry of 24 runtime obligations for the machine (KS-T118 to KS-T141, 3 discharged with checkers, 21 open) | V2:OCM_OBLIGATION_REGISTRY_DERIVED_V1.json | count(obligations) = 24; statuscount(obligations, PROVED) = 3; statuscount(obligations, OPEN) = 21 |
+| 280 | 5.10 | the exact forest reaches fewer sentences inside the same time budget and the share of reached sentences at the cap falls only from 25% to 21% | research/ocm-n1/N1_UD_INDUCTION_V3_PACKING.json | ud_parse.protected_chart.test.parsed = 358; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 74; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_COUNT_TOTAL = 1173665; ud_parse.protected_chart.test.exact_gold_match = 0/358 |
+| 281 | 5.10 | the earlier chart had undercounted them | docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md | contains "S42"; contains "undercount" |

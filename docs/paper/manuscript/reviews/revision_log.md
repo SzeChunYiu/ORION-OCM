@@ -75,3 +75,14 @@ Opened with R2-1 closed. Remaining round-2 items wait for their receipts to reac
 
 Section 5.9 gains the V5 paragraph (study of record for the lifetime residual on the corrected runtime); Section 6 gains the V5 reference-arm sentence; Section 9's revalidation paragraph now names V5 as the corrected runtime's terminal. Claims rows 258–267 read the V5 evaluation, receipt, replication receipt, manifest and reference-arm file.
 
+### Round 3 (2026-09-06)
+
+| Item | Reviewer | Disposition |
+|---|---|---|
+| R1-r3-1 / R2-r3-2 | 1, 2 | applied: V5 described as the pre-registered study beside the acceptance label; 'study of record' dropped |
+| R1-r3-2 | 1 | applied: attribution declared-not-ablated in 5.9 and limitations; OCM−Δ arm named as next study |
+| R2-r3-1 | 2 | applied: 'closes the programme's gap list (first version)' |
+| R3-r3-1 | 3 | applied: current engineering pointer and frozen V4 successors named in data availability |
+| R3-r3-2 | 3 | applied: superseded-fields note in claims_map.md |
+| R3-r3-3 | 3 | open: persistent identifier (pre-submission action) |
+
