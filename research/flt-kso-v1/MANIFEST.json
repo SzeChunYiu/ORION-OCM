@@ -1,6 +1,7 @@
 {
   "schema": "flt-kso-v1.environment-manifest.v1",
-  "source_base_at_preregistration": "d53d0082bfdada811a565253f3e18680f91e878a",
+  "source_base_at_preregistration": "787a5d2c1611cdf9acbb87cb44fa1b878c8a4d1f",
+  "governance_predecessor": "research/programme/FLT_RECONSTRUCTION.md@787a5d2c1611cdf9acbb87cb44fa1b878c8a4d1f",
   "anthropic": {
     "repository": "anthropics/fermats-last-theorem",
     "commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
@@ -14,7 +15,9 @@
   },
   "lean": {
     "toolchain": "leanprover/lean4:v4.33.1",
-    "version": "4.33.1"
+    "version": "4.33.1",
+    "elan_release": "v4.2.4",
+    "elan_linux_x86_64_sha256": "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63"
   },
   "mathlib": {
     "tag": "v4.33.0",
@@ -28,16 +31,24 @@
     "neural_proof_generator": false,
     "opaque_learned_oracle": false
   },
+  "f0": {
+    "challenge_id": "F0_MASKED_COMPOSITION_001",
+    "foundation_blob": "4cce6e295bc1f3e8e289be9ebd7a41ee801d859c",
+    "masked_composition_blob": "bd32922dd220085b5695140f7e684d87cb6f37c7",
+    "allowed_lemmas": ["MEFoundation.agreement_sound", "MEFoundation.agreement_refinement"],
+    "allowed_ast_ops": ["LOCAL_HYPOTHESIS", "APPLY_LEMMA"],
+    "max_proof_state_expansions": 128,
+    "max_rule_or_hypothesis_candidates": 256,
+    "max_checker_calls_total_native_plus_parent": 16,
+    "success_terminal": "F0_MASKED_COMPOSITION_APPARATUS_SUPPORTED",
+    "claim_scope": "APPARATUS_ONLY_NO_DISCOVERY_NOVELTY"
+  },
   "r1": {
     "challenge_id": "R1_PROP_CHAIN_001",
     "statement": "(P → Q) → (Q → R) → P → R",
     "max_proof_state_expansions": 64,
     "max_checker_calls_total_native_plus_parent": 16,
-    "allowed_search_operators": [
-      "proof.intro",
-      "proof.assumption",
-      "proof.apply_local"
-    ]
+    "allowed_search_operators": ["proof.intro", "proof.assumption", "proof.apply_local"]
   },
   "r2_r3_selection_policy": {
     "status": "PREREGISTERED_NOT_YET_EXECUTED",
