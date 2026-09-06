@@ -51,6 +51,10 @@ A_factual, A_negative_transfer, B_enterprise, C_software, D_selection, D_analysi
 
 Qwen2.5 7B instruct (Ollama digest prefix 845dbda0, temperature 0) on the same eight streams: factual in scope 230/240; honest unknown 18/240; negative transfer 38/56; always-attempts per stream [29, 27, 30, 23, 26, 30, 27, 30]. Four-class grading over the questions whose licensed answer is yes or unknown: licensed 243, unlicensed-true 180, unlicensed-false 47, wrong 2. The unlicensed-true count is the signature of a channel outside the given knowledge, as in V4. Result file `research/ocm-m12/M12_V5_REFERENCE_ARM_V1.json`; runner `ocm.evaluation.m12_reference_arm`.
 
+## Post-run code change, declared
+
+After the run, `phase_G` was changed so that the `predecessors_bound` field is emitted only on the V5 path (`report_predecessors=True`), because the lane's frozen engineering replay of the lifetime evaluation (`M12_REFERENCE_REPLAY_V4.json`, compared in CI) includes the self-repair block and must stay byte-identical. The V5 computation path is unchanged; to show it, the frozen V5 run was replayed with the changed code to a new path (`M12_PAIRED_LIFETIMES_EVAL_V5_REPLAY_POSTREFACTOR.json`) and its deterministic block is identical to the frozen result. The receipt binds both files and the changed sources; the frozen result file itself was never rewritten.
+
 ## What V5 establishes and what it does not
 
 - Establishes, at its stated scope: the primary-family lifetime residual survives on the corrected runtime under a pre-registration frozen before outcome access, with the corrected adoption gate and predecessor binding as kill gates, and the transfer comparison determined by matched cells.
