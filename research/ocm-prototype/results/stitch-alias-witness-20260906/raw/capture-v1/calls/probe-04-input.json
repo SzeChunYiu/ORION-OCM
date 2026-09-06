@@ -1,0 +1,15 @@
+{
+  "accepted_parameters": [
+    [
+      "h0",
+      "Int"
+    ]
+  ],
+  "claim": "Real reinterpretation is outside the accepted Int signature and must be refused before native entry.",
+  "expected": "UNSUPPORTED_HOST_TYPE",
+  "id": "unsupported_real_reinterpretation",
+  "left": "(define-fun probe ((h0 Real)) Int (ite (not (>= h0 1)) 1 0))",
+  "note": "This is host type refusal, not an executed Real-equivalence or counterexample claim.",
+  "provenance_index": 1,
+  "right": "(define-fun probe ((h0 Real)) Int (ite (<= h0 0) 1 0))"
+}

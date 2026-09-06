@@ -1,0 +1,162 @@
+{
+  "assigned": 5,
+  "caller_self_cpu_s": 0.003895253999999994,
+  "caller_self_peak_rss_kib": 20552,
+  "caller_wall_s": 0.2837486030184664,
+  "completed": 5,
+  "counts": {
+    "compress_calls": 0,
+    "native_verify_invocations": 4,
+    "verify_boundary_calls": 4
+  },
+  "discovery": "NOT_RUN",
+  "historical_receipts": "UNCHANGED",
+  "later_use": "NOT_RUN",
+  "normalization": "NOT_RUN",
+  "novelty": "NOT_ESTABLISHED",
+  "rows": [
+    {
+      "expected": "WITNESS_EQUIVALENT",
+      "expected_outcome_matched": true,
+      "id": "saved_subtraction",
+      "left": "(define-fun probe ((h0 Int) (h1 Int)) Int (+ h1 (* (- 1) h0)))",
+      "observed": "WITNESS_EQUIVALENT",
+      "right": "(define-fun probe ((h0 Int) (h1 Int)) Int (- h1 h0))",
+      "verifier": {
+        "metrics": {
+          "envelope_wall_s": 0.07108533097198233,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 52416,
+          "request_bytes": 277,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.03229559,
+          "worker_pid": 974203,
+          "worker_wall_s": 0.032314623007550836
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      },
+      "verify_boundary_calls": 1
+    },
+    {
+      "expected": "WITNESS_EQUIVALENT",
+      "expected_outcome_matched": true,
+      "id": "saved_integer_predicate",
+      "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+      "observed": "WITNESS_EQUIVALENT",
+      "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 0) 1 0))",
+      "verifier": {
+        "metrics": {
+          "envelope_wall_s": 0.06954136595595628,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 55884,
+          "request_bytes": 245,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.031920694,
+          "worker_pid": 974209,
+          "worker_wall_s": 0.03193049394758418
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS"
+      },
+      "verify_boundary_calls": 1
+    },
+    {
+      "expected": "COUNTEREXAMPLE",
+      "expected_outcome_matched": true,
+      "id": "wrong_subtraction_orientation",
+      "left": "(define-fun probe ((h0 Int) (h1 Int)) Int (+ h1 (* (- 1) h0)))",
+      "observed": "COUNTEREXAMPLE",
+      "right": "(define-fun probe ((h0 Int) (h1 Int)) Int (- h0 h1))",
+      "verifier": {
+        "counterexample": "[h0 = 0,\n h1 = 1,\n right = [else -> Var(0) - Var(1)],\n left = [else -> Var(1) + -1*Var(0)]]",
+        "metrics": {
+          "envelope_wall_s": 0.07008120603859425,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 58064,
+          "request_bytes": 277,
+          "response_bytes": 308,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.032746418,
+          "worker_pid": 974211,
+          "worker_wall_s": 0.03276402998017147
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "sat",
+        "status": "FAIL"
+      },
+      "verify_boundary_calls": 1
+    },
+    {
+      "expected": "COUNTEREXAMPLE",
+      "expected_outcome_matched": true,
+      "id": "shifted_integer_threshold",
+      "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+      "observed": "COUNTEREXAMPLE",
+      "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 1) 1 0))",
+      "verifier": {
+        "counterexample": "[h0 = 1,\n left = [else -> If(Not(Var(0) >= 1), 1, 0)],\n right = [else -> If(Var(0) <= 1, 1, 0)]]",
+        "metrics": {
+          "envelope_wall_s": 0.07050206599524245,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 57856,
+          "request_bytes": 245,
+          "response_bytes": 321,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.033166046000000005,
+          "worker_pid": 974213,
+          "worker_wall_s": 0.03317333897575736
+        },
+        "native_invoked": true,
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "sat",
+        "status": "FAIL"
+      },
+      "verify_boundary_calls": 1
+    },
+    {
+      "exception": {
+        "message": "parameter names/arity/sorts or output sort mismatch",
+        "type": "ValueError"
+      },
+      "expected": "UNSUPPORTED_HOST_TYPE",
+      "expected_outcome_matched": true,
+      "id": "unsupported_real_reinterpretation",
+      "left": "(define-fun probe ((h0 Real)) Int (ite (not (>= h0 1)) 1 0))",
+      "observed": "UNSUPPORTED_HOST_TYPE",
+      "right": "(define-fun probe ((h0 Real)) Int (ite (<= h0 0) 1 0))",
+      "verify_boundary_calls": 0
+    }
+  ],
+  "scope": "Two exact witness identities and three controls; not exhaustive alias search.",
+  "status": "WITNESS_QUALIFICATION_PASS",
+  "total_process_tree_cpu": "UNKNOWN",
+  "total_process_tree_peak_rss": "UNKNOWN"
+}

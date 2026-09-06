@@ -1,0 +1,145 @@
+{
+  "execution_order": [
+    "saved_subtraction",
+    "saved_integer_predicate",
+    "wrong_subtraction_orientation",
+    "shifted_integer_threshold",
+    "unsupported_real_reinterpretation"
+  ],
+  "expected_native_calls": [
+    1,
+    1,
+    1,
+    1,
+    0
+  ],
+  "native_calls_maximum": 4,
+  "no_alias_search": true,
+  "no_compress": true,
+  "no_normalization": true,
+  "probes": [
+    {
+      "accepted_parameters": [
+        [
+          "h0",
+          "Int"
+        ],
+        [
+          "h1",
+          "Int"
+        ]
+      ],
+      "claim": "Exact learned body equals existing binary subtraction with reversed argument order.",
+      "expected": "WITNESS_EQUIVALENT",
+      "id": "saved_subtraction",
+      "left": "(define-fun probe ((h0 Int) (h1 Int)) Int (+ h1 (* (- 1) h0)))",
+      "provenance_index": 0,
+      "right": "(define-fun probe ((h0 Int) (h1 Int)) Int (- h1 h0))"
+    },
+    {
+      "accepted_parameters": [
+        [
+          "h0",
+          "Int"
+        ]
+      ],
+      "claim": "Exact learned Bool body equals integer <=0; Bool equality encoded injectively as ite(condition,1,0).",
+      "expected": "WITNESS_EQUIVALENT",
+      "id": "saved_integer_predicate",
+      "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+      "provenance_index": 1,
+      "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 0) 1 0))"
+    },
+    {
+      "accepted_parameters": [
+        [
+          "h0",
+          "Int"
+        ],
+        [
+          "h1",
+          "Int"
+        ]
+      ],
+      "claim": "Same-sort incorrect orientation must be SAT, not equivalent.",
+      "expected": "COUNTEREXAMPLE",
+      "id": "wrong_subtraction_orientation",
+      "illustrative_counterexample": {
+        "h0": 0,
+        "h1": 1
+      },
+      "left": "(define-fun probe ((h0 Int) (h1 Int)) Int (+ h1 (* (- 1) h0)))",
+      "provenance_index": 0,
+      "right": "(define-fun probe ((h0 Int) (h1 Int)) Int (- h0 h1))"
+    },
+    {
+      "accepted_parameters": [
+        [
+          "h0",
+          "Int"
+        ]
+      ],
+      "claim": "Same-sort shifted threshold must be SAT, not equivalent.",
+      "expected": "COUNTEREXAMPLE",
+      "id": "shifted_integer_threshold",
+      "illustrative_counterexample": {
+        "h0": 1
+      },
+      "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+      "provenance_index": 1,
+      "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 1) 1 0))"
+    },
+    {
+      "accepted_parameters": [
+        [
+          "h0",
+          "Int"
+        ]
+      ],
+      "claim": "Real reinterpretation is outside the accepted Int signature and must be refused before native entry.",
+      "expected": "UNSUPPORTED_HOST_TYPE",
+      "id": "unsupported_real_reinterpretation",
+      "left": "(define-fun probe ((h0 Real)) Int (ite (not (>= h0 1)) 1 0))",
+      "note": "This is host type refusal, not an executed Real-equivalence or counterexample claim.",
+      "provenance_index": 1,
+      "right": "(define-fun probe ((h0 Real)) Int (ite (<= h0 0) 1 0))"
+    }
+  ],
+  "provenance": [
+    {
+      "definition": {
+        "body": "(+ #1 (* (- 1) #0))",
+        "name": "fn_0",
+        "result": "Int",
+        "sorts": [
+          "Int",
+          "Int"
+        ]
+      },
+      "historical_alias_assessment": "NOT_RUN",
+      "library_key": "fn_0",
+      "path": "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/capture-v1/calls/adapter-return.json",
+      "seal": "/home/billy/orion-director-work/20260906/stitch-induction-public-20260906/capture-v1/seal.json",
+      "seal_sha256": "c21af1fdd5383e9247b9cc2db1aaba081863ce0042cca40932da41491369db29",
+      "sha256": "5e452d36233894c19ac5be163683331e29836d25c16dcb2b6cf1675d8cb0fc8f"
+    },
+    {
+      "definition": {
+        "body": "(not (>= #0 1))",
+        "name": "fn_0",
+        "result": "Bool",
+        "sorts": [
+          "Int"
+        ]
+      },
+      "historical_alias_assessment": "NOT_RUN",
+      "library_key": "fn_0",
+      "path": "/home/billy/orion-director-work/20260906/stitch-normalized-induction-public-20260906/capture-v1/calls/adapter-return.json",
+      "seal": "/home/billy/orion-director-work/20260906/stitch-normalized-induction-public-20260906/capture-v1/seal.json",
+      "seal_sha256": "275012f6e1429c08bd481631ff821f20dff8e3ee02393294241cbf2f8181e5e8",
+      "sha256": "a82caf571767fc87113aa51455e1708b59ad120749e8eaf676184a64fee0a887"
+    }
+  ],
+  "schema": "FIXED_ALIAS_WITNESSES_V1",
+  "scope": "Two exact witnessed aliases; three controls; no exhaustive primitive classification."
+}

@@ -1,0 +1,17 @@
+{
+  "accepted_parameters": [
+    [
+      "h0",
+      "Int"
+    ]
+  ],
+  "claim": "Same-sort shifted threshold must be SAT, not equivalent.",
+  "expected": "COUNTEREXAMPLE",
+  "id": "shifted_integer_threshold",
+  "illustrative_counterexample": {
+    "h0": 1
+  },
+  "left": "(define-fun probe ((h0 Int)) Int (ite (not (>= h0 1)) 1 0))",
+  "provenance_index": 1,
+  "right": "(define-fun probe ((h0 Int)) Int (ite (<= h0 1) 1 0))"
+}
