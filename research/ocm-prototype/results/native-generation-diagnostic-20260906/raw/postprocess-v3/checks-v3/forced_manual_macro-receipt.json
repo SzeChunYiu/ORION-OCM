@@ -1,0 +1,64 @@
+{
+  "case": "forced_manual_macro",
+  "equivalence": {
+    "status": "PASS",
+    "native_invoked": true,
+    "metrics": {
+      "external_deadline_s": 10,
+      "native_timeout_ms": 5000,
+      "worker_cpu_s": 0.032308382999999996,
+      "peak_rss_kib": 52132,
+      "worker_pid": 624084,
+      "unmeasured": [
+        "energy",
+        "native internal active bytes",
+        "installation/pretraining costs"
+      ],
+      "request_bytes": 453,
+      "response_bytes": 204,
+      "worker_wall_s": 0.032322564045898616,
+      "envelope_wall_s": 0.07478416903177276
+    },
+    "solver_result": "unsat",
+    "solver": "Z3 5.1.0.0"
+  },
+  "specification": {
+    "grammar": "PASS",
+    "semantic": "PASS",
+    "status": "PASS",
+    "native_checker_invoked": true,
+    "metrics": {
+      "grammar_wall_s": 0.0007525809924118221,
+      "external_deadline_s": 10,
+      "native_timeout_ms": 5000,
+      "worker_cpu_s": 0.031968798,
+      "peak_rss_kib": 57752,
+      "worker_pid": 624090,
+      "unmeasured": [
+        "energy",
+        "native internal active bytes",
+        "installation/pretraining costs"
+      ],
+      "request_bytes": 392,
+      "response_bytes": 195,
+      "worker_wall_s": 0.031990689982194453,
+      "envelope_wall_s": 0.06860652699833736,
+      "check_total_wall_s": 0.06938237103167921,
+      "host_check_cpu_s": 0.001062432000000002
+    },
+    "verification_sha256": "f509a23e92cd8c43aad9a26ecc9c725b0e071611759e878981237267278ec28f",
+    "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+    "grammar_id": "ocm.clia-total-expressions.v1",
+    "solver_result": "unsat",
+    "solver": "Z3 5.1.0.0"
+  },
+  "original_candidate": "(\n(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (fn_0 x (fn_0 y z)))\n)\n",
+  "expanded_candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (>= x (ite (>= y z) y z)) x (ite (>= y z) y z)))",
+  "macro_calls": [
+    "fn_0",
+    "fn_0"
+  ],
+  "equivalence_smt2": "(define-fun fn_0 ((h0 Int) (h1 Int)) Int (ite (>= h0 h1) h0 h1))\n(define-fun POST_ORIGINAL ((x Int) (y Int) (z Int)) Int (fn_0 x (fn_0 y z)))\n(define-fun POST_EXPANDED ((x Int) (y Int) (z Int)) Int (ite (>= x (ite (>= y z) y z)) x (ite (>= y z) y z)))\n(declare-const x Int)\n(declare-const y Int)\n(declare-const z Int)\n(assert (not (= (POST_ORIGINAL x y z) (POST_EXPANDED x y z))))\n",
+  "equivalence_sha256": "9e8f4921a56e47672fccc44650c2fa478404e81a91c3c08bef094b979e2e08d7",
+  "status": "ADMISSION_CHECKS_PASS"
+}

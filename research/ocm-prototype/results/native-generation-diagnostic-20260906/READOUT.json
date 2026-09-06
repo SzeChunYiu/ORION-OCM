@@ -1,0 +1,103 @@
+{
+  "schema": "ocm.native-generation-diagnostic.packet.v1",
+  "classification": "SUPPORTING / INFRASTRUCTURE",
+  "created_utc": "2026-09-06T14:06:06.642280+00:00",
+  "base_commit": "ed2ce8cc8482d3a525ebb13c75f40d2ca3bf2450",
+  "preparation_commit": "e91c3837dd94c306452ee60aba3512cd2f2ee5ba",
+  "status": "EXPANDED_OUTPUT_CHECKING_QUALIFIED",
+  "whole_four_case_gate": "NOT_ESTABLISHED",
+  "stitch_discovery_calls": 0,
+  "learned_abstraction_claim": false,
+  "ocm_field_admission_performed": false,
+  "persistent_library_commit_performed": false,
+  "learned_operator_promotion_performed": false,
+  "repeated_cases_within_registered_attempt": 0,
+  "preserved_seals": {
+    "capture-v1/seal.json": {
+      "sha256": "549149590266c5444c9fb6b120cdb506ab4dbeed4ffd08686f4265dcdc6255f0",
+      "entries": 27
+    },
+    "successor-v2/capture-v2/seal.json": {
+      "sha256": "b6e6bd479d0652be2bb8ac543b3bf8ca2966670ece9a1741600180d2c7d38372",
+      "entries": 27
+    },
+    "postprocess-v3/checks-v3/seal.json": {
+      "sha256": "fe7130b2658e5022c766d6275ca665aad392f1c84d90f7e073a5668fc646b07d",
+      "entries": 6
+    }
+  },
+  "original_grades": {
+    "checks-v1.json": "3417b26f0e41cc09fb2bea7524469ae1ac14b8000a3a1e1e5cb93dcc2587769f",
+    "checks-v2.json": "161c061de4bc536e73ce44023aef76ccdacfd34637626902e86879a806d797f7",
+    "postprocess-v3/checks-v3/receipt.json": "230922b35be196917d9689960dcdc953fcde0068982c423ea635dc9a02aecd8e"
+  },
+  "v1": {
+    "cases": 4,
+    "process_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "checks": [
+      "CANNOT_CHECK",
+      "CANNOT_CHECK",
+      "CANNOT_CHECK",
+      "CANNOT_CHECK"
+    ],
+    "cause": "SMT-LIB unquoted stderr string in setup before synth-fun parsing; no generation-failure inference."
+  },
+  "v2": {
+    "cases": 4,
+    "process_exits": [
+      0,
+      124,
+      0,
+      0
+    ],
+    "primitive_checks": [
+      "PASS",
+      "CANNOT_CHECK",
+      "FAIL",
+      "FAIL"
+    ],
+    "strong_implicit_parent": "PASS",
+    "explicit_primitive": "TIMEOUT; stage unresolved; no-alarm control unresolved.",
+    "manual_macro_full_and_forced": "Both return fn_0 call programs with two native GEN_fn_0 annotations each; unchanged primitive checker correctly refuses unexpanded helper calls, with no Z3 invocation for these two rows."
+  },
+  "postprocess_v3": {
+    "cases": 2,
+    "assigned_native_z3_checks": 4,
+    "actual_native_z3_invocations": 4,
+    "equivalence": [
+      "PASS",
+      "PASS"
+    ],
+    "original_specification": [
+      "PASS",
+      "PASS"
+    ],
+    "raw_equivalence_helper": "Frozen manual helper interpreted on original side; expanded primitive program on other side.",
+    "synthesis_reruns": 0,
+    "authority": "Expanded-output check only; no field admission or learned-program promotion."
+  },
+  "limits": [
+    "Manual macro is authored, not learned.",
+    "Native annotation shows returned derivation membership; cvc5 can reconstruct it after solving, so causal search guidance is not established.",
+    "Forced grammar route is a separate parser/output positive control, not the fair adaptive comparator.",
+    "All primitive alternatives remain in full macro route; the extra singleton nonterminal can change search.",
+    "Explicit-primitive timeout remains an unresolved separate stage.",
+    "Elapsed/native worker metrics are descriptive; no efficiency or whole-lifetime conclusion.",
+    "No semantic regrading/runtime tests were run for this publication packet."
+  ],
+  "copied_raw_files": 160,
+  "copy_custody": "Every copied raw byte and all three inner capture seals checked read-only.",
+  "links": {
+    "v1_freeze": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559568119",
+    "v1_failure": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559600474",
+    "v2_freeze": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559615445",
+    "v2_result": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559669544",
+    "v3_freeze": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559706342",
+    "v3_result": "https://github.com/SzeChunYiu/ORION-OCM/issues/62#issuecomment-5559739984"
+  }
+}
