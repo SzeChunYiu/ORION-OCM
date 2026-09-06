@@ -59,10 +59,17 @@ Stanza is not involved in this adapter. Nothing here counts as language acquisit
 5. A second checker constructs a fresh ground obligation directly from the public
    specification. It does not evaluate or trust the returned program. This catches
    a shared evaluator failure that fools both application and pointwise checking.
+   Both checks run before runtime commitment and checked-value admission.
 6. A bounded response plan carries the exact tuple, result, semantic identity and
    supporting field atoms. Independent output-contract checking verifies the
    emitted quantity, polarity, task meaning and absence of an extra clause.
+   The plan is also bound to the independently checked task/value/support. Proposal
+   callbacks receive copies; they cannot redefine the accepted arguments or speech act.
 7. The checked utterance is admitted to that same persistent field.
+
+The application reads the admitted request identity before execution. Backend
+mutation of field, evidence, registry or event state prevents candidate commitment.
+This is a checked host-adapter boundary, not a sandbox against arbitrary Python code.
 
 The independent checking paths still share Z3 as a native engine. No independent
 engine-diversity claim is made.
@@ -98,7 +105,7 @@ complete index-locality instrumentation remain explicitly unmeasured; existing
 solve resource counters are not empirical proof of locality.
 
 ```sh
-PYTHONPATH=src python -m pytest -q tests/integration/test_text_task_slice.py
+PYTHONPATH=src python -m pytest -q tests/integration/test_text_task_slice.py tests/integration/test_text_task_binding.py
 ```
 
 These donor-backed tests skip in environments without cvc5, Z3 or sexpdata.

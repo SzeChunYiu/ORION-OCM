@@ -1,6 +1,8 @@
 """Existing cvc5/checked CLIA descriptors served through the actual OCM solve loop."""
 from __future__ import annotations
 
+from copy import deepcopy
+
 from ocm.kso.ids import content_hash
 from ocm.kso.warrant import WarrantProfile
 from ocm.operators.registry import BackendKind, OperatorSpec
@@ -13,7 +15,7 @@ from clia_reuse_support import decode, encode as encode_support
 import clia_solver
 from clia_tasks import load_task
 from g1_field import SCOPE, payload, put
-from text_task_contracts import signature, validate_semantic
+from text_task_contracts import check_ground, signature, validate_semantic
 
 METHOD_PREFIX = "text:method:"
 PROGRAM_PREFIX = "text:program:"
@@ -29,8 +31,18 @@ def register(runtime, name, version, backend, inputs, support, kind=BackendKind.
 
 def solve(runtime, qid, registered, check, traces, request=None):
     refs = tuple(dict.fromkeys((qid, *registered.input_atoms)))
+    def pure_backend(ks, name, context):
+        def state_key():
+            state = runtime.state
+            return (state.ks.digest(), state.evidence_epoch, state.registry_revision, len(runtime.events))
+        before = state_key()
+        try:
+            return registered.backend(ks, request)
+        finally:
+            if state_key() != before:
+                raise ValueError("proposal backend changed field, evidence, registry or event state")
     operator = SV.OperatorSpec(registered.operator_id, registered.version,
-                              lambda ks, name, context: registered.backend(ks, request),
+                              pure_backend,
                               refs, scope=SCOPE, warrant=registered.warrant,
                               checker=lambda output: SV.Status(check(output)["status"]))
     task = SV.Task(qid, (SV.QueryPart(qid, "query_seed", refs),), context="g1-pilot")
@@ -94,28 +106,44 @@ def obtain(runtime, semantic, qid, evidence, counters, traces):
 
 
 def apply(runtime, semantic, qid, desc, compiled_cache, counters, traces):
+    accepted = payload(runtime.state.ks, qid)["semantic"]
+    validate_semantic(accepted)
+    if D.digest(semantic) != D.digest(accepted):
+        raise ValueError("application meaning differs from the admitted request")
+    semantic = accepted
     aid = PROGRAM_PREFIX + desc["id"]
     support = decode(desc["support"]).meet(runtime.state.ks.atom_view[qid].warrant)
     if not support.is_live(runtime.state.revoked):
         raise ValueError("application support is not live")
-    request = {"kind": "clia_apply", "program_id": desc["id"], "arguments": semantic["arguments"]}
+    request = {"kind": "clia_apply", "program_id": desc["id"], "arguments": list(semantic["arguments"])}
     if desc["id"] not in compiled_cache:
         compiled_cache[desc["id"]] = CompiledProgram(desc)
         counters["compile_calls"] += 1
     compiled = compiled_cache[desc["id"]]
     def execute(ks, requested):
         counters["application_calls"] += 1
-        return compiled.apply(requested)
+        return compiled.apply(deepcopy(requested))
     checks = []
     def verify(output):
         counters["pointwise_checker_calls"] += 1
-        receipt = check_value(desc, request, output)
+        program = check_value(desc, request, output)
+        specification = {"status": "NOT_RUN"}
+        if program["status"] == "PASS":
+            counters["ground_spec_checker_calls"] += 1
+            specification = check_ground(load_task(semantic["task_id"]), semantic["arguments"], output["value"])
+        receipt = {"status": specification["status"] if program["status"] == "PASS" else program["status"],
+                   "program_application": program, "source_specification": specification}
         checks.append(receipt)
         return receipt
     # Query-bound host callable is registered explicitly after restart, never deserialized.
     registered = register(runtime, "text:apply:" + desc["id"],
                           D.digest(desc["checker_prior"]), execute, (aid,), decode(desc["support"]))
-    output = solve(runtime, qid, registered, verify, traces, request)
+    try:
+        output = solve(runtime, qid, registered, verify, traces, request)
+    except ValueError as exc:
+        if any(c["source_specification"]["status"] not in {"PASS", "NOT_RUN"} for c in checks):
+            raise ValueError("returned value does not pass the independent source specification") from exc
+        raise
     checked = verify(output)
     if checked["status"] != "PASS":
         raise ValueError("independent application admission check failed")

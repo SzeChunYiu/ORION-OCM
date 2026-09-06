@@ -18,7 +18,7 @@ from ocm.runtime import solve as SV
 from ocm.store.evidence import Channel
 from clia_tasks import load_task
 from g1_field import ROOT, SCOPE, payload, put
-from text_task_contracts import (TASK_IDS, check_ground, check_response, contract,
+from text_task_contracts import (TASK_IDS, check_response, check_response_binding, contract,
                                  interpret, realize, response_plan, validate_semantic)
 import text_task_programs as P
 
@@ -110,15 +110,17 @@ class TextTaskSession:
                 desc, reused = P.obtain(self.runtime, semantic, qid, evidence, counters, traces)
             with stage("ocm_application"):
                 value, answer_id, checks = P.apply(self.runtime, semantic, qid, desc, self.compiled, counters, traces)
-            with stage("source_specification_check"):
-                counters["ground_spec_checker_calls"] += 1
-                checked = check_ground(load_task(semantic["task_id"]), semantic["arguments"], value)
-                if checked["status"] != "PASS":
-                    raise ValueError("returned value does not pass the independent source specification")
+            checked = checks[-1]["source_specification"]
             with stage("response_and_admission"):
-                plan = response_plan(semantic, value, (qid, answer_id))
-                english = realize(plan)
-                response_checked = check_response(plan, english)
+                plan = response_plan(json.loads(json.dumps(semantic)), value, (qid, answer_id))
+                binding = check_response_binding(plan, semantic, value, (qid, answer_id))
+                if binding["status"] != "PASS":
+                    raise ValueError("response plan does not match the independently checked task and support")
+                english = realize(json.loads(json.dumps(plan)))
+                response_checked = check_response(json.loads(json.dumps(plan)), english)
+                binding = check_response_binding(plan, semantic, value, (qid, answer_id))
+                if binding["status"] != "PASS":
+                    raise ValueError("response plan changed after checked-task binding")
                 if response_checked["status"] != "PASS":
                     raise ValueError("response meaning check failed")
                 warrant = self.runtime.state.ks.atom_view[qid].warrant.meet(
@@ -126,7 +128,7 @@ class TextTaskSession:
                 if not warrant.is_live(self.runtime.state.revoked):
                     raise ValueError("response support changed before admission")
                 record = {"response_plan": plan, "english": english, "checks": {"specification": checked,
-                          "response": response_checked, "program_application": checks}}
+                          "response": response_checked, "binding": binding, "program_application": checks}}
                 admitted = "text:utterance:" + content_hash(record)
                 put(self.runtime, admitted, record, warrant, (qid, answer_id), "EXACT_CHECKER", "proof")
             with stage("persistence"):

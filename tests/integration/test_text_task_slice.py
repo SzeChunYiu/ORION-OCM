@@ -129,14 +129,14 @@ def test_paraphrase_reuses_one_parameterized_host_operator(session):
 
 def test_wrong_shared_evaluator_cannot_pass_source_specification(session, monkeypatch):
     import clia_reuse_apply
-    before = {x for x in session.runtime.state.ks.ids if x.startswith("text:utterance:")}
+    before = {x for x in session.runtime.state.ks.ids if x.startswith(("text:utterance:", "text:checked-value:"))}
     monkeypatch.setattr(clia_reuse_apply.CompiledProgram, "evaluate", lambda self, args: 999)
     result = session.ask("What is the largest of 7, 2 and 3?")
     assert result["status"] == "CANNOT_CHECK", result
     assert result["counters"]["ground_spec_checker_calls"] == 1
     assert "source specification" in result["reason"]
     assert "value" not in result
-    after = {x for x in session.runtime.state.ks.ids if x.startswith("text:utterance:")}
+    after = {x for x in session.runtime.state.ks.ids if x.startswith(("text:utterance:", "text:checked-value:"))}
     assert after == before
 
 

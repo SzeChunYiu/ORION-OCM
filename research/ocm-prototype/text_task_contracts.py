@@ -161,3 +161,12 @@ def check_response(plan, english):
     ok = bool(match and type(plan["value"]) is int and int(match[1]) == plan["value"]
               and plan["polarity"] == "positive" and plan["support_atoms"])
     return {"status": "PASS" if ok else "FAIL", "scope": "declared bounded response meaning"}
+
+
+def check_response_binding(plan, semantic, value, support_atoms):
+    """Bind a proposed speech act to the checked task, never only to itself."""
+    expected = {"schema": "ocm.checked-numeric-response.v1", "task_id": semantic["task_id"],
+                "task_sha256": semantic["task_sha256"], "arguments": semantic["arguments"],
+                "value": value, "polarity": "positive", "support_atoms": list(support_atoms)}
+    ok = isinstance(plan, dict) and digest(plan) == digest(expected)
+    return {"status": "PASS" if ok else "FAIL", "scope": "accepted task, checked value and exact support binding"}
