@@ -231,3 +231,26 @@ def test_support_extension_refuses_authority_or_scope_change_without_event(tmp_p
         )
     assert len(runtime.events) == events_after_scope_evidence
     assert runtime.state.ks.atom(receipt.representation_id).warrant == warrant_before
+
+
+def test_support_extension_append_failure_leaves_runtime_state_untouched(tmp_path, monkeypatch) -> None:
+    ws = _workspace(tmp_path)
+    first = ws.commit("alice", _graph(), utterance="Alice sees Bob")
+    second = ws.commit("bob", _graph(), utterance="Alice sees Bob")
+    receipt = bind_commitment(ws, first.commitment_id, _bindings())
+
+    before_hash = ws.runtime.state.kso_state_hash
+    before_events = len(ws.runtime.events)
+    before_warrant = ws.runtime.state.ks.atom(receipt.field_binding.representation_id).warrant
+
+    def fail_append(*_args, **_kwargs):
+        raise RuntimeError("simulated ledger append failure")
+
+    monkeypatch.setattr(ws.runtime.ledger, "append", fail_append)
+    with pytest.raises(RuntimeError, match="simulated ledger append failure"):
+        bind_commitment(ws, second.commitment_id, _bindings())
+
+    assert ws.runtime.state.kso_state_hash == before_hash
+    assert len(ws.runtime.events) == before_events
+    assert ws.runtime.state.ks.atom(receipt.field_binding.representation_id).warrant == before_warrant
+    assert not any(e.event_type is EventType.OBJECT_SUPPORT_EXTENDED for e in ws.runtime.events)
