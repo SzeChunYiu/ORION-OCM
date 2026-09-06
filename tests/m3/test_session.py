@@ -3,6 +3,7 @@ answers cite evidence and never guess, clarification collapses by evidence, unkn
 are learned from demonstrations, retraction reopens exactly."""
 from __future__ import annotations
 
+from ocm.kso.types import Authority
 from ocm.language import acquisition as AQ
 from ocm.language import constructions as C
 from ocm.language import lexicon as L
@@ -25,6 +26,8 @@ def test_statement_is_recorded_as_said_and_question_answered_with_evidence_never
     assert r.kind is S.ReplyKind.RECORDED and len(r.evidence) == 1
     rec = s.runtime.state.evidence.records[r.evidence[0]]
     assert rec.channel.value == "observation" and rec.source == "alice"
+    assert rec.authority == Authority.of(speaker=1)
+    assert rec.authority.rank("world_truth") == 0
     a2 = s.hear("did the robot open the door")
     assert a2.kind is S.ReplyKind.ANSWER and a2.text.startswith("Yes") and a2.evidence == r.evidence and "no independent warrant" in a2.text
     # negated statement by another speaker: contradiction is kept, not resolved by majority
