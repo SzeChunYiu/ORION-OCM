@@ -1,9 +1,10 @@
 # G1 donor attachment — read first
 
-**Current verdict: G1_NOT_ADMITTED.** Five public CLIA tasks work through the
-unchanged vessel. Language training and matched strong-model comparison remain
-open. Direct cvc5 already explains the observed synthesis capability:
-`PARENT_SUFFICIENT` at this development scope.
+**Current verdict: G1_NOT_ADMITTED.** The same vessel completes a frozen stream
+of 100 supplied-token syntax cases and five public CLIA tasks. Its 100 selected
+trees exactly match the native donor, and both arms pass all five program checks.
+`PARENT_SUFFICIENT` explains capability at this development scope. Strong hosted
+comparison and an OCM-specific benefit remain open.
 
 Owners: [#73](https://github.com/SzeChunYiu/ORION-OCM/issues/73) prototype,
 [#69](https://github.com/SzeChunYiu/ORION-OCM/issues/69) architecture,
@@ -16,7 +17,7 @@ Detailed hypotheses, experiments and negative terminals stay in those issues.
 ## What is implemented
 
 - `g1_vessel.py`: the same production `OCMRuntime.solve` / `SV.solve`, with both
-  donor descriptors offered on every query. Production `src/` is unchanged.
+  donor descriptors offered on every query. Per-run bindings identify the core source.
 - `g1_field.py`: ordinary field objects, ledger persistence and a model archive.
   Archive bytes count as persistent state. Setup refuses model/plan mismatch.
 - `clia_*.py`: ADOPT cvc5 proposals and separate Z3 checking; ADAPT a small
@@ -75,3 +76,15 @@ and reload remain charged. No sparse or whole-lifetime efficiency claim follows.
 The scalar parameter count of the binary UDPipe model remains CANNOT_CHECK;
 model/package bytes and the actual non-Transformer architecture are separate
 accounting quantities. No new controller or theory is introduced here.
+
+## Trained and matched development evidence
+
+- [Trained donor CORE](results/g1-trained-donor-20260906/CORE.md): complete TRAIN-only provenance, both training attempts and frozen 290 direct evaluation.
+- [Matched comparison CORE](results/g1-matched-20260906/CORE.md): external gold scores, all 105 native/OCM outcomes and measured startup/replay/check/persistence costs.
+- [Frozen public stream](results/g1-matched-plan-v1/plan.json): 105 items in five alternating-order chunks, bound before model outputs.
+- `capture_g1_matched.py` executes that stream with separate persistent states; `grade_g1_matched.py` scores afterward using an explicitly supplied, hash-bound DEV file. Neither actor imports the grader.
+
+The matched panel has 77.904% base LAS and 32/100 exact trees in both arms; the
+original OCM run uses 127.735 s recorded CPU versus 6.852 s native. These are
+shared-host descriptive results, not protected comparability or an efficiency
+advantage. The diagnosed admission/replay cost is owned by issue #72.

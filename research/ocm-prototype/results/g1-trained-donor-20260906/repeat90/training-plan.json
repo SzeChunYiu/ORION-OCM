@@ -1,0 +1,42 @@
+{
+  "role": "DEVELOPMENT_ADOPT_PARENT_REPEAT",
+  "orchestration": "ADAPT official checkpointed two-stage training",
+  "registered_utc": "2026-09-06T00:05:41.514929+00:00",
+  "python": "/home/billy/orion-director-work/20260906/udpipe-g1/.venv/bin/python",
+  "package": "ufal.udpipe==1.4.0.1",
+  "train_path": "/home/billy/orion-director-work/20260906/language-g1-audit/data/en_ewt-ud-train.conllu",
+  "train_sha256": "c081876811507cb9437000ea5e6a1741795d8fe8755537ef024bd3b4a713ff14",
+  "method": "morphodita_parsito",
+  "stage1": {
+    "tokenizer": "none",
+    "tagger": "DEFAULT empty string",
+    "parser": "none",
+    "output": "tagger-default.udpipe"
+  },
+  "stage2": {
+    "tokenizer": "none",
+    "tagger": "from_model=file:/home/billy/orion-director-work/20260906/udpipe-g1/repeat90/tagger-default.udpipe",
+    "parser": "DEFAULT empty string",
+    "output": "ewt-train-default.udpipe"
+  },
+  "algorithm_settings": "same faithful defaults as original plan: tagger20 iterations; parser10,projective,dynamic,hidden200,SGD0.02\u21920.001,batch10,structured8,L2=0.5; no tokenizer; empty heldout and no early stopping",
+  "model_byte_identity_with_uncompleted_monolithic_run": "NOT_ASSERTED",
+  "external_pretrained_vectors": false,
+  "external_dictionary": false,
+  "imported_checkpoint": "only this run newly trained tagger, provenance/hash recorded before stage2",
+  "development_or_test_read_by_training": false,
+  "hyperparameter_search": false,
+  "outer_seconds": 5400,
+  "address_space_bytes": 6442450944,
+  "prior_attempt_receipt": "/home/billy/orion-director-work/20260906/udpipe-g1/training-process.json",
+  "prior_attempt_costs": {
+    "terminal": "EXTERNAL_TIME_BOUND",
+    "wall_seconds": 1800.0339244489733,
+    "cpu_user_seconds": 1798.533034,
+    "cpu_system_seconds": 0.9838669999999999,
+    "maxrss_kib": 893304
+  },
+  "evaluation_manifest_sha256": "880d696abb2ac2397658beed9bff3f9829e785dd7fe0c609c91593d682f16c47",
+  "metric_plan_sha256": "ead8f38d8ed0017fc5b51cb15c2790e48eae8e9d35b628e90a4f1e92c58877b8",
+  "protected_claim_authority": false
+}
