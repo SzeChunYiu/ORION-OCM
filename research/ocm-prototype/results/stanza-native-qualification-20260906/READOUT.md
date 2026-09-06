@@ -97,7 +97,7 @@ installation overlapped. These are not serial whole-lifetime totals. Its environ
 occupied 1,011,729,238 bytes and cache 236,923,703 bytes at the recorded inventory.
 Imported training/search, development effort, full energy/network transfers and
 whole-tree CPU remain unknown. This single-process pass is not an efficiency comparison
-with the five-restart mixed-domain G1 stream.
+with the mixed-domain G1 stream of five fresh process chunks (first start plus four resumes).
 
 ## Controls, replay and next use
 
