@@ -8,9 +8,11 @@ bridge admits one ``representation`` atom whose identity is bound to:
 * the explicit meaning-node -> KSO-object correspondences;
 * the declared scope.
 
-The bridge is an implementation experiment for ORION-OCM #93. It grants no new factual authority:
-a representation atom carries only the warrant/authority supplied by the caller, and admission still
-passes through ``OCMRuntime.admit_object`` and the normal KSO event/replay path.
+The bridge is an implementation experiment for ORION-OCM #93. It grants no new factual authority.
+Admission still passes through ``OCMRuntime.admit_object`` and the normal KSO event/replay path.
+The representation's effective warrant is the correspondence warrant conjoined with every bound
+field object's warrant, so loss of either linguistic/correspondence evidence or a referenced field
+identity reopens the representation locally.
 
 Meaning structure alone can have automorphisms. Canonicalising the meaning and then attaching
 bindings can therefore make persistent identity depend on temporary parser node ids.
@@ -28,8 +30,8 @@ from typing import Any, Mapping
 from ocm.kso.admission import AdmissionReceipt, CertificateKind
 from ocm.kso.ids import canonical_json, object_id
 from ocm.kso.space import Atom, Hyperedge, TypedRejection
-from ocm.kso.types import Authority, Scope
-from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile
+from ocm.kso.types import Authority, Scope, intersect_scopes
+from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile, meet_all_profiles
 from ocm.runtime.ocm_runtime import OCMRuntime
 
 from .meaning import MAX_EXACT_CANONICAL, MeaningGraph, canonical
@@ -184,6 +186,26 @@ def _binding_meta(bound: CanonicalBoundMeaning) -> tuple[tuple[str, Any], ...]:
     )
 
 
+def _effective_epistemic_state(
+    runtime: OCMRuntime,
+    tails: tuple[str, ...],
+    correspondence_warrant: WarrantProfile,
+    requested_scope: Scope,
+) -> tuple[WarrantProfile, Scope]:
+    atoms = [runtime.state.ks.atom(atom_id) for atom_id in tails]
+    effective_warrant = meet_all_profiles([correspondence_warrant, *(a.warrant for a in atoms)])
+    effective_scope = intersect_scopes([requested_scope, *(a.scope for a in atoms)])
+    if effective_warrant.is_zero:
+        raise TypedRejection("ZERO_EFFECTIVE_BINDING_WARRANT")
+    if effective_scope.is_empty:
+        raise TypedRejection("SCOPE_EMPTY", "meaning-field binding incompatible with bound field objects")
+    all_evidence = effective_warrant.evidence
+    missing_evidence = sorted(str(e) for e in all_evidence if e not in runtime.state.evidence.records)
+    if missing_evidence:
+        raise TypedRejection("UNKNOWN_EVIDENCE_REFERENCE", ",".join(missing_evidence))
+    return effective_warrant, effective_scope
+
+
 def bind_meaning(
     runtime: OCMRuntime,
     meaning: MeaningGraph,
@@ -196,11 +218,15 @@ def bind_meaning(
 ) -> MeaningFieldBindingReceipt:
     """Admit a bounded meaning/field correspondence through the normal runtime boundary.
 
-    The representation identity excludes warrant and authority so epistemically identical bindings
-    do not become different semantic objects merely because they were observed twice. The current
-    runtime has no event for monotonically extending an existing atom's alternative support, so a
-    repeat with different warrant/authority is rejected fail-closed rather than silently dropping
-    support. Exact repeats are idempotent at this bridge layer.
+    ``warrant`` is the correspondence/utterance warrant. The persisted representation atom carries
+    ``warrant ⊗ warrants(bound field objects)`` so cross-view revision is exact. The transport edge
+    retains the correspondence warrant itself; the atom's scope is the requested scope intersected
+    with all bound object scopes.
+
+    Semantic identity excludes warrant and authority so repeated evidence does not create another
+    semantic object. The current runtime has no event for monotonically extending an existing atom's
+    alternative support, so a repeat with different epistemic state is rejected fail-closed rather
+    than silently dropping support. Exact repeats are idempotent at this bridge layer.
     """
     if not bindings:
         raise TypedRejection("NO_FIELD_BINDING", "transient ungrounded meanings stay outside persistent KSO")
@@ -209,23 +235,21 @@ def bind_meaning(
     missing_refs = sorted(set(bindings.values()) - set(runtime.state.ks.ids))
     if missing_refs:
         raise TypedRejection("UNKNOWN_FIELD_ATOM", ",".join(missing_refs))
-    missing_evidence = sorted(str(e) for e in warrant.evidence if e not in runtime.state.evidence.records)
-    if missing_evidence:
-        raise TypedRejection("UNKNOWN_EVIDENCE_REFERENCE", ",".join(missing_evidence))
 
     authority = authority or Authority()
-    scope = scope or Scope.universal()
-    if scope.is_empty:
+    requested_scope = scope or Scope.universal()
+    if requested_scope.is_empty:
         raise TypedRejection("SCOPE_EMPTY", "meaning-field binding")
 
     bound = canonical_bound_meaning(meaning, bindings)
+    tails = bound.bound_field_atoms
+    effective_warrant, effective_scope = _effective_epistemic_state(runtime, tails, warrant, requested_scope)
     identity_payload = {
         "schema": BINDING_SCHEMA,
         "joint_digest": bound.joint_digest,
-        "scope": scope.as_dict(),
+        "scope": effective_scope.as_dict(),
     }
     representation_id = object_id("meaning-binding", identity_payload)
-    tails = bound.bound_field_atoms
     edge_id = object_id(
         "meaning-binding-edge",
         {"representation_id": representation_id, "tails": tails, "relation": "REPRESENTATION_TRANSPORT"},
@@ -239,9 +263,9 @@ def bind_meaning(
             existing.atom_type != "representation"
             or existing.content_ref != content_ref
             or existing.meta != meta
-            or existing.warrant != warrant
+            or existing.warrant != effective_warrant
             or existing.authority != authority
-            or existing.scope != scope
+            or existing.scope != effective_scope
         ):
             raise TypedRejection(
                 "BINDING_IDENTITY_STATE_CONFLICT",
@@ -261,9 +285,9 @@ def bind_meaning(
     atom = Atom(
         representation_id,
         "representation",
-        warrant=warrant,
+        warrant=effective_warrant,
         authority=authority,
-        scope=scope,
+        scope=effective_scope,
         content_ref=content_ref,
         meta=meta,
     )
@@ -274,7 +298,7 @@ def bind_meaning(
         "REPRESENTATION_TRANSPORT",
         warrant=warrant,
         authority=authority,
-        scope=scope,
+        scope=requested_scope,
     )
     admission = runtime.admit_object(atom, (edge,), certificate)
     return MeaningFieldBindingReceipt(
@@ -290,7 +314,7 @@ def bind_meaning(
 
 
 def load_meaning_binding(runtime: OCMRuntime, representation_id: str) -> CanonicalBoundMeaning:
-    """Read and self-check a persisted bridge atom after replay/restart."""
+    """Read and self-check a persisted bridge atom after replay/restart, including its warrant law."""
     if representation_id not in runtime.state.ks.ids:
         raise TypedRejection("UNKNOWN_FIELD_BINDING", representation_id)
     atom = runtime.state.ks.atom(representation_id)
@@ -307,10 +331,27 @@ def load_meaning_binding(runtime: OCMRuntime, representation_id: str) -> Canonic
         raise CannotCheck(f"malformed persisted meaning binding {representation_id}: {exc}") from exc
     if canonical(graph)[1] != meaning_digest:
         raise CannotCheck(f"persisted meaning digest mismatch for {representation_id}")
-    # Recompute the joint certificate using the canonical node ids stored in the graph.
     checked = canonical_bound_meaning(graph, dict(bindings))
     if checked.joint_digest != joint_digest:
         raise CannotCheck(f"persisted joint binding digest mismatch for {representation_id}")
+
+    tails = checked.bound_field_atoms
+    edge_id = object_id(
+        "meaning-binding-edge",
+        {"representation_id": representation_id, "tails": tails, "relation": "REPRESENTATION_TRANSPORT"},
+    )
+    edge = runtime.state.ks.edge_map().get(edge_id)
+    if edge is None or edge.tails != tails or edge.heads != (representation_id,) or edge.relation_type != "REPRESENTATION_TRANSPORT":
+        raise CannotCheck(f"missing or mismatched representation-transport edge for {representation_id}")
+    try:
+        expected_warrant = meet_all_profiles([edge.warrant, *(runtime.state.ks.atom(t).warrant for t in tails)])
+        expected_scope = intersect_scopes([edge.scope, *(runtime.state.ks.atom(t).scope for t in tails)])
+    except TypedRejection as exc:
+        raise CannotCheck(f"bound field identity missing for {representation_id}: {exc}") from exc
+    if atom.warrant != expected_warrant:
+        raise CannotCheck(f"persisted binding warrant law mismatch for {representation_id}")
+    if atom.scope != expected_scope:
+        raise CannotCheck(f"persisted binding scope law mismatch for {representation_id}")
     return checked
 
 
