@@ -1,0 +1,232 @@
+{
+  "schema": "pr90.mutable-registry.control.v1",
+  "terminal": "COMPATIBILITY_REGRESSION_PROVED",
+  "utc": "2026-09-06T09:28:02.285058+00:00",
+  "python": "3.13.12 (main, Feb  3 2026, 22:52:12) [Clang 21.1.4 ]",
+  "executable": "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+  "source_bindings": {
+    "commits": {
+      "baseline": "53d404f56140386f43d591cc8697cdf6be7669a1",
+      "candidate": "57392b3f5d564de11743ac8b11dc27295b7c3aa2"
+    },
+    "files": {
+      "baseline/space.py": {
+        "sha256": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd",
+        "bytes": 16365
+      },
+      "baseline/ids.py": {
+        "sha256": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
+        "bytes": 2692
+      },
+      "baseline/types.py": {
+        "sha256": "d92e8b7a733390203e434f2f655d2a8a5c1d320e0c77d37f52855b7a7bf00a92",
+        "bytes": 9040
+      },
+      "baseline/warrant.py": {
+        "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406",
+        "bytes": 11769
+      },
+      "baseline/resources.py": {
+        "sha256": "6febb49b0c6b43e366c8e7ef0f0181d5c541e7d8f69aaef29efe2b9214c2ae7a",
+        "bytes": 2805
+      },
+      "candidate/space.py": {
+        "sha256": "07eb5327f05850e11472bbe4d1c1ce9599b8c55413f1dc727246e1fa9ae780b5",
+        "bytes": 18999
+      },
+      "candidate/ids.py": {
+        "sha256": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
+        "bytes": 2692
+      },
+      "candidate/types.py": {
+        "sha256": "d92e8b7a733390203e434f2f655d2a8a5c1d320e0c77d37f52855b7a7bf00a92",
+        "bytes": 9040
+      },
+      "candidate/warrant.py": {
+        "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406",
+        "bytes": 11769
+      },
+      "candidate/resources.py": {
+        "sha256": "6febb49b0c6b43e366c8e7ef0f0181d5c541e7d8f69aaef29efe2b9214c2ae7a",
+        "bytes": 2805
+      }
+    }
+  },
+  "control_sha256": "4e129994650866890013b851279e8eb8ec82cb6e637afb68945ff0cca9f765c1",
+  "rows": {
+    "baseline": [
+      {
+        "case": "clean_atoms",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "clean_edges",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "additive_registry_extension",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "remove_atom_then_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_ATOM_TYPE: claim"
+      },
+      {
+        "case": "remove_atom_then_no_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_ATOM_TYPE: claim"
+      },
+      {
+        "case": "remove_relation_then_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "remove_relation_then_no_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "replace_relation_dict_then_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "replace_atom_set_then_add",
+        "status": "REJECTED",
+        "error_type": "TypeError_",
+        "error": "UNREGISTERED_ATOM_TYPE: claim"
+      }
+    ],
+    "candidate": [
+      {
+        "case": "clean_atoms",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "clean_edges",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "additive_registry_extension",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "VALID"
+      },
+      {
+        "case": "remove_atom_then_add",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_ATOM_TYPE: claim"
+      },
+      {
+        "case": "remove_atom_then_no_add",
+        "status": "RETURNED",
+        "same_instance": true,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_ATOM_TYPE: claim"
+      },
+      {
+        "case": "remove_relation_then_add",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "remove_relation_then_no_add",
+        "status": "RETURNED",
+        "same_instance": true,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "replace_relation_dict_then_add",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_RELATION_TYPE: SUPPORT"
+      },
+      {
+        "case": "replace_atom_set_then_add",
+        "status": "RETURNED",
+        "same_instance": false,
+        "returned_space_validation": "INVALID",
+        "validation_error_type": "TypeError_",
+        "validation_error": "UNREGISTERED_ATOM_TYPE: claim"
+      }
+    ]
+  },
+  "regression_cases": [
+    "remove_atom_then_add",
+    "remove_atom_then_no_add",
+    "remove_relation_then_add",
+    "remove_relation_then_no_add",
+    "replace_relation_dict_then_add",
+    "replace_atom_set_then_add"
+  ],
+  "cache_accounting": {
+    "documented_scope": "Storage of currently materialized structural indexes, separate from logical content.\n\n``index_size`` counts tuple references and dict entries (including adjacency entries).\n``memory_bytes`` counts the shallow containers on this Python host; existing atom,\nedge and string objects are shared and are not charged again. This is a storage\nobservation, not an admission work count or a process-RSS estimate.\n",
+    "before": {
+      "object_count": 0,
+      "relation_count": 0,
+      "warrant_size": 0,
+      "index_size": 11,
+      "navigation_steps": 0,
+      "navigation_work": 0,
+      "composition_work": 0,
+      "memory_bytes": 936,
+      "io_calls": 0,
+      "verification_calls": 0,
+      "update_work": 0
+    },
+    "after": {
+      "object_count": 0,
+      "relation_count": 0,
+      "warrant_size": 0,
+      "index_size": 11,
+      "navigation_steps": 0,
+      "navigation_work": 0,
+      "composition_work": 0,
+      "memory_bytes": 936,
+      "io_calls": 0,
+      "verification_calls": 0,
+      "update_work": 0
+    },
+    "new_cached_keys": [
+      "_evidence_universe_value",
+      "atom_view",
+      "edge_view"
+    ],
+    "new_shallow_bytes": {
+      "_evidence_universe_value": 216,
+      "atom_view": 40,
+      "edge_view": 40
+    },
+    "evidence_ids": 3,
+    "total_process_memory_claim": false
+  },
+  "scope": "isolated exact-source API control; no runtime, model, solver, broad suite, or timing comparison"
+}
