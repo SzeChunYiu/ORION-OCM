@@ -181,7 +181,7 @@ def main(argv=None) -> int:
     gates = {"identity_chain_broken": sum(1 for r in runs["ocm"] if not r["chain_continuous"]), "protected_exposure": sum(int(r["information"].get("protected_exposure", 0) or 0) for rs in runs.values() for r in rs), "external_io": sum(int(r["resources"].get("external_io", 0) or 0) for rs in runs.values() for r in rs),
              "live_on_revoked_after_F": sum(1 for r in runs["ocm"] if r["phases"]["F"].get("work", {}).get("ran_dead_skill")), "missing_phase_outcomes": sum(1 for rs in runs.values() for r in rs if len(r["phases"]) != 8), "stream_leaks": sum(1 for k in range(N_LIFETIMES) if not SR.leak_check(build(k))["ok"])}
     if v5:
-        gates["adoption_predecessors_unbound"] = sum(1 for r in runs["ocm"] if r["information"].get("adoption_predecessors_bound") is False)
+        gates["adoption_predecessors_unbound"] = sum(1 for r in runs["ocm"] if r["phases"]["G"].get("predecessors_bound") is False)
         gates["frozen_manifest_mismatch"] = 0 if frozen_manifest_ok else 1
     gates["hits"] = sum(gates.values())
     if v4:
