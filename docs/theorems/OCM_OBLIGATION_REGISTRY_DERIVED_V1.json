@@ -1,0 +1,1318 @@
+{
+ "registry": "OCM_OBLIGATION_REGISTRY_DERIVED_V1",
+ "derived_from": "H/I-items of KSO_FIELD_FRONTIER_THEOREMS_BATCH8..11_V1.md (consequences sections), parsed by kso_field_map_v1_exact.py",
+ "rule": "ids continue after the highest existing KS-T id of the OCM registries in existing_registry_snapshot; existing rows keep their id; status is OPEN unless the OCM registry already records PROVED with a checker; no novelty claim",
+ "status_vocabulary": [
+  "PROVED",
+  "OPEN"
+ ],
+ "highest_existing_kst": "KS-T121",
+ "obligations": [
+  {
+   "id": "KS-T118",
+   "existing_row": true,
+   "gap": "batch 8 H1 (H1)",
+   "source_batch": 8,
+   "source_item": "H1",
+   "source_theorem": "H1",
+   "frontier_row": "FDX-01",
+   "statement": "the closure interface has no runtime object; the commit gate reads scope without an epoch. Obligation: pass the evaluation epoch, and type the commitment receipt MONITORED_CURRENT / CONDITIONAL_ON_ASSUMPTIONS (assumption ids listed) / NO_CLOSURE, with the `D`-completeness premise named (the `is_dependency_closed` result is that premise for the cited set).",
+   "runtime_location": [
+    "src/ocm/kso/revocation.py::impact_cone",
+    "src/ocm/kso/types.py::Scope.covers",
+    "src/ocm/runtime/solve.py::commitment_gate",
+    "op.scope.covers(task.context)"
+   ],
+   "status": "PROVED",
+   "checker": "tests/m11/test_batch8_obligations.py",
+   "mutant": null,
+   "parent": "PARENT_OWNED (Pnueli 1985; Alur–Henzinger 1999,\nreactive modules)"
+  },
+  {
+   "id": "KS-T119",
+   "existing_row": true,
+   "gap": "batch 8 H2 (H2)",
+   "source_batch": 8,
+   "source_item": "H2",
+   "source_theorem": "H2",
+   "frontier_row": "FDX-02",
+   "statement": "reason-typed abstention; no envelope, risk or budget coordinate at the gate. Obligation: abstentions carry a reason from a registered set; if a viability claim (\"will close by T\") is ever made, the envelope and budget/deadline become state coordinates and the closed form (i) is the check; a promise to *commit* by T is unlicensed while any information action is pending (ii).",
+   "runtime_location": [
+    "src/ocm/runtime/solve.py::Decision",
+    "Decision.UNKNOWN"
+   ],
+   "status": "OPEN",
+   "checker": "— (obligation: extend solve.decide / the commitment gate with typed risk/resource/envelope coordinates; report UNKNOWN reasons by predicate)",
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (finite-horizon safety/reachability game)"
+  },
+  {
+   "id": "KS-T120",
+   "existing_row": true,
+   "gap": "batch 8 H3 (H3)",
+   "source_batch": 8,
+   "source_item": "H3",
+   "source_theorem": "H3",
+   "frontier_row": "FDX-03",
+   "statement": "the information-budget receipt should charge the join, the assumption ids and the verdict type.",
+   "runtime_location": [
+    "src/ocm/store/evidence.py::Channel",
+    "src/ocm/kso/admission.py::WARRANTING_KINDS",
+    "src/ocm/runtime/state.py::EventStore.replay"
+   ],
+   "status": "PROVED",
+   "checker": "tests/m12 (info fields present)",
+   "mutant": null,
+   "parent": "PARENT_OWNED (Buhrman–de Wolf\n2002)"
+  },
+  {
+   "id": "KS-T121",
+   "existing_row": true,
+   "gap": "batch 8 H4 (H4)",
+   "source_batch": 8,
+   "source_item": "H4",
+   "source_theorem": "H4",
+   "frontier_row": "FDX-05",
+   "statement": "the ledger already realises the classes; receipts should name them.",
+   "runtime_location": [
+    "src/ocm/runtime/state.py::EventStore",
+    "RuntimeState.apply",
+    "src/ocm/selfmodel/govern.py::AdoptionLedger.rollback",
+    "src/ocm/selfmodel/replay.py",
+    "src/ocm/kso/admission.py::AdmissionReceipt.quarantined"
+   ],
+   "status": "PROVED",
+   "checker": "tests/m11/test_batch6_obligations.py (rollback), tests/m11/test_selfmodel.py",
+   "mutant": null,
+   "parent": "PARENT_OWNED (Gray–Reuter 1993; ARIES, Mohan et al.\n1992)"
+  },
+  {
+   "id": "KS-T122",
+   "existing_row": false,
+   "gap": "batch 9 I1 (I1)",
+   "source_batch": 9,
+   "source_item": "I1",
+   "source_theorem": "I1",
+   "frontier_row": "FDX-08",
+   "statement": "guarantees need an anytime-valid revocation monitor; stochastic claims need a model id.",
+   "runtime_location": [
+    "src/ocm/kso/warrant.py::WarrantProfile.liveness",
+    "src/ocm/operators/registry.py",
+    "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md",
+    "src/ocm/selfmodel/govern.py::monitor",
+    "src/ocm/runtime/ocm_runtime.py::admit_evidence",
+    "src/ocm/runtime/state.py::RuntimeState.apply",
+    "EventStore.replay",
+    "src/ocm/selfmodel/model.py::FailureRecord.frequency",
+    "diagnose.py"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Markov, Ville/SPRT, Bayes)"
+  },
+  {
+   "id": "KS-T123",
+   "existing_row": false,
+   "gap": "batch 9 I2 (I2)",
+   "source_batch": 9,
+   "source_item": "I2",
+   "source_theorem": "I2",
+   "frontier_row": "FDX-11",
+   "statement": "the reopening report can carry the boundary; the certificate should carry E-invariance.",
+   "runtime_location": [
+    "src/ocm/kso/revocation.py::reopening_report",
+    "WarrantProfile.lower",
+    "src/ocm/kso/nogoods.py:: NogoodSet.add",
+    "src/ocm/kso/types.py::Authority.meet",
+    "runtime/solve.py:: commitment_gate",
+    "src/ocm/selfmodel/diagnose.py::ObstructionCertificate.valid",
+    "src/ocm/kso/jump.py::_STRONG_TRIGGERS"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (monotone sensitivity, ATMS, Dung 1995, E3/G1)"
+  },
+  {
+   "id": "KS-T124",
+   "existing_row": false,
+   "gap": "batch 9 I3 (I3)",
+   "source_batch": 9,
+   "source_item": "I3",
+   "source_theorem": "I3",
+   "frontier_row": "FDX-13",
+   "statement": "the calibration receipt needs a distribution tag; the shadow is the counterfactual arm.",
+   "runtime_location": [
+    "src/ocm/selfmodel/govern.py::shadow_evaluate",
+    "src/ocm/selfmodel/proposal.py::Prediction",
+    "proposal.py::SelfChangeProposal.discriminator"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (performative prediction, adaptive data analysis, E1/E4/E5)"
+  },
+  {
+   "id": "KS-T125",
+   "existing_row": false,
+   "gap": "batch 9 I4 (I4)",
+   "source_batch": 9,
+   "source_item": "I4",
+   "source_theorem": "I4",
+   "frontier_row": "FDX-15",
+   "statement": "V4 satisfies clauses 1, 2, 3, 5 and declares clause 4; V5 should ablate.",
+   "runtime_location": [
+    "docs/M12_V4_PAIRED_LIFETIMES_REPORT.md",
+    "src/ocm/lifetime/reference.py::INFORMATION_BINDING",
+    "m12_paired_eval.py",
+    "src/ocm/lifetime/machine.py::WholeSystemParent",
+    "PersistentOCM.ablations = frozenset()",
+    "docs/M12_V4R_REEVALUATION_NOTE.md",
+    "src/ocm/lifetime/phases.py::phase_E(matched_cells=True)",
+    "m12_paired_eval.py::sign_test_one_sided",
+    "ST.tost_equivalence(pair, 0.05)",
+    "8/8"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (parent+Δ ≡ OCM)"
+  },
+  {
+   "id": "KS-T126",
+   "existing_row": false,
+   "gap": "batch 10 H1 (J1 vi)",
+   "source_batch": 10,
+   "source_item": "H1",
+   "source_theorem": "J1",
+   "frontier_row": "FDX-06",
+   "statement": "imports need a per-principal message assumption. Obligation: every IMPORTED record carries a message assumption bound to `(principal, message)` in its warrant, and principal revocation is capability-level revocation over the principal's assumptions (batch-6 F1), so the cone of (vi) is what `kso/revocation.py::reopening_report` (line 188) reports.",
+   "runtime_location": [
+    "src/ocm/store/evidence.py::EvidenceRegistry.register",
+    "src/ocm/knowledge/world.py::assert_fact",
+    "src/ocm/dialogue/workspace.py",
+    "kso/revocation.py::reopening_report"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (state-based CRDT convergence, R5 freshness impossibility, Byzantine agreement for authority objects)"
+  },
+  {
+   "id": "KS-T127",
+   "existing_row": false,
+   "gap": "batch 10 H2 (J1 ii–iv)",
+   "source_batch": 10,
+   "source_item": "H2",
+   "source_theorem": "J1",
+   "frontier_row": "FDX-06",
+   "statement": "revocation state must merge as an event set, and verdicts that depend on it are \"as of the view\". Obligation: exchange revoke/reinstate as events with causal predecessors and merge revoke-wins; type any verdict computed over imported revocation state CONDITIONAL_ON_VIEW (the batch-8 H1 \"as of\" reading), never current (iv).",
+   "runtime_location": [
+    "EvidenceRegistry.revoked",
+    "store/event.py"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (state-based CRDT convergence, R5 freshness impossibility, Byzantine agreement for authority objects)"
+  },
+  {
+   "id": "KS-T128",
+   "existing_row": false,
+   "gap": "batch 10 H3 (J1 v)",
+   "source_batch": 10,
+   "source_item": "H3",
+   "source_theorem": "J1",
+   "frontier_row": "FDX-06",
+   "statement": "trust caps as authority meets at import; no join across paths. Obligation: `A_import = drop_commit(A_sender ∧ T(principal))`, and a claim with alternatives from several imports uses the meet of their authorities, never the coordinate-wise max (T7's `⋁` form is an upper bound, not a licence).",
+   "runtime_location": [
+    "src/ocm/kso/types.py::internal_authority",
+    "knowledge/world.py::authority"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": [
+    "mutant_repetition_raises_authority"
+   ],
+   "parent": "PARENT_SUFFICIENT (state-based CRDT convergence, R5 freshness impossibility, Byzantine agreement for authority objects)"
+  },
+  {
+   "id": "KS-T129",
+   "existing_row": false,
+   "gap": "batch 10 H4 (J2 i, v–vii)",
+   "source_batch": 10,
+   "source_item": "H4",
+   "source_theorem": "J2",
+   "frontier_row": "FDX-07",
+   "statement": "the gate's authority check should be per committing alternative and the receipt should name it.",
+   "runtime_location": [
+    "src/ocm/runtime/solve.py::commitment_gate",
+    "task.required_authority <= op.authority.meet(commit_authority)",
+    "kso/admission.py::compose",
+    "dialogue/gate.py::required_marker"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (cheap talk, disclosure, persuasion, inspection games, Sybil, IP soundness)"
+  },
+  {
+   "id": "KS-T130",
+   "existing_row": false,
+   "gap": "batch 10 H5 (J2 viii)",
+   "source_batch": 10,
+   "source_item": "H5",
+   "source_theorem": "J2",
+   "frontier_row": "FDX-07",
+   "statement": "independence over principals, not ids. Obligation: disjointness over registered principals (`source`), else `INDEPENDENCE_NOT_ESTABLISHED`; `mutant_majority_truth` (line 217) stays the runtime's own hostile for the truth half.",
+   "runtime_location": [
+    "src/ocm/store/evidence.py::independent_support_count"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": [
+    "mutant_majority_truth"
+   ],
+   "parent": "PARENT_SUFFICIENT (cheap talk, disclosure, persuasion, inspection games, Sybil, IP soundness)"
+  },
+  {
+   "id": "KS-T131",
+   "existing_row": false,
+   "gap": "batch 10 H6 (J2 iv)",
+   "source_batch": 10,
+   "source_item": "H6",
+   "source_theorem": "J2",
+   "frontier_row": "FDX-07",
+   "statement": "contradiction registrations carry provenance. Obligation: a nogood carries the registrant's message assumption and dies with it.",
+   "runtime_location": [
+    "EvidenceRegistry.register(contradicts=…)"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (cheap talk, disclosure, persuasion, inspection games, Sybil, IP soundness)"
+  },
+  {
+   "id": "KS-T132",
+   "existing_row": false,
+   "gap": "batch 10 H7 (J3 i–iii)",
+   "source_batch": 10,
+   "source_item": "H7",
+   "source_theorem": "J3",
+   "frontier_row": "FDX-14",
+   "statement": "information receipts charge alphabet bits; class-restricted memories refuse; repair names fresh evidence.",
+   "runtime_location": [
+    "src/ocm/kso/admission.py::admit",
+    "src/ocm/runtime/state.py::EventStore.replay"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (query complexity, teaching/specifying sets, fooling sets, cell-probe pigeonhole, erasure counting)"
+  },
+  {
+   "id": "KS-T133",
+   "existing_row": false,
+   "gap": "batch 10 H8 (J3 iv)",
+   "source_batch": 10,
+   "source_item": "H8",
+   "source_theorem": "J3",
+   "frontier_row": "FDX-14",
+   "statement": "cross-space identity by digest is a computational claim.",
+   "runtime_location": [
+    "src/ocm/kso/space.py::KnowledgeSpace.digest",
+    "store/canonical.py::canonical_digest"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (query complexity, teaching/specifying sets, fooling sets, cell-probe pigeonhole, erasure counting)"
+  },
+  {
+   "id": "KS-T134",
+   "existing_row": false,
+   "gap": "batch 11 H1 (K1 ii–iv)",
+   "source_batch": 11,
+   "source_item": "H1",
+   "source_theorem": "K1",
+   "frontier_row": "FDX-09",
+   "statement": "the category-level slot is the ambiguity; record it as such. Obligation: the identifiability receipt of an induced inventory records the *class* it identifies (category-level, arity bound) and the consequence `UNIQUE_PARSE_UNREACHABLE_FROM_ POSITIVE_DATA` for strings whose category shape has ≥ 2 attested decompositions; a unique reading needs a registered negative / membership channel (`ocm.language.acquisition`, batch-7 G9's receipt) or a finer class (bilexical slots, OPEN).",
+   "runtime_location": [
+    "src/ocm/learning/language/ud_grammar.py::constructions_from_grammar",
+    "ocm.language.acquisition"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Gold finite classes, Angluin tell-tales, coupon collector, Catalan counting)"
+  },
+  {
+   "id": "KS-T135",
+   "existing_row": false,
+   "gap": "batch 11 H2 (K1 v–vii)",
+   "source_batch": 11,
+   "source_item": "H2",
+   "source_theorem": "K1",
+   "frontier_row": "FDX-09",
+   "statement": "`Grammar.learned` is an identification receipt only for bounded arity. Obligation: the receipt carries the arity bound and the coverage state (rules attested once — 14 967 of 19 642 on UD-EWT — mark the inventory `NOT_CONVERGED`, a Good–Turing reading, not a certificate); a family with a single attested order at count 1 is LEARNED-at-`n = 1`, never a construction with a lifecycle warrant past its one demonstration (D6).",
+   "runtime_location": [
+    "ud_grammar.py::Grammar.learned"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Gold finite classes, Angluin tell-tales, coupon collector, Catalan counting)"
+  },
+  {
+   "id": "KS-T136",
+   "existing_row": false,
+   "gap": "batch 11 H3 (K1 viii)",
+   "source_batch": 11,
+   "source_item": "H3",
+   "source_theorem": "K1",
+   "frontier_row": "FDX-09",
+   "statement": "the verdict is the count; a ranking orders the unpack. Obligation: keep it; any clarification policy that scores derivations (`max_unpack`, line 86) orders the unpacked meanings and writes the score outside the lattice (batch-4 D3); `AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED` (7 of 32 on dev) is a coverage measure of the unpack order, not evidence for a reading.",
+   "runtime_location": [
+    "src/ocm/language/chart.py"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": [
+    "mutant_first_derivation_only"
+   ],
+   "parent": "PARENT_OWNED (Gold finite classes, Angluin tell-tales, coupon collector, Catalan counting)"
+  },
+  {
+   "id": "KS-T137",
+   "existing_row": false,
+   "gap": "batch 11 H4 (K1 ix)",
+   "source_batch": 11,
+   "source_item": "H4",
+   "source_theorem": "K1",
+   "frontier_row": "FDX-09",
+   "statement": "pack by span and type, not by sub-derivation identity. Obligation: key completed nodes by `(start, end, produces, lexical readings of the span)`, keep exact counts by summation, build one representative meaning per node lazily; the count stays exact and the item bound becomes polynomial in the token count.",
+   "runtime_location": [
+    "chart.py::_lex_key"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Gold finite classes, Angluin tell-tales, coupon collector, Catalan counting)"
+  },
+  {
+   "id": "KS-T138",
+   "existing_row": false,
+   "gap": "batch 11 H5 (K2 ii, v)",
+   "source_batch": 11,
+   "source_item": "H5",
+   "source_theorem": "K2",
+   "frontier_row": "FDX-10",
+   "statement": "a representation introduction carries a search-and-evaluation receipt.",
+   "runtime_location": [
+    "ud_grammar.py",
+    "src/ocm/kso/admission.py:: admit"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Solomonoff/Levin, MDL, DreamCoder-class, Kolmogorov invariance)"
+  },
+  {
+   "id": "KS-T139",
+   "existing_row": false,
+   "gap": "batch 11 H6 (K2 iv, vi)",
+   "source_batch": 11,
+   "source_item": "H6",
+   "source_theorem": "K2",
+   "frontier_row": "FDX-10",
+   "statement": "adoption by compression is a proposal, never a licence.",
+   "runtime_location": [
+    "selfmodel/govern",
+    "kso/jump.assess_jump"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_OWNED (Solomonoff/Levin, MDL, DreamCoder-class, Kolmogorov invariance)"
+  },
+  {
+   "id": "KS-T140",
+   "existing_row": false,
+   "gap": "batch 11 H7 (K3 i–iii)",
+   "source_batch": 11,
+   "source_item": "H7",
+   "source_theorem": "K3",
+   "frontier_row": "FDX-12",
+   "statement": "the realiser's check certifies the final reading; a streaming channel needs the prefix criterion. Obligation: declare the channel in the realisation receipt (`ATOMIC` — the surface is delivered whole — or `STREAMING`); under `STREAMING` run the K3 exact criterion per prefix against the inventory's completion automaton (finite-state today: five templates), returning SAFE / UNSAFE / CANNOT_CHECK with the thresholds `(ℓ*, d)` as the completeness certificate; never approximate a context-free inventory by a DFA (G3) and never read a bounded pass as SAFE.",
+   "runtime_location": [
+    "src/ocm/language/realize.py::realize",
+    "Realization.checked"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (Alpern–Schneider, F6, G3, Bar-Hillel)"
+  },
+  {
+   "id": "KS-T141",
+   "existing_row": false,
+   "gap": "batch 11 H8 (K3 iv)",
+   "source_batch": 11,
+   "source_item": "H8",
+   "source_theorem": "K3",
+   "frontier_row": "FDX-12",
+   "statement": "revocation during emission refuses the next token and keeps the history. Obligation: the streaming path re-checks gate (3) at every token, refuses on a DEAD committed claim with the claim named, and appends — never subtracts — the emitted history (F6.2); a correction is a new typed act.",
+   "runtime_location": [
+    "realize.py",
+    "src/ocm/runtime/solve.py::commitment_gate"
+   ],
+   "status": "OPEN",
+   "checker": null,
+   "mutant": null,
+   "parent": "PARENT_SUFFICIENT (Alpern–Schneider, F6, G3, Bar-Hillel)"
+  }
+ ],
+ "existing_registry_snapshot": {
+  "KSO_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "fb0dec5c226b2a3330f617db896186d1e4f0c6230c815d7b9b3f30e54e9580c8",
+   "registry": "KSO_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T00": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_well_formedness",
+     "statement": "Finite object/relation space is well-formed: unique ids, incident atoms exist, registered types, non-negative weights and resources."
+    },
+    "KS-T01": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.warrant:check_semiring",
+     "statement": "Antichain profiles with ⊕ (alternative) and ⊗ (conjunctive) form a commutative idempotent semiring with 0 = ∅, 1 = {∅}."
+    },
+    "KS-T21": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.warrant:check_three_valued_reduction",
+     "statement": "Three-valued liveness on warrant intervals (lower = exhibited, upper = possible) is an exact homomorphism from (⊕, ⊗) to Kleene strong (∨, ∧); certified profiles reduce to two-valued ℓ_R; refinement is monotone (UNKNOWN → LIVE|DEAD only)."
+    },
+    "KS-T02": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_firing",
+     "statement": "Revocation of any required tail or of the edge disables conjunctive firing for every activation vector; with three-valued liveness the verdict is ENABLED/DISABLED/UNKNOWN."
+    },
+    "KS-T03": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_navigation_reference_equivalence",
+     "statement": "The warranted navigation matrix is substochastic."
+    },
+    "KS-T04": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_prune_equivalence",
+     "statement": "Gate-based exact-share revocation equals pruning with the original pre-revocation denominators (matrix level)."
+    },
+    "KS-T04b": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_retraction_propagation",
+     "statement": "Exact-share retraction propagates to the fixed point: (i) revoked atoms have zero activation, (ii) atoms outside Reach(dead) are exactly unchanged, (iii) activation is monotone non-increasing, (iv) reinstatement restores the pre-revocation vector exactly."
+    },
+    "KS-T04c": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_prune_equivalence",
+     "statement": "Prune–solve equivalence at the fixed point and at the reacting subgraph: Solve_warranted(K, R, q) = Solve_warranted(Prune_R(K), ∅, q) under identical normalisation."
+    },
+    "KS-T05": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_restart_contraction",
+     "statement": "Restart navigation a ← α s + (1−α) Pᵀ a is an ℓ1 contraction with a unique fixed point; iteration converges geometrically."
+    },
+    "KS-T06": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_hub_two_directions",
+     "statement": "Reaction surprise is zero for an atom whose query activation equals its background activation; a universal hub has zero surprise under a query-independent seed."
+    },
+    "KS-T06b": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_hub_two_directions",
+     "statement": "Two-direction hub theorem: a query touching hub and specific atom ranks the specific atom first by surprise while the hub is first by popularity; a hub-only query ranks the hub first by both."
+    },
+    "KS-T07": {
+     "status": "PARENT_OWNED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_quotient",
+     "statement": "Quotient navigation commutes with pushforward iff the partition is Kemeny–Snell lumpable."
+    },
+    "KS-T07b": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_quotient",
+     "statement": "A representation move is admissible only under navigation lumpability ∧ warrant measurability (identical three-valued liveness within each block under every registered revocation)."
+    },
+    "KS-T08": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_admission_channels",
+     "statement": "Every newly admitted live non-quarantined atom is incident to at least one live typed relation (semantic connectivity or quarantine)."
+    },
+    "KS-T09": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_impact_and_reopening",
+     "statement": "The dependency impact cone is the least dependency-closed superset of the changed set; cycles are handled by the fixed point."
+    },
+    "KS-T22": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_impact_and_reopening",
+     "statement": "Reopening locality: after a revocation delta the forced reopening set is cone ∩ liveness-changed; cone members whose liveness is unchanged (alternative live warrant) need re-check only; activation outside Reach(dead) is exactly unchanged; unrelated evidence revocation is a no-op."
+    },
+    "KS-T10a": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_extraction",
+     "statement": "Translator invariance reduces to seed equality: equal seed vectors yield identical extraction."
+    },
+    "KS-T11a": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_extraction",
+     "statement": "The reacting subgraph is well-defined and unique; the prize-collecting optimiser is a distinct object whose optima may tie."
+    },
+    "KS-T12": {
+     "status": "OPEN",
+     "gap": "",
+     "checker": "—",
+     "statement": "Lifecycle-safe consolidation: a macro can be maintained/reopened in work proportional to the affected dependency region — CLAUSE (theory batch 7 G5): holds for query sets Q ⊆ exports of the consolidated region (gain (k−1)[t∈Q] − 2|Q∩internals|); the unconditional form is refuted (k = 1, Q = {x1}: 1 → 3)."
+    },
+    "KS-T23": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_summary_no_authority",
+     "statement": "No authority from abstraction: Λ(summary) = Λ_corr ⊗ ⊗ Λ(exported); LIVE(summary) ⇒ live support exists below; DEAD/UNKNOWN propagate by KS-T21; authority is the meet and scope the intersection; a summary answers a query family only under a registered sufficiency certificate, else REFINE_REQUIRED."
+    },
+    "KS-T17": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_growth_invariant",
+     "statement": "Stem-cell growth invariant: the loop acquire → compose → revoke → reinstate preserves KS-S1…S7, keeps the genome digest unchanged, and reaches a fixed point when nothing new can be acquired."
+    },
+    "KS-T18": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_admission_channels",
+     "statement": "Feedback cannot warrant: a FEEDBACK-admitted atom carries the certified-zero interval and is never LIVE, hence never enables firing; an EXACT_CHECKER atom enters with exact warrant."
+    },
+    "KS-T19": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_navigation_outcomes",
+     "statement": "Navigation outcome is four-valued (FOUND / GAP_NOT_FOUND / OBSTRUCTION_WITNESSED / CANNOT_CHECK), exhaustive and exclusive; an obstruction is witnessed only when the ungated ceiling walker also fails; timeout alone is a gap; a zero budget is CANNOT_CHECK."
+    },
+    "KS-T20": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_composition_law",
+     "statement": "Composition warrant is ⊗ (never ⊕); authority is the meet; scope the intersection — no amplification."
+    },
+    "KS-T24": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_navigation_is_not_truth",
+     "statement": "Navigation is not truth: with every warrant certified-zero and identical weights, no atom is LIVE, warranted extraction is empty, and no edge is enabled, while exploratory activation is unchanged."
+    },
+    "KS-A2": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_conjunctive_not_pairwise",
+     "statement": "A conjunctive hyperrelation is not equivalent to its pairwise expansion (enabling and navigation differ); pairwise reading requires an explicit certificate."
+    },
+    "KS-A1": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_type_extensibility",
+     "statement": "A new object type can be registered without changing warrant/navigation code."
+    },
+    "KS-R1": {
+     "status": "PROVED",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_resources",
+     "statement": "Every reference mechanic reports a non-compensatory resource vector; vectors are compared by Pareto dominance, never a scalar."
+    },
+    "KS-P1": {
+     "status": "PARENT_OWNED",
+     "gap": "",
+     "checker": "research/orion-machine/reference/kso_m0_freeze_checks_v1.py:check_f7_parent_subtraction",
+     "statement": "No single parent among eight owns label-gated activation with exact-share retraction; the KSO law equals the two-parent product (JTMS/ATMS gate ∘ frozen-denominator spreading activation) — PARENT_PRODUCT_OWNED."
+    },
+    "KS-EQ": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "",
+     "checker": "ocm.kso.checks:check_navigation_reference_equivalence",
+     "statement": "Old-vs-new equivalence: the canonical package reproduces the frozen reference on every registered witness (matrices, fixed points, navigate outcomes, retraction report, F-check outcomes) and on seeded random spaces."
+    }
+   }
+  },
+  "OCM_ACQUISITION_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "35c74d30e9aa461188ccd8547792051c6fbfb2e5c45b07d15d16c5662e71f551",
+   "registry": "OCM_ACQUISITION_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T51": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-12/13",
+     "checker": "tests/m5/test_lexical.py",
+     "statement": "Lexical acquisition by exact alignment: one unknown token ↔ one meaning node no known lexeme accounts for; the new sense's warrant is exactly the demonstration's evidence; a second aligned concept adds a sense to the ambiguity set; revoking one sense's evidence kills that sense only; relearning yields a new record with lineage."
+    },
+    "KS-T52": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tests/m5/test_morphology.py",
+     "statement": "Morphology induction over a registered suffix-rewrite class: a pure rule is CONTRADICTED by irregular pairs; HYBRID keeps the rule (⊗ of the covered pairs) plus exception rules (each pair's evidence) under the override law; exceptions beyond a registered fraction trigger SPLIT_RECOMMENDED; ablaut outside the class stays an exception (recorded class limit)."
+    },
+    "KS-T53": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-02",
+     "checker": "tests/m5/test_corpus.py; research/ocm-m5/M5_ACQUISITION_EVAL_V1.json E2 semantic_gain_must_be_zero = 0",
+     "statement": "Raw-corpus form induction yields UNGROUNDED_FORM_ONLY hypotheses with corpus authority and no world_truth/meaning coordinate; the interpreter never consults them; grounding requires aligned/grounded evidence (bind) — frequency never grounds; semantic gain of E2 alone is exactly zero."
+    },
+    "KS-T54": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-15",
+     "checker": "tests/m5/test_interaction.py",
+     "statement": "Grounded interaction: outcome observations of a registered outcome function eliminate hypotheses in the version space and warrant the object with those observations; an unregistered outcome is refused; success bits are FEEDBACK and never admit an object (KS-T18)."
+    },
+    "KS-T55": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-33",
+     "checker": "tests/m5/test_active_transfer.py",
+     "statement": "Active learning: actions are chosen by expected elimination per unit cost over the version space (uniform prior); the gold-label action is prohibited; a singleton version space acts no further; hindsight regret is reported."
+    },
+    "KS-T56": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-34",
+     "checker": "tests/m5/test_active_transfer.py::test_multilingual_preflight_sov_is_not_forced_into_english_order; receipt negative_transfer",
+     "statement": "Transfer is a registered scope move: meaning structures transfer across languages; lexemes, morphology and word order are language-scoped; senses are domain-scoped; style is not grammar; counter-evidence in the target scope refuses; the SOV mini-language under the English inventory yields UNKNOWN_CONSTRUCTION (detected, not forced) and its order is learned from demonstrations with meaning graphs intact."
+    },
+    "KS-T57": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-14",
+     "checker": "tests/m5/test_active_transfer.py::test_retention_vector_after_a_lexical_update",
+     "statement": "Retention protocol: after every episode the vector (new gain, old loss, unrelated change, reopened objects, update work) is reported with denominators; old loss after the E1 episode is 0/22."
+    },
+    "KS-T58": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-14",
+     "checker": "research/ocm-m5/M5_ACQUISITION_EVAL_V1.json (reproduced in CI)",
+     "statement": "Regimes measured separately with disclosed information: E0 explicit lessons, E1 aligned demonstrations (with leakage-checked teacher examples), E2 raw corpus, E3 grounded interaction, E4 fixed curricula; no aggregate replaces the vector."
+    },
+    "KS-T59": {
+     "status": "OPEN",
+     "gap": "—",
+     "checker": "scripts/acquire_gutenberg.sh; scripts/acquire_babylm.sh",
+     "statement": "BabyLM sample-efficiency programme, CHILDES adapters, matched comparator curves — custody manifests only (Gutenberg acquired; BabyLM CANNOT_CHECK_BABYLM_DATA)."
+    }
+   }
+  },
+  "OCM_ALPHA_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "0ae4e6efbd607d87ba22d6913b8839ce976011179057112e0d1434fcbfaee3e5",
+   "registry": "OCM_ALPHA_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T60": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-05/16",
+     "checker": "tests/m6/test_world_realize.py",
+     "statement": "Knowledge provenance: 'source asserts P' (IMPORTED, source=1), 'P parsed' (digest) and 'P verified' (separate evidence, verified=1) are distinct records; the fact warrant is ⊕ assertions ⊗ verification; repetition of assertions never raises authority; revoking one source kills exactly the facts it alone supported."
+    },
+    "KS-T61": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-25",
+     "checker": "tests/m6/test_world_realize.py::test_realisation_is_a_checked_codec",
+     "statement": "Realisation is a codec: every candidate surface is re-interpreted and kept only if its canonical digest equals the intended meaning; style (passive preference, contractions, certified pronouns) selects among checked variants and never changes meaning; a paraphrase that drops negation fails the reverse reading."
+    },
+    "KS-T62": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-25/27",
+     "checker": "tests/m6/test_chat_alpha.py; research/ocm-m6/M6_ALPHA_SCENARIO_EVAL_V1.json",
+     "statement": "ResponsePlan.v1 sits above realisation; content is selected only from live world facts and speaker commitments; unverified claims carry REPORTED, unknowns REPORT_UNKNOWN, contradictions REPORT_UNCERTAIN; a missing intermediate premise in an explanation is a feedback event naming the gap; the planner cannot mint a premise (the mutant does)."
+    },
+    "KS-T63": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-25",
+     "checker": "tests/m6/test_chat_alpha.py (trace ties to ledger events and warrant ids)",
+     "statement": "Every committed response passes the M4 gate; an unverified source claim or a speaker commitment cannot be rendered ASSERTED (MARKER_MISMATCH); the diagnostic trace is assembled from the runtime's actual ledger events and the plan/gate objects of the turn."
+    },
+    "KS-T64": {
+     "status": "PROVED (finite)",
+     "gap": "—",
+     "checker": "tests/m6/test_chat_alpha.py::test_alpha_demonstration_points; receipt restart_lost_state 0",
+     "statement": "Learning in chat persists across process restart: learned senses/constructions are stored keyed on their ledger evidence and restored; the world index is checked against the ledger (missing evidence ⇒ CANNOT_CHECK); revoking a lesson's evidence stops the capability, reinstating restores it, unrelated knowledge intact."
+    },
+    "KS-T65": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "research/ocm-m6/M6_ALPHA_SCENARIO_EVAL_V1.json (reproduced in CI)",
+     "statement": "Protected scenario suite (nine families) and hostile probes: 42/42 expected replies; incidents answer_laundering 0, revoked_asserted_live 0, assertion_became_belief 0, restart_lost_state 0; external IO 0."
+    },
+    "KS-T66": {
+     "status": "OPEN",
+     "gap": "MEG-32",
+     "checker": "docs/LANGUAGE_KSO_ALPHA_REPORT.md §4 (protocol only)",
+     "statement": "Blinded human evaluation (frozen protocol, report §4), matched comparators, Simple Wikipedia / Wikidata text ingestion, real protected conversations — M7 / follow-ups."
+    }
+   }
+  },
+  "OCM_COMPARISON_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "0b344156224855a273ad7dd996424014fdea7affee42e0d1c16128d2b2f2974e",
+   "registry": "OCM_COMPARISON_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T67": {
+     "status": "PARENT_OWNED (adopted)",
+     "gap": "MEG-32",
+     "checker": "tests/m7/test_stats.py",
+     "statement": "Decision rules adopted, not invented: exact binomial / exact McNemar on discordant pairs, Clopper–Pearson intervals, TOST at a pre-registered margin; a family below the pre-registered minimum n is CANNOT_CHECK whatever its test verdict; 'p > α ⇒ equivalent' is a caught hostile."
+    },
+    "KS-T68": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "research/ocm-m7/M7_COMPARISON_V2.json information_budget",
+     "statement": "Strongest faithful matched parent: identical knowledge, lessons, corrections and budget from known components (retrieval memory, dialogue-state memory, in-context lesson memory, template renderer); what is subtracted is exactly warrant intervals, reopening, version spaces and the gate."
+    },
+    "KS-T69": {
+     "status": "PROVED (procedural)",
+     "gap": "—",
+     "checker": "tools/m7_receipt.py --verify",
+     "statement": "Pre-registration discipline: metrics, suites, comparators, margin, minimum n, hostile mutations and terminals are frozen and hashed before protected outcome access; a run whose system was changed after outcome access is DEV_CALIBRATION and carries no claim (V1); the protected study is a new frozen suite (V2)."
+    },
+    "KS-T70": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-25",
+     "checker": "research/ocm-m7/M7_COMPARISON_V2.json laundering_audit",
+     "statement": "Answer-laundering audit: the renderer follows the supplied meaning (random-meaning injection), removing the knowledge removes the answer (no hidden corpus), a gold field in a forbidden channel does not surface; incidents 0 on V2."
+    },
+    "KS-T71": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tools/m7_receipt.py",
+     "statement": "Claim-by-claim terminals on V2: RQ1 conversations OCM_LANGUAGE_RESIDUAL_SUPPORTED vs the matched parent (53/54 vs 33/54, n=54, TOST RESIDUAL_A) with mechanism attribution CANNOT_CHECK (ablations −clarification and −revocation EQUIVALENT on this suite; −workspace INCONCLUSIVE); RQ1 factual, RQ3, RQ5, RQ6 CANNOT_CHECK (n below minimum); external families CANNOT_CHECK by coverage or data terms."
+    },
+    "KS-T72": {
+     "status": "OPEN",
+     "gap": "MEG-09/34",
+     "checker": "research/ocm-m7/M7_BLIMP_UD_V1.json (coverage 0 recorded)",
+     "statement": "Coverage revival: structural-alignment learner over UD EWT gold relations; protected suites at n ≥ 40; neural comparator; human rating — M7 follow-ups (revival backlog §7)."
+    }
+   }
+  },
+  "OCM_DIALOGUE_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "5de0f335b48c749040262fbf432327a0fa258260574f66225ed81bbdcab3b41d",
+   "registry": "OCM_DIALOGUE_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T43": {
+     "status": "PROVED",
+     "gap": "MEG-05",
+     "checker": "tests/m4/test_workspace.py::test_ten_speakers_do_not_promote_and_promotion_needs_a_live_bridge; research/ocm-m4/M4_DIALOGUE_EVAL_V1.json leakage 0/51",
+     "statement": "Three-layer separation: speaker commitments are OBSERVATION evidence with speaker authority and conversation scope; the machine layer changes only by propose_promote under a LIVE bridge with the authority meet; ten speakers' agreement leaves the machine layer empty."
+    },
+    "KS-T44": {
+     "status": "PROVED",
+     "gap": "MEG-03",
+     "checker": "tests/m4/test_workspace.py; tests/m4/test_dialogue_runtime.py::test_correction_supersedes_and_the_answer_reopens_while_unrelated_state_stays",
+     "statement": "Correction is supersession: the new commitment's evidence supersedes the old, the old evidence is revoked (KS-T22 reopens exactly the dependents), both records are linked, history is never edited; unrelated commitments are untouched; retraction revokes without a successor."
+    },
+    "KS-T45": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tests/m4/test_workspace.py::test_reference_resolution_is_four_valued_and_never_nearest_noun",
+     "statement": "Reference is four-valued from constraints; recency and mention count order an ambiguity set only; an unconstrained referent is UNKNOWN_REFERENT, never the nearest string."
+    },
+    "KS-T46": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-33",
+     "checker": "tests/m4/test_clarify_gate.py",
+     "statement": "Clarification value = expected number of registered query cells determined after the answer (uniform prior over the ambiguity set) − cost − repeat penalty; irrelevant ambiguity has value 0 (no question); a question pinning every candidate dominates one isolating a single candidate under matched cost; repeats have non-positive value; the answer is INTERACTION evidence and never a score collapse."
+    },
+    "KS-T47": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-25",
+     "checker": "tests/m4/test_clarify_gate.py; tests/m4/test_dialogue_runtime.py::test_gate_refuses_a_plan_the_state_cannot_support",
+     "statement": "External commitment gate: a surface commits iff its meaning digest equals the plan's, every asserted proposition is LIVE (or REPORTED when resting on speaker commitments), the epistemic marker equals the state's required marker, referents are resolved, no protected content id appears, and the renderer held no store handle; refusals are structured feedback events naming the stage to reopen."
+    },
+    "KS-T48": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-16",
+     "checker": "research/ocm-m4/M4_DIALOGUE_EVAL_V1.json contradiction 7/7; tests/m4/test_workspace.py",
+     "statement": "Contradictory commitments (p and ¬p) are both kept; a question on p is answered REPORT_UNCERTAIN citing both; majority never resolves; resolution only by supersession, retraction or a bridge."
+    },
+    "KS-T49": {
+     "status": "PROVED (finite)",
+     "gap": "—",
+     "checker": "tests/m4/test_workspace.py; tests/m4/test_dialogue_runtime.py; receipt: 18 restarted dialogues",
+     "statement": "Persistence: the workspace is written atomically after every mutation and reloaded on resume with the runtime ledger; a reference to evidence absent from the ledger is CANNOT_CHECK; a midway restart changes no behaviour."
+    },
+    "KS-T50": {
+     "status": "OPEN",
+     "gap": "MEG-09/23",
+     "checker": "scripts/acquire_multiwoz.sh (custody only)",
+     "statement": "Real-conversation evaluation (MultiWOZ 2.4 comparator, protected human conversations) — custody script provided; results are M4 follow-ups."
+    }
+   }
+  },
+  "OCM_LANGUAGE_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "e8d690d6487c06cf1b7f33fd1059ab963d4de7fe18e05c140e84b4dc8f64c9ea",
+   "registry": "OCM_LANGUAGE_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T34": {
+     "status": "PROVED",
+     "gap": "MEG-24",
+     "checker": "tests/m3/test_meaning_graph.py",
+     "statement": "Canonical meaning form: for typed hypergraph fragments with ≤ 7 nodes, canonical(g1) = canonical(g2) iff g1 ≅ g2 (exhaustive within colour classes); beyond the bound CANNOT_CHECK, never a hash; seed = seed ∘ can so two parsers with different node numbering seed navigation identically."
+    },
+    "KS-T35": {
+     "status": "PROVED",
+     "gap": "MEG-26",
+     "checker": "tests/m3/test_lexicon.py",
+     "statement": "Lexical ambiguity is an ambiguity set: a token's readings are candidates each with its own interval; the token is READINGS iff exactly one LIVE and none UNKNOWN, AMBIGUOUS otherwise; collapse only by revocation/clarification evidence; same-analysis derivations merge as ⊕; unknown tokens are UNKNOWN_LEXEME (no spelling-similarity guess)."
+    },
+    "KS-T36": {
+     "status": "PROVED",
+     "gap": "MEG-03",
+     "checker": "tests/m3/test_lexicon.py::test_irregular_exception_overrides_the_productive_rule_and_revocation_is_local",
+     "statement": "Morphological override law: a LIVE EXCEPTION rule for (lemma, category, features) pre-empts every PRODUCTIVE rule for that key whatever token is analysed; revoking the exception's evidence makes the regularised form available and touches no other lemma."
+    },
+    "KS-T37": {
+     "status": "PROVED",
+     "gap": "MEG-26",
+     "checker": "tests/m3/test_interpretation.py",
+     "statement": "Candidate warrant of a parse: Λ(candidate) = Λ(construction) ⊗ ⨂ Λ(parts), a phrase contributing its own ⊗; isomorphic candidates from different derivations merge as ⊕; the verdict is INTERPRETED iff exactly one LIVE candidate and none UNKNOWN; AMBIGUOUS retains all candidates and a score outside the lattice may only order them."
+    },
+    "KS-T38": {
+     "status": "PROVED",
+     "gap": "MEG-05",
+     "checker": "tests/m3/test_session.py; tests/m3/test_interpretation.py::test_promotion_never_exceeds_the_bridge_and_speaker_record",
+     "statement": "Grounding boundary: parsing success yields said(speaker, meaning) as OBSERVATION evidence with Authority.of(speaker=1); world_truth is 0 and stays 0 under any composition of speakers; answers cite evidence and return UNKNOWN when nothing on record supports or denies; contradictory statements are both kept; the only promotion is the authority meet with a bridge."
+    },
+    "KS-T39": {
+     "status": "PROVED",
+     "gap": "MEG-12/13",
+     "checker": "tests/m3/test_acquisition.py; tests/m3/test_microworld.py",
+     "statement": "Construction acquisition: over a registered finite pattern class, a demonstration (utterance, meaning) is consistent with h iff parsing under h realises an isomorphic meaning; promotion iff agreement on the query family; warrant = ⊗ of the pinning demonstrations; AMBIGUOUS is not promoted; CONTRADICTION is preserved; an instruction names a hypothesis and is refuted by a contradicting demonstration; constructions are language-scoped."
+    },
+    "KS-T40": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tests/m3/test_microworld.py; research/ocm-m3/M3_MICROWORLD_EVAL_V1.json (transitive_adj 26/26)",
+     "statement": "Recursive composition: phrase-level constructions (produces=NP) are built bottom-up over spans and bound as single arguments by clause constructions; the merged fragment relabels the phrase head onto the argument node and keeps the phrase's ⊗ warrant."
+    },
+    "KS-T41": {
+     "status": "PROVED",
+     "gap": "—",
+     "checker": "tests/m3/test_microworld.py::test_corpus_is_deterministic_and_protected_split_is_frozen_before_tuning",
+     "statement": "Freeze-before-outcome for evaluation: the protected split is fixed by content hash before tuning; held-out lexemes never appear in dev; the evaluation receipt is deleted before each run and its exit code checked (stale receipts are CANNOT_CHECK, ledger S14)."
+    },
+    "KS-T42": {
+     "status": "OPEN",
+     "gap": "MEG-09/23",
+     "checker": "scripts/acquire_ud_ewt.sh; scripts/acquire_blimp.sh (custody only)",
+     "statement": "Real-language evaluation (UD EWT structural, BLiMP acceptability comparator) — custody manifests bound; evaluators and results are M3 follow-ups."
+    }
+   }
+  },
+  "OCM_LIFETIME_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "8608b2e046571e351024333818360d0596667ce1e4ad4dd363327bf57ccf8767",
+   "registry": "OCM_LIFETIME_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T104": {
+     "status": "PROVED",
+     "gap": "M12 §2",
+     "checker": "tests/m12/test_lifetime.py::test_one_persistent_instance_no_reset_and_no_kill_gate_hits",
+     "statement": "One runtime identity across the lifetime: the ledger root is constant and every component (chat, science ledger, self-model, work warrants) points at the same runtime at every phase boundary; a restart reopens the same ledger."
+    },
+    "KS-T105": {
+     "status": "PROVED",
+     "gap": "M12 §1, §16",
+     "checker": "tools/m12_receipt.py --verify (binds both pre-registrations and both receipts)",
+     "statement": "Freeze-before-outcome: the pre-registration hash is recorded in the receipt; a protocol change after outcome access relabels the run DEV_CALIBRATION and requires a new frozen version."
+    },
+    "KS-T106": {
+     "status": "PROVED",
+     "gap": "M12 §16 / batch 4 D1",
+     "checker": "src/ocm/evaluation/m12_lifetime_eval.py (claims computed on O1 only); tests/m12",
+     "statement": "Inferential claims use one lifetime (the principal ordering); repeated orderings of the same tasks are robustness replicates reported descriptively, never pooled."
+    },
+    "KS-T107": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "M12 §7",
+     "checker": "tests/m12/test_lifetime.py::test_phase_outcomes_on_the_principal_ordering",
+     "statement": "Revision inside a lifetime: revoking a knowledge source, retracting an observation and revoking a demonstration each reopen exactly their dependents while unrelated capabilities stay live; running a dead skill is a stale behaviour and a kill gate."
+    },
+    "KS-T108": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "M12 §3 G",
+     "checker": "tests/m12/test_lifetime.py; src/ocm/lifetime/phases.py::phase_G",
+     "statement": "Self-repair inside a lifetime with an undisclosed fault layer: the machine's own candidate repairs produce the ablation evidence; diagnosis, minimum class, shadow, external adoption and exact rollback hold on all three drawn faults; the parent repair mechanisms (parameter search, retry) fail on all three."
+    },
+    "KS-T109": {
+     "status": "PROVED",
+     "gap": "M12 §17",
+     "checker": "tools/m12_replication.py; docs/provenance/M12_REPLICATION_RECEIPT_V1.json",
+     "statement": "Independent replication: the same frozen code on a second host reproduces the deterministic block byte-for-byte; the exit gate cannot read FULL_OCM_RESIDUAL_SUPPORTED without a MATCH receipt."
+    },
+    "KS-T115": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "batch 6 F2 / M12 V3",
+     "checker": "src/ocm/evaluation/m12_paired_eval.py; tests/m12/test_paired.py",
+     "statement": "Lifetime-level inference: eight paired lifetimes on per-lifetime protected streams (seeded substitution inside the bounded world, leak-checked, manifest-hash-bound before the run), scored per lifetime and tested by the exact sign test over lifetime differences; identity checked by the ledger chain at every phase boundary."
+    },
+    "KS-T116": {
+     "status": "PROVED_WITH_CLAUSE",
+     "gap": "batch 7 G5 (KS-T14 improvement half)",
+     "checker": "ORION-V2 kso_open_list_closure_batch7_exact.py (G5); OCM: selfmodel.benchmark S6 harmful-Jump refusal",
+     "statement": "A governed Jump R → R′ never lowers the ceiling when span(R) ⊆ span(R′) (nested lift) and improves exactly the queries meeting span(R′)∖span(R); the unconditional form is refuted ({1,a,b} → {1,ab} on XOR: 1 → 0, the S6 shape)."
+    },
+    "KS-T117": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "batch 7 G7/G8 (M12 V4)",
+     "checker": "src/ocm/evaluation/m12_paired_eval.py --v4; tests/m12/test_paired.py",
+     "statement": "Paired-lifetime inference with one pre-registered primary family (one-sided ≥ 7/8 sign rule, size 9/256), ≤ 6 secondary families at α/6, a collapsed-one-coin flag, and a world-true out-of-scope half so that honest-unknown grading separates licence from truth."
+    }
+   }
+  },
+  "OCM_ORGANISATION_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "1dee64069fe24e7652abbf0afaeff0e65e6f40c410a27e2cb9ffed4217d323dc",
+   "registry": "OCM_ORGANISATION_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T73": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-19/20",
+     "checker": "tests/m8/test_organisation.py; research/ocm-m8/M8_ORGANISATION_EVAL_V1.json revocation_commutation (macro_live_over_dead_children 0 everywhere)",
+     "statement": "Macro/interface contract: a region's macro is derived from its children (exports, ⊗ warrant, scope intersection, reopen summary); LIVE(macro) ⇔ every exported child LIVE, DEAD when all are dead, UNKNOWN otherwise; computed on every query — a cached macro liveness is the planted hostile."
+    },
+    "KS-T74": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-22",
+     "checker": "tests/m8/test_organisation.py",
+     "statement": "Transport contract: a transported object's warrant is Λ(source) ⊗ Λ(correspondence), never stronger; applicability is a registered scope condition; similarity is not a proof."
+    },
+    "KS-T75": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-09",
+     "checker": "tests/m8/test_organisation.py; receipt navigation_work per arm vs flat_baseline",
+     "statement": "Cross-scale navigation: coarse region activation, descent only where no registered sufficiency certificate covers the query (a certified query answers from the macro without descent), local gated closure started from what was actually reached, transport where a live applicable map exists, ascent; a coarse miss is REFINE_REQUIRED, never an obstruction; navigation work is measured against flat closure on identical tasks."
+    },
+    "KS-T76": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-23",
+     "checker": "tests/m8/test_organisation.py; receipt R6_learned history",
+     "statement": "Learned organisation proposals (split/merge) carry a predicted objective effect from dev tasks and are adopted only if a predicted improvement is realised on held-out tasks with no unpredicted regression and no free growth; the learner's own cost is counted; topology complexity is never rewarded (mutant)."
+    },
+    "KS-T77": {
+     "status": "PROVED (finite)",
+     "gap": "—",
+     "checker": "tests/m8/test_organisation.py",
+     "statement": "Containment consistency: cycles and non-contained children are refused; multiple membership is shared, never duplicated."
+    },
+    "KS-T78": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-09/23",
+     "checker": "research/ocm-m8/M8_ORGANISATION_EVAL_V1.json",
+     "statement": "Synthetic oracle study: exact partition recovery and navigation regret per arm and family; communities/nested/fibred/learned recover the four latent regions exactly on clean, misleading, dynamic, bridged and revocation families at roughly half the flat navigation work; overlapping communities are not recovered by label propagation (parent limit, reported); the language lifetime stream is reported per arm."
+    },
+    "KS-T79": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tools/m8_receipt.py",
+     "statement": "M8 admissible terminal: PARENT_SUFFICIENT for the organisation question at this scale — the learned arm adopts no proposal that the community parent had not already realised on the oracle families (one adoption on the overlapping family improves navigation over its own base but not recovery); no pre-registered residual on held-out tasks after learner cost."
+    }
+   }
+  },
+  "OCM_RUNTIME_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "83171f7f0feec030f1458ca2a5ec104afb04f18d58d66ca1400dbba0d16d2d0a",
+   "registry": "OCM_RUNTIME_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T25": {
+     "status": "PROVED",
+     "gap": "MEG-16",
+     "checker": "ocm.kso.nogoods:check_nogoods",
+     "statement": "Nogoods: filter_𝒩 commutes with ⊕, is a sub-homomorphism for ⊗ (must be applied after composition), never revives a DEAD interval, and a violated CONSTRAINT's nogood kills every composite over both claims."
+    },
+    "KS-T26": {
+     "status": "PROVED",
+     "gap": "MEG-10",
+     "checker": "ocm.kso.procedures:check_procedure_algebra",
+     "statement": "Procedure algebra (; , ⊗_w, if, bounded loop): trace warrant = ⊗ over fired primitives/tests; static warrant ≤ trace warrant (LIVE(static) ⇒ LIVE(trace)); iteration idempotent; guard composes with the taken branch in the trace reading and with both in the static reading; a LearnedProcedure records its reading."
+    },
+    "KS-T27": {
+     "status": "PROVED",
+     "gap": "MEG-02",
+     "checker": "tests/m2/test_operator_registry.py",
+     "statement": "Statistical/neural operator outputs enter as ⟦0,U⟧ (UNKNOWN) with the score outside the lattice; they become LIVE only through an exact-checker certificate or a scoped coverage certificate whose scope is recorded; no composition of all-UNKNOWN components is LIVE."
+    },
+    "KS-T28": {
+     "status": "PROVED",
+     "gap": "MEG-07 (revival)",
+     "checker": "ocm.kso.surprise:check_seed_count_lemma; ocm.kso.surprise:check_hub_theorem_under_model",
+     "statement": "Seed-count lemma: the expected fixed point over uniformly random seed supports of any size equals the uniform-seed fixed point (linearity of a* in s); the PROPAGATED surprise model (propagated mass vs propagated background) preserves KS-T06/T06b."
+    },
+    "KS-T29": {
+     "status": "PROVED",
+     "gap": "M2 §2",
+     "checker": "ocm.store.event:verify_chain",
+     "statement": "OCMEvent chain: event_id is not its own hash input; sequence contiguous, prev_hash continuity, recomputed content hash; resource_delta structurally non-optional and summed on replay (S7 over the log); four distinct CAS expectation errors."
+    },
+    "KS-T30": {
+     "status": "PROVED",
+     "gap": "MEG-04 / M2 §9",
+     "checker": "tests/m2/test_constitution_boundary.py",
+     "statement": "Commit boundary: intent logged before any effect; execution only if warrant LIVE ∧ hard gates PASS ∧ external authority granted; CANNOT_CHECK never becomes success; the runtime cannot grant itself commit authority (undeclared coordinate = bottom)."
+    },
+    "KS-T31": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "MEG-13 (finite half) / MEG-15",
+     "checker": "tests/m2/test_learner.py; tests/m2/test_learning_lifecycle.py",
+     "statement": "Learner lifecycle: feedback yields behaviour proposals only unless a registered FeedbackContract routes it as an OBSERVATION of a registered outcome function; ambiguous stays unresolved; contradictions are preserved as conflicts; a promoted object's warrant is the exhibited evidence so revoking an essential lesson reopens it while unrelated skills stay live; relearning keeps lineage."
+    },
+    "KS-T32": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "M2 §13",
+     "checker": "ocm.kso.navigation_sparse:check_sparse_agrees_with_exact",
+     "statement": "Sparse float navigation agrees with the exact rational solver within 1e-9 on every registered small space and random spaces; iteration count is the KS-T05 certificate."
+    },
+    "KS-T33": {
+     "status": "PROVED",
+     "gap": "MEG-01",
+     "checker": "tests/m2/test_evidence_registry.py",
+     "statement": "Evidence dependence: derived evidence carries its own interval; a citation's warrant is ⊗ of the cited records' intervals; revocation is assumption-only; sources sharing an assumption never count twice."
+    }
+   }
+  },
+  "OCM_SCIENCE_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "11a722297d786e176e76f4fe4caae325260c056d1d5ce7a6d531f58264c073cd",
+   "registry": "OCM_SCIENCE_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T87": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-01",
+     "checker": "tests/m10/test_science_core.py",
+     "statement": "Evidence dependence in science: corroboration counts distinct sources; replicates from one dependent source count once; a hypothesis's warrant is ⊕ over distinct-source supports and dies under a live counter-observation."
+    },
+    "KS-T88": {
+     "status": "PROVED (finite)",
+     "gap": "—",
+     "checker": "tests/m10/test_science_core.py; receipt causal",
+     "statement": "A causal conclusion requires registered identification assumptions (randomised intervention or a registered back-door set); graph structure or correlation alone never licenses it; naive regression on confounded worlds is biased while back-door and interventional estimators recover the oracle effect; adjusting on a collider is flagged non-identified."
+    },
+    "KS-T89": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-33",
+     "checker": "tests/m10/test_science_core.py; receipt experiment_selection",
+     "statement": "Experiment selection by expected elimination of live hypotheses minus cost and risk (batch-3 C1 applied to hypotheses) prefers the discriminating low-risk test, stops when nothing is worth its cost or one hypothesis remains, and never runs an experiment to confirm a preferred hypothesis (hostile)."
+    },
+    "KS-T90": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-32",
+     "checker": "tests/m10/test_science_core.py; receipt analysis",
+     "statement": "Analysis lifecycle is pre-registered per task (estimand and test fixed before the outcome); exact permutation tests; the number of analyses tried is reported; the p-hacking hostile searches subsets until significance and is counted separately."
+    },
+    "KS-T91": {
+     "status": "PROVED (propositional fragment)",
+     "gap": "—",
+     "checker": "tests/m10/test_proof_lifecycle.py; receipt proof",
+     "statement": "Proof-kernel boundary: PASS(certificate) | FAIL | CANNOT_CHECK from a registered kernel; a warranted proof object exists only on PASS; the kernel warrant and the formalisation-correspondence warrant are separate records; a FAIL is evidence of falsity only from a complete kernel with a countermodel; Lean 4 is CANNOT_CHECK in this study."
+    },
+    "KS-T92": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-03/17",
+     "checker": "tests/m10/test_proof_lifecycle.py; receipt retraction",
+     "statement": "Scientific retraction: a conclusion is a derived record (⊗ of its supporting observations), so retracting one observation kills exactly the conclusions that rested on it, unrelated conclusions stay, replacement support is a new record with lineage and the old stays dead; replay reproduces it."
+    },
+    "KS-T93": {
+     "status": "PROVED (finite)",
+     "gap": "—",
+     "checker": "tests/m10/test_proof_lifecycle.py; receipt cross_field_transfer",
+     "statement": "Cross-field transfer maps M9 work roles to science roles through TransferMap.v1: full mapping TRANSFER with ⊗ warrant; a missing science binding ADAPTER_REQUIRED; a work verifier bound as statistical validation REFUSE_TRANSFER."
+    },
+    "KS-T94": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-25",
+     "checker": "tests/m10/test_proof_lifecycle.py; receipt communication",
+     "statement": "Communication gate: the strongest licensed marker is fixed by the epistemic state (proves / causes / suggests / is consistent with / cannot determine); an overclaim is downgraded, a sentence without a marker is refused, and fluent wording never hides CANNOT_CHECK."
+    },
+    "KS-T95": {
+     "status": "CANNOT_CHECK",
+     "gap": "—",
+     "checker": "receipt external",
+     "statement": "External scientific benchmarks (SciCode-Verified, ResearchGym, LifeSciBench full, miniF2F/Lean 4) and any frontier target: CANNOT_CHECK in this study; no discovery claim."
+    }
+   }
+  },
+  "OCM_SELF_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "9d0ca25e64b9a98a22d7b7e50afa342b95bad3f57865b08d6098fb37db89362a",
+   "registry": "OCM_SELF_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T96": {
+     "status": "PROVED",
+     "gap": "MEG-35 / batch 5 E1",
+     "checker": "tests/m11/test_selfmodel.py::test_self_model_records_tie_to_identities_and_never_raise_object_authority; M11.1: tests/m11/test_batch5_defects.py::test_E1_failure_records_are_derived_from_their_traces (revoking a trace reopens the diagnosis record)",
+     "statement": "Self-model without self-authority: every self-statement is an OBSERVATION in scope self with authority self_model only; the meet with any object authority never raises it; statements are tied to evidence identities."
+    },
+    "KS-T97": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "batch 5 E2",
+     "checker": "tests/m11/test_selfmodel.py::test_diagnosis_is_a_distribution_minimum_sufficient_and_escalation_needs_a_valid_certificate; tests/m11/test_benchmark.py; M11.1: tests/m11/test_batch5_defects.py::test_E2_E3_alarm_needs_certificate_not_frequency_and_registry_closure (frequency never contributes)",
+     "statement": "Diagnosis is a distribution over layers D0–D8 computed from counterfactual (ablation) evidence, with UNKNOWN for layers without evidence and a minimum-sufficient layer = lowest restoring layer in the local-first order."
+    },
+    "KS-T98": {
+     "status": "PROVED",
+     "gap": "batch 5 E3",
+     "checker": "tests/m11/test_selfmodel.py (untried / dead-warrant / false-structural-alarm cases); S3 and S5 in tests/m11/test_benchmark.py; M11.1: tests/m11/test_batch5_defects.py (registry closure: a certificate listing only its own alternatives is invalid against the component registry)",
+     "statement": "Escalation above the local layers requires a valid ObstructionCertificate: every registered lower-level alternative tried with a LIVE warrant and failed, plus a ceiling witness; a DEAD-warrant failure, an untried alternative, a succeeded alternative or a missing witness invalidates it."
+    },
+    "KS-T99": {
+     "status": "PROVED",
+     "gap": "batch 5 E4",
+     "checker": "tests/m11/test_selfmodel.py::test_shadow_assurance_external_adoption_and_exact_rollback; M11.1: tests/m11/test_batch5_defects.py::test_E4_E5_prediction_receipt_precedes_shadow_and_dev_tasks_are_refused (K_self prediction receipt must precede the shadow; REFUSED_TASKS_SEEN_BY_PROPOSER)",
+     "statement": "A self-change proposal carries proposal-only authority, names its pre-outcome prediction by digest before any protected outcome access, and cannot change its own adoption status; C6 constitutional proposals are recommendation packets and never adoptable through cognition; proposals touching protected targets are refused at the meter."
+    },
+    "KS-T100": {
+     "status": "PROVED",
+     "gap": "batch 5 E5",
+     "checker": "tests/m11/test_selfmodel.py; benchmark shadow_non_interference 7/7; M11.1: tests/m11/test_batch5_defects.py::test_E5_shadow_runner_that_writes_the_ledger_breaks_non_interference (ledger head compared, covering external commitments)",
+     "statement": "Shadow evaluation of a challenger leaves the object-level state hash unchanged (non-interference), and assurance checks are computed fresh from the shadow record, not from the challenger's own report."
+    },
+    "KS-T101": {
+     "status": "PROVED",
+     "gap": "batch 5 E6",
+     "checker": "tests/m11/test_selfmodel.py; benchmark rollback_exact 7/7; M11.1: tests/m11/test_batch5_defects.py::test_E6_ledger_owns_cache_and_exactness (the ledger restores the cache and asserts exactness itself)",
+     "statement": "Adoption requires an external decision with a token (self-approval is refused); rollback restores the previous artifact and component table exactly and revokes the stamped adoption evidence so dependents reopen; the object-level knowledge-space digest is unchanged by the adopt/rollback episode while the ledger keeps it as history."
+    },
+    "KS-T102": {
+     "status": "PROVED",
+     "gap": "batch 5 E7",
+     "checker": "tests/m11/test_selfmodel.py; M11.1: tests/m11/test_batch5_defects.py::test_E7_meter_is_outside_every_proposal_write_set_and_non_decreasing (Meter object outside proposals; nested-key hostile refused; ⌊B/δ⌋ bound)",
+     "statement": "Every proposal charges a strictly positive meter and adoptions per window are bounded; a proposal may not edit the meter or the adoption thresholds."
+    },
+    "KS-T103": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "M11 §13–§14",
+     "checker": "src/ocm/evaluation/m11_self_eval.py; tests/m11/test_benchmark.py",
+     "statement": "Controlled self-reorganisation benchmark S0–S7 vs the two parents, and the recorded replay of ledger rows S11–S28 (narrowness and escalation witnesses)."
+    },
+    "KS-T110": {
+     "status": "PROVED",
+     "gap": "batch 6 F4",
+     "checker": "tests/m11/test_batch6_obligations.py::test_F4_dead_warrant_on_path_caps_the_layer_and_emits_local_candidates",
+     "statement": "A failure explained by a DEAD warrant on the execution path has minimum-sufficient layer ≤ D2: reinstatement (D2) and rerouting (D1) candidates are emitted and must be tried with LIVE warrants before any escalation; the layer read from ablations alone is capped."
+    },
+    "KS-T111": {
+     "status": "PROVED",
+     "gap": "batch 6 consequence 7",
+     "checker": "tests/m11/test_batch6_obligations.py::test_consequence7_jump_assessment_is_derived_from_evidence",
+     "statement": "Jump assessment derives lower-level sufficiency from the diagnosis (minimum-sufficient layer local ⇒ no Jump; UNKNOWN or no valid certificate ⇒ insufficiency not identified); the minimum proposal is the lowest complete one at or above the evidence's minimum-sufficient level."
+    },
+    "KS-T112": {
+     "status": "PROVED",
+     "gap": "batch 6 F5",
+     "checker": "tests/m11/test_batch6_obligations.py::test_F5_identity_is_the_ledger_chain_not_the_path",
+     "statement": "The identity of a persistent machine is its ledger chain (head hash at a recorded length), component fingerprints and adoption lineage; a same-path replaced log is not the same machine."
+    },
+    "KS-T113": {
+     "status": "PROVED",
+     "gap": "batch 6 consequence 5",
+     "checker": "tests/m11/test_batch6_obligations.py::test_consequence5_adoption_artifacts_survive_a_restart",
+     "statement": "Adoption artifacts (stamp, previous components, cache snapshot, digests, decisions, meter charges) persist beside the ledger and survive an identity-preserving restart; rollback after restart is exact and revokes the stamp."
+    },
+    "KS-T114": {
+     "status": "PROVED",
+     "gap": "batch 6 F1",
+     "checker": "tests/m11/test_batch6_obligations.py::test_F1_revocation_reports_the_live_remainder",
+     "statement": "A revocation names one warrant; when a word keeps other LIVE senses the machine reports the live remainder (revoke-named) instead of silently keeping the capability; revoke-all is a distinct instruction."
+    }
+   }
+  },
+  "OCM_SELF_OBLIGATION_REGISTRY_V2.json": {
+   "sha256": "da5c0e4e601d685d65b107db52a0d8e6e4c2f06747ef82e1168b5d49eb217718",
+   "registry": "OCM_SELF_OBLIGATION_REGISTRY_V2",
+   "obligations": {
+    "KS-T118": {
+     "status": "PROVED",
+     "gap": "batch 8 H1 (FDX-01)",
+     "checker": "tests/m11/test_batch8_obligations.py",
+     "statement": "An epoch-bounded operator scope is never read as current on context alone: the commitment gate refuses without a declared evaluation time (REFUSED:SCOPE_EPOCH_UNDECLARED) and checks the epoch with it; a current-validity certificate is MONITORED_CURRENT only when every dependency root is monitored, else CONDITIONAL_ON_ASSUMPTIONS."
+    },
+    "KS-T119": {
+     "status": "OPEN",
+     "gap": "batch 8 H2 (FDX-02)",
+     "checker": "— (obligation: extend solve.decide / the commitment gate with typed risk/resource/envelope coordinates; report UNKNOWN reasons by predicate)",
+     "statement": "Controlled epistemic viability is PARENT_SUFFICIENT (finite-horizon safety game); the OCM decision needs explicit risk, resource and envelope coordinates and may not treat abstain as always licensed (which trivialises the kernel)."
+    },
+    "KS-T120": {
+     "status": "PROVED",
+     "gap": "batch 8 H3 (FDX-03)",
+     "checker": "tests/m12 (info fields present)",
+     "statement": "The information-budget receipt names the channel join, the assumption ids and the identification-verdict type; observed success never claims guaranteed identification."
+    },
+    "KS-T121": {
+     "status": "PROVED",
+     "gap": "batch 8 H4 (FDX-05)",
+     "checker": "tests/m11/test_batch6_obligations.py (rollback), tests/m11/test_selfmodel.py",
+     "statement": "Rollback exactness is stated by class: ESI on the object coordinates (component table + cache), BOI_STABLE on the full projection (the ledger keeps the episode); relearn is BOI_DIVERGENT while reinstate is ESI."
+    }
+   }
+  },
+  "OCM_WORK_OBLIGATION_REGISTRY_V1.json": {
+   "sha256": "2d45e970290cb329c263b0e9970e659b014c08a94c5774f48ccad70ac84f224f",
+   "registry": "OCM_WORK_OBLIGATION_REGISTRY_V1",
+   "obligations": {
+    "KS-T80": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-04",
+     "checker": "tests/m9/test_work.py; receipt unauthorized_attempts 0 for every arm",
+     "statement": "Task contract boundary: forbidden actions and actions above the task's authority are refused before any backend runs; a run with unauthorized attempts is never success; hidden protected state is read only by the checker."
+    },
+    "KS-T81": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-22",
+     "checker": "tests/m9/test_work.py; transfer matrix T5/T7/T9",
+     "statement": "Transfer contract: Λ(transported skill) = Λ(source) ⊗ Λ(correspondence); a missing role binding is ADAPTER_REQUIRED, a target operator whose registered role differs from the source role is REFUSE_TRANSFER (superficial similarity); revoking the correspondence or the source kills the transferred skill."
+    },
+    "KS-T82": {
+     "status": "PROVED (finite)",
+     "gap": "MEG-12/13",
+     "checker": "tests/m9/test_work.py::test_induction_requires_the_withheld_test_and_routers_differ",
+     "statement": "Skill induction is accepted only by the withheld intervention test (same distribution, unseen instances), never because the source episode succeeded; memoised, skeleton and subtrace inductions are compared."
+    },
+    "KS-T83": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tests/m9/test_work.py; transfer matrix T12",
+     "statement": "Routing is a separate learning problem: the OCM router requires domain match, liveness, allowed actions, role agreement and no recorded failure; router error is measured separately from operator failure; brute-force 'try every skill' is the planted hostile."
+    },
+    "KS-T84": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "tests/m9/test_work.py::test_diagnosis_targets_the_responsible_layer_and_drift_is_detected_then_revised; matrix T10/T11",
+     "statement": "Diagnosis targets the responsible layer (authority prevented, resource exhaustion, bad adapter, bad order, missing information, environment drift, wrong operator selected, operator wrong); revision under drift re-binds with lineage and ⊗ evidence; the old skill is never a timeless truth."
+    },
+    "KS-T85": {
+     "status": "FINITE_CALIBRATION",
+     "gap": "—",
+     "checker": "research/ocm-m9/M9_TRANSFER_EVAL_V2.json",
+     "statement": "Lifetime transfer study on OCM-authored environments with exact oracle state: transfer matrix T0–T13 all as expected (14/14); transfer precision 6/6; later-domain acquisition cost 7 (transfer: one correspondence + one withheld run) vs 12 for matched parents that re-learn (fresh start with matched validation, trajectory memory, similarity skill library); success 54/54 for every arm; unauthorized attempts 0; paired success claims EQUIVALENT at n=9 (below the pre-registered minimum → CANNOT_CHECK for a SUPPORTED terminal)."
+    },
+    "KS-T86": {
+     "status": "CANNOT_CHECK",
+     "gap": "—",
+     "checker": "receipt external_benchmarks",
+     "statement": "External agent benchmarks (WorkArena++, CRMArena-Pro, TUA-Bench, SWE-bench Verified, TheAgentCompany): CANNOT_CHECK in this study (no network, no container runtime, no LLM agent in the mechanism arm); custody by name only."
+    }
+   }
+  }
+ }
+}

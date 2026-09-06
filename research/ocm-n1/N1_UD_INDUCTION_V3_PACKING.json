@@ -1,0 +1,735 @@
+{
+ "receipt": "N1_UD_INDUCTION_V1",
+ "dataset": "UD_English-EWT r2.14 (custody manifest docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json)",
+ "files_sha256": {
+  "train": "c081876811507cb9437000ea5e6a1741795d8fe8755537ef024bd3b4a713ff14",
+  "dev": "dd514122385fd3374dd10051ddaf477c957d3da0bba48931d6f969820ece233f",
+  "test": "5e0044aa9b786bfb81dbd5687400583a61635a65839e747b59b2ec907c8ab662"
+ },
+ "train_induction": {
+  "channel": "DEMONSTRATION (UD annotations are teacher labels)",
+  "status": "TEACHER_ANNOTATED (not grounded in the M5 sense)",
+  "sentences": 12544,
+  "tokens": 204578,
+  "lexemes": 13413,
+  "by_category": {
+   "A": 2042,
+   "ADV": 662,
+   "AUX": 14,
+   "CONJ": 56,
+   "D": 21,
+   "N": 8637,
+   "NEG": 3,
+   "P": 85,
+   "PRO": 50,
+   "V": 1843
+  },
+  "singletons": 6008,
+  "irregular_past_exceptions": 155,
+  "irregular_present_exceptions": 28,
+  "skeleton_families": 548,
+  "top_skeletons": [
+   [
+    "NOUN()",
+    1104
+   ],
+   [
+    "PROPN()",
+    1100
+   ],
+   [
+    "VERB(nsubj<,obj)",
+    801
+   ],
+   [
+    "NOUN(nsubj<,cop<)",
+    579
+   ],
+   [
+    "VERB(nsubj<,aux<,obj)",
+    541
+   ],
+   [
+    "VERB(nsubj<,ccomp)",
+    497
+   ],
+   [
+    "ADJ(nsubj<,cop<)",
+    480
+   ],
+   [
+    "VERB(obj)",
+    343
+   ],
+   [
+    "NUM()",
+    330
+   ],
+   [
+    "VERB(nsubj<,xcomp)",
+    321
+   ],
+   [
+    "VERB(nsubj<,aux<,xcomp)",
+    255
+   ],
+   [
+    "VERB(nsubj<,obj,obl)",
+    242
+   ]
+  ],
+  "skipped_upos": {
+   "PUNCT": 23597,
+   "NUM": 4127,
+   "INTJ": 695,
+   "X": 355,
+   "SYM": 721
+  },
+  "frequency_raises_warrant": false
+ },
+ "coverage": {
+  "dev": {
+   "sentences": 2001,
+   "cannot_check": 41,
+   "token_coverage": "20041/21440",
+   "sentence_lexical_coverage": "1082/1960",
+   "skeleton_coverage": "1929/1960",
+   "unseen_lemmas_top": [
+    [
+     "debra",
+     19
+    ],
+    [
+     "perlingiere",
+     18
+    ],
+    [
+     "miramar",
+     16
+    ],
+    [
+     "firefox",
+     10
+    ],
+    [
+     "abbas",
+     10
+    ],
+    [
+     "noida",
+     9
+    ],
+    [
+     "mozilla",
+     8
+    ],
+    [
+     "hano",
+     6
+    ],
+    [
+     "hymn",
+     5
+    ],
+    [
+     "darin",
+     5
+    ]
+   ],
+   "unseen_skeletons_top": [
+    [
+     "VERB(obl<,nsubj)",
+     1
+    ],
+    [
+     "VERB(expl<,xcomp,obl)",
+     1
+    ],
+    [
+     "PRON(cop<,nsubj<,aux<,cop<)",
+     1
+    ],
+    [
+     "ADV(obl<,nsubj<,cop<,obl)",
+     1
+    ],
+    [
+     "VERB(obl<,obj,xcomp)",
+     1
+    ],
+    [
+     "VERB(aux<,nsubj:pass<,aux:pass<,xcomp)",
+     1
+    ],
+    [
+     "VERB(nsubj<,obl,ccomp,obl)",
+     1
+    ],
+    [
+     "PRON(nsubj<,aux<,cop<,obl)",
+     1
+    ]
+   ]
+  },
+  "test": {
+   "sentences": 2077,
+   "cannot_check": 61,
+   "token_coverage": "19729/21188",
+   "sentence_lexical_coverage": "1162/2016",
+   "skeleton_coverage": "1985/2016",
+   "unseen_lemmas_top": [
+    [
+     "01-feb-02",
+     11
+    ],
+    [
+     "e17",
+     9
+    ],
+    [
+     "winston",
+     7
+    ],
+    [
+     "slogan",
+     6
+    ],
+    [
+     "mississauga",
+     6
+    ],
+    [
+     "hpl",
+     6
+    ],
+    [
+     "debra",
+     6
+    ],
+    [
+     "perlingiere",
+     6
+    ],
+    [
+     "wei",
+     6
+    ],
+    [
+     "monotheism",
+     5
+    ]
+   ],
+   "unseen_skeletons_top": [
+    [
+     "NUM(nsubj<,cop<,obl)",
+     2
+    ],
+    [
+     "VERB(obj<,aux<,expl<)",
+     2
+    ],
+    [
+     "VERB(expl<,aux<,ccomp)",
+     1
+    ],
+    [
+     "ADJ(expl<,cop<,obl)",
+     1
+    ],
+    [
+     "VERB(obl<,nsubj<,obl<,aux<,obj)",
+     1
+    ],
+    [
+     "VERB(cop<,nsubj:pass<,aux:pass<)",
+     1
+    ],
+    [
+     "VERB(cop<,aux<,nsubj<,aux<,ccomp)",
+     1
+    ],
+    [
+     "INTJ(nsubj<,cop<)",
+     1
+    ]
+   ]
+  }
+ },
+ "simple_clause_interpretation_seed_constructions": {
+  "dev": {
+   "simple_clauses": 1,
+   "cannot_check_over_bound": 0,
+   "verdicts": {
+    "UNKNOWN_LEXEME": 1
+   },
+   "exact_gold_match": "0/1",
+   "misses_sample": [
+    [
+     "harlan provides great service",
+     "UNKNOWN_LEXEME",
+     "unknown: ['harlan']"
+    ]
+   ]
+  },
+  "test": {
+   "simple_clauses": 0,
+   "cannot_check_over_bound": 0,
+   "verdicts": {},
+   "exact_gold_match": "0/0",
+   "misses_sample": []
+  }
+ },
+ "ud_grammar": {
+  "train": {
+   "sentences": 12544,
+   "memorised_rules": 19642,
+   "families": 17171,
+   "learned_single_order": 15343,
+   "ambiguous_order": 1828,
+   "singleton_rules": 14967,
+   "top_rules": [
+    [
+     "NOUN \u2190 det:DET HEAD",
+     2594
+    ],
+    [
+     "NOUN \u2190 case:ADP det:DET HEAD",
+     1759
+    ],
+    [
+     "NOUN \u2190 case:ADP HEAD",
+     1416
+    ],
+    [
+     "PROPN \u2190 case:ADP HEAD",
+     1183
+    ],
+    [
+     "NOUN \u2190 nmod:poss:PRON HEAD",
+     955
+    ],
+    [
+     "PRON \u2190 case:ADP HEAD",
+     847
+    ],
+    [
+     "NOUN \u2190 amod:ADJ HEAD",
+     817
+    ],
+    [
+     "NOUN \u2190 det:DET amod:ADJ HEAD",
+     687
+    ]
+   ],
+   "identification": {
+    "class": "category-level slots (phrase type only), dependency-order families, finite arity",
+    "arity_bound": 18,
+    "learned_families": 15343,
+    "learned_at_n1": 12480,
+    "rules_attested_once": 14967,
+    "rules_total": 19642,
+    "convergence": "NOT_CONVERGED (Good\u2013Turing reading: 14967 of 19642 rules attested once; not a certificate)",
+    "unique_parse": "UNREACHABLE_FROM_POSITIVE_DATA for strings whose category shape has \u2265 2 attested decompositions (batch 11 K1 ii\u2013iv); a unique reading needs a registered negative/membership channel or a finer (lexicalised) class"
+   },
+   "representation_introduction": {
+    "relations": [
+     "ROLE:recipient",
+     "ROLE:oblique",
+     "ROLE:complement",
+     "ROLE:predicate",
+     "COORDINATES",
+     "LOCATED_IN"
+    ],
+    "kind": "GIVEN",
+    "selection_bits": 0,
+    "candidates_evaluated": 0,
+    "adoption_gain": null,
+    "source": "Universal Dependencies v2 relation inventory (de Marneffe et al. 2021), mapped by REL_MAP",
+    "external_evaluator": null
+   }
+  },
+  "protected": {
+   "dev": {
+    "MEMORISED": {
+     "mode": "MEMORISED",
+     "sentences": 2001,
+     "cannot_check": 0,
+     "derivable": "899/2001",
+     "lexically_known": "1123/2001",
+     "interpreted": "610/2001",
+     "exact_gold_match_of_interpreted": "610/610",
+     "missing_rules_top": [
+      [
+       "NUM \u2190 HEAD conj:NUM conj:NUM",
+       3
+      ],
+      [
+       "VERB \u2190 advcl:VERB nsubj:PRON aux:AUX HEAD obj:NOUN conj:VERB punct:PUNCT",
+       3
+      ],
+      [
+       "VERB \u2190 nsubj:PRON HEAD xcomp:ADJ obl:PRON punct:PUNCT",
+       3
+      ],
+      [
+       "NOUN \u2190 compound:NOUN HEAD nummod:NUM list:NOUN",
+       3
+      ],
+      [
+       "PROPN \u2190 HEAD flat:PROPN conj:PROPN conj:PROPN conj:PROPN",
+       3
+      ],
+      [
+       "NOUN \u2190 case:ADP det:DET amod:ADJ HEAD nmod:PROPN punct:PUNCT",
+       2
+      ],
+      [
+       "VERB \u2190 punct:PUNCT nsubj:PROPN aux:AUX advmod:ADV HEAD obj:NOUN",
+       2
+      ],
+      [
+       "VERB \u2190 mark:SCONJ nsubj:PROPN aux:AUX advmod:ADV HEAD",
+       2
+      ]
+     ]
+    },
+    "LEARNED": {
+     "mode": "LEARNED",
+     "sentences": 2001,
+     "cannot_check": 0,
+     "derivable": "225/2001",
+     "lexically_known": "1123/2001",
+     "interpreted": "128/2001",
+     "exact_gold_match_of_interpreted": "128/128",
+     "missing_rules_top": [
+      [
+       "NOUN \u2190 case:ADP det:DET HEAD",
+       120
+      ],
+      [
+       "NOUN \u2190 amod:ADJ HEAD",
+       85
+      ],
+      [
+       "PRON \u2190 case:ADP HEAD",
+       74
+      ],
+      [
+       "NOUN \u2190 det:DET amod:ADJ HEAD",
+       49
+      ],
+      [
+       "NOUN \u2190 HEAD punct:PUNCT",
+       45
+      ],
+      [
+       "ADJ \u2190 advmod:ADV HEAD",
+       45
+      ],
+      [
+       "NOUN \u2190 nummod:NUM HEAD",
+       44
+      ],
+      [
+       "VERB \u2190 mark:PART HEAD obj:NOUN",
+       41
+      ]
+     ]
+    }
+   },
+   "test": {
+    "MEMORISED": {
+     "mode": "MEMORISED",
+     "sentences": 2077,
+     "cannot_check": 0,
+     "derivable": "950/2077",
+     "lexically_known": "1223/2077",
+     "interpreted": "661/2077",
+     "exact_gold_match_of_interpreted": "661/661",
+     "missing_rules_top": [
+      [
+       "PROPN \u2190 HEAD flat:PROPN flat:PROPN list:NUM list:PROPN",
+       8
+      ],
+      [
+       "NOUN \u2190 HEAD list:NOUN list:NOUN list:NOUN list:NUM list:SYM",
+       6
+      ],
+      [
+       "PROPN \u2190 HEAD flat:PROPN list:NUM list:PROPN punct:PUNCT",
+       5
+      ],
+      [
+       "PROPN \u2190 HEAD flat:PROPN flat:PROPN list:NUM list:PROPN punct:PUNCT",
+       4
+      ],
+      [
+       "ADJ \u2190 cop:AUX nsubj:PRON HEAD obl:NOUN obl:tmod:NOUN punct:PUNCT",
+       4
+      ],
+      [
+       "NOUN \u2190 case:ADP HEAD compound:NUM",
+       3
+      ],
+      [
+       "PROPN \u2190 compound:PROPN HEAD list:NUM list:PROPN list:NUM list:PROPN",
+       3
+      ],
+      [
+       "PROPN \u2190 HEAD flat:PROPN appos:NOUN list:PROPN list:NOUN list:NOUN list:NOUN list:NOUN",
+       3
+      ]
+     ]
+    },
+    "LEARNED": {
+     "mode": "LEARNED",
+     "sentences": 2077,
+     "cannot_check": 0,
+     "derivable": "278/2077",
+     "lexically_known": "1223/2077",
+     "interpreted": "177/2077",
+     "exact_gold_match_of_interpreted": "177/177",
+     "missing_rules_top": [
+      [
+       "NOUN \u2190 case:ADP det:DET HEAD",
+       118
+      ],
+      [
+       "NOUN \u2190 amod:ADJ HEAD",
+       84
+      ],
+      [
+       "PRON \u2190 case:ADP HEAD",
+       62
+      ],
+      [
+       "ADJ \u2190 advmod:ADV HEAD",
+       60
+      ],
+      [
+       "PROPN \u2190 HEAD punct:PUNCT",
+       60
+      ],
+      [
+       "NOUN \u2190 det:DET amod:ADJ HEAD",
+       53
+      ],
+      [
+       "NOUN \u2190 nummod:NUM HEAD",
+       51
+      ],
+      [
+       "NUM \u2190 punct:PUNCT HEAD",
+       45
+      ]
+     ]
+    }
+   }
+  },
+  "hostile_memorised_as_learned": 19642
+ },
+ "ud_parse": {
+  "meta": {
+   "constructions": 5329,
+   "min_count": 2,
+   "time_budget_s_per_split": 600.0,
+   "max_tokens": 10,
+   "chart": {
+    "constructions": 20570,
+    "min_count": 1,
+    "max_tokens": 25,
+    "max_items": 300000
+   }
+  },
+  "protected": {
+   "dev": {
+    "engine": "matcher",
+    "status": "CANNOT_CHECK_MEMORY",
+    "note": "the M3 span matcher exhausted memory on open text even at \u2264 8 tokens with rules attested \u2265 5 (ledger S39); run with --matcher to retry"
+   },
+   "test": {
+    "engine": "matcher",
+    "status": "CANNOT_CHECK_MEMORY",
+    "note": "the M3 span matcher exhausted memory on open text even at \u2264 8 tokens with rules attested \u2265 5 (ledger S39); run with --matcher to retry"
+   }
+  },
+  "protected_chart": {
+   "dev": {
+    "engine": "chart",
+    "gaps": false,
+    "parsed": 367,
+    "verdicts": {
+     "UNKNOWN_LEXEME": 267,
+     "LENGTH_CANNOT_CHECK": 72,
+     "UNKNOWN_CONSTRUCTION": 25,
+     "CHART_CAP_CANNOT_CHECK": 64,
+     "AMBIGUOUS": 11,
+     "AMBIGUOUS_COUNT_TOTAL": 106516,
+     "AMBIGUOUS_RANKED": 11,
+     "AMBIGUOUS_TOP_UNIQUE": 7,
+     "AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED": 1,
+     "TIME_BUDGET_CANNOT_CHECK": 1562
+    },
+    "exact_gold_match": "0/367",
+    "wall_s": 600.3,
+    "misses_sample": [
+     [
+      "from the ap comes this story",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "president bush on tuesday nominated two individuals to replace retiring jurists ",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "the sheikh in wheel chair has been attacked with a f 16 launched bomb",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "nervous people make mistakes so i suppose there will be a wave of succesfull ara",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "a la guerre c'est comme a la guerre",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "in the eastern city of baqubah guerrillas detonated a car bomb outside a police ",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "the us lost yet another helicopter to hostile fire near habbaniyah in the sunni ",
+      "UNKNOWN_LEXEME"
+     ]
+    ]
+   },
+   "test": {
+    "engine": "chart",
+    "gaps": false,
+    "parsed": 358,
+    "verdicts": {
+     "UNKNOWN_LEXEME": 243,
+     "LENGTH_CANNOT_CHECK": 65,
+     "CHART_CAP_CANNOT_CHECK": 74,
+     "UNKNOWN_CONSTRUCTION": 28,
+     "AMBIGUOUS": 13,
+     "AMBIGUOUS_COUNT_TOTAL": 1173665,
+     "AMBIGUOUS_RANKED": 13,
+     "AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED": 1,
+     "AMBIGUOUS_TOP_IS_GOLD": 1,
+     "AMBIGUOUS_TOP_UNIQUE": 5,
+     "TIME_BUDGET_CANNOT_CHECK": 1654
+    },
+    "exact_gold_match": "0/358",
+    "wall_s": 600.1,
+    "misses_sample": [
+     [
+      "what if google morphed into googleos",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "what if google expanded on its search engine and now e-mail wares into a full fl",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "via microsoft watch from mary jo foley",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "and by the way is anybody else just a little nostalgic for the days when that wa",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "does anybody use it for anything else",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "i 'm staying away from the stock",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "john donovan from argghhh! has put out a excellent slide show on what was actual",
+      "UNKNOWN_LEXEME"
+     ],
+     [
+      "he makes some good observations on a few of the pic's",
+      "UNKNOWN_LEXEME"
+     ]
+    ]
+   }
+  },
+  "protected_chart_gaps": {
+   "dev": {
+    "engine": "chart",
+    "gaps": true,
+    "parsed": 64,
+    "verdicts": {
+     "CHART_CAP_CANNOT_CHECK": 60,
+     "LENGTH_CANNOT_CHECK": 32,
+     "UNKNOWN_CONSTRUCTION": 3,
+     "AMBIGUOUS": 1,
+     "AMBIGUOUS_COUNT_TOTAL": 4,
+     "AMBIGUOUS_RANKED": 1,
+     "AMBIGUOUS_TOP_UNIQUE": 1,
+     "TIME_BUDGET_CANNOT_CHECK": 1905
+    },
+    "exact_gold_match": "0/64",
+    "wall_s": 601.5,
+    "misses_sample": [
+     [
+      "",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "the other problem",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "tehran afp",
+      "UNKNOWN_CONSTRUCTION"
+     ]
+    ]
+   },
+   "test": {
+    "engine": "chart",
+    "gaps": true,
+    "parsed": 74,
+    "verdicts": {
+     "CHART_CAP_CANNOT_CHECK": 70,
+     "LENGTH_CANNOT_CHECK": 38,
+     "AMBIGUOUS": 1,
+     "AMBIGUOUS_COUNT_TOTAL": 720,
+     "AMBIGUOUS_RANKED": 1,
+     "UNKNOWN_CONSTRUCTION": 3,
+     "TIME_BUDGET_CANNOT_CHECK": 1965
+    },
+    "exact_gold_match": "0/74",
+    "wall_s": 612.1,
+    "misses_sample": [
+     [
+      "it 's just disappointing",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "i.e",
+      "UNKNOWN_CONSTRUCTION"
+     ],
+     [
+      "...",
+      "UNKNOWN_CONSTRUCTION"
+     ]
+    ]
+   }
+  }
+ },
+ "hostile": {
+  "frequency_promotes_threshold_100": 171,
+  "note": "planted: attestation count never changes a warrant; the count of lemmas the hostile would promote is recorded, none is promoted"
+ },
+ "wall_s": 2425.38,
+ "status": "DESCRIPTIVE (no comparator; protected suite and parents are N1 tasks 5\u20136)"
+}
