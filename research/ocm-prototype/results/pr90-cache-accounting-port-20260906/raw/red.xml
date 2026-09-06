@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="5" time="0.048" timestamp="2026-09-06T11:56:47.858749+02:00" hostname="billy"><testcase classname="tests.m1.test_space_cache_accounting" name="test_materialized_cache_storage_counts_own_containers_once[atom_view-True]" time="0.003"><failure message="AssertionError: assert (424 - 424) == 40&#10; +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   40 = &lt;built-in function getsizeof&gt;(mappingproxy({'a': Atom(atom_id='a', atom_type='claim', warrant=WarrantProfile(lower=(frozenset({'a-support'}),), uppe...thority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), epoch=0, quarantined=False, content_ref=None, meta=())}))&#10; +    where &lt;built-in function getsizeof&gt; = sys.getsizeof">cache = 'atom_view', evidence = True
+
+    @pytest.mark.parametrize("cache,evidence", [
+        ("atom_view", True), ("edge_view", True),
+        ("evidence_universe", True), ("evidence_universe", False),
+    ])
+    def test_materialized_cache_storage_counts_own_containers_once(cache, evidence):
+        ks = _space(evidence)
+        ks.atom_map()
+        ks.edge_map()  # Existing index dictionaries already own and charge these entries.
+        before = ks.index_resources()
+        digest = ks.digest()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+&gt;       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 40
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   40 = &lt;built-in function getsizeof&gt;(mappingproxy({'a': Atom(atom_id='a', atom_type='claim', warrant=WarrantProfile(lower=(frozenset({'a-support'}),), uppe...thority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), epoch=0, quarantined=False, content_ref=None, meta=())}))
+E        +    where &lt;built-in function getsizeof&gt; = sys.getsizeof
+
+tests/m1/test_space_cache_accounting.py:31: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_cache_accounting" name="test_materialized_cache_storage_counts_own_containers_once[edge_view-True]" time="0.000"><failure message="AssertionError: assert (424 - 424) == 40&#10; +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   40 = &lt;built-in function getsizeof&gt;(mappingproxy({'e': Hyperedge(edge_id='e', tails=('a',), heads=('b',), relation_type='SUPPORT', weight=Fraction(1, 1), ...pport'}),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())}))&#10; +    where &lt;built-in function getsizeof&gt; = sys.getsizeof">cache = 'edge_view', evidence = True
+
+    @pytest.mark.parametrize("cache,evidence", [
+        ("atom_view", True), ("edge_view", True),
+        ("evidence_universe", True), ("evidence_universe", False),
+    ])
+    def test_materialized_cache_storage_counts_own_containers_once(cache, evidence):
+        ks = _space(evidence)
+        ks.atom_map()
+        ks.edge_map()  # Existing index dictionaries already own and charge these entries.
+        before = ks.index_resources()
+        digest = ks.digest()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+&gt;       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 40
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   40 = &lt;built-in function getsizeof&gt;(mappingproxy({'e': Hyperedge(edge_id='e', tails=('a',), heads=('b',), relation_type='SUPPORT', weight=Fraction(1, 1), ...pport'}),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())}))
+E        +    where &lt;built-in function getsizeof&gt; = sys.getsizeof
+
+tests/m1/test_space_cache_accounting.py:31: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_cache_accounting" name="test_materialized_cache_storage_counts_own_containers_once[evidence_universe-True]" time="0.000"><failure message="AssertionError: assert (424 - 424) == 216&#10; +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   216 = &lt;built-in function getsizeof&gt;(frozenset({'a-support', 'b-support', 'edge-support'}))&#10; +    where &lt;built-in function getsizeof&gt; = sys.getsizeof">cache = 'evidence_universe', evidence = True
+
+    @pytest.mark.parametrize("cache,evidence", [
+        ("atom_view", True), ("edge_view", True),
+        ("evidence_universe", True), ("evidence_universe", False),
+    ])
+    def test_materialized_cache_storage_counts_own_containers_once(cache, evidence):
+        ks = _space(evidence)
+        ks.atom_map()
+        ks.edge_map()  # Existing index dictionaries already own and charge these entries.
+        before = ks.index_resources()
+        digest = ks.digest()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+&gt;       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 216
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   216 = &lt;built-in function getsizeof&gt;(frozenset({'a-support', 'b-support', 'edge-support'}))
+E        +    where &lt;built-in function getsizeof&gt; = sys.getsizeof
+
+tests/m1/test_space_cache_accounting.py:31: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_cache_accounting" name="test_materialized_cache_storage_counts_own_containers_once[evidence_universe-False]" time="0.000"><failure message="assert (424 - 424) == 216&#10; +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes&#10; +  and   216 = &lt;built-in function getsizeof&gt;(frozenset())&#10; +    where &lt;built-in function getsizeof&gt; = sys.getsizeof">cache = 'evidence_universe', evidence = False
+
+    @pytest.mark.parametrize("cache,evidence", [
+        ("atom_view", True), ("edge_view", True),
+        ("evidence_universe", True), ("evidence_universe", False),
+    ])
+    def test_materialized_cache_storage_counts_own_containers_once(cache, evidence):
+        ks = _space(evidence)
+        ks.atom_map()
+        ks.edge_map()  # Existing index dictionaries already own and charge these entries.
+        before = ks.index_resources()
+        digest = ks.digest()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+&gt;       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       assert (424 - 424) == 216
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   216 = &lt;built-in function getsizeof&gt;(frozenset())
+E        +    where &lt;built-in function getsizeof&gt; = sys.getsizeof
+
+tests/m1/test_space_cache_accounting.py:31: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_cache_accounting" name="test_observing_resources_does_not_materialize_optional_caches" time="0.000" /></testsuite></testsuites>

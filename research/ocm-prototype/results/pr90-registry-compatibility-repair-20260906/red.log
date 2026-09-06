@@ -1,0 +1,332 @@
+.............FFFFFFFFF.                                                  [100%]
+=================================== FAILURES ===================================
+_ test_persistent_edits_validate_against_current_registry[remove_atom_then_add] _
+
+case = 'remove_atom_then_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_persistent_edits_validate_against_current_registry[remove_atom_then_no_add] _
+
+case = 'remove_atom_then_no_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_persistent_edits_validate_against_current_registry[remove_relation_then_add] _
+
+case = 'remove_relation_then_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_persistent_edits_validate_against_current_registry[remove_relation_then_no_add] _
+
+case = 'remove_relation_then_no_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_persistent_edits_validate_against_current_registry[replace_relation_dict_then_add] _
+
+case = 'replace_relation_dict_then_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_persistent_edits_validate_against_current_registry[replace_atom_set_then_add] _
+
+case = 'replace_atom_set_then_add'
+
+    @pytest.mark.parametrize("case", [
+        "clean_atoms", "clean_edges", "additive_registry_extension",
+        "remove_atom_then_add", "remove_atom_then_no_add",
+        "remove_relation_then_add", "remove_relation_then_no_add",
+        "replace_relation_dict_then_add", "replace_atom_set_then_add",
+    ])
+    def test_persistent_edits_validate_against_current_registry(case):
+        registry = T.TypeRegistry()
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim"), S.Atom("b", "model")),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT"),), registry,
+        )
+        if case.startswith("remove_atom"):
+            registry.atom_types.remove("claim")
+        elif case.startswith("remove_relation"):
+            del registry.relation_types["SUPPORT"]
+        elif case == "replace_relation_dict_then_add":
+            registry.relation_types = {"COMPOSITION": T.RelationSpec("COMPOSITION", executable=True)}
+        elif case == "replace_atom_set_then_add":
+            registry.atom_types = {"model", "goal"}
+        elif case == "additive_registry_extension":
+            registry.register_atom_type("new_type")
+    
+        def edit():
+            if case in {"clean_edges", "remove_relation_then_add", "replace_relation_dict_then_add"}:
+                return ks.with_edges(S.Hyperedge("new", ("a",), ("b",), "COMPOSITION"))
+            if case == "remove_relation_then_no_add":
+                return ks.with_edges()
+            if case == "remove_atom_then_no_add":
+                return ks.with_atoms()
+            return ks.with_atoms(S.Atom("c", "new_type" if case == "additive_registry_extension" else "goal"))
+    
+        if case.startswith(("remove_", "replace_")):
+>           with pytest.raises(T.TypeError_):
+E           Failed: DID NOT RAISE <class 'ocm.kso.types.TypeError_'>
+
+tests/m1/test_space_hotpath_efficiency.py:122: Failed
+_ test_new_cache_containers_are_charged_without_shared_entry_duplication[atom_view] _
+
+cache = 'atom_view'
+
+    @pytest.mark.parametrize("cache", ["atom_view", "edge_view", "evidence_universe"])
+    def test_new_cache_containers_are_charged_without_shared_entry_duplication(cache):
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim", S.WarrantProfile.of({"a-support"})),
+             S.Atom("b", "claim", S.WarrantProfile.of({"b-support"}))),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT",
+                         warrant=S.WarrantProfile.of({"edge-support"})),),
+        )
+        ks.atom_map(); ks.edge_map()  # Own dictionaries are already charged.
+        before = ks.index_resources()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+>       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 40
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   40 = <built-in function getsizeof>(mappingproxy({'a': Atom(atom_id='a', atom_type='claim', warrant=WarrantProfile(lower=(frozenset({'a-support'}),), uppe...thority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), epoch=0, quarantined=False, content_ref=None, meta=())}))
+E        +    where <built-in function getsizeof> = sys.getsizeof
+
+tests/m1/test_space_hotpath_efficiency.py:142: AssertionError
+_ test_new_cache_containers_are_charged_without_shared_entry_duplication[edge_view] _
+
+cache = 'edge_view'
+
+    @pytest.mark.parametrize("cache", ["atom_view", "edge_view", "evidence_universe"])
+    def test_new_cache_containers_are_charged_without_shared_entry_duplication(cache):
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim", S.WarrantProfile.of({"a-support"})),
+             S.Atom("b", "claim", S.WarrantProfile.of({"b-support"}))),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT",
+                         warrant=S.WarrantProfile.of({"edge-support"})),),
+        )
+        ks.atom_map(); ks.edge_map()  # Own dictionaries are already charged.
+        before = ks.index_resources()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+>       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 40
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   40 = <built-in function getsizeof>(mappingproxy({'e': Hyperedge(edge_id='e', tails=('a',), heads=('b',), relation_type='SUPPORT', weight=Fraction(1, 1), ...pport'}),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())}))
+E        +    where <built-in function getsizeof> = sys.getsizeof
+
+tests/m1/test_space_hotpath_efficiency.py:142: AssertionError
+_ test_new_cache_containers_are_charged_without_shared_entry_duplication[evidence_universe] _
+
+cache = 'evidence_universe'
+
+    @pytest.mark.parametrize("cache", ["atom_view", "edge_view", "evidence_universe"])
+    def test_new_cache_containers_are_charged_without_shared_entry_duplication(cache):
+        ks = S.KnowledgeSpace(
+            (S.Atom("a", "claim", S.WarrantProfile.of({"a-support"})),
+             S.Atom("b", "claim", S.WarrantProfile.of({"b-support"}))),
+            (S.Hyperedge("e", ("a",), ("b",), "SUPPORT",
+                         warrant=S.WarrantProfile.of({"edge-support"})),),
+        )
+        ks.atom_map(); ks.edge_map()  # Own dictionaries are already charged.
+        before = ks.index_resources()
+        value = ks.evidence_universe() if cache == "evidence_universe" else getattr(ks, cache)
+        after = ks.index_resources()
+>       assert after.memory_bytes - before.memory_bytes == sys.getsizeof(value)
+E       AssertionError: assert (424 - 424) == 216
+E        +  where 424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   424 = ResourceVector(object_count=0, relation_count=0, warrant_size=0, index_size=5, navigation_steps=0, navigation_work=0, composition_work=0, memory_bytes=424, io_calls=0, verification_calls=0, update_work=0).memory_bytes
+E        +  and   216 = <built-in function getsizeof>(frozenset({'a-support', 'b-support', 'edge-support'}))
+E        +    where <built-in function getsizeof> = sys.getsizeof
+
+tests/m1/test_space_hotpath_efficiency.py:142: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/ocm-pr90-repair/research/ocm-prototype/results/pr90-registry-compatibility-repair-20260906/red.xml -
+=========================== short test summary info ============================
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[remove_atom_then_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[remove_atom_then_no_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[remove_relation_then_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[remove_relation_then_no_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[replace_relation_dict_then_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_persistent_edits_validate_against_current_registry[replace_atom_set_then_add]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_new_cache_containers_are_charged_without_shared_entry_duplication[atom_view]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_new_cache_containers_are_charged_without_shared_entry_duplication[edge_view]
+FAILED tests/m1/test_space_hotpath_efficiency.py::test_new_cache_containers_are_charged_without_shared_entry_duplication[evidence_universe]
+9 failed, 14 passed in 0.06s

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="8" time="0.456" timestamp="2026-09-06T12:15:15.126647+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked0]" time="0.102" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked1]" time="0.030" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked2]" time="0.030" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3]" time="0.061"><failure message="AssertionError: assert 'COMPLETED' == 'ERROR'&#10;  &#10;  - ERROR&#10;  + COMPLETED">revoked = (1, 'backup')
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+&gt;           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4]" time="0.068"><failure message="AssertionError: assert 'COMPLETED' == 'ERROR'&#10;  &#10;  - ERROR&#10;  + COMPLETED">revoked = (2,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+&gt;           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5]" time="0.060"><failure message="AssertionError: assert 'COMPLETED' == 'ERROR'&#10;  &#10;  - ERROR&#10;  + COMPLETED">revoked = (3,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+&gt;           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked6]" time="0.030" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked7]" time="0.030" /></testsuite></testsuites>
