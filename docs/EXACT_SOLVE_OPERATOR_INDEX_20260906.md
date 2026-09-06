@@ -47,3 +47,12 @@ capability. The compilation crossover is an estimate for this stationary
 selection workload; storage, later changes and all other stages must be charged
 in the eventual lifetime experiment. Process peak RSS includes both arms and
 rebuild, so it is not the size of the index alone.
+
+## Captured development result
+
+The [source-bound record](../research/ocm-prototype/results/operator-selection-scaling-20260906/RESULT.json)
+contains all four sizes and eleven paired repetitions. At 1,000,000 catalogue
+entries, exact selection considered one operator through two index probes; every
+returned tuple matched the full scan. The all-applicable control considered all
+1,000 entries. Timings are descriptive on a shared host; component counts do not
+establish whole-runtime scaling or OCM novelty.

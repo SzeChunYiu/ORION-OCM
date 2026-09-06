@@ -81,3 +81,15 @@ PYTHONPATH=src python research/ocm-prototype/indexed_extraction_serving_study.py
 records executed source commit `8d727ea1d1a72e0c45fe76b97c21ee9b5fc37d72`,
 mechanic-source SHA256s, raw wall/CPU samples, cold work and process RSS scope.
 Record SHA256: `3e829f2a3b2befe062444a790cb6f23e743569f979ed8cd7adf6c46604e03e98`.
+
+## Integrated source follow-up
+
+The [integrated-source repeat](../research/ocm-prototype/results/indexed-extraction-serving-20260906/INTEGRATED_RESULT.json)
+re-runs the same registered sizes and controls after integration with the merged
+zero-copy incumbent. It binds the executed source inventory independently.
+Warm sparse reaction still touches three IDs/two edges as unrelated storage grows
+from 3 to 3,000 objects. Connected controls touch every object, and the dense
+adapter explicitly scans N entries. This remains a component engineering result.
+The earlier record above remains historical; its seven bound source files are
+preserved in [HISTORICAL_SOURCE.zip](../research/ocm-prototype/results/indexed-extraction-serving-20260906/HISTORICAL_SOURCE.zip).
+Neither record is a whole-runtime or lifetime result.
