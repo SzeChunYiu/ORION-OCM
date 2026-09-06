@@ -49,14 +49,15 @@ def main(argv=None) -> int:
     cons_all = G.constructions_from_grammar(gram, min_count=1)
     parse_chart = {s: G.parse_protected(UD.read_conllu(files[s]), cons_all, ind, time_budget_s=budget, max_tokens=chart_max, engine="chart", chart_max_items=chart_items) for s in ("dev", "test")}
     parse_meta["chart"] = {"constructions": len(cons_all), "min_count": 1, "max_tokens": chart_max, "max_items": chart_items}
-    admit = G.attachment_admit(ind)
+    attach_classes = tuple(argv[argv.index("--attach-classes") + 1].split(",")) if "--attach-classes" in argv else ("LEXICAL", "HEAD_CLASS", "DEP_CLASS")
+    admit = G.attachment_admit(ind, classes=attach_classes)
     parse_chart_attach = {s: G.parse_protected(UD.read_conllu(files[s]), cons_all, ind, time_budget_s=budget, max_tokens=chart_max, engine="chart", chart_max_items=chart_items, admit=admit) for s in ("dev", "test")}
     parse_chart_gaps = {s: G.parse_protected(UD.read_conllu(files[s]), cons_all, ind, time_budget_s=budget, max_tokens=chart_max, engine="chart", chart_max_items=chart_items, gaps=True) for s in ("dev", "test")}
     rec = {"receipt": "N1_UD_INDUCTION_V1", "dataset": "UD_English-EWT r2.14 (custody manifest docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json)", "files_sha256": {s: UD.digest_of(p) for s, p in files.items()},
            "train_induction": ind.receipt(), "coverage": {s: UD.coverage(UD.read_conllu(files[s]), ind) for s in ("dev", "test")},
            "simple_clause_interpretation_seed_constructions": interp,
            "ud_grammar": {"train": gram.receipt(), "protected": grammar_eval, "hostile_memorised_as_learned": G.mutant_memorised_as_learned(gram)},
-           "ud_parse": {"meta": parse_meta, "protected": parse, "protected_chart": parse_chart, "protected_chart_gaps": parse_chart_gaps, "protected_chart_attachment": parse_chart_attach},
+           "ud_parse": {"meta": parse_meta, "protected": parse, "protected_chart": parse_chart, "protected_chart_gaps": parse_chart_gaps, "protected_chart_attachment": parse_chart_attach, "attachment_classes": list(attach_classes)},
            "hostile": {"frequency_promotes_threshold_100": UD.mutant_frequency_promotes(ind), "note": "planted: attestation count never changes a warrant; the count of lemmas the hostile would promote is recorded, none is promoted"},
            "wall_s": round(time.perf_counter() - t0, 2), "status": "DESCRIPTIVE (no comparator; protected suite and parents are N1 tasks 5–6)"}
     out.parent.mkdir(parents=True, exist_ok=True)

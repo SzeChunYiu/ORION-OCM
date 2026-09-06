@@ -94,19 +94,19 @@ class Induction:
     attach_head_class: Counter = field(default_factory=Counter)
     attach_dep_class: Counter = field(default_factory=Counter)
 
-    def attachment_evidence(self, head_lemma: str, head_upos: str, rel: str, dep_lemma: str, dep_upos: str) -> tuple[str | None, int]:
+    def attachment_evidence(self, head_lemma: str, head_upos: str, rel: str, dep_lemma: str, dep_upos: str, *, classes: tuple = ("LEXICAL", "HEAD_CLASS", "DEP_CLASS")) -> tuple[str | None, int]:
         """The finest evidence class attesting this attachment: LEXICAL (both lemmas), HEAD_CLASS (head lemma with the
         dependent's category), DEP_CLASS (head category with the dependent lemma), or None (no demonstration attests
         it at any registered class).  Returns (class, attesting count)."""
         rel = rel.split(":")[0]
         n = self.attachments.get((head_lemma, rel, dep_lemma), 0)
-        if n:
+        if n and "LEXICAL" in classes:
             return "LEXICAL", n
         n = self.attach_head_class.get((head_lemma, rel, dep_upos), 0)
-        if n:
+        if n and "HEAD_CLASS" in classes:
             return "HEAD_CLASS", n
         n = self.attach_dep_class.get((head_upos, rel, dep_lemma), 0)
-        if n:
+        if n and "DEP_CLASS" in classes:
             return "DEP_CLASS", n
         return None, 0
 

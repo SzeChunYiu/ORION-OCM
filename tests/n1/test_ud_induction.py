@@ -108,6 +108,7 @@ def test_attachment_evidence_classes_and_gate():
     assert ind.attachment_evidence("push", "VERB", "obj", "door", "NOUN") == ("DEP_CLASS", 2)
     assert ind.attachment_evidence("push", "VERB", "obj", "window", "NOUN") == (None, 0)
     assert ind.attachment_evidence("open", "VERB", "obj:dir", "door", "NOUN")[0] == "LEXICAL"     # relation subtypes fold
+    assert ind.attachment_evidence("open", "VERB", "obj", "window", "NOUN", classes=("LEXICAL",)) == (None, 0)   # strict class refuses backoff
     rec = ind.receipt()["attachment_evidence"]
     assert rec["lexical_triples"] == 1 and rec["class"].startswith("ATTACHMENT")
     admit = G.attachment_admit(ind)

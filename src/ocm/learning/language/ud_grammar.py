@@ -232,7 +232,7 @@ def _head_lemma(x) -> str | None:
     return getattr(x, "lemma", None)
 
 
-def attachment_admit(ind: UD.Induction, *, min_count: int = 1):
+def attachment_admit(ind: UD.Induction, *, min_count: int = 1, classes: tuple = ("LEXICAL", "HEAD_CLASS", "DEP_CLASS")):
     """N1 phase G: the evidence gate for the chart — a completion is admitted iff every attachment it makes
     (head lemma, relation, dependent lemma) is attested by a demonstration at some registered evidence class
     (LEXICAL, HEAD_CLASS or DEP_CLASS).  Refusal is by absent evidence; nothing is ranked.  Attachments whose
@@ -251,7 +251,7 @@ def attachment_admit(ind: UD.Induction, *, min_count: int = 1):
             dl = _head_lemma(b.get(name))
             if dl is None:
                 continue
-            cls, n = ind.attachment_evidence(hl, head_upos, rel, dl, upos)
+            cls, n = ind.attachment_evidence(hl, head_upos, rel, dl, upos, classes=classes)
             if cls is None or n < min_count:
                 return False
         return True
