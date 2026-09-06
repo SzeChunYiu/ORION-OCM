@@ -256,9 +256,10 @@ def bind_meaning(
     with all bound object scopes.
 
     Semantic identity excludes warrant and authority so repeated evidence does not create another
-    semantic object. The current runtime has no event for monotonically extending an existing atom's
-    alternative support, so a repeat with different epistemic state is rejected fail-closed rather
-    than silently dropping support. Exact repeats are idempotent at this bridge layer.
+    semantic object. When ``support_evidence_id`` names a live assumption whose actual channel,
+    authority and scope match the existing support path, the runtime may add it as an independently
+    revocable alternative in one durable support-extension event. Heterogeneous or derived support
+    remains fail-closed. Exact repeats are idempotent at this bridge layer.
     """
     if not bindings:
         raise TypedRejection("NO_FIELD_BINDING", "transient ungrounded meanings stay outside persistent KSO")
