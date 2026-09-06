@@ -267,10 +267,10 @@ def constructions_from_grammar(g: Grammar, *, min_count: int = 1, learned_only: 
             return MeaningGraph((head, *nodes), tuple(all_edges), root="x")
 
         cid = f"ud:{rule.head_upos}:{'_'.join(p.replace(':', '-') for p in rule.pattern)}"
-        out.append(Construction(cid, f"rule:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"}), produces=PHRASE_OF_UPOS.get(rule.head_upos, "NP"), head_slot="h", head_node="x"))
+        out.append(Construction(cid, f"rule:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"}), lineage=(f"count:{count}",), produces=PHRASE_OF_UPOS.get(rule.head_upos, "NP"), head_slot="h", head_node="x"))
         if rule.head_upos in ("VERB", "AUX"):
             # the same rule at clause level (produces=None): a sentence reading when it spans the whole utterance
-            out.append(Construction(cid + ":clause", f"clause:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"})))
+            out.append(Construction(cid + ":clause", f"clause:{rule.head_upos}", tuple(slots), tmpl, WP.of({f"{evidence_prefix}:{cid}"}), lineage=(f"count:{count}",)))
     return out
 
 
@@ -341,6 +341,13 @@ def parse_protected(sentences: Iterable[UD.Sentence], constructions, ind: UD.Ind
                     verdicts["AMBIGUOUS_COUNT_TOTAL"] += r["count"]
                     if any(canonical_any(m) == gd for m in ms):
                         verdicts["AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED"] += 1
+                    rk = r.get("ranking", {})
+                    if rk.get("scored"):
+                        verdicts["AMBIGUOUS_RANKED"] += 1
+                        if rk.get("top_unique_derivation"):
+                            verdicts["AMBIGUOUS_TOP_UNIQUE"] += 1
+                        if ms and canonical_any(ms[0]) == gd:
+                            verdicts["AMBIGUOUS_TOP_IS_GOLD"] += 1          # the evidence-ranked first reading equals the gold tree (a report, not a licence)
                 elif len(misses) < 8:
                     misses.append((utt[:80], r["verdict"]))
             except Exception:  # noqa: BLE001
