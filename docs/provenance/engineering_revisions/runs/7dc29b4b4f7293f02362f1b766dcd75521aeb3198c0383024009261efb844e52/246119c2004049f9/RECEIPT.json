@@ -59,7 +59,7 @@
     "src/ocm/kso/admission.py": "5bee8e24b91f1d7f475b79682685907d974df1bd116ff44c56e4ac25479e7e33",
     "src/ocm/kso/checks.py": "d37f74e41fbf0731a870dc26b241e640349f5d2a6465f4c5a12bdf091784347d",
     "src/ocm/kso/extraction.py": "3c09bd7f4a3817ad6dc87fec3f75e62b207498ca995fe55ad3659fc6ac8b1a08",
-    "src/ocm/kso/firing.py": "c836d81f53f24fef1b5f8da21def2d58e1ae589282bd0a877256141a312b0259",
+    "src/ocm/kso/firing.py": "e52ad50f90ab802ea94059e3d5a49138d10cf39792e1b33a741a90f08a5c8b04",
     "src/ocm/kso/ids.py": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
     "src/ocm/kso/jump.py": "c68c8963123946614cd20b4b2ab2a2b1bef06e7b0bf4804107e8cfa363a43da1",
     "src/ocm/kso/navigation.py": "6c5ff7fcdd4ab8a2b8d58537872d3e91ae3c2e1cdab04a188b493148b6cc1bc9",
@@ -78,6 +78,7 @@
     "src/ocm/language/bootstrap.py": "c8d3eb5129660b43c35608466c4783fd852397c678fca4ef865157d9b51a8900",
     "src/ocm/language/chart.py": "634aa6be59e84082cf27185edfafb7e3d6a7eb213a7c2b59ea38a06b696344b9",
     "src/ocm/language/constructions.py": "2a0651b5114f368438aeeba91e2df2831b0359072acb44d975c7c7e0cf73ca3b",
+    "src/ocm/language/field_bridge.py": "b5d4b0c6db1572d4aca173f91db69ae8cda0f1dd7f29b73eb1586fd63b936bac",
     "src/ocm/language/interpret.py": "9042649f2785745e2caaa80837ebda87a1cac31920ff33d10e0ab46e13ca06d3",
     "src/ocm/language/lexicon.py": "6ce467fe8b379163289ca8dec4192a2a38bd78ba1b7b48427ee176368cdacbbc",
     "src/ocm/language/meaning.py": "f6e5c6aef27c4e35d2098af6969894e9c5d62dbf1de9d92441340053ab7a2ec4",
@@ -169,7 +170,6 @@
     "tests/m0/test_repository_gates.py": "1ae88835be7f67910949c43251f7d71611b30913eb34571ce2d28b38e6af4d00",
     "tests/m0/test_runtime_persistence.py": "8da2043c393ff39037dba4f1fd3a5f12dbda9b5dfd19d40e53f7e39d39528bff",
     "tests/m1/test_equivalence_reference.py": "98d5d60bdba00767618c85b92062b9cd5dd2580062f276cde4ba6f4365a981bc",
-    "tests/m1/test_firing_zero_copy.py": "d22fd4fb1c3d4cf618c4be7bdb9614bef125f878a7fd22835145d21897ddca98",
     "tests/m1/test_kso_core_checks.py": "6bc4ee892900a4864a72c7dd2611831e4ff6dd6d42c7d3af99b3a295300fad57",
     "tests/m1/test_mutants.py": "b16af8eb3760c15f3f0936e5062b6547d8654c08df49e276cc3bc21705935a44",
     "tests/m1/test_space_cache_accounting.py": "b2cbb4248eb4a4203fce420f94625084b94885cae3acb2c45fbd1c9e2f36d5ea",
@@ -240,6 +240,7 @@
     "tests/m9/test_work.py": "e8e5c19ad4e0e06b6c1590aed7933f5e569356a7b5433d1cacc12003a201d69a",
     "tests/n1/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/n1/test_chart_parser.py": "c9770e0710cb6ce2be157e55309d211fd30ea3e31731db8b2622c2989a3a75b7",
+    "tests/n1/test_general_epistemic_field_bridge.py": "e509f1543334a8eba3cf867c235d7736644d5c7957918b30160db1a3b386abac",
     "tests/n1/test_meaning_tree_and_grammar.py": "bfefb195b2a09f52e0ad440f56b634a3b59c60c9e47e3ffea620a311f9e7a9a2",
     "tests/n1/test_ud_induction.py": "514802660f997d4fa2aaafb7725e5a9aab8ec292b588ff0ee75ba88c1ae20159",
     "tests/test_distribution.py": "8e9f9adcf35cbadf2de747c423d8677eba24528295aafde60914c9805a82f9be",
@@ -318,11 +319,11 @@
     "tools/runtime_revision_receipts_v4.py": "e06836faee7bf234ce92aabd226b5d30f5f7658f75bc7c3a4f5cf400f5219d5f"
   },
   "execution_environment": {
-    "completed_at": "2026-09-06T11:14:52.625080+00:00",
+    "completed_at": "2026-09-06T11:08:12.383508+00:00",
     "executable": "/opt/hostedtoolcache/Python/3.11.16/x64/bin/python",
     "python": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
     "runtime_source": "/home/runner/work/ORION-OCM/ORION-OCM/src",
-    "started_at": "2026-09-06T11:07:36.162106+00:00",
+    "started_at": "2026-09-06T11:00:48.414743+00:00",
     "unmeasured": [
       "energy",
       "environment installation and development costs"
@@ -344,15 +345,15 @@
         "tests/m6/test_chat_learning_spelling_v4.py",
         "tests/m11/test_batch6_obligations.py",
         "-q",
-        "--junitxml=docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FOCUSED_SUITE.xml"
+        "--junitxml=docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FOCUSED_SUITE.xml"
       ],
-      "artifact_path": "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FOCUSED_SUITE.xml",
-      "child_cpu_system_seconds": 8.645002999999999,
-      "child_cpu_user_seconds": 30.469802,
+      "artifact_path": "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FOCUSED_SUITE.xml",
+      "child_cpu_system_seconds": 8.681291,
+      "child_cpu_user_seconds": 31.146208,
       "exit_code": 0,
       "label": "focused_suite",
-      "log_path": "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/focused_suite.log",
-      "wall_seconds": 41.26753854100001
+      "log_path": "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/focused_suite.log",
+      "wall_seconds": 41.825169562999974
     },
     {
       "actual_executable": "/opt/hostedtoolcache/Python/3.11.16/x64/bin/python",
@@ -362,15 +363,15 @@
         "pytest",
         "tests",
         "-q",
-        "--junitxml=docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FULL_SUITE.xml"
+        "--junitxml=docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FULL_SUITE.xml"
       ],
-      "artifact_path": "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FULL_SUITE.xml",
-      "child_cpu_system_seconds": 20.603554000000003,
-      "child_cpu_user_seconds": 372.02268599999996,
+      "artifact_path": "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FULL_SUITE.xml",
+      "child_cpu_system_seconds": 20.984046999999997,
+      "child_cpu_user_seconds": 378.127842,
       "exit_code": 0,
       "label": "full_suite",
-      "log_path": "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/full_suite.log",
-      "wall_seconds": 395.122571109
+      "log_path": "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/full_suite.log",
+      "wall_seconds": 402.06994239899996
     }
   ],
   "independent_replication": "NOT_RUN",
@@ -383,20 +384,20 @@
     "source_files": 302
   },
   "protected_reevaluation": "NOT_RUN",
-  "run": "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e",
+  "run": "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9",
   "schema": "ocm.current-engineering.v1",
   "scientific_promotion": "NOT_ESTABLISHED",
   "scope": "Recorded engineering execution attestation, not independent evaluation or cryptographic proof of execution.",
   "source_archive": {
-    "path": "docs/provenance/engineering_revisions/sources/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae.zip",
-    "sha256": "8792bbc8a740561933c5e4e26a4f29ded1a5656308644102ed9bdac86a50d346"
+    "path": "docs/provenance/engineering_revisions/sources/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52.zip",
+    "sha256": "cf4f51b76ddfb543ce9a061637fa1abc5d82f29d23d3ba2a2ea5b2ccb819d3ca"
   },
-  "source_id": "ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae",
+  "source_id": "7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52",
   "status": "ENGINEERING_REGRESSION_ONLY",
   "validation_artifacts": {
-    "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FOCUSED_SUITE.xml": "542c9b061e4ba9177f33c5d9ebfe0d2c7a20d29083ccc2f80282aeeb4878425d",
-    "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/FULL_SUITE.xml": "a6e74403bb49478a02ce2f8621bd3b943efc092c9ea55967438d0899fc5e9c31",
-    "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/focused_suite.log": "c9ef17e874f7ad79d37d3c062e5bb30a1cae8dd732c488d646097b5a3d43ff18",
-    "docs/provenance/engineering_revisions/runs/ea74d0f1d222e0e08977543922d2f371ffca2a10ebfad74460151fa4196c3fae/0ed6ab6e1dce4c8e/full_suite.log": "79be833a7e5c5827e4e320afb1138f43f61328a176911c8953ce4ee0397c4fa8"
+    "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FOCUSED_SUITE.xml": "646b7d20dcd14438604cb5aa9409c6f28a6687ddb9d559342dd63fafe0557092",
+    "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/FULL_SUITE.xml": "aa4c3e2d40abaec8555f7068a86330d7d0794d196f52a287ba5d1866fd759954",
+    "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/focused_suite.log": "843e9f8672caf98b18c9648bf6753f4b7969217d11433bbe5caa5813dc9c98ed",
+    "docs/provenance/engineering_revisions/runs/7dc29b4b4f7293f02362f1b766dcd75521aeb3198c0383024009261efb844e52/246119c2004049f9/full_suite.log": "1081d25908bdfcd38e307e9372501ab2f9be78ebef0ca61aef8224a57f462c80"
   }
 }
