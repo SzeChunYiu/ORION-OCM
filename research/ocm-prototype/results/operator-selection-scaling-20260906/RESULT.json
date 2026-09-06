@@ -1,0 +1,239 @@
+{
+  "schema": "ocm.operator-selection-study.v1",
+  "terminal": "EXACT_OPERATOR_SELECTION_SCALING_SUPPORTED",
+  "whole_machine_terminal": "NOT_MEASURED",
+  "parent": "same immutable ordered catalogue; exact subset scan; identical backend/warrant objects",
+  "python": "3.11.14",
+  "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35",
+  "source_sha256": {
+    "research/operator_selection_scaling.py": "18d7817d3fe9e6d6d4e68dda7ce1b3ddc7283fc55ad50840c60cd64c90adb073",
+    "src/ocm/runtime/operator_index.py": "884909f1cf0f26a2eff9b8cb34578f0003a40e1d4fb0c8a7473a5a5bc462d499",
+    "src/ocm/runtime/solve.py": "aa877847b7ba3a7a555bce48e0bfcce1e3259fc9a2323c6e4c3433c54e00dec1"
+  },
+  "measurement_conditions": "Paired alternating single-process development run; host exclusivity not established; timing descriptive.",
+  "measurements": [
+    {
+      "operators": 1000,
+      "relevant_operators": 1,
+      "parity": "EXACT_CANDIDATES_AND_ORDER",
+      "catalogue_acquisition_shared": {
+        "wall_seconds": 0.005359457980375737,
+        "cpu_seconds": 0.005361207999999999
+      },
+      "cold_index_compile": {
+        "wall_seconds": 0.0013982889940962195,
+        "cpu_seconds": 0.0013989620000000036
+      },
+      "cold_work": {
+        "catalogue_operators": 1000,
+        "input_memberships": 2000,
+        "anchor_postings": 1000,
+        "zero_input_operators": 0
+      },
+      "warm_work": {
+        "catalogue_operators": 1000,
+        "index_probes": 2,
+        "postings_examined": 1,
+        "operators_considered": 1,
+        "structural_candidates": 1
+      },
+      "full_scan_warm_wall_seconds": {
+        "median": 8.054898353293538e-05,
+        "p95": 9.611900895833969e-05,
+        "samples": 11
+      },
+      "indexed_warm_wall_seconds": {
+        "median": 2.293032594025135e-06,
+        "p95": 6.210990250110626e-06,
+        "samples": 11
+      },
+      "full_scan_warm_cpu_seconds": {
+        "median": 8.081499999999797e-05,
+        "p95": 9.658700000000214e-05,
+        "samples": 11
+      },
+      "indexed_warm_cpu_seconds": {
+        "median": 2.6070000000016913e-06,
+        "p95": 6.617000000000428e-06,
+        "samples": 11
+      },
+      "catalogue_change_full_rebuild": {
+        "wall_seconds": 0.0010735209798440337,
+        "cpu_seconds": 0.001074017999999996
+      },
+      "compile_amortization_queries_estimate": 18
+    },
+    {
+      "operators": 10000,
+      "relevant_operators": 1,
+      "parity": "EXACT_CANDIDATES_AND_ORDER",
+      "catalogue_acquisition_shared": {
+        "wall_seconds": 0.058840167010203004,
+        "cpu_seconds": 0.058838735999999996
+      },
+      "cold_index_compile": {
+        "wall_seconds": 0.012587126984726638,
+        "cpu_seconds": 0.012588856999999995
+      },
+      "cold_work": {
+        "catalogue_operators": 10000,
+        "input_memberships": 20000,
+        "anchor_postings": 10000,
+        "zero_input_operators": 0
+      },
+      "warm_work": {
+        "catalogue_operators": 10000,
+        "index_probes": 2,
+        "postings_examined": 1,
+        "operators_considered": 1,
+        "structural_candidates": 1
+      },
+      "full_scan_warm_wall_seconds": {
+        "median": 0.0008066219743341208,
+        "p95": 0.000854132988024503,
+        "samples": 11
+      },
+      "indexed_warm_wall_seconds": {
+        "median": 2.133019734174013e-06,
+        "p95": 1.2323958799242973e-05,
+        "samples": 11
+      },
+      "full_scan_warm_cpu_seconds": {
+        "median": 0.0008070109999999964,
+        "p95": 0.0008546309999999946,
+        "samples": 11
+      },
+      "indexed_warm_cpu_seconds": {
+        "median": 2.437999999993501e-06,
+        "p95": 1.2665999999994515e-05,
+        "samples": 11
+      },
+      "catalogue_change_full_rebuild": {
+        "wall_seconds": 0.01174527098191902,
+        "cpu_seconds": 0.011746300999999987
+      },
+      "compile_amortization_queries_estimate": 16
+    },
+    {
+      "operators": 100000,
+      "relevant_operators": 1,
+      "parity": "EXACT_CANDIDATES_AND_ORDER",
+      "catalogue_acquisition_shared": {
+        "wall_seconds": 0.7381708799512126,
+        "cpu_seconds": 0.738164201
+      },
+      "cold_index_compile": {
+        "wall_seconds": 0.25371107301907614,
+        "cpu_seconds": 0.25370329300000005
+      },
+      "cold_work": {
+        "catalogue_operators": 100000,
+        "input_memberships": 200000,
+        "anchor_postings": 100000,
+        "zero_input_operators": 0
+      },
+      "warm_work": {
+        "catalogue_operators": 100000,
+        "index_probes": 2,
+        "postings_examined": 1,
+        "operators_considered": 1,
+        "structural_candidates": 1
+      },
+      "full_scan_warm_wall_seconds": {
+        "median": 0.009031647990923375,
+        "p95": 0.009119523980189115,
+        "samples": 11
+      },
+      "indexed_warm_wall_seconds": {
+        "median": 1.5738012734800577e-05,
+        "p95": 2.1087005734443665e-05,
+        "samples": 11
+      },
+      "full_scan_warm_cpu_seconds": {
+        "median": 0.009033523000000043,
+        "p95": 0.009121946000000047,
+        "samples": 11
+      },
+      "indexed_warm_cpu_seconds": {
+        "median": 1.6102000000017824e-05,
+        "p95": 2.1433000000126157e-05,
+        "samples": 11
+      },
+      "catalogue_change_full_rebuild": {
+        "wall_seconds": 0.2611532530281693,
+        "cpu_seconds": 0.26114610800000015
+      },
+      "compile_amortization_queries_estimate": 29
+    },
+    {
+      "operators": 1000000,
+      "relevant_operators": 1,
+      "parity": "EXACT_CANDIDATES_AND_ORDER",
+      "catalogue_acquisition_shared": {
+        "wall_seconds": 8.63632171502104,
+        "cpu_seconds": 8.635882780000001
+      },
+      "cold_index_compile": {
+        "wall_seconds": 2.9227129470091313,
+        "cpu_seconds": 2.9225801559999987
+      },
+      "cold_work": {
+        "catalogue_operators": 1000000,
+        "input_memberships": 2000000,
+        "anchor_postings": 1000000,
+        "zero_input_operators": 0
+      },
+      "warm_work": {
+        "catalogue_operators": 1000000,
+        "index_probes": 2,
+        "postings_examined": 1,
+        "operators_considered": 1,
+        "structural_candidates": 1
+      },
+      "full_scan_warm_wall_seconds": {
+        "median": 0.09335436002584174,
+        "p95": 0.09776961000170559,
+        "samples": 11
+      },
+      "indexed_warm_wall_seconds": {
+        "median": 1.1862022802233696e-05,
+        "p95": 2.3358967155218124e-05,
+        "samples": 11
+      },
+      "full_scan_warm_cpu_seconds": {
+        "median": 0.0933454789999999,
+        "p95": 0.0977656549999999,
+        "samples": 11
+      },
+      "indexed_warm_cpu_seconds": {
+        "median": 1.223499999980504e-05,
+        "p95": 2.3725000000140994e-05,
+        "samples": 11
+      },
+      "catalogue_change_full_rebuild": {
+        "wall_seconds": 3.139220428012777,
+        "cpu_seconds": 3.1390857280000013
+      },
+      "compile_amortization_queries_estimate": 32
+    }
+  ],
+  "global_hostile": {
+    "operators": 1000,
+    "work": {
+      "catalogue_operators": 1000,
+      "index_probes": 0,
+      "postings_examined": 1000,
+      "operators_considered": 1000,
+      "structural_candidates": 1000
+    },
+    "terminal": "GLOBAL_WORK_REQUIRED_ALL_OPERATORS_APPLICABLE"
+  },
+  "process_peak_rss_native_units": 1488152,
+  "rss_units": "KiB on Linux; bytes on macOS",
+  "limitations": [
+    "No claim about whole runtime latency, navigation, extraction or persistence.",
+    "Selection counters are exact logical cardinalities, not CPU instructions.",
+    "Amortization estimate includes index compile only; storage and lifetime maintenance remain separate.",
+    "Changed catalogues rebuild; liveness is checked downstream on every execution."
+  ]
+}

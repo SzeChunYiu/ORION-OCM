@@ -31,6 +31,7 @@ from ocm.kso import navigation as N
 from ocm.kso import revocation as RV
 from ocm.kso import space as S
 from ocm.kso.jump import JumpAssessment, JumpProposal, assess_jump
+from ocm.kso.extraction_index import ExtractionIndex
 from ocm.kso.nogoods import NogoodSet
 from ocm.kso.resources import ResourceVector
 from ocm.kso.types import Authority, Scope
@@ -141,6 +142,7 @@ class OCMRuntime:
     def _replay(self) -> None:
         self.state = RuntimeState()
         self.events = []
+        self._solve_epochs = (0, 0, 0)  # field, evidence, registry; API-mediated transitions only
         self._ledger_head: str | None = None
         snapshot_hash: str | None = None
         for entry in self.ledger.entries():
@@ -167,6 +169,18 @@ class OCMRuntime:
         """Deterministic reducer: the epistemically relevant state is a function of the events."""
         p = ev.payload
         t = ev.event_type
+        field_epoch, evidence_epoch, registry_epoch = self._solve_epochs
+        if t in (EventType.EVIDENCE_REVOKED, EventType.EVIDENCE_REINSTATED,
+                 EventType.OBJECT_ADMITTED, EventType.RELATION_ADMITTED, EventType.OBJECT_QUARANTINED,
+                 EventType.CANDIDATE_COMPOSED, EventType.SKILL_PROMOTED, EventType.SKILL_QUARANTINED,
+                 EventType.JUMP_PROPOSED, EventType.JUMP_REJECTED, EventType.JUMP_ADOPTED,
+                 EventType.OBJECT_REOPENED):
+            field_epoch += 1
+        if t in (EventType.EVIDENCE_ADMITTED, EventType.EVIDENCE_REVOKED, EventType.EVIDENCE_REINSTATED):
+            evidence_epoch += 1
+        if t is EventType.OPERATOR_REGISTERED:
+            registry_epoch += 1
+        self._solve_epochs = (field_epoch, evidence_epoch, registry_epoch)
         if t is EventType.EVIDENCE_ADMITTED and ev.status is EventStatus.PASS:
             d = p.get("derived_from")
             a = p.get("authority")
@@ -293,12 +307,47 @@ class OCMRuntime:
             self._apply(ev)
         self.state.operators.register(op)
         self._host_operators[key] = op
+        # Rebinding host code can change the registry without a new manifest event.
+        f, e, r = self._solve_epochs
+        self._solve_epochs = (f, e, r + 1)
         return key
 
     # ------------------------------------------------------------------ solve / navigate / extract
-    def solve(self, task: SV.Task, operators: Sequence[SV.OperatorSpec] = ()) -> SV.SolveOutcome:
+    def _solve_callback_checkpoint(self) -> tuple:
+        # Identity comparisons retain the old objects; no field/catalogue hashing or traversal.
+        return ((self.state, self.state.ks, self.state.revoked, self.state.evidence, self.state.operators),
+                self._solve_epochs, len(self.events), self._ledger_head)
+
+    def solve(self, task: SV.Task, operators: Sequence[SV.OperatorSpec] = (), *, extraction_index: ExtractionIndex | None = None) -> SV.SolveOutcome:
         self._emit(EventType.QUERY_OPENED, EventStatus.PASS, inputs=tuple(r for p in task.parts for r in p.refs), payload={"task_id": task.task_id, "targets": list(task.targets)}, operator="kso.solve")
-        out = SV.solve(self.state.ks, task, operators, revoked=self.state.revoked, config=self.config, commit_authority=Authority())
+        initial = self._solve_callback_checkpoint()
+        work = {"callbacks": 0, "checkpoint_reads": 0, "solve_checkpoint_reads": 1}
+        def changed(before, after):
+            return (any(a is not b for a, b in zip(before[0], after[0], strict=True))
+                    or before[1:] != after[1:])
+        def check_commitment():
+            after = self._solve_callback_checkpoint()
+            work["solve_checkpoint_reads"] += 1
+            if changed(initial, after):
+                raise SV.CallbackStateChanged("RUNTIME_STATE_CHANGED_DURING_SOLVE")
+        def guarded(callback, *args):
+            before = self._solve_callback_checkpoint()
+            work["callbacks"] += 1
+            work["checkpoint_reads"] += 1
+            try:
+                return callback(*args)
+            finally:
+                after = self._solve_callback_checkpoint()
+                work["checkpoint_reads"] += 1
+                if changed(before, after):
+                    raise SV.CallbackStateChanged("RUNTIME_STATE_CHANGED_DURING_CALLBACK")
+        out = SV.solve(self.state.ks, task, operators, revoked=self.state.revoked, config=self.config,
+                       commit_authority=Authority(), extraction_index=extraction_index, callback_guard=guarded,
+                       commitment_guard=check_commitment)
+        received = out.trace.stages[0]
+        out.trace.stages[0] = replace(received, payload={**received.payload, "runtime_callback_guard": {
+            **work, "contract": "API_MEDIATED_STATE_AND_CALLBACK_EVENT_POSITION",
+            "full_state_hashes": 0, "full_catalogue_traversals": 0}})
         for s in out.trace.stages:
             et = {SV.Stage.NAVIGATION: EventType.NAVIGATION, SV.Stage.EXTRACTION: EventType.EXTRACTION, SV.Stage.COMPOSITION: EventType.CANDIDATE_COMPOSED, SV.Stage.CHECK: EventType.CHECKER_RESULT}.get(s.stage)
             if et is None:
