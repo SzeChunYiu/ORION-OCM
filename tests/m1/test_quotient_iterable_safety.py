@@ -13,8 +13,8 @@ from ocm.kso.warrant import WarrantProfile
 
 
 def field(*, same_support=False, partial=False):
-    wa = WarrantProfile.of("left", complete=not partial)
-    wb = wa if same_support else WarrantProfile.of("right")
+    wa = WarrantProfile.of({"left"}, complete=not partial)
+    wb = wa if same_support else WarrantProfile.of({"right"})
     return KnowledgeSpace((Atom("a", "claim", wa), Atom("b", "claim", wb), Atom("c", "claim")), ())
 
 
@@ -86,3 +86,11 @@ def test_nonlumpability_and_warrant_failure_both_survive_generators():
     z, one = Fraction(0), Fraction(1)
     p = ((one, z, z), (z, z, one), (z, z, one))
     assert quotient_admissible(field(), p, iter((("a", "b"), ("c",))), (frozenset({"left"}),)) is QuotientVerdict.NEITHER
+
+
+def test_small_measurability_check_does_not_copy_whole_atom_map(monkeypatch):
+    ks = field(same_support=True)
+    def no_copy(_self):
+        raise AssertionError("whole-field atom_map copy")
+    monkeypatch.setattr(KnowledgeSpace, "atom_map", no_copy)
+    assert warrant_measurable(ks, (("a", "b"),), (frozenset({"left"}),))
