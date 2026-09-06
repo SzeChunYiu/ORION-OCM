@@ -25,5 +25,9 @@ jobs:
       - run: ./scripts/m0_install_dev.sh
       - name: Install pinned donor and independent checker dependencies
         run: python -m pip install -r research/ocm-prototype/requirements-g1.txt
+      - name: Fetch custody-checked development data for external grader controls
+        run: curl --fail --location --retry 2 --connect-timeout 10 --output "$RUNNER_TEMP/en_ewt-ud-dev.conllu" https://raw.githubusercontent.com/UniversalDependencies/UD_English-EWT/r2.14/en_ewt-ud-dev.conllu
       - name: N1 parser and shared vessel lifecycle checks
+        env:
+          OCM_G1_DEV_PATH: ${{ runner.temp }}/en_ewt-ud-dev.conllu
         run: python -m pytest research/ocm-n1 research/ocm-prototype -q

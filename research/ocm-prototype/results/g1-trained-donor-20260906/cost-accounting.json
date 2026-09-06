@@ -1,0 +1,90 @@
+{
+  "role": "MEASURED_TRAINING_AND_DIRECT_DEVELOPMENT_COSTS",
+  "training_manifest_sha256": "bd4fda916c78047ea88cb3d775325468e4bb7c3c2d3c9784f7ea654ba4d8883f",
+  "all_training_attempts": {
+    "wall_seconds_sum": 6341.580110685958,
+    "cpu_user_seconds_sum": 6338.3107,
+    "cpu_system_seconds_sum": 1.9358079999999998,
+    "peak_rss_kib_max": 893304,
+    "attempt_count": 2,
+    "first_1800_second_envelope_met": false,
+    "repeat_5400_second_envelope_met": true,
+    "scope": "measured training children across both attempts; not a whole-research lifetime or energy measurement"
+  },
+  "prediction": {
+    "status": "COMPLETED",
+    "started_utc": "2026-09-06T01:24:02.887817+00:00",
+    "command": [
+      "/home/billy/orion-director-work/20260906/udpipe-g1/.venv/bin/python",
+      "/home/billy/orion-director-work/20260906/udpipe-g1/predict.py"
+    ],
+    "outer_seconds": 120,
+    "address_space_bytes": 2147483648,
+    "execution_plan_sha256": "2e657a51b5a2a90116ae963d2fcfa5134dd683c8ec76a55b68f0950c507a4f99",
+    "model_sha256_before": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+    "child_pid": 2960659,
+    "pgid": 2960659,
+    "returncode": 0,
+    "finished_utc": "2026-09-06T01:24:04.817527+00:00",
+    "wall_seconds": 1.929735244018957,
+    "cpu_user_seconds": 1.823887,
+    "cpu_system_seconds": 0.047997,
+    "maxrss_kib_cumulative": 109744,
+    "model_sha256_after": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9"
+  },
+  "external_grader": {
+    "status": "COMPLETED",
+    "started_utc": "2026-09-06T01:24:04.827819+00:00",
+    "command": [
+      "/home/billy/orion-director-work/20260906/udpipe-g1/.venv/bin/python",
+      "/home/billy/orion-director-work/20260906/udpipe-g1/grade.py"
+    ],
+    "outer_seconds": 60,
+    "address_space_bytes": 2147483648,
+    "execution_plan_sha256": "2e657a51b5a2a90116ae963d2fcfa5134dd683c8ec76a55b68f0950c507a4f99",
+    "model_sha256_before": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+    "child_pid": 2960678,
+    "pgid": 2960678,
+    "returncode": 0,
+    "finished_utc": "2026-09-06T01:24:05.101668+00:00",
+    "wall_seconds": 0.27387186998385005,
+    "cpu_user_seconds": 0.24942699999999984,
+    "cpu_system_seconds": 0.0,
+    "maxrss_kib_cumulative": 109744,
+    "model_sha256_after": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9"
+  },
+  "worker_internal_measurements": {
+    "role": "DEVELOPMENT_DONOR_PREDICTIONS_NOT_GOLD_CERTIFICATES",
+    "python": "3.13.12",
+    "requests": 290,
+    "model_load_seconds": 0.6778665820020251,
+    "inference_wall_seconds": 1.1439084712474141,
+    "cpu_user_seconds": 1.810663,
+    "cpu_system_seconds": 0.03997,
+    "maxrss_kib": 101080,
+    "model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+    "request_sha256": "d5ec5358e16d7ec5f3dcf2e0433c7822f16ab397e138fc8cc442f0a75cd86c18",
+    "response_sha256": "09083b864a969b357815e0ce368698f843c5fe41657362ddf6230d8d1f561a8e",
+    "no_gold_input": true,
+    "worker_read_contract": [
+      "model bytes",
+      "id and token forms only"
+    ]
+  },
+  "timing_qualifier": {
+    "role": "ACTUAL_SHARED_HOST_TIMING_QUALIFIER",
+    "recorded_utc": "2026-09-06T01:29:57.738829+00:00",
+    "direct_prediction_started_utc": "2026-09-06T01:24:02.887817+00:00",
+    "direct_prediction_finished_utc": "2026-09-06T01:24:04.817527+00:00",
+    "external_grader_started_utc": "2026-09-06T01:24:04.827819+00:00",
+    "external_grader_finished_utc": "2026-09-06T01:24:05.101668+00:00",
+    "root_reported_matched_run_started_utc": "2026-09-06T01:23:12.927796+00:00",
+    "root_reported_overlap": "OCM chunk3, started approximately01:23:56 UTC",
+    "matched_metadata_source": "root coordination message; matched run owned and independently recorded by root",
+    "other_activity": "shared-host development and comparator qualification work; no host isolation",
+    "interpretation": "wall measurements descriptive on shared host; retain per-process CPU; no controlled efficiency claim",
+    "no_capability_rerun_or_reselection": true
+  },
+  "RSS_note": "RUSAGE_CHILDREN maxRSS is cumulative across children; prediction was first child, so its final peak is attributable; external-grader cumulative peak is not a separate grader peak. Stage training maxRSS is cumulative within the training process.",
+  "omitted_from_aggregate": "director reasoning, shell/audit/tool coordination, package acquisition/install, energy, upstream software development and prior model experiments outside these two training attempts; no whole-lifetime efficiency claim"
+}
