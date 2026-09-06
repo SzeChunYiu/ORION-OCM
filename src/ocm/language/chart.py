@@ -162,9 +162,44 @@ def parse(tokens: Sequence[str], lexicon: Lexicon, constructions: Iterable[Const
             better = score is not None and (old[2] is None or score > old[2])
             chart[k][key] = (old[0] + count, b if better else old[1], score if better else old[2])
 
+    by_produces: dict[str | None, list[int]] = defaultdict(list)
+    for i, c in enumerate(cons):
+        by_produces[c.produces].append(i)
+
+    def can_start(ci: int, k: int, wanted: set) -> tuple[bool, str | None]:
+        """Top-down filtered prediction: a construction is predicted at k only if its pattern can begin here —
+        its leading lexical slot (after any optional prefix) accepts a reading at k, or its leading phrase slot's
+        type is itself wanted at k.  Returns (predict?, phrase type this construction wants at k, if any)."""
+        c = cons[ci]
+        for d, slot in enumerate(c.pattern):
+            if slot.phrase is not None:
+                return (slot.phrase in wanted), slot.phrase
+            if k < n and any(_slot_accepts_reading(slot, r) for r in per_token[k]):
+                return True, None
+            if not slot.optional:
+                return False, None
+        return False, None
+
     def predict(k: int) -> None:
-        for ci in range(len(cons)):
-            add(k, (ci, 0, k), 1, {}, ccount[ci], ())
+        # phrase types wanted at k: closure from every clause-level construction and every construction that can start here
+        wanted: set = set()
+        candidates = list(range(len(cons)))
+        predicted: set = set()
+        changed = True
+        while changed:
+            changed = False
+            for ci in candidates:
+                if ci in predicted:
+                    continue
+                c = cons[ci]
+                if c.produces is not None and c.produces not in wanted:
+                    continue                      # a phrase construction is predicted only when its type is wanted here
+                ok, want = can_start(ci, k, wanted)
+                if want is not None and want not in wanted and (c.produces is None or c.produces in wanted):
+                    wanted.add(want); changed = True
+                if ok:
+                    predicted.add(ci); changed = True
+                    add(k, (ci, 0, k), 1, {}, ccount[ci], ())
 
     def phrase_of(p: Packed) -> Phrase:
         if p.phrase is None:
