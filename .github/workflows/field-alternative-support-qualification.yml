@@ -29,6 +29,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Align field bridge contract prose
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/ocm/language/field_bridge.py')
+          text = p.read_text()
+          old = '''    Semantic identity excludes warrant and authority so repeated evidence does not create another\n    semantic object. The current runtime has no event for monotonically extending an existing atom's\n    alternative support, so a repeat with different epistemic state is rejected fail-closed rather\n    than silently dropping support. Exact repeats are idempotent at this bridge layer.\n'''
+          new = '''    Semantic identity excludes warrant and authority so repeated evidence does not create another\n    semantic object. When ``support_evidence_id`` names a live assumption whose actual channel,\n    authority and scope match the existing support path, the runtime may add it as an independently\n    revocable alternative in one durable support-extension event. Heterogeneous or derived support\n    remains fail-closed. Exact repeats are idempotent at this bridge layer.\n'''
+          if old in text:
+              p.write_text(text.replace(old, new, 1))
+          elif new not in text:
+              raise SystemExit('field bridge contract prose is neither old nor expected new form')
+          PY
+          if ! git diff --quiet -- src/ocm/language/field_bridge.py; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/ocm/language/field_bridge.py
+            git commit -m "docs: describe bounded field support extension"
+            git push origin HEAD:feature/field-alternative-support-20260906
+          fi
       - name: Install pinned development environment
         run: ./scripts/m0_install_dev.sh
       - name: Run alternative-support hostile and inherited dialogue controls
