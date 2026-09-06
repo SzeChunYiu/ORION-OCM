@@ -20,6 +20,8 @@ from typing import Any, Callable, Hashable, Iterable, Mapping, Sequence
 from ocm.kso import abstraction as AB
 from ocm.kso import admission as AD
 from ocm.kso import extraction as EX
+from ocm.kso import extraction_indexed as EXI
+from ocm.kso.extraction_index import ExtractionIndex
 from ocm.kso import firing as FI
 from ocm.kso import navigation as N
 from ocm.kso import surprise as SP
@@ -198,25 +200,63 @@ def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg
     return StageResult(Stage.NAVIGATION, worst, reason, object_ids=tuple(task.targets), payload=payload, resources=res), {"act_w": act_w, "act_x": act_x, "background": background, "background_x": background_x, "witness": witness, "outcomes": outcomes}
 
 
-def extract_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], nav: Mapping[str, Any], cfg: SolveConfig, revoked: Iterable[Hashable]) -> tuple[StageResult, dict[str, Any]]:
+def _extraction_index_failure(ks: KnowledgeSpace, index: ExtractionIndex) -> StageResult | None:
+    try:
+        index.check(ks)
+    except CannotCheck as exc:
+        return StageResult(Stage.EXTRACTION, Status.CANNOT_CHECK, str(exc),
+                           payload={"extraction_path": "INDEXED", "snapshot_valid": False})
+    return None
+
+
+def extract_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], nav: Mapping[str, Any], cfg: SolveConfig, revoked: Iterable[Hashable], *, extraction_index: ExtractionIndex | None = None) -> tuple[StageResult, dict[str, Any]]:
+    if extraction_index is not None and (failure := _extraction_index_failure(ks, extraction_index)) is not None:
+        return failure, {}
     rv = frozenset(revoked)
     rho_w = SP.surprise(ks, nav["act_w"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv)
     rho_x = SP.surprise(ks, nav["act_x"], nav["background_x"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
-    g_w = EX.reacting_subgraph_from_surprise(ks, rho_w, seed, revoked=rv, mode=N.NavigationMode.WARRANTED)
-    g_x = EX.reacting_subgraph_from_surprise(ks, rho_x, seed, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+    indexed_work = {}
+    if extraction_index is None:
+        g_w = EX.reacting_subgraph_from_surprise(ks, rho_w, seed, revoked=rv, mode=N.NavigationMode.WARRANTED)
+        g_x = EX.reacting_subgraph_from_surprise(ks, rho_x, seed, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+    else:
+        g_w, warranted_work = EXI.reacting_subgraph_from_surprise_indexed(
+            ks, rho_w, seed, revoked=rv, mode=N.NavigationMode.WARRANTED, index=extraction_index, with_work=True)
+        g_x, exploratory_work = EXI.reacting_subgraph_from_surprise_indexed(
+            ks, rho_x, seed, revoked=rv, mode=N.NavigationMode.EXPLORATORY, index=extraction_index, with_work=True)
+        indexed_work = {"warranted_reaction": warranted_work.as_dict(),
+                        "exploratory_reaction": exploratory_work.as_dict()}
     approx = "NONE"
     ties = 0
     prizes = {x: Fraction(max(0.0, rho_w[x])).limit_denominator(10**6) for x in ks.ids}
     support = [x for x, v in zip(ks.ids, seed, strict=True) if v > 0 and ks.atom(x).is_live(rv)]
     optimum: EX.ExtractionResult | None = None
+    exact_candidates = 0
     if support:
         try:
             optimum = EX.pcst_exact_bounded(ks, prizes, support, revoked=rv, max_atoms=cfg.exact_extraction_max_atoms)
             approx, ties = optimum.approximation.value, optimum.ties
+            exact_candidates = optimum.candidates_considered
         except CannotCheck:
-            optimum = EX.pcst_greedy(ks, prizes, support, revoked=rv)
+            if extraction_index is None:
+                optimum = EX.pcst_greedy(ks, prizes, support, revoked=rv)
+            else:
+                optimum, greedy_work = EXI.pcst_greedy_indexed(
+                    ks, prizes, support, revoked=rv, index=extraction_index, with_work=True)
+                indexed_work["greedy_optimizer"] = greedy_work.as_dict()
             approx = optimum.approximation.value
     payload = {"warranted_atoms": sorted(g_w.atoms), "exploratory_only_atoms": sorted(g_x.atoms - g_w.atoms), "optimiser": approx, "optimiser_ties": ties, "surprise_model": cfg.surprise_model.value}
+    if extraction_index is not None:
+        payload["indexed_extraction"] = {
+            "query_work": indexed_work,
+            "index_preparation": {"accounting": "CALLER_OWNED", "charged_in_query": False,
+                                  "build_work": dict(extraction_index.build_work)},
+            "global_preparation": {"total_objects": len(ks.ids), "total_relations": len(ks.hyperedges),
+                "surprise_calls": 2, "surprise_scope": "FULL_FIELD", "surprise_internal_work": "NOT_INSTRUMENTED",
+                "prize_entries_materialized": len(prizes), "optimizer_seed_entries_examined": len(seed),
+                "exact_optimizer_universe_entries_examined": len(ks.ids) if support else 0,
+                "exact_optimizer_candidate_subsets": exact_candidates},
+            "complete_runtime_scaling": "NOT_ESTABLISHED"}
     status = Status.PASS if g_w.atoms else Status.FAIL
     reason = "REACTING_SUBGRAPH" if g_w.atoms else "NO_WARRANTED_REACTION"
     return StageResult(Stage.EXTRACTION, status, reason, object_ids=tuple(sorted(g_w.atoms)), payload=payload, resources=ResourceVector(composition_work=len(g_w.atoms))), {"g_w": g_w, "g_x": g_x, "optimum": optimum}
@@ -411,10 +451,17 @@ def solve(
     revoked: Iterable[Hashable] = (),
     config: SolveConfig = SolveConfig(),
     commit_authority: Authority | None = None,
+    extraction_index: ExtractionIndex | None = None,
 ) -> SolveOutcome:
     rv = frozenset(revoked)
     trace = SolveTrace(task.task_id)
     trace.add(StageResult(Stage.TASK, Status.PASS, "RECEIVED", payload={"parts": len(task.parts), "targets": list(task.targets)}))
+    if extraction_index is not None and (failure := _extraction_index_failure(ks, extraction_index)) is not None:
+        trace.add(failure)
+        decision, outcome = decide(trace, {}, (), task)
+        trace.add(decision)
+        trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))
+        return outcome
     grounding, seed = atomise(ks, task)
     trace.add(grounding)
     if seed is None:
@@ -428,20 +475,21 @@ def solve(
     trace.add(nav_res)
     checked: list = []
     if nav_res.status is not Status.CANNOT_CHECK:
-        ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+        ext_res, ext = extract_stage(ks, seed, nav, config, rv, extraction_index=extraction_index)
         trace.add(ext_res)
-        fire_res, enabled = fire_stage(ks, nav, ext["g_w"], config, rv, task.context)
-        trace.add(fire_res)
-        if fire_res.status is not Status.CANNOT_CHECK:
-            # C4 (MEG-11): composition runs only over the *enabled* part of the reacting subgraph;
-            # a FIRE-stage CANNOT_CHECK is absorbing (no composition, no check, decision CANNOT_CHECK)
-            g_w = ext["g_w"]
-            enabled_atoms = {a for e in ks.hyperedges if e.edge_id in enabled for a in (*e.tails, *e.heads)} | set(g_w.seed_support)
-            g_enabled = EX.ReactingSubgraph(frozenset(g_w.atoms & enabled_atoms), frozenset(enabled), g_w.mode, g_w.seed_support)
-            comp_res, candidates = compose_stage(ks, operators, g_enabled, rv)
-            trace.add(comp_res)
-            chk_res, checked = check_stage(candidates, rv)
-            trace.add(chk_res)
+        if ext_res.status is not Status.CANNOT_CHECK:
+            fire_res, enabled = fire_stage(ks, nav, ext["g_w"], config, rv, task.context)
+            trace.add(fire_res)
+            if fire_res.status is not Status.CANNOT_CHECK:
+                # C4 (MEG-11): composition runs only over the *enabled* part of the reacting subgraph;
+                # a FIRE-stage CANNOT_CHECK is absorbing (no composition, no check, decision CANNOT_CHECK)
+                g_w = ext["g_w"]
+                enabled_atoms = {a for e in ks.hyperedges if e.edge_id in enabled for a in (*e.tails, *e.heads)} | set(g_w.seed_support)
+                g_enabled = EX.ReactingSubgraph(frozenset(g_w.atoms & enabled_atoms), frozenset(enabled), g_w.mode, g_w.seed_support)
+                comp_res, candidates = compose_stage(ks, operators, g_enabled, rv)
+                trace.add(comp_res)
+                chk_res, checked = check_stage(candidates, rv)
+                trace.add(chk_res)
     dec_res, outcome = decide(trace, nav, checked, task)
     trace.add(dec_res)
     trace.add(commitment_gate(outcome, task, rv, commit_authority=commit_authority or Authority()))

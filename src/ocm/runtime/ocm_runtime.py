@@ -31,6 +31,7 @@ from ocm.kso import navigation as N
 from ocm.kso import revocation as RV
 from ocm.kso import space as S
 from ocm.kso.jump import JumpAssessment, JumpProposal, assess_jump
+from ocm.kso.extraction_index import ExtractionIndex
 from ocm.kso.nogoods import NogoodSet
 from ocm.kso.resources import ResourceVector
 from ocm.kso.types import Authority, Scope
@@ -296,9 +297,9 @@ class OCMRuntime:
         return key
 
     # ------------------------------------------------------------------ solve / navigate / extract
-    def solve(self, task: SV.Task, operators: Sequence[SV.OperatorSpec] = ()) -> SV.SolveOutcome:
+    def solve(self, task: SV.Task, operators: Sequence[SV.OperatorSpec] = (), *, extraction_index: ExtractionIndex | None = None) -> SV.SolveOutcome:
         self._emit(EventType.QUERY_OPENED, EventStatus.PASS, inputs=tuple(r for p in task.parts for r in p.refs), payload={"task_id": task.task_id, "targets": list(task.targets)}, operator="kso.solve")
-        out = SV.solve(self.state.ks, task, operators, revoked=self.state.revoked, config=self.config, commit_authority=Authority())
+        out = SV.solve(self.state.ks, task, operators, revoked=self.state.revoked, config=self.config, commit_authority=Authority(), extraction_index=extraction_index)
         for s in out.trace.stages:
             et = {SV.Stage.NAVIGATION: EventType.NAVIGATION, SV.Stage.EXTRACTION: EventType.EXTRACTION, SV.Stage.COMPOSITION: EventType.CANDIDATE_COMPOSED, SV.Stage.CHECK: EventType.CHECKER_RESULT}.get(s.stage)
             if et is None:
