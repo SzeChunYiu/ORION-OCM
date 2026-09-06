@@ -60,3 +60,25 @@ def test_receipt_exists_when_data_was_run():
     import json
     d = json.loads(rec.read_text())
     assert d["train_induction"]["frequency_raises_warrant"] is False and d["status"].startswith("DESCRIPTIVE")
+
+
+def test_identification_receipt_names_the_class_and_its_limits():
+    """Batch 11 H1/H2: the induced inventory's receipt says what class it identifies, flags LEARNED-at-n=1
+    families and singleton rules (NOT_CONVERGED), and states that a unique parse is unreachable from
+    positive data for shapes with two attested decompositions."""
+    from collections import Counter
+    from ocm.learning.language import ud_grammar as G
+    g = G.Grammar()
+    r1 = G.Rule("VERB", ("nsubj:NOUN", "HEAD", "obj:NOUN"))
+    r2 = G.Rule("NOUN", ("det:DET", "HEAD"))
+    r3 = G.Rule("NOUN", ("HEAD", "nmod:NOUN"))
+    g.memorised.update({r1: 3, r2: 5, r3: 1})
+    g.families[r1.family].update({r1.pattern: 3}); g.families[r2.family].update({r2.pattern: 5}); g.families[r3.family].update({r3.pattern: 1})
+    g.sentences = 6
+    ident = g.receipt()["identification"]
+    assert ident["arity_bound"] == 2 and ident["rules_total"] == 3 and ident["rules_attested_once"] == 1
+    assert ident["learned_families"] == 3 and ident["learned_at_n1"] == 1
+    assert ident["convergence"].startswith("NOT_CONVERGED")
+    assert "UNREACHABLE_FROM_POSITIVE_DATA" in ident["unique_parse"]
+    g.memorised[r3] = 2; g.families[r3.family][r3.pattern] = 2
+    assert g.receipt()["identification"]["convergence"].startswith("NO_SINGLETON_RULES")     # still not certified
