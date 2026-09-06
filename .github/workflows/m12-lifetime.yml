@@ -33,7 +33,10 @@ jobs:
           for key in ("summary", "F", "G", "E", "always_attempts", "acquisition"):
               assert a["deterministic"][key]["ocm"] == b["deterministic"][key]["ocm"], key
           assert a["deterministic"]["gates"]["hits"] == 0
+          assert set(a["information"]["whole_system_parent"]) == {"O1", "O2", "O3"}
           for ordering, information in a["information"]["whole_system_parent"].items():
+              for family in ("factual_in_scope", "honest_unknown", "post_deployment"):
+                  assert a["phases"]["ocm"][ordering]["A"][family] == a["phases"]["whole_system_parent"][ordering]["A"][family], family
               assert information["comparison_scope"] == "EXPOSED_A_E_ONLY_WITH_UNSUPPORTED_ROUTES"
               assert information["whole_system_parity"] == "CANNOT_CHECK"
               assert a["phases"]["ocm"][ordering]["E"]["cells"] == a["phases"]["whole_system_parent"][ordering]["E"]["cells"]
