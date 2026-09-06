@@ -1,0 +1,26 @@
+{
+  "role": "DEVELOPMENT_ADOPT_PARENT_TRAINING",
+  "registered_utc": "2026-09-05T23:31:45.766619+00:00",
+  "package": "ufal.udpipe==1.4.0.1",
+  "train_path": "/home/billy/orion-director-work/20260906/language-g1-audit/data/en_ewt-ud-train.conllu",
+  "train_sha256": "c081876811507cb9437000ea5e6a1741795d8fe8755537ef024bd3b4a713ff14",
+  "training_input": "original unmodified full official train CoNLL-U including punctuation; no dev/test path read by trainer",
+  "method": "morphodita_parsito",
+  "tokenizer": "none",
+  "tagger": "DEFAULT empty string; one model;20iterations",
+  "parser": "DEFAULT empty string;projective;dynamic;10iterations;hidden200;SGD;batch10;structured_interval8;lr0.02 to0.001;l2=0.5;use_gold_tags=false;single_root=true",
+  "heldout": "empty",
+  "early_stopping": false,
+  "external_pretrained_vectors": false,
+  "external_dictionary": false,
+  "imported_model": false,
+  "hyperparameter_search": false,
+  "outer_seconds": 1800,
+  "address_space_bytes": 6442450944,
+  "evaluation_selection": "first50 dev plus 5 genres x4 nonpunct lengthbands x5 sentences picked by SHA256(prefix UDPIPE-G1-20260906-V1| followed by sent_id), using only genre/length/identity before UDPipe outcomes; no outcome or known-word filters",
+  "evaluation_inputs": [
+    "lowercase forms with gold PUNCT removed, matching old parser input",
+    "case-preserved forms of every integer token; gold token boundaries only"
+  ],
+  "protected_claim_authority": false
+}
