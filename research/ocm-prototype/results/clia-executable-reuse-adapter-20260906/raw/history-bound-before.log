@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_lower_only_history_overlap_is_refused __________________
+
+    def test_lower_only_history_overlap_is_refused():
+        d = descriptor(); task = d['task']
+        support = {'lower': [['history']], 'upper': [[]]}
+        assert D.liveness(support, set()) == 'LIVE'
+        assert D.liveness(support, {'history'}) == 'UNKNOWN'
+>       with pytest.raises(ValueError): D.create(task, D.proposal(d), support, history=['history'])
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/ocm-prototype/test_clia_reuse_program.py:144: Failed
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-unit-diagnostic/history-bound-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_program.py::test_lower_only_history_overlap_is_refused
+1 failed in 0.18s
