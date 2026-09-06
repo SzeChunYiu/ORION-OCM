@@ -7,6 +7,7 @@ on:
       - 'src/ocm/**'
       - 'tests/m4/test_dialogue_field_alternative_support.py'
       - '.github/workflows/field-alternative-support-qualification.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -110,7 +111,6 @@ jobs:
                   '''        authority=record.authority,\n        scope=record.scope,\n    )\n''',
                   '''        authority=record.authority,\n        scope=record.scope,\n        support_evidence_id=commitment.evidence_id,\n    )\n''',
               )
-              # Scope is part of identity; test a caller/evidence scope mismatch instead of a new identity.
               test_path = Path('tests/m4/test_dialogue_field_alternative_support.py')
               test_text = test_path.read_text()
               test_text = test_text.replace(
