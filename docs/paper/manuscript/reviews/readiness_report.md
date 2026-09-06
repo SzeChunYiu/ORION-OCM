@@ -49,7 +49,7 @@ Real blockers (no manuscript edit can close them):
 
 1. **Protected re-evaluation of the self-repair cells under the corrected adoption gate** (M11 S1–S7; M12 V2 phase G; by shared harness also V3 and V4 phase G). Until then every self-repair number is a frozen receipt value under a reopened gate, as the manuscript now says. `blocked_on_author_evidence`.
 2. **Prospectively matched cross-domain transfer cells** (currently 6 machine cells vs 4 parent cells). `blocked_on_author_evidence`.
-3. **Positioning against contemporary systems with verified citations** (R2-1). Needs a literature pass; this round's web access was limited to verifying existing references. `research_literature`.
+3. ~~Positioning against contemporary systems with verified citations (R2-1)~~ closed in round 2 (Section 1.1); replaced by the mechanical blocker **R2-r2-1: one citation system** (author–year keys in 1.1 must be folded into the numbered References). Needs a literature pass; this round's web access was limited to verifying existing references. `research_literature`.
 4. **Archived release with a persistent identifier** for code, data and receipts (R3-6). A pre-submission action.
 5. **Venue-specific manuscript form** if a short-form venue is chosen (R2-3): a 3,500-word main text with Methods and SI. A target decision.
 6. **Release-integrity binding**: SHA256SUMS of the manuscript package bound to the receipt chain, then a fresh verification pass in the mirror location.

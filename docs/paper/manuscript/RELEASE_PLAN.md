@@ -9,7 +9,8 @@ Purpose: close the readiness report's release blockers (archived release with a 
 | `main.md`, `claims_map.md`, `claims_verification.txt`, `figures.md`, `positioning.md`, `positioning_refs.md` | `docs/paper/manuscript/` at the release commit |
 | `reviews/*` (venue contract, three blind reviews, editor synthesis, revision log, readiness report) | same |
 | receipt chain | `docs/provenance/M1…M12_RECEIPT_V1.json`, `M12_REPLICATION_RECEIPT_V1.json`, `M12_PAIRED_RECEIPT_V1.json`, `M12_PAIRED_RECEIPT_V4.json`, `M12_PAIRED_REPLICATION_RECEIPT_V4.json`, `M12_REFERENCE_RECEIPT_V1.json`, and the current-runtime successor receipts under `docs/provenance/runtime_revision_20260905_v4/` |
-| evaluation results | `research/ocm-m*/…json`, `research/ocm-n1/…json` (whatever the text cites) |
+| evaluation results | `research/ocm-m*/…json` including `research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V4R.json`, `docs/M12_V4R_REEVALUATION_NOTE.md`, `research/ocm-n1/N1_UD_INDUCTION_V1.json` (whatever the text cites) |
+| evidence successor files | `docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md` and `_V2.md`, `docs/theorems/*.json` including `OCM_SELF_OBLIGATION_REGISTRY_V2.json` (the V1 files are byte-frozen by the custody regime; both generations are packaged) |
 | theory | ORION-V2 `research/machine-epistemics-theory/` batch documents and checkers at the ORION-V2 commit named in the manuscript |
 
 ## 2. Release-integrity binding

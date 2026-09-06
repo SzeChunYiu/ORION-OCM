@@ -59,3 +59,15 @@ Post-revision consistency checks: claim verification re-run (246 rows OK, exit 0
 ## Pipeline round 2 (2026-09-06, in progress)
 
 Opened with R2-1 closed. Remaining round-2 items wait for their receipts to reach main: the V4-R re-evaluation under the corrected adoption gate (decision label CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION with the historical rule kept as diagnostic), the matched transfer cells for E, the batch-8 intake (commitment-gate epoch refusal) and the N1 open-vocabulary results. Claim verification after the merge: 246 rows OK, exit 0.
+
+### Round-2 reviewer items
+
+| Item | Reviewer | Disposition |
+|---|---|---|
+| R1-r2-1 / R3-r2-1 | 1, 3 | accepted: 5.10 reports proportions over the sentences reached; load-free re-run scheduled as receipt of record |
+| R1-r2-2 | 1 | applied: ORION-V2 batch-8 commit named in data availability |
+| R2-r2-1 | 2 | accepted, open: unify citation systems (author–year in 1.1 vs numbered elsewhere) |
+| R2-r2-2 | 2 | applied: reopened-gate qualification moved forward |
+| R3-r2-2 | 3 | applied: identifier proxy label named in data availability |
+| R3-r2-3 | 3 | applied: release package list extended |
+

@@ -34,7 +34,7 @@
   32 | 2.5        | OK              | contains ok: '## D2 '
   33 | 2.6        | OK              | contains ok: '## E1 · MEG-29'
   34 | 2.6        | OK              | contains ok: '## E6 '; contains ok: '## E7 '; contains ok: '## T8 '
-  35 | 2.7        | OK              | filecount = 12; count(obligations) = 123; statuscount(obligations, PROVED) = 87; statuscount(obligations, FINITE_CALIBRATION) = 25; statuscount(obligations, PARENT_OWNED) = 3; statuscount(obligations, OPEN) = 6; statuscount(obligations, CANNOT_CHECK) = 2
+  35 | 2.7        | OK              | filecount = 13; count(obligations) = 127; statuscount(obligations, PROVED) = 90; statuscount(obligations, FINITE_CALIBRATION) = 25; statuscount(obligations, PARENT_OWNED) = 3; statuscount(obligations, OPEN) = 7; statuscount(obligations, CANNOT_CHECK) = 2
   36 | 2.7        | OK              | count(result.event_families) = 23
   37 | 2.7        | OK              | result.historical_replay.counts.PASS = 8; result.historical_replay.counts.FAIL = 0; result.historical_replay.counts.CANNOT_CHECK = 0
   38 | 3          | OK              | regexcount '^\\x7c M\\d+ .*\\x7c #\\d+ \\x7c' = 13
@@ -221,7 +221,7 @@
  219 | 8 Table 10 | OK              | contains ok: '128 000'; contains ok: '13/13 tests'; contains ok: '## E8'; contains ok: 'R1–R3'
  220 | 8 Table 10 | OK              | contains ok: '14/14 tests'; contains ok: '## F8'
  221 | 8 Table 10 | OK              | contains ok: '13/13 tests'; contains ok: 'batches 1–7 together 89/89'; contains ok: 'OPEN: none'; note: the file is read from the ORION-V2 origin/main branch, which is the merge evidence (pull request 349, merged 2026-09-05)
- 222 | 8          | OK              | regexcount '^    Intake\\(' = 15; count 'IntakeStatus.DEFECT_FOUND)' = 11; count 'IntakeStatus.DISCHARGED)' = 2; count 'IntakeStatus.OPEN)' = 2; regexcount '^    Export\\(' = 2
+ 222 | 8          | OK              | regexcount '^    Intake\\(' = 17; count 'IntakeStatus.DEFECT_FOUND)' = 12; count 'IntakeStatus.DISCHARGED)' = 2; count 'IntakeStatus.OPEN)' = 3; regexcount '^    Export\\(' = 2
  223 | 8          | OK              | contains ok: 'two **runtime defects**'; regexcount '^\\x7c S2[01] \\x7c' = 2; regexcount '^\\x7c S28 \\x7c' = 1; contains ok: '`DEFECT_FOUND` ×6'; contains ok: '`DEFECT_FOUND` ×5 + `CAVEAT` ×1'; note: 2 + 1 + 1 + 1 + 6 + 5 = 16
  224 | 8          | OK              | valuecount(obligations[*].id, "KS-T116") = 1; valuecount(obligations[*].id, "KS-T117") = 1; valuecount(obligations[*].status, "PROVED_WITH_CLAUSE") = 1; count(obligations) = 9
  225 | 8          | OK              | contains ok: '## F3 · P3 · observational limits of sel'; contains ok: '## F4 · P4 · false-structural-alarm lemm'; regexcount '^    Export\\(' = 2
@@ -246,5 +246,16 @@
  244 | 6 Table 9  | OK              | sum(lifetimes[*].four_class.unlicensed_true) = 199; sum(lifetimes[*].four_class.unlicensed_false) = 38; sum(lifetimes[*].summary.honest_unknown) = 7/240; note: 240 − (199 + 38) = 3
  245 | Methods    | OK              | contains ok: '## D1 · MEG-32'; contains ok: '## F2 · P2 · the unit of inference'; contains ok: '## G8 · M12 V3 paired lifetimes: exact s'
  246 | Data       | OK              | contains ok: 'Apache License'; contains ok: 'Apache-2.0'; contains ok: 'SzeChunYiu/ORION-OCM'
+ 247 | 5.9        | OK              | deterministic.tests.A_conversations.ocm_mean = 0.9954; deterministic.tests.A_conversations.parent_mean = 0.6065; deterministic.tests.A_conversations.positive = 8; deterministic.tests.A_conversations.p_one_sided = 0.0039; deterministic.tests.A_conversations.role = primary
+ 248 | 5.9        | OK              | deterministic.decision = CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION; study_status = ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS
+ 249 | 5.9        | OK              | deterministic.historical_rule_diagnostic = OCM_LIFETIME_RESIDUAL_SUPPORTED
+ 250 | 5.9        | OK              | deterministic.tests.E_transfer.verdict = CANNOT_CHECK_MATCHED_CASES
+ 251 | 5.10       | OK              | train_induction.sentences = 12544; train_induction.lexemes = 13413; train_induction.singletons = 6008; train_induction.irregular_past_exceptions = 155; train_induction.irregular_present_exceptions = 28
+ 252 | 5.10       | OK              | coverage.test.token_coverage = 19729/21188; coverage.test.sentence_lexical_coverage = 1162/2016
+ 253 | 5.10       | OK              | ud_parse.protected_chart.test.parsed = 1664; ud_parse.protected_chart.test.exact_gold_match = 0/1664; ud_parse.protected_chart.test.verdicts.UNKNOWN_LEXEME = 1087; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 430; ud_parse.protected_chart.test.verdicts.TIME_BUDGET_CANNOT_CHECK = 254; ud_parse.protected_chart.test.verdicts.UNKNOWN_CONSTRUCTION = 110; ud_parse.protected_chart.test.verdicts.AMBIGUOUS = 37; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED = 4; ud_parse.meta.chart.max_items = 300000
+ 254 | 5.10       | OK              | ud_parse.protected.test.status = CANNOT_CHECK_MEMORY
+ 255 | 8          | OK              | contains ok: 'KS-T118'; contains ok: 'KS-T121'; contains ok: 'REFUSED:SCOPE_EPOCH_UNDECLARED'
+ 256 | 5.10       | OK              | ud_parse.protected_chart_gaps.test.parsed = 642; ud_parse.protected_chart_gaps.test.exact_gold_match = 0/642; ud_parse.protected_chart_gaps.test.verdicts.CHART_CAP_CANNOT_CHECK = 544; ud_parse.protected_chart_gaps.test.verdicts.AMBIGUOUS = 16; ud_parse.protected_chart_gaps.test.gaps = true
+ 257 | 5.10       | OK              | ud_parse.protected_chart.test.verdicts.UNKNOWN_LEXEME = 1087; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 430; ud_parse.protected_chart.test.verdicts.UNKNOWN_CONSTRUCTION = 110; ud_parse.protected_chart.test.verdicts.AMBIGUOUS = 37; ud_parse.protected_chart.test.parsed = 1664
 ----------------------------------------------------------------------------------------------------
-rows: 246 OK=246
+rows: 257 OK=257
