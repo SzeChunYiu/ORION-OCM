@@ -35,6 +35,12 @@ from ocm.learning.language import ud as UD
 
 register_relations("ROLE:recipient", "ROLE:oblique", "ROLE:complement", "ROLE:predicate", "COORDINATES", "LOCATED_IN")
 
+# Batch 11 K2 (v), obligation H5: a representation introduction carries a search-and-evaluation receipt.  These
+# relation types enter the meaning vocabulary as a GIVEN inventory (Universal Dependencies v2 relation names),
+# not as a discovery: 0 selection bits, no evaluated candidates, no adoption gain, source named.
+REPRESENTATION_INTRODUCTION_RECEIPT = {"relations": ["ROLE:recipient", "ROLE:oblique", "ROLE:complement", "ROLE:predicate", "COORDINATES", "LOCATED_IN"], "kind": "GIVEN", "selection_bits": 0, "candidates_evaluated": 0, "adoption_gain": None,
+                                       "source": "Universal Dependencies v2 relation inventory (de Marneffe et al. 2021), mapped by REL_MAP", "external_evaluator": None}
+
 REL_MAP = {"nsubj": "ROLE:agent", "nsubj:pass": "ROLE:patient", "csubj": "ROLE:agent", "obj": "ROLE:patient", "iobj": "ROLE:recipient", "obl": "ROLE:oblique", "obl:tmod": "ROLE:oblique", "obl:npmod": "ROLE:oblique",
            "xcomp": "ROLE:complement", "ccomp": "ROLE:complement", "advcl": "ROLE:complement", "acl": "MODIFIES", "acl:relcl": "MODIFIES", "amod": "MODIFIES", "advmod": "MODIFIES", "nmod": "MODIFIES", "nmod:poss": "MODIFIES",
            "nummod": "MODIFIES", "appos": "MODIFIES", "compound": "MODIFIES", "flat": "MODIFIES", "conj": "COORDINATES", "parataxis": "COORDINATES", "vocative": "MODIFIES", "dislocated": "MODIFIES", "list": "COORDINATES"}
@@ -145,7 +151,7 @@ class Grammar:
         lr = self.learned()
         return {"sentences": self.sentences, "memorised_rules": len(self.memorised), "families": len(self.families), "learned_single_order": sum(1 for v in lr.values() if v == "LEARNED"),
                 "ambiguous_order": sum(1 for v in lr.values() if v.startswith("AMBIGUOUS")), "singleton_rules": sum(1 for c in self.memorised.values() if c == 1), "top_rules": [(f"{r.head_upos} ← {' '.join(r.pattern)}", c) for r, c in self.memorised.most_common(8)],
-                "identification": self.identification()}
+                "identification": self.identification(), "representation_introduction": REPRESENTATION_INTRODUCTION_RECEIPT}
 
 
 def induce_grammar(sentences: Iterable[UD.Sentence]) -> Grammar:

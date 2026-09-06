@@ -82,3 +82,12 @@ def test_identification_receipt_names_the_class_and_its_limits():
     assert "UNREACHABLE_FROM_POSITIVE_DATA" in ident["unique_parse"]
     g.memorised[r3] = 2; g.families[r3.family][r3.pattern] = 2
     assert g.receipt()["identification"]["convergence"].startswith("NO_SINGLETON_RULES")     # still not certified
+
+
+def test_representation_introduction_is_receipted_as_given():
+    """Batch 11 H5: the relation types registered at import are a GIVEN vocabulary with 0 selection bits and a named source."""
+    from ocm.learning.language import ud_grammar as G
+    r = G.REPRESENTATION_INTRODUCTION_RECEIPT
+    assert r["kind"] == "GIVEN" and r["selection_bits"] == 0 and r["candidates_evaluated"] == 0 and "Universal Dependencies" in r["source"]
+    assert "ROLE:recipient" in r["relations"]
+    assert G.Grammar().receipt()["representation_introduction"] is r
