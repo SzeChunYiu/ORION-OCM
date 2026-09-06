@@ -1,0 +1,94 @@
+name: Frozen FLT prerequisite evidence executor
+on:
+  push:
+    branches: [codex/flt-prerequisite-execution-20260906]
+permissions:
+  contents: read
+# An evidence executor, not a replacement engineering qualification or PR source.
+# Both jobs check out the exact unmodified PR head named below.
+jobs:
+  micro:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 3c0884acbf86274aad756de512567e095d256c3e
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Bind both execution wrapper and actual mechanism source
+        run: |
+          test "$(git rev-parse HEAD)" = 3c0884acbf86274aad756de512567e095d256c3e
+          mkdir -p "$RUNNER_TEMP/frozen-evidence"
+          echo "$GITHUB_SHA" > "$RUNNER_TEMP/frozen-evidence/executor.commit"
+          git rev-parse HEAD > "$RUNNER_TEMP/frozen-evidence/mechanism.commit"
+          git rev-parse HEAD^{tree} > "$RUNNER_TEMP/frozen-evidence/mechanism.tree"
+          echo ENGINEERING_QUALIFICATION_NOT_RUN_BY_THIS_EXECUTOR > "$RUNNER_TEMP/frozen-evidence/scope.txt"
+          ./scripts/m0_install_dev.sh
+      - name: Development controls and pinned releases
+        env: {PYTHONPATH: src}
+        run: |
+          python -m unittest discover -s research/flt-kso-v1 -p 'test_*.py' -v
+          for v in 4.19.0 4.33.1; do
+            curl --fail --location --retry 2 --max-time 180 \
+              "https://github.com/leanprover/lean4/releases/download/v$v/lean-$v-linux.tar.zst" \
+              -o "$RUNNER_TEMP/lean-$v-linux.tar.zst" || echo "CANNOT_CHECK_ARCHIVE_$v"
+          done
+      - name: Same predeclared row; retain all terminal outcomes
+        env: {PYTHONPATH: src}
+        run: |
+          set +e
+          python research/flt-kso-v1/run.py \
+            --control-archive "$RUNNER_TEMP/lean-4.19.0-linux.tar.zst" \
+            --archive "$RUNNER_TEMP/lean-4.33.1-linux.tar.zst" \
+            --out "$RUNNER_TEMP/frozen-evidence/micro"
+          status=$?
+          echo "$status" > "$RUNNER_TEMP/frozen-evidence/micro.exit"
+          test "$status" = 0 || test "$status" = 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frozen-flt-micro-3c0884ac
+          path: ${{ runner.temp }}/frozen-evidence/
+          retention-days: 14
+          if-no-files-found: error
+  evaluator:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 3c0884acbf86274aad756de512567e095d256c3e
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Record source identities
+        run: |
+          test "$(git rev-parse HEAD)" = 3c0884acbf86274aad756de512567e095d256c3e
+          mkdir -p "$RUNNER_TEMP/evaluator-evidence"
+          echo "$GITHUB_SHA" > "$RUNNER_TEMP/evaluator-evidence/executor.commit"
+          git rev-parse HEAD > "$RUNNER_TEMP/evaluator-evidence/adapter.commit"
+      - uses: actions/checkout@v4
+        with:
+          repository: anthropics/fermats-last-theorem
+          ref: aa2d8b34692b16c70f699536de0d8e75b9a3e9ef
+          path: .private-flt
+          persist-credentials: false
+          sparse-checkout: |
+            Theorems
+            P2M/Sol
+          sparse-checkout-cone-mode: true
+      - name: Evaluator-only corpus inventory; no native solver in this job
+        env: {PYTHONPATH: src}
+        run: |
+          python research/flt-kso-v1/audit.py --source .private-flt \
+            --out "$RUNNER_TEMP/evaluator-evidence/inventory"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frozen-flt-evaluator-3c0884ac
+          path: ${{ runner.temp }}/evaluator-evidence/
+          retention-days: 14
+          if-no-files-found: error
