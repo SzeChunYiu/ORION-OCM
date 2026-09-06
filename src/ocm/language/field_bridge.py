@@ -1,21 +1,21 @@
 """Bounded L1 bridge between language ``MeaningGraph`` values and the persistent KSO field.
 
-This module deliberately does *not* flatten every parse node into a KSO atom.  A meaning remains a
-compact language representation.  When a representation needs persistent cross-view identity, the
+This module deliberately does *not* flatten every parse node into a KSO atom. A meaning remains a
+compact language representation. When a representation needs persistent cross-view identity, the
 bridge admits one ``representation`` atom whose identity is bound to:
 
 * the exact bounded meaning structure;
 * the explicit meaning-node -> KSO-object correspondences;
 * the declared scope.
 
-The bridge is an implementation experiment for ORION-OCM #93.  It grants no new factual authority:
+The bridge is an implementation experiment for ORION-OCM #93. It grants no new factual authority:
 a representation atom carries only the warrant/authority supplied by the caller, and admission still
 passes through ``OCMRuntime.admit_object`` and the normal KSO event/replay path.
 
-A subtle point is canonicalisation.  Meaning structure alone can have automorphisms.  Canonicalising
-the meaning and then attaching bindings can therefore make persistent identity depend on temporary
-parser node ids.  ``canonical_bound_meaning`` canonicalises the *joint* object (meaning + external
-bindings) so alpha-renamed parser outputs produce the same field identity.
+Meaning structure alone can have automorphisms. Canonicalising the meaning and then attaching
+bindings can therefore make persistent identity depend on temporary parser node ids.
+``canonical_bound_meaning`` canonicalises the *joint* object (meaning + external bindings), so
+alpha-renamed parser outputs produce the same field identity.
 """
 from __future__ import annotations
 
@@ -90,7 +90,11 @@ class MeaningFieldBindingReceipt:
         }
 
 
-def _joint_encoding(g: MeaningGraph, order: tuple[str, ...], bindings: Mapping[str, str]) -> tuple[str, tuple[tuple[str, str], ...]]:
+def _joint_encoding(
+    g: MeaningGraph,
+    order: tuple[str, ...],
+    bindings: Mapping[str, str],
+) -> tuple[str, tuple[tuple[str, str], ...]]:
     mapping = {v: f"n{i}" for i, v in enumerate(order)}
     nodes = sorted((mapping[n.node_id], n.colour()) for n in g.nodes)
     edges = sorted(
@@ -118,8 +122,8 @@ def _joint_encoding(g: MeaningGraph, order: tuple[str, ...], bindings: Mapping[s
 def canonical_bound_meaning(g: MeaningGraph, bindings: Mapping[str, str]) -> CanonicalBoundMeaning:
     """Canonicalise ``(meaning graph, field bindings)`` jointly.
 
-    ``bindings`` keys are the graph's *current* node ids.  Values are persistent KSO atom ids.
-    Partial bindings are allowed, because a language representation may be only partly grounded.
+    ``bindings`` keys are the graph's current node ids. Values are persistent KSO atom ids.
+    Partial bindings are allowed because a language representation may be only partly grounded.
     An entirely unbound representation is intentionally not persistable by ``bind_meaning``.
     """
     unknown = sorted(set(bindings) - set(g.ids))
@@ -132,7 +136,7 @@ def canonical_bound_meaning(g: MeaningGraph, bindings: Mapping[str, str]) -> Can
             f"exact bound-meaning canonical form bounded to {MAX_EXACT_CANONICAL} nodes; fragment has {len(g.nodes)}"
         )
 
-    # Binding identity is part of the colour partition.  This removes parser-id dependence even
+    # Binding identity is part of the colour partition. This removes parser-id dependence even
     # when the unbound meaning graph has automorphisms.
     by_colour: dict[str, list[str]] = {}
     for n in g.nodes:
@@ -150,7 +154,7 @@ def canonical_bound_meaning(g: MeaningGraph, bindings: Mapping[str, str]) -> Can
     encoded, order, canonical_bindings = best
     mapping = {v: f"n{i}" for i, v in enumerate(order)}
     can_graph = g.relabel(mapping)
-    # Keep the existing MEG-24 meaning identity as a separate coordinate.  The joint identity adds
+    # Keep the existing MEG-24 meaning identity as a separate coordinate. The joint identity adds
     # grounding/correspondence information; it does not redefine meaning equivalence.
     meaning_digest = canonical(g)[1]
     return CanonicalBoundMeaning(
@@ -163,13 +167,20 @@ def canonical_bound_meaning(g: MeaningGraph, bindings: Mapping[str, str]) -> Can
 
 
 def _binding_meta(bound: CanonicalBoundMeaning) -> tuple[tuple[str, Any], ...]:
-    return (
-        ("binding_schema", BINDING_SCHEMA),
-        ("meaning_digest", bound.meaning_digest),
-        ("joint_digest", bound.joint_digest),
-        ("meaning_json", canonical_json(bound.meaning.as_dict())),
-        ("canonical_bindings_json", canonical_json(bound.bindings)),
-        ("unbound_nodes_json", canonical_json(bound.unbound_nodes)),
+    # Sort by key explicitly because event canonicalisation serialises metadata through a dict and
+    # replay reconstructs it in JSON key order. Canonical order makes exact duplicate comparison
+    # stable before and after restart.
+    return tuple(
+        sorted(
+            (
+                ("binding_schema", BINDING_SCHEMA),
+                ("meaning_digest", bound.meaning_digest),
+                ("joint_digest", bound.joint_digest),
+                ("meaning_json", canonical_json(bound.meaning.as_dict())),
+                ("canonical_bindings_json", canonical_json(bound.bindings)),
+                ("unbound_nodes_json", canonical_json(bound.unbound_nodes)),
+            )
+        )
     )
 
 
@@ -186,10 +197,10 @@ def bind_meaning(
     """Admit a bounded meaning/field correspondence through the normal runtime boundary.
 
     The representation identity excludes warrant and authority so epistemically identical bindings
-    do not become different semantic objects merely because they were observed twice.  The current
+    do not become different semantic objects merely because they were observed twice. The current
     runtime has no event for monotonically extending an existing atom's alternative support, so a
     repeat with different warrant/authority is rejected fail-closed rather than silently dropping
-    support.  Exact repeats are idempotent at this bridge layer.
+    support. Exact repeats are idempotent at this bridge layer.
     """
     if not bindings:
         raise TypedRejection("NO_FIELD_BINDING", "transient ungrounded meanings stay outside persistent KSO")
