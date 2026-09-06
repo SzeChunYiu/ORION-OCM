@@ -1,0 +1,28 @@
+{
+  "role": "DEVELOPMENT_METRICS_PREDECLARED",
+  "registered_utc": "2026-09-05T23:35:05.760088+00:00",
+  "main_contract": "all_tokens",
+  "legacy_contract": "legacy_stripped",
+  "groups": [
+    "first50",
+    "genre_length100"
+  ],
+  "metrics": [
+    "single_tree_exact_head_full_deprel",
+    "single_tree_exact_head_full_deprel_upos",
+    "micro_UAS",
+    "micro_LAS_base_relation",
+    "micro_LAS_full_relation",
+    "UPOS_accuracy",
+    "structurally_valid_coverage",
+    "refusals_errors",
+    "wall_and_CPU_RSS"
+  ],
+  "base_relation_policy": "split deprel at first colon; retain full deprel metric separately",
+  "gold_nonprojective_policy": "retain in all denominators, diagnostic only",
+  "empty_legacy_input_policy": "ABSTAIN_EMPTY; exact false; zero token contribution; retained sentence denominator",
+  "legacy_gold_parent_removed_policy": "unmatchable arc scores incorrect; record count; no row exclusion",
+  "invalid_prediction_policy": "sentence exact false; all its token decisions incorrect; retained denominator",
+  "gold_location": "external grader only; worker receives requests.jsonl containing id and forms, no gold tags/trees",
+  "training_selection": "no dev selection or early stopping"
+}
