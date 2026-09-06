@@ -1,0 +1,62 @@
+...FFF..                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3] _
+
+revoked = (1, 'backup')
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+>           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4] _
+
+revoked = (2,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+>           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5] _
+
+revoked = (3,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+        D, p, actual = run("alternative", revoked=revoked)
+        G = module("representation_donor_grade")
+        reference = D.evaluate(p, arm="full", revoked=revoked)
+        grade = G.compare(reference, actual)
+        if tuple(revoked) in ((1,"backup"),(2,),(3,)):
+>           assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
+E           AssertionError: assert 'COMPLETED' == 'ERROR'
+E             
+E             - ERROR
+E             + COMPLETED
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:76: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/representation-corrected-diagnostic/stale-controls.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3]
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4]
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5]
+3 failed, 5 passed, 11 deselected in 0.45s

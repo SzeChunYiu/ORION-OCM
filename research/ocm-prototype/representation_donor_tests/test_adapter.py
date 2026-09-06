@@ -37,8 +37,10 @@ def test_actual_sv_full_vectors_and_complete_consumer_match_informed_parent():
     assert actual["eligibility"]["warranted"] == "CERTIFIED"
     assert actual["eligibility"]["exploratory"] == "DYNAMIC_LUMPABILITY_ONLY"
     assert actual["calls"] and all(c["selected"] == "compact" for c in actual["calls"])
-    assert {c["mode"] for c in actual["calls"]} == {"WARRANTED", "EXPLORATORY"}
-    assert any(c["seed_kind"] == "global_uniform" for c in actual["calls"])
+    assert len(actual["calls"]) == 4
+    assert {(c["mode"], c["seed_kind"]) for c in actual["calls"]} == {
+        (mode, seed) for mode in ("WARRANTED", "EXPLORATORY")
+        for seed in ("registered_query", "global_uniform")}
     assert all(c["fine_dimension"] == 14 and c["solve_dimension"] == 6 for c in actual["calls"])
     assert actual["resources"]["donor_calls"]["router.choose"] == len(actual["calls"])
     assert actual["resources"]["donor_calls"]["f2.fixed_point"] == len(actual["calls"])
@@ -72,12 +74,8 @@ def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revo
     G = module("representation_donor_grade")
     reference = D.evaluate(p, arm="full", revoked=revoked)
     grade = G.compare(reference, actual)
-    if tuple(revoked) in ((1,"backup"),(2,),(3,)):
-        assert actual["consumer"]["status"] == reference["consumer"]["status"] == "ERROR"
-        assert actual["consumer"]["error"] == reference["consumer"]["error"] == "math domain error"
-        assert grade["terminal"] == "CANNOT_CHECK_CONSUMER_FAILURE" and not grade["functional_parity"]
-    else:
-        assert grade["functional_parity"]
+    assert actual["consumer"]["status"] == reference["consumer"]["status"] == "COMPLETED"
+    assert grade["functional_parity"] and grade["terminal"] == "EXACT_FUNCTIONAL_PARITY"
     assert actual["eligibility"]["warranted"] == "CERTIFIED"
     assert all(c["selected"] == "compact" for c in actual["calls"])
 
