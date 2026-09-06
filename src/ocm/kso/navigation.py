@@ -92,7 +92,7 @@ def navigation_matrix(
     rv = frozenset(revoked)
     ids = ks.ids
     idx = {x: i for i, x in enumerate(ids)}
-    amap = ks.atom_map()
+    amap = ks.atom_view
     n = len(ids)
     out = [[Fraction(0, 1) for _ in range(n)] for _ in range(n)]
     denom = structural_denominators(ks, relevance)
@@ -126,7 +126,7 @@ def navigation_matrix_by_pruning(
     rv = frozenset(revoked)
     ids = ks.ids
     idx = {x: i for i, x in enumerate(ids)}
-    amap = ks.atom_map()
+    amap = ks.atom_view
     n = len(ids)
     out = [[Fraction(0, 1) for _ in range(n)] for _ in range(n)]
     denom = structural_denominators(ks, relevance)
@@ -150,7 +150,7 @@ def mutant_navigation_matrix_renormalize(ks: KnowledgeSpace, *, revoked: Iterabl
     rv = frozenset(revoked)
     ids = ks.ids
     idx = {x: i for i, x in enumerate(ids)}
-    amap = ks.atom_map()
+    amap = ks.atom_view
     out = [[Fraction(0, 1) for _ in ids] for _ in ids]
     denom = [Fraction(0, 1) for _ in ids]
     for tail in ids:
@@ -195,7 +195,7 @@ def uniform_seed(ks: KnowledgeSpace) -> list[Fraction]:
 def gated_seed(ks: KnowledgeSpace, seed: Sequence[Fraction], revoked: Iterable[Hashable], mode: NavigationMode = NavigationMode.WARRANTED) -> list[Fraction]:
     """s_{Q,R} = g_R ⊙ s_Q — entry-wise, NOT renormalised (contract §25)."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     return [Fraction(s) * _gate(amap[x].liveness(rv), mode) for x, s in zip(ks.ids, seed, strict=True)]
 
 
@@ -335,7 +335,7 @@ def gated_closure(ks: KnowledgeSpace, start: Iterable[str], revoked: Iterable[Ha
     """C^R: reachability over LIVE atoms and LIVE edges with all tails reached (conjunctive).
     Worklist with per-edge pending-tail counters: O(|incidences|)."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     live = {x: amap[x].is_live(rv) for x in ks.ids}
     pending = {e.edge_id: len(e.tails) for e in ks.hyperedges}
     reached = {x for x in start if live[x]}
@@ -529,7 +529,7 @@ def navigate(
         )
         return NavigationResult(NavigationOutcome.OBSTRUCTION_WITNESSED, target, "TARGET_OUTSIDE_UNGATED_CLOSURE", budget.steps, activation=a[ti], witness=witness, resources=res)
     if target not in gated_closure(ks, support, rv):
-        amap = ks.atom_map()
+        amap = ks.atom_view
         why = "WARRANT_GATED_TARGET_CLOSURE_REACHABLE"
         if amap[target].liveness(rv) is Liveness.UNKNOWN:
             why = "WARRANT_UNKNOWN_TARGET_CLOSURE_REACHABLE"
@@ -541,7 +541,7 @@ def navigate(
 def identification_witness(ks: KnowledgeSpace, activation: Mapping[str, Fraction], target: str) -> ObstructionWitness | None:
     """STRUCTURAL_NONIDENTIFIABILITY: another atom of the same type carries exactly the same
     activation under the committed seed (ME-X2 ``CANNOT_IDENTIFY``)."""
-    amap = ks.atom_map()
+    amap = ks.atom_view
     t = amap[target]
     twins = tuple(sorted(x for x, a in amap.items() if x != target and a.atom_type == t.atom_type and activation[x] == activation[target]))
     if not twins:
