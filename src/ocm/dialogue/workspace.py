@@ -200,7 +200,7 @@ class DialogueWorkspace:
         conflicting = [c for c in self.active_commitments() if c.digest == digest and c.negated != negated and c.commitment_id != supersedes]
         _, eid = self.runtime.admit_evidence(
             {"dialogue": self.conversation_id, "said": True, "speaker": speaker, "utterance": utterance, "digest": digest, "negated": negated, "supersedes": old.evidence_id if old else None},
-            Channel.OBSERVATION, speaker, scope=Scope.of(self.conversation_id), contradicts=tuple(c.evidence_id for c in conflicting),
+            Channel.OBSERVATION, speaker, scope=Scope.of(self.conversation_id), authority=Authority.of(speaker=1), contradicts=tuple(c.evidence_id for c in conflicting),
             supersedes=old.evidence_id if old else None,
         )
         c = Commitment(self._next("cmt"), turn_id or len(self.turns), speaker, digest, negated, eid, meaning.as_dict(), supersedes=supersedes, topic=self.current_topic)
