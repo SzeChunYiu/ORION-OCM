@@ -13,11 +13,12 @@ def test_actual_capture_is_create_only_sealed_and_independently_graded(tmp_path)
     C.capture(out, scenarios=("base", "incoming", "withdraw_rule"))
     grade = C.grade_archive(out)
     assert grade["assigned_scenarios"] == grade["recorded_scenarios"] == 3
-    assert grade["completed_scenarios"] == 2
+    assert grade["completed_scenarios"] == 3
+    assert grade["completed_arm_records"] == 9 and grade["consumer_error_arm_records"] == 0
     assert grade["assigned_arm_records"] == grade["recorded_arm_records"] == 9
-    assert grade["functionally_equal_comparisons"] == 4
-    assert grade["consumer_failed_comparisons"] == 2
-    assert grade["terminal"] == "PARTIAL_PARITY__CANNOT_CHECK_CONSUMER_REVISION"
+    assert grade["functionally_equal_comparisons"] == 6
+    assert grade["consumer_failed_comparisons"] == 0
+    assert grade["terminal"] == "EXACT_FUNCTIONAL_PARITY"
     with pytest.raises(FileExistsError):
         C.capture(out, scenarios=("base",))
     row = out / "records" / "base-ocm.json"
