@@ -18,7 +18,7 @@ from enum import Enum
 from fractions import Fraction
 from typing import Hashable, Iterable, Sequence
 
-from .navigation import fixed_point, ungated_closure
+from .navigation import positive_activation_support, ungated_closure
 from .resources import Meter, ResourceVector
 from .space import Atom, Hyperedge, KnowledgeSpace, TypedRejection
 from .types import Authority, Scope, intersect_scopes, internal_authority, meet_authority
@@ -37,7 +37,8 @@ class CertificateKind(str, Enum):
 
 
 WARRANTING_KINDS = frozenset(k for k in CertificateKind if k is not CertificateKind.FEEDBACK)
-EXACT_ADMISSION_MAX_ATOMS = 200  # above this use exact positive matrix support (KS-T05)
+# Historical compatibility constant; admission now uses exact support at every size.
+EXACT_ADMISSION_MAX_ATOMS = 200
 INHERITED_KINDS = frozenset(
     {
         CertificateKind.INSTRUCTION,
@@ -130,13 +131,9 @@ def admit(
             # Reuse the existing atom lookup and one immutable rational seed mass.
             mass = Fraction(1, len(existing)) if existing else Fraction(0, 1)
             seed = [mass if x in existing else Fraction(0, 1) for x in new.ids]
-            if len(new.ids) <= EXACT_ADMISSION_MAX_ATOMS:
-                act = fixed_point(new, seed, alpha, revoked=rv)
-                reachable = act[atom.atom_id] > 0
-            else:  # an existence decision must not depend on float underflow or a tolerance
-                from .navigation import positive_activation_support
-
-                reachable = atom.atom_id in positive_activation_support(new, seed, alpha, revoked=rv)
+            # Admission needs exact positive support, not activation magnitudes.
+            # Reuse KS-T05 at every size, including historical small states on replay.
+            reachable = atom.atom_id in positive_activation_support(new, seed, alpha, revoked=rv)
             if not reachable:
                 raise TypedRejection("UNREACHABLE_BY_NAVIGATION", atom.atom_id)
     res = ResourceVector(object_count=1, relation_count=len(edges), update_work=1 + len(edges), navigation_work=len(new.ids) ** 2)

@@ -66,11 +66,11 @@ def run_size(n: int, *, seed: int = 20260904, skip_admit_above: int = 1000) -> d
     t_reopen = time.perf_counter() - t2
     t3 = time.perf_counter()
     if n > skip_admit_above:
-        return _finish(n, ks, inc, t_build, iters, t_nav, act, exact_agreement, rep, t_reopen, None, "SKIPPED: exact admission fixed point is O(n^3) (sparse admission path is an M2 follow-up)", c0)
+        return _finish(n, ks, inc, t_build, iters, t_nav, act, exact_agreement, rep, t_reopen, None, "SKIPPED: exceeds configured skip_admit_above", c0)
     try:
         AD.admit(ks, S.Atom("new", "claim", WarrantProfile.of({0})), (S.Hyperedge("newe", (ks.ids[1],), ("new",), "SUPPORT"),), "INSTRUCTION")
         t_admit = time.perf_counter() - t3
-        admit_note = "exact fixed point (O(n^3))" if n <= AD.EXACT_ADMISSION_MAX_ATOMS else "sparse reachability path (KS-T32)"
+        admit_note = "exact positive matrix support (all sizes, KS-T05)"
     except Exception as exc:  # noqa: BLE001
         t_admit = time.perf_counter() - t3
         admit_note = f"{type(exc).__name__}"
