@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="16" time="0.486" timestamp="2026-09-06T11:07:08.751676+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_actual_sv_full_vectors_and_complete_consumer_match_informed_parent" time="0.077" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_incoming_edge_preserves_lumpability_but_requires_full_reconstruction_fallback" time="0.023" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mixed_warrants_fail_the_whole_registered_family" time="0.027" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_missing_state_cannot_be_relabelled_as_negative_or_certificate" time="0.007" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked0]" time="0.037" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked1]" time="0.023" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked2]" time="0.022" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3]" time="0.021"><failure message="ValueError: math domain error">revoked = (1, 'backup')
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(1, 9), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -&gt; float:
+        q, b = float(query), float(background)
+        if q &lt;= 0:
+            return 0.0
+&gt;       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4]" time="0.021"><failure message="ValueError: math domain error">revoked = (2,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(2, 27), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -&gt; float:
+        q, b = float(query), float(background)
+        if q &lt;= 0:
+            return 0.0
+&gt;       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5]" time="0.017"><failure message="ValueError: math domain error">revoked = (3,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(1, 9), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -&gt; float:
+        q, b = float(query), float(background)
+        if q &lt;= 0:
+            return 0.0
+&gt;       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked6]" time="0.022" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked7]" time="0.023" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_changed_query_config_state_and_unregistered_revocation_cannot_reuse_binding" time="0.045" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_external_grader_rejects_actual_selected_vector_and_consumer_tampering" time="0.024" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_exact_donor_source_is_loaded_and_a_changed_source_is_refused" time="0.004" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_existing_revision_checker_refuses_split_fibre_and_malformed_maps" time="0.002" /></testsuite></testsuites>

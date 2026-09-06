@@ -1,0 +1,119 @@
+"""Regrade immutable storage observations at their recorded paths; never rerun storage."""
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import resource
+import shutil
+import subprocess
+import sys
+import time
+import zipfile
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def write(path, value):
+    with Path(path).open("x") as handle:
+        json.dump(value, handle, indent=2, sort_keys=True); handle.write("\n")
+
+
+def verify(root, records):
+    actual = {str(p.relative_to(root)) for p in root.rglob("*") if p.is_file()}
+    if actual != set(records):
+        raise ValueError("archive file inventory mismatch")
+    for name, record in records.items():
+        path = root/name
+        if path.is_symlink() or path.stat().st_size != record["bytes"] or sha(path) != record["sha256"]:
+            raise ValueError("archive bytes changed: " + name)
+
+
+def extract(path, output):
+    with zipfile.ZipFile(path) as archive:
+        names = archive.namelist()
+        if len(names) != len(set(names)):
+            raise ValueError("duplicate archive members")
+        for item in archive.infolist():
+            p = Path(item.filename)
+            if item.is_dir() or p.is_absolute() or ".." in p.parts or (item.external_attr >> 16) & 0o170000 == 0o120000:
+                raise ValueError("unsafe archive member")
+        archive.extractall(output)
+
+
+def run(packet, output):
+    output.mkdir(parents=True, exist_ok=False)
+    start = time.perf_counter(); cpu = time.process_time()
+    result = {"replayed_storage": False, "model_calls": 0}
+    try:
+        if sys.flags.optimize or "PYTHONOPTIMIZE" in os.environ:
+            raise ValueError("nonoptimized Python required")
+        binding = read(packet/"ARCHIVES.json")
+        for name, record in binding["archives"].items():
+            if sha(packet/name) != record["sha256"]:
+                raise ValueError("archive binding mismatch: " + name)
+        for name, key in (("RAW_MANIFEST.json", "raw_manifest_sha256"),
+                          ("SOURCE_MANIFEST.json", "source_manifest_sha256")):
+            if sha(packet/name) != binding[key]:
+                raise ValueError("manifest binding mismatch: " + name)
+        extract(packet/"raw.zip", output/"raw")
+        extract(packet/"source.zip", output/"source")
+        raw_records = read(packet/"RAW_MANIFEST.json")
+        source_records = read(packet/"SOURCE_MANIFEST.json")
+        verify(output/"raw", raw_records); verify(output/"source", source_records)
+        if not shutil.which("bwrap"):
+            raise ValueError("Bubblewrap unavailable")
+        original = binding["original_root"]
+        # Exact original bytes and absolute paths. The host home tree is hidden.
+        # This is a regrade mount layout, not an authenticated-actor security claim.
+        argv = ["bwrap", "--die-with-parent", "--unshare-net", "--ro-bind", "/", "/",
+                "--tmpfs", "/home", "--dev", "/dev", "--ro-bind", sys.base_prefix, sys.base_prefix,
+                "--ro-bind", sys.prefix, sys.prefix,
+                "--ro-bind", str(output/"raw"), original,
+                "--ro-bind", str(output/"source/tools"), binding["original_helper_parent"],
+                "--bind", str(output), str(output), "--chdir", "/tmp", str(Path(sys.executable).resolve()),
+                original+"/grade_storage_pairs.py", original+"/plan.json", str(output/"regrade")]
+        env = os.environ.copy()
+        for key in ("PYTHONPATH", "PYTHONOPTIMIZE"):
+            env.pop(key, None)
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        write(output/"regrade-started.json", {"argv": argv, "started_utc": datetime.now(timezone.utc).isoformat()})
+        before = resource.getrusage(resource.RUSAGE_CHILDREN)
+        with (output/"regrade.stdout").open("x") as stdout, (output/"regrade.stderr").open("x") as stderr:
+            completed = subprocess.run(argv, env=env, stdout=stdout, stderr=stderr, timeout=60)
+        after = resource.getrusage(resource.RUSAGE_CHILDREN)
+        if completed.returncode != 0:
+            raise ValueError("unchanged frozen grader refused: exit " + str(completed.returncode))
+        digest = sha(output/"regrade/receipt.json")
+        if digest != binding["grade_sha256"]:
+            raise ValueError("regrade bytes differ from original")
+        verify(output/"raw", raw_records); verify(output/"source", source_records)
+        result.update(status="EXACT_ARCHIVE_AND_GRADE_REPLAY_PASS", original_grade_sha256=digest,
+                      regrade_sha256=digest, raw_file_count=len(raw_records),
+                      source_file_count=len(source_records),
+                      direct_waited_child_cpu_s=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
+                      total_process_tree_cpu_s=None, complete_cpu_custody=False)
+    except (OSError, ValueError, KeyError, zipfile.BadZipFile, subprocess.TimeoutExpired) as exc:
+        result.update(status="CANNOT_CHECK_REPLAY", reason=type(exc).__name__+": "+str(exc))
+    result.update(wall_s=time.perf_counter()-start, self_cpu_s=time.process_time()-cpu,
+                  replay_script_sha256=sha(__file__),
+                  scope="Post-execution archive/grader replay, separate from original storage timings")
+    write(output/"REPLAY_RECEIPT.json", result)
+    return result
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--packet", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    args = parser.parse_args()
+    result = run(args.packet.resolve(), args.out.resolve())
+    print(json.dumps(result, sort_keys=True))
+    raise SystemExit(0 if result["status"].endswith("_PASS") else 2)

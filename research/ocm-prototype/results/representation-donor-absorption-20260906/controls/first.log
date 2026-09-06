@@ -1,0 +1,110 @@
+.......FFF......                                                         [100%]
+=================================== FAILURES ===================================
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3] _
+
+revoked = (1, 'backup')
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+>       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(1, 9), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -> float:
+        q, b = float(query), float(background)
+        if q <= 0:
+            return 0.0
+>       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4] _
+
+revoked = (2,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+>       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(2, 27), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -> float:
+        q, b = float(query), float(background)
+        if q <= 0:
+            return 0.0
+>       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError
+_ test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5] _
+
+revoked = (3,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+>       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:420: in solve
+    ext_res, ext = extract_stage(ks, seed, nav, config, rv)
+src/ocm/runtime/solve.py:202: in extract_stage
+    rho_x = SP.surprise(ks, nav["act_x"], nav["background"], seed, cfg.alpha, cfg.surprise_model, revoked=rv, mode=N.NavigationMode.EXPLORATORY)
+research/ocm-prototype/representation_donor.py:62: in observed_surprise
+    result = surprise_original(*args, **kwargs)
+src/ocm/kso/surprise.py:62: in surprise
+    return {x: N.reaction_surprise(b_q[x], b_pi[x]) for x in ks.ids}
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+query = Fraction(1, 9), background = Fraction(-1, 42), eps = 1e-12
+
+    def reaction_surprise(query: Fraction | float, background: Fraction | float, eps: float = 1e-12) -> float:
+        q, b = float(query), float(background)
+        if q <= 0:
+            return 0.0
+>       return max(0.0, q * math.log((q + eps) / (b + eps)))
+E       ValueError: math domain error
+
+src/ocm/kso/navigation.py:297: ValueError
+- generated xml file: /home/billy/orion-director-work/20260906/representation-donor-diagnostic/first.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3]
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4]
+FAILED research/ocm-prototype/representation_donor_tests/test_adapter.py::test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5]
+3 failed, 13 passed in 0.49s

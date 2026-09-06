@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.039" timestamp="2026-09-06T07:37:48.328079+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_real_public_task_freeze_binding_and_changed_source_refusal" time="0.005"><failure message="AttributeError: module 'capture_clia_reuse' has no attribute 'bound_tasks'">def test_real_public_task_freeze_binding_and_changed_source_refusal():
+        C = module("capture_clia_reuse")
+        path = Path(C.HERE) / "results/clia-reuse-study-qualification-20260906/protocol/protocol.json"
+        protocol = json.loads(path.read_text())
+&gt;       tasks = C.bound_tasks(protocol)
+E       AttributeError: module 'capture_clia_reuse' has no attribute 'bound_tasks'
+
+research/ocm-prototype/test_clia_reuse_study.py:191: AttributeError</failure></testcase></testsuite></testsuites>

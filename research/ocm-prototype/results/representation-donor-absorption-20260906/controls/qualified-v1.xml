@@ -1,0 +1,1433 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="17" skipped="0" tests="30" time="0.644" timestamp="2026-09-06T11:13:07.510198+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_actual_sv_full_vectors_and_complete_consumer_match_informed_parent" time="0.035"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_actual_sv_full_vectors_and_complete_consumer_match_informed_parent():
+&gt;       D, p, actual = run()
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b2091020&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_incoming_edge_preserves_lumpability_but_requires_full_reconstruction_fallback" time="0.018"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_incoming_edge_preserves_lumpability_but_requires_full_reconstruction_fallback():
+&gt;       D, p, actual = run("incoming")
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be40e0&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mixed_warrants_fail_the_whole_registered_family" time="0.017"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_mixed_warrants_fail_the_whole_registered_family():
+&gt;       D, p, actual = run("mixed_warrant")
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be4830&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_missing_state_cannot_be_relabelled_as_negative_or_certificate" time="0.008"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_missing_state_cannot_be_relabelled_as_negative_or_certificate():
+&gt;       _, _, actual = run(available_states=(frozenset(),))
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be5520&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked0]" time="0.018"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = ()
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be5d00&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked1]" time="0.020"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = (1,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1bdfb60&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked2]" time="0.018"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = ('backup',)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be5760&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked3]" time="0.022"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = (1, 'backup')
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b19bfb60&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked4]" time="0.022"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = (2,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1bdf4a0&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked5]" time="0.018"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = (3,)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1974d40&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked6]" time="0.023"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = ('irrelevant',)
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b19bfd10&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots[revoked7]" time="0.019"><failure message="ValueError: Out of range float values are not JSON compliant: inf">revoked = ()
+
+    @pytest.mark.parametrize("revoked", [(), (1,), ("backup",), (1,"backup"), (2,), (3,), ("irrelevant",), ()])
+    def test_alternative_support_unknown_withdrawal_and_reinstatement_snapshots(revoked):
+&gt;       D, p, actual = run("alternative", revoked=revoked)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1be57f0&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_changed_query_config_state_and_unregistered_revocation_cannot_reuse_binding" time="0.021"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_changed_query_config_state_and_unregistered_revocation_cannot_reuse_binding():
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        p = D.prepare(D.fixture())
+        variants = [dict(task=replace(p.fixture["task"], task_id="changed-query", parts=(replace(p.fixture["task"].parts[0], refs=("background_0",)),))),
+                    dict(config=replace(p.fixture["config"], alpha=Fraction(1,2))),
+                    dict(ks=D.fixture("incoming")["ks"]), dict(revoked=("unregistered",))]
+        for change in variants:
+&gt;           actual = D.evaluate(p, arm="ocm", **change)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1974710&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_external_grader_rejects_actual_selected_vector_and_consumer_tampering" time="0.019"><failure message="ValueError: Out of range float values are not JSON compliant: inf">def test_external_grader_rejects_actual_selected_vector_and_consumer_tampering():
+&gt;       D, p, actual = run()
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor_tests/test_adapter.py:25: in run
+    return D, policy, D.evaluate(policy, arm=arm, revoked=revoked, **kw)
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1976f00&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_exact_donor_source_is_loaded_and_a_changed_source_is_refused" time="0.004" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_existing_revision_checker_refuses_split_fibre_and_malformed_maps" time="0.002" /><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[task]" time="0.021"><failure message="ValueError: Out of range float values are not JSON compliant: inf">change = 'task'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+&gt;       actual = D.evaluate(p, arm="ocm", revoked=rv)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1977f50&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[config]" time="0.022"><failure message="ValueError: Out of range float values are not JSON compliant: inf">change = 'config'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+&gt;       actual = D.evaluate(p, arm="ocm", revoked=rv)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1976f00&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[family]" time="0.017"><failure message="ValueError: Out of range float values are not JSON compliant: inf">change = 'family'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+&gt;       actual = D.evaluate(p, arm="ocm", revoked=rv)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor.py:87: in evaluate
+    "canonical_field_bytes": encoded_bytes(ks),
+research/ocm-prototype/representation_donor.py:80: in &lt;lambda&gt;
+    encoded_bytes = lambda value: len(json.dumps(wire(value), sort_keys=True, separators=(",", ":"), allow_nan=False).encode())
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/__init__.py:242: in dumps
+    **kw).encode(obj)
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:202: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;json.encoder.JSONEncoder object at 0x7f00b1974440&gt;
+o = {'atoms': [{'atom_id': 'q', 'atom_type': 'query_seed', 'authority': {'ranks': []}, 'content_ref': None, ...}, {'atom_i...ISION_TRANSPORT': {'conjunctive': True, 'dependency': False, 'executable': False, 'name': 'DECISION_TRANSPORT'}, ...}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if self.indent is None or isinstance(self.indent, str):
+            indent = self.indent
+        else:
+            indent = ' ' * self.indent
+        if _one_shot and c_make_encoder is not None:
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+&gt;       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/json/encoder.py:263: ValueError</failure></testcase><testcase classname="tests.m2.test_solve_loop" name="test_answer_committed_when_everything_is_live_and_checked" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_cannot_check_checker_is_never_promoted_to_success" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_revoked_input_kills_the_candidate_and_reopens_as_learn" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_unknown_warrant_target_yields_clarify" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_obstruction_becomes_a_jump_proposal_not_an_answer" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_commitment_refuses_insufficient_authority_and_scope" time="0.003" /><testcase classname="tests.m2.test_solve_loop" name="test_unbound_seed_is_a_clarify_gap_with_structured_reason" time="0.000" /><testcase classname="tests.m2.test_solve_loop" name="test_crashing_backend_is_a_failed_candidate_never_a_pass" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_trace_resources_are_a_vector_sum" time="0.002" /><testcase classname="tests.m2.test_solve_loop" name="test_propagated_surprise_recovers_the_deep_decisive_atom" time="0.003" /><testcase classname="tests.m2.test_solve_loop" name="test_hub_theorem_survives_both_surprise_models_and_seed_count_lemma" time="0.024" /></testsuite></testsuites>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="11" time="0.058" timestamp="2026-09-06T06:51:59.517113+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_external_grader_rejects_wrong_value_and_nonintegers[40]" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">value = 40
+
+    @pytest.mark.parametrize("value", [40, True, 41.0, "41"])
+    def test_external_grader_rejects_wrong_value_and_nonintegers(value):
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_external_grader_rejects_wrong_value_and_nonintegers[True]" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">value = True
+
+    @pytest.mark.parametrize("value", [40, True, 41.0, "41"])
+    def test_external_grader_rejects_wrong_value_and_nonintegers(value):
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_external_grader_rejects_wrong_value_and_nonintegers[41.0]" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">value = 41.0
+
+    @pytest.mark.parametrize("value", [40, True, 41.0, "41"])
+    def test_external_grader_rejects_wrong_value_and_nonintegers(value):
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_external_grader_rejects_wrong_value_and_nonintegers[41]" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">value = '41'
+
+    @pytest.mark.parametrize("value", [40, True, 41.0, "41"])
+    def test_external_grader_rejects_wrong_value_and_nonintegers(value):
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_guard_oracle_uses_z_and_exact_boundary" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_guard_oracle_uses_z_and_exact_boundary():
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_wrong_tuple_boolean_alias_and_diagnostic_not_selected" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_wrong_tuple_boolean_alias_and_diagnostic_not_selected():
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_policy_refusal_is_not_error_or_live_unbound" time="0.000"><failure message="AssertionError: grade_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_policy_refusal_is_not_error_or_live_unbound():
+&gt;       G = module("grade_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'grade_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: grade_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('grade_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_actual_native_invocation_is_observed_without_changing_result" time="0.000"><failure message="AssertionError: clia_reuse_study_common implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_actual_native_invocation_is_observed_without_changing_result():
+&gt;       C = module("clia_reuse_study_common")
+
+research/ocm-prototype/test_clia_reuse_study.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'clia_reuse_study_common'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: clia_reuse_study_common implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_wait4_records_actor_and_reaped_child_cpu_without_wrapper_omission" time="0.001"><failure message="AssertionError: clia_reuse_study_common implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-77/test_wait4_records_actor_and_r0')
+
+    def test_wait4_records_actor_and_reaped_child_cpu_without_wrapper_omission(tmp_path):
+&gt;       C = module("clia_reuse_study_common")
+
+research/ocm-prototype/test_clia_reuse_study.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'clia_reuse_study_common'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: clia_reuse_study_common implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_timeout_is_preserved_as_incomplete_cpu_scope" time="0.000"><failure message="AssertionError: clia_reuse_study_common implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-77/test_timeout_is_preserved_as_i0')
+
+    def test_timeout_is_preserved_as_incomplete_cpu_scope(tmp_path):
+&gt;       C = module("clia_reuse_study_common")
+
+research/ocm-prototype/test_clia_reuse_study.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'clia_reuse_study_common'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: clia_reuse_study_common implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('clia_reuse_study_common')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_f1_different_canonical_program_refused_and_aliases_do_not_change_tuples" time="0.000"><failure message="AssertionError: capture_clia_reuse implementation is absent&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('capture_clia_reuse')&#10; +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_f1_different_canonical_program_refused_and_aliases_do_not_change_tuples():
+&gt;       C = module("capture_clia_reuse")
+
+research/ocm-prototype/test_clia_reuse_study.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'capture_clia_reuse'
+
+    def module(name):
+&gt;       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: capture_clia_reuse implementation is absent
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7efc8ce80040&gt;('capture_clia_reuse')
+E        +    where &lt;function find_spec at 0x7efc8ce80040&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError</failure></testcase></testsuite></testsuites>

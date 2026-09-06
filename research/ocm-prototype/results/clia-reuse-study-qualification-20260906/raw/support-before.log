@@ -1,0 +1,30 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_end_revision_uses_exact_existing_support_without_query_reregistration __
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-86/test_end_revision_uses_exact_e0')
+
+    def test_end_revision_uses_exact_existing_support_without_query_reregistration(tmp_path):
+        W = module("clia_reuse_study_worker")
+        A = module("clia_reuse_study_state")
+        from test_clia_reuse_program import descriptor
+        from clia_reuse_study_common import write
+        actor = A.Actor(tmp_path, "native")
+        desc = descriptor()
+        actor.library.install(desc)
+        actor.bindings = {"programs": {"max3": {"descriptor_id": desc["id"],
+            "registration": ["query-unit"], "history_ids": ["source-unit"]}}}
+        actor.library.bind(desc["id"])
+        q = {"kind": "clia_apply", "program_id": desc["id"], "arguments": [41, -7, 12]}
+        answer = actor.library.apply(q)
+        audit_record = actor.audit()["records"]["library/answer-" + answer["record_id"] + ".json"]
+>       assert audit_record.get("support") == desc["support"]
+E       AssertionError: assert None == {'lower': [['checker-unit', 'query-unit']], 'upper': [['checker-unit', 'query-unit']]}
+E        +  where None = <built-in method get of dict object at 0x7f57182612c0>('support')
+E        +    where <built-in method get of dict object at 0x7f57182612c0> = {'liveness': 'LIVE', 'payload': {'answer': {'application_wall_s': 0.00020912301260977983, 'arguments': [41, -7, 12], '...'checker-unit', 'query-unit']]}}, 'payload_sha256': 'efaffbd497b880bdb24a5dda7aa7255dd81bf3b7b0d891cbb9305f7af665f81d'}.get
+
+research/ocm-prototype/test_clia_reuse_study.py:167: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/support-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_end_revision_uses_exact_existing_support_without_query_reregistration
+1 failed in 0.20s

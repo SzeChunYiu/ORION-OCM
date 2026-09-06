@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.146" timestamp="2026-09-06T11:12:12.019117+02:00" hostname="billy"><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[task]" time="0.058"><failure message="AssertionError: assert ([{'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'registered_query', ...}, {'binding': ...ed_query', ...}, {'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'global_uniform', ...}] and False)&#10; +  where False = all(&lt;generator object test_mutating_original_registration_cannot_change_frozen_authority.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f22b3289f20&gt;)">change = 'task'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+        actual = D.evaluate(p, arm="ocm", revoked=rv)
+&gt;       assert actual["calls"] and all(c["selected"] == "full" for c in actual["calls"])
+E       AssertionError: assert ([{'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'registered_query', ...}, {'binding': ...ed_query', ...}, {'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'global_uniform', ...}] and False)
+E        +  where False = all(&lt;generator object test_mutating_original_registration_cannot_change_frozen_authority.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f22b3289f20&gt;)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:145: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[config]" time="0.022"><failure message="AssertionError: assert ([{'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'registered_query', ...}, {'binding': ...ed_query', ...}, {'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'global_uniform', ...}] and False)&#10; +  where False = all(&lt;generator object test_mutating_original_registration_cannot_change_frozen_authority.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f22b328b440&gt;)">change = 'config'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+        actual = D.evaluate(p, arm="ocm", revoked=rv)
+&gt;       assert actual["calls"] and all(c["selected"] == "full" for c in actual["calls"])
+E       AssertionError: assert ([{'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'registered_query', ...}, {'binding': ...ed_query', ...}, {'binding': 'MATCHED', 'fine_dimension': 14, 'mode': 'WARRANTED', 'seed_kind': 'global_uniform', ...}] and False)
+E        +  where False = all(&lt;generator object test_mutating_original_registration_cannot_change_frozen_authority.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f22b328b440&gt;)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:145: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.representation_donor_tests.test_adapter" name="test_mutating_original_registration_cannot_change_frozen_authority[family]" time="0.014"><failure message="KeyError: (frozenset({'newly_appended'}), &lt;NavigationMode.WARRANTED: 'WARRANTED'&gt;)">change = 'family'
+
+    @pytest.mark.parametrize("change", ["task", "config", "family"])
+    def test_mutating_original_registration_cannot_change_frozen_authority(change):
+        from dataclasses import replace
+        from fractions import Fraction
+        D = module("representation_donor")
+        f = D.fixture()
+        p = D.prepare(f)
+        rv = ()
+        if change == "task":
+            f["task"] = replace(f["task"], targets=("island",))
+        elif change == "config":
+            f["config"] = replace(f["config"], threshold=Fraction(1,2))
+        else:
+            rv = ("newly_appended",)
+            f["revocations"] = (*f["revocations"], frozenset(rv))
+&gt;       actual = D.evaluate(p, arm="ocm", revoked=rv)
+
+research/ocm-prototype/representation_donor_tests/test_adapter.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/representation_donor.py:68: in evaluate
+    outcome = SV.solve(ks, task, f["operators"], revoked=rv, config=cfg, commit_authority=f["authority"])
+src/ocm/runtime/solve.py:416: in solve
+    nav_res, nav = navigate_stage(ks, seed, task, config, rv)
+src/ocm/runtime/solve.py:166: in navigate_stage
+    act_w = N.fixed_point(ks, seed, cfg.alpha, revoked=rv, relevance=cfg.relevance)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+field = KnowledgeSpace(atoms=(Atom(atom_id='q', atom_type='query_seed', warrant=WarrantProfile(lower=(frozenset(),), upper=(fr...zenset(),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())))
+seed = [Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), ...]
+alpha = Fraction(1, 3)
+
+    def nav(field, seed, alpha, *, revoked=(), relevance=None, mode=N.NavigationMode.WARRANTED, matrix=None):
+        R = frozenset(revoked)
+        uniform = N.uniform_seed(field)
+        kind = "global_uniform" if list(seed) == uniform else "registered_query" if list(seed) == policy.seed else "other"
+        bound = stable and state_binding(field) == policy.binding and R == rv and alpha == cfg.alpha and relevance is None and matrix is None and kind != "other"
+        eligible = bound and policy.eligibility["warranted"] == "CERTIFIED" and policy.eligibility["exploratory"] == "DYNAMIC_LUMPABILITY_ONLY" and policy.eligibility["reconstruction"] == "EXACT_ZERO_INCIDENT_DECODER"
+        query = "EXACT_FINE_NAVIGATION_VALUES"
+        routes = [{"name": "full", "supports": [query], "burden": n},
+                  {"name": "compact", "supports": [query] if eligible else [], "burden": m}]
+        selected = call("router.choose", {"query": query, "routes": routes}, "B0" if arm == "full" else "B2")
+        if selected == "compact":
+&gt;           P = policy.matrices[(R, mode)].as_lists()
+E           KeyError: (frozenset({'newly_appended'}), &lt;NavigationMode.WARRANTED: 'WARRANTED'&gt;)
+
+research/ocm-prototype/representation_donor.py:43: KeyError</failure></testcase></testsuite></testsuites>
