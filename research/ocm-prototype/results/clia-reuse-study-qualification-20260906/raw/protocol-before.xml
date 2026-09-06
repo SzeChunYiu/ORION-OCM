@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.039" timestamp="2026-09-06T07:42:42.234784+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_six_published_protocol_files_are_exact_and_required" time="0.004"><failure message="AttributeError: module 'capture_clia_reuse' has no attribute 'protocol_inventory'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-93/test_six_published_protocol_fi0')
+
+    def test_six_published_protocol_files_are_exact_and_required(tmp_path):
+        import shutil
+        C = module("capture_clia_reuse")
+        source = C.HERE / "results/clia-reuse-study-qualification-20260906/protocol"
+        copied = tmp_path / "protocol"; shutil.copytree(source, copied)
+&gt;       assert set(C.protocol_inventory(copied)) == {"CORE.md", "GRADING.md", "REVIEW.md",
+            "protocol.json", "public-requests.jsonl", "SHA256SUMS"}
+E       AttributeError: module 'capture_clia_reuse' has no attribute 'protocol_inventory'
+
+research/ocm-prototype/test_clia_reuse_study.py:203: AttributeError</failure></testcase></testsuite></testsuites>

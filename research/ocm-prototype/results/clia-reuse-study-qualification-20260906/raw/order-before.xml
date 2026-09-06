@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.060" timestamp="2026-09-06T07:30:48.486125+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_serialized_acquisition_order_matches_protocol_actions" time="0.021"><failure message="AttributeError: module 'clia_reuse_study_worker' has no attribute 'acquisition_tasks'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-90/test_serialized_acquisition_or0')
+
+    def test_serialized_acquisition_order_matches_protocol_actions(tmp_path):
+        W = module("clia_reuse_study_worker")
+        from clia_reuse_study_common import write
+        path = tmp_path / "planned-config.json"
+        write(path, {"tasks": {"max3": "jmbl_fg_max3", "guard2": "jmbl_fg_mpg_guard2"}})
+&gt;       assert W.acquisition_tasks(json.loads(path.read_text())) == [
+            ("max3", "jmbl_fg_max3"), ("guard2", "jmbl_fg_mpg_guard2")]
+E       AttributeError: module 'clia_reuse_study_worker' has no attribute 'acquisition_tasks'
+
+research/ocm-prototype/test_clia_reuse_study.py:182: AttributeError</failure></testcase></testsuite></testsuites>

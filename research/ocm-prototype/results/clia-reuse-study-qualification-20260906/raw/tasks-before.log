@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_real_public_task_freeze_binding_and_changed_source_refusal ________
+
+    def test_real_public_task_freeze_binding_and_changed_source_refusal():
+        C = module("capture_clia_reuse")
+        path = Path(C.HERE) / "results/clia-reuse-study-qualification-20260906/protocol/protocol.json"
+        protocol = json.loads(path.read_text())
+>       tasks = C.bound_tasks(protocol)
+E       AttributeError: module 'capture_clia_reuse' has no attribute 'bound_tasks'
+
+research/ocm-prototype/test_clia_reuse_study.py:191: AttributeError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/tasks-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_real_public_task_freeze_binding_and_changed_source_refusal
+1 failed, 14 deselected in 0.04s

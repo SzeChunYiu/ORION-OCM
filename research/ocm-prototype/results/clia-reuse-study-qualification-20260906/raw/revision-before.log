@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_end_revision_uses_exact_existing_support_without_query_reregistration __
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-80/test_end_revision_uses_exact_e0')
+
+    def test_end_revision_uses_exact_existing_support_without_query_reregistration(tmp_path):
+>       W = module("clia_reuse_study_worker")
+
+research/ocm-prototype/test_clia_reuse_study.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'clia_reuse_study_worker'
+
+    def module(name):
+>       assert importlib.util.find_spec(name) is not None, name + " implementation is absent"
+E       AssertionError: clia_reuse_study_worker implementation is absent
+E       assert None is not None
+E        +  where None = <function find_spec at 0x7f33dcd08040>('clia_reuse_study_worker')
+E        +    where <function find_spec at 0x7f33dcd08040> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+research/ocm-prototype/test_clia_reuse_study.py:13: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/revision-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_end_revision_uses_exact_existing_support_without_query_reregistration
+1 failed in 0.03s

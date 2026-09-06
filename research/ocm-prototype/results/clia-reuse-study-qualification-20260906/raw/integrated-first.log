@@ -1,0 +1,22 @@
+.......F....................                                             [100%]
+=================================== FAILURES ===================================
+______ test_actual_native_invocation_is_observed_without_changing_result _______
+
+    def test_actual_native_invocation_is_observed_without_changing_result():
+        C = module("clia_reuse_study_common")
+        import clia_process
+        events = []
+        spec = "(set-logic LIA)\n(synth-fun unit_const () Int)\n(constraint (= (unit_const) 7))\n(check-synth)"
+        with C.InvocationMeter(events):
+            result = clia_process.invoke("synthesize", {"sygus": spec})
+>       assert result["status"] == "SOLUTION" and result["native_invoked"]
+E       AssertionError: assert ('CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK)
+
+research/ocm-prototype/test_clia_reuse_study.py:79: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/integrated-first.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_actual_native_invocation_is_observed_without_changing_result
+1 failed, 27 passed in 1.54s

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.198" timestamp="2026-09-06T07:18:59.101286+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_study" name="test_end_revision_uses_exact_existing_support_without_query_reregistration" time="0.163"><failure message="AssertionError: assert None == {'lower': [['checker-unit', 'query-unit']], 'upper': [['checker-unit', 'query-unit']]}&#10; +  where None = &lt;built-in method get of dict object at 0x7f57182612c0&gt;('support')&#10; +    where &lt;built-in method get of dict object at 0x7f57182612c0&gt; = {'liveness': 'LIVE', 'payload': {'answer': {'application_wall_s': 0.00020912301260977983, 'arguments': [41, -7, 12], '...'checker-unit', 'query-unit']]}}, 'payload_sha256': 'efaffbd497b880bdb24a5dda7aa7255dd81bf3b7b0d891cbb9305f7af665f81d'}.get">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-86/test_end_revision_uses_exact_e0')
+
+    def test_end_revision_uses_exact_existing_support_without_query_reregistration(tmp_path):
+        W = module("clia_reuse_study_worker")
+        A = module("clia_reuse_study_state")
+        from test_clia_reuse_program import descriptor
+        from clia_reuse_study_common import write
+        actor = A.Actor(tmp_path, "native")
+        desc = descriptor()
+        actor.library.install(desc)
+        actor.bindings = {"programs": {"max3": {"descriptor_id": desc["id"],
+            "registration": ["query-unit"], "history_ids": ["source-unit"]}}}
+        actor.library.bind(desc["id"])
+        q = {"kind": "clia_apply", "program_id": desc["id"], "arguments": [41, -7, 12]}
+        answer = actor.library.apply(q)
+        audit_record = actor.audit()["records"]["library/answer-" + answer["record_id"] + ".json"]
+&gt;       assert audit_record.get("support") == desc["support"]
+E       AssertionError: assert None == {'lower': [['checker-unit', 'query-unit']], 'upper': [['checker-unit', 'query-unit']]}
+E        +  where None = &lt;built-in method get of dict object at 0x7f57182612c0&gt;('support')
+E        +    where &lt;built-in method get of dict object at 0x7f57182612c0&gt; = {'liveness': 'LIVE', 'payload': {'answer': {'application_wall_s': 0.00020912301260977983, 'arguments': [41, -7, 12], '...'checker-unit', 'query-unit']]}}, 'payload_sha256': 'efaffbd497b880bdb24a5dda7aa7255dd81bf3b7b0d891cbb9305f7af665f81d'}.get
+
+research/ocm-prototype/test_clia_reuse_study.py:167: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_six_published_protocol_files_are_exact_and_required ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-93/test_six_published_protocol_fi0')
+
+    def test_six_published_protocol_files_are_exact_and_required(tmp_path):
+        import shutil
+        C = module("capture_clia_reuse")
+        source = C.HERE / "results/clia-reuse-study-qualification-20260906/protocol"
+        copied = tmp_path / "protocol"; shutil.copytree(source, copied)
+>       assert set(C.protocol_inventory(copied)) == {"CORE.md", "GRADING.md", "REVIEW.md",
+            "protocol.json", "public-requests.jsonl", "SHA256SUMS"}
+E       AttributeError: module 'capture_clia_reuse' has no attribute 'protocol_inventory'
+
+research/ocm-prototype/test_clia_reuse_study.py:203: AttributeError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/protocol-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_six_published_protocol_files_are_exact_and_required
+1 failed, 15 deselected in 0.04s

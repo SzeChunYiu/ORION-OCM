@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_serialized_acquisition_order_matches_protocol_actions __________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-90/test_serialized_acquisition_or0')
+
+    def test_serialized_acquisition_order_matches_protocol_actions(tmp_path):
+        W = module("clia_reuse_study_worker")
+        from clia_reuse_study_common import write
+        path = tmp_path / "planned-config.json"
+        write(path, {"tasks": {"max3": "jmbl_fg_max3", "guard2": "jmbl_fg_mpg_guard2"}})
+>       assert W.acquisition_tasks(json.loads(path.read_text())) == [
+            ("max3", "jmbl_fg_max3"), ("guard2", "jmbl_fg_mpg_guard2")]
+E       AttributeError: module 'clia_reuse_study_worker' has no attribute 'acquisition_tasks'
+
+research/ocm-prototype/test_clia_reuse_study.py:182: AttributeError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/order-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_study.py::test_serialized_acquisition_order_matches_protocol_actions
+1 failed, 13 deselected in 0.06s
