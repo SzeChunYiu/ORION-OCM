@@ -1,21 +1,30 @@
-# Corrected consumer qualification
+# Corrected representation consumer: full bounded parity
 
-The current research tests now require the repaired live withdrawal snapshots to
-complete and match the original full SV consumer. They explicitly require four
-navigation calls: query and global-uniform seeds in both WARRANTED and EXPLORATORY
-modes. No adapter, donor, scenario, grader, runtime or executive source changed.
+The unchanged 19-scenario panel completed all 57 arm records after the separately
+merged PR100 background-channel repair. All 38 comparisons exactly matched the
+original full SV consumer, its per-atom vectors, surprise outputs and trace.
+There were no consumer errors, uncheckable comparisons or observed mismatches.
 
-The stale assertion was reproduced: 3 failed and 5 passed because actual repaired
-outputs were COMPLETED, while tests demanded the historical math-domain ERROR.
-After the narrow test correction, 34 controls passed: current adapter/capture/
-grading tests plus the existing SV solve-loop suite. No skips or errors occurred.
+Terminal: EXACT_FUNCTIONAL_PARITY. The informed conventional selection parent is
+sufficient on all 19 completed cases. It intentionally shares SV.solve and the
+same donor/checker code: this is a same-information representation-selection
+ablation, not an independent whole-vessel or strong LLM comparison.
 
-Original ERROR evidence at representation-donor-absorption-20260906 is immutable.
-Current negative grading controls first verify its original seal and every raw
-file. They preserve CANNOT on equal failed consumers, mismatch on altered vectors
-or requests, and CLI2 on the actual historical partial capture. Live corrected
-subset controls require complete parity and CLI0; arm tampering still refuses.
+Read READOUT.md for denominators, costs, original-error preservation and limits.
+raw/functional-v2 contains the sealed once-only capture, source bindings and plan.
+raw/functional-v2-grade.json is its external grade. The copied raw bytes are
+unchanged. Source was committed at 422d6dfe1088ea1e31237cc4ccd5007809ab00f3
+before this capture. No source, model, task, denominator or oracle changed mid-run.
 
-Source base: cba7ad76bc522c28bcd8dcf2215b931b5de98bfc (PR99 + PR100 merged).
-This control evidence precedes the separately bound unchanged19-scenario capture.
-No performance comparison or independent whole-vessel comparator is claimed.
+The research branch changed only three current test files. The adapter, donors,
+capture, grader and 19 scenarios are unchanged from PR99. Core repair was already
+on base cba7ad76bc522c28bcd8dcf2215b931b5de98bfc. Original a491/e82 source and
+the old partial capture remain untouched in representation-donor-absorption-20260906.
+The independent G1 structural inspection is in
+../representation-donor-g1-applicability-20260906/CORE.md: that real field has
+no eligible zero-incident block, so this fixture parity does not authorize its
+compact-route integration into the G1 vessel.
+
+No timing, scaling, locality, persistent-revision or quantum-advantage claim.
+This is bounded SUPPORTING mechanism/infrastructure evidence under #72/#70,
+linked to the #50/#62 program. Existing donor ancestry and licenses are preserved.
