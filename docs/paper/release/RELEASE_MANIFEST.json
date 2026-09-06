@@ -1,8 +1,8 @@
 {
   "claim_verification": {
-    "OK": 270,
+    "OK": 273,
     "exit_code": 0,
-    "rows": 270
+    "rows": 273
   },
   "claims": [
     {
@@ -1894,6 +1894,27 @@
       "row": 270,
       "section": "5.9",
       "source": "docs/provenance/M12_V5_EXECUTION_AUTHORITY_CORRECTION_V1.json"
+    },
+    {
+      "check": "ud_parse.protected_chart.test.verdicts.AMBIGUOUS = 37; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_TOP_IS_GOLD = 4; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_WITH_GOLD_AMONG_UNPACKED = 4; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_RANKED = 37",
+      "phrase": "the ranked first reading equals the gold tree in 4 of 37 ambiguous test sentences, exactly the 4 in which the gold tree was among the unpacked derivations",
+      "row": 271,
+      "section": "5.10",
+      "source": "research/ocm-n1/N1_UD_INDUCTION_V2_RANKING.json"
+    },
+    {
+      "check": "ud_parse.meta.chart.max_items = 1000000; ud_parse.protected_chart.test.parsed = 571; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 127",
+      "phrase": "raising the chart cap to one million items (peak resident memory 789 MB) still leaves 22% of the reached sentences at the cap",
+      "row": 272,
+      "section": "5.10",
+      "source": "research/ocm-n1/N1_UD_INDUCTION_V2_CAP1M.json"
+    },
+    {
+      "check": "contains \"S41\"; contains \"lexicalised attachment evidence\"",
+      "phrase": "ledger row S41",
+      "row": 273,
+      "section": "5.10",
+      "source": "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md"
     }
   ],
   "identifier": {
@@ -1901,7 +1922,7 @@
     "note": "the operator's upload replaces this with the DOI",
     "status": "PENDING"
   },
-  "ocm_commit": "134a36f3df495f7943743bd596bf0763250e614b",
+  "ocm_commit": "47e89202f7847ed4430ceccd8528cea2bdc845b5",
   "orion_v2": {
     "note": "ORION-V2 paths are bound by the batch documents' merge commits named in main.md (Data and code availability); not hashed here",
     "paths": [
@@ -1934,10 +1955,10 @@
     "docs/RUNTIME_LIFECYCLE_REVALIDATION_V2.md": "3178e7f4231c341d41e8ef8f479ff036f393f78b61df946fc09ebb5945ab3d15",
     "docs/paper/manuscript/README.md": "7359a27533d41f5946d76ed15f9f26c95ffe6b4d9e6255e38c1951d462869795",
     "docs/paper/manuscript/RELEASE_PLAN.md": "023509e4f00ba1e1c267150d1a48b929d99dd0ebda99d6080f1cb6726473403f",
-    "docs/paper/manuscript/claims_map.md": "5889042ffa637673539dbd275e924131fc23398d1676440683958310a1693af4",
-    "docs/paper/manuscript/claims_verification.txt": "c07bc2c387dabaa2104b6de17a671bb889f4ad581afe192a3d5e8616b7266c9c",
+    "docs/paper/manuscript/claims_map.md": "52c6f2b7c5d3dd320d03c38ce213cd48169135730a755dc497d95405fd206484",
+    "docs/paper/manuscript/claims_verification.txt": "eb1dc3b1ead4df92d70a1bb500eb1cc3afbbe6da65a6c15fbd08400f079a8314",
     "docs/paper/manuscript/figures.md": "513bd11e02ca2084cb34e13217c5a45f0c9eb8ee1cd93644d086bf378780b50a",
-    "docs/paper/manuscript/main.md": "0c7efe958d7190a1999e7bd54ffcc8611e3db98a4d0ef0cb9cbf15622e43a7c7",
+    "docs/paper/manuscript/main.md": "3b320be9b8918bdcd9a1e5044665377d0855d5a50aece4e6ce7259edc25e6c8c",
     "docs/paper/manuscript/positioning.md": "c0c044e93345bfe68659199212d1d55c47e0470ed9e51a5f69b6d721361fcefb",
     "docs/paper/manuscript/positioning_refs.md": "57b76efef3e51d18d3f0abc4a133f0c6fbe2e08a2425917dc4dfdae3031e6ffa",
     "docs/paper/manuscript/reviews/editor_synthesis.md": "dcd8c3e21b06943a96d90c60518f87d0607b29c004d70e33a3acdda5c2a6d422",
@@ -1981,6 +2002,7 @@
     "docs/provenance/SIMPLEWIKI_CUSTODY_MANIFEST_V1.json": "1c43a3e6d769ba2d0f2c211c681a6678da2b16881a2526fd799b2a6cd9b4defb",
     "docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json": "b89d3fd3472cc7f068ab4637ed0f847d9f9b878a2d22a2666ed8b82c78b80d66",
     "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V1.md": "0a91d95ce09585350e6b4cba5ad2cb84a6bec39de218565abb99777a1f795c88",
+    "docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md": "57e8ac01d823f7ac3684173523d5564973de354659b9bdde91314dceac4de833",
     "docs/theorems/KSO_OBLIGATION_REGISTRY_V1.json": "fb0dec5c226b2a3330f617db896186d1e4f0c6230c815d7b9b3f30e54e9580c8",
     "docs/theorems/OCM_ACQUISITION_OBLIGATION_REGISTRY_V1.json": "35c74d30e9aa461188ccd8547792051c6fbfb2e5c45b07d15d16c5662e71f551",
     "docs/theorems/OCM_ALPHA_OBLIGATION_REGISTRY_V1.json": "0ae4e6efbd607d87ba22d6913b8839ce976011179057112e0d1434fcbfaee3e5",
@@ -2009,6 +2031,8 @@
     "research/ocm-m2/M2_SCALING_BASELINE_V1.json": "8d3d3f6b23605b6e9c82a242de3a51e70d6223f77b59be00689fc3ac9faea537",
     "research/ocm-m7/M7_PREREGISTRATION_V1.md": "a24716de77d028660dde0fb334722a96a32926612256688ee52b31321fc38679",
     "research/ocm-n1/N1_UD_INDUCTION_V1.json": "debea13acfdae23a137ef8fb1ebd1252493b0be1043a73322ca009c799816405",
+    "research/ocm-n1/N1_UD_INDUCTION_V2_CAP1M.json": "2d705d6b13b2188abc97525b18e3a845bce716b6a047402ef5edaae98bb219cc",
+    "research/ocm-n1/N1_UD_INDUCTION_V2_RANKING.json": "59dae84f303d73e56cfdc6a0e5c01db334a41c8f75555d0f71f286e7ce1443ce",
     "src/ocm/selfmodel/intake.py": "3132e06e4bead6c84d66f75be7107ea937e1523dce04f387f25ce072329e6aa6",
     "tools/paper/verify_claims.py": "429588e5230d7ae90d7c3aad375e0de4f9b664cb097b03d93ffe740afccf40d1"
   },
