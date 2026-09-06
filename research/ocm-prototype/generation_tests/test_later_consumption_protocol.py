@@ -36,14 +36,18 @@ def fake_capture(candidate, events, *, exit_code=0, response=None):
     return capture
 
 
-def prepared(tmp_path):
+def prepared(tmp_path, monkeypatch):
     C, A, P = modules()
+    sentinel = tmp_path/'mock-environment'
+    sentinel.write_text('MOCK_UNIT_TEST_ENVIRONMENT_NOT_NATIVE_QUALIFICATION\n')
+    environment = {str(sentinel): C.binding(sentinel)}
+    monkeypatch.setattr(P, 'environment', lambda: environment)
     manifest = P.prepare(tmp_path/'packet')
     return C, A, manifest
 
 
 def test_raw_three_routes_sealed_before_any_check_and_no_retry(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     events = []
     monkeypatch.setattr(C, 'capture_one', fake_capture(PRIMITIVE, events))
     raw = C.run(manifest)
@@ -60,7 +64,7 @@ def test_raw_three_routes_sealed_before_any_check_and_no_retry(tmp_path, monkeyp
 
 
 def test_timeout_and_malformed_rows_retained_as_assigned_denominator(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     events = []
     monkeypatch.setattr(C, 'capture_one', fake_capture('', events, exit_code=137, response={'bad':True}))
     C.run(manifest)
@@ -76,7 +80,7 @@ def test_timeout_and_malformed_rows_retained_as_assigned_denominator(tmp_path, m
 
 @pytest.mark.parametrize('candidate, expected', [(PRIMITIVE,'NO_OBSERVED_USE'), (USED,'LEARNED_DEFINITION_CONSUMPTION_QUALIFIED')])
 def test_four_check_ceiling_and_observed_use_is_separate(tmp_path, monkeypatch, candidate, expected):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     events = []
     def donor(argv, stdin, directory, cwd, watchdog):
         body = candidate if Path(directory).name == 'B' else PRIMITIVE
@@ -101,7 +105,7 @@ def test_four_check_ceiling_and_observed_use_is_separate(tmp_path, monkeypatch, 
 
 
 def test_wrong_expansion_cannot_qualify_even_when_spec_passes(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     events = []
     def donor(argv, stdin, directory, cwd, watchdog):
         return fake_capture(USED if Path(directory).name == 'B' else PRIMITIVE, events)(argv,stdin,directory,cwd,watchdog)
@@ -115,7 +119,7 @@ def test_wrong_expansion_cannot_qualify_even_when_spec_passes(tmp_path, monkeypa
 
 
 def test_raw_drift_prevents_assessment_native_calls(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     monkeypatch.setattr(C, 'capture_one', fake_capture(PRIMITIVE, []))
     C.run(manifest)
     output = Path(json.loads(manifest.read_text())['output'])
@@ -125,8 +129,8 @@ def test_raw_drift_prevents_assessment_native_calls(tmp_path, monkeypatch):
         A.run(manifest)
 
 
-def test_prepared_commands_preserve_worker_and_envelope(tmp_path):
-    C, A, manifest = prepared(tmp_path)
+def test_prepared_commands_preserve_worker_and_envelope(tmp_path, monkeypatch):
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     m = json.loads(manifest.read_text())
     assert m['status'] == 'PREPARED_NOT_FROZEN_NOT_EXECUTED'
     assert m['route_order'] == ['C','E0','B']
@@ -139,11 +143,13 @@ def test_prepared_commands_preserve_worker_and_envelope(tmp_path):
     for argv in m['checker_commands'].values():
         assert '10s' in argv and argv[-1].endswith('/clia_worker.py')
     assert m['native_timeout_ms'] == 5000
-    assert m['source_bindings'] and m['environment_bindings']
+    assert m['source_bindings']
+    sentinel = tmp_path/'mock-environment'
+    assert m['environment_bindings'] == {str(sentinel): C.binding(sentinel)}
 
 
 def test_command_drift_cannot_launch_native(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     m = json.loads(manifest.read_text())
     m['candidate_commands']['B'].append('--new-solver-option')
     manifest.write_text(json.dumps(m))
@@ -154,10 +160,19 @@ def test_command_drift_cannot_launch_native(tmp_path, monkeypatch):
 
 def test_raw_seal_remains_verifiable_after_evidence_copy(tmp_path, monkeypatch):
     import shutil
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     monkeypatch.setattr(C, 'capture_one', fake_capture(PRIMITIVE, []))
     C.run(manifest)
     output = Path(json.loads(manifest.read_text())['output'])
     copied = tmp_path/'copied-evidence'
     shutil.copytree(output/'candidates',copied)
     assert C.verify_seal(copied) == C.verify_seal(output/'candidates')
+
+
+def test_production_environment_rejects_unpinned_interpreter(tmp_path, monkeypatch):
+    _, _, P = modules()
+    monkeypatch.setattr(P.sys, 'executable', str(tmp_path/'unpinned-python'))
+    monkeypatch.setattr(P.metadata, 'distribution', lambda *a: pytest.fail('interpreter refusal must precede dependency inspection'))
+    # Exercise the real production body; no prior cached qualification may answer.
+    with pytest.raises(ValueError, match='pinned generation environment'):
+        P.environment.__wrapped__()

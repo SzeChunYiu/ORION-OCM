@@ -7,7 +7,7 @@ from test_later_consumption_protocol import prepared, fake_capture, PRIMITIVE
 
 
 def test_post_dispatch_drift_has_one_row_and_never_reaches_semantic_check(tmp_path, monkeypatch):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     events = []
     monkeypatch.setattr(C, 'capture_one', fake_capture(PRIMITIVE, events))
     original_verify = C.verify
@@ -37,7 +37,7 @@ def test_post_dispatch_drift_has_one_row_and_never_reaches_semantic_check(tmp_pa
 
 @pytest.mark.parametrize('indices', [(0,0,1,2), (0,2), (1,0,2)])
 def test_invalid_sealed_assignment_sequence_refuses_before_assessment(tmp_path,monkeypatch,indices):
-    C, A, manifest = prepared(tmp_path)
+    C, A, manifest = prepared(tmp_path, monkeypatch)
     monkeypatch.setattr(C,'capture_one',fake_capture(PRIMITIVE,[]))
     C.run(manifest)
     output = Path(json.loads(manifest.read_text())['output'])
@@ -52,3 +52,12 @@ def test_invalid_sealed_assignment_sequence_refuses_before_assessment(tmp_path,m
     with pytest.raises(ValueError,match='assignment'):
         A.run(manifest)
     assert not (output/'assessment').exists()
+
+
+def test_mock_environment_drift_refuses_before_dispatch(tmp_path, monkeypatch):
+    C, _, manifest = prepared(tmp_path, monkeypatch)
+    (tmp_path/'mock-environment').write_text('CHANGED_MOCK_ENVIRONMENT')
+    monkeypatch.setattr(C, 'capture_one', lambda *a: pytest.fail('environment drift reached native dispatch'))
+    with pytest.raises(ValueError, match='binding drift: .*mock-environment'):
+        C.run(manifest)
+    assert not Path(json.loads(manifest.read_text())['output']).exists()

@@ -1,0 +1,54 @@
+{
+  "argv": [
+    "/home/billy/orion-director-work/20260906/mock-generation-ci-env/bin/python",
+    "-B",
+    "-c",
+    "import sys,json,os\nfrom pathlib import Path\nimport pytest\naudit=Path(sys.argv[1]).open('x')\ndef record(value):\n    audit.write(json.dumps(value,sort_keys=True)+'\\n'); audit.flush()\nclass NoNative:\n    def find_spec(self,fullname,path=None,target=None):\n        if fullname.split('.')[0] in ('cvc5','z3'):\n            record({'blocked_native_import':fullname})\n            raise RuntimeError('native solver import forbidden in mocked integration qualification')\nsys.meta_path.insert(0,NoNative())\nlogger=\"import os; from explicit_phase_worker import phase; phase('test.before'); os._exit(17)\"\ndef hook(event,args):\n    if event=='subprocess.Popen':\n        argv=args[1]\n        isgit=(argv==['/usr/bin/git','-C',str(Path.cwd()/'research/ocm-prototype'),'rev-parse','HEAD'] or argv==['/usr/bin/git','rev-parse','HEAD'])\n        islogger=argv==[sys.executable,'-B','-c',logger]\n        record({'event':event,'argv':argv,'cwd':str(args[2]),'classification':'git_lineage' if isgit else 'phase_log_flush' if islogger else 'FORBIDDEN'})\n        if not (isgit or islogger): raise RuntimeError('unregistered child process forbidden')\n    elif event in ('os.system','os.posix_spawn','os.spawn'):\n        record({'blocked_process_event':event}); raise RuntimeError('native dispatch forbidden')\nsys.addaudithook(hook)\nstatus=pytest.main(sys.argv[2:])\nrecord({'pytest_exit_code':status,'native_assay_executions':0,'native_checker_executions':0})\naudit.close()\nraise SystemExit(status)\n",
+    "/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_ci_mock_environment_20260906/qualified.process-audit.jsonl",
+    "-q",
+    "research/ocm-prototype/generation_tests",
+    "-k",
+    "not test_fixed_z3_equivalence_and_wrong_value",
+    "--ignore=research/ocm-prototype/results",
+    "--ignore-glob=research/ocm-prototype/test_hosted_*.py",
+    "--junitxml=docs/provenance/research_assay_ci_mock_environment_20260906/qualified.xml"
+  ],
+  "core_source_id": "0d114c3087855886242611c623f7ccd60061c140e7b5de4033e6df5644b94948",
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 104
+  },
+  "deselected_tests": [
+    "test_fixed_z3_equivalence_and_wrong_value"
+  ],
+  "elapsed_s": 0.8691718019545078,
+  "environment_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 0,
+  "native_checker_executions": 0,
+  "native_induction_executions": 0,
+  "native_synthesis_executions": 0,
+  "process_events": {
+    "git_lineage": 14,
+    "phase_log_flush": 1,
+    "terminal": 1
+  },
+  "production_and_historical_inventories_unchanged": true,
+  "scope": "Mocked/pure generation subtree only; not entire N1 workflow; final exact-head hosted CI still required.",
+  "source_authority": "Final exact test hashes before and after this execution; patch uncommitted at execution.",
+  "source_base_head": "58f80021f7d1704af7da8948a3bece5568dc76be",
+  "test_inventory_after": {
+    "research/ocm-prototype/generation_tests/test_explicit_phase_diagnostic.py": "9b946b932f7112c1833239385d1cd2f2af4a5600e31db15ed35288b38abb32a1",
+    "research/ocm-prototype/generation_tests/test_explicit_phase_worker.py": "46f2dda3e7c985e49ada981a112bca2f8905d12d3a392e7b4c40c4cad58dee6b",
+    "research/ocm-prototype/generation_tests/test_generation.py": "85a8c0033993d2ef240106dac35ef607c57dc2423f4c2112b7d2b97a0ff258d2",
+    "research/ocm-prototype/generation_tests/test_later_consumption_contract.py": "657fa98fcc7d8b658a243ff377e7725e18e55ba2e295c2be1801c083f45fc02d",
+    "research/ocm-prototype/generation_tests/test_later_consumption_decode.py": "34e8c54172e88d019e4de9b0c255f29c50c8ea7cab220f4fbb46a8a5598a4138",
+    "research/ocm-prototype/generation_tests/test_later_consumption_drift.py": "997bcb1840d4051b97f5ecbba29c7640a7e980bdc790cb11b5366f0262b2cc09",
+    "research/ocm-prototype/generation_tests/test_later_consumption_protocol.py": "353af548aef232a1660ff79d77f6b6e61e332672dabd65538c18e2a610823432"
+  },
+  "test_source_unchanged_during_execution": true
+}

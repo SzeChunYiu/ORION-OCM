@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/home/billy/orion-director-work/20260906/mock-generation-ci-env/bin/python",
+    "-B",
+    "-c",
+    "import sys,json,os\nfrom pathlib import Path\nimport pytest\naudit=Path(sys.argv[1]).open('x')\ndef record(value):\n    audit.write(json.dumps(value,sort_keys=True)+'\\n'); audit.flush()\nclass NoNative:\n    def find_spec(self,fullname,path=None,target=None):\n        if fullname.split('.')[0] in ('cvc5','z3'):\n            record({'blocked_native_import':fullname})\n            raise RuntimeError('native solver import forbidden in mocked integration qualification')\nsys.meta_path.insert(0,NoNative())\nlogger=\"import os; from explicit_phase_worker import phase; phase('test.before'); os._exit(17)\"\ndef hook(event,args):\n    if event=='subprocess.Popen':\n        argv=args[1]\n        isgit=(argv==['/usr/bin/git','-C',str(Path.cwd()/'research/ocm-prototype'),'rev-parse','HEAD'] or argv==['/usr/bin/git','rev-parse','HEAD'])\n        islogger=argv==[sys.executable,'-B','-c',logger]\n        record({'event':event,'argv':argv,'cwd':str(args[2]),'classification':'git_lineage' if isgit else 'phase_log_flush' if islogger else 'FORBIDDEN'})\n        if not (isgit or islogger): raise RuntimeError('unregistered child process forbidden')\n    elif event in ('os.system','os.posix_spawn','os.spawn'):\n        record({'blocked_process_event':event}); raise RuntimeError('native dispatch forbidden')\nsys.addaudithook(hook)\nstatus=pytest.main(sys.argv[2:])\nrecord({'pytest_exit_code':status,'native_assay_executions':0,'native_checker_executions':0})\naudit.close()\nraise SystemExit(status)\n",
+    "/home/billy/orion-director-work/20260906/ocm-registered-research/docs/provenance/research_assay_ci_mock_environment_20260906/red.process-audit.jsonl",
+    "-q",
+    "research/ocm-prototype/generation_tests/test_later_consumption_protocol.py",
+    "research/ocm-prototype/generation_tests/test_later_consumption_drift.py",
+    "--junitxml=docs/provenance/research_assay_ci_mock_environment_20260906/red.xml"
+  ],
+  "exit_code": 1,
+  "counts": {
+    "tests": 13,
+    "failures": 13,
+    "errors": 0,
+    "skipped": 0
+  },
+  "elapsed_s": 0.40240883600199595,
+  "phase": "Before fixture isolation"
+}
