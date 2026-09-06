@@ -38,8 +38,6 @@ class Realization:
     checked: bool                      # reverse reading equals the intended meaning
     digest: str
     reason: str = ""
-    channel: str = "ATOMIC"            # batch 11 K3 (H7): the surface is delivered whole after the reverse check; no prefix is
-                                       # ever emitted, so no streaming-safety claim is made (STREAMING needs the K3 prefix criterion)
 
 
 def _form(lexicon: Lexicon, lemma: str, category: Category, features: Mapping[str, str], revoked: Iterable) -> str | None:
