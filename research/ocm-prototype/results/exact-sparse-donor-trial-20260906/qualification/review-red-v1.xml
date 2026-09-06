@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="0.118" timestamp="2026-09-06T13:55:18.297148+02:00" hostname="billy"><testcase classname="test_trial_review" name="test_established_semantic_discrepancy_is_refine_required[value]" time="0.024"><failure message="AssertionError: assert 'CANNOT_CHECK' == 'REFINE_REQUIRED'&#10;  &#10;  - REFINE_REQUIRED&#10;  + CANNOT_CHECK">tmp_path = PosixPath('/home/billy/orion-director-work/20260906/exact-sparse-trial-20260906/review-red-v1/test_established_semantic_disc0')
+change = 'value'
+
+    @pytest.mark.parametrize("change",["value","vector"])
+    def test_established_semantic_discrepancy_is_refine_required(tmp_path,change):
+        root=tmp_path/"SYNTHETIC";mh=altered_capture(root,change)
+        result=grade(root,mh)
+&gt;       assert result["functional_terminal"]=="REFINE_REQUIRED"
+E       AssertionError: assert 'CANNOT_CHECK' == 'REFINE_REQUIRED'
+E         
+E         - REFINE_REQUIRED
+E         + CANNOT_CHECK
+
+test_trial_review.py:30: AssertionError</failure></testcase><testcase classname="test_trial_review" name="test_established_semantic_discrepancy_is_refine_required[vector]" time="0.024"><failure message="AssertionError: assert 'FUNCTIONAL_MISMATCH' == 'REFINE_REQUIRED'&#10;  &#10;  - REFINE_REQUIRED&#10;  + FUNCTIONAL_MISMATCH">tmp_path = PosixPath('/home/billy/orion-director-work/20260906/exact-sparse-trial-20260906/review-red-v1/test_established_semantic_disc1')
+change = 'vector'
+
+    @pytest.mark.parametrize("change",["value","vector"])
+    def test_established_semantic_discrepancy_is_refine_required(tmp_path,change):
+        root=tmp_path/"SYNTHETIC";mh=altered_capture(root,change)
+        result=grade(root,mh)
+&gt;       assert result["functional_terminal"]=="REFINE_REQUIRED"
+E       AssertionError: assert 'FUNCTIONAL_MISMATCH' == 'REFINE_REQUIRED'
+E         
+E         - REFINE_REQUIRED
+E         + FUNCTIONAL_MISMATCH
+
+test_trial_review.py:30: AssertionError</failure></testcase><testcase classname="test_trial_review" name="test_semantic_discrepancy_and_incomplete_cost_are_separate" time="0.023"><failure message="AssertionError: assert 'CANNOT_CHECK' == 'REFINE_REQUIRED'&#10;  &#10;  - REFINE_REQUIRED&#10;  + CANNOT_CHECK">tmp_path = PosixPath('/home/billy/orion-director-work/20260906/exact-sparse-trial-20260906/review-red-v1/test_semantic_discrepancy_and_0')
+
+    def test_semantic_discrepancy_and_incomplete_cost_are_separate(tmp_path):
+        root=tmp_path/"SYNTHETIC";mh=altered_capture(root,"value",True)
+        result=grade(root,mh)
+&gt;       assert result["functional_terminal"]=="REFINE_REQUIRED"
+E       AssertionError: assert 'CANNOT_CHECK' == 'REFINE_REQUIRED'
+E         
+E         - REFINE_REQUIRED
+E         + CANNOT_CHECK
+
+test_trial_review.py:35: AssertionError</failure></testcase><testcase classname="test_trial_review" name="test_registered_terminals_and_no_incomplete_medians" time="0.001"><failure message="AssertionError: assert 'ADOPT_EXACT_DONOR' == 'ADOPTION_CANDIDATE'&#10;  &#10;  - ADOPTION_CANDIDATE&#10;  + ADOPT_EXACT_DONOR">def test_registered_terminals_and_no_incomplete_medians():
+        values,assignments=paired()
+&gt;       assert adjudicate(values,assignments,[])["component_gate"]=="ADOPTION_CANDIDATE"
+E       AssertionError: assert 'ADOPT_EXACT_DONOR' == 'ADOPTION_CANDIDATE'
+E         
+E         - ADOPTION_CANDIDATE
+E         + ADOPT_EXACT_DONOR
+
+test_trial_review.py:41: AssertionError</failure></testcase><testcase classname="test_trial_review" name="test_manifest_binds_real_solver_python_contents" time="0.001"><failure message="AssertionError: assert ('/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py' in {'/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/bin/python3.13': '11e7b9408821b8b7fe5316c95de9e2.../site-packages/mpmath-1.3.0.dist-info/RECORD': '09cbd04e87d0c5ab64aab08291b31883e4ea27e8d2c640710e0beb1995e86b9b', ...})&#10; +  where '/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py' = str(PosixPath('/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py'))">def test_manifest_binds_real_solver_python_contents():
+        m=C.read(Path(__file__).with_name("MANIFEST.json"))
+        base=Path(m["runtime_modules"]["sympy"]["path"]).parent
+        for rel in ("polys/matrices/domainmatrix.py","polys/matrices/rref.py","polys/matrices/sdm.py","polys/domains/rationalfield.py"):
+            path=base/rel
+&gt;           assert str(path) in m["runtime_files"] and m["runtime_files"][str(path)]==C.sha(path)
+E           AssertionError: assert ('/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py' in {'/home/billy/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/bin/python3.13': '11e7b9408821b8b7fe5316c95de9e2.../site-packages/mpmath-1.3.0.dist-info/RECORD': '09cbd04e87d0c5ab64aab08291b31883e4ea27e8d2c640710e0beb1995e86b9b', ...})
+E            +  where '/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py' = str(PosixPath('/home/billy/orion-director-work/20260906/g1-env/lib/python3.13/site-packages/sympy/polys/matrices/domainmatrix.py'))
+
+test_trial_review.py:56: AssertionError</failure></testcase><testcase classname="test_trial_review" name="test_record_unchanged_does_not_hide_changed_python_content" time="0.001"><failure message="AttributeError: module 'trial_common' has no attribute 'record_files'">tmp_path = PosixPath('/home/billy/orion-director-work/20260906/exact-sparse-trial-20260906/review-red-v1/test_record_unchanged_does_not0')
+
+    def test_record_unchanged_does_not_hide_changed_python_content(tmp_path):
+        import base64,hashlib
+        package=tmp_path/"package";package.mkdir();source=package/"solver.py";source.write_bytes(b"original")
+        h=base64.urlsafe_b64encode(hashlib.sha256(source.read_bytes()).digest()).decode().rstrip("=")
+        record=package/"RECORD";record.write_text("solver.py,sha256="+h+",8\n")
+&gt;       observed=C.record_files(package,record)
+E       AttributeError: module 'trial_common' has no attribute 'record_files'
+
+test_trial_review.py:63: AttributeError</failure></testcase></testsuite></testsuites>

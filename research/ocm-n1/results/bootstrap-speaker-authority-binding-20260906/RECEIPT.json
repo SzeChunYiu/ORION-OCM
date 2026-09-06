@@ -1,0 +1,115 @@
+{
+  "schema": "ocm.current-bootstrap-binding-repair.v1",
+  "created_utc": "2026-09-06T12:52:31.081317+00:00",
+  "baseline_commit": "35e98dddf4924e887f1022a424305d362cbb1aec",
+  "reviewed_main": "1a6c99bdcb08a8a94bef4d51c0da9188a4c4e959",
+  "trigger_pr": "https://github.com/SzeChunYiu/ORION-OCM/pull/109",
+  "trigger_ci": "https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34033765586",
+  "role": "CURRENT_PROSPECTIVE_ACCOUNTING_REPAIR",
+  "protected_outcomes_read": false,
+  "cause": "PR109 adds fixed speaker-axis rank 1 to interpreted said-records; the current bootstrap manifest still bound the predecessor session source.",
+  "change": "Update reviewed main and session blob; declare P11 fixed reported-speech authority as authored constitutional prior, not learned competence or independent world truth.",
+  "old_manifest_sha256": "e9b9522e8c62b3d8fffe93147139c4b28838a68cdc017fc9969076378a45b71c",
+  "new_manifest_sha256": "b489483afc117d32f43eab0cc0fccf3dfc85229209a84baa931f2f163c0f7fe6",
+  "prior_classes": {
+    "before": 10,
+    "after": 11,
+    "new_id": "P11_reported_speech_authority"
+  },
+  "unchanged_numeric_and_seed_inventory": true,
+  "unchanged_minimal_target_and_required_ablations": true,
+  "claim_authority": "AUDIT_AND_DESIGN_ONLY; no protected language-learning outcome",
+  "terminal": "CURRENT_RUNTIME_BOOTSTRAP_NOT_MINIMAL__N1_MINIMAL_TARGET_REGISTERED",
+  "no_core_auditor_test_or_numerical_source_change": true,
+  "prior_trial_packet": {
+    "sha256sums_sha256": "2971fce648c4fd52c663ea69c97eed33b12a2c8e2c2eb0c9681689f0c05d5e9d",
+    "files_verified": 738,
+    "unchanged": true
+  },
+  "source_bindings": {
+    "research/ocm-n1/LANGUAGE_BOOTSTRAP_MANIFEST_V1.json": {
+      "sha256": "b489483afc117d32f43eab0cc0fccf3dfc85229209a84baa931f2f163c0f7fe6",
+      "bytes": 7851,
+      "git_blob": "9076283f001006201c7a93bb25952be85228d885"
+    },
+    "research/ocm-n1/bootstrap_audit.py": {
+      "sha256": "117c20ae2fa424275222a80cbccdbf454e0c1d603a08fdbd142936b0c09fa30b",
+      "bytes": 5420,
+      "git_blob": "17d1842afa3b385a5b7759cc50bc338b1d084bae"
+    },
+    "research/ocm-n1/test_bootstrap_audit.py": {
+      "sha256": "19f4f7926c0abbfa95d72e9b12e2d1ade2057acfabb5bae70842a03f6ddbb19b",
+      "bytes": 1477,
+      "git_blob": "10928250f9c07960aed0f2e55cd8cc8e758cb611"
+    },
+    "src/ocm/language/session.py": {
+      "sha256": "ff8789371034668b4493ada611a32aad2c0f2f0b668964024eb4d5cafc28b851",
+      "bytes": 12356,
+      "git_blob": "a9f2bd11b2387997a7fdb618f5683b21b0b070ca"
+    },
+    "tests/m3/test_session.py": {
+      "sha256": "5b524e28c86c111a913f78b974fee5fc3873c413134fed81389d8f3f0dda59c8",
+      "bytes": 5297,
+      "git_blob": "303414a6748166740c25c2dc23de4d94f57a0e53"
+    }
+  },
+  "runtime": {
+    "python": "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+    "version": "Python 3.13.12"
+  },
+  "qualification": {
+    "cwd": "/home/billy/orion-director-work/20260906/ocm-exact-sparse",
+    "environment": {
+      "PYTHONPATH": "src",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+    },
+    "red": {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+        "-m",
+        "pytest",
+        "research/ocm-n1/test_bootstrap_audit.py",
+        "-q",
+        "--junitxml=research/ocm-n1/results/bootstrap-speaker-authority-binding-20260906/red.xml"
+      ],
+      "exit_code": 1,
+      "tests": 3,
+      "failures": 3,
+      "log": "red.log",
+      "xml": "red.xml"
+    },
+    "green": {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+        "-m",
+        "pytest",
+        "research/ocm-n1/test_bootstrap_audit.py",
+        "tests/m3/test_session.py::test_statement_is_recorded_as_said_and_question_answered_with_evidence_never_guessed",
+        "-q",
+        "--junitxml=research/ocm-n1/results/bootstrap-speaker-authority-binding-20260906/green.xml"
+      ],
+      "exit_code": 0,
+      "tests": 4,
+      "failures": 0,
+      "log": "green.log",
+      "xml": "green.xml"
+    },
+    "audit": {
+      "argv": [
+        "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+        "research/ocm-n1/bootstrap_audit.py",
+        "--verify",
+        "--out",
+        "research/ocm-n1/results/bootstrap-speaker-authority-binding-20260906/current-audit.json"
+      ],
+      "environment": {
+        "PYTHONPATH": "src",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "receipt": "current-audit.json"
+    }
+  },
+  "limits": "Engineering accounting and existing unit controls only. No model, numerical trial, protected acquisition, scientific outcome or new capability evaluation."
+}

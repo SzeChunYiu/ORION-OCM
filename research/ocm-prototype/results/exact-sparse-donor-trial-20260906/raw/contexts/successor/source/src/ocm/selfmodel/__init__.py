@@ -1,0 +1,1 @@
+"""M11 — ORION-of-ORION: governed self-modelling (K_self fibre without self-authority), failure evidence ingestion, diagnostic layers, obstruction certificates, self-change proposals with pre-outcome prediction, shadow execution, external assurance/adoption, reopening and exact rollback, monitoring."""

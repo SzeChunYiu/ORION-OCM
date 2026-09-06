@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.173" timestamp="2026-09-06T13:03:19.459549+02:00" hostname="billy"><testcase classname="research.ocm-prototype.exact_sparse_donor_tests.test_cli" name="test_named_fixture_cli_has_complete_stage_and_channel_counts[reference]" time="0.074"><failure message="AssertionError: missing untimed JSON CLI output&#10;assert ''&#10; +  where '' = &lt;built-in method strip of str object at 0x14f83a8&gt;()&#10; +    where &lt;built-in method strip of str object at 0x14f83a8&gt; = ''.strip&#10; +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'reference', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout">arm = 'reference'
+
+    @pytest.mark.parametrize("arm", ["reference", "sympy"])
+    def test_named_fixture_cli_has_complete_stage_and_channel_counts(arm):
+        run = subprocess.run([sys.executable, "-m", "exact_sparse_donor_consumer",
+                              "--arm", arm, "--fixture", "base"],
+                             capture_output=True, text=True, timeout=15)
+        assert run.returncode == 0, run.stderr
+&gt;       assert run.stdout.strip(), "missing untimed JSON CLI output"
+E       AssertionError: missing untimed JSON CLI output
+E       assert ''
+E        +  where '' = &lt;built-in method strip of str object at 0x14f83a8&gt;()
+E        +    where &lt;built-in method strip of str object at 0x14f83a8&gt; = ''.strip
+E        +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'reference', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout
+
+research/ocm-prototype/exact_sparse_donor_tests/test_cli.py:14: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.exact_sparse_donor_tests.test_cli" name="test_named_fixture_cli_has_complete_stage_and_channel_counts[sympy]" time="0.074"><failure message="AssertionError: missing untimed JSON CLI output&#10;assert ''&#10; +  where '' = &lt;built-in method strip of str object at 0x14f83a8&gt;()&#10; +    where &lt;built-in method strip of str object at 0x14f83a8&gt; = ''.strip&#10; +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'sympy', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout">arm = 'sympy'
+
+    @pytest.mark.parametrize("arm", ["reference", "sympy"])
+    def test_named_fixture_cli_has_complete_stage_and_channel_counts(arm):
+        run = subprocess.run([sys.executable, "-m", "exact_sparse_donor_consumer",
+                              "--arm", arm, "--fixture", "base"],
+                             capture_output=True, text=True, timeout=15)
+        assert run.returncode == 0, run.stderr
+&gt;       assert run.stdout.strip(), "missing untimed JSON CLI output"
+E       AssertionError: missing untimed JSON CLI output
+E       assert ''
+E        +  where '' = &lt;built-in method strip of str object at 0x14f83a8&gt;()
+E        +    where &lt;built-in method strip of str object at 0x14f83a8&gt; = ''.strip
+E        +      where '' = CompletedProcess(args=['/home/billy/orion-director-work/20260906/g1-env/bin/python', '-m', 'exact_sparse_donor_consumer', '--arm', 'sympy', '--fixture', 'base'], returncode=0, stdout='', stderr='').stdout
+
+research/ocm-prototype/exact_sparse_donor_tests/test_cli.py:14: AssertionError</failure></testcase></testsuite></testsuites>
