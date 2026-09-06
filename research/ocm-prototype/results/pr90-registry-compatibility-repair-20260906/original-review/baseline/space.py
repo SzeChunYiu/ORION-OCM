@@ -5,10 +5,9 @@ v0) · ``UnifiedKSO`` (multidomain) all become views of this one object: atoms a
 hyperedges, each carrying a warrant interval, authority, scope, epoch and resource/provenance
 metadata (contract §2).  Certificates and the meter live on ``GovernedSpace`` in ``admission.py``.
 
-Structural edits return a new space. Nested metadata and the shared TypeRegistry are not deeply
-immutable: content digests must observe current values, and edits must revalidate against the
-current registry. ``to_reference``/``from_reference`` convert to and from the frozen historical
-``kso_math_v1`` types for old-vs-new equivalence checks (M1 D3: no architecture laundering).
+Every structure is immutable; edits return a new space.  ``to_reference``/``from_reference`` convert
+to and from the frozen historical ``kso_math_v1`` types so old-vs-new equivalence can be asserted on
+the registered witnesses (M1 D3: no architecture laundering).
 """
 from __future__ import annotations
 
@@ -16,7 +15,6 @@ import hashlib
 from dataclasses import dataclass, field, replace
 from fractions import Fraction
 from functools import cached_property
-from types import MappingProxyType
 from typing import Any, Hashable, Iterable, Mapping
 
 from .ids import canonical_json
@@ -155,20 +153,6 @@ class KnowledgeSpace:
         return {e.edge_id: e for e in self.hyperedges}
 
     @cached_property
-    def atom_view(self) -> Mapping[str, Atom]:
-        """Read-only zero-copy view for internal hot paths.
-
-        ``atom_map`` intentionally remains a mutable detached copy for compatibility.
-        The mapping is read-only; nested metadata on its values is not deeply frozen.
-        """
-        return MappingProxyType(self._atom_index)
-
-    @cached_property
-    def edge_view(self) -> Mapping[str, Hyperedge]:
-        """Read-only zero-copy edge lookup; nested metadata remains caller-owned."""
-        return MappingProxyType(self._edge_index)
-
-    @cached_property
     def _incident_index(self) -> dict[str, tuple[Hyperedge, ...]]:
         by_atom: dict[str, list[Hyperedge]] = {}
         for edge in self.hyperedges:
@@ -208,7 +192,7 @@ class KnowledgeSpace:
         for a in self.atoms:
             self.registry.require_atom_type(a.atom_type)
         for e in self.hyperedges:
-            if any(x not in known for x in (*e.tails, *e.heads)):
+            if not e.incident <= known:
                 raise ValueError(f"hyperedge {e.edge_id} references an unknown atom")
             self.registry.require_relation_type(e.relation_type)
 
@@ -225,20 +209,19 @@ class KnowledgeSpace:
         return self._outgoing_index.get(atom_id, ())
 
     def index_resources(self):
-        """Shallow storage of materialized indexes, views and cached evidence entries.
+        """Storage of currently materialized structural indexes, separate from logical content.
 
-        ``index_size`` counts tuple references, dict entries (including adjacency entries)
-        and evidence-frozenset entries. Mapping proxies share their underlying dict entries.
+        ``index_size`` counts tuple references and dict entries (including adjacency entries).
         ``memory_bytes`` counts the shallow containers on this Python host; existing atom,
         edge and string objects are shared and are not charged again. This is a storage
-        observation, not an admission work count, recursive memory total or process-RSS estimate.
+        observation, not an admission work count or a process-RSS estimate.
         """
         import sys
 
         from .resources import ResourceVector
 
         entries = memory = 0
-        for name in ("ids", "_atom_index", "_edge_index", "_incident_index", "_outgoing_index", "_evidence_universe_value"):
+        for name in ("ids", "_atom_index", "_edge_index", "_incident_index", "_outgoing_index"):
             value = self.__dict__.get(name)
             if value is None:
                 continue
@@ -247,10 +230,6 @@ class KnowledgeSpace:
             if name in ("_incident_index", "_outgoing_index"):
                 entries += sum(len(edges) for edges in value.values())
                 memory += sum(sys.getsizeof(edges) for edges in value.values())
-        for name in ("atom_view", "edge_view"):
-            value = self.__dict__.get(name)
-            if value is not None:
-                memory += sys.getsizeof(value)  # Proxy only; underlying entries already counted.
         return ResourceVector(index_size=entries, memory_bytes=memory)
 
     # --- liveness ------------------------------------------------------------------------
@@ -271,14 +250,13 @@ class KnowledgeSpace:
         from .warrant import kleene_and
 
         rv = frozenset(revoked)
-        amap = self.atom_view
+        amap = self.atom_map()
         out = edge.liveness(rv)
         for x in (*edge.tails, *edge.heads):
             out = kleene_and(out, amap[x].liveness(rv))
         return out
 
-    @cached_property
-    def _evidence_universe_value(self) -> frozenset:
+    def evidence_universe(self) -> frozenset:
         ev: set = set()
         for a in self.atoms:
             ev |= a.warrant.evidence
@@ -286,13 +264,8 @@ class KnowledgeSpace:
             ev |= e.warrant.evidence
         return frozenset(ev)
 
-    def evidence_universe(self) -> frozenset:
-        return self._evidence_universe_value
-
     # --- edits (persistent) --------------------------------------------------------------
     def with_atoms(self, *atoms: Atom) -> "KnowledgeSpace":
-        # The registry is shared and mutable; old types may have been withdrawn since
-        # construction. Retain full validation until a versioned registry contract exists.
         return replace(self, atoms=self.atoms + tuple(atoms))
 
     def with_edges(self, *edges: Hyperedge) -> "KnowledgeSpace":
@@ -309,8 +282,6 @@ class KnowledgeSpace:
 
     # --- identity ------------------------------------------------------------------------
     def digest(self) -> str:
-        # A frozen dataclass does not freeze nested Atom/Hyperedge.meta values.
-        # Hash current canonical content, including mutations through as_dict aliases.
         body = {"atoms": [a.as_dict() for a in self.atoms], "hyperedges": [e.as_dict() for e in self.hyperedges]}
         return hashlib.sha256(canonical_json(body).encode("utf-8")).hexdigest()
 
@@ -329,7 +300,7 @@ def pairwise_expansion(edge: Hyperedge) -> tuple[Hyperedge, ...]:
     """The *wrong* reading of a conjunctive relation: one independent pairwise edge per (tail, head).
 
     Provided only so the hostile test can show it is not equivalent (enabling and navigation both
-    differ). Accepting it as equivalent requires an explicit equivalence certificate, never a default.
+    differ).  Accepting it as equivalent requires an explicit equivalence certificate, never a default.
     """
     out = []
     for t in edge.tails:

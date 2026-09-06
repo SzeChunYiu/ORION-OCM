@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="12" time="0.056" timestamp="2026-09-06T11:01:27.874899+02:00" hostname="billy"><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[unchanged_repeat]" time="0.001" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[atom_nested_metadata]" time="0.001"><failure message="AssertionError: assert '435084227b37...bb16025b34bb6' == '23921713f86a...4b5c8d92aa9b6'&#10;  &#10;  - 23921713f86a394fcda49b72bff458b9d3b555e7cd5babc03f34b5c8d92aa9b6&#10;  + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6">case = 'atom_nested_metadata'
+
+    @pytest.mark.parametrize("case", [
+        "unchanged_repeat", "atom_nested_metadata", "edge_nested_metadata",
+        "atom_as_dict_nested_alias", "edge_as_dict_nested_alias",
+        "new_constructor_after_nested_mutation", "new_generation_with_atoms",
+        "new_generation_with_edges",
+    ])
+    def test_digest_matches_current_canonical_content(case):
+        atom_meta = {"nested": {"labels": ["initial"]}}
+        edge_meta = {"nested": {"labels": ["initial"]}}
+        atoms = (S.Atom("a", "claim", meta=(("review", atom_meta),)),
+                 S.Atom("b", "claim"))
+        edges = (S.Hyperedge("ab", ("a",), ("b",), "DEPENDENCE", meta=(("review", edge_meta),)),)
+        space = S.KnowledgeSpace(atoms, edges)
+        before, expected = _fresh_canonical_digest(space)
+        assert space.digest() == expected
+    
+        if case == "atom_nested_metadata":
+            atom_meta["nested"]["labels"].append("changed")
+        elif case == "edge_nested_metadata":
+            edge_meta["nested"]["labels"].append("changed")
+        elif case == "atom_as_dict_nested_alias":
+            space.atoms[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "edge_as_dict_nested_alias":
+            space.hyperedges[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "new_constructor_after_nested_mutation":
+            atom_meta["nested"]["labels"].append("changed")
+            space = S.KnowledgeSpace(space.atoms, space.hyperedges, space.registry)
+        elif case == "new_generation_with_atoms":
+            space = space.with_atoms(S.Atom("c", "claim"))
+        elif case == "new_generation_with_edges":
+            space = space.with_edges(S.Hyperedge("ba", ("b",), ("a",), "DEPENDENCE"))
+    
+        after, expected = _fresh_canonical_digest(space)
+        assert (after != before) is (case != "unchanged_repeat")
+&gt;       assert space.digest() == expected
+E       AssertionError: assert '435084227b37...bb16025b34bb6' == '23921713f86a...4b5c8d92aa9b6'
+E         
+E         - 23921713f86a394fcda49b72bff458b9d3b555e7cd5babc03f34b5c8d92aa9b6
+E         + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6
+
+tests/m1/test_space_hotpath_efficiency.py:61: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[edge_nested_metadata]" time="0.000"><failure message="AssertionError: assert '435084227b37...bb16025b34bb6' == '8fdba3b65f9f...a3d6fe6902307'&#10;  &#10;  - 8fdba3b65f9f9d0dc0a7c14a31cfdd1def1a90a402af4ab426da3d6fe6902307&#10;  + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6">case = 'edge_nested_metadata'
+
+    @pytest.mark.parametrize("case", [
+        "unchanged_repeat", "atom_nested_metadata", "edge_nested_metadata",
+        "atom_as_dict_nested_alias", "edge_as_dict_nested_alias",
+        "new_constructor_after_nested_mutation", "new_generation_with_atoms",
+        "new_generation_with_edges",
+    ])
+    def test_digest_matches_current_canonical_content(case):
+        atom_meta = {"nested": {"labels": ["initial"]}}
+        edge_meta = {"nested": {"labels": ["initial"]}}
+        atoms = (S.Atom("a", "claim", meta=(("review", atom_meta),)),
+                 S.Atom("b", "claim"))
+        edges = (S.Hyperedge("ab", ("a",), ("b",), "DEPENDENCE", meta=(("review", edge_meta),)),)
+        space = S.KnowledgeSpace(atoms, edges)
+        before, expected = _fresh_canonical_digest(space)
+        assert space.digest() == expected
+    
+        if case == "atom_nested_metadata":
+            atom_meta["nested"]["labels"].append("changed")
+        elif case == "edge_nested_metadata":
+            edge_meta["nested"]["labels"].append("changed")
+        elif case == "atom_as_dict_nested_alias":
+            space.atoms[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "edge_as_dict_nested_alias":
+            space.hyperedges[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "new_constructor_after_nested_mutation":
+            atom_meta["nested"]["labels"].append("changed")
+            space = S.KnowledgeSpace(space.atoms, space.hyperedges, space.registry)
+        elif case == "new_generation_with_atoms":
+            space = space.with_atoms(S.Atom("c", "claim"))
+        elif case == "new_generation_with_edges":
+            space = space.with_edges(S.Hyperedge("ba", ("b",), ("a",), "DEPENDENCE"))
+    
+        after, expected = _fresh_canonical_digest(space)
+        assert (after != before) is (case != "unchanged_repeat")
+&gt;       assert space.digest() == expected
+E       AssertionError: assert '435084227b37...bb16025b34bb6' == '8fdba3b65f9f...a3d6fe6902307'
+E         
+E         - 8fdba3b65f9f9d0dc0a7c14a31cfdd1def1a90a402af4ab426da3d6fe6902307
+E         + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6
+
+tests/m1/test_space_hotpath_efficiency.py:61: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[atom_as_dict_nested_alias]" time="0.000"><failure message="AssertionError: assert '435084227b37...bb16025b34bb6' == '23921713f86a...4b5c8d92aa9b6'&#10;  &#10;  - 23921713f86a394fcda49b72bff458b9d3b555e7cd5babc03f34b5c8d92aa9b6&#10;  + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6">case = 'atom_as_dict_nested_alias'
+
+    @pytest.mark.parametrize("case", [
+        "unchanged_repeat", "atom_nested_metadata", "edge_nested_metadata",
+        "atom_as_dict_nested_alias", "edge_as_dict_nested_alias",
+        "new_constructor_after_nested_mutation", "new_generation_with_atoms",
+        "new_generation_with_edges",
+    ])
+    def test_digest_matches_current_canonical_content(case):
+        atom_meta = {"nested": {"labels": ["initial"]}}
+        edge_meta = {"nested": {"labels": ["initial"]}}
+        atoms = (S.Atom("a", "claim", meta=(("review", atom_meta),)),
+                 S.Atom("b", "claim"))
+        edges = (S.Hyperedge("ab", ("a",), ("b",), "DEPENDENCE", meta=(("review", edge_meta),)),)
+        space = S.KnowledgeSpace(atoms, edges)
+        before, expected = _fresh_canonical_digest(space)
+        assert space.digest() == expected
+    
+        if case == "atom_nested_metadata":
+            atom_meta["nested"]["labels"].append("changed")
+        elif case == "edge_nested_metadata":
+            edge_meta["nested"]["labels"].append("changed")
+        elif case == "atom_as_dict_nested_alias":
+            space.atoms[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "edge_as_dict_nested_alias":
+            space.hyperedges[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "new_constructor_after_nested_mutation":
+            atom_meta["nested"]["labels"].append("changed")
+            space = S.KnowledgeSpace(space.atoms, space.hyperedges, space.registry)
+        elif case == "new_generation_with_atoms":
+            space = space.with_atoms(S.Atom("c", "claim"))
+        elif case == "new_generation_with_edges":
+            space = space.with_edges(S.Hyperedge("ba", ("b",), ("a",), "DEPENDENCE"))
+    
+        after, expected = _fresh_canonical_digest(space)
+        assert (after != before) is (case != "unchanged_repeat")
+&gt;       assert space.digest() == expected
+E       AssertionError: assert '435084227b37...bb16025b34bb6' == '23921713f86a...4b5c8d92aa9b6'
+E         
+E         - 23921713f86a394fcda49b72bff458b9d3b555e7cd5babc03f34b5c8d92aa9b6
+E         + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6
+
+tests/m1/test_space_hotpath_efficiency.py:61: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[edge_as_dict_nested_alias]" time="0.000"><failure message="AssertionError: assert '435084227b37...bb16025b34bb6' == '8fdba3b65f9f...a3d6fe6902307'&#10;  &#10;  - 8fdba3b65f9f9d0dc0a7c14a31cfdd1def1a90a402af4ab426da3d6fe6902307&#10;  + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6">case = 'edge_as_dict_nested_alias'
+
+    @pytest.mark.parametrize("case", [
+        "unchanged_repeat", "atom_nested_metadata", "edge_nested_metadata",
+        "atom_as_dict_nested_alias", "edge_as_dict_nested_alias",
+        "new_constructor_after_nested_mutation", "new_generation_with_atoms",
+        "new_generation_with_edges",
+    ])
+    def test_digest_matches_current_canonical_content(case):
+        atom_meta = {"nested": {"labels": ["initial"]}}
+        edge_meta = {"nested": {"labels": ["initial"]}}
+        atoms = (S.Atom("a", "claim", meta=(("review", atom_meta),)),
+                 S.Atom("b", "claim"))
+        edges = (S.Hyperedge("ab", ("a",), ("b",), "DEPENDENCE", meta=(("review", edge_meta),)),)
+        space = S.KnowledgeSpace(atoms, edges)
+        before, expected = _fresh_canonical_digest(space)
+        assert space.digest() == expected
+    
+        if case == "atom_nested_metadata":
+            atom_meta["nested"]["labels"].append("changed")
+        elif case == "edge_nested_metadata":
+            edge_meta["nested"]["labels"].append("changed")
+        elif case == "atom_as_dict_nested_alias":
+            space.atoms[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "edge_as_dict_nested_alias":
+            space.hyperedges[0].as_dict()["meta"]["review"]["nested"]["labels"].append("changed")
+        elif case == "new_constructor_after_nested_mutation":
+            atom_meta["nested"]["labels"].append("changed")
+            space = S.KnowledgeSpace(space.atoms, space.hyperedges, space.registry)
+        elif case == "new_generation_with_atoms":
+            space = space.with_atoms(S.Atom("c", "claim"))
+        elif case == "new_generation_with_edges":
+            space = space.with_edges(S.Hyperedge("ba", ("b",), ("a",), "DEPENDENCE"))
+    
+        after, expected = _fresh_canonical_digest(space)
+        assert (after != before) is (case != "unchanged_repeat")
+&gt;       assert space.digest() == expected
+E       AssertionError: assert '435084227b37...bb16025b34bb6' == '8fdba3b65f9f...a3d6fe6902307'
+E         
+E         - 8fdba3b65f9f9d0dc0a7c14a31cfdd1def1a90a402af4ab426da3d6fe6902307
+E         + 435084227b37eb9f6c216bec246d543169f2b16d571a91043ebbb16025b34bb6
+
+tests/m1/test_space_hotpath_efficiency.py:61: AssertionError</failure></testcase><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[new_constructor_after_nested_mutation]" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[new_generation_with_atoms]" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_digest_matches_current_canonical_content[new_generation_with_edges]" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_evidence_universe_is_cached_per_immutable_space" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_atom_and_edge_views_are_read_only_and_zero_copy" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_local_additions_skip_full_space_revalidation" time="0.000" /><testcase classname="tests.m1.test_space_hotpath_efficiency" name="test_local_additions_still_enforce_affected_invariants" time="0.000" /></testsuite></testsuites>

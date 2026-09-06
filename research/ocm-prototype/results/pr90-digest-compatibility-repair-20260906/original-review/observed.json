@@ -1,0 +1,243 @@
+{
+  "schema": "pr90.digest.compatibility.control.v1",
+  "terminal": "COMPATIBILITY_REGRESSION_PROVED",
+  "started_scope": "isolated source modules; no runtime, solver, model, or performance test",
+  "utc": "2026-09-06T08:49:20.684572+00:00",
+  "python": "3.13.12 (main, Feb  3 2026, 22:52:12) [Clang 21.1.4 ]",
+  "executable": "/home/billy/orion-director-work/20260906/g1-env/bin/python",
+  "source_bindings": {
+    "baseline_commit": "53d404f56140386f43d591cc8697cdf6be7669a1",
+    "candidate_commit": "52d3be2938a3576fb2777bfcb5d415b397db0286",
+    "files": {
+      "baseline/space.py": {
+        "sha256": "fcc3ac942262c440e75ff04081a3f4c1de9e9c8d4b773bf9bf2f9b798b1ddedd",
+        "bytes": 16365,
+        "source": "src/ocm/kso/space.py"
+      },
+      "baseline/ids.py": {
+        "sha256": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
+        "bytes": 2692,
+        "source": "src/ocm/kso/ids.py"
+      },
+      "baseline/types.py": {
+        "sha256": "d92e8b7a733390203e434f2f655d2a8a5c1d320e0c77d37f52855b7a7bf00a92",
+        "bytes": 9040,
+        "source": "src/ocm/kso/types.py"
+      },
+      "baseline/warrant.py": {
+        "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406",
+        "bytes": 11769,
+        "source": "src/ocm/kso/warrant.py"
+      },
+      "candidate/space.py": {
+        "sha256": "84d0923cb608fc6010e4254bb9a2211d533a5c32b3fd993540bb810024fab934",
+        "bytes": 19000,
+        "source": "src/ocm/kso/space.py"
+      },
+      "candidate/ids.py": {
+        "sha256": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5",
+        "bytes": 2692,
+        "source": "src/ocm/kso/ids.py"
+      },
+      "candidate/types.py": {
+        "sha256": "d92e8b7a733390203e434f2f655d2a8a5c1d320e0c77d37f52855b7a7bf00a92",
+        "bytes": 9040,
+        "source": "src/ocm/kso/types.py"
+      },
+      "candidate/warrant.py": {
+        "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406",
+        "bytes": 11769,
+        "source": "src/ocm/kso/warrant.py"
+      }
+    }
+  },
+  "control_sha256": "5f44bbd8954076a21c36aaadc45d10650acbd82c489ecbb8bec9850742682a80",
+  "results": {
+    "baseline": [
+      {
+        "case": "unchanged_repeat",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": false,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "atom_nested_metadata",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "edge_nested_metadata",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "after_reported": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "atom_as_dict_nested_alias",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "edge_as_dict_nested_alias",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "after_reported": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_constructor_after_nested_mutation",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_generation_with_atoms",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "336b9309e93b69f7ae0435edd2c62d1c6df18644c4c6ac18158a51c5a17f6ddd",
+        "after_reported": "336b9309e93b69f7ae0435edd2c62d1c6df18644c4c6ac18158a51c5a17f6ddd",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"c\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_generation_with_edges",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "3ef36bd9eeb18a1daabf70d4adeb964db8a865830e3e58f72c0af6a94cdb0d9f",
+        "after_reported": "3ef36bd9eeb18a1daabf70d4adeb964db8a865830e3e58f72c0af6a94cdb0d9f",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"},{\"authority\":{},\"edge_id\":\"f\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"a\"],\"meta\":{},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"b\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      }
+    ],
+    "candidate": [
+      {
+        "case": "unchanged_repeat",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": false,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "atom_nested_metadata",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": true,
+        "matches_fresh_canonical": false,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "edge_nested_metadata",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": true,
+        "matches_fresh_canonical": false,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "atom_as_dict_nested_alias",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": true,
+        "matches_fresh_canonical": false,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "edge_as_dict_nested_alias",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "1aee77e6051c4b2ac82aef9b8a3b2436630f7b22517da493f5989f5e7a5ef6aa",
+        "after_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "canonical_changed": true,
+        "matches_fresh_canonical": false,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_constructor_after_nested_mutation",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "after_reported": "bb61699f6e97c4088d7f288b351b01552eac80efad92ea0f08c9875119946f1a",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\",\"changed\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_generation_with_atoms",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "336b9309e93b69f7ae0435edd2c62d1c6df18644c4c6ac18158a51c5a17f6ddd",
+        "after_reported": "336b9309e93b69f7ae0435edd2c62d1c6df18644c4c6ac18158a51c5a17f6ddd",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"c\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      },
+      {
+        "case": "new_generation_with_edges",
+        "before_fresh": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "before_reported": "7e289946873d6f0a53c61f6eca2615a0ccd4b8aad3d419324dd8d4e068a485d1",
+        "after_fresh": "3ef36bd9eeb18a1daabf70d4adeb964db8a865830e3e58f72c0af6a94cdb0d9f",
+        "after_reported": "3ef36bd9eeb18a1daabf70d4adeb964db8a865830e3e58f72c0af6a94cdb0d9f",
+        "canonical_changed": true,
+        "matches_fresh_canonical": true,
+        "before_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}",
+        "after_canonical": "{\"atoms\":[{\"atom_id\":\"a\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}},{\"atom_id\":\"b\",\"atom_type\":\"claim\",\"authority\":{},\"content_ref\":null,\"epoch\":0,\"meta\":{},\"quarantined\":false,\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]}}],\"hyperedges\":[{\"authority\":{},\"edge_id\":\"e\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"b\"],\"meta\":{\"review\":{\"nested\":{\"labels\":[\"initial\"]}}},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"a\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"},{\"authority\":{},\"edge_id\":\"f\",\"executable_ref\":null,\"head_weights\":[\"1\"],\"heads\":[\"a\"],\"meta\":{},\"relation_type\":\"SUPPORT\",\"scope\":{\"contexts\":null,\"epoch\":[0,Infinity]},\"tails\":[\"b\"],\"warrant\":{\"complete\":true,\"lower\":[[]],\"upper\":[[]]},\"weight\":\"1\"}]}"
+      }
+    ]
+  },
+  "candidate_failure_cases": [
+    "atom_nested_metadata",
+    "edge_nested_metadata",
+    "atom_as_dict_nested_alias",
+    "edge_as_dict_nested_alias"
+  ]
+}
