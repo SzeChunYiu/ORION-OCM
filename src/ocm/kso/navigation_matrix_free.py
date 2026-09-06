@@ -24,6 +24,7 @@ from typing import Hashable, Iterable, Sequence
 
 from .navigation import NavigationMode, Relevance, _beta, _gate, gated_seed, structural_denominators
 from .space import KnowledgeSpace
+from .warrant import CannotCheck
 
 
 @dataclass(frozen=True, slots=True)
@@ -38,6 +39,23 @@ class MatrixFreeWork:
     hyperedges_examined: int
     live_tail_terms: int
     head_terms_examined: int
+
+
+@dataclass(frozen=True, slots=True)
+class MatrixFreeConvergence:
+    """Exact a-posteriori certificate for matrix-free restart iteration.
+
+    For the registered non-negative, row-substochastic navigation operator,
+    ``T(x) = alpha*s + (1-alpha) P^T x`` is an l1 contraction with factor at most
+    ``1-alpha``.  Therefore ``||x-x*||_1 <= ||T(x)-x||_1 / alpha``.  We compute
+    that residual exactly over ``Fraction``; no float threshold grants success.
+    """
+
+    activation: tuple[Fraction, ...]
+    iterations: int
+    residual_l1: Fraction
+    error_bound_l1: Fraction
+    matvec_calls: int
 
 
 def transpose_matvec(
@@ -156,3 +174,69 @@ def restart_iterate_matrix_free(
             mode=mode,
         )
     return current, steps
+
+
+def _certifiable_nonnegative_operator(ks: KnowledgeSpace, relevance: Relevance) -> bool:
+    """Check the extra assumptions used only by the convergence certificate.
+
+    The incumbent dense reference permits arbitrary caller relevance functions.
+    Matrix-free operator parity does too.  The simple l1 contraction certificate,
+    however, is justified only when every structural multiplier is non-negative.
+    """
+
+    return all(_beta(relevance, edge.relation_type) >= 0 for edge in ks.hyperedges)
+
+
+def fixed_point_matrix_free_certified(
+    ks: KnowledgeSpace,
+    seed: Sequence[Fraction],
+    alpha: Fraction,
+    *,
+    revoked: Iterable[Hashable] = (),
+    relevance: Relevance = None,
+    mode: NavigationMode = NavigationMode.WARRANTED,
+    tol: Fraction = Fraction(1, 10**12),
+    max_iter: int = 100_000,
+) -> MatrixFreeConvergence:
+    """Iterate to an exactly certified l1 error bound without a dense matrix.
+
+    The returned ``error_bound_l1`` is an upper bound on distance to the exact
+    fixed point of the *same* registered navigation operator.  This is a serving
+    alternative, not a replacement for exact dense receipts.  If the simple
+    contraction proof does not apply or the budget is exhausted, fail closed.
+    """
+
+    alpha = Fraction(alpha)
+    tol = Fraction(tol)
+    if not (Fraction(0, 1) < alpha <= Fraction(1, 1)):
+        raise ValueError("alpha must be in (0,1]")
+    if tol <= 0 or not isinstance(max_iter, int) or max_iter < 1:
+        raise ValueError("tol and max_iter must be positive")
+    if len(seed) != len(ks.ids):
+        raise ValueError("seed must match KnowledgeSpace dimensions")
+    seed = tuple(Fraction(value) for value in seed)
+    if any(value < 0 for value in seed) or sum(seed, Fraction(0, 1)) > 1:
+        raise ValueError("seed must be a non-negative sub-probability vector")
+    if not _certifiable_nonnegative_operator(ks, relevance):
+        raise CannotCheck("matrix-free l1 certificate requires non-negative relevance weights")
+
+    rv = frozenset(revoked)
+    gated = tuple(gated_seed(ks, seed, rv, mode))
+    current = gated
+    matvec_calls = 0
+
+    for iteration in range(1, max_iter + 1):
+        transition = transpose_matvec(ks, current, revoked=rv, relevance=relevance, mode=mode)
+        matvec_calls += 1
+        current = tuple(alpha * gated[i] + (1 - alpha) * transition[i] for i in range(len(gated)))
+
+        # Exact a-posteriori residual at the candidate being returned.
+        transition_next = transpose_matvec(ks, current, revoked=rv, relevance=relevance, mode=mode)
+        matvec_calls += 1
+        next_state = tuple(alpha * gated[i] + (1 - alpha) * transition_next[i] for i in range(len(gated)))
+        residual = sum((abs(next_state[i] - current[i]) for i in range(len(gated))), Fraction(0, 1))
+        error_bound = residual / alpha
+        if error_bound <= tol:
+            return MatrixFreeConvergence(current, iteration, residual, error_bound, matvec_calls)
+
+    raise CannotCheck(f"matrix-free iteration did not certify tolerance within {max_iter} steps")
