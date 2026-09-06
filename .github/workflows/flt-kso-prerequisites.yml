@@ -1,0 +1,161 @@
+name: FLT KSO prerequisite qualification
+
+on:
+  push:
+    branches: [codex/flt-kso-prerequisites-20260906-c128]
+    paths:
+      - 'research/flt-kso-v1/**'
+      - '.github/workflows/flt-kso-prerequisites.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: src
+
+jobs:
+  engineering:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install declared engineering environment
+        run: |
+          ./scripts/m0_install_dev.sh
+          python -m pip install z3-solver==5.1.0.0
+          mkdir -p "${RUNNER_TEMP}/flt-engineering"
+          git rev-parse HEAD > "${RUNNER_TEMP}/flt-engineering/COMMIT"
+          git rev-parse HEAD^{tree} > "${RUNNER_TEMP}/flt-engineering/TREE"
+          python -m pip freeze > "${RUNNER_TEMP}/flt-engineering/PIP_FREEZE.txt"
+      - name: New hostiles and unchanged proof-replay controls
+        run: |
+          set -o pipefail
+          python -m unittest discover -s research/flt-kso-v1 -p 'test_*.py' 2>&1 | tee "${RUNNER_TEMP}/flt-engineering/FOCUSED.log"
+          python -O -m unittest discover -s research/flt-kso-v1 -p 'test_*.py' 2>&1 | tee "${RUNNER_TEMP}/flt-engineering/OPTIMIZED.log"
+          python research/proof-replay-v1/test_replay.py 2>&1 | tee "${RUNNER_TEMP}/flt-engineering/R0_CONTROLS.log"
+      - name: Fresh engineering recorder and M1 through M12
+        run: |
+          set -o pipefail
+          python tools/record_engineering_revision.py 2>&1 | tee "${RUNNER_TEMP}/flt-engineering/RECORDER.log"
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify 2>&1 | tee "${RUNNER_TEMP}/flt-engineering/M${m}.log"
+          done
+      - name: Commit only fresh qualified engineering receipts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/provenance/engineering_revisions/
+          git diff --cached --quiet && exit 1
+          git commit -m 'test: record source-bound FLT prerequisite engineering qualification'
+          git push origin HEAD:codex/flt-kso-prerequisites-20260906-c128
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flt-engineering-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/flt-engineering/
+            docs/provenance/engineering_revisions/current.json
+            docs/provenance/engineering_revisions/runs/
+          retention-days: 14
+          if-no-files-found: error
+
+  exposed-kernel-construction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install host and freeze prospective launch
+        run: |
+          ./scripts/m0_install_dev.sh
+          mkdir -p "${RUNNER_TEMP}/flt-kernel" "${RUNNER_TEMP}/flt-archives"
+          git rev-parse HEAD > "${RUNNER_TEMP}/flt-kernel/COMMIT"
+          python -m pip freeze > "${RUNNER_TEMP}/flt-kernel/PIP_FREEZE.txt"
+          python research/flt-kso-v1/campaign.py prepare --out "${RUNNER_TEMP}/flt-kernel/LAUNCH.json"
+      - name: Acquire both registered archives without a substitute toolchain
+        run: |
+          set +e
+          for version in 4.19.0 4.33.1; do
+            curl --fail --location --silent --show-error --retry 2 --connect-timeout 20 --max-time 240 \
+              "https://github.com/leanprover/lean4/releases/download/v${version}/lean-${version}-linux.tar.zst" \
+              --output "${RUNNER_TEMP}/flt-archives/lean-${version}-linux.tar.zst" \
+              > "${RUNNER_TEMP}/flt-kernel/acquire-${version}.log" 2>&1
+            echo "$?" > "${RUNNER_TEMP}/flt-kernel/acquire-${version}.exit"
+          done
+          sha256sum "${RUNNER_TEMP}/flt-archives/"*.tar.zst > "${RUNNER_TEMP}/flt-kernel/ARCHIVE_HASHES.txt" 2>&1
+          exit 0
+      - name: Execute R0 then exposed native construction; retain negative terminals
+        run: |
+          set +e
+          python research/flt-kso-v1/campaign.py run \
+            --launch "${RUNNER_TEMP}/flt-kernel/LAUNCH.json" \
+            --out "${RUNNER_TEMP}/flt-kernel/run" \
+            --archive "${RUNNER_TEMP}/flt-archives/lean-4.33.1-linux.tar.zst" \
+            --r0-archive "${RUNNER_TEMP}/flt-archives/lean-4.19.0-linux.tar.zst" \
+            > "${RUNNER_TEMP}/flt-kernel/EXECUTION.log" 2>&1
+          code=$?
+          echo "${code}" > "${RUNNER_TEMP}/flt-kernel/EXECUTION.exit"
+          cat "${RUNNER_TEMP}/flt-kernel/EXECUTION.log"
+          test -f "${RUNNER_TEMP}/flt-kernel/run/RESULT.json" || exit 1
+          python -c 'import json,os; p=os.environ["RUNNER_TEMP"]+"/flt-kernel/run/RESULT.json"; r=json.load(open(p)); print("SCIENTIFIC_TERMINAL:",r["terminal"]); print("KERNEL_CONSTRUCTION:",r.get("kernel_construction_supported",False)); assert r["schema"]=="ocm.flt.r1-result.v1"'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flt-kernel-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/flt-kernel/
+          retention-days: 14
+          if-no-files-found: error
+
+  private-evaluator-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Acquire frozen evaluator in this separate job only
+        run: |
+          mkdir -p "${RUNNER_TEMP}/flt-evaluator-evidence"
+          git rev-parse HEAD > "${RUNNER_TEMP}/flt-evaluator-evidence/COMMIT"
+          cp research/flt-kso-v1/MANIFEST.json "${RUNNER_TEMP}/flt-evaluator-evidence/REGISTRATION.json"
+          git init --bare "${RUNNER_TEMP}/flt-private.git"
+          set +e
+          git -C "${RUNNER_TEMP}/flt-private.git" fetch --depth=1 https://github.com/anthropics/fermats-last-theorem.git aa2d8b34692b16c70f699536de0d8e75b9a3e9ef > "${RUNNER_TEMP}/flt-evaluator-evidence/ACQUISITION.log" 2>&1
+          echo "$?" > "${RUNNER_TEMP}/flt-evaluator-evidence/ACQUISITION.exit"
+          exit 0
+      - name: Audit all wrappers; never launch the staged solver
+        run: |
+          set +e
+          python research/flt-kso-v1/import_source.py \
+            --checkout "${RUNNER_TEMP}/flt-private.git" \
+            --out "${RUNNER_TEMP}/flt-evaluator-evidence/audit" \
+            > "${RUNNER_TEMP}/flt-evaluator-evidence/AUDIT.log" 2>&1
+          echo "$?" > "${RUNNER_TEMP}/flt-evaluator-evidence/AUDIT.exit"
+          cat "${RUNNER_TEMP}/flt-evaluator-evidence/AUDIT.log"
+          test -f "${RUNNER_TEMP}/flt-evaluator-evidence/audit/AUDIT.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flt-evaluator-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/flt-evaluator-evidence/
+          retention-days: 14
+          if-no-files-found: error
