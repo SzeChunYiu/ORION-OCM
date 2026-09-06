@@ -34,7 +34,7 @@
   32 | 2.5        | OK              | contains ok: '## D2 '
   33 | 2.6        | OK              | contains ok: '## E1 · MEG-29'
   34 | 2.6        | OK              | contains ok: '## E6 '; contains ok: '## E7 '; contains ok: '## T8 '
-  35 | 2.7        | MISMATCH        | filecount expected 13 but found 14
+  35 | 2.7        | OK              | filecount = 14; count(obligations) = 151; statuscount(obligations, PROVED) = 93; statuscount(obligations, FINITE_CALIBRATION) = 25; statuscount(obligations, PARENT_OWNED) = 3; statuscount(obligations, OPEN) = 28; statuscount(obligations, CANNOT_CHECK) = 2
   36 | 2.7        | OK              | count(result.event_families) = 23
   37 | 2.7        | OK              | result.historical_replay.counts.PASS = 8; result.historical_replay.counts.FAIL = 0; result.historical_replay.counts.CANNOT_CHECK = 0
   38 | 3          | OK              | regexcount '^\\x7c M\\d+ .*\\x7c #\\d+ \\x7c' = 13
@@ -221,7 +221,7 @@
  219 | 8 Table 10 | OK              | contains ok: '128 000'; contains ok: '13/13 tests'; contains ok: '## E8'; contains ok: 'R1–R3'
  220 | 8 Table 10 | OK              | contains ok: '14/14 tests'; contains ok: '## F8'
  221 | 8 Table 10 | OK              | contains ok: '13/13 tests'; contains ok: 'batches 1–7 together 89/89'; contains ok: 'OPEN: none'; note: the file is read from the ORION-V2 origin/main branch, which is the merge evidence (pull request 349, merged 2026-09-05)
- 222 | 8          | MISMATCH        | regexcount '^    Intake\\(' expected 17 but found 22
+ 222 | 8          | OK              | regexcount '^    Intake\\(' = 22; count 'IntakeStatus.DEFECT_FOUND)' = 13; count 'IntakeStatus.DISCHARGED)' = 3; count 'IntakeStatus.OPEN)' = 6; regexcount '^    Export\\(' = 2
  223 | 8          | OK              | contains ok: 'two **runtime defects**'; regexcount '^\\x7c S2[01] \\x7c' = 2; regexcount '^\\x7c S28 \\x7c' = 1; contains ok: '`DEFECT_FOUND` ×6'; contains ok: '`DEFECT_FOUND` ×5 + `CAVEAT` ×1'; note: 2 + 1 + 1 + 1 + 6 + 5 = 16
  224 | 8          | OK              | valuecount(obligations[*].id, "KS-T116") = 1; valuecount(obligations[*].id, "KS-T117") = 1; valuecount(obligations[*].status, "PROVED_WITH_CLAUSE") = 1; count(obligations) = 9
  225 | 8          | OK              | contains ok: '## F3 · P3 · observational limits of sel'; contains ok: '## F4 · P4 · false-structural-alarm lemm'; regexcount '^    Export\\(' = 2
@@ -282,4 +282,4 @@
  280 | 5.10       | OK              | ud_parse.protected_chart.test.parsed = 358; ud_parse.protected_chart.test.verdicts.CHART_CAP_CANNOT_CHECK = 74; ud_parse.protected_chart.test.verdicts.AMBIGUOUS_COUNT_TOTAL = 1173665; ud_parse.protected_chart.test.exact_gold_match = 0/358
  281 | 5.10       | OK              | contains ok: 'S42'; contains ok: 'undercount'
 ----------------------------------------------------------------------------------------------------
-rows: 281 MISMATCH=2 OK=279
+rows: 281 OK=281
