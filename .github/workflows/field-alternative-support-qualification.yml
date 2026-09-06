@@ -1,0 +1,164 @@
+name: Field alternative support qualification
+
+on:
+  push:
+    branches: [feature/field-alternative-support-20260906]
+    paths:
+      - 'src/ocm/**'
+      - 'tests/m4/test_dialogue_field_alternative_support.py'
+      - '.github/workflows/field-alternative-support-qualification.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: field-alternative-support-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bootstrap-or-qualify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: feature/field-alternative-support-20260906
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Apply reviewed source patch once
+        id: patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one patch anchor, found {count}")
+              p.write_text(text.replace(old, new, 1))
+
+          event = Path('src/ocm/store/event.py')
+          if 'OBJECT_SUPPORT_EXTENDED = "OBJECT_SUPPORT_EXTENDED"' in event.read_text():
+              changed = False
+          else:
+              changed = True
+              replace_once(
+                  'src/ocm/store/event.py',
+                  '    OBJECT_ADMITTED = "OBJECT_ADMITTED"\n    OBJECT_QUARANTINED = "OBJECT_QUARANTINED"\n',
+                  '    OBJECT_ADMITTED = "OBJECT_ADMITTED"\n    OBJECT_SUPPORT_EXTENDED = "OBJECT_SUPPORT_EXTENDED"\n    OBJECT_QUARANTINED = "OBJECT_QUARANTINED"\n',
+              )
+              replace_once(
+                  'src/ocm/kso/space.py',
+                  '''    def replace_atom(self, atom: Atom) -> "KnowledgeSpace":\n        return replace(self, atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms))\n\n    def without(self, atom_ids: Iterable[str] = (), edge_ids: Iterable[str] = ()) -> "KnowledgeSpace":\n''',
+                  '''    def replace_atom(self, atom: Atom) -> "KnowledgeSpace":\n        return replace(self, atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms))\n\n    def replace_atom_and_edge(self, atom: Atom, edge: Hyperedge) -> "KnowledgeSpace":\n        """Replace one existing atom and edge in one validated immutable-space construction."""\n        if atom.atom_id not in self._atom_index:\n            raise TypedRejection("UNKNOWN_ATOM", atom.atom_id)\n        if edge.edge_id not in self._edge_index:\n            raise TypedRejection("UNKNOWN_EDGE", edge.edge_id)\n        return replace(\n            self,\n            atoms=tuple(atom if a.atom_id == atom.atom_id else a for a in self.atoms),\n            hyperedges=tuple(edge if e.edge_id == edge.edge_id else e for e in self.hyperedges),\n        )\n\n    def without(self, atom_ids: Iterable[str] = (), edge_ids: Iterable[str] = ()) -> "KnowledgeSpace":\n''',
+              )
+              replace_once(
+                  'src/ocm/runtime/ocm_runtime.py',
+                  'from ocm.kso.types import Authority, Scope\nfrom ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile\n',
+                  'from ocm.kso.types import Authority, Scope, intersect_scopes\nfrom ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile, meet_all_profiles\n',
+              )
+              replace_once(
+                  'src/ocm/runtime/ocm_runtime.py',
+                  '\n\nclass OCMRuntime:\n',
+                  '''\n\ndef _representation_support_extension(\n    state: RuntimeState,\n    representation_id: str,\n    edge_id: str,\n    support_evidence_id: str,\n    certificate: AD.CertificateKind | str,\n) -> tuple[S.KnowledgeSpace, bool]:\n    """Pure reducer/preflight for one homogeneous alternative support on a meaning representation."""\n    cert = AD.CertificateKind(certificate)\n    atom = state.ks.atom(representation_id)\n    edge = state.ks.edge_view.get(edge_id)\n    if edge is None:\n        raise S.TypedRejection("UNKNOWN_EDGE", edge_id)\n    if (\n        atom.atom_type != "representation"\n        or edge.relation_type != "REPRESENTATION_TRANSPORT"\n        or edge.heads != (representation_id,)\n    ):\n        raise S.TypedRejection("NOT_REPRESENTATION_SUPPORT_TARGET", representation_id)\n    if state.certificates.get(representation_id) != cert.value:\n        raise S.TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", representation_id)\n\n    record = state.evidence.records.get(support_evidence_id)\n    if record is None:\n        raise S.TypedRejection("UNKNOWN_SUPPORT_EVIDENCE", support_evidence_id)\n    if not record.is_assumption:\n        raise S.TypedRejection("SUPPORT_EVIDENCE_NOT_ASSUMPTION", support_evidence_id)\n    if record.warrant.is_zero:\n        raise S.TypedRejection("ZERO_SUPPORT_WARRANT", support_evidence_id)\n    if record.warrant.liveness(state.revoked) is not Liveness.LIVE:\n        raise S.TypedRejection("SUPPORT_EVIDENCE_NOT_LIVE", support_evidence_id)\n    if record.channel.certificate is not cert:\n        raise S.TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", support_evidence_id)\n    if record.authority != atom.authority or record.authority != edge.authority:\n        raise S.TypedRejection("SUPPORT_AUTHORITY_MISMATCH", support_evidence_id)\n    if record.scope != edge.scope:\n        raise S.TypedRejection("SUPPORT_SCOPE_MISMATCH", support_evidence_id)\n\n    tails = edge.tails\n    expected_warrant = meet_all_profiles([edge.warrant, *(state.ks.atom(t).warrant for t in tails)])\n    if atom.warrant != expected_warrant:\n        raise S.TypedRejection("SUPPORT_BASE_WARRANT_MISMATCH", representation_id)\n    expected_scope = intersect_scopes([edge.scope, *(state.ks.atom(t).scope for t in tails)])\n    if atom.scope != expected_scope:\n        raise S.TypedRejection("SUPPORT_BASE_SCOPE_MISMATCH", representation_id)\n\n    new_edge_warrant = edge.warrant.join(record.warrant)\n    if new_edge_warrant == edge.warrant:\n        return state.ks, False\n    new_edge = replace(edge, warrant=new_edge_warrant)\n    new_atom = replace(\n        atom,\n        warrant=meet_all_profiles([new_edge_warrant, *(state.ks.atom(t).warrant for t in tails)]),\n    )\n    return state.ks.replace_atom_and_edge(new_atom, new_edge), True\n\n\nclass OCMRuntime:\n''',
+              )
+              replace_once(
+                  'src/ocm/runtime/ocm_runtime.py',
+                  '''        elif t is EventType.OBJECT_QUARANTINED:\n            self.state.quarantine[p["object_id"]] = dict(p)\n''',
+                  '''        elif t is EventType.OBJECT_SUPPORT_EXTENDED and ev.status is EventStatus.PASS:\n            self.state.ks, _ = _representation_support_extension(\n                self.state,\n                p["representation_id"],\n                p["edge_id"],\n                p["support_evidence_id"],\n                p["certificate"],\n            )\n        elif t is EventType.OBJECT_QUARANTINED:\n            self.state.quarantine[p["object_id"]] = dict(p)\n''',
+              )
+              replace_once(
+                  'src/ocm/runtime/ocm_runtime.py',
+                  '''        self._apply(ev)\n        return receipt\n\n    def compose(self, tails: Sequence[str], head_id: str, *, head_type: str = "procedure", bridge_warrant: WarrantProfile | None = None, executable_ref: str | None = None) -> AD.CompositionReceipt:\n''',
+                  '''        self._apply(ev)\n        return receipt\n\n    def extend_representation_support(\n        self,\n        representation_id: str,\n        edge_id: str,\n        support_evidence_id: str,\n        certificate: AD.CertificateKind | str,\n    ) -> OCMEvent | None:\n        """Atomically add one independently revocable homogeneous support alternative."""\n        cert = AD.CertificateKind(certificate)\n        _, changed = _representation_support_extension(\n            self.state, representation_id, edge_id, support_evidence_id, cert\n        )\n        if not changed:\n            return None\n        ev = self._emit(\n            EventType.OBJECT_SUPPORT_EXTENDED,\n            EventStatus.PASS,\n            inputs=(representation_id, edge_id),\n            outputs=(representation_id, edge_id),\n            evidence=(support_evidence_id,),\n            operator="kso.extend-representation-support",\n            payload={\n                "representation_id": representation_id,\n                "edge_id": edge_id,\n                "support_evidence_id": support_evidence_id,\n                "certificate": cert.value,\n            },\n            delta=ResourceVector(update_work=2, verification_calls=1),\n        )\n        self._apply(ev)\n        return ev\n\n    def compose(self, tails: Sequence[str], head_id: str, *, head_type: str = "procedure", bridge_warrant: WarrantProfile | None = None, executable_ref: str | None = None) -> AD.CompositionReceipt:\n''',
+              )
+              replace_once(
+                  'src/ocm/language/field_bridge.py',
+                  '''    existing: bool\n    admission: AdmissionReceipt | None\n\n    def as_dict(self) -> dict[str, Any]:\n''',
+                  '''    existing: bool\n    admission: AdmissionReceipt | None\n    support_extended: bool = False\n    support_event_id: str | None = None\n\n    def as_dict(self) -> dict[str, Any]:\n''',
+              )
+              replace_once(
+                  'src/ocm/language/field_bridge.py',
+                  '''            "existing": self.existing,\n            "admission": None\n''',
+                  '''            "existing": self.existing,\n            "support_extended": self.support_extended,\n            "support_event_id": self.support_event_id,\n            "admission": None\n''',
+              )
+              replace_once(
+                  'src/ocm/language/field_bridge.py',
+                  '\n\ndef bind_meaning(\n',
+                  '''\n\ndef _validate_assumption_support(\n    runtime: OCMRuntime,\n    support_evidence_id: str,\n    warrant: WarrantProfile,\n    certificate: CertificateKind,\n    authority: Authority,\n    scope: Scope,\n) -> None:\n    record = runtime.state.evidence.records.get(support_evidence_id)\n    if record is None:\n        raise TypedRejection("UNKNOWN_SUPPORT_EVIDENCE", support_evidence_id)\n    if not record.is_assumption:\n        raise TypedRejection("SUPPORT_EVIDENCE_NOT_ASSUMPTION", support_evidence_id)\n    if record.warrant.is_zero:\n        raise TypedRejection("ZERO_SUPPORT_WARRANT", support_evidence_id)\n    if record.warrant.liveness(runtime.state.revoked) is not Liveness.LIVE:\n        raise TypedRejection("SUPPORT_EVIDENCE_NOT_LIVE", support_evidence_id)\n    if record.warrant != warrant:\n        raise TypedRejection("SUPPORT_WARRANT_MISMATCH", support_evidence_id)\n    if record.channel.certificate is not certificate:\n        raise TypedRejection("SUPPORT_CERTIFICATE_MISMATCH", support_evidence_id)\n    if record.authority != authority:\n        raise TypedRejection("SUPPORT_AUTHORITY_ARGUMENT_MISMATCH", support_evidence_id)\n    if record.scope != scope:\n        raise TypedRejection("SUPPORT_SCOPE_MISMATCH", support_evidence_id)\n\n\ndef bind_meaning(\n''',
+              )
+              replace_once(
+                  'src/ocm/language/field_bridge.py',
+                  '''    authority: Authority | None = None,\n    scope: Scope | None = None,\n) -> MeaningFieldBindingReceipt:\n''',
+                  '''    authority: Authority | None = None,\n    scope: Scope | None = None,\n    support_evidence_id: str | None = None,\n) -> MeaningFieldBindingReceipt:\n''',
+              )
+              replace_once(
+                  'src/ocm/language/field_bridge.py',
+                  '''    authority = authority or Authority()\n    requested_scope = scope or Scope.universal()\n    if requested_scope.is_empty:\n        raise TypedRejection("SCOPE_EMPTY", "meaning-field binding")\n\n    bound = canonical_bound_meaning(meaning, bindings)\n''',
+                  '''    authority = authority or Authority()\n    requested_scope = scope or Scope.universal()\n    if requested_scope.is_empty:\n        raise TypedRejection("SCOPE_EMPTY", "meaning-field binding")\n    certificate = CertificateKind(certificate)\n    if support_evidence_id is not None:\n        _validate_assumption_support(\n            runtime, support_evidence_id, warrant, certificate, authority, requested_scope\n        )\n\n    bound = canonical_bound_meaning(meaning, bindings)\n''',
+              )
+              old_existing = '''    if representation_id in runtime.state.ks.ids:\n        existing = runtime.state.ks.atom(representation_id)\n        if (\n            existing.atom_type != "representation"\n            or existing.content_ref != content_ref\n            or existing.meta != meta\n            or existing.warrant != effective_warrant\n            or existing.authority != authority\n            or existing.scope != effective_scope\n        ):\n            raise TypedRejection(\n                "BINDING_IDENTITY_STATE_CONFLICT",\n                "same semantic binding already exists with different epistemic state; support-extension event not implemented",\n            )\n        return MeaningFieldBindingReceipt(\n            representation_id,\n            edge_id,\n            bound.meaning_digest,\n            bound.joint_digest,\n            bound.bindings,\n            bound.unbound_nodes,\n            True,\n            None,\n        )\n\n'''
+              new_existing = '''    if representation_id in runtime.state.ks.ids:\n        existing = runtime.state.ks.atom(representation_id)\n        existing_edge = runtime.state.ks.edge_view.get(edge_id)\n        structural_conflict = (\n            existing.atom_type != "representation"\n            or existing.content_ref != content_ref\n            or existing.meta != meta\n            or existing.scope != effective_scope\n            or existing_edge is None\n            or existing_edge.tails != tails\n            or existing_edge.heads != (representation_id,)\n            or existing_edge.relation_type != "REPRESENTATION_TRANSPORT"\n        )\n        if structural_conflict:\n            raise TypedRejection("BINDING_IDENTITY_STATE_CONFLICT", "same binding identity has different structure")\n        if support_evidence_id is not None:\n            event = runtime.extend_representation_support(\n                representation_id, edge_id, support_evidence_id, certificate\n            )\n            return MeaningFieldBindingReceipt(\n                representation_id,\n                edge_id,\n                bound.meaning_digest,\n                bound.joint_digest,\n                bound.bindings,\n                bound.unbound_nodes,\n                True,\n                None,\n                event is not None,\n                None if event is None else event.event_id,\n            )\n        if (\n            existing.warrant != effective_warrant\n            or existing.authority != authority\n            or existing_edge.warrant != warrant\n            or existing_edge.authority != authority\n            or runtime.state.certificates.get(representation_id) != certificate.value\n        ):\n            raise TypedRejection(\n                "BINDING_IDENTITY_STATE_CONFLICT",\n                "same semantic binding already exists with different epistemic state",\n            )\n        return MeaningFieldBindingReceipt(\n            representation_id,\n            edge_id,\n            bound.meaning_digest,\n            bound.joint_digest,\n            bound.bindings,\n            bound.unbound_nodes,\n            True,\n            None,\n        )\n\n'''
+              replace_once('src/ocm/language/field_bridge.py', old_existing, new_existing)
+              replace_once(
+                  'src/ocm/dialogue/field_binding.py',
+                  '''        authority=record.authority,\n        scope=record.scope,\n    )\n''',
+                  '''        authority=record.authority,\n        scope=record.scope,\n        support_evidence_id=commitment.evidence_id,\n    )\n''',
+              )
+              # Scope is part of identity; test a caller/evidence scope mismatch instead of a new identity.
+              test_path = Path('tests/m4/test_dialogue_field_alternative_support.py')
+              test_text = test_path.read_text()
+              test_text = test_text.replace(
+                  '''            scope=Scope.of("conv:other"),\n            support_evidence_id=wrong_scope,\n''',
+                  '''            scope=scope,\n            support_evidence_id=wrong_scope,\n''',
+                  1,
+              )
+              test_path.write_text(test_text)
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f"changed={'true' if changed else 'false'}\n")
+          PY
+      - name: Commit bootstrapped source patch
+        if: steps.patch.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/ocm tests/m4/test_dialogue_field_alternative_support.py
+          git commit -m "feat: add atomic homogeneous field support extension"
+          git push origin HEAD:feature/field-alternative-support-20260906
+      - name: Install pinned development environment
+        if: steps.patch.outputs.changed != 'true'
+        run: ./scripts/m0_install_dev.sh
+      - name: Run alternative-support hostile and inherited dialogue controls
+        if: steps.patch.outputs.changed != 'true'
+        run: python -m pytest -q tests/m4/test_dialogue_field_alternative_support.py tests/m4/test_dialogue_field_binding.py tests/m4/test_workspace.py
+      - name: Run and select exact engineering gates
+        if: steps.patch.outputs.changed != 'true'
+        env:
+          PYTHONPATH: src
+        run: python tools/record_engineering_revision.py
+      - name: Verify all milestone wrappers against selected run
+        if: steps.patch.outputs.changed != 'true'
+        env:
+          PYTHONPATH: src
+        run: |
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify
+          done
+      - name: Commit immutable engineering qualification if changed
+        if: steps.patch.outputs.changed != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/provenance/engineering_revisions/
+          if git diff --cached --quiet; then
+            echo "Qualification already source-bound; no provenance update needed"
+          else
+            git commit -m "test: record field alternative support qualification"
+            git push origin HEAD:feature/field-alternative-support-20260906
+          fi
