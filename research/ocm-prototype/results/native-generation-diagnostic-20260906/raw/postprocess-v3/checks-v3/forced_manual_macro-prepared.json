@@ -1,0 +1,13 @@
+{
+  "case": "forced_manual_macro",
+  "equivalence": null,
+  "specification": null,
+  "original_candidate": "(\n(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (fn_0 x (fn_0 y z)))\n)\n",
+  "expanded_candidate": "(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (ite (>= x (ite (>= y z) y z)) x (ite (>= y z) y z)))",
+  "macro_calls": [
+    "fn_0",
+    "fn_0"
+  ],
+  "equivalence_smt2": "(define-fun fn_0 ((h0 Int) (h1 Int)) Int (ite (>= h0 h1) h0 h1))\n(define-fun POST_ORIGINAL ((x Int) (y Int) (z Int)) Int (fn_0 x (fn_0 y z)))\n(define-fun POST_EXPANDED ((x Int) (y Int) (z Int)) Int (ite (>= x (ite (>= y z) y z)) x (ite (>= y z) y z)))\n(declare-const x Int)\n(declare-const y Int)\n(declare-const z Int)\n(assert (not (= (POST_ORIGINAL x y z) (POST_EXPANDED x y z))))\n",
+  "equivalence_sha256": "9e8f4921a56e47672fccc44650c2fa478404e81a91c3c08bef094b979e2e08d7"
+}

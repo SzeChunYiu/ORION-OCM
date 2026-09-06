@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "control_cases": 4,
+  "overwrite_refused": true,
+  "actual_actor_calls": 0,
+  "commands": {
+    "success": [
+      "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+      "-c",
+      "import sys; print(sys.stdin.read()); print(\"stderr-ok\",file=sys.stderr)"
+    ],
+    "error": [
+      "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+      "-c",
+      "import sys; print(\"intentional\",file=sys.stderr); sys.exit(7)"
+    ],
+    "timeout": [
+      "/usr/bin/timeout",
+      "--kill-after=0.1s",
+      "0.05s",
+      "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+      "-c",
+      "import time; time.sleep(2)"
+    ],
+    "watchdog": [
+      "/home/billy/orion-director-work/20260906/generation-env/bin/python",
+      "-c",
+      "import time; time.sleep(2)"
+    ]
+  },
+  "results": {
+    "success": {
+      "exit_code": 0,
+      "pid": 559277,
+      "supervisor_timeout": false,
+      "gnu_timeout_exit": false,
+      "error": null,
+      "cleanup_signal_sent": false,
+      "elapsed_ns": 15738528,
+      "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+      "stdout_sha256": "d43be99bb36e593509de098448493d8b895cdca0bd862bbdf8358aeae892c8a5",
+      "stdout_bytes": 22,
+      "stderr_sha256": "21d6ff287772d0f478c58b76063ad675531f1dba3c4e8a294e84911f372b874e",
+      "stderr_bytes": 10
+    },
+    "error": {
+      "exit_code": 7,
+      "pid": 559278,
+      "supervisor_timeout": false,
+      "gnu_timeout_exit": false,
+      "error": null,
+      "cleanup_signal_sent": false,
+      "elapsed_ns": 16017257,
+      "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stderr_sha256": "4a59f6bdc4f657508f8c8390817743a19df77120b7fc1fe46dcbdf34a93ef719",
+      "stderr_bytes": 12
+    },
+    "timeout": {
+      "exit_code": 124,
+      "pid": 559279,
+      "supervisor_timeout": false,
+      "gnu_timeout_exit": true,
+      "error": null,
+      "cleanup_signal_sent": false,
+      "elapsed_ns": 64516445,
+      "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    },
+    "watchdog": {
+      "exit_code": -9,
+      "pid": 559281,
+      "supervisor_timeout": true,
+      "gnu_timeout_exit": false,
+      "error": null,
+      "cleanup_signal_sent": true,
+      "elapsed_ns": 100855803,
+      "cost_scope": "Per-case Popen through wait and cleanup; no CPU/RSS/tree or efficiency claim.",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    }
+  }
+}

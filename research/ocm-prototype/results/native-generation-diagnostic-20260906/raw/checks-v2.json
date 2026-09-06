@@ -1,0 +1,84 @@
+{
+  "capture_seal_sha256": "b6e6bd479d0652be2bb8ac543b3bf8ca2966670ece9a1741600180d2c7d38372",
+  "cases": [
+    {
+      "case": "implicit_primitive",
+      "check": {
+        "grammar": "PASS",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "metrics": {
+          "check_total_wall_s": 0.07392735400935635,
+          "envelope_wall_s": 0.07247348001692444,
+          "external_deadline_s": 10,
+          "grammar_wall_s": 0.001432325050700456,
+          "host_check_cpu_s": 0.0018804659999999973,
+          "native_timeout_ms": 5000,
+          "peak_rss_kib": 56892,
+          "request_bytes": 507,
+          "response_bytes": 194,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "worker_cpu_s": 0.033366277,
+          "worker_pid": 597497,
+          "worker_wall_s": 0.03330960002494976
+        },
+        "native_checker_invoked": true,
+        "semantic": "PASS",
+        "solver": "Z3 5.1.0.0",
+        "solver_result": "unsat",
+        "status": "PASS",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790"
+      },
+      "native_status": "SOLUTION",
+      "process_exit": 0
+    },
+    {
+      "case": "explicit_primitive",
+      "check": {
+        "native_checker_invoked": false,
+        "reason": "AssertionError: ",
+        "status": "CANNOT_CHECK"
+      },
+      "process_exit": 124
+    },
+    {
+      "case": "explicit_macro",
+      "check": {
+        "grammar": "FAIL",
+        "metrics": {
+          "check_total_wall_s": 0.0005076249944977462,
+          "host_check_cpu_s": 0.0005086189999999984
+        },
+        "native_checker_invoked": false,
+        "reason": "ValueError: forbidden primitive: fn_0",
+        "semantic": "NOT_RUN",
+        "status": "FAIL"
+      },
+      "native_status": "SOLUTION",
+      "process_exit": 0
+    },
+    {
+      "case": "forced_manual_macro",
+      "check": {
+        "grammar": "FAIL",
+        "metrics": {
+          "check_total_wall_s": 0.0004341669846326113,
+          "host_check_cpu_s": 0.00043443599999999985
+        },
+        "native_checker_invoked": false,
+        "reason": "ValueError: forbidden primitive: fn_0",
+        "semantic": "NOT_RUN",
+        "status": "FAIL"
+      },
+      "native_status": "SOLUTION",
+      "process_exit": 0
+    }
+  ],
+  "learning": "NOT_TESTED",
+  "membership": "SEPARATE_NATIVE_RAW_REVIEW_REQUIRED",
+  "scope": "Existing fixed checker on unchanged native output; no candidate rewriting or synthesis retry."
+}
