@@ -43,18 +43,8 @@ def validate_items(items):
     return items
 
 
-def _memory_root(path):
-    """Check lexical path components before resolution; require a stable host path."""
-    path = Path(path).absolute()
-    for component in reversed((path, *path.parents)):
-        if component.is_symlink():
-            raise ValueError("memory root or ancestor symlink not permitted")
-    return path.resolve()
-
-
 def stage(items, model_path, model_sha256, output, *, memory_dir=None):
     start = time.perf_counter(); cpu = time.process_time()
-    memory = _memory_root(memory_dir if memory_dir is not None else Path(output) / "memory")
     validate_items(items); model_path = Path(model_path).resolve()
     if sha(model_path) != model_sha256: raise ValueError("model custody mismatch")
     actual = {k: version(k) for k in PINS}
@@ -73,7 +63,9 @@ def stage(items, model_path, model_sha256, output, *, memory_dir=None):
     (public / "items.json").write_text(json.dumps(items, ensure_ascii=False, sort_keys=True) + "\n")
     shutil.copyfile(model_path, public / "model.udpipe")
     (public / "model.json").write_text(json.dumps({"sha256": model_sha256}) + "\n")
+    memory = Path(memory_dir).resolve() if memory_dir is not None else output / "memory"
     memory.mkdir(parents=True, exist_ok=True)
+    if memory.is_symlink(): raise ValueError("memory root symlink not permitted")
     manifest = {"kind": "HOSTED_NATIVE_PUBLIC_STAGE", "root": str(output), "memory": str(memory),
                 "model_sha256": model_sha256, "model_bytes": model_path.stat().st_size,
                 "public_item_ids": [r["id"] for r in items], "versions": actual,

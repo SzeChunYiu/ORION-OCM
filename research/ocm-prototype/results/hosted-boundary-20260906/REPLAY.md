@@ -11,16 +11,19 @@ No project installation or src change is required. Run:
 PYTHONPATH=research/ocm-prototype PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q \
   research/ocm-prototype/test_hosted_catalogue.py::test_catalogue_refuses_unexpected_builtin \
   research/ocm-prototype/test_hosted_claude.py::test_claude_catalogue_rejects_every_extra_or_missing_tool \
-  research/ocm-prototype/test_hosted_native.py::test_public_schema_rejects_extra_outcome_fields
+  research/ocm-prototype/test_hosted_native.py::test_public_schema_rejects_extra_outcome_fields \
+  research/ocm-prototype/test_hosted_memory.py
 ```
 
-These three named tests use no network, client executable, credentials or model.
+These nine checks use no network, client executable, credentials or real model.
+The six filesystem controls mock package identities and stage synthetic bytes;
+they do not load a donor. The other three checks validate catalogue/schema rules.
 The dedicated CI job uses a separate temporary environment and the same selection.
 Ordinary N1/G1 CI explicitly excludes test_hosted_*.py and the results/ archive;
 these are collection exclusions, not skipped tests counted as qualification.
 
 Embedded hashes in sanitized receipts bind their original bytes. SHA256SUMS
-binds the published copies. See origins.json for that mapping; do not replace
+binds the published copies. See origins.json and the V4 receipt for that mapping; do not replace
 an original binding by a sanitized-copy hash or claim byte-identical raw replay.
 
 ## Native/client qualification
@@ -37,10 +40,12 @@ OCM_HOSTED_MODEL_PATH=/path/to/ewt-train-default.udpipe \
 PYTHONPATH=research/ocm-prototype PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q \
   research/ocm-prototype/test_hosted_claude.py \
   research/ocm-prototype/test_hosted_native.py \
-  research/ocm-prototype/test_hosted_catalogue.py
+  research/ocm-prototype/test_hosted_catalogue.py \
+  research/ocm-prototype/test_hosted_memory.py
 ```
 
-These full controls require the declared installed clients and Bubblewrap and
+The fourteen full controls include the original eight boundary checks and six
+filesystem checks. The original eight require the declared installed clients and Bubblewrap and
 use local dummy-provider captures. They are not the offline CI selection.
 Model/environment binaries are excluded from this package. Staging requires its
 Python 3.13 dependency closure and copies only the declared native tool sources.

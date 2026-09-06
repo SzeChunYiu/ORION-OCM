@@ -42,7 +42,8 @@ jobs:
           "${{ runner.temp }}/ocm-hosted-ci/bin/python" -m pytest -q \
             research/ocm-prototype/test_hosted_catalogue.py::test_catalogue_refuses_unexpected_builtin \
             research/ocm-prototype/test_hosted_claude.py::test_claude_catalogue_rejects_every_extra_or_missing_tool \
-            research/ocm-prototype/test_hosted_native.py::test_public_schema_rejects_extra_outcome_fields
+            research/ocm-prototype/test_hosted_native.py::test_public_schema_rejects_extra_outcome_fields \
+            research/ocm-prototype/test_hosted_memory.py
       - name: Verify published evidence and its source bindings
         run: |
           cd research/ocm-prototype/results/hosted-boundary-20260906
@@ -54,5 +55,5 @@ jobs:
           binding = json.loads(Path('source-bindings.json').read_text())
           for path, spec in binding['source_files'].items():
               assert hashlib.sha256((root / path).read_bytes()).hexdigest() == spec['sha256'], path
-          print('Thirteen published sources match; no historical qualification was rerun.')
+          print(f"{len(binding['source_files'])} current published sources match; historical receipts remain separate.")
           PYTHON

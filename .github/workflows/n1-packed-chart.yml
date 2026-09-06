@@ -32,7 +32,7 @@ jobs:
           OCM_G1_DEV_PATH: ${{ runner.temp }}/en_ewt-ud-dev.conllu
         # Host/client controls require an explicitly qualified laptop route.
         # Archived evidence includes historical test source, never live tests.
-        # The three portable hosted validators run in hosted-qualification.yml.
+        # Portable hosted validators run in hosted-qualification.yml.
         run: |
           python -m pytest research/ocm-n1 research/ocm-prototype -q \
             --ignore=research/ocm-prototype/results \

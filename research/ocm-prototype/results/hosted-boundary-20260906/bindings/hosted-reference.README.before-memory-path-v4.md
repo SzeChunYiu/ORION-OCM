@@ -16,9 +16,7 @@ The native MCP boundary is qualified. Hosted benchmark execution remains pending
 No client was upgraded. The old route was frozen as claude-fable-5-1/high before its call.
 Both failures reported zero tokens and zero estimated cost, no tool calls and no backend model identity.
 The requested model label and a synthetic error do not establish executed model cognition.
-No benchmark ran. Historical generation V2 passed eight focused tests in 5.52 s.
-Current and historical source generations are indexed in
-[the qualification packet](../results/hosted-boundary-20260906/CORE.md).
+No benchmark ran. Current source passed eight focused tests in 5.52 s.
 The initial boundary received an independent source/receipt review; the explicit client and transport
 arguments were submitted for a separate reread. [Historical Codex evidence](BOUNDARY_STATUS.md) remains negative.
 
@@ -39,11 +37,6 @@ gold, credentials and actor home are absent. Synthetic controls establish public
 outside/symlink/write denials, absent repo/credential paths, and denied host-network access.
 The authenticated client is not OS-isolated: the claim is zero exposed actor builtin tools plus
 the native OS boundary. Ambient-context canary evidence is bounded to tested settings.
-
-Memory roots and their lexical ancestors must not be symlinks. Staging checks them
-before resolution or output creation; normal new/existing directories still support
-resume. Keep the operator-owned path stable during staging and use: this validation
-does not claim atomic protection against concurrent host filesystem mutation.
 
 ## Required launch conditions
 
