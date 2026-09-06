@@ -1,0 +1,296 @@
+{
+  "schema_version": "ocm.vendored-source-manifest.v1",
+  "milestone": "M2",
+  "license": "Apache-2.0",
+  "source_repos": {
+    "SzeChunYiu/ORION": {
+      "local_path": "/Users/billy/Desktop/projects/ORION",
+      "commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "license": "Apache-2.0"
+    },
+    "SzeChunYiu/ORION-V2": {
+      "local_path": "/Users/billy/Desktop/projects/ORION-V2",
+      "commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "license": "Apache-2.0 (per NOTICE intent; no LICENSE file at this commit)"
+    }
+  },
+  "blob_sha_algorithm": "git hash-object (sha1 over 'blob <len>\\0' + bytes)",
+  "checker": "tools/m2_vendor_check.py",
+  "files": [
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "LICENSE",
+      "target_path": "LICENSE",
+      "mode": "BYTE",
+      "source_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "target_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "byte_identical": true,
+      "what_changed": "none (Apache License 2.0 full text)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/kernel/hard_gates.py",
+      "target_path": "src/ocm/constitution/hard_gates.py",
+      "mode": "BYTE",
+      "source_blob_sha": "aa7c11b03d0942b7a3f1ad49c7c5b23413363112",
+      "target_blob_sha": "a78117dd1192162e7eede36c31b744eb09a88ddd",
+      "byte_identical": false,
+      "what_changed": "one import line: `from .store import canonical_bytes` -> `from ocm.store.canonical import canonical_bytes`"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/core/evidence.py",
+      "target_path": "src/ocm/store/evidence_identity.py",
+      "mode": "BYTE",
+      "source_blob_sha": "957cdb1f1b05426d7ed259bf5487efdf8ba972c9",
+      "target_blob_sha": "957cdb1f1b05426d7ed259bf5487efdf8ba972c9",
+      "byte_identical": true,
+      "what_changed": "none"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/mechanics/receipt.py",
+      "target_path": "src/ocm/operators/receipt.py",
+      "mode": "BYTE",
+      "source_blob_sha": "74f61e5c07d9c6fe34b0fc93e14bb9806c13fed0",
+      "target_blob_sha": "39133d8b491c979ba1987b08097222c2f3aa769f",
+      "byte_identical": false,
+      "what_changed": "one import line: `from .model import MetricObservation` -> `from ocm.operators.metrics import MetricObservation`"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/mechanics/model.py",
+      "target_path": "src/ocm/operators/metrics.py",
+      "mode": "EXTRACT",
+      "source_blob_sha": "01c3acf43c7ca3739a858791033b08e80d386e93",
+      "target_blob_sha": "3351565f66e67d8a03dcbce8dcab4e63e205a09b",
+      "byte_identical": false,
+      "what_changed": "lines 39-97 (MetricKind, MetricDirection, MetricSpec, MetricObservation) copied verbatim under a new module docstring and the source's import header; MechanicDimension/HandoffField/DimensionWaiver/MechanicCell not vendored"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/core/residuals.py",
+      "target_path": "src/ocm/runtime/residuals.py",
+      "mode": "BYTE",
+      "source_blob_sha": "70d0f1a5e928696033af8fb5f45654c3ca7f61c8",
+      "target_blob_sha": "70d0f1a5e928696033af8fb5f45654c3ca7f61c8",
+      "byte_identical": true,
+      "what_changed": "none"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/engine/cycle.py",
+      "target_path": "src/ocm/runtime/transition.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "cf0c3905c4db7a7aa51cde6b43756a1e1b99817c",
+      "target_blob_sha": "89147a3e4f1d575cb58fff3b8c088e8022307cc6",
+      "byte_identical": false,
+      "what_changed": "CycleOperator -> OCMOperator (ADMIT, QUERY, NAVIGATE, EXTRACT, COMPOSE, CHECK, LEARN, REVOKE, REINSTATE, REOPEN, PROPOSE_JUMP, COMMIT_ACTION, PERSIST); non-authority set = all but COMMIT_ACTION; residuals imported from ocm.runtime.residuals; 'ORION transitions' -> 'OCM transitions' in one error message; validate/revision_allowed/local_reframe_allowed bodies verbatim; module docstring added"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/engine/trace.py",
+      "target_path": "src/ocm/runtime/trace.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "bc6ce6866816e752e61191d3e33c8d8d2b70c8de",
+      "target_blob_sha": "4bc9f07da027760edb0a11477df0e1909d407dbe",
+      "byte_identical": false,
+      "what_changed": "operator vocabulary -> OCMOperator; MECHANIC_ID_BY_OPERATOR -> kso.<operator lower-case> for every operator; imports -> ocm.operators.receipt / ocm.runtime.transition; both __post_init__ cross-validations verbatim; module docstring and __all__ added"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/kernel/authority_state.py",
+      "target_path": "src/ocm/store/registry.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "31aa80aa7388d84da16c8991c0b39a79a46575c0",
+      "target_blob_sha": "0078aad6941d80c93edd64b25de7b072418f62ec",
+      "byte_identical": false,
+      "what_changed": "AuthorityObjectKind -> RegistryObjectKind (EVIDENCE|OPERATOR|LEARNER|CHECKER|REPRESENTATION|COMMIT_AUTHORITY); AuthorityObjectStatus -> RegistryObjectStatus; AuthorityRegistration -> Registration without public_key_hex (and without the kind-conditional key rules); AuthorityStatusEvent/append_authority_status/AuthorityState -> RegistryStatusEvent/append_registry_status/RegistryState; canonical_digest from ocm.store.canonical with domains ocm.registry-registration.v1 / ocm.registry-state.v1; SupportState dropped (see dependency_history.py); validation, history, logical-time status and revision logic verbatim"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/kernel/support.py",
+      "target_path": "src/ocm/store/dependency_history.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "01ce47a5dadb10df8239fc61fa4e2bac62e8d42c",
+      "target_blob_sha": "7e69c6d3616fdb8f897bd6fdabfe402ef6517e4f",
+      "byte_identical": false,
+      "what_changed": "kept verbatim: DependencyStatus, SupportVerdict, DependencyStatusEvent, append_dependency_status, _statuses_at; dropped: SupportSet, SupportReason, SupportReasonCode, SupportEvaluation, evaluate_support (DNF evaluator superseded by ocm.kso.warrant); added: public statuses_at, status_verdict(statuses) thin helper with the single-conjunction PASS/FAIL/CANNOT_CHECK semantics, DependencyHistoryState revisioned projection (domain ocm.dependency-history-state.v1)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": "src/orion/kernel/store.py",
+      "target_path": "src/ocm/store/ledger.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "08f712c32e4c03e35dab55315706be00612fef58",
+      "target_blob_sha": "3306841cbc969c281ba8141b9d8e3ea747c38556",
+      "byte_identical": false,
+      "what_changed": "EntryKind enum -> generic non-blank str kind; canonical_bytes imported from ocm.store.canonical (byte-identical semantics), compute_entry_hash verbatim modulo kind.value -> kind; flock + stale-temp cleanup + NamedTemporaryFile/fsync/os.replace/directory-fsync + expected_head CAS (StaleLedgerHead) + entries()/head()/verify() retain full-validation semantics; append_transaction/LedgerExpectation/protected_expectation/StaleTransitionExpectation/LegacyLedgerRequiresMigration/completed_round_count dropped; TransactionIdConflict semantics kept as append_identified (same id+content idempotent, checked before the head CAS; different content -> typed conflict); _decode additionally rejects non-object rows/payloads; PR91 reuses validation only for exact locked file bytes, caches immutable bytes/head/count, writes from that same validated buffer, publishes cache after directory fsync, and falls back to uncached append on optional cache-allocation failure; public/identified reads remain fully validated"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/policy.py",
+      "target_path": "src/orion_v2/policy.py",
+      "mode": "BYTE",
+      "source_blob_sha": "6f99c905038240fe151181887bb442749d149b6f",
+      "target_blob_sha": "6f99c905038240fe151181887bb442749d149b6f",
+      "byte_identical": true,
+      "what_changed": "none"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/responsibility.py",
+      "target_path": "src/orion_v2/responsibility.py",
+      "mode": "BYTE",
+      "source_blob_sha": "0192c7c8fc3c9c4e492928455b130eca31e9e1e1",
+      "target_blob_sha": "0192c7c8fc3c9c4e492928455b130eca31e9e1e1",
+      "byte_identical": true,
+      "what_changed": "none"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/component_value.py",
+      "target_path": "src/orion_v2/component_value.py",
+      "mode": "BYTE",
+      "source_blob_sha": "6113a792e307d6951f026d5fb238dde8f31341c5",
+      "target_blob_sha": "6113a792e307d6951f026d5fb238dde8f31341c5",
+      "byte_identical": true,
+      "what_changed": "none"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/comparability.py",
+      "target_path": "src/orion_v2/comparability.py",
+      "mode": "BYTE",
+      "source_blob_sha": "18915c7ce88c370a8245eecdcc323e64e10afe31",
+      "target_blob_sha": "18915c7ce88c370a8245eecdcc323e64e10afe31",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/contracts.py",
+      "target_path": "src/orion_v2/contracts.py",
+      "mode": "BYTE",
+      "source_blob_sha": "dacafb17941efe7b4cc8e07d28866e000cf422a9",
+      "target_blob_sha": "dacafb17941efe7b4cc8e07d28866e000cf422a9",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/epistemic_architecture.py",
+      "target_path": "src/orion_v2/epistemic_architecture.py",
+      "mode": "BYTE",
+      "source_blob_sha": "4934b1090f199457099051e9de06054ab2e9cf25",
+      "target_blob_sha": "4934b1090f199457099051e9de06054ab2e9cf25",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/epistemic_atlas.py",
+      "target_path": "src/orion_v2/epistemic_atlas.py",
+      "mode": "BYTE",
+      "source_blob_sha": "ee5a4f21de63e848863354a412bdafd5e1a1d712",
+      "target_blob_sha": "ee5a4f21de63e848863354a412bdafd5e1a1d712",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/evidence.py",
+      "target_path": "src/orion_v2/evidence.py",
+      "mode": "BYTE",
+      "source_blob_sha": "9dc8efe59a48fb884e559057b9f251a45a0bc8fb",
+      "target_blob_sha": "9dc8efe59a48fb884e559057b9f251a45a0bc8fb",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/jump.py",
+      "target_path": "src/orion_v2/jump.py",
+      "mode": "BYTE",
+      "source_blob_sha": "3375c6d935366ef06e20b82a87c4be4d2cba48a0",
+      "target_blob_sha": "3375c6d935366ef06e20b82a87c4be4d2cba48a0",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/provenance.py",
+      "target_path": "src/orion_v2/provenance.py",
+      "mode": "BYTE",
+      "source_blob_sha": "511fdc7e732cbdf1a8494587b040dedb550b3a17",
+      "target_blob_sha": "511fdc7e732cbdf1a8494587b040dedb550b3a17",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/reopening.py",
+      "target_path": "src/orion_v2/reopening.py",
+      "mode": "BYTE",
+      "source_blob_sha": "5d24edb677d241b7117478e69dc3d03c1b9a6023",
+      "target_blob_sha": "5d24edb677d241b7117478e69dc3d03c1b9a6023",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/structural.py",
+      "target_path": "src/orion_v2/structural.py",
+      "mode": "BYTE",
+      "source_blob_sha": "38db290791b7006f7e905d49a07c82d42a3eb5ad",
+      "target_blob_sha": "38db290791b7006f7e905d49a07c82d42a3eb5ad",
+      "byte_identical": true,
+      "what_changed": "none (pre-existing M0 vendoring, verified against 42b1b0d)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION-V2",
+      "source_commit": "42b1b0d1ab5920a69036e1c782c6b84c92c3b4d3",
+      "source_path": "src/orion_v2/__init__.py",
+      "target_path": "src/orion_v2/__init__.py",
+      "mode": "ADAPT",
+      "source_blob_sha": "bd011d026d5a7b353f32fba2dd484504322522ef",
+      "target_blob_sha": "c90f789a74f8ca55bd3f23fa3d54f8216e19dc9e",
+      "byte_identical": false,
+      "what_changed": "pre-existing M0 file: OCM-owned package docstring replaces the ORION-V2 package root; NOT byte-identical by design (drift reported, not fixed)"
+    },
+    {
+      "source_repo": "SzeChunYiu/ORION",
+      "source_commit": "adb97ecce7d8e1fe6effab456b98e653f401dae0",
+      "source_path": null,
+      "target_path": "src/ocm/store/canonical.py",
+      "mode": "ADAPT",
+      "source_blob_sha": null,
+      "target_blob_sha": "8c62c1e1c7d71a46c2249a684ab0dc297302b84f",
+      "byte_identical": false,
+      "what_changed": "NEW module modelled on src/orion/kernel/transition.py canonicalization (typed tree, versioned envelope, pinned Unicode policy, domain-separated digest); no ORION code or mechanics types copied; canonical_bytes reproduces kernel/store.py::canonical_bytes exactly; strings are NFC-normalised (ORION required NFC) and the live unicodedata.unidata_version is recorded in the envelope"
+    }
+  ]
+}
