@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.677" timestamp="2026-09-06T06:11:46.968296+02:00" hostname="billy"><testcase classname="research.ocm-prototype.test_clia_reuse_program" name="test_bool_alias_in_returned_tuple_and_history_overlap_refuse" time="0.074"><failure message="AssertionError: assert 'PASS' == 'FAIL'&#10;  &#10;  - FAIL&#10;  + PASS">def test_bool_alias_in_returned_tuple_and_history_overlap_refuse():
+        desc = descriptor(); q = request(desc, [0, 0, 0]); output = CompiledProgram(desc).apply(q)
+&gt;       assert check_value(desc, q, {**output, 'arguments': [False, 0, 0]})['status'] == 'FAIL'
+E       AssertionError: assert 'PASS' == 'FAIL'
+E         
+E         - FAIL
+E         + PASS
+
+research/ocm-prototype/test_clia_reuse_program.py:99: AssertionError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_program" name="test_forged_import_and_native_audit_do_not_restore_authority" time="0.136"><failure message="AttributeError: 'NativeLibrary' object has no attribute 'audit'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-64/test_forged_import_and_native_0')
+
+    def test_forged_import_and_native_audit_do_not_restore_authority(tmp_path):
+        desc = descriptor(); library = NativeLibrary(tmp_path); library.install(desc); library.bind(desc['id'])
+        result = library.apply(request(desc, [41, -7, 12]))
+        library.revoke(['query-unit'])
+&gt;       audit = library.audit()
+E       AttributeError: 'NativeLibrary' object has no attribute 'audit'
+
+research/ocm-prototype/test_clia_reuse_program.py:109: AttributeError</failure></testcase><testcase classname="research.ocm-prototype.test_clia_reuse_vessel" name="test_audit_is_read_only_and_names_real_support" time="0.371"><failure message="AttributeError: module 'clia_reuse_vessel' has no attribute 'audit'">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-64/test_audit_is_read_only_and_na0')
+
+    def test_audit_is_read_only_and_names_real_support(tmp_path):
+        runtime, records, history, shared = fixture_state(tmp_path)
+        desc = V.adopt(runtime, records['jmbl_fg_max3'][0], history=[history]); V.bind(runtime, desc['id'])
+        result = V.apply(runtime, request(desc, [41, -7, 12]))
+        runtime.revoke([records['jmbl_fg_max3'][1]]); runtime.persist()
+        count = len(runtime.events); snapshot = runtime.state.ks.digest()
+&gt;       audit = V.audit(runtime)
+E       AttributeError: module 'clia_reuse_vessel' has no attribute 'audit'
+
+research/ocm-prototype/test_clia_reuse_vessel.py:119: AttributeError</failure></testcase></testsuite></testsuites>
