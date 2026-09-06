@@ -293,7 +293,7 @@ def _subject_object(f) -> tuple[str, str]:
 FAULTS = ("operator_fault", "learning_policy", "environment_drift")
 
 
-def phase_G(arm, seed_index: int) -> dict[str, Any]:
+def phase_G(arm, seed_index: int, *, report_predecessors: bool = False) -> dict[str, Any]:
     """A protected planted fault (layer undisclosed to the machine) on the persistent work machine."""
     if isinstance(arm, TemplateFloor):
         return {"fault": None, "diagnosed": None, "repaired": False, "preserved": None, "rollback_exact": None, "parent_repair": None}
@@ -358,9 +358,12 @@ def phase_G(arm, seed_index: int) -> dict[str, Any]:
     ledger.propose(prop)
     dec = GV.ExternalAdopter("m12-token").decide(prop, a)
     repaired = preserved = rollback_ok = False
+    predecessors_bound = None
     after = before
     if dec.approved:
         challenger, info = ledger.adopt(prop, dec, machine, {prop.target_component: {"artifact": prop.incumbent_fingerprint}})
+        from ocm.lifetime.machine import adoption_predecessors_bound   # batch-6 integration correction; V5 kill gate
+        predecessors_bound, _why = adoption_predecessors_bound(arm.runtime, ledger.adopted)
         after = challenger.score(target)
         repaired = after == len(target)
         preserved = challenger.score(preservation) >= pres_before
@@ -369,7 +372,7 @@ def phase_G(arm, seed_index: int) -> dict[str, Any]:
         if rollback_ok:
             ledger.acknowledge_rollback_installation(prop.fingerprint(), components=restored_components)
     return {"fault": fault, "true_layer": true_layer, "diagnosed": d.minimum_sufficient, "diagnosis_correct": d.minimum_sufficient == true_layer, "chosen_repair": name, "proposal_class": prop.change_class.value, "minimum_class_correct": prop.change_class is PR.minimum_class_for(true_layer), "assurance": a.passed, "assurance_reasons": list(a.reasons), "adopted": dec.approved,
-            "target_before": f"{before}/{len(target)}", "target_after": f"{after}/{len(target)}", "repaired": repaired, "preserved": preserved, "rollback_exact": rollback_ok, "escalation_allowed": DG.escalation_allowed(d, None)[0]}
+            "target_before": f"{before}/{len(target)}", "target_after": f"{after}/{len(target)}", "repaired": repaired, "preserved": preserved, "rollback_exact": rollback_ok, **({"predecessors_bound": predecessors_bound} if report_predecessors else {}), "escalation_allowed": DG.escalation_allowed(d, None)[0]}
 
 
 def M7_demo(ops):

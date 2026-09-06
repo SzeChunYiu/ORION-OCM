@@ -263,7 +263,7 @@ def test_archive_source_membership_is_verified_against_git_tree(evidence, monkey
 def test_wrapper_dispatch_has_explicit_successor_without_recipe_loading():
     for i in range(1, 13):
         text = (ROOT / f"tools/m{i}_receipt.py").read_text()
-        assert "from runtime_revision_receipts_v" in text and " import revision_main" in text
+        assert "from engineering_receipts import revision_main" in text
         assert f"revision_main(ROOT, argv, {i})" in text
 
 

@@ -1,0 +1,75 @@
+FF..                                                                     [100%]
+=================================== FAILURES ===================================
+___ test_admission_uses_exact_positive_support_without_solving_magnitudes[2] ___
+
+size = 2
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f19550c2c40>
+
+    @pytest.mark.parametrize("size", [2, 199, 200, 201])
+    def test_admission_uses_exact_positive_support_without_solving_magnitudes(size, monkeypatch):
+        from ocm.kso import navigation
+    
+        def no_magnitude_solve(*args, **kwargs):
+            raise AssertionError("admission needs positive support, not activation magnitudes")
+    
+        monkeypatch.setattr(navigation, "restart_fixed_point_exact", no_magnitude_solve)
+        ks = KnowledgeSpace(tuple(Atom(f"v{i}", "claim") for i in range(size)),
+                            (Hyperedge("normal", ("v0",), ("v1",), "SUPPORT"),))
+        tiny = Hyperedge("tiny", ("v0",), ("new",), "SUPPORT", weight=Fraction(1, 10**400))
+>       _, receipt = admit(ks, Atom("new", "claim"), (tiny,), "INSTRUCTION")
+
+tests/test_kso_optimization.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/ocm/kso/admission.py:134: in admit
+    act = fixed_point(new, seed, alpha, revoked=rv)
+src/ocm/kso/navigation.py:285: in fixed_point
+    return dict(zip(ks.ids, restart_fixed_point_exact(m.as_lists(), s, alpha), strict=True))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ([[Fraction(0, 1), Fraction(100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000...], [Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)]], [Fraction(1, 2), Fraction(1, 2), Fraction(0, 1)], Fraction(1, 2))
+kwargs = {}
+
+    def no_magnitude_solve(*args, **kwargs):
+>       raise AssertionError("admission needs positive support, not activation magnitudes")
+E       AssertionError: admission needs positive support, not activation magnitudes
+
+tests/test_kso_optimization.py:187: AssertionError
+__ test_admission_uses_exact_positive_support_without_solving_magnitudes[199] __
+
+size = 199
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f19550c3230>
+
+    @pytest.mark.parametrize("size", [2, 199, 200, 201])
+    def test_admission_uses_exact_positive_support_without_solving_magnitudes(size, monkeypatch):
+        from ocm.kso import navigation
+    
+        def no_magnitude_solve(*args, **kwargs):
+            raise AssertionError("admission needs positive support, not activation magnitudes")
+    
+        monkeypatch.setattr(navigation, "restart_fixed_point_exact", no_magnitude_solve)
+        ks = KnowledgeSpace(tuple(Atom(f"v{i}", "claim") for i in range(size)),
+                            (Hyperedge("normal", ("v0",), ("v1",), "SUPPORT"),))
+        tiny = Hyperedge("tiny", ("v0",), ("new",), "SUPPORT", weight=Fraction(1, 10**400))
+>       _, receipt = admit(ks, Atom("new", "claim"), (tiny,), "INSTRUCTION")
+
+tests/test_kso_optimization.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/ocm/kso/admission.py:134: in admit
+    act = fixed_point(new, seed, alpha, revoked=rv)
+src/ocm/kso/navigation.py:285: in fixed_point
+    return dict(zip(ks.ids, restart_fixed_point_exact(m.as_lists(), s, alpha), strict=True))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ([[Fraction(0, 1), Fraction(100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000..., 199), Fraction(1, 199), Fraction(1, 199), Fraction(1, 199), Fraction(1, 199), Fraction(1, 199), ...], Fraction(1, 2))
+kwargs = {}
+
+    def no_magnitude_solve(*args, **kwargs):
+>       raise AssertionError("admission needs positive support, not activation magnitudes")
+E       AssertionError: admission needs positive support, not activation magnitudes
+
+tests/test_kso_optimization.py:187: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/support-before.xml -
+=========================== short test summary info ============================
+FAILED tests/test_kso_optimization.py::test_admission_uses_exact_positive_support_without_solving_magnitudes[2]
+FAILED tests/test_kso_optimization.py::test_admission_uses_exact_positive_support_without_solving_magnitudes[199]
+2 failed, 2 passed, 37 deselected in 0.13s

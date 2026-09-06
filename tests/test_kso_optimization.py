@@ -179,8 +179,15 @@ def test_positive_support_is_not_conjunctive_firing_or_zero_weight_structure():
     assert "d" not in positive_activation_support(changed, seed, Fraction(1, 3))
 
 
-def test_large_admission_uses_exact_positive_support_below_float_range():
-    ks = KnowledgeSpace(tuple(Atom(f"v{i}", "claim") for i in range(201)),
+@pytest.mark.parametrize("size", [2, 199, 200, 201])
+def test_admission_uses_exact_positive_support_without_solving_magnitudes(size, monkeypatch):
+    from ocm.kso import navigation
+
+    def no_magnitude_solve(*args, **kwargs):
+        raise AssertionError("admission needs positive support, not activation magnitudes")
+
+    monkeypatch.setattr(navigation, "restart_fixed_point_exact", no_magnitude_solve)
+    ks = KnowledgeSpace(tuple(Atom(f"v{i}", "claim") for i in range(size)),
                         (Hyperedge("normal", ("v0",), ("v1",), "SUPPORT"),))
     tiny = Hyperedge("tiny", ("v0",), ("new",), "SUPPORT", weight=Fraction(1, 10**400))
     _, receipt = admit(ks, Atom("new", "claim"), (tiny,), "INSTRUCTION")
@@ -215,3 +222,14 @@ def test_sparse_certificate_checks_the_represented_operator_contraction():
         sparse_fixed_point_certified(SparseMatrix(("a",), (((0, 2.0),),), 1), [1.0], .5)
     with pytest.raises(ValueError, match="matrix entries"):
         sparse_fixed_point_certified(SparseMatrix(("a",), (((1, 1.0),),), 1), [1.0], .5)
+
+
+def test_scaling_reports_actual_admission_algorithm_and_configured_skip():
+    from ocm.evaluation.scaling import run_size
+
+    completed = run_size(8)
+    assert completed["admission"]["wall_s"] is not None
+    assert completed["admission"]["note"] == "exact positive matrix support (all sizes, KS-T05)"
+    skipped = run_size(8, skip_admit_above=7)
+    assert skipped["admission"]["wall_s"] is None
+    assert skipped["admission"]["note"] == "SKIPPED: exceeds configured skip_admit_above"

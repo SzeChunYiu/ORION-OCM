@@ -37,8 +37,19 @@ N_LIFETIMES = 8
 V4 = {"seed": "OCM-M12-V4", "out": ROOT / "research" / "ocm-m12" / "M12_PAIRED_LIFETIMES_EVAL_V4.json", "manifest": ROOT / "research" / "ocm-m12" / "M12_V4_STREAM_MANIFEST_V1.json", "prereg": ROOT / "research" / "ocm-m12" / "M12_LIFETIME_PREREGISTRATION_V4.md",
       "primary": "A_conversations", "secondary": ("A_post_deployment", "A_honest_unknown", "D_causal", "E_transfer", "F_integrity", "G_self_repair"), "alpha": 0.05}
 
+# V5 (issue #38 M12 gates; ledger S37/S38; V4 one-coin finding): fresh never-exposed streams on the CURRENT
+# runtime, prospectively matched transfer cells (phase_E matched_cells), the world-true out-of-scope half,
+# the same primary family and one-sided ≥ 7/8 rule, THREE inferential secondary families at α/3 (the
+# families whose per-lifetime differences are not a deterministic function of the planted design), and the
+# three categorical families (transfer, revision integrity, self-repair) pre-registered as CATEGORICAL:
+# reported per lifetime as win/tie/loss, never tested.  A V5 run is a protected pre-registered study only
+# when the pre-registration file is present, the stream manifest is regenerated identically and no gate
+# hits; the decision is then NOT relabelled (unlike replays of exposed streams).
+V5 = {"seed": "OCM-M12-V5", "out": ROOT / "research" / "ocm-m12" / "M12_PAIRED_LIFETIMES_EVAL_V5.json", "manifest": ROOT / "research" / "ocm-m12" / "M12_V5_STREAM_MANIFEST_V1.json", "prereg": ROOT / "research" / "ocm-m12" / "M12_LIFETIME_PREREGISTRATION_V5.md",
+      "primary": "A_conversations", "secondary": ("A_post_deployment", "A_honest_unknown", "D_causal"), "categorical": ("E_transfer", "F_integrity", "G_self_repair"), "alpha": 0.05}
 
-def run_lifetime(arm_name: str, stream: dict[str, Any], root: Path) -> dict[str, Any]:
+
+def run_lifetime(arm_name: str, stream: dict[str, Any], root: Path, *, matched_cells: bool = False) -> dict[str, Any]:
     k = stream["lifetime"]
     arm = MC.ARMS[arm_name](root / arm_name / f"L{k}")
     order = ORDERINGS[stream["ordering"]]
@@ -54,11 +65,11 @@ def run_lifetime(arm_name: str, stream: dict[str, Any], root: Path) -> dict[str,
         elif ph == "D":
             phases["D"] = PH.phase_D(arm, dataset_ids=stream["science_dataset_ids"])
         elif ph == "E":
-            phases["E"] = PH.phase_E(arm)
+            phases["E"] = PH.phase_E(arm, matched_cells=matched_cells) if matched_cells else PH.phase_E(arm)
         elif ph == "F":
             phases["F"] = PH.phase_F(arm)
         elif ph == "G":
-            phases["G"] = PH.phase_G(arm, k)
+            phases["G"] = PH.phase_G(arm, k, report_predecessors=matched_cells)   # V5 only: the historical replays keep their deterministic block
         if isinstance(arm, MC.PersistentOCM):
             prev = chain[-1][1]
             continuous = continuous and MC.chain_continuous(prev, arm.s.runtime)
@@ -106,21 +117,27 @@ def sign_test_one_sided(diffs: list[float], alpha: float) -> dict[str, Any]:
 
 def main(argv=None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
-    v4 = "--v4" in argv
+    v5 = "--v5" in argv
+    v4 = "--v4" in argv or v5          # V5 inherits the V4 rule shape (primary + Bonferroni secondaries + one-coin flag)
+    cfg = V5 if v5 else V4
     manifest_only = "--manifest-only" in argv
-    out_path = new_output_path([a for a in argv if a not in ("--v4", "--manifest-only")],
-        "Current engineering replay on historically exposed streams; new output required")
-    seed = V4["seed"] if v4 else "OCM-M12-V3"
-    manifest_path, prereg_path, out_default = (V4["manifest"], V4["prereg"], V4["out"]) if v4 else (MANIFEST, PREREG, OUT)
+    out_path = new_output_path([a for a in argv if a not in ("--v4", "--v5", "--manifest-only")],
+        "Current engineering replay on historically exposed streams; new output required" if not v5 else "V5 protected study: the result path is written once; a second run needs a new output path")
+    seed = cfg["seed"] if v4 else "OCM-M12-V3"
+    manifest_path, prereg_path, out_default = (cfg["manifest"], cfg["prereg"], cfg["out"]) if v4 else (MANIFEST, PREREG, OUT)
+    man_name = "M12_V5_STREAM_MANIFEST_V1" if v5 else ("M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
     build = lambda k: SR.build_stream(k, seed=seed, world_true_half=v4)  # noqa: E731
     if manifest_only:
-        man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name="M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
+        man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name=man_name)
         leaks = [SR.leak_check(build(k)) for k in range(N_LIFETIMES)]
         man["leak_checks"] = leaks
         write_result(out_path, man)
         print(json.dumps({"manifest_sha256": man["sha256"], "leaks_ok": all(l["ok"] for l in leaks)}))
         return 0
-    man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name="M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
+    man = SR.stream_manifest(N_LIFETIMES, seed=seed, world_true_half=v4, name=man_name)
+    frozen_manifest_ok = manifest_path.exists() and json.loads(manifest_path.read_text(encoding="utf-8")).get("sha256") == man["sha256"]
+    if v5 and not (frozen_manifest_ok and prereg_path.exists()):
+        raise SystemExit("V5 requires the frozen stream manifest and the pre-registration file before any outcome is read")
     runs: dict[str, list[dict]] = {"ocm": [], "whole_system_parent": []}
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
@@ -129,7 +146,7 @@ def main(argv=None) -> int:
             if stream["sha256"] != man["streams"][k]["sha256"]:
                 raise ValueError("stream identity mismatch")
             for arm in runs:
-                runs[arm].append(run_lifetime(arm, stream, root))
+                runs[arm].append(run_lifetime(arm, stream, root, matched_cells=v5))
     scores = {arm: [lifetime_scores(r) for r in rs] for arm, rs in runs.items()}
     fams = list(scores["ocm"][0])
     tests = {}
@@ -137,11 +154,15 @@ def main(argv=None) -> int:
         diffs = [(a[fam] or 0) - (b[fam] or 0) for a, b in zip(scores["ocm"], scores["whole_system_parent"]) if a[fam] is not None and b[fam] is not None]
         base = {"ocm_mean": round(sum((a[fam] or 0) for a in scores["ocm"]) / N_LIFETIMES, 4), "parent_mean": round(sum((b[fam] or 0) for b in scores["whole_system_parent"]) / N_LIFETIMES, 4), "diffs": [round(d, 4) for d in diffs]}
         if v4:
-            role = "primary" if fam == V4["primary"] else ("secondary" if fam in V4["secondary"] else "descriptive")
-            alpha = V4["alpha"] if role == "primary" else (V4["alpha"] / len(V4["secondary"]) if role == "secondary" else None)
-            st = sign_test_one_sided(diffs, alpha if alpha is not None else V4["alpha"])
+            role = "primary" if fam == cfg["primary"] else ("secondary" if fam in cfg["secondary"] else ("categorical" if fam in cfg.get("categorical", ()) else "descriptive"))
+            alpha = cfg["alpha"] if role == "primary" else (cfg["alpha"] / len(cfg["secondary"]) if role == "secondary" else None)
+            st = sign_test_one_sided(diffs, alpha if alpha is not None else cfg["alpha"])
             if role == "descriptive":
                 st["verdict"] = "DESCRIPTIVE (not pre-registered)"
+            if role == "categorical":
+                wins = sum(1 for d in diffs if d > 0); losses = sum(1 for d in diffs if d < 0)
+                st = {"n_nonzero": len([d for d in diffs if d != 0]), "positive": wins, "p_one_sided": None, "collapsed_one_coin": st["collapsed_one_coin"],
+                      "verdict": "CATEGORICAL (pre-registered descriptive)", "wins": wins, "ties": len(diffs) - wins - losses, "losses": losses}
             tests[fam] = {**base, "role": role, "alpha": alpha, **st}
         else:
             tests[fam] = {**base, **sign_test(diffs)}
@@ -159,12 +180,16 @@ def main(argv=None) -> int:
             tests[fam]["verdict"] = "CANNOT_CHECK_MATCHED_CASES"
     gates = {"identity_chain_broken": sum(1 for r in runs["ocm"] if not r["chain_continuous"]), "protected_exposure": sum(int(r["information"].get("protected_exposure", 0) or 0) for rs in runs.values() for r in rs), "external_io": sum(int(r["resources"].get("external_io", 0) or 0) for rs in runs.values() for r in rs),
              "live_on_revoked_after_F": sum(1 for r in runs["ocm"] if r["phases"]["F"].get("work", {}).get("ran_dead_skill")), "missing_phase_outcomes": sum(1 for rs in runs.values() for r in rs if len(r["phases"]) != 8), "stream_leaks": sum(1 for k in range(N_LIFETIMES) if not SR.leak_check(build(k))["ok"])}
+    if v5:
+        gates["adoption_predecessors_unbound"] = sum(1 for r in runs["ocm"] if r["phases"]["G"].get("predecessors_bound") is False)
+        gates["frozen_manifest_mismatch"] = 0 if frozen_manifest_ok else 1
     gates["hits"] = sum(gates.values())
     if v4:
-        primary = tests[V4["primary"]]
-        secondaries = [f for f in V4["secondary"] if tests[f]["verdict"] == "OCM_RESIDUAL"]
+        primary = tests[cfg["primary"]]
+        secondaries = [f for f in cfg["secondary"] if tests[f]["verdict"] == "OCM_RESIDUAL"]
         decision = "CANNOT_CHECK" if gates["hits"] else ("OCM_LIFETIME_RESIDUAL_SUPPORTED" if primary["verdict"] == "OCM_RESIDUAL" else ("PARENT_SUFFICIENT" if primary["verdict"] == "TIES_ONLY" and not secondaries else "INCONCLUSIVE"))
-        rule = "V4: primary family A_conversations, one-sided exact sign test over 8 lifetime differences at α = 0.05 (rejects iff ≥ 7/8 positive, size 9/256); six pre-registered secondary families at α/6 (reject iff 8/8); every other family descriptive; collapsed-one-coin flagged; the reference arm never enters the decision (F8)"
+        rule = ("V5: primary family A_conversations, one-sided exact sign test over 8 lifetime differences at α = 0.05 (rejects iff ≥ 7/8 positive, size 9/256); three pre-registered inferential secondary families (post-deployment lessons, honest unknown incl. the world-true half, causal identification) at α/3 (reject iff 8/8); transfer (prospectively matched cells), revision integrity and self-repair are CATEGORICAL, reported per lifetime and never tested; every other family descriptive; collapsed-one-coin flagged; kill gates include the identity chain and adoption predecessor binding; the reference arm never enters the decision (F8)" if v5 else
+                "V4: primary family A_conversations, one-sided exact sign test over 8 lifetime differences at α = 0.05 (rejects iff ≥ 7/8 positive, size 9/256); six pre-registered secondary families at α/6 (reject iff 8/8); every other family descriptive; collapsed-one-coin flagged; the reference arm never enters the decision (F8)")
     else:
         residual = [f for f, t_ in tests.items() if t_["verdict"] == "OCM_RESIDUAL"]
         parent_wins = [f for f, t_ in tests.items() if t_["verdict"] == "PARENT_RESIDUAL"]
@@ -174,13 +199,18 @@ def main(argv=None) -> int:
     if v4:
         deterministic["secondary_rejections"] = secondaries
         deterministic["collapsed_one_coin_families"] = [f for f, t_ in tests.items() if t_.get("collapsed_one_coin")]
-    deterministic["historical_rule_diagnostic"] = deterministic["decision"]
-    deterministic["decision"] = "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
-    out = {"receipt": "M12_PAIRED_LIFETIMES_ENGINEERING_REPLAY", "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS", "preregistration_sha256": hashlib.sha256(prereg_path.read_bytes()).hexdigest() if prereg_path.exists() else None, "stream_manifest_sha256": man["sha256"], "lifetimes": N_LIFETIMES,
+    if v5:
+        deterministic["categorical_families"] = {f: {k_: tests[f][k_] for k_ in ("wins", "ties", "losses", "collapsed_one_coin")} for f in cfg["categorical"]}
+        receipt_name, study_status = "M12_PAIRED_LIFETIMES_V5", "PROTECTED_PREREGISTERED_V5__FRESH_STREAMS_CURRENT_RUNTIME"
+    else:
+        deterministic["historical_rule_diagnostic"] = deterministic["decision"]
+        deterministic["decision"] = "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+        receipt_name, study_status = "M12_PAIRED_LIFETIMES_ENGINEERING_REPLAY", "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS"
+    out = {"receipt": receipt_name, "study_status": study_status, "preregistration_sha256": hashlib.sha256(prereg_path.read_bytes()).hexdigest() if prereg_path.exists() else None, "stream_manifest_sha256": man["sha256"], "lifetimes": N_LIFETIMES,
            "deterministic": deterministic, "phases": {arm: [r["phases"] for r in rs] for arm, rs in runs.items()}, "chains": [r["chain"] for r in runs["ocm"]], "information": {arm: [r["information"] for r in rs] for arm, rs in runs.items()}, "resources": {arm: [r["resources"] for r in rs] for arm, rs in runs.items()},
            "rule": rule, "authority": "eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched whole-system parent; no novelty claim"}
     write_result(out_path, out)
-    print(json.dumps({"decision": deterministic["decision"], "gates": gates, "tests": {f: (t_["ocm_mean"], t_["parent_mean"], t_["positive"], t_["n_nonzero"], t_.get("p_one_sided", t_.get("p_two_sided")), t_["verdict"]) for f, t_ in tests.items()}}, indent=1))
+    print(json.dumps({"decision": deterministic["decision"], "study_status": study_status, "gates": gates, "tests": {f: (t_["ocm_mean"], t_["parent_mean"], t_["positive"], t_["n_nonzero"], t_.get("p_one_sided", t_.get("p_two_sided")), t_["verdict"]) for f, t_ in tests.items()}}, indent=1))
     return 0
 
 
