@@ -1,0 +1,60 @@
+{
+  "registry": "OCM_SELF_OBLIGATION_REGISTRY_V2",
+  "milestone": "M11.4 / theory batch 8",
+  "extends": "OCM_SELF_OBLIGATION_REGISTRY_V1",
+  "reason": "V1 is archived byte-for-byte by the v4 custody regime; rows KS-T118 onward continue here",
+  "status_vocabulary": [
+    "PROVED",
+    "FINITE_CALIBRATION",
+    "PARENT_OWNED",
+    "OPEN",
+    "CANNOT_CHECK"
+  ],
+  "rule": "every row names a runnable checker test and a planted mutant; a row without a passing checker cannot be PROVED; no novelty claim",
+  "obligations": [
+    {
+      "id": "KS-T118",
+      "gap": "batch 8 H1 (FDX-01)",
+      "statement": "An epoch-bounded operator scope is never read as current on context alone: the commitment gate refuses without a declared evaluation time (REFUSED:SCOPE_EPOCH_UNDECLARED) and checks the epoch with it; a current-validity certificate is MONITORED_CURRENT only when every dependency root is monitored, else CONDITIONAL_ON_ASSUMPTIONS.",
+      "status": "PROVED",
+      "proof": "solve.commitment_gate(Task.at); batch 8 H1 (3 456 fixtures; 1 727 view-identical witnesses)",
+      "checker": "tests/m11/test_batch8_obligations.py",
+      "mutant": "Scope.covers(context) without `at` (the previous gate)",
+      "parent": "assume-guarantee reasoning; runtime monitorability; ATMS assumptions",
+      "limitation": "the monitor/assumption typing of certificates is recorded, not yet enforced across every runtime stage"
+    },
+    {
+      "id": "KS-T119",
+      "gap": "batch 8 H2 (FDX-02)",
+      "statement": "Controlled epistemic viability is PARENT_SUFFICIENT (finite-horizon safety game); the OCM decision needs explicit risk, resource and envelope coordinates and may not treat abstain as always licensed (which trivialises the kernel).",
+      "status": "OPEN",
+      "proof": "—",
+      "checker": "— (obligation: extend solve.decide / the commitment gate with typed risk/resource/envelope coordinates; report UNKNOWN reasons by predicate)",
+      "mutant": "always-licensed abstain (1 574 hidden losses in the batch-8 fixture)",
+      "parent": "viability theory; safety games; POMDP belief control",
+      "limitation": "design item for the N-phase runtime"
+    },
+    {
+      "id": "KS-T120",
+      "gap": "batch 8 H3 (FDX-03)",
+      "statement": "The information-budget receipt names the channel join, the assumption ids and the identification-verdict type; observed success never claims guaranteed identification.",
+      "status": "PROVED",
+      "proof": "lifetime.machine.PersistentOCM/WholeSystemParent.info (channels, undeclared_channels, assumption_ids, identification_verdict_type); batch 8 H3",
+      "checker": "tests/m12 (info fields present)",
+      "mutant": "a budget receipt that omits the channel join (the M7 information_budget block)",
+      "parent": "query complexity; Blackwell garbling; teaching dimension",
+      "limitation": "channels are declared by the harness, not proven exhaustive"
+    },
+    {
+      "id": "KS-T121",
+      "gap": "batch 8 H4 (FDX-05)",
+      "statement": "Rollback exactness is stated by class: ESI on the object coordinates (component table + cache), BOI_STABLE on the full projection (the ledger keeps the episode); relearn is BOI_DIVERGENT while reinstate is ESI.",
+      "status": "PROVED",
+      "proof": "AdoptionLedger.last_rollback records the classes; batch 8 H4 (1 667 length-3 sequences)",
+      "checker": "tests/m11/test_batch6_obligations.py (rollback), tests/m11/test_selfmodel.py",
+      "mutant": "exactness claimed on the full projection",
+      "parent": "event sourcing; LIFO transactional undo; AGM recovery; provenance",
+      "limitation": "out-of-order rollback resurrecting an adoption is refused by the lane's staged LIFO rollback, not re-proved here"
+    }
+  ]
+}
