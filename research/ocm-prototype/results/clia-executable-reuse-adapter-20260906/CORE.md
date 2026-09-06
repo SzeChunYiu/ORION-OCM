@@ -18,6 +18,9 @@ native library receives the same program, checker, cache and two-bound support s
   syntax/synthesis receipts offer four slots; production SV may filter apply slots
   before backend visits when their descriptor inputs are outside the reacting graph.
 
+The current-main integration passed **118 scoped N1/G1 tests**; see
+[INTEGRATION.md](INTEGRATION.md) for source, custody and environment scope.
+
 Read [the contract and remaining study requirements](CONTRACT.md). Raw files are
 bound by [SHA256SUMS](SHA256SUMS). The source is bound by the final command receipt.
 
