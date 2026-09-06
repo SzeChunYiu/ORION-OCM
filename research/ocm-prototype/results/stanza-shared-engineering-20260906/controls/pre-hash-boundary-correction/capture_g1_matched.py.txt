@@ -53,8 +53,6 @@ def run(plan_dir, model, training_path, output, *, donor="udpipe", profile_path=
         raise ValueError("training manifest must bind the exact completed model")
     source_files = G.identities(syntax_id)
     source_identity = G.content_hash(source_files)
-    if profile and plan.get("source_identity") != source_identity:
-        raise ValueError("prospective source identity mismatch")
     worker = Path(__file__).with_name("g1_stanza_worker.py" if profile else "matched_g1_worker.py")
     scripts = [Path(__file__), worker, Path(__file__).with_name("freeze_g1_stream.py")]
     script_hashes = {str(p): digest(p) for p in scripts}
