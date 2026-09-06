@@ -1,4 +1,4 @@
-# References for positioning.md (verified 2026-09-05/06)
+# References for Section 1.1 (verification record; folded into main.md References 45–95 on 2026-09-06)
 
 Format follows main.md: Author, A. B. Title. *Venue* **volume**, pages (year). doi / arXiv id. Keys match the author–year citations in positioning.md. Verification column: CrossRef = the DOI record was fetched from api.crossref.org and title, authors, venue, year and pages compared; arXiv = the abstract page was fetched and title, authors and comments compared; page = the publisher or anthology landing page was fetched. A venue is written only when the fetched record states it; preprints whose page shows no venue are cited as arXiv preprints even when a conference version exists. Entries also present in main.md keep their main.md numbering in brackets so the merging round can reuse them.
 

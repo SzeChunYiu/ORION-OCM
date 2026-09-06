@@ -66,7 +66,7 @@ Opened with R2-1 closed. Remaining round-2 items wait for their receipts to reac
 |---|---|---|
 | R1-r2-1 / R3-r2-1 | 1, 3 | accepted: 5.10 reports proportions over the sentences reached; load-free re-run scheduled as receipt of record |
 | R1-r2-2 | 1 | applied: ORION-V2 batch-8 commit named in data availability |
-| R2-r2-1 | 2 | accepted, open: unify citation systems (author–year in 1.1 vs numbered elsewhere) |
+| R2-r2-1 | 2 | closed: the 51 positioning references not already in the list are folded into the numbered References (45–95) and every author–year key in Section 1.1 is replaced by its number (46 citations); positioning_refs.md stays as the verification record |
 | R2-r2-2 | 2 | applied: reopened-gate qualification moved forward |
 | R3-r2-2 | 3 | applied: identifier proxy label named in data availability |
 | R3-r2-3 | 3 | applied: release package list extended |
