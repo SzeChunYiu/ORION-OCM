@@ -1,0 +1,219 @@
+{
+  "schema": "ocm.stanza-runtime-qualification.v1",
+  "status": "LOADED_RECURRENT_DEPENDENCY_CLOSURE_QUALIFIED_NO_INFERENCE",
+  "completed_utc": "2026-09-06T03:35:58.046469+00:00",
+  "versions": {
+    "stanza": "1.14.0",
+    "torch": "2.14.0+cpu"
+  },
+  "requested_options": {
+    "lang": "en",
+    "dir": "/models",
+    "package": null,
+    "processors": {
+      "tokenize": "combined_nocharlm",
+      "pos": "combined_nocharlm",
+      "lemma": "combined_nocharlm",
+      "depparse": "combined_nocharlm"
+    },
+    "tokenize_pretokenized": true,
+    "download_method": null,
+    "resources_filepath": "/models/resources.json",
+    "resources_version": "1.14.0",
+    "use_gpu": false,
+    "device": "cpu",
+    "verbose": false
+  },
+  "load_list": [
+    [
+      "tokenize",
+      [
+        {
+          "processor": "tokenize",
+          "package": "combined_nocharlm",
+          "dependencies": []
+        }
+      ]
+    ],
+    [
+      "pos",
+      [
+        {
+          "processor": "pos",
+          "package": "combined_nocharlm",
+          "dependencies": [
+            [
+              "pretrain",
+              "conll17"
+            ]
+          ]
+        }
+      ]
+    ],
+    [
+      "lemma",
+      [
+        {
+          "processor": "lemma",
+          "package": "combined_nocharlm",
+          "dependencies": []
+        }
+      ]
+    ],
+    [
+      "depparse",
+      [
+        {
+          "processor": "depparse",
+          "package": "combined_nocharlm",
+          "dependencies": [
+            [
+              "pretrain",
+              "conll17"
+            ]
+          ]
+        }
+      ]
+    ]
+  ],
+  "processors": {
+    "pos": {
+      "class": "stanza.pipeline.pos_processor.POSProcessor",
+      "model_class": "stanza.models.pos.model.Tagger",
+      "parameters_nominal": 30883921,
+      "frozen_parameters_nominal": 25000000,
+      "contextual_lemma_classifiers": 0,
+      "configured_model": "/models/en/pos/combined_nocharlm.pt",
+      "pretrained_vectors": "/models/en/pretrain/conll17.pt",
+      "bert_model_attached": false,
+      "charlm_attached": false,
+      "peft_enabled": false
+    },
+    "lemma": {
+      "class": "stanza.pipeline.lemma_processor.LemmaProcessor",
+      "model_class": "stanza.models.common.seq2seq_model.Seq2SeqModel",
+      "parameters_nominal": 522835,
+      "frozen_parameters_nominal": 0,
+      "contextual_lemma_classifiers": 0,
+      "configured_model": "/models/en/lemma/combined_nocharlm.pt",
+      "pretrained_vectors": null,
+      "bert_model_attached": false,
+      "charlm_attached": false,
+      "peft_enabled": false
+    },
+    "depparse": {
+      "class": "stanza.pipeline.depparse_processor.DepparseProcessor",
+      "model_class": "stanza.models.depparse.model.GraphParser",
+      "parameters_nominal": 52153112,
+      "frozen_parameters_nominal": 25000000,
+      "contextual_lemma_classifiers": 0,
+      "configured_model": "/models/en/depparse/combined_nocharlm.pt",
+      "pretrained_vectors": "/models/en/pretrain/conll17.pt",
+      "bert_model_attached": false,
+      "charlm_attached": false,
+      "peft_enabled": false
+    }
+  },
+  "loaded_checkpoints": [
+    "/models/en/pos/combined_nocharlm.pt",
+    "/models/en/pretrain/conll17.pt",
+    "/models/en/lemma/combined_nocharlm.pt",
+    "/models/en/depparse/combined_nocharlm.pt"
+  ],
+  "checkpoint_configuration": {
+    "pos": {
+      "shorthand": "en_combined",
+      "hidden_dim": 200,
+      "char_hidden_dim": 400,
+      "word_emb_dim": 75,
+      "char_emb_dim": 100,
+      "tag_emb_dim": 50,
+      "transformed_dim": 125,
+      "num_layers": 2,
+      "charlm": false,
+      "charlm_forward_file": null,
+      "charlm_backward_file": null,
+      "bert_model": null,
+      "pretrain": true,
+      "max_steps": 50000,
+      "eval_interval": 100,
+      "max_steps_before_stop": 3000,
+      "batch_size": 250,
+      "use_peft": false
+    },
+    "lemma": {
+      "shorthand": "en_combined",
+      "dict_only": false,
+      "hidden_dim": 200,
+      "num_layers": 1,
+      "charlm": false,
+      "charlm_forward_file": null,
+      "charlm_backward_file": null,
+      "num_epoch": 1,
+      "batch_size": 50
+    },
+    "depparse": {
+      "shorthand": "en_combined",
+      "hidden_dim": 400,
+      "char_hidden_dim": 400,
+      "word_emb_dim": 75,
+      "char_emb_dim": 100,
+      "tag_emb_dim": 50,
+      "transformed_dim": 125,
+      "num_layers": 3,
+      "charlm": false,
+      "charlm_forward_file": null,
+      "charlm_backward_file": null,
+      "bert_model": null,
+      "pretrain": true,
+      "max_steps": 50000,
+      "eval_interval": 100,
+      "max_steps_before_stop": 2000,
+      "batch_size": 5000,
+      "use_peft": false
+    }
+  },
+  "unique_parameter_elements_by_identical_storage_view": 58559868,
+  "frozen_parameter_elements_deduplicated": 25000000,
+  "unique_parameter_storage_bytes": 234239472,
+  "module_class_counts": {
+    "stanza.models.pos.model.Tagger": 1,
+    "torch.nn.modules.sparse.Embedding": 33,
+    "stanza.models.common.char_model.CharacterModel": 2,
+    "torch.nn.modules.linear.Linear": 34,
+    "stanza.models.common.packed_lstm.PackedLSTM": 7,
+    "torch.nn.modules.rnn.LSTM": 8,
+    "torch.nn.modules.dropout.Dropout": 13,
+    "stanza.models.common.hlstm.HighwayLSTM": 2,
+    "torch.nn.modules.container.ModuleList": 8,
+    "stanza.models.common.biaffine.BiaffineScorer": 22,
+    "torch.nn.modules.linear.Bilinear": 22,
+    "torch.nn.modules.loss.CrossEntropyLoss": 2,
+    "stanza.models.common.dropout.WordDropout": 2,
+    "stanza.models.common.seq2seq_model.Seq2SeqModel": 1,
+    "stanza.models.common.seq2seq_modules.LSTMAttention": 1,
+    "torch.nn.modules.rnn.LSTMCell": 1,
+    "stanza.models.common.seq2seq_modules.SoftDotAttention": 1,
+    "torch.nn.modules.activation.Softmax": 1,
+    "torch.nn.modules.activation.Tanh": 1,
+    "torch.nn.modules.container.Sequential": 1,
+    "torch.nn.modules.activation.ReLU": 1,
+    "stanza.models.depparse.model.GraphParser": 1,
+    "stanza.models.common.biaffine.DeepBiaffineScorer": 4,
+    "stanza.models.common.biaffine.PairwiseBiaffineScorer": 4,
+    "stanza.models.common.biaffine.PairwiseBilinear": 4
+  },
+  "tokenizer_neural_model_loaded": false,
+  "mwt_loaded": false,
+  "contextual_lemma_classifiers": 0,
+  "network_connect_attempts": 0,
+  "model_forward_calls": 0,
+  "processed_documents": 0,
+  "device": "cpu",
+  "cuda_runtime": null,
+  "cpu_threads": 1,
+  "wall_seconds": 2.7657305969914887,
+  "process_cpu_seconds": 2.7306029659999997,
+  "peak_rss_kib": 714020,
+  "limits": "Architecture/load qualification only; no accuracy, useful-quality, heldout independence or efficiency result. Parameter storage excludes Python dictionaries, framework state and OS mappings; RSS is descriptive."
+}

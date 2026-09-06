@@ -1,0 +1,887 @@
+[
+  {
+    "processor": "pos",
+    "path": "",
+    "class": "stanza.models.pos.model.Tagger"
+  },
+  {
+    "processor": "pos",
+    "path": "word_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "pos",
+    "path": "upos_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel",
+    "class": "stanza.models.common.char_model.CharacterModel"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel.char_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel.char_attn",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel.charlstm",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel.charlstm.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "charmodel.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "pos",
+    "path": "trans_char",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "pretrained_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "pos",
+    "path": "trans_pretrained",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm",
+    "class": "stanza.models.common.hlstm.HighwayLSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.lstm",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.lstm.0",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.lstm.0.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.lstm.1",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.lstm.1.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.highway",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.highway.0",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.highway.1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.gate",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.gate.0",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.gate.1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "taggerlstm.drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "pos",
+    "path": "upos_hid",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "upos_clf",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "xpos_hid",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_hid",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "pos",
+    "path": "xpos_clf",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "xpos_clf.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.0",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.0.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.1",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.1.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.2",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.2.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.3",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.3.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.4",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.4.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.5",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.5.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.6",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.6.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.7",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.7.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.8",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.8.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.9",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.9.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.10",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.10.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.11",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.11.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.12",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.12.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.13",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.13.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.14",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.14.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.15",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.15.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.16",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.16.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.17",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.17.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.18",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.18.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.19",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.19.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.20",
+    "class": "stanza.models.common.biaffine.BiaffineScorer"
+  },
+  {
+    "processor": "pos",
+    "path": "ufeats_clf.20.W_bilin",
+    "class": "torch.nn.modules.linear.Bilinear"
+  },
+  {
+    "processor": "pos",
+    "path": "crit",
+    "class": "torch.nn.modules.loss.CrossEntropyLoss"
+  },
+  {
+    "processor": "pos",
+    "path": "drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "pos",
+    "path": "worddrop",
+    "class": "stanza.models.common.dropout.WordDropout"
+  },
+  {
+    "processor": "lemma",
+    "path": "",
+    "class": "stanza.models.common.seq2seq_model.Seq2SeqModel"
+  },
+  {
+    "processor": "lemma",
+    "path": "emb_drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "lemma",
+    "path": "drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "lemma",
+    "path": "embedding",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "lemma",
+    "path": "encoder",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder",
+    "class": "stanza.models.common.seq2seq_modules.LSTMAttention"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.lstm_cell",
+    "class": "torch.nn.modules.rnn.LSTMCell"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.attention_layer",
+    "class": "stanza.models.common.seq2seq_modules.SoftDotAttention"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.attention_layer.linear_in",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.attention_layer.sm",
+    "class": "torch.nn.modules.activation.Softmax"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.attention_layer.linear_out",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "lemma",
+    "path": "decoder.attention_layer.tanh",
+    "class": "torch.nn.modules.activation.Tanh"
+  },
+  {
+    "processor": "lemma",
+    "path": "dec2vocab",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "lemma",
+    "path": "pos_embedding",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "lemma",
+    "path": "pos_drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "lemma",
+    "path": "edit_clf",
+    "class": "torch.nn.modules.container.Sequential"
+  },
+  {
+    "processor": "lemma",
+    "path": "edit_clf.0",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "lemma",
+    "path": "edit_clf.1",
+    "class": "torch.nn.modules.activation.ReLU"
+  },
+  {
+    "processor": "lemma",
+    "path": "edit_clf.2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "lemma",
+    "path": "copy_gate",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "",
+    "class": "stanza.models.depparse.model.GraphParser"
+  },
+  {
+    "processor": "depparse",
+    "path": "word_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "lemma_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "upos_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "xpos_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.0",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.1",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.2",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.3",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.4",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.5",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.6",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.7",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.8",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.9",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.10",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.11",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.12",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.13",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.14",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.15",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.16",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.17",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.18",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.19",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "ufeats_emb.20",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel",
+    "class": "stanza.models.common.char_model.CharacterModel"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel.char_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel.char_attn",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel.charlstm",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel.charlstm.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "charmodel.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "trans_char",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "pretrained_emb",
+    "class": "torch.nn.modules.sparse.Embedding"
+  },
+  {
+    "processor": "depparse",
+    "path": "trans_pretrained",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm",
+    "class": "stanza.models.common.hlstm.HighwayLSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.0",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.0.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.1",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.1.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.2",
+    "class": "stanza.models.common.packed_lstm.PackedLSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.lstm.2.lstm",
+    "class": "torch.nn.modules.rnn.LSTM"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.highway",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.highway.0",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.highway.1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.highway.2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.gate",
+    "class": "torch.nn.modules.container.ModuleList"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.gate.0",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.gate.1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.gate.2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "parserlstm.drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "drop",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "worddrop",
+    "class": "stanza.models.common.dropout.WordDropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled",
+    "class": "stanza.models.common.biaffine.DeepBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled.W1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled.W2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled.scorer",
+    "class": "stanza.models.common.biaffine.PairwiseBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled.scorer.W_bilin",
+    "class": "stanza.models.common.biaffine.PairwiseBilinear"
+  },
+  {
+    "processor": "depparse",
+    "path": "unlabeled.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel",
+    "class": "stanza.models.common.biaffine.DeepBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel.W1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel.W2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel.scorer",
+    "class": "stanza.models.common.biaffine.PairwiseBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel.scorer.W_bilin",
+    "class": "stanza.models.common.biaffine.PairwiseBilinear"
+  },
+  {
+    "processor": "depparse",
+    "path": "deprel.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization",
+    "class": "stanza.models.common.biaffine.DeepBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization.W1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization.W2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization.scorer",
+    "class": "stanza.models.common.biaffine.PairwiseBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization.scorer.W_bilin",
+    "class": "stanza.models.common.biaffine.PairwiseBilinear"
+  },
+  {
+    "processor": "depparse",
+    "path": "linearization.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance",
+    "class": "stanza.models.common.biaffine.DeepBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance.W1",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance.W2",
+    "class": "torch.nn.modules.linear.Linear"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance.scorer",
+    "class": "stanza.models.common.biaffine.PairwiseBiaffineScorer"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance.scorer.W_bilin",
+    "class": "stanza.models.common.biaffine.PairwiseBilinear"
+  },
+  {
+    "processor": "depparse",
+    "path": "distance.dropout",
+    "class": "torch.nn.modules.dropout.Dropout"
+  },
+  {
+    "processor": "depparse",
+    "path": "crit",
+    "class": "torch.nn.modules.loss.CrossEntropyLoss"
+  }
+]

@@ -1,0 +1,165 @@
+"""Pinned recurrent native donor: supplied words only, no grading or corpus access."""
+from pathlib import Path
+import hashlib
+import importlib.metadata as metadata
+import json
+import os
+import resource
+import time
+from syntax_contract import validate, validate_tokens
+
+PUBLIC_SHA = "7ece4dd05bdc5c07caa88213fb5952b75f8a22e26bdc4a379bb83644cfaa48d0"
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+def require_hash(path, expected):
+    if sha(path) != expected:
+        raise ValueError("file binding mismatch: " + str(path))
+
+def syntax_items(public):
+    if not isinstance(public, list) or len(public) != 105:
+        raise ValueError("fixed public inventory")
+    items = []
+    for row in public:
+        if not isinstance(row, dict) or set(row) != {"id", "request"}:
+            raise ValueError("public row schema")
+        request = row["request"]
+        if request.get("kind") == "syntax":
+            if set(request) != {"kind", "tokens"}:
+                raise ValueError("forms-only contract")
+            validate_tokens(request["tokens"])
+            items.append(row)
+    if len(items) != 100 or len({x["id"] for x in items}) != 100:
+        raise ValueError("syntax identity inventory")
+    if sum(len(x["request"]["tokens"]) for x in items) != 1584:
+        raise ValueError("word denominator")
+    return items
+
+def document_words(document, forms):
+    validate_tokens(forms)
+    if len(document.sentences) != 1:
+        raise ValueError("sentence boundary mismatch")
+    sentence = document.sentences[0]
+    if len(sentence.words) != len(forms) or len(sentence.tokens) != len(forms):
+        raise ValueError("word/token boundary mismatch")
+    for token, form in zip(sentence.tokens, forms):
+        if token.text != form or len(token.words) != 1:
+            raise ValueError("token form or MWT mismatch")
+    words = [dict(id=w.id, form=w.text, head=w.head, deprel=w.deprel, upos=w.upos)
+             for w in sentence.words]
+    reason = validate(words, forms)
+    if reason:
+        raise ValueError(reason)
+    return words
+
+def load_pipeline(plan):
+    import torch
+    import stanza
+    for package in plan["packages"]:
+        if metadata.version(package["name"]) != package["version"]:
+            raise ValueError("runtime version mismatch: " + package["name"])
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)
+    torch.manual_seed(0)  # declared execution seed, not a seed sweep
+    expected = {str(Path("/models") / p.removeprefix("models/")) for p in plan["models"]}
+    loads = []
+    original = torch.load
+    def bound_load(path, *args, **kwargs):
+        name = str(Path(path).resolve())
+        if name not in expected or kwargs.get("weights_only") is not True:
+            raise ValueError("unexpected checkpoint load")
+        loads.append(name)
+        return original(path, *args, **kwargs)
+    torch.load = bound_load
+    try:
+        pipeline = stanza.Pipeline(lang="en", dir="/models", package=None,
+            processors={"tokenize": "combined_nocharlm", "pos": "combined_nocharlm",
+                        "lemma": "combined_nocharlm", "depparse": "combined_nocharlm"},
+            tokenize_pretokenized=True, download_method=None,
+            resources_filepath="/models/resources.json", resources_version="1.14.0",
+            use_gpu=False, device="cpu", verbose=False)
+    finally:
+        torch.load = original
+    if set(pipeline.processors) != {"tokenize", "pos", "lemma", "depparse"}:
+        raise ValueError("processor closure changed")
+    if pipeline.processors["tokenize"].trainer is not None:
+        raise ValueError("unexpected tokenizer model")
+    for name in ("pos", "lemma", "depparse"):
+        trainer = pipeline.processors[name].trainer
+        if any(trainer.args.get(k) for k in ("bert_model", "use_peft", "charlm")):
+            raise ValueError("undeclared contextual model")
+        if pipeline.processors[name].config.get("pretagged", False):
+            raise ValueError("pretagged input forbidden")
+        if getattr(trainer, "contextual_lemmatizers", []):
+            raise ValueError("contextual lemma dependency")
+        trainer.model.eval()
+    if set(loads) != expected:
+        raise ValueError("model load inventory")
+    return pipeline, loads
+
+def run():
+    start = time.perf_counter()
+    try:
+        with Path("/audit/.readonly-control").open("xb"):
+            pass
+    except OSError as exc:
+        import errno
+        if exc.errno not in (errno.EROFS, errno.EACCES):
+            raise
+    else:
+        raise ValueError("actor input mount unexpectedly writable")
+    plan = json.loads(Path("/audit/run-plan.json").read_text())
+    for relative, expected in plan["actor_sources"].items():
+        require_hash(Path("/audit") / relative, expected)
+    require_hash("/audit/public-items.json", PUBLIC_SHA)
+    for relative, expected in plan["models"].items():
+        require_hash(Path("/") / relative, expected)
+    require_hash("/models/resources.json", plan["resources_sha256"])
+    items = syntax_items(json.loads(Path("/audit/public-items.json").read_text()))
+    custody_wall = time.perf_counter() - start
+    loading = time.perf_counter()
+    pipeline, loads = load_pipeline(plan)
+    load_wall = time.perf_counter() - loading
+    rows = []
+    import torch
+    with Path("/output/predictions.jsonl").open("x") as output:
+        for item in items:
+            wall, cpu = time.perf_counter(), time.process_time()
+            forms = list(item["request"]["tokens"])
+            row = {"id": item["id"], "status": "PREDICTED", "completed": True}
+            try:
+                with torch.inference_mode():
+                    document = pipeline([forms])  # fresh nested supplied-word input, no annotations
+            except Exception as exc:
+                row.update(status="CANNOT_CHECK", words=None,
+                           reason="donor invocation: " + type(exc).__name__ + ": " + str(exc))
+            else:
+                try:
+                    row["words"] = document_words(document, forms)
+                except (ValueError, TypeError, AttributeError, IndexError) as exc:
+                    row.update(status="INPUT_CONTRACT_MISMATCH", words=None,
+                               reason="returned structure: " + type(exc).__name__ + ": " + str(exc))
+            row.update(wall_s=time.perf_counter()-wall, cpu_s=time.process_time()-cpu)
+            output.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+            output.flush()
+            rows.append(row)
+    for relative, expected in plan["models"].items():
+        require_hash(Path("/") / relative, expected)
+    for relative, expected in plan["actor_sources"].items():
+        require_hash(Path("/audit") / relative, expected)
+    own = resource.getrusage(resource.RUSAGE_SELF)
+    record = {"status": "PREDICTIONS_COMPLETE", "rows": len(rows),
+        "valid_rows": sum(r["status"] == "PREDICTED" for r in rows),
+        "assigned_words": 1584, "model_closure_sha256": plan["model_closure_sha256"],
+        "prediction_sha256": sha("/output/predictions.jsonl"),
+        "checkpoint_loads": loads, "pid": os.getpid(), "threads": 1,
+        "actor_input_mount_readonly_control": "WRITE_REFUSED",
+        "custody_before_wall_s": custody_wall, "load_wall_s": load_wall,
+        "item_wall_s": sum(r["wall_s"] for r in rows), "body_wall_s": time.perf_counter()-start,
+        "process_cpu_s": own.ru_utime+own.ru_stime, "peak_rss_kib": own.ru_maxrss,
+        "input_kind": "fresh nested [forms]; no POS, features, lemmas or gold"}
+    Path("/output/actor-receipt.json").write_text(json.dumps(record, indent=2)+"\n")
+
+if __name__ == "__main__":
+    run()

@@ -1,0 +1,83 @@
+{
+  "schema": "ocm.stanza-qualification-manifest.v1",
+  "created_utc": "2026-09-06T03:40:44.410280+00:00",
+  "owner": "https://github.com/SzeChunYiu/ORION-OCM/issues/43#issuecomment-5556569925",
+  "classification": "PAPER_CRITICAL engineering donor qualification",
+  "anchors": [
+    50,
+    62,
+    69,
+    73,
+    42,
+    38
+  ],
+  "status": "LOADED_RECURRENT_DEPENDENCY_CLOSURE_QUALIFIED_NO_INFERENCE",
+  "artifact_closure_sha256": "dae9ad20c7bdb98838a19d47d42996af181c89a6aca0a646fd63d6b46e9568cb",
+  "model_artifacts": {
+    "models/en/pos/combined_nocharlm.pt": "de777e494a74b387b3f64682a216b3497dbdbf76f7e69efca0ea1e16915fbf2d",
+    "models/en/lemma/combined_nocharlm.pt": "775d42962ae209d4ff2fc3a799a9438333a44aa6ede3a7368dc07afd573d79d3",
+    "models/en/depparse/combined_nocharlm.pt": "93c7c704cc5878db89e4bfb5bb5744e138448693da65773e88a8a4f8c5983ac1",
+    "models/en/pretrain/conll17.pt": "edde4c195f91ba45aab3f3a6254202011f284559da8a5ead5e62ce522f819c5e"
+  },
+  "model_bytes": 241742165,
+  "prospective_selection_sha256": "2a506e6f0a848a1e6c7b2be31e3dec94f6e53966feb3da60bc1671cbb3e51a62",
+  "software": {
+    "stanza": "1.14.0",
+    "torch": "2.14.0+cpu",
+    "python": "3.13.12",
+    "packages": 35,
+    "runtime_lock_sha256": "025016b2716073c74e7eb364d0f5a2d33fbd6d48cf00a287665bf10c6b3573a7"
+  },
+  "actual_loaded_mechanisms": [
+    "POS Tagger with HighwayLSTM/character LSTM",
+    "Lemma Seq2SeqModel with LSTM decoder and SoftDotAttention, plus learned dictionary",
+    "Dependency GraphParser with HighwayLSTM and biaffine scorers",
+    "Shared frozen conll17 word vectors"
+  ],
+  "actual_exclusions": {
+    "transformer_modules": 0,
+    "peft_modules": 0,
+    "character_language_models": 0,
+    "contextual_lemma_classifiers": 0,
+    "tokenizer_models": 0,
+    "mwt_models": 0,
+    "gold_or_corpus_files_mounted": 0,
+    "network_calls": 0,
+    "model_forward_calls": 0,
+    "processed_documents": 0
+  },
+  "parameters": {
+    "unique_elements": 58559868,
+    "frozen_vector_elements": 25000000,
+    "non_frozen_elements": 33559868,
+    "parameter_storage_bytes": 234239472,
+    "accounting": "Deduplicated identical storage views across POS/parser shared embeddings. Learned lemma dictionaries/vocabularies are additional nonparameter prior state, included in full artifact bytes/RSS."
+  },
+  "next_gate": "Root-owned future inference freeze and external selected-tree grading on supplied forms; no predictor/admission integration or inference executed here.",
+  "quality_status": "UNKNOWN_UNMEASURED",
+  "training_provenance_status": "IMPORTED_TRAINING_PROVENANCE_PARTIALLY_KNOWN",
+  "runtime_blockers": [],
+  "scope_limits": [
+    "No capability/accuracy/useful-quality result",
+    "No protected or contamination-free comparison",
+    "No OCM learning or residual claim",
+    "No inference-efficiency result",
+    "Do not replace UDPipe scores or mutate the frozen G1/hosted evidence"
+  ],
+  "records": {
+    "prospective-plan-v1.json": "2a506e6f0a848a1e6c7b2be31e3dec94f6e53966feb3da60bc1671cbb3e51a62",
+    "runtime-plan-v1.json": "941ba0965350551208ca4209d01ab3f1d0deb1628aa686c521f6d7c034f55924",
+    "runtime-lock-v1.json": "025016b2716073c74e7eb364d0f5a2d33fbd6d48cf00a287665bf10c6b3573a7",
+    "requirements-runtime.lock": "25b9a336b11f8efdd92d29737061316560c3bb1ab2552947811cfa79b86a7f06",
+    "runtime-v1/runtime-qualification.json": "22585dd189325d8894bca2f2139a55f373222241598a200b247bde632853dd41",
+    "runtime-v1/loaded-modules.json": "55d00d27e5b8b561cd5683acc6a575766473b07483609a192de4b2387c9c5bf1",
+    "runtime-v1/launch-plan.json": "4f632fe1d7565a1409fcf27686007ef1a9c14a9ac9f89d5472526895a60a0d32",
+    "runtime-v1/process-receipt.json": "aa26839329f81f632f1ea13137263256f2df0f5a4f6832b1c67885f1b73cd857",
+    "inspect_runtime.py": "9c436e2ea70c125c268a3513e30e3aecb32f1c7735f3aae7bb9bcfe1069a120a",
+    "model-acquisition.json": "8626e3642424051d24b43ee7bf04662768c286ba1cd3f7d1d60f31705035c8b0",
+    "runtime-install-receipt.json": "b53e7799bac3354c13a233fe19d4801fe11e773e83bebf5a0ce5a1fa19ae41f1",
+    "training-lineage-v1.json": "48d9feb2e1e7cd04ac1daf4181f00b1273645f64f13f472037a863ce90ce4519",
+    "qualification-costs-v1.json": "d6a4ddc0a2fba259ccd83db600da2f1a84349f9ecdba6652dc172e6c68b9bae5",
+    "runtime-platform-v1.json": "1556fcebc62f7b3eaaf24bdd7505386e3a7b8af84eac2b324ebfda4dc5ff5c26"
+  }
+}
