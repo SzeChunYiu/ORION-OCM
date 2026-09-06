@@ -101,9 +101,15 @@ def test_bridge_persists_replays_and_revokes_through_one_runtime_field(tmp_path)
     assert atom.atom_type == "representation"
     assert atom.authority == Authority.of(speaker=1)
     assert atom.authority.rank("world_truth") == 0
+    # The field representation is warranted by the utterance/correspondence AND both referenced
+    # persistent identities. It is not a free-standing duplicate language truth store.
+    assert said in atom.warrant.evidence
+    assert runtime.state.ks.atom("field:alice").warrant.evidence <= atom.warrant.evidence
+    assert runtime.state.ks.atom("field:bob").warrant.evidence <= atom.warrant.evidence
     edge = runtime.state.ks.edge_map()[receipt.edge_id]
     assert edge.relation_type == "REPRESENTATION_TRANSPORT"
     assert set(edge.tails) == {"field:alice", "field:bob"}
+    assert edge.warrant == warrant
 
     runtime.persist()
     restarted = OCMRuntime(tmp_path)
@@ -134,6 +140,31 @@ def test_bridge_persists_replays_and_revokes_through_one_runtime_field(tmp_path)
     restarted.persist()
     restarted_again = OCMRuntime(tmp_path)
     assert binding_liveness(restarted_again, receipt.representation_id) is Liveness.DEAD
+
+
+def test_binding_reopens_when_a_referenced_field_identity_loses_support(tmp_path) -> None:
+    runtime = OCMRuntime(tmp_path)
+    alice_support = _anchor(runtime, "field:alice")
+    _anchor(runtime, "field:bob")
+    _, said = runtime.admit_evidence(
+        {"utterance": "Alice sees Bob"},
+        Channel.OBSERVATION,
+        "user",
+        scope=Scope.of("conv"),
+    )
+    receipt = bind_meaning(
+        runtime,
+        _seeing_graph(),
+        {"left": "field:alice", "right": "field:bob"},
+        warrant=WarrantProfile.of({said}),
+        scope=Scope.of("conv"),
+    )
+    assert binding_liveness(runtime, receipt.representation_id) is Liveness.LIVE
+    report = runtime.revoke([alice_support])
+    assert runtime.state.ks.atom("field:alice").liveness(runtime.state.revoked) is Liveness.DEAD
+    assert runtime.state.ks.atom("field:bob").liveness(runtime.state.revoked) is Liveness.LIVE
+    assert receipt.representation_id in report.cone
+    assert binding_liveness(runtime, receipt.representation_id) is Liveness.DEAD
 
 
 def test_exact_repeat_is_bridge_idempotent_but_new_support_fails_closed(tmp_path) -> None:
