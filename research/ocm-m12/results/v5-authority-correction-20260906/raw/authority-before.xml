@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="18" time="0.716" timestamp="2026-09-06T05:02:08.778664+02:00" hostname="billy"><testcase classname="tests.m12.test_v5_execution_authority" name="test_new_v5_output_cannot_promote_positive_historical_rule[engineering.json]" time="0.150"><failure message="AssertionError: assert 'OCM_LIFETIME...UAL_SUPPORTED' == 'CANNOT_CHECK...FIC_PROMOTION'&#10;  &#10;  - CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION&#10;  + OCM_LIFETIME_RESIDUAL_SUPPORTED">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_new_v5_output_cannot_prom0')
+archived_phases = {'authority': 'eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched...s'], 'identification_verdict_type': 'GUARANTEED_IDENTIFICATION_NOT_CLAIMED', 'interaction_turns': 18, ...}, ...]}, ...}
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f34827386e0&gt;
+name = 'engineering.json'
+
+    @pytest.mark.parametrize("name", ["engineering.json", "PROTECTED_V5_NEW_NAME.json"])
+    def test_new_v5_output_cannot_promote_positive_historical_rule(tmp_path, archived_phases, capsys, name):
+        output = tmp_path / name
+        assert PE.main(["--v5", "--out", str(output)]) == 0
+        result = json.loads(output.read_text())
+&gt;       assert result["deterministic"]["decision"] == "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+E       AssertionError: assert 'OCM_LIFETIME...UAL_SUPPORTED' == 'CANNOT_CHECK...FIC_PROMOTION'
+E         
+E         - CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION
+E         + OCM_LIFETIME_RESIDUAL_SUPPORTED
+
+tests/m12/test_v5_execution_authority.py:45: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_execution_authority" name="test_new_v5_output_cannot_promote_positive_historical_rule[PROTECTED_V5_NEW_NAME.json]" time="0.030"><failure message="AssertionError: assert 'OCM_LIFETIME...UAL_SUPPORTED' == 'CANNOT_CHECK...FIC_PROMOTION'&#10;  &#10;  - CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION&#10;  + OCM_LIFETIME_RESIDUAL_SUPPORTED">tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_new_v5_output_cannot_prom1')
+archived_phases = {'authority': 'eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched...s'], 'identification_verdict_type': 'GUARANTEED_IDENTIFICATION_NOT_CLAIMED', 'interaction_turns': 18, ...}, ...]}, ...}
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f3482bd0cd0&gt;
+name = 'PROTECTED_V5_NEW_NAME.json'
+
+    @pytest.mark.parametrize("name", ["engineering.json", "PROTECTED_V5_NEW_NAME.json"])
+    def test_new_v5_output_cannot_promote_positive_historical_rule(tmp_path, archived_phases, capsys, name):
+        output = tmp_path / name
+        assert PE.main(["--v5", "--out", str(output)]) == 0
+        result = json.loads(output.read_text())
+&gt;       assert result["deterministic"]["decision"] == "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+E       AssertionError: assert 'OCM_LIFETIME...UAL_SUPPORTED' == 'CANNOT_CHECK...FIC_PROMOTION'
+E         
+E         - CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION
+E         + OCM_LIFETIME_RESIDUAL_SUPPORTED
+
+tests/m12/test_v5_execution_authority.py:45: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_execution_authority" name="test_existing_or_symlink_output_refuses_before_execution[False]" time="0.001" /><testcase classname="tests.m12.test_v5_execution_authority" name="test_existing_or_symlink_output_refuses_before_execution[True]" time="0.001" /><testcase classname="tests.m12.test_v5_execution_authority" name="test_manifest_only_has_no_outcome_or_protected_authority" time="0.013" /><testcase classname="tests.m12.test_v5_archive_verification" name="test_generation_refused_before_historical_recipe[argv0]" time="0.000"><failure message="AssertionError: historical regeneration must not run">argv = []
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348245ec50&gt;
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_generation_refused_before0')
+
+    @pytest.mark.parametrize("argv", [[], ["--write"], ["--verify", "--write"], ["--out", "new.json"]])
+    def test_generation_refused_before_historical_recipe(argv, monkeypatch, tmp_path):
+        frozen = tmp_path / "historical.json"
+        frozen.write_bytes(b"HISTORICAL_SENTINEL\n")
+        monkeypatch.setattr(W, "RECEIPT", frozen)
+        def forbidden():
+            raise AssertionError("historical regeneration must not run")
+        monkeypatch.setattr(W, "fresh", forbidden, raising=False)
+&gt;       assert W.main(argv) == 2
+
+tests/m12/test_v5_archive_verification.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/m12_paired_v5_receipt.py:39: in main
+    new = fresh()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+&gt;       raise AssertionError("historical regeneration must not run")
+E       AssertionError: historical regeneration must not run
+
+tests/m12/test_v5_archive_verification.py:25: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_generation_refused_before_historical_recipe[argv1]" time="0.000"><failure message="AssertionError: historical regeneration must not run">argv = ['--write']
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348245ea50&gt;
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_generation_refused_before1')
+
+    @pytest.mark.parametrize("argv", [[], ["--write"], ["--verify", "--write"], ["--out", "new.json"]])
+    def test_generation_refused_before_historical_recipe(argv, monkeypatch, tmp_path):
+        frozen = tmp_path / "historical.json"
+        frozen.write_bytes(b"HISTORICAL_SENTINEL\n")
+        monkeypatch.setattr(W, "RECEIPT", frozen)
+        def forbidden():
+            raise AssertionError("historical regeneration must not run")
+        monkeypatch.setattr(W, "fresh", forbidden, raising=False)
+&gt;       assert W.main(argv) == 2
+
+tests/m12/test_v5_archive_verification.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/m12_paired_v5_receipt.py:39: in main
+    new = fresh()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+&gt;       raise AssertionError("historical regeneration must not run")
+E       AssertionError: historical regeneration must not run
+
+tests/m12/test_v5_archive_verification.py:25: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_generation_refused_before_historical_recipe[argv2]" time="0.000"><failure message="AssertionError: historical regeneration must not run">argv = ['--verify', '--write']
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348258a210&gt;
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_generation_refused_before2')
+
+    @pytest.mark.parametrize("argv", [[], ["--write"], ["--verify", "--write"], ["--out", "new.json"]])
+    def test_generation_refused_before_historical_recipe(argv, monkeypatch, tmp_path):
+        frozen = tmp_path / "historical.json"
+        frozen.write_bytes(b"HISTORICAL_SENTINEL\n")
+        monkeypatch.setattr(W, "RECEIPT", frozen)
+        def forbidden():
+            raise AssertionError("historical regeneration must not run")
+        monkeypatch.setattr(W, "fresh", forbidden, raising=False)
+&gt;       assert W.main(argv) == 2
+
+tests/m12/test_v5_archive_verification.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/m12_paired_v5_receipt.py:39: in main
+    new = fresh()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+&gt;       raise AssertionError("historical regeneration must not run")
+E       AssertionError: historical regeneration must not run
+
+tests/m12/test_v5_archive_verification.py:25: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_generation_refused_before_historical_recipe[argv3]" time="0.000"><failure message="AssertionError: historical regeneration must not run">argv = ['--out', 'new.json']
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348258a8a0&gt;
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-47/test_generation_refused_before3')
+
+    @pytest.mark.parametrize("argv", [[], ["--write"], ["--verify", "--write"], ["--out", "new.json"]])
+    def test_generation_refused_before_historical_recipe(argv, monkeypatch, tmp_path):
+        frozen = tmp_path / "historical.json"
+        frozen.write_bytes(b"HISTORICAL_SENTINEL\n")
+        monkeypatch.setattr(W, "RECEIPT", frozen)
+        def forbidden():
+            raise AssertionError("historical regeneration must not run")
+        monkeypatch.setattr(W, "fresh", forbidden, raising=False)
+&gt;       assert W.main(argv) == 2
+
+tests/m12/test_v5_archive_verification.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/m12_paired_v5_receipt.py:39: in main
+    new = fresh()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+&gt;       raise AssertionError("historical regeneration must not run")
+E       AssertionError: historical regeneration must not run
+
+tests/m12/test_v5_archive_verification.py:25: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_real_archive_verifies_without_current_recipe" time="0.024"><failure message="AssertionError: verification must not regenerate a historical receipt">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348250c9f0&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f34826fbed0&gt;
+
+    def test_real_archive_verifies_without_current_recipe(custody, monkeypatch, capsys):
+        P, root = custody
+        def forbidden():
+            raise AssertionError("verification must not regenerate a historical receipt")
+        monkeypatch.setattr(W, "fresh", forbidden, raising=False)
+&gt;       assert W.main(["--verify"]) == 0
+
+tests/m12/test_v5_archive_verification.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/m12_paired_v5_receipt.py:39: in main
+    new = fresh()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+&gt;       raise AssertionError("verification must not regenerate a historical receipt")
+E       AssertionError: verification must not regenerate a historical receipt
+
+tests/m12/test_v5_archive_verification.py:45: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_real_custody_drift_fails_closed[receipt]" time="0.020"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348250da90&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f348274be10&gt;
+target = 'receipt'
+
+    @pytest.mark.parametrize("target", ["receipt", "prereg", "anchor", "archive"])
+    def test_real_custody_drift_fails_closed(custody, monkeypatch, capsys, target):
+        P, root = custody
+        paths = {"receipt": P.PROTECTED, "prereg": "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md",
+                 "anchor": P.MANIFEST, "archive": P.ARCHIVE}
+        original = P.V4.raw
+        def changed(base, relative):
+            data = original(base, relative)
+            return data + b"CUSTODY_NEGATIVE_CONTROL" if relative == paths[target] else data
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", changed)
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:68: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_real_custody_drift_fails_closed[prereg]" time="0.021"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f34826ef110&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f348274b820&gt;
+target = 'prereg'
+
+    @pytest.mark.parametrize("target", ["receipt", "prereg", "anchor", "archive"])
+    def test_real_custody_drift_fails_closed(custody, monkeypatch, capsys, target):
+        P, root = custody
+        paths = {"receipt": P.PROTECTED, "prereg": "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md",
+                 "anchor": P.MANIFEST, "archive": P.ARCHIVE}
+        original = P.V4.raw
+        def changed(base, relative):
+            data = original(base, relative)
+            return data + b"CUSTODY_NEGATIVE_CONTROL" if relative == paths[target] else data
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", changed)
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:68: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_real_custody_drift_fails_closed[anchor]" time="0.020"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f3482501bd0&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f34827432f0&gt;
+target = 'anchor'
+
+    @pytest.mark.parametrize("target", ["receipt", "prereg", "anchor", "archive"])
+    def test_real_custody_drift_fails_closed(custody, monkeypatch, capsys, target):
+        P, root = custody
+        paths = {"receipt": P.PROTECTED, "prereg": "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md",
+                 "anchor": P.MANIFEST, "archive": P.ARCHIVE}
+        original = P.V4.raw
+        def changed(base, relative):
+            data = original(base, relative)
+            return data + b"CUSTODY_NEGATIVE_CONTROL" if relative == paths[target] else data
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", changed)
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:68: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_real_custody_drift_fails_closed[archive]" time="0.020"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f3482522e90&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f3482511e10&gt;
+target = 'archive'
+
+    @pytest.mark.parametrize("target", ["receipt", "prereg", "anchor", "archive"])
+    def test_real_custody_drift_fails_closed(custody, monkeypatch, capsys, target):
+        P, root = custody
+        paths = {"receipt": P.PROTECTED, "prereg": "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md",
+                 "anchor": P.MANIFEST, "archive": P.ARCHIVE}
+        original = P.V4.raw
+        def changed(base, relative):
+            data = original(base, relative)
+            return data + b"CUSTODY_NEGATIVE_CONTROL" if relative == paths[target] else data
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", changed)
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:68: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_each_v5_archived_source_is_bound[streams.py]" time="0.036"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f348262b9b0&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f34825119d0&gt;
+source = 'streams.py'
+
+    @pytest.mark.parametrize("source", ["streams.py", "m12_paired_eval.py", "phases.py", "machine.py"])
+    def test_each_v5_archived_source_is_bound(custody, monkeypatch, capsys, source):
+        P, root = custody
+        original = P.V4.raw
+        data = original(root, P.ARCHIVE)
+        result = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(data)) as old, zipfile.ZipFile(result, "w") as new:
+            matches = [n for n in old.namelist() if n.endswith("/" + source)]
+            assert len(matches) == 1
+            for name in old.namelist():
+                new.writestr(name, old.read(name) + (b"\n# CUSTODY_NEGATIVE_CONTROL\n" if name == matches[0] else b""))
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", lambda base, relative: result.getvalue() if relative == P.ARCHIVE else original(base, relative))
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:85: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_each_v5_archived_source_is_bound[m12_paired_eval.py]" time="0.034"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f34823a7cd0&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f348245ed50&gt;
+source = 'm12_paired_eval.py'
+
+    @pytest.mark.parametrize("source", ["streams.py", "m12_paired_eval.py", "phases.py", "machine.py"])
+    def test_each_v5_archived_source_is_bound(custody, monkeypatch, capsys, source):
+        P, root = custody
+        original = P.V4.raw
+        data = original(root, P.ARCHIVE)
+        result = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(data)) as old, zipfile.ZipFile(result, "w") as new:
+            matches = [n for n in old.namelist() if n.endswith("/" + source)]
+            assert len(matches) == 1
+            for name in old.namelist():
+                new.writestr(name, old.read(name) + (b"\n# CUSTODY_NEGATIVE_CONTROL\n" if name == matches[0] else b""))
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", lambda base, relative: result.getvalue() if relative == P.ARCHIVE else original(base, relative))
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:85: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_each_v5_archived_source_is_bound[phases.py]" time="0.033"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f3482470600&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f348245ca50&gt;
+source = 'phases.py'
+
+    @pytest.mark.parametrize("source", ["streams.py", "m12_paired_eval.py", "phases.py", "machine.py"])
+    def test_each_v5_archived_source_is_bound(custody, monkeypatch, capsys, source):
+        P, root = custody
+        original = P.V4.raw
+        data = original(root, P.ARCHIVE)
+        result = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(data)) as old, zipfile.ZipFile(result, "w") as new:
+            matches = [n for n in old.namelist() if n.endswith("/" + source)]
+            assert len(matches) == 1
+            for name in old.namelist():
+                new.writestr(name, old.read(name) + (b"\n# CUSTODY_NEGATIVE_CONTROL\n" if name == matches[0] else b""))
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", lambda base, relative: result.getvalue() if relative == P.ARCHIVE else original(base, relative))
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:85: AssertionError</failure></testcase><testcase classname="tests.m12.test_v5_archive_verification" name="test_each_v5_archived_source_is_bound[machine.py]" time="0.033"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])&#10; +    where &lt;function main at 0x7f34825823e0&gt; = W.main">custody = (&lt;module 'engineering_predecessor' from '/home/billy/orion-director-work/20260906/ocm-g1-support/tools/engineering_predecessor.py'&gt;, PosixPath('/home/billy/orion-director-work/20260906/ocm-g1-support'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f3482536a50&gt;
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x7f348258aa80&gt;
+source = 'machine.py'
+
+    @pytest.mark.parametrize("source", ["streams.py", "m12_paired_eval.py", "phases.py", "machine.py"])
+    def test_each_v5_archived_source_is_bound(custody, monkeypatch, capsys, source):
+        P, root = custody
+        original = P.V4.raw
+        data = original(root, P.ARCHIVE)
+        result = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(data)) as old, zipfile.ZipFile(result, "w") as new:
+            matches = [n for n in old.namelist() if n.endswith("/" + source)]
+            assert len(matches) == 1
+            for name in old.namelist():
+                new.writestr(name, old.read(name) + (b"\n# CUSTODY_NEGATIVE_CONTROL\n" if name == matches[0] else b""))
+        with monkeypatch.context() as patch:
+            patch.setattr(P.V4, "raw", lambda base, relative: result.getvalue() if relative == P.ARCHIVE else original(base, relative))
+&gt;           assert W.main(["--verify"]) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;function main at 0x7f34825823e0&gt;(['--verify'])
+E            +    where &lt;function main at 0x7f34825823e0&gt; = W.main
+
+tests/m12/test_v5_archive_verification.py:85: AssertionError</failure></testcase></testsuite></testsuites>

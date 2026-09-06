@@ -48,8 +48,14 @@ search was tried and its time-bound failure and failed revival are retained.
 
 ```sh
 python -m pip install -e . -r research/ocm-prototype/requirements-g1.txt
-python -m pytest research/ocm-prototype -q
+python -m pytest research/ocm-prototype -q \
+  --ignore=research/ocm-prototype/results \
+  --ignore-glob='research/ocm-prototype/test_hosted_*.py'
 ```
+
+Hosted client/native controls require a separately qualified environment; follow
+[the hosted reference instructions](hosted_reference/README.md). The exclusions
+above match ordinary N1/G1 CI and do not count host-only checks as passed.
 
 For direct synthesis, import `load_task` from `clia_tasks`, `propose` from
 `clia_solver`, and `check` from `clia_checker`. Pass the complete bound task to

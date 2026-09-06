@@ -1,0 +1,397 @@
+[
+  {
+    "name": "public_task",
+    "arguments": {
+      "item_id": "s"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"s\",\n  \"request\": {\n    \"kind\": \"syntax\",\n    \"tokens\": [\n      \"A\",\n      \"dog\",\n      \"runs\",\n      \".\"\n    ]\n  }\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "syntax_predict",
+    "arguments": {
+      "tokens": [
+        "A",
+        "dog",
+        "runs",
+        "."
+      ]
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"PREDICTED\",\n  \"model_sha256\": \"7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9\",\n  \"model_loaded\": true,\n  \"initial_hash_seconds\": 0.008787641010712832,\n  \"donor_wall_seconds\": 0.6622222490259446,\n  \"proposal_ref\": \"59b4e0cf071c9434664f1d126ee70188ac3fa36a781fddfd4eeaf88abb3d61f3\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "syntax_check",
+    "arguments": {
+      "tokens": [
+        "A",
+        "dog",
+        "runs",
+        "."
+      ],
+      "proposal_ref": "59b4e0cf071c9434664f1d126ee70188ac3fa36a781fddfd4eeaf88abb3d61f3"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"PASS\",\n  \"reason\": null,\n  \"claim\": \"STRUCTURAL_PREDICTION_ONLY\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "proposal_read",
+    "arguments": {
+      "proposal_ref": "59b4e0cf071c9434664f1d126ee70188ac3fa36a781fddfd4eeaf88abb3d61f3"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"kind\": \"syntax\",\n  \"request\": {\n    \"kind\": \"syntax\",\n    \"tokens\": [\n      \"A\",\n      \"dog\",\n      \"runs\",\n      \".\"\n    ]\n  },\n  \"result\": {\n    \"donor_wall_seconds\": 0.6622222490259446,\n    \"initial_hash_seconds\": 0.008787641010712832,\n    \"model_loaded\": true,\n    \"model_sha256\": \"7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9\",\n    \"status\": \"PREDICTED\",\n    \"words\": [\n      {\n        \"deprel\": \"det\",\n        \"form\": \"A\",\n        \"head\": 2,\n        \"id\": 1,\n        \"upos\": \"DET\"\n      },\n      {\n        \"deprel\": \"nsubj\",\n        \"form\": \"dog\",\n        \"head\": 3,\n        \"id\": 2,\n        \"upos\": \"NOUN\"\n      },\n      {\n        \"deprel\": \"root\",\n        \"form\": \"runs\",\n        \"head\": 0,\n        \"id\": 3,\n        \"upos\": \"VERB\"\n      },\n      {\n        \"deprel\": \"punct\",\n        \"form\": \".\",\n        \"head\": 3,\n        \"id\": 4,\n        \"upos\": \"PUNCT\"\n      }\n    ]\n  }\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "final_submit",
+    "arguments": {
+      "item_id": "s",
+      "custom_answer": {
+        "donor_wall_seconds": 0.6622222490259446,
+        "initial_hash_seconds": 0.008787641010712832,
+        "model_loaded": true,
+        "model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+        "status": "PREDICTED",
+        "words": [
+          {
+            "deprel": "det",
+            "form": "A",
+            "head": 2,
+            "id": 1,
+            "upos": "DET"
+          },
+          {
+            "deprel": "nsubj",
+            "form": "dog",
+            "head": 3,
+            "id": 2,
+            "upos": "NOUN"
+          },
+          {
+            "deprel": "root",
+            "form": "runs",
+            "head": 0,
+            "id": 3,
+            "upos": "VERB"
+          },
+          {
+            "deprel": "punct",
+            "form": ".",
+            "head": 3,
+            "id": 4,
+            "upos": "PUNCT"
+          }
+        ]
+      }
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"COMMITTED\",\n  \"item_id\": \"s\",\n  \"check\": {\n    \"status\": \"PASS\",\n    \"reason\": null,\n    \"claim\": \"STRUCTURAL_PREDICTION_ONLY\"\n  },\n  \"final_sha256\": \"48da7f70c18745fc093eec6bb4b2533a90cf414e02318ff8cb5cb6f46a920149\",\n  \"proposal_ref\": null\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "clia_synthesize",
+    "arguments": {
+      "task": {
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+        "grammar": {
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "bounds": {
+            "ast_depth": 160,
+            "ast_nodes": 20000,
+            "candidate_bytes": 65536,
+            "integer_bits": 4096
+          },
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ],
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+        },
+        "kind": "clia",
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+        "source": {
+          "bytes": 327,
+          "family": "maximum",
+          "file": "jmbl_fg_max3.sl",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+          "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+        },
+        "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+        "task_id": "jmbl_fg_max3",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+      }
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"SOLUTION\",\n  \"native_invoked\": true,\n  \"metrics\": {\n    \"external_deadline_s\": 15,\n    \"native_timeout_ms\": 5000,\n    \"worker_cpu_s\": 0.030763210000000003,\n    \"peak_rss_kib\": 143016,\n    \"worker_pid\": 5,\n    \"unmeasured\": [\n      \"energy\",\n      \"native internal active bytes\",\n      \"installation/pretraining costs\"\n    ],\n    \"request_bytes\": 411,\n    \"response_bytes\": 661,\n    \"worker_wall_s\": 0.0307670229813084,\n    \"envelope_wall_s\": 0.06503815000178292\n  },\n  \"solver_result\": \"solution\",\n  \"reason\": \"\",\n  \"solver\": \"cvc5 1.3.4\",\n  \"logical_counters_not_physical_cost\": {\n    \"global::totalTime\": {\n      \"default\": false,\n      \"internal\": false,\n      \"value\": \"10ms\"\n    },\n    \"resource::resourceUnitsUsed\": {\n      \"default\": false,\n      \"internal\": true,\n      \"value\": 2769\n    }\n  },\n  \"native_search_contract\": \"Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.\",\n  \"grammar_preflight\": \"PASS\",\n  \"task_sha256\": \"c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc\",\n  \"grammar_id\": \"ocm.clia-total-expressions.v1\",\n  \"proposal_ref\": \"c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "clia_check",
+    "arguments": {
+      "task": {
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+        "grammar": {
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "bounds": {
+            "ast_depth": 160,
+            "ast_nodes": 20000,
+            "candidate_bytes": 65536,
+            "integer_bits": 4096
+          },
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ],
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds"
+        },
+        "kind": "clia",
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+        "source": {
+          "bytes": 327,
+          "family": "maximum",
+          "file": "jmbl_fg_max3.sl",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred.",
+          "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl"
+        },
+        "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+        "task_id": "jmbl_fg_max3",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+      },
+      "proposal_ref": "c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"grammar\": \"PASS\",\n  \"semantic\": \"PASS\",\n  \"status\": \"PASS\",\n  \"native_checker_invoked\": true,\n  \"metrics\": {\n    \"grammar_wall_s\": 0.0007092180021572858,\n    \"external_deadline_s\": 10,\n    \"native_timeout_ms\": 5000,\n    \"worker_cpu_s\": 0.10320606600000001,\n    \"peak_rss_kib\": 143016,\n    \"worker_pid\": 6,\n    \"unmeasured\": [\n      \"energy\",\n      \"native internal active bytes\",\n      \"installation/pretraining costs\"\n    ],\n    \"request_bytes\": 507,\n    \"response_bytes\": 198,\n    \"worker_wall_s\": 0.10314999698312022,\n    \"envelope_wall_s\": 0.14057723397854716,\n    \"check_total_wall_s\": 0.14131248797639273,\n    \"host_check_cpu_s\": 0.001114493999999966\n  },\n  \"verification_sha256\": \"f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790\",\n  \"task_sha256\": \"c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc\",\n  \"grammar_id\": \"ocm.clia-total-expressions.v1\",\n  \"solver_result\": \"unsat\",\n  \"solver\": \"Z3 5.1.0.0\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "final_submit",
+    "arguments": {
+      "item_id": "p",
+      "proposal_ref": "c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"COMMITTED\",\n  \"item_id\": \"p\",\n  \"check\": {\n    \"grammar\": \"PASS\",\n    \"semantic\": \"PASS\",\n    \"status\": \"PASS\",\n    \"native_checker_invoked\": true,\n    \"metrics\": {\n      \"grammar_wall_s\": 0.0007376110006589442,\n      \"external_deadline_s\": 10,\n      \"native_timeout_ms\": 5000,\n      \"worker_cpu_s\": 0.103977493,\n      \"peak_rss_kib\": 143016,\n      \"worker_pid\": 8,\n      \"unmeasured\": [\n        \"energy\",\n        \"native internal active bytes\",\n        \"installation/pretraining costs\"\n      ],\n      \"request_bytes\": 507,\n      \"response_bytes\": 190,\n      \"worker_wall_s\": 0.10389924998162314,\n      \"envelope_wall_s\": 0.1413847160001751,\n      \"check_total_wall_s\": 0.14214578698738478,\n      \"host_check_cpu_s\": 0.0010875860000000293\n    },\n    \"verification_sha256\": \"f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790\",\n    \"task_sha256\": \"c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc\",\n    \"grammar_id\": \"ocm.clia-total-expressions.v1\",\n    \"solver_result\": \"unsat\",\n    \"solver\": \"Z3 5.1.0.0\"\n  },\n  \"final_sha256\": \"7abc1d713f3955a41ee6be4d42ac1a13c336fcb95b09870954d9cb91f28f0b36\",\n  \"proposal_ref\": \"c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "final_submit",
+    "arguments": {
+      "item_id": "p",
+      "proposal_ref": "c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"REFUSED\",\n  \"reason\": \"item already committed; final submissions are append-only\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "public_task",
+    "arguments": {
+      "item_id": "../outside"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"REFUSED\",\n  \"reason\": \"item not released in this public chunk\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "proposal_read",
+    "arguments": {
+      "proposal_ref": "../../outside"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"status\": \"REFUSED\",\n  \"reason\": \"opaque proposal reference required\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "memory_write",
+    "arguments": {
+      "text": "PUBLIC_MEMORY_CONTROL"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"text\": \"PUBLIC_MEMORY_CONTROL\",\n  \"bytes\": 21,\n  \"sha256\": \"80a356d180d9a118797388f57875521b87d8b559d6cdb5fcd6d5595085ec6a50\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "memory_read",
+    "arguments": {},
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"text\": \"PUBLIC_MEMORY_CONTROL\",\n  \"bytes\": 21,\n  \"sha256\": \"80a356d180d9a118797388f57875521b87d8b559d6cdb5fcd6d5595085ec6a50\"\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  {
+    "name": "proposal_read",
+    "arguments": {
+      "proposal_ref": "c695484f3ac1e6d1fe2468c67e7786731eb9e76753fbe8ddc4bfdf8f2028640c"
+    },
+    "raw": {
+      "meta": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"kind\": \"clia\",\n  \"request\": {\n    \"kind\": \"clia\",\n    \"task\": {\n      \"adaptation\": \"Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.\",\n      \"adapted_sha256\": \"01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362\",\n      \"grammar\": {\n        \"boolean\": \"true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)\",\n        \"bounds\": {\n          \"ast_depth\": 160,\n          \"ast_nodes\": 20000,\n          \"candidate_bytes\": 65536,\n          \"integer_bits\": 4096\n        },\n        \"constant\": \"K is a closed integer expression using literals, +, -, *; normalized to its exact integer value\",\n        \"excluded\": [\n          \"division\",\n          \"modulo\",\n          \"nonlinear variable multiplication\",\n          \"quantifiers\",\n          \"function calls\",\n          \"extra SMT commands\"\n        ],\n        \"id\": \"ocm.clia-total-expressions.v1\",\n        \"integer\": \"parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)\",\n        \"let\": \"SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion\",\n        \"normalization\": \"n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds\"\n      },\n      \"kind\": \"clia\",\n      \"native_search_contract\": \"Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.\",\n      \"original_sygus\": \"(set-logic LIA)\\n\\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\\n\\n(declare-var x Int)\\n(declare-var y Int)\\n(declare-var z Int)\\n(constraint (>= (mux_3 x y z) x))\\n(constraint (>= (mux_3 x y z) y))\\n(constraint (>= (mux_3 x y z) z))\\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\\n\\n(check-synth)\\n\\n\",\n      \"source\": {\n        \"bytes\": 327,\n        \"family\": \"maximum\",\n        \"file\": \"jmbl_fg_max3.sl\",\n        \"license\": \"No license declared in upstream repository root at inspected revision; no additional license grant inferred.\",\n        \"sha256\": \"799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f\",\n        \"split\": \"PUBLIC_DEVELOPMENT_ONLY\",\n        \"url\": \"https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl\"\n      },\n      \"sygus\": \"(set-logic LIA)\\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\\n(declare-var x Int)\\n(declare-var y Int)\\n(declare-var z Int)\\n(constraint (>= (mux_3 x y z) x))\\n(constraint (>= (mux_3 x y z) y))\\n(constraint (>= (mux_3 x y z) z))\\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\\n(check-synth)\\n\",\n      \"task_id\": \"jmbl_fg_max3\",\n      \"task_sha256\": \"c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc\"\n    }\n  },\n  \"result\": {\n    \"candidate\": \"(\\n(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))\\n)\\n\",\n    \"grammar_id\": \"ocm.clia-total-expressions.v1\",\n    \"grammar_preflight\": \"PASS\",\n    \"logical_counters_not_physical_cost\": {\n      \"global::totalTime\": {\n        \"default\": false,\n        \"internal\": false,\n        \"value\": \"10ms\"\n      },\n      \"resource::resourceUnitsUsed\": {\n        \"default\": false,\n        \"internal\": true,\n        \"value\": 2769\n      }\n    },\n    \"metrics\": {\n      \"envelope_wall_s\": 0.06503815000178292,\n      \"external_deadline_s\": 15,\n      \"native_timeout_ms\": 5000,\n      \"peak_rss_kib\": 143016,\n      \"request_bytes\": 411,\n      \"response_bytes\": 661,\n      \"unmeasured\": [\n        \"energy\",\n        \"native internal active bytes\",\n        \"installation/pretraining costs\"\n      ],\n      \"worker_cpu_s\": 0.030763210000000003,\n      \"worker_pid\": 5,\n      \"worker_wall_s\": 0.0307670229813084\n    },\n    \"native_invoked\": true,\n    \"native_search_contract\": \"Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.\",\n    \"reason\": \"\",\n    \"solver\": \"cvc5 1.3.4\",\n    \"solver_result\": \"solution\",\n    \"status\": \"SOLUTION\",\n    \"task_sha256\": \"c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc\"\n  }\n}",
+          "annotations": null,
+          "meta": null
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  }
+]
