@@ -116,3 +116,15 @@ def test_globally_connected_reaction_honestly_reports_global_work(size):
     assert work.distinct_edges_examined == size - 1
     assert work.outgoing_postings_examined == size - 1
     assert work.incident_postings_examined == 2 * (size - 1)
+
+
+def test_incidence_ids_rejected_outside_active_atoms_still_count_as_touched():
+    ks = KnowledgeSpace(tuple(Atom(x, "claim") for x in ("a", "b", "c", "unrelated")),
+                        (Hyperedge("joint", ("a", "b"), ("c",), "DEPENDENCE"),))
+    index = ExtractionIndex(ks)
+    result, work = reacting_subgraph_from_support_indexed(
+        ks, {"a": 1}, ("a",), index=index, with_work=True)
+    assert result.atoms == frozenset({"a"}) and result.edges == frozenset()
+    assert work.atom_warrant_checks == 1
+    assert work.distinct_atoms_examined == 3  # internal-edge test reads a,b,c; not unrelated
+    assert work.incidence_memberships_examined == 3

@@ -77,7 +77,7 @@ class ExtractionIndex:
 class ExtractionRun:
     """Per-call counters; atom/edge liveness memoization never crosses queries.
 
-    Distinct atoms counts IDs inspected by adjacency, warrant or prize operations.
+    Distinct atoms counts IDs inspected by adjacency, incidence, warrant or prize operations.
     Membership work counts each explicit edge-incidence/head visit, including repeats.
     Counters are operations/cardinalities, not CPU instructions or resident bytes.
     """
@@ -110,6 +110,7 @@ class ExtractionRun:
     def incidences(self, edge):
         self.edges.add(edge.edge_id)
         incident = edge.incident
+        self.atoms.update(incident)
         self.counts["incidence_memberships_examined"] += len(incident)
         return incident
 
