@@ -1,0 +1,142 @@
+"""Freeze exact custody, then execute one networkless native prediction process."""
+from pathlib import Path
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+import math
+import os
+import resource
+import shutil
+import signal
+import subprocess
+import sys
+import time
+from stanza_donor import PUBLIC_SHA, require_hash, sha, syntax_items
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[1]
+QUAL_SHA = "0e4da5ff3e8612bec4cf4a54954bb41fc0412ca21de616237d2af4460a6cf6de"
+BASE = HERE / "results/g1-admission-support-20260906"
+PUBLIC = HERE / "results/g1-matched-plan-v1/public-items.json"
+
+def write_new(path, value):
+    with path.open("x") as output:
+        json.dump(value, output, indent=2, sort_keys=True); output.write("\n")
+
+def source_files():
+    fixed = [HERE/"syntax_contract.py", HERE/"vendor/conll18_ud_eval.py",
+             HERE/"grade_g1_matched.py"]
+    return sorted({*HERE.glob("stanza_*.py"), *HERE.glob("test_stanza_*.py"),
+        *HERE.glob("clia_*.py"), *HERE.parent.glob("ocm-n1/*.py"),
+        *REPO.glob("src/ocm/**/*.py"), *fixed})
+
+def cpu_accounting(before, after, output):
+    """wait4 on bwrap does not establish whole-tree CPU custody."""
+    actor_cpu = None
+    try:
+        value = json.loads((output/"actor-receipt.json").read_text())["process_cpu_s"]
+        if type(value) in (int, float) and math.isfinite(value) and value >= 0:
+            actor_cpu = value
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return {
+        "outer_direct_child_cpu_s": after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
+        "actor_self_reported_cpu_s": actor_cpu,
+        "total_process_tree_cpu_s": None,
+        "complete_cpu_custody": False,
+        "cpu_accounting_scope": "Outer direct child and actor self-report are separate observations; whole-tree CPU is UNKNOWN.",
+    }
+
+
+def execute(qualification, output):
+    start = time.perf_counter(); own_cpu = time.process_time()
+    if output.exists():
+        raise ValueError("fresh run directory required")
+    require_hash(qualification/"qualification-manifest-v1.json", QUAL_SHA)
+    qual = json.loads((qualification/"qualification-manifest-v1.json").read_text())
+    for name in ("runtime-plan-v1.json", "runtime-v1/launch-plan.json"):
+        require_hash(qualification/name, qual["records"][name])
+    lock = json.loads((qualification/"runtime-lock-v1.json").read_text())
+    require_hash(qualification/"runtime-lock-v1.json", qual["software"]["runtime_lock_sha256"])
+    require_hash(PUBLIC, PUBLIC_SHA)
+    items = syntax_items(json.loads(PUBLIC.read_text()))
+    sources = {str(p.relative_to(REPO)): sha(p) for p in source_files()}
+    baseline = [BASE/"revised/grade.json",
+        HERE/"results/g1-20260906/language-evaluation-manifest.json",
+        *[BASE/version/f"{i:02d}-native.rows.jsonl" for version in ("original","revised") for i in range(5)]]
+    baseline_hashes = {str(p.relative_to(REPO)): sha(p) for p in baseline}
+    for relative, digest in qual["model_artifacts"].items():
+        require_hash(qualification/relative, digest)
+    output.mkdir(parents=True)
+    stage = output.with_name(output.name + ".inputs"); stage.mkdir()
+    actor_sources = ["stanza_donor.py", "syntax_contract.py", "vendor/conll18_ud_eval.py"]
+    for relative in actor_sources:
+        target = stage/relative; target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(HERE/relative, target)
+    shutil.copyfile(PUBLIC, stage/"public-items.json")
+    actor_plan = {"models": qual["model_artifacts"], "packages": lock["packages"],
+        "model_closure_sha256": qual["artifact_closure_sha256"],
+        "resources_sha256": json.loads((qualification/"runtime-plan-v1.json").read_text())["stanza"]["resources_sha256"],
+        "actor_sources": {p: sha(stage/p) for p in actor_sources}}
+    write_new(stage/"run-plan.json", actor_plan)
+    original = json.loads((qualification/"runtime-v1/launch-plan.json").read_text())
+    argv = original["argv"]
+    # Reuse the qualified OS boundary; replace only its fixed inspection mounts and executable.
+    begin = argv.index("--dir")
+    end = argv.index("--setenv", begin)
+    argv = argv[:begin] + ["--ro-bind",str(stage),"/audit","--bind",str(output),"/output"] + argv[end:]
+    argv[-1] = "/audit/stanza_donor.py"
+    launch = {"schema":"ocm.stanza-native-launch.v1","frozen_utc":datetime.now(timezone.utc).isoformat(),
+        "freeze_issue":"https://github.com/SzeChunYiu/ORION-OCM/issues/43#issuecomment-5556737974",
+        "qualification_sha256":QUAL_SHA,"runtime_lock_sha256":qual["software"]["runtime_lock_sha256"],
+        "public_sha256":PUBLIC_SHA,"assigned_ids":[i["id"] for i in items],"assigned_words":1584,
+        "model_artifacts":qual["model_artifacts"],"model_closure_sha256":qual["artifact_closure_sha256"],
+        "qualified_model_bytes":qual["model_bytes"],"qualified_parameters":qual["parameters"],
+        "source_files":sources,"external_baseline_artifacts":baseline_hashes,"argv":argv,
+        "actor_plan_sha256":sha(stage/"run-plan.json"),"actor_stage_path":str(stage),
+        "actor_stage_files":{str(p.relative_to(stage)):sha(p) for p in stage.rglob("*") if p.is_file()},
+        "seed":0,"threads":1,"deadline_seconds":600,
+        "decisions":"Posted four-endpoint engineering progression only; no quality/parameter tuning.",
+        "external_gold_sha256":"dd514122385fd3374dd10051ddaf477c957d3da0bba48931d6f969820ece233f",
+        "external_train_sha256":"c081876811507cb9437000ea5e6a1741795d8fe8755537ef024bd3b4a713ff14",
+        "prediction_has_started":False,"setup_wall_s":time.perf_counter()-start}
+    write_new(output/"launch-manifest.json",launch)  # durable before ANY model prediction
+    before = resource.getrusage(resource.RUSAGE_CHILDREN)
+    wall = time.perf_counter(); timed_out=False
+    with (output/"stdout").open("xb") as stdout, (output/"stderr").open("xb") as stderr:
+        child=subprocess.Popen(argv,stdout=stdout,stderr=stderr,start_new_session=True)
+        try: code=child.wait(timeout=600)
+        except subprocess.TimeoutExpired:
+            timed_out=True
+            os.killpg(child.pid,signal.SIGTERM)
+            try: code=child.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                os.killpg(child.pid,signal.SIGKILL);code=child.wait()
+    after=resource.getrusage(resource.RUSAGE_CHILDREN)
+    stable = sources == {str(p.relative_to(REPO)):sha(p) for p in source_files()}
+    stable = stable and baseline_hashes == {p:sha(REPO/p) for p in baseline_hashes}
+    stable = stable and launch["actor_stage_files"] == {str(p.relative_to(stage)):sha(p) for p in stage.rglob("*") if p.is_file()}
+    stable = stable and all(sha(qualification/p)==v for p,v in qual["model_artifacts"].items())
+    status = "EXECUTION_DEADLINE_EXCEEDED" if timed_out else "ACTOR_SEALED" if code==0 and stable else "CANNOT_CHECK_EXECUTION_OR_BINDING"
+    files = {p.name:sha(p) for p in output.iterdir() if p.is_file()}
+    record={"status":status,"exit_code":code,"source_and_model_stable":stable,"outer_timeout":timed_out,
+        "launch_sha256":sha(output/"launch-manifest.json"),"artifacts":files,
+        "process_wall_s":time.perf_counter()-wall, **cpu_accounting(before, after, output),
+        "total_capture_wall_s":time.perf_counter()-start,
+        "capture_own_cpu_s":time.process_time()-own_cpu,
+        "output_bytes_before_seal":sum(p.stat().st_size for p in output.rglob("*") if p.is_file()),
+        "readonly_stage_bytes":sum(p.stat().st_size for p in stage.rglob("*") if p.is_file()),
+        "gold_loaded_by_actor":False,"scoring":"NOT_RUN","training":"NOT_RUN",
+        "efficiency_comparison":"NOT_ESTABLISHED: single-process donor qualification",
+        "imported_training_cost":"UNKNOWN; qualification packet retained separately"}
+    write_new(output/"sealed-receipt.json",record)
+    print(json.dumps(record,sort_keys=True))
+    return 0 if status=="ACTOR_SEALED" else 2
+
+if __name__ == "__main__":
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--qualification",type=Path,required=True)
+    parser.add_argument("--out",type=Path,required=True)
+    args=parser.parse_args()
+    raise SystemExit(execute(args.qualification,args.out))

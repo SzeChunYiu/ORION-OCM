@@ -1,0 +1,40 @@
+{
+  "status": "IMPORTED_TRAINING_PROVENANCE_PARTIALLY_KNOWN",
+  "observed": {
+    "checkpoint_shorthand": "en_combined in all three loaded models",
+    "pinned_package_training_builder": {
+      "path": "source/stanza/utils/datasets/prepare_tokenizer_treebank.py",
+      "sha256": "2c1f4860b773d8f8ae4f1b4098e6d3de86584a6152b7770cf8c04bc1189bab39",
+      "lines": "597-626",
+      "train_inputs": [
+        "UD_English-EWT/train",
+        "UD_English-GUM/train",
+        "UD_English-GUMReddit/train",
+        "UD_English-PUD/test",
+        "UD_English-Pronouns/test"
+      ],
+      "development_input": "UD_English-EWT/dev",
+      "test_input": "UD_English-EWT/test"
+    },
+    "pretrained_vectors": "conll17, shared250000x100 frozen parameters",
+    "checkpoint_training_configuration": "Recorded in runtime-v1/runtime-qualification.json; settings are not a training execution receipt."
+  },
+  "inference_from_source": "These are the named sources in the pinned1.14.0 combined builder; the checkpoint tag alone does not prove which historical corpus revisions or auxiliary handparsed data produced the exact weights.",
+  "prohibited_inferences": [
+    "No EWT-TRAIN-only claim",
+    "No zero imported-training cost",
+    "No protected independence from public EWT/PUD/Pronouns outcomes",
+    "No claim the imported Stanza training was run/reproduced here"
+  ],
+  "unknown": [
+    "Exact original dataset commits and augmentation/handparsed input identities",
+    "Original training/tuning runs, failed attempts, seeds and resource costs",
+    "Checkpoint selection exposure and possible historical corpus overlap with future evaluation"
+  ],
+  "licensing_observed": {
+    "stanza_wheel": "Apache2.0 according to pinned PyPI metadata",
+    "official_model_card": "Apache2.0 declared in pinned HuggingFace card",
+    "underlying_corpora_vectors": "Individual source provenance/licenses are not fully established by the generic model card; no redistribution of corpus/model binary proposed here."
+  },
+  "prior_difference": "Selected combined model imports a broader supervised mixture than the smaller EWT_nocharlm model. Both use conll17 vectors; neither is matched to our train-only UDPipe learning cost."
+}

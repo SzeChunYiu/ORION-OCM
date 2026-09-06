@@ -1,0 +1,30 @@
+{
+  "corrected_interpretation": {
+    "actor_self_reported_cpu_s": 7.032604,
+    "capture_own_cpu_s": 0.44636527400000003,
+    "complete_cpu_custody": false,
+    "outer_direct_child_cpu_s": 0.001535,
+    "total_process_tree_cpu_s": null
+  },
+  "defect": "RUSAGE_CHILDREN measures the directly reaped bwrap wrapper, not the whole descendant process tree; no timeout does not establish complete CPU custody.",
+  "executed_capture_sha256": "61cec4fc57b316fc24692df0f5ac263997d1733dccf571ae40eef84d597512a7",
+  "future_capture_sha256": "4493f0f65ec6b5c867bb03a0845f5e312d71960316002c91b41d240c9e931a74",
+  "future_fix_controls": "raw/controls/native-controls-cpu-correction.xml",
+  "future_fix_did_not_generate_original_receipt": true,
+  "launch_sha256": "4fb63d7aa43c5eac3d4d084cb3bae9d7bb02c3dd56f1c6eab90516fe20efaa04",
+  "no_new_prediction": true,
+  "original_raw_bytes_preserved": true,
+  "raw_grade_sha256": "1d0d6233e4ce2f40917289ef9a30d542228fff95b869b8190bbf07f2bef14ed9",
+  "raw_incorrect_fields": {
+    "complete_cpu_custody": true,
+    "reaped_process_tree_cpu_s": 0.001535
+  },
+  "raw_sealed_receipt_sha256": "c5044f13d4d860ae2602be12f6b37fa7fe6b2a53732d8d096af73bfc79ce8e30",
+  "status": "RESOURCE_ACCOUNTING_CORRECTED_NO_NEW_INFERENCE",
+  "unchanged": [
+    "source/model identity gates",
+    "all 100 predictions",
+    "external grading",
+    "registered four-endpoint decision"
+  ]
+}
