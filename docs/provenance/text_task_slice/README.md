@@ -42,3 +42,7 @@ replication, learned-English, general problem solving or a performance claim.
 Preparation controls use synthetic donor artifacts and two trivial non-donor pytest
 fixtures to verify the trace plugin. They do not rerun the frozen consumption assay
 or execute the actual 29-case donor qualification. The latter waits for root freeze.
+
+Generated `temporary-state/` directories are disposable pytest fixtures and are not
+receipt evidence. The recorded source archive, launch, collection/call trace, logs,
+JUnit and source snapshots are the retained qualification artifacts.
