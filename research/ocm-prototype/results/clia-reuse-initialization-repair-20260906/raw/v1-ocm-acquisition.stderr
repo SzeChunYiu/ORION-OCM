@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/research/ocm-prototype/clia_reuse_study_worker.py", line 112, in <module>
+    path = Path(sys.argv[1]); result = execute(json.loads(path.read_text()), path)
+                                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260906/ocm-clia-reuse-study/research/ocm-prototype/clia_reuse_study_worker.py", line 55, in execute
+    if any(p.is_file() for p in Path(config["state"]).rglob("*")): raise ValueError("ACQUISITION_STATE_NOT_FRESH")
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: ACQUISITION_STATE_NOT_FRESH

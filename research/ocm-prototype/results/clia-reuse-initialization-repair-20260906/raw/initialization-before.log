@@ -1,0 +1,74 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+______ test_actual_fresh_ocm_constructor_is_not_mistaken_for_prior_state _______
+
+tmp_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-red/test_actual_fresh_ocm_construc0')
+
+    def test_actual_fresh_ocm_constructor_is_not_mistaken_for_prior_state(tmp_path):
+        cfg = config(tmp_path); path = tmp_path / "input.json"; write(path, cfg)
+        assert not Path(cfg["state"]).exists()
+>       receipt = W.execute(cfg, path)
+
+research/ocm-prototype/test_clia_reuse_initialization.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'arm': 'ocm', 'events': '/home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-red/test_a...260906/clia-reuse-study-controls/initialization-red/test_actual_fresh_ocm_construc0/UNIT_PLACEHOLDER_NOT_A_MODEL', ...}
+input_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-red/test_actual_fresh_ocm_construc0/input.json')
+
+    def execute(config, input_path):
+        if source_files() != config["source_files"]: raise ValueError("SOURCE_CHANGED_BEFORE_ACTOR")
+        actor = Actor(config["state"], config["arm"])
+        phase = config["phase"]; rows = Path(config["rows"])
+        if rows.exists(): raise ValueError("refuse rows overwrite")
+        receipt = {"schema": "ocm.reuse.stage.v1", "arm": config["arm"], "phase": phase, "pid": os.getpid(),
+                   "f0_sha256": config["f0_sha256"], "f1_sha256": config.get("f1_sha256"),
+                   "input_sha256": sha(input_path), "source_files_before": source_files(), "binds": [],
+                   "invocations": [], "row_count": 0, "status": "RUNNING"}
+        if phase != "acquire":
+            if digest(actor.bindings) != config["bindings_sha256"]: raise ValueError("F1_STATE_BINDING_CHANGED")
+            actor.model_path()
+            receipt["entry_audit"] = actor.audit()
+        else:
+            if any(Path(config["state"]).iterdir()):
+                # Actor constructors may create only empty native library directories.
+>               if any(p.is_file() for p in Path(config["state"]).rglob("*")): raise ValueError("ACQUISITION_STATE_NOT_FRESH")
+E               ValueError: ACQUISITION_STATE_NOT_FRESH
+
+research/ocm-prototype/clia_reuse_study_worker.py:55: ValueError
+_____ test_genuinely_prepopulated_ocm_state_is_refused_before_constructor ______
+
+tmp_path = PosixPath('/home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-red/test_genuinely_prepopulated_oc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f061c9a2780>
+
+    def test_genuinely_prepopulated_ocm_state_is_refused_before_constructor(tmp_path, monkeypatch):
+        cfg = config(tmp_path)
+        actor = Actor(cfg["state"], "ocm")
+        actor.evidence({"UNIT_FIXTURE": "persisted prior observation"}, "history")
+        actor.persist()
+        root = Path(cfg["state"])
+        before = {str(p.relative_to(root)): p.read_bytes() for p in root.rglob("*") if p.is_file()}
+        assert before["ledger.jsonl"]
+        path = tmp_path / "input.json"; write(path, cfg)
+        def forbidden(*args, **kwargs): raise AssertionError("constructor ran on prepopulated acquisition state")
+        monkeypatch.setattr(W, "Actor", forbidden)
+        with pytest.raises(ValueError, match="ACQUISITION_STATE_NOT_FRESH"):
+>           W.execute(cfg, path)
+
+research/ocm-prototype/test_clia_reuse_initialization.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/ocm-prototype/clia_reuse_study_worker.py:41: in execute
+    actor = Actor(config["state"], config["arm"])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('/home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-red/test_genuinely_prepopulated_oc0/state', 'ocm')
+kwargs = {}
+
+>   def forbidden(*args, **kwargs): raise AssertionError("constructor ran on prepopulated acquisition state")
+E   AssertionError: constructor ran on prepopulated acquisition state
+
+research/ocm-prototype/test_clia_reuse_initialization.py:42: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-study-controls/initialization-before.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_initialization.py::test_actual_fresh_ocm_constructor_is_not_mistaken_for_prior_state
+FAILED research/ocm-prototype/test_clia_reuse_initialization.py::test_genuinely_prepopulated_ocm_state_is_refused_before_constructor
+2 failed in 0.14s
