@@ -1,13 +1,13 @@
-name: Dialogue field binding qualification
+name: SQLite WAL ledger parent refresh qualification
 
 on:
   push:
     branches:
-      - codex/dialogue-field-binding-20260906
+      - codex/sqlite-wal-ledger-parent-refresh-20260906
     paths:
-      - 'src/ocm/**'
-      - tests/m4/test_dialogue_field_binding.py
-      - .github/workflows/dialogue-field-binding-qualification.yml
+      - src/ocm/**
+      - tests/m2/test_sqlite_ledger_parent.py
+      - .github/workflows/sqlite-ledger-parent-refresh-qualification.yml
 
 permissions:
   contents: write
@@ -19,16 +19,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: codex/dialogue-field-binding-20260906
+          ref: codex/sqlite-wal-ledger-parent-refresh-20260906
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install pinned development environment
         run: ./scripts/m0_install_dev.sh
-      - name: Run dialogue-field hostile controls
-        run: python -m pytest -q tests/m4/test_dialogue_field_binding.py
-      - name: Re-run inherited dialogue semantics
-        run: python -m pytest -q tests/m4
+      - name: Run SQLite ledger parity controls
+        env:
+          PYTHONPATH: src
+        run: python -m pytest tests/m2/test_sqlite_ledger_parent.py -q
       - name: Run and select exact engineering gates
         env:
           PYTHONPATH: src
@@ -49,5 +49,5 @@ jobs:
             echo "Recorder produced no new qualification bytes"
             exit 1
           fi
-          git commit -m "test: record dialogue field binding qualification"
-          git push origin HEAD:codex/dialogue-field-binding-20260906
+          git commit -m "test: record refreshed SQLite ledger engineering qualification"
+          git push origin HEAD:codex/sqlite-wal-ledger-parent-refresh-20260906
