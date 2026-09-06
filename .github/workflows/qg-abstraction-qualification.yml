@@ -1,0 +1,42 @@
+name: QG abstraction transfer qualification
+on:
+  push:
+    branches: [codex/qg-safe-quotient-20260906]
+permissions:
+  contents: read
+concurrency:
+  group: qg-abstraction-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  scoped-real-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Bind and archive tracked source only
+        run: |
+          mkdir -p qg-qualification
+          git rev-parse HEAD > qg-qualification/source-commit.txt
+          git archive --format=tar.gz HEAD > qg-qualification/source.tar.gz
+          sha256sum qg-qualification/source.tar.gz > qg-qualification/source.sha256
+      - run: ./scripts/m0_install_dev.sh
+      - name: Real M1 unit and regression tests
+        run: |
+          set -o pipefail
+          python -m pytest -q tests/m1 --junitxml=qg-qualification/m1.xml 2>&1 | tee qg-qualification/m1.log
+      - name: Additive finite-view tests when present
+        if: always()
+        run: |
+          if [ -f research/qg-transfer/test_finite_views.py ]; then
+            python -m unittest discover -s research/qg-transfer -p 'test_*.py' -v > qg-qualification/finite-views.log 2>&1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qg-abstraction-${{ github.sha }}
+          path: qg-qualification/
+          if-no-files-found: error
+          retention-days: 14
