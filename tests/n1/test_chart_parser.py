@@ -46,3 +46,32 @@ def test_gap_readings_interpret_with_declared_gaps_and_never_live():
     gap_nodes = [n for n in m["meaning"].nodes if ("gap", "yes") in n.features]
     assert len(gap_nodes) == 1 and gap_nodes[0].node_type == "entity"
     assert CH.parse(I.tokenize("the zorb lifted the cup"), lx, cons)["verdict"] == "UNKNOWN_LEXEME"   # gaps are opt-in
+
+
+def test_evidence_ranking_reports_the_best_supported_reading_without_licensing_it():
+    """N1 phase E: two clause constructions with different demonstration counts yield the same meaning →
+    AMBIGUOUS (count 2) stays AMBIGUOUS; the ranking puts the better-evidenced construction first and
+    says so as a report ('not a unique parse'); constructions without counts are unranked."""
+    import dataclasses
+    lx = _lexicon()
+    cons = list(C.seed_constructions())
+    clause = [c for c in cons if c.produces is None and any(s.phrase == "NP" for s in c.pattern)]
+    base = clause[0]
+    weak = dataclasses.replace(base, construction_id=base.construction_id + ":weak", lineage=("count:2",))
+    strong = dataclasses.replace(base, construction_id=base.construction_id + ":strong", lineage=("count:9",))
+    others = [c for c in cons if c is not base]
+    utt = "the girl lifted the cup"
+    r0 = CH.parse(I.tokenize(utt), lx, others + [base])
+    assert r0["verdict"] == "INTERPRETED" and r0["ranking"]["scored"] is False       # no counts → unranked, unchanged verdict
+    r = CH.parse(I.tokenize(utt), lx, others + [weak, strong])
+    assert r["verdict"] == "AMBIGUOUS" and r["count"] == 2                            # ranking never turns AMBIGUOUS into INTERPRETED
+    assert r["ranking"]["scored"] and r["ranking"]["top_score"] == 9 and r["ranking"]["top_items"] == 1 and r["ranking"]["top_unique_derivation"]
+    assert r["meanings"][0]["construction_id"].endswith(":strong") and r["meanings"][0]["evidence_score"] == 9
+    assert r["meanings"][1]["evidence_score"] == 2
+    assert "not a unique parse" in r["ranking"]["licence"]
+    # a derivation is scored by its weakest construction: the strong clause over a weak NP scores 2
+    np_cons = [c for c in others if c.produces == "NP"]
+    weak_nps = [dataclasses.replace(c, lineage=("count:2",)) for c in np_cons]
+    rest = [c for c in others if c.produces != "NP"]
+    r2 = CH.parse(I.tokenize(utt), lx, rest + weak_nps + [strong])
+    assert r2["verdict"] == "INTERPRETED" and r2["meanings"][0]["evidence_score"] == 2

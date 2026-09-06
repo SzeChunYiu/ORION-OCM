@@ -1,0 +1,62 @@
+....................FF.................................                  [100%]
+=================================== FAILURES ===================================
+__________ test_default_and_expanded_g1_catalogue_use_same_admission ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-68/test_default_and_expanded_g1_c0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb8f87b6c40>
+
+    def test_default_and_expanded_g1_catalogue_use_same_admission(tmp_path, monkeypatch):
+        import g1_vessel as G
+        a, records, _, _ = fixture_state(tmp_path / 'default')
+        b, other, _, _ = fixture_state(tmp_path / 'expanded')
+        for record in other.values():
+            desc = V.adopt(b, record[0]); V.bind(b, desc['id'])
+        calls = []
+        def unit_propose(task):
+            calls.append(task['task_id'])
+            return dict(status='SOLUTION', candidate=UNIT_PROGRAMS[task['task_id']],
+                        task_sha256=task['task_sha256'], grammar_id=task['grammar']['id'])
+        monkeypatch.setattr(clia_solver, 'propose', unit_propose)
+        q = {'kind': 'clia', 'task': load_task('jmbl_fg_max3')}
+        plain = G.query(a, q); expanded = V.query(b, q)
+        assert plain['status'] == expanded['status'] == 'ADMITTED'
+        assert plain['answer'] == expanded['answer'] and plain['claim'] == expanded['claim']
+        assert plain['catalogue'] == ['syntax:udpipe1', 'procedure:cvc5']
+        assert len(expanded['catalogue']) == 4
+        assert calls == ['jmbl_fg_max3', 'jmbl_fg_max3']
+        assert expanded['reuse_counters']['application_calls'] == 0
+        assert expanded['reuse_counters']['synthesis_dispatches'] == 1
+>       assert expanded['reuse_counters']['catalogue_visits'] == expanded['catalogue']
+E       AssertionError: assert ['syntax:udpi...ocedure:cvc5'] == ['syntax:udpi...f5a65e79333a']
+E         
+E         Right contains 2 more items, first extra item: 'apply:e2dc4b04c9ed3afd3d94db3514920b063c067b90b66440a62d82e4dfc8cbfdc1'
+E         Use -v to get more diff
+
+research/ocm-prototype/test_clia_reuse_vessel.py:148: AssertionError
+___________ test_expanded_syntax_routes_to_existing_observation_gate ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-68/test_expanded_syntax_routes_to0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb8f85f2210>
+
+    def test_expanded_syntax_routes_to_existing_observation_gate(tmp_path, monkeypatch):
+        import g1_vessel as G
+        runtime, records, _, _ = fixture_state(tmp_path)
+        for record in records.values():
+            desc = V.adopt(runtime, record[0]); V.bind(runtime, desc['id'])
+        words = [{'id': 1, 'form': 'widget', 'head': 0, 'deprel': 'root', 'upos': 'NOUN'}]
+        monkeypatch.setattr(G, 'predict', lambda tokens, path, digest: {'status': 'PREDICTED', 'words': words, 'model_sha256': digest})
+        out = V.query(runtime, {'kind': 'syntax', 'tokens': ['widget']})
+        assert out['status'] == 'ADMITTED' and out['claim'] == 'MODEL_SUPPORTED_SYNTAX_OBSERVATION'
+        assert out['answer']['words'] == words and len(out['catalogue']) == 4
+>       assert out['reuse_counters']['catalogue_visits'] == out['catalogue']
+E       AssertionError: assert ['syntax:udpi...ocedure:cvc5'] == ['syntax:udpi...f4400611c924']
+E         
+E         Right contains 2 more items, first extra item: 'apply:0481b0dacb2aa35d4c58ab254759bb4fb96933fbec02104b4011dcbfff54b643'
+E         Use -v to get more diff
+
+research/ocm-prototype/test_clia_reuse_vessel.py:162: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260906/clia-reuse-unit-diagnostic/combined-reviewed.xml -
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_reuse_vessel.py::test_default_and_expanded_g1_catalogue_use_same_admission
+FAILED research/ocm-prototype/test_clia_reuse_vessel.py::test_expanded_syntax_routes_to_existing_observation_gate
+2 failed, 53 passed in 8.20s
