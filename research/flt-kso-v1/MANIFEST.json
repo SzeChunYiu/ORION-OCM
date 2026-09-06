@@ -1,0 +1,50 @@
+{
+  "schema": "flt-kso-v1.environment-manifest.v1",
+  "source_base_at_preregistration": "d53d0082bfdada811a565253f3e18680f91e878a",
+  "anthropic": {
+    "repository": "anthropics/fermats-last-theorem",
+    "commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
+    "tree": "8bb1c43c8f26f1c127591dddeffdead2b5094eb7",
+    "lean_toolchain_blob": "a8afa7d1b02d96f0671eba854a8dc4b416beb473",
+    "lake_manifest_blob": "2b5a9ec02a1d760170e6034ebcd43e72fa9a42c3",
+    "lakefile_blob": "ad978e1f72e1aab6ad45cca9835d640a0c6f63b9",
+    "final_check_blob": "3ffbd60b8f9736f5569e4dd4774701a114d18266",
+    "expected_statement_modules": 29511,
+    "expected_proof_modules": 29511
+  },
+  "lean": {
+    "toolchain": "leanprover/lean4:v4.33.1",
+    "version": "4.33.1"
+  },
+  "mathlib": {
+    "tag": "v4.33.0",
+    "commit": "db584cd6d46c92f209a44c0f1c829460d327499d"
+  },
+  "native_mechanism_contract": {
+    "llm_calls": 0,
+    "llm_tokens": 0,
+    "foundation_model_calls": 0,
+    "transformer_generator": false,
+    "neural_proof_generator": false,
+    "opaque_learned_oracle": false
+  },
+  "r1": {
+    "challenge_id": "R1_PROP_CHAIN_001",
+    "statement": "(P → Q) → (Q → R) → P → R",
+    "max_proof_state_expansions": 64,
+    "max_checker_calls_total_native_plus_parent": 16,
+    "allowed_search_operators": [
+      "proof.intro",
+      "proof.assumption",
+      "proof.apply_local"
+    ]
+  },
+  "r2_r3_selection_policy": {
+    "status": "PREREGISTERED_NOT_YET_EXECUTED",
+    "order": ["depth", "dependency_count", "theorem_id"],
+    "proof_bodies_hidden": true,
+    "r3_dependency_topology_hidden": true,
+    "require_exact_statement_extraction": true,
+    "exclude_unresolved_attribution_or_import_special_cases": true
+  }
+}
