@@ -155,7 +155,7 @@ def test_support_extension_refuses_derived_or_mismatched_actual_evidence(tmp_pat
     assert exc.value.code == "SUPPORT_EVIDENCE_NOT_ASSUMPTION"
 
     _, wrong_channel = runtime.admit_evidence(
-        {"checker": True}, Channel.EXACT_CHECKER, "checker", scope=scope, authority=authority
+        {"checker": True}, Channel.PROOF, "checker", scope=scope, authority=authority
     )
     with pytest.raises(TypedRejection) as exc:
         bind_meaning(
