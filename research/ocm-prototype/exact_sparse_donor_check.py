@@ -12,8 +12,9 @@ def verify(ks, seed, alpha, values, *, revoked=(), relevance=None,
            mode=N.NavigationMode.WARRANTED):
     if tuple(values) != ks.ids or any(type(v) is not Fraction for v in values.values()):
         raise CannotCheck("EXACT_DONOR_OUTPUT_CONTRACT")
-    matrix = N.navigation_matrix(ks, revoked=revoked, relevance=relevance, mode=mode)
-    gated = N.gated_seed(ks, seed, revoked, mode)
+    rv = frozenset(revoked)
+    matrix = N.navigation_matrix(ks, revoked=rv, relevance=relevance, mode=mode)
+    gated = N.gated_seed(ks, seed, rv, mode)
     original_step = N.restart_step(matrix.rows, gated, list(values.values()), alpha)
     if list(values.values()) != original_step:
         raise CannotCheck("EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO")

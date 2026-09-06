@@ -93,3 +93,11 @@ def test_changed_field_modes_have_full_consumer_parity(variant):
         candidate = evaluate(f["ks"], f["task"], f["operators"], arm="sympy", **kwargs)
         for key in ("consumer", "vectors", "surprise"):
             assert candidate[key] == reference[key]
+
+
+def test_public_checker_preserves_one_shot_revocation_iterable():
+    from exact_sparse_donor_check import verify
+    ks, seed = field(), [F(0), F(1), F(0), F(0), F(0)]
+    values = N.fixed_point(ks, seed, F(1,3), revoked=("a",))
+    assert not any(values.values())
+    assert verify(ks, seed, F(1,3), values, revoked=iter(("a",)))["independent_residual"] == "EXACT_ZERO"

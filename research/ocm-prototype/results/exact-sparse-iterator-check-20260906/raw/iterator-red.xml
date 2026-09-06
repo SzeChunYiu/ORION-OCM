@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.205" timestamp="2026-09-06T13:09:37.688039+02:00" hostname="billy"><testcase classname="research.ocm-prototype.exact_sparse_donor_tests.test_refusals" name="test_public_checker_preserves_one_shot_revocation_iterable" time="0.001"><failure message="ocm.kso.warrant.CannotCheck: EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO">def test_public_checker_preserves_one_shot_revocation_iterable():
+        from exact_sparse_donor_check import verify
+        ks, seed = field(), [F(0), F(1), F(0), F(0), F(0)]
+        values = N.fixed_point(ks, seed, F(1,3), revoked=("a",))
+        assert not any(values.values())
+&gt;       assert verify(ks, seed, F(1,3), values, revoked=iter(("a",)))["independent_residual"] == "EXACT_ZERO"
+
+research/ocm-prototype/exact_sparse_donor_tests/test_refusals.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ks = KnowledgeSpace(atoms=(Atom(atom_id='s', atom_type='claim', warrant=WarrantProfile(lower=(frozenset(),), upper=(frozens...zenset(),)), authority=Authority(ranks=()), scope=Scope(contexts=None, epoch=(0, inf)), executable_ref=None, meta=())))
+seed = [Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)]
+alpha = Fraction(1, 3)
+values = {'a': Fraction(0, 1), 'b': Fraction(0, 1), 'isolated': Fraction(0, 1), 's': Fraction(0, 1), ...}
+
+    def verify(ks, seed, alpha, values, *, revoked=(), relevance=None,
+               mode=N.NavigationMode.WARRANTED):
+        if tuple(values) != ks.ids or any(type(v) is not Fraction for v in values.values()):
+            raise CannotCheck("EXACT_DONOR_OUTPUT_CONTRACT")
+        matrix = N.navigation_matrix(ks, revoked=revoked, relevance=relevance, mode=mode)
+        gated = N.gated_seed(ks, seed, revoked, mode)
+        original_step = N.restart_step(matrix.rows, gated, list(values.values()), alpha)
+        if list(values.values()) != original_step:
+&gt;           raise CannotCheck("EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO")
+E           ocm.kso.warrant.CannotCheck: EXACT_DONOR_ORIGINAL_RESIDUAL_NONZERO
+
+research/ocm-prototype/exact_sparse_donor_check.py:19: CannotCheck</failure></testcase></testsuite></testsuites>
