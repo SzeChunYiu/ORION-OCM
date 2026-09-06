@@ -5,11 +5,11 @@ Operator direction, 6 September 2026. This is a research charter, not a manuscri
 
 ## Objective and order
 
-Finish decisive scientific research, produce a small set of substantial papers suitable for top-tier journal review, then develop a real product. Initial apparatus needs simple chat, acquisition, correction, persistence and checked problem solving. Reproducing a frontier language model is not a prerequisite.
+Finish decisive scientific research, produce a small set of substantial papers suitable for top-tier journal review, then develop a real product. Formal science and the [four-level FLT programme](FLT_RECONSTRUCTION.md) are the flagship, with F0 exposed mechanical proposer qualification first. Richer language follows as an independent capability claim.
 
 The intended advance is that useful experience improves future capability or reduces complete future cost while commitments remain justified through change. Better training/acquisition economics, task cost, revision behavior, reliability and scaling are distinct claims. A positive on one axis cannot promote the others.
 
-Spend effort on the smallest experiments that resolve the largest scientific uncertainties. Reuse mature infrastructure and donors. Paper writing, presentation and product polish cannot compensate for a missing mechanism or weak comparator.
+Spend effort on the smallest experiments that resolve the largest scientific uncertainties. Reuse mature infrastructure and qualified non-neural mechanisms under the [execution contract](NO_NEURAL_CONTRACT.md). Historical neural OCM donor use stays accurately attributed; future neural systems are external references only. Paper writing, presentation and product polish cannot compensate for a missing mechanism or weak comparator.
 
 ## Two candidate contributions
 
@@ -52,21 +52,20 @@ External parents are technical food: library induction, ATMS/provenance, increme
 
 ## Minimum decisive sequence
 
-1. Finish stronger comparator and end-to-end checked task apparatus. Preserve historical results but re-evaluate their interpretation under corrected parents.
-2. Execute the already proposed #62 three-route later-consumption assay: implicit primitive parent, full explicit grammar and the same grammar plus the sealed learned predicate. It is public feasibility evidence, not protected generalization.
-3. Run local-component growth controls and end-to-end cost attribution. Any remaining whole-field navigation, seed preparation, digest, ledger or replay cost remains in the denominator.
-4. Select one concrete S1/S2 mechanism from the demonstrated obstruction. Freeze its algorithm, closest parents, scope, parameters and falsifying tests before protected outcomes.
-5. Run matched task streams through simple language interaction and a separately checked procedural domain. Hold out semantic families and independent lifetimes, not merely different numbers in the same function.
-6. Perform targeted mechanism ablation and paired replication. Freeze a claim ledger only after the measured results and failures are reconciled.
-7. Write and review the resulting paper package with the nature-* skills. Expand only when a new result requires it; product work follows the publication research programme.
+1. Qualify F0's generic mechanical proposer, isolated candidate transport and exact theorem/axiom/kernel boundary; existing fixed Lean replay is not search.
+2. Register a small masked number-theory region, then progress separately through F1 reconstruction, F2 supplied landmarks, F3 no supplied route and F4 post-experience transfer. Full FLT requires a qualified resource envelope.
+3. The arithmetic #62 assay already executed: the implicit route passed, both full explicit routes timed out, and consumption remains CANNOT_CHECK. Its phase diagnostic located the unfinished check-synth invocation; preserve both results without assigning an unobserved internal cause. See [records](../ocm-prototype/results/later-consumption-20260906/CORE.md) and [diagnostic](../ocm-prototype/results/explicit-phase-diagnostic-20260906/RESULT.md).
+4. Test one concrete S1/S2 mechanism through proof-dependency retrieval/revision or explicit method learning. Freeze the algorithm, information boundary, matched symbolic parents and falsifiers before outcomes; charge whole-request/global work.
+5. Run early held-out transfer after small proof episodes, with the same-added-theorems library-only control, learned-method/policy separation, causal ablation, restart, harmful transfer and independent lifetimes.
+6. Freeze a reconciled claim ledger after matched replication. Write substantial papers with nature-* only when the evidence warrants them; language/product expansion follows the scientific programme.
 
 ## Comparator and attribution design
 
-Equip native parents with the same established donors, indexes, persistence, evidence information, independent checkers and adaptation opportunities. Fix capability asymmetries before interpreting a residual. The proposed new mechanism is the experimental treatment; do not silently give it to every baseline and erase the contrast.
+Equip native parents with the same permitted non-neural algorithms, indexes, persistence, evidence information, independent checkers and adaptation opportunities. Fix capability asymmetries before interpreting a residual. The proposed new mechanism is the experimental treatment; do not silently give it to every baseline and erase the contrast.
 
 Where possible use native-fixed, native-adaptive, OCM-fixed and OCM-adaptive arms. An additional ablation removes the specific proposed mechanism while preserving other powers. If transplanting the mechanism improves a conventional host too, report portability; the scientific contribution can be the mechanism rather than an exclusive architecture brand.
 
-An LLM comparison must freeze the actual model/version and give equivalent documents, tools, feedback and memory. Compare equal-quality cost or equal-cost capability. Disclose pretrained competence and authored priors separately; there is no meaningful claim that a two-function hand-seeded solver trained more cheaply than a general language model.
+An external-only LLM comparison must freeze the actual model/version and give equivalent documents, tools, feedback and memory. Compare equal-quality cost or equal-cost capability. Disclose pretrained competence and authored priors separately; there is no meaningful claim that a two-function hand-seeded solver trained more cheaply than a general language model.
 
 Do not assume observations within one lifelong session are independent. Select the number of independent lifetimes and quality margins using development precision/power and task consequences before protected outcomes. Report clustered paired uncertainty, failures/timeouts, multiple tested endpoints and both positive and adverse-transfer regimes.
 

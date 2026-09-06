@@ -1,5 +1,11 @@
 # Decisive experiments and performance gates
 
+## Current priority and executed predecessors
+
+[FLT reconstruction and transfer](FLT_RECONSTRUCTION.md) is the flagship. Implement F0 first: an exposed generic mechanical proposer with isolated candidate transport and exact target/axiom/kernel checks. Then register bounded F1 regions, F2 landmark construction, F3 no supplied route and F4 transfer. All OCM components obey the prospective [no-neural contract](NO_NEURAL_CONTRACT.md); the current repository is not yet globally qualified under it.
+
+The stronger comparator and checked-text apparatus have merged. The [#62 arithmetic assay](../ocm-prototype/results/later-consumption-20260906/CORE.md) executed: C passed, E0/B timed out, later consumption CANNOT_CHECK. The [phase diagnostic](../ocm-prototype/results/explicit-phase-diagnostic-20260906/RESULT.md) ended inside check-synth; its internal solver cause remains unknown. Do not rerun those frozen assignments as a new result. The component/language experiments below are supporting or later work, not prerequisites that displace F0.
+
 [Read first](CORE.md) · use #115 for engineering, #62 for learning, #73 for integrated comparisons, #38/#49 for acceptance.
 
 ## Define performance before optimizing it
@@ -25,7 +31,7 @@ If steady conditions permit it, report Q_break_even ≈ extra preparation / per-
 
 **Question:** are we measuring the same task, information and authority in each arm?
 
-Recover the uncommitted M12 comparator patch onto current main selectively. Its exposed A/E implementation is not whole-system parity. Qualify shared speaker attribution, language lessons, transfer inputs, restart and withdrawal before interpreting performance differences.
+The corrected M12 comparator is merged and source-qualified at its recorded scope. Preserve its receipt identity; add only capability comparisons required by the next proof experiment. Existing engineering qualification does not establish whole-system parity or novelty.
 
 Create one public development stream with raw language requests, acquisition, unrelated tasks, correction, restart, method withdrawal and repeated solving. Freeze source/model/checker/task identities and capture the entire process tree.
 
@@ -68,11 +74,11 @@ Compare one representation dimension at a time: append backend, dependency index
 
 **Adopt:** exactness and complete measured gain in the declared ecology. No universal O(k) statement. **Owner:** #115 FK-5–9/#70/#72.
 
-## E3 — end-to-end language and learned communication
+## E3 — later language and learned communication
 
 **Hypothesis:** a compact listener/speaker can acquire useful new families and retain them through revision.
 
-First complete the explicitly seeded text→task→checked answer→English fixture. Then freeze TRAIN, DEV and protected semantic families, including unseen vocabulary/construction combinations, role reversal, negation, scope, quantities, ambiguous references and an artificial/non-English order.
+The explicitly seeded text→task→checked answer→English fixture is qualified apparatus. For later language research, freeze TRAIN, DEV and protected semantic families, including unseen vocabulary/construction combinations, role reversal, negation, scope, quantities, ambiguous references and an artificial/non-English order.
 
 Compare persistent conventional construction memory, reset learner and OCM; expose the same examples and corrections. Report initial authored priors and donor model training information separately from acquired competence.
 
@@ -82,7 +88,7 @@ Grade exact task meaning, response semantic fidelity, task completion and approp
 
 ## E4 — composition and acquired-method utility
 
-**Question 1:** did the learner produce usable structure? Execute the already prepared saved-predicate consumption assay under #62. It is public development and cannot become protected evidence.
+**Question 1:** did the learner produce usable structure? The saved-predicate #62 assay has executed with CANNOT_CHECK_CONSUMPTION; retain that public result. The next flagship acquisition test uses explicit proof methods under the separately registered F0–F4 protocol.
 
 **Question 2:** does acquired structure causally improve later tasks? Use a frozen library and later distinct semantic functions, including related, unrelated and adverse-transfer families. Record observed search use or verified executable-application use, distinguishing both from final macro text and reconstruction. Unobservable search internals remain unknown.
 
@@ -91,7 +97,7 @@ Use a 2×2 design where feasible:
 | System | Fixed library | Adaptive library |
 |---|---|---|
 | Strong native persistent pipeline | N-fixed | N-adaptive |
-| OCM with same donors/powers | O-fixed | O-adaptive |
+| OCM with same permitted algorithms/powers | O-fixed | O-adaptive |
 
 N-adaptive versus N-fixed tests donor learning. O-adaptive versus O-fixed tests learning within OCM. O-adaptive versus N-adaptive tests the complete-system difference. The interaction (O-adaptive−O-fixed)−(N-adaptive−N-fixed) estimates an incremental learning effect on the predeclared outcome scale; targeted coupling ablations are still required to attribute it to a particular mechanism. Give comparators matched provenance, checks, history and acquisition opportunities.
 
@@ -99,11 +105,11 @@ Include removal of the learned structure, primitive-alias normalization, shuffle
 
 **Adopt:** higher later capability or cheaper complete lifetime at matched capability. Alias-only syntax reduction remains a representation result unless later utility is measured. **Owner:** #62/#71/#73.
 
-## E5 — protected two-domain machine test
+## E5 — later protected two-domain machine test
 
 Run language interaction and verified procedural/mathematical tasks through the same field/lifecycle. Use multiple independent lifetimes with related and unrelated tasks, order variation and interventions.
 
-Primary comparators: strongest faithful native persistent system and a qualified strong LLM with the same documents, tools, memory, feedback and adaptation opportunities. Domain-specialized donors remain comparators even when OCM adopts them. Model names, versions, prompts, access and costs are frozen at launch.
+Primary comparators: strongest faithful native persistent system and a qualified strong LLM with the same documents, tools, memory, feedback and adaptation opportunities. Only qualified non-neural mechanisms may enter OCM; neural systems remain external-only references. Historical actual donor use is not relabelled. Model names, versions, prompts, access and costs are frozen at launch.
 
 Select quality non-inferiority margins from task consequences before outcomes. Determine independent lifetime count from development variance/precision or power analysis. Repeated calls in one lifetime and tasks sharing a template are not independent samples. Preserve clustering, report paired uncertainty and predeclare primary endpoints/multiplicity handling.
 
