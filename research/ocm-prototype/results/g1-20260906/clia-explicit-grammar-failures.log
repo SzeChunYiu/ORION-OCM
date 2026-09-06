@@ -1,0 +1,99 @@
+FFFFF.................                                                   [100%]
+=================================== FAILURES ===================================
+____ test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_max3] ____
+
+task_id = 'jmbl_fg_max3'
+
+    @pytest.mark.parametrize('task_id', IDS)
+    def test_actual_public_solver_outputs_pass_independent_check(task_id):
+        tasks, solver, checker = api()
+        task = tasks.load_task(task_id)
+        assert task['original_sygus'] and task['sygus'] and task['source']['sha256']
+        result = solver.propose(task)
+>       assert result['status'] == 'SOLUTION', result
+E       AssertionError: {'grammar_id': 'ocm.clia-total-expressions.v1', 'metrics': {'envelope_wall_s': 15.013967023987789, 'external_deadline_s': 15, 'native_timeout_ms': 5000, 'peak_rss_kib': None, ...}, 'native_invoked': True, 'reason': 'EXTERNAL_TIMEOUT', ...}
+E       assert 'CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK
+
+research/ocm-prototype/test_clia_contract.py:24: AssertionError
+___ test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_max10] ____
+
+task_id = 'jmbl_fg_max10'
+
+    @pytest.mark.parametrize('task_id', IDS)
+    def test_actual_public_solver_outputs_pass_independent_check(task_id):
+        tasks, solver, checker = api()
+        task = tasks.load_task(task_id)
+        assert task['original_sygus'] and task['sygus'] and task['source']['sha256']
+        result = solver.propose(task)
+>       assert result['status'] == 'SOLUTION', result
+E       AssertionError: {'grammar_id': 'ocm.clia-total-expressions.v1', 'metrics': {'envelope_wall_s': 15.01664880599128, 'external_deadline_s': 15, 'native_timeout_ms': 5000, 'peak_rss_kib': None, ...}, 'native_invoked': True, 'reason': 'EXTERNAL_TIMEOUT', ...}
+E       assert 'CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK
+
+research/ocm-prototype/test_clia_contract.py:24: AssertionError
+_ test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_array_search_4] _
+
+task_id = 'jmbl_fg_array_search_4'
+
+    @pytest.mark.parametrize('task_id', IDS)
+    def test_actual_public_solver_outputs_pass_independent_check(task_id):
+        tasks, solver, checker = api()
+        task = tasks.load_task(task_id)
+        assert task['original_sygus'] and task['sygus'] and task['source']['sha256']
+        result = solver.propose(task)
+>       assert result['status'] == 'SOLUTION', result
+E       AssertionError: {'grammar_id': 'ocm.clia-total-expressions.v1', 'metrics': {'envelope_wall_s': 15.015793928992935, 'external_deadline_s': 15, 'native_timeout_ms': 5000, 'peak_rss_kib': None, ...}, 'native_invoked': True, 'reason': 'EXTERNAL_TIMEOUT', ...}
+E       assert 'CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK
+
+research/ocm-prototype/test_clia_contract.py:24: AssertionError
+_ test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_array_search_10] _
+
+task_id = 'jmbl_fg_array_search_10'
+
+    @pytest.mark.parametrize('task_id', IDS)
+    def test_actual_public_solver_outputs_pass_independent_check(task_id):
+        tasks, solver, checker = api()
+        task = tasks.load_task(task_id)
+        assert task['original_sygus'] and task['sygus'] and task['source']['sha256']
+        result = solver.propose(task)
+>       assert result['status'] == 'SOLUTION', result
+E       AssertionError: {'grammar_id': 'ocm.clia-total-expressions.v1', 'metrics': {'envelope_wall_s': 15.018181030987762, 'external_deadline_s': 15, 'native_timeout_ms': 5000, 'peak_rss_kib': None, ...}, 'native_invoked': True, 'reason': 'EXTERNAL_TIMEOUT', ...}
+E       assert 'CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK
+
+research/ocm-prototype/test_clia_contract.py:24: AssertionError
+_ test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_mpg_guard2] _
+
+task_id = 'jmbl_fg_mpg_guard2'
+
+    @pytest.mark.parametrize('task_id', IDS)
+    def test_actual_public_solver_outputs_pass_independent_check(task_id):
+        tasks, solver, checker = api()
+        task = tasks.load_task(task_id)
+        assert task['original_sygus'] and task['sygus'] and task['source']['sha256']
+        result = solver.propose(task)
+>       assert result['status'] == 'SOLUTION', result
+E       AssertionError: {'grammar_id': 'ocm.clia-total-expressions.v1', 'metrics': {'envelope_wall_s': 15.015527041017776, 'external_deadline_s': 15, 'native_timeout_ms': 5000, 'peak_rss_kib': None, ...}, 'native_invoked': True, 'reason': 'EXTERNAL_TIMEOUT', ...}
+E       assert 'CANNOT_CHECK' == 'SOLUTION'
+E         
+E         - SOLUTION
+E         + CANNOT_CHECK
+
+research/ocm-prototype/test_clia_contract.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED research/ocm-prototype/test_clia_contract.py::test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_max3]
+FAILED research/ocm-prototype/test_clia_contract.py::test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_max10]
+FAILED research/ocm-prototype/test_clia_contract.py::test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_array_search_4]
+FAILED research/ocm-prototype/test_clia_contract.py::test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_array_search_10]
+FAILED research/ocm-prototype/test_clia_contract.py::test_actual_public_solver_outputs_pass_independent_check[jmbl_fg_mpg_guard2]
+5 failed, 17 passed in 75.37s (0:01:15)

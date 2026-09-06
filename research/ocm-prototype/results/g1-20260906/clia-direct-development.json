@@ -1,0 +1,680 @@
+{
+  "classification": "PUBLIC_DEVELOPMENT_ONLY",
+  "source_head": "a10ba0270553860adae9c656dc6ca779ff75e6aa",
+  "source_files": {
+    "research/ocm-prototype/clia_checker.py": {
+      "sha256": "d3c4d2062170afc209263e9cd1f8038c46001381fb5dbc78df4a89dab2363d3a",
+      "bytes": 3728,
+      "lines": 64
+    },
+    "research/ocm-prototype/clia_grammar.py": {
+      "sha256": "9d24501dfebc535ad8c92a9978f90e237a07f150ecf96a5a346ba2c07b1a05db",
+      "bytes": 6872,
+      "lines": 132
+    },
+    "research/ocm-prototype/clia_process.py": {
+      "sha256": "ae5e36c200802af1723911a56e4a0d59dba1f17fbad56079cd8f51f575f2dff2",
+      "bytes": 2616,
+      "lines": 50
+    },
+    "research/ocm-prototype/clia_solver.py": {
+      "sha256": "a783cf18f5d1197c27b78c9b8fae18e638d4f5a558c9e0ae52803c80c02da92c",
+      "bytes": 1132,
+      "lines": 21
+    },
+    "research/ocm-prototype/clia_tasks.py": {
+      "sha256": "2e538701d3018e1a0fcc2610d5b7d4d246d716fefd203654b303760ff9b573a9",
+      "bytes": 3073,
+      "lines": 61
+    },
+    "research/ocm-prototype/clia_worker.py": {
+      "sha256": "470d95cbb7b08a5528b750aac4a7cc716d7dac194c8fd9c9d8719cea2c44cb94",
+      "bytes": 3028,
+      "lines": 69
+    },
+    "research/ocm-prototype/test_clia_contract.py": {
+      "sha256": "5b37088c82cb3399fd641a658d403fb8b3bb4d35ae8983d9278558e67e222875",
+      "bytes": 5636,
+      "lines": 110
+    },
+    "research/ocm-prototype/clia_fixtures/NOTICE.md": {
+      "sha256": "a1199b343b518649b6e8ffb8a75b9d7b90387c233d1dca452efac08512ac9163",
+      "bytes": 654,
+      "lines": 7
+    },
+    "research/ocm-prototype/clia_fixtures/jmbl_fg_array_search_10.sl": {
+      "sha256": "aeedc3fe0f563975fbaf4b10e3737cfbb868b9564b136513c89b13388b0a7af2",
+      "bytes": 2949,
+      "lines": 29
+    },
+    "research/ocm-prototype/clia_fixtures/jmbl_fg_array_search_4.sl": {
+      "sha256": "65beefa38935509f3c418a22e4d7402e367a652372a7a65f920c5f36fe67ae3f",
+      "bytes": 774,
+      "lines": 17
+    },
+    "research/ocm-prototype/clia_fixtures/jmbl_fg_max10.sl": {
+      "sha256": "4d49b875539571fef816cc17a80618a6ab1fa5e7d3ccfbc36f56071e22bab300",
+      "bytes": 1501,
+      "lines": 28
+    },
+    "research/ocm-prototype/clia_fixtures/jmbl_fg_max3.sl": {
+      "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+      "bytes": 327,
+      "lines": 14
+    },
+    "research/ocm-prototype/clia_fixtures/jmbl_fg_mpg_guard2.sl": {
+      "sha256": "2305bef24fcb825fbb837464f5e3d3e9d38afad1a732152b1c138a08fdf6fb05",
+      "bytes": 1797,
+      "lines": 47
+    },
+    "research/ocm-prototype/clia_fixtures/manifest.json": {
+      "sha256": "39e115154a5ceda91cee2c010a738235f121c863485acbc833aadb15b580f22e",
+      "bytes": 2842,
+      "lines": 51
+    }
+  },
+  "capture_sha256": "95a70da4388c3ac1a317e5769be4fd1f4afd4f2b9c4fc9b467d112a48df88cd4",
+  "rows": [
+    {
+      "task": {
+        "kind": "clia",
+        "task_id": "jmbl_fg_max3",
+        "source": {
+          "file": "jmbl_fg_max3.sl",
+          "sha256": "799b91930a208bf352276a2cc23161673976f671543e67bb006b70aa332a356f",
+          "bytes": 327,
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max3.sl",
+          "family": "maximum",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred."
+        },
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int)\n\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n\n(check-synth)\n\n",
+        "sygus": "(set-logic LIA)\n(synth-fun mux_3 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (>= (mux_3 x y z) x))\n(constraint (>= (mux_3 x y z) y))\n(constraint (>= (mux_3 x y z) z))\n(constraint (or (= x (mux_3 x y z)) (or (= y (mux_3 x y z)) (= z (mux_3 x y z)))))\n(check-synth)\n",
+        "grammar": {
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "bounds": {
+            "candidate_bytes": 65536,
+            "ast_nodes": 20000,
+            "ast_depth": 160,
+            "integer_bits": 4096
+          },
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ]
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "01eca6482f1d06878ef5c5cb1c88f051f25c8137c636831d1333280734b2b362",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc"
+      },
+      "proposal": {
+        "status": "SOLUTION",
+        "native_invoked": true,
+        "metrics": {
+          "external_deadline_s": 15,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.032702559000000006,
+          "peak_rss_kib": 47384,
+          "worker_pid": 2799965,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 411,
+          "response_bytes": 667,
+          "worker_wall_s": 0.03285522499936633,
+          "envelope_wall_s": 0.07272475201170892
+        },
+        "candidate": "(\n(define-fun mux_3 ((x Int) (y Int) (z Int)) Int (let ((_let_1 (+ x (* (- 1) y)))) (let ((_let_2 (* (- 1) z))) (ite (and (>= _let_1 0) (>= (+ x _let_2) 0)) x (ite (and (>= (+ y _let_2) 0) (not (>= _let_1 1))) y z)))))\n)\n",
+        "solver_result": "solution",
+        "reason": "",
+        "solver": "cvc5 1.3.4",
+        "logical_counters_not_physical_cost": {
+          "global::totalTime": {
+            "default": false,
+            "internal": false,
+            "value": "10ms"
+          },
+          "resource::resourceUnitsUsed": {
+            "default": false,
+            "internal": true,
+            "value": 2769
+          }
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "grammar_preflight": "PASS",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "grammar_id": "ocm.clia-total-expressions.v1"
+      },
+      "check": {
+        "grammar": "PASS",
+        "semantic": "PASS",
+        "status": "PASS",
+        "native_checker_invoked": true,
+        "metrics": {
+          "grammar_wall_s": 0.0008198380237445235,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.028170966,
+          "peak_rss_kib": 57956,
+          "worker_pid": 2799969,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 507,
+          "response_bytes": 196,
+          "worker_wall_s": 0.028041208017384633,
+          "envelope_wall_s": 0.06896575601422228,
+          "check_total_wall_s": 0.06981031800387427,
+          "host_check_cpu_s": 0.001225030000000002
+        },
+        "verification_sha256": "f5968d21bcb960dd9c6627b66250818ae49989768f89f0618418abaaebd51790",
+        "task_sha256": "c781247fce36a1f3c9548e53cb916e4e02b06380b3d9b7403da12f964d58e6dc",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "solver_result": "unsat",
+        "solver": "Z3 5.1.0.0"
+      }
+    },
+    {
+      "task": {
+        "kind": "clia",
+        "task_id": "jmbl_fg_max10",
+        "source": {
+          "file": "jmbl_fg_max10.sl",
+          "sha256": "4d49b875539571fef816cc17a80618a6ab1fa5e7d3ccfbc36f56071e22bab300",
+          "bytes": 1501,
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_max10.sl",
+          "family": "maximum",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred."
+        },
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun mux_10 ((x1 Int) (x2 Int) (x3 Int) (x4 Int) (x5 Int) (x6 Int) (x7 Int) (x8 Int) (x9 Int) (x10 Int)) Int)\n\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var x5 Int)\n(declare-var x6 Int)\n(declare-var x7 Int)\n(declare-var x8 Int)\n(declare-var x9 Int)\n(declare-var x10 Int)\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x1))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x2))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x3))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x4))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x5))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x6))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x7))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x8))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x9))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x10))\n(constraint (or (= x1 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x2 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x3 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x4 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x5 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x6 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x7 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x8 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x9 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (= x10 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10))))))))))))\n\n(check-synth)\n\n",
+        "sygus": "(set-logic LIA)\n(synth-fun mux_10 ((x1 Int) (x2 Int) (x3 Int) (x4 Int) (x5 Int) (x6 Int) (x7 Int) (x8 Int) (x9 Int) (x10 Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var x5 Int)\n(declare-var x6 Int)\n(declare-var x7 Int)\n(declare-var x8 Int)\n(declare-var x9 Int)\n(declare-var x10 Int)\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x1))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x2))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x3))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x4))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x5))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x6))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x7))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x8))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x9))\n(constraint (>= (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10) x10))\n(constraint (or (= x1 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x2 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x3 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x4 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x5 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x6 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x7 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x8 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (or (= x9 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10)) (= x10 (mux_10 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10))))))))))))\n(check-synth)\n",
+        "grammar": {
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "bounds": {
+            "candidate_bytes": 65536,
+            "ast_nodes": 20000,
+            "ast_depth": 160,
+            "integer_bits": 4096
+          },
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ]
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "7a7bd21ae7ea2820c8d516f679b617795233595cc0406226eabda3f12b8efbf5",
+        "task_sha256": "51a1a23475149970f505573212990e0f5ec8e57c3bbd2fe287aff021601b0a00"
+      },
+      "proposal": {
+        "status": "SOLUTION",
+        "native_invoked": true,
+        "metrics": {
+          "external_deadline_s": 15,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.4785046989999999,
+          "peak_rss_kib": 52176,
+          "worker_pid": 2799976,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 1599,
+          "response_bytes": 3609,
+          "worker_wall_s": 0.47850442098570056,
+          "envelope_wall_s": 0.5152298680040985
+        },
+        "candidate": "(\n(define-fun mux_10 ((x1 Int) (x2 Int) (x3 Int) (x4 Int) (x5 Int) (x6 Int) (x7 Int) (x8 Int) (x9 Int) (x10 Int)) Int (let ((_let_1 (* (- 1) x9))) (let ((_let_2 (+ x8 _let_1))) (let ((_let_3 (+ x7 _let_1))) (let ((_let_4 (+ x6 _let_1))) (let ((_let_5 (+ x5 _let_1))) (let ((_let_6 (+ x4 _let_1))) (let ((_let_7 (+ x3 _let_1))) (let ((_let_8 (+ x2 _let_1))) (let ((_let_9 (+ x1 _let_1))) (let ((_let_10 (* (- 1) x10))) (let ((_let_11 (* (- 1) x8))) (let ((_let_12 (+ x7 _let_11))) (let ((_let_13 (+ x6 _let_11))) (let ((_let_14 (+ x5 _let_11))) (let ((_let_15 (+ x4 _let_11))) (let ((_let_16 (+ x3 _let_11))) (let ((_let_17 (+ x2 _let_11))) (let ((_let_18 (+ x1 _let_11))) (let ((_let_19 (* (- 1) x7))) (let ((_let_20 (+ x6 _let_19))) (let ((_let_21 (+ x5 _let_19))) (let ((_let_22 (+ x4 _let_19))) (let ((_let_23 (+ x3 _let_19))) (let ((_let_24 (+ x2 _let_19))) (let ((_let_25 (+ x1 _let_19))) (let ((_let_26 (* (- 1) x6))) (let ((_let_27 (+ x5 _let_26))) (let ((_let_28 (+ x4 _let_26))) (let ((_let_29 (+ x3 _let_26))) (let ((_let_30 (+ x2 _let_26))) (let ((_let_31 (+ x1 _let_26))) (let ((_let_32 (* (- 1) x5))) (let ((_let_33 (+ x4 _let_32))) (let ((_let_34 (+ x3 _let_32))) (let ((_let_35 (+ x2 _let_32))) (let ((_let_36 (+ x1 _let_32))) (let ((_let_37 (* (- 1) x4))) (let ((_let_38 (+ x3 _let_37))) (let ((_let_39 (+ x2 _let_37))) (let ((_let_40 (+ x1 _let_37))) (let ((_let_41 (* (- 1) x3))) (let ((_let_42 (+ x2 _let_41))) (let ((_let_43 (+ x1 _let_41))) (let ((_let_44 (+ x1 (* (- 1) x2)))) (ite (and (>= _let_44 0) (>= _let_43 0) (>= _let_40 0) (>= _let_36 0) (>= _let_31 0) (>= _let_25 0) (>= _let_18 0) (>= _let_9 0) (>= (+ x1 _let_10) 0)) x1 (ite (and (>= _let_42 0) (>= _let_39 0) (>= _let_35 0) (>= _let_30 0) (>= _let_24 0) (>= _let_17 0) (>= _let_8 0) (>= (+ x2 _let_10) 0) (not (>= _let_44 1))) x2 (ite (and (>= _let_38 0) (>= _let_34 0) (>= _let_29 0) (>= _let_23 0) (>= _let_16 0) (>= _let_7 0) (>= (+ x3 _let_10) 0) (not (>= _let_43 1)) (not (>= _let_42 1))) x3 (ite (and (not (>= _let_40 1)) (>= _let_33 0) (>= _let_28 0) (>= _let_22 0) (>= _let_15 0) (>= _let_6 0) (>= (+ x4 _let_10) 0) (not (>= _let_39 1)) (not (>= _let_38 1))) x4 (ite (and (>= _let_27 0) (>= _let_21 0) (>= _let_14 0) (>= _let_5 0) (>= (+ x5 _let_10) 0) (not (>= _let_36 1)) (not (>= _let_35 1)) (not (>= _let_34 1)) (not (>= _let_33 1))) x5 (ite (and (>= _let_20 0) (>= _let_13 0) (>= _let_4 0) (>= (+ x6 _let_10) 0) (not (>= _let_31 1)) (not (>= _let_30 1)) (not (>= _let_29 1)) (not (>= _let_28 1)) (not (>= _let_27 1))) x6 (ite (and (>= _let_12 0) (>= _let_3 0) (>= (+ x7 _let_10) 0) (not (>= _let_25 1)) (not (>= _let_24 1)) (not (>= _let_23 1)) (not (>= _let_22 1)) (not (>= _let_21 1)) (not (>= _let_20 1))) x7 (ite (and (>= _let_2 0) (>= (+ x8 _let_10) 0) (not (>= _let_18 1)) (not (>= _let_17 1)) (not (>= _let_16 1)) (not (>= _let_15 1)) (not (>= _let_14 1)) (not (>= _let_13 1)) (not (>= _let_12 1))) x8 (ite (and (>= (+ x9 _let_10) 0) (not (>= _let_9 1)) (not (>= _let_8 1)) (not (>= _let_7 1)) (not (>= _let_6 1)) (not (>= _let_5 1)) (not (>= _let_4 1)) (not (>= _let_3 1)) (not (>= _let_2 1))) x9 x10))))))))))))))))))))))))))))))))))))))))))))))))))))))\n)\n",
+        "solver_result": "solution",
+        "reason": "",
+        "solver": "cvc5 1.3.4",
+        "logical_counters_not_physical_cost": {
+          "global::totalTime": {
+            "default": false,
+            "internal": false,
+            "value": "454ms"
+          },
+          "resource::resourceUnitsUsed": {
+            "default": false,
+            "internal": true,
+            "value": 16767
+          }
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "grammar_preflight": "PASS",
+        "task_sha256": "51a1a23475149970f505573212990e0f5ec8e57c3bbd2fe287aff021601b0a00",
+        "grammar_id": "ocm.clia-total-expressions.v1"
+      },
+      "check": {
+        "grammar": "PASS",
+        "semantic": "PASS",
+        "status": "PASS",
+        "native_checker_invoked": true,
+        "metrics": {
+          "grammar_wall_s": 0.004067664995091036,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.130161829,
+          "peak_rss_kib": 58924,
+          "worker_pid": 2799981,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 4485,
+          "response_bytes": 195,
+          "worker_wall_s": 0.13005690998397768,
+          "envelope_wall_s": 0.16997293100575916,
+          "check_total_wall_s": 0.17406589598977007,
+          "host_check_cpu_s": 0.004516948
+        },
+        "verification_sha256": "5759f3d63f75b738e2c0056499edfc7de59f95a66396f7a359792439db397ec3",
+        "task_sha256": "51a1a23475149970f505573212990e0f5ec8e57c3bbd2fe287aff021601b0a00",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "solver_result": "unsat",
+        "solver": "Z3 5.1.0.0"
+      }
+    },
+    {
+      "task": {
+        "kind": "clia",
+        "task_id": "jmbl_fg_array_search_4",
+        "source": {
+          "file": "jmbl_fg_array_search_4.sl",
+          "sha256": "65beefa38935509f3c418a22e4d7402e367a652372a7a65f920c5f36fe67ae3f",
+          "bytes": 774,
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_array_search_4.sl",
+          "family": "sorted-array-search",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred."
+        },
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (k1 Int)) Int)\n\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var k Int)\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (< k x1) (= (findIdx x1 x2 x3 x4 k) 0))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (> k x4) (= (findIdx x1 x2 x3 x4 k) 4))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x1) (< k x2)) (= (findIdx x1 x2 x3 x4 k) 1))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x2) (< k x3)) (= (findIdx x1 x2 x3 x4 k) 2))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x3) (< k x4)) (= (findIdx x1 x2 x3 x4 k) 3))))\n\n(check-synth)\n\n",
+        "sygus": "(set-logic LIA)\n(synth-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (k1 Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (y1 y2 y3 y4 k1 OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var k Int)\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (< k x1) (= (findIdx x1 x2 x3 x4 k) 0))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (> k x4) (= (findIdx x1 x2 x3 x4 k) 4))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x1) (< k x2)) (= (findIdx x1 x2 x3 x4 k) 1))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x2) (< k x3)) (= (findIdx x1 x2 x3 x4 k) 2))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (< x3 x4))) (=> (and (> k x3) (< k x4)) (= (findIdx x1 x2 x3 x4 k) 3))))\n(check-synth)\n",
+        "grammar": {
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "bounds": {
+            "candidate_bytes": 65536,
+            "ast_nodes": 20000,
+            "ast_depth": 160,
+            "integer_bits": 4096
+          },
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ]
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "aaec4fb2df2775d059f42bf69a6d28c982e10c1b1ef493a4a125608f01ebcf57",
+        "task_sha256": "a749d493821bdb783128333026ce4962707472a2d8c8b357cdcffecaf4ad5b14"
+      },
+      "proposal": {
+        "status": "SOLUTION",
+        "native_invoked": true,
+        "metrics": {
+          "external_deadline_s": 15,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.038934036000000005,
+          "peak_rss_kib": 47892,
+          "worker_pid": 2799983,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 861,
+          "response_bytes": 1500,
+          "worker_wall_s": 0.03893998800776899,
+          "envelope_wall_s": 0.07372171198949218
+        },
+        "candidate": "(\n(define-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (k1 Int)) Int (let ((_let_1 (* (- 1) k1))) (let ((_let_2 (+ y1 _let_1))) (let ((_let_3 (>= _let_2 1))) (let ((_let_4 (not _let_3))) (let ((_let_5 (+ y4 _let_1))) (let ((_let_6 (>= _let_5 1))) (let ((_let_7 (+ y3 _let_1))) (let ((_let_8 (>= _let_7 0))) (let ((_let_9 (or _let_8 (not _let_6)))) (let ((_let_10 (>= _let_7 1))) (let ((_let_11 (+ y2 _let_1))) (let ((_let_12 (>= _let_11 0))) (let ((_let_13 (or _let_12 (not _let_10)))) (let ((_let_14 (>= _let_5 0))) (let ((_let_15 (>= _let_11 1))) (let ((_let_16 (>= _let_2 0))) (let ((_let_17 (or _let_16 (not _let_15)))) (ite (and (not (>= (+ y1 (* (- 1) y2)) 0)) (not (>= (+ y2 (* (- 1) y3)) 0)) (not (>= (+ y3 (* (- 1) y4)) 0)) (or _let_3 (not _let_14) (and (not _let_12) _let_10) (and (not _let_8) _let_6) (and (not _let_16) _let_15))) (ite (and _let_14 _let_13 _let_9 _let_17) 0 (ite (and _let_14 _let_13 _let_17 _let_4) 3 (ite (and _let_14 _let_9 _let_17 _let_4) 2 (ite (and _let_14 _let_13 _let_9 _let_4) 1 4)))) (- 1))))))))))))))))))))\n)\n",
+        "solver_result": "solution",
+        "reason": "",
+        "solver": "cvc5 1.3.4",
+        "logical_counters_not_physical_cost": {
+          "global::totalTime": {
+            "default": false,
+            "internal": false,
+            "value": "17ms"
+          },
+          "resource::resourceUnitsUsed": {
+            "default": false,
+            "internal": true,
+            "value": 11589
+          }
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "grammar_preflight": "PASS",
+        "task_sha256": "a749d493821bdb783128333026ce4962707472a2d8c8b357cdcffecaf4ad5b14",
+        "grammar_id": "ocm.clia-total-expressions.v1"
+      },
+      "check": {
+        "grammar": "PASS",
+        "semantic": "PASS",
+        "status": "PASS",
+        "native_checker_invoked": true,
+        "metrics": {
+          "grammar_wall_s": 0.0018625230004545301,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.028061167999999997,
+          "peak_rss_kib": 56884,
+          "worker_pid": 2799984,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 1756,
+          "response_bytes": 205,
+          "worker_wall_s": 0.028034027985995635,
+          "envelope_wall_s": 0.06626875000074506,
+          "check_total_wall_s": 0.06816790899029002,
+          "host_check_cpu_s": 0.0022716400000000053
+        },
+        "verification_sha256": "c54e1bfd470e262f17211e0a395cc394eb91e1260bb1dc4629e315ef1a0214ab",
+        "task_sha256": "a749d493821bdb783128333026ce4962707472a2d8c8b357cdcffecaf4ad5b14",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "solver_result": "unsat",
+        "solver": "Z3 5.1.0.0"
+      }
+    },
+    {
+      "task": {
+        "kind": "clia",
+        "task_id": "jmbl_fg_array_search_10",
+        "source": {
+          "file": "jmbl_fg_array_search_10.sl",
+          "sha256": "aeedc3fe0f563975fbaf4b10e3737cfbb868b9564b136513c89b13388b0a7af2",
+          "bytes": 2949,
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_array_search_10.sl",
+          "family": "sorted-array-search",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred."
+        },
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (y5 Int) (y6 Int) (y7 Int) (y8 Int) (y9 Int) (y10 Int) (k1 Int)) Int)\n\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var x5 Int)\n(declare-var x6 Int)\n(declare-var x7 Int)\n(declare-var x8 Int)\n(declare-var x9 Int)\n(declare-var x10 Int)\n(declare-var k Int)\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (< k x1) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 0))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (> k x10) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 10))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x1) (< k x2)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 1))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x2) (< k x3)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 2))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x3) (< k x4)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 3))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x4) (< k x5)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 4))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x5) (< k x6)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 5))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x6) (< k x7)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 6))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x7) (< k x8)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 7))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x8) (< k x9)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 8))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x9) (< k x10)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 9))))\n\n(check-synth)\n\n",
+        "sygus": "(set-logic LIA)\n(synth-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (y5 Int) (y6 Int) (y7 Int) (y8 Int) (y9 Int) (y10 Int) (k1 Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 k1 OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(declare-var x1 Int)\n(declare-var x2 Int)\n(declare-var x3 Int)\n(declare-var x4 Int)\n(declare-var x5 Int)\n(declare-var x6 Int)\n(declare-var x7 Int)\n(declare-var x8 Int)\n(declare-var x9 Int)\n(declare-var x10 Int)\n(declare-var k Int)\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (< k x1) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 0))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (> k x10) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 10))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x1) (< k x2)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 1))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x2) (< k x3)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 2))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x3) (< k x4)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 3))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x4) (< k x5)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 4))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x5) (< k x6)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 5))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x6) (< k x7)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 6))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x7) (< k x8)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 7))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x8) (< k x9)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 8))))\n(constraint (=> (and (< x1 x2) (and (< x2 x3) (and (< x3 x4) (and (< x4 x5) (and (< x5 x6) (and (< x6 x7) (and (< x7 x8) (and (< x8 x9) (< x9 x10))))))))) (=> (and (> k x9) (< k x10)) (= (findIdx x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 k) 9))))\n(check-synth)\n",
+        "grammar": {
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "bounds": {
+            "candidate_bytes": 65536,
+            "ast_nodes": 20000,
+            "ast_depth": 160,
+            "integer_bits": 4096
+          },
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ]
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "6fd5cb26ca8a43b5b42bb3af255a53c490fa0a3b8c7485d322d1ec0ac0168ddc",
+        "task_sha256": "5d470549229879f6b90e941f165e8a7cfa7bcff7058eccac584bf830baee2476"
+      },
+      "proposal": {
+        "status": "SOLUTION",
+        "native_invoked": true,
+        "metrics": {
+          "external_deadline_s": 15,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.09900200399999999,
+          "peak_rss_kib": 50028,
+          "worker_pid": 2799987,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 3048,
+          "response_bytes": 3525,
+          "worker_wall_s": 0.09900567299337126,
+          "envelope_wall_s": 0.13475513400044292
+        },
+        "candidate": "(\n(define-fun findIdx ((y1 Int) (y2 Int) (y3 Int) (y4 Int) (y5 Int) (y6 Int) (y7 Int) (y8 Int) (y9 Int) (y10 Int) (k1 Int)) Int (let ((_let_1 (* (- 1) k1))) (let ((_let_2 (+ y1 _let_1))) (let ((_let_3 (>= _let_2 1))) (let ((_let_4 (not _let_3))) (let ((_let_5 (+ y10 _let_1))) (let ((_let_6 (>= _let_5 1))) (let ((_let_7 (+ y9 _let_1))) (let ((_let_8 (>= _let_7 0))) (let ((_let_9 (or _let_8 (not _let_6)))) (let ((_let_10 (>= _let_7 1))) (let ((_let_11 (+ y8 _let_1))) (let ((_let_12 (>= _let_11 0))) (let ((_let_13 (or _let_12 (not _let_10)))) (let ((_let_14 (>= _let_11 1))) (let ((_let_15 (+ y7 _let_1))) (let ((_let_16 (>= _let_15 0))) (let ((_let_17 (or _let_16 (not _let_14)))) (let ((_let_18 (>= _let_15 1))) (let ((_let_19 (+ y6 _let_1))) (let ((_let_20 (>= _let_19 0))) (let ((_let_21 (or _let_20 (not _let_18)))) (let ((_let_22 (>= _let_19 1))) (let ((_let_23 (+ y5 _let_1))) (let ((_let_24 (>= _let_23 0))) (let ((_let_25 (or _let_24 (not _let_22)))) (let ((_let_26 (>= _let_23 1))) (let ((_let_27 (+ y4 _let_1))) (let ((_let_28 (>= _let_27 0))) (let ((_let_29 (or _let_28 (not _let_26)))) (let ((_let_30 (>= _let_27 1))) (let ((_let_31 (+ y3 _let_1))) (let ((_let_32 (>= _let_31 0))) (let ((_let_33 (or _let_32 (not _let_30)))) (let ((_let_34 (>= _let_31 1))) (let ((_let_35 (+ y2 _let_1))) (let ((_let_36 (>= _let_35 0))) (let ((_let_37 (or _let_36 (not _let_34)))) (let ((_let_38 (>= _let_5 0))) (let ((_let_39 (>= _let_35 1))) (let ((_let_40 (>= _let_2 0))) (let ((_let_41 (or _let_40 (not _let_39)))) (ite (and (not (>= (+ y1 (* (- 1) y2)) 0)) (not (>= (+ y2 (* (- 1) y3)) 0)) (not (>= (+ y3 (* (- 1) y4)) 0)) (not (>= (+ y4 (* (- 1) y5)) 0)) (not (>= (+ y5 (* (- 1) y6)) 0)) (not (>= (+ y6 (* (- 1) y7)) 0)) (not (>= (+ y7 (* (- 1) y8)) 0)) (not (>= (+ y8 (* (- 1) y9)) 0)) (not (>= (+ y9 (* (- 1) y10)) 0)) (or _let_3 (not _let_38) (and (not _let_36) _let_34) (and (not _let_32) _let_30) (and (not _let_28) _let_26) (and (not _let_24) _let_22) (and (not _let_20) _let_18) (and (not _let_16) _let_14) (and (not _let_12) _let_10) (and (not _let_8) _let_6) (and (not _let_40) _let_39))) (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_21 _let_17 _let_13 _let_9 _let_41) 0 (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_21 _let_17 _let_13 _let_41 _let_4) 9 (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_21 _let_17 _let_9 _let_41 _let_4) 8 (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_21 _let_13 _let_9 _let_41 _let_4) 7 (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_17 _let_13 _let_9 _let_41 _let_4) 6 (ite (and _let_38 _let_37 _let_33 _let_29 _let_21 _let_17 _let_13 _let_9 _let_41 _let_4) 5 (ite (and _let_38 _let_37 _let_33 _let_25 _let_21 _let_17 _let_13 _let_9 _let_41 _let_4) 4 (ite (and _let_38 _let_37 _let_29 _let_25 _let_21 _let_17 _let_13 _let_9 _let_41 _let_4) 3 (ite (and _let_38 _let_33 _let_29 _let_25 _let_21 _let_17 _let_13 _let_9 _let_41 _let_4) 2 (ite (and _let_38 _let_37 _let_33 _let_29 _let_25 _let_21 _let_17 _let_13 _let_9 _let_4) 1 10)))))))))) (- 1))))))))))))))))))))))))))))))))))))))))))))\n)\n",
+        "solver_result": "solution",
+        "reason": "",
+        "solver": "cvc5 1.3.4",
+        "logical_counters_not_physical_cost": {
+          "global::totalTime": {
+            "default": false,
+            "internal": false,
+            "value": "76ms"
+          },
+          "resource::resourceUnitsUsed": {
+            "default": false,
+            "internal": true,
+            "value": 60930
+          }
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "grammar_preflight": "PASS",
+        "task_sha256": "5d470549229879f6b90e941f165e8a7cfa7bcff7058eccac584bf830baee2476",
+        "grammar_id": "ocm.clia-total-expressions.v1"
+      },
+      "check": {
+        "grammar": "PASS",
+        "semantic": "PASS",
+        "status": "PASS",
+        "native_checker_invoked": true,
+        "metrics": {
+          "grammar_wall_s": 0.007227268011774868,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.034146113,
+          "peak_rss_kib": 56656,
+          "worker_pid": 2799995,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 5842,
+          "response_bytes": 194,
+          "worker_wall_s": 0.0341123029938899,
+          "envelope_wall_s": 0.07282523400499485,
+          "check_total_wall_s": 0.08007781402557157,
+          "host_check_cpu_s": 0.0076557130000000015
+        },
+        "verification_sha256": "673e845f074ffb32e146ebdaefefba4c08035a140180b181fd2026413305858c",
+        "task_sha256": "5d470549229879f6b90e941f165e8a7cfa7bcff7058eccac584bf830baee2476",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "solver_result": "unsat",
+        "solver": "Z3 5.1.0.0"
+      }
+    },
+    {
+      "task": {
+        "kind": "clia",
+        "task_id": "jmbl_fg_mpg_guard2",
+        "source": {
+          "file": "jmbl_fg_mpg_guard2.sl",
+          "sha256": "2305bef24fcb825fbb837464f5e3d3e9d38afad1a732152b1c138a08fdf6fb05",
+          "bytes": 1797,
+          "url": "https://raw.githubusercontent.com/SyGuS-Org/benchmarks/13c8deb68a873635879c9a69bc78caebd340f646/comp/2019/CLIA_Track/from_2018/jmbl_fg_mpg_guard2.sl",
+          "family": "mpg-guard",
+          "split": "PUBLIC_DEVELOPMENT_ONLY",
+          "license": "No license declared in upstream repository root at inspected revision; no additional license grant inferred."
+        },
+        "original_sygus": "(set-logic LIA)\n\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int)\n\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int\n    (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int\n    (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int\n    (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int\n    (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int\n    (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int\n    (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int\n    (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int\n    (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool\n    (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int\n    b1)\n(define-fun two_times ((b1 Int)) Int\n    (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int\n    (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int\n    (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int\n    (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int\n    (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int\n    (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n\n(check-synth)\n\n",
+        "sygus": "(set-logic LIA)\n(synth-fun eq_1 ((x Int) (y Int) (z Int)) Int ((OCM_I Int) (OCM_B Bool) (OCM_K Int)) ((OCM_I Int (x y z OCM_K (+ OCM_I OCM_I) (- OCM_I OCM_I) (- OCM_I) (* OCM_K OCM_I) (* OCM_I OCM_K) (ite OCM_B OCM_I OCM_I))) (OCM_B Bool (true false (and OCM_B OCM_B) (or OCM_B OCM_B) (not OCM_B) (=> OCM_B OCM_B) (= OCM_I OCM_I) (< OCM_I OCM_I) (<= OCM_I OCM_I) (> OCM_I OCM_I) (>= OCM_I OCM_I))) (OCM_K Int ((Constant Int)))))\n(define-fun im ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (and b1 b2) (and (not b1) b3)))\n(define-fun plus_2 ((b1 Int) (b2 Int)) Int (+ b1 b2))\n(define-fun plus_3 ((b1 Int) (b2 Int) (b3 Int)) Int (+ (+ b1 b2) b3))\n(define-fun plus_4 ((b1 Int) (b2 Int) (b3 Int) (b4 Int)) Int (+ (plus_3 b1 b2 b3) b4))\n(define-fun plus_5 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int)) Int (+ (plus_4 b1 b2 b3 b4) b5))\n(define-fun plus_6 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int)) Int (+ (plus_5 b1 b2 b3 b4 b5) b6))\n(define-fun plus_7 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int)) Int (+ (plus_6 b1 b2 b3 b4 b5 b6) b7))\n(define-fun plus_8 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int)) Int (+ (plus_7 b1 b2 b3 b4 b5 b6 b7) be))\n(define-fun plus_9 ((b1 Int) (b2 Int) (b3 Int) (b4 Int) (b5 Int) (b6 Int) (b7 Int) (be Int) (bn Int)) Int (+ (plus_8 b1 b2 b3 b4 b5 b6 b7 be) bn))\n(define-fun or3 ((b1 Bool) (b2 Bool) (b3 Bool)) Bool (or (or b1 b2) b3))\n(define-fun one_times ((b1 Int)) Int b1)\n(define-fun two_times ((b1 Int)) Int (plus_2 b1 b1))\n(define-fun three_times ((b1 Int)) Int (plus_3 b1 b1 b1))\n(define-fun five_times ((b1 Int)) Int (plus_5 b1 b1 b1 b1 b1))\n(define-fun seven_times ((b1 Int)) Int (plus_7 b1 b1 b1 b1 b1 b1 b1))\n(define-fun nine_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 b1))\n(define-fun ten_times ((b1 Int)) Int (plus_9 b1 b1 b1 b1 b1 b1 b1 b1 (plus_2 b1 b1)))\n(define-fun minus ((b1 Int)) Int (- 0 b1))\n(declare-var x Int)\n(declare-var y Int)\n(declare-var z Int)\n(constraint (im (>= (plus_3 x y z) 1) (= (eq_1 x y z) (plus_2 x y)) (= (eq_1 x y z) (plus_2 x (minus y)))))\n(check-synth)\n",
+        "grammar": {
+          "id": "ocm.clia-total-expressions.v1",
+          "integer": "parameter | integer literal | (+ I I...) | (- I) | (- I I...) | (* K I) | (* I K) | (ite B I I)",
+          "boolean": "true | false | (and B B...) | (or B B...) | (not B) | (=> B B) | (= I I) | (< I I) | (<= I I) | (> I I) | (>= I I)",
+          "constant": "K is a closed integer expression using literals, +, -, *; normalized to its exact integer value",
+          "let": "SMT-LIB simultaneous, unique, non-shadowing local bindings; only expression sharing, no recursion",
+          "bounds": {
+            "candidate_bytes": 65536,
+            "ast_nodes": 20000,
+            "ast_depth": 160,
+            "integer_bits": 4096
+          },
+          "normalization": "n-ary +/-/and/or fold; let expands without capture; closed arithmetic constant-folds",
+          "excluded": [
+            "division",
+            "modulo",
+            "nonlinear variable multiplication",
+            "quantifiers",
+            "function calls",
+            "extra SMT commands"
+          ]
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "adaptation": "Accepted implicit CLIA replaced by explicit total grammar; integer constants, linear operations and conditionals only. Let/n-ary/closed-constant normalization preserves this grammar. Host operational bounds additionally apply equally to all arms.",
+        "adapted_sha256": "09e33508d9dcf29833244aa4e44f1ac141679ec4b72058f5d7d326a39a9d9986",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97"
+      },
+      "proposal": {
+        "status": "SOLUTION",
+        "native_invoked": true,
+        "metrics": {
+          "external_deadline_s": 15,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.03196833,
+          "peak_rss_kib": 47292,
+          "worker_pid": 2799998,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 1914,
+          "response_bytes": 584,
+          "worker_wall_s": 0.031967632996384054,
+          "envelope_wall_s": 0.0686041469743941
+        },
+        "candidate": "(\n(define-fun eq_1 ((x Int) (y Int) (z Int)) Int (ite (and (>= (+ x y z) 1) (or (not (= y 0)) (not (>= (+ x z) 1)))) (+ x y) (+ x (* (- 1) y))))\n)\n",
+        "solver_result": "solution",
+        "reason": "",
+        "solver": "cvc5 1.3.4",
+        "logical_counters_not_physical_cost": {
+          "global::totalTime": {
+            "default": false,
+            "internal": false,
+            "value": "10ms"
+          },
+          "resource::resourceUnitsUsed": {
+            "default": false,
+            "internal": true,
+            "value": 3714
+          }
+        },
+        "native_search_contract": "Original implicit CLIA is a proposal-space overapproximation. Every returned usable proposal is independently filtered against the same explicit accepted grammar. No grammar reconstruction authority is trusted.",
+        "grammar_preflight": "PASS",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+        "grammar_id": "ocm.clia-total-expressions.v1"
+      },
+      "check": {
+        "grammar": "PASS",
+        "semantic": "PASS",
+        "status": "PASS",
+        "native_checker_invoked": true,
+        "metrics": {
+          "grammar_wall_s": 0.0026424940151628107,
+          "external_deadline_s": 10,
+          "native_timeout_ms": 5000,
+          "worker_cpu_s": 0.026526821,
+          "peak_rss_kib": 56128,
+          "worker_pid": 2799999,
+          "unmeasured": [
+            "energy",
+            "native internal active bytes",
+            "installation/pretraining costs"
+          ],
+          "request_bytes": 1889,
+          "response_bytes": 196,
+          "worker_wall_s": 0.026420139998663217,
+          "envelope_wall_s": 0.06492156299646012,
+          "check_total_wall_s": 0.0675846110098064,
+          "host_check_cpu_s": 0.002966674999999995
+        },
+        "verification_sha256": "5a91848443bb5039b3611994d3af8d204836c442e9dcbbf019401d4d8b7441c4",
+        "task_sha256": "1d6172d3cb9e848cc31a11eab9f18e1e3c59eaafd1bd2b93d893a78119a69a97",
+        "grammar_id": "ocm.clia-total-expressions.v1",
+        "solver_result": "unsat",
+        "solver": "Z3 5.1.0.0"
+      }
+    }
+  ],
+  "checker_1ms_diagnostic": {
+    "grammar": "PASS",
+    "semantic": "CANNOT_CHECK",
+    "status": "CANNOT_CHECK",
+    "native_checker_invoked": true,
+    "metrics": {
+      "grammar_wall_s": 0.004080802988028154,
+      "external_deadline_s": 10,
+      "native_timeout_ms": 1,
+      "worker_cpu_s": 0.026805851000000002,
+      "peak_rss_kib": 54996,
+      "worker_pid": 2800001,
+      "unmeasured": [
+        "energy",
+        "native internal active bytes",
+        "installation/pretraining costs"
+      ],
+      "request_bytes": 4482,
+      "response_bytes": 236,
+      "worker_wall_s": 0.026762314984807745,
+      "envelope_wall_s": 0.06415284299873747,
+      "check_total_wall_s": 0.06825713199214078,
+      "host_check_cpu_s": 0.004468124000000004
+    },
+    "verification_sha256": "5759f3d63f75b738e2c0056499edfc7de59f95a66396f7a359792439db397ec3",
+    "task_sha256": "51a1a23475149970f505573212990e0f5ec8e57c3bbd2fe287aff021601b0a00",
+    "grammar_id": "ocm.clia-total-expressions.v1",
+    "solver_result": "unknown",
+    "solver": "Z3 5.1.0.0",
+    "reason": "timeout"
+  },
+  "wall_s": 1.4110711889807135,
+  "host_cpu_s": 0.04213159400000001,
+  "terminated_child_cpu_s": 1.3692220000000002,
+  "measurement_scope": "Serial process envelope including host task loading/checking and terminated child CPU; no other children were launched by this process. Package installation/development and energy excluded.",
+  "pid": 2799964
+}

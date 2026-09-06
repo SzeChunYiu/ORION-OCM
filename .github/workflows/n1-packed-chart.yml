@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: ./scripts/m0_install_dev.sh
-      - name: Install independent polynomial checker
-        run: python -m pip install sympy==1.14.0
+      - name: Install pinned donor and independent checker dependencies
+        run: python -m pip install -r research/ocm-prototype/requirements-g1.txt
       - name: N1 parser and shared vessel lifecycle checks
         run: python -m pytest research/ocm-n1 research/ocm-prototype -q
