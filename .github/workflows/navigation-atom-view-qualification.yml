@@ -1,0 +1,51 @@
+name: Navigation atom-view qualification
+
+on:
+  push:
+    branches:
+      - perf/navigation-atom-view-20260906
+    paths:
+      - 'src/ocm/**'
+      - tests/m1/test_navigation_zero_copy.py
+      - .github/workflows/navigation-atom-view-qualification.yml
+
+permissions:
+  contents: write
+
+jobs:
+  qualify-and-record:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: perf/navigation-atom-view-20260906
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned development environment
+        run: ./scripts/m0_install_dev.sh
+      - name: Run navigation zero-copy and inherited M1 controls
+        run: python -m pytest -q tests/m1/test_navigation_zero_copy.py tests/m1/test_kso_core_checks.py tests/m1/test_mutants.py
+      - name: Run and select exact engineering gates
+        env:
+          PYTHONPATH: src
+        run: python tools/record_engineering_revision.py
+      - name: Verify all milestone wrappers against selected run
+        env:
+          PYTHONPATH: src
+        run: |
+          for m in $(seq 1 12); do
+            python "tools/m${m}_receipt.py" --verify
+          done
+      - name: Commit immutable engineering qualification
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/provenance/engineering_revisions/
+          if git diff --cached --quiet; then
+            echo "Recorder produced no new qualification bytes"
+            exit 1
+          fi
+          git commit -m "test: record navigation atom-view qualification"
+          git push origin HEAD:perf/navigation-atom-view-20260906
