@@ -48,6 +48,10 @@ def run(manifest_path):
     root = Path(manifest['output']); candidates = root/'candidates'
     verify_seal(candidates)
     receipt = json.loads((candidates/'receipt.json').read_text())
+    assigned_rows = receipt.get('rows')
+    if (not isinstance(assigned_rows, list) or any(not isinstance(row, dict) for row in assigned_rows)
+            or [row.get('route') for row in assigned_rows] != list(ROUTES)):
+        raise ValueError('sealed assignment sequence must be exactly C, E0, B')
     if receipt['manifest_sha256'] != sha(manifest_path):
         raise ValueError('capture manifest binding drift')
     output = root/'assessment'; output.mkdir()
@@ -67,6 +71,8 @@ def run(manifest_path):
                'expansion':{'status':'NOT_RUN'},'observed_calls':[]}
         try:
             verify(manifest); verify_seal(candidates)
+            if assigned.get('boundary_failure') or assigned.get('status') != 'CAPTURE_BOUNDARY_PASSED':
+                raise ValueError('candidate capture did not pass its frozen boundary')
             if 'capture' not in assigned:
                 raise ValueError('candidate route never completed capture')
             native = decode_result(candidates/route,assigned['capture'])

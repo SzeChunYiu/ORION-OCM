@@ -19,6 +19,9 @@ shared let dependencies before their corresponding fixes. GREEN tests exercise:
 - At most four checker slots; a failed helper equality cannot qualify consumption.
 - Raw-seal mutation and native-command drift refuse before checker dispatch.
 - Raw inventories remain verifiable after copying the complete evidence directory.
+- Post-dispatch drift retains one assignment row with its raw capture and boundary failure.
+- Failed boundaries cannot reach checking; duplicate, missing or reordered sealed
+  assignment lists refuse before assessment output or semantic calls.
 - Create-only candidate and assessment outputs prevent automatic retries.
 
 The pinned generation environment on laptop is used for these tests:
@@ -26,7 +29,8 @@ The pinned generation environment on laptop is used for these tests:
 ```sh
 /home/billy/orion-director-work/20260906/generation-env/bin/python -m pytest -q \
   research/ocm-prototype/generation_tests/test_later_consumption_contract.py \
-  research/ocm-prototype/generation_tests/test_later_consumption_protocol.py
+  research/ocm-prototype/generation_tests/test_later_consumption_protocol.py \
+  research/ocm-prototype/generation_tests/test_later_consumption_drift.py
 ```
 
 A source-only request preparation does not establish native parseability,

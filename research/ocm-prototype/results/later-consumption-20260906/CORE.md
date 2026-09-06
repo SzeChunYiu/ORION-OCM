@@ -5,6 +5,7 @@ researcher-designed integer absolute-difference task tests the consumption bound
 of the previously acquired `fn_0(h0) = not(h0 >= 1)` definition.
 
 - [Protocol and falsifiers](PROTOCOL.md): exact task, three parents, four-check ceiling.
+- [Unexecuted first preparation](preparation-history/eba6a712/HISTORY.md).
 - [Engineering controls](CONTROLS.md): source preservation and mocked refusal checks.
 - [Exact launch manifest](preparation/manifest.json): source, environment, task,
   library and request hashes; all prospective native launch commands.
