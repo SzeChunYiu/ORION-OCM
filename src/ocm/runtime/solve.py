@@ -27,6 +27,7 @@ from ocm.kso.resources import ResourceVector
 from ocm.kso.space import KnowledgeSpace, TypedRejection
 from ocm.kso.types import Authority, Scope
 from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile
+from .operator_index import SolveOperatorIndex
 
 
 class Status(str, Enum):
@@ -260,10 +261,19 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
     their registered backend; the candidate's warrant is bridge ⊗ inputs (KS-T20).  Nothing is
     written to the store here."""
     rv = frozenset(revoked)
-    amap = ks.atom_map()
+    amap = ks.atom_view
     candidates = []
     res = ResourceVector()
-    for op in ops:
+    if isinstance(ops, SolveOperatorIndex):
+        selected = ops.select(g.atoms)
+        candidate_ops = selected.operators
+        selection_work = {"mode": "EXACT_INPUT_INDEX", **selected.work}
+    else:
+        candidate_ops = ops
+        selection_work = {"mode": "FULL_SCAN", "catalogue_operators": len(ops),
+                          "operators_considered": len(ops), "index_probes": 0,
+                          "postings_examined": 0}
+    for op in candidate_ops:
         if not set(op.input_atoms) <= g.atoms:
             continue
         if not op.warrant.is_live(rv) or any(not amap[x].is_live(rv) for x in op.input_atoms):
@@ -277,7 +287,7 @@ def compose_stage(ks: KnowledgeSpace, ops: Sequence[OperatorSpec], g: EX.Reactin
         candidates.append((op, out, warrant))
         res = res + ResourceVector(composition_work=len(op.input_atoms), verification_calls=1)
     status = Status.PASS if candidates else Status.FAIL
-    return StageResult(Stage.COMPOSITION, status, "CANDIDATES_COMPOSED" if candidates else "NO_APPLICABLE_OPERATOR", object_ids=tuple(op.operator_id for op, _, _ in candidates), payload={"candidates": len(candidates)}, resources=res), candidates
+    return StageResult(Stage.COMPOSITION, status, "CANDIDATES_COMPOSED" if candidates else "NO_APPLICABLE_OPERATOR", object_ids=tuple(op.operator_id for op, _, _ in candidates), payload={"candidates": len(candidates), "operator_selection": selection_work}, resources=res), candidates
 
 
 def check_stage(candidates: Sequence[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile]], revoked: Iterable[Hashable]) -> tuple[StageResult, list[tuple[OperatorSpec, Mapping[str, Any], WarrantProfile, Status]]]:
