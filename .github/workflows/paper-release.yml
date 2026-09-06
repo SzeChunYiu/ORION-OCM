@@ -2,7 +2,7 @@ name: paper release binding
 on:
   push:
     branches: [main, "paper/**"]
-    paths: ["docs/paper/**", "tools/paper/**", "docs/provenance/PAPER_RELEASE_RECEIPT_V1.json", "docs/provenance/*.json", "research/**/*.json", "docs/theorems/*.json"]
+    paths: ["docs/paper/**", "tools/paper/**", "docs/provenance/*.json", "research/**/*.json", "docs/theorems/*.json"]
   pull_request:
     paths: ["docs/paper/**", "tools/paper/**"]
 jobs:
@@ -10,9 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Check out the theory repository (claims rows prefixed V2 read its files; missing working-tree files fall back to origin/main)
+        uses: actions/checkout@v4
+        with:
+          repository: SzeChunYiu/ORION-V2
+          path: theory-source
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - name: Claims map against the receipt-bound files
-        run: python tools/paper/verify_claims.py
+        run: python tools/paper/verify_claims.py --v2-root "$GITHUB_WORKSPACE/theory-source"
       - name: Release package binding (SHA256SUMS, manifest, receipt)
+        env: { PAPER_V2_ROOT: "${{ github.workspace }}/theory-source" }
         run: python tools/paper/build_release.py --verify

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -67,7 +68,10 @@ def package_paths(rows: list[dict]) -> tuple[list[str], list[str]]:
 
 
 def verification_counts() -> dict:
-    out = subprocess.run([sys.executable, str(ROOT / "tools/paper/verify_claims.py")], capture_output=True, text=True, cwd=ROOT)
+    cmd = [sys.executable, str(ROOT / "tools/paper/verify_claims.py")]
+    if os.environ.get("PAPER_V2_ROOT"):
+        cmd += ["--v2-root", os.environ["PAPER_V2_ROOT"]]
+    out = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
     last = [l for l in out.stdout.splitlines() if l.startswith("rows:")]
     counts = {}
     if last:
