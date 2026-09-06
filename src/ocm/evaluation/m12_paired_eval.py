@@ -1,11 +1,8 @@
-"""M12 V3: eight paired lifetimes (OCM vs whole-system parent) on per-lifetime protected streams.
+"""Historical M12 paired-lifetime rules; all new executions are engineering replays.
 
-The unit of inference is the lifetime (theory batch 6 F2).  For every family the per-lifetime
-score is the success rate inside that lifetime; the primary test is the exact sign test over the
-eight lifetime differences (ties dropped), the secondary statistic is the exact paired test inside
-each lifetime (reported per lifetime, never pooled).  Kill gates: the V2 gates plus the ledger-chain
-identity gate (F5) at every phase boundary.  `--manifest-only` writes the stream manifest (no
-outcome is read) so the pre-registration can bind its hash before the run.
+Frozen V3/V4/V5 evidence is preserved separately. Arithmetic diagnostics retain the
+historical sign-test rules, but no new run promotes their scientific conclusions.
+`--manifest-only` constructs stream metadata without executing a lifetime.
 """
 from __future__ import annotations
 
@@ -37,14 +34,11 @@ N_LIFETIMES = 8
 V4 = {"seed": "OCM-M12-V4", "out": ROOT / "research" / "ocm-m12" / "M12_PAIRED_LIFETIMES_EVAL_V4.json", "manifest": ROOT / "research" / "ocm-m12" / "M12_V4_STREAM_MANIFEST_V1.json", "prereg": ROOT / "research" / "ocm-m12" / "M12_LIFETIME_PREREGISTRATION_V4.md",
       "primary": "A_conversations", "secondary": ("A_post_deployment", "A_honest_unknown", "D_causal", "E_transfer", "F_integrity", "G_self_repair"), "alpha": 0.05}
 
-# V5 (issue #38 M12 gates; ledger S37/S38; V4 one-coin finding): fresh never-exposed streams on the CURRENT
-# runtime, prospectively matched transfer cells (phase_E matched_cells), the world-true out-of-scope half,
-# the same primary family and one-sided ≥ 7/8 rule, THREE inferential secondary families at α/3 (the
-# families whose per-lifetime differences are not a deterministic function of the planted design), and the
-# three categorical families (transfer, revision integrity, self-repair) pre-registered as CATEGORICAL:
-# reported per lifetime as win/tie/loss, never tested.  A V5 run is a protected pre-registered study only
-# when the pre-registration file is present, the stream manifest is regenerated identically and no gate
-# hits; the decision is then NOT relabelled (unlike replays of exposed streams).
+# V5 retains its historical rule and exposed streams for engineering diagnostics only.
+# Preregistration line 31 and issue #38 prohibit new protected authority on later runs.
+# Neither a matching manifest, an existing preregistration nor a new filename grants it.
+# The three categorical families remain descriptive; comparator corrections are separate.
+# Frozen original/replication records are verified as archived evidence, never regenerated.
 V5 = {"seed": "OCM-M12-V5", "out": ROOT / "research" / "ocm-m12" / "M12_PAIRED_LIFETIMES_EVAL_V5.json", "manifest": ROOT / "research" / "ocm-m12" / "M12_V5_STREAM_MANIFEST_V1.json", "prereg": ROOT / "research" / "ocm-m12" / "M12_LIFETIME_PREREGISTRATION_V5.md",
       "primary": "A_conversations", "secondary": ("A_post_deployment", "A_honest_unknown", "D_causal"), "categorical": ("E_transfer", "F_integrity", "G_self_repair"), "alpha": 0.05}
 
@@ -122,7 +116,7 @@ def main(argv=None) -> int:
     cfg = V5 if v5 else V4
     manifest_only = "--manifest-only" in argv
     out_path = new_output_path([a for a in argv if a not in ("--v4", "--v5", "--manifest-only")],
-        "Current engineering replay on historically exposed streams; new output required" if not v5 else "V5 protected study: the result path is written once; a second run needs a new output path")
+        "Current engineering replay on historically exposed streams; new output required")
     seed = cfg["seed"] if v4 else "OCM-M12-V3"
     manifest_path, prereg_path, out_default = (cfg["manifest"], cfg["prereg"], cfg["out"]) if v4 else (MANIFEST, PREREG, OUT)
     man_name = "M12_V5_STREAM_MANIFEST_V1" if v5 else ("M12_V4_STREAM_MANIFEST_V1" if v4 else "M12_V3_STREAM_MANIFEST_V1")
@@ -201,14 +195,14 @@ def main(argv=None) -> int:
         deterministic["collapsed_one_coin_families"] = [f for f, t_ in tests.items() if t_.get("collapsed_one_coin")]
     if v5:
         deterministic["categorical_families"] = {f: {k_: tests[f][k_] for k_ in ("wins", "ties", "losses", "collapsed_one_coin")} for f in cfg["categorical"]}
-        receipt_name, study_status = "M12_PAIRED_LIFETIMES_V5", "PROTECTED_PREREGISTERED_V5__FRESH_STREAMS_CURRENT_RUNTIME"
-    else:
-        deterministic["historical_rule_diagnostic"] = deterministic["decision"]
-        deterministic["decision"] = "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
-        receipt_name, study_status = "M12_PAIRED_LIFETIMES_ENGINEERING_REPLAY", "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS"
+    deterministic["historical_rule_diagnostic"] = deterministic["decision"]
+    deterministic["decision"] = "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION"
+    receipt_name = "M12_PAIRED_LIFETIMES_V5_ENGINEERING_REPLAY" if v5 else "M12_PAIRED_LIFETIMES_ENGINEERING_REPLAY"
+    study_status = "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS"
     out = {"receipt": receipt_name, "study_status": study_status, "preregistration_sha256": hashlib.sha256(prereg_path.read_bytes()).hexdigest() if prereg_path.exists() else None, "stream_manifest_sha256": man["sha256"], "lifetimes": N_LIFETIMES,
            "deterministic": deterministic, "phases": {arm: [r["phases"] for r in rs] for arm, rs in runs.items()}, "chains": [r["chain"] for r in runs["ocm"]], "information": {arm: [r["information"] for r in rs] for arm, rs in runs.items()}, "resources": {arm: [r["resources"] for r in rs] for arm, rs in runs.items()},
-           "rule": rule, "authority": "eight paired lifetimes on OCM-authored per-lifetime protected streams inside the bounded world; matched whole-system parent; no novelty claim"}
+           "rule": rule, "current_scientific_promotion": "NOT_ESTABLISHED", "protected_reevaluation": "NOT_RUN",
+           "authority": f"Engineering replay on exposed {'V5' if v5 else 'V4' if v4 else 'V3'} streams; historical-rule diagnostic only; comparator adequacy and scientific promotion are not established"}
     write_result(out_path, out)
     print(json.dumps({"decision": deterministic["decision"], "study_status": study_status, "gates": gates, "tests": {f: (t_["ocm_mean"], t_["parent_mean"], t_["positive"], t_["n_nonzero"], t_.get("p_one_sided", t_.get("p_two_sided")), t_["verdict"]) for f, t_ in tests.items()}}, indent=1))
     return 0

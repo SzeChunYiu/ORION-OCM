@@ -37,7 +37,7 @@ jobs:
         run: |
           python tools/m12_paired_receipt.py --verify
           python tools/m12_paired_v4_receipt.py --verify
-      - name: V5 protected study receipt (fresh streams, corrected runtime)
+      - name: Archived V5 custody; current scientific promotion not established
         run: python tools/m12_paired_v5_receipt.py --verify
       - name: Receipt chain verifies
         run: for t in m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12; do python tools/${t}_receipt.py --verify || exit 1; done; python tools/m12_reference_receipt.py --verify && python tools/m12_paired_receipt.py --verify && python tools/m12_paired_v4_receipt.py --verify

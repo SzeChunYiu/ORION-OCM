@@ -1,0 +1,116 @@
+{
+  "schema": "ocm.hosted-memory-path-qualification.v4",
+  "source_base_commit": "b7432a204e1a8bf2d3a22fb60014ff47931848c2",
+  "purpose": "Defensive memory-directory validation; no benchmark or scientific promotion.",
+  "change": "Reject symlink memory roots and lexical ancestors before resolution and stage creation; preserve ordinary-directory resume.",
+  "before": {
+    "exit_code": 1,
+    "base": "b7432a204e1a8bf2d3a22fb60014ff47931848c2",
+    "test_source_sha256": "6bf33e33eba2d84cd8bd4aafc11e7d23ae8e62a744eed1b00d6c735c833f2975",
+    "stage_source_sha256": "cdc0654709afc869075d678fb02ec3230522b6a3ad97d75005e61899ebfd696f",
+    "scope": "Synthetic temporary-directory regression only; fake model bytes and package metadata; no donor loaded or network/client calls",
+    "tests": 6,
+    "failures": 4,
+    "passed": 2,
+    "errors": 0,
+    "skipped": 0
+  },
+  "after": {
+    "offline": {
+      "exit_code": 0,
+      "wall_seconds": 0.6664117479813285,
+      "junit": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "pytest_seconds": 0.06
+    },
+    "full": {
+      "exit_code": 0,
+      "wall_seconds": 6.782653925009072,
+      "junit": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "pytest_seconds": 5.611
+    }
+  },
+  "source_bindings": {
+    "research/ocm-prototype/hosted_claude.py": "fa18db5cf1a4a63182282c49384c9da83c8ba58324c3d8a5a0600ddce4b90476",
+    "research/ocm-prototype/hosted_codex.py": "991d011335f8cd13c4e6c47620910744d662c5ee6cc375dcbc6275b536b6c84d",
+    "research/ocm-prototype/hosted_controls.py": "773f087084e1298e272a5eacbc1fe99bd3779e429cf1eb1d6a8f5d4fa5581881",
+    "research/ocm-prototype/hosted_custody.py": "bdd233ff96e93ca40c9f3dcb8c4fc4e806b445f05429caf2a10efa1664ebae3b",
+    "research/ocm-prototype/hosted_mcp.py": "0306eb99186ffb16a38a4c3b20df6daaab835fd9f0af57d6b52948000541fd5a",
+    "research/ocm-prototype/hosted_reference/BOUNDARY_STATUS.md": "a08aa3d13c15a72ef8edf6076ff5559284fcdb75458642e0987f51b3e24157f0",
+    "research/ocm-prototype/hosted_reference/README.md": "4a38339613106528805d0e15c46db6353921264aed0345cf7c85eff2c5a3915e",
+    "research/ocm-prototype/hosted_stage.py": "dff190b24571dbfa3579643c009c1240164ea4c4367026e983a4ad7187b60b73",
+    "research/ocm-prototype/hosted_tools.py": "ff4cd07c08f39eb09591b886174b0ac1b20d2e40ebbe4211d2ac0eec7c4a94b3",
+    "research/ocm-prototype/requirements-hosted.txt": "64b21da51cf875bed79de18f2f3fea82f7ee21fa6d5984c95a943990500297b1",
+    "research/ocm-prototype/test_hosted_catalogue.py": "0e5b8a1db8e2dd1f2b9764f3b798e56389102b812fa009a68967b456a6252717",
+    "research/ocm-prototype/test_hosted_claude.py": "0d7a1b3eee910b626df18fe8d8e0e20cbfa88396f3f43f72266cf33a4082a1c5",
+    "research/ocm-prototype/test_hosted_native.py": "1084ad50a49f3ce19407b65208431557b1acf25845dad50283bac187293493fa",
+    "research/ocm-prototype/test_hosted_memory.py": "6bf33e33eba2d84cd8bd4aafc11e7d23ae8e62a744eed1b00d6c735c833f2975"
+  },
+  "previous_source_binding": {
+    "path": "bindings/source-bindings-v3.json",
+    "sha256": "b0e3d9e01b28f4e7b698810942a3e0a390dce0f2d1639e31e20b67262c9d5255"
+  },
+  "fixed_model_sha256": "7bc9a92586cbac6ebd599b035f2f4d686edb7b000ffbed776a93d8e4a23eeea9",
+  "explicit_model_environment_variable": "OCM_HOSTED_MODEL_PATH",
+  "offline_scope": "Prior three validators plus six temporary-directory staging controls. Synthetic model bytes and mocked package identities are never donor inference. Isolated environment contains pytest 8.3.5, sexpdata 1.0.2 and their test dependencies.",
+  "full_scope": "Original eight actual local dummy-client/native boundary controls plus six temporary-directory staging controls; installed pinned native environment and unchanged trained donor.",
+  "hosted_provider_inference_requests": 0,
+  "authentication_operations": 0,
+  "ssh_qualification_rerun": false,
+  "boundary_limit": "Stable operator-owned paths required; no atomic protection against concurrent host filesystem mutation is claimed.",
+  "historical_generations": "V1/V2/V3 raw receipts retain exact bytes and earlier bindings. Prior stage, README and publication binding are archived; only V4 binds changed source.",
+  "sanitization": "Published logs/XML replace operator, repository, scratch and pytest roots; XML host is qualification-host. Original raw records remain in operator custody.",
+  "original_artifacts": {
+    "before.log": {
+      "original_sha256": "a3dd18a1876b01e00675aa0ba22dd15d741ca2a5cdf40686ef2ce0be6c1907bd",
+      "original_bytes": 5862,
+      "published_path": "tests/memory-path-v4-before.log",
+      "published_sha256": "fc53556b2d406b14669ebacd46a599a71f8de3aa4d233f74b617c069548740e9",
+      "published_bytes": 5692
+    },
+    "before.xml": {
+      "original_sha256": "b1d9f6c8089dc8c635f1184980757abff792df60944572d7218dd7a6adaac973",
+      "original_bytes": 6170,
+      "published_path": "tests/memory-path-v4-before.xml",
+      "published_sha256": "7580a22ce071f21950d26e194fd2a06ab81d81440bf70070a7b4b756b1191e52",
+      "published_bytes": 6097
+    },
+    "offline.log": {
+      "original_sha256": "847237ff9225c444d1f27c2f037af646b18f36d015caf307b5857bf575a4215e",
+      "original_bytes": 201,
+      "published_path": "tests/memory-path-v4-offline.log",
+      "published_sha256": "f9ab71e9566ea0971100e7b5f6b2cd11c2135dd951d1cefec933b4ab4d3064b7",
+      "published_bytes": 167
+    },
+    "offline.xml": {
+      "original_sha256": "1302c9e36e0d2e13ec4fbafcbb03d8dbf4fe1ff28f07b500e731a71f8ac508e2",
+      "original_bytes": 1581,
+      "published_path": "tests/memory-path-v4-offline.xml",
+      "published_sha256": "9d30bffb3af2037db68993ee96a19874fdea057d6ff211c57c61f49f50722024",
+      "published_bytes": 1596
+    },
+    "full.log": {
+      "original_sha256": "1d059158cf29a211fa8379a33df708879137c64ba50af42224613d4899b5ddc8",
+      "original_bytes": 199,
+      "published_path": "tests/memory-path-v4-full.log",
+      "published_sha256": "29e2dc147adbc70e8d381a62cc48285989ac11a3b282e0bba84e1cee3a4ffa7e",
+      "published_bytes": 165
+    },
+    "full.xml": {
+      "original_sha256": "f9d5e2c7c15b3d4327a76e96f9d928d981886280d3ba9768ea9dbc594f927ea8",
+      "original_bytes": 2297,
+      "published_path": "tests/memory-path-v4-full.xml",
+      "published_sha256": "61a984127217f2e088613ac9eaafd4d8a06f82e0191dcc7336ba72c8b12e6dbf",
+      "published_bytes": 2312
+    }
+  }
+}

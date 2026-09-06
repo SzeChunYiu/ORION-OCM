@@ -1,0 +1,60 @@
+{
+  "schema": "ocm.m12-v5-authority-correction.v1",
+  "classification": "PAPER_CRITICAL",
+  "owner": "https://github.com/SzeChunYiu/ORION-OCM/issues/38#issuecomment-5556265815",
+  "links": [
+    50,
+    62,
+    42,
+    49,
+    73
+  ],
+  "scope": "All new V3/V4/V5 execution authority and immutable V5 historical custody only; matched-parent mechanism corrections remain separate. No new protected experiment or scientific promotion.",
+  "basis": "Frozen V5 preregistration line31 classifies later new-path runs as engineering replays. File presence, matching stream hashes, arithmetic success or output filenames cannot confer protected authority.",
+  "source_base_commit": "68b444b094e26f35628eaa14a3dc2f42eda98ff8",
+  "implementation_source_sha256": {
+    "src/ocm/evaluation/m12_paired_eval.py": "ffc4b098a3d5e89c2a01908ecdc5310817fb87b4d0bd658aabf61fd6f1b96bf7",
+    "tools/m12_paired_v5_receipt.py": "3c239a4e200685017d45134df6d2a5ad29ef22e4b7906f971c279365af1f2ed7",
+    ".github/workflows/m12-lifetime.yml": "dfa4c1822ef52188d9057beb9bc3c977f246d1aaa7ef2ef51fb1635556f407be"
+  },
+  "new_execution_authority": {
+    "receipt": "M12_PAIRED_LIFETIMES_V5_ENGINEERING_REPLAY",
+    "study_status": "ENGINEERING_REGRESSION_ONLY__AFTER_OUTCOME_ACCESS",
+    "decision": "CANNOT_CHECK_CURRENT_SCIENTIFIC_PROMOTION",
+    "current_scientific_promotion": "NOT_ESTABLISHED",
+    "protected_reevaluation": "NOT_RUN",
+    "historical_rule_diagnostic": "Retain the numerical rule decision without current scientific authority.",
+    "manifest_only": "No lifetime execution or outcome decision."
+  },
+  "archived_original": {
+    "path": "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5.json",
+    "numeric_decision_retained": "OCM_LIFETIME_RESIDUAL_SUPPORTED",
+    "interpretation": "The original bytes and arithmetic are preserved; this repair does not adjudicate comparator matching or exposure custody."
+  },
+  "archived_postrefactor_replay": {
+    "path": "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5_REPLAY_POSTREFACTOR.json",
+    "stored_study_status": "PROTECTED_PREREGISTERED_V5__FRESH_STREAMS_CURRENT_RUNTIME",
+    "numeric_decision_retained": "OCM_LIFETIME_RESIDUAL_SUPPORTED",
+    "corrected_interpretation": "ENGINEERING_REPLAY_ONLY",
+    "current_scientific_promotion": "NOT_ESTABLISHED",
+    "bytes_rewritten": false
+  },
+  "historical_custody": {
+    "verifier": "tools/engineering_predecessor.py:verify",
+    "dependency": "PR80 generic engineering predecessor; no duplicate archive system",
+    "anchor": "docs/provenance/engineering_revisions/PREDECESSOR_V4.json",
+    "anchor_sha256": "180431efb091899a4ae95ad21204587b9d4ffa2a24080f1f40adaf844929a931",
+    "wrapper": "--verify only; other arguments refuse before loading a historical recipe",
+    "success": "ARCHIVED_V5_CUSTODY_VERIFIED; legacy_recipe_execution NOT_EXECUTED; no historical terminal propagated",
+    "missing_dependency_or_drift": "ARCHIVED_V5_CUSTODY_REFUSED"
+  },
+  "bound_historical_records_sha256": {
+    "research/ocm-m12/M12_LIFETIME_PREREGISTRATION_V5.md": "6f29ab7ee4d1009ec2db54d32f593d2e38522b182fe29a2f8447fade9728cbd7",
+    "research/ocm-m12/M12_V5_STREAM_MANIFEST_V1.json": "0be2ec64fbe21e824af757207f1b49932937ffa6feb4497a3f7fc370157d0485",
+    "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5.json": "25bfa531d56fd24498addb3a680696c752874a73e660e6e69a20882eb3662f4e",
+    "research/ocm-m12/M12_PAIRED_LIFETIMES_EVAL_V5_REPLAY_POSTREFACTOR.json": "174e270cf4081c2ca9538c8c7198e8a71876999e01aa09c34580169c8f950624",
+    "docs/provenance/M12_PAIRED_RECEIPT_V5.json": "d2e0a125ebbbbcc014f7d14474089feb499908978353ae532d6b6196563cb5fc",
+    "docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V5.json": "829674a1974fb96de5098159e87b40d699cba832596a6eee3d7e1fcb3a567599",
+    "docs/M12_V5_PAIRED_LIFETIMES_REPORT.md": "63bd382212e6fc85b627daae28792d01f95c7455d48d3f76a8f6c0daf2e5b9d3"
+  }
+}

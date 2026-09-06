@@ -14,11 +14,9 @@ Scientific ownership and executable next-study protocol:
 
 ## Run on a Linux test host
 
-From the repository root, with the existing project dependencies:
-
-```sh
-uv run --with pytest --with sympy==1.14.0 python -m pytest research/ocm-n1 research/ocm-prototype -q
-```
+Follow [G1 operating instructions](G1_CORE.md#operate-on-a-compute-host) for
+dependencies and scoped tests. Hosted client/native controls use their separate
+[qualification instructions](hosted_reference/README.md).
 
 The study uses real subprocesses and a fresh temporary state directory. To retain
 an individual receipt, call `vessel_pilot.run_study(Path(FRESH_DIRECTORY))` with
