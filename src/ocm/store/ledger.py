@@ -33,6 +33,7 @@ Provenance: docs/provenance/VENDORED_SOURCE_MANIFEST_V1.json.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 import tempfile
@@ -142,11 +143,41 @@ def _decode(line: str, line_number: int) -> LedgerEntry:
     )
 
 
+def _validated_entries(lines: Iterator[tuple[int, str]]) -> tuple[LedgerEntry, ...]:
+    replayed: list[LedgerEntry] = []
+    prev_hash = _GENESIS_HASH
+    for line_number, line in lines:
+        entry = _decode(line, line_number)
+        expected_sequence = len(replayed)
+        if entry.sequence != expected_sequence:
+            raise LedgerIntegrityError(
+                f"line {line_number} has sequence {entry.sequence}, expected {expected_sequence}"
+            )
+        if entry.prev_hash != prev_hash:
+            raise LedgerIntegrityError(
+                f"line {line_number} does not chain to its predecessor"
+            )
+        recomputed = compute_entry_hash(
+            entry.sequence, entry.kind, entry.payload, entry.prev_hash
+        )
+        if recomputed != entry.entry_hash:
+            raise LedgerIntegrityError(
+                f"line {line_number} content does not match its recorded digest"
+            )
+        replayed.append(entry)
+        prev_hash = entry.entry_hash
+    return tuple(replayed)
+
+
 class LedgerStore:
     """Durable append-only, hash-chained state for one OCM runtime.
 
     Every row is bound to its position, content and predecessor; every append
     is serialised under an exclusive file lock and persisted crash-atomically.
+    Ordinary appends reuse validation only for exactly equal bytes, retaining
+    one private immutable byte snapshot and head/count after directory fsync.
+    Every append still reads/compares/rewrites the full file: O(history bytes).
+    Public reads and identified appends always perform full chain validation.
     """
 
     def __init__(self, root: Path) -> None:
@@ -155,6 +186,7 @@ class LedgerStore:
         self._path = self._root / _LEDGER_FILENAME
         self._lock_path = self._root / _LOCK_FILENAME
         self._path.touch(exist_ok=True)
+        self._validated_snapshot: tuple[bytes, str | None, int] | None = None
 
     @property
     def root(self) -> Path:
@@ -173,28 +205,7 @@ class LedgerStore:
     def entries(self, kind: str | None = None) -> tuple[LedgerEntry, ...]:
         """Replay the ledger, verifying the chain, optionally filtered by kind."""
 
-        replayed: list[LedgerEntry] = []
-        prev_hash = _GENESIS_HASH
-        for line_number, line in self._raw_lines():
-            entry = _decode(line, line_number)
-            expected_sequence = len(replayed)
-            if entry.sequence != expected_sequence:
-                raise LedgerIntegrityError(
-                    f"line {line_number} has sequence {entry.sequence}, expected {expected_sequence}"
-                )
-            if entry.prev_hash != prev_hash:
-                raise LedgerIntegrityError(
-                    f"line {line_number} does not chain to its predecessor"
-                )
-            recomputed = compute_entry_hash(
-                entry.sequence, entry.kind, entry.payload, entry.prev_hash
-            )
-            if recomputed != entry.entry_hash:
-                raise LedgerIntegrityError(
-                    f"line {line_number} content does not match its recorded digest"
-                )
-            replayed.append(entry)
-            prev_hash = entry.entry_hash
+        replayed = _validated_entries(self._raw_lines())
         if kind is None:
             return tuple(replayed)
         return tuple(item for item in replayed if item.kind == kind)
@@ -231,12 +242,12 @@ class LedgerStore:
     def _persist_entry(
         self,
         *,
-        entries: tuple[LedgerEntry, ...],
+        sequence: int,
+        actual_head: str | None,
         kind: str,
         payload: Mapping[str, Any],
+        verified_content: bytes | None = None,
     ) -> LedgerEntry:
-        actual_head = entries[-1].entry_hash if entries else None
-        sequence = len(entries)
         prev_hash = actual_head if actual_head is not None else _GENESIS_HASH
         normalized = json.loads(canonical_bytes(payload))
         entry = LedgerEntry(
@@ -255,7 +266,15 @@ class LedgerStore:
                 "entry_hash": entry.entry_hash,
             }
         ) + b"\n"
-        old_content = self._path.read_bytes()
+        old_content = self._path.read_bytes() if verified_content is None else verified_content
+        next_snapshot = None
+        if verified_content is not None:
+            try:
+                separator = b"\n" if old_content and not old_content.endswith(b"\n") else b""
+                next_snapshot = (old_content + separator + encoded_entry, entry.entry_hash, sequence + 1)
+            except MemoryError:
+                # Optional memoization must not refuse an otherwise valid append.
+                pass
         temporary_path: Path | None = None
         try:
             with tempfile.NamedTemporaryFile(
@@ -275,6 +294,8 @@ class LedgerStore:
             os.replace(temporary_path, self._path)
             temporary_path = None
             self._fsync_directory()
+            if verified_content is not None:
+                self._validated_snapshot = next_snapshot
         finally:
             if temporary_path is not None:
                 try:
@@ -285,10 +306,9 @@ class LedgerStore:
 
     @staticmethod
     def _check_head(
-        entries: tuple[LedgerEntry, ...],
+        actual_head: str | None,
         expected_head: str | None | _ExpectedHeadUnset,
     ) -> None:
-        actual_head = entries[-1].entry_hash if entries else None
         if (
             not isinstance(expected_head, _ExpectedHeadUnset)
             and expected_head != actual_head
@@ -314,9 +334,25 @@ class LedgerStore:
             raise ValueError("ledger payload must be a mapping")
         with self._exclusive_lock():
             self._cleanup_stale_temporaries()
-            entries = self.entries()
-            self._check_head(entries, expected_head)
-            return self._persist_entry(entries=entries, kind=kind, payload=payload)
+            # Read even on a hit: metadata alone cannot detect same-size edits.
+            content = self._path.read_bytes()
+            cached = self._validated_snapshot
+            if cached is not None and content == cached[0]:
+                actual_head, count = cached[1], cached[2]
+            else:
+                # Match path.open(encoding="utf-8"): universal newlines, blank
+                # lines and decoder errors. Validate the very bytes we write.
+                with io.TextIOWrapper(io.BytesIO(content), encoding="utf-8") as handle:
+                    rows = _validated_entries(
+                        (n, line) for n, line in enumerate(handle, 1) if line.strip()
+                    )
+                actual_head = rows[-1].entry_hash if rows else None
+                count = len(rows)
+            self._check_head(actual_head, expected_head)
+            return self._persist_entry(
+                sequence=count, actual_head=actual_head, kind=kind, payload=payload,
+                verified_content=content,
+            )
 
     @staticmethod
     def _transaction_id(entry: LedgerEntry) -> str:
@@ -363,9 +399,10 @@ class LedgerStore:
                     f"transaction id {transaction_id} already exists with different content"
                 )
 
-            self._check_head(entries, expected_head)
+            actual_head = entries[-1].entry_hash if entries else None
+            self._check_head(actual_head, expected_head)
             return self._persist_entry(
-                entries=entries, kind=kind, payload=normalized_payload
+                sequence=len(entries), actual_head=actual_head, kind=kind, payload=normalized_payload
             )
 
     def verify(self) -> tuple[str, ...]:
