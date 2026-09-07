@@ -1,0 +1,139 @@
+{
+  "audit_execution_note": "Initial read-only audit used system Python and stopped on unavailable str.removesuffix before any report or mutation; completed with isolated qualified Python 3.11.14. This was an audit-script compatibility error, not an input/package defect.",
+  "elapsed_review_wall_s_before_receipt": 0.4616235370049253,
+  "findings": [],
+  "inner_archives": [
+    {
+      "archive": "config-review.tar.gz",
+      "binding": {
+        "bytes": 25652,
+        "sha256": "bf29351331a3540f5e4552da8370085df7eead300f44708227f94ef318f41345"
+      },
+      "members": 106,
+      "raw_bytes": 138310
+    },
+    {
+      "archive": "entry-qualification.tar.gz",
+      "binding": {
+        "bytes": 1413840,
+        "sha256": "ef748fe984334d6c9d80021ad14096a8287f22375440dd78800781fa3f2e3fa6"
+      },
+      "members": 7255,
+      "raw_bytes": 11646018
+    },
+    {
+      "archive": "materializer-repair.tar.gz",
+      "binding": {
+        "bytes": 116665,
+        "sha256": "d40209a05ef8ed7106974a9cefc820701ac50a15db6f0e2f675cb42d16f883a0"
+      },
+      "members": 869,
+      "raw_bytes": 589370
+    },
+    {
+      "archive": "portability-repair.tar.gz",
+      "binding": {
+        "bytes": 222349,
+        "sha256": "f58fb71e2b1ec2ec515e0879a94bc16dcb9cf295fdb7e80cd939225815da08b8"
+      },
+      "members": 1193,
+      "raw_bytes": 1794773
+    },
+    {
+      "archive": "scheduling-audit.tar.gz",
+      "binding": {
+        "bytes": 3893,
+        "sha256": "a5948c15ab5c23b6b55490c6d119b86e7f45f558447c4bdbf49d5f84941a6cc9"
+      },
+      "members": 1,
+      "raw_bytes": 12935
+    },
+    {
+      "archive": "scheduling-hold.tar.gz",
+      "binding": {
+        "bytes": 4949,
+        "sha256": "5f543229aba74254605d0df7b31df1f6ea004105b66a337fb2998f208a4920d4"
+      },
+      "members": 4,
+      "raw_bytes": 20484
+    }
+  ],
+  "methods": [
+    "Validate exact recursive regular-file seal sets for new envelope, preserved old package and integration evidence.",
+    "Stream outer archive with ignore_zeros=True; reject nonregular, duplicate or unsafe members; compare all 28 with the map and original bytes.",
+    "Compare all 28 old package members with qualified-head Git blobs using /usr/bin/git show.",
+    "Stream all six inner archives and validate every regular member against preserved maps; no extraction or code execution.",
+    "Rehash all 137 qualified current source paths before and after; recheck every package inventory."
+  ],
+  "new_envelope": {
+    "complete_before_after_inventory": {
+      "CORE.md": {
+        "bytes": 1285,
+        "sha256": "6bedcc8931ff80b950698c4aad6fc72691a9a4ccc4c3e8338a9cd242a0482c8d"
+      },
+      "INDEX.json": {
+        "bytes": 4807,
+        "sha256": "d5659d5c479e0c70926f41d8cd4bea07f81ed78df50150d21a70202e6047f90f"
+      },
+      "SEAL.json": {
+        "bytes": 744,
+        "sha256": "b6974b55e59b0891081ebd6b884d310358163dc21e4a4786e2665b54cf42616d"
+      },
+      "SOURCE_FREEZE.json": {
+        "bytes": 6266,
+        "sha256": "d47d16d3dff801a238d66c2799a4a8ca0897d7fc40a4e4188f645b8c6f4e84cd"
+      },
+      "VERIFY.json": {
+        "bytes": 305,
+        "sha256": "05984714ac0304093b20d9ea3a17263858f2b358cccff132e4bd36a9c34ec053"
+      },
+      "original-package.tar.gz": {
+        "bytes": 2065380,
+        "sha256": "0a610582c3225a4434e8b62ea67813cca63d0b87dcacd265d7efac58b13e709d"
+      }
+    },
+    "files": 6,
+    "root": "/home/billy/orion-director-work/20260907/ocm-corpus-material/research/proof-corpus-coverage-v1/materialization-records",
+    "seal_sha256": "b6974b55e59b0891081ebd6b884d310358163dc21e4a4786e2665b54cf42616d",
+    "total_bytes": 2078787
+  },
+  "observed_at": "2026-09-07T12:25:33.252805+00:00",
+  "observed_head": "67c9833be210893f424f57016d68ad3c889aa8d8",
+  "original_package": {
+    "all_members_byte_equal_qualified_head_git_blobs": true,
+    "all_members_direct_byte_equal_preserved_originals": true,
+    "original_package_seal_valid": true,
+    "originals_unchanged_after_review": true,
+    "raw_bytes": 6544956,
+    "regular_members": 28,
+    "root": "/home/billy/orion-director-work/20260907/materialization-package-repack-v2/original",
+    "seal_sha256": "6167bd2f2cce507d0d702d7c075d00111710d95c1cc3c5fbbcff891eaa213b8d"
+  },
+  "outer_archive": {
+    "bytes": 2065380,
+    "sha256": "0a610582c3225a4434e8b62ea67813cca63d0b87dcacd265d7efac58b13e709d"
+  },
+  "preflight_history": {
+    "observed_empty": true,
+    "scope": "Read-only present-state observation; no first-attempt process execution or chronology inferred.",
+    "v1_successor_directory": "/home/billy/orion-director-work/20260907/materialization-package-repack-v1/successor"
+  },
+  "retained_inner_raw_bytes": 14201890,
+  "retained_inner_regular_members": 9428,
+  "schema": "ocm.materialization-package-independent-repack-review.v1",
+  "scope": "Evidence-only lossless repack audit. No tests, evidence-guard reruns, materialization, resource/profile/Lean or corpus dispatch, gate/body edits, extraction, or archived-code execution. External host inputs and missing historical temporary fixtures were not reopened, reconstructed, or revalidated. Original scientific results and source generations remain unchanged.",
+  "source_custody": {
+    "all_current_bytes_match_before_and_after": true,
+    "authority_binding": {
+      "bytes": 22748,
+      "sha256": "3b4aaae91cff8d523ea84b3db12b965ca05d860e2ee35bb7b42f5330764e3d05"
+    },
+    "authority_file": "/home/billy/orion-director-work/20260907/ocm-corpus-material/research/proof-corpus-coverage-v1/integration-materialization-records/SOURCE-BEFORE.json",
+    "integration_seal_sha256": "fa1679971e24d3d4679caaecfc1a5fad522430f20154bb98723bff761f811bac",
+    "original_source_freeze_copy_byte_identical": true,
+    "qualified_current_bindings": 137,
+    "scope": "Selected qualified source population, not the whole repository or a universal import closure."
+  },
+  "terminal": "INDEPENDENT_LOSSLESS_REPACK_REVIEW_PASS",
+  "worktree": "/home/billy/orion-director-work/20260907/ocm-corpus-material"
+}

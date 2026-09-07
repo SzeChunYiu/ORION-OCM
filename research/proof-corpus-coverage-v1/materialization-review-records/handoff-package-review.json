@@ -1,0 +1,194 @@
+{
+  "archives": [
+    {
+      "archive": {
+        "bytes": 603960,
+        "file": "handoff.tar.gz",
+        "sha256": "0e6cb37a7980573710eb05e6613bb1d121b9f6a6e264b1bed44cc405ebdbc4f4"
+      },
+      "label": "handoff",
+      "omitted_top_level_directories": [],
+      "raw_bytes": 4149453,
+      "regular_members": 2881,
+      "symlinks_as_metadata": 106
+    },
+    {
+      "archive": {
+        "bytes": 3012,
+        "file": "independent-review.tar.gz",
+        "sha256": "914e52971cb1aefb436a3d5fdd977313e82fcf015426194305dfb8d7095bcdc9"
+      },
+      "label": "independent-review",
+      "omitted_top_level_directories": [],
+      "raw_bytes": 6512,
+      "regular_members": 1,
+      "symlinks_as_metadata": 0
+    },
+    {
+      "archive": {
+        "bytes": 181684,
+        "file": "integration-v4.tar.gz",
+        "sha256": "961dd8907408e4ef5ccefafc97901b1719073edc5c702ac07d677d3927865359"
+      },
+      "label": "integration-v4",
+      "omitted_top_level_directories": [
+        "cases"
+      ],
+      "raw_bytes": 744850,
+      "regular_members": 154,
+      "symlinks_as_metadata": 0
+    }
+  ],
+  "compressed_archive_bytes": 788656,
+  "current_source_bindings": 138,
+  "current_source_map": {
+    "bytes": 22922,
+    "sha256": "867669f19bdeea725289d7b9f06cc476438d3e7ffd9b2cd0d60974e7e56ab474"
+  },
+  "current_targeted": 14,
+  "documents": {
+    "CORPUS-LAYOUT.md": {
+      "bytes": 7098,
+      "sha256": "cb3341889c03c7e82b80a12f4b8f5bf4bb3e0ca44150ea95cdfc4dbabc04aa81"
+    },
+    "INTEGRATION-MATERIALIZATION.md": {
+      "bytes": 4886,
+      "sha256": "86736f05524d643701516db5f9f1d2ccb52341b780c19340f70208e26cfb7b59"
+    },
+    "MATERIALIZATION.md": {
+      "bytes": 7562,
+      "sha256": "e874def496c1efc9d579a5e7bc969c6431c776dad92a1ae5d39ab58bf331a155"
+    }
+  },
+  "findings": [],
+  "historical_packages_unchanged": [
+    "corpus-layout-records",
+    "integration-materialization-records",
+    "materialization-records"
+  ],
+  "integrated": {
+    "deselected": 2,
+    "guards": {
+      "native": {
+        "archive_members": 1327,
+        "current_sources": 47,
+        "raw_bytes": 41861955,
+        "scope": "Byte custody and current registered source identity; no native or semantic rerun",
+        "terminal": "ARCHIVE_CUSTODY_PASS"
+      },
+      "registration": {
+        "assignments": 4,
+        "continuation_cursor": 4,
+        "current_source_bindings": 18,
+        "omitted_inputs": 4,
+        "population": 29511,
+        "raw_input_scope": "OMITTED_RAW_METADATA_NOT_REVALIDATED",
+        "terminal": "DERIVED_REGISTRATION_RECORDS_PASS"
+      },
+      "resource": {
+        "correction_archive_members": 881,
+        "correction_raw_bytes": 5812553,
+        "current_sources": 23,
+        "historical_archive_members": 380,
+        "historical_sources": 19,
+        "omitted_host_inputs_revalidated": false,
+        "prior_successor_archive_members": 1518,
+        "prior_successor_sources": 22,
+        "scope": "Three separately bound source generations; only correction sources are current. Archive custody, not resource/native/corpus execution or omitted host-input revalidation.",
+        "terminal": "RESOURCE_EXITCODE_CUSTODY_PASS"
+      }
+    },
+    "passed": 425,
+    "skipped": 7
+  },
+  "limits": [
+    "Read-only byte/source/claim review; no tests, guards, native, resource, real corpus or materialization dispatch.",
+    "106 handoff links are retained as metadata without target traversal. External binaries/real bare stores were not revalidated.",
+    "LAYOUT_READY is data preparation only; safe dangling links still fail unchanged build_profile_policy.inventory strict resolution.",
+    "425 engineering passes, targeted14 and three custody readers do not establish semantic coverage, learned acquisition/restart/fresh use, speedup or novelty."
+  ],
+  "observed_head": "0348a046325db080592666abd5e2d04d348ea69d",
+  "observed_utc": "2026-09-07T13:12:30.687574+00:00",
+  "package_bytes": 912660,
+  "package_files_including_seal": 18,
+  "package_seal": {
+    "bytes": 2476,
+    "sha256": "dcad27c569df048371343fa8d15424e3ecc7bfacb32d2cac42f1b90cdf1fa303"
+  },
+  "raw_bytes": 4900815,
+  "regular_members": 3036,
+  "schema": "ocm.materialization-handoff-package-independent-review.v1",
+  "source_and_original_inputs_unchanged_after": true,
+  "targeted_generations": [
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 6,
+        "passed": 6,
+        "skipped": 0,
+        "tests": 12
+      },
+      "generation": "01-red",
+      "process_sha256": "1e52152d769f8dc0af8562dacef31937c421ff456fbf3a644bd46914f39f9324",
+      "returncode": 1
+    },
+    {
+      "counts": {
+        "errors": 1,
+        "failures": 0,
+        "passed": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "generation": "02-green",
+      "process_sha256": "fc934f0402bf9347bd2ff1b71dc2c7a81b67e6f484ff08518aef809678f14c45",
+      "returncode": 2
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "passed": 12,
+        "skipped": 0,
+        "tests": 12
+      },
+      "generation": "03-repaired-green",
+      "process_sha256": "fd17c03f091eb979f6bd008ed180f6ae4c1a473a2fca4a32b6d65340cb9b5636",
+      "returncode": 0
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 1,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 2
+      },
+      "generation": "04-source-root-red",
+      "process_sha256": "98874f0d8047b509466c6143fd8b2e7abb670bde239f0ef47f90a85b1b3b63c3",
+      "returncode": 1
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "passed": 14,
+        "skipped": 0,
+        "tests": 14
+      },
+      "generation": "05-final-green",
+      "process_sha256": "ee15289adbc771fc6ec34fa4e98dc14f3a5cb5bdf8ae16a9c9485cbd4d67791e",
+      "returncode": 0
+    }
+  ],
+  "terminal": "SCOPED_PACKAGE_REVIEW_PASS",
+  "verified": [
+    "Every retained regular archive member matches both exact member map and original bytes.",
+    "Exact original regular/directory/symlink metadata and hardlink grouping match; archives install no symlinks.",
+    "Integration cases alone were pruned before traversal. Their contents were not read, inventoried or revalidated.",
+    "All five handoff raw process/XML/source generations and current integration raw streams/results match the summaries.",
+    "Ten final targeted and 138 integrated current source bindings match before/after snapshots, copied source and current files.",
+    "Current versus historical qualification, nested cost scopes, caller duties and unchanged strict execution-profile refusal are explicit. Relative links in the three updated documents resolve."
+  ],
+  "worktree": "/home/billy/orion-director-work/20260907/ocm-corpus-material"
+}
