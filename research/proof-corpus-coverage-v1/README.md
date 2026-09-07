@@ -11,7 +11,9 @@ Read [the result and remaining boundary](RESULT.md), then the relevant component
 | Fixed assignment | [REGISTRATION](REGISTRATION.md) | Original complete registration seal and retained full order |
 | Resource and offline profile | [Exit-code successor](resource-exitcode-records/CORE.md) | Current observed-exit custody repair; earlier qualifications preserved |
 | Native association/capture | [NATIVE-QUALIFICATION](NATIVE-QUALIFICATION.md) | Authored module, transport and fresh-kernel controls |
-| Next actual dispatch | [RESOURCE-INTEGRATION](RESOURCE-INTEGRATION.md) | Acquisition and actual evaluator-material profile still required |
+| Pinned source acquisition | [ACQUISITION](ACQUISITION.md) | Nine exact dependencies acquired; fixed four semantic cases remain pending |
+| Authored offline Lake build | [Qualification](LAKE-BUILD-QUALIFICATION.md) | Two small packages compiled with immutable sources and separate artifacts |
+| Next semantic dispatch | [RESOURCE-INTEGRATION](RESOURCE-INTEGRATION.md) | Actual acquired evaluator/source closure still requires qualification |
 
 The prospective [design](F1-CORPUS-COVERAGE-DESIGN.md) and
 [execution policy](F1-CORPUS-COVERAGE-EXECUTION.md) remain unchanged.
@@ -44,7 +46,7 @@ not rerun the registrar, native tests, privileged profiles or real corpus tasks.
   The older guards retain their historical interfaces; external host inputs remain
   explicitly outside the archive.
 
-The [current portable integration](INTEGRATION-EXITCODE.md) records 237 passes,
+The [previous sealed portable integration](INTEGRATION-EXITCODE.md) records 237 passes,
 seven skips, two deliberate deselections and three passing evidence guards. CI runs these controls and evidence
 checks. Exact-interpreter
 registrar CLI controls and privileged host resource controls retain their separate
@@ -52,7 +54,7 @@ qualification. CI must not report skipped host cases as new portable passes.
 
 ## Scientific continuation
 
-1. Qualify acquisition and the actual Lean/Lake/compiler/material execution profile.
+1. Qualify the actual acquired Lean/Lake/compiler/material execution profile; preserve the acquisition records and original episode deadline.
 2. Run all four assigned exposed-reference rows; retain every reached stage/cost/failure.
 3. Qualify masking and a strong mechanical proof-search parent on fresh permitted state.
 4. Test explicit acquisition, persistence/restart and causal reuse on untouched tasks.
