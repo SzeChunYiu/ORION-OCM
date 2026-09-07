@@ -1,0 +1,59 @@
+..............FF.........F                                               [100%]
+=================================== FAILURES ===================================
+___________ test_members_after_tar_end_records_are_checked[excluded] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-331/test_members_after_tar_end_rec0')
+second = 'excluded'
+
+    @pytest.mark.parametrize("second", ["excluded", "included"])
+    def test_members_after_tar_end_records_are_checked(tmp_path, second):
+        import gzip
+        def raw_tar(name):
+            buffer = io.BytesIO()
+            with tarfile.open(fileobj=buffer, mode="w") as archive:
+                member = tarfile.TarInfo(name); member.size = 1
+                archive.addfile(member, io.BytesIO(b"x"))
+            return buffer.getvalue()
+        path = tmp_path/"concatenated.tar.gz"
+        path.write_bytes(gzip.compress(raw_tar("included") + raw_tar(second)))
+>       with pytest.raises(ValueError): read_archive(path, {"included": ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:62: Failed
+___________ test_members_after_tar_end_records_are_checked[included] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-331/test_members_after_tar_end_rec1')
+second = 'included'
+
+    @pytest.mark.parametrize("second", ["excluded", "included"])
+    def test_members_after_tar_end_records_are_checked(tmp_path, second):
+        import gzip
+        def raw_tar(name):
+            buffer = io.BytesIO()
+            with tarfile.open(fileobj=buffer, mode="w") as archive:
+                member = tarfile.TarInfo(name); member.size = 1
+                archive.addfile(member, io.BytesIO(b"x"))
+            return buffer.getvalue()
+        path = tmp_path/"concatenated.tar.gz"
+        path.write_bytes(gzip.compress(raw_tar("included") + raw_tar(second)))
+>       with pytest.raises(ValueError): read_archive(path, {"included": ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:62: Failed
+___________ test_source_directory_escape_refuses_even_matching_bytes ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-331/test_source_directory_escape_r0')
+
+    def test_source_directory_escape_refuses_even_matching_bytes(tmp_path):
+        package, files, _, _ = bound_fixture(tmp_path/"research")
+        original = package.parent/"proof-corpus-v1"
+        outside = tmp_path/"outside"; original.rename(outside); original.symlink_to(outside, target_is_directory=True)
+>       with pytest.raises(ValueError): verify_source_bindings(files, package)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:75: Failed
+=========================== short test summary info ============================
+FAILED test_registration_evidence_archive.py::test_members_after_tar_end_records_are_checked[excluded]
+FAILED test_registration_evidence_archive.py::test_members_after_tar_end_records_are_checked[included]
+FAILED test_registration_evidence_bindings.py::test_source_directory_escape_refuses_even_matching_bytes
+3 failed, 23 passed in 0.06s

@@ -1,0 +1,160 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+____________________ test_all_twelve_source_bindings_match _____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_all_twelve_source_binding0')
+
+    def test_all_twelve_source_bindings_match(tmp_path):
+        package, files, _, _ = bound_fixture(tmp_path)
+>       assert verify_source_bindings(files, package) == 12
+E       assert None == 12
+E        +  where None = verify_source_bindings({'SEAL.json': b'{"files":{"SOURCE-FREEZE.json":{"bytes":5245,"sha256":"62fac0afd5bc6092f3106766f4c08b232c8c91caf1d4546...': b'F1-CORPUS-COVERAGE-DESIGN.md', 'sources/F1-CORPUS-COVERAGE-EXECUTION.md': b'F1-CORPUS-COVERAGE-EXECUTION.md', ...}, PosixPath('/tmp/pytest-of-billy/pytest-326/test_all_twelve_source_binding0/proof-corpus-coverage-v1'))
+
+test_registration_evidence_bindings.py:44: AssertionError
+______________________ test_exact_four_omissions_no_alarm ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_exact_four_omissions_no_a0')
+
+    def test_exact_four_omissions_no_alarm(tmp_path):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+>       assert verify_omissions(files, omitted, sha) == 4
+E       assert None == 4
+E        +  where None = verify_omissions({'SEAL.json': b'{"files":{"SOURCE-FREEZE.json":{"bytes":5245,"sha256":"62fac0afd5bc6092f3106766f4c08b232c8c91caf1d4546...': b'F1-CORPUS-COVERAGE-DESIGN.md', 'sources/F1-CORPUS-COVERAGE-EXECUTION.md': b'F1-CORPUS-COVERAGE-EXECUTION.md', ...}, {'files': {'inputs/CORPUS_SOURCE.json': {'bytes': 18, 'original': '/inventory/CORPUS_SOURCE.json', 'prior_archive_memb...56': 'c1177f5a3725b21d91f74a52faf6c98839800052ababa254cc173bff154d27fb'}, 'schema': 'ocm.f1.registration-omissions.v1'}, 'e7786f0220427aed40adb5125ad3b3f7de73cf8c0cca6b71d5d49517e6a782fb')
+
+test_registration_evidence_bindings.py:49: AssertionError
+__________________________ test_source_drift_refuses ___________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_source_drift_refuses0')
+
+    def test_source_drift_refuses(tmp_path):
+        package, files, _, _ = bound_fixture(tmp_path)
+        (package/"coverage_population.py").write_bytes(b"changed")
+>       with pytest.raises(ValueError): verify_source_bindings(files, package)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:55: Failed
+_____________________ test_omission_tamper_refuses[extra] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_e0')
+change = 'extra'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+____________________ test_omission_tamper_refuses[missing] _____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_m0')
+change = 'missing'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+______________________ test_omission_tamper_refuses[hash] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_h0')
+change = 'hash'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+____________________ test_omission_tamper_refuses[snapshot] ____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_s0')
+change = 'snapshot'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+_____________________ test_omission_tamper_refuses[prior] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_p0')
+change = 'prior'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+_____________________ test_omission_tamper_refuses[member] _____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-326/test_omission_tamper_refuses_m1')
+change = 'member'
+
+    @pytest.mark.parametrize("change", ["extra", "missing", "hash", "snapshot", "prior", "member"])
+    def test_omission_tamper_refuses(tmp_path, change):
+        _, files, omitted, sha = bound_fixture(tmp_path)
+        key = "inputs/GRAPH.json"
+        if change == "extra": omitted["files"]["sources/coverage_boot.py"] = omitted["files"][key]
+        if change == "missing": del omitted["files"][key]
+        if change == "hash": omitted["files"][key]["sha256"] = "f"*64
+        if change == "snapshot": omitted["files"][key]["sealed_copy"] = "/wrong"
+        if change == "prior": omitted["prior_archive"]["sha256"] = "f"*64
+        if change == "member": files["sources/coverage_boot.py"] = b"changed"
+>       with pytest.raises(ValueError): verify_omissions(files, omitted, sha)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_bindings.py:68: Failed
+=========================== short test summary info ============================
+FAILED test_registration_evidence_bindings.py::test_all_twelve_source_bindings_match
+FAILED test_registration_evidence_bindings.py::test_exact_four_omissions_no_alarm
+FAILED test_registration_evidence_bindings.py::test_source_drift_refuses - Fa...
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[extra]
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[missing]
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[hash]
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[snapshot]
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[prior]
+FAILED test_registration_evidence_bindings.py::test_omission_tamper_refuses[member]
+9 failed in 0.05s

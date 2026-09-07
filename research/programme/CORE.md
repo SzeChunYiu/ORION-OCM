@@ -9,7 +9,7 @@ Two candidate scientific contributions:
 - Revision-aware library learning with measured lifetime benefit.
 
 Novelty must be established for a concrete mechanism against its strongest matched
-parents. Reuse and improve useful ORION V1/V2 and external methods. Implement only
+parents. Use the [critical ORION concept audit](ORION_CONCEPTS.md) to retain useful mechanisms. Implement only
 what makes a decisive experiment possible or removes a measured obstruction.
 
 Read [the scientific programme](SCIENTIFIC_PROGRAMME.md), [parent assimilation](PARENTS.md)
