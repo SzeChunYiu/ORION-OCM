@@ -38,7 +38,8 @@ jobs:
             research/proof-runtime-v1 --ignore=research/proof-runtime-v1/records \
             --junitxml="$RUNNER_TEMP/proof-runtime.xml" -q
       - name: Authored Git corpus fixtures only
-        run: python -B -m unittest discover -s research/proof-corpus-v1/tests -q
+        working-directory: research/proof-corpus-v1
+        run: python -B -m unittest discover -s tests -q
       - uses: actions/upload-artifact@v4
         if: always()
         with:

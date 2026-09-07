@@ -2,16 +2,11 @@
 import hashlib
 import json
 import os
-import sys
-import sysconfig
 from pathlib import Path
 import pytest
 from test_closed_session import setup
 import lifecycle as L
 import lifecycle_replay as R
-
-PYTHON = Path(sys.executable)  # Engineering interpreter, never the production default.
-def engineering_run(*args): return L.run(*args, python_executable=PYTHON)
 
 def load(path): return json.loads(Path(path).read_bytes())
 
@@ -34,7 +29,7 @@ def case(setup, tmp_path, monkeypatch):
 
 def test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks(case):
     manifest, digest, out, calls, _ = case
-    result = engineering_run(manifest, digest, out)
+    result = L.run(manifest, digest, out)
     assert result["terminal"] == "PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS", result
     assert [c[0] for c in calls] == ["worker", "checker"] * 2
     assert len(result["phases"]) == len(L.PHASES)
@@ -55,14 +50,14 @@ def test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks(case)
 
 def test_bad_manifest_stops_before_session_and_preserves_failure(case):
     manifest, _, out, calls, _ = case
-    r = engineering_run(manifest, "0" * 64, out)
+    r = L.run(manifest, "0" * 64, out)
     assert r["terminal"] == "CANNOT_CHECK" and not calls
     assert load(out / "result.json")["terminal"] == "CANNOT_CHECK"
 
 def test_existing_destination_never_overwritten(case):
     manifest, digest, out, calls, _ = case
     out.mkdir(); (out / "keep").write_text("old")
-    with pytest.raises(FileExistsError): engineering_run(manifest, digest, out)
+    with pytest.raises(FileExistsError): L.run(manifest, digest, out)
     assert (out / "keep").read_text() == "old" and not calls
 
 def test_wrong_status_cannot_create_success_receipt(case, monkeypatch):
@@ -73,7 +68,7 @@ def test_wrong_status_cannot_create_success_receipt(case, monkeypatch):
         if result["terminal"] == "LIVE": result["terminal"] = "OPEN"
         return result
     monkeypatch.setattr(L.ProofRuntimeView, "proof_status", wrong)
-    r = engineering_run(manifest, digest, out)
+    r = L.run(manifest, digest, out)
     assert r["terminal"] == "CANNOT_CHECK" and [c[0] for c in calls] == ["worker", "checker"]
     assert any(not p["passed"] for p in r["phases"])
 
@@ -83,7 +78,7 @@ def test_post_dispatch_source_drift_preserves_returned_raw_value(case, monkeypat
     def drift(self):
         result = original(self); sentinel.write_text("changed = True\n"); return result
     monkeypatch.setattr(L.ProofRuntimeView, "attempt", drift)
-    r = engineering_run(manifest, digest, out)
+    r = L.run(manifest, digest, out)
     assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
     row = load(out / r["phases"][-1]["record"])
     assert row["result"]["terminal"] == "ADMITTED" and "freeze" in row["reason"].lower()
@@ -95,7 +90,7 @@ def test_status_cannot_dispatch_or_mint_even_if_live(case, monkeypatch):
         if self.routes(): self.rt.admit_evidence({"fake": True}, "instruction", "status")
         return original(self)
     monkeypatch.setattr(L.ProofRuntimeView, "proof_status", mint)
-    r = engineering_run(manifest, digest, out)
+    r = L.run(manifest, digest, out)
     assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
     assert "status mutated" in r["reason"]
 
@@ -104,12 +99,12 @@ def test_nonzero_or_bound_replay_never_passes(case, monkeypatch):
     monkeypatch.setattr(L, "replay", lambda *args: {"returncode": 1, "terminal": "COMPLETED", "result": {
         "status": {"terminal": "LIVE"}, "session_bound": False, "host_operators": [],
         "executable_operators": [], "read_only": True}})
-    r = engineering_run(manifest, digest, out)
+    r = L.run(manifest, digest, out)
     assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
 
 def test_freeze_tamper_refused_before_restoring(case):
     manifest, digest, out, calls, _ = case; out.mkdir()
-    frozen, frozen_sha = R.make_freeze(L.REPO, manifest, digest, out, PYTHON)
+    frozen, frozen_sha = R.make_freeze(L.REPO, manifest, digest, out, L.PYTHON)
     Path(frozen).write_bytes(Path(frozen).read_bytes() + b" ")
     with pytest.raises(ValueError, match="freeze"):
         R.restore_status(out, frozen, frozen_sha)
@@ -125,7 +120,7 @@ def test_replay_process_evidence_must_match(case, monkeypatch, fault):
         else: result["result"]["host_operators"] = ["invented"]
         return result
     monkeypatch.setattr(L, "replay", broken)
-    r = engineering_run(manifest, digest, out)
+    r = L.run(manifest, digest, out)
     assert r["terminal"] == "CANNOT_CHECK"
 
 @pytest.mark.parametrize("replacement", [["const", 99], ["const", False]])
@@ -136,17 +131,15 @@ def test_claim_route_must_match_actual_solve_candidate(case, monkeypatch, replac
         result["solve"]["answer"]["candidate"] = replacement
         return result
     monkeypatch.setattr(L.ProofRuntimeView, "attempt", changed)
-    assert engineering_run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
+    assert L.run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
 
 def test_cold_process_uses_declared_sources_and_no_callbacks(setup, tmp_path):
     create, calls, manifest = setup; out = tmp_path / "real-cold"; out.mkdir()
-    frozen, digest = R.make_freeze(L.REPO, manifest, R.sha(manifest), out, PYTHON)
-    stdlib = Path(sysconfig.get_path("stdlib")) / "json/__init__.py"
-    assert load(frozen)["python"][str(stdlib.resolve())] == R.sha(stdlib)
+    frozen, digest = R.make_freeze(L.REPO, manifest, R.sha(manifest), out, L.PYTHON)
     session = create(); rt = L.OCMRuntime(out / "ocm")
     view = L.ProofRuntimeView.create(rt, session, out / "issuer")
     assert view.attempt()["terminal"] == "ADMITTED"; session.close()
-    result = R.replay(out, frozen, digest, PYTHON)
+    result = R.replay(out, frozen, digest, L.PYTHON)
     assert result["returncode"] == 0, result
     assert result["result"]["status"]["terminal"] == "LIVE"
     assert result["result"]["host_operators"] == [] and result["result"]["read_only"]
@@ -160,20 +153,13 @@ def test_unclean_child_stderr_cannot_pass(case, monkeypatch):
     def noisy(*args):
         result = original(*args); result["stderr"] = "unexpected warning"; return result
     monkeypatch.setattr(L, "replay", noisy)
-    assert engineering_run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
+    assert L.run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
 
 def test_unisolated_parent_refused_before_session(case, monkeypatch):
     manifest, digest, out, calls, _ = case
     monkeypatch.setattr(L, "host_flags", lambda: {"isolated": 0, "no_site": 0, "dont_write_bytecode": 0}, raising=False)
-    result = engineering_run(manifest, digest, out)
+    result = L.run(manifest, digest, out)
     assert result["terminal"] == "CANNOT_CHECK" and not calls
-
-def test_other_registered_interpreter_refused_before_dispatch(case):
-    manifest, digest, out, calls, _ = case
-    wrong = out.parent / "different-python"; wrong.write_bytes(b"wrong interpreter")
-    result = L.run(manifest, digest, out, python_executable=wrong)
-    assert result["terminal"] == "CANNOT_CHECK" and not calls
-    assert "parent must use registered standalone Python" in result["reason"]
 
 @pytest.mark.parametrize("error", [KeyboardInterrupt(), RuntimeError("pipe failure")])
 def test_replay_interruption_reaps_and_retains_envelope(tmp_path, monkeypatch, error):
@@ -190,10 +176,10 @@ def test_replay_interruption_reaps_and_retains_envelope(tmp_path, monkeypatch, e
         assert pid == child.pid
         if not child.alive: raise ProcessLookupError
         child.alive = False
-    monkeypatch.setattr(R, "verify_freeze", lambda *a: {"python_executable": str(PYTHON.resolve())})
+    monkeypatch.setattr(R, "verify_freeze", lambda *a: {"python_executable": str(L.PYTHON.resolve())})
     monkeypatch.setattr(R.subprocess, "Popen", lambda *a, **kw: child)
     monkeypatch.setattr(R.os, "killpg", kill)
-    result = R.replay(tmp_path, tmp_path / "freeze", "f" * 64, PYTHON)
+    result = R.replay(tmp_path, tmp_path / "freeze", "f" * 64, L.PYTHON)
     assert result["terminal"] != "COMPLETED" and result["pid"] == child.pid
     assert result["cleanup"] == {"reaped": True, "group_absent": True}
     assert result["stdout"] == "partial output" and result["stderr"] == "retained stderr"

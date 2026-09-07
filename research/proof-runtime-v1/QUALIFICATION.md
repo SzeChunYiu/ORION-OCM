@@ -59,6 +59,23 @@ Raw records, exact source snapshots, process envelopes and review are indexed in
 [records/CORE.md](records/CORE.md). Binary Lean outputs may be retained by hash and
 size in the archive; their original bodies remain at the registered Linux run path.
 
+## Integration qualification
+
+The initial hosted run exposed a laptop-specific interpreter path in mocked
+lifecycle tests and a corpus-fixture import path. Test fixtures now explicitly
+select the running engineering interpreter; the corpus step runs from its package.
+Production interpreter/source binding and all native records remain unchanged.
+The corrected portable command passes **97 controls**, including a wrong-interpreter
+refusal, in a separate CPython installation. The earlier 96-control record remains
+historical evidence for its exact test source.
+
+Core admission changes also require a new actual engineering run under the
+[current-receipt protocol](../../docs/provenance/engineering_revisions/README.md).
+The new [source-bound receipt](../../docs/provenance/engineering_revisions/runs/7b7f9f11895b3eb8f2e3f7c1cfe9eeb7adc4a7807020f922dde47f2f92aa31bb/e9034c3abc3b43e4/RECEIPT.json)
+executes both fixed recipes; it does not rehash an earlier run or rerun a protected
+scientific study. [Portable test evidence](../../docs/provenance/proof_runtime_portability_20260907/CORE.md)
+retains the reproduced failure and corrected execution separately from native proof.
+
 The OCM host, filesystem and issuer journal remain trusted. Parent/replay Python
 uses the registered executable with `-I -S -B`, explicit source roots and bound
 import origins. That is not a whole-host sandbox or a proof about arbitrary plugins.

@@ -1,0 +1,95 @@
+{
+  "schema": "ocm.proof-runtime-portability.v1",
+  "scope": "Portable engineering test repair; no new native/protected/scientific qualification.",
+  "source_base_head": "85813a4e0b045c06bab581750409d710f4b44553",
+  "changed_product_files": [],
+  "changed_test_files": [
+    "research/proof-runtime-v1/test_lifecycle_contract.py"
+  ],
+  "test_source_effect": "Current test bytes differ from historical 18-lifecycle/96-portable-test evidence. Those original test snapshots, native result and all 192 native frozen sources remain unchanged. The added mismatch control yields 19 lifecycle/97 portable controls; only this new engineering record binds the changed tests.",
+  "hosted_failure": {
+    "pr": 134,
+    "head": "85813a4e0b045c06bab581750409d710f4b44553",
+    "workflow_run": 34072789541,
+    "job": 101593120557,
+    "failed_tests": 7,
+    "diagnosis": "Hosted Python cannot access laptop-only pinned path/stdlib.",
+    "log": "raw/hosted-portable-failed.log"
+  },
+  "local_reproduction": {
+    "counts": {
+      "red": {
+        "tests": 96,
+        "failures": 5,
+        "errors": 0,
+        "skipped": 0
+      },
+      "green": {
+        "tests": 97,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "interpretation": "Different resolved standalone Python path on Linux reproduces5 early mismatch failures; original laptop Python remains installed, so this is not an exact hosted-image/absence reproduction.",
+    "real_native_worker_or_kernel_runs": 0,
+    "safe_cold_status_subprocesses": "Existing mocked-proof artifact status test only; no proposer/checker callbacks."
+  },
+  "environment": "raw/environment.json",
+  "native_custody": "raw/native-source-custody.json",
+  "records": {
+    "red-stdout.log": {
+      "path": "raw/red-stdout.log",
+      "sha256": "31d3aa9d83a1e7a0eefb046e9b8f48e4d229d9d2b59382adf4c6852a0de12db7",
+      "bytes": 6722,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-red/stdout.log"
+    },
+    "red-junit.xml": {
+      "path": "raw/red-junit.xml",
+      "sha256": "a4f278f83c19dfe1f8f1724322d259d399bc5249c5ea482f8ba7a2b66f180129",
+      "bytes": 20683,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-red/junit.xml"
+    },
+    "red-process.json": {
+      "path": "raw/red-process.json",
+      "sha256": "f6cefcd681ae3ca53c8fc5d69f60816cf948ec4428553c0c70fcccf618910bb0",
+      "bytes": 693,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-red/process.json"
+    },
+    "green-stdout.log": {
+      "path": "raw/green-stdout.log",
+      "sha256": "052732506008c3882683d116cb1d9855fcedcf787b7f76c11aff4a45744a7a75",
+      "bytes": 286,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-green/stdout.log"
+    },
+    "green-junit.xml": {
+      "path": "raw/green-junit.xml",
+      "sha256": "877a447e44eec676cd60ee9cbdaa8000081374d22a50f158c43366b8265bb895",
+      "bytes": 14349,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-green/junit.xml"
+    },
+    "green-process.json": {
+      "path": "raw/green-process.json",
+      "sha256": "dde94d93693506409aaf8a5bb2d40f98a13613e391c34862913ad7e1704868d7",
+      "bytes": 723,
+      "original": "/home/billy/orion-director-work/20260907/portable-lifecycle-tests-green/process.json"
+    },
+    "before_test": {
+      "path": "test-source/before.py",
+      "sha256": "10b178a6a741c8f676201ad2f01ac7a05f5525b758b3a32937b929dc77a6924a",
+      "source_commit": "85813a4e0b045c06bab581750409d710f4b44553"
+    },
+    "after_test": {
+      "path": "test-source/after.py",
+      "sha256": "1620a66f2e47348ef406b3f9bd491b7d7dd4fe03335f70ac0bf84e5be4edc52a",
+      "bytes": 10631,
+      "original": "/home/billy/orion-director-work/20260907/ocm-proof-runtime/research/proof-runtime-v1/test_lifecycle_contract.py"
+    },
+    "hosted_log": {
+      "path": "raw/hosted-portable-failed.log",
+      "sha256": "2954f9d1ec573f69fd7d0a54fdbf2d930704ef1460f4421834d8fce679d426a1",
+      "bytes": 35702,
+      "origin": "gh run view 34072789541 --job 101593120557 --log-failed, exact PR head 85813a4e0b045c06bab581750409d710f4b44553"
+    }
+  }
+}
