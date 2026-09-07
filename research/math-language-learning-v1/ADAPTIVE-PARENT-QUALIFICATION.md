@@ -1,5 +1,9 @@
 # Authored adaptive-parent qualification
 
+[Sealed original records](adaptive-parent-records/CORE.md) preserve all 12 observed invocations,
+including predecessor, accounting and final formatting generations. The package also
+retains [exact hosted-comparison case identities](adaptive-parent-records/QUALIFIED-CASE-IDENTITIES.json.gz).
+
 The current combined unary/learning run passed **277 tests, zero failures, errors or skips**.
 It contains the existing 213 controls plus 64 new authored controls.
 No registered study rows, generator, corpus operations or scientific results were executed.
@@ -74,3 +78,6 @@ No existing semantic solver, core ledger, KSO, OCM runtime or old archive bytes 
 The three ADAPTIVE-PARENT notes are post-run descriptions outside both runtime inventories.
 They do not rewrite either source freeze. Independent final review precedes commit;
 scientific launcher qualification, registered execution and final analysis sealing remain future work.
+
+The independent [release archive review](adaptive-parent-release-review-records/README.md)
+checked these preserved records and the unchanged combined workflow.

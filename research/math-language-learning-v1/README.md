@@ -1,5 +1,9 @@
 # Checked unary method tranche
 
+The [adaptive-parent apparatus](ADAPTIVE-PARENT.md) is the current qualified component,
+with [277 authored controls and sealed records](ADAPTIVE-PARENT-QUALIFICATION.md).
+The acquisition description below retains its original first-tranche scope.
+
 This package supplies a small conventional mechanical acquisition and application layer.
 It is authored apparatus: no persistent learner, OCM dispatch, fresh-process causal assay,
 held-out evaluation, speedup, language-learning or novelty result is established here.
