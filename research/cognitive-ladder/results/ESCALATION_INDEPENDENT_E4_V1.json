@@ -1,0 +1,930 @@
+{
+  "receipt": "CL_ESCALATION_INDEPENDENT_E4_V1",
+  "study_id": "CL-ESCALATION-INDEPENDENT-E4-V1",
+  "programme_issue": "SzeChunYiu/ORION-OCM#143",
+  "publication_constitution": "SzeChunYiu/ORION-OCM#144",
+  "evidence_class": "E2",
+  "contribution_level": "L1",
+  "study_role": "REMOVES_ONE_NAMED_CIRCULARITY_FROM_CL-ESCALATION-PILOT-V1",
+  "protected_claim_authority": false,
+  "scientific_promotion": "NOT_ESTABLISHED",
+  "headline_contrast": {
+    "governed_lead_over_fully_resourced_parent_old_generator": 0.2,
+    "governed_lead_over_fully_resourced_parent_independent": 0.007,
+    "lead_collapse": 0.193,
+    "lead_reading": "On the old generator the governed policy led exact_repair_planner by 20.0% of worlds. On blindly perturbed worlds levelled by the repair oracle the same lead is 0.7%. The parent was never that far behind; the old generator's ground truth was the governed policy's own taxonomy.",
+    "statement": "On the old generator's protected draw the governed policy scores 70/70 exact. On 2000 worlds perturbed blindly and levelled by an independent repair oracle it scores 1736/2000 (86.8%). The fully-resourced parent exact_repair_planner scores 1722/2000 (86.1%) on the same worlds.",
+    "governed_old_generator": "70/70",
+    "governed_independent": "1736/2000",
+    "exact_repair_planner_independent": "1722/2000",
+    "governed_false_escalations_independent": 0,
+    "exact_repair_planner_false_escalations_independent": 0,
+    "verdict": "GENERATOR_ARTIFACT_CONFIRMED"
+  },
+  "generator_artifact_verdict": {
+    "old_generator_exact_match": "70/70",
+    "old_generator_accuracy": 1.0,
+    "independent_exact_match": "1736/2000",
+    "independent_accuracy": 0.868,
+    "accuracy_drop": 0.132,
+    "registered_tolerance": 0.05,
+    "verdict": "GENERATOR_ARTIFACT_CONFIRMED",
+    "reading": "the same unmodified policy loses accuracy when the world's level stops being the generator's intent, so the earlier figure was substantially a measurement of the generator's taxonomy rather than of the policy"
+  },
+  "terminal": "PARENT_SUFFICIENT_WITHIN_REGISTERED_MARGIN",
+  "terminal_reason": "the governed policy leads exact_repair_planner by 14 worlds of 2000, inside the pre-registered material margin of 2%; a lead this small is not reported as a separation",
+  "commitment": {
+    "commitment_sha256": "1009039ce48cb00ae7618dc4985d584762ab974e6f4c198fc76e6d60e69e7758",
+    "protected_seed": "812e9b7bbd46a1b0d48857a2aa99a177c4a2964251684554e2b1f1cd168cc298",
+    "pilot_seed": "007dcca6b2dbb8bf7bdda7e692d06f899286e9c33b3d627e3d16aa28d8d4e26e",
+    "permutation_seed": "361a24ef45a4776fbc946ad5a2e4821cc5b611415e06c2a002fa9bd6b6520156",
+    "plan": {
+      "protocol": "COGNITIVE_LADDER_PROTOCOL_V1",
+      "study_id": "CL-ESCALATION-INDEPENDENT-E4-V1",
+      "experiment": "escalation_independent",
+      "supersedes_generator": "escalation_generator.draw_suite",
+      "generation": "blind_perturbation_of_a_working_setup",
+      "ground_truth": "exhaustive_minimum_repair_search",
+      "worlds": 2000,
+      "perturbation_kinds": [
+        "shrink_period_bound",
+        "shrink_preperiod_bound",
+        "shrink_value_bound",
+        "remove_operators",
+        "coarsen_representation",
+        "restrict_probe_set",
+        "cut_probe_budget",
+        "flip_play_convention",
+        "drop_evidence"
+      ],
+      "perturbation_count_weights": {
+        "0": 15,
+        "1": 45,
+        "2": 40
+      },
+      "repair_lattice": [
+        [
+          "L1_SEARCH_MORE",
+          "raise_probe_budget"
+        ],
+        [
+          "L2_MORE_EVIDENCE",
+          "widen_probe_channel"
+        ],
+        [
+          "L3_LOCAL_REPAIR",
+          "relax_period_bound"
+        ],
+        [
+          "L3_LOCAL_REPAIR",
+          "relax_preperiod_bound"
+        ],
+        [
+          "L3_LOCAL_REPAIR",
+          "relax_value_bound"
+        ],
+        [
+          "L4_OPERATOR_INSUFFICIENT",
+          "widen_operator_vocabulary"
+        ],
+        [
+          "L5_REPRESENTATION_CHANGE",
+          "add_identifying_representation"
+        ],
+        [
+          "L6_FORMULATION_CHANGE",
+          "admit_misere_convention"
+        ]
+      ],
+      "levels": [
+        "L0_NO_ESCALATION",
+        "L1_SEARCH_MORE",
+        "L2_MORE_EVIDENCE",
+        "L3_LOCAL_REPAIR",
+        "L4_OPERATOR_INSUFFICIENT",
+        "L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE"
+      ],
+      "arms": [
+        "cegar",
+        "exact_repair_planner",
+        "governed",
+        "saturation",
+        "timeout"
+      ],
+      "primary_endpoint": "minimum_sufficient_level_exact_match",
+      "secondary_endpoints": [
+        "false_escalation_rate",
+        "missed_escalation_rate",
+        "overreach",
+        "underreach",
+        "confusion_matrix",
+        "accuracy_by_perturbation_count"
+      ],
+      "jump_threshold": "L4_OPERATOR_INSUFFICIENT",
+      "analysis": "exact counts over blindly generated worlds; no inferential test, and a pre-registered material margin instead"
+    }
+  },
+  "generation": {
+    "families": 42,
+    "rules_in_catalogue": 22,
+    "perturbation_kinds": [
+      "shrink_period_bound",
+      "shrink_preperiod_bound",
+      "shrink_value_bound",
+      "remove_operators",
+      "coarsen_representation",
+      "restrict_probe_set",
+      "cut_probe_budget",
+      "flip_play_convention",
+      "drop_evidence"
+    ],
+    "perturbation_count_weights": [
+      15,
+      45,
+      40
+    ],
+    "well_posedness_screen": {
+      "families": 42,
+      "conventions": [
+        "normal",
+        "misere"
+      ],
+      "families_not_expressible": [],
+      "well_posed": true
+    },
+    "note": "A world is a working setup with zero, one or two perturbations drawn uniformly from the menu. No defect type is chosen, recorded or implied. The level is recovered afterwards by exhaustive search over the repair lattice."
+  },
+  "independent_worlds": {
+    "n": 2000,
+    "minimum_sufficient_level_distribution": {
+      "L0_NO_ESCALATION": 521,
+      "L1_SEARCH_MORE": 648,
+      "L2_MORE_EVIDENCE": 51,
+      "L3_LOCAL_REPAIR": 282,
+      "L4_OPERATOR_INSUFFICIENT": 59,
+      "L5_REPRESENTATION_CHANGE": 148,
+      "L6_FORMULATION_CHANGE": 291
+    },
+    "credited_repair_distribution": {
+      "add_identifying_representation": 148,
+      "admit_misere_convention": 291,
+      "closure_L3_LOCAL_REPAIR": 14,
+      "none": 521,
+      "raise_probe_budget": 648,
+      "relax_period_bound": 122,
+      "relax_preperiod_bound": 33,
+      "relax_value_bound": 113,
+      "widen_operator_vocabulary": 59,
+      "widen_probe_channel": 51
+    },
+    "perturbation_count_distribution": {
+      "0": 297,
+      "1": 871,
+      "2": 832
+    },
+    "perturbation_kind_distribution": {
+      "coarsen_representation": 286,
+      "cut_probe_budget": 255,
+      "drop_evidence": 305,
+      "flip_play_convention": 291,
+      "remove_operators": 291,
+      "restrict_probe_set": 282,
+      "shrink_period_bound": 280,
+      "shrink_preperiod_bound": 273,
+      "shrink_value_bound": 272
+    },
+    "arms": {
+      "governed": {
+        "n": 2000,
+        "exact_match": 1736,
+        "accuracy": 0.868,
+        "false_escalation": 0,
+        "missed_escalation": 145,
+        "overreach": 3,
+        "underreach": 261,
+        "witnessed": 114,
+        "confusion_matrix": {
+          "L0_NO_ESCALATION": {
+            "L0_NO_ESCALATION": 521
+          },
+          "L1_SEARCH_MORE": {
+            "L1_SEARCH_MORE": 648
+          },
+          "L2_MORE_EVIDENCE": {
+            "L1_SEARCH_MORE": 32,
+            "L2_MORE_EVIDENCE": 19
+          },
+          "L3_LOCAL_REPAIR": {
+            "L0_NO_ESCALATION": 23,
+            "L1_SEARCH_MORE": 46,
+            "L2_MORE_EVIDENCE": 1,
+            "L3_LOCAL_REPAIR": 212
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "L0_NO_ESCALATION": 12,
+            "L1_SEARCH_MORE": 17,
+            "L4_OPERATOR_INSUFFICIENT": 27,
+            "L5_REPRESENTATION_CHANGE": 3
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "L0_NO_ESCALATION": 10,
+            "L1_SEARCH_MORE": 11,
+            "L4_OPERATOR_INSUFFICIENT": 1,
+            "L5_REPRESENTATION_CHANGE": 126
+          },
+          "L6_FORMULATION_CHANGE": {
+            "L0_NO_ESCALATION": 26,
+            "L1_SEARCH_MORE": 62,
+            "L3_LOCAL_REPAIR": 7,
+            "L4_OPERATOR_INSUFFICIENT": 2,
+            "L5_REPRESENTATION_CHANGE": 11,
+            "L6_FORMULATION_CHANGE": 183
+          }
+        },
+        "accuracy_by_perturbation_count": {
+          "0": {
+            "n": 297,
+            "exact_match": 297,
+            "accuracy": 1.0
+          },
+          "1": {
+            "n": 871,
+            "exact_match": 775,
+            "accuracy": 0.8898
+          },
+          "2": {
+            "n": 832,
+            "exact_match": 664,
+            "accuracy": 0.7981
+          }
+        },
+        "accuracy_by_minimum_sufficient_level": {
+          "L0_NO_ESCALATION": {
+            "n": 521,
+            "exact_match": 521,
+            "accuracy": 1.0
+          },
+          "L1_SEARCH_MORE": {
+            "n": 648,
+            "exact_match": 648,
+            "accuracy": 1.0
+          },
+          "L2_MORE_EVIDENCE": {
+            "n": 51,
+            "exact_match": 19,
+            "accuracy": 0.3725
+          },
+          "L3_LOCAL_REPAIR": {
+            "n": 282,
+            "exact_match": 212,
+            "accuracy": 0.7518
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "n": 59,
+            "exact_match": 27,
+            "accuracy": 0.4576
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "n": 148,
+            "exact_match": 126,
+            "accuracy": 0.8514
+          },
+          "L6_FORMULATION_CHANGE": {
+            "n": 291,
+            "exact_match": 183,
+            "accuracy": 0.6289
+          }
+        }
+      },
+      "timeout": {
+        "n": 2000,
+        "exact_match": 1266,
+        "accuracy": 0.633,
+        "false_escalation": 245,
+        "missed_escalation": 138,
+        "overreach": 275,
+        "underreach": 459,
+        "witnessed": 0,
+        "confusion_matrix": {
+          "L0_NO_ESCALATION": {
+            "L0_NO_ESCALATION": 521
+          },
+          "L1_SEARCH_MORE": {
+            "L1_SEARCH_MORE": 618,
+            "L5_REPRESENTATION_CHANGE": 30
+          },
+          "L2_MORE_EVIDENCE": {
+            "L1_SEARCH_MORE": 50,
+            "L5_REPRESENTATION_CHANGE": 1
+          },
+          "L3_LOCAL_REPAIR": {
+            "L0_NO_ESCALATION": 23,
+            "L1_SEARCH_MORE": 45,
+            "L5_REPRESENTATION_CHANGE": 214
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "L0_NO_ESCALATION": 12,
+            "L1_SEARCH_MORE": 17,
+            "L5_REPRESENTATION_CHANGE": 30
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "L0_NO_ESCALATION": 10,
+            "L1_SEARCH_MORE": 11,
+            "L5_REPRESENTATION_CHANGE": 127
+          },
+          "L6_FORMULATION_CHANGE": {
+            "L0_NO_ESCALATION": 26,
+            "L1_SEARCH_MORE": 62,
+            "L5_REPRESENTATION_CHANGE": 203
+          }
+        },
+        "accuracy_by_perturbation_count": {
+          "0": {
+            "n": 297,
+            "exact_match": 297,
+            "accuracy": 1.0
+          },
+          "1": {
+            "n": 871,
+            "exact_match": 577,
+            "accuracy": 0.6625
+          },
+          "2": {
+            "n": 832,
+            "exact_match": 392,
+            "accuracy": 0.4712
+          }
+        },
+        "accuracy_by_minimum_sufficient_level": {
+          "L0_NO_ESCALATION": {
+            "n": 521,
+            "exact_match": 521,
+            "accuracy": 1.0
+          },
+          "L1_SEARCH_MORE": {
+            "n": 648,
+            "exact_match": 618,
+            "accuracy": 0.9537
+          },
+          "L2_MORE_EVIDENCE": {
+            "n": 51,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L3_LOCAL_REPAIR": {
+            "n": 282,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "n": 59,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "n": 148,
+            "exact_match": 127,
+            "accuracy": 0.8581
+          },
+          "L6_FORMULATION_CHANGE": {
+            "n": 291,
+            "exact_match": 0,
+            "accuracy": 0.0
+          }
+        }
+      },
+      "saturation": {
+        "n": 2000,
+        "exact_match": 1296,
+        "accuracy": 0.648,
+        "false_escalation": 232,
+        "missed_escalation": 138,
+        "overreach": 262,
+        "underreach": 442,
+        "witnessed": 0,
+        "confusion_matrix": {
+          "L0_NO_ESCALATION": {
+            "L0_NO_ESCALATION": 521
+          },
+          "L1_SEARCH_MORE": {
+            "L1_SEARCH_MORE": 648
+          },
+          "L2_MORE_EVIDENCE": {
+            "L1_SEARCH_MORE": 32,
+            "L5_REPRESENTATION_CHANGE": 19
+          },
+          "L3_LOCAL_REPAIR": {
+            "L0_NO_ESCALATION": 23,
+            "L1_SEARCH_MORE": 46,
+            "L5_REPRESENTATION_CHANGE": 213
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "L0_NO_ESCALATION": 12,
+            "L1_SEARCH_MORE": 17,
+            "L5_REPRESENTATION_CHANGE": 30
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "L0_NO_ESCALATION": 10,
+            "L1_SEARCH_MORE": 11,
+            "L5_REPRESENTATION_CHANGE": 127
+          },
+          "L6_FORMULATION_CHANGE": {
+            "L0_NO_ESCALATION": 26,
+            "L1_SEARCH_MORE": 62,
+            "L5_REPRESENTATION_CHANGE": 203
+          }
+        },
+        "accuracy_by_perturbation_count": {
+          "0": {
+            "n": 297,
+            "exact_match": 297,
+            "accuracy": 1.0
+          },
+          "1": {
+            "n": 871,
+            "exact_match": 591,
+            "accuracy": 0.6785
+          },
+          "2": {
+            "n": 832,
+            "exact_match": 408,
+            "accuracy": 0.4904
+          }
+        },
+        "accuracy_by_minimum_sufficient_level": {
+          "L0_NO_ESCALATION": {
+            "n": 521,
+            "exact_match": 521,
+            "accuracy": 1.0
+          },
+          "L1_SEARCH_MORE": {
+            "n": 648,
+            "exact_match": 648,
+            "accuracy": 1.0
+          },
+          "L2_MORE_EVIDENCE": {
+            "n": 51,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L3_LOCAL_REPAIR": {
+            "n": 282,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "n": 59,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "n": 148,
+            "exact_match": 127,
+            "accuracy": 0.8581
+          },
+          "L6_FORMULATION_CHANGE": {
+            "n": 291,
+            "exact_match": 0,
+            "accuracy": 0.0
+          }
+        }
+      },
+      "cegar": {
+        "n": 2000,
+        "exact_match": 1296,
+        "accuracy": 0.648,
+        "false_escalation": 232,
+        "missed_escalation": 138,
+        "overreach": 262,
+        "underreach": 442,
+        "witnessed": 0,
+        "confusion_matrix": {
+          "L0_NO_ESCALATION": {
+            "L0_NO_ESCALATION": 521
+          },
+          "L1_SEARCH_MORE": {
+            "L1_SEARCH_MORE": 648
+          },
+          "L2_MORE_EVIDENCE": {
+            "L1_SEARCH_MORE": 32,
+            "L5_REPRESENTATION_CHANGE": 19
+          },
+          "L3_LOCAL_REPAIR": {
+            "L0_NO_ESCALATION": 23,
+            "L1_SEARCH_MORE": 46,
+            "L5_REPRESENTATION_CHANGE": 213
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "L0_NO_ESCALATION": 12,
+            "L1_SEARCH_MORE": 17,
+            "L5_REPRESENTATION_CHANGE": 30
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "L0_NO_ESCALATION": 10,
+            "L1_SEARCH_MORE": 11,
+            "L5_REPRESENTATION_CHANGE": 127
+          },
+          "L6_FORMULATION_CHANGE": {
+            "L0_NO_ESCALATION": 26,
+            "L1_SEARCH_MORE": 62,
+            "L5_REPRESENTATION_CHANGE": 203
+          }
+        },
+        "accuracy_by_perturbation_count": {
+          "0": {
+            "n": 297,
+            "exact_match": 297,
+            "accuracy": 1.0
+          },
+          "1": {
+            "n": 871,
+            "exact_match": 591,
+            "accuracy": 0.6785
+          },
+          "2": {
+            "n": 832,
+            "exact_match": 408,
+            "accuracy": 0.4904
+          }
+        },
+        "accuracy_by_minimum_sufficient_level": {
+          "L0_NO_ESCALATION": {
+            "n": 521,
+            "exact_match": 521,
+            "accuracy": 1.0
+          },
+          "L1_SEARCH_MORE": {
+            "n": 648,
+            "exact_match": 648,
+            "accuracy": 1.0
+          },
+          "L2_MORE_EVIDENCE": {
+            "n": 51,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L3_LOCAL_REPAIR": {
+            "n": 282,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "n": 59,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "n": 148,
+            "exact_match": 127,
+            "accuracy": 0.8581
+          },
+          "L6_FORMULATION_CHANGE": {
+            "n": 291,
+            "exact_match": 0,
+            "accuracy": 0.0
+          }
+        }
+      },
+      "exact_repair_planner": {
+        "n": 2000,
+        "exact_match": 1722,
+        "accuracy": 0.861,
+        "false_escalation": 0,
+        "missed_escalation": 145,
+        "overreach": 3,
+        "underreach": 275,
+        "witnessed": 0,
+        "confusion_matrix": {
+          "L0_NO_ESCALATION": {
+            "L0_NO_ESCALATION": 521
+          },
+          "L1_SEARCH_MORE": {
+            "L1_SEARCH_MORE": 648
+          },
+          "L2_MORE_EVIDENCE": {
+            "L1_SEARCH_MORE": 51
+          },
+          "L3_LOCAL_REPAIR": {
+            "L0_NO_ESCALATION": 23,
+            "L1_SEARCH_MORE": 47,
+            "L3_LOCAL_REPAIR": 212
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "L0_NO_ESCALATION": 12,
+            "L1_SEARCH_MORE": 17,
+            "L4_OPERATOR_INSUFFICIENT": 27,
+            "L5_REPRESENTATION_CHANGE": 3
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "L0_NO_ESCALATION": 10,
+            "L1_SEARCH_MORE": 11,
+            "L4_OPERATOR_INSUFFICIENT": 1,
+            "L5_REPRESENTATION_CHANGE": 126
+          },
+          "L6_FORMULATION_CHANGE": {
+            "L0_NO_ESCALATION": 26,
+            "L1_SEARCH_MORE": 62,
+            "L3_LOCAL_REPAIR": 7,
+            "L4_OPERATOR_INSUFFICIENT": 2,
+            "L5_REPRESENTATION_CHANGE": 6,
+            "L6_FORMULATION_CHANGE": 188
+          }
+        },
+        "accuracy_by_perturbation_count": {
+          "0": {
+            "n": 297,
+            "exact_match": 297,
+            "accuracy": 1.0
+          },
+          "1": {
+            "n": 871,
+            "exact_match": 766,
+            "accuracy": 0.8794
+          },
+          "2": {
+            "n": 832,
+            "exact_match": 659,
+            "accuracy": 0.7921
+          }
+        },
+        "accuracy_by_minimum_sufficient_level": {
+          "L0_NO_ESCALATION": {
+            "n": 521,
+            "exact_match": 521,
+            "accuracy": 1.0
+          },
+          "L1_SEARCH_MORE": {
+            "n": 648,
+            "exact_match": 648,
+            "accuracy": 1.0
+          },
+          "L2_MORE_EVIDENCE": {
+            "n": 51,
+            "exact_match": 0,
+            "accuracy": 0.0
+          },
+          "L3_LOCAL_REPAIR": {
+            "n": 282,
+            "exact_match": 212,
+            "accuracy": 0.7518
+          },
+          "L4_OPERATOR_INSUFFICIENT": {
+            "n": 59,
+            "exact_match": 27,
+            "accuracy": 0.4576
+          },
+          "L5_REPRESENTATION_CHANGE": {
+            "n": 148,
+            "exact_match": 126,
+            "accuracy": 0.8514
+          },
+          "L6_FORMULATION_CHANGE": {
+            "n": 291,
+            "exact_match": 188,
+            "accuracy": 0.646
+          }
+        }
+      }
+    }
+  },
+  "old_generator_worlds": {
+    "source": "escalation_generator.draw_suite via run_escalation.PLAN",
+    "commitment_sha256": "ac7cd6b603a546468eec1c57773bc30eebf6f10766e317691288ea6f3c6e051a",
+    "n": 70,
+    "arms": {
+      "governed": {
+        "n": 70,
+        "exact_match": 70,
+        "accuracy": 1.0,
+        "false_escalation": 0,
+        "missed_escalation": 0
+      },
+      "timeout": {
+        "n": 70,
+        "exact_match": 30,
+        "accuracy": 0.4286,
+        "false_escalation": 10,
+        "missed_escalation": 4
+      },
+      "saturation": {
+        "n": 70,
+        "exact_match": 30,
+        "accuracy": 0.4286,
+        "false_escalation": 20,
+        "missed_escalation": 0
+      },
+      "cegar": {
+        "n": 70,
+        "exact_match": 30,
+        "accuracy": 0.4286,
+        "false_escalation": 20,
+        "missed_escalation": 0
+      },
+      "exact_repair_planner": {
+        "n": 70,
+        "exact_match": 56,
+        "accuracy": 0.8,
+        "false_escalation": 0,
+        "missed_escalation": 4
+      }
+    }
+  },
+  "decoupling_audit": {
+    "two_perturbation_worlds": 832,
+    "lower_than_both": 1,
+    "higher_than_both": 9,
+    "between_or_equal": 822,
+    "decoupled": true,
+    "examples": {
+      "lower_than_both": [
+        {
+          "world_id": "E4_0481",
+          "perturbations": [
+            "remove_operators",
+            "coarsen_representation"
+          ],
+          "joint_level": "L0_NO_ESCALATION",
+          "levels_alone": [
+            "L1_SEARCH_MORE",
+            "L1_SEARCH_MORE"
+          ]
+        }
+      ],
+      "higher_than_both": [
+        {
+          "world_id": "E4_0261",
+          "perturbations": [
+            "restrict_probe_set",
+            "drop_evidence"
+          ],
+          "joint_level": "L2_MORE_EVIDENCE",
+          "levels_alone": [
+            "L0_NO_ESCALATION",
+            "L1_SEARCH_MORE"
+          ]
+        },
+        {
+          "world_id": "E4_0290",
+          "perturbations": [
+            "restrict_probe_set",
+            "drop_evidence"
+          ],
+          "joint_level": "L2_MORE_EVIDENCE",
+          "levels_alone": [
+            "L0_NO_ESCALATION",
+            "L1_SEARCH_MORE"
+          ]
+        },
+        {
+          "world_id": "E4_0436",
+          "perturbations": [
+            "restrict_probe_set",
+            "drop_evidence"
+          ],
+          "joint_level": "L2_MORE_EVIDENCE",
+          "levels_alone": [
+            "L1_SEARCH_MORE",
+            "L1_SEARCH_MORE"
+          ]
+        },
+        {
+          "world_id": "E4_0572",
+          "perturbations": [
+            "shrink_period_bound",
+            "shrink_value_bound"
+          ],
+          "joint_level": "L3_LOCAL_REPAIR",
+          "levels_alone": [
+            "L1_SEARCH_MORE",
+            "L1_SEARCH_MORE"
+          ]
+        },
+        {
+          "world_id": "E4_0890",
+          "perturbations": [
+            "shrink_period_bound",
+            "shrink_preperiod_bound"
+          ],
+          "joint_level": "L3_LOCAL_REPAIR",
+          "levels_alone": [
+            "L0_NO_ESCALATION",
+            "L0_NO_ESCALATION"
+          ]
+        }
+      ]
+    }
+  },
+  "generator_intent_audit": {
+    "n": 2000,
+    "intent_equals_oracle": 1068,
+    "intent_agreement_rate": 0.534,
+    "intent_overstates_required_level": 759,
+    "intent_understates_required_level": 173,
+    "by_perturbation_count": {
+      "0": {
+        "n": 297,
+        "agree": 124,
+        "intent_too_high": 0,
+        "intent_too_low": 173
+      },
+      "1": {
+        "n": 871,
+        "agree": 478,
+        "intent_too_high": 393,
+        "intent_too_low": 0
+      },
+      "2": {
+        "n": 832,
+        "agree": 466,
+        "intent_too_high": 366,
+        "intent_too_low": 0
+      }
+    },
+    "two_perturbation_worlds": 832,
+    "oracle_below_both_intents": 209,
+    "oracle_above_both_intents": 0,
+    "oracle_between_intents": 623,
+    "examples_oracle_below_both_intents": [
+      {
+        "world_id": "E4_0032",
+        "perturbations": [
+          "shrink_preperiod_bound",
+          "restrict_probe_set"
+        ],
+        "nominal_intents": [
+          "L3_LOCAL_REPAIR",
+          "L2_MORE_EVIDENCE"
+        ],
+        "oracle_level": "L1_SEARCH_MORE"
+      },
+      {
+        "world_id": "E4_0053",
+        "perturbations": [
+          "shrink_preperiod_bound",
+          "remove_operators"
+        ],
+        "nominal_intents": [
+          "L3_LOCAL_REPAIR",
+          "L4_OPERATOR_INSUFFICIENT"
+        ],
+        "oracle_level": "L1_SEARCH_MORE"
+      },
+      {
+        "world_id": "E4_0060",
+        "perturbations": [
+          "shrink_value_bound",
+          "cut_probe_budget"
+        ],
+        "nominal_intents": [
+          "L3_LOCAL_REPAIR",
+          "L1_SEARCH_MORE"
+        ],
+        "oracle_level": "L0_NO_ESCALATION"
+      },
+      {
+        "world_id": "E4_0061",
+        "perturbations": [
+          "shrink_preperiod_bound",
+          "drop_evidence"
+        ],
+        "nominal_intents": [
+          "L3_LOCAL_REPAIR",
+          "L1_SEARCH_MORE"
+        ],
+        "oracle_level": "L0_NO_ESCALATION"
+      },
+      {
+        "world_id": "E4_0065",
+        "perturbations": [
+          "shrink_value_bound",
+          "coarsen_representation"
+        ],
+        "nominal_intents": [
+          "L3_LOCAL_REPAIR",
+          "L5_REPRESENTATION_CHANGE"
+        ],
+        "oracle_level": "L1_SEARCH_MORE"
+      }
+    ]
+  },
+  "what_this_removes": [
+    "The old generator selects a defect type and then instantiates exactly that defect, so its registered level is its own intent and its taxonomy is the policy's taxonomy. E4 never selects a defect type; the ground truth is computed after the fact by a repair search that knows only whether a repair works.",
+    "generator_intent_audit measures how often the old procedure's label would have been wrong on these worlds. Every disagreement there is a world an arm would have been scored against a wrong answer."
+  ],
+  "why_this_is_still_not_confirmatory": [
+    "The repair lattice and the escalation level ladder still share an author. What has been removed is the generator's use of its own taxonomy as ground truth, not the authorship of the ladder itself. #144 s11 asks for an independently authored validation subset and that remains outstanding.",
+    "The perturbation menu is authored, and a perturbation kind that never binds cannot produce a world at the level it nominally targets. The level distribution in this receipt is a fact about that menu, not about the difficulty of escalation in general.",
+    "The arms read two machine-visible flags (local_repair_available, formulation_defect) that the frozen EscalationWorld defines. They are computed here from the observed evidence and the arm's own registered repairs, which is more conservative than the registered worlds, but they still hand every arm a cheap route to L3 and L6.",
+    "No inferential test is reported. A pre-registered material margin is used instead, and worlds are not independent of one another at the family level."
+  ],
+  "preserved_prior_terminals": [
+    "REGIME_INVENTION_WITHOUT_INCREMENTAL_VALUE (ORION V1 Jump programme closure)",
+    "REPRESENTATION_INVENTION_NO_INCREMENTAL_VALUE: the verified-regime-revision parent matched ORION on every protected metric; the protected incremental gap was exactly zero",
+    "ME-X2 PARENT_SUFFICIENT (B5_DOMINATES): the parent won on minimum-escalation accuracy",
+    "ME-X2 V3 THRESHOLD_NULL: parity on a fresh seed",
+    "ME-X2 and V3 replicated asymmetry: false escalations 0 versus 21, then 0 versus 14",
+    "CL-ESCALATION-PILOT-V1: E2, capped by STRUCTURALLY_DETERMINED_REGISTERED_CLAUSE"
+  ],
+  "authority": "This receipt records one methodological repair to an existing pilot and its consequences for that pilot's headline number. It establishes no causal mechanism, no scaling result, no transfer result and no novelty. The binary Jump decision is already closed against a fully-resourced parent elsewhere in the programme with a protected incremental gap of exactly zero, and this experiment does not reopen it."
+}

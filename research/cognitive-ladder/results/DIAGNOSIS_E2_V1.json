@@ -1,0 +1,3341 @@
+{
+  "receipt": "CL_DIAGNOSIS_E2_V1",
+  "study_id": "CL-DIAGNOSIS-E2-V1",
+  "programme_issue": "SzeChunYiu/ORION-OCM#143",
+  "publication_constitution": "SzeChunYiu/ORION-OCM#144",
+  "evidence_class": "E2",
+  "contribution_level": "L1",
+  "study_role": "PILOT_AND_DESIGN_EVIDENCE_ONLY",
+  "protected_claim_authority": false,
+  "scientific_promotion": "NOT_ESTABLISHED",
+  "why_this_experiment_exists": "The failure-knowledge pilot handed every arm a correct diagnosis and said so in its own receipt: 'nothing here measures whether a machine can tell an evaluator defect from a genuine refutation when both report the same thing.' This experiment withdraws that gift. Every episode presents the identical observed signal and the cause must be bought.",
+  "plan": {
+    "protocol": "COGNITIVE_LADDER_PROTOCOL_V1",
+    "rung": "CL-D2 failure-cause diagnosis under an identical observed signal",
+    "observed_signal": "attempt terminated without a certified solution",
+    "causes": [
+      "TRUE_REFUTATION",
+      "BUDGET_EXHAUSTED",
+      "EVALUATOR_DEFECT",
+      "NON_IDENTIFYING_EXPERIMENT",
+      "ASSUMPTION_VIOLATED"
+    ],
+    "verdict_only": [
+      "CANNOT_IDENTIFY"
+    ],
+    "probes": {
+      "PRECONDITION_AUDIT": 1,
+      "CHECKER_CONTROL_BATTERY": 2,
+      "SPLIT_TEST": 3,
+      "RERUN_LARGER_BUDGET": 5,
+      "SECOND_CHECKER": 7
+    },
+    "registered_cause_prior": {
+      "TRUE_REFUTATION": 8.0,
+      "BUDGET_EXHAUSTED": 7.0,
+      "EVALUATOR_DEFECT": 6.0,
+      "NON_IDENTIFYING_EXPERIMENT": 5.0,
+      "ASSUMPTION_VIOLATED": 4.0
+    },
+    "registered_prior_checker_sound": 0.5,
+    "selection_rule": "greedy expected candidate elimination per unit probe cost",
+    "arms": [
+      "governed_diagnosis",
+      "assume_refutation_parent",
+      "retry_once_parent",
+      "exhaustive_probe_parent",
+      "decision_tree_parent",
+      "scope_blind_cache_ablation"
+    ],
+    "endpoints": [
+      "diagnosis accuracy per cause",
+      "confusion matrix over targets and verdicts",
+      "probe cost per diagnosis",
+      "cumulative probe cost over the task sequence",
+      "correct CANNOT_IDENTIFY rate",
+      "downstream false exclusions and missed reopenings",
+      "over-generalisation count on the hostile"
+    ],
+    "sequence_length": 20,
+    "terminal_rule": "PARENT_SUFFICIENT if decision_tree_parent matches governed_diagnosis on accuracy and does not exceed it on cumulative probe cost"
+  },
+  "commitment": "788ee1cab970d4e501eda754ed73a7a37a7ad9021c247dfdbb61dfeb1b291ef7",
+  "probe_costs": {
+    "PRECONDITION_AUDIT": 1,
+    "CHECKER_CONTROL_BATTERY": 2,
+    "SPLIT_TEST": 3,
+    "RERUN_LARGER_BUDGET": 5,
+    "SECOND_CHECKER": 7
+  },
+  "worlds": [
+    {
+      "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+      "hostile": false,
+      "episodes": 8,
+      "tests": "with an exact checker the evaluator-defect branch is never live; every arm that pays for it is paying for nothing, and the cheap control battery is what establishes that once instead of every time",
+      "cause_counts": {
+        "TRUE_REFUTATION": 3,
+        "BUDGET_EXHAUSTED": 2,
+        "EVALUATOR_DEFECT": 0,
+        "NON_IDENTIFYING_EXPERIMENT": 2,
+        "ASSUMPTION_VIOLATED": 1
+      },
+      "unidentifiable_episodes": 0,
+      "notes": "EVALUATOR_DEFECT cannot occur here by construction, so this world measures the cost of keeping the possibility open rather than the benefit of resolving it"
+    },
+    {
+      "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+      "hostile": false,
+      "episodes": 10,
+      "tests": "the checker is defective throughout one scope; the fact is established once by a cheap control battery and is worth exactly the same on every later task, so an arm that re-establishes it every time is paying twice for one finding",
+      "cause_counts": {
+        "TRUE_REFUTATION": 2,
+        "BUDGET_EXHAUSTED": 1,
+        "EVALUATOR_DEFECT": 5,
+        "NON_IDENTIFYING_EXPERIMENT": 1,
+        "ASSUMPTION_VIOLATED": 1
+      },
+      "unidentifiable_episodes": 0,
+      "notes": "half the episodes are genuine evaluator defects, so an arm that never considers the possibility loses half this world outright"
+    },
+    {
+      "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+      "hostile": true,
+      "episodes": 12,
+      "tests": "sub12_table_applied_to_sub123 is wrong infinitely often on SUB(1,2,3) and exactly right on SUB(1,2); an arm that carries the witnessed defect out of the scope where it witnessed it answers EVALUATOR_DEFECT against methods that were genuinely refuted, and every such answer is counted",
+      "cause_counts": {
+        "TRUE_REFUTATION": 6,
+        "BUDGET_EXHAUSTED": 2,
+        "EVALUATOR_DEFECT": 3,
+        "NON_IDENTIFYING_EXPERIMENT": 1,
+        "ASSUMPTION_VIOLATED": 0
+      },
+      "unidentifiable_episodes": 0,
+      "notes": "five of the six SUB(1,2) episodes are genuine refutations of grundy_mod4, which is the method a scope-blind memory will excuse"
+    },
+    {
+      "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+      "hostile": true,
+      "episodes": 9,
+      "tests": "on seven of these nine episodes the available probes provably cannot single out a cause and the only correct verdict is CANNOT_IDENTIFY; the last two are identifiable, so an arm cannot pass by refusing everything",
+      "cause_counts": {
+        "TRUE_REFUTATION": 4,
+        "BUDGET_EXHAUSTED": 2,
+        "EVALUATOR_DEFECT": 1,
+        "NON_IDENTIFYING_EXPERIMENT": 1,
+        "ASSUMPTION_VIOLATED": 1
+      },
+      "unidentifiable_episodes": 7,
+      "notes": "the control battery is available in every episode here, so a scope memory can pin the checker's soundness but can never pin more than the episode's own probes would have; the targets are therefore well defined independently of what an arm remembers"
+    },
+    {
+      "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+      "hostile": false,
+      "episodes": 20,
+      "tests": "twenty episodes over four (checker, scope) pairs in an order no author chose after seeing an outcome; two pairs share the checker id sub12_table_applied_to_nim across a soundness boundary, so the over-generalisation hostile is present here too",
+      "cause_counts": {
+        "TRUE_REFUTATION": 5,
+        "BUDGET_EXHAUSTED": 3,
+        "EVALUATOR_DEFECT": 1,
+        "NON_IDENTIFYING_EXPERIMENT": 4,
+        "ASSUMPTION_VIOLATED": 7
+      },
+      "unidentifiable_episodes": 0,
+      "notes": "the causes are drawn from the registered prior with EVALUATOR_DEFECT suppressed in sound scopes, so the realised distribution over this world is not the registered prior and the receipt reports both"
+    }
+  ],
+  "arms": [
+    "governed_diagnosis",
+    "assume_refutation_parent",
+    "retry_once_parent",
+    "exhaustive_probe_parent",
+    "decision_tree_parent",
+    "scope_blind_cache_ablation"
+  ],
+  "parents": [
+    "assume_refutation_parent",
+    "retry_once_parent",
+    "exhaustive_probe_parent",
+    "decision_tree_parent"
+  ],
+  "cause_distribution": {
+    "registered_prior": {
+      "TRUE_REFUTATION": 8.0,
+      "BUDGET_EXHAUSTED": 7.0,
+      "EVALUATOR_DEFECT": 6.0,
+      "NON_IDENTIFYING_EXPERIMENT": 5.0,
+      "ASSUMPTION_VIOLATED": 4.0
+    },
+    "realised_true_causes": {
+      "TRUE_REFUTATION": 20,
+      "BUDGET_EXHAUSTED": 10,
+      "EVALUATOR_DEFECT": 10,
+      "NON_IDENTIFYING_EXPERIMENT": 9,
+      "ASSUMPTION_VIOLATED": 10
+    },
+    "realised_targets": {
+      "TRUE_REFUTATION": 17,
+      "BUDGET_EXHAUSTED": 9,
+      "EVALUATOR_DEFECT": 9,
+      "NON_IDENTIFYING_EXPERIMENT": 8,
+      "ASSUMPTION_VIOLATED": 9,
+      "CANNOT_IDENTIFY": 7
+    },
+    "note": "the registered prior is what the selection rule uses and was frozen before the worlds were written; the realised distribution differs because EVALUATOR_DEFECT is suppressed wherever the checker is sound, and the two are reported separately so neither is mistaken for the other"
+  },
+  "constant_predictor_baseline": {
+    "target_counts": {
+      "TRUE_REFUTATION": 17,
+      "BUDGET_EXHAUSTED": 9,
+      "EVALUATOR_DEFECT": 9,
+      "NON_IDENTIFYING_EXPERIMENT": 8,
+      "ASSUMPTION_VIOLATED": 9,
+      "CANNOT_IDENTIFY": 7
+    },
+    "episodes": 59,
+    "best_constant_answer": "TRUE_REFUTATION",
+    "best_constant_accuracy": 0.288135593220339
+  },
+  "constant_predictor_note": "a policy that always answers TRUE_REFUTATION scores 0.288; assume_refutation_parent IS that policy, so the gap between it and any other arm is the part of that arm's accuracy that is not the base rate",
+  "totals": {
+    "governed_diagnosis": {
+      "correct": 59,
+      "episodes": 59,
+      "accuracy": 1.0,
+      "probe_cost": 531,
+      "probes_bought": 173,
+      "cost_per_diagnosis": 9.0,
+      "correct_cannot_identify": 7,
+      "missed_cannot_identify": 0,
+      "false_cannot_identify": 0,
+      "over_generalisations": 0,
+      "reused_facts": 44,
+      "false_exclusions": 0,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 2634,
+      "repeated_wasted_work": 142
+    },
+    "assume_refutation_parent": {
+      "correct": 17,
+      "episodes": 59,
+      "accuracy": 0.2881,
+      "probe_cost": 0,
+      "probes_bought": 0,
+      "cost_per_diagnosis": 0.0,
+      "correct_cannot_identify": 0,
+      "missed_cannot_identify": 7,
+      "false_cannot_identify": 0,
+      "over_generalisations": 0,
+      "reused_facts": 0,
+      "false_exclusions": 29,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 2776,
+      "repeated_wasted_work": 0
+    },
+    "retry_once_parent": {
+      "correct": 26,
+      "episodes": 59,
+      "accuracy": 0.4407,
+      "probe_cost": 285,
+      "probes_bought": 57,
+      "cost_per_diagnosis": 4.831,
+      "correct_cannot_identify": 0,
+      "missed_cannot_identify": 7,
+      "false_cannot_identify": 0,
+      "over_generalisations": 0,
+      "reused_facts": 0,
+      "false_exclusions": 29,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 2776,
+      "repeated_wasted_work": 0
+    },
+    "exhaustive_probe_parent": {
+      "correct": 59,
+      "episodes": 59,
+      "accuracy": 1.0,
+      "probe_cost": 1031,
+      "probes_bought": 288,
+      "cost_per_diagnosis": 17.475,
+      "correct_cannot_identify": 7,
+      "missed_cannot_identify": 0,
+      "false_cannot_identify": 0,
+      "over_generalisations": 0,
+      "reused_facts": 0,
+      "false_exclusions": 0,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 2634,
+      "repeated_wasted_work": 142
+    },
+    "decision_tree_parent": {
+      "correct": 59,
+      "episodes": 59,
+      "accuracy": 1.0,
+      "probe_cost": 573,
+      "probes_bought": 194,
+      "cost_per_diagnosis": 9.712,
+      "correct_cannot_identify": 7,
+      "missed_cannot_identify": 0,
+      "false_cannot_identify": 0,
+      "over_generalisations": 0,
+      "reused_facts": 0,
+      "false_exclusions": 0,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 2634,
+      "repeated_wasted_work": 142
+    },
+    "scope_blind_cache_ablation": {
+      "correct": 45,
+      "episodes": 59,
+      "accuracy": 0.7627,
+      "probe_cost": 420,
+      "probes_bought": 155,
+      "cost_per_diagnosis": 7.119,
+      "correct_cannot_identify": 5,
+      "missed_cannot_identify": 2,
+      "false_cannot_identify": 0,
+      "over_generalisations": 6,
+      "reused_facts": 50,
+      "false_exclusions": 0,
+      "missed_reopenings": 0,
+      "wasted_work_avoided": 1948,
+      "repeated_wasted_work": 828
+    }
+  },
+  "per_world": {
+    "governed_diagnosis": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "governed_diagnosis",
+        "episodes": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "probe_cost": 56,
+        "probes_bought": 21,
+        "cost_curve": [
+          11,
+          20,
+          24,
+          25,
+          34,
+          43,
+          52,
+          56
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 7,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "governed_diagnosis",
+        "episodes": 10,
+        "correct": 10,
+        "accuracy": 1.0,
+        "probe_cost": 128,
+        "probes_bought": 35,
+        "cost_curve": [
+          18,
+          34,
+          50,
+          59,
+          75,
+          79,
+          95,
+          111,
+          112,
+          128
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 5,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 2,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 9,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "governed_diagnosis",
+        "episodes": 12,
+        "correct": 12,
+        "accuracy": 1.0,
+        "probe_cost": 142,
+        "probes_bought": 42,
+        "cost_curve": [
+          18,
+          29,
+          45,
+          54,
+          70,
+          79,
+          95,
+          104,
+          113,
+          117,
+          133,
+          142
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 6,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 10,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 670,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "governed_diagnosis",
+        "episodes": 9,
+        "correct": 9,
+        "accuracy": 1.0,
+        "probe_cost": 72,
+        "probes_bought": 26,
+        "cost_curve": [
+          11,
+          20,
+          26,
+          30,
+          38,
+          44,
+          52,
+          61,
+          72
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "CANNOT_IDENTIFY",
+            "count": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 7,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 5,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 126,
+        "repeated_wasted_work": 142,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "governed_diagnosis",
+        "episodes": 20,
+        "correct": 20,
+        "accuracy": 1.0,
+        "probe_cost": 133,
+        "probes_bought": 49,
+        "cost_curve": [
+          18,
+          34,
+          52,
+          63,
+          67,
+          68,
+          69,
+          73,
+          82,
+          83,
+          87,
+          96,
+          97,
+          98,
+          99,
+          108,
+          109,
+          113,
+          124,
+          133
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 4,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 5,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 13,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1138,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      }
+    },
+    "assume_refutation_parent": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "assume_refutation_parent",
+        "episodes": 8,
+        "correct": 3,
+        "accuracy": 0.375,
+        "probe_cost": 0,
+        "probes_bought": 0,
+        "cost_curve": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 0,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 4,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "assume_refutation_parent",
+        "episodes": 10,
+        "correct": 2,
+        "accuracy": 0.2,
+        "probe_cost": 0,
+        "probes_bought": 0,
+        "cost_curve": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 2,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 7,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "assume_refutation_parent",
+        "episodes": 12,
+        "correct": 6,
+        "accuracy": 0.5,
+        "probe_cost": 0,
+        "probes_bought": 0,
+        "cost_curve": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 0,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 6,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 670,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 6,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "assume_refutation_parent",
+        "episodes": 9,
+        "correct": 1,
+        "accuracy": 0.1111,
+        "probe_cost": 0,
+        "probes_bought": 0,
+        "cost_curve": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 0,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "TRUE_REFUTATION",
+            "count": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 7,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 268,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 4,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "assume_refutation_parent",
+        "episodes": 20,
+        "correct": 5,
+        "accuracy": 0.25,
+        "probe_cost": 0,
+        "probes_bought": 0,
+        "cost_curve": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 0,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 5,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1138,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 8,
+        "missed_reopenings": 0
+      }
+    },
+    "retry_once_parent": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "retry_once_parent",
+        "episodes": 8,
+        "correct": 5,
+        "accuracy": 0.625,
+        "probe_cost": 40,
+        "probes_bought": 8,
+        "cost_curve": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 4,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "retry_once_parent",
+        "episodes": 10,
+        "correct": 3,
+        "accuracy": 0.3,
+        "probe_cost": 50,
+        "probes_bought": 10,
+        "cost_curve": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 2,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 7,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "retry_once_parent",
+        "episodes": 12,
+        "correct": 8,
+        "accuracy": 0.6667,
+        "probe_cost": 60,
+        "probes_bought": 12,
+        "cost_curve": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 6,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 670,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 6,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "retry_once_parent",
+        "episodes": 9,
+        "correct": 2,
+        "accuracy": 0.2222,
+        "probe_cost": 35,
+        "probes_bought": 7,
+        "cost_curve": [
+          5,
+          10,
+          10,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 0,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "TRUE_REFUTATION",
+            "count": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 7,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 268,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 4,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "retry_once_parent",
+        "episodes": 20,
+        "correct": 8,
+        "accuracy": 0.4,
+        "probe_cost": 100,
+        "probes_bought": 20,
+        "cost_curve": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          80,
+          85,
+          90,
+          95,
+          100
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 0,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 0,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 0,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 5,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "TRUE_REFUTATION",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "TRUE_REFUTATION",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1138,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 8,
+        "missed_reopenings": 0
+      }
+    },
+    "exhaustive_probe_parent": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "exhaustive_probe_parent",
+        "episodes": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "probe_cost": 144,
+        "probes_bought": 40,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          72,
+          90,
+          108,
+          126,
+          144
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "exhaustive_probe_parent",
+        "episodes": 10,
+        "correct": 10,
+        "accuracy": 1.0,
+        "probe_cost": 180,
+        "probes_bought": 50,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          72,
+          90,
+          108,
+          126,
+          144,
+          162,
+          180
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 5,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 2,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "exhaustive_probe_parent",
+        "episodes": 12,
+        "correct": 12,
+        "accuracy": 1.0,
+        "probe_cost": 216,
+        "probes_bought": 60,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          72,
+          90,
+          108,
+          126,
+          144,
+          162,
+          180,
+          198,
+          216
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 6,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 670,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "exhaustive_probe_parent",
+        "episodes": 9,
+        "correct": 9,
+        "accuracy": 1.0,
+        "probe_cost": 131,
+        "probes_bought": 38,
+        "cost_curve": [
+          11,
+          22,
+          35,
+          48,
+          63,
+          78,
+          95,
+          113,
+          131
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "CANNOT_IDENTIFY",
+            "count": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 7,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 126,
+        "repeated_wasted_work": 142,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "exhaustive_probe_parent",
+        "episodes": 20,
+        "correct": 20,
+        "accuracy": 1.0,
+        "probe_cost": 360,
+        "probes_bought": 100,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          72,
+          90,
+          108,
+          126,
+          144,
+          162,
+          180,
+          198,
+          216,
+          234,
+          252,
+          270,
+          288,
+          306,
+          324,
+          342,
+          360
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 4,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 5,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1138,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      }
+    },
+    "decision_tree_parent": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "decision_tree_parent",
+        "episodes": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "probe_cost": 60,
+        "probes_bought": 23,
+        "cost_curve": [
+          11,
+          20,
+          24,
+          25,
+          36,
+          45,
+          56,
+          60
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "decision_tree_parent",
+        "episodes": 10,
+        "correct": 10,
+        "accuracy": 1.0,
+        "probe_cost": 140,
+        "probes_bought": 41,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          63,
+          81,
+          85,
+          103,
+          121,
+          122,
+          140
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 5,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 2,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "decision_tree_parent",
+        "episodes": 12,
+        "correct": 12,
+        "accuracy": 1.0,
+        "probe_cost": 156,
+        "probes_bought": 49,
+        "cost_curve": [
+          18,
+          29,
+          47,
+          58,
+          76,
+          85,
+          103,
+          114,
+          123,
+          127,
+          145,
+          156
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 6,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 670,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "decision_tree_parent",
+        "episodes": 9,
+        "correct": 9,
+        "accuracy": 1.0,
+        "probe_cost": 80,
+        "probes_bought": 30,
+        "cost_curve": [
+          11,
+          22,
+          28,
+          34,
+          42,
+          50,
+          60,
+          69,
+          80
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "CANNOT_IDENTIFY",
+            "count": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 7,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 126,
+        "repeated_wasted_work": 142,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "decision_tree_parent",
+        "episodes": 20,
+        "correct": 20,
+        "accuracy": 1.0,
+        "probe_cost": 137,
+        "probes_bought": 51,
+        "cost_curve": [
+          18,
+          36,
+          54,
+          65,
+          69,
+          70,
+          71,
+          75,
+          84,
+          85,
+          89,
+          98,
+          99,
+          100,
+          101,
+          110,
+          111,
+          115,
+          126,
+          137
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 4,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 5,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 5
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 0,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1138,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      }
+    },
+    "scope_blind_cache_ablation": {
+      "DW1_STATIONARY_SOUND_CHECKER": {
+        "world_id": "DW1_STATIONARY_SOUND_CHECKER",
+        "arm": "scope_blind_cache_ablation",
+        "episodes": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "probe_cost": 56,
+        "probes_bought": 21,
+        "cost_curve": [
+          11,
+          20,
+          24,
+          25,
+          34,
+          43,
+          52,
+          56
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 3,
+            "episodes": 3
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 3
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 7,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 352,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW2_DEFECTIVE_CHECKER_ONE_SCOPE": {
+        "world_id": "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "arm": "scope_blind_cache_ablation",
+        "episodes": 10,
+        "correct": 8,
+        "accuracy": 0.8,
+        "probe_cost": 79,
+        "probes_bought": 28,
+        "cost_curve": [
+          11,
+          20,
+          29,
+          38,
+          47,
+          51,
+          60,
+          69,
+          70,
+          79
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 5,
+            "episodes": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 0,
+            "episodes": 2
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 1
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 5
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 2
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 9,
+        "downstream_queries": 10,
+        "wasted_work_avoided": 348,
+        "repeated_wasted_work": 0,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE": {
+        "world_id": "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "arm": "scope_blind_cache_ablation",
+        "episodes": 12,
+        "correct": 6,
+        "accuracy": 0.5,
+        "probe_cost": 105,
+        "probes_bought": 36,
+        "cost_curve": [
+          11,
+          20,
+          29,
+          38,
+          47,
+          56,
+          65,
+          74,
+          83,
+          87,
+          96,
+          105
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 2,
+            "episodes": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 0,
+            "episodes": 6
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 2
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 3
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 1
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 6
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 4,
+        "reused_facts": 11,
+        "downstream_queries": 13,
+        "wasted_work_avoided": 0,
+        "repeated_wasted_work": 670,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW4_WITHHELD_PROBES_HOSTILE": {
+        "world_id": "DW4_WITHHELD_PROBES_HOSTILE",
+        "arm": "scope_blind_cache_ablation",
+        "episodes": 9,
+        "correct": 7,
+        "accuracy": 0.7778,
+        "probe_cost": 70,
+        "probes_bought": 25,
+        "cost_curve": [
+          11,
+          20,
+          26,
+          30,
+          38,
+          44,
+          52,
+          61,
+          70
+        ],
+        "per_cause_correct": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "correct": 5,
+            "episodes": 7
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 1
+          }
+        ],
+        "confusion": [
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 1
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "CANNOT_IDENTIFY",
+            "count": 5
+          },
+          {
+            "target": "CANNOT_IDENTIFY",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 2
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 5,
+        "missed_cannot_identify": 2,
+        "false_cannot_identify": 0,
+        "over_generalisations": 0,
+        "reused_facts": 6,
+        "downstream_queries": 9,
+        "wasted_work_avoided": 126,
+        "repeated_wasted_work": 142,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      },
+      "DW5_COMMITMENT_DRAWN_SEQUENCE": {
+        "world_id": "DW5_COMMITMENT_DRAWN_SEQUENCE",
+        "arm": "scope_blind_cache_ablation",
+        "episodes": 20,
+        "correct": 16,
+        "accuracy": 0.8,
+        "probe_cost": 110,
+        "probes_bought": 45,
+        "cost_curve": [
+          11,
+          20,
+          31,
+          42,
+          46,
+          47,
+          48,
+          52,
+          61,
+          62,
+          66,
+          75,
+          76,
+          77,
+          78,
+          87,
+          88,
+          92,
+          101,
+          110
+        ],
+        "per_cause_correct": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "correct": 7,
+            "episodes": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "correct": 3,
+            "episodes": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "correct": 1,
+            "episodes": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "correct": 4,
+            "episodes": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "correct": 1,
+            "episodes": 5
+          }
+        ],
+        "confusion": [
+          {
+            "target": "ASSUMPTION_VIOLATED",
+            "verdict": "ASSUMPTION_VIOLATED",
+            "count": 7
+          },
+          {
+            "target": "BUDGET_EXHAUSTED",
+            "verdict": "BUDGET_EXHAUSTED",
+            "count": 3
+          },
+          {
+            "target": "EVALUATOR_DEFECT",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 1
+          },
+          {
+            "target": "NON_IDENTIFYING_EXPERIMENT",
+            "verdict": "NON_IDENTIFYING_EXPERIMENT",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "EVALUATOR_DEFECT",
+            "count": 4
+          },
+          {
+            "target": "TRUE_REFUTATION",
+            "verdict": "TRUE_REFUTATION",
+            "count": 1
+          }
+        ],
+        "correct_cannot_identify": 0,
+        "missed_cannot_identify": 0,
+        "false_cannot_identify": 0,
+        "over_generalisations": 2,
+        "reused_facts": 17,
+        "downstream_queries": 20,
+        "wasted_work_avoided": 1122,
+        "repeated_wasted_work": 16,
+        "false_exclusions": 0,
+        "missed_reopenings": 0
+      }
+    }
+  },
+  "confusion_matrix": {
+    "governed_diagnosis": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "ASSUMPTION_VIOLATED",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "BUDGET_EXHAUSTED",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "CANNOT_IDENTIFY",
+        "count": 7
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "NON_IDENTIFYING_EXPERIMENT",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 17
+      }
+    ],
+    "assume_refutation_parent": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "TRUE_REFUTATION",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "TRUE_REFUTATION",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "TRUE_REFUTATION",
+        "count": 7
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "TRUE_REFUTATION",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "TRUE_REFUTATION",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 17
+      }
+    ],
+    "retry_once_parent": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "TRUE_REFUTATION",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "BUDGET_EXHAUSTED",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "TRUE_REFUTATION",
+        "count": 7
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "TRUE_REFUTATION",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "TRUE_REFUTATION",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 17
+      }
+    ],
+    "exhaustive_probe_parent": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "ASSUMPTION_VIOLATED",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "BUDGET_EXHAUSTED",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "CANNOT_IDENTIFY",
+        "count": 7
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "NON_IDENTIFYING_EXPERIMENT",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 17
+      }
+    ],
+    "decision_tree_parent": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "ASSUMPTION_VIOLATED",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "BUDGET_EXHAUSTED",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "CANNOT_IDENTIFY",
+        "count": 7
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "NON_IDENTIFYING_EXPERIMENT",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 17
+      }
+    ],
+    "scope_blind_cache_ablation": [
+      {
+        "target": "ASSUMPTION_VIOLATED",
+        "verdict": "ASSUMPTION_VIOLATED",
+        "count": 9
+      },
+      {
+        "target": "BUDGET_EXHAUSTED",
+        "verdict": "BUDGET_EXHAUSTED",
+        "count": 9
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "CANNOT_IDENTIFY",
+        "count": 5
+      },
+      {
+        "target": "CANNOT_IDENTIFY",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 2
+      },
+      {
+        "target": "EVALUATOR_DEFECT",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 9
+      },
+      {
+        "target": "NON_IDENTIFYING_EXPERIMENT",
+        "verdict": "NON_IDENTIFYING_EXPERIMENT",
+        "count": 8
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "EVALUATOR_DEFECT",
+        "count": 12
+      },
+      {
+        "target": "TRUE_REFUTATION",
+        "verdict": "TRUE_REFUTATION",
+        "count": 5
+      }
+    ]
+  },
+  "cumulative_probe_cost": {
+    "governed_diagnosis": [
+      11,
+      20,
+      24,
+      25,
+      34,
+      43,
+      52,
+      56,
+      74,
+      90,
+      106,
+      115,
+      131,
+      135,
+      151,
+      167,
+      168,
+      184,
+      202,
+      213,
+      229,
+      238,
+      254,
+      263,
+      279,
+      288,
+      297,
+      301,
+      317,
+      326,
+      337,
+      346,
+      352,
+      356,
+      364,
+      370,
+      378,
+      387,
+      398,
+      416,
+      432,
+      450,
+      461,
+      465,
+      466,
+      467,
+      471,
+      480,
+      481,
+      485,
+      494,
+      495,
+      496,
+      497,
+      506,
+      507,
+      511,
+      522,
+      531
+    ],
+    "assume_refutation_parent": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "retry_once_parent": [
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100,
+      105,
+      110,
+      115,
+      120,
+      125,
+      130,
+      135,
+      140,
+      145,
+      150,
+      155,
+      160,
+      160,
+      160,
+      165,
+      170,
+      175,
+      180,
+      185,
+      190,
+      195,
+      200,
+      205,
+      210,
+      215,
+      220,
+      225,
+      230,
+      235,
+      240,
+      245,
+      250,
+      255,
+      260,
+      265,
+      270,
+      275,
+      280,
+      285
+    ],
+    "exhaustive_probe_parent": [
+      18,
+      36,
+      54,
+      72,
+      90,
+      108,
+      126,
+      144,
+      162,
+      180,
+      198,
+      216,
+      234,
+      252,
+      270,
+      288,
+      306,
+      324,
+      342,
+      360,
+      378,
+      396,
+      414,
+      432,
+      450,
+      468,
+      486,
+      504,
+      522,
+      540,
+      551,
+      562,
+      575,
+      588,
+      603,
+      618,
+      635,
+      653,
+      671,
+      689,
+      707,
+      725,
+      743,
+      761,
+      779,
+      797,
+      815,
+      833,
+      851,
+      869,
+      887,
+      905,
+      923,
+      941,
+      959,
+      977,
+      995,
+      1013,
+      1031
+    ],
+    "decision_tree_parent": [
+      11,
+      20,
+      24,
+      25,
+      36,
+      45,
+      56,
+      60,
+      78,
+      96,
+      114,
+      123,
+      141,
+      145,
+      163,
+      181,
+      182,
+      200,
+      218,
+      229,
+      247,
+      258,
+      276,
+      285,
+      303,
+      314,
+      323,
+      327,
+      345,
+      356,
+      367,
+      378,
+      384,
+      390,
+      398,
+      406,
+      416,
+      425,
+      436,
+      454,
+      472,
+      490,
+      501,
+      505,
+      506,
+      507,
+      511,
+      520,
+      521,
+      525,
+      534,
+      535,
+      536,
+      537,
+      546,
+      547,
+      551,
+      562,
+      573
+    ],
+    "scope_blind_cache_ablation": [
+      11,
+      20,
+      24,
+      25,
+      34,
+      43,
+      52,
+      56,
+      67,
+      76,
+      85,
+      94,
+      103,
+      107,
+      116,
+      125,
+      126,
+      135,
+      146,
+      155,
+      164,
+      173,
+      182,
+      191,
+      200,
+      209,
+      218,
+      222,
+      231,
+      240,
+      251,
+      260,
+      266,
+      270,
+      278,
+      284,
+      292,
+      301,
+      310,
+      321,
+      330,
+      341,
+      352,
+      356,
+      357,
+      358,
+      362,
+      371,
+      372,
+      376,
+      385,
+      386,
+      387,
+      388,
+      397,
+      398,
+      402,
+      411,
+      420
+    ]
+  },
+  "cumulative_probe_cost_note": "one point per episode, concatenated across the five worlds in registered order; a fresh arm is constructed per world, so the curve measures accumulation within a task sequence and never across unrelated ones",
+  "sufficiency_report": {
+    "assume_refutation_parent": {
+      "tied_worlds": [],
+      "discriminated_worlds": [
+        "DW1_STATIONARY_SOUND_CHECKER",
+        "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "DW4_WITHHELD_PROBES_HOSTILE",
+        "DW5_COMMITMENT_DRAWN_SEQUENCE"
+      ],
+      "accuracy": 17,
+      "probe_cost": 0,
+      "verdict": "LESS_ACCURATE"
+    },
+    "retry_once_parent": {
+      "tied_worlds": [],
+      "discriminated_worlds": [
+        "DW1_STATIONARY_SOUND_CHECKER",
+        "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "DW4_WITHHELD_PROBES_HOSTILE",
+        "DW5_COMMITMENT_DRAWN_SEQUENCE"
+      ],
+      "accuracy": 26,
+      "probe_cost": 285,
+      "verdict": "LESS_ACCURATE"
+    },
+    "exhaustive_probe_parent": {
+      "tied_worlds": [],
+      "discriminated_worlds": [
+        "DW1_STATIONARY_SOUND_CHECKER",
+        "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "DW4_WITHHELD_PROBES_HOSTILE",
+        "DW5_COMMITMENT_DRAWN_SEQUENCE"
+      ],
+      "accuracy": 59,
+      "probe_cost": 1031,
+      "verdict": "EQUALLY_ACCURATE_MORE_EXPENSIVE"
+    },
+    "decision_tree_parent": {
+      "tied_worlds": [],
+      "discriminated_worlds": [
+        "DW1_STATIONARY_SOUND_CHECKER",
+        "DW2_DEFECTIVE_CHECKER_ONE_SCOPE",
+        "DW3_ONE_CHECKER_TWO_SCOPES_HOSTILE",
+        "DW4_WITHHELD_PROBES_HOSTILE",
+        "DW5_COMMITMENT_DRAWN_SEQUENCE"
+      ],
+      "accuracy": 59,
+      "probe_cost": 573,
+      "verdict": "EQUALLY_ACCURATE_MORE_EXPENSIVE"
+    }
+  },
+  "terminal": "ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST",
+  "terminal_reason": "the strongest realistic parent is sufficient on diagnosis accuracy; the governed policy separates from it only on cumulative probe cost, and only on task sequences that revisit a scope",
+  "parent_sufficiency_findings": [
+    "decision_tree_parent, a fixed hand-authored ordering with no state, matches the governed policy exactly on accuracy (59 of 59) and on every error column. The ordering question is closed by the parent, and the greedy selection rule is asserted in the tests to reproduce the tree's ordering rather than to improve on it.",
+    "exhaustive_probe_parent is the accuracy ceiling and is reached: 59 of 59, the same as the governed policy. It spends 1031 units against the governed policy's 531, so the governed policy does beat it on cost at equal accuracy -- which is the weakest form of that claim, since buying everything is not a policy anyone runs.",
+    "the whole residual is 42 probe units of 573, or 7.3 per cent, and it is entirely the cost of re-establishing one boolean per (checker, scope) pair. It is memoisation. It is reported as memoisation."
+  ],
+  "what_this_does_not_establish": [
+    "No causal mechanism, no scaling law, no transfer result and no novelty. The worlds and the diagnosis policy share an author; this is calibration.",
+    "The probe semantics are AUTHORED. The mapping from an outcome vector to a cause is a registered table and every arm inverts the same table, so the diagnosis problem here is a table inversion under a cost constraint. Nothing measures whether a machine could learn what a probe means, which is the harder half of real diagnosis and is not attempted.",
+    "The response table is deterministic. There is no probe noise, no misreporting probe, and no cause that two probes disagree about. Every arm that buys sufficient probes therefore scores perfect accuracy, so accuracy is not a live coordinate between the three sufficient arms and the entire comparison between them reduces to cost.",
+    "The accumulation residual is a cache of one boolean per (checker, scope) pair. Any competent engineer would add that cache to the decision tree in an afternoon, at which point the parent would be sufficient on both coordinates. This experiment does not claim the residual survives that.",
+    "CANNOT_IDENTIFY is scored against targets computed from the registered response table, so 'the correct refusal rate' is correct with respect to an authored notion of identifiability and not to any external standard.",
+    "missed_reopenings is zero for every arm because the FailureStore is held constant across arms. It is a wiring control, not a discrimination.",
+    "One protected-draw world (DW5) is drawn from the pre-registration commitment; the other four are hand-authored, and a hand-authored world cannot refute the policy its author was holding while writing it."
+  ],
+  "preserved_prior_terminals": [
+    "TMS_NOGOOD_PLUS_RESPONSIBILITY_SUFFICIENT (failure-to-negative-knowledge)",
+    "FAILURE_MEMORY_USEFUL_BUT_STANDARD_METHODS_SUFFICIENT: the strongest-parent incremental gap was frozen at 0 of 32 BEFORE execution",
+    "CL-FAILURE-PILOT-V1: the truth-maintenance parent ties the governed store on four of seven worlds; the residual there was confined to the three cause-discriminating worlds, and this experiment is the attempt on that pilot's own stated falsifier"
+  ],
+  "authority": "This receipt records a calibration of a probe-purchasing diagnosis policy against four parents and one ablation on fifty-nine authored episodes across five worlds. It establishes no causal mechanism. Its strongest realistic parent -- a fixed hand-authored probe ordering with no memory -- is sufficient on diagnosis accuracy, and the only surviving difference is a cumulative probe-cost reduction attributable in full to caching one boolean per (checker, scope) pair. That difference is reported as memoisation and must not be cited as evidence that a machine accumulates diagnostic competence."
+}
