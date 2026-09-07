@@ -1,0 +1,29 @@
+.F
+=================================== FAILURES ===================================
+_______ test_claim_route_must_match_actual_solve_candidate[replacement1] _______
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-259/test_claim_route_must_match_ac1/manifest.json'), '091db5b5feb676a2482e6545...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-259/test_claim_route_must_match_ac1/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe37fa057d0>
+replacement = ['const', False]
+
+    @pytest.mark.parametrize("replacement", [["const", 99], ["const", False]])
+    def test_claim_route_must_match_actual_solve_candidate(case, monkeypatch, replacement):
+        manifest, digest, out, _, _ = case; original = L.ProofRuntimeView.attempt
+        def changed(self):
+            result = original(self)
+            result["solve"]["answer"]["candidate"] = replacement
+            return result
+        monkeypatch.setattr(L.ProofRuntimeView, "attempt", changed)
+>       assert L.run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
+E       AssertionError: assert 'PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+
+research/proof-runtime-v1/test_lifecycle_contract.py:146: AssertionError
+=========================== short test summary info ============================
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_claim_route_must_match_actual_solve_candidate[replacement1]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/home/billy/orion-director-work/20260907/ocm-proof-runtime/research/proof-runtime-v1/test_lifecycle_contract.py:186: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 failed, 1 passed, 14 deselected in 3.10s

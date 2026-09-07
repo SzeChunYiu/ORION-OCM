@@ -1,0 +1,74 @@
+{
+  "schema": "OCM_CORPUS_PREDECESSOR_PROVENANCE_V1",
+  "purpose": "Inventory engineering lineage only; predecessor claims are not inherited qualifications.",
+  "commissioned_main": "32bdd16d4238c9c769ca60ae49c2889dd1511af2",
+  "source": {
+    "repository": "https://github.com/anthropics/fermats-last-theorem",
+    "commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
+    "tree": "8bb1c43c8f26f1c127591dddeffdead2b5094eb7",
+    "toolchain": "leanprover/lean4:v4.33.1",
+    "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+    "expected_pairs": 29511
+  },
+  "predecessors": [
+    {
+      "pr": "https://github.com/SzeChunYiu/ORION-OCM/pull/129",
+      "head": "2fe307d0b6e1d1180c809cab8465cbf31e62b822",
+      "source": "https://github.com/SzeChunYiu/ORION-OCM/blob/2fe307d0b6e1d1180c809cab8465cbf31e62b822/research/flt-kso-v1/anthropic_dag.py",
+      "reused_mechanism": "Position-preserving nested comment/string masking; preserve ambient wrapper prefix; find bridge rather than first assignment.",
+      "observed_record": "https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34062711151/job/101565998154",
+      "record_kind": "Hosted job log; no downloadable run artifact was registered at audit time.",
+      "reported_terminal": "ANTHROPIC_DAG_EXTRACTION_VALIDATED",
+      "reported_pairs": 29511,
+      "reported_deduplicated_theorem_import_edges": 106853,
+      "reported_statement_bytes": 70378853,
+      "reported_hidden_proof_bytes": 882277860,
+      "reported_wall_seconds": 368.8949,
+      "reported_graph_sha256": "8572f21d11987a14a41b2be6cd5e8ce2380f09ac718dd36efb6f560055e1d9c0",
+      "limitations": [
+        "Reads working-tree paths after HEAD check.",
+        "Bridge expression not checked against the expected solution constant.",
+        "Import graph is not checked for cycles.",
+        "Three separate F0 test failures remain predecessor outcomes; corpus coverage does not repair them."
+      ]
+    },
+    {
+      "pr": "https://github.com/SzeChunYiu/ORION-OCM/pull/132",
+      "head": "77ff0aaf73146053fe9253ab40e6dd6b232fdaac",
+      "source": "https://github.com/SzeChunYiu/ORION-OCM/blob/77ff0aaf73146053fe9253ab40e6dd6b232fdaac/research/flt-kso-v1/substrate.py",
+      "custody_source": "https://github.com/SzeChunYiu/ORION-OCM/blob/77ff0aaf73146053fe9253ab40e6dd6b232fdaac/research/flt-kso-v1/import_source.py",
+      "reused_mechanism": "Pinned Git-object reads and body identity; wrapper/solution pair checks; deterministic Kahn cycle detection.",
+      "excluded_mechanism": "Automatic hole selection and challenge staging; complete-source batch materialization.",
+      "observed_record": "https://github.com/SzeChunYiu/ORION-OCM/actions/runs/34062949663/artifacts/9998067076",
+      "zip_bytes": 5559300,
+      "zip_sha256": "e4df21e69699c8f01287eb5f068c7c2afabb6ee4fc0c66a9e6e160544e4c0c13",
+      "audit_member": "audit/AUDIT.json",
+      "audit_member_bytes": 22491078,
+      "audit_member_sha256": "1d6d75f7194250f19652751db996018188079d33d4bf0fa011acf7c13331fac7",
+      "reported_terminal": "CANNOT_CHECK_SOURCE_COVERAGE",
+      "reported_wrappers": 29511,
+      "reported_supported": 690,
+      "reported_refused": 28821,
+      "reported_source_files": 59024,
+      "reported_bytes_materialized": 1169959926,
+      "reported_first_failure_counts": {
+        "imports_not_exact_three": 25615,
+        "expected_immediate_theorem": 2034,
+        "missing_or_unsupported_prelude": 1136,
+        "let_forbidden": 23,
+        "nested_assignment_forbidden": 10,
+        "by_forbidden": 2,
+        "unsupported_body_after_letI_assignment": 1
+      },
+      "limitations": [
+        "First-failure categories are not disjoint causal mechanisms.",
+        "Correcting a first failure can reveal another unsupported construct.",
+        "Graph construction was not reached by the retained public coverage run.",
+        "No solver or kernel elaboration was launched in that retained run."
+      ]
+    }
+  ],
+  "preservation": "Original logs/artifact bytes remain unchanged. This record points to them and does not reclassify them.",
+  "new_package_status": "Fixture-qualified implementation; full public inventory requires a separately source-bound run.",
+  "semantic_closure": "NOT_ESTABLISHED"
+}

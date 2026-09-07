@@ -1,0 +1,106 @@
+........................................................................ [ 75%]
+......F..FFFF...........                                                 [100%]
+=================================== FAILURES ===================================
+____ test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks ____
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-264/test_full_lifecycle_consumes_t0/manifest.json'), 'cfb77358f2046c4fea6318e5...ifecycle_consumes_t0/run'), [], PosixPath('/tmp/pytest-of-billy/pytest-264/test_full_lifecycle_consumes_t0/source.py'))
+
+    def test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks(case):
+        manifest, digest, out, calls, _ = case
+        result = L.run(manifest, digest, out)
+>       assert result["terminal"] == "PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS", result
+E       AssertionError: {'bytes_before_result_write': 4223, 'cost_scope': 'Outer wall includes freeze, two cold sessions, solve/check/admissio...outer costs.', 'cpu_s': None, 'freeze_sha256': 'f7552a81826fb7964bc218d8068ed2218c10ef6f7c02832226c88da1c46400e9', ...}
+E       assert 'CANNOT_CHECK' == 'PROOF_RUNTIM...SSIONING_PASS'
+E         
+E         - PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+E         + CANNOT_CHECK
+
+research/proof-runtime-v1/test_lifecycle_contract.py:33: AssertionError
+_______________ test_wrong_status_cannot_create_success_receipt ________________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-264/test_wrong_status_cannot_creat0/manifest.json'), '76491f465fbc6ad65d1b45ac...status_cannot_creat0/run'), [], PosixPath('/tmp/pytest-of-billy/pytest-264/test_wrong_status_cannot_creat0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba9acf1590>
+
+    def test_wrong_status_cannot_create_success_receipt(case, monkeypatch):
+        manifest, digest, out, calls, _ = case
+        original = L.ProofRuntimeView.proof_status
+        def wrong(self):
+            result = original(self)
+            if result["terminal"] == "LIVE": result["terminal"] = "OPEN"
+            return result
+        monkeypatch.setattr(L.ProofRuntimeView, "proof_status", wrong)
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK" and [c[0] for c in calls] == ["worker", "checker"]
+E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+E         
+E           CANNOT_CHECK and [] == ['worker', 'checker']
+E         
+E         Right contains 2 more items, first extra item: 'worker'
+E         Use -v to get more diff)
+
+research/proof-runtime-v1/test_lifecycle_contract.py:72: AssertionError
+_________ test_post_dispatch_source_drift_preserves_returned_raw_value _________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-264/test_post_dispatch_source_drif0/manifest.json'), '070f2bbb73c38b9f6490c3ec...ispatch_source_drif0/run'), [], PosixPath('/tmp/pytest-of-billy/pytest-264/test_post_dispatch_source_drif0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba9ac59490>
+
+    def test_post_dispatch_source_drift_preserves_returned_raw_value(case, monkeypatch):
+        manifest, digest, out, calls, sentinel = case
+        original = L.ProofRuntimeView.attempt
+        def drift(self):
+            result = original(self); sentinel.write_text("changed = True\n"); return result
+        monkeypatch.setattr(L.ProofRuntimeView, "attempt", drift)
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+E         
+E           CANNOT_CHECK and 0 == 2)
+E        +  where 0 = len([])
+
+research/proof-runtime-v1/test_lifecycle_contract.py:82: AssertionError
+_______________ test_status_cannot_dispatch_or_mint_even_if_live _______________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-264/test_status_cannot_dispatch_or0/manifest.json'), '7cad67c814cb483023b92083..._cannot_dispatch_or0/run'), [], PosixPath('/tmp/pytest-of-billy/pytest-264/test_status_cannot_dispatch_or0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba9ae09190>
+
+    def test_status_cannot_dispatch_or_mint_even_if_live(case, monkeypatch):
+        manifest, digest, out, calls, _ = case
+        original = L.ProofRuntimeView.proof_status
+        def mint(self):
+            if self.routes(): self.rt.admit_evidence({"fake": True}, "instruction", "status")
+            return original(self)
+        monkeypatch.setattr(L.ProofRuntimeView, "proof_status", mint)
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+E         
+E           CANNOT_CHECK and 0 == 2)
+E        +  where 0 = len([])
+
+research/proof-runtime-v1/test_lifecycle_contract.py:94: AssertionError
+__________________ test_nonzero_or_bound_replay_never_passes ___________________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-264/test_nonzero_or_bound_replay_n0/manifest.json'), 'bdd67a093c21f463f74d13e3...o_or_bound_replay_n0/run'), [], PosixPath('/tmp/pytest-of-billy/pytest-264/test_nonzero_or_bound_replay_n0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba9ae08090>
+
+    def test_nonzero_or_bound_replay_never_passes(case, monkeypatch):
+        manifest, digest, out, calls, _ = case
+        monkeypatch.setattr(L, "replay", lambda *args: {"returncode": 1, "terminal": "COMPLETED", "result": {
+            "status": {"terminal": "LIVE"}, "session_bound": False, "host_operators": [],
+            "executable_operators": [], "read_only": True}})
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+E         
+E           CANNOT_CHECK and 0 == 2)
+E        +  where 0 = len([])
+
+research/proof-runtime-v1/test_lifecycle_contract.py:103: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260907/portable-lifecycle-tests-red/junit.xml -
+=========================== short test summary info ============================
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_wrong_status_cannot_create_success_receipt
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_post_dispatch_source_drift_preserves_returned_raw_value
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_status_cannot_dispatch_or_mint_even_if_live
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_nonzero_or_bound_replay_never_passes
+5 failed, 91 passed in 7.47s

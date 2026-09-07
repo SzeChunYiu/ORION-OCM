@@ -2,7 +2,7 @@
 
 [Programme](CORE.md) · [no-neural contract](NO_NEURAL_CONTRACT.md) · [parents](PARENTS.md).
 Prospective FLT protocol. The [finite exposed F0 tranche](../mechanical-proof-v1/RESULT.md)
-passes 14 commissioning controls; F1–F4 and broader F0 mechanics remain unqualified.
+passes 14 commissioning controls, followed by 24 [OCM runtime lifecycle stages](../proof-runtime-v1/QUALIFICATION.md); F1–F4 and broader F0 mechanics remain unqualified.
 Formal science is the flagship; richer language is a later independent claim. Exact checking gives a clearer
 correctness boundary, not a promise that mathematical search is easier.
 
@@ -40,8 +40,15 @@ construct a direct hypothesis-composition proof; neither Foundation proof lemma 
 Fresh Lean 4.33.1 checking accepts the original, restart and equality-only cases with no
 axioms. All fourteen controls pass, and all prior failures remain preserved. This is
 PARENT_SUFFICIENT apparatus evidence, not held-out discovery or a learning result.
-Internal witness/lambda synthesis, general unification, induction, learned-method
-eligibility and integration with the installed science API remain separate work.
+Internal witness/lambda synthesis, general unification, induction and useful learned-method
+eligibility remain separate work. The [runtime successor](../proof-runtime-v1/README.md)
+uses actual OCM solve/check callbacks, atomic admission and authenticated restart/revision.
+It does not add a dummy Lean certificate callback to the propositional science API.
+
+The [canonical corpus inventory](../proof-corpus-v1/RESULT.md) now checks all 29,511 pairs
+and their lexical import graph, retaining the failed first inventory and its format repair.
+Its context remains evaluator-only: semantic environment closure and theorem masking are
+not established by source inventory and must be qualified before F1.
 
 Candidate input is registered proof-term data, not unrestricted Lean source. A trusted host
 translates permitted constructors; reject new imports, commands, tactics/plugins or arbitrary

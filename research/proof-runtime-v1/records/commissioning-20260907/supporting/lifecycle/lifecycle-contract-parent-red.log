@@ -1,0 +1,39 @@
+.............FF                                                          [100%]
+=================================== FAILURES ===================================
+____________________ test_unclean_child_stderr_cannot_pass _____________________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-258/test_unclean_child_stderr_cann0/manifest.json'), '76874ab333ad136a85129c1c...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-258/test_unclean_child_stderr_cann0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7efdd69c5bd0>
+
+    def test_unclean_child_stderr_cannot_pass(case, monkeypatch):
+        manifest, digest, out, _, _ = case; original = L.replay
+        def noisy(*args):
+            result = original(*args); result["stderr"] = "unexpected warning"; return result
+        monkeypatch.setattr(L, "replay", noisy)
+>       assert L.run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
+E       AssertionError: assert 'PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+
+research/proof-runtime-v1/test_lifecycle_contract.py:169: AssertionError
+________________ test_unisolated_parent_refused_before_session _________________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-258/test_unisolated_parent_refused0/manifest.json'), 'ab94f07469a8e4ec7929c88d...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-258/test_unisolated_parent_refused0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7efdd6a98310>
+
+    def test_unisolated_parent_refused_before_session(case, monkeypatch):
+        manifest, digest, out, calls, _ = case
+        monkeypatch.setattr(L, "host_flags", lambda: {"isolated": 0, "no_site": 0, "dont_write_bytecode": 0}, raising=False)
+        result = L.run(manifest, digest, out)
+>       assert result["terminal"] == "CANNOT_CHECK" and not calls
+E       AssertionError: assert ('PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS)
+
+research/proof-runtime-v1/test_lifecycle_contract.py:176: AssertionError
+=========================== short test summary info ============================
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_unclean_child_stderr_cannot_pass
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_unisolated_parent_refused_before_session
+2 failed, 13 passed in 10.32s

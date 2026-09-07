@@ -1,0 +1,212 @@
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	﻿2026-09-07T01:22:27.0820102Z ##[group]Run python -B -m pytest tests/integration/test_runtime_atomic_admission.py \
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0820761Z [36;1mpython -B -m pytest tests/integration/test_runtime_atomic_admission.py \[0m
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0821334Z [36;1m  research/proof-runtime-v1 --ignore=research/proof-runtime-v1/records \[0m
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0821845Z [36;1m  --junitxml="$RUNNER_TEMP/proof-runtime.xml" -q[0m
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0846115Z shell: /usr/bin/bash -e {0}
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0846577Z env:
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0846959Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0847633Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0848155Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0848594Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0849011Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0849456Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0849962Z   PYTHONPATH: src
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:27.0850252Z ##[endgroup]
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.7025417Z ........................................................................ [ 75%]
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9034884Z ......F..FFFFF.....F....                                                 [100%]
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9035807Z =================================== FAILURES ===================================
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9036328Z ____ test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks ____
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9036643Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9037753Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_full_lifecycle_consumes_t0/manifest.json'), '8afdca3c2f946ee89747411ea...lifecycle_consumes_t0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_full_lifecycle_consumes_t0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9038961Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9039339Z     def test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks(case):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9040054Z         manifest, digest, out, calls, _ = case
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9040597Z         result = L.run(manifest, digest, out)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9041325Z >       assert result["terminal"] == "PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS", result
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9042935Z E       AssertionError: {'bytes_before_result_write': 1918, 'cost_scope': 'Outer wall includes freeze, two cold sessions, solve/check/admissio...ession/checker receipts; do not sum nested and outer costs.', 'cpu_s': None, 'outer_wall_s': 0.006601681000006465, ...}
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9044426Z E       assert 'CANNOT_CHECK' == 'PROOF_RUNTIM...SSIONING_PASS'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9044941Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9045494Z E         - PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9045978Z E         + CANNOT_CHECK
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9046192Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9046716Z research/proof-runtime-v1/test_lifecycle_contract.py:33: AssertionError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9047651Z _______________ test_wrong_status_cannot_create_success_receipt ________________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9048134Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9049110Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_wrong_status_cannot_creat0/manifest.json'), '39590c684b081682aad01b122..._status_cannot_creat0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_wrong_status_cannot_creat0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9050711Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5066197050>
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9051190Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9051567Z     def test_wrong_status_cannot_create_success_receipt(case, monkeypatch):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9052205Z         manifest, digest, out, calls, _ = case
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9052732Z         original = L.ProofRuntimeView.proof_status
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9053241Z         def wrong(self):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9053719Z             result = original(self)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9054297Z             if result["terminal"] == "LIVE": result["terminal"] = "OPEN"
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9054922Z             return result
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9055829Z         monkeypatch.setattr(L.ProofRuntimeView, "proof_status", wrong)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9056486Z         r = L.run(manifest, digest, out)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9057410Z >       assert r["terminal"] == "CANNOT_CHECK" and [c[0] for c in calls] == ["worker", "checker"]
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9058243Z E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9058810Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9059251Z E           CANNOT_CHECK and [] == ['worker', 'checker']
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9059943Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9060465Z E         Right contains 2 more items, first extra item: 'worker'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9061075Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9062123Z E         Full diff:
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9062545Z E         + []
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9062906Z E         - [
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9063303Z E         -     'worker',
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9063752Z E         -     'checker',
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9064063Z E         - ])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9064289Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9064571Z research/proof-runtime-v1/test_lifecycle_contract.py:72: AssertionError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9065284Z _________ test_post_dispatch_source_drift_preserves_returned_raw_value _________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9065711Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9066763Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_post_dispatch_source_drif0/manifest.json'), '3819391d4d532f87d14620384...dispatch_source_drif0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_post_dispatch_source_drif0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9068437Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5066162150>
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9068834Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9069288Z     def test_post_dispatch_source_drift_preserves_returned_raw_value(case, monkeypatch):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9070001Z         manifest, digest, out, calls, sentinel = case
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9070521Z         original = L.ProofRuntimeView.attempt
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9071054Z         def drift(self):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9071690Z             result = original(self); sentinel.write_text("changed = True\n"); return result
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9072275Z         monkeypatch.setattr(L.ProofRuntimeView, "attempt", drift)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9072680Z         r = L.run(manifest, digest, out)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9073056Z >       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9073553Z E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9073918Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9074212Z E           CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9074544Z E        +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9074749Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9074958Z research/proof-runtime-v1/test_lifecycle_contract.py:82: AssertionError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9075542Z _______________ test_status_cannot_dispatch_or_mint_even_if_live _______________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9075811Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9076498Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_status_cannot_dispatch_or0/manifest.json'), '1121b7b11268b7fab6bd7354b...s_cannot_dispatch_or0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_status_cannot_dispatch_or0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9077794Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5066395dd0>
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9078117Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9078319Z     def test_status_cannot_dispatch_or_mint_even_if_live(case, monkeypatch):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9078756Z         manifest, digest, out, calls, _ = case
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9079200Z         original = L.ProofRuntimeView.proof_status
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9079561Z         def mint(self):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9079966Z             if self.routes(): self.rt.admit_evidence({"fake": True}, "instruction", "status")
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9080427Z             return original(self)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9080850Z         monkeypatch.setattr(L.ProofRuntimeView, "proof_status", mint)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9081394Z         r = L.run(manifest, digest, out)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9081811Z >       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9082246Z E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9082833Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9083106Z E           CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9083469Z E        +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9083663Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9083868Z research/proof-runtime-v1/test_lifecycle_contract.py:94: AssertionError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9084348Z __________________ test_nonzero_or_bound_replay_never_passes ___________________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9084764Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9085397Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_nonzero_or_bound_replay_n0/manifest.json'), '0ba753a5e880097a5f725e9ee...ro_or_bound_replay_n0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_nonzero_or_bound_replay_n0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9086401Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5066127010>
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9086655Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9086899Z     def test_nonzero_or_bound_replay_never_passes(case, monkeypatch):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9087506Z         manifest, digest, out, calls, _ = case
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9087995Z         monkeypatch.setattr(L, "replay", lambda *args: {"returncode": 1, "terminal": "COMPLETED", "result": {
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9088607Z             "status": {"terminal": "LIVE"}, "session_bound": False, "host_operators": [],
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9089142Z             "executable_operators": [], "read_only": True}})
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9089523Z         r = L.run(manifest, digest, out)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9089898Z >       assert r["terminal"] == "CANNOT_CHECK" and len(calls) == 2
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9090318Z E       AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9090709Z E         
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9090998Z E           CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9091321Z E        +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9091532Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9091738Z research/proof-runtime-v1/test_lifecycle_contract.py:103: AssertionError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9092247Z _________________ test_freeze_tamper_refused_before_restoring __________________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9092554Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9093260Z case = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_freeze_tamper_refused_bef0/manifest.json'), '444babd0d19bca89b3d63f295...e_tamper_refused_bef0/run'), [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_freeze_tamper_refused_bef0/source.py'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9093980Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9094198Z     def test_freeze_tamper_refused_before_restoring(case):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9094612Z         manifest, digest, out, calls, _ = case; out.mkdir()
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9095083Z >       frozen, frozen_sha = R.make_freeze(L.REPO, manifest, digest, out, L.PYTHON)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9095403Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9095575Z research/proof-runtime-v1/test_lifecycle_contract.py:107: 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9096046Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9096520Z research/proof-runtime-v1/lifecycle_replay.py:63: in make_freeze
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9097130Z     "python_executable": str(Path(executable).resolve()), "python": python_files(executable),
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9097694Z research/proof-runtime-v1/test_lifecycle_contract.py:19: in <lambda>
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9098286Z     monkeypatch.setattr(R, "python_files", lambda executable: {str(Path(executable).resolve()): R.sha(executable)})
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9098875Z research/proof-runtime-v1/lifecycle_replay.py:15: in sha
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9099354Z     def sha(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9099919Z /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/pathlib.py:1050: in read_bytes
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9100384Z     with self.open(mode='rb') as f:
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9100743Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9100953Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9101287Z self = PosixPath('/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python')
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9101894Z mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9102268Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9102407Z     def open(self, mode='r', buffering=-1, encoding=None,
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9102843Z              errors=None, newline=None):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9103154Z         """
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9103524Z         Open the file pointed by this path and return a file object, as
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9103931Z         the built-in open() function does.
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9104296Z         """
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9104589Z         if "b" not in mode:
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9104913Z             encoding = io.text_encoding(encoding)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9105369Z >       return io.open(self, mode, buffering, encoding, errors, newline)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9106045Z E       FileNotFoundError: [Errno 2] No such file or directory: '/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9106512Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9106774Z /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/pathlib.py:1044: FileNotFoundError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9107421Z ___________ test_cold_process_uses_declared_sources_and_no_callbacks ___________
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9107698Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9108192Z setup = (<function setup.<locals>.create at 0x7f506617cc20>, [], PosixPath('/tmp/pytest-of-runner/pytest-0/test_cold_process_uses_declare0/manifest.json'))
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9108961Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_cold_process_uses_declare0')
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9109322Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9109568Z     def test_cold_process_uses_declared_sources_and_no_callbacks(setup, tmp_path):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9110077Z         create, calls, manifest = setup; out = tmp_path / "real-cold"; out.mkdir()
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9110629Z >       frozen, digest = R.make_freeze(L.REPO, manifest, R.sha(manifest), out, L.PYTHON)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9110919Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9111128Z research/proof-runtime-v1/test_lifecycle_contract.py:138: 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9111571Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9112024Z research/proof-runtime-v1/lifecycle_replay.py:63: in make_freeze
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9112566Z     "python_executable": str(Path(executable).resolve()), "python": python_files(executable),
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9113131Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9113356Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9113667Z executable = PosixPath('/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python')
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9114043Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9114192Z     def python_files(executable):
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9114598Z         binary = Path(executable).resolve(); prefix = binary.parent.parent
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9115011Z         library = prefix / "lib/python3.11"
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9115493Z >       if not library.is_dir(): raise ValueError("registered CPython 3.11 standard library absent")
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9116056Z E       ValueError: registered CPython 3.11 standard library absent
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9116322Z 
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9116531Z research/proof-runtime-v1/lifecycle_replay.py:40: ValueError
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9117092Z -------- generated xml file: /home/runner/work/_temp/proof-runtime.xml ---------
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9117819Z =========================== short test summary info ============================
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9119155Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_full_lifecycle_consumes_two_real_solve_routes_and_no_extra_checks - AssertionError: {'bytes_before_result_write': 1918, 'cost_scope': 'Outer wall includes freeze, two cold sessions, solve/check/admissio...ession/checker receipts; do not sum nested and outer costs.', 'cpu_s': None, 'outer_wall_s': 0.006601681000006465, ...}
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9120461Z assert 'CANNOT_CHECK' == 'PROOF_RUNTIM...SSIONING_PASS'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9120895Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9121217Z   - PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9121577Z   + CANNOT_CHECK
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9122329Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_wrong_status_cannot_create_success_receipt - AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9123032Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9123281Z     CANNOT_CHECK and [] == ['worker', 'checker']
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9123623Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9123913Z   Right contains 2 more items, first extra item: 'worker'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9124334Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9124573Z   Full diff:
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9124792Z   + []
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9125047Z   - [
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9125282Z   -     'worker',
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9125531Z   -     'checker',
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9125798Z   - ])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9126376Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_post_dispatch_source_drift_preserves_returned_raw_value - AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9127075Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9127492Z     CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9127816Z  +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9128437Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_status_cannot_dispatch_or_mint_even_if_live - AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9129022Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9129272Z     CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9129542Z  +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9130121Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_nonzero_or_bound_replay_never_passes - AssertionError: assert ('CANNOT_CHECK' == 'CANNOT_CHECK'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9130743Z   
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9130970Z     CANNOT_CHECK and 0 == 2)
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9131278Z  +  where 0 = len([])
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9132040Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_freeze_tamper_refused_before_restoring - FileNotFoundError: [Errno 2] No such file or directory: '/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python'
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9133128Z FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_cold_process_uses_declared_sources_and_no_callbacks - ValueError: registered CPython 3.11 standard library absent
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9133805Z 7 failed, 89 passed in 5.66s
+portable-runtime	Atomic admission and mocked native-boundary lifecycle controls	2026-09-07T01:22:32.9324153Z ##[error]Process completed with exit code 1.

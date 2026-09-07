@@ -1,0 +1,343 @@
+FFFFFFFFFFFFFFFFFFF                                                      [100%]
+=================================== FAILURES ===================================
+_____________ test_whole_batch_one_event_and_fresh_process_replay ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_whole_batch_one_event_and0')
+
+    def test_whole_batch_one_event_and_fresh_process_replay(tmp_path):
+        rt = OCMRuntime(tmp_path)
+>       receipts = rt.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:36: AttributeError
+________ test_invalid_last_item_has_no_prefix_or_event[duplicate_atom] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_invalid_last_item_has_no_0')
+kind = 'duplicate_atom'
+
+    @pytest.mark.parametrize("kind", ("duplicate_atom", "duplicate_edge", "scope", "warrant", "empty"))
+    def test_invalid_last_item_has_no_prefix_or_event(tmp_path, kind):
+        rt = OCMRuntime(tmp_path)
+        items = list(batch())
+        atom, edges, cert = items[-1]
+        if kind == "duplicate_atom": atom = replace(atom, atom_id="proof")
+        elif kind == "duplicate_edge": edges = (replace(edges[0], edge_id="ap"),)
+        elif kind == "scope":
+            from ocm.kso.types import Scope
+            atom = replace(atom, scope=Scope(frozenset()))
+        elif kind == "warrant": atom = replace(atom, warrant=WP.of({"different"}))
+        items[-1] = (atom, edges, cert)
+        before = unchanged(rt)
+        with pytest.raises((TypedRejection, RuntimeRefusal, ValueError)):
+>           rt.admit_batch([] if kind == "empty" else items)
+E           AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:69: AttributeError
+________ test_invalid_last_item_has_no_prefix_or_event[duplicate_edge] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_invalid_last_item_has_no_1')
+kind = 'duplicate_edge'
+
+    @pytest.mark.parametrize("kind", ("duplicate_atom", "duplicate_edge", "scope", "warrant", "empty"))
+    def test_invalid_last_item_has_no_prefix_or_event(tmp_path, kind):
+        rt = OCMRuntime(tmp_path)
+        items = list(batch())
+        atom, edges, cert = items[-1]
+        if kind == "duplicate_atom": atom = replace(atom, atom_id="proof")
+        elif kind == "duplicate_edge": edges = (replace(edges[0], edge_id="ap"),)
+        elif kind == "scope":
+            from ocm.kso.types import Scope
+            atom = replace(atom, scope=Scope(frozenset()))
+        elif kind == "warrant": atom = replace(atom, warrant=WP.of({"different"}))
+        items[-1] = (atom, edges, cert)
+        before = unchanged(rt)
+        with pytest.raises((TypedRejection, RuntimeRefusal, ValueError)):
+>           rt.admit_batch([] if kind == "empty" else items)
+E           AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:69: AttributeError
+_____________ test_invalid_last_item_has_no_prefix_or_event[scope] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_invalid_last_item_has_no_2')
+kind = 'scope'
+
+    @pytest.mark.parametrize("kind", ("duplicate_atom", "duplicate_edge", "scope", "warrant", "empty"))
+    def test_invalid_last_item_has_no_prefix_or_event(tmp_path, kind):
+        rt = OCMRuntime(tmp_path)
+        items = list(batch())
+        atom, edges, cert = items[-1]
+        if kind == "duplicate_atom": atom = replace(atom, atom_id="proof")
+        elif kind == "duplicate_edge": edges = (replace(edges[0], edge_id="ap"),)
+        elif kind == "scope":
+            from ocm.kso.types import Scope
+            atom = replace(atom, scope=Scope(frozenset()))
+        elif kind == "warrant": atom = replace(atom, warrant=WP.of({"different"}))
+        items[-1] = (atom, edges, cert)
+        before = unchanged(rt)
+        with pytest.raises((TypedRejection, RuntimeRefusal, ValueError)):
+>           rt.admit_batch([] if kind == "empty" else items)
+E           AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:69: AttributeError
+____________ test_invalid_last_item_has_no_prefix_or_event[warrant] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_invalid_last_item_has_no_3')
+kind = 'warrant'
+
+    @pytest.mark.parametrize("kind", ("duplicate_atom", "duplicate_edge", "scope", "warrant", "empty"))
+    def test_invalid_last_item_has_no_prefix_or_event(tmp_path, kind):
+        rt = OCMRuntime(tmp_path)
+        items = list(batch())
+        atom, edges, cert = items[-1]
+        if kind == "duplicate_atom": atom = replace(atom, atom_id="proof")
+        elif kind == "duplicate_edge": edges = (replace(edges[0], edge_id="ap"),)
+        elif kind == "scope":
+            from ocm.kso.types import Scope
+            atom = replace(atom, scope=Scope(frozenset()))
+        elif kind == "warrant": atom = replace(atom, warrant=WP.of({"different"}))
+        items[-1] = (atom, edges, cert)
+        before = unchanged(rt)
+        with pytest.raises((TypedRejection, RuntimeRefusal, ValueError)):
+>           rt.admit_batch([] if kind == "empty" else items)
+E           AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:69: AttributeError
+_____________ test_invalid_last_item_has_no_prefix_or_event[empty] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_invalid_last_item_has_no_4')
+kind = 'empty'
+
+    @pytest.mark.parametrize("kind", ("duplicate_atom", "duplicate_edge", "scope", "warrant", "empty"))
+    def test_invalid_last_item_has_no_prefix_or_event(tmp_path, kind):
+        rt = OCMRuntime(tmp_path)
+        items = list(batch())
+        atom, edges, cert = items[-1]
+        if kind == "duplicate_atom": atom = replace(atom, atom_id="proof")
+        elif kind == "duplicate_edge": edges = (replace(edges[0], edge_id="ap"),)
+        elif kind == "scope":
+            from ocm.kso.types import Scope
+            atom = replace(atom, scope=Scope(frozenset()))
+        elif kind == "warrant": atom = replace(atom, warrant=WP.of({"different"}))
+        items[-1] = (atom, edges, cert)
+        before = unchanged(rt)
+        with pytest.raises((TypedRejection, RuntimeRefusal, ValueError)):
+>           rt.admit_batch([] if kind == "empty" else items)
+E           AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:69: AttributeError
+_______________ test_stale_ledger_refuses_without_partial_memory _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_stale_ledger_refuses_with0')
+
+    def test_stale_ledger_refuses_without_partial_memory(tmp_path):
+        stale = OCMRuntime(tmp_path)
+        writer = OCMRuntime(tmp_path)
+        writer.admit_object(Atom("other", "claim", quarantined=True), (), "INSTRUCTION")
+        before = unchanged(stale)
+>       with pytest.raises(StaleLedgerHead): stale.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:79: AttributeError
+_____________ test_append_interruption_replays_all_or_none[False] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_append_interruption_repla0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fde18467e10>
+after_write = False
+
+    @pytest.mark.parametrize("after_write", (False, True))
+    def test_append_interruption_replays_all_or_none(tmp_path, monkeypatch, after_write):
+        rt = OCMRuntime(tmp_path)
+        original = rt.ledger.append
+        def fail(*args, **kw):
+            if after_write: original(*args, **kw)
+            raise OSError("simulated append interruption")
+        monkeypatch.setattr(rt.ledger, "append", fail)
+>       with pytest.raises(OSError): rt.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:92: AttributeError
+______________ test_append_interruption_replays_all_or_none[True] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_append_interruption_repla1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fde18455990>
+after_write = True
+
+    @pytest.mark.parametrize("after_write", (False, True))
+    def test_append_interruption_replays_all_or_none(tmp_path, monkeypatch, after_write):
+        rt = OCMRuntime(tmp_path)
+        original = rt.ledger.append
+        def fail(*args, **kw):
+            if after_write: original(*args, **kw)
+            raise OSError("simulated append interruption")
+        monkeypatch.setattr(rt.ledger, "append", fail)
+>       with pytest.raises(OSError): rt.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:92: AttributeError
+_________ test_malformed_batch_reducer_does_not_publish_prefix[schema] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d0')
+defect = 'schema'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+_________ test_malformed_batch_reducer_does_not_publish_prefix[empty] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d1')
+defect = 'empty'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+__________ test_malformed_batch_reducer_does_not_publish_prefix[last] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d2')
+defect = 'last'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+_________ test_malformed_batch_reducer_does_not_publish_prefix[extra] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d3')
+defect = 'extra'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+________ test_malformed_batch_reducer_does_not_publish_prefix[resource] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d4')
+defect = 'resource'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+________ test_malformed_batch_reducer_does_not_publish_prefix[outputs] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d5')
+defect = 'outputs'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+________ test_malformed_batch_reducer_does_not_publish_prefix[evidence] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d6')
+defect = 'evidence'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+_________ test_malformed_batch_reducer_does_not_publish_prefix[status] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_malformed_batch_reducer_d7')
+defect = 'status'
+
+    @pytest.mark.parametrize("defect", ("schema", "empty", "last", "extra", "resource", "outputs", "evidence", "status"))
+    def test_malformed_batch_reducer_does_not_publish_prefix(tmp_path, defect):
+        donor = OCMRuntime(tmp_path / "donor")
+>       donor.admit_batch(batch())
+E       AttributeError: 'OCMRuntime' object has no attribute 'admit_batch'
+
+tests/integration/test_runtime_atomic_admission.py:102: AttributeError
+________ test_batch_mutation_inside_solve_cannot_commit_answer[backend] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_batch_mutation_inside_sol0')
+where = 'backend'
+
+    @pytest.mark.parametrize("where", ("backend", "checker"))
+    def test_batch_mutation_inside_solve_cannot_commit_answer(tmp_path, where):
+        rt = OCMRuntime(tmp_path, config=SV.SolveConfig(surprise_model=SurpriseModel.PROPAGATED))
+        rt.admit_object(Atom("q", "goal", quarantined=True), (), "INSTRUCTION")
+        rt.admit_object(Atom("fact", "claim"), (Hyperedge("qf", ("q",), ("fact",), "SUPPORT"),), "INSTRUCTION")
+        def backend(*args):
+            if where == "backend": rt.admit_batch(batch())
+            return {"answer": 42}
+        def checker(out):
+            if where == "checker": rt.admit_batch(batch())
+            return SV.Status.PASS
+        op = SV.OperatorSpec("answer", "1", backend, ("fact",), checker=checker)
+        out = rt.solve(SV.Task("q", (SV.QueryPart("use fact", "claim", ("q",)),), targets=("fact",)), (op,))
+>       assert out.decision is SV.Decision.CANNOT_CHECK and not SV.committed(out)
+E       AssertionError: assert (<Decision.UNKNOWN: 'UNKNOWN'> is <Decision.CANNOT_CHECK: 'CANNOT_CHECK'>)
+E        +  where <Decision.UNKNOWN: 'UNKNOWN'> = SolveOutcome(decision=<Decision.UNKNOWN: 'UNKNOWN'>, trace=SolveTrace(task_id='q', stages=[StageResult(stage=<Stage.TA...y_bytes=0, io_calls=0, verification_calls=0, update_work=0))]), answer=None, candidate=None, witness=None, gap_hook='').decision
+E        +  and   <Decision.CANNOT_CHECK: 'CANNOT_CHECK'> = <enum 'Decision'>.CANNOT_CHECK
+E        +    where <enum 'Decision'> = SV.Decision
+
+tests/integration/test_runtime_atomic_admission.py:136: AssertionError
+________ test_batch_mutation_inside_solve_cannot_commit_answer[checker] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-242/test_batch_mutation_inside_sol1')
+where = 'checker'
+
+    @pytest.mark.parametrize("where", ("backend", "checker"))
+    def test_batch_mutation_inside_solve_cannot_commit_answer(tmp_path, where):
+        rt = OCMRuntime(tmp_path, config=SV.SolveConfig(surprise_model=SurpriseModel.PROPAGATED))
+        rt.admit_object(Atom("q", "goal", quarantined=True), (), "INSTRUCTION")
+        rt.admit_object(Atom("fact", "claim"), (Hyperedge("qf", ("q",), ("fact",), "SUPPORT"),), "INSTRUCTION")
+        def backend(*args):
+            if where == "backend": rt.admit_batch(batch())
+            return {"answer": 42}
+        def checker(out):
+            if where == "checker": rt.admit_batch(batch())
+            return SV.Status.PASS
+        op = SV.OperatorSpec("answer", "1", backend, ("fact",), checker=checker)
+        out = rt.solve(SV.Task("q", (SV.QueryPart("use fact", "claim", ("q",)),), targets=("fact",)), (op,))
+>       assert out.decision is SV.Decision.CANNOT_CHECK and not SV.committed(out)
+E       AssertionError: assert (<Decision.UNKNOWN: 'UNKNOWN'> is <Decision.CANNOT_CHECK: 'CANNOT_CHECK'>)
+E        +  where <Decision.UNKNOWN: 'UNKNOWN'> = SolveOutcome(decision=<Decision.UNKNOWN: 'UNKNOWN'>, trace=SolveTrace(task_id='q', stages=[StageResult(stage=<Stage.TA...y_bytes=0, io_calls=0, verification_calls=0, update_work=0))]), answer=None, candidate=None, witness=None, gap_hook='').decision
+E        +  and   <Decision.CANNOT_CHECK: 'CANNOT_CHECK'> = <enum 'Decision'>.CANNOT_CHECK
+E        +    where <enum 'Decision'> = SV.Decision
+
+tests/integration/test_runtime_atomic_admission.py:136: AssertionError
+=========================== short test summary info ============================
+FAILED tests/integration/test_runtime_atomic_admission.py::test_whole_batch_one_event_and_fresh_process_replay
+FAILED tests/integration/test_runtime_atomic_admission.py::test_invalid_last_item_has_no_prefix_or_event[duplicate_atom]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_invalid_last_item_has_no_prefix_or_event[duplicate_edge]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_invalid_last_item_has_no_prefix_or_event[scope]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_invalid_last_item_has_no_prefix_or_event[warrant]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_invalid_last_item_has_no_prefix_or_event[empty]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_stale_ledger_refuses_without_partial_memory
+FAILED tests/integration/test_runtime_atomic_admission.py::test_append_interruption_replays_all_or_none[False]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_append_interruption_replays_all_or_none[True]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[schema]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[empty]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[last]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[extra]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[resource]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[outputs]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[evidence]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_malformed_batch_reducer_does_not_publish_prefix[status]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_batch_mutation_inside_solve_cannot_commit_answer[backend]
+FAILED tests/integration/test_runtime_atomic_admission.py::test_batch_mutation_inside_solve_cannot_commit_answer[checker]
+19 failed in 0.23s

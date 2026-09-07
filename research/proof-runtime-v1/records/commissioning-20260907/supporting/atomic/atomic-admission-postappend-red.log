@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_post_append_reducer_failure_blocks_writes_until_verified_replay _____
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-246/test_post_append_reducer_failu0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd7c8a2fa10>
+
+    def test_post_append_reducer_failure_blocks_writes_until_verified_replay(tmp_path, monkeypatch):
+        rt = OCMRuntime(tmp_path)
+        original = rt._stage_admission_batch
+        calls = []
+        def interrupted(payload):
+            calls.append(1)
+            if len(calls) == 2: raise MemoryError("after durable append, before state publication")
+            return original(payload)
+        monkeypatch.setattr(rt, "_stage_admission_batch", interrupted)
+        with pytest.raises(MemoryError): rt.admit_batch(batch())
+        monkeypatch.setattr(rt, "_stage_admission_batch", original)
+        assert rt.state.ks.ids == () and len(rt.ledger.entries()) == 1
+        for write in (lambda: rt.admit_batch(batch("later:")),
+                      lambda: rt.admit_evidence("unrelated", "instruction", "host")):
+>           with pytest.raises(RuntimeRefusal, match="REPLAY_REQUIRED"): write()
+E           Failed: DID NOT RAISE <class 'ocm.runtime.ocm_runtime.RuntimeRefusal'>
+
+tests/integration/test_runtime_atomic_admission.py:155: Failed
+=========================== short test summary info ============================
+FAILED tests/integration/test_runtime_atomic_admission.py::test_post_append_reducer_failure_blocks_writes_until_verified_replay
+1 failed, 19 deselected in 0.08s
