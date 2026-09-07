@@ -78,6 +78,12 @@ that reader. Its original 105-file seal plus the seal itself are archived.
 
 ## Retention and limits
 
+The original 28-file package is now stored in a lossless outer archive so raw
+metadata does not overwhelm code review. Its original seal, six archives, maps
+and source records remain byte-identical; the new compact index binds them.
+The [independent repack review](materialization-review-records/materialization-package-repack-review-v1.json)
+checked both package generations and unchanged current source.
+
 Six deterministic archives preserve every observed regular byte in their assigned
 roots: 9,428 files / 14,201,890 bytes, compressed to 1,787,348 bytes. Exact member
 maps accompany them. Original directory/mode and 222 symlink records remain

@@ -1,20 +1,22 @@
-# Materialization records
+# Materialization evidence — compact index
 
-Read [the component note](../MATERIALIZATION.md) first.
+The original qualified records are preserved byte-for-byte in
+[original-package.tar.gz](original-package.tar.gz), including their original seal.
+Only physical packaging changed; implementation and test sources are unchanged.
 
-- Six archives retain 9,428 regular files / 14,201,890 raw bytes.
-- Each archive has an exact member map and original directory/symlink metadata.
-- All 222 symlinks are metadata-only; packaging follows none of their targets.
-- [INDEX.json](INDEX.json) binds archives, original roots and source scripts.
-- [READBACK.json](READBACK.json) records actual archive/original byte comparison.
-- [SOURCE_FREEZE.json](SOURCE_FREEZE.json) separates current 18 production/helper
-  files and four portability test/helper files from earlier executed closures.
-- [OMISSIONS.json](OMISSIONS.json) names unretained temporary fixtures and the
-  metadata-only boundaries. No absent fixture was reconstructed.
-- [EXTERNAL_INPUTS.json](EXTERNAL_INPUTS.json) gives external runtime and material
-  references; this package does not establish their present live custody.
-- `SEAL.json` binds the complete retained package except itself.
+[INDEX](INDEX.json) binds all 28 original files and the outer archive.
+[VERIFY](VERIFY.json) records the direct comparison with every original byte.
+[SOURCE_FREEZE](SOURCE_FREEZE.json) is an unchanged convenient copy of the original
+18 production/helper and four portability test/helper source bindings.
 
-The 26, 47 and narrow nine-control records are separate, overlapping engineering
-qualifications. The actual continuation stopped at headroom scheduling before
-phase entry. No real source materialization or semantic build is recorded here.
+Extract into a new directory to read the original CORE.md, INDEX.json and six
+raw-record archives. Their maps distinguish 26 and 47 controls, the overlapping
+nine-control portability successor, partial configuration review, and the
+60-observation scheduling hold. Historical test generations remain distinct.
+
+The inner package retains all 9,428 regular qualification members and explicit
+metadata/omissions. The repack does not rerun tests, reopen external host inputs,
+dispatch materialization, change the original episode clock or add proof results.
+
+Large raw JSON is compressed so the code review remains readable. All new
+production code and tests remain ordinary source files in the parent directory.
