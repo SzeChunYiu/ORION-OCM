@@ -1,0 +1,2052 @@
+{
+  "receipt": "CL_SCALING_PILOT_V1",
+  "study_id": "CL-SCALING-PILOT-V1",
+  "programme_issue": "SzeChunYiu/ORION-OCM#143",
+  "publication_constitution": "SzeChunYiu/ORION-OCM#144",
+  "evidence_class": "E1",
+  "contribution_level": "L0",
+  "study_role": "ENGINEERING_CALIBRATION_OF_THE_METERS",
+  "protected_claim_authority": false,
+  "scientific_promotion": "NOT_ESTABLISHED",
+  "plan": {
+    "protocol": "COGNITIVE_LADDER_PROTOCOL_V1",
+    "rung": "CL-S1/S3 active-subspace scaling",
+    "base_families": 20,
+    "multipliers": [
+      1,
+      3,
+      10,
+      30
+    ],
+    "probe_family_moves": [
+      1,
+      3,
+      4
+    ],
+    "evidence_blocks": 2,
+    "evidence_block_size": 8,
+    "probe_position_low": 40,
+    "probe_position_high": 96,
+    "probe_positions": 5,
+    "move_alphabet": 10,
+    "move_set_max_size": 5,
+    "language": {
+      "max_preperiod": 6,
+      "max_period": 12,
+      "max_value": 8
+    },
+    "arms": [
+      "ocm_arm",
+      "global_scan_ablation",
+      "index_parent",
+      "cache_parent",
+      "rebuild_index_hostile",
+      "unaudited_scan_hostile"
+    ],
+    "endpoints": [
+      "k(N)",
+      "query_work(N)",
+      "persistent_bytes(N)",
+      "revision_work(N) after LOCAL revocation",
+      "revision_work(N) after GLOBALLY_SHARED revocation"
+    ],
+    "sparse_fraction": 0.1,
+    "index_entry_bytes": 24,
+    "loglog_residual_threshold": 0.05,
+    "fit_basis": "log10, ordinary least squares, 4 points, 2 free parameters"
+  },
+  "table": [
+    {
+      "arm": "ocm_arm",
+      "role": "OCM",
+      "scale": "1x",
+      "N": 61,
+      "k": 1.0,
+      "k_over_N": 0.01639344262295082,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 61,
+      "index_maintenance_work": 20,
+      "persistent_bytes": 8512,
+      "store_bytes": 6592,
+      "index_bytes": 1920,
+      "total_work_including_build": 81,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 21,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 21,
+      "local_revision_work": 4,
+      "global_revision_work": 41,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "ocm_arm",
+      "role": "OCM",
+      "scale": "3x",
+      "N": 181,
+      "k": 1.0,
+      "k_over_N": 0.0055248618784530384,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 181,
+      "index_maintenance_work": 60,
+      "persistent_bytes": 25136,
+      "store_bytes": 19376,
+      "index_bytes": 5760,
+      "total_work_including_build": 201,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 61,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 61,
+      "local_revision_work": 4,
+      "global_revision_work": 121,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "ocm_arm",
+      "role": "OCM",
+      "scale": "10x",
+      "N": 601,
+      "k": 1.0,
+      "k_over_N": 0.0016638935108153079,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 601,
+      "index_maintenance_work": 200,
+      "persistent_bytes": 83384,
+      "store_bytes": 64184,
+      "index_bytes": 19200,
+      "total_work_including_build": 621,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 201,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 201,
+      "local_revision_work": 4,
+      "global_revision_work": 401,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "ocm_arm",
+      "role": "OCM",
+      "scale": "30x",
+      "N": 1801,
+      "k": 1.0,
+      "k_over_N": 0.000555247084952804,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 1801,
+      "index_maintenance_work": 600,
+      "persistent_bytes": 249538,
+      "store_bytes": 191938,
+      "index_bytes": 57600,
+      "total_work_including_build": 1821,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 601,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 601,
+      "local_revision_work": 4,
+      "global_revision_work": 1201,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "global_scan_ablation",
+      "role": "ABLATION",
+      "scale": "1x",
+      "N": 61,
+      "k": 61.0,
+      "k_over_N": 1.0,
+      "k_status": "MEASURED",
+      "query_work": 124.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 6592,
+      "store_bytes": 6592,
+      "index_bytes": 0,
+      "total_work_including_build": 620,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "NOT_SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 21,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 21
+    },
+    {
+      "arm": "global_scan_ablation",
+      "role": "ABLATION",
+      "scale": "3x",
+      "N": 181,
+      "k": 181.0,
+      "k_over_N": 1.0,
+      "k_status": "MEASURED",
+      "query_work": 364.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 19376,
+      "store_bytes": 19376,
+      "index_bytes": 0,
+      "total_work_including_build": 1820,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "NOT_SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 61,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 61
+    },
+    {
+      "arm": "global_scan_ablation",
+      "role": "ABLATION",
+      "scale": "10x",
+      "N": 601,
+      "k": 601.0,
+      "k_over_N": 1.0,
+      "k_status": "MEASURED",
+      "query_work": 1204.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 64184,
+      "store_bytes": 64184,
+      "index_bytes": 0,
+      "total_work_including_build": 6020,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "NOT_SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 201,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 201
+    },
+    {
+      "arm": "global_scan_ablation",
+      "role": "ABLATION",
+      "scale": "30x",
+      "N": 1801,
+      "k": 1801.0,
+      "k_over_N": 1.0,
+      "k_status": "MEASURED",
+      "query_work": 3604.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 191938,
+      "store_bytes": 191938,
+      "index_bytes": 0,
+      "total_work_including_build": 18020,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "NOT_SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 601,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 601
+    },
+    {
+      "arm": "index_parent",
+      "role": "PARENT",
+      "scale": "1x",
+      "N": 61,
+      "k": 1.0,
+      "k_over_N": 0.01639344262295082,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 61,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 7072,
+      "store_bytes": 6592,
+      "index_bytes": 480,
+      "total_work_including_build": 81,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 21,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 21
+    },
+    {
+      "arm": "index_parent",
+      "role": "PARENT",
+      "scale": "3x",
+      "N": 181,
+      "k": 1.0,
+      "k_over_N": 0.0055248618784530384,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 181,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 20816,
+      "store_bytes": 19376,
+      "index_bytes": 1440,
+      "total_work_including_build": 201,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 61,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 61
+    },
+    {
+      "arm": "index_parent",
+      "role": "PARENT",
+      "scale": "10x",
+      "N": 601,
+      "k": 1.0,
+      "k_over_N": 0.0016638935108153079,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 601,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 68984,
+      "store_bytes": 64184,
+      "index_bytes": 4800,
+      "total_work_including_build": 621,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 201,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 201
+    },
+    {
+      "arm": "index_parent",
+      "role": "PARENT",
+      "scale": "30x",
+      "N": 1801,
+      "k": 1.0,
+      "k_over_N": 0.000555247084952804,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 1801,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 206338,
+      "store_bytes": 191938,
+      "index_bytes": 14400,
+      "total_work_including_build": 1821,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 601,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 601
+    },
+    {
+      "arm": "cache_parent",
+      "role": "PARENT",
+      "scale": "1x",
+      "N": 361,
+      "k": 0.0,
+      "k_over_N": 0.0,
+      "k_status": "MEASURED",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 320,
+      "persistent_bytes": 32746,
+      "store_bytes": 25066,
+      "index_bytes": 7680,
+      "total_work_including_build": 10,
+      "answered": 0,
+      "correct": 0,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 9,
+      "global_true_cone_size": 1,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 9,
+      "global_stale_survivors": 1
+    },
+    {
+      "arm": "cache_parent",
+      "role": "PARENT",
+      "scale": "3x",
+      "N": 1081,
+      "k": 0.0,
+      "k_over_N": 0.0,
+      "k_status": "MEASURED",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 960,
+      "persistent_bytes": 97663,
+      "store_bytes": 74623,
+      "index_bytes": 23040,
+      "total_work_including_build": 10,
+      "answered": 0,
+      "correct": 0,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 9,
+      "global_true_cone_size": 1,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 9,
+      "global_stale_survivors": 1
+    },
+    {
+      "arm": "cache_parent",
+      "role": "PARENT",
+      "scale": "10x",
+      "N": 3601,
+      "k": 0.0,
+      "k_over_N": 0.0,
+      "k_status": "MEASURED",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 3200,
+      "persistent_bytes": 324636,
+      "store_bytes": 247836,
+      "index_bytes": 76800,
+      "total_work_including_build": 10,
+      "answered": 0,
+      "correct": 0,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 9,
+      "global_true_cone_size": 1,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 9,
+      "global_stale_survivors": 1
+    },
+    {
+      "arm": "cache_parent",
+      "role": "PARENT",
+      "scale": "30x",
+      "N": 10801,
+      "k": 0.0,
+      "k_over_N": 0.0,
+      "k_status": "MEASURED",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 9600,
+      "persistent_bytes": 971323,
+      "store_bytes": 740923,
+      "index_bytes": 230400,
+      "total_work_including_build": 10,
+      "answered": 0,
+      "correct": 0,
+      "sparse_verdict": "SPARSE",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 9,
+      "global_true_cone_size": 1,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 9,
+      "global_stale_survivors": 1
+    },
+    {
+      "arm": "rebuild_index_hostile",
+      "role": "HOSTILE",
+      "scale": "1x",
+      "N": 61,
+      "k": 1.0,
+      "k_over_N": 0.01639344262295082,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 305,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 7072,
+      "store_bytes": 6592,
+      "index_bytes": 480,
+      "total_work_including_build": 325,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE_ONLY_AFTER_GLOBAL_BUILD_SCAN",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 21,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 21
+    },
+    {
+      "arm": "rebuild_index_hostile",
+      "role": "HOSTILE",
+      "scale": "3x",
+      "N": 181,
+      "k": 1.0,
+      "k_over_N": 0.0055248618784530384,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 905,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 20816,
+      "store_bytes": 19376,
+      "index_bytes": 1440,
+      "total_work_including_build": 925,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE_ONLY_AFTER_GLOBAL_BUILD_SCAN",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 61,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 61
+    },
+    {
+      "arm": "rebuild_index_hostile",
+      "role": "HOSTILE",
+      "scale": "10x",
+      "N": 601,
+      "k": 1.0,
+      "k_over_N": 0.0016638935108153079,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 3005,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 68984,
+      "store_bytes": 64184,
+      "index_bytes": 4800,
+      "total_work_including_build": 3025,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE_ONLY_AFTER_GLOBAL_BUILD_SCAN",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 201,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 201
+    },
+    {
+      "arm": "rebuild_index_hostile",
+      "role": "HOSTILE",
+      "scale": "30x",
+      "N": 1801,
+      "k": 1.0,
+      "k_over_N": 0.000555247084952804,
+      "k_status": "MEASURED",
+      "query_work": 4.0,
+      "index_build_work": 9005,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 206338,
+      "store_bytes": 191938,
+      "index_bytes": 14400,
+      "total_work_including_build": 9025,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "SPARSE_ONLY_AFTER_GLOBAL_BUILD_SCAN",
+      "local_cone_exact": false,
+      "global_cone_exact": false,
+      "local_cone_size": 0,
+      "global_cone_size": 0,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 601,
+      "local_revision_work": 0,
+      "global_revision_work": 0,
+      "local_stale_survivors": 2,
+      "global_stale_survivors": 601
+    },
+    {
+      "arm": "unaudited_scan_hostile",
+      "role": "HOSTILE",
+      "scale": "1x",
+      "N": 61,
+      "k": null,
+      "k_over_N": null,
+      "k_status": "CANNOT_CHECK",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 6592,
+      "store_bytes": 6592,
+      "index_bytes": 0,
+      "total_work_including_build": 10,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "CANNOT_CHECK",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 21,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 21,
+      "local_revision_work": null,
+      "global_revision_work": null,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "unaudited_scan_hostile",
+      "role": "HOSTILE",
+      "scale": "3x",
+      "N": 181,
+      "k": null,
+      "k_over_N": null,
+      "k_status": "CANNOT_CHECK",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 19376,
+      "store_bytes": 19376,
+      "index_bytes": 0,
+      "total_work_including_build": 10,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "CANNOT_CHECK",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 61,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 61,
+      "local_revision_work": null,
+      "global_revision_work": null,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "unaudited_scan_hostile",
+      "role": "HOSTILE",
+      "scale": "10x",
+      "N": 601,
+      "k": null,
+      "k_over_N": null,
+      "k_status": "CANNOT_CHECK",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 64184,
+      "store_bytes": 64184,
+      "index_bytes": 0,
+      "total_work_including_build": 10,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "CANNOT_CHECK",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 201,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 201,
+      "local_revision_work": null,
+      "global_revision_work": null,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    },
+    {
+      "arm": "unaudited_scan_hostile",
+      "role": "HOSTILE",
+      "scale": "30x",
+      "N": 1801,
+      "k": null,
+      "k_over_N": null,
+      "k_status": "CANNOT_CHECK",
+      "query_work": 2.0,
+      "index_build_work": 0,
+      "index_maintenance_work": 0,
+      "persistent_bytes": 191938,
+      "store_bytes": 191938,
+      "index_bytes": 0,
+      "total_work_including_build": 10,
+      "answered": 5,
+      "correct": 5,
+      "sparse_verdict": "CANNOT_CHECK",
+      "local_cone_exact": true,
+      "global_cone_exact": true,
+      "local_cone_size": 2,
+      "global_cone_size": 601,
+      "local_true_cone_size": 2,
+      "global_true_cone_size": 601,
+      "local_revision_work": null,
+      "global_revision_work": null,
+      "local_stale_survivors": 0,
+      "global_stale_survivors": 0
+    }
+  ],
+  "loglog_fits": {
+    "cache_parent": {
+      "k(N)": {
+        "label": "cache_parent:k(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "query_work(N)": {
+        "label": "cache_parent:query_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "persistent_bytes(N)": {
+        "label": "cache_parent:persistent_bytes(N)",
+        "slope": 0.9975,
+        "rms_log_residual": 0.00021,
+        "max_log_residual": 0.00035,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          32746.0,
+          97663.0,
+          324636.0,
+          971323.0
+        ],
+        "note": "rms log10 residual 0.0002 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "cache_parent:total_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "revision_work_local(N)": {
+        "label": "cache_parent:revision_work_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "revision_work_shared(N)": {
+        "label": "cache_parent:revision_work_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_local(N)": {
+        "label": "cache_parent:cone_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_shared(N)": {
+        "label": "cache_parent:cone_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          361.0,
+          1081.0,
+          3601.0,
+          10801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      }
+    },
+    "global_scan_ablation": {
+      "k(N)": {
+        "label": "global_scan_ablation:k(N)",
+        "slope": 1.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "note": "rms log10 residual 0.0000 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "query_work(N)": {
+        "label": "global_scan_ablation:query_work(N)",
+        "slope": 0.9955,
+        "rms_log_residual": 0.00108,
+        "max_log_residual": 0.00138,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          124.0,
+          364.0,
+          1204.0,
+          3604.0
+        ],
+        "note": "rms log10 residual 0.0011 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "persistent_bytes(N)": {
+        "label": "global_scan_ablation:persistent_bytes(N)",
+        "slope": 0.9961,
+        "rms_log_residual": 0.00088,
+        "max_log_residual": 0.00129,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          6592.0,
+          19376.0,
+          64184.0,
+          191938.0
+        ],
+        "note": "rms log10 residual 0.0009 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "global_scan_ablation:total_work(N)",
+        "slope": 0.9955,
+        "rms_log_residual": 0.00108,
+        "max_log_residual": 0.00138,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          620.0,
+          1820.0,
+          6020.0,
+          18020.0
+        ],
+        "note": "rms log10 residual 0.0011 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "revision_work_local(N)": {
+        "label": "global_scan_ablation:revision_work_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "revision_work_shared(N)": {
+        "label": "global_scan_ablation:revision_work_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_local(N)": {
+        "label": "global_scan_ablation:cone_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_shared(N)": {
+        "label": "global_scan_ablation:cone_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      }
+    },
+    "index_parent": {
+      "k(N)": {
+        "label": "index_parent:k(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "query_work(N)": {
+        "label": "index_parent:query_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "persistent_bytes(N)": {
+        "label": "index_parent:persistent_bytes(N)",
+        "slope": 0.9967,
+        "rms_log_residual": 0.00075,
+        "max_log_residual": 0.00111,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          7072.0,
+          20816.0,
+          68984.0,
+          206338.0
+        ],
+        "note": "rms log10 residual 0.0007 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "index_parent:total_work(N)",
+        "slope": 0.9218,
+        "rms_log_residual": 0.0175,
+        "max_log_residual": 0.02186,
+        "r_squared": 0.99882,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          81.0,
+          201.0,
+          621.0,
+          1821.0
+        ],
+        "note": "rms log10 residual 0.0175 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "revision_work_local(N)": {
+        "label": "index_parent:revision_work_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "revision_work_shared(N)": {
+        "label": "index_parent:revision_work_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_local(N)": {
+        "label": "index_parent:cone_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_shared(N)": {
+        "label": "index_parent:cone_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      }
+    },
+    "ocm_arm": {
+      "k(N)": {
+        "label": "ocm_arm:k(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "query_work(N)": {
+        "label": "ocm_arm:query_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "persistent_bytes(N)": {
+        "label": "ocm_arm:persistent_bytes(N)",
+        "slope": 0.9981,
+        "rms_log_residual": 0.00044,
+        "max_log_residual": 0.00068,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          8512.0,
+          25136.0,
+          83384.0,
+          249538.0
+        ],
+        "note": "rms log10 residual 0.0004 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "ocm_arm:total_work(N)",
+        "slope": 0.9218,
+        "rms_log_residual": 0.0175,
+        "max_log_residual": 0.02186,
+        "r_squared": 0.99882,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          81.0,
+          201.0,
+          621.0,
+          1821.0
+        ],
+        "note": "rms log10 residual 0.0175 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "revision_work_local(N)": {
+        "label": "ocm_arm:revision_work_local(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "revision_work_shared(N)": {
+        "label": "ocm_arm:revision_work_shared(N)",
+        "slope": 0.9978,
+        "rms_log_residual": 0.00054,
+        "max_log_residual": 0.0007,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          41.0,
+          121.0,
+          401.0,
+          1201.0
+        ],
+        "note": "rms log10 residual 0.0005 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "cone_local(N)": {
+        "label": "ocm_arm:cone_local(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "cone_shared(N)": {
+        "label": "ocm_arm:cone_shared(N)",
+        "slope": 0.9911,
+        "rms_log_residual": 0.00214,
+        "max_log_residual": 0.00273,
+        "r_squared": 0.99998,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          21.0,
+          61.0,
+          201.0,
+          601.0
+        ],
+        "note": "rms log10 residual 0.0021 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      }
+    },
+    "rebuild_index_hostile": {
+      "k(N)": {
+        "label": "rebuild_index_hostile:k(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "query_work(N)": {
+        "label": "rebuild_index_hostile:query_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "persistent_bytes(N)": {
+        "label": "rebuild_index_hostile:persistent_bytes(N)",
+        "slope": 0.9967,
+        "rms_log_residual": 0.00075,
+        "max_log_residual": 0.00111,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          7072.0,
+          20816.0,
+          68984.0,
+          206338.0
+        ],
+        "note": "rms log10 residual 0.0007 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "rebuild_index_hostile:total_work(N)",
+        "slope": 0.9825,
+        "rms_log_residual": 0.00417,
+        "max_log_residual": 0.00531,
+        "r_squared": 0.99994,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          325.0,
+          925.0,
+          3025.0,
+          9025.0
+        ],
+        "note": "rms log10 residual 0.0042 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "revision_work_local(N)": {
+        "label": "rebuild_index_hostile:revision_work_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "revision_work_shared(N)": {
+        "label": "rebuild_index_hostile:revision_work_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_local(N)": {
+        "label": "rebuild_index_hostile:cone_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      },
+      "cone_shared(N)": {
+        "label": "rebuild_index_hostile:cone_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "UNDEFINED_NONPOSITIVE_VALUES",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "a non-positive coordinate has no logarithm; the point is missing, not zero"
+      }
+    },
+    "unaudited_scan_hostile": {
+      "k(N)": {
+        "label": "unaudited_scan_hostile:k(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "CANNOT_CHECK",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "note": "at least one coordinate was CANNOT_CHECK; unmeasurability propagates"
+      },
+      "query_work(N)": {
+        "label": "unaudited_scan_hostile:query_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "persistent_bytes(N)": {
+        "label": "unaudited_scan_hostile:persistent_bytes(N)",
+        "slope": 0.9961,
+        "rms_log_residual": 0.00088,
+        "max_log_residual": 0.00129,
+        "r_squared": 1.0,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          6592.0,
+          19376.0,
+          64184.0,
+          191938.0
+        ],
+        "note": "rms log10 residual 0.0009 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      },
+      "total_work(N)": {
+        "label": "unaudited_scan_hostile:total_work(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "revision_work_local(N)": {
+        "label": "unaudited_scan_hostile:revision_work_local(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "CANNOT_CHECK",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "note": "at least one coordinate was CANNOT_CHECK; unmeasurability propagates"
+      },
+      "revision_work_shared(N)": {
+        "label": "unaudited_scan_hostile:revision_work_shared(N)",
+        "slope": null,
+        "rms_log_residual": null,
+        "max_log_residual": null,
+        "r_squared": null,
+        "verdict": "CANNOT_CHECK",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "note": "at least one coordinate was CANNOT_CHECK; unmeasurability propagates"
+      },
+      "cone_local(N)": {
+        "label": "unaudited_scan_hostile:cone_local(N)",
+        "slope": 0.0,
+        "rms_log_residual": 0.0,
+        "max_log_residual": 0.0,
+        "r_squared": null,
+        "verdict": "CONSTANT_IN_N",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "note": "y is identical at every scale; slope is exactly zero and r^2 is undefined"
+      },
+      "cone_shared(N)": {
+        "label": "unaudited_scan_hostile:cone_shared(N)",
+        "slope": 0.9911,
+        "rms_log_residual": 0.00214,
+        "max_log_residual": 0.00273,
+        "r_squared": 0.99998,
+        "verdict": "POWER_LAW_CONSISTENT",
+        "xs": [
+          61.0,
+          181.0,
+          601.0,
+          1801.0
+        ],
+        "ys": [
+          21.0,
+          61.0,
+          201.0,
+          601.0
+        ],
+        "note": "rms log10 residual 0.0021 <= threshold 0.05; no visible curvature over 4 scales, which is not evidence of a power law beyond them"
+      }
+    }
+  },
+  "crossover_queries_vs_global_scan": {
+    "1x": 1,
+    "3x": 1,
+    "10x": 1,
+    "30x": 1
+  },
+  "revision": {
+    "ocm_arm": [
+      {
+        "scale": "1x",
+        "N": 61,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 21,
+        "global_true_cone_size": 21
+      },
+      {
+        "scale": "3x",
+        "N": 181,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 61,
+        "global_true_cone_size": 61
+      },
+      {
+        "scale": "10x",
+        "N": 601,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 201,
+        "global_true_cone_size": 201
+      },
+      {
+        "scale": "30x",
+        "N": 1801,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 601,
+        "global_true_cone_size": 601
+      }
+    ],
+    "global_scan_ablation": [
+      {
+        "scale": "1x",
+        "N": 61,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 21
+      },
+      {
+        "scale": "3x",
+        "N": 181,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 61
+      },
+      {
+        "scale": "10x",
+        "N": 601,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 201
+      },
+      {
+        "scale": "30x",
+        "N": 1801,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 601
+      }
+    ],
+    "index_parent": [
+      {
+        "scale": "1x",
+        "N": 61,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 21
+      },
+      {
+        "scale": "3x",
+        "N": 181,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 61
+      },
+      {
+        "scale": "10x",
+        "N": 601,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 201
+      },
+      {
+        "scale": "30x",
+        "N": 1801,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 601
+      }
+    ],
+    "cache_parent": [
+      {
+        "scale": "1x",
+        "N": 361,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 9,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 1
+      },
+      {
+        "scale": "3x",
+        "N": 1081,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 9,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 1
+      },
+      {
+        "scale": "10x",
+        "N": 3601,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 9,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 1
+      },
+      {
+        "scale": "30x",
+        "N": 10801,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 9,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 1
+      }
+    ],
+    "rebuild_index_hostile": [
+      {
+        "scale": "1x",
+        "N": 61,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 21
+      },
+      {
+        "scale": "3x",
+        "N": 181,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 61
+      },
+      {
+        "scale": "10x",
+        "N": 601,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 201
+      },
+      {
+        "scale": "30x",
+        "N": 1801,
+        "local_cone_exact": false,
+        "local_cone_size": 0,
+        "local_true_cone_size": 2,
+        "global_cone_exact": false,
+        "global_cone_size": 0,
+        "global_true_cone_size": 601
+      }
+    ],
+    "unaudited_scan_hostile": [
+      {
+        "scale": "1x",
+        "N": 61,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 21,
+        "global_true_cone_size": 21
+      },
+      {
+        "scale": "3x",
+        "N": 181,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 61,
+        "global_true_cone_size": 61
+      },
+      {
+        "scale": "10x",
+        "N": 601,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 201,
+        "global_true_cone_size": 201
+      },
+      {
+        "scale": "30x",
+        "N": 1801,
+        "local_cone_exact": true,
+        "local_cone_size": 2,
+        "local_true_cone_size": 2,
+        "global_cone_exact": true,
+        "global_cone_size": 601,
+        "global_true_cone_size": 601
+      }
+    ]
+  },
+  "terminal": "PARENT_SUFFICIENT",
+  "terminal_reason": "an ordinary index matches the OCM arm exactly on k and on query work at every registered scale; sparse lookup under a supplied family key is a property of the key, not a finding about cognition",
+  "what_this_does_not_establish": [
+    "Nothing about cognition. The index key is the family identity the catalogue supplies, so cheap lookup is a property of the supplied key.",
+    "No claim of sparse execution on the real OCM runtime; this lane's store is a stand-in for it and the runtime's own navigation still computes dense fixed points.",
+    "No lifetime economics: acquisition compute, energy and maintenance over a real lifetime are not measured here."
+  ],
+  "hostiles_that_fired": [
+    "unaudited_scan_hostile returns CANNOT_CHECK rather than a favourable k",
+    "rebuild_index_hostile has the same per-query k as the OCM arm and far worse total work, which is why the crossover query count is reported",
+    "the globally shared revocation produces a cone that grows with N, so revision locality here is not imposed by the benchmark",
+    "cache_parent answers none of the probe positions because they lie beyond its cached magnitude, while carrying the largest persistent state of any arm"
+  ],
+  "authority": "This receipt calibrates the active-subspace meters. It establishes that k is instrumented rather than inferred, that index construction is charged on the same axis as query work, and that the uninstrumented path reports CANNOT_CHECK. It establishes no scaling law and no advantage over any parent."
+}
