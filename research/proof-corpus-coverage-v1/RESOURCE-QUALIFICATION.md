@@ -1,5 +1,10 @@
 # Resource and offline-profile qualification
 
+Current source authority: [post-dispatch successor](RESOURCE-SUCCESSOR.md),
+qualified on 22 source files with 12/12 profile cases and 62/62 focused controls.
+The original 19-source qualification below and its sealed archives remain historical;
+they are not a receipt for the changed runner/profile bytes.
+
 **AUTHORED_RESOURCE_PROFILE_CONTROLS_PASSED: 12/12.**
 The same frozen source also passed 42 focused controls on billy-laptop.
 This is current-host infrastructure evidence, not a corpus build, proof study,

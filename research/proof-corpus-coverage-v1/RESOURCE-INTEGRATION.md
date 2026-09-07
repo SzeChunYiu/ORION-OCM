@@ -1,5 +1,10 @@
 # Next integration boundary
 
+Current source authority: [post-dispatch successor](RESOURCE-SUCCESSOR.md),
+qualified on 22 source files with 12/12 profile cases and 62/62 focused controls.
+The original 19-source qualification below and its sealed archives remain historical;
+they are not a receipt for the changed runner/profile bytes.
+
 The resource controller and offline build profile have passed their authored
 qualification; see RESOURCE-QUALIFICATION.md. This does not dispatch any of the
 four registered corpus rows. The registrar, acquisition profile, actual evaluator

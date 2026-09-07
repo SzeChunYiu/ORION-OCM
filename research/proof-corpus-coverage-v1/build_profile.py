@@ -78,9 +78,9 @@ def run(profile,limits,output):
   if path==root or path.is_relative_to(root) or root.is_relative_to(path):raise ValueError("output overlaps workload/input path")
  sources=loaded_sources(globals())
  root.mkdir();start=time.monotonic();token="build-"+uuid.uuid4().hex
- result={"schema":"ocm.f1.build-profile-receipt.v1","terminal":"PROFILE_REFUSED","token":token,
+ result={"schema":"ocm.f1.build-profile-receipt.v2","terminal":"PROFILE_REFUSED","token":token,
   "authority":"External source/code audit plus observed controls; not whole-host neural absence."}
- loaded=False
+ loaded=False;phase="PROFILE_PREPARATION";result["dispatch_state"]="NOT_ATTEMPTED"
  result["driver_sources"]=sources
  try:
   audit=validate(profile);result["audit"]=audit;write_json(root/"profile.json",profile)
@@ -94,18 +94,26 @@ def run(profile,limits,output):
   remaining=limits["wall_s"]-(time.monotonic()-start)
   if remaining<=0:raise ValueError("PROFILE_PREPARATION_DEADLINE")
   dispatch_limits={**limits,"wall_s":remaining}
-  result["dispatch"]=resource_runner.run(command(profile,token),{},dispatch_limits,root/"dispatch",
-   [str(root),*[w["path"] for w in profile["writable"]]],token=token)
+  argv=command(profile,token);owned=[str(root),*[w["path"] for w in profile["writable"]]]
+  phase="DISPATCH";result["dispatch_state"]="ATTEMPTED_UNKNOWN"
+  result["dispatch"]=resource_runner.run(argv,{},dispatch_limits,root/"dispatch",owned,token=token)
+  result["dispatch_state"]=result["dispatch"].get("dispatch",{}).get("state","ATTEMPTED_UNKNOWN")
   result["terminal"]=result["dispatch"]["terminal"]
+  phase="POST_DISPATCH_CUSTODY"
   validate(profile)
   for binding in sources.values():verify(binding)
   if loaded_sources(globals())!=sources:raise ValueError("loaded source custody drift")
   result["post_input_custody"]="UNCHANGED"
  except BaseException as exc:
   result["error"]={"class":type(exc).__name__,"message":str(exc)}
-  result["terminal"]="PROFILE_REFUSED"
+  result["terminal"]=("POST_DISPATCH_CUSTODY_FAILED" if "dispatch" in result
+   else "DISPATCH_UNCERTAIN" if result["dispatch_state"]=="ATTEMPTED_UNKNOWN" else "PROFILE_REFUSED")
+  result["failure_phase"]=phase
  finally:
-  if loaded and result.get("dispatch",{}).get("cleanup",{}).get("members_empty") is False:
+  result["primary_outcome"]={"terminal":result["terminal"],"phase":phase,"error":result.get("error")}
+  cleanup=result.get("dispatch",{}).get("cleanup",{})
+  safe=result["dispatch_state"]=="NOT_ATTEMPTED" or all(cleanup.get(k) is True for k in ("members_empty","reaped"))
+  if loaded and not safe:
    result["policy_retained_until_empty"]=True
   elif loaded:
    try:result["policy_cleanup"]=helper("policy-remove",token,str(root/"apparmor.profile"))

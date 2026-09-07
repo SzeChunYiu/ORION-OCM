@@ -9,7 +9,7 @@ Read [the result and remaining boundary](RESULT.md), then the relevant component
 | Component | Entry document | Authority |
 |---|---|---|
 | Fixed assignment | [REGISTRATION](REGISTRATION.md) | Original complete registration seal and retained full order |
-| Resource and offline profile | [RESOURCE-QUALIFICATION](RESOURCE-QUALIFICATION.md) | Twelve authored host controls and frozen source |
+| Resource and offline profile | [RESOURCE-SUCCESSOR](RESOURCE-SUCCESSOR.md) | Current dispatch/evidence repair; historical qualification preserved |
 | Native association/capture | [NATIVE-QUALIFICATION](NATIVE-QUALIFICATION.md) | Authored module, transport and fresh-kernel controls |
 | Next actual dispatch | [RESOURCE-INTEGRATION](RESOURCE-INTEGRATION.md) | Acquisition and actual evaluator-material profile still required |
 
@@ -39,11 +39,14 @@ not rerun the registrar, native tests, privileged profiles or real corpus tasks.
   four large raw input files remain externally bound, not revalidated by this guard.
 - [Native archive guard](NATIVE-ARCHIVE.md): lossless retained native development,
   qualification and review records; large runtime/toolchain inputs are hash-bound.
-- `resource_evidence.py`: lossless authored resource records and current bindings;
-  external host binaries and OS prerequisites are explicitly outside the archive.
+- `resource_successor_evidence.py`: original resource custody against archived
+  source snapshots, plus the separately qualified current successor. The original
+  `resource_evidence.py` retains its historical interface; external host inputs
+  remain explicitly outside the archive.
 
-The [portable integration](INTEGRATION.md) records 180 passes, seven skips and two
-deliberate deselections. CI runs these controls and evidence checks. Exact-interpreter
+The [current portable integration](INTEGRATION-SUCCESSOR.md) records 223 passes,
+seven skips and two deliberate deselections. CI runs these controls and evidence
+checks. Exact-interpreter
 registrar CLI controls and privileged host resource controls retain their separate
 qualification. CI must not report skipped host cases as new portable passes.
 

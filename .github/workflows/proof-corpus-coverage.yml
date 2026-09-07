@@ -44,8 +44,8 @@ jobs:
         run: >-
           python -I -S research/proof-corpus-coverage-v1/native_evidence.py
           --seal-sha256 523531c5bb7ca79b4f3ff5d5e6316960cef38dcddcd82dc335421341280ffe2e
-      - name: Resource archive custody; no privileged dispatch
-        run: python -I -S research/proof-corpus-coverage-v1/resource_evidence.py
+      - name: Resource historical and successor custody; no privileged dispatch
+        run: python -I -S research/proof-corpus-coverage-v1/resource_successor_evidence.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

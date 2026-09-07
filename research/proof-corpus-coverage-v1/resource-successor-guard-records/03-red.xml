@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="7" time="0.121" timestamp="2026-09-07T09:18:56.628744+02:00" hostname="billy"><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_archive_changed_during_audit_refuses" time="0.006"><failure message="AssertionError: ValueError not raised">self = &lt;test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_archive_changed_during_audit_refuses&gt;
+
+    def test_archive_changed_during_audit_refuses(self):
+        old,audit=successor.helpers();original=audit.audit_archive
+        def changed(path,members):
+            result=original(path,members)
+            if Path(path).parent==self.root:Path(path).write_bytes(b"changed after member read")
+            return result
+        audit.audit_archive=changed
+        with patch.object(successor,"helpers",return_value=(old,audit)):
+&gt;           with self.assertRaisesRegex(ValueError,"SUCCESSOR_FILE_HASH"):self.run_audit()
+E           AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:37: AssertionError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_boolean_archive_count_refuses" time="0.006" /><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_current_source_changed_during_first_check_refuses" time="0.006"><failure message="AssertionError: ValueError not raised">self = &lt;test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_current_source_changed_during_first_check_refuses&gt;
+
+    def test_current_source_changed_during_first_check_refuses(self):
+        old,audit=successor.helpers();original=audit.read_file
+        def changed(path,limit):
+            result=original(path,limit)
+            if Path(path)==self.source/"a.py":Path(path).write_bytes(b"changed after source read")
+            return result
+        audit.read_file=changed
+        with patch.object(successor,"helpers",return_value=(old,audit)):
+&gt;           with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+E           AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:46: AssertionError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_current_source_root_alias_refuses" time="0.005"><failure message="AssertionError: ValueError not raised">self = &lt;test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_current_source_root_alias_refuses&gt;
+
+    def test_current_source_root_alias_refuses(self):
+        self.source.rename(self.base/"outside");self.source.symlink_to(self.base/"outside",target_is_directory=True)
+&gt;       with self.assertRaisesRegex(ValueError,"SOURCE_PATH"):self.run_audit()
+E       AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:25: AssertionError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_historical_root_alias_refuses" time="0.005"><failure message="AssertionError: ValueError not raised">self = &lt;test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_historical_root_alias_refuses&gt;
+
+    def test_historical_root_alias_refuses(self):
+        self.old.rename(self.base/"outside");self.old.symlink_to(self.base/"outside",target_is_directory=True)
+&gt;       with self.assertRaisesRegex(ValueError,"PACKAGE_PATH"):self.run_audit()
+E       AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:28: AssertionError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_matching_header_cached_helpers_are_ignored" time="0.047" /><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence_boundaries.SuccessorBoundaryTests" name="test_unbound_helper_is_not_compiled" time="0.002" /></testsuite></testsuites>

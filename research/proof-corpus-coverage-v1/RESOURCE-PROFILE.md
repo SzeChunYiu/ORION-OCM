@@ -1,5 +1,10 @@
 # Aggregate controller and offline evaluator profile
 
+Current source authority: [post-dispatch successor](RESOURCE-SUCCESSOR.md),
+qualified on 22 source files with 12/12 profile cases and 62/62 focused controls.
+The original 19-source qualification below and its sealed archives remain historical;
+they are not a receipt for the changed runner/profile bytes.
+
 This component supervises registered evaluator build/export commands. It does
 not select corpus rows, propose proofs, grant kernel authority or certify a
 whole host free of neural computation. All workload execution is on billy-laptop.

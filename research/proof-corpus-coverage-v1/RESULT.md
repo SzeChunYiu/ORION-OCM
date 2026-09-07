@@ -40,12 +40,15 @@ The portable guard must report that these omitted bytes were not revalidated.
 
 ## Separately qualified components
 
-The resource/offline profile passes 12 authored cases with the registered
-controller values read back. Its frozen 19 Python source/test files separately
-pass 42 focused host controls. Seven of those require explicit privileged-host
-qualification and are skipped by portable CI. The stress cases use smaller
-authored limits; no twelve-hour corpus workload has run.
-[Resource scope, failures and retained records](RESOURCE-QUALIFICATION.md).
+The original resource/offline profile's 12 cases and 42 focused controls retain
+their historical 19-source qualification. Review then found that post-launch
+monitoring and custody errors could be misclassified as setup refusals.
+The [resource successor](RESOURCE-SUCCESSOR.md) explicitly retains attempted,
+started and uncertain dispatch, primary command outcome and cleanup evidence.
+Its 22-source freeze passes 12 authored host cases and 62 focused controls.
+Seven controls require explicit privileged-host qualification and are skipped
+by portable CI. Stress cases use smaller authored limits; no twelve-hour corpus
+workload has run. The original archive and guard remain byte-identical.
 
 The native adapter qualifies exact module/range association, independent goal
 type/ordered universes, original reference Expr capture and full normalized

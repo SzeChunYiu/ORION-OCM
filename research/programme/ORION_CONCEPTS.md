@@ -103,6 +103,8 @@ Recursive proof search already has strong mechanical parents such as
 [Aesop](https://github.com/leanprover-community/aesop). Fixed-point reasoning and abstraction
 have established foundations in [abstract interpretation](https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml);
 [egglog](https://arxiv.org/abs/2304.04332) combines Datalog and equality saturation.
+[Soar's chunking](https://soar.eecs.umich.edu/soar_manual/04_ProceduralKnowledgeLearning/)
+already learns executable rules from subgoal solutions for later reuse.
 Absorb these mechanisms faithfully before claiming an OCM-specific improvement.
 This is a targeted parent comparison, not a complete novelty clearance.
 

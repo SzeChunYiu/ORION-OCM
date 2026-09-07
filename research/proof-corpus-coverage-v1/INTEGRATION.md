@@ -1,4 +1,7 @@
-# Portable integration and independent review
+# Initial portable integration and independent review
+
+Historical qualification before the [resource successor](RESOURCE-SUCCESSOR.md).
+Its raw records remain unchanged; they do not qualify the changed resource sources.
 
 **PORTABLE_INTEGRATION_PASS.** On billy-laptop, 180 tests passed, seven privileged
 host cases were skipped, and two exact-interpreter registrar CLI cases were

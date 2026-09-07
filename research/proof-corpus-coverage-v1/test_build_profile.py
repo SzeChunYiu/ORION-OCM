@@ -66,7 +66,7 @@ def test_post_dispatch_input_drift_never_passes(tmp_path,monkeypatch):
  monkeypatch.setattr(m.resource_runner,"run",dispatch)
  from test_resource_contract import limits
  r=m.run(p,limits(),tmp_path/"run")
- assert r["terminal"]=="PROFILE_REFUSED" and "inventory drift" in r["error"]["message"]
+ assert r["terminal"]=="POST_DISPATCH_CUSTODY_FAILED" and "inventory drift" in r["error"]["message"]
 
 @pytest.mark.parametrize("relation",["equal","ancestor","descendant"])
 def test_workload_cannot_mount_supervisor_receipts(tmp_path,relation):
