@@ -130,14 +130,15 @@ a two-premise endpoint family and a Boolean De Morgan query. This is not exhaust
 over all bounded ASTs, all 32-premise theories, or four-predicate worlds.
 
 Current authored qualification selects this package and math-language-learning-v1
-together, with both import roots and a new explicit external temporary root.
-See [the successor qualification](../math-language-learning-v1/QUALIFICATION.md).
+together, with src and both package import roots and an explicit external temporary root.
+See [the runtime successor qualification](../math-language-learning-v1/RUNTIME-QUALIFICATION.md).
 
 Development and final source-bound raw records are retained outside this worktree
 under `/home/billy/orion-director-work/20260907/unary-language-qualification-v1`.
 Failed attempts remain separate. These authored checks are engineering evidence;
-there is no untouched scientific evaluation, learner/persistence/runtime integration,
-speedup, broad language competence, or novelty result.
+these original semantic records establish no learner/runtime integration. The separate
+runtime successor records authored persistence and invocation; untouched scientific
+evaluation, speedup, broad language competence and novelty remain unproved.
 
 The cache-key counter is a source successor to the original 83-control generation.
 Its targeted RED/GREEN and one full-suite result are retained separately under

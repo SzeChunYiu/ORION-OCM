@@ -1,5 +1,9 @@
 # Authored first-tranche qualification
 
+This records the 153-control first tranche. The unchanged source subset remains
+covered here; [the runtime successor](RUNTIME-QUALIFICATION.md) adds admission,
+actual restart and OCM invocation with its own 213-control/source generation.
+
 The combined package suite passed **153 tests, zero failures, errors or skips**.
 It includes the unchanged unary semantic/polarity/certificate controls and the
 independent exhaustive nonempty-world oracle for the authored one-to-three-predicate

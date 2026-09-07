@@ -81,7 +81,7 @@ does not constitute their fresh qualification.
 ## Portable CI
 
 [The shared workflow](../../.github/workflows/unary-language.yml) now selects both
-this package and math-language-learning-v1, with both explicit import roots, on
+this package and math-language-learning-v1, with src and both explicit package import roots, on
 ubuntu-latest with Python 3.11.14 and pytest 8.3.5. It disables plugin autoload,
 uses a run-specific RUNNER_TEMP basetemp, uploads JUnit even on failure, and checks
 tracked-source diffs. Actual new-head CI is separate from this historical 110-control

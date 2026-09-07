@@ -8,7 +8,9 @@ The grammar and predicate-to-word mapping remain supplied shared interfaces.
 ## Read first
 
 - [Contract and API](CONTRACT.md): authority, algorithms, counters and remaining seam.
-- [Authored qualification](QUALIFICATION.md): 153 controls and retained generations.
+- [First-tranche qualification](QUALIFICATION.md): 153 controls and retained generations.
+- [Runtime successor](RUNTIME-QUALIFICATION.md): 213 controls, actual restart and OCM invocation.
+- [Runtime authority](RUNTIME-CONTRACT.md) and [sealed runtime records](runtime-records/CORE.md).
 - [Compact archive index](qualification-records/CORE.md): original bytes, source
   succession, costs, absent fixtures and independent review.
 - [Implementation plan](../../docs/plans/2026-09-07-unary-method-implementation.md).
@@ -28,7 +30,8 @@ training-only semantic fingerprints after all predicate renamings.
 The matcher instantiates an acquired schema on Boolean expressions, builds a cover
 certificate, and returns a proposal. The original independent unary verifier checks
 that proposal against the complete task. Successful proposal construction is neither
-admission nor proof authenticity; a future issuer and runtime checker must supply those.
+admission nor proof authenticity. The separate [runtime seam](RUNTIME-CONTRACT.md)
+supplies checked issuance, live support and final answer checking.
 
 The prepared exact parent is shared with both prospective adaptive arms. Preparation
 compiles premises and proves base consistency; it does not compute either query branch.
