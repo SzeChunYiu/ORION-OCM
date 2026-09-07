@@ -1,0 +1,207 @@
+{
+  "receipt": "CL_ESCALATION_PILOT_V1",
+  "study_id": "CL-ESCALATION-PILOT-V1",
+  "programme_issue": "SzeChunYiu/ORION-OCM#143",
+  "publication_constitution": "SzeChunYiu/ORION-OCM#144",
+  "evidence_class": "E2",
+  "contribution_level": "L1",
+  "study_role": "PILOT_AND_DESIGN_EVIDENCE_ONLY",
+  "protected_claim_authority": false,
+  "scientific_promotion": "NOT_ESTABLISHED",
+  "commitment": {
+    "commitment_sha256": "ac7cd6b603a546468eec1c57773bc30eebf6f10766e317691288ea6f3c6e051a",
+    "protected_seed": "3178678422b4491d77ef7bebad9d6af850c9e2003c3661858e0b32183957a2c2",
+    "pilot_seed": "77b8432396f628e08de86d0106380e11550f9a0398f87861ca3d547a712db9c1",
+    "permutation_seed": "6940e9de7fa9dbd2de801aaa8039fbace0ba95883f9714a81a0719621267cf36",
+    "plan": {
+      "protocol": "COGNITIVE_LADDER_PROTOCOL_V1",
+      "scaling_protocol": "COGNITIVE_LADDER_SCALING_V1",
+      "study_id": "CL-ESCALATION-PILOT-V1",
+      "pilot": "escalation",
+      "levels": [
+        "L0_NO_ESCALATION",
+        "L1_SEARCH_MORE",
+        "L2_MORE_EVIDENCE",
+        "L3_LOCAL_REPAIR",
+        "L4_OPERATOR_INSUFFICIENT",
+        "L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE"
+      ],
+      "per_level": 10,
+      "arms": [
+        "governed",
+        "cegar",
+        "exact_repair_planner",
+        "saturation",
+        "timeout"
+      ],
+      "primary_endpoint": "minimum_sufficient_level_exact_match",
+      "secondary_endpoints": [
+        "false_jump_rate",
+        "missed_jump_rate",
+        "overreach_rate"
+      ],
+      "jump_threshold": "L4_OPERATOR_INSUFFICIENT",
+      "analysis": "exact counts over generated worlds; no inferential test at pilot stage"
+    }
+  },
+  "registered_worlds": {
+    "governed": {
+      "n": 9,
+      "exact_match": 9,
+      "false_jump": 0,
+      "missed_jump": 0,
+      "overreach": 0,
+      "underreach": 0,
+      "witnessed": 1,
+      "confusions": []
+    },
+    "timeout": {
+      "n": 9,
+      "exact_match": 3,
+      "false_jump": 2,
+      "missed_jump": 1,
+      "overreach": 3,
+      "underreach": 3,
+      "witnessed": 0,
+      "confusions": [
+        "L1_SEARCH_MORE->L5_REPRESENTATION_CHANGE",
+        "L2_MORE_EVIDENCE->L1_SEARCH_MORE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L1_SEARCH_MORE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "saturation": {
+      "n": 9,
+      "exact_match": 4,
+      "false_jump": 2,
+      "missed_jump": 0,
+      "overreach": 4,
+      "underreach": 1,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L5_REPRESENTATION_CHANGE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "cegar": {
+      "n": 9,
+      "exact_match": 4,
+      "false_jump": 2,
+      "missed_jump": 0,
+      "overreach": 4,
+      "underreach": 1,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L5_REPRESENTATION_CHANGE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "exact_repair_planner": {
+      "n": 9,
+      "exact_match": 7,
+      "false_jump": 0,
+      "missed_jump": 1,
+      "overreach": 0,
+      "underreach": 2,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L1_SEARCH_MORE",
+        "L4_OPERATOR_INSUFFICIENT->L1_SEARCH_MORE"
+      ]
+    }
+  },
+  "generated_worlds": {
+    "governed": {
+      "n": 70,
+      "exact_match": 70,
+      "false_jump": 0,
+      "missed_jump": 0,
+      "overreach": 0,
+      "underreach": 0,
+      "witnessed": 10,
+      "confusions": []
+    },
+    "timeout": {
+      "n": 70,
+      "exact_match": 30,
+      "false_jump": 10,
+      "missed_jump": 4,
+      "overreach": 16,
+      "underreach": 24,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L1_SEARCH_MORE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L1_SEARCH_MORE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "saturation": {
+      "n": 70,
+      "exact_match": 30,
+      "false_jump": 20,
+      "missed_jump": 0,
+      "overreach": 30,
+      "underreach": 10,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L5_REPRESENTATION_CHANGE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "cegar": {
+      "n": 70,
+      "exact_match": 30,
+      "false_jump": 20,
+      "missed_jump": 0,
+      "overreach": 30,
+      "underreach": 10,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L5_REPRESENTATION_CHANGE",
+        "L3_LOCAL_REPAIR->L5_REPRESENTATION_CHANGE",
+        "L4_OPERATOR_INSUFFICIENT->L5_REPRESENTATION_CHANGE",
+        "L6_FORMULATION_CHANGE->L5_REPRESENTATION_CHANGE"
+      ]
+    },
+    "exact_repair_planner": {
+      "n": 70,
+      "exact_match": 56,
+      "false_jump": 0,
+      "missed_jump": 4,
+      "overreach": 0,
+      "underreach": 14,
+      "witnessed": 0,
+      "confusions": [
+        "L2_MORE_EVIDENCE->L1_SEARCH_MORE",
+        "L4_OPERATOR_INSUFFICIENT->L1_SEARCH_MORE"
+      ]
+    }
+  },
+  "terminal": "PILOT_DISCRIMINATION_CALIBRATED_NOT_CONFIRMATORY",
+  "terminal_reason": "the governed policy separates from every implemented parent on worlds whose defect type was chosen by a generator sharing the policy's own theory; this is calibration",
+  "why_this_is_not_confirmatory": [
+    "The nine registered worlds were authored alongside the diagnosis policy.",
+    "The generated worlds are drawn by a generator that instantiates the defect type the policy is built to detect, so the verdict is fixed by the construction. This is the ORION FAILURE_LEDGER pattern STRUCTURALLY_DETERMINED_REGISTERED_CLAUSE.",
+    "No independently authored world family exists yet, and #144 \u00a711 requires one.",
+    "No inferential test is reported, because the independent unit at pilot stage is the defect type and there are seven of them."
+  ],
+  "preserved_prior_terminals": [
+    "REGIME_INVENTION_WITHOUT_INCREMENTAL_VALUE (ORION V1 Jump programme closure)",
+    "REPRESENTATION_INVENTION_NO_INCREMENTAL_VALUE: the verified-regime-revision parent matched ORION on every protected metric; the protected incremental gap was exactly zero",
+    "ME-X2 PARENT_SUFFICIENT (B5_DOMINATES): the parent won on minimum-escalation accuracy",
+    "ME-X2 V3 THRESHOLD_NULL: parity on a fresh seed",
+    "ME-X2 and V3 replicated asymmetry: false escalations 0 versus 21, then 0 versus 14"
+  ],
+  "authority": "This receipt records a calibration of an escalation-diagnosis policy against four implemented parents on synthetic exact worlds. It establishes no causal mechanism, no scaling result, no transfer result and no novelty. The binary Jump decision is already closed against a fully-resourced parent elsewhere in the programme and this pilot does not reopen it."
+}
