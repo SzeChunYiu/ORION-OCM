@@ -101,8 +101,11 @@ binding, both polarity branches, nonempty domain, exact certificate shapes and s
 The verifier checks counter shape, not historical authenticity. Counters describe
 logical operations only: `expression_nodes` counts calls requesting a mask;
 `predicate_region_tests` counts membership tests constructing primitive masks.
-Structural cache-key construction, validation, hashing, serialization, interpreter,
-wall/CPU/RSS and source-custody costs are not included in these counters.
+`cache_key_nodes` counts every actual AST-node visit constructing cache probe keys,
+including warm hits. A nested hit still traverses its complete expression.
+Validation, serialization, Python key hashing/equality and allocation, interpreter,
+wall/CPU/RSS and source-custody costs are outside these logical counters.
+Complete wall/CPU accounting is still required; cache hits do not imply sparse execution.
 The cache and host objects are trusted Python state; this is not an arbitrary-code sandbox.
 
 The four production modules import only Python stdlib and the local contract.
@@ -131,3 +134,13 @@ under `/home/billy/orion-director-work/20260907/unary-language-qualification-v1`
 Failed attempts remain separate. These authored checks are engineering evidence;
 there is no untouched scientific evaluation, learner/persistence/runtime integration,
 speedup, broad language competence, or novelty result.
+
+The cache-key counter is a source successor to the original 83-control generation.
+Its targeted RED/GREEN and one full-suite result are retained separately under
+`/home/billy/orion-director-work/20260907/unary-cache-key-qualification-v1`.
+Earlier source snapshots and results are unchanged.
+
+Schema, task-hash and status metadata require exact plain strings before comparison.
+The metadata-boundary successor retains its separate authored RED/GREEN and full-suite
+records under `/home/billy/orion-director-work/20260907/unary-metadata-qualification-v1`.
+These checks validate a data-only API; they do not contain already executing Python.

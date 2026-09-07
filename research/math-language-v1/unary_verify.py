@@ -80,6 +80,8 @@ def verify_result(value, result):
         task = validate_task(value)
         fields(result, ("schema", "task_sha256", "status", "premises", "query_true",
                         "query_false", "counters"))
+        if any(type(result[key]) is not str for key in ("schema", "task_sha256", "status")):
+            return False
         if result["schema"] != RESULT_SCHEMA or result["task_sha256"] != task_digest(task):
             return False
         fields(result["counters"], COUNTERS)
@@ -99,6 +101,6 @@ def verify_result(value, result):
         pattern = (yes["kind"], no["kind"])
         expected = {("model", "unsat"): "ENTAILED", ("unsat", "model"): "CONTRADICTED",
                     ("model", "model"): "UNKNOWN"}.get(pattern)
-        return expected is not None and type(result["status"]) is str and result["status"] == expected
+        return expected is not None and result["status"] == expected
     except (InputRefused, KeyError, TypeError, ValueError, RecursionError):
         return False

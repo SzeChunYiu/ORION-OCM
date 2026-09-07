@@ -33,9 +33,9 @@ class RegionSolver:
         self.cache[key] = mask
         return mask
 
-    @staticmethod
-    def _key(expr):
-        return tuple(expr) if expr[0] == "pred" else (expr[0], *(RegionSolver._key(x) for x in expr[1:]))
+    def _key(self, expr):
+        self.counters["cache_key_nodes"] += 1
+        return tuple(expr) if expr[0] == "pred" else (expr[0], *(self._key(x) for x in expr[1:]))
 
     def _constraint(self, statement):
         a, b = self._mask(statement["left"]), self._mask(statement["right"])

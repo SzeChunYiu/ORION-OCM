@@ -9,7 +9,7 @@ MAX_PREDICATES, MAX_PREMISES, MAX_NODES, MAX_DEPTH = 4, 32, 512, 16
 MAX_TEXT_BYTES = 16384
 KINDS = ("every", "no", "some", "not_every")
 RESERVED = frozenset(("every", "no", "some", "not", "and", "or", "is", "query"))
-COUNTERS = ("expression_nodes", "predicate_region_tests", "cache_hits", "cache_misses", "mask_operations",
+COUNTERS = ("expression_nodes", "cache_key_nodes", "predicate_region_tests", "cache_hits", "cache_misses", "mask_operations",
             "constraints_checked", "satisfiability_checks", "witness_selections")
 NAME = re.compile(r"[A-Za-z][A-Za-z0-9_]{0,31}\Z")
 
@@ -42,7 +42,7 @@ def predicate_registry(value):
 def validate_task(value):
     """Return a fully detached, strictly validated task; names are never normalized."""
     fields(value, ("schema", "predicates", "premises", "query"))
-    if value["schema"] != SCHEMA or type(value["schema"]) is not str:
+    if type(value["schema"]) is not str or value["schema"] != SCHEMA:
         raise InputRefused("UNKNOWN_SCHEMA")
     names = predicate_registry(value["predicates"])
     if type(value["premises"]) is not list or len(value["premises"]) > MAX_PREMISES:
