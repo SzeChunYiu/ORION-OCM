@@ -1,0 +1,49 @@
+..................FF................                                     [100%]
+=================================== FAILURES ===================================
+_____________ test_real_current_archive_and_sources_pass_portably ______________
+
+    def test_real_current_archive_and_sources_pass_portably():
+>       result = audit(HERE)
+
+research/proof-environment-v1/test_audit_evidence.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/proof-environment-v1/audit_evidence.py:95: in audit
+    outcome = audit_rows(final, result, matrix, runtime, freeze["original_root"])
+research/proof-environment-v1/audit_receipts.py:94: in audit_rows
+    require(receipt["environment_id"] == record(canonical(identity))["sha256"], "environment identity differs")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'environment identity differs'
+
+    def require(condition, message):
+>       if not condition: raise ValueError(message)
+E       ValueError: environment identity differs
+
+research/proof-environment-v1/audit_data.py:10: ValueError
+__________________________ test_real_nested_rows_pass __________________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+
+    def test_real_nested_rows_pass(retained):
+        data, freeze = retained
+>       assert rows(data, freeze)["controls"] == 47
+
+research/proof-environment-v1/test_audit_evidence.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/proof-environment-v1/test_audit_evidence.py:22: in rows
+    return audit_rows(data, load_json(data["result.json"]), load_json(data["matrix.json"]),
+research/proof-environment-v1/audit_receipts.py:94: in audit_rows
+    require(receipt["environment_id"] == record(canonical(identity))["sha256"], "environment identity differs")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'environment identity differs'
+
+    def require(condition, message):
+>       if not condition: raise ValueError(message)
+E       ValueError: environment identity differs
+
+research/proof-environment-v1/audit_data.py:10: ValueError
+=========================== short test summary info ============================
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_real_current_archive_and_sources_pass_portably
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_real_nested_rows_pass
+2 failed, 34 passed in 1.40s
