@@ -1,0 +1,312 @@
+FFFFFFFFFFFFFFFFFF                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_real_current_archive_and_sources_pass_portably ______________
+
+    def test_real_current_archive_and_sources_pass_portably():
+        result = audit(HERE)
+>       assert result["terminal"] == "RETAINED_EVIDENCE_AND_SOURCE_BINDINGS_PASS"
+E       KeyError: 'terminal'
+
+research/proof-environment-v1/test_audit_evidence.py:28: KeyError
+__________________________ test_real_nested_rows_pass __________________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+
+    def test_real_nested_rows_pass(retained):
+        data, freeze = retained
+>       assert rows(data, freeze)["controls"] == 47
+E       KeyError: 'controls'
+
+research/proof-environment-v1/test_audit_evidence.py:34: KeyError
+________________ test_final_complete_seal_is_required[missing] _________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'missing'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "seal"])
+    def test_final_complete_seal_is_required(retained, change):
+        raw, freeze = retained; data = dict(raw)
+        if change == "missing": del data["cases/composition/prepare/request.json"]
+        if change == "extra": data["extra"] = b"x"
+        if change == "changed": data["cases/composition/prepare/request.json"] += b" "
+        if change == "seal":
+            seal = load_json(data["seal.json"]); seal["evidence_complete"] = False
+            data["seal.json"] = canonical(seal)
+>       with pytest.raises(ValueError): validate_final(data, freeze)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:46: Failed
+_________________ test_final_complete_seal_is_required[extra] __________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'extra'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "seal"])
+    def test_final_complete_seal_is_required(retained, change):
+        raw, freeze = retained; data = dict(raw)
+        if change == "missing": del data["cases/composition/prepare/request.json"]
+        if change == "extra": data["extra"] = b"x"
+        if change == "changed": data["cases/composition/prepare/request.json"] += b" "
+        if change == "seal":
+            seal = load_json(data["seal.json"]); seal["evidence_complete"] = False
+            data["seal.json"] = canonical(seal)
+>       with pytest.raises(ValueError): validate_final(data, freeze)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:46: Failed
+________________ test_final_complete_seal_is_required[changed] _________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'changed'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "seal"])
+    def test_final_complete_seal_is_required(retained, change):
+        raw, freeze = retained; data = dict(raw)
+        if change == "missing": del data["cases/composition/prepare/request.json"]
+        if change == "extra": data["extra"] = b"x"
+        if change == "changed": data["cases/composition/prepare/request.json"] += b" "
+        if change == "seal":
+            seal = load_json(data["seal.json"]); seal["evidence_complete"] = False
+            data["seal.json"] = canonical(seal)
+>       with pytest.raises(ValueError): validate_final(data, freeze)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:46: Failed
+__________________ test_final_complete_seal_is_required[seal] __________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'seal'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "seal"])
+    def test_final_complete_seal_is_required(retained, change):
+        raw, freeze = retained; data = dict(raw)
+        if change == "missing": del data["cases/composition/prepare/request.json"]
+        if change == "extra": data["extra"] = b"x"
+        if change == "changed": data["cases/composition/prepare/request.json"] += b" "
+        if change == "seal":
+            seal = load_json(data["seal.json"]); seal["evidence_complete"] = False
+            data["seal.json"] = canonical(seal)
+>       with pytest.raises(ValueError): validate_final(data, freeze)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:46: Failed
+_________ test_false_or_incomplete_result_cannot_pass[denominator-46] __________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+field = 'denominator', value = 46
+
+    @pytest.mark.parametrize("field,value", [("denominator", 46), ("passed", True), ("failure", "failed")])
+    def test_false_or_incomplete_result_cannot_pass(retained, field, value):
+        data, freeze = retained; result = load_json(data["result.json"]); result[field] = value
+>       with pytest.raises(ValueError): audit_rows(data, result, load_json(data["matrix.json"]),
+            load_json(data["cases/composition/prepare/runtime.json"]), freeze["original_root"])
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:52: Failed
+___________ test_false_or_incomplete_result_cannot_pass[passed-True] ___________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+field = 'passed', value = True
+
+    @pytest.mark.parametrize("field,value", [("denominator", 46), ("passed", True), ("failure", "failed")])
+    def test_false_or_incomplete_result_cannot_pass(retained, field, value):
+        data, freeze = retained; result = load_json(data["result.json"]); result[field] = value
+>       with pytest.raises(ValueError): audit_rows(data, result, load_json(data["matrix.json"]),
+            load_json(data["cases/composition/prepare/runtime.json"]), freeze["original_root"])
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:52: Failed
+_________ test_false_or_incomplete_result_cannot_pass[failure-failed] __________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+field = 'failure', value = 'failed'
+
+    @pytest.mark.parametrize("field,value", [("denominator", 46), ("passed", True), ("failure", "failed")])
+    def test_false_or_incomplete_result_cannot_pass(retained, field, value):
+        data, freeze = retained; result = load_json(data["result.json"]); result[field] = value
+>       with pytest.raises(ValueError): audit_rows(data, result, load_json(data["matrix.json"]),
+            load_json(data["cases/composition/prepare/runtime.json"]), freeze["original_root"])
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:52: Failed
+___________ test_duplicate_or_missing_control_is_not_another_success ___________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+
+    def test_duplicate_or_missing_control_is_not_another_success(retained):
+        data, freeze = retained; result = load_json(data["result.json"])
+        result["controls"][1] = copy.deepcopy(result["controls"][0])
+>       with pytest.raises(ValueError, match="row identities"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:59: Failed
+___ test_rebound_row_still_requires_actual_custody_and_cause[native_cleanup] ___
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'native_cleanup'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+____ test_rebound_row_still_requires_actual_custody_and_cause[wrong_native] ____
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'wrong_native'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+_____ test_rebound_row_still_requires_actual_custody_and_cause[native_raw] _____
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'native_raw'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+____ test_rebound_row_still_requires_actual_custody_and_cause[wrong_issuer] ____
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'wrong_issuer'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+____ test_rebound_row_still_requires_actual_custody_and_cause[wrong_input] _____
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'wrong_input'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+____ test_rebound_row_still_requires_actual_custody_and_cause[wrong_cause] _____
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+change = 'wrong_cause'
+
+    @pytest.mark.parametrize("change", ["native_cleanup", "wrong_native", "native_raw", "wrong_issuer", "wrong_input", "wrong_cause"])
+    def test_rebound_row_still_requires_actual_custody_and_cause(retained, change):
+        original, freeze = retained; data = dict(original); result = load_json(data["result.json"])
+        name = "cases/composition/check-0/check.json"; receipt = load_json(data[name])
+        if change == "native_cleanup": receipt["process"]["cleanup"]["group_absent"] = False
+        if change == "wrong_native": receipt["process"]["executable"]["sha256"] = "0" * 64
+        if change == "native_raw": receipt["process"]["stdout_base64"] = "e30="
+        if change == "wrong_issuer": receipt["prepared_receipt_sha256"] = "0" * 64
+        if change == "wrong_input": receipt["inputs"]["candidate_packet"]["sha256"] = "0" * 64
+        if change == "wrong_cause": receipt["stage"] = receipt["native"]["stage"] = "unrelated_refusal"
+        data[name] = canonical(receipt)
+        result["controls"][1]["receipt"].update(record(data[name]))
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:76: Failed
+___________________ test_host_raw_stream_custody_is_checked ____________________
+
+retained = ({'cases/alias-exclusion/prepare-process/process.json': b'{"argv":["/home/billy/.local/share/uv/python/cpython-3.11.14...81, 'final_seal': {'bytes': 97657, 'sha256': '67476a9394ad8ebe945ca3f1105ad893574ba0712df8a0e7ceb238ae42867fc9'}, ...})
+
+    def test_host_raw_stream_custody_is_checked(retained):
+        original, freeze = retained; data = dict(original)
+        data["cases/composition/prepare-process/stdout.bin"] = b"FORGED\n"
+>       with pytest.raises(ValueError): rows(data, freeze)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:84: Failed
+________________ test_bound_source_mutation_and_symlink_refuse _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-286/test_bound_source_mutation_and0')
+
+    def test_bound_source_mutation_and_symlink_refuse(tmp_path):
+        raw = b"registered source"; expected = {"research/proof-environment-v1/Check.lean": record(raw)}
+        file = tmp_path / next(iter(expected)); file.parent.mkdir(parents=True); file.write_bytes(raw)
+        verify_sources(tmp_path, expected)
+        file.write_bytes(b"changed source")
+>       with pytest.raises(ValueError): verify_sources(tmp_path, expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_evidence.py:92: Failed
+=========================== short test summary info ============================
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_real_current_archive_and_sources_pass_portably
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_real_nested_rows_pass
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_final_complete_seal_is_required[missing]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_final_complete_seal_is_required[extra]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_final_complete_seal_is_required[changed]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_final_complete_seal_is_required[seal]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_false_or_incomplete_result_cannot_pass[denominator-46]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_false_or_incomplete_result_cannot_pass[passed-True]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_false_or_incomplete_result_cannot_pass[failure-failed]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_duplicate_or_missing_control_is_not_another_success
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[native_cleanup]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[wrong_native]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[native_raw]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[wrong_issuer]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[wrong_input]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_rebound_row_still_requires_actual_custody_and_cause[wrong_cause]
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_host_raw_stream_custody_is_checked
+FAILED research/proof-environment-v1/test_audit_evidence.py::test_bound_source_mutation_and_symlink_refuse
+18 failed in 0.31s

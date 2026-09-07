@@ -1,0 +1,48 @@
+name: Native proof environment controls
+on:
+  pull_request:
+    paths:
+      - 'research/proof-environment-v1/**'
+      - 'research/mechanical-proof-v1/isolation.py'
+      - '.github/workflows/proof-environment.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/proof-environment-v1/**'
+      - 'research/mechanical-proof-v1/isolation.py'
+      - '.github/workflows/proof-environment.yml'
+permissions:
+  contents: read
+jobs:
+  portable-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Portable custody, source loading and recorder controls
+        run: |
+          python -B -m pytest \
+            research/proof-environment-v1/test_custody.py \
+            research/proof-environment-v1/test_environment.py \
+            research/proof-environment-v1/test_source_entry.py \
+            research/proof-environment-v1/test_commission.py \
+            research/proof-environment-v1/test_commission_io.py \
+            research/proof-environment-v1/test_audit_archive.py \
+            research/proof-environment-v1/test_audit_evidence.py \
+            --junitxml="$RUNNER_TEMP/proof-environment.xml" -q
+      - name: Frozen native evidence and current source bindings
+        run: python -I -S research/proof-environment-v1/audit_evidence.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proof-environment-portable-controls
+          path: ${{ runner.temp }}/proof-environment.xml
+          if-no-files-found: error
+      - name: Source custody
+        run: /usr/bin/git diff --exit-code

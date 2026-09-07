@@ -1,0 +1,250 @@
+FFFFFFFFFFFFFFFFFF                                                       [100%]
+=================================== FAILURES ===================================
+_______________ test_real_tar_bytes_are_read_without_extraction ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_real_tar_bytes_are_read_w0')
+
+    def test_real_tar_bytes_are_read_without_extraction(tmp_path):
+        p = archive(tmp_path, [("nested/raw.bin", b"actual bytes"), ("empty", b"")])
+        expected = {"nested/raw.bin": record(b"actual bytes"), "empty": record(b"")}
+>       assert read_archive(p, expected) == {"nested/raw.bin": b"actual bytes", "empty": b""}
+E       AssertionError: assert {} == {'empty': b''...actual bytes'}
+E         
+E         Right contains 2 more items:
+E         {'empty': b'', 'nested/raw.bin': b'actual bytes'}
+E         Use -v to get more diff
+
+research/proof-environment-v1/test_audit_archive.py:30: AssertionError
+____________ test_ambiguous_or_escaping_member_refuses[../outside] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_ambiguous_or_escaping_mem0')
+name = '../outside'
+
+    @pytest.mark.parametrize("name", ["../outside", "/absolute", "a//b", "./x", "a/../x"])
+    def test_ambiguous_or_escaping_member_refuses(tmp_path, name):
+        p = archive(tmp_path, [(name, b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {name: record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:37: Failed
+_____________ test_ambiguous_or_escaping_member_refuses[/absolute] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_ambiguous_or_escaping_mem1')
+name = '/absolute'
+
+    @pytest.mark.parametrize("name", ["../outside", "/absolute", "a//b", "./x", "a/../x"])
+    def test_ambiguous_or_escaping_member_refuses(tmp_path, name):
+        p = archive(tmp_path, [(name, b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {name: record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:37: Failed
+_______________ test_ambiguous_or_escaping_member_refuses[a//b] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_ambiguous_or_escaping_mem2')
+name = 'a//b'
+
+    @pytest.mark.parametrize("name", ["../outside", "/absolute", "a//b", "./x", "a/../x"])
+    def test_ambiguous_or_escaping_member_refuses(tmp_path, name):
+        p = archive(tmp_path, [(name, b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {name: record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:37: Failed
+________________ test_ambiguous_or_escaping_member_refuses[./x] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_ambiguous_or_escaping_mem3')
+name = './x'
+
+    @pytest.mark.parametrize("name", ["../outside", "/absolute", "a//b", "./x", "a/../x"])
+    def test_ambiguous_or_escaping_member_refuses(tmp_path, name):
+        p = archive(tmp_path, [(name, b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {name: record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:37: Failed
+______________ test_ambiguous_or_escaping_member_refuses[a/../x] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_ambiguous_or_escaping_mem4')
+name = 'a/../x'
+
+    @pytest.mark.parametrize("name", ["../outside", "/absolute", "a//b", "./x", "a/../x"])
+    def test_ambiguous_or_escaping_member_refuses(tmp_path, name):
+        p = archive(tmp_path, [(name, b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {name: record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:37: Failed
+___________ test_duplicate_member_refuses_even_when_bytes_identical ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_duplicate_member_refuses_0')
+
+    def test_duplicate_member_refuses_even_when_bytes_identical(tmp_path):
+        p = archive(tmp_path, [("x", b"x"), ("x", b"x")])
+>       with pytest.raises(ValueError): read_archive(p, {"x": record(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:42: Failed
+________________ test_link_member_refuses_without_following_it _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_link_member_refuses_witho0')
+
+    def test_link_member_refuses_without_following_it(tmp_path):
+        p = archive(tmp_path, [("x", None)])
+>       with pytest.raises(ValueError): read_archive(p, {"x": record(b"")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:47: Failed
+_______________ test_membership_and_exact_bytes_refuse[missing] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_membership_and_exact_byte0')
+change = 'missing'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "wrong_size", "boolean_size"])
+    def test_membership_and_exact_bytes_refuse(tmp_path, change):
+        entries = [("x", b"x")]; expected = {"x": record(b"x")}
+        if change == "missing": entries = []
+        if change == "extra": entries.append(("y", b"y"))
+        if change == "changed": entries = [("x", b"y")]
+        if change == "wrong_size": expected["x"]["bytes"] = 2
+        if change == "boolean_size": expected["x"]["bytes"] = True
+>       with pytest.raises(ValueError): read_archive(archive(tmp_path, entries), expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:58: Failed
+________________ test_membership_and_exact_bytes_refuse[extra] _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_membership_and_exact_byte1')
+change = 'extra'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "wrong_size", "boolean_size"])
+    def test_membership_and_exact_bytes_refuse(tmp_path, change):
+        entries = [("x", b"x")]; expected = {"x": record(b"x")}
+        if change == "missing": entries = []
+        if change == "extra": entries.append(("y", b"y"))
+        if change == "changed": entries = [("x", b"y")]
+        if change == "wrong_size": expected["x"]["bytes"] = 2
+        if change == "boolean_size": expected["x"]["bytes"] = True
+>       with pytest.raises(ValueError): read_archive(archive(tmp_path, entries), expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:58: Failed
+_______________ test_membership_and_exact_bytes_refuse[changed] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_membership_and_exact_byte2')
+change = 'changed'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "wrong_size", "boolean_size"])
+    def test_membership_and_exact_bytes_refuse(tmp_path, change):
+        entries = [("x", b"x")]; expected = {"x": record(b"x")}
+        if change == "missing": entries = []
+        if change == "extra": entries.append(("y", b"y"))
+        if change == "changed": entries = [("x", b"y")]
+        if change == "wrong_size": expected["x"]["bytes"] = 2
+        if change == "boolean_size": expected["x"]["bytes"] = True
+>       with pytest.raises(ValueError): read_archive(archive(tmp_path, entries), expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:58: Failed
+______________ test_membership_and_exact_bytes_refuse[wrong_size] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_membership_and_exact_byte3')
+change = 'wrong_size'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "wrong_size", "boolean_size"])
+    def test_membership_and_exact_bytes_refuse(tmp_path, change):
+        entries = [("x", b"x")]; expected = {"x": record(b"x")}
+        if change == "missing": entries = []
+        if change == "extra": entries.append(("y", b"y"))
+        if change == "changed": entries = [("x", b"y")]
+        if change == "wrong_size": expected["x"]["bytes"] = 2
+        if change == "boolean_size": expected["x"]["bytes"] = True
+>       with pytest.raises(ValueError): read_archive(archive(tmp_path, entries), expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:58: Failed
+_____________ test_membership_and_exact_bytes_refuse[boolean_size] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-284/test_membership_and_exact_byte4')
+change = 'boolean_size'
+
+    @pytest.mark.parametrize("change", ["missing", "extra", "changed", "wrong_size", "boolean_size"])
+    def test_membership_and_exact_bytes_refuse(tmp_path, change):
+        entries = [("x", b"x")]; expected = {"x": record(b"x")}
+        if change == "missing": entries = []
+        if change == "extra": entries.append(("y", b"y"))
+        if change == "changed": entries = [("x", b"y")]
+        if change == "wrong_size": expected["x"]["bytes"] = 2
+        if change == "boolean_size": expected["x"]["bytes"] = True
+>       with pytest.raises(ValueError): read_archive(archive(tmp_path, entries), expected)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:58: Failed
+___________ test_ambiguous_or_nonfinite_json_refuses[{"a":1,"a":2}] ____________
+
+raw = b'{"a":1,"a":2}'
+
+    @pytest.mark.parametrize("raw", [b'{"a":1,"a":2}', b'{"v":NaN}', b'{"v":Infinity}', b'{"v":1e400}'])
+    def test_ambiguous_or_nonfinite_json_refuses(raw):
+>       with pytest.raises(ValueError): load_json(raw)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:63: Failed
+_____________ test_ambiguous_or_nonfinite_json_refuses[{"v":NaN}] ______________
+
+raw = b'{"v":NaN}'
+
+    @pytest.mark.parametrize("raw", [b'{"a":1,"a":2}', b'{"v":NaN}', b'{"v":Infinity}', b'{"v":1e400}'])
+    def test_ambiguous_or_nonfinite_json_refuses(raw):
+>       with pytest.raises(ValueError): load_json(raw)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:63: Failed
+___________ test_ambiguous_or_nonfinite_json_refuses[{"v":Infinity}] ___________
+
+raw = b'{"v":Infinity}'
+
+    @pytest.mark.parametrize("raw", [b'{"a":1,"a":2}', b'{"v":NaN}', b'{"v":Infinity}', b'{"v":1e400}'])
+    def test_ambiguous_or_nonfinite_json_refuses(raw):
+>       with pytest.raises(ValueError): load_json(raw)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:63: Failed
+____________ test_ambiguous_or_nonfinite_json_refuses[{"v":1e400}] _____________
+
+raw = b'{"v":1e400}'
+
+    @pytest.mark.parametrize("raw", [b'{"a":1,"a":2}', b'{"v":NaN}', b'{"v":Infinity}', b'{"v":1e400}'])
+    def test_ambiguous_or_nonfinite_json_refuses(raw):
+>       with pytest.raises(ValueError): load_json(raw)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+research/proof-environment-v1/test_audit_archive.py:63: Failed
+_____________________ test_json_keeps_exact_large_integer ______________________
+
+    def test_json_keeps_exact_large_integer():
+        raw = ('{"v":' + '9' * 400 + '}').encode()
+>       assert load_json(raw)["v"] == int('9' * 400)
+E       KeyError: 'v'
+
+research/proof-environment-v1/test_audit_archive.py:68: KeyError
+=========================== short test summary info ============================
+FAILED research/proof-environment-v1/test_audit_archive.py::test_real_tar_bytes_are_read_without_extraction
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_escaping_member_refuses[../outside]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_escaping_member_refuses[/absolute]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_escaping_member_refuses[a//b]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_escaping_member_refuses[./x]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_escaping_member_refuses[a/../x]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_duplicate_member_refuses_even_when_bytes_identical
+FAILED research/proof-environment-v1/test_audit_archive.py::test_link_member_refuses_without_following_it
+FAILED research/proof-environment-v1/test_audit_archive.py::test_membership_and_exact_bytes_refuse[missing]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_membership_and_exact_bytes_refuse[extra]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_membership_and_exact_bytes_refuse[changed]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_membership_and_exact_bytes_refuse[wrong_size]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_membership_and_exact_bytes_refuse[boolean_size]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_nonfinite_json_refuses[{"a":1,"a":2}]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_nonfinite_json_refuses[{"v":NaN}]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_nonfinite_json_refuses[{"v":Infinity}]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_ambiguous_or_nonfinite_json_refuses[{"v":1e400}]
+FAILED research/proof-environment-v1/test_audit_archive.py::test_json_keeps_exact_large_integer
+18 failed in 0.06s
