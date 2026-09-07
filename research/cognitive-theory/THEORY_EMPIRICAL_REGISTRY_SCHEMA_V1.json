@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "rows"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "theory_id",
+          "statement",
+          "version",
+          "scope",
+          "assumptions",
+          "field_identity",
+          "operator_basis_identity",
+          "resource_model",
+          "predicted_observable",
+          "predicted_direction_bound",
+          "verification_route",
+          "empirical_rung",
+          "strongest_parent",
+          "causal_ablation",
+          "negative_twin",
+          "falsifier",
+          "status",
+          "reopen_condition"
+        ],
+        "properties": {
+          "theory_id": {
+            "type": "string"
+          },
+          "verification_route": {
+            "enum": [
+              "V1",
+              "V2",
+              "V3"
+            ]
+          },
+          "assumptions": {
+            "type": "array",
+            "minItems": 1
+          },
+          "empirical_rung": {
+            "type": "array",
+            "minItems": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

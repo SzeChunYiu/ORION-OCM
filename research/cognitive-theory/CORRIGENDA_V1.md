@@ -1,0 +1,10 @@
+# Administrative and reporting corrections after internal review
+
+The original EXACT_MODELS_V1.md at b404904 and SHA256 cfb923eacabe2062255a032791d7329e0e2909eb92a237de9c4d811d54dbd10f is retained byte-for-byte. No state, transition, cost, predicted value, protected protocol or computed result is amended here. This correction is recorded after exploratory outcomes, not passed off as an earlier registration.
+
+1. **Primary verification route.** The frozen opening described V1 as primary while the registry selected V2. For the six executed registry rows, the authoritative reporting route is **V2 exact computational verification**, supported by the elementary arguments in the specification. The V1-primary wording in the original opening is superseded for reporting. These are E2 exact calibrations, not mechanically certified universal theorems or E3 empirical claims.
+2. **W3 graph scope.** Exported information graphs contain nonterminal retry/audit transitions. Stop/diagnose/abstain outputs are exhaustively represented separately in the policy records (primary) and attainable terminal vectors (independent). The union, not the graph alone, represents the complete registered policy behavior.
+3. **Field-tournament restoration.** T2 found that unrestricted fresh restoration token identities would invalidate a finite-state claim. The unexecuted tournament proposal now excludes restoration from the first deletion-only stage and explicitly leaves its identity/horizon contract pending. No W2 result changes.
+4. **Primitive-pressure interpretation.** Zero new admissions requires maintained task capability and epistemic validity; failing or abstaining on the domain does not support closure. One positive pressure value cannot distinguish open-ended growth from a phased spike. Detailed sampling, identity and compensation decisions remain prerequisites.
+
+T3 identified item 1; T4 identified item 2; T2 identified item 3. All were internal AI reviews. No review agreement is independent external replication or authority for a positive theory.
