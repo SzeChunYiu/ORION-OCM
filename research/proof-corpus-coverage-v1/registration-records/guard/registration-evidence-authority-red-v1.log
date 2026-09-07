@@ -1,0 +1,85 @@
+FFFFFF.........                                                          [100%]
+=================================== FAILURES ===================================
+_____________________ test_actual_derived_records_no_alarm _____________________
+
+    def test_actual_derived_records_no_alarm():
+>       assert audit(PACKAGE) == {"terminal": "DERIVED_REGISTRATION_RECORDS_PASS", "population": 29511, "assignments": 4,
+                                "continuation_cursor": 4, "current_source_bindings": 18, "omitted_inputs": 4,
+                                "raw_input_scope": "OMITTED_RAW_METADATA_NOT_REVALIDATED"}
+E       AssertionError: assert None == {'assignments': 4, 'continuation_cursor': 4, 'current_source_bindings': 18, 'omitted_inputs': 4, ...}
+E        +  where None = audit(PosixPath('/home/billy/orion-director-work/20260907/ocm-proof-corpus-coverage/research/proof-corpus-coverage-v1'))
+
+test_registration_evidence.py:10: AssertionError
+_____________ test_authentic_package_tamper_refuses[MANIFEST.json] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-327/test_authentic_package_tamper_0')
+name = 'MANIFEST.json'
+
+    @pytest.mark.parametrize("name", ["MANIFEST.json", "registration-derived.tar.gz", "registration-derived.members.json", "supporting.tar.gz", "OMITTED.json"])
+    def test_authentic_package_tamper_refuses(tmp_path, name):
+        records = tmp_path / "records"; shutil.copytree(PACKAGE/"registration-records", records)
+        with (records/name).open("ab") as f: f.write(b"tamper")
+>       with pytest.raises(ValueError): audit(PACKAGE, records)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence.py:19: Failed
+______ test_authentic_package_tamper_refuses[registration-derived.tar.gz] ______
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-327/test_authentic_package_tamper_1')
+name = 'registration-derived.tar.gz'
+
+    @pytest.mark.parametrize("name", ["MANIFEST.json", "registration-derived.tar.gz", "registration-derived.members.json", "supporting.tar.gz", "OMITTED.json"])
+    def test_authentic_package_tamper_refuses(tmp_path, name):
+        records = tmp_path / "records"; shutil.copytree(PACKAGE/"registration-records", records)
+        with (records/name).open("ab") as f: f.write(b"tamper")
+>       with pytest.raises(ValueError): audit(PACKAGE, records)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence.py:19: Failed
+___ test_authentic_package_tamper_refuses[registration-derived.members.json] ___
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-327/test_authentic_package_tamper_2')
+name = 'registration-derived.members.json'
+
+    @pytest.mark.parametrize("name", ["MANIFEST.json", "registration-derived.tar.gz", "registration-derived.members.json", "supporting.tar.gz", "OMITTED.json"])
+    def test_authentic_package_tamper_refuses(tmp_path, name):
+        records = tmp_path / "records"; shutil.copytree(PACKAGE/"registration-records", records)
+        with (records/name).open("ab") as f: f.write(b"tamper")
+>       with pytest.raises(ValueError): audit(PACKAGE, records)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence.py:19: Failed
+___________ test_authentic_package_tamper_refuses[supporting.tar.gz] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-327/test_authentic_package_tamper_3')
+name = 'supporting.tar.gz'
+
+    @pytest.mark.parametrize("name", ["MANIFEST.json", "registration-derived.tar.gz", "registration-derived.members.json", "supporting.tar.gz", "OMITTED.json"])
+    def test_authentic_package_tamper_refuses(tmp_path, name):
+        records = tmp_path / "records"; shutil.copytree(PACKAGE/"registration-records", records)
+        with (records/name).open("ab") as f: f.write(b"tamper")
+>       with pytest.raises(ValueError): audit(PACKAGE, records)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence.py:19: Failed
+_____________ test_authentic_package_tamper_refuses[OMITTED.json] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-327/test_authentic_package_tamper_4')
+name = 'OMITTED.json'
+
+    @pytest.mark.parametrize("name", ["MANIFEST.json", "registration-derived.tar.gz", "registration-derived.members.json", "supporting.tar.gz", "OMITTED.json"])
+    def test_authentic_package_tamper_refuses(tmp_path, name):
+        records = tmp_path / "records"; shutil.copytree(PACKAGE/"registration-records", records)
+        with (records/name).open("ab") as f: f.write(b"tamper")
+>       with pytest.raises(ValueError): audit(PACKAGE, records)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence.py:19: Failed
+=========================== short test summary info ============================
+FAILED test_registration_evidence.py::test_actual_derived_records_no_alarm - ...
+FAILED test_registration_evidence.py::test_authentic_package_tamper_refuses[MANIFEST.json]
+FAILED test_registration_evidence.py::test_authentic_package_tamper_refuses[registration-derived.tar.gz]
+FAILED test_registration_evidence.py::test_authentic_package_tamper_refuses[registration-derived.members.json]
+FAILED test_registration_evidence.py::test_authentic_package_tamper_refuses[supporting.tar.gz]
+FAILED test_registration_evidence.py::test_authentic_package_tamper_refuses[OMITTED.json]
+6 failed, 9 passed in 0.06s

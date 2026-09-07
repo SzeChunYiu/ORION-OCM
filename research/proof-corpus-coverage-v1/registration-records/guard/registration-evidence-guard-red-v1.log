@@ -1,0 +1,518 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFF                                              [100%]
+=================================== FAILURES ===================================
+_____________________ test_exact_regular_archive_no_alarm ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_exact_regular_archive_no_0')
+
+    def test_exact_regular_archive_no_alarm(tmp_path):
+        path = packed(tmp_path, [("nested/data.json", b"{}", tarfile.REGTYPE)])
+>       assert read_archive(path, {"nested/data.json": ident(b"{}")}) == {"nested/data.json": b"{}"}
+E       AssertionError: assert None == {'nested/data.json': b'{}'}
+E        +  where None = read_archive(PosixPath('/tmp/pytest-of-billy/pytest-324/test_exact_regular_archive_no_0/fixture.tar.gz'), {'nested/data.json': {'bytes': 2, 'sha256': '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'}})
+
+test_registration_evidence_archive.py:25: AssertionError
+___________________ test_ambiguous_member_refuses[../escape] ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_ambiguous_member_refuses_0')
+name = '../escape'
+
+    @pytest.mark.parametrize("name", ["../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+___________________ test_ambiguous_member_refuses[/absolute] ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_ambiguous_member_refuses_1')
+name = '/absolute'
+
+    @pytest.mark.parametrize("name", ["../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+____________________ test_ambiguous_member_refuses[a/../b] _____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_ambiguous_member_refuses_2')
+name = 'a/../b'
+
+    @pytest.mark.parametrize("name", ["../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+_____________________ test_ambiguous_member_refuses[a//b] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_ambiguous_member_refuses_3')
+name = 'a//b'
+
+    @pytest.mark.parametrize("name", ["../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+_____________________ test_ambiguous_member_refuses[a\\b] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_ambiguous_member_refuses_4')
+name = 'a\\b'
+
+    @pytest.mark.parametrize("name", ["../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+______________________ test_nonregular_member_refuses[2] _______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_nonregular_member_refuses0')
+kind = b'2'
+
+    @pytest.mark.parametrize("kind", [tarfile.SYMTYPE, tarfile.LNKTYPE, tarfile.DIRTYPE])
+    def test_nonregular_member_refuses(tmp_path, kind):
+        path = packed(tmp_path, [("data", b"", kind)])
+>       with pytest.raises(ValueError): read_archive(path, {"data": ident(b"")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:37: Failed
+______________________ test_nonregular_member_refuses[1] _______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_nonregular_member_refuses1')
+kind = b'1'
+
+    @pytest.mark.parametrize("kind", [tarfile.SYMTYPE, tarfile.LNKTYPE, tarfile.DIRTYPE])
+    def test_nonregular_member_refuses(tmp_path, kind):
+        path = packed(tmp_path, [("data", b"", kind)])
+>       with pytest.raises(ValueError): read_archive(path, {"data": ident(b"")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:37: Failed
+______________________ test_nonregular_member_refuses[5] _______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_nonregular_member_refuses2')
+kind = b'5'
+
+    @pytest.mark.parametrize("kind", [tarfile.SYMTYPE, tarfile.LNKTYPE, tarfile.DIRTYPE])
+    def test_nonregular_member_refuses(tmp_path, kind):
+        path = packed(tmp_path, [("data", b"", kind)])
+>       with pytest.raises(ValueError): read_archive(path, {"data": ident(b"")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:37: Failed
+________________________ test_duplicate_member_refuses _________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_duplicate_member_refuses0')
+
+    def test_duplicate_member_refuses(tmp_path):
+        path = packed(tmp_path, [("data", b"x", tarfile.REGTYPE)] * 2)
+>       with pytest.raises(ValueError): read_archive(path, {"data": ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:42: Failed
+______________ test_membership_or_bytes_tamper_refuses[members0] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_membership_or_bytes_tampe0')
+members = {}
+
+    @pytest.mark.parametrize("members", [{}, {"data": ident(b"bad")}, {"missing": ident(b"x")}])
+    def test_membership_or_bytes_tamper_refuses(tmp_path, members):
+        path = packed(tmp_path, [("data", b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, members)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:48: Failed
+______________ test_membership_or_bytes_tamper_refuses[members1] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_membership_or_bytes_tampe1')
+members = {'data': {'bytes': 3, 'sha256': '2f05d4b689d270cafb02285f35f44866f7dc8a2d368a3f9d1124373eeab31fb1'}}
+
+    @pytest.mark.parametrize("members", [{}, {"data": ident(b"bad")}, {"missing": ident(b"x")}])
+    def test_membership_or_bytes_tamper_refuses(tmp_path, members):
+        path = packed(tmp_path, [("data", b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, members)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:48: Failed
+______________ test_membership_or_bytes_tamper_refuses[members2] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-324/test_membership_or_bytes_tampe2')
+members = {'missing': {'bytes': 1, 'sha256': '2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881'}}
+
+    @pytest.mark.parametrize("members", [{}, {"data": ident(b"bad")}, {"missing": ident(b"x")}])
+    def test_membership_or_bytes_tamper_refuses(tmp_path, members):
+        path = packed(tmp_path, [("data", b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, members)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:48: Failed
+______________ test_complete_order_and_four_assignments_no_alarm _______________
+
+    def test_complete_order_and_four_assignments_no_alarm():
+>       assert verify_order(*fixture(), 5, COMMIT, TREE) == {"population": 5, "assignments": 4, "continuation_cursor": 4}
+E       AssertionError: assert None == {'assignments': 4, 'continuation_cursor': 4, 'population': 5}
+E        +  where None = verify_order(*({'commit': '1111111111111111111111111111111111111111', 'count': 5, 'rows': [{'assignment_digest': '099d39333033c8d78e..., ...}, {'assignment_count': 4, 'continuation_cursor': 4, 'git_proof_blob_bodies_read': 0, 'population_count': 5, ...}), 5, '1111111111111111111111111111111111111111', '2222222222222222222222222222222222222222')
+E        +    where ({'commit': '1111111111111111111111111111111111111111', 'count': 5, 'rows': [{'assignment_digest': '099d39333033c8d78e..., ...}, {'assignment_count': 4, 'continuation_cursor': 4, 'git_proof_blob_bodies_read': 0, 'population_count': 5, ...}) = fixture()
+
+test_registration_evidence_order.py:8: AssertionError
+_______________ test_registered_order_tamper_refuses[<lambda>0] ________________
+
+mutate = <function <lambda> at 0x7fe2ab8e3ec0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>1] ________________
+
+mutate = <function <lambda> at 0x7fe2ab9405e0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>2] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940680>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>3] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940720>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>4] ________________
+
+mutate = <function <lambda> at 0x7fe2ab9407c0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>5] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940860>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>6] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940900>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>7] ________________
+
+mutate = <function <lambda> at 0x7fe2ab9409a0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>8] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940a40>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>9] ________________
+
+mutate = <function <lambda> at 0x7fe2ab940ae0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>10] _______________
+
+mutate = <function <lambda> at 0x7fe2ab940b80>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>11] _______________
+
+mutate = <function <lambda> at 0x7fe2ab940c20>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+_______________ test_registered_order_tamper_refuses[<lambda>12] _______________
+
+mutate = <function <lambda> at 0x7fe2ab940cc0>
+
+    @pytest.mark.parametrize("mutate", [
+        lambda p,a,r: p["rows"].reverse(),
+        lambda p,a,r: p["rows"].pop(),
+        lambda p,a,r: p["rows"].__setitem__(1, copy.deepcopy(p["rows"][0])),
+        lambda p,a,r: p["rows"][0].update(assignment_digest="f"*64),
+        lambda p,a,r: p.update(commit="9"*40),
+        lambda p,a,r: p.update(tree="9"*40),
+        lambda p,a,r: a.update(continuation_cursor=True),
+        lambda p,a,r: a["rows"][0].update(assignment_rank=False),
+        lambda p,a,r: a["rows"][0]["stages"][0].update(state="PASSED"),
+        lambda p,a,r: a["rows"][0]["wrapper"].update(oid="a"*40),
+        lambda p,a,r: a["population"].update(sha256="f"*64),
+        lambda p,a,r: r.update(semantic_checks_reached=False),
+        lambda p,a,r: r.update(wrapper_source_parsed=True),
+    ])
+    def test_registered_order_tamper_refuses(mutate):
+        pop, ass, reg = fixture(); mutate(pop, ass, reg)
+>       with pytest.raises(ValueError): verify_order(pop, ass, reg, 5, COMMIT, TREE)
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_order.py:28: Failed
+=========================== short test summary info ============================
+FAILED test_registration_evidence_archive.py::test_exact_regular_archive_no_alarm
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[../escape]
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[/absolute]
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[a/../b]
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[a//b]
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[a\\b]
+FAILED test_registration_evidence_archive.py::test_nonregular_member_refuses[2]
+FAILED test_registration_evidence_archive.py::test_nonregular_member_refuses[1]
+FAILED test_registration_evidence_archive.py::test_nonregular_member_refuses[5]
+FAILED test_registration_evidence_archive.py::test_duplicate_member_refuses
+FAILED test_registration_evidence_archive.py::test_membership_or_bytes_tamper_refuses[members0]
+FAILED test_registration_evidence_archive.py::test_membership_or_bytes_tamper_refuses[members1]
+FAILED test_registration_evidence_archive.py::test_membership_or_bytes_tamper_refuses[members2]
+FAILED test_registration_evidence_order.py::test_complete_order_and_four_assignments_no_alarm
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>0]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>1]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>2]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>3]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>4]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>5]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>6]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>7]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>8]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>9]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>10]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>11]
+FAILED test_registration_evidence_order.py::test_registered_order_tamper_refuses[<lambda>12]
+27 failed in 0.08s

@@ -3,8 +3,9 @@
 [Programme](CORE.md) · [no-neural contract](NO_NEURAL_CONTRACT.md) · [parents](PARENTS.md).
 Prospective FLT protocol. The [finite exposed F0 tranche](../mechanical-proof-v1/RESULT.md)
 passes 14 commissioning controls, followed by 24 [OCM runtime lifecycle stages](../proof-runtime-v1/QUALIFICATION.md); F1–F4 and broader F0 mechanics remain unqualified.
-Formal science is the flagship; richer language is a later independent claim. Exact checking gives a clearer
-correctness boundary, not a promise that mathematical search is easier.
+FLT is one demanding case in the [broader proof curriculum](PROOF_CURRICULUM.md). Early
+[language transfer](MATH_TO_LANGUAGE.md) does not require full FLT success. Exact checking
+gives a precise correctness boundary without making mathematical search computationally easy.
 
 ## Five gates, including apparatus qualification
 

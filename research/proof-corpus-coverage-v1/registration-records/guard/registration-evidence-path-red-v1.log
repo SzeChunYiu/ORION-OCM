@@ -1,0 +1,45 @@
+.F..................F                                                    [100%]
+=================================== FAILURES ===================================
+_______________________ test_ambiguous_member_refuses[.] _______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-329/test_ambiguous_member_refuses_0')
+name = '.'
+
+    @pytest.mark.parametrize("name", [".", "../escape", "/absolute", "a/../b", "a//b", "a\\b"])
+    def test_ambiguous_member_refuses(tmp_path, name):
+        path = packed(tmp_path, [(name, b"x", tarfile.REGTYPE)])
+>       with pytest.raises(ValueError): read_archive(path, {name: ident(b"x")})
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+test_registration_evidence_archive.py:31: Failed
+______________ test_isolated_cli_ignores_matching_header_bytecode ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-329/test_isolated_cli_ignores_matc0')
+
+    def test_isolated_cli_ignores_matching_header_bytecode(tmp_path):
+        import os
+        import py_compile
+        import subprocess
+        import sys
+        names = ["registration_evidence.py", "registration_evidence_archive.py", "registration_evidence_order.py", "registration_evidence_bindings.py"]
+        for name in names: shutil.copyfile(PACKAGE/name, tmp_path/name)
+        path = tmp_path/"registration_evidence_archive.py"; original = path.read_bytes(); stamp = path.stat()
+        sentinel = tmp_path/"cache-executed"
+        poison = ("from pathlib import Path; Path(" + repr(str(sentinel)) + ").write_text(\"cache\")\n").encode()
+        assert len(poison) < len(original)
+        path.write_bytes(poison + b" "*(len(original)-len(poison)))
+        os.utime(path, ns=(stamp.st_atime_ns, stamp.st_mtime_ns)); py_compile.compile(str(path), doraise=True)
+        path.write_bytes(original); os.utime(path, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+        normal = subprocess.run([sys.executable,"-I","-S","-c", "import sys; sys.path.insert(0," + repr(str(tmp_path)) + "); import registration_evidence_archive"], capture_output=True)
+        assert normal.returncode == 0 and sentinel.read_text() == "cache"
+        sentinel.unlink()
+        qualified = subprocess.run([sys.executable,"-I","-S",str(tmp_path/"registration_evidence.py")], capture_output=True)
+>       assert qualified.returncode == 2 and b"CANNOT_CHECK" in qualified.stdout
+E       assert (1 == 2)
+E        +  where 1 = CompletedProcess(args=['/home/billy/orion-director-work/20260907/proof-runtime-engineering-env/bin/python', '-I', '-S'...n_evidence.py'], returncode=1, stdout=b'{"reason":"nonregular bound file","terminal":"RECORD_REJECTED"}\n', stderr=b'').returncode
+
+test_registration_evidence.py:40: AssertionError
+=========================== short test summary info ============================
+FAILED test_registration_evidence_archive.py::test_ambiguous_member_refuses[.]
+FAILED test_registration_evidence.py::test_isolated_cli_ignores_matching_header_bytecode
+2 failed, 19 passed in 1.04s

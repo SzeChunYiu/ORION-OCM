@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ SuccessorBoundaryTests.test_late_extra_historical_file_refuses ________
+
+self = <test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_late_extra_historical_file_refuses>
+
+    def test_late_extra_historical_file_refuses(self):
+        old,audit=successor.helpers();original=old.audit_resource
+        def changed(*args,**kwargs):
+            result=original(*args,**kwargs)
+            (self.old/"late-extra.json").write_bytes(b"unsealed")
+            return result
+        old.audit_resource=changed
+        with patch.object(successor,"helpers",return_value=(old,audit)):
+>           with self.assertRaisesRegex(ValueError,"HISTORICAL_PACKAGE_SET"):self.run_audit()
+E           AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:55: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260907/resource-successor-guard-qualification-v1/05-red.xml -
+=========================== short test summary info ============================
+FAILED test_resource_successor_evidence_boundaries.py::SuccessorBoundaryTests::test_late_extra_historical_file_refuses
+1 failed in 0.04s

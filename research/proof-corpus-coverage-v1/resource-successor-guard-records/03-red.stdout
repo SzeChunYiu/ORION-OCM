@@ -1,0 +1,61 @@
+F.FFF..                                                                  [100%]
+=================================== FAILURES ===================================
+_______ SuccessorBoundaryTests.test_archive_changed_during_audit_refuses _______
+
+self = <test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_archive_changed_during_audit_refuses>
+
+    def test_archive_changed_during_audit_refuses(self):
+        old,audit=successor.helpers();original=audit.audit_archive
+        def changed(path,members):
+            result=original(path,members)
+            if Path(path).parent==self.root:Path(path).write_bytes(b"changed after member read")
+            return result
+        audit.audit_archive=changed
+        with patch.object(successor,"helpers",return_value=(old,audit)):
+>           with self.assertRaisesRegex(ValueError,"SUCCESSOR_FILE_HASH"):self.run_audit()
+E           AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:37: AssertionError
+_ SuccessorBoundaryTests.test_current_source_changed_during_first_check_refuses _
+
+self = <test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_current_source_changed_during_first_check_refuses>
+
+    def test_current_source_changed_during_first_check_refuses(self):
+        old,audit=successor.helpers();original=audit.read_file
+        def changed(path,limit):
+            result=original(path,limit)
+            if Path(path)==self.source/"a.py":Path(path).write_bytes(b"changed after source read")
+            return result
+        audit.read_file=changed
+        with patch.object(successor,"helpers",return_value=(old,audit)):
+>           with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+E           AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:46: AssertionError
+________ SuccessorBoundaryTests.test_current_source_root_alias_refuses _________
+
+self = <test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_current_source_root_alias_refuses>
+
+    def test_current_source_root_alias_refuses(self):
+        self.source.rename(self.base/"outside");self.source.symlink_to(self.base/"outside",target_is_directory=True)
+>       with self.assertRaisesRegex(ValueError,"SOURCE_PATH"):self.run_audit()
+E       AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:25: AssertionError
+__________ SuccessorBoundaryTests.test_historical_root_alias_refuses ___________
+
+self = <test_resource_successor_evidence_boundaries.SuccessorBoundaryTests testMethod=test_historical_root_alias_refuses>
+
+    def test_historical_root_alias_refuses(self):
+        self.old.rename(self.base/"outside");self.old.symlink_to(self.base/"outside",target_is_directory=True)
+>       with self.assertRaisesRegex(ValueError,"PACKAGE_PATH"):self.run_audit()
+E       AssertionError: ValueError not raised
+
+test_resource_successor_evidence_boundaries.py:28: AssertionError
+- generated xml file: /home/billy/orion-director-work/20260907/resource-successor-guard-qualification-v1/03-red.xml -
+=========================== short test summary info ============================
+FAILED test_resource_successor_evidence_boundaries.py::SuccessorBoundaryTests::test_archive_changed_during_audit_refuses
+FAILED test_resource_successor_evidence_boundaries.py::SuccessorBoundaryTests::test_current_source_changed_during_first_check_refuses
+FAILED test_resource_successor_evidence_boundaries.py::SuccessorBoundaryTests::test_current_source_root_alias_refuses
+FAILED test_resource_successor_evidence_boundaries.py::SuccessorBoundaryTests::test_historical_root_alias_refuses
+4 failed, 3 passed in 0.12s

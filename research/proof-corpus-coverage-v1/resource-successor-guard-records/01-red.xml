@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="15" time="0.091" timestamp="2026-09-07T09:13:45.536128+02:00" hostname="billy"><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_boolean_source_count" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_boolean_source_count&gt;
+
+    def test_boolean_source_count(self):
+        self.edit_index(lambda j:j["historical"].update(source_count=True))
+&gt;       with self.assertRaisesRegex(ValueError,"SOURCE_COUNT"):self.run_audit()
+
+test_resource_successor_evidence.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_current_snapshot_differs_from_current_freeze" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_current_snapshot_differs_from_current_freeze&gt;
+
+    def test_current_snapshot_differs_from_current_freeze(self):
+        row=put_archive(self.root,{"SOURCE_FREEZE.json":(self.root/"SOURCE_FREEZE.json").read_bytes(),"source/a.py":b"different"})
+        self.edit_index(lambda j:j.update(archives=[row]))
+&gt;       with self.assertRaisesRegex(ValueError,"SNAPSHOT_BINDING"):self.run_audit()
+
+test_resource_successor_evidence.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_current_source_drift" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_current_source_drift&gt;
+
+    def test_current_source_drift(self):
+        (self.source/"a.py").write_bytes(b"changed")
+&gt;       with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+
+test_resource_successor_evidence.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_current_source_symlink" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_current_source_symlink&gt;
+
+    def test_current_source_symlink(self):
+        data=(self.source/"a.py").read_bytes();(self.source/"a.py").unlink()
+        (self.base/"outside").write_bytes(data);(self.source/"a.py").symlink_to(self.base/"outside")
+&gt;       with self.assertRaisesRegex(ValueError,"SOURCE_PATH|FILE_KIND"):self.run_audit()
+
+test_resource_successor_evidence.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_distinct_historical_current_sources_and_no_host_access" time="0.001"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_distinct_historical_current_sources_and_no_host_access&gt;
+
+    def test_distinct_historical_current_sources_and_no_host_access(self):
+&gt;       result=self.run_audit()
+
+test_resource_successor_evidence.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (PosixPath('/tmp/tmp_iu34wyb/resource-successor-records'), 'dd8fb38c676688779a6abfd66cd5be44685e51282137dfeed634366b1e...'), PosixPath('/tmp/tmp_iu34wyb/resource-records'), 'b4f8b38367f6c96b6698bd9d1248ff39157e2d2ce81eeddfd68bdc3e0c237eef')
+kwargs = {}
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_duplicate_archive_row" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_duplicate_archive_row&gt;
+
+    def test_duplicate_archive_row(self):
+        self.edit_index(lambda j:j["archives"].append(j["archives"][0].copy()))
+&gt;       with self.assertRaisesRegex(ValueError,"DUPLICATE_SUCCESSOR_ARCHIVE"):self.run_audit()
+
+test_resource_successor_evidence.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_extra_and_duplicate_members_after_tar_end" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_extra_and_duplicate_members_after_tar_end&gt;
+
+    def test_extra_and_duplicate_members_after_tar_end(self):
+        for name in ["extra","source/a.py"]:
+            with self.subTest(name=name):
+                p=self.root/"final-qualification.tar.gz";original=p.read_bytes()
+                p.write_bytes(gzip.compress(gzip.decompress(original)+gzip.decompress(archive([(name,b"extra")])),mtime=0))
+                self.edit_index(lambda j:j["archives"][0].update(binding(p.read_bytes())))
+&gt;               with self.assertRaisesRegex(ValueError,"MEMBER_SET|DUPLICATE_MEMBER"):self.run_audit()
+
+test_resource_successor_evidence.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_extra_recursive_file" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_extra_recursive_file&gt;
+
+    def test_extra_recursive_file(self):
+        (self.root/"historical-source/extra.py").write_bytes(b"extra")
+&gt;       with self.assertRaisesRegex(ValueError,"SUCCESSOR_PACKAGE_SET"):self.run_audit()
+
+test_resource_successor_evidence.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_extra_sealed_historical_source" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_extra_sealed_historical_source&gt;
+
+    def test_extra_sealed_historical_source(self):
+        (self.root/"historical-source/extra.py").write_bytes(b"extra");self.rebind()
+&gt;       with self.assertRaisesRegex(ValueError,"HISTORICAL_SOURCE_SET"):self.run_audit()
+
+test_resource_successor_evidence.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_historical_authority_cannot_be_replaced_in_new_index" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_historical_authority_cannot_be_replaced_in_new_index&gt;
+
+    def test_historical_authority_cannot_be_replaced_in_new_index(self):
+        self.edit_index(lambda j:j["historical"].update(seal_sha256="0"*64))
+&gt;       with self.assertRaisesRegex(ValueError,"HISTORICAL_AUTHORITY"):self.run_audit()
+
+test_resource_successor_evidence.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_historical_copy_drift" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_historical_copy_drift&gt;
+
+    def test_historical_copy_drift(self):
+        (self.root/"historical-source/a.py").write_bytes(b"changed");self.rebind()
+&gt;       with self.assertRaisesRegex(ValueError,"CURRENT_RESOURCE_SOURCE"):self.run_audit()
+
+test_resource_successor_evidence.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_historical_directory_symlink" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_historical_directory_symlink&gt;
+
+    def test_historical_directory_symlink(self):
+        old=self.root/"historical-source";old.rename(self.base/"outside")
+        old.symlink_to(self.base/"outside",target_is_directory=True)
+&gt;       with self.assertRaisesRegex(ValueError,"PACKAGE_PATH"):self.run_audit()
+
+test_resource_successor_evidence.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_new_archive_drift" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_new_archive_drift&gt;
+
+    def test_new_archive_drift(self):
+        (self.root/"final-qualification.tar.gz").write_bytes(b"changed")
+&gt;       with self.assertRaisesRegex(ValueError,"SUCCESSOR_FILE_HASH"):self.run_audit()
+
+test_resource_successor_evidence.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_omission_binding_drift" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_omission_binding_drift&gt;
+
+    def test_omission_binding_drift(self):
+        self.edit_index(lambda j:j["omissions"].update(sha256="0"*64))
+&gt;       with self.assertRaisesRegex(ValueError,"OMISSION_BINDING"):self.run_audit()
+
+test_resource_successor_evidence.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_successor_evidence.SuccessorEvidenceTests" name="test_original_archive_drift" time="0.002"><failure message="NotImplementedError: successor custody contract not implemented">self = &lt;test_resource_successor_evidence.SuccessorEvidenceTests testMethod=test_original_archive_drift&gt;
+
+    def test_original_archive_drift(self):
+        (self.old/"final-qualification.tar.gz").write_bytes(b"changed")
+&gt;       with self.assertRaisesRegex(ValueError,"RESOURCE_FILE_HASH"):self.run_audit()
+
+test_resource_successor_evidence.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_successor_evidence.py:17: in run_audit
+    return audit_successor(self.root,self.pin,self.source,self.old,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def audit_successor(*args, **kwargs):
+&gt;       raise NotImplementedError("successor custody contract not implemented")
+E       NotImplementedError: successor custody contract not implemented
+
+resource_successor_evidence.py:3: NotImplementedError</failure></testcase></testsuite></testsuites>
