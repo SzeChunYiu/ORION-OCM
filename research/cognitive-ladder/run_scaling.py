@@ -11,7 +11,7 @@ import pathlib
 import sys
 
 from scaling import SCALING_PLAN
-from scaling_arms import fits_for, sweep, sweep_table
+from scaling_arms import SWEEP_NOTES, fits_for, sweep, sweep_table
 
 
 def terminal_for(rows) -> tuple[str, str]:
@@ -85,7 +85,19 @@ def main(argv=None) -> int:
         },
         "terminal": terminal,
         "terminal_reason": reason,
+        "sweep_notes": list(SWEEP_NOTES),
         "what_this_does_not_establish": [
+            "The revocation gap is about DEFAULT BEHAVIOUR, not achievability. A stronger parent "
+            "could rediscover both cones by scanning every object's declared supports at O(N); the "
+            "unaudited hostile does exactly that and gets them exactly right. An audited version of "
+            "that parent is not run here, so the separation reported is that the plain index holds "
+            "no dependency edges and therefore does nothing, not that it could not.",
+            "The machine arm's persistent bytes EXCEED every parent's, because its reverse-index "
+            "edges are charged as index bytes. Exact revocation is bought with storage and the "
+            "receipt charges it rather than omitting it.",
+            "The dependency graph was built from the same declarations that populated the store, so "
+            "revocation is exact by construction. These numbers measure the cost of exact "
+            "revocation, not dependency discovery, and protocol attack A9 is not answered.",
             "Nothing about cognition. The index key is the family identity the catalogue supplies, "
             "so cheap lookup is a property of the supplied key.",
             "No claim of sparse execution on the real OCM runtime; this lane's store is a stand-in "

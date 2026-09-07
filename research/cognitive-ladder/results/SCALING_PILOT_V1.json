@@ -2037,7 +2037,22 @@
   },
   "terminal": "PARENT_SUFFICIENT",
   "terminal_reason": "an ordinary index matches the OCM arm exactly on k and on query work at every registered scale; sparse lookup under a supplied family key is a property of the key, not a finding about cognition",
+  "sweep_notes": [
+    "k is the worst case over the frozen probe positions and is counted by instrumented touches only; it is never inferred from a returned result.",
+    "the OCM arm and the plain index parent are identical on k, k/N and query work at every scale: PARENT_SUFFICIENT on the k(N) endpoint. Sparse lookup under a family key the catalogue supplies is a property of the key, not a finding about cognition.",
+    "index build and maintenance work are charged separately from query work and reported in the same row; an arm whose k is small only because it scanned all N carries sparse_verdict=SPARSE_ONLY_AFTER_GLOBAL_BUILD_SCAN.",
+    "an honest index still pays one global build scan; it is charged once at install and shown as lifetime_index_build_work, while the hostile pays it on every query. The distinction is amortisation, and the crossover query count is the number that decides it.",
+    "the GLOBALLY_SHARED revocation is a hostile control: its cone SHOULD be large, and an arm reporting a small cone there is broken rather than local.",
+    "every arm except the OCM arm observes the empty cone: without dependency edges an architecture does no revision work and instead leaves the entire true cone standing as stale survivors, counted exactly rather than described. A stronger parent variant could rediscover the cone by scanning every object's declared supports at O(N): the unaudited hostile does exactly that and gets both cones exactly right, but through an uninstrumented path, so its revision work is CANNOT_CHECK. An audited version of that parent is not run here, so the gap reported is about default behaviour, not about achievability.",
+    "the OCM arm's reverse index was built from the same declarations that populated the store, so its revocation is exact by construction; these numbers measure the cost of exact revocation, not dependency discovery (protocol attack A9 is not answered here).",
+    "cache_parent answers none of the probes: they lie above its cached magnitude. It is simultaneously the sparsest arm (k=0) and the only one that cannot answer, which is why k is never read without 'answered' beside it.",
+    "four scales and two free parameters leave two degrees of freedom; a fitted slope describes these four points and is not an extrapolation licence.",
+    "PROTOTYPE_SCALE_TOO_SMALL_FOR_CLAIM remains the correct terminal for any field claim read out of an N of a few thousand."
+  ],
   "what_this_does_not_establish": [
+    "The revocation gap is about DEFAULT BEHAVIOUR, not achievability. A stronger parent could rediscover both cones by scanning every object's declared supports at O(N); the unaudited hostile does exactly that and gets them exactly right. An audited version of that parent is not run here, so the separation reported is that the plain index holds no dependency edges and therefore does nothing, not that it could not.",
+    "The machine arm's persistent bytes EXCEED every parent's, because its reverse-index edges are charged as index bytes. Exact revocation is bought with storage and the receipt charges it rather than omitting it.",
+    "The dependency graph was built from the same declarations that populated the store, so revocation is exact by construction. These numbers measure the cost of exact revocation, not dependency discovery, and protocol attack A9 is not answered.",
     "Nothing about cognition. The index key is the family identity the catalogue supplies, so cheap lookup is a property of the supplied key.",
     "No claim of sparse execution on the real OCM runtime; this lane's store is a stand-in for it and the runtime's own navigation still computes dense fixed points.",
     "No lifetime economics: acquisition compute, energy and maintenance over a real lifetime are not measured here."
