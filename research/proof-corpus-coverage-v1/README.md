@@ -12,6 +12,8 @@ Read [the result and remaining boundary](RESULT.md), then the relevant component
 | Resource and offline profile | [Exit-code successor](resource-exitcode-records/CORE.md) | Current observed-exit custody repair; earlier qualifications preserved |
 | Native association/capture | [NATIVE-QUALIFICATION](NATIVE-QUALIFICATION.md) | Authored module, transport and fresh-kernel controls |
 | Pinned source acquisition | [ACQUISITION](ACQUISITION.md) | Nine exact dependencies acquired; fixed four semantic cases remain pending |
+| Exact source materialization | [MATERIALIZATION](MATERIALIZATION.md) | Authored ten-tree worker qualified; actual invocation held before dispatch |
+| Offline package layout | [CORPUS-LAYOUT](CORPUS-LAYOUT.md) | Exact independent copies and mount fragments; acquired execution remains pending |
 | Authored offline Lake build | [Qualification](LAKE-BUILD-QUALIFICATION.md) | Two small packages compiled with immutable sources and separate artifacts |
 | Next semantic dispatch | [RESOURCE-INTEGRATION](RESOURCE-INTEGRATION.md) | Actual acquired evaluator/source closure still requires qualification |
 
@@ -46,9 +48,11 @@ not rerun the registrar, native tests, privileged profiles or real corpus tasks.
   The older guards retain their historical interfaces; external host inputs remain
   explicitly outside the archive.
 
-The [previous sealed portable integration](INTEGRATION-EXITCODE.md) records 237 passes,
-seven skips, two deliberate deselections and three passing evidence guards. CI runs these controls and evidence
-checks. Exact-interpreter
+The [current portable integration](INTEGRATION-MATERIALIZATION.md) records 411 passes,
+seven skips, two deliberate deselections and three passing evidence guards on the
+qualified laptop. The previous [exit-code integration](INTEGRATION-EXITCODE.md)
+retains its historical source and results. CI runs the current controls and evidence
+checks, with incompatible host fixtures explicitly skipped. Exact-interpreter
 registrar CLI controls and privileged host resource controls retain their separate
 qualification. CI must not report skipped host cases as new portable passes.
 

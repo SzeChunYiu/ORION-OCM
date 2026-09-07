@@ -1,0 +1,95 @@
+{
+  "commands": [
+    [
+      "tests",
+      [
+        "/home/billy/orion-director-work/20260907/proof-runtime-engineering-env/bin/python",
+        "-B",
+        "-m",
+        "pytest",
+        "research/proof-corpus-coverage-v1/test_acquisition_git.py",
+        "research/proof-corpus-coverage-v1/test_acquisition_helper.py",
+        "research/proof-corpus-coverage-v1/test_acquisition_phase.py",
+        "research/proof-corpus-coverage-v1/test_build_profile.py",
+        "research/proof-corpus-coverage-v1/test_build_profile_contract.py",
+        "research/proof-corpus-coverage-v1/test_corpus_layout.py",
+        "research/proof-corpus-coverage-v1/test_lake_build_fixture.py",
+        "research/proof-corpus-coverage-v1/test_materialize_authority.py",
+        "research/proof-corpus-coverage-v1/test_materialize_boundaries.py",
+        "research/proof-corpus-coverage-v1/test_materialize_git.py",
+        "research/proof-corpus-coverage-v1/test_materialize_integration.py",
+        "research/proof-corpus-coverage-v1/test_materialize_phase.py",
+        "research/proof-corpus-coverage-v1/test_materialize_portability.py",
+        "research/proof-corpus-coverage-v1/test_native_capture_records.py",
+        "research/proof-corpus-coverage-v1/test_native_evidence.py",
+        "research/proof-corpus-coverage-v1/test_native_ranges.py",
+        "research/proof-corpus-coverage-v1/test_profile_dispatch.py",
+        "research/proof-corpus-coverage-v1/test_registration_evidence.py",
+        "research/proof-corpus-coverage-v1/test_registration_evidence_archive.py",
+        "research/proof-corpus-coverage-v1/test_registration_evidence_bindings.py",
+        "research/proof-corpus-coverage-v1/test_registration_evidence_order.py",
+        "research/proof-corpus-coverage-v1/test_resource_boot.py",
+        "research/proof-corpus-coverage-v1/test_resource_cgroup.py",
+        "research/proof-corpus-coverage-v1/test_resource_contract.py",
+        "research/proof-corpus-coverage-v1/test_resource_dispatch.py",
+        "research/proof-corpus-coverage-v1/test_resource_evidence.py",
+        "research/proof-corpus-coverage-v1/test_resource_exitcode.py",
+        "research/proof-corpus-coverage-v1/test_resource_exitcode_evidence.py",
+        "research/proof-corpus-coverage-v1/test_resource_monitor.py",
+        "research/proof-corpus-coverage-v1/test_resource_pidfd.py",
+        "research/proof-corpus-coverage-v1/test_resource_runner.py",
+        "research/proof-corpus-coverage-v1/test_resource_setup.py",
+        "research/proof-corpus-coverage-v1/test_resource_successor_evidence.py",
+        "research/proof-corpus-coverage-v1/test_resource_successor_evidence_boundaries.py",
+        "research/proof-corpus-coverage-v1/test_resource_successor_fixture.py",
+        "research/proof-corpus-coverage-v1/tests/",
+        "--deselect=research/proof-corpus-coverage-v1/tests/test_registration_cli.py::test_cli_failure_is_retained_with_no_assignments_and_no_reuse",
+        "--deselect=research/proof-corpus-coverage-v1/tests/test_registration_cli.py::test_cli_ignores_harmless_matching_header_policy_cache",
+        "--junitxml=/home/billy/orion-director-work/20260907/materialization-portable-integration-v3/tests.xml",
+        "--basetemp=/home/billy/orion-director-work/20260907/materialization-portable-integration-v3/cases",
+        "-q"
+      ]
+    ],
+    [
+      "registration",
+      [
+        "/home/billy/orion-director-work/20260907/proof-runtime-engineering-env/bin/python",
+        "-I",
+        "-S",
+        "research/proof-corpus-coverage-v1/registration_evidence.py"
+      ]
+    ],
+    [
+      "native",
+      [
+        "/home/billy/orion-director-work/20260907/proof-runtime-engineering-env/bin/python",
+        "-I",
+        "-S",
+        "research/proof-corpus-coverage-v1/native_evidence.py",
+        "--seal-sha256",
+        "523531c5bb7ca79b4f3ff5d5e6316960cef38dcddcd82dc335421341280ffe2e"
+      ]
+    ],
+    [
+      "resource",
+      [
+        "/home/billy/orion-director-work/20260907/proof-runtime-engineering-env/bin/python",
+        "-I",
+        "-S",
+        "research/proof-corpus-coverage-v1/resource_exitcode_evidence.py"
+      ]
+    ]
+  ],
+  "cwd": "/home/billy/orion-director-work/20260907/ocm-corpus-material",
+  "environment_overrides": {
+    "OCM_RESOURCE_HOST_QUALIFICATION": "0",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "python": {
+    "bytes": 21334200,
+    "path": "/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python3.11",
+    "sha256": "edca1fc80dbd58182c849c13707fb6bfb522b0d7049adc408225f7c69b124d3b"
+  },
+  "scope": "Current portable engineering tests and retained evidence guards; no real corpus or privileged profile dispatch",
+  "source_scope": "Top-level Python/Lean and tests Python for four proof components, plus coverage workflow; archives and changing documentation excluded"
+}

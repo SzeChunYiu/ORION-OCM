@@ -1,8 +1,12 @@
-# Registered corpus entry and qualified apparatus
+# Registered corpus entry and current integration status
 
-**REGISTERED_NO_DISPATCH.** Four fixed rows have been assigned; no acquisition,
-build, export, preparation or kernel-check stage of this four-row run has been dispatched.
-The following completed results concern registration and authored infrastructure.
+Four fixed rows remain assigned, with **zero semantic results**. The shared
+[V2 acquisition](ACQUISITION-RESULT.md) acquired all nine exact dependencies.
+The actual [materialization continuation](MATERIALIZATION.md) was held by the
+registered scheduling gate before dispatch. Authored materialization and
+[offline-layout](CORPUS-LAYOUT.md) controls are qualified; actual BUILD through
+CHECK remain unreached. The registration and earlier qualifications below retain
+their original, separately bound records.
 
 ## One fixed assignment from the full corpus
 
@@ -66,10 +70,12 @@ the new adapter.
 
 ## Actual execution remains a separate gate
 
-Every assigned row retains all seven stage entries as `NOT_DISPATCHED`, with
-unknown cost distinguished from zero. Exposed-reference coverage needs the
-acquisition-specific policy and exact acquired/compiler/material profile before
-the fixed dispatcher can start. A generic resource controller is not that policy.
+The original registration archive retains all seven stage entries as
+`NOT_DISPATCHED`. Later acquisition and scheduling records supply their own
+measured outcomes without rewriting that historical snapshot. Unknown cost is
+distinguished from zero. Exposed-reference coverage still needs exact source
+materialization and qualification of the acquired compiler/material profile.
+The original V2 episode clock includes waiting and preparation and cannot restart.
 
 Post-assignment lexical inspection gives 820 distinct wrapper entries across
 the four recursive import closures. At least one assigned wrapper imports root

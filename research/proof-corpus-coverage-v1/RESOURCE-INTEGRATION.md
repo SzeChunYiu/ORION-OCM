@@ -6,9 +6,9 @@ The original 19-source and [prior 22-source](RESOURCE-SUCCESSOR.md) qualificatio
 remain historical; neither receipt authorizes the changed current runner bytes.
 
 The resource controller and offline build profile have passed their authored
-qualification; see RESOURCE-QUALIFICATION.md. This does not dispatch any of the
-four registered corpus rows. The registrar, acquisition profile, actual evaluator
-code closure and native adapter remain separate gates.
+qualification; see RESOURCE-QUALIFICATION.md. The [pinned acquisition](ACQUISITION-RESULT.md)
+and [authored two-package Lake build](LAKE-BUILD-QUALIFICATION.md) are now qualified.
+The four registered corpus rows still await actual evaluator/source qualification.
 
 ## One production entry and exact envelope
 
@@ -47,36 +47,34 @@ controlled command. Cleanup continues afterward with measured cost. The
 registrar must account for earlier acquisition, custody and completed stages,
 and refuse dispatch once the whole allowance is exhausted.
 
-## Acquisition-specific profile is still absent
+## Acquired material handoff
 
-The lower resource_runner supplies aggregate supervision but no network,
-filesystem, executable or Git endpoint policy. It is **not sufficient by itself**
-for qualified acquisition. The offline build profile deliberately cannot fetch.
+The [acquisition entry](ACQUISITION.md) now supplies nine exact bare dependency
+stores, with all command and material bytes retained. The original registered
+corpus bare store and pinned Lean distribution remain separate inputs. The lower
+resource_runner supplies aggregate supervision; the acquisition worker supplies
+the Git transport/configuration policy. The offline build profile cannot fetch.
 
-First prefer the existing verified bare corpus and already pinned dependency/
-toolchain stores when they have the required objects. Verify exact immutable
-object IDs before reuse and charge materialization plus verification separately.
-This still requires a registered read-only input and create-only output route.
+The successful V2 episode is still open. Verify its original boot identity and
+whole deadline before every later phase; preparation, custody and waiting consume
+that same clock. Reconstruct source trees from exact object identities, preserve
+their Git HEADs and source bytes, and charge the shared cold work once. Never infer
+that a bare-store acquisition receipt authorizes execution of acquired code.
 
-For missing sources, the next bounded implementation is one acquisition profile
-owned by the registrar/acquisition lane, reusing the reviewed resource controller:
+The authored Lake fixture qualifies immutable source mounts and separate config,
+build and cache artifacts. It does not qualify the acquired corpus/plugin closure.
+The [exact materializer](MATERIALIZATION.md) and [layout helper](CORPUS-LAYOUT.md)
+now have authored qualification. The real materializer has not dispatched; its
+first scheduling window retained a headroom hold under the unchanged policy.
+The layout helper returns verified mount fragments and requires an outer caller
+to authenticate material receipts, preserve the original boot/deadline and supply
+aggregate supervision. A helper result does not supply those caller guarantees.
 
-1. Bind the exact Git executable/helper/library closure and the frozen public
-   repository URLs/commit IDs from the lock registration. No branch/tag following,
-   recursive submodule fetches, hooks, arbitrary shell, or executable source files.
-2. Use new owned bare stores, explicit no-prompt/no-credential settings and a
-   cleared environment/config search. Bind the necessary HTTPS resolver/CA inputs.
-   Do not inherit user Git config, agent sockets, HOME caches or credentials.
-3. Register and test the allowed fetch endpoints/transport behavior, including
-   redirects if permitted; do not equate generic network access with a URL policy.
-4. Keep all Git descendants under the same 20 GiB/2 CPU/128 PID controller and shared
-   acquisition deadline. Preserve partial output, failed attempts, object counts,
-   transfer bytes and exact refs; verify each received object/pin before handoff.
-5. Qualify the network/profile controls on harmless authored/public metadata
-   before the first real registered dependency fetch. Any policy/setup failure
-   remains CANNOT_CHECK, with unreached rows retained. No unbounded fallback.
-
-This note does not implement or qualify that acquisition profile.
+Before the real build handoff, the orchestration adapter must charge all prior
+episode-owned material and preparation bytes as well as new build artifacts.
+The generic build runner currently counts its supervisor root and writable roots;
+using it directly would omit earlier immutable owned copies. Implement and qualify
+that accounting handoff before dispatch, preserving the registered total.
 
 ## Actual evaluator handoff
 
