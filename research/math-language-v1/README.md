@@ -70,6 +70,11 @@ Independent supplied text-to-AST pairs supplement inverse roundtrip tests.
 `RegionSolver(predicates)`. Its `solve(task)` reprocesses current premises and
 can reuse masks across queries or premise withdrawal/reinstatement. The module-level
 `solve(task)` creates a cold engine. Invalid tasks return INPUT_REFUSED.
+The successor also exposes `prepare(task)` and `complete(prepared)`: premises are
+compiled once, without computing query branches, and exact completion reuses them.
+See the [prepared API contract](../math-language-learning-v1/CONTRACT.md). Completion
+reports its call's work; the engine accumulates work within a preparation scope.
+Prepared-state inspection still hashes, decodes and validates the full bound state.
 
 For n predicate symbols, each of the 2^n regions is one possible membership signature.
 Universals forbid signatures. Each existential needs an allowed signature independently;
@@ -124,10 +129,9 @@ region-world for its declared family: atomic queries, zero/one atomic premise,
 a two-premise endpoint family and a Boolean De Morgan query. This is not exhaustive
 over all bounded ASTs, all 32-premise theories, or four-predicate worlds.
 
-Run only on the laptop, with a new explicit external temporary root:
-```sh
-python -m pytest -q . --basetemp=/absolute/new/run/cases --junitxml=/absolute/new/run/tests.xml
-```
+Current authored qualification selects this package and math-language-learning-v1
+together, with both import roots and a new explicit external temporary root.
+See [the successor qualification](../math-language-learning-v1/QUALIFICATION.md).
 
 Development and final source-bound raw records are retained outside this worktree
 under `/home/billy/orion-director-work/20260907/unary-language-qualification-v1`.
@@ -145,4 +149,5 @@ The metadata-boundary successor retains its separate authored RED/GREEN and full
 records under `/home/billy/orion-director-work/20260907/unary-metadata-qualification-v1`.
 These checks validate a data-only API; they do not contain already executing Python.
 
-Retained release records: [qualification](QUALIFICATION.md).
+Retained PR139 records: [historical qualification](QUALIFICATION.md). Its 110-test
+source freeze describes the earlier solver, not the prepared-state successor.

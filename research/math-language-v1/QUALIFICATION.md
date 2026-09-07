@@ -1,13 +1,14 @@
-# Unary-language qualification
+# Historical unary-language qualification
 
-The current eleven Python sources have **110 passing authored controls**, with no
-failures, errors or skips, in the retained final metadata qualification. This is a
+The eleven Python sources released in PR139 had **110 passing authored controls**,
+with no failures, errors or skips, in the retained metadata qualification. This is a
 supplied semantic contract, conventional symbolic solver, controlled-language parser
 and independent verifier. It is not an OCM runtime or learner result.
 
 Start with [the compact record index](qualification-records/CORE.md).
 [The package index](qualification-records/INDEX.json) binds every archive and map;
-[the source freeze](qualification-records/SOURCE_FREEZE.json) binds current code.
+[the source freeze](qualification-records/SOURCE_FREEZE.json) binds that historical code.
+The prepared-solver successor has a separate [two-package qualification](../math-language-learning-v1/QUALIFICATION.md); the old receipts are unchanged.
 
 ## Separate source generations
 
@@ -15,11 +16,12 @@ Start with [the compact record index](qualification-records/CORE.md).
 | --- | ---: | ---: | ---: |
 | Initial contract | 83 passed | 9 | 0.916747912 s |
 | Cache-key accounting successor | 84 passed | 10 | 0.917348383 s |
-| Strict metadata successor, current | 110 passed | 11 | 0.916452018 s |
+| Strict metadata successor, released in PR139 | 110 passed | 11 | 0.916452018 s |
 
 These are overlapping suites at different source revisions; the counts are not
-additive. Current semantic/test commit: 7d5043dac6e5c8e2d4ab59baa9978e2af695151b.
-Both final source snapshots and the recorded source copies match current bytes.
+additive. Historical semantic/test commit: 7d5043dac6e5c8e2d4ab59baa9978e2af695151b.
+Both final snapshots and source copies retain those exact bytes. The current solver
+has changed; its prior 110-control evidence is not reassigned to the new source.
 
 The original language archive also retains the initial 69 failures, 69-control
 first pass, and the boundary run with 77 passes and two failures. The subsequent
@@ -78,11 +80,12 @@ does not constitute their fresh qualification.
 
 ## Portable CI
 
-[The workflow](../../.github/workflows/unary-language.yml) runs this package on
+[The shared workflow](../../.github/workflows/unary-language.yml) now selects both
+this package and math-language-learning-v1, with both explicit import roots, on
 ubuntu-latest with Python 3.11.14 and pytest 8.3.5. It disables plugin autoload,
 uses a run-specific RUNNER_TEMP basetemp, uploads JUnit even on failure, and checks
-tracked-source diffs. CI results belong to the actual future head/run; adding this
-workflow does not itself establish a new passing execution.
+tracked-source diffs. Actual new-head CI is separate from this historical 110-control
+record; changing the workflow does not itself establish a passing execution.
 
 No tests, evidence guards, corpus work, materialization, proofs or scientific
 studies were rerun for this packaging. There is no learned-method acquisition,

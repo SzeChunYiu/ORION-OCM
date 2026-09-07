@@ -9,6 +9,8 @@ The grammar and predicate-to-word mapping remain supplied shared interfaces.
 
 - [Contract and API](CONTRACT.md): authority, algorithms, counters and remaining seam.
 - [Authored qualification](QUALIFICATION.md): 153 controls and retained generations.
+- [Compact archive index](qualification-records/CORE.md): original bytes, source
+  succession, costs, absent fixtures and independent review.
 - [Implementation plan](../../docs/plans/2026-09-07-unary-method-implementation.md).
 - [Prospective design](../../docs/plans/2026-09-07-unary-method-design.md) and
   [machine contract](../../docs/plans/2026-09-07-unary-method-contract.json).

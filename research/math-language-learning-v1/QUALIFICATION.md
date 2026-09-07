@@ -26,8 +26,10 @@ The retained record root on billy-laptop is:
 
 The summary binds 290 regular files / 894,392 raw bytes through RAW-FILES.json.
 The full recorder source and selected package sources are copied into every generation.
-All basetemps are explicit external create-only paths. This is retained laptop evidence,
-not a portable archive or a whole-host/source-closure qualification.
+All basetemps were explicit external paths; all eleven are absent at packaging.
+Their prior creation/deletion is not inferred and their bytes were not reconstructed.
+The complete portable archive now includes 292 files / 965,840 bytes: the 290 indexed
+raw files plus RAW-FILES.json and SUMMARY.json. This is not a whole-host qualification.
 
 ## Retained generations
 
@@ -71,3 +73,39 @@ the final 22 current/snapshot sources. It did not rerun tests. External review:
 13,849 bytes, SHA256
 `140f6c8e1d30bced76ee747440a016f79a502c59f61733a18ade27f4f9d135ed`.
 This pointer was added after that review; production/test source bytes did not change.
+
+
+## Portable records and source succession
+
+Start with [the compact archive index](qualification-records/CORE.md). Three
+deterministic archives retain 295 regular files / 984,667 raw bytes: the complete
+qualification root, the cleared independent review, and original commit/rebase
+records. Every member was compared directly with its original bytes. Compressed
+maps retain SHA256/size identities and original mode metadata; no source links
+were observed. The [omission record](qualification-records/OMISSIONS.json) keeps
+absent case paths and external host bodies explicit.
+
+The [current source freeze](qualification-records/SOURCE_FREEZE.json) binds all 22
+Python files at integrated commit 8eb24db059fb4e3982262bf4daf75f61eca47169.
+The before/after/source-copy and committed bytes agree. The PR139 110-control
+archive remains immutable and historical for the earlier solver.
+
+The [archive index](qualification-records/INDEX.json) pins the actual independent
+REVIEW.json, SHA256 140f6c8e1d30bced76ee747440a016f79a502c59f61733a18ade27f4f9d135ed.
+That review reports no outstanding findings for this first-tranche source and raw
+record scope; it does not establish a later runtime or causal experiment.
+
+## Shared portable CI
+
+[The workflow](../../.github/workflows/unary-language.yml) selects both complete
+package directories from the repository root, with both PYTHONPATH import roots.
+It uses ubuntu-latest, Python3.11.14, pytest8.3.5, disabled plugin autoload/bytecode,
+a run-specific RUNNER_TEMP basetemp, always-upload JUnit and a tracked-source diff
+check. Future CI counts belong to the actual head/run and are not hardcoded here.
+
+Packaging and documentation did not repeat tests, scientific tasks or archived
+recorders. Its separate process receipt is retained under the external
+unary-learning-release-v1/package-run-v1 directory.
+
+Independent [archive and CI review](release-review-records/README.md) cleared the
+frozen package and workflow; it did not repeat the semantic tests.
