@@ -1,5 +1,7 @@
 # Resource post-dispatch successor
 
+Historical 22-source layer. The [current exit-code correction](resource-exitcode-records/CORE.md) binds 23 sources and preserves these sealed records. Its current guard is resource_exitcode_evidence.py; the commands below retain their historical-source scope.
+
 The controller and offline profile now preserve whether dispatch was never
 attempted, attempted with no confirmed handle, or started with a returned PID.
 Monitoring or custody failure after launch cannot be reported as a setup refusal.

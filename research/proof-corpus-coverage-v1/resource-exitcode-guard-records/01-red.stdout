@@ -1,0 +1,215 @@
+FFFFFFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+____________ ExitcodeEvidenceTests.test_boolean_prior_count_refuses ____________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_boolean_prior_count_refuses>
+
+    def test_boolean_prior_count_refuses(self):
+        self.edit_index(lambda j:j["historical"].update(source_count=True))
+>       with self.assertRaisesRegex(ValueError,"PRIOR_SOURCE_COUNT"):self.run_audit()
+
+test_resource_exitcode_evidence.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___ ExitcodeEvidenceTests.test_corrected_snapshot_must_match_current_freeze ____
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_corrected_snapshot_must_match_current_freeze>
+
+    def test_corrected_snapshot_must_match_current_freeze(self):
+        row=put_archive(self.root,{"SOURCE_FREEZE.json":(self.root/"SOURCE_FREEZE.json").read_bytes(),"source/a.py":b"wrong"})
+        self.edit_index(lambda j:j.update(archives=[row]))
+>       with self.assertRaisesRegex(ValueError,"SNAPSHOT_BINDING"):self.run_audit()
+
+test_resource_exitcode_evidence.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___________ ExitcodeEvidenceTests.test_current_source_drift_refuses ____________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_current_source_drift_refuses>
+
+    def test_current_source_drift_refuses(self):
+        (self.current/"a.py").write_bytes(b"changed")
+>       with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+
+test_resource_exitcode_evidence.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___________ ExitcodeEvidenceTests.test_extra_prior_snapshot_refuses ____________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_extra_prior_snapshot_refuses>
+
+    def test_extra_prior_snapshot_refuses(self):
+        (self.root/"prior-source/extra.py").write_bytes(b"extra");self.rebind()
+>       with self.assertRaisesRegex(ValueError,"PRIOR_SOURCE_SET"):self.run_audit()
+
+test_resource_exitcode_evidence.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+_____ ExitcodeEvidenceTests.test_noncanonical_previous_source_path_refuses _____
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_noncanonical_previous_source_path_refuses>
+
+    def test_noncanonical_previous_source_path_refuses(self):
+        self.edit_index(lambda j:j["historical"].update(source_dir="../outside"))
+>       with self.assertRaisesRegex(ValueError,"PATH"):self.run_audit()
+
+test_resource_exitcode_evidence.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___________ ExitcodeEvidenceTests.test_omitted_host_binding_refuses ____________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_omitted_host_binding_refuses>
+
+    def test_omitted_host_binding_refuses(self):
+        self.edit_index(lambda j:j["omissions"].update(sha256="0"*64))
+>       with self.assertRaisesRegex(ValueError,"OMISSION_BINDING"):self.run_audit()
+
+test_resource_exitcode_evidence.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+____ ExitcodeEvidenceTests.test_original_source_history_still_authoritative ____
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_original_source_history_still_authoritative>
+
+    def test_original_source_history_still_authoritative(self):
+        (self.prior/"historical-source/a.py").write_bytes(b"changed")
+>       with self.assertRaisesRegex(ValueError,"SUCCESSOR_FILE_HASH"):self.run_audit()
+
+test_resource_exitcode_evidence.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+__________ ExitcodeEvidenceTests.test_previous_seal_cannot_be_changed __________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_previous_seal_cannot_be_changed>
+
+    def test_previous_seal_cannot_be_changed(self):
+        self.edit_index(lambda j:j["historical"].update(seal_sha256="0"*64))
+>       with self.assertRaisesRegex(ValueError,"PRIOR_AUTHORITY"):self.run_audit()
+
+test_resource_exitcode_evidence.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___________ ExitcodeEvidenceTests.test_previous_source_drift_refuses ___________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_previous_source_drift_refuses>
+
+    def test_previous_source_drift_refuses(self):
+        (self.root/"prior-source/a.py").write_bytes(b"changed");self.rebind()
+>       with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+
+test_resource_exitcode_evidence.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+_ ExitcodeEvidenceTests.test_three_distinct_source_layers_pass_without_dispatch _
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_three_distinct_source_layers_pass_without_dispatch>
+
+    def test_three_distinct_source_layers_pass_without_dispatch(self):
+>       result=self.run_audit()
+
+test_resource_exitcode_evidence.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (PosixPath('/tmp/tmp202stgxr/resource-exitcode-records'), 'b6384120f2bf5ab621773f30297d891da672758e90680798bbb50979107...osixPath('/tmp/tmp202stgxr/resource-records'), 'd70c53a21055da6cd44bb86c07cc2d1d8d614f556c434bd40a98fd142487e51f', ...)
+kwargs = {}
+
+>   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError
+___________ ExitcodeEvidenceTests.test_unbound_guard_is_not_executed ___________
+
+self = <test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_unbound_guard_is_not_executed>
+
+    def test_unbound_guard_is_not_executed(self):
+        with patch.object(target.Path,"read_bytes",return_value=b"unbound"):
+            with patch.object(target,"compile",side_effect=AssertionError("must not execute"),create=True):
+>               with self.assertRaisesRegex(ValueError,"HELPER_IDENTITY"):target.helper()
+
+test_resource_exitcode_evidence.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def helper(): raise NotImplementedError("source-only helper not implemented")
+E   NotImplementedError: source-only helper not implemented
+
+resource_exitcode_evidence.py:3: NotImplementedError
+- generated xml file: /home/billy/orion-director-work/20260907/resource-exitcode-guard-qualification-v1/01-red.xml -
+=========================== short test summary info ============================
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_boolean_prior_count_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_corrected_snapshot_must_match_current_freeze
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_current_source_drift_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_extra_prior_snapshot_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_noncanonical_previous_source_path_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_omitted_host_binding_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_original_source_history_still_authoritative
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_previous_seal_cannot_be_changed
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_previous_source_drift_refuses
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_three_distinct_source_layers_pass_without_dispatch
+FAILED test_resource_exitcode_evidence.py::ExitcodeEvidenceTests::test_unbound_guard_is_not_executed
+11 failed in 0.09s

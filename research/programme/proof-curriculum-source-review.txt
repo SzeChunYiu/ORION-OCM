@@ -1,0 +1,142 @@
+# Mathematical proof experience → warranted language reasoning
+
+Research critique, 7 September 2026. Prospective design; no acquisition, build,
+theorem selection, learning run or qualification rerun was performed.
+Read [current concepts](../outputs/ocm-research-plan/18-ORION-CONCEPTS.md), the live
+`proof-corpus-coverage-v1/NATIVE_CONTRACT.md`, and `proof-environment-v1/README.md`.
+
+## Decision
+
+Use **many mathematical developments**, with FLT as one demanding case.
+Start with mathlib across independently registered subject/module families;
+add Metamath as the next distinct proof representation. Do not make five new
+prover integrations a prerequisite to demonstrating useful explicit learning.
+Rocq/MathComp, Isabelle/AFP and HOL Light then test whether the mechanism survives
+different foundations and proof styles. Source diversity is not semantic independence:
+ported theorems, common textbook proofs and descendants can cross corpus boundaries.
+
+Current OCM machinery can capture an exposed Lean reference and check an expression
+against an independently registered target in a reconstructed environment.
+Capture does not discover a method; reference replay does not reconstruct a missing proof.
+The missing research step remains checked experience → explicit executable generalization
+→ persistence/restart → causal consumption on untouched tasks → net future benefit.
+
+## Five useful sources and the actual material they provide
+
+| Source | Machine-readable payload and engineering value | Trust, version, licence and leakage boundary |
+|---|---|---|
+| **Lean mathlib4** | `.lean` proof scripts plus compiled declarations containing types, universes and proof expressions. Our pinned lean4export parser already handles the native packet representation. Broad algebra/order/set developments offer repeated typed proof fragments. | Apache-2.0 repository. Pin commit, `lean-toolchain`, dependency manifest, exporter and compiled-source correspondence together. Scripts/tactics and elaborated terms teach different things; declaration names, simp/instance tables, compiled modules and downstream lemmas can reveal a target. Existing Lean 4.33.1 qualification is not qualification of every mathlib snapshot. [Repository](https://github.com/leanprover-community/mathlib4), [pinned parser](https://github.com/leanprover/lean4export/blob/15f6055e299ad5b89345e533cc2192f4cc00f659/Export/Parse.lean). |
+| **Metamath `set.mm` / `iset.mm`** | Text databases explicitly state axioms, hypotheses and label-based proofs; compressed proofs can be expanded into individual substitution/application steps. Useful for mining repeated proof DAGs without a tactic elaborator. `set.mm` is classical ZFC; keep intuitionistic `iset.mm` a separate foundation. | Database CC0; verifier licences are separate. Pin database and verifier commits. Several independent verifiers are available. Preserve scoped hypotheses and distinct-variable constraints; dropping them makes generalized rules unsound. Mask target labels, direct aliases, later proofs using them and cached expansions. [Database](https://github.com/metamath/set.mm), [verification](https://github.com/metamath/set.mm/blob/develop/verifiers.md), [licence](https://raw.githubusercontent.com/metamath/set.mm/develop/LICENSE). |
+| **Rocq Mathematical Components** | SSReflect `.v` scripts, compiled `.vo` logical objects and proof terms; small-scale reflection and algebraic hierarchy reuse are substantive mechanisms to assimilate. Scripts expose tactic-level structure that normalized kernel terms may obscure. | Core library CeCILL-B; companion packages require separate inspection. The project lists 2.6.0; freeze compatible Rocq, Hierarchy Builder/plugins and library versions. `rocqchk` checks logical content recursively; reject unchecked/admitted assumptions and do not treat `.vos` interfaces as checked proofs. Implicit arguments/notation are outside its logical check: retain independent target association. [Project](https://math-comp.github.io/), [checker and compiled-interface contract](https://rocq-prover.org/doc/master/refman/practical-tools/coq-commands.html). |
+| **Isabelle Archive of Formal Proofs** | `.thy` Isar/ML developments, session/import structure and optional logical/proof exports. Rich examples of locales, induction and structured proof decomposition. These are not uniformly ready-made complete proof-term files. | AFP entries use BSD-style or LGPL licences; inspect each entry. Pin matching Isabelle/AFP snapshots and recording options for every parent session. The Isabelle→Dedukti tool documents `export_theory, export_proofs, record_proofs=2`, incomplete exports without parent recording, and HOL patches to remove oracle use. Its stated Isabelle2025 dependency is an adapter constraint, not a claim about the latest stable release. Audit oracles/admissions and exported closure. [AFP](https://isa-afp.org/about/), [proof-export implementation](https://github.com/Deducteam/isabelle_dedukti). |
+| **HOL Light libraries / Flyspeck; OpenTheory transport** | HOL Light OCaml scripts produce kernel theorems; full reusable inference traces require an instrumented/export route. OpenTheory article files provide an established proof interchange format for higher-order logic. Flyspeck supplies a substantial checked mathematical development beyond FLT. | Flyspeck MIT; HOL Light's BSD-style licence has per-file exceptions. Pin prover, OCaml, libraries and exporter; do not assume all Flyspeck material already exists as compatible OpenTheory articles. Replay scripts can execute OCaml; checker isolation must differ from build/export isolation. Preserve theory assumptions/type definitions and symbol interpretations across transport. [Flyspeck](https://github.com/flyspeck/flyspeck), [licence](https://raw.githubusercontent.com/flyspeck/flyspeck/master/LICENSE), [HOL Light licence](https://raw.githubusercontent.com/jrh13/hol-light/master/LICENSE), [OpenTheory](https://www.gilith.com/opentheory/). |
+
+These are candidate sources, not newly registered revisions or claims of uniform
+current compatibility. A common OCM catalogue should store native foundation IDs,
+typed signatures, dependency/support edges, proof references and method proposals.
+Do not erase native semantics into one unqualified AST or merge similarly named
+theorems. Cross-foundation transports require their own checked interpretation.
+
+Retain both kernel evidence and available discovery traces. A proof term certifies
+the conclusion; it does not reveal all failed attempts, search costs or human insight.
+Thus corpus ingestion has an observed cost, while original discovery cost may be unknown.
+No neural component may run in acquisition, retrieval, proposal, policy or checking.
+Compilation can execute tactics/plugins: pin and qualify an offline executable profile.
+Neural-authored upstream proofs remain disclosed reference data, not OCM inventions.
+A strict end-to-end acquisition arm needs a separately provenance-qualified teaching set;
+a non-neural replay of upstream AI material cannot establish neural-free acquisition.
+
+## One falsifiable experiment: mathematical order methods in language entailment
+
+**Hypothesis:** a method learned from mathematical set/order proofs reduces the total
+cost of resolving fresh quantified-language obligations after restart, beyond the
+benefit of storing the same new theorems and beyond an equally adaptive symbolic parent.
+This tests transfer of reasoning methods through supplied language semantics.
+It does not test acquisition of English grammar or general language understanding.
+
+**Training:** freeze a population of checked set/order proof episodes independently
+of language test instances. Mine repeated typed subproofs by mechanical anti-unification
+and dependency backtracing; candidate generalizations must receive fresh kernel proofs.
+Possible discoveries include monotonicity composition or order reversal under complement;
+these are hypotheses, not rules secretly inserted as the learned outcome.
+Register supplied primitives, the generalization grammar, search policy and all failed
+candidates. Persist a method as typed premises/conclusion, proof-producing implementation,
+applicability conditions, support IDs and measured retrieval/application cost.
+
+**Language task:** a fixed, deterministic controlled grammar over unary predicates,
+Boolean noun phrases, and `every`, `no`, `some`, `not every`; no pronouns, implicit
+existence, binary relations or pragmatic/world knowledge in the initial fragment.
+Translate compositionally to set inclusion, disjointness and nonempty intersection.
+Example: “Every violinist is a musician; no musician is asleep” entails “No
+violinist is asleep.” Reversing the first universal or asserting existence need
+not follow. Generate negative, unknown and inconsistent cases as well as entailments.
+Unsupported/ambiguous inputs refuse; lexical relations must be supplied premises.
+
+**Independent answer check:** register each semantic obligation separately from the
+learner's candidate. Check premise consistency first. Entailed/contradicted answers
+need proof certificates; unknown needs models for both hypothesis polarities.
+For this unary Boolean fragment, finitely many predicate-membership regions permit
+an exact decision procedure, rather than an arbitrary finite-domain approximation.
+Qualify its translation and certificate checker before using it as an oracle.
+Inconsistent premises receive a distinct result; logical explosion is not useful answering.
+
+**Strong parents:** use [LangPro's symbolic natural tableau prover](https://aclanthology.org/D17-2020/)
+on matched logical forms/CCG derivations, excluding external statistical/neural parsing;
+its [actual input boundary](https://github.com/kovvalsky/LangPro) is explicit.
+Also use an optimized complete Boolean-set/BDD or SAT-based solver for this exact fragment.
+Choose the best parent on a separate development set, retain all parent results,
+and give an adaptive parent the same mathematical episodes and proof-producing chunking.
+[Soar already learns reusable rules by dependency-based chunking](https://soar.eecs.umich.edu/soar_manual/04_ProceduralKnowledgeLearning/);
+neither chunking nor monotonicity reasoning is itself OCM novelty.
+[Natural logic already exploits monotonicity and exclusion](https://nlp.stanford.edu/~manning/papers/natlog-cm.pdf).
+
+**Matched arms:** frozen parent; same-added-theorems library-only; equally adaptive
+symbolic parent; OCM learned method; OCM with acquired method disabled but all
+facts/indexes retained. Share semantic inputs, axioms, parsing, persistence,
+verifier and compute allocation. Log actual method applications that changed search;
+a method name in the final explanation is insufficient causal evidence.
+
+**Withholding:** split by mathematical dependency/method family and language semantic
+composition, not random theorem rows or paraphrases. Keep an IID test and a separate
+unseen-composition test; do not claim generalization merely from renamed nouns.
+Retain a renamed-vocabulary control and a math-notation presentation of each language
+obligation to locate benefit in reasoning versus parsing. Cross-corpus duplicates and
+direct aliases are grouped before splitting; do not promise complete semantic deduplication.
+
+**Falsifiers:** wrong variance, double negation, vacuous universal, empty predicate,
+unlicensed existential inference, irrelevant learned method, and withdrawn premises.
+After restart, withdraw discovery provenance while preserving an independent correctness
+proof; the method may remain eligible. Withdraw an applicability premise and affected
+answers must invalidate. Restore it and recheck eligibility without fabricating a proof.
+
+**Score:** warranted answer coverage/correctness, refusals, search expansions, candidates
+retrieved, checker work, cold/warm latency, storage and incremental-revision work.
+Charge ingestion, method discovery, rejection, compilation, indexing, restart, query,
+verification and revision across a preregistered future-task horizon. Report paired
+uncertainty by independent task family and harmful transfer; do not sum nested timings.
+Success needs causal use plus lower cumulative cost at matched quality against the best
+matched parent. No crossover is **NO_AMORTIZED_BENEFIT_OBSERVED**, not hidden success.
+Matching the adaptive parent is **PARENT_SUFFICIENT**, an assimilation success but no
+distinctive OCM effect. A positive result remains narrow semantic method transfer.
+
+## Next engineering decision
+
+Finish the registered Lean semantic-coverage gate, then implement one shared learning
+episode contract across broad mathlib families. Build the above language experiment
+around the same persisted method objects, not another independent demonstration.
+The already locked four-row FLT assignment remains unchanged. Completing full FLT
+is not a prerequisite for this early language-transfer experiment.
+Add Metamath once that loop is measurable; use the other ecosystems to challenge its
+generality. The OCM-specific question is revision-safe, cost-effective learned reuse,
+not the mere presence of a theorem library or a new name for symbolic deduction.
+
+## Narrow review of the companion language design
+
+The root's `21-MATH-TO-LANGUAGE.md` correctly separates theorem application,
+verbalization and learned method transfer. [GF](https://www.grammaticalframework.org/doc/gf-refman.html),
+[GF-HoTT](https://www.grammaticalframework.org/~aarne/gf-hott/) and
+[ACE-in-GF](https://github.com/Attempto/ACE-in-GF) support its grammar-parent choice.
+Two precision fixes were sent to the root: scheduling possibility requires a model
+or impossibility certificate, not merely an entailment label; contradictory premises
+must be distinct. Shuffle only independently warranted methods/rankings or use valid
+unrelated methods: type compatibility alone cannot authorize a shuffled procedure.

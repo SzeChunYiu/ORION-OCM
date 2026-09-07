@@ -9,7 +9,7 @@ Read [the result and remaining boundary](RESULT.md), then the relevant component
 | Component | Entry document | Authority |
 |---|---|---|
 | Fixed assignment | [REGISTRATION](REGISTRATION.md) | Original complete registration seal and retained full order |
-| Resource and offline profile | [RESOURCE-SUCCESSOR](RESOURCE-SUCCESSOR.md) | Current dispatch/evidence repair; historical qualification preserved |
+| Resource and offline profile | [Exit-code successor](resource-exitcode-records/CORE.md) | Current observed-exit custody repair; earlier qualifications preserved |
 | Native association/capture | [NATIVE-QUALIFICATION](NATIVE-QUALIFICATION.md) | Authored module, transport and fresh-kernel controls |
 | Next actual dispatch | [RESOURCE-INTEGRATION](RESOURCE-INTEGRATION.md) | Acquisition and actual evaluator-material profile still required |
 
@@ -39,13 +39,13 @@ not rerun the registrar, native tests, privileged profiles or real corpus tasks.
   four large raw input files remain externally bound, not revalidated by this guard.
 - [Native archive guard](NATIVE-ARCHIVE.md): lossless retained native development,
   qualification and review records; large runtime/toolchain inputs are hash-bound.
-- `resource_successor_evidence.py`: original resource custody against archived
-  source snapshots, plus the separately qualified current successor. The original
-  `resource_evidence.py` retains its historical interface; external host inputs
-  remain explicitly outside the archive.
+- `resource_exitcode_evidence.py`: the original 19-source and prior 22-source
+  resource layers against retained snapshots, plus the current 23-source correction.
+  The older guards retain their historical interfaces; external host inputs remain
+  explicitly outside the archive.
 
-The [current portable integration](INTEGRATION-SUCCESSOR.md) records 223 passes,
-seven skips and two deliberate deselections. CI runs these controls and evidence
+The [current portable integration](INTEGRATION-EXITCODE.md) records 237 passes,
+seven skips, two deliberate deselections and three passing evidence guards. CI runs these controls and evidence
 checks. Exact-interpreter
 registrar CLI controls and privileged host resource controls retain their separate
 qualification. CI must not report skipped host cases as new portable passes.

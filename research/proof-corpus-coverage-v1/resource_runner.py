@@ -49,7 +49,8 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
     samples.write(canonical(last));samples.flush()
     stop=reason(last,limits,last["elapsed_s"])
     if stop:first=last;break
-    if p.poll() is not None:break
+    observed=p.poll()
+    if observed is not None:receipt["returncode"]=observed;break
     time.sleep(limits["poll_s"])
   receipt["terminal"]="RESOURCE_STOP" if stop else "COMPLETED" if p.returncode==0 else "COMMAND_FAILED"
   receipt["reason"]=stop
@@ -87,6 +88,7 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
     receipt["cleanup"]["error"]=type(exc).__name__+": "+str(exc)
     receipt["terminal"]="CLEANUP_INCOMPLETE"
   else:receipt["cleanup"]={"reaped":True,"members_empty":True,"no_dispatch":True}
+  if p is not None and p.returncode is not None:receipt["returncode"]=p.returncode
   if not all(receipt["cleanup"].get(k) for k in ("reaped","members_empty")):receipt["terminal"]="CLEANUP_INCOMPLETE"
   if receipt["terminal"]=="COMPLETED" and receipt["returncode"]!=0:receipt["terminal"]="COMMAND_FAILED"
   try:

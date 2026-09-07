@@ -1,9 +1,9 @@
 # Resource and offline-profile qualification
 
-Current source authority: [post-dispatch successor](RESOURCE-SUCCESSOR.md),
-qualified on 22 source files with 12/12 profile cases and 62/62 focused controls.
-The original 19-source qualification below and its sealed archives remain historical;
-they are not a receipt for the changed runner/profile bytes.
+Current source authority: [exit-code successor](resource-exitcode-records/CORE.md),
+qualified on 23 source files with 12/12 profile cases and 65/65 focused controls.
+The original 19-source and [prior 22-source](RESOURCE-SUCCESSOR.md) qualifications
+remain historical; neither receipt authorizes the changed current runner bytes.
 
 **AUTHORED_RESOURCE_PROFILE_CONTROLS_PASSED: 12/12.**
 The same frozen source also passed 42 focused controls on billy-laptop.

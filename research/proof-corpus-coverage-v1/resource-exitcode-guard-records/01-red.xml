@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="11" time="0.090" timestamp="2026-09-07T09:51:45.919358+02:00" hostname="billy"><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_boolean_prior_count_refuses" time="0.003"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_boolean_prior_count_refuses&gt;
+
+    def test_boolean_prior_count_refuses(self):
+        self.edit_index(lambda j:j["historical"].update(source_count=True))
+&gt;       with self.assertRaisesRegex(ValueError,"PRIOR_SOURCE_COUNT"):self.run_audit()
+
+test_resource_exitcode_evidence.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_corrected_snapshot_must_match_current_freeze" time="0.003"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_corrected_snapshot_must_match_current_freeze&gt;
+
+    def test_corrected_snapshot_must_match_current_freeze(self):
+        row=put_archive(self.root,{"SOURCE_FREEZE.json":(self.root/"SOURCE_FREEZE.json").read_bytes(),"source/a.py":b"wrong"})
+        self.edit_index(lambda j:j.update(archives=[row]))
+&gt;       with self.assertRaisesRegex(ValueError,"SNAPSHOT_BINDING"):self.run_audit()
+
+test_resource_exitcode_evidence.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_current_source_drift_refuses" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_current_source_drift_refuses&gt;
+
+    def test_current_source_drift_refuses(self):
+        (self.current/"a.py").write_bytes(b"changed")
+&gt;       with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+
+test_resource_exitcode_evidence.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_extra_prior_snapshot_refuses" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_extra_prior_snapshot_refuses&gt;
+
+    def test_extra_prior_snapshot_refuses(self):
+        (self.root/"prior-source/extra.py").write_bytes(b"extra");self.rebind()
+&gt;       with self.assertRaisesRegex(ValueError,"PRIOR_SOURCE_SET"):self.run_audit()
+
+test_resource_exitcode_evidence.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_noncanonical_previous_source_path_refuses" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_noncanonical_previous_source_path_refuses&gt;
+
+    def test_noncanonical_previous_source_path_refuses(self):
+        self.edit_index(lambda j:j["historical"].update(source_dir="../outside"))
+&gt;       with self.assertRaisesRegex(ValueError,"PATH"):self.run_audit()
+
+test_resource_exitcode_evidence.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_omitted_host_binding_refuses" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_omitted_host_binding_refuses&gt;
+
+    def test_omitted_host_binding_refuses(self):
+        self.edit_index(lambda j:j["omissions"].update(sha256="0"*64))
+&gt;       with self.assertRaisesRegex(ValueError,"OMISSION_BINDING"):self.run_audit()
+
+test_resource_exitcode_evidence.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_original_source_history_still_authoritative" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_original_source_history_still_authoritative&gt;
+
+    def test_original_source_history_still_authoritative(self):
+        (self.prior/"historical-source/a.py").write_bytes(b"changed")
+&gt;       with self.assertRaisesRegex(ValueError,"SUCCESSOR_FILE_HASH"):self.run_audit()
+
+test_resource_exitcode_evidence.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_previous_seal_cannot_be_changed" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_previous_seal_cannot_be_changed&gt;
+
+    def test_previous_seal_cannot_be_changed(self):
+        self.edit_index(lambda j:j["historical"].update(seal_sha256="0"*64))
+&gt;       with self.assertRaisesRegex(ValueError,"PRIOR_AUTHORITY"):self.run_audit()
+
+test_resource_exitcode_evidence.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_previous_source_drift_refuses" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_previous_source_drift_refuses&gt;
+
+    def test_previous_source_drift_refuses(self):
+        (self.root/"prior-source/a.py").write_bytes(b"changed");self.rebind()
+&gt;       with self.assertRaisesRegex(ValueError,"CURRENT_SUCCESSOR_SOURCE"):self.run_audit()
+
+test_resource_exitcode_evidence.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_three_distinct_source_layers_pass_without_dispatch" time="0.002"><failure message="NotImplementedError: third-layer custody not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_three_distinct_source_layers_pass_without_dispatch&gt;
+
+    def test_three_distinct_source_layers_pass_without_dispatch(self):
+&gt;       result=self.run_audit()
+
+test_resource_exitcode_evidence.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_resource_exitcode_evidence.py:30: in run_audit
+    return target.audit_exitcode(self.root,self.pin,self.current,self.prior,self.old,self.priorpin,self.oldpin)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (PosixPath('/tmp/tmp202stgxr/resource-exitcode-records'), 'b6384120f2bf5ab621773f30297d891da672758e90680798bbb50979107...osixPath('/tmp/tmp202stgxr/resource-records'), 'd70c53a21055da6cd44bb86c07cc2d1d8d614f556c434bd40a98fd142487e51f', ...)
+kwargs = {}
+
+&gt;   def audit_exitcode(*args, **kwargs): raise NotImplementedError("third-layer custody not implemented")
+E   NotImplementedError: third-layer custody not implemented
+
+resource_exitcode_evidence.py:4: NotImplementedError</failure></testcase><testcase classname="research.proof-corpus-coverage-v1.test_resource_exitcode_evidence.ExitcodeEvidenceTests" name="test_unbound_guard_is_not_executed" time="0.002"><failure message="NotImplementedError: source-only helper not implemented">self = &lt;test_resource_exitcode_evidence.ExitcodeEvidenceTests testMethod=test_unbound_guard_is_not_executed&gt;
+
+    def test_unbound_guard_is_not_executed(self):
+        with patch.object(target.Path,"read_bytes",return_value=b"unbound"):
+            with patch.object(target,"compile",side_effect=AssertionError("must not execute"),create=True):
+&gt;               with self.assertRaisesRegex(ValueError,"HELPER_IDENTITY"):target.helper()
+
+test_resource_exitcode_evidence.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   def helper(): raise NotImplementedError("source-only helper not implemented")
+E   NotImplementedError: source-only helper not implemented
+
+resource_exitcode_evidence.py:3: NotImplementedError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,56 @@
+name: Fixed corpus coverage apparatus
+on:
+  pull_request:
+    paths:
+      - 'research/proof-corpus-coverage-v1/**'
+      - 'research/proof-corpus-v1/**'
+      - 'research/proof-environment-v1/**'
+      - 'research/proof-replay-v1/**'
+      - '.github/workflows/proof-corpus-coverage.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/proof-corpus-coverage-v1/**'
+      - 'research/proof-corpus-v1/**'
+      - 'research/proof-environment-v1/**'
+      - 'research/proof-replay-v1/**'
+      - '.github/workflows/proof-corpus-coverage.yml'
+permissions:
+  contents: read
+jobs:
+  portable-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OCM_RESOURCE_HOST_QUALIFICATION: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Portable controls; exact-interpreter and privileged qualification stay separate
+        run: |
+          python -B -m pytest research/proof-corpus-coverage-v1/test_*.py \
+            research/proof-corpus-coverage-v1/tests/ \
+            --deselect=research/proof-corpus-coverage-v1/tests/test_registration_cli.py::test_cli_failure_is_retained_with_no_assignments_and_no_reuse \
+            --deselect=research/proof-corpus-coverage-v1/tests/test_registration_cli.py::test_cli_ignores_harmless_matching_header_policy_cache \
+            --junitxml="$RUNNER_TEMP/proof-corpus-coverage.xml" -q
+      - name: Full retained assignment and current bindings; no registrar dispatch
+        run: python -I -S research/proof-corpus-coverage-v1/registration_evidence.py
+      - name: Native archive custody; no native execution
+        run: >-
+          python -I -S research/proof-corpus-coverage-v1/native_evidence.py
+          --seal-sha256 523531c5bb7ca79b4f3ff5d5e6316960cef38dcddcd82dc335421341280ffe2e
+      - name: Resource historical and successor custody; no privileged dispatch
+        run: python -I -S research/proof-corpus-coverage-v1/resource_successor_evidence.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proof-corpus-coverage-portable-controls
+          path: ${{ runner.temp }}/proof-corpus-coverage.xml
+          if-no-files-found: error
+      - name: Source custody
+        run: /usr/bin/git diff --exit-code

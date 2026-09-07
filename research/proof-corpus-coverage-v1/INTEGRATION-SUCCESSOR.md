@@ -1,4 +1,6 @@
-# Current portable integration after the resource repair
+# Historical portable integration after the first resource repair
+
+This 22-source/223-pass layer is historical. See the [current exit-code integration](INTEGRATION-EXITCODE.md); all records below remain unchanged.
 
 **PORTABLE_INTEGRATION_PASS: 223 passed, seven privileged cases skipped, two
 exact-interpreter cases deliberately deselected.** This supersedes the resource

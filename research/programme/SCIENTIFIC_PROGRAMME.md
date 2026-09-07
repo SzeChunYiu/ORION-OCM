@@ -1,11 +1,11 @@
 # OCM scientific programme — current research objective
 
-Operator direction, 6 September 2026. This is a research charter, not a manuscript or a finding of novelty.
+Operator direction, 6 September 2026; curriculum and transfer clarified 7 September. This is a research charter, not a manuscript or a finding of novelty.
 [Read first](CORE.md) · [experiments](EXPERIMENTS.md) · [nearest parents](PARENTS.md).
 
 ## Objective and order
 
-Finish decisive scientific research, produce a small set of substantial papers suitable for top-tier journal review, then develop a real product. Formal science and the [four-level FLT programme](FLT_RECONSTRUCTION.md) are the flagship, with F0 exposed mechanical proposer qualification first. Richer language follows as an independent capability claim.
+Finish decisive scientific research, produce a small set of substantial papers suitable for top-tier journal review, then develop a real product. The [broad proof curriculum](PROOF_CURRICULUM.md) uses many existing formal developments; [FLT](FLT_RECONSTRUCTION.md) is one demanding case. Test [mathematical-method transfer into bounded language](MATH_TO_LANGUAGE.md) early, using the same persisted methods. Full FLT is not a prerequisite; open-ended language remains an independent capability claim.
 
 The intended advance is that useful experience improves future capability or reduces complete future cost while commitments remain justified through change. Better training/acquisition economics, task cost, revision behavior, reliability and scaling are distinct claims. A positive on one axis cannot promote the others.
 
