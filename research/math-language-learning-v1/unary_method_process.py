@@ -2,7 +2,7 @@
 import hashlib,json,os,resource,signal,subprocess,time
 from pathlib import Path
 from unary_contract import InputRefused
-import unary_method_data as D
+import unary_method_outer as D
 import unary_method_profile as B
 
 PYTHON=B.DEFAULT["executable"]
@@ -15,17 +15,19 @@ def absent(pid):
     try:os.killpg(pid,0);return False
     except ProcessLookupError:return True
 
-def launch(root,mode,request,*,timeout=30,profile=None):
+def launch(root,mode,request,*,timeout=30,profile=None,arm="ocm"):
     root=Path(root);root.mkdir(parents=True,exist_ok=False)
-    if mode not in ("acquire","solve"):raise InputRefused("PROCESS_MODE")
+    from unary_method_arm import MODES
+    if mode not in MODES:raise InputRefused("PROCESS_MODE")
+    if type(arm) is not str or arm not in ("ocm","conventional"):raise InputRefused("PROCESS_ARM")
     packet=D.raw(request);(root/"request.json").write_bytes(packet)
     entry=Path(__file__).with_name("unary_method_episode.py").resolve()
     supplied=D.parse(D.raw(B.DEFAULT if profile is None else profile))
     argv=None
-    env={"PATH":"/usr/bin:/bin","LANG":"C.UTF-8"}
+    env={"PATH":"/usr/bin:/bin","LANG":"C.UTF-8","OCM_UNARY_ARM":arm}
     before=D.sources();start=time.monotonic();cpu=resource.getrusage(resource.RUSAGE_CHILDREN)
     p=None;error=None
-    receipt={"argv":argv,"profile":supplied,"environment":env,"source_before":before,"python":None,
+    receipt={"arm":arm,"argv":argv,"profile":supplied,"environment":env,"source_before":before,"python":None,
              "entry":stamp(entry),"request":stamp(root/"request.json"),"started_monotonic":start}
     with (root/"stdout.bin").open("xb") as out,(root/"stderr.bin").open("xb") as err:
         try:
@@ -60,7 +62,7 @@ def launch(root,mode,request,*,timeout=30,profile=None):
         if (p is not None and p.returncode==0 and error is None and receipt["group_absent"]
             and postcheck_error is None and before==receipt["source_after"] and not (root/"stderr.bin").read_bytes()
             and raw==(root/"stdout.bin").read_bytes() and data["terminal"]=="COMPLETED"
-            and data["profile"]==supplied and data["python"]==receipt["python"]
+            and data["arm"]==arm and data["profile"]==supplied and data["python"]==receipt["python"]
             and data["input_sha256"]==hashlib.sha256(packet).hexdigest()
             and data["source_before"]==data["source_after"]==before):
             receipt["terminal"]="COMPLETED"

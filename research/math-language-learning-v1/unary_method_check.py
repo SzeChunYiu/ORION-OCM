@@ -2,7 +2,6 @@
 from fractions import Fraction
 from ocm.kso.space import Atom,Hyperedge
 from unary_contract import InputRefused,validate_task,fields,negate
-from unary_verify import verify_result
 import unary_method_data as D
 
 def answer_warrant(store,eid=None):
@@ -40,38 +39,10 @@ def read_request(store,qid,expected=None):
         raise InputRefused("REQUEST_WARRANT")
     return data
 
-def _expr(pattern,binding,work):
-    D.bump(work,"binding_expression_nodes")
-    if pattern[0]=="pred":return binding[pattern[1]]
-    return [pattern[0],*[_expr(x,binding,work) for x in pattern[1:]]]
-
-def _statement(pattern,binding,work):
-    return {"kind":pattern["kind"],"left":_expr(pattern["left"],binding,work),
-            "right":_expr(pattern["right"],binding,work)}
+from unary_method_verify_use import verify_use,verify_answer
 
 def validate_use(store,task,use,*,current=True,work=None):
-    work={} if work is None else work
-    fields(use,("method_id","rule_id","binding","cover","recipes_applied","replaced_branch"))
-    if type(use["recipes_applied"]) is not int or use["recipes_applied"] not in (0,1):raise InputRefused("RECIPE_COUNT")
-    if not use["recipes_applied"]:
-        if use!={"method_id":None,"rule_id":None,"binding":{},"cover":[],"recipes_applied":0,"replaced_branch":None}:
-            raise InputRefused("FALSE_METHOD_USE")
-        return
-    item=store.read(use["method_id"])
-    if current and not item["eligible"]:raise InputRefused("METHOD_NOT_ELIGIBLE")
-    rule=item["envelope"]["rule"]
-    if use["rule_id"]!=rule["rule_id"]:raise InputRefused("RULE_USE_ID")
-    fields(use["binding"],tuple(rule["parameters"]))
-    cover=use["cover"]
-    if (type(cover) is not list or any(type(i) is not int or not 0<=i<len(task["premises"]) for i in cover)
-        or cover!=sorted(set(cover)) or len(cover)!=len(rule["premises"])):raise InputRefused("RULE_USE_COVER")
-    instantiated=[_statement(p,use["binding"],work) for p in rule["premises"]]
-    actual=[task["premises"][i] for i in cover]
-    if sorted(map(D.raw,instantiated))!=sorted(map(D.raw,actual)):raise InputRefused("RULE_USE_SUPPORT")
-    universal=task["query"]["kind"] in ("every","no")
-    target=task["query"] if universal else negate(task["query"])
-    if D.raw(_statement(rule["conclusion"],use["binding"],work))!=D.raw(target):raise InputRefused("RULE_USE_TARGET")
-    if use["replaced_branch"]!=("no" if universal else "yes"):raise InputRefused("RULE_USE_BRANCH")
+    return verify_use(task,use,store.read,current=current,work={} if work is None else work)
 
 def check_packet(store,qid,expected,packet,*,current=True,work=None):
     work={} if work is None else work
@@ -81,7 +52,6 @@ def check_packet(store,qid,expected,packet,*,current=True,work=None):
         raise InputRefused("PACKET_REQUEST_BINDING")
     if current and D.live(store.rt,answer_warrant(store,data["evidence"]))!="LIVE":
         raise InputRefused("ANSWER_CHECKER_UNAVAILABLE")
-    D.bump(work,"independent_answer_checks")
-    if not verify_result(data["task"],packet["result"]):raise InputRefused("ANSWER_CERTIFICATE")
+    if not verify_answer(data["task"],packet["result"],work=work,counter="independent_answer_checks"):raise InputRefused("ANSWER_CERTIFICATE")
     validate_use(store,data["task"],packet["use"],current=current,work=work)
     return True

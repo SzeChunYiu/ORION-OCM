@@ -52,7 +52,8 @@ def sources(work=None):
     work={} if work is None else work
     here=Path(__file__).resolve().parent;repo=here.parents[1]
     paths=list((repo/"src/ocm").rglob("*.py"))+list((repo/"src/orion_v2").rglob("*.py"))
-    paths+=list(here.glob("unary_rule_*.py"))+list(here.glob("unary_method_*.py"))
+    paths+=list(here.glob("unary_rule_*.py"))+list(here.glob("unary_method_*.py"))+list(here.glob("unary_parent_*.py"))
+    paths+=list((repo/"docs/plans/unary-adaptive-parent-v2-1").glob("*.md"))
     paths+=[repo/"research/math-language-v1"/n for n in
             ("unary_contract.py","unary_language.py","unary_solver.py","unary_verify.py")]
     out={}

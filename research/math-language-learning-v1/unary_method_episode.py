@@ -5,11 +5,8 @@ ROOT=Path(__file__).resolve().parents[2]
 ROOTS=(ROOT/"src",ROOT/"research/math-language-v1",ROOT/"research/math-language-learning-v1")
 for folder in reversed(ROOTS):sys.path.insert(0,str(folder))
 import hashlib,os,sysconfig,time
-from ocm.runtime.ocm_runtime import OCMRuntime
 from unary_contract import InputRefused,fields
-from unary_method_store import MethodStore
-from unary_method_runtime import MethodRuntime
-import unary_method_data as D
+import unary_method_outer as D
 import unary_method_profile as B
 
 
@@ -31,37 +28,27 @@ def imported():
         result[name]=identity(p)
     return result
 
-def run(mode,value):
-    fields(value,("store","training") if mode=="acquire" else ("store","task","invoke"))
-    if type(value["store"]) is not str:raise InputRefused("STORE_PATH")
-    path=Path(value["store"])
-    if not path.is_absolute() or path.is_symlink():raise InputRefused("STORE_PATH")
-    if mode=="acquire" and path.exists():raise InputRefused("CREATE_ONLY_STORE")
-    if mode=="solve" and not (path/"unary-method-journal/ledger.jsonl").is_file():
-        raise InputRefused("MISSING_ISSUER_JOURNAL")
-    rt=OCMRuntime(path);store=MethodStore(rt,create=mode=="acquire")
-    # Restored metadata may contain a refusal stub; explicit host callbacks are counted separately.
-    callbacks=len(rt._host_operators)
-    prior=len(store.uses)
-    outcome=store.acquire(value["training"]) if mode=="acquire" else MethodRuntime(store).solve(value["task"],invoke=value["invoke"])
-    begin=time.monotonic();rt.persist();persist=time.monotonic()-begin
-    return {"outcome":outcome,"callbacks_on_restore":callbacks,"prior_uses":prior,
-            "work":dict(store.work),"persist_wall_s":persist,"core_head":rt.events[-1].event_hash,
-            "issuer_head":store.head}
+def run(mode,value,*,arm="ocm",observation=None):
+    from unary_method_arm import run as dispatch
+    return dispatch(arm,mode,value,observation=observation)
+
 
 def main():
     start=time.monotonic();result={};out=None
     try:
-        if len(sys.argv)!=4 or sys.argv[1] not in ("acquire","solve"):raise InputRefused("ARGV")
-        mode=sys.argv[1];out=Path(sys.argv[3])
+        from unary_method_arm import MODES
+        if len(sys.argv)!=4 or sys.argv[1] not in MODES:raise InputRefused("ARGV")
+        mode=sys.argv[1];out=Path(sys.argv[3]);arm=os.environ.get("OCM_UNARY_ARM","ocm")
+        if arm not in ("ocm","conventional"):raise InputRefused("PROCESS_ARM")
         if out.exists():raise InputRefused("CREATE_ONLY_RESULT")
         profile=B.validate(D.parse(os.environ["OCM_UNARY_PYTHON_PROFILE"].encode()))
         result["profile"]=profile;python=B.verify(profile,actual=True)
         before=D.sources();origins=imported();input_bytes=Path(sys.argv[2]).read_bytes()
-        result={"profile":profile,"mode":mode,"input_sha256":hashlib.sha256(input_bytes).hexdigest(),"source_before":before,
+        result={"arm":arm,"profile":profile,"mode":mode,"input_sha256":hashlib.sha256(input_bytes).hexdigest(),"source_before":before,
                 "python":python,"pid":os.getpid(),"argv":sys.argv,
                 "flags":{"isolated":sys.flags.isolated,"no_site":sys.flags.no_site,"dont_write_bytecode":sys.flags.dont_write_bytecode}}
-        result.update(run(mode,D.parse(input_bytes)))
+        result["active_observation"]={}
+        result.update(run(mode,D.parse(input_bytes),arm=arm,observation=result["active_observation"]))
         result["imports"]=imported();result["source_after"]=D.sources()
         B.verify(profile,actual=True)
         if before!=result["source_after"]:raise InputRefused("SOURCE_DRIFT")
