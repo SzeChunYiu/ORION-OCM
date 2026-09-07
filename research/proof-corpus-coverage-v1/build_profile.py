@@ -7,6 +7,7 @@ from resource_cgroup import helper
 from build_profile_policy import guest_path,verify_inventory,apparmor_policy
 import resource_runner
 from resource_boot import loaded_sources
+from resource_deadline import Started,DeadlineFailure,GUEST
 KEYS={"schema","bwrap","aa_exec","files","materials","writable","argv","environment","code_audit"}
 ENV={"PATH","HOME","TMPDIR","LEAN_SYSROOT","LEAN_PATH","LEAN_NUM_THREADS","LANG","LC_ALL","TZ"}
 def payload(p):return {k:v for k,v in p.items() if k!="code_audit"}
@@ -68,7 +69,7 @@ def command(p,token):
  for w in p["writable"]:args+=["--bind",w["path"],w["guest"]]
  args+=["--chdir",p["writable"][0]["guest"],"--","/policy-aa-exec","-p","ocm-f1-"+token,"--",*p["argv"]]
  return args
-def run(profile,limits,output):
+def run(profile,limits,output,*,external_started=None):
  profile=json.loads(canonical(profile));limits=validate_limits(limits)
  root=Path(output).resolve()
  host_paths=[w["path"] for w in profile["writable"]]+[d["path"] for d in profile["materials"]]
@@ -82,7 +83,13 @@ def run(profile,limits,output):
   "authority":"External source/code audit plus observed controls; not whole-host neural absence."}
  loaded=False;phase="PROFILE_PREPARATION";result["dispatch_state"]="NOT_ATTEMPTED"
  result["driver_sources"]=sources
+ clock=None if external_started is None else Started(external_started,[root,*[w["path"] for w in profile["writable"]]])
+ if clock is not None:result["external_started"]=clock.receipt
  try:
+  if clock is not None:
+   clock.check("PROFILE_PREPARATION")
+   if not any(f=={"source":clock.receipt["binding"]["record"],"guest":GUEST,"access":"read"} for f in profile["files"]):
+    raise ValueError("EXTERNAL_STARTED_READONLY_MOUNT")
   audit=validate(profile);result["audit"]=audit;write_json(root/"profile.json",profile)
   for w in profile["writable"]:
    p=Path(w["path"]);p.mkdir(parents=False,exist_ok=True)
@@ -95,8 +102,10 @@ def run(profile,limits,output):
   if remaining<=0:raise ValueError("PROFILE_PREPARATION_DEADLINE")
   dispatch_limits={**limits,"wall_s":remaining}
   argv=command(profile,token);owned=[str(root),*[w["path"] for w in profile["writable"]]]
+  options={} if external_started is None else {"external_started":external_started}
+  if clock is not None:clock.check("PROFILE_PREDISPATCH")
   phase="DISPATCH";result["dispatch_state"]="ATTEMPTED_UNKNOWN"
-  result["dispatch"]=resource_runner.run(argv,{},dispatch_limits,root/"dispatch",owned,token=token)
+  result["dispatch"]=resource_runner.run(argv,{},dispatch_limits,root/"dispatch",owned,token=token,**options)
   result["dispatch_state"]=result["dispatch"].get("dispatch",{}).get("state","ATTEMPTED_UNKNOWN")
   result["terminal"]=result["dispatch"]["terminal"]
   phase="POST_DISPATCH_CUSTODY"
@@ -104,6 +113,7 @@ def run(profile,limits,output):
   for binding in sources.values():verify(binding)
   if loaded_sources(globals())!=sources:raise ValueError("loaded source custody drift")
   result["post_input_custody"]="UNCHANGED"
+  if clock is not None:clock.check("PROFILE_POST_CUSTODY")
  except BaseException as exc:
   result["error"]={"class":type(exc).__name__,"message":str(exc)}
   result["terminal"]=("POST_DISPATCH_CUSTODY_FAILED" if "dispatch" in result
@@ -118,6 +128,11 @@ def run(profile,limits,output):
   elif loaded:
    try:result["policy_cleanup"]=helper("policy-remove",token,str(root/"apparmor.profile"))
    except BaseException as exc:result["terminal"]="CLEANUP_INCOMPLETE";result["policy_cleanup_error"]=str(exc)
+  if clock is not None:
+   try:clock.check("PROFILE_FINAL_CUSTODY")
+   except DeadlineFailure as exc:
+    if result["terminal"] in ("COMPLETED","COMMAND_FAILED"):
+     result["terminal"]="POST_DISPATCH_CUSTODY_FAILED";result["deadline_error"]=str(exc)
   result["wall_through_cleanup_s"]=time.monotonic()-start
   write_json(root/"build-profile-receipt.json",result)
  return result

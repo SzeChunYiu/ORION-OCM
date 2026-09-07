@@ -3,7 +3,7 @@ from pathlib import Path
 from hashlib import sha256
 import json,sys,types,importlib.util
 HERE=Path(__file__).resolve().parent
-MODULES=("resource_contract","resource_pidfd","resource_cgroup","resource_monitor",
+MODULES=("resource_contract","resource_deadline","resource_pidfd","resource_cgroup","resource_monitor",
  "resource_runner","build_profile_policy","build_profile","resource_install")
 def binding(path,data):
  return {"path":str(path),"sha256":sha256(data).hexdigest(),"bytes":len(data)}
@@ -34,14 +34,15 @@ def main():
  import argparse
  parser=argparse.ArgumentParser()
  parser.add_argument("mode",choices=("check-sources","run","install"))
- parser.add_argument("--profile");parser.add_argument("--limits");parser.add_argument("--output")
+ parser.add_argument("--profile");parser.add_argument("--limits");parser.add_argument("--output");parser.add_argument("--started-binding")
  args=parser.parse_args();modules=load()
  if args.mode=="check-sources":
   value={"loaded_from":"RAW_SOURCE_BYTES","sources":loaded_sources(modules["build_profile"].__dict__)}
  elif args.mode=="install":value=modules["resource_install"].install(args.output)
  else:
   profile=json.loads(Path(args.profile).read_bytes());limits=json.loads(Path(args.limits).read_bytes())
-  value=modules["build_profile"].run(profile,limits,args.output)
+  options={} if args.started_binding is None else {"external_started":json.loads(Path(args.started_binding).read_bytes())}
+  value=modules["build_profile"].run(profile,limits,args.output,**options)
  print(json.dumps(value,sort_keys=True))
  if args.mode!="check-sources" and value["terminal"] not in ("COMPLETED","SCOPED_HELPER_INSTALLED"):return 2
  return 0

@@ -5,7 +5,7 @@ import sys
 import types
 
 HERE = Path(__file__).resolve().parent
-RESOURCE = ("resource_boot", "resource_contract", "resource_pidfd", "resource_cgroup",
+RESOURCE = ("resource_boot", "resource_contract", "resource_deadline", "resource_pidfd", "resource_cgroup",
             "resource_monitor", "resource_runner", "build_profile_policy", "build_profile",
             "resource_install", "resource_setup")
 OWN = ("acquisition_contract", "materialize_objects", "materialize_git", "materialize_phase",

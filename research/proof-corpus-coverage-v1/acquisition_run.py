@@ -42,7 +42,7 @@ def run(registrar, lock_path, destination):
                 dict(stage=stage, state='NOT_DISPATCHED', cause='EPISODE_PRE_DISPATCH')
                 for stage in contract.STAGES]) for row in assigned['rows']]))
         source = out / 'sources'; source.mkdir()
-        names = ['resource_boot', 'resource_contract', 'resource_pidfd', 'resource_cgroup',
+        names = ['resource_boot', 'resource_contract', 'resource_deadline', 'resource_pidfd', 'resource_cgroup',
                  'resource_monitor', 'resource_runner', 'build_profile_policy', 'build_profile',
                  'resource_install', 'resource_setup', 'acquisition_contract', 'acquisition_run', 'acquisition_worker',
                  'acquisition_git', 'acquisition_git_custody']

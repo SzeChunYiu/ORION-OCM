@@ -28,6 +28,16 @@ def imported():
         result[name]=identity(p)
     return result
 
+def affinity():
+    result={"availability":"UNAVAILABLE"}
+    try:
+        result["cpu"]=sorted(os.sched_getaffinity(0));result["threads"]={}
+        for p in sorted(Path("/proc/self/task").iterdir()):
+            result["threads"][p.name]=sorted(os.sched_getaffinity(int(p.name)))
+        result["availability"]="OBSERVED"
+    except (AttributeError,OSError) as exc:result["error"]={"class":type(exc).__name__,"message":str(exc)}
+    return result
+
 def run(mode,value,*,arm="ocm",observation=None,row_sink=None):
     from unary_method_arm import run as dispatch
     return dispatch(arm,mode,value,observation=observation,row_sink=row_sink)
@@ -45,7 +55,7 @@ def main():
         result["profile"]=profile;python=B.verify(profile,actual=True)
         before=D.sources();origins=imported();input_bytes=Path(sys.argv[2]).read_bytes()
         result={"arm":arm,"profile":profile,"mode":mode,"input_sha256":hashlib.sha256(input_bytes).hexdigest(),"source_before":before,
-                "python":python,"pid":os.getpid(),"argv":sys.argv,
+                "python":python,"pid":os.getpid(),"argv":sys.argv,"affinity_before":affinity(),
                 "flags":{"isolated":sys.flags.isolated,"no_site":sys.flags.no_site,"dont_write_bytecode":sys.flags.dont_write_bytecode}}
         value=D.parse(input_bytes)
         if mode=="presented_batch":
@@ -62,7 +72,7 @@ def main():
         if mode=="presented_batch":
             result["active_observation"]={"detail_location":"outcome","stage":result["outcome"]["stage"],
                                           "rows_recorded":len(result["outcome"]["rows"])}
-        result["imports"]=imported();result["source_after"]=D.sources()
+        result["imports"]=imported();result["affinity_after"]=affinity();result["source_after"]=D.sources()
         B.verify(profile,actual=True)
         if before!=result["source_after"]:raise InputRefused("SOURCE_DRIFT")
         result["terminal"]="COMPLETED";result["reason"]="AUTHORED_PROCESS_EXECUTION"

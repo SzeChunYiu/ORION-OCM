@@ -5,15 +5,16 @@ from resource_pidfd import preflight
 from resource_contract import validate_limits,available_memory,write_json,canonical,record
 from resource_cgroup import Controller
 from resource_monitor import disk_snapshot,signal_members,reason
-def run(argv,env,limits,output,owned_paths,*,token=None):
+from resource_deadline import Started,DeadlineFailure
+def run(argv,env,limits,output,owned_paths,*,token=None,external_started=None):
  handlers={}
  def interrupted(signum,frame):raise InterruptedError("host signal "+str(signum))
  if threading.current_thread() is threading.main_thread():
   for sig in (signal.SIGTERM,signal.SIGHUP):handlers[sig]=signal.signal(sig,interrupted)
- try:return _run(argv,env,limits,output,owned_paths,token=token,guarded=bool(handlers))
+ try:return _run(argv,env,limits,output,owned_paths,token=token,guarded=bool(handlers),external_started=external_started)
  finally:
   for sig,old in handlers.items():signal.signal(sig,old)
-def _run(argv,env,limits,output,owned_paths,*,token,guarded):
+def _run(argv,env,limits,output,owned_paths,*,token,guarded,external_started=None):
  limits=validate_limits(limits);start=time.monotonic();root=Path(output).resolve()
  root.mkdir();work=root/"work";work.mkdir()
  roots=[root,*[Path(p).resolve(strict=True) for p in owned_paths]]
@@ -24,7 +25,10 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
   "cpu_scope":"v1 cpuacct aggregate descendant usage; not RSS","peak_rss_bytes":None,
   "dispatch":{"state":"NOT_ATTEMPTED","attempted":False,"pid":None},"evidence_errors":[]}
  c=p=None;signals=[];first=None;last=None;stop="";error=None;phase="SETUP"
+ clock=None if external_started is None else Started(external_started,roots)
+ if clock is not None:receipt["external_started"]=clock.receipt
  try:
+  if clock is not None:clock.check("SETUP")
   receipt["pidfd"]=preflight()
   initial=disk_snapshot(roots);initial["available_memory_bytes"]=available_memory()
   receipt["initial"]=initial
@@ -40,12 +44,16 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
   with (root/"stdout.bin").open("xb") as out,(root/"stderr.bin").open("xb") as err,(root/"samples.jsonl").open("xb") as samples:
    kwargs=dict(env=env,cwd=work,stdout=out,stderr=err,stdin=subprocess.DEVNULL,
     start_new_session=True,preexec_fn=before_exec,close_fds=True)
+   if clock is not None:clock.check("PRELAUNCH")
    phase="LAUNCH";receipt["dispatch"].update(state="ATTEMPTED_UNKNOWN",attempted=True)
    p=subprocess.Popen(argv,**kwargs)
    receipt["pid"]=p.pid;receipt["dispatch"].update(state="STARTED",pid=p.pid)
    phase="MONITOR"
    while True:
+    if clock is not None:clock.check("MONITOR_BEFORE")
     last={**disk_snapshot(roots),"elapsed_s":time.monotonic()-start,"resources":c.snapshot()}
+    if clock is not None:last["external_started"]=clock.check("MONITOR_AFTER")
+    last["elapsed_s"]=time.monotonic()-start
     samples.write(canonical(last));samples.flush()
     stop=reason(last,limits,last["elapsed_s"])
     if stop:first=last;break
@@ -60,6 +68,9 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
   receipt["terminal"]=("INTERRUPTED" if isinstance(exc,(KeyboardInterrupt,SystemExit,InterruptedError))
    else "MONITOR_FAILED" if state=="STARTED" else "DISPATCH_UNCERTAIN" if state=="ATTEMPTED_UNKNOWN" else "SETUP_REFUSED")
   receipt["reason"]=type(exc).__name__+": "+str(exc)
+  if isinstance(exc,DeadlineFailure) and state=="STARTED":
+   receipt["terminal"]="RESOURCE_STOP" if str(exc)=="EXTERNAL_DEADLINE_EXPIRED" else "EVIDENCE_FAILED"
+   first=last
   receipt["failure_phase"]=phase
  finally:
   receipt["primary_outcome"]={"terminal":receipt["terminal"],"reason":receipt["reason"],"phase":phase,"error":error}
@@ -113,6 +124,12 @@ def _run(argv,env,limits,output,owned_paths,*,token,guarded):
     receipt["evidence_errors"].append({"phase":"RAW_CUSTODY","file":name,"class":type(exc).__name__,"message":str(exc)})
     if receipt["dispatch"]["attempted"] and receipt["terminal"]!="CLEANUP_INCOMPLETE":
      receipt["terminal"]="EVIDENCE_FAILED";receipt["reason"]="RAW_CUSTODY_UNAVAILABLE"
+  if clock is not None:
+   try:clock.check("FINAL_CUSTODY")
+   except DeadlineFailure as exc:
+    if receipt["terminal"] in ("COMPLETED","COMMAND_FAILED"):
+     receipt["terminal"]="RESOURCE_STOP" if str(exc)=="EXTERNAL_DEADLINE_EXPIRED" else "EVIDENCE_FAILED"
+     receipt["reason"]=str(exc)
   receipt["evidence_complete"]=not receipt["evidence_errors"]
   write_json(root/"resource-receipt.json",receipt)
  return receipt
