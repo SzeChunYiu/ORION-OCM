@@ -54,7 +54,7 @@ CARDS = [
 },
 {
  "study_id": "CL-ESCALATION-PILOT-V1",
- "artifact": "escalation.py, escalation_worlds.py, escalation_generator.py, escalation_parents.py",
+ "artifact": "escalation.py, escalation_worlds.py, escalation_generator.py, escalation_parents.py, run_escalation.py",
  "scientific_question": (
    "When a learning system stops making progress, can it tell the difference between needing more "
    "search, needing different evidence, and needing a different representation? Every adaptive "
@@ -98,7 +98,7 @@ CARDS = [
 },
 {
  "study_id": "CL-FAILURE-PILOT-V1",
- "artifact": "failure.py, failure_worlds.py, failure_parents.py",
+ "artifact": "failure.py, failure_worlds.py, failure_parents.py, run_failure.py",
  "scientific_question": (
    "Can a system learn from a failure in a way that generalises to related situations without "
    "becoming permanently closed to the possibility that the failure was circumstantial?"),
@@ -126,12 +126,20 @@ CARDS = [
  "kill_criterion": (
    "If the cause-blind nogood parent matches on both repeated-work avoidance and reopening, scoped "
    "failure knowledge is merged into the nogood parent and removed as a separate mechanism."),
+ "observed_outcome": (
+   "The truth-maintenance parent, given full strength, ties the governed store exactly on four of "
+   "seven worlds and separates only on the three where the failure's cause carries no information "
+   "about correctness: a spent budget, a probe set that provably could not discriminate, and a "
+   "defective checker. The transcript parent, which keys on task identity, is broken shut on both "
+   "scope-recovery worlds. Every arm is handed a correct diagnosis by the world, so the harder "
+   "question -- whether a machine can tell an evaluator defect from a genuine refutation -- is "
+   "untouched."),
  "discharges_144": ["§6 parent named with its prior negative preserved", "§11 hostile families including evaluator defect and non-identifying probe", "§12 replacement-by-parent ablation"],
  "outstanding_144": ["§4 E3 confirmatory run", "§10 independent-unit definition and intervals", "§15 replication"],
 },
 {
  "study_id": "CL-SCALING-PILOT-V1",
- "artifact": "scaling.py",
+ "artifact": "scaling.py, scaling_arms.py, run_scaling.py",
  "scientific_question": (
    "As a system accumulates competence, does the work it does per task track the part of its "
    "memory it actually uses, or the total size of that memory? This is the question behind every "
@@ -159,6 +167,15 @@ CARDS = [
    "If k grows near-linearly in N, or the crossover query count is not reached within the "
    "registered lifetime, the sparse-cognition claim is dropped and the terminal is "
    "INDEX_MAINTENANCE_DOMINATES."),
+ "observed_outcome": (
+   "The indexed parent matches the machine arm EXACTLY on k, on k/N, on query work and on bytes at "
+   "every registered scale, so the terminal is PARENT_SUFFICIENT and sparse lookup under a supplied "
+   "family key is confirmed to be a property of the key. Every hostile fired: the uninstrumented "
+   "path returned CANNOT_CHECK, the rebuild hostile showed identical per-query k with far worse "
+   "total work, the cache parent answered none of the probes while carrying the largest state, and "
+   "the globally shared revocation produced a cone growing with N while the local one stayed "
+   "constant at two. The one coordinate on which the parent has no answer at all is which objects "
+   "went stale after a support was withdrawn."),
  "discharges_144": ["§8 scale variables instrumented", "§8 hidden index work measured separately", "§12 global-scan functional replacement"],
  "outstanding_144": ["§8 the 1x/3x/10x/30x growth study on the real runtime", "§8 related versus unrelated acquisition arms", "§6 neural memory parent"],
 },
@@ -220,6 +237,8 @@ def main() -> int:
         lines.append(f"**Strongest-parent attack.** {c['strongest_parent_attack']}\n")
         lines.append(f"**Prior-information audit.** {c['prior_information_audit']}\n")
         lines.append(f"**Scaling relevance.** {c['scaling_relevance']}\n")
+        if c.get("observed_outcome"):
+            lines.append(f"**Observed outcome.** {c['observed_outcome']}\n")
         lines.append(f"**Kill criterion.** {c['kill_criterion']}\n")
         lines.append("**Discharges (#144).** " + "; ".join(c["discharges_144"]) + "\n")
         lines.append("**Still outstanding (#144).** " + "; ".join(c["outstanding_144"]) + "\n")

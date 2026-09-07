@@ -38,7 +38,7 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 
 ## CL-ESCALATION-PILOT-V1
 
-**Artifact.** `escalation.py, escalation_worlds.py, escalation_generator.py, escalation_parents.py`
+**Artifact.** `escalation.py, escalation_worlds.py, escalation_generator.py, escalation_parents.py, run_escalation.py`
 
 **Scientific question.** When a learning system stops making progress, can it tell the difference between needing more search, needing different evidence, and needing a different representation? Every adaptive system faces this, and the common default -- escalate when stuck -- is known to be wrong.
 
@@ -62,7 +62,7 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 
 ## CL-FAILURE-PILOT-V1
 
-**Artifact.** `failure.py, failure_worlds.py, failure_parents.py`
+**Artifact.** `failure.py, failure_worlds.py, failure_parents.py, run_failure.py`
 
 **Scientific question.** Can a system learn from a failure in a way that generalises to related situations without becoming permanently closed to the possibility that the failure was circumstantial?
 
@@ -78,6 +78,8 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 
 **Scaling relevance.** Feeds ME-SCALE-5, failure recurrence against experience, and contributes to C_revision through reopening cost.
 
+**Observed outcome.** The truth-maintenance parent, given full strength, ties the governed store exactly on four of seven worlds and separates only on the three where the failure's cause carries no information about correctness: a spent budget, a probe set that provably could not discriminate, and a defective checker. The transcript parent, which keys on task identity, is broken shut on both scope-recovery worlds. Every arm is handed a correct diagnosis by the world, so the harder question -- whether a machine can tell an evaluator defect from a genuine refutation -- is untouched.
+
 **Kill criterion.** If the cause-blind nogood parent matches on both repeated-work avoidance and reopening, scoped failure knowledge is merged into the nogood parent and removed as a separate mechanism.
 
 **Discharges (#144).** §6 parent named with its prior negative preserved; §11 hostile families including evaluator defect and non-identifying probe; §12 replacement-by-parent ablation
@@ -86,7 +88,7 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 
 ## CL-SCALING-PILOT-V1
 
-**Artifact.** `scaling.py`
+**Artifact.** `scaling.py, scaling_arms.py, run_scaling.py`
 
 **Scientific question.** As a system accumulates competence, does the work it does per task track the part of its memory it actually uses, or the total size of that memory? This is the question behind every claim that a large knowledge store can be queried cheaply.
 
@@ -101,6 +103,8 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 **Prior-information audit.** The index key is family identity, which is SUPPLIED. The store's scoping is AUTHORED. No routing is learned. Crediting sparse query work to cognition here would be laundering; it is a property of the supplied key.
 
 **Scaling relevance.** This is the ME-SCALE-1 instrument itself: N, k, B_N, B_k, index build and maintenance, crossover.
+
+**Observed outcome.** The indexed parent matches the machine arm EXACTLY on k, on k/N, on query work and on bytes at every registered scale, so the terminal is PARENT_SUFFICIENT and sparse lookup under a supplied family key is confirmed to be a property of the key. Every hostile fired: the uninstrumented path returned CANNOT_CHECK, the rebuild hostile showed identical per-query k with far worse total work, the cache parent answered none of the probes while carrying the largest state, and the globally shared revocation produced a cone growing with N while the local one stayed constant at two. The one coordinate on which the parent has no answer at all is which objects went stale after a support was withdrawn.
 
 **Kill criterion.** If k grows near-linearly in N, or the crossover query count is not reached within the registered lifetime, the sparse-cognition claim is dropped and the terminal is INDEX_MAINTENANCE_DOMINATES.
 
