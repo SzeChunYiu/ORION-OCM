@@ -1,0 +1,95 @@
+........FF.FF                                                            [100%]
+=================================== FAILURES ===================================
+_______________ test_replay_process_evidence_must_match[cleanup] _______________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-256/test_replay_process_evidence_m0/manifest.json'), '7f8f378022c7c6105109015b...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-256/test_replay_process_evidence_m0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd32a9fe590>
+fault = 'cleanup'
+
+    @pytest.mark.parametrize("fault", ["cleanup", "pid", "rebind"])
+    def test_replay_process_evidence_must_match(case, monkeypatch, fault):
+        manifest, digest, out, _, _ = case; original = L.replay
+        def broken(*args):
+            result = original(*args)
+            if fault == "cleanup": result["cleanup"]["group_absent"] = False
+            elif fault == "pid": result["result"]["pid"] += 1
+            else: result["result"]["host_operators"] = ["invented"]
+            return result
+        monkeypatch.setattr(L, "replay", broken)
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK"
+E       AssertionError: assert 'PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+
+research/proof-runtime-v1/test_lifecycle_contract.py:133: AssertionError
+_________________ test_replay_process_evidence_must_match[pid] _________________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-256/test_replay_process_evidence_m1/manifest.json'), '24991a401bcea02132627552...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-256/test_replay_process_evidence_m1/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd32a820990>
+fault = 'pid'
+
+    @pytest.mark.parametrize("fault", ["cleanup", "pid", "rebind"])
+    def test_replay_process_evidence_must_match(case, monkeypatch, fault):
+        manifest, digest, out, _, _ = case; original = L.replay
+        def broken(*args):
+            result = original(*args)
+            if fault == "cleanup": result["cleanup"]["group_absent"] = False
+            elif fault == "pid": result["result"]["pid"] += 1
+            else: result["result"]["host_operators"] = ["invented"]
+            return result
+        monkeypatch.setattr(L, "replay", broken)
+        r = L.run(manifest, digest, out)
+>       assert r["terminal"] == "CANNOT_CHECK"
+E       AssertionError: assert 'PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+
+research/proof-runtime-v1/test_lifecycle_contract.py:133: AssertionError
+______________ test_claim_route_must_match_actual_solve_candidate ______________
+
+case = (PosixPath('/tmp/pytest-of-billy/pytest-256/test_claim_route_must_match_ac0/manifest.json'), '153d7455b063d252d16569a9...ce', ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-256/test_claim_route_must_match_ac0/source.py'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd32a6d1c10>
+
+    def test_claim_route_must_match_actual_solve_candidate(case, monkeypatch):
+        manifest, digest, out, _, _ = case; original = L.ProofRuntimeView.attempt
+        def changed(self):
+            result = original(self)
+            result["solve"]["answer"]["candidate"] = ["const", 99]
+            return result
+        monkeypatch.setattr(L.ProofRuntimeView, "attempt", changed)
+>       assert L.run(manifest, digest, out)["terminal"] == "CANNOT_CHECK"
+E       AssertionError: assert 'PROOF_RUNTIM...SSIONING_PASS' == 'CANNOT_CHECK'
+E         
+E         - CANNOT_CHECK
+E         + PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS
+
+research/proof-runtime-v1/test_lifecycle_contract.py:143: AssertionError
+___________ test_cold_process_uses_declared_sources_and_no_callbacks ___________
+
+setup = (<function setup.<locals>.create at 0x7fd32a9efce0>, [('worker', ['/python/bin/python3.11', '-I', '-S', '-B', '/app/wo... ...}, {'timeout_s': 30})], PosixPath('/tmp/pytest-of-billy/pytest-256/test_cold_process_uses_declare0/manifest.json'))
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-256/test_cold_process_uses_declare0')
+
+    def test_cold_process_uses_declared_sources_and_no_callbacks(setup, tmp_path):
+        create, calls, manifest = setup; out = tmp_path / "real-cold"; out.mkdir()
+        frozen, digest = R.make_freeze(L.REPO, manifest, R.sha(manifest), out, L.PYTHON)
+        session = create(); rt = L.OCMRuntime(out / "ocm")
+        view = L.ProofRuntimeView.create(rt, session, out / "issuer")
+        assert view.attempt()["terminal"] == "ADMITTED"; session.close()
+        result = R.replay(out, frozen, digest, L.PYTHON)
+        assert result["returncode"] == 0, result
+        assert result["result"]["status"]["terminal"] == "LIVE"
+        assert result["result"]["host_operators"] == [] and result["result"]["read_only"]
+        assert result["result"]["pid"] == result["pid"]
+>       assert result["result"]["imports_bound"] is True
+E       KeyError: 'imports_bound'
+
+research/proof-runtime-v1/test_lifecycle_contract.py:157: KeyError
+=========================== short test summary info ============================
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_replay_process_evidence_must_match[cleanup]
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_replay_process_evidence_must_match[pid]
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_claim_route_must_match_actual_solve_candidate
+FAILED research/proof-runtime-v1/test_lifecycle_contract.py::test_cold_process_uses_declared_sources_and_no_callbacks
+4 failed, 9 passed in 10.12s

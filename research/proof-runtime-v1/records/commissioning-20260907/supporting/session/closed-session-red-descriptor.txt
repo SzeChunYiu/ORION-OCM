@@ -1,0 +1,13 @@
+.......................F                                                 [100%]
+=================================== FAILURES ===================================
+___________ test_refused_descriptor_and_readiness_cost_are_preserved ___________
+research/proof-runtime-v1/test_closed_session.py:186: in test_refused_descriptor_and_readiness_cost_are_preserved
+    assert json.loads((refused.root / "requested-descriptor.json").read_bytes()) == task
+../../../.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/lib/python3.11/pathlib.py:1050: in read_bytes
+    with self.open(mode='rb') as f:
+../../../.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pytest-of-billy/pytest-240/test_refused_descriptor_and_re0/refused/requested-descriptor.json'
+=========================== short test summary info ============================
+FAILED research/proof-runtime-v1/test_closed_session.py::test_refused_descriptor_and_readiness_cost_are_preserved
+1 failed, 23 passed in 0.22s

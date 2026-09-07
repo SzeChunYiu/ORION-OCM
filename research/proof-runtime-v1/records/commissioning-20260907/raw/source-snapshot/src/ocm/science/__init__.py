@@ -1,0 +1,1 @@
+"""M10 — scientific reasoning as a governed epistemic lifecycle: evidence objects with dependence, hypothesis representations, discriminating experiment selection, causal oracle worlds, statistical lifecycle, proof-kernel boundary, retraction lifecycle, communication gate."""

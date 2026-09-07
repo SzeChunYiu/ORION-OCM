@@ -1,0 +1,6 @@
+{
+  "previous_audit": "/home/billy/orion-director-work/20260907/proof-runtime-native-audit-v1/AUDIT.json",
+  "previous_audit_sha256": "0f02316080479f9f4dc6e7e946122836fe2e15629145b58a1ef8c18cf958938d",
+  "correction": "Session._finish stores record_path in raw result before computing record_sha256. Only record_sha256 is absent from the stored raw handle; old helper incorrectly excluded both fields. Actual B/C raw differences were solely record_sha256.",
+  "classification": "Audit-helper false positive; no native result, source, or proof rerun changed."
+}

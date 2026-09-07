@@ -1,7 +1,7 @@
 # OCM research programme — current objective
 
 Research and top-tier journal papers come first; product development follows.
-Formal science is the flagship: [FLT reconstruction and transfer](FLT_RECONSTRUCTION.md). The exposed [finite F0 proposer](../mechanical-proof-v1/RESULT.md) now passes its 14-case commissioning; broader proof mechanics and learning remain open. Richer language follows later.
+Formal science is the flagship: [FLT reconstruction and transfer](FLT_RECONSTRUCTION.md). The exposed [F0 proposer](../mechanical-proof-v1/RESULT.md) is now connected to [actual OCM solve, proof admission and revision](../proof-runtime-v1/QUALIFICATION.md), with 24 native lifecycle stages passing. The [pinned corpus inventory](../proof-corpus-v1/RESULT.md) covers all 29,511 proof pairs; semantic closure, reconstruction and useful learning remain open. Richer language follows later.
 [No neural networks](NO_NEURAL_CONTRACT.md) is the governing requirement across OCM cognition and learning; current whole-machine enforcement remains to be qualified.
 
 Two candidate scientific contributions:

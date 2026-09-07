@@ -1,0 +1,49 @@
+name: Mechanical OCM runtime and corpus controls
+on:
+  pull_request:
+    paths:
+      - 'research/proof-runtime-v1/**'
+      - 'research/proof-corpus-v1/**'
+      - 'research/mechanical-proof-v1/**'
+      - 'research/proof-replay-v1/Foundation.lean'
+      - 'src/ocm/**'
+      - 'tests/integration/test_runtime_atomic_admission.py'
+      - '.github/workflows/proof-runtime.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/proof-runtime-v1/**'
+      - 'research/proof-corpus-v1/**'
+      - 'src/ocm/**'
+      - '.github/workflows/proof-runtime.yml'
+permissions:
+  contents: read
+jobs:
+  portable-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Atomic admission and mocked native-boundary lifecycle controls
+        env:
+          PYTHONPATH: src
+        run: |
+          python -B -m pytest tests/integration/test_runtime_atomic_admission.py \
+            research/proof-runtime-v1 --ignore=research/proof-runtime-v1/records \
+            --junitxml="$RUNNER_TEMP/proof-runtime.xml" -q
+      - name: Authored Git corpus fixtures only
+        run: python -B -m unittest discover -s research/proof-corpus-v1/tests -q
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mechanical-proof-runtime-controls
+          path: ${{ runner.temp }}/proof-runtime.xml
+          if-no-files-found: error
+      - name: Source custody
+        run: /usr/bin/git diff --exit-code

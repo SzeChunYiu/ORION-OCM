@@ -1,0 +1,711 @@
+{
+ "manifest": "OCM_M6_KNOWLEDGE_MANIFEST_V1",
+ "families": [
+  "objects",
+  "geography",
+  "calendar",
+  "biology",
+  "physics",
+  "astronomy",
+  "social",
+  "activities",
+  "arithmetic",
+  "measurement",
+  "history",
+  "culture",
+  "language"
+ ],
+ "documents": [
+  {
+   "source_id": "curated:v1",
+   "title": "OCM hand-authored controlled facts v1",
+   "licence": "Apache-2.0 (this repository)",
+   "kind": "hand_authored",
+   "revision": "2026-09-05"
+  },
+  {
+   "source_id": "almanac:v1",
+   "title": "OCM hand-authored almanac (unverified source assertions)",
+   "licence": "Apache-2.0 (this repository)",
+   "kind": "hand_authored",
+   "revision": "2026-09-05"
+  },
+  {
+   "source_id": "rumour:v1",
+   "title": "A deliberately wrong source for adversarial cases",
+   "licence": "Apache-2.0 (this repository)",
+   "kind": "hand_authored",
+   "revision": "2026-09-05"
+  }
+ ],
+ "facts": [
+  {
+   "fact_id": "obj:cat:animal",
+   "subject": "cat",
+   "relation": "IS_A",
+   "object": "animal",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a cat is an animal"
+  },
+  {
+   "fact_id": "obj:dog:animal",
+   "subject": "dog",
+   "relation": "IS_A",
+   "object": "animal",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a dog is an animal"
+  },
+  {
+   "fact_id": "obj:robot:machine",
+   "subject": "robot",
+   "relation": "IS_A",
+   "object": "machine",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a robot is a machine"
+  },
+  {
+   "fact_id": "obj:door:object",
+   "subject": "door",
+   "relation": "IS_A",
+   "object": "object",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a door is an object"
+  },
+  {
+   "fact_id": "obj:door:part_of",
+   "subject": "door",
+   "relation": "PART_OF",
+   "object": "house",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a door is part of a house"
+  },
+  {
+   "fact_id": "obj:key:opens",
+   "subject": "key",
+   "relation": "USED_FOR",
+   "object": "opening",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a key is used for opening"
+  },
+  {
+   "fact_id": "obj:cup:holds",
+   "subject": "cup",
+   "relation": "USED_FOR",
+   "object": "drinking",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a cup is used for drinking"
+  },
+  {
+   "fact_id": "obj:ball:round",
+   "subject": "ball",
+   "relation": "HAS_PROPERTY",
+   "object": "round",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a ball is round"
+  },
+  {
+   "fact_id": "obj:book:contains",
+   "subject": "book",
+   "relation": "CONTAINS",
+   "object": "text",
+   "topic": "objects",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a book contains text"
+  },
+  {
+   "fact_id": "geo:paris:france",
+   "subject": "paris",
+   "relation": "LOCATED_IN",
+   "object": "france",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "paris is in france"
+  },
+  {
+   "fact_id": "geo:paris:capital",
+   "subject": "paris",
+   "relation": "CAPITAL_OF",
+   "object": "france",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "paris is the capital of france"
+  },
+  {
+   "fact_id": "geo:berlin:germany",
+   "subject": "berlin",
+   "relation": "LOCATED_IN",
+   "object": "germany",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "berlin is in germany"
+  },
+  {
+   "fact_id": "geo:berlin:capital",
+   "subject": "berlin",
+   "relation": "CAPITAL_OF",
+   "object": "germany",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "berlin is the capital of germany"
+  },
+  {
+   "fact_id": "geo:france:europe",
+   "subject": "france",
+   "relation": "LOCATED_IN",
+   "object": "europe",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "france is in europe"
+  },
+  {
+   "fact_id": "geo:germany:europe",
+   "subject": "germany",
+   "relation": "LOCATED_IN",
+   "object": "europe",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "germany is in europe"
+  },
+  {
+   "fact_id": "geo:stockholm:sweden",
+   "subject": "stockholm",
+   "relation": "LOCATED_IN",
+   "object": "sweden",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "stockholm is in sweden"
+  },
+  {
+   "fact_id": "geo:sweden:europe",
+   "subject": "sweden",
+   "relation": "LOCATED_IN",
+   "object": "europe",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "sweden is in europe"
+  },
+  {
+   "fact_id": "geo:nile:africa",
+   "subject": "nile",
+   "relation": "LOCATED_IN",
+   "object": "africa",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the nile is in africa"
+  },
+  {
+   "fact_id": "geo:nile:river",
+   "subject": "nile",
+   "relation": "IS_A",
+   "object": "river",
+   "topic": "geography",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the nile is a river"
+  },
+  {
+   "fact_id": "cal:week:days",
+   "subject": "week",
+   "relation": "HAS_COUNT",
+   "object": "day",
+   "topic": "calendar",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a week has seven days",
+   "value": "7"
+  },
+  {
+   "fact_id": "cal:year:months",
+   "subject": "year",
+   "relation": "HAS_COUNT",
+   "object": "month",
+   "topic": "calendar",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a year has twelve months",
+   "value": "12"
+  },
+  {
+   "fact_id": "cal:day:hours",
+   "subject": "day",
+   "relation": "HAS_COUNT",
+   "object": "hour",
+   "topic": "calendar",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a day has twenty-four hours",
+   "value": "24"
+  },
+  {
+   "fact_id": "cal:monday:before",
+   "subject": "monday",
+   "relation": "BEFORE",
+   "object": "tuesday",
+   "topic": "calendar",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "monday is before tuesday"
+  },
+  {
+   "fact_id": "cal:tuesday:before",
+   "subject": "tuesday",
+   "relation": "BEFORE",
+   "object": "wednesday",
+   "topic": "calendar",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "tuesday is before wednesday"
+  },
+  {
+   "fact_id": "bio:cat:mammal",
+   "subject": "cat",
+   "relation": "IS_A",
+   "object": "mammal",
+   "topic": "biology",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a cat is a mammal"
+  },
+  {
+   "fact_id": "bio:mammal:animal",
+   "subject": "mammal",
+   "relation": "IS_A",
+   "object": "animal",
+   "topic": "biology",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a mammal is an animal"
+  },
+  {
+   "fact_id": "bio:whale:mammal",
+   "subject": "whale",
+   "relation": "IS_A",
+   "object": "mammal",
+   "topic": "biology",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a whale is a mammal"
+  },
+  {
+   "fact_id": "bio:mammal:milk",
+   "subject": "mammal",
+   "relation": "HAS_PROPERTY",
+   "object": "produces_milk",
+   "topic": "biology",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a mammal produces milk"
+  },
+  {
+   "fact_id": "phy:water:boils",
+   "subject": "water",
+   "relation": "BOILS_AT",
+   "object": "celsius",
+   "topic": "physics",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "water boils at 100 celsius",
+   "value": "100"
+  },
+  {
+   "fact_id": "phy:water:freezes",
+   "subject": "water",
+   "relation": "FREEZES_AT",
+   "object": "celsius",
+   "topic": "physics",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "water freezes at 0 celsius",
+   "value": "0"
+  },
+  {
+   "fact_id": "phy:ice:water",
+   "subject": "ice",
+   "relation": "IS_A",
+   "object": "water",
+   "topic": "physics",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "ice is water"
+  },
+  {
+   "fact_id": "ast:earth:planet",
+   "subject": "earth",
+   "relation": "IS_A",
+   "object": "planet",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the earth is a planet"
+  },
+  {
+   "fact_id": "ast:earth:orbits",
+   "subject": "earth",
+   "relation": "ORBITS",
+   "object": "sun",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the earth orbits the sun"
+  },
+  {
+   "fact_id": "ast:moon:orbits",
+   "subject": "moon",
+   "relation": "ORBITS",
+   "object": "earth",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the moon orbits the earth"
+  },
+  {
+   "fact_id": "ast:sun:star",
+   "subject": "sun",
+   "relation": "IS_A",
+   "object": "star",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the sun is a star"
+  },
+  {
+   "fact_id": "ast:mars:planet",
+   "subject": "mars",
+   "relation": "IS_A",
+   "object": "planet",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "mars is a planet"
+  },
+  {
+   "fact_id": "ast:mars:orbits",
+   "subject": "mars",
+   "relation": "ORBITS",
+   "object": "sun",
+   "topic": "astronomy",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "mars orbits the sun"
+  },
+  {
+   "fact_id": "soc:greeting:hello",
+   "subject": "hello",
+   "relation": "IS_A",
+   "object": "greeting",
+   "topic": "social",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "hello is a greeting"
+  },
+  {
+   "fact_id": "soc:thanks:polite",
+   "subject": "thanks",
+   "relation": "IS_A",
+   "object": "politeness",
+   "topic": "social",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "thanks is politeness"
+  },
+  {
+   "fact_id": "act:cooking:kitchen",
+   "subject": "cooking",
+   "relation": "HAPPENS_IN",
+   "object": "kitchen",
+   "topic": "activities",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "cooking happens in a kitchen"
+  },
+  {
+   "fact_id": "act:sleeping:night",
+   "subject": "sleeping",
+   "relation": "HAPPENS_AT",
+   "object": "night",
+   "topic": "activities",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "sleeping happens at night"
+  },
+  {
+   "fact_id": "ari:two_plus_two",
+   "subject": "two_plus_two",
+   "relation": "EQUALS",
+   "object": "four",
+   "topic": "arithmetic",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "two plus two equals four"
+  },
+  {
+   "fact_id": "ari:three_plus_four",
+   "subject": "three_plus_four",
+   "relation": "EQUALS",
+   "object": "seven",
+   "topic": "arithmetic",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "three plus four equals seven"
+  },
+  {
+   "fact_id": "mea:metre:cm",
+   "subject": "metre",
+   "relation": "HAS_COUNT",
+   "object": "centimetre",
+   "topic": "measurement",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a metre has one hundred centimetres",
+   "value": "100"
+  },
+  {
+   "fact_id": "mea:kilometre:m",
+   "subject": "kilometre",
+   "relation": "HAS_COUNT",
+   "object": "metre",
+   "topic": "measurement",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a kilometre has one thousand metres",
+   "value": "1000"
+  },
+  {
+   "fact_id": "his:moon_landing:year",
+   "subject": "moon_landing",
+   "relation": "HAPPENED_IN",
+   "object": "year_1969",
+   "topic": "history",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "the moon landing happened in 1969"
+  },
+  {
+   "fact_id": "his:rome:italy",
+   "subject": "rome",
+   "relation": "LOCATED_IN",
+   "object": "italy",
+   "topic": "history",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "rome is in italy"
+  },
+  {
+   "fact_id": "cul:violin:instrument",
+   "subject": "violin",
+   "relation": "IS_A",
+   "object": "instrument",
+   "topic": "culture",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a violin is an instrument"
+  },
+  {
+   "fact_id": "lan:noun:word_class",
+   "subject": "noun",
+   "relation": "IS_A",
+   "object": "word_class",
+   "topic": "language",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a noun is a word class"
+  },
+  {
+   "fact_id": "lan:verb:word_class",
+   "subject": "verb",
+   "relation": "IS_A",
+   "object": "word_class",
+   "topic": "language",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a verb is a word class"
+  },
+  {
+   "fact_id": "lan:construction:pairing",
+   "subject": "construction",
+   "relation": "IS_A",
+   "object": "form_meaning_pairing",
+   "topic": "language",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a construction is a form meaning pairing"
+  },
+  {
+   "fact_id": "lan:sentence:has",
+   "subject": "sentence",
+   "relation": "CONTAINS",
+   "object": "word",
+   "topic": "language",
+   "sources": [
+    "curated:v1"
+   ],
+   "verified_by": "curator",
+   "gloss": "a sentence contains words"
+  },
+  {
+   "fact_id": "alm:paris:population",
+   "subject": "paris",
+   "relation": "HAS_PROPERTY",
+   "object": "large_population",
+   "topic": "geography",
+   "sources": [
+    "almanac:v1"
+   ],
+   "verified_by": null,
+   "gloss": "paris has a large population"
+  },
+  {
+   "fact_id": "alm:sweden:cold",
+   "subject": "sweden",
+   "relation": "HAS_PROPERTY",
+   "object": "cold_winters",
+   "topic": "geography",
+   "sources": [
+    "almanac:v1"
+   ],
+   "verified_by": null,
+   "gloss": "sweden has cold winters"
+  },
+  {
+   "fact_id": "rum:paris:germany",
+   "subject": "paris",
+   "relation": "LOCATED_IN",
+   "object": "germany",
+   "topic": "geography",
+   "sources": [
+    "rumour:v1"
+   ],
+   "verified_by": null,
+   "gloss": "paris is in germany"
+  }
+ ],
+ "note": "hand-authored controlled facts for the Alpha bounded world; 'verified_by: curator' marks corroborated facts; almanac facts are source assertions only; rumour:v1 is a deliberately wrong source for adversarial cases; Simple Wikipedia / Wikidata subsets enter through the custody scripts with revision ids and are source assertions only"
+}

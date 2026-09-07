@@ -1,0 +1,35 @@
+{
+  "scope": "Read-only review plus authored fixture controls; no public inventory or Lean execution.",
+  "prior_review": "corpus-review-revival-final.json",
+  "source_sha256": {
+    "corpus_syntax.py": "e61fff6ce30a1839358a8ca700c777b01b3cf091701a69a550ff868a58c1415a",
+    "corpus_lex.py": "6f4f90dbf52e3882e422b012a3b155e6edc3b6c679e4897745afaf8565ff3cbb",
+    "corpus_tree.py": "3a13774aef77bfc5504592b0914774dad040627f11792396bc3af68dc59d912e",
+    "corpus_git.py": "4c34d8dcc8f60c43fa08008601995c1e5e6710623bd17986f0fdc7a80b774fa9",
+    "corpus_graph.py": "9ce06d537d9102ed26bee6adaa0e4276831332a73bd652181e06e2f3c987fa40",
+    "corpus_audit.py": "5e6fd59b02f3715201a0d166834fcfcc90aa596bbd92ae75cc43860c21bcefee",
+    "tests/test_public_formats.py": "bdcaf54b9ab0e02899b0e43f2995b8669124769342f8735c947e7fb1032be4a8",
+    "tests/test_review_controls.py": "da9a728a8f58cebba09bf663deed9d90cda2ee3753bcb5e3410a61da5f2449c0"
+  },
+  "empty_import_refusals_and_regressions": {
+    "import   \n": "IMPORT_LAYOUT",
+    "import /- comment -/\n": "IMPORT_LAYOUT",
+    "import\t\n": "IMPORT_LAYOUT",
+    "PublicFormatControls.test_empty_or_comment_only_import_refuses": "PASS",
+    "PublicFormatControls.test_escaped_identifier_is_masked_without_losing_raw_source": "PASS",
+    "PublicFormatControls.test_identifier_segments_do_not_become_command_tokens": "PASS",
+    "PublicFormatControls.test_invalid_or_embedded_warning_is_not_a_bridge": "PASS",
+    "PublicFormatControls.test_masked_literal_cannot_turn_into_import_or_warning_identifier": "PASS",
+    "PublicFormatControls.test_masked_literals_remain_tokens_after_solution_reference": "PASS",
+    "PublicFormatControls.test_type_comparison_warning_is_preserved_but_not_executed": "PASS",
+    "PublicFormatControls.test_unclosed_escaped_identifier_refuses": "PASS",
+    "ReviewControls.test_bridge_cannot_attach_to_helper_across_new_declaration": "PASS",
+    "ReviewControls.test_identifier_suffix_cannot_consume_a_real_following_command": "PASS",
+    "ReviewControls.test_prior_helper_and_nested_type_assignment_remain_allowed": "PASS",
+    "ReviewControls.test_qualified_keyword_identifier_does_not_look_like_command": "PASS",
+    "ReviewControls.test_same_line_command_boundary_cannot_attach_to_helper": "PASS",
+    "ReviewControls.test_selected_child_tree_identity_is_checked": "PASS"
+  },
+  "change_scope": "Only active_imports empty-token explicit refusal and its added test; no new accepted forms.",
+  "prior_review_attempt": "Fixture controls passed; record write stopped because review assertion did not initially allow the intended additional test bytes. Assertion corrected after reading that test. No product failure or native call."
+}

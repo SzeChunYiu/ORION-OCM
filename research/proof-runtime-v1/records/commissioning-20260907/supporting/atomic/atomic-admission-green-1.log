@@ -1,0 +1,26 @@
+F..................                                                      [100%]
+=================================== FAILURES ===================================
+_____________ test_whole_batch_one_event_and_fresh_process_replay ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-billy/pytest-243/test_whole_batch_one_event_and0')
+
+    def test_whole_batch_one_event_and_fresh_process_replay(tmp_path):
+        rt = OCMRuntime(tmp_path)
+        receipts = rt.admit_batch(batch())
+        assert tuple(r.atom_id for r in receipts) == ("anchor", "proof", "claim")
+        assert len(rt.ledger.entries()) == len(rt.events) == 1
+        event = rt.events[0]
+        assert event.event_type is EventType.OBJECT_BATCH_ADMITTED
+        assert event.payload["schema"] == "ocm.object-admission-batch.v1"
+        assert event.output_object_ids == ("anchor", "proof", "ap", "claim", "pc")
+        total = ResourceVector()
+        for receipt in receipts: total = total + receipt.resources
+        assert event.resources == rt.state.meter == total
+        assert rt._solve_epochs == (1, 0, 0)
+>       assert dict(rt.state.ks.edge("ap").meta) == {"route": "checked"}
+E       AttributeError: 'KnowledgeSpace' object has no attribute 'edge'
+
+tests/integration/test_runtime_atomic_admission.py:47: AttributeError
+=========================== short test summary info ============================
+FAILED tests/integration/test_runtime_atomic_admission.py::test_whole_batch_one_event_and_fresh_process_replay
+1 failed, 18 passed in 0.28s
