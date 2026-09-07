@@ -144,3 +144,5 @@ Schema, task-hash and status metadata require exact plain strings before compari
 The metadata-boundary successor retains its separate authored RED/GREEN and full-suite
 records under `/home/billy/orion-director-work/20260907/unary-metadata-qualification-v1`.
 These checks validate a data-only API; they do not contain already executing Python.
+
+Retained release records: [qualification](QUALIFICATION.md).
