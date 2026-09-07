@@ -2,7 +2,7 @@
 import hashlib,re,sys
 from pathlib import Path
 from unary_contract import InputRefused,fields
-import unary_method_data as D
+import unary_method_outer as D
 
 VERSION="3.11.14"
 DEFAULT={"schema":"ocm.unary-method.python.v1","version":VERSION,

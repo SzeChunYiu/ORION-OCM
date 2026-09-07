@@ -12,7 +12,7 @@ import unary_method_data as D
 
 class MethodStore:
     def __init__(self,runtime,*,create=False):
-        self.rt=runtime;self.work={};self.records={};self.uses=[];self.attempts=[];self.intents={};self.head=None
+        self.rt=runtime;self.work={};self.records={};self.uses=[];self.attempts=[];self.intents={};self.head=None;self.selection=None
         start=time.monotonic();root=runtime.root/"unary-method-journal"
         if not create and not (root/"ledger.jsonl").is_file():raise InputRefused("MISSING_ISSUER_JOURNAL")
         self.journal=LedgerStore(root);self.source_map=D.sources(self.work)
@@ -35,7 +35,10 @@ class MethodStore:
         for row in entries[1:]:
             D.bump(self.work,"issuer_records_decoded")
             body=D.parse(D.raw(row.payload))
-            if row.kind=="PREPARE":
+            if row.kind=="SELECTION":
+                if self.selection is not None or self.records or pending:raise InputRefused("SELECTED_DUPLICATE")
+                self.selection=body
+            elif row.kind=="PREPARE":
                 mid=body.get("method_id")
                 if type(mid) is not str or mid in pending or mid in self.records:raise InputRefused("ISSUER_DUPLICATE")
                 pending[mid]=body
@@ -57,6 +60,8 @@ class MethodStore:
         self.head=entries[-1].entry_hash
         if pending:raise InputRefused("INCOMPLETE_ISSUANCE")
         if pending_uses:raise InputRefused("INCOMPLETE_USE")
+        from unary_method_selected import validate_selection
+        validate_selection(self)
         for mid in self.records:self.read(mid)
         from unary_method_journal import validate_receipt
         for body,intent,successful in finished:
@@ -90,8 +95,13 @@ class MethodStore:
         edge=Hyperedge(plan["edge_id"],(anchor.atom_id,),(method.atom_id,),"SUPPORT",warrant=w,scope=D.SCOPE,head_weights=(Fraction(1),))
         return anchor,method,edge
 
+    def acquire_selected(self,training,development,contract,*,observation=None):
+        from unary_method_selected import acquire_selected
+        return acquire_selected(self,training,development,contract,observation=observation)
+
     def acquire(self,episodes):
         start=time.monotonic();self._check_environment()
+        if self.selection is not None:raise InputRefused("SELECTED_ALREADY_ACQUIRED")
         if D.live(self.rt,self._proof_warrant())!="LIVE":raise InputRefused("RULE_CHECKER_UNAVAILABLE")
         episodes=D.parse(D.raw(episodes));result=acquire(episodes)
         D.bump(self.work,"acquisition_calls")
@@ -145,8 +155,11 @@ class MethodStore:
         if D.raw(body)!=D.raw(plan["proof_body"]):raise InputRefused("PROOF_BODY")
         D.payload(self.rt,envelope["proof"],"proof",expected=body,derived=self._proof_warrant(),work=self.work)
         D.payload(self.rt,envelope["discovery"],"discovery",work=self.work)
-        D.payload(self.rt,envelope["utility"],"utility",
-                  expected={"policy":"authored-selected.v1","rule_id":rule["rule_id"]},work=self.work)
+        utility={"policy":"authored-selected.v1","rule_id":rule["rule_id"]}
+        if self.selection is not None:
+            from unary_method_selected import utility_body
+            utility=utility_body(self,rule["rule_id"])
+        D.payload(self.rt,envelope["utility"],"utility",expected=utility,work=self.work)
         anchor,expected,edge=self._items(plan)
         if (atom!=expected or self.rt.state.ks.atom_view.get(anchor.atom_id)!=anchor or
             self.rt.state.ks.edge_view.get(edge.edge_id)!=edge or

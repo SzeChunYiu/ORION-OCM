@@ -1,5 +1,9 @@
 # Authored runtime qualification
 
+This page and its sealed package describe PR141’s historical 213-control generation.
+The [adaptive-parent successor](ADAPTIVE-PARENT-QUALIFICATION.md) qualifies the current
+shared modules with 277 authored controls; the original runtime package stays unchanged.
+
 **213 tests pass with zero failures, errors or skips** on billy-laptop.
 This is authored checked-method persistence and OCM invocation, not a registered
 scientific assay, adaptive-parent advantage, scaling or broad language result.

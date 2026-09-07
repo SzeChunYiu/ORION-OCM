@@ -6,12 +6,13 @@ from unary_contract import InputRefused,negate
 from unary_solver import RegionSolver
 from unary_rule_apply import apply_rule
 from unary_method_index import MethodIndex
+import unary_method_execution as E
 from unary_method_check import request,read_request,answer_warrant,check_packet
 import unary_method_data as D
 
 class MethodRuntime:
     def __init__(self,store):
-        self.store=store;self.rt=store.rt;self.dispatches=0;self.checks=0;self.active=None
+        self.store=store;self.rt=store.rt;self.dispatches=0;self.checks=0;self.active=None;self.engines=E.EnginePool();self.last_observation=None
         self.op=OperatorSpec("unary:generic-dispatcher",store.source_sha,BackendKind.PROGRAMMATIC,
             self._backend,(),output_type="proof",warrant=answer_warrant(store),scope=D.SCOPE,
             checker=lambda _: "CANNOT_CHECK")
@@ -19,6 +20,7 @@ class MethodRuntime:
 
     def _observe(self):
         a=self.active;execution=a["execution"]
+        self.last_observation={"execution_observation":execution}
         execution["index"]=dict(a["index"].work)
         if a.get("engine") is not None:
             execution.update(parent_semantic_total=dict(a["engine"].counters),
@@ -41,34 +43,10 @@ class MethodRuntime:
         a=self.active
         if a is None or inputs!={"qid":a["qid"],"invoke":a["invoke"]}:raise InputRefused("DISPATCH_INPUT")
         data=read_request(self.store,a["qid"],a["request"])
-        execution=a["execution"];execution["stage"]="PREPARATION"
-        engine=RegionSolver(data["task"]["predicates"]);a["engine"]=engine
-        execution["preparation_attempts"]=1;p=engine.prepare(data["task"]);execution["preparations"]=1
-        use={"method_id":None,"rule_id":None,"binding":{},"cover":[],"recipes_applied":0,"replaced_branch":None}
-        result=None
-        if a["invoke"]:
-            query=data["task"]["query"];universal=query["kind"] in ("every","no")
-            kind=(query if universal else negate(query))["kind"]
-            for mid in a["index"].select(kind):
-                item=self.store.read(mid)
-                if not item["eligible"]:raise InputRefused("METHOD_NOT_ELIGIBLE")
-                execution["candidate_attempts"].append(mid)
-                execution["stage"]="MATCH_AND_RECIPE"
-                attempt={"method_id":mid,"terminal":"ATTEMPTED","counters":None}
-                execution["matching"].append(attempt)
-                proposed=apply_rule(item["envelope"]["rule"],data["task"],engine,p)
-                attempt.update(terminal=proposed["terminal"],counters=proposed["counters"])
-                if proposed["terminal"]=="PROPOSED":
-                    result=proposed["result"]
-                    use={"method_id":mid,"rule_id":proposed["method_id"],"binding":proposed["binding"],
-                         "cover":proposed["cover"],"recipes_applied":1,"replaced_branch":"no" if universal else "yes"}
-                    break
-        if result is None:
-            execution["stage"]="PARENT_COMPLETION"
-            execution["parent_completions"]+=1;result=engine.complete(p)
-        execution["stage"]="PROPOSAL_COMPLETE";self._observe()
-        packet={"schema":"ocm.unary-method.packet.v1","task_sha256":data["task_sha256"],
-                "result":result,"use":use,"execution":execution}
+        execution=a["execution"]
+        engine=self.engines.get(data["task"],execution);a["engine"]=engine
+        packet=E.propose(data["task"],lookup=self.store.read,index=a["index"],engine=engine,
+                         invoke=a["invoke"],observation=execution,apply=apply_rule)
         a["issued"]=D.raw(packet)
         return D.parse(a["issued"])
 
@@ -84,7 +62,7 @@ class MethodRuntime:
             return SV.Status.CANNOT_CHECK
 
     def solve(self,task,*,invoke=True):
-        start=time.monotonic()
+        start=time.monotonic();self.last_observation={"stage":"PUBLIC_ENTRY"}
         if type(invoke) is not bool:raise InputRefused("INVOKE_TYPE")
         self.store._check_environment()
         if self.rt.state.operators.operators.get(self.registry_key) is not self.op:
@@ -110,6 +88,7 @@ class MethodRuntime:
                      "execution_observation":self.active["execution"],
                      "dispatches":self.dispatches-dispatch_before,"checks":self.checks-checks_before,
                      "solve_wall_s":time.monotonic()-start}
+            self.last_observation=receipt
             journal_start=time.monotonic()
             record_use(self.store,qid,data,receipt,intent)
             journal_wall=time.monotonic()-journal_start
