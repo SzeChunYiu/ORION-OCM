@@ -34,6 +34,7 @@ checker are all available, so a causal claim can be identified rather than asser
 | `scaling.py` | the active-subspace meters: N, k, index build and maintenance, crossover |
 | `atlas_data.py`, `atlas.py` | the ORION concept validation atlas, generated |
 | `study_cards.py` | the #144 classification cards, generated |
+| `claim_ledger.py` | PUB-D1: every result with the wording it licenses and the wording it forbids, generated |
 | `run_escalation.py` | emits the escalation pilot receipt |
 
 Generated files (`ORION_CONCEPT_VALIDATION_ATLAS_V1.*`, `STUDY_CARDS_V1.*`) are never edited by
@@ -45,6 +46,7 @@ hand. Edit the source module and re-run it.
 PYTHONPATH=research/cognitive-ladder python -m pytest -q research/cognitive-ladder
 PYTHONPATH=research/cognitive-ladder python research/cognitive-ladder/atlas.py
 PYTHONPATH=research/cognitive-ladder python research/cognitive-ladder/study_cards.py
+PYTHONPATH=research/cognitive-ladder python research/cognitive-ladder/claim_ledger.py
 PYTHONPATH=research/cognitive-ladder python research/cognitive-ladder/run_escalation.py \
     --out research/cognitive-ladder/results/ESCALATION_PILOT_V1.json
 ```
