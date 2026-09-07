@@ -48,7 +48,7 @@ def materialize(bare_path,commit,expected_tree,expected_bare_inventory,output,*,
  start=time.monotonic();bare=Path(bare_path).resolve(strict=True);root=Path(output).resolve()
  if root==bare or root.is_relative_to(bare) or bare.is_relative_to(root):raise ValueError("OUTPUT_OVERLAP")
  root.mkdir(mode=0o700);records=root/"records";records.mkdir()
- ws=root/"workspace";ws.mkdir();meta=ws/".git";commands=[]
+ ws=root/"workspace";ws.mkdir();ws.chmod(0o755);meta=ws/".git";commands=[]
  result={"schema":"ocm.git-materialization.v1","terminal":"MATERIALIZE_REFUSED","workspace":str(ws),
   "source":str(bare),"commit":commit,"tree":expected_tree,"commands":commands,"entries":{},
   "acquisition_reference":acquisition_reference,"deadline_monotonic":deadline_monotonic if type(deadline_monotonic) in (int,float) and math.isfinite(deadline_monotonic) else None}
@@ -90,7 +90,7 @@ def materialize(bare_path,commit,expected_tree,expected_bare_inventory,output,*,
      relative=prefix+"/"+name if prefix else name;dest=ws/relative
      if relative in result["entries"]:raise ValueError("PATH_COLLISION")
      if mode in ("40000","040000"):
-      dest.mkdir(mode=0o755);result["entries"][relative]={"mode":mode,"oid":child};stack.append((relative,child))
+      dest.mkdir(mode=0o755);dest.chmod(0o755);result["entries"][relative]={"mode":mode,"oid":child};stack.append((relative,child))
      elif mode=="120000":
       p=objects/(str(len(reader.objects))+".link");r=reader.read(child,"blob",p,4096);target=p.read_bytes().decode("utf-8")
       safe_link(dest,target,ws);os.symlink(target,dest);links.append(dest)
@@ -109,7 +109,7 @@ def materialize(bare_path,commit,expected_tree,expected_bare_inventory,output,*,
     b=os.fsencode(os.readlink(p))
     if hashlib.sha256(b).hexdigest()!=value["sha256"] or len(b)!=value["bytes"]:raise ValueError("OUTPUT_SYMLINK_DRIFT")
    elif mode in ("40000","040000"):
-    if not p.is_dir() or p.is_symlink():raise ValueError("OUTPUT_DIRECTORY_DRIFT")
+    if not p.is_dir() or p.is_symlink() or stat.S_IMODE(p.stat().st_mode)!=0o755:raise ValueError("OUTPUT_DIRECTORY_DRIFT")
    elif p.is_symlink() or stamp(p)!={k:value[k] for k in ("sha256","bytes")} or stat.S_IMODE(p.stat().st_mode)!=(0o755 if mode=="100755" else 0o644):
     raise ValueError("OUTPUT_BLOB_DRIFT")
   observed=set()
@@ -123,6 +123,7 @@ def materialize(bare_path,commit,expected_tree,expected_bare_inventory,output,*,
   for p in sorted([meta,*[p for p in meta.rglob("*") if p.is_dir()]],key=lambda p:len(p.parts),reverse=True):os.chmod(p,0o555)
   result["git_metadata"]=file_map(meta,deadline_monotonic)
   remaining(deadline_monotonic)
+  if ws.is_symlink() or stat.S_IMODE(ws.stat().st_mode)!=0o755:raise ValueError("OUTPUT_DIRECTORY_DRIFT")
   result["source_custody"]="UNCHANGED";result["terminal"]="MATERIALIZED"
  except BaseException as e:result["error"]=type(e).__name__+":"+str(e)
  result["wall_s"]=time.monotonic()-start

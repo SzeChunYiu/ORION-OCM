@@ -6,7 +6,8 @@ memory headroom, while disk headroom passed. Waiting lasted 300.022189 seconds.
 There was no phase entry, controller dispatch or materialization output.
 This is neither a materializer failure nor a build refusal.
 
-Start with [the record index](materialization-records/CORE.md). The original
+Start with [the current successor records](materialization-handoff-records/CORE.md)
+and [integrated qualification](INTEGRATION-MATERIALIZATION.md). The original
 registration still contains four assigned rows; its continuation cursor is four.
 No row has been replaced or given semantic success by this component.
 
@@ -49,6 +50,7 @@ clock, exact inputs and qualified source identities.
 | Materializer boundary repair | Three RED failures plus one clean control; then 26 passes | Actual authored Git child cleanup after selector setup failure, and final-hash deadline refusal |
 | Source-only entry | 47 passes | Fixed toy authority, exact ten tiny Git trees, request/source/output/cleanup faults; aggregate controller explicitly mocked |
 | Test portability successor | Three initial RED controls; eight passes/one helper-composition failure; then nine passes | Explicit host skips, authored host-pin refusal and selected clean counterparts |
+| Materializer-to-layout handoff successor | Five retained generations; final 14 passes | Deterministic tracked-directory modes, safe dangling links and final workspace-root custody |
 
 The nine controls overlap earlier cases; these counts must not be added into an
 independent-test total. All final counts above have zero skipped cases on the
@@ -59,9 +61,14 @@ wrong pin. Production constants are unchanged.
 
 The portability successor also removes a redundant test discovery check that
 failed after a legitimate raw-source load supplied a module without `__spec__`.
-The 26/47 receipts retain their exact earlier test/helper sources. Current 18
-production/helper files are unchanged; current four portability test/helper
-files have their separate record. A later integrated suite is a separate result.
+The 26/47 receipts retain their exact earlier test/helper sources and 18-file
+production/helper population. Those receipts do not qualify changed source.
+The [handoff successor](MATERIALIZE-HANDOFF.md) changes materializer/layout behavior
+and adds targeted controls; integrated v4 separately qualifies 138 selected files.
+Current tracked workspace directories are explicitly normalized to 0755, independent
+of umask, and checked before readiness. Safe dangling links remain exact link text;
+the unchanged execution-profile inventory still refuses them. Layout readiness
+therefore does not authorize a build.
 
 ## Partial build-configuration review
 
@@ -78,7 +85,13 @@ that reader. Its original 105-file seal plus the seal itself are archived.
 
 ## Retention and limits
 
-The original 28-file package is now stored in a lossless outer archive so raw
+The separate current envelope preserves 3,036 regular members: all five handoff
+generations, independent review, and integrated-v4 source/log/receipt records.
+Its 106 handoff symlinks are metadata only. Integrated-v4 temporary case bodies
+are explicitly omitted without traversal or revalidation. Earlier packages remain
+unchanged; their identities and all current bindings are retained in the successor.
+
+The historical 28-file package is now stored in a lossless outer archive so raw
 metadata does not overwhelm code review. Its original seal, six archives, maps
 and source records remain byte-identical; the new compact index binds them.
 The [independent repack review](materialization-review-records/materialization-package-repack-review-v1.json)

@@ -8,6 +8,12 @@ registered scheduling gate before dispatch. Authored materialization and
 CHECK remain unreached. The registration and earlier qualifications below retain
 their original, separately bound records.
 
+The current [handoff repair](MATERIALIZE-HANDOFF.md) preserves safe dangling
+relative links and normalizes workspace/directory modes independently of umask.
+Its integrated generation passes 425 controls and three evidence guards. Earlier
+source-bound generations remain historical. The unchanged build-profile policy
+still refuses dangling links; layout readiness does not authorize execution.
+
 ## One fixed assignment from the full corpus
 
 The source corpus is commit `aa2d8b34692b16c70f699536de0d8e75b9a3e9ef`,

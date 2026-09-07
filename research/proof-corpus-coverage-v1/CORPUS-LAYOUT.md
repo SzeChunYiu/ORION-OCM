@@ -5,6 +5,11 @@ offline build profile. **Actual corpus layout and build are not dispatched by
 this qualification.** It does not authorize acquired code, prove a theorem, or
 establish a neural-free evaluator closure.
 
+The [current handoff repair](MATERIALIZE-HANDOFF.md) and
+[successor record index](materialization-handoff-records/CORE.md) supersede the
+predecessor source authority below. Safe dangling links now survive layout custody;
+the unchanged execution-profile inventory still refuses them before execution.
+
 ## Input and output contract
 
 Call `corpus_layout.prepare_layout(materials, lock_record, new_output,
@@ -55,7 +60,7 @@ complete lifetime-cost result is implied.
 | Consumed-receipt repair | Two failed/one passed, then three passed | Returned bytes and post-read deadline |
 | Bound-preflight repair | One reproduced failure/one clean refusal, then seven passed | No output creation from substituted overlap metadata |
 
-The seven latest checks are focused regressions, with 19 other cases deselected.
+The seven predecessor checks are focused regressions, with 19 other cases deselected.
 They are not added to the overlapping predecessor counts. The initial preflight
 hostile used an ancestor decoy and reached the existing overlap refusal; its test
 correction and the subsequent disjoint-decoy reproduction are both retained.
@@ -68,16 +73,22 @@ These are authored test-process costs, not actual corpus-build economics.
 
 The borrowed Git fixture changed from `cfb8e01c…` to the portable test successor
 `1f3f71be…`; historical evidence is not rebound to the new fixture.
-Current layout module SHA256:
+Pre-handoff layout module SHA256:
 `9a56251c805d16e837547508ec360bce1e3f8bbb9d166585ac289b3cdded6930`.
-Current layout tests SHA256:
+Unchanged predecessor layout tests SHA256:
 `b487cea800a6de7c4e916b0cc35be2706ad60ee873f5330d2f7f40b5cb8a96a1`.
 
-The complete current integrated suite has separate qualification authority.
-No source outside the two layout-owned files was changed by this implementation.
+That predecessor changed only the two layout-owned files. The current successor
+also repairs materializer directory modes and adds a separate handoff test module.
+It has 14 targeted passes; integrated v4 has 425 passes, seven skips and two
+registrar deselections. These overlapping qualifications are separate records.
+Current source identities and the copied/input workspace-root postchecks are
+specified by the handoff note and its 138-file integrated source freeze.
 
 ## Retained evidence
 
+The following archive describes the historical layout generations. It remains
+byte-identical and does not qualify the changed current module.
 Start with [the archive index](corpus-layout-records/INDEX.json),
 [source bindings](corpus-layout-records/SOURCE-BINDINGS.json) and
 [generation ledger](corpus-layout-records/GENERATIONS.json).

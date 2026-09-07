@@ -48,7 +48,7 @@ not rerun the registrar, native tests, privileged profiles or real corpus tasks.
   The older guards retain their historical interfaces; external host inputs remain
   explicitly outside the archive.
 
-The [current portable integration](INTEGRATION-MATERIALIZATION.md) records 411 passes,
+The [current portable integration](INTEGRATION-MATERIALIZATION.md) records 425 passes,
 seven skips, two deliberate deselections and three passing evidence guards on the
 qualified laptop. The previous [exit-code integration](INTEGRATION-EXITCODE.md)
 retains its historical source and results. CI runs the current controls and evidence

@@ -29,7 +29,7 @@ def snapshot(root,deadline):
   for name in sorted(dirs+files):
    remaining(deadline);p=Path(base)/name;rel=p.relative_to(root).as_posix();s=p.lstat()
    if stat.S_ISLNK(s.st_mode):
-    target=os.readlink(p);resolved=p.resolve(strict=True)
+    target=os.readlink(p);resolved=p.resolve(strict=False)
     if Path(target).is_absolute() or not resolved.is_relative_to(root) or ".git" in Path(rel).parts or ".git" in Path(target).parts or ".git" in resolved.relative_to(root).parts:
      raise ValueError("SYMLINK_ESCAPE_OR_METADATA")
     value={"type":"symlink","target":target}
@@ -55,6 +55,7 @@ def save(path,data):
  with path.open("x") as f:json.dump(data,f,sort_keys=True,indent=2,allow_nan=False);f.write("\n")
 
 def verify_material(receipt,observed,workspace,commit,tree):
+ if stat.S_IMODE(workspace.stat().st_mode)!=0o755:raise ValueError("SOURCE_WORKSPACE_MODE")
  if receipt.get("terminal")!="MATERIALIZED" or receipt.get("source_custody")!="UNCHANGED" or receipt.get("commit")!=commit or receipt.get("tree")!=tree:
   raise ValueError("MATERIAL_IDENTITY")
  entries=receipt["entries"];actual={k:v for k,v in observed.items() if k!=".git" and not k.startswith(".git/")}
@@ -75,7 +76,7 @@ def verify_material(receipt,observed,workspace,commit,tree):
  if (workspace/".git/HEAD").read_bytes()!=(commit+"\n").encode():raise ValueError("DETACHED_HEAD")
 
 def copy_workspace(source,dest,expected,deadline):
- dest.mkdir(parents=True)
+ dest.mkdir(parents=True);dest.chmod(0o755)
  for name,v in sorted(expected.items(),key=lambda item:(len(Path(item[0]).parts),item[0])):
   remaining(deadline);p=source/name;q=dest/name
   if v["type"]=="directory":q.mkdir()
@@ -140,7 +141,7 @@ def _prepare(materials,lock_record,output,*,deadline_monotonic,lock_validator,au
     parts=Path(rel).parts
     for n in range(1,len(parts)+1):
      p=dest/Path(*parts[:n])
-     if not p.exists():p.mkdir();added.append(p.relative_to(dest).as_posix())
+     if not p.exists():p.mkdir();p.chmod(0o755);added.append(p.relative_to(dest).as_posix())
      elif p.is_symlink() or not p.is_dir():raise ValueError("LAYOUT_PATH_ALIAS")
    after=snapshot(dest,deadline_monotonic)
    if {k:v for k,v in after.items() if k not in added}!=before:raise ValueError("LAYOUT_SOURCE_DRIFT")
@@ -156,6 +157,7 @@ def _prepare(materials,lock_record,output,*,deadline_monotonic,lock_validator,au
    if name=="scratch":(p/"home").mkdir()
   writable.sort(key=lambda x:x["guest"]!="/work")
   for name,ws in sources.items():
+   if stat.S_IMODE(ws.stat().st_mode)!=0o755:raise ValueError("SOURCE_WORKSPACE_MODE")
    result["source_after"][name]=snapshot(ws,deadline_monotonic)
    if result["source_after"][name]!=result["source_before"][name]:raise ValueError("SOURCE_POST_DRIFT")
   for m in materials:read_record(m["receipt"],deadline_monotonic)
@@ -164,6 +166,7 @@ def _prepare(materials,lock_record,output,*,deadline_monotonic,lock_validator,au
   final=result["output_inventory_before_result"];expected={"materials","artifacts","artifacts/scratch/home"}
   for m in mounts:
    name=Path(m["path"]).parent.name;prefix="materials/"+name+"/workspace/"
+   if final[prefix[:-1]]!={"type":"directory","mode":0o755}:raise ValueError("FINAL_LAYOUT_DRIFT")
    if {k[len(prefix):]:v for k,v in final.items() if k.startswith(prefix)}!=copies[name]:raise ValueError("FINAL_LAYOUT_DRIFT")
    inv=name+"-inventory.json"
    if {k:final[inv][k] for k in ("sha256","bytes")}!={k:m["inventory"][k] for k in ("sha256","bytes")}:raise ValueError("FINAL_LAYOUT_DRIFT")

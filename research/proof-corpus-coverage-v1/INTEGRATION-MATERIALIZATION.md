@@ -1,69 +1,82 @@
 # Current materialization and layout integration
 
-The current laptop suite passed **411 tests**, with seven explicit privileged-host
-skips and two deliberate exact-interpreter registrar deselections. All three
-retained-evidence guards passed. This result qualifies the combined engineering
-apparatus; no real materialization, corpus build or proof check was dispatched.
+The current laptop suite passed **425 tests**, with seven skipped tests and two
+deliberate exact-interpreter registrar deselections. All three retained-evidence
+guards passed. This qualifies the combined engineering apparatus; no actual
+acquired-corpus materialization, build or proof check was dispatched.
 
-The [record index](integration-materialization-records/CORE.md) separates the
-current run from two rejected predecessors. The final run binds 137 selected
-project source/test/workflow files, unchanged before and after execution.
-Archival recipes and concurrent documentation were excluded from that source set.
-The exact command and source scope are in
-[PRELAUNCH](integration-materialization-records/PRELAUNCH.json).
+Start with [the current record index](materialization-handoff-records/CORE.md).
+Integrated v4 binds 138 selected project source/test/workflow files, unchanged
+before and after execution. Its exact source scope is top-level Python/Lean and
+tests Python for four proof components plus the coverage workflow. Archives and
+changing documentation are excluded; this is not a universal import closure.
 
-## What the integration repaired
+## Current handoff repair
 
-The new materializer loader deliberately replaces its owned process modules with
-objects executed from exact source bytes. Its tests left those modules installed,
-so two older source-entry tests encountered modules without discovery metadata.
-The first combined run retained 409 passes and two failures.
+[The source repair](MATERIALIZE-HANDOFF.md) normalizes tracked/workspace directory
+modes independently of umask, preserves safe dangling relative links as link text,
+and checks copied and original workspace-root modes before final readiness.
+Its final 14 targeted controls are included in the current integrated suite, not
+an additional independent test population.
 
-A first repair removed the older tests' discovery assertions. All 411 tests then
-passed, but the historical resource guard correctly refused that changed pinned
-test file. That integration remains rejected.
+All five handoff generations remain: six failures/six passes; one collection
+error; 12 passes; a later source-root probe with one failure/one pass and 12
+deselections; then 14 passes. The collection-error attempt executed no test body.
+An independent source/record review accepted the final scope after the source-root
+repair. Current ten-file targeted and 138-file integrated source sets are distinct.
 
-The final repair restores the old test bytes and adds an autouse fixture limited
-to the new materializer tests. It restores their prior module registry after each
-test, preserving the real loader behavior inside the test. The production loader,
-resource implementation and original source-qualified tests remain unchanged.
-The combined rerun then passed all tests and all three guards.
+The unchanged execution-profile inventory still refuses a dangling-link layout.
+LAYOUT_READY does not authorize execution. Using such a layout for an actual build
+requires a separately qualified profile-policy successor or continued refusal.
 
-## Measured processes
+## Measured current processes
 
-| Final process | Outer wall seconds | Outcome |
-|---|---:|---|
-| Current portable tests | 14.576192 | 411 passed, seven skipped, two deselected |
-| Registration custody | 0.612225 | Original four assignments and complete 29,511 order retained |
-| Native archive custody | 0.208083 | Retained bytes and current 47 source bindings match |
-| Resource custody | 0.324882 | Historical generations preserved; current 23 bindings match |
+| Process | Outer wall seconds | Observed outcome |
+| --- | ---: | --- |
+| Portable tests | 15.147162 | 425 passed, seven skipped, two deselected |
+| Registration custody | 0.622531 | Original four assignments and complete 29,511 order retained |
+| Native archive custody | 0.204767 | Retained bytes and current 47 source bindings match |
+| Resource custody | 0.326083 | Historical generations preserved; current 23 bindings match |
 
-These are test and evidence-read costs, not proof-solving performance. The
-controls are authored fixtures. Real ten-tree worker controls explicitly mock
-the aggregate controller; host enforcement keeps its earlier qualification.
-Hosted CI may skip additional fixtures when its Git/Python identity differs.
-Such skips do not inherit the laptop's executed passes.
+These are authored-test and evidence-reader costs, not proof-solving performance
+or actual corpus-build economics. Integration receipts report wall only; CPU/RSS
+are not inferred. Targeted handoff receipts separately retain waited-child CPU.
+The ten-tree worker controls explicitly mock the aggregate controller; host
+enforcement retains its separate qualification. Hosted CI may skip more fixtures
+when its Git/Python differs; those skips do not inherit the laptop's passes.
 
-## Retention
+## Preserved earlier integrations
 
-The 457-member archive preserves raw process logs, JUnit, before/after source
-records and copied project source snapshots from all three integrations, both
-repair records and two independent reviews. Every retained member was compared
-byte-for-byte against its original. Temporary test fixture bodies remain external
-and were not inventoried or revalidated by this package; this omission is explicit.
+The [historical integration package](integration-materialization-records/CORE.md)
+remains byte-identical. Its first run had 409 passes and two failures because
+new materializer tests left raw-loaded modules without discovery metadata.
+A temporary change to the old resource tests produced 411 passes, but the resource
+guard correctly rejected the modified pinned test; that run remains rejected.
 
-The current test fixture and implementation must match the bound source before
-relying on this result. CI reruns the current tests; it does not turn a historical
-source receipt into authority for changed code.
+The accepted predecessor restored the original test bytes and added an autouse
+module-registry cleanup limited to materializer tests. It passed 411 tests, seven
+skips, two deselections and all three guards at 137 selected files. The production
+loader remained unchanged. That earlier result is historical source authority,
+not a receipt for the handoff source changes or an additional independent trial.
 
-## Remaining scientific boundary
+## Retention and remaining scope
 
-Read [materialization](MATERIALIZATION.md), [layout](CORPUS-LAYOUT.md) and the
-[actual integration handoff](RESOURCE-INTEGRATION.md). The original four corpus
-rows still require exact materialization, acquired-code/profile qualification and
-all subsequent semantic stages under the original episode clock.
+The new three archives retain 3,036 regular members / 4,900,815 raw bytes.
+Every retained member was compared directly with its original. Exact maps and
+original entry metadata are compressed; 106 handoff symlinks are retained as
+metadata without following their targets. All five handoff generations, the
+independent review, and current v4 source snapshots/JUnit/streams/receipts remain.
 
-Masked reconstruction, mechanical acquisition, restart, causal method use on
-fresh mathematics and bounded language, complete lifetime cost and matched-parent
-comparison remain separate experiments. No speedup, useful transfer, novelty or
-paper-readiness claim follows from these engineering controls.
+Only integrated-v4 temporary case bodies are excluded from the new input roots;
+they were not traversed, inventoried or revalidated. External host binaries and
+real bare stores remain outside this archive. Earlier packages and their explicit
+omissions are unchanged. No missing artifact was reconstructed or test rerun
+during packaging.
+
+The original four corpus rows still require exact materialization, acquired-code
+profile qualification and subsequent semantic stages under their original clock.
+Read [materialization](MATERIALIZATION.md), [layout](CORPUS-LAYOUT.md) and
+[the actual integration handoff](RESOURCE-INTEGRATION.md). Mechanical acquisition,
+restart, causal method use on fresh mathematics and bounded language, complete
+lifetime cost and matched-parent comparisons remain separate experiments.
+No useful transfer, speedup, novelty or paper-readiness claim follows here.
