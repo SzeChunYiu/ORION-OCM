@@ -36,6 +36,10 @@ checker are all available, so a causal claim can be identified rather than asser
 | `study_cards.py` | the #144 classification cards, generated |
 | `claim_ledger.py` | PUB-D1: every result with the wording it licenses and the wording it forbids, generated |
 | `run_escalation.py` | emits the escalation pilot receipt |
+| `subspace*.py` | E1: relevance discovery with the family key withheld |
+| `diagnosis*.py` | E2: failure-cause diagnosis with the cause withheld |
+| `depend*.py` | E3: dependency discovery with the graph withheld |
+| `escalation_independent.py` | E4: blindly perturbed worlds levelled by an independent repair oracle |
 
 Generated files (`ORION_CONCEPT_VALIDATION_ATLAS_V1.*`, `STUDY_CARDS_V1.*`) are never edited by
 hand. Edit the source module and re-run it.
@@ -74,6 +78,19 @@ pilots are calibrations. In particular:
 
 Saying this early is not pessimism. It is what would make a surviving residual, if there is one,
 worth reading.
+
+## What the four follow-up experiments removed
+
+Each of the three pilots rested on something the world handed the machine. E1 withholds the
+relevance key, E2 withholds the cause of a failure, E3 withholds the dependency graph, and E4
+withholds the generator's intent by recovering each world's minimum sufficient level through
+exhaustive search over the repair lattice instead. None of the four produced a result favourable to
+the architecture. Two produced findings about the problem class that hold regardless of it, and
+those are recorded in `CLAIM_LEDGER_V1.md` as C9 through C12.
+
+The most consequential is E4: the escalation policy's 70/70 on the old generator becomes 1736/2000
+on independent worlds, and its 20-point lead over a fully-resourced repair planner becomes 0.7
+points. The old generator's own labels agree with an independent oracle on 53.4% of worlds.
 
 ## Vocabulary discipline
 
