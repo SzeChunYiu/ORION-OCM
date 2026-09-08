@@ -35,6 +35,7 @@ checker are all available, so a causal claim can be identified rather than asser
 | `atlas_data.py`, `atlas.py` | the ORION concept validation atlas, generated |
 | `study_cards.py` | the #144 classification cards, generated |
 | `claim_ledger.py` | PUB-D1: every result with the wording it licenses and the wording it forbids, generated |
+| `incident_intake.py` | executable causal intake binding this lane's receipts to the incidents of #149, generated |
 | `run_escalation.py` | emits the escalation pilot receipt |
 | `subspace*.py` | E1: relevance discovery with the family key withheld |
 | `diagnosis*.py` | E2: failure-cause diagnosis with the cause withheld |

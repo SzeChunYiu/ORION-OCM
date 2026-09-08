@@ -1,0 +1,194 @@
+{
+  "schema": "orion.incident-intake.v1",
+  "consumer_issue": "SzeChunYiu/ORION-OCM#149",
+  "producer_lane": "research/cognitive-ladder",
+  "authority": "This binds measured traces to the incidents of #149. Supplying a trace does not certify a causal localization, and every binding carries what it does not certify. Numbers are read from receipts at run time and are never transcribed here.",
+  "incidents_supplied": 5,
+  "incidents_total": 6,
+  "bindings": {
+    "F1": {
+      "status": "NOT_SUPPLIED_BY_THIS_LANE",
+      "measurement": "acquisition funnel showing checked sound fragments that never became methods",
+      "where_it_lives": [
+        "research/math-language-learning-v1/ASSAY-ACQUISITION-DIAGNOSIS.md (the funnel table: 21 attempts, three independently checked essential fragments, all singletons)",
+        "research/math-language-learning-v1/CLAUSE-REVIVAL-RESULT.md (the clause donor, which acquires a method and still records NO_DEVELOPMENT_BENEFIT because every eligible development target is a Boolean tautology)"
+      ],
+      "why_not_supplied": "This lane planned an experiment to reproduce and extend F1 in a self-contained clause world; it was cancelled before producing a receipt. Nothing here should be read as intake for F1.",
+      "what_the_clause_revival_changes": "It moves the bottleneck. Step-level abstraction does fix the discovery failure -- the pool goes from zero to one. The method then fires zero times because the task ecology contains no essential composite target. Any successor experiment must therefore control opportunity separately from discovery, and must include a tautological-ecology control on which a correctly discovered method is expected to show no benefit.",
+      "incident_description": "Unary acquisition funnel and original checked traces",
+      "diagnostic_challenge": "No reusable methods"
+    },
+    "F2": {
+      "status": "EXECUTABLE_INTAKE_SUPPLIED",
+      "measurement": "collision growth of a hand-specified relevance key as the store grows",
+      "hand_specified_key_adequate_at": [
+        "1x",
+        "3x"
+      ],
+      "hand_specified_key_inadequate_at": [
+        "10x",
+        "30x"
+      ],
+      "per_scale": [
+        {
+          "scale": "1x",
+          "methods": 8,
+          "max_bucket": 1,
+          "collision_rate": 0.0,
+          "adequate": true
+        },
+        {
+          "scale": "3x",
+          "methods": 24,
+          "max_bucket": 2,
+          "collision_rate": 0.416667,
+          "adequate": true
+        },
+        {
+          "scale": "10x",
+          "methods": 80,
+          "max_bucket": 8,
+          "collision_rate": 0.85,
+          "adequate": false
+        },
+        {
+          "scale": "30x",
+          "methods": 240,
+          "max_bucket": 20,
+          "collision_rate": 0.979167,
+          "adequate": false
+        }
+      ],
+      "does_not_certify": "Correctness never degraded at any scale: a colliding key is slower and never wrong. So this is a cost observation, not a capability failure, and it cannot localize a capability fault.",
+      "incident_description": "Relevance-key growth and collision traces",
+      "diagnostic_challenge": "Fixed keys become dense",
+      "receipt": "research/cognitive-ladder/results/SUBSPACE_E1_V1.json",
+      "receipt_sha256": "5131e5dc1a8ea9c0ef5d6ccff6aaef0fc6911396c8327c70030a9b477f421a65",
+      "reproduce": "python run_subspace.py --out results/SUBSPACE_E1_V1.json"
+    },
+    "F3": {
+      "status": "EXECUTABLE_INTAKE_SUPPLIED_WITH_SHARED_RECEIPT",
+      "measurement": "whether repairing the key by re-indexing repays its own cost",
+      "terminal": "INDEX_MAINTENANCE_DOMINATES",
+      "per_scale_crossover": {
+        "1x": {
+          "per_query_saving_vs_exact_scan": 34.4,
+          "lifetime_index_work": 121,
+          "crossover_queries": 4,
+          "queries_in_registered_stream": 50,
+          "reached_within_stream": true
+        },
+        "3x": {
+          "per_query_saving_vs_exact_scan": 114.7,
+          "lifetime_index_work": 777,
+          "crossover_queries": 7,
+          "queries_in_registered_stream": 50,
+          "reached_within_stream": true
+        },
+        "10x": {
+          "per_query_saving_vs_exact_scan": 395.9,
+          "lifetime_index_work": 8329,
+          "crossover_queries": 22,
+          "queries_in_registered_stream": 50,
+          "reached_within_stream": true
+        },
+        "30x": {
+          "per_query_saving_vs_exact_scan": 1197.7,
+          "lifetime_index_work": 117209,
+          "crossover_queries": 98,
+          "queries_in_registered_stream": 50,
+          "reached_within_stream": false
+        }
+      },
+      "shared_receipt_with": "F2",
+      "shared_receipt_note": "#149 is correct that F2 and F3 come from one receipt and are not two independent observations. They are separable in principle -- collision growth is a property of the key, amortisation a property of the repair procedure -- but no run here separates them.",
+      "does_not_certify": "The receipt's own limitation applies: the amortisation reading is specific to a search that rescans the whole feature language on every re-index, with no early exit. An incremental search was not run and would cost materially less. Treating INDEX_MAINTENANCE_DOMINATES as a property of re-indexing in general would overreach.",
+      "incident_description": "Feature search, rebuild and query work",
+      "diagnostic_challenge": "Index maintenance fails to amortize",
+      "receipt": "research/cognitive-ladder/results/SUBSPACE_E1_V1.json",
+      "receipt_sha256": "5131e5dc1a8ea9c0ef5d6ccff6aaef0fc6911396c8327c70030a9b477f421a65",
+      "reproduce": "python run_subspace.py --out results/SUBSPACE_E1_V1.json"
+    },
+    "F4": {
+      "status": "EXECUTABLE_INTAKE_SUPPLIED",
+      "measurement": "fraction of methods whose support no single-element ablation can see",
+      "terminal": "LEAVE_ONE_OUT_DISCOVERY_INCOMPLETE",
+      "per_scale": [
+        {
+          "scale": "1x",
+          "N": 80,
+          "methods": 16,
+          "methods_with_support_invisible_to_leave_one_out": 4,
+          "fraction_invisible": 0.25
+        },
+        {
+          "scale": "2x",
+          "N": 160,
+          "methods": 32,
+          "methods_with_support_invisible_to_leave_one_out": 6,
+          "fraction_invisible": 0.1875
+        },
+        {
+          "scale": "5x",
+          "N": 400,
+          "methods": 80,
+          "methods_with_support_invisible_to_leave_one_out": 17,
+          "fraction_invisible": 0.2125
+        },
+        {
+          "scale": "10x",
+          "N": 800,
+          "methods": 160,
+          "methods_with_support_invisible_to_leave_one_out": 26,
+          "fraction_invisible": 0.1625
+        }
+      ],
+      "capability_gated_reanalysis": "Restricting the work comparison to arms at precision and recall 1.0, as the publication constitution requires, leaves three arms. Under that gate the eager learned-dependency arm is dominated by the lazy learner that re-derives on demand, on both work and stale survivors. So the incident is not only that redundant supports are missed; it is that eager discovery is not yet worth its cost.",
+      "does_not_certify": "The learned arm's perfect precision and recall are arithmetic, not evidence: it runs the oracle's own leave-one-out procedure. The number measures how often redundancy occurs in this evidence stream, which is a property of the world, not a constant.",
+      "incident_description": "Dependency interventions and revision traces",
+      "diagnostic_challenge": "Redundant supports missed",
+      "receipt": "research/cognitive-ladder/results/DEPEND_E3_V1.json",
+      "receipt_sha256": "21231aa98cd47e8b28d9a066e4894ffab07bcb3a1c984246f2def1ac963a3f08",
+      "reproduce": "python run_depend.py --out results/DEPEND_E3_V1.json"
+    },
+    "F5": {
+      "status": "EXECUTABLE_INTAKE_SUPPLIED",
+      "supersedes_149_note": "#149 lists F5 as lacking executable causal intake. This receipt supplies it: the cached-parent comparison is a measured trace with a per-arm cost table, not a prose claim.",
+      "measurement": "diagnosis accuracy and cumulative probe cost with the failure cause hidden",
+      "terminal": "ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST",
+      "episodes": 59,
+      "cause_distribution": {
+        "TRUE_REFUTATION": 17,
+        "BUDGET_EXHAUSTED": 9,
+        "EVALUATOR_DEFECT": 9,
+        "NON_IDENTIFYING_EXPERIMENT": 8,
+        "ASSUMPTION_VIOLATED": 9,
+        "CANNOT_IDENTIFY": 7
+      },
+      "constant_predictor_baseline_accuracy": 0.288135593220339,
+      "does_not_certify": "The residual is memoisation of one boolean per checker and scope, and the receipt states that giving the decision-tree parent the same cache would close it. Probe semantics are authored, so this is table inversion under a cost constraint and not evidence that a machine can learn what a probe means.",
+      "incident_description": "Probe choices and matched cached-parent results",
+      "diagnostic_challenge": "Apparent diagnosis residual disappears",
+      "receipt": "research/cognitive-ladder/results/DIAGNOSIS_E2_V1.json",
+      "receipt_sha256": "6281fa42b06d9728421702cb51a4bec2140d64eaa8c138bdfa471f1e9e3c197f",
+      "reproduce": "python run_diagnosis.py --out results/DIAGNOSIS_E2_V1.json"
+    },
+    "F6": {
+      "status": "EXECUTABLE_INTAKE_SUPPLIED",
+      "supersedes_149_note": "#149 lists F6 as lacking executable causal intake. This receipt supplies it, and its oracle is cross-checked against brute-force minimisation over the full repair powerset rather than against another authored label.",
+      "measurement": "agreement between authored per-instance labels and an independent oracle",
+      "verdict": "GENERATOR_ARTIFACT_CONFIRMED",
+      "authored_label_accuracy": 1.0,
+      "independent_accuracy": 0.868,
+      "accuracy_drop": 0.132,
+      "registered_tolerance": 0.05,
+      "lead_collapse": 0.193,
+      "does_not_certify": "Removing the generator's circularity does not remove the ladder's authorship: the repair lattice and the escalation levels still share an author, so this remains E2. It also does not show that the escalation policy is good; on independent worlds the fully-resourced parent ties it.",
+      "incident_description": "Per-instance escalation contracts and oracle comparisons",
+      "diagnostic_challenge": "Authored labels disagree with independent checking",
+      "receipt": "research/cognitive-ladder/results/ESCALATION_INDEPENDENT_E4_V1.json",
+      "receipt_sha256": "f5290bb9b2fab324863ceaab9323990c07dc913130f1fa14295e5a90bb4bfe93",
+      "reproduce": "python run_escalation_independent.py --out results/ESCALATION_INDEPENDENT_E4_V1.json"
+    }
+  }
+}
