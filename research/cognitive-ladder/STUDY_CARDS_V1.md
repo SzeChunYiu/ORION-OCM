@@ -11,6 +11,8 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 | CL-FAILURE-PILOT-V1 | `failure.py` | **E2** | **L1** |
 | CL-SCALING-PILOT-V1 | `scaling.py` | **E1** | **L0** |
 | CL-ATLAS-V1 | `ORION_CONCEPT_VALIDATION_ATLAS_V1.json and .md` | **E0** | **L0** |
+| CL-LIBDISC-E5 | `libdisc.py` | **E2** | **L1** |
+| CL-SUPPORT-E6 | `support.py` | **E1** | **L0** |
 
 ## CL-PROTOCOL-V1
 
@@ -135,3 +137,51 @@ Required by publication constitution #144 §22. Every result-bearing artifact in
 **Discharges (#144).** §7 prior-information audit per concept; §6 strongest parent per concept; §18 kill and narrow rules made concept-specific
 
 **Still outstanding (#144).** §21 PUB-D2, D4, D5, D7, D8, D9, D10 templates
+
+## CL-LIBDISC-E5
+
+**Artifact.** `libdisc.py, libdisc_discovery.py, libdisc_parents.py, libdisc_arms.py, run_libdisc.py`
+
+**Scientific question.** How does a system discover reusable structure from a handful of successful episodes whose surfaces all differ? This is the central question behind library learning, and it is the one place in this programme where a positive result has not yet been ruled out.
+
+**Evidence class.** E2 · **Contribution level.** L1
+
+**Why not a higher level.** The world, the schema language and the discovery mechanism share an author. A causal reuse result here would be a controlled mechanism, not a general one.
+
+**Decisive causal question.** Treatment: anti-unification over normalised proof steps plus semantic-equivalence clustering. Parent: DreamCoder-style library induction and Stitch-style corpus compression over the same episodes. Outcome: schemas admitted by an independent checker, and search on fresh tasks after a real process restart. Units: episode families. Predicted control behaviour: the flat-mining ablation must find nothing, reproducing the checked NO_METHOD_ACQUIRED negative.
+
+**Strongest-parent attack.** Library learning has solved this class of problem since DreamCoder and Stitch. If either finds the same schemas from the same traces, the terminal is PARENT_SUFFICIENT. The prior in this programme is that it will.
+
+**Prior-information audit.** The clause grammar, the resolution calculus and the step-schema language are AUTHORED. The checker enumerates assignments and is exact and independent. What is NOT supplied is which schema recurs, or any task identity that would reveal it; the generator asserts that flat fragments are pairwise distinct so that no surface shortcut exists.
+
+**Scaling relevance.** Feeds ME-SCALE-2 and ME-SCALE-6: whether related-task acquisition cost falls with experience, and whether transfer benefit is a witnessed invocation rather than retrieval.
+
+**Kill criterion.** If a library-learning parent recovers the same schemas, or if no schema survives independent checking, step-level discovery is dropped as a distinct mechanism and reported PARENT_SUFFICIENT. Lowering the repeated-support threshold to manufacture a pool is explicitly forbidden by the diagnosis this experiment is built on.
+
+**Discharges (#144).** §5 one decisive causal claim; §6 strongest parent implemented before the claim; §12 removal and functional-replacement ablation; §13 real process-boundary custody
+
+**Still outstanding (#144).** §4 E3 frozen confirmatory run; §11 independently authored validation subset; §15 fresh-host replication
+
+## CL-SUPPORT-E6
+
+**Artifact.** `support.py, support_arms.py, run_support.py`
+
+**Scientific question.** When several pieces of evidence each independently justify a conclusion, how does a system find out what that conclusion actually rests on? Removing them one at a time cannot tell it.
+
+**Evidence class.** E1 · **Contribution level.** L0
+
+**Why not a higher level.** Computing minimal supporting environments is what an ATMS has done since 1986. Anything here is engineering calibration unless adaptive selection reaches the same answer at materially lower intervention cost.
+
+**Decisive causal question.** Treatment: adaptive selection of group ablations under a charged budget. Parent: ATMS minimal-environment labelling, run both given the justifications and required to discover them. Outcome: support-family precision and recall against a powerset oracle, per intervention spent. Predicted control behaviour: leave-one-out must fail exactly on the redundant families.
+
+**Strongest-parent attack.** An ATMS handed the justifications needs no interventions at all and wins outright; that row is reported as the gifted ceiling. The only fair comparison is when it must discover them, and even then minimal-support machinery is parent-owned and no novelty is claimed for it.
+
+**Prior-information audit.** The evidence-to-method structure is AUTHORED. The powerset oracle is exhaustive and is used only by the scorer. What is not supplied is which subsets are minimal supports; that must be paid for in interventions.
+
+**Scaling relevance.** Feeds ME-SCALE-4: whether revision work grows more slowly than N once support is discovered rather than declared.
+
+**Kill criterion.** If the ATMS parent required to discover justifications matches the adaptive arm on precision, recall and interventions, the mechanism is merged into that parent and reported PARENT_SUFFICIENT.
+
+**Discharges (#144).** §6 strongest parent named and run in both its gifted and fair configurations; §11 negative family where no evidence is load-bearing; §12 replacement-by-parent ablation
+
+**Still outstanding (#144).** §4 E3 frozen confirmatory run; §8 scale sweep beyond the powerset-tractable bound; §10 intervals on the intervention counts
