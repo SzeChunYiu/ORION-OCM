@@ -166,12 +166,37 @@ EVIDENCE_MAP = {
         stage="D2", supplies=("terminal", "strongest_parent_result"),
         arms=("STRONG_ADAPTIVE_PARENT",),
         note="obstruction versus search-more, which is D2 material."),
+    "DEV1_D0_TO_D1_V1.json": dict(
+        stage="D1", transition=("D0", "D1"), supplies=TRANSITION_FIELDS,
+        arms=tuple(REQUIRED_ARMS),
+        note="the first receipt in the repository written for a TRANSITION rather than a "
+             "stage: one lineage carries its D0 store across the boundary, a reset arm with "
+             "the same architecture and the same D1 stream does not, a clairvoyant parent "
+             "bounds the claim, and a task-specific arm bounds how much of the gain is "
+             "generality. It counts only for D0 to D1, and its own terminal is CONDITIONAL: "
+             "the lineage wins at 1024 bits and loses at 256, so this transition is complete "
+             "in the sense of being MEASURED, not in the sense of being won everywhere."),
 }
 
 
 def coverage_for(source: str, target: str) -> TransitionCoverage:
-    receipts = [n for n, m in EVIDENCE_MAP.items()
-                if m["stage"] in (source, target) and _receipt(n) is not None]
+    """What the receipts on disk supply for one transition.
+
+    A receipt marked with a ``transition`` counts ONLY for that exact pair. A
+    stage receipt counts toward either endpoint. The distinction matters because
+    a stage receipt can never supply a lineage identity or a reuse witness: those
+    exist only if a machine actually crossed the boundary carrying state, which
+    is what ``coverage_for`` was written to refuse to pretend.
+    """
+    receipts = []
+    for n, m in EVIDENCE_MAP.items():
+        if _receipt(n) is None:
+            continue
+        if "transition" in m:
+            if tuple(m["transition"]) == (source, target):
+                receipts.append(n)
+        elif m["stage"] in (source, target):
+            receipts.append(n)
     present: set[str] = set()
     arms: set[str] = set()
     for n in receipts:
@@ -219,7 +244,9 @@ def build() -> dict:
                 "cheaper. A receipt recording only the score would satisfy the listed fields and "
                 "still not answer that, so the causal attribution is a required field here.")
         },
-        "evidence_map": {k: dict(v, supplies=list(v["supplies"]), arms=list(v["arms"]))
+        "evidence_map": {k: dict(v, supplies=list(v["supplies"]), arms=list(v["arms"]),
+                                 **({"transition": list(v["transition"])}
+                                    if "transition" in v else {}))
                          for k, v in EVIDENCE_MAP.items()},
         "transitions": [{
             "source_stage": t.source_stage, "target_stage": t.target_stage,
@@ -232,19 +259,33 @@ def build() -> dict:
         "complete_transitions": len(complete),
         "transitions_total": len(transitions),
         "headline": (
-            f"{len(complete)} of {len(transitions)} developmental transitions are complete. Every "
-            "one is blocked on the same two things: no lane has run a CONTINUED arm that carried "
-            "state across a stage boundary, and no lane has run a RESET arm to compare it with. "
-            "The existing receipts are stage evidence, not transition evidence, and the difference "
-            "is the whole of #151."),
+            f"{len(complete)} of {len(transitions)} developmental transitions are complete. D0 to "
+            "D1 is measured: DEV1_D0_TO_D1_V1 runs a lineage that carries its D0 store across the "
+            "boundary, a reset arm with the same architecture and the same D1 stream that does "
+            "not, a clairvoyant parent, and a task-specific arm. Its verdict is CONDITIONAL, not "
+            "a win -- the lineage beats reset at 1024 bits and loses at 256 -- and 'complete' here "
+            "means MEASURED WITH ALL FOUR ARMS AND ALL REQUIRED FIELDS, never 'succeeded'. The "
+            "remaining five are still blocked on the same two things: no lane has run a CONTINUED "
+            "arm across those boundaries and no lane has run a RESET arm to compare it with. The "
+            "existing receipts for them are stage evidence, not transition evidence, and that "
+            "difference is the whole of #151."),
+        "complete_does_not_mean_succeeded": (
+            "A transition counts as complete when all four DEV-D8 arms ran and every required "
+            "field has evidence behind it. D0 to D1 qualifies and its own terminal is "
+            "D0_TO_D1_TRANSITION_CONDITIONAL. Reading this count as a score would be exactly the "
+            "error #151 section 6 warns about, so the count is reported beside the terminal and "
+            "never alone."),
         "what_is_actually_missing": [
-            "A machine that acquires competence at D0 and then meets D1 carrying it. Every current "
-            "receipt either holds one stage's tasks with no acquisition across a boundary, or draws "
-            "its tasks independently so nothing is carried.",
-            "A reset arm. Without it a lower cost at D1 is equally explained by D1 being easier, "
-            "which #151 section 6 names as the thing not to claim development from.",
-            "Reuse execution witnesses across a boundary. No object identity in the repository is "
-            "currently observed being acquired at one stage and invoked at the next.",
+            "Four more machines that acquire competence at one stage and meet the next carrying "
+            "it. D0 to D1 now has one; D1 to D2 onward have none, and their current receipts "
+            "either hold one stage's tasks with no acquisition across a boundary or draw their "
+            "tasks independently so nothing is carried.",
+            "Reset arms for those transitions. Without one, a lower cost at the later stage is "
+            "equally explained by that stage being easier, which #151 section 6 names as the "
+            "thing not to claim development from.",
+            "A transition that holds at every store budget. The one that exists does not: at 256 "
+            "bits the D0 store saturates and the lineage loses, which is a real limit on the "
+            "claim rather than a gap in the evidence.",
         ],
         "cheapest_first_transition": (
             "D0 to D1 on the exact game families already built. D0 acquires periodic-rule methods; "

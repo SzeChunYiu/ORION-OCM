@@ -167,42 +167,14 @@
         "STRONG_ADAPTIVE_PARENT"
       ],
       "note": "obstruction versus search-more, which is D2 material."
-    }
-  },
-  "transitions": [
-    {
-      "source_stage": "D0",
-      "target_stage": "D1",
-      "complete": false,
-      "supporting_receipts": [
-        "DEPEND_E3_V1.json",
-        "FAILURE_PILOT_V1.json",
-        "REINDEX_E9_V1.json",
-        "SCALING_PILOT_V1.json",
-        "SUBSPACE_E1_V1.json"
+    },
+    "DEV1_D0_TO_D1_V1.json": {
+      "stage": "D1",
+      "transition": [
+        "D0",
+        "D1"
       ],
-      "arms_present": [
-        "STRONG_ADAPTIVE_PARENT"
-      ],
-      "arms_missing": [
-        "CONTINUED_OCM",
-        "RESET_OCM",
-        "TASK_SPECIFIC_OCM"
-      ],
-      "fields_present": [
-        "ablation_result",
-        "active_k",
-        "harmful_transfer_refusals",
-        "maintenance_cost",
-        "negative_transfer",
-        "persistent_bytes",
-        "query_cost",
-        "revision_cost",
-        "strongest_parent_result",
-        "terminal",
-        "total_N"
-      ],
-      "fields_missing": [
+      "supplies": [
         "lineage_id",
         "source_stage",
         "target_stage",
@@ -219,11 +191,84 @@
         "new_primitive_operators_admitted",
         "composition_depth",
         "acquisition_cost",
+        "query_cost",
         "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
         "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
         "cheaper_because"
       ],
-      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+      "arms": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "note": "the first receipt in the repository written for a TRANSITION rather than a stage: one lineage carries its D0 store across the boundary, a reset arm with the same architecture and the same D1 stream does not, a clairvoyant parent bounds the claim, and a task-specific arm bounds how much of the gain is generality. It counts only for D0 to D1, and its own terminal is CONDITIONAL: the lineage wins at 1024 bits and loses at 256, so this transition is complete in the sense of being MEASURED, not in the sense of being won everywhere."
+    }
+  },
+  "transitions": [
+    {
+      "source_stage": "D0",
+      "target_stage": "D1",
+      "complete": true,
+      "supporting_receipts": [
+        "DEPEND_E3_V1.json",
+        "DEV1_D0_TO_D1_V1.json",
+        "FAILURE_PILOT_V1.json",
+        "REINDEX_E9_V1.json",
+        "SCALING_PILOT_V1.json",
+        "SUBSPACE_E1_V1.json"
+      ],
+      "arms_present": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "arms_missing": [],
+      "fields_present": [
+        "ablation_result",
+        "acquisition_cost",
+        "active_k",
+        "cheaper_because",
+        "composition_depth",
+        "harmful_transfer_refusals",
+        "lineage_id",
+        "maintenance_cost",
+        "negative_transfer",
+        "new_information_supplied",
+        "new_methods",
+        "new_primitive_operators_admitted",
+        "new_representations",
+        "new_schemas",
+        "persistent_bytes",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "query_cost",
+        "retention",
+        "reuse_execution_witnesses",
+        "reused_object_identities",
+        "revision_cost",
+        "source_machine_identity",
+        "source_stage",
+        "strongest_parent_result",
+        "target_machine_identity",
+        "target_stage",
+        "terminal",
+        "total_N",
+        "verification_cost"
+      ],
+      "fields_missing": [],
+      "blocking_reason": ""
     },
     {
       "source_stage": "D1",
@@ -472,13 +517,14 @@
       "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
     }
   ],
-  "complete_transitions": 0,
+  "complete_transitions": 1,
   "transitions_total": 6,
-  "headline": "0 of 6 developmental transitions are complete. Every one is blocked on the same two things: no lane has run a CONTINUED arm that carried state across a stage boundary, and no lane has run a RESET arm to compare it with. The existing receipts are stage evidence, not transition evidence, and the difference is the whole of #151.",
+  "headline": "1 of 6 developmental transitions are complete. D0 to D1 is measured: DEV1_D0_TO_D1_V1 runs a lineage that carries its D0 store across the boundary, a reset arm with the same architecture and the same D1 stream that does not, a clairvoyant parent, and a task-specific arm. Its verdict is CONDITIONAL, not a win -- the lineage beats reset at 1024 bits and loses at 256 -- and 'complete' here means MEASURED WITH ALL FOUR ARMS AND ALL REQUIRED FIELDS, never 'succeeded'. The remaining five are still blocked on the same two things: no lane has run a CONTINUED arm across those boundaries and no lane has run a RESET arm to compare it with. The existing receipts for them are stage evidence, not transition evidence, and that difference is the whole of #151.",
+  "complete_does_not_mean_succeeded": "A transition counts as complete when all four DEV-D8 arms ran and every required field has evidence behind it. D0 to D1 qualifies and its own terminal is D0_TO_D1_TRANSITION_CONDITIONAL. Reading this count as a score would be exactly the error #151 section 6 warns about, so the count is reported beside the terminal and never alone.",
   "what_is_actually_missing": [
-    "A machine that acquires competence at D0 and then meets D1 carrying it. Every current receipt either holds one stage's tasks with no acquisition across a boundary, or draws its tasks independently so nothing is carried.",
-    "A reset arm. Without it a lower cost at D1 is equally explained by D1 being easier, which #151 section 6 names as the thing not to claim development from.",
-    "Reuse execution witnesses across a boundary. No object identity in the repository is currently observed being acquired at one stage and invoked at the next."
+    "Four more machines that acquire competence at one stage and meet the next carrying it. D0 to D1 now has one; D1 to D2 onward have none, and their current receipts either hold one stage's tasks with no acquisition across a boundary or draw their tasks independently so nothing is carried.",
+    "Reset arms for those transitions. Without one, a lower cost at the later stage is equally explained by that stage being easier, which #151 section 6 names as the thing not to claim development from.",
+    "A transition that holds at every store budget. The one that exists does not: at 256 bits the D0 store saturates and the lineage loses, which is a real limit on the claim rather than a gap in the evidence."
   ],
   "cheapest_first_transition": "D0 to D1 on the exact game families already built. D0 acquires periodic-rule methods; D1 requires composing two of them, which the SUBNIM family in games.py already supports because neither the one-heap nor the Nim training family contains the combined solution. That is DEV-D10 and it needs no new domain."
 }
