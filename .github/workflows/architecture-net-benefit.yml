@@ -1,0 +1,57 @@
+name: Architecture net benefit qualification
+
+on:
+  pull_request:
+    paths:
+      - 'research/architecture-net-benefit-v1/**'
+      - '.github/workflows/architecture-net-benefit.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/store/**'
+      - 'src/ocm/kso/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/architecture-net-benefit-v1/**'
+      - '.github/workflows/architecture-net-benefit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  finite-certificate-and-native-bridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/architecture-net-benefit-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Exact finite model controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/architecture-benefit-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/architecture-net-benefit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-normal.txt"
+          python -O -B -m unittest discover -s research/architecture-net-benefit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Exposed native parent correspondence
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/architecture-benefit-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/architecture-net-benefit-v1/native_bridge.py --out "$out/native.json" 2>&1 | tee "$out/native-summary.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: architecture-net-benefit-qualification
+          path: '${{ runner.temp }}/architecture-benefit-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code
