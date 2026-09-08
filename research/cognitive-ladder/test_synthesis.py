@@ -151,3 +151,28 @@ def test_the_artifact_produces_no_evidence_and_says_so():
     assert "produces no evidence" in DOC["authority"]
     assert "stands unchanged" in DOC["authority"]
     assert "falsifiable, which is its only current virtue" in DOC["what_this_does_not_establish"]
+
+
+def test_recording_the_outcome_did_not_rewrite_the_prediction():
+    """The frozen text is inside the digest; the outcome must live outside it."""
+    assert S.COMMITMENT.commitment == S.commit(S.PLAN).commitment
+    assert "OUT_OF_SAMPLE_RESULT" not in json.dumps(S.PLAN)
+    assert "SURVIVED" not in S.LAW_STATUS, (
+        "LAW_STATUS is inside PLAN and must stay as it was written")
+    assert "law_status_after_the_test" in DOC
+    assert DOC["law_status_after_the_test"].startswith("CONJECTURE WITH ONE SURVIVING")
+
+
+def test_the_outcome_records_the_correction_the_run_forced():
+    r = DOC["out_of_sample_result"]
+    assert r["verdict"] == "SURVIVED_ONE_TEST"
+    assert "That is false" in r["the_correction_it_forced"]
+    assert "artifact of compression" in r["the_correction_it_forced"]
+    assert "One out-of-sample point" in r["how_much_this_is_worth"]
+
+
+def test_the_adverse_finding_is_carried_in_the_summary_not_only_the_receipt():
+    r = DOC["out_of_sample_result"]["adverse_finding_in_the_same_run"]
+    assert "AGAINST the" in r
+    assert "eager_all_rules_parent" in r
+    assert "itself a cost once waiting is charged" in r

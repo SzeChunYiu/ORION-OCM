@@ -127,13 +127,18 @@ def test_the_eager_acquisition_root_records_that_its_falsifier_fired():
     assert status.startswith("FIRED, AND THE ROOT IS NARROWED")
     assert "RETAIN_E10_V1.json" in status
     assert "scoped, not refuted" in status
-    assert "perishability half of the falsifier is still unrun" in status, (
-        "half a falsifier is not a falsifier; the unrun half must stay visible")
+    second = root["falsifier_status_second_half"]
+    assert second.startswith("FIRED AGAINST THE MACHINE"), (
+        "the second half of the falsifier went against the machine and must say so first")
+    assert "PERISH_E12_V1.json" in second
+    assert "narrowed on BOTH sides" in second
+    assert "scoped, not withdrawn" in second
 
 
 def test_every_recorded_falsifier_status_reaches_the_generated_document():
     md = (HERE / "ROOT_CAUSE_ANALYSIS_V1.md").read_text()
     for table in (RC.ROOTS, RC.DEEP_ROOTS):
         for name, r in table.items():
-            if r.get("falsifier_status"):
-                assert r["falsifier_status"] in md, name
+            for field in ("falsifier_status", "falsifier_status_second_half"):
+                if r.get(field):
+                    assert r[field] in md, (name, field)

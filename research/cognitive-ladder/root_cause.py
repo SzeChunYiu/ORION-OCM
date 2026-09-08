@@ -383,7 +383,22 @@ DEEP_ROOTS = {
     "worlds with UNBOUNDED FREE RETENTION, which is every world this programme had built until "
     "now and which nobody had noticed was a constant. It is scoped, not refuted: at extension "
     "size one, and wherever the budget holds everything, the parents still win exactly as they "
-    "did. The perishability half of the falsifier is still unrun."),
+    "did. The perishability half of the falsifier has since been run too, and it went the "
+    "OTHER WAY: see falsifier_status_second_half."),
+  falsifier_status_second_half=(
+    "FIRED AGAINST THE MACHINE. E12 (results/PERISH_E12_V1.json) built the perishable "
+    "world -- an unbounded free store, with the cost of a first derivation rising as the "
+    "run proceeds -- and asked the falsifier's own question: does eager acquisition still "
+    "lose? It does not. eager_all_rules_parent, which acquires every rule before seeing a "
+    "single demand and lost in E3, E6, E7 and E10, beats the demand-triggered arm wherever "
+    "the ramp is steep, by up to 8 per cent, because it buys every derivation at the "
+    "cheapest price the world will ever offer. So this root is narrowed on BOTH sides. Its "
+    "own text says the missing quantity is a trigger, and where waiting is charged the "
+    "trigger is the cost: waiting for demand to prove itself means paying a higher price "
+    "for the same derivation. The root holds where evidence is retainable and derivation "
+    "does not get dearer, which was every world it was induced from, and it is false "
+    "outside that. It is scoped, not withdrawn, and both scopings are now measured rather "
+    "than argued."),
   fixable=True),
 
 "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": dict(
@@ -516,6 +531,9 @@ def main() -> int:
         L.append(f"**Falsifier.** {v['falsifier']}\n")
         if v.get("falsifier_status"):
             L.append(f"**Falsifier status.** {v['falsifier_status']}\n")
+        if v.get("falsifier_status_second_half"):
+            L.append("**Falsifier status, second half.** "
+                     f"{v['falsifier_status_second_half']}\n")
     L += ["## Deep roots\n"]
     for k, v in doc["deep_roots"].items():
         L.append(f"### {k} ({v['chains_supporting']} chains, subsumes "
@@ -529,6 +547,9 @@ def main() -> int:
         L.append(f"**Falsifier.** {v['falsifier']}\n")
         if v.get("falsifier_status"):
             L.append(f"**Falsifier status.** {v['falsifier_status']}\n")
+        if v.get("falsifier_status_second_half"):
+            L.append("**Falsifier status, second half.** "
+                     f"{v['falsifier_status_second_half']}\n")
     d = doc["decisive_experiment"]
     L += ["## Decisive experiment implied\n", f"### {d['name']}\n", f"{d['question']}\n",
           f"**Design.** {d['design']}\n",

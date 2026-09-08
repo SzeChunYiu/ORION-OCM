@@ -334,6 +334,57 @@ OUT_OF_SAMPLE = dict(
 )
 
 
+#: The outcome of the frozen prediction, and the status the law holds AFTER it.
+#: Both live OUTSIDE ``PLAN`` on purpose. ``LAW_STATUS`` and ``OUT_OF_SAMPLE`` are
+#: inside the plan and therefore inside the commitment digest, so editing either
+#: to record what happened would retroactively rewrite the prediction it was
+#: frozen in. The frozen text stays exactly as it was written; what the run
+#: produced is recorded beside it and never over it.
+OUT_OF_SAMPLE_RESULT = dict(
+  ran="results/PERISH_E12_V1.json",
+  verdict="SURVIVED_ONE_TEST",
+  what_happened=(
+    "The crossover extension at which a rule beats a memoizer falls from 16 to 8 as the "
+    "perishability ramp rises, so acquisition pays at strictly lower compressibility once "
+    "the opportunity to derive cheaply perishes. beta therefore does generalize beyond "
+    "bounded storage, which is what the prediction was for."),
+  the_correction_it_forced=(
+    "The prediction's justification contained an error and E12's pilot found it. This "
+    "module argued that with storage free and unbounded, keeping everything you derive is "
+    "the folklore-optimal policy. That is false. Compression reduces the number of "
+    "DERIVATIONS, not merely the number of bits, so at a large enough extension a rule wins "
+    "whether or not derivation perishes -- and the pilot duly produced a confirmation that "
+    "was an artifact of compression with perishability doing nothing at all. The corrected "
+    "experiment sweeps extension, checks the lam = 0 row against an arithmetic break-even "
+    "computed from the cost constants alone, and reports the SHIFT of the boundary rather "
+    "than a win. Both the wrong argument and the confirmation it would have bought are on "
+    "the record."),
+  how_much_this_is_worth=(
+    "One out-of-sample point. The law now has one prediction it could have failed and did "
+    "not, which moves it from a rule fitted to ten rows to a rule with one surviving "
+    "prediction, and no further. Two of its three coordinates have still never been varied "
+    "outside the experiments that defined them."),
+  adverse_finding_in_the_same_run=(
+    "E12 also ran the unrun half of the deep root's falsifier and it went AGAINST the "
+    "machine. eager_all_rules_parent -- which acquires every rule before seeing any demand, "
+    "and lost in E3, E6, E7 and E10 -- beats the demand-triggered arm wherever the ramp is "
+    "steep, because it buys every derivation at the cheapest price the world will ever "
+    "offer. The demand trigger this programme identified as the missing ingredient is "
+    "itself a cost once waiting is charged. It is recorded here because it is the finding a "
+    "lane reporting its own surviving prediction would be most tempted to leave in the "
+    "receipt and out of the summary."),
+)
+
+LAW_STATUS_AFTER_THE_TEST = (
+    "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is "
+    "left exactly as written, because it is inside the commitment digest and editing it "
+    "would rewrite the prediction after seeing the result. What changed is only this: the "
+    "prediction was run and did not fail. That is one point. It is not a validated law, the "
+    "in-sample agreement is still worth nothing, and the run that confirmed the prediction "
+    "also refuted the argument that motivated it."
+)
+
+
 PLAN: Mapping[str, Any] = {
     "study_id": "SYNTHESIS_V1",
     "doctrine": "PR #150, PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
@@ -390,6 +441,8 @@ def build() -> dict:
             f"{sum(1 for r in rows if r['agrees'])}/{len(rows)} is a statement about the "
             "rule's construction, not about the world."),
         "out_of_sample": OUT_OF_SAMPLE,
+        "out_of_sample_result": OUT_OF_SAMPLE_RESULT,
+        "law_status_after_the_test": LAW_STATUS_AFTER_THE_TEST,
         "what_this_does_not_establish": (
             "Three binary coordinates over ten synthetic rows. Nothing here measures a real "
             "task ecology, none of the coordinates is measured continuously, and the beta "
@@ -430,6 +483,17 @@ def main() -> int:
           f"**What refutes the law.** {o['what_refutes_the_law']}\n",
           f"**What confirms it, and how weakly.** {o['what_confirms_it_weakly']}\n",
           f"**Commitment.** `{doc['commitment']['commitment']}`\n",
+          "## Outcome\n",
+          f"**Verdict.** `{doc['out_of_sample_result']['verdict']}` "
+          f"— `{doc['out_of_sample_result']['ran']}`\n",
+          f"{doc['out_of_sample_result']['what_happened']}\n",
+          f"**The correction it forced.** "
+          f"{doc['out_of_sample_result']['the_correction_it_forced']}\n",
+          f"**How much this is worth.** "
+          f"{doc['out_of_sample_result']['how_much_this_is_worth']}\n",
+          f"**Adverse finding in the same run.** "
+          f"{doc['out_of_sample_result']['adverse_finding_in_the_same_run']}\n",
+          f"**Status now.** {doc['law_status_after_the_test']}\n",
           f"## What this does not establish\n\n{doc['what_this_does_not_establish']}\n"]
     (HERE / "SYNTHESIS_V1.md").write_text("\n".join(L))
     print(f"wrote SYNTHESIS_V1: {len(doc['absorptions'])} absorptions, "
