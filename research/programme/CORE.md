@@ -19,11 +19,16 @@ lifetime benefit remain open. The new source integration has 42 portable control
 passing, with three external-input controls explicitly excluded and no native calls.
 Those controls do not reproduce the historical native experiment.
 
+The [typed native lifecycle](TYPED_NATIVE_LIFECYCLE.md) now has an executed result:
+the producer persisted an existing-theorem alias, and a separately qualified
+consumer recovery reconstructed all seven issued claims. No new method became
+eligible. The first failed consumer remains part of the evidence.
+
 ## Next decisive work
 
-Follow [the current research sequence](RESEARCH_NEXT.md): typed proof acquisition,
-then qualified corpus opportunities and a matched comparison with ordinary learned
-lemmas. Full FLT is one demanding example, not a prerequisite for earlier transfer.
+Follow [the current research sequence](RESEARCH_NEXT.md): qualify actual learning
+opportunities, then compare ordinary proved-lemma reuse with equally equipped
+parents. Full FLT is one demanding example, not a prerequisite for earlier transfer.
 The [proof curriculum](PROOF_CURRICULUM.md), [FLT design](FLT_RECONSTRUCTION.md) and
 [math-to-language design](MATH_TO_LANGUAGE.md) retain separate evidence obligations.
 

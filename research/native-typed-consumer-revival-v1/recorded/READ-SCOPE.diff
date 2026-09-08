@@ -1,0 +1,56 @@
+--- original-candidate02/run_b.py
++++ consumer-revival01/run_b.py
+@@ -1,6 +1,6 @@
+ """Fresh consumer: admitted-own data only; independent exact-request native checking."""
+ from pathlib import Path
+-import copy,importlib.util,sys
++import copy,importlib.util,os,sys
+ spec=importlib.util.spec_from_file_location("life_common",Path(__file__).with_name("life_common.py"))
+ C=importlib.util.module_from_spec(spec);sys.modules["life_common"]=C;spec.loader.exec_module(C)
+ 
+@@ -20,21 +20,36 @@
+               "NATIVE_NEGATIVE_DID_NOT_REFUSE_EXACT_ISSUED_CLAIM:"+mode)
+ 
+ 
++def audit_open(original,mode,flags,root,output,allowed,caches,opened):
++    original=original.absolute();path=original.resolve()
++    try:lexical=str(original.relative_to(root))
++    except ValueError:lexical=None
++    try:relative=str(path.relative_to(root))
++    except ValueError:relative=None
++    if lexical is None and relative is None:return
++    if output==path or output in path.parents:return
++    opened.append({"path":lexical or relative,"mode":str(mode),"flags":flags})
++    if original in caches:
++        write_flags=os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND
++        C.require(type(flags) is int and flags&write_flags==0 and mode in ("r","rb",None),
++                  "B_CACHE_PROBE_NOT_READ_ONLY:"+str(lexical))
++        C.require(not original.exists(),"B_BYTECODE_PRESENT:"+str(lexical))
++        return
++    C.require(relative is not None,"B_PATH_ESCAPE:"+str(lexical))
++    C.require(relative in allowed,"B_FORBIDDEN_READ:"+relative)
++
++
+ def main(out):
+     opened=[]
+-    allowed=set(C.freeze()["sources"])|set(C.freeze()["b_inputs"])|{
++    frozen=C.freeze()
++    allowed=set(frozen["sources"])|set(frozen["b_inputs"])|{
+         "SOURCE-FREEZE.json","RUN-REQUEST.json","EXECUTION-GATE.json","B-INPUT.json",
+         "B-GATE.json","B-REQUEST.json","PROJECTION.json"}
++    caches={Path(importlib.util.cache_from_source(str(C.HERE/name))).absolute()
++            for name in frozen["sources"] if name.endswith(".py")}
+     def audit(event,args):
+         if event!="open" or not isinstance(args[0],(str,bytes)):return
+-        path=Path(args[0]).resolve()
+-        try:relative=str(path.relative_to(C.HERE))
+-        except ValueError:return
+-        if out==path or out in path.parents:return
+-        opened.append({"path":relative,"mode":str(args[1]),"flags":args[2]})
+-        if relative.endswith(".pyc") and relative.startswith("engine/"):
+-            C.require(not path.exists(),"B_BYTECODE_PRESENT:"+relative)
+-        else:C.require(relative in allowed,"B_FORBIDDEN_READ:"+relative)
++        audit_open(Path(os.fsdecode(args[0])),args[1],args[2],C.HERE,out,allowed,caches,opened)
+     sys.addaudithook(audit);C.AUDIT_READS=opened
+     work={};C.ACTIVE_WORK=work;engine=C.engine();P=C.load("life_payload","life_payload.py")
+     R=C.load("life_requests","life_requests.py")

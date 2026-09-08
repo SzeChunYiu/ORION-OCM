@@ -1,0 +1,95 @@
+{
+  "schema": "independent.typed-native-wrapper-source-review.v1",
+  "utc": "2026-09-08T14:16:41.607927+00:00",
+  "verdict": "QUALIFIED_WRAPPER_SOURCE_ACCEPTANCE_WITH_CALLER_FIX_PENDING",
+  "wrapper_source": {
+    "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_native.py",
+    "bytes": 11926,
+    "sha256": "f4eac06fa269d775be76d488830a82e6107d5272e77c7516686bb19abd3e91f9"
+  },
+  "preserved_sources": [
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/typed-wff/lifecycle/life_native-reviewed-01.py",
+      "bytes": 11806,
+      "sha256": "ec892d139798d39c8a3907b1e23974df735c2baa2e3fdaed53cc759c7cc82881"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/typed-wff/lifecycle/life_native-reviewed-02.py",
+      "bytes": 11926,
+      "sha256": "f4eac06fa269d775be76d488830a82e6107d5272e77c7516686bb19abd3e91f9"
+    }
+  ],
+  "report": {
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/typed-wff/lifecycle/NATIVE-WRAPPER-REVIEW.md",
+    "bytes": 4929,
+    "sha256": "4cc43a5af257b76ff2164eaefabd024c7203b5b98964ac08f33ae59316b79c67"
+  },
+  "read_scope": [
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_native.py",
+      "bytes": 11926,
+      "sha256": "f4eac06fa269d775be76d488830a82e6107d5272e77c7516686bb19abd3e91f9",
+      "scope": "Complete wrapper source"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/authority/trace_source.py",
+      "bytes": 4115,
+      "sha256": "d00d25305c202cedd412c4f620f3e84801d4b24544f7550c7f5fea296775e525",
+      "scope": "Complete index/lexer source"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/authority/trace_adapter.py",
+      "bytes": 7036,
+      "sha256": "b8f54435e5d2e5208bf07f55a3cd02d771f8d0371a9f25bdf7cceab59057f91a",
+      "scope": "Complete native observer source"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/authority/mmverify.py",
+      "bytes": 28925,
+      "sha256": "a1586636b9f3b8378932e129a1a8299dab8ad39098eca22480583947d1f644b8",
+      "scope": "Pinned whole file; inspected lines35\u2013133,300\u2013555,660\u2013708 for imports, native tokenizer, proof processing and entry-point behavior"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_common.py",
+      "bytes": 4706,
+      "sha256": "59c09e7d2acbd8fb02aec6bc8f931fdb8646f6ecf40b945cf2b60ca9b2c96122",
+      "scope": "Source load/gate/canonical serialization and native caller/configuration interfaces"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/run_a.py",
+      "bytes": 4856,
+      "sha256": "322b3f64b697a46cdcf60f0ddd97f984a120e28c1c0f08e95967ffa1bd296e2f",
+      "scope": "Producer main call flow; unfinished source, no full producer qualification"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/SOURCE-INPUTS-01.json",
+      "bytes": 10260,
+      "sha256": "faed340bcf6e0d32949002af15d19606324cd00d061935d165869a760f9e90be",
+      "scope": "Exact selected authority/input/provenance binding fields"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-fixtures-v1/FIXTURES.json",
+      "bytes": 2902,
+      "sha256": "ffd3400b6204754956c05827fbf5c398731f30c3e318518130587ac7d0b43823",
+      "scope": "Previously fully source-reviewed unchanged fixture packet"
+    },
+    {
+      "path": "/home/billy/orion-director-work/20260908/native-typed-wff-fixtures-v1/ASSERTIONS.json",
+      "bytes": 3554,
+      "sha256": "53e0b3d45eae89e564fce99735226dcea491749d442cb529245a0cee184a0720",
+      "scope": "Previously fully source-reviewed unchanged fixture packet"
+    }
+  ],
+  "wrapper_blockers": [],
+  "resolved_root_finding": "Explicit empty applied-assertion DV preflight added; only successor source delta.",
+  "caller_actionable_item": {
+    "file": "life_common.py",
+    "reviewed_sha256": "8abfba9bfd82b92a04bbd5315580a90b43e3d179821243d8d4e8b9171058b9db",
+    "finding": "Unconditional native_calls increment conflates wrapper invocations with native replays on pre-native refusal.",
+    "owner": "finish_native_control",
+    "status": "ACCEPTED_FOR_REPAIR; verify at exact freeze"
+  },
+  "native_learner_bridge_test_execution": false,
+  "full_lifecycle_clearance": false,
+  "execution_authorized": false
+}

@@ -39,7 +39,10 @@ OCM serving now exercises the additional warrant/check/commit integration. Neith
 result establishes an OCM-specific scientific residual. The supplied cohorts,
 extractor, grammar, library and checker are engineering priors, not discoveries.
 
-Before broader claims, qualify typed proof ingestion and reconstruction, separated
-families, adverse transfer and revision. An additional parent must receive the same
+The [typed native successor](TYPED_NATIVE_LIFECYCLE.md) now qualifies the bounded
+wff reconstruction interface through a separate consumer recovery. It discovers
+only an already available ordinary-theorem alias and admits no eligible new method.
+Before broader claims, qualify separated families, adverse transfer and revision.
+An additional parent must receive the same
 acquired sequent as an ordinary derived lemma with the same proof, scope and costs.
 That comparison is specified next; it has not been executed in these controls.
