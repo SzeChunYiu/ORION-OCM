@@ -127,3 +127,37 @@ X8_PLAN: Mapping[str, Any] = {
 }
 
 COMMITMENT: Commitment = commit(X8_PLAN)
+
+
+#: Recorded AFTER execution and deliberately OUTSIDE X8_PLAN, so the commitment
+#: digest is unchanged and the registered criterion is not rewritten.
+#:
+#: U1 asked for a price at which PRECOMPILED_DEMAND beats replay at ZERO
+#: settings. That cannot happen, and the reason is a defect in the prediction
+#: rather than a fact about the arm. As the price rises the compiled arm degrades
+#: INTO the rule it compiles -- U4 confirms it, within 1.6 percent at every
+#: budget at 128 bits a cell -- and that rule wins 6 of 18 settings on its own at
+#: every price. So the floor of the compiled arm's win count is the naive rule's
+#: win count, not zero, and a criterion written against replay could never be met.
+#:
+#: The quantity that was meant is the EXCESS over the rule it compiles. That is
+#: 8 - 6 = 2 settings at 8 bits, 7 - 6 = 1 at 16, and 0 from 32 bits upward. The
+#: correctly specified break-even is therefore 32 bits a cell, four answers'
+#: worth of storage for one compiled verdict.
+#:
+#: The published terminal is left as the registered criterion produced it. This
+#: constant states what the criterion should have said and what the sweep in fact
+#: located; it does not substitute one for the other.
+CRITERION_CORRECTION = dict(
+  what_u1_asked="a price at which the compiled arm beats replay at zero settings",
+  why_it_cannot_be_met=(
+    "the compiled arm degrades into the naive rule, which beats replay at 6 of 18 "
+    "settings at every price, so 6 is the floor and not 0"),
+  what_was_meant="a price at which the compiled arm stops beating the rule it compiles",
+  excess_over_the_naive_rule={8: 2, 16: 1, 32: 0, 64: 0, 128: 0},
+  corrected_break_even_cell_bits=32,
+  corrected_break_even_in_answers=4,
+  what_is_not_being_claimed=(
+    "The published terminal stands as the registered criterion produced it. This is a "
+    "correction to the criterion, recorded beside the result, not a re-scored result."),
+)

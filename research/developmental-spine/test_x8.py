@@ -191,3 +191,27 @@ def test_nothing_is_withdrawn_from_x7():
 
 def test_no_novelty_is_claimed_for_continuing_a_sweep():
     assert _doc()["novelty"].startswith("NONE CLAIMED")
+
+
+def test_the_mis_specified_criterion_is_corrected_beside_the_result_not_instead_of_it():
+    """U1 could never be met: the compiled arm's floor is the naive rule's win
+    count, not zero. The correction is recorded outside X8_PLAN so the registered
+    criterion and its digest are untouched."""
+    c = x8.CRITERION_CORRECTION
+    assert c["corrected_break_even_cell_bits"] == 32
+    assert c["corrected_break_even_in_answers"] == 4
+    assert "6 is the floor and not 0" in c["why_it_cannot_be_met"]
+    assert "not a re-scored result" in c["what_is_not_being_claimed"]
+    assert "CRITERION_CORRECTION" not in json.dumps(X8_PLAN)
+
+
+def test_the_correction_agrees_with_the_published_grid():
+    doc = _doc()
+    counts = doc["winning_setting_counts_by_price"]
+    excess = x8.CRITERION_CORRECTION["excess_over_the_naive_rule"]
+    for price, gap in excess.items():
+        demand = counts["PRECOMPILED_DEMAND"][str(price)]
+        naive = counts["UNANIMITY_NAIVE"][str(price)]
+        assert demand - naive == gap, (price, demand, naive, gap)
+    be = x8.CRITERION_CORRECTION["corrected_break_even_cell_bits"]
+    assert excess[be] == 0 and excess[be // 2] > 0, "32 must be the lowest dead price"
