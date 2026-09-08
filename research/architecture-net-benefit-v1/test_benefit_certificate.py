@@ -115,6 +115,10 @@ class BenefitTests(unittest.TestCase):
             with self.assertRaises(InvalidModel):
                 rational(bad)
         self.assertEqual(rational("1/100000000000000000000"), F(1, 10**20))
+        model = stable()
+        cert = synthesize(model, [1], 7)
+        serialized = replace(cert, prices=("1",), rate="7")
+        self.assertEqual(path_bound(model, serialized, ["discover", "reuse"])["gain"], "1")
 
     def test_nonnegative_complete_vectors(self):
         for bad in ((), (-1,), (True,)):

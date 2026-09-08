@@ -29,6 +29,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11.14'
@@ -38,6 +39,7 @@ jobs:
           set -euo pipefail
           out="$RUNNER_TEMP/architecture-benefit-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           mkdir -p "$out"
+          /usr/bin/git rev-parse HEAD | tee "$out/checkout-sha.txt"
           python -B -m unittest discover -s research/architecture-net-benefit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-normal.txt"
           python -O -B -m unittest discover -s research/architecture-net-benefit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
       - name: Exposed native parent correspondence

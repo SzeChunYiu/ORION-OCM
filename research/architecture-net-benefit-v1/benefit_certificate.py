@@ -226,16 +226,18 @@ def synthesize(model: Model, prices: Iterable[object], rate: object = 0) -> Cert
 def path_bound(model: Model, cert: Certificate, names: Iterable[str], *, fixed_overhead: object = 0) -> dict:
     """Check one observed model path against its all-path certificate."""
     bound = verify(model, cert, fixed_overhead=fixed_overhead)
+    prices = checked_prices(model, cert.prices)
+    rate = rational(cert.rate)
     edges = {e.name: e for e in model.edges}
     cursor, total, demands = model.start, -rational(fixed_overhead), 0
     for name in names:
         if name not in edges or edges[name].source != cursor:
             raise InvalidModel("unknown edge or non-contiguous path")
         e = edges[name]
-        total += gain(e, cert.prices)
+        total += gain(e, prices)
         demands += e.demands
         cursor = e.target
-    floor = cert.rate * demands - F(bound["debt"])
+    floor = rate * demands - F(bound["debt"])
     if total < floor:
         raise AssertionError("valid certificate failed path bound")
     return {"gain": str(total), "demands": demands, "lower_bound": str(floor)}
