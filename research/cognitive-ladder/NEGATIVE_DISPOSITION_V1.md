@@ -15,7 +15,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 | N5-LEARNED-RELEVANCE | `INDEX_MAINTENANCE_DOMINATES` | **CORRECTABLE** | DONE |
 | N6-UNARY-ACQUISITION | `NO_METHOD_ACQUIRED` | **SUPERSEDED** | DONE |
 | N7-CLAUSE-DONOR | `NO_DEVELOPMENT_BENEFIT` | **CORRECTABLE** | DONE |
-| N8-DIAGNOSIS-RESIDUAL | `ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST` | **CORRECT_FINDING** | NOT_STARTED |
+| N8-DIAGNOSIS-RESIDUAL | `ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST` | **CORRECT_FINDING** | NONE_POSSIBLE |
 | N9-EAGER-DEPENDENCY | `DOMINATED_BY_LAZY_RE_DERIVATION` | **CORRECTABLE** | DONE |
 | N10-SCALAR-FACTORIZATION | `PARENT_SUFFICIENT` | **CORRECTABLE** | DONE |
 | N11-SPARSE-ACQUISITION | `FAILED_AT_REGISTERED_GRAMMAR` | **CORRECTABLE** | DONE |
@@ -99,7 +99,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** Nothing about ordering. The open question is different: probe semantics were authored, so this was table inversion under a cost constraint. Whether a machine can learn what a probe MEANS is untouched and is a separate experiment.
 
-**Fix.** learned probe semantics; NOT STARTED and out of scope for the current tranche · **Status.** `NOT_STARTED`
+**Fix.** none possible inside E2. The result is correct and its residual could not have been larger: with the probe table authored there was nothing left in that world to learn. What N8 needs is a SUCCESSOR world, not a repair · **Status.** `NONE_POSSIBLE`
 
 ## N9-EAGER-DEPENDENCY — CORRECTABLE
 

@@ -101,3 +101,18 @@ def test_every_completed_fix_records_what_it_found():
         if n["fix_status"] == "DONE" and n["disposition"] == "CORRECTABLE":
             assert n.get("outcome"), (
                 f"{n['negative_id']} ran its fix and did not record the result")
+
+
+def test_a_correct_finding_with_no_repair_names_its_successor():
+    """A correct result cannot be fixed, so the only honest discharge is a successor.
+
+    This is the distinction the CORRECT_FINDING guard above protects: E11 did not
+    repair N8, because there was nothing in N8 to repair. It removed the enabling
+    condition -- an authored probe table -- and ran the world that E2 could not.
+    An entry that claims a successor must name a receipt.
+    """
+    for n in D.NEGATIVES:
+        if n["disposition"] == "CORRECT_FINDING" and n.get("successor"):
+            assert "results/" in n["successor"], n["negative_id"]
+            assert n.get("outcome"), n["negative_id"]
+            assert n["fix_status"] in ("NONE_POSSIBLE", "NOT_STARTED"), n["negative_id"]
