@@ -1,0 +1,66 @@
+{
+  "actual_data_preflight": {
+    "bytes": 3460,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-v1/APPARATUS04-PREFLIGHT-02.json",
+    "sha256": "124570c78357b92c01e3551489486fb4cdef4e17ead2c0fe47191928bb21eca7"
+  },
+  "adapter_review_unchanged": {
+    "bytes": 5802,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/REVIEW-candidate02.json",
+    "sha256": "dde238d3653127332a8fa12d37f377c8efbd87d428c20b88c5231a8661812301"
+  },
+  "bindings": {
+    "bytes": 123783,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/BINDINGS-apparatus04.json",
+    "sha256": "cf8039e4843f4fa0a8cf117d618aa8877886841105b72c2857af37a57d55c122"
+  },
+  "changes": [
+    "Diagnostic core_events export replaces each nonfinite float with an explicit binary64 big-endian bit tag, recording exact path, float type and bits. Encoding makes fresh dictionaries/lists and does not mutate actual scope, event, warrant, request, proof or runtime state.",
+    "Strict finite JSON serializer stays unchanged. Only final core-event diagnostic field uses the codec; authoritative native/journal bytes retain their original contracts.",
+    "New apparatus04 paths and create-only *-03 output generation; earlier failed attempts remain untouched."
+  ],
+  "data_checks": {
+    "all_pass": true,
+    "count": 264
+  },
+  "diff": {
+    "bytes": 6422,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-v1/APPARATUS04-REPAIR.diff",
+    "sha256": "7f649cb552ef0a9fa5dd53e614c750fd67fd75c30dccf98374ffc70bcddae194"
+  },
+  "evidence": [
+    "Actual retained 18 OCM events have exactly18 +Infinity scope.epoch[1] values. Independent decoding of the retained diagnostic export reproduces their exact canonical data, including every original event hash.",
+    "Corrected preflight uses actual fixed OCMEvent.from_dict/as_dict on18 events; the original19 count was ledger records including one snapshot and is explicitly corrected. Finite-byte identity and nonfinite bit round-trip controls are retained, with zero native/search calls.",
+    "All nonapparatus pins, candidate02 adapter, eight request/order/policy records, and computation/checking paths remain unchanged."
+  ],
+  "execution_gate": "Requires explicit root successor gate. Review executes no native or comparison.",
+  "failed_attempt": {
+    "bytes": 19076,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/REVIEW-failed-attempt02.json",
+    "sha256": "f7f4450e489caf088c85a6ad549968a8c0564a619ddda3901c83eda6880356a9"
+  },
+  "limits": [
+    "The codec is a diagnostic representation; it creates no new proof or warrant. Report-guided decoding avoids treating arbitrary similarly shaped data as float tags.",
+    "The partial stopped attempt proves actual durable ordinary OCM/native use, but does not replace its absent full runner result or complete the comparison.",
+    "Shared-harness and fresh-process/engine/compiler timing limits remain; no OS-cache eviction or historical acquisition measurement."
+  ],
+  "manifest": {
+    "bytes": 48941,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-v1/apparatus-candidate-04/MANIFEST.json",
+    "sha256": "1f601b284134fc28f4724db216343913e1b20569feb478ba0ca5e64141f4546c"
+  },
+  "previous_apparatus_review": {
+    "bytes": 3500,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-source-review-v1/REVIEW-apparatus03.json",
+    "sha256": "889505e873589949fc1c6a30d3ce1147adda6d4ef57e5e0b7efa2ebb31babc8e"
+  },
+  "prior_preflight_preserved": {
+    "bytes": 2819,
+    "path": "/home/billy/orion-director-work/20260908/native-ocm-adoption-v1/APPARATUS04-PREFLIGHT.json",
+    "sha256": "e00401600020ea8636d344cec42e3e19a97f140ed644001e26b09f5f41a9057d"
+  },
+  "remaining_blockers": [],
+  "schema": "native.adoption.independent-diagnostic-repair-review.v1",
+  "utc": "2026-09-08T10:59:02.232333+00:00",
+  "verdict": "DIAGNOSTIC_REPAIR_CLEARED_FOR_ROOT_EXECUTION_DECISION"
+}
