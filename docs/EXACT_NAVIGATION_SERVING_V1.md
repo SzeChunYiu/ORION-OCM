@@ -4,7 +4,10 @@ The serving path accepts a matrix-free result only when its rational residual is
 exactly zero, then otherwise uses the unchanged dense solver. On one authored
 128-row comparison, C process wall fell from **71.894 s to 17.522 s** (4.103×).
 All 128 paired answers and normalized decision traces matched. This measures a
-serving improvement against the previous OCM implementation.
+serving improvement against the previous OCM implementation. The workload has
+128 distinct observation records but only **two distinct task meanings**, each
+repeated 64 times; it measures repeated serving and history growth on two authored
+problems.
 
 ## Mechanism and compatibility
 
