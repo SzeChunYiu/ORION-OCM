@@ -53,6 +53,12 @@ jobs:
           python -B research/residual-strategy-regime-v1/r0a_checker_provenance_audit.py \
             --out "$out/r0a-checker-provenance.json" \
             --github-notice
+      - name: R0A frozen source forensic audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_frozen_source_forensic.py \
+            --out "$out/r0a-frozen-source-forensic.json" \
+            --github-notice
       - name: R0D paid decision-region exact audit
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -148,6 +154,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-suffix-elision.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-provenance.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-frozen-source-forensic.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0d-paid-decision-region.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0c-scheduler-residual.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
