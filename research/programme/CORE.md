@@ -30,7 +30,8 @@ in the complete ordinary parent; 71 traces fit the bounded interface and 57 do n
 The [first fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) recorded
 76 proposals from 17 roots, but every parent screen remained UNKNOWN at the syntax
 interface. The full 4,323-contract parent is preserved. No useful new method or
-absence of opportunity follows; repair the grammar boundary before comparison.
+absence of opportunity follows. A [syntax prototype](../ordinary-cut-screen-revival-v1/CORE.md)
+now passes authored controls; connecting it to the parent screen is next.
 
 ## Next decisive work
 
