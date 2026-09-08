@@ -1,4 +1,4 @@
-# Four-term lifecycle cost ledger
+# Lifecycle cost ledger
 
 **Status:** research-only measurement instrument / no policy change / no lifecycle gate
 touched / no production behaviour changed / no ML authorization.
@@ -10,10 +10,10 @@ all four are on the same page against the same parent over the same population.
 
 This module is that page.
 
-## 1. The four terms, and why exactly these
+## 1. The terms, and a correction
 
-Two lanes reached the same decomposition from opposite directions, which is the only
-reason to trust it:
+This module was first written with **four** terms, on the strength of two lanes reaching
+the same decomposition from opposite directions:
 
 | term | paid | this lane | the cognitive-ladder lane |
 |---|---|---|---|
@@ -22,8 +22,36 @@ reason to trust it:
 | `OCCUPANCY` | per step held | policy table, DP storage | the table's bits, from the same budget as the facts |
 | `INVALIDATION` | once per invalidation | reset/drift epochs, `sum_e B_r(max_{i in e} R(q_i))` | recompiling after the version space shrinks |
 
-Neither lane set out to find four terms. Both ended with these four, and neither can
-close a net-benefit claim while any of them is missing.
+Neither lane set out to find four terms and both ended with these four.
+
+**That was not enough, and the correction arrived from inside this tranche.** Readiness
+item 6 of `GENERAL_NET_BENEFIT_GATE_V1.md` enumerates the complete cost vector an
+architecture-level claim must charge:
+
+```text
+acquisition, compilation, policy use, solving, checking, storage,
+maintenance, invalidation, checkpoint/replay, source/output custody
+```
+
+Two of those are not a build, a use, a step held or an invalidation. **Checkpoint/replay**
+is paid when a lifecycle recovers, and **source/output custody** is paid to bind identity
+at the boundary; folding either into a neighbour would have been the exact failure this
+ledger exists to prevent, committed by the ledger itself. So the ledger now carries six:
+
+```text
+PREPARATION   once per epoch          acquisition, compilation
+PER_USE       once per use            policy use, solving, checking
+OCCUPANCY     per step held           storage, maintenance
+INVALIDATION  per invalidation        invalidation
+REPLAY        per replay              checkpoint/replay
+CUSTODY       per custody event       source/output custody
+```
+
+Two lanes agreeing is weaker evidence than one document enumerating. `GATE_COST_MAPPING`
+holds that correspondence as data, and `test_the_ledger_can_hold_every_cost_the_gate_requires`
+parses item 6 out of the gate document at test time: if the gate names a cost this ledger
+cannot hold, the test fails and names it. A companion test checks the reverse, so a mapping
+entry cannot outlive the cost it claims to cover.
 
 ## 2. The one rule
 

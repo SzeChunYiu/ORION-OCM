@@ -1,4 +1,4 @@
-"""A four-term lifecycle cost ledger for a reusable cognitive object.
+"""A lifecycle cost ledger for a reusable cognitive object.
 
 Two lanes arrived independently at the same decomposition of what a carried
 representation costs, and neither can finish a net-benefit claim without all four
@@ -10,7 +10,20 @@ PER_USE        consulting it                       paid once per use
 OCCUPANCY      holding it                          paid per step held
 INVALIDATION   detecting and absorbing a reset,    paid once per invalidation
                drift or revocation
+REPLAY         checkpointing and deterministically paid once per replay
+               replaying to recover
+CUSTODY        binding source and output identity  paid once per custody event
 ```
+
+This module first carried FOUR terms, on the strength of two lanes reaching the
+same decomposition independently.  That was wrong, and gate readiness item 6 of
+`GENERAL_NET_BENEFIT_GATE_V1.md` is what refuted it: its complete cost vector
+names checkpoint/replay and source/output custody, and neither is a build, a use,
+a step held or an invalidation.  Two lanes agreeing is weaker evidence than one
+document enumerating, and the correction is recorded here rather than smoothed
+over.  ``test_the_ledger_can_hold_every_cost_the_gate_requires`` reads that list
+out of the gate document at test time, so the next cost added there fails a test
+until this ledger can hold it.
 
 The failure this module exists to prevent is not arithmetic.  It is a term that
 is *absent* rather than wrong, because an absent term has no error bar and does
@@ -40,11 +53,27 @@ from typing import Any, Mapping
 
 from ocm.kso.resources import COORDINATES, ResourceVector
 
-__all__ = ["TERMS", "Charge", "uncharged", "charged", "LifecycleLedger",
-           "pareto_verdict", "scalar_margin", "break_even_uses"]
+__all__ = ["TERMS", "GATE_COST_MAPPING", "Charge", "uncharged", "charged",
+           "LifecycleLedger", "pareto_verdict", "scalar_margin", "break_even_uses"]
 
-#: The four terms. A ledger must carry a Charge for each; there is no default.
-TERMS = ("PREPARATION", "PER_USE", "OCCUPANCY", "INVALIDATION")
+#: A ledger must carry a Charge for each; there is no default.
+TERMS = ("PREPARATION", "PER_USE", "OCCUPANCY", "INVALIDATION", "REPLAY", "CUSTODY")
+
+#: Where each cost named by GENERAL_NET_BENEFIT_GATE_V1 readiness item 6 lands.
+#: Kept as data rather than prose so a test can check coverage against the gate
+#: document itself instead of against a transcription of it.
+GATE_COST_MAPPING: Mapping[str, str] = {
+    "acquisition": "PREPARATION",
+    "compilation": "PREPARATION",
+    "policy use": "PER_USE",
+    "solving": "PER_USE",
+    "checking": "PER_USE",
+    "storage": "OCCUPANCY",
+    "maintenance": "OCCUPANCY",
+    "invalidation": "INVALIDATION",
+    "checkpoint/replay": "REPLAY",
+    "source/output custody": "CUSTODY",
+}
 
 ZERO = ResourceVector()
 
@@ -106,11 +135,15 @@ class LifecycleLedger:
     per_use: Charge
     occupancy: Charge
     invalidation: Charge
+    replay: Charge
+    custody: Charge
     #: multiplicities observed over the population
     epochs: int = 1
     uses: int = 0
     steps_held: int = 0
     invalidations: int = 0
+    replays: int = 0
+    custody_events: int = 0
     #: True when the observation window ended while the object was still in use,
     #: so every total below is a floor. X8's lesson: a sweep that stops while the
     #: quantity is still moving reports a bound, and calling it a boundary is the
@@ -121,7 +154,8 @@ class LifecycleLedger:
         for name, charge in self.charges().items():
             if charge.term != name:
                 raise ValueError(f"charge in slot {name} is labelled {charge.term}")
-        for name in ("epochs", "uses", "steps_held", "invalidations"):
+        for name in ("epochs", "uses", "steps_held", "invalidations", "replays",
+                     "custody_events"):
             if getattr(self, name) < 0:
                 raise ValueError(f"multiplicity must be non-negative: {name}")
         if self.epochs < 1:
@@ -135,11 +169,13 @@ class LifecycleLedger:
 
     def charges(self) -> dict[str, Charge]:
         return {"PREPARATION": self.preparation, "PER_USE": self.per_use,
-                "OCCUPANCY": self.occupancy, "INVALIDATION": self.invalidation}
+                "OCCUPANCY": self.occupancy, "INVALIDATION": self.invalidation,
+                "REPLAY": self.replay, "CUSTODY": self.custody}
 
     def multiplicities(self) -> dict[str, int]:
         return {"PREPARATION": self.epochs, "PER_USE": self.uses,
-                "OCCUPANCY": self.steps_held, "INVALIDATION": self.invalidations}
+                "OCCUPANCY": self.steps_held, "INVALIDATION": self.invalidations,
+                "REPLAY": self.replays, "CUSTODY": self.custody_events}
 
     @property
     def uncharged_terms(self) -> tuple[str, ...]:
@@ -278,9 +314,9 @@ def break_even_uses(ledger: LifecycleLedger, prices: Mapping[str, float]) -> dic
 
     parent_per_use = value(ledger.parent_cost) / ledger.uses
     object_per_use = value(ledger.per_use.vector)
-    fixed = (value(_scale(ledger.preparation.vector, ledger.epochs))
-             + value(_scale(ledger.occupancy.vector, ledger.steps_held))
-             + value(_scale(ledger.invalidation.vector, ledger.invalidations)))
+    counts = ledger.multiplicities()
+    fixed = sum(value(_scale(charge.vector, counts[name]))
+                for name, charge in ledger.charges().items() if name != "PER_USE")
     saving = parent_per_use - object_per_use
     if saving <= 0:
         return {"break_even_uses": None, "claim_strength": "MEASURED",
@@ -305,6 +341,8 @@ def report(ledger: LifecycleLedger, prices: Mapping[str, float] | None = None
     identity = ledger.identity()
     doc: dict[str, Any] = {
         "schema": "ocm.lifecycle-cost-ledger.v1",
+        "terms_declared": list(TERMS),
+        "gate_cost_mapping": dict(GATE_COST_MAPPING),
         "subject": ledger.subject,
         "parent": ledger.parent,
         "population": ledger.population,

@@ -32,7 +32,10 @@ def _ledger(**over):
         per_use=L.charged("PER_USE", RV(composition_work=1)),
         occupancy=L.charged("OCCUPANCY", RV(memory_bytes=2)),
         invalidation=L.charged("INVALIDATION", RV(composition_work=50)),
-        epochs=3, uses=400, steps_held=100, invalidations=2)
+        replay=L.charged("REPLAY", RV(io_calls=1)),
+        custody=L.charged("CUSTODY", RV(io_calls=1)),
+        epochs=3, uses=400, steps_held=100, invalidations=2, replays=2,
+        custody_events=3)
     base.update(over)
     return L.LifecycleLedger(**base)
 
@@ -67,8 +70,38 @@ def test_an_unknown_term_is_refused():
         L.charged("MAINTENANCE", RV())
 
 
-def test_the_four_terms_are_the_four_both_lanes_found():
-    assert L.TERMS == ("PREPARATION", "PER_USE", "OCCUPANCY", "INVALIDATION")
+def test_the_ledger_can_hold_every_cost_the_gate_requires():
+    """GENERAL_NET_BENEFIT_GATE_V1 readiness item 6 enumerates the complete cost
+    vector. This ledger first carried four terms and could not hold two of them.
+    The list is read out of the gate document rather than transcribed, so the next
+    cost added there fails this test until the ledger can hold it."""
+    gate = (HERE / "GENERAL_NET_BENEFIT_GATE_V1.md").read_text()
+    line = [l for l in gate.splitlines() if "Complete cost vector" in l]
+    assert len(line) == 1, "the gate's cost-vector item moved; re-check coverage by hand"
+    body = line[0].split("**", 2)[-1].split(" are measured")[0]
+    named = [part.strip(" .:*") for chunk in body.split(",")
+             for part in chunk.split(" and ") if part.strip(" .:*")]
+    assert len(named) >= 8, named
+    unmapped = [name for name in named if name not in L.GATE_COST_MAPPING]
+    assert not unmapped, (
+        f"the gate names costs this ledger cannot hold: {unmapped}. Add a term "
+        "rather than folding them into a neighbour.")
+    for name, term in L.GATE_COST_MAPPING.items():
+        assert term in L.TERMS, (name, term)
+
+
+def test_the_mapping_does_not_carry_costs_the_gate_no_longer_names():
+    """The reverse direction: a mapping entry with no gate cost behind it is a
+    stale claim about what is covered."""
+    gate = (HERE / "GENERAL_NET_BENEFIT_GATE_V1.md").read_text()
+    for name in L.GATE_COST_MAPPING:
+        assert name in gate, f"{name!r} is mapped but the gate does not name it"
+
+
+def test_replay_and_custody_are_present_because_four_terms_were_not_enough():
+    assert "REPLAY" in L.TERMS and "CUSTODY" in L.TERMS
+    assert L.GATE_COST_MAPPING["checkpoint/replay"] == "REPLAY"
+    assert L.GATE_COST_MAPPING["source/output custody"] == "CUSTODY"
 
 
 # --- multiplicities ----------------------------------------------------------
@@ -112,9 +145,13 @@ def test_the_identity_holds_over_random_ledgers():
                       per_use=L.charged("PER_USE", vector()),
                       occupancy=L.charged("OCCUPANCY", vector()),
                       invalidation=L.charged("INVALIDATION", vector()),
+                      replay=L.charged("REPLAY", vector()),
+                      custody=L.charged("CUSTODY", vector()),
                       epochs=epochs, uses=rng.randrange(0, 50),
                       steps_held=rng.randrange(0, 50),
-                      invalidations=rng.randrange(0, epochs + 1))
+                      invalidations=rng.randrange(0, epochs + 1),
+                      replays=rng.randrange(0, 9),
+                      custody_events=rng.randrange(0, 9))
         assert led.identity()["holds"]
 
 
@@ -264,6 +301,8 @@ def test_a_free_storage_term_inverts_a_real_published_ordering():
             per_use=L.charged("PER_USE", RV(composition_work=1)),
             occupancy=occupancy,
             invalidation=L.charged("INVALIDATION", RV(composition_work=40)),
+            replay=L.charged("REPLAY", RV()),
+            custody=L.charged("CUSTODY", RV()),
             epochs=20, uses=400, steps_held=400, invalidations=19)
 
     free_eager = L.scalar_margin(arm(extension_cells, False), FLAT)
