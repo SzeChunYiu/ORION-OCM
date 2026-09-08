@@ -16,9 +16,10 @@ def _fragment(task,indices,conclusion,work):
     for s in [*premises,conclusion]:walk(s["left"]);walk(s["right"])
     return {"schema":SCHEMA,"predicates":sorted(names),"premises":premises,"query":conclusion}
 
-def acquire(episodes):
+def acquire(episodes,*,dependency=False):
+    if type(dependency) is not bool:raise InputRefused("DEPENDENCY_OPTION")
     if type(episodes) is not list or not 1<=len(episodes)<=32:raise InputRefused("TRAINING_BOUND")
-    work={"subset_candidates":0,"nonessential_rejections":0};attempts=[];groups={}
+    work={"subset_candidates":0,"nonessential_rejections":0,"dependency_donor_enabled":int(dependency)};attempts=[];groups={}
     for episode_index,episode in enumerate(episodes):
         fields(episode,("task","result"));task=validate_task(episode["task"])
         count(work,"training_verifications")
@@ -49,6 +50,16 @@ def acquire(episodes):
                     group=groups.setdefault(rule["rule_id"],{"rule":rule,"schema_certificate":checked,"supports":{}})
                     group["supports"].setdefault(semantic,{"semantic_key":semantic,"task_sha256":identity,
                                                "episode":episode_index,"branch":branch,"cover":list(indices)})
+                    if dependency:
+                        from unary_rule_dependency import derive
+                        support={"semantic_key":semantic,"task_sha256":identity,"episode":episode_index,
+                                 "branch":branch,"cover":list(indices)}
+                        for item in derive(task,result,support,work):
+                            learned=item["rule"];key=learned["rule_id"]
+                            target=groups.setdefault(key,{"rule":learned,"schema_certificate":item["schema_certificate"],"supports":{}})
+                            target["supports"].setdefault(semantic,item["support"])
+                            attempts.append({"episode":episode_index,"branch":branch,"indices":list(indices),
+                                             "rule_id":key,"accepted":True,"reason":"CHECKED_DEPENDENCY"})
     selected=[]
     for key in sorted(groups):
         item=groups[key]

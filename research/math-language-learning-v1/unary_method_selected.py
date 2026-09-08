@@ -26,11 +26,11 @@ def validate_selection(store):
         rule=next(x for x in r["selected"] if mid=="unary:method:"+x["rule_id"])
         if D.raw(rule)!=D.raw(env["rule"]):raise InputRefused("SELECTED_RULE_BINDING")
 
-def acquire_selected(store,training,development,contract,*,observation=None):
+def acquire_selected(store,training,development,contract,*,observation=None,dependency_donor=False):
     store._check_environment()
     if store.records or store.selection is not None:raise InputRefused("SELECTED_ALREADY_ACQUIRED")
     if D.live(store.rt,store._proof_warrant())!="LIVE":raise InputRefused("RULE_CHECKER_UNAVAILABLE")
-    r=select(training,development,contract,work=store.work,observation=observation,sources_sha256=store.source_sha)
+    r=select(training,development,contract,work=store.work,observation=observation,sources_sha256=store.source_sha,dependency_donor=dependency_donor)
     validate_receipt(r,sources_sha256=store.source_sha,work=store.work)
     discovery=D.admit_evidence(store.rt,"discovery",{"selection":r},store.work)
     selected={"schema":"ocm.unary-method.selected.v1","receipt":r,"discovery":discovery}

@@ -95,9 +95,9 @@ class MethodStore:
         edge=Hyperedge(plan["edge_id"],(anchor.atom_id,),(method.atom_id,),"SUPPORT",warrant=w,scope=D.SCOPE,head_weights=(Fraction(1),))
         return anchor,method,edge
 
-    def acquire_selected(self,training,development,contract,*,observation=None):
+    def acquire_selected(self,training,development,contract,*,observation=None,dependency_donor=False):
         from unary_method_selected import acquire_selected
-        return acquire_selected(self,training,development,contract,observation=observation)
+        return acquire_selected(self,training,development,contract,observation=observation,dependency_donor=dependency_donor)
 
     def acquire(self,episodes):
         start=time.monotonic();self._check_environment()
