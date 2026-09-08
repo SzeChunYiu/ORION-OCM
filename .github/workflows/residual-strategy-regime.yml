@@ -64,6 +64,13 @@ jobs:
           python -B research/residual-strategy-regime-v1/online_switch.py \
             --out "$out/online-switch.json" \
             --github-notice
+      - name: Verify known-horizon threshold Pareto frontier
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/known_horizon_pareto_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/known-horizon-pareto.json" \
+            --github-notice
       - name: Verify randomized time-only minimax certificate
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -112,6 +119,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/prospective.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/known-horizon-pareto.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/randomized-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/price-conflict.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/lifecycle-advice.json
