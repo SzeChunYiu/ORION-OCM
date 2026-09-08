@@ -1,0 +1,84 @@
+name: OCM foundation and retained G2 audit
+
+on:
+  push:
+    branches: [main, research/g2-utility-tournament-20260908]
+    paths:
+      - 'research/ocm-foundation-audit-v1/**'
+      - '.github/workflows/ocm-foundation-audit.yml'
+  pull_request:
+    paths:
+      - 'research/ocm-foundation-audit-v1/**'
+      - '.github/workflows/ocm-foundation-audit.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/ids.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: foundation-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-retained-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/ocm-foundation-audit-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Authored and production-refinement controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/foundation-audit"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/ocm-foundation-audit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/ocm-foundation-audit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Obtain exact retained artifact, not a new experiment
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/foundation-audit"
+          curl --fail --location --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/SzeChunYiu/ORION-OCM/actions/artifacts/10077172191/zip' \
+            --output "$out/retained.zip"
+          python -B - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          from zipfile import ZipFile
+          out = Path(os.environ['RUNNER_TEMP']) / 'foundation-audit'
+          archive = out / 'retained.zip'
+          expected = '250a9635efdae95ebc6737842e3423763c6800ab2db7b7771de971a83153f639'
+          if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+              raise SystemExit('CANNOT_CHECK_ARTIFACT_IDENTITY')
+          with ZipFile(archive) as z:
+              raw = z.read('result.json')
+          if hashlib.sha256(raw).hexdigest() != 'ca549bab3e0de0b2aacb1313020805709e09eee2d416175907c665a9b31dad31':
+              raise SystemExit('CANNOT_CHECK_RECEIPT_IDENTITY')
+          (out / 'result.json').write_bytes(raw)
+          PY
+      - name: Independently reconcile every retained mathematical claim
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/foundation-audit"
+          python -B research/ocm-foundation-audit-v1/audit_g2.py "$out/result.json" --out "$out/mathematical-audit.json" | tee "$out/audit-console.txt"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ocm-foundation-audit
+          path: '${{ runner.temp }}/foundation-audit/*'
+          if-no-files-found: error
