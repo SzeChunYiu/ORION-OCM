@@ -47,9 +47,12 @@ at the ground-syntax guard: 28 wff-operator and 48 wff-type refusals. Two additi
 boundaries lack the required three parameters. Parent matching was not reached;
 the question of additional learning opportunities remains unresolved.
 
-Repair this single syntax boundary using admitted syntax contracts and an existing
-grammar parser. Require replayable typed witnesses and preserve UNKNOWN for
-unsupported contracts or incomplete work. A separately registered screening-only
+The [contract-derived syntax prototype](../ordinary-cut-screen-revival-v1/CORE.md)
+now reuses Lark with replayable typed witnesses. Independent review accepted its
+coverage correction and nine affected controls; the original 17 controls remain
+separate evidence. No retained proposal has been parsed by that prototype.
+Wire it into the ordinary screen while preserving UNKNOWN for unsupported
+contracts or incomplete work. A separately registered screening-only
 successor can reuse every retained proposal in original order and the full P1,
 without repeating native export or extraction. Retain all first-run costs and
 refusals; the consumed audit gate cannot be reused. Preserve the candidate family

@@ -1,0 +1,141 @@
+{
+  "accepted_mechanisms": [
+    {
+      "conclusion": "Supported rules have declared syntax types, no essential/DV context, unique mandatory variables occurring exactly once and no private-label/canonical-token collision. Relevant unsupported frames remain recorded, preventing certified nonmembership while permitting independent positive witnesses.",
+      "source": "contract_grammar.py:17-46",
+      "topic": "Compiler scope"
+    },
+    {
+      "conclusion": "Within the complete supported grammar, closure from local parameter types plus nullary constructors identifies finite inhabited types. Removing rules requiring nonproductive types preserves finite derivations. This statement is conditional on supported grammar coverage, not arbitrary native syntax completeness.",
+      "source": "contract_grammar.py:47-77",
+      "topic": "Productive type closure"
+    },
+    {
+      "conclusion": "Unique encoded literals preserve original token boundaries. Occurrence-to-floating-order permutation controls emitted child proofs. Basic lexing is suitable for this encoded stream; no observed operator special-case is introduced.",
+      "source": "contract_grammar.py:40-43,54-70; syntax_engine.py:43-79",
+      "topic": "Token/ordered proof fidelity"
+    },
+    {
+      "conclusion": "One chosen finite derivation is emitted and structurally replayed against copied frames, exact requested type/tokens and local leaves. Nullary rules preserve prior stack items. Ambiguity need not be fully enumerated when a valid witness is returned; failed conversion/replay remains UNKNOWN.",
+      "source": "syntax_engine.py:44-81; proof_replay.py:10-32",
+      "topic": "Constructive witness"
+    },
+    {
+      "conclusion": "SyntaxUnknown is not a ValueError subtype. Construction and listed parse/conversion/replay/resource exceptions use UNKNOWN; only completed supported nonmembership becomes ValueError through checker. The future screen must add the explicit catch at construction, ground-guard and per-assertion stages.",
+      "source": "syntax_engine.py:9-21,82-96",
+      "topic": "Exception boundary"
+    }
+  ],
+  "literature_scope": {
+    "knife_boundary": "The cited Rust donor is an assimilation lead; no Rust implementation audit or execution is claimed in this bounded review.",
+    "metamath_qualification": "DESIGN should describe linear/no-essential/no-DV syntax as the documented $j syntax-tool convention. The official page distinguishes this metadata from the core verification specification; these are not universal native verifier restrictions.",
+    "parser_reuse": "Lark supplies the mature Earley/ambiguity engine unchanged. Four local modules compile contract metadata and replay a witness; they do not replace native verification.",
+    "sources": [
+      "https://lark-parser.readthedocs.io/en/stable/parsers.html",
+      "https://lark-parser.readthedocs.io/en/stable/classes.html",
+      "https://lark-parser.readthedocs.io/en/stable/forest.html",
+      "https://us.metamath.org/mpeuni/mm-j-commands.html"
+    ]
+  },
+  "method": "Read all four prototype modules, authored control source and relevant design/next documents. Static AST/byte/JSON/ZIP-member inspection and by-hand source reasoning only. No project/donor imports, tests, actual queries, native, matching, cut or audit execution.",
+  "numeric_resource_scope": {
+    "checkpoint_contract": "Future resource callbacks must raise the documented SyntaxUnknown or another explicitly handled failure. Arbitrary unlisted callback exceptions are not promised as structured results; they cannot be advertised as covered by these controls.",
+    "execution_boundary": "Parser calls and replay are not internally preempted at every operation. Outer containment and separate compile/parse/replay accounting remain required. Existing 2M matcher-state and 60-second soft protocol are not automatically Earley work accounting.",
+    "input_tokens_maximum": 512,
+    "proof_labels_maximum": 4096,
+    "retained_controls": "The retained suite exercises 513-token refusal and pre/post-parse SyntaxUnknown callbacks. It does not independently qualify every allocation/recursion/proof-length boundary or measure Lark internal chart states.",
+    "source_refusal_behavior": "Out-of-domain input, proof growth above the bound and supplied SyntaxUnknown checkpoint refusals reach UNKNOWN. No negative is returned for these branches by checker."
+  },
+  "pending_not_failure": [
+    "Successor alias-screen wiring and its explicit exception catch are unimplemented by design.",
+    "Actual retained proposals, original P1 interoperability and a new screening invocation remain unexecuted by this prototype qualification.",
+    "No native admission, useful-learning, negative opportunity, held-out utility or novelty claim follows."
+  ],
+  "preconditions": {
+    "bytes": 7878,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-review-v1/PRECONDITIONS.md",
+    "sha256": "23aaa7098cc8370fe8986199a2f9acaa5f5d8808584a2835e336c94ba769b612"
+  },
+  "qualification": {
+    "bytes": 2177,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/QUALIFICATION.json",
+    "sha256": "54efb27c09a04060f39960c538c7dc61cd604eb0790ef59d2db620bbe61c9b0a"
+  },
+  "required_correction": {
+    "fact": "coverage_complete is initialized to absence of unsupported grammar rows and never reset on the general UNKNOWN branch. A resource/input/conversion/replay refusal under a supported grammar therefore returns UNKNOWN with coverage_complete true.",
+    "file": "source/syntax_engine.py",
+    "id": "COVERAGE-SEMANTICS-01",
+    "impact": "The field does not distinguish supported grammar coverage from completed query/screen coverage. The future screen must not consume it as a completed-decision claim.",
+    "lines": [
+      30,
+      31,
+      83,
+      86
+    ],
+    "priority": "P2",
+    "qualified_boundary": "checker uses status and still raises SyntaxUnknown, not ValueError, for those UNKNOWN results. No actual false negative, original-result change or completed screen-wiring defect is asserted.",
+    "required_fix": "Keep grammar_coverage_complete separately; make unqualified coverage_complete false on every UNKNOWN and document exactly which completed decisions can set it true. Preserve constructive positives under incomplete grammar. Clarify prototype 512-token/4096-proof-label refusal scope and unchanged registered 2M/60-second limits.",
+    "root_routing": "Root assigned isolated successor-02-coverage with affected authored controls only; original source/freeze/17-control receipts are to remain unchanged."
+  },
+  "retained_evidence": {
+    "all_current_manifest_entries_match": true,
+    "all_pre_post_and_current_pins_equal": true,
+    "all_runtime_members_byte_equal_wheel": true,
+    "control_source": {
+      "bytes": 6423,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/check_syntax.py",
+      "sha256": "4836315fc43c296a8fe3576744db61e2468cf1c7931b61fcf79d9416d6ba36a4"
+    },
+    "custody_limits": [
+      "Original PROCESS does not record actual child cwd or imported module paths. Isolated argv and explicit source/runtime path insertion are visible; actual import-location receipt is absent.",
+      "The historical reproduction dynamically imports original/donor/vendor/legacy_class_terms.py outside the 51 pre/post pins. Its current copied bytes match historical and capsule identities, but this does not retroactively supply pre/post custody."
+    ],
+    "exit_code": 0,
+    "historical_legacy_current_identity": {
+      "bytes": 4053,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/original/donor/vendor/legacy_class_terms.py",
+      "sha256": "632460d64c7c9a921112015940cdfef42ec01acf224b04731d077fd493765d4b"
+    },
+    "lark_runtime_members": 46,
+    "lark_version": "1.3.1",
+    "lark_wheel": {
+      "bytes": 113151,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/donor/lark-1.3.1-py3-none-any.whl",
+      "sha256": "c629b661023a014c37da873b4ff58a817398d12635d3bbb2c5a03be7fe5d1e12"
+    },
+    "license": "MIT; exact wheel license retained.",
+    "logs_match_qualification": true,
+    "manifest_entries": 81,
+    "parent_pid": 2171926,
+    "pid": 2171927,
+    "pre_post_pins": 51,
+    "process": {
+      "bytes": 24698,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/qualification-01/PROCESS.json",
+      "sha256": "b9fd9e9cd273f2f954512f7fcc43443f8a22fa4e38c81de6368d6acc2016838c"
+    },
+    "reaped": true,
+    "retained_control_count": 17,
+    "runtime_manifest": {
+      "bytes": 6773,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/donor/LARK-FILES.json",
+      "sha256": "c4d18fbece63b04455ebe171d35be958e8675683378ba689d65485f3f7c74f16"
+    },
+    "source_control_ast_parse_only": 5,
+    "treatment": "Preserve the 17 original controls with these limits. No old replay requested; successor affected controls should bind actual cwd/imported module paths and the complete exercised source set."
+  },
+  "reviewed_at_utc": "2026-09-08T19:18:48.227821+00:00",
+  "reviewer": "/root/review_regime_theory",
+  "schema": "ordinary.syntax-prototype-independent-source-review.v1",
+  "source_freeze": {
+    "bytes": 3090,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/SOURCE-FREEZE.json",
+    "sha256": "5d8e1e85cea30525f432e22c3926288f51c978b3de51ee52733e184c209b84ed"
+  },
+  "source_review_request": {
+    "bytes": 1247,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screen-revival-v1/SOURCE-REVIEW-REQUEST.json",
+    "sha256": "5d40faf0f1d4f8c0097ebf4c81c8602e73e7884d4a5d2daf352ac101a69833b3"
+  },
+  "status": "BOUNDED_COVERAGE_API_CORRECTION_REQUIRED_BEFORE_WIRING"
+}
