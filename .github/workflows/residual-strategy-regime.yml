@@ -41,6 +41,12 @@ jobs:
           python -B -m pytest -q research/residual-strategy-regime-v1 \
             --basetemp="$out/cases" \
             --junitxml="$out/tests.xml"
+      - name: R0A suffix-elision hostile audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_suffix_elision.py \
+            --out "$out/r0a-suffix-elision.json" \
+            --github-notice
       - name: Deterministic regime and lifecycle sweep
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -122,6 +128,7 @@ jobs:
           name: residual-strategy-regime-r0b
           path: |
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-suffix-elision.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/prospective.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
