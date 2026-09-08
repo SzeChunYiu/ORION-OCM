@@ -24,6 +24,11 @@ the producer persisted an existing-theorem alias, and a separately qualified
 consumer recovery reconstructed all seven issued claims. No new method became
 eligible. The first failed consumer remains part of the evidence.
 
+The [fixed native training export](../ordinary-training-native-export-v1/CORE.md)
+now verifies all 4,223 prefix theorems. All 128 newly released training theorems stay
+in the complete ordinary parent; 71 traces fit the bounded interface and 57 do not.
+This is input readiness, with no new acquired-method or opportunity result yet.
+
 ## Next decisive work
 
 Follow [the current research sequence](RESEARCH_NEXT.md): qualify actual learning
