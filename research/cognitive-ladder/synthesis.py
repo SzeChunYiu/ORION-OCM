@@ -192,6 +192,14 @@ A(parent="experience replay; elastic weight consolidation; replay-then-consolida
   prior_information_charged="the same D0 stream, the same bits, the same D1 stream; "
                             "consolidation reads only the bounded buffer, not the lineage's "
                             "uncharged record of everything it ever derived",
+  next_experiment_after_that="RUN, in results/DEV4_LANGUAGE_EXPANSION_V1.json: DEV-3's "
+                  "declared gift -- that the guard language contains the truth -- turns out "
+                  "to be a PRECONDITION and not a convenience. Withdraw it and the arm is "
+                  "not slower, it is WRONG, because a version space over a language that "
+                  "cannot express the truth still collapses to a singleton and the arm "
+                  "cannot tell a false guard from a true one. Soundness is graded by "
+                  "evidence rather than granted by the language, and it is not reached at "
+                  "level 3 under skewed demand at any evidence length in the sweep",
   next_experiment="RUN, in results/DEV3_GUARDED_RULES_V1.json, and the prediction held: a "
                   "rule carrying its own precondition, paying bits from the same budget "
                   "instead of a per-use check, beats this same replay parent at all twelve "

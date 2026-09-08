@@ -295,7 +295,14 @@ def build() -> dict:
             "guard is learnable, the arm degenerates to the unguarded lineage, and replay "
             "wins exactly as it did in DEV-2. So the carry advantage at this transition is "
             "real but conditional on a representation with no use tax, and the condition is "
-            "computable in advance rather than discovered."),
+            "computable in advance rather than discovered. DEV4_LANGUAGE_EXPANSION_V1 then "
+            "withdrew DEV-3's declared gift and found it was a PRECONDITION rather than a "
+            "convenience: a guard language that cannot express the truth still yields "
+            "singleton version spaces, and an arm cannot tell a false guard from a true "
+            "one, so it answers wrongly rather than slowly. DEV-3's numbers stand exactly "
+            "as far as its stated condition holds. Self-expansion of the language is sound "
+            "only below a level and only once evidence is sufficient, so #151's "
+            "self-expansion rung remains dependent rather than earned."),
         "complete_does_not_mean_succeeded": (
             "A transition counts as complete when all four DEV-D8 arms ran and every required "
             "field has evidence behind it. D0 to D1 qualifies and its own terminal is "
