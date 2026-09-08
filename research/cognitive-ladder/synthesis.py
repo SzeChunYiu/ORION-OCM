@@ -192,6 +192,18 @@ A(parent="experience replay; elastic weight consolidation; replay-then-consolida
   prior_information_charged="the same D0 stream, the same bits, the same D1 stream; "
                             "consolidation reads only the bounded buffer, not the lineage's "
                             "uncharged record of everything it ever derived",
+  next_experiment_after_that_2="RUN, in results/DEV5_UNANIMITY_V1.json, and it dissolves "
+                  "the dilemma rather than resolving it. DEV-3 and DEV-4 both used a guard "
+                  "only when its version space was a SINGLETON, which is sufficient for "
+                  "soundness and not necessary. Asking per QUERY whether all survivors "
+                  "AGREE about this index is sound for the same reason and fires far more "
+                  "often: it beats the singleton rule at every setting by up to 5.1x, with "
+                  "mean scope checks falling from about 1700 to about 200 of 2000, at "
+                  "correctness 1.0 for both. It then beats the replay parent while holding "
+                  "a language large enough to contain every world's truth rather than one "
+                  "fitted to the world, so the carry advantage no longer rests on the "
+                  "precondition DEV-4 found binding. The control holds: the same rule over "
+                  "a language that cannot express the truth is unsound in 17 of 36 cells",
   next_experiment_after_that="RUN, in results/DEV4_LANGUAGE_EXPANSION_V1.json: DEV-3's "
                   "declared gift -- that the guard language contains the truth -- turns out "
                   "to be a PRECONDITION and not a convenience. Withdraw it and the arm is "

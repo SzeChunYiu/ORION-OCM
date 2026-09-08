@@ -302,7 +302,16 @@ def build() -> dict:
             "one, so it answers wrongly rather than slowly. DEV-3's numbers stand exactly "
             "as far as its stated condition holds. Self-expansion of the language is sound "
             "only below a level and only once evidence is sufficient, so #151's "
-            "self-expansion rung remains dependent rather than earned."),
+            "self-expansion rung remains dependent rather than earned. DEV5_UNANIMITY_V1 "
+            "then removed the dependency a different way: DEV-3 and DEV-4 had both used a "
+            "guard only when its version space collapsed to a SINGLETON, which is "
+            "sufficient for soundness and not necessary. Acting per query wherever all "
+            "surviving candidates AGREE is sound for the same reason, beats the singleton "
+            "rule at every setting by up to 5.1x, and beats the replay parent while "
+            "holding a language large enough to contain every world's truth rather than "
+            "one fitted to it. So the carry advantage at this transition stands WITHOUT "
+            "DEV-3's gift -- it needs a big language, which is available without knowing "
+            "the world, rather than the right one, which is not."),
         "complete_does_not_mean_succeeded": (
             "A transition counts as complete when all four DEV-D8 arms ran and every required "
             "field has evidence behind it. D0 to D1 qualifies and its own terminal is "
