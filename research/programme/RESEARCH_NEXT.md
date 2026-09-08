@@ -122,8 +122,10 @@ bounded causal reuse with an equal ordinary parent. Its 13 strict wins and 51
 harmed tasks identify selection costs; acquisition and validation still exceed
 saved test work. Preserve its first-hit-rank meaning: the implementation eagerly
 builds complete bounded indexes before lookup. Its source review queues precise
-cost-wording and parity-length corrections. Reuse this evidence and the separately
-registered composition study; do not duplicate them or promote ranks to latency.
+cost-wording and parity-length corrections. The [qualified successor helper and
+cost erratum](../g2-cost-parity-repair-v1/CORE.md) now resolve that maintenance work;
+future versioned callers must adopt the helper explicitly. Frozen studies remain
+unchanged. Reuse their evidence; do not duplicate them or promote ranks to latency.
 
 Choose a concrete retention/revision or certified-locality treatment from a measured
 obstruction. Keep that treatment distinct from shared donor infrastructure. Include
@@ -158,7 +160,8 @@ and [separate native lifecycle](TYPED_NATIVE_LIFECYCLE.md) retain distinct evide
 scope; the ordinary-theorem successor still needs its own qualified execution.
 
 Read [primary methods and their assumptions](../metareasoning-parent-review-v1/CORE.md)
-before adding control policies. Reuse or adapt established mechanisms first, state
+before adding control policies. [Explicit non-neural learned selectors](NON_NEURAL_PARENT_SELECTION.md)
+are eligible parents; older blanket exclusions are superseded. Reuse established mechanisms, state
 the remaining gap, and end the review with a concrete design or falsifying test.
 
 The [exact decision-parent correction](../decision-core-successor-repair-v1/CURRENT.md)

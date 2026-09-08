@@ -1,0 +1,309 @@
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/row_parity.py
+@@ -0,0 +1,35 @@
++"""Non-vacuous row parity for future versioned G2/G3 callers.
++
++Inputs are finite, stable, sized lists/tuples of the existing row mappings.
++Empty pairs and unequal lengths return False. Existing compared fields and
++list/tuple normalization are preserved; this is not a correctness verifier.
++Generators/unsized iterables, malformed rows and concurrent mutation are outside
++this narrow API. Equal nonempty prefixes of two truncated populations cannot be
++detected here: the caller must bind the expected population/cardinality.
++No frozen study is imported or changed by this module.
++"""
++
++def g2_rows_equal(a_rows, b_rows):
++    if not a_rows or len(a_rows) != len(b_rows):
++        return False
++    return all(
++        a["task"] == b["task"]
++        and a["enumeration_attempts"] == b["enumeration_attempts"]
++        and a["unique_candidates_checked"] == b["unique_candidates_checked"]
++        and tuple(a["program"]) == tuple(b["program"])
++        and tuple(a["token_word"]) == tuple(b["token_word"])
++        for a, b in zip(a_rows, b_rows)
++    )
++
++def g3_rows_equal(a_rows, b_rows):
++    if not a_rows or len(a_rows) != len(b_rows):
++        return False
++    return all(
++        a["task"] == b["task"]
++        and a["enumeration_attempts"] == b["enumeration_attempts"]
++        and a["unique_candidates_checked"] == b["unique_candidates_checked"]
++        and tuple(a["token_word"]) == tuple(b["token_word"])
++        and tuple(a["program"]) == tuple(b["program"])
++        and tuple(a["macros_used"]) == tuple(b["macros_used"])
++        for a, b in zip(a_rows, b_rows)
++    )
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/controls/check_parity.py
+@@ -0,0 +1,106 @@
++"""Authored finite-list parity controls only; no study or recorded task inputs."""
++import copy
++import hashlib
++import importlib.util
++import json
++import os
++from pathlib import Path
++import sys
++import time
++import unittest
++
++TARGET = Path(sys.argv.pop(1)).resolve()
++RECEIPT = Path(sys.argv.pop(1)).resolve()
++START = time.perf_counter()
++BEFORE = hashlib.sha256(TARGET.read_bytes()).hexdigest()
++SPEC = importlib.util.spec_from_file_location("isolated_row_parity", TARGET)
++E = importlib.util.module_from_spec(SPEC)
++sys.modules[SPEC.name] = E
++SPEC.loader.exec_module(E)
++FUNCS = (E.g2_rows_equal, E.g3_rows_equal)
++
++
++def row(name="authored-a"):
++    return {"task": name, "enumeration_attempts": 7,
++            "unique_candidates_checked": 5, "program": ["inc"],
++            "token_word": ["MACRO_A"], "macros_used": ["MACRO_A"],
++            "macro_used": True, "verified": True}
++
++
++class TestAffectedParity(unittest.TestCase):
++    def test_nonempty_equal_rows_accept_without_mutation(self):
++        left = [row(), row("authored-b")]
++        right = copy.deepcopy(left)
++        for r in right:
++            for k in ("program", "token_word", "macros_used"):
++                r[k] = tuple(r[k])
++        before = copy.deepcopy((left, right))
++        for fn in FUNCS:
++            with self.subTest(helper=fn.__name__):
++                self.assertTrue(fn(left, right))
++        self.assertEqual((left, right), before)
++
++    def test_strict_prefix_rejected_in_both_directions(self):
++        one, two = [row()], [row(), row("authored-b")]
++        for fn in FUNCS:
++            for a, b in ((one, two), (two, one)):
++                with self.subTest(helper=fn.__name__, lengths=(len(a), len(b))):
++                    self.assertFalse(fn(a, b))
++
++    def test_one_empty_rejected_in_both_directions(self):
++        for fn in FUNCS:
++            for a, b in (([], [row()]), ([row()], [])):
++                with self.subTest(helper=fn.__name__, lengths=(len(a), len(b))):
++                    self.assertFalse(fn(a, b))
++
++    def test_two_empty_lists_do_not_establish_parity(self):
++        for fn in FUNCS:
++            with self.subTest(helper=fn.__name__):
++                self.assertFalse(fn([], []))
++
++    def test_each_original_comparison_field_remains_authoritative(self):
++        for fn in FUNCS:
++            for key in ("task", "enumeration_attempts", "unique_candidates_checked",
++                        "program", "token_word"):
++                right = row()
++                right[key] = ["different"] if isinstance(right[key], list) else "different"
++                with self.subTest(helper=fn.__name__, field=key):
++                    self.assertFalse(fn([row()], [right]))
++
++    def test_g3_macro_labels_and_order_remain_authoritative(self):
++        left = row(); left["macros_used"] = ["MACRO_A", "MACRO_B"]
++        for value in (["MACRO_A"], ["MACRO_B", "MACRO_A"]):
++            right = copy.deepcopy(left); right["macros_used"] = value
++            with self.subTest(macros=value):
++                self.assertFalse(E.g3_rows_equal([left], [right]))
++                self.assertTrue(E.g2_rows_equal([left], [right]))
++
++    def test_guard_does_not_newly_certify_uncompared_flags(self):
++        right = row(); right["verified"] = False; right["macro_used"] = False
++        for fn in FUNCS:
++            with self.subTest(helper=fn.__name__):
++                self.assertTrue(fn([row()], [right]))
++
++
++if __name__ == "__main__":
++    suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestAffectedParity)
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    after = hashlib.sha256(TARGET.read_bytes()).hexdigest()
++    modules = {n: str(Path(m.__file__).resolve()) for n, m in sys.modules.items()
++               if getattr(m, "__file__", None)}
++    forbidden = [n for n in modules if n == "ocm" or n.startswith("ocm.")
++                 or n.startswith(("g2_macro", "g3_independent"))]
++    receipt = {"schema": "g2.cost-parity.authored-controls.v1", "pid": os.getpid(),
++        "ppid": os.getppid(), "cwd": os.getcwd(), "python": sys.executable,
++        "python_version": sys.version, "test_file": str(Path(__file__).resolve()),
++        "helper_file": str(Path(E.__file__).resolve()), "helper_sha256_before": BEFORE,
++        "helper_sha256_after": after, "helper_unchanged": BEFORE == after,
++        "test_methods": result.testsRun, "failure_count": len(result.failures),
++        "error_count": len(result.errors), "failures": [str(x) for x, _ in result.failures],
++        "success": result.wasSuccessful(), "file_backed_modules": modules,
++        "forbidden_study_module_imports": forbidden,
++        "measured_control_window_s": time.perf_counter() - START,
++        "scope": "Authored scalar/list rows only. No index, training, partition, search, native or retained-result execution."}
++    with RECEIPT.open("x") as handle:
++        json.dump(receipt, handle, indent=2, sort_keys=True); handle.write("\n")
++    raise SystemExit(0 if result.wasSuccessful() and BEFORE == after and not forbidden else 1)
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/CORE.md
+@@ -0,0 +1,14 @@
++# G2/G3 parity maintenance and cost erratum
++
++The additive parity helper rejects empty row populations and unequal lengths.
++Seven new authored controls pass; unchanged old helper bodies reproduce ten
++expected failing subcases. Historical G2/G3 sources, workflows and results remain
++unchanged. No study, retained-task evaluation or native execution was rerun.
++
++[Caller API](API.md) → [cost wording correction](COST-ERRATUM.md)
++→ [qualification](QUALIFICATION.md) → [source/helper](row_parity.py).
++
++G3 pins the complete historical G2 file and has its own copy of the defective
++zip-based guard. The helper exposes their two existing field schemas separately.
++This repair is ready for explicit use by a future versioned caller; it does not
++silently alter or requalify either frozen study. [Evidence](EVIDENCE.md).
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/API.md
+@@ -0,0 +1,36 @@
++# Explicit successor caller boundary
++
++Make the standalone [row_parity.py](row_parity.py) module importable in a separately
++versioned caller, then use `g2_rows_equal(a_rows, b_rows)` or
++`g3_rows_equal(a_rows, b_rows)` for the corresponding schema. No OCM/study import
++is required. Neither historical module is monkey-patched or rebound.
++
++Inputs are finite, stable, sized lists/tuples of row mappings. Empty populations,
++including two empty lists, return False; unequal lengths return False. The
++remaining comparisons preserve the historical behavior and list/tuple normalization:
++
++| Schema | Compared fields |
++|---|---|
++| G2 | task, enumeration_attempts, unique_candidates_checked, program, token_word |
++| G3 | the G2 fields plus ordered macros_used |
++
++This is a parity guard, not a validity checker. It does not newly inspect `verified`
++or G2's `macro_used`; the caller still owns verification and actual-use criteria.
++Malformed/missing fields may raise as before. Unsized generators, arbitrary
++iterables and concurrent mutation are outside this small API. No input is copied,
++consumed as an iterator or mutated by the guard on the declared list/tuple domain.
++
++Equal nonempty prefixes of two equally truncated populations cannot be detected
++by pairwise equality. The caller must independently bind the expected ordered
++population and cardinality, including its identity/duplication policy.
++
++At pinned main7926c3, G3 imports G2 from its frozen path (lines25–29) and requires
++blob4c8cb45c… at run375–379 and test13–16. G3 does not use G2.rows_equal: its own
++rows_equal336–345 duplicates the unchecked zip and additionally compares macro
++labels. Its parity/revocation call sites are466–470 and523–525. G2 call sites are
++456–459. Both currently construct arms from a common nonempty task population;
++this source defect does not overturn any retained parity result.
++
++The additive patch creates only this successor directory. Any later caller
++integration must name the chosen function and maintain its own source contract;
++this artifact neither changes G3's G2 pin nor authorizes an experiment rerun.
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/COST-ERRATUM.md
+@@ -0,0 +1,37 @@
++# G2-COST-WORDING-01: bounded index ranks and physical work
++
++This is an additive correction to frozen prose; no old README, accounting code,
++source manifest, receipt or aggregate result is rewritten. The source snapshot is
++[main7926c3](https://github.com/SzeChunYiu/ORION-OCM/tree/7926c3cc89c383ac4eb02effffc1824db556a6c0),
++with exact blob identities in [BASE](BASE.json).
++
++G2 README98 claims that overlong prefixes are pruned before their descendants
++are generated. Actual [build_search_index142–184](https://github.com/SzeChunYiu/ORION-OCM/blob/7926c3cc89c383ac4eb02effffc1824db556a6c0/research/g2-macro-operator-v1/experiment.py#L142)
++iterates complete token words from itertools.product for each bounded token depth,
++expands each word, and then skips words exceeding the primitive-length bound.
++It does not perform prefix pruning or avoid generating such descendants.
++
++Use this corrected description:
++
++> Complete token words are generated in token-depth order and expanded. Overlong
++> expanded words are then excluded from the admissible enumeration counter.
++> Duplicate admissible tokenizations still increment that counter; each distinct
++> expanded program receives one normal-form check.
++
++The full bounded index is built before task lookup. Its saved per-task counters
++are first-hit positions during index construction, not measured repeated online
++searches or serving latency. Generating/expanding rejected words costs actual
++work outside the admissible rank counter. Building the whole index also costs
++work beyond any particular task's first-hit rank. Consequently G2 README100–102
++must not be read as full physical cost accounting.
++
++G3 independently uses the same complete-word expansion/filter structure in
++[build_library_index148–179](https://github.com/SzeChunYiu/ORION-OCM/blob/7926c3cc89c383ac4eb02effffc1824db556a6c0/research/g3-independent-composition-v1/experiment.py#L148);
++its README166–168 inherits the same accounting language. The same distinction
++applies to its saved first-hit ranks and full-index construction.
++
++Existing rank coordinates and recorded equality remain as measured under their
++original definitions. A reduction in their sums is not a serving-time speedup.
++Whole-study wall time includes construction/filtering, but a registered rank sum
++is not complete acquisition, storage, maintenance, verification or lifetime cost.
++No index, population, held-out row or aggregate output was recomputed here.
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/QUALIFICATION.md
+@@ -0,0 +1,33 @@
++# Focused authored qualification
++
++The historical helper bodies were extracted from the two pinned source files;
++only their function names were prefixed G2/G3 to load both in an isolated module.
++[Source origins](SOURCE-ORIGINS.json) retain the exact function ranges/hashes.
++Full study modules and their OCM imports were never executed.
++
++The same seven newly authored methods ran first against those old bodies and
++then against the corrected successor. Old bodies produced ten expected assertion
++failures for strict-prefix and empty-population subcases, with zero errors.
++The four clean/mismatch/schema-preservation methods passed before the repair.
++All seven methods pass after adding the two-line precondition to each function.
++There was no historical G2/G3 suite, index or scientific result rerun.
++
++| Stage | Child PID | Exit | Child wall s | User/system CPU s | Peak RSS KiB |
++|---|---:|---:|---:|---:|---:|
++| Old-body reproduction | 2538477 | 1 | 0.037724140 | 0.029819/0.004969 | 38616 |
++| Corrected helper | 2539234 | 0 | 0.032921619 | 0.024441/0.008147 | 38708 |
++
++Both were reaped by wait4 on pinned CPython3.11.14/Linux, actual cwd `/tmp`.
++The helper, test, observer and interpreter hashes match before/after. Child
++receipts record actual imported helper path, test path, PID/PPID and file-backed
++module paths. This is not a byte freeze of every stdlib module. No forbidden
++study/OCM module import was recorded.
++
++Child wall includes startup/imports/test/export and is nested in the external
++observer session. The inner control windows overlap it and must not be added.
++Authoring, source reading and packaging time are not measured as zero; these
++figures are qualification costs, not serving or lifetime performance evidence.
++
++[RED controls](records/red-01/CONTROLS.json), [RED process](records/red-01/PROCESS.json),
++[GREEN controls](records/green-01/CONTROLS.json) and [GREEN process](records/green-01/PROCESS.json)
++retain failures, exact source identities, stdout/stderr and timing boundaries.
+--- /dev/null
++++ b/research/g2-cost-parity-repair-v1/EVIDENCE.md
+@@ -0,0 +1,27 @@
++# Source and preservation
++
++[BASE](BASE.json) binds nine exact files at main7926c3: G2/G3 source, tests and
++README, their two workflows, and the accepted G2 reconciliation note. No per-task,
++validation/test outcome array or scientific result was opened by this repair.
++Source reading covered the helper definitions/call sites, index construction and
++lookup, G3 parent import/pin, existing control declarations and cost prose.
++
++[Immutable references](UPSTREAM.json) retain those full-source identities without
++redistributing the study files. [RAW](RAW.zip) preserves the isolated old helper
++bodies, control/observer source and both RED/GREEN process histories. Only the
++new scalar/list controls executed; no original study or suite was imported.
++[RAW-MEMBERS](RAW-MEMBERS.json) binds each member to its original path.
++
++[The minimal helper delta](patches/minimal-helper.diff) compares the isolated
++preimage helpers with the new helper; it is not a patch to either frozen study.
++[The additive integration patch](patches/additive-integration.patch) creates only
++new helper/control/prose files under research/g2-cost-parity-repair-v1. It changes
++no existing source path or workflow trigger. Root owns actual repository integration. The identical CLI control is published
++as controls/check_parity.py to avoid accidental test discovery; RAW and receipts
++retain the actually exercised test_parity.py name/path. The observer stays in RAW
++with its original layout. No renamed-path qualification run is claimed.
++
++[Direct copies](COPY-MANIFEST.json), [qualification receipt](QUALIFICATION.json),
++[public inventory](FILES.json) and [readback](READBACK.json) keep the source-bound
++control evidence distinct from this packaging step. No independent acceptance or
++live adoption is invented; no historical claim is retroactively requalified.

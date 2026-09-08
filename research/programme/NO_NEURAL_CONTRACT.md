@@ -18,6 +18,8 @@ method schemas, constructions, failure records, cost tables and symbolic policie
 Numeric statistics are not inherently neural; proposal scores never become proof
 warrants. Do not implement a blanket ban on `BackendKind.STATISTICAL`: its name does
 not identify the mechanism, and an opaque PROGRAMMATIC callback could invoke a model.
+[Parent-selection guidance](NON_NEURAL_PARENT_SELECTION.md) corrects older blanket
+exclusions of non-neural nearest-neighbour and learned premise-selection methods.
 
 Human or AI help writing research software is disclosed engineering input. It cannot
 supply target-specific proof plans, tactics, route selectors or learned methods during
