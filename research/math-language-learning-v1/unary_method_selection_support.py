@@ -9,7 +9,8 @@ def validate_supports(receipt,work):
     for item in receipt["acquisition"]["rules"]:
         seen=set()
         for support in item["supports"]:
-            fields(support,("semantic_key","task_sha256","episode","branch","cover"))
+            if type(support) is not dict:raise InputRefused("INVALID_FIELDS")
+            fields(support,("semantic_key","task_sha256","episode","branch","cover",*(("dependency",) if "dependency" in support else ())))
             i=support["episode"]
             if type(i) is not int or not 0<=i<len(receipt["training"]):raise InputRefused("SELECTION_SUPPORT_EPISODE")
             row=receipt["training"][i];task=row["task"]
@@ -24,6 +25,10 @@ def validate_supports(receipt,work):
                 or any(type(j) is not int or j not in cert["cover"] for j in cover)
                 or cover!=sorted(set(cover)) or not 2<=len(cover)<len(task["premises"])):
                 raise InputRefused("SELECTION_SUPPORT_COVER")
+            if "dependency" in support:
+                from unary_rule_dependency_check import verify_support
+                verify_support(task,row["result"],support,item["rule"],work)
+                continue
             conclusion=task["query"] if branch=="query_false" else negate(task["query"])
             if D.raw(canonical_rule(_fragment(task,cover,conclusion,work),work))!=D.raw(item["rule"]):
                 raise InputRefused("SELECTION_SUPPORT_RULE")

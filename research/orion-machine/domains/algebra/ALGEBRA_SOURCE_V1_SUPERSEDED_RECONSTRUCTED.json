@@ -1,0 +1,384 @@
+{
+  "schema": "orion.kso.domain-source.v1",
+  "domain": "elementary-algebra/quadratics",
+  "status": "SUPERSEDED_RECONSTRUCTION: this is the 21-atom source as it stood for the first M2b run (never committed; reconstructed from the committed V2 by removing the two atoms and restoring the conjunctive CONSTRAINT rule). Gating in the first module conjoined every constraint on a target (constraint_gate). Superseded by ALGEBRA_SOURCE_V1.json (V2 gating) after the V1 outcome; see KSO_M2B_ALGEBRA_OUTCOME_V1.md.",
+  "variable": "x",
+  "coefficient_domain": "Q (rational a, b, c); registered generator range in kso_algebra_quadratic_v1.py",
+  "edge_types_used": [
+    "DEPENDENCE",
+    "SUPPORT",
+    "COMPOSITION",
+    "CONSTRAINT",
+    "REPRESENTATION_TRANSPORT"
+  ],
+  "atoms": [
+    {
+      "id": "def:polynomial",
+      "type": "definition",
+      "statement": "a polynomial in x over Q is a finite sum sum_k c_k x**k with c_k in Q",
+      "preconditions": [],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      }
+    },
+    {
+      "id": "def:degree",
+      "type": "definition",
+      "statement": "the degree of a nonzero polynomial is the largest k with c_k != 0",
+      "preconditions": [
+        "def:polynomial"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      }
+    },
+    {
+      "id": "def:quadratic",
+      "type": "definition",
+      "statement": "a quadratic equation is a*x**2 + b*x + c = 0 with a != 0",
+      "preconditions": [
+        "def:polynomial",
+        "def:degree"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      }
+    },
+    {
+      "id": "def:root",
+      "type": "definition",
+      "statement": "r is a root of p(x) = 0 iff p(r) == 0",
+      "preconditions": [
+        "def:polynomial"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "simplify(p.subs(x, r)) == 0"
+      }
+    },
+    {
+      "id": "def:discriminant",
+      "type": "definition",
+      "statement": "Delta = b**2 - 4*a*c",
+      "preconditions": [
+        "def:quadratic"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      }
+    },
+    {
+      "id": "rep:standard_form",
+      "type": "representation",
+      "statement": "a*x**2 + b*x + c = 0, coefficients (a, b, c) in Q",
+      "preconditions": [
+        "def:quadratic"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      }
+    },
+    {
+      "id": "rep:vertex_form",
+      "type": "representation",
+      "statement": "a*(x + b/(2*a))**2 - Delta/(4*a) = 0; transport from standard form by completing the square",
+      "preconditions": [
+        "rep:standard_form",
+        "def:discriminant"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "expand(a*(x + b/(2*a))**2 - (b**2 - 4*a*c)/(4*a)) - (a*x**2 + b*x + c) == 0"
+      }
+    },
+    {
+      "id": "rep:factored_form",
+      "type": "representation",
+      "statement": "a*(x - r1)*(x - r2) = 0 when r1, r2 are the roots",
+      "preconditions": [
+        "rep:standard_form",
+        "def:root"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "expand(a*(x - r1)*(x - r2)) - (a*x**2 + b*x + c) == 0"
+      }
+    },
+    {
+      "id": "con:a_nonzero",
+      "type": "constraint",
+      "statement": "a != 0 (else the equation is linear or degenerate)",
+      "preconditions": [
+        "def:quadratic"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      },
+      "constraint_on": [
+        "proc:quadratic_formula",
+        "proc:complete_square",
+        "proc:factor"
+      ]
+    },
+    {
+      "id": "con:delta_pos",
+      "type": "constraint",
+      "statement": "Delta > 0: two distinct real roots",
+      "preconditions": [
+        "def:discriminant"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      },
+      "constraint_on": [
+        "proc:quadratic_formula"
+      ],
+      "case": "Delta > 0"
+    },
+    {
+      "id": "con:delta_zero",
+      "type": "constraint",
+      "statement": "Delta == 0: one real double root -b/(2*a)",
+      "preconditions": [
+        "def:discriminant"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      },
+      "constraint_on": [
+        "proc:quadratic_formula"
+      ],
+      "case": "Delta == 0"
+    },
+    {
+      "id": "con:delta_neg",
+      "type": "constraint",
+      "statement": "Delta < 0: two complex-conjugate roots, no real root",
+      "preconditions": [
+        "def:discriminant"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      },
+      "constraint_on": [
+        "proc:quadratic_formula"
+      ],
+      "case": "Delta < 0"
+    },
+    {
+      "id": "con:rational_roots",
+      "type": "constraint",
+      "statement": "roots are rational iff Delta is the square of a rational (a, b, c in Q)",
+      "preconditions": [
+        "def:discriminant",
+        "def:root"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION"
+      },
+      "constraint_on": [
+        "proc:factor"
+      ]
+    },
+    {
+      "id": "proc:quadratic_formula",
+      "type": "procedure",
+      "statement": "x = (-b +- sqrt(Delta)) / (2*a)",
+      "preconditions": [
+        "rep:standard_form",
+        "def:discriminant",
+        "con:a_nonzero"
+      ],
+      "produces": [
+        "ROOT_CLAIM"
+      ],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "root_warrant": "EXACT_CHECKER"
+      },
+      "domain": "C",
+      "sympy": "[(-b + sqrt(b**2 - 4*a*c))/(2*a), (-b - sqrt(b**2 - 4*a*c))/(2*a)]"
+    },
+    {
+      "id": "proc:complete_square",
+      "type": "procedure",
+      "statement": "rewrite as a*(x + b/(2*a))**2 = Delta/(4*a), then x = -b/(2*a) +- sqrt(Delta)/(2*a)",
+      "preconditions": [
+        "rep:vertex_form",
+        "con:a_nonzero"
+      ],
+      "produces": [
+        "ROOT_CLAIM"
+      ],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "root_warrant": "EXACT_CHECKER"
+      },
+      "domain": "C",
+      "sympy": "[-b/(2*a) + sqrt(b**2 - 4*a*c)/(2*a), -b/(2*a) - sqrt(b**2 - 4*a*c)/(2*a)]"
+    },
+    {
+      "id": "proc:factor",
+      "type": "procedure",
+      "statement": "find r1, r2 in Q with r1 + r2 = -b/a and r1*r2 = c/a (Vieta); then a*(x - r1)*(x - r2) = 0",
+      "preconditions": [
+        "rep:factored_form",
+        "con:a_nonzero",
+        "con:rational_roots"
+      ],
+      "produces": [
+        "ROOT_CLAIM"
+      ],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "root_warrant": "EXACT_CHECKER"
+      },
+      "domain": "Q",
+      "sympy": "solve(a*x**2 + b*x + c, x) restricted to rational roots; INVALID by the Q-domain rule when Delta is not a rational square"
+    },
+    {
+      "id": "proc:linear",
+      "type": "procedure",
+      "statement": "when a == 0 and b != 0: x = -c/b; when a == b == 0: no equation in x (CANNOT_CHECK)",
+      "preconditions": [
+        "def:polynomial"
+      ],
+      "produces": [
+        "ROOT_CLAIM"
+      ],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "root_warrant": "EXACT_CHECKER"
+      },
+      "domain": "Q",
+      "sympy": "[-c/b]"
+    },
+    {
+      "id": "proc:vieta_check",
+      "type": "procedure",
+      "statement": "given candidate roots r1, r2: accept iff r1 + r2 == -b/a and r1*r2 == c/a",
+      "preconditions": [
+        "def:root",
+        "con:a_nonzero"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "simplify(r1 + r2 + b/a) == 0 and simplify(r1*r2 - c/a) == 0"
+      }
+    },
+    {
+      "id": "ex:worked_1",
+      "type": "worked_example",
+      "statement": "x**2 - 5*x + 6 = 0: Delta = 1 > 0, rational square; factor (x - 2)(x - 3); roots 2, 3",
+      "preconditions": [
+        "proc:factor",
+        "con:delta_pos",
+        "con:rational_roots"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "simplify((x**2 - 5*x + 6).subs(x, 2)) == 0 and simplify((x**2 - 5*x + 6).subs(x, 3)) == 0"
+      },
+      "bindings": {
+        "a": "1",
+        "b": "-5",
+        "c": "6"
+      }
+    },
+    {
+      "id": "ex:worked_2",
+      "type": "worked_example",
+      "statement": "x**2 + x + 1 = 0: Delta = -3 < 0; roots (-1 +- i*sqrt(3))/2, no real root",
+      "preconditions": [
+        "proc:quadratic_formula",
+        "con:delta_neg"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "simplify((x**2 + x + 1).subs(x, (-1 + I*sqrt(3))/2)) == 0"
+      },
+      "bindings": {
+        "a": "1",
+        "b": "1",
+        "c": "1"
+      }
+    },
+    {
+      "id": "ex:worked_3",
+      "type": "worked_example",
+      "statement": "x**2 - 4*x + 4 = 0: Delta = 0; double root 2",
+      "preconditions": [
+        "proc:quadratic_formula",
+        "con:delta_zero"
+      ],
+      "produces": [],
+      "warrant": {
+        "kind": "INSTRUCTION",
+        "check": "simplify((x**2 - 4*x + 4).subs(x, 2)) == 0"
+      },
+      "bindings": {
+        "a": "1",
+        "b": "-4",
+        "c": "4"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "type": "DEPENDENCE",
+      "rule": "for every atom A and every P in A.preconditions: P -> A"
+    },
+    {
+      "type": "CONSTRAINT",
+      "rule": "for every constraint atom C and every T in C.constraint_on: C -> T"
+    },
+    {
+      "type": "COMPOSITION",
+      "rule": "for every procedure atom: (its preconditions) -> procedure (joint tails; label = product of the preconditions' labels)"
+    },
+    {
+      "type": "REPRESENTATION_TRANSPORT",
+      "rule": "rep:standard_form -> rep:vertex_form; rep:standard_form -> rep:factored_form"
+    },
+    {
+      "type": "SUPPORT",
+      "rule": "for every worked example E and every P in E.preconditions: E -> P (an example supports the procedure it exercises)"
+    }
+  ],
+  "root_claim_schema": {
+    "atom_id": "str",
+    "kind": "ROOT_CLAIM",
+    "variable": "x",
+    "expr": "SymPy-parsable with a, b, c bound",
+    "root": "SymPy-parsable",
+    "domain": "C | R | Q",
+    "label_channel": "INSTRUCTION | EXACT_CHECKER | EXPERIMENTATION",
+    "produced_by": "procedure atom id"
+  },
+  "instance_schema": {
+    "instance_id": "str",
+    "bindings": {
+      "a": "rational string",
+      "b": "rational string",
+      "c": "rational string"
+    },
+    "algebra_source": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V1.json"
+  },
+  "exact_checker": "reference/kso_exact_checker_sympy_v1.py (guards lane): VALID iff simplify(expr.subs(x, root)) == 0 and root in declared domain; a == 0 -> linear path; a == b == 0 -> CANNOT_CHECK; unparsable -> CANNOT_CHECK; only the checker sets EXACT_CHECKER"
+}

@@ -48,6 +48,7 @@ def propose(task,*,lookup,index,engine,invoke,observation,apply=apply_rule):
                     result=proposed["result"]
                     use={"method_id":mid,"rule_id":proposed["method_id"],"binding":proposed["binding"],
                          "cover":proposed["cover"],"recipes_applied":1,"replaced_branch":"no" if universal else "yes"}
+                    if "dependency" in proposed:use["dependency"]=proposed["dependency"]
                     break
         if result is None:
             e["stage"]="PARENT_COMPLETION";e["parent_completions"]+=1;result=engine.complete(p)

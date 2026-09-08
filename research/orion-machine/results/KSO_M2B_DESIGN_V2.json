@@ -1,0 +1,45 @@
+{
+  "schema": "orion.kso.m2b-design-freeze.v2",
+  "status": "FROZEN_V2__SUPERSEDES_V1",
+  "as_of": "2026-09-04",
+  "supersession": {
+    "v1": {
+      "source": "domains/algebra/ALGEBRA_SOURCE_V1_SUPERSEDED_RECONSTRUCTED.json",
+      "source_sha256": "712a33e4ec1c6d5eab44a20195bc4534d57fdf057af4b17368f2f96ecdab9438",
+      "atoms": 21,
+      "gating": "every constraint on a target conjoined (constraint_gate)",
+      "frozen_before_run": false,
+      "outcome": "M2B_V1_GATING_DEFECT: exact 5/30, attribution FIRE on 25/30 — proc:quadratic_formula never fired (the three mutually exclusive Δ-case constraints were conjoined, so two of them were always revoked for the query); proc:linear fired on a == b == 0 (no b != 0 constraint); the 5 exact were LINEAR_DEGENERATE"
+    },
+    "changes_made_after_seeing_v1_outcome": [
+      "CONSTRAINT rule: constraint atoms carrying a case field disjoin per target; non-case constraints conjoin; the gate lives in the target's label (applicability = preconditions x non-case constraints x sum of case constraints)",
+      "two constraint atoms added: con:a_zero (case 'a == 0', constrains proc:linear) and con:b_nonzero (constrains proc:linear)"
+    ],
+    "discipline": "V1 was run without a pre-run freeze (recorded in OCM_FAILURE_LEDGER.md); V2 is frozen here before its receipt is cited"
+  },
+  "v2": {
+    "source": "domains/algebra/ALGEBRA_SOURCE_V1.json",
+    "source_sha256": "af9e7ed6a98c1ab0da3028ddff3596ecf586080395b93600293a0dfe7a458957",
+    "atoms": 23,
+    "module": "reference/kso_m2b_algebra_population_v1.py",
+    "module_sha256": "8d78d0bac43892292453b2663653c015a0c1dc327cf06ef922ad8b7ea44f30c2",
+    "generator_oracle": "reference/kso_algebra_quadratic_v1.py",
+    "generator_sha256": "1fdae742ad91c0ff7641c63a7bcc89bb6c5dd9913fa5bd4c4b4db8af78e3aabd",
+    "instances": {
+      "split": "dev",
+      "seed": "ALGEBRA-DEV-20260904",
+      "per_family": 5,
+      "n": 30,
+      "ids_sha256": "75de2299f6c9c8e5493a03df3746a9eade8595d6da5254f33e4a636061888a17"
+    },
+    "gates": {
+      "G1": "produced roots == oracle roots per instance; single-stage attribution otherwise",
+      "G2": "fired procedures == oracle applicable procedures per instance",
+      "G3": "NO_EQUATION fires nothing (GAP_NOT_FOUND)",
+      "G4": "planted revocation of con:a_nonzero blocks every quadratic procedure",
+      "G5": "retraction both directions on the algebra graph; renormalising parent must differ on >= 1 revocation"
+    },
+    "warrant": "every ROOT_CLAIM UNWARRANTED_PENDING_EXACT_CHECKER; only kso_exact_checker_sympy_v1 confers EXACT_CHECKER"
+  },
+  "run_command": "python research/orion-machine/reference/kso_m2b_algebra_population_v1.py --per-family 5 --out research/orion-machine/results/KSO_M2B_ALGEBRA_RECEIPT_V1.json"
+}

@@ -13,8 +13,9 @@ def contents(store,token,work):
         if not item["eligible"]:
             refusals.append({"method_id":mid,"correctness":item["correctness"],"selection":item["selection"]})
         else:
-            postings[item["envelope"]["rule"]["conclusion"]["kind"]].append(mid)
-            D.bump(work,"postings_built")
+            # Both universal surface kinds have exact clause views.
+            for kind in ("every","no"):
+                postings[kind].append(mid);D.bump(work,"postings_built")
     postings={k:tuple(v) for k,v in postings.items()}
     store._posting_cache=(token,postings,tuple(refusals))
     return postings,refusals

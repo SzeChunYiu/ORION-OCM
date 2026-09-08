@@ -80,14 +80,14 @@ class ParentStore:
 
     def answers_live(self):return all(self.roles["role:"+r]["state"]=="LIVE" for r in ("semantics","answer_environment"))
 
-    def acquire_selected(self,training,development,selection_contract,*,observation=None):
+    def acquire_selected(self,training,development,selection_contract,*,observation=None,dependency_donor=False):
         from unary_method_selection import acquire_selected
         from unary_method_selection_check import validate_receipt
         self._enter()
         if self.selection is not None:raise InputRefused("PARENT_ALREADY_ACQUIRED")
         if not all(self.roles["role:"+r]["state"]=="LIVE" for r in ("semantics","schema_environment")):
             raise InputRefused("RULE_CHECKER_UNAVAILABLE")
-        result=acquire_selected(training,development,selection_contract,work=self.work,observation=observation,sources_sha256=self.source_sha)
+        result=acquire_selected(training,development,selection_contract,work=self.work,observation=observation,sources_sha256=self.source_sha,dependency_donor=dependency_donor)
         validate_receipt(result,sources_sha256=self.source_sha,work=self.work)
         receipt=D.raw(result);selection=D.hashed(result);objects={selection:receipt};records={}
         for rule in result["selected"]:

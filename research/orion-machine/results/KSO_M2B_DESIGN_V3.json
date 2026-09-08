@@ -1,0 +1,236 @@
+{
+  "as_of": "2026-09-04",
+  "discipline": "This freeze is committed BEFORE the V3 run.  The module refuses to run (CANNOT_CHECK, exit 2) unless the live source, generator, module and checker digests equal the pins recorded here, so no post-outcome edit can reach a receipt that cites this design.  NO NOVELTY OR BREAKTHROUGH CLAIM.",
+  "run_command": "python research/orion-machine/reference/kso_m2b_algebra_v3.py --per-family 5 --out research/orion-machine/results/KSO_M2B_ALGEBRA_RECEIPT_V3.json",
+  "schema": "orion.kso.m2b-design-freeze.v3",
+  "status": "FROZEN_V3__SUPERSEDES_V2__COMMITTED_BEFORE_THE_V3_RUN",
+  "supersession": {
+    "v1": {
+      "frozen_before_run": false,
+      "outcome": "M2B_V1_GATING_DEFECT: exact 5/30, attribution FIRE on 25/30 \u2014 proc:quadratic_formula never fired (the three mutually exclusive \u0394-case constraints were conjoined, so two of them were always revoked for the query); proc:linear fired on a == b == 0 (no b != 0 constraint); the 5 exact were LINEAR_DEGENERATE",
+      "source": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V1_SUPERSEDED_RECONSTRUCTED.json",
+      "source_sha256": "712a33e4ec1c6d5eab44a20195bc4534d57fdf057af4b17368f2f96ecdab9438"
+    },
+    "v2": {
+      "changes_made_after_seeing_v1_outcome": [
+        "CONSTRAINT rule: constraint atoms carrying a case field disjoin per target; non-case constraints conjoin; the gate lives in the target's label (applicability = preconditions x non-case constraints x sum of case constraints)",
+        "two constraint atoms added: con:a_zero (case 'a == 0', constrains proc:linear) and con:b_nonzero (constrains proc:linear)"
+      ],
+      "frozen_before_run": true,
+      "module": "research/orion-machine/reference/kso_m2b_algebra_population_v1.py",
+      "outcome_as_recorded": "M2B_POPULATED_AND_SOLVED_ON_DEV, 30/30 exact against the registered oracle",
+      "outcome_as_replayed": "lane-guards' independent replay (ORION-V2 #295 comment 6) established that the 30/30 figure was not evidence for the claim it was cited for.  Five defects, each repaired in V3 below.",
+      "receipt": "research/orion-machine/results/KSO_M2B_ALGEBRA_RECEIPT_V1.json",
+      "source": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V1.json",
+      "source_sha256": "af9e7ed6a98c1ab0da3028ddff3596ecf586080395b93600293a0dfe7a458957"
+    },
+    "v3": {
+      "atoms": 37,
+      "changes_made_after_seeing_the_v2_replay": [
+        {
+          "change": "each procedure is a hyperpath of STEP atoms carrying a registered operation name and a SymPy-parsable template; one generic interpreter (interpret_hyperpath) walks the enabled hyperpath; no per-procedure Python exists",
+          "defect": "(a) procedures were Python",
+          "found": "apply_procedure() re-implemented every procedure in kso_m2b_algebra_population_v1.py; ALGEBRA_SOURCE_V1.json only NAMED them and carried an unused 'sympy' string, so corrupting a step in the registered source could not change a root",
+          "proof_obligation": "PLANT a: corrupt step:qf:1 (4*a*c -> 3*a*c) in the registered source => the computed root differs from the clean root (mutation asserted to have landed), the oracle disagrees at COMPOSE, and the root is INVALID under the SymPy EXACT_CHECKER; only the corrupted procedure's roots are INVALID (locality)"
+        },
+        {
+          "change": "a case atom's constraint_on is the set of procedures it LICENSES; con:delta_neg does not license proc:factor, so on a Delta<0 instance proc:factor's case disjunction is empty and its label is dead.  Every conditional that decided applicability is deleted; atomize_labels decides WHICH CASE HOLDS and never which procedure applies",
+          "defect": "(b) gating was a conditional",
+          "found": "the Delta<0 block on factoring was `if delta < 0 or rational_sqrt is None` in apply_procedure; and the three Delta case atoms constrained proc:quadratic_formula ONLY and were disjoined, so with exactly one case live the disjunction was always live and the case atoms gated nothing",
+          "proof_obligation": "PLANT b: flip one constraint atom's label (con:rational_roots) on a real IRRATIONAL_DISTINCT instance => proc:factor fires and its irrational root is INVALID under the declared domain Q; a second plant flips the case licence on a COMPLEX_PAIR instance => a complex root claimed over Q is INVALID.  NO-ALARM: with correct labels proc:factor fires on no IRRATIONAL_DISTINCT and no COMPLEX_PAIR instance"
+        },
+        {
+          "change": "the threshold is registered here and main() returns 1 below it",
+          "defect": "(c) the threshold was not a gate",
+          "found": "main() exited 0 at 26/30, 25/30 and 20/30, printing M2B_DEFECT_ATTRIBUTED as a string",
+          "proof_obligation": "PLANT c: a corruption reaching three instances => exit 1.  NO-ALARM: the clean run exits 0"
+        },
+        {
+          "change": "the reject condition is SPLIT: a declined proposal and a family mismatch stay counted re-draws (they are proposal shape); a disagreement raises OracleDisagreement naming the instance and the caller reports CANNOT_CHECK and exits 2",
+          "defect": "(d) an oracle disagreement was silently re-drawn",
+          "found": "generate_split folded a disagreement between the two oracle implementations into the per-family rejection counter and drew another instance",
+          "proof_obligation": "PLANT d: a perturbed second oracle => OracleDisagreement naming the instance, exit 2.  NO-ALARM: the clean split raises nothing"
+        },
+        {
+          "change": "REGISTERED_RANGE_V3 defines admissibility over BOTH drawn and derived coefficients (abs <= 1728, denominator <= 64 -- the bound implied by b = -a*(r1+r2), c = a*r1*r2 over the drawn grid); check_registered_range raises the typed OutOfRegisteredRange at the oracle AND at the solver",
+          "defect": "(e) out-of-range instances were accepted",
+          "found": "no admissibility predicate existed; COEFFICIENT_RANGE was documentation only",
+          "proof_obligation": "PLANT e: an out-of-range instance is rejected at both ends, exit 2.  NO-ALARM: every one of the 30 generated instances satisfies the predicate"
+        }
+      ],
+      "checker": "research/orion-machine/reference/kso_exact_checker_sympy_v1.py",
+      "checker_sha256": "46f89a06406f0fd2e1093fba8930b69a3ffb4b4fef000ce2fa30227f829744a2",
+      "gates": {
+        "G1": {
+          "exit": "0 at or above min_exact; 1 below it",
+          "statement": "produced roots == oracle roots per instance, compared as exact tower VALUES not strings",
+          "threshold": {
+            "min_exact": 30,
+            "n": 30
+          }
+        },
+        "G2": {
+          "statement": "fired procedures == the oracle's independently computed applicable procedures"
+        },
+        "G3": {
+          "statement": "NO_EQUATION fires nothing (GAP_NOT_FOUND)"
+        },
+        "G4": {
+          "statement": "retraction both directions over constraint, definition AND step atoms; the renormalising parent must differ on at least one revocation"
+        },
+        "G5": {
+          "statement": "no-alarm controls: proc:factor fires on no IRRATIONAL_DISTINCT and no COMPLEX_PAIR instance; zero INVALID and zero CANNOT_CHECK root claims on the clean run"
+        },
+        "G6": {
+          "statement": "every ROOT_CLAIM is decided by the SymPy EXACT_CHECKER; warrant is VALID under the EXACT_CHECKER certificate and nothing else",
+          "threshold": {
+            "cannot_check": 0,
+            "invalid": 0
+          }
+        }
+      },
+      "generator_oracle": "research/orion-machine/reference/kso_algebra_quadratic_v3.py",
+      "generator_sha256": "001abf33d82e1b56791ae31ce7e3bbaf021223b90f4726c5f00bfcbdf55d8272",
+      "instances": {
+        "ids_sha256": "75de2299f6c9c8e5493a03df3746a9eade8595d6da5254f33e4a636061888a17",
+        "n": 30,
+        "note": "byte-identical instance set to V2, so V2 and V3 are directly comparable",
+        "per_family": 5,
+        "seed": "ALGEBRA-DEV-20260904",
+        "split": "dev"
+      },
+      "module": "research/orion-machine/reference/kso_m2b_algebra_v3.py",
+      "module_sha256": "9246b1b770bf7003bbb6adea908c970b442ce9dc4eead104ea2b418209de0395",
+      "parameters": {
+        "alpha": "1/3",
+        "status": "PRE_STUDY_PLACEHOLDER (KSO_PARAMETER_STUDY_V1) -- not yet traceable to a study row"
+      },
+      "registered_range": {
+        "drawn": {
+          "denominator": [
+            1,
+            4
+          ],
+          "numerator": [
+            -12,
+            12
+          ]
+        },
+        "rule": "abs(x) <= 1728 and x.denominator <= 64 for every coefficient"
+      },
+      "source": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V3.json",
+      "source_sha256": "f38638456ceafadd0a89f20c1f4870ce0c328bae5d64f79373c6fd4d1f242f85",
+      "steps": 14,
+      "terminals": {
+        "CANNOT_CHECK": "design drift, oracle disagreement, or an out-of-range instance; exit 2",
+        "M2B_V3_DEFECT_ATTRIBUTED__<stages>": "below threshold or a no-alarm control failed; exit 1",
+        "M2B_V3_SOLVED_FROM_THE_SOURCE_AND_WARRANTED": "G1 threshold met and every no-alarm control holds"
+      },
+      "warrant": "a ROOT_CLAIM is warranted iff kso_exact_checker_sympy_v1 returns VALID; the producing label channel is INSTRUCTION and is ignored for the verdict"
+    }
+  },
+  "v3": {
+    "atoms": 37,
+    "changes_made_after_seeing_the_v2_replay": [
+      {
+        "change": "each procedure is a hyperpath of STEP atoms carrying a registered operation name and a SymPy-parsable template; one generic interpreter (interpret_hyperpath) walks the enabled hyperpath; no per-procedure Python exists",
+        "defect": "(a) procedures were Python",
+        "found": "apply_procedure() re-implemented every procedure in kso_m2b_algebra_population_v1.py; ALGEBRA_SOURCE_V1.json only NAMED them and carried an unused 'sympy' string, so corrupting a step in the registered source could not change a root",
+        "proof_obligation": "PLANT a: corrupt step:qf:1 (4*a*c -> 3*a*c) in the registered source => the computed root differs from the clean root (mutation asserted to have landed), the oracle disagrees at COMPOSE, and the root is INVALID under the SymPy EXACT_CHECKER; only the corrupted procedure's roots are INVALID (locality)"
+      },
+      {
+        "change": "a case atom's constraint_on is the set of procedures it LICENSES; con:delta_neg does not license proc:factor, so on a Delta<0 instance proc:factor's case disjunction is empty and its label is dead.  Every conditional that decided applicability is deleted; atomize_labels decides WHICH CASE HOLDS and never which procedure applies",
+        "defect": "(b) gating was a conditional",
+        "found": "the Delta<0 block on factoring was `if delta < 0 or rational_sqrt is None` in apply_procedure; and the three Delta case atoms constrained proc:quadratic_formula ONLY and were disjoined, so with exactly one case live the disjunction was always live and the case atoms gated nothing",
+        "proof_obligation": "PLANT b: flip one constraint atom's label (con:rational_roots) on a real IRRATIONAL_DISTINCT instance => proc:factor fires and its irrational root is INVALID under the declared domain Q; a second plant flips the case licence on a COMPLEX_PAIR instance => a complex root claimed over Q is INVALID.  NO-ALARM: with correct labels proc:factor fires on no IRRATIONAL_DISTINCT and no COMPLEX_PAIR instance"
+      },
+      {
+        "change": "the threshold is registered here and main() returns 1 below it",
+        "defect": "(c) the threshold was not a gate",
+        "found": "main() exited 0 at 26/30, 25/30 and 20/30, printing M2B_DEFECT_ATTRIBUTED as a string",
+        "proof_obligation": "PLANT c: a corruption reaching three instances => exit 1.  NO-ALARM: the clean run exits 0"
+      },
+      {
+        "change": "the reject condition is SPLIT: a declined proposal and a family mismatch stay counted re-draws (they are proposal shape); a disagreement raises OracleDisagreement naming the instance and the caller reports CANNOT_CHECK and exits 2",
+        "defect": "(d) an oracle disagreement was silently re-drawn",
+        "found": "generate_split folded a disagreement between the two oracle implementations into the per-family rejection counter and drew another instance",
+        "proof_obligation": "PLANT d: a perturbed second oracle => OracleDisagreement naming the instance, exit 2.  NO-ALARM: the clean split raises nothing"
+      },
+      {
+        "change": "REGISTERED_RANGE_V3 defines admissibility over BOTH drawn and derived coefficients (abs <= 1728, denominator <= 64 -- the bound implied by b = -a*(r1+r2), c = a*r1*r2 over the drawn grid); check_registered_range raises the typed OutOfRegisteredRange at the oracle AND at the solver",
+        "defect": "(e) out-of-range instances were accepted",
+        "found": "no admissibility predicate existed; COEFFICIENT_RANGE was documentation only",
+        "proof_obligation": "PLANT e: an out-of-range instance is rejected at both ends, exit 2.  NO-ALARM: every one of the 30 generated instances satisfies the predicate"
+      }
+    ],
+    "checker": "research/orion-machine/reference/kso_exact_checker_sympy_v1.py",
+    "checker_sha256": "46f89a06406f0fd2e1093fba8930b69a3ffb4b4fef000ce2fa30227f829744a2",
+    "gates": {
+      "G1": {
+        "exit": "0 at or above min_exact; 1 below it",
+        "statement": "produced roots == oracle roots per instance, compared as exact tower VALUES not strings",
+        "threshold": {
+          "min_exact": 30,
+          "n": 30
+        }
+      },
+      "G2": {
+        "statement": "fired procedures == the oracle's independently computed applicable procedures"
+      },
+      "G3": {
+        "statement": "NO_EQUATION fires nothing (GAP_NOT_FOUND)"
+      },
+      "G4": {
+        "statement": "retraction both directions over constraint, definition AND step atoms; the renormalising parent must differ on at least one revocation"
+      },
+      "G5": {
+        "statement": "no-alarm controls: proc:factor fires on no IRRATIONAL_DISTINCT and no COMPLEX_PAIR instance; zero INVALID and zero CANNOT_CHECK root claims on the clean run"
+      },
+      "G6": {
+        "statement": "every ROOT_CLAIM is decided by the SymPy EXACT_CHECKER; warrant is VALID under the EXACT_CHECKER certificate and nothing else",
+        "threshold": {
+          "cannot_check": 0,
+          "invalid": 0
+        }
+      }
+    },
+    "generator_oracle": "research/orion-machine/reference/kso_algebra_quadratic_v3.py",
+    "generator_sha256": "001abf33d82e1b56791ae31ce7e3bbaf021223b90f4726c5f00bfcbdf55d8272",
+    "instances": {
+      "ids_sha256": "75de2299f6c9c8e5493a03df3746a9eade8595d6da5254f33e4a636061888a17",
+      "n": 30,
+      "note": "byte-identical instance set to V2, so V2 and V3 are directly comparable",
+      "per_family": 5,
+      "seed": "ALGEBRA-DEV-20260904",
+      "split": "dev"
+    },
+    "module": "research/orion-machine/reference/kso_m2b_algebra_v3.py",
+    "module_sha256": "9246b1b770bf7003bbb6adea908c970b442ce9dc4eead104ea2b418209de0395",
+    "parameters": {
+      "alpha": "1/3",
+      "status": "PRE_STUDY_PLACEHOLDER (KSO_PARAMETER_STUDY_V1) -- not yet traceable to a study row"
+    },
+    "registered_range": {
+      "drawn": {
+        "denominator": [
+          1,
+          4
+        ],
+        "numerator": [
+          -12,
+          12
+        ]
+      },
+      "rule": "abs(x) <= 1728 and x.denominator <= 64 for every coefficient"
+    },
+    "source": "research/orion-machine/domains/algebra/ALGEBRA_SOURCE_V3.json",
+    "source_sha256": "f38638456ceafadd0a89f20c1f4870ce0c328bae5d64f79373c6fd4d1f242f85",
+    "steps": 14,
+    "terminals": {
+      "CANNOT_CHECK": "design drift, oracle disagreement, or an out-of-range instance; exit 2",
+      "M2B_V3_DEFECT_ATTRIBUTED__<stages>": "below threshold or a no-alarm control failed; exit 1",
+      "M2B_V3_SOLVED_FROM_THE_SOURCE_AND_WARRANTED": "G1 threshold met and every no-alarm control holds"
+    },
+    "warrant": "a ROOT_CLAIM is warranted iff kso_exact_checker_sympy_v1 returns VALID; the producing label channel is INSTRUCTION and is ignored for the verdict"
+  }
+}
