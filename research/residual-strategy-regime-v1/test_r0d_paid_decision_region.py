@@ -22,6 +22,20 @@ def test_decision_region_and_ecd_stop_before_full_identification():
     assert drd.total_cost < identity.total_cost
 
 
+def test_region_predicate_price_has_exact_five_eighths_break_even():
+    problem = R.partition_problem()
+    lookup = F(1, 4)
+    identity = R.solve(problem, "P-ID", policy_lookup_cost=lookup)
+    below = R.solve(problem, "P-DRD", policy_lookup_cost=lookup, region_predicate_cost=F(1, 2))
+    tie = R.solve(problem, "P-DRD", policy_lookup_cost=lookup, region_predicate_cost=F(5, 8))
+    above = R.solve(problem, "P-DRD", policy_lookup_cost=lookup, region_predicate_cost=F(3, 4))
+
+    assert below.total_cost == F(5, 2) < identity.total_cost
+    assert tie.total_cost == identity.total_cost == F(11, 4)
+    assert above.total_cost == F(3) > identity.total_cost
+    assert below.worst_probe_count == tie.worst_probe_count == above.worst_probe_count == 1
+
+
 def test_fewer_probes_can_cost_more_when_region_predicate_is_charged():
     problem = R.partition_problem()
     lookup = F(1, 4)
@@ -53,6 +67,19 @@ def test_safe_action_does_not_imply_economic_stop():
     assert drd.total_cost == F(41, 4)
     assert drd.root_choice == "STOP"
     assert paid.total_cost < drd.total_cost
+
+
+def test_paid_information_has_exact_35_over_4_break_even():
+    lookup = F(1, 4)
+    below = R.solve(R.economic_problem(F(8)), "P-PAID", policy_lookup_cost=lookup)
+    tie = R.solve(R.economic_problem(F(35, 4)), "P-PAID", policy_lookup_cost=lookup)
+    above = R.solve(R.economic_problem(F(9)), "P-PAID", policy_lookup_cost=lookup)
+
+    assert below.total_cost == F(19, 2) < F(41, 4)
+    assert below.root_choice == "PROBE:which"
+    assert tie.total_cost == F(41, 4)
+    assert above.total_cost == F(41, 4)
+    assert above.root_choice == "STOP"
 
 
 def test_paid_parent_stops_when_information_is_too_expensive():
