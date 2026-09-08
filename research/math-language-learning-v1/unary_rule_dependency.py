@@ -3,7 +3,8 @@ from itertools import permutations
 from unary_rule_contract import count
 from unary_rule_clauses import clause,neg,ordered,statement,subset
 from unary_rule_identity import canonical_rule
-from unary_rule_clause_apply import match
+from unary_rule_clause_apply import matches
+from unary_contract import InputRefused
 from unary_rule_dependency_check import verify_support
 
 def derive(task,result,support,work):
@@ -38,14 +39,18 @@ def derive(task,result,support,work):
                      "premises":[statement(ordered(c,work),work) for c in lifted],"query":statement(ordered(conclusion,work),work)}
                 rule=canonical_rule(raw,work)
                 if rule["rule_id"] in seen:continue
-                found=match(rule,[task["premises"][i] for i in cover],statement(resolvent,work),work)
-                if found is None:raise RuntimeError("COMPILED_DEPENDENCY_BINDING")
-                binding,_=found
-                step={"schema":"ocm.unary-pivot-step.v1","order":[cover[left],cover[right]],
-                      "pivot":pivot,"residuals":residuals,"resolvent":resolvent,
-                      "target":target,"binding":binding}
-                evidence=dict(support,dependency=step)
-                checked=verify_support(task,result,evidence,rule,work)
+                for binding,_ in matches(rule,[task["premises"][i] for i in cover],statement(resolvent,work),work):
+                    count(work,"dependency_binding_candidates")
+                    step={"schema":"ocm.unary-pivot-step.v1","order":[cover[left],cover[right]],
+                          "pivot":pivot,"residuals":residuals,"resolvent":resolvent,
+                          "target":target,"binding":binding}
+                    evidence=dict(support,dependency=step)
+                    try:checked=verify_support(task,result,evidence,rule,work)
+                    except InputRefused as exc:
+                        if str(exc)!="DEPENDENCY_ROLE_BINDING":raise
+                        count(work,"dependency_role_binding_rejections");continue
+                    break
+                else:raise RuntimeError("COMPILED_DEPENDENCY_BINDING")
                 seen.add(rule["rule_id"]);count(work,"dependency_steps")
                 if residuals[0]==residuals[1]:count(work,"dependency_role_splits")
                 out.append({"rule":rule,"schema_certificate":checked,"support":evidence})

@@ -5,7 +5,7 @@ from unary_rule_clauses import clause,normal,neg,ordered,substituted,subset
 
 LINK="ocm.unary-clause-link.v1"
 
-def match(rule,premises,target,work):
+def matches(rule,premises,target,work):
     patterns=[clause(p,work) for p in rule["premises"]]
     actual=[clause(p,work) for p in premises];goal=clause(target,work)
     for order in permutations(range(len(actual))):
@@ -32,8 +32,10 @@ def match(rule,premises,target,work):
             if any(p!=actual[i] for p,i in zip(instantiated,order)):continue
             conclusion=clause(substituted(rule["conclusion"],binding,work),work)
             if subset(conclusion,goal,work):
-                return binding,{"schema":LINK,"premises":actual,"conclusion":conclusion,"target":goal}
-    return None
+                yield binding,{"schema":LINK,"premises":actual,"conclusion":conclusion,"target":goal}
+
+def match(rule,premises,target,work):
+    return next(matches(rule,premises,target,work),None)
 
 def apply(rule,task,engine,prepared,base,target,universal,work):
     from itertools import combinations

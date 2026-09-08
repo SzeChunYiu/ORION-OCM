@@ -36,7 +36,8 @@ def test_resealed_bad_support_is_not_selection_authority(field):
     with pytest.raises(InputRefused):validate_receipt(r)
 
 @pytest.mark.parametrize("arm",["conventional","ocm"])
-def test_both_adapters_admit_replay_use_and_respect_roles(tmp_path,monkeypatch,arm):
+@pytest.mark.parametrize("reverse",[False,True])
+def test_both_adapters_admit_replay_use_and_respect_roles(tmp_path,monkeypatch,arm,reverse):
     from ocm.runtime.ocm_runtime import OCMRuntime
     from unary_method_store import MethodStore
     from unary_method_runtime import MethodRuntime
@@ -46,7 +47,10 @@ def test_both_adapters_admit_replay_use_and_respect_roles(tmp_path,monkeypatch,a
         store=ParentStore(tmp_path/arm,create=True);runtime=None
     else:
         runtime=OCMRuntime(tmp_path/arm);store=MethodStore(runtime,create=True)
-    r=store.acquire_selected([x["task"] for x in donors()],[fresh()],contract(2,1,authored=True),dependency_donor=True)
+    training=[x["task"] for x in donors()]
+    if reverse:
+        for task in training:task["premises"]=list(reversed(task["premises"]))
+    r=store.acquire_selected(training,[fresh()],contract(2,1,authored=True),dependency_donor=True)
     assert r["terminal"]=="SELECTED" and len(store.method_ids)==1
     mid=store.method_ids[0]
     if runtime is not None:

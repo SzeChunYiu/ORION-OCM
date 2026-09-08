@@ -15,6 +15,7 @@ Grammar and predicate-to-word mappings remain supplied shared interfaces.
 ## Read first
 
 - [Default-off clause donor revival](CLAUSE-REVIVAL-RESULT.md): no development benefit; checked mechanism and retained evidence.
+- [Premise-order repair](CLAUSE-ORDER-REPAIR.md): current donor binding qualification; original negative result retained.
 - [Contract and API](CONTRACT.md): authority, algorithms, counters and remaining seam.
 - [First-tranche qualification](QUALIFICATION.md): 153 controls and retained generations.
 - [Runtime successor](RUNTIME-QUALIFICATION.md): 213 controls, actual restart and OCM invocation.
