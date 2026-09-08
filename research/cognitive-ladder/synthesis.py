@@ -426,6 +426,23 @@ dict(study="DEV-1 D0 to D1, 1024 bits",
      consequence=("The law scores this row rho beta phi all true and predicts MACHINE. It "
                   "is now WRONG on it. In-sample agreement is no longer total and the "
                   "generated document reports both figures.")),
+dict(study="DEV-1 D0 to D1, 1024 bits",
+     was="PARENT_SUFFICIENT", now="PARENT_SUFFICIENT",
+     forced_by="results/DEV5_UNANIMITY_V1.json",
+     why=("This row has now changed sign TWICE and that fact is more informative than "
+          "either sign. It was MACHINE against a reset control, PARENT_SUFFICIENT once a "
+          "replay parent was run, and under the BEST AVAILABLE REPRESENTATION -- a large "
+          "guard language with a per-query unanimity rule -- the lineage beats that same "
+          "replay parent again. The reading registered before DEV-5 ran says the law "
+          "predicts the sign for the best available representation, which would make the "
+          "row agree."),
+     consequence=("The revised table DELIBERATELY KEEPS THIS ROW AT PARENT_SUFFICIENT, so "
+                  "agreement stays 9 of 10 rather than being restored to 10 of 10. A rule "
+                  "whose fit is repaired by going and finding a better representation is "
+                  "weaker than one that predicted the first attempt, and quietly banking "
+                  "the repair would hide exactly that. The best-representation sign is "
+                  "recorded in BEST_REPRESENTATION_SIGNS instead, where it can be read "
+                  "beside the row it does not overwrite.")),
 dict(study="DEV-1 D0 to D1, 256 bits",
      was="PARENT_SUFFICIENT", now="PARENT_SUFFICIENT",
      forced_by="results/DEV2_CONTINUAL_PARENTS_V1.json",
@@ -480,6 +497,24 @@ CANDIDATE_MISSING_QUANTITY = (
     "or unnecessary, where this candidate predicts the lineage wins and the current "
     "three-coordinate law predicts nothing different."
 )
+
+#: The sign each contested row takes under the best representation anyone has
+#: built for it, as opposed to the representation the row's own experiment used.
+#: Reported separately and never folded into the revised agreement figure.
+BEST_REPRESENTATION_SIGNS = {
+"DEV-1 D0 to D1, 1024 bits": dict(
+  sign="MACHINE",
+  representation="large guard language, per-query unanimity",
+  receipt="results/DEV5_UNANIMITY_V1.json",
+  caveat=(
+    "This is the sign under a representation found AFTER the row was recorded as a "
+    "failure. It is reported because the reading of the law registered before DEV-5 ran "
+    "says the law predicts the best available representation's sign, and it is kept out "
+    "of the agreement figure because a rule that is right once you go and build a better "
+    "arm for it has a weaker claim than one that was right the first time. Both readings "
+    "are available; neither is hidden behind the other."),
+),
+}
 
 LAW_STATUS_AFTER_THE_TEST = (
     "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is "
@@ -578,6 +613,16 @@ def build() -> dict:
             sum(1 for r in revised if r["agrees"]) / len(revised)),
         "candidate_missing_quantity": CANDIDATE_MISSING_QUANTITY,
         "candidate_follow_up": CANDIDATE_FOLLOW_UP,
+        "best_representation_signs": BEST_REPRESENTATION_SIGNS,
+        "agreement_note": (
+            "Two agreement figures exist and only one is quoted as the law's. Against the "
+            "representation each experiment actually used, agreement is "
+            f"{sum(1 for r in revised if r['agrees'])} of {len(revised)}. Against the best "
+            "representation anyone has since built, the DEV-1 row would also agree, making "
+            "it total. The FIRST is the law's figure. The second is in "
+            "best_representation_signs and is not banked, because a rule repaired by "
+            "building a better arm after the fact is not the same object as a rule that "
+            "predicted the first attempt."),
         "what_this_does_not_establish": (
             "Three binary coordinates over ten synthetic rows. Nothing here measures a real "
             "task ecology, none of the coordinates is measured continuously, and the beta "

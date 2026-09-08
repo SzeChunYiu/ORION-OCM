@@ -238,3 +238,28 @@ def test_the_follow_up_states_the_new_falsifier():
     assert "the law is wrong rather than incomplete" in f["why_it_is_still_not_a_fourth_coordinate"]
     assert "no representation without a use tax exists" in \
         f["why_it_is_still_not_a_fourth_coordinate"].lower()
+
+
+def test_the_best_representation_sign_is_reported_but_not_banked():
+    """The row is right under a better arm built later; the fit must not absorb that."""
+    assert DOC["in_sample_agreement_after_revision"] < 1.0
+    best = DOC["best_representation_signs"]["DEV-1 D0 to D1, 1024 bits"]
+    assert best["sign"] == "MACHINE"
+    assert "DEV5_UNANIMITY_V1.json" in best["receipt"]
+    assert "kept out of the agreement figure" in best["caveat"]
+    revised = {r["study"]: r["observed"] for r in DOC["in_sample_after_revision"]}
+    assert revised["DEV-1 D0 to D1, 1024 bits"] == "PARENT_SUFFICIENT", (
+        "the revised table must keep the sign the row's own experiment measured")
+
+
+def test_both_agreement_figures_are_stated_and_one_is_named_as_the_law_s():
+    note = DOC["agreement_note"]
+    assert "The FIRST is the law's figure" in note
+    assert "is not banked" in note
+    assert "predicted the first attempt" in note
+
+
+def test_a_row_that_changed_sign_twice_says_so():
+    rows = [r for r in S.OBSERVED_REVISIONS if r["study"] == "DEV-1 D0 to D1, 1024 bits"]
+    assert len(rows) == 2, "both sign changes must be on the record, not just the latest"
+    assert any("changed sign TWICE" in r["why"] for r in rows)

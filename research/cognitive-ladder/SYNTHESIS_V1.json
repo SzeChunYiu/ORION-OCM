@@ -270,6 +270,14 @@
       "consequence": "The law scores this row rho beta phi all true and predicts MACHINE. It is now WRONG on it. In-sample agreement is no longer total and the generated document reports both figures."
     },
     {
+      "study": "DEV-1 D0 to D1, 1024 bits",
+      "was": "PARENT_SUFFICIENT",
+      "now": "PARENT_SUFFICIENT",
+      "forced_by": "results/DEV5_UNANIMITY_V1.json",
+      "why": "This row has now changed sign TWICE and that fact is more informative than either sign. It was MACHINE against a reset control, PARENT_SUFFICIENT once a replay parent was run, and under the BEST AVAILABLE REPRESENTATION -- a large guard language with a per-query unanimity rule -- the lineage beats that same replay parent again. The reading registered before DEV-5 ran says the law predicts the sign for the best available representation, which would make the row agree.",
+      "consequence": "The revised table DELIBERATELY KEEPS THIS ROW AT PARENT_SUFFICIENT, so agreement stays 9 of 10 rather than being restored to 10 of 10. A rule whose fit is repaired by going and finding a better representation is weaker than one that predicted the first attempt, and quietly banking the repair would hide exactly that. The best-representation sign is recorded in BEST_REPRESENTATION_SIGNS instead, where it can be read beside the row it does not overwrite."
+    },
+    {
       "study": "DEV-1 D0 to D1, 256 bits",
       "was": "PARENT_SUFFICIENT",
       "now": "PARENT_SUFFICIENT",
@@ -409,5 +417,14 @@
     "what_it_says_about_the_law": "The DEV-1 row was mispredicted because the representation carried a use tax, not because the world was outside the joint regime. That is a real distinction and it cuts against a simple reading of the law: the three coordinates describe the world, and whether the machine wins in a world that satisfies them also depends on the representation it chose. The law as written predicts the best available representation's sign, which is a stronger and more falsifiable claim than the one it was fitted to make, and it is now stated that way rather than quietly assumed.",
     "why_it_is_still_not_a_fourth_coordinate": "Adding use-cost would restore a perfect in-sample fit and would be the second time this module patched itself to match the data. The DEV-1 row STAYS mispredicted in the revised table. What DEV-3 buys is not a repair of the law but a sharper reading of what it claims, plus a new falsifier: find a world satisfying rho, beta and phi where NO representation without a use tax exists, and the law is wrong rather than incomplete."
   },
+  "best_representation_signs": {
+    "DEV-1 D0 to D1, 1024 bits": {
+      "sign": "MACHINE",
+      "representation": "large guard language, per-query unanimity",
+      "receipt": "results/DEV5_UNANIMITY_V1.json",
+      "caveat": "This is the sign under a representation found AFTER the row was recorded as a failure. It is reported because the reading of the law registered before DEV-5 ran says the law predicts the best available representation's sign, and it is kept out of the agreement figure because a rule that is right once you go and build a better arm for it has a weaker claim than one that was right the first time. Both readings are available; neither is hidden behind the other."
+    }
+  },
+  "agreement_note": "Two agreement figures exist and only one is quoted as the law's. Against the representation each experiment actually used, agreement is 9 of 10. Against the best representation anyone has since built, the DEV-1 row would also agree, making it total. The FIRST is the law's figure. The second is in best_representation_signs and is not banked, because a rule repaired by building a better arm after the fact is not the same object as a rule that predicted the first attempt.",
   "what_this_does_not_establish": "Three binary coordinates over ten synthetic rows. Nothing here measures a real task ecology, none of the coordinates is measured continuously, and the beta interval rests on a single pair of budgets in one experiment. The law is falsifiable, which is its only current virtue."
 }

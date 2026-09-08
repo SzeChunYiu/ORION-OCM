@@ -76,6 +76,7 @@ In-sample agreement falls from 100% to 90%. The frozen table above is left as it
 | study | was | now | forced by |
 |---|---|---|---|
 | DEV-1 D0 to D1, 1024 bits | MACHINE | PARENT_SUFFICIENT | `results/DEV2_CONTINUAL_PARENTS_V1.json` |
+| DEV-1 D0 to D1, 1024 bits | PARENT_SUFFICIENT | PARENT_SUFFICIENT | `results/DEV5_UNANIMITY_V1.json` |
 | DEV-1 D0 to D1, 256 bits | PARENT_SUFFICIENT | PARENT_SUFFICIENT | `results/DEV2_CONTINUAL_PARENTS_V1.json` |
 
 **Candidate missing quantity, deliberately not added to the rule.** The USE COST of an acquired object relative to the instance it replaces. All three coordinates are about acquisition -- is it demanded, is the economized resource scarce, does its evidence compose -- and none is about what it costs to invoke the thing once held. DEV-2 prices that directly: at a free scope check the lineage does 0.66 of replay's work and at the registered price 1.40, on identical worlds, with replay's own work unchanged. Adding a fourth coordinate would restore a perfect in-sample fit and would mean nothing. The test it implies instead is a world where verification is cheap or unnecessary, where this candidate predicts the lineage wins and the current three-coordinate law predicts nothing different.
