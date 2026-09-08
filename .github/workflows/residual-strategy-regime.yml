@@ -53,6 +53,12 @@ jobs:
           python -B research/residual-strategy-regime-v1/r0d_paid_decision_region.py \
             --out "$out/r0d-paid-decision-region.json" \
             --github-notice
+      - name: R0C native proof scheduler donor audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0c_scheduler_residual_audit.py \
+            --out "$out/r0c-scheduler-residual.json" \
+            --github-notice
       - name: Deterministic regime and lifecycle sweep
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -136,6 +142,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-suffix-elision.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0d-paid-decision-region.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0c-scheduler-residual.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/prospective.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
