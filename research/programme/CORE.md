@@ -59,8 +59,10 @@ The [proof-compression donor review](../proof-compression-parent-review-v1/CORE.
 selects existing CD Tools mechanisms for reuse. Typed open cuts and fresh native
 theorem admission still require explicit qualification. The [consumer source review](../ordinary-lemma-consumer-source-review-v1/CORE.md)
 selects the REFACTOR argument-subtree mechanism. The [small typed adapter](../ordinary-lemma-hole-adapter-v1/CORE.md)
-now passes structural qualification, including the separately corrected two-slot
-control. Exact native whole-proof replacement remains the next integration boundary.
+passes structural qualification, including the separately corrected two-slot
+control. The [native replacement control](../ordinary-hole-native-result-v1/CORE.md)
+now checks an exact whole-proof replacement with composite and derived arguments.
+Both native calls pass; this authored alias control establishes no learned utility.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat

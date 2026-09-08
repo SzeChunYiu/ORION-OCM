@@ -1,0 +1,15 @@
+# Qualification and reconstruction
+
+The [source review](review/source/IMPLEMENTATION-REVIEW-01.json) qualified the caller before its [once-only gate](records/source/EXECUTION-GATE.json). Six authored controls exercised issuance, source binding and refusal behavior using explicit doubles. They did not confer native acceptance. Their qualification's 2,027 pre/post pins and 142 imported paths belong to that earlier control process.
+
+The [accepted outcome review](review/outcome/OUTCOME-REVIEW-01.json) reconciles the actual two calls, all 27 frozen source/input members, 46 prior manifest members, 20 output files and five outer records. The actual run records 62 module paths: ten frozen project-module paths and 52 standard-library paths under the pinned runtime. Three dynamic native sources are bound per call. There is no independently frozen whole-standard-library byte inventory for the actual invocation.
+
+Canonical objects and stored files have different identities because stored receipts append one newline. Source: canonical 60,956 bytes / `372ee1eb…`, file 60,957 bytes / `c2c2592b…`. Replacement: canonical 56,595 bytes / `933cab46…`, file 56,596 bytes / `e299da29…`. [Complete identities](review/outcome/OUTCOME-COUNTS-01.json) preserve both; [copy bindings](COPY-MANIFEST.json) identify exact stored bytes.
+
+The [three new glue modules and authored controls](source/) are exact historical snapshots, not a relocated runnable installation. Frozen paths/requests remain historical. The eleven reused adapter/typed/native sources match immutable Git blobs listed in [UPSTREAM.json](UPSTREAM.json); source reuse includes the verifier's MIT license. The adapter's prior [qualified capsule](https://github.com/SzeChunYiu/ORION-OCM/tree/7926c3cc89c383ac4eb02effffc1824db556a6c0/research/ordinary-lemma-hole-adapter-v1) supplies argument-hole matching. No REFACTOR source or neural dependency was transplanted.
+
+[RAW.zip](RAW.zip) retains exact caller history, authored definition/controls, requests, gates, logs, qualification metadata and independent reviews. Its [member manifest](RAW-MEMBERS.json) identifies every original path and byte digest. Historical source-ready/native-not-run text and `UNISSUED-*` review drafts are preserved as history; the issued outcome review above is current authority.
+
+One exact old prefix is included as `old-prefix/PREFIX.mm`, attributed to the prior local typed-lifecycle input in UPSTREAM. The extended prefix and both actual databases are represented by [exact byte recipes](RECONSTRUCTION.json): prefix + newline + published admission suffix, then the respective issued suffix. All three concatenations matched the retained originals byte-for-byte. This is custody reconstruction, not another proof check. The original local files remain untouched.
+
+The package omits only eleven reused vendor files (immutable references) and three repeated prefix/database blobs (exact recipes). It does not copy standard-library source trees. [FILES.json](FILES.json) binds the public capsule excluding itself.
