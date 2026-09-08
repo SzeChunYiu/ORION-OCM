@@ -58,6 +58,12 @@ jobs:
           python -B research/residual-strategy-regime-v1/online_investment.py \
             --out "$out/investment.json" \
             --github-notice
+      - name: Unknown-horizon exact switch threshold
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/online_switch.py \
+            --out "$out/online-switch.json" \
+            --github-notice
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -67,6 +73,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/prospective.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
           if-no-files-found: error
       - name: Source custody
         if: always()
