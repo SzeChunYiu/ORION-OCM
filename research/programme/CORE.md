@@ -1,26 +1,46 @@
-# OCM research programme — current objective
+# OCM research programme — read first
 
-Research and top-tier journal papers come first; product development follows.
-Learn from a [broad mathematical proof curriculum](PROOF_CURRICULUM.md), with [FLT](FLT_RECONSTRUCTION.md) as one demanding case. The exposed [F0 proposer](../mechanical-proof-v1/RESULT.md) is now connected to [actual OCM solve, proof admission and revision](../proof-runtime-v1/QUALIFICATION.md), with 24 native lifecycle stages passing. The [pinned corpus inventory](../proof-corpus-v1/RESULT.md) covers all 29,511 proof pairs; semantic closure, reconstruction and useful learning remain open. Test [shared methods in bounded language](MATH_TO_LANGUAGE.md) after early learning episodes; full FLT is not required. Open-ended language requires separate evidence.
-[No neural networks](NO_NEURAL_CONTRACT.md) is the governing requirement across OCM cognition and learning; current whole-machine enforcement remains to be qualified.
+Research and substantial journal papers come first; product development follows.
+The target is useful experience making later cognition better or cheaper through
+[explicit non-neural mechanisms](NO_NEURAL_CONTRACT.md).
 
-Two candidate scientific contributions:
-- Certified local execution under evidence revision.
-- Revision-aware library learning with measured lifetime benefit.
+## Current result
 
-Novelty must be established for a concrete mechanism against its strongest matched
-parents. Use the [critical ORION concept audit](ORION_CONCEPTS.md) to retain useful mechanisms. Implement only
-what makes a decisive experiment possible or removes a measured obstruction.
+[Native serving through OCM](NATIVE_SERVING.md) now works in the fixed authored
+scope: actual dispatch, native proof checking and durable commitment. Eight calls
+match the shared conventional engine's results. The acquired method is consumed
+in the successful proof, reducing minimum abstract proof-tree cost from 3 to 2.
+OCM adds measured elapsed-time overhead; this is no speed or novelty claim.
 
-Read [the scientific programme](SCIENTIFIC_PROGRAMME.md), [parent assimilation](PARENTS.md)
-[abstraction/refinement parents](ABSTRACTION_PARENTS.md) and [falsifying experiments](EXPERIMENTS.md). These are prospective research plans,
-not manuscripts, result receipts or a claim that novelty is already established.
-The arithmetic consumption assay and phase diagnostic have executed; their preserved outcomes are apparatus evidence, not the next flagship launch.
+The [earlier learning and indexed-search controls](NATIVE_LEARNING_STATUS.md)
+remain distinct results. Acquisition, persistence, restart and causal use work on
+an authored control. Generalization to separated proof families and complete
+lifetime benefit remain open. The new source integration has 42 portable controls
+passing, with three external-input controls explicitly excluded and no native calls.
+Those controls do not reproduce the historical native experiment.
 
-Historical milestone receipts and earlier paper plans remain archival evidence;
-corrected comparator capabilities must be qualified before old residuals are reused.
-The small checked-text fixture, exact operator index and indexed extraction are
-apparatus. They do not alone establish whole-machine scaling or learning advantage.
+## Next decisive work
 
-Manuscripts use the nature-* skill package and current frozen claim authority.
-A second paper proceeds only with an independently substantial contribution.
+Follow [the current research sequence](RESEARCH_NEXT.md): typed proof acquisition,
+then qualified corpus opportunities and a matched comparison with ordinary learned
+lemmas. Full FLT is one demanding example, not a prerequisite for earlier transfer.
+The [proof curriculum](PROOF_CURRICULUM.md), [FLT design](FLT_RECONSTRUCTION.md) and
+[math-to-language design](MATH_TO_LANGUAGE.md) retain separate evidence obligations.
+
+Two candidate contributions remain: certified local execution under revision, and
+revision-aware library learning with measured lifetime benefit. A result must beat
+its strongest matched parents or be reported as parent-sufficient engineering.
+
+Read [the scientific charter](SCIENTIFIC_PROGRAMME.md),
+[ORION concept audit](ORION_CONCEPTS.md), [parents](PARENTS.md) and
+[abstraction parents](ABSTRACTION_PARENTS.md). The current sequence above supersedes
+older next-action wording; historical negative outcomes remain unchanged.
+
+[Grounding donor review](../native-grounding-review-v1/CORE.md) identifies the
+observed construction bottleneck. [Evolvability review](../evolvability-source-review-v1/CORE.md)
+qualifies useful diagnosis/search ideas without creating another flagship programme.
+
+Push each completed research or code milestone to GitHub, with its evidence and
+limitations. Preserve source versions and wait for exact-head CI before merging.
+Manuscripts use the nature-* skills and frozen claim authority. No paper is yet
+qualified by these authored integration controls alone.
