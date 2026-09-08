@@ -144,25 +144,121 @@ arithmetic multiplications         tau=9          tau=1
 
 The verifier, not this prose table, is authoritative for the branch head.
 
-## 5. Minimal sufficient economic state
+## 5. A sufficient finite economic representation
 
-For a finite action family `A`, a belief representation `psi(P)` is decision-sufficient for Bayes control only if equality of representations preserves the vector of expected action losses up to distinctions that cannot change the optimizer.  A sufficient but generally nonminimal representation is the full posterior over `H`:
+For a finite action family `A`, a belief representation `psi(P)` is decision-sufficient for one-shot Bayes control if equality of representations preserves enough expected losses to preserve the optimizer.
 
-```text
-P(H | legal history).
-```
-
-A smaller exact state may exist.  For the threshold family it is enough to preserve the expected loss vector
+Fix a reference action `a_0`.  Define the loss-difference moments
 
 ```text
-ell_P(tau) = E_P[C(H,tau)]   for every candidate tau,
+m_a(P) = E_P[C(H,a) - C(H,a_0)],  a != a_0.
 ```
 
-up to a common additive constant and any further quotient that preserves the argmin and future update law.  This is the correct decision-theoretic target for compression; it is not automatically the mean horizon, the median, a static-arm class probability, entropy, confidence, or a learned embedding.
+### Proposition 2 — loss-difference vector suffices for one-shot Bayes action selection
 
-This is the Bayes analogue of the feature-collision result in `FORMAL_DECISION_CORE_V2.md`: two beliefs mapped to the same representation but requiring disjoint optimal actions prove the representation is too coarse.
+The vector `m(P)` determines the Bayes-optimal action set.
 
-## 6. Survival/hazard state is free information already present
+### Proof
+
+For every action `a`,
+
+```text
+E_P[C(H,a)]
+ = E_P[C(H,a_0)] + m_a(P),
+```
+
+with `m_{a_0}=0`.  The first term is common to all actions, so minimizing expected total loss is exactly minimizing `m_a(P)`. QED.
+
+This is sufficient but not generally minimal.  Any further quotient is legal only if it preserves the argmin and, for a persistent controller, the future update/value law.
+
+## 6. Exact R0B threshold-loss rank theorem
+
+The frozen donor admits a stronger structural result for the full one-way threshold family.
+
+Use `tau=M` (never switch within the registered horizon) as the reference policy and define the `M x M` loss-difference matrix
+
+```text
+D[h,tau] = C(h,tau) - C(h,M),
+
+h   in {1,...,M}
+tau in {0,...,M-1}.
+```
+
+### Lemma 3 — `D` is lower triangular
+
+For `h <= tau`, threshold `tau` has not switched before the episode ends, so
+
+```text
+C(h,tau) = I(h) = C(h,M).
+```
+
+Hence `D[h,tau]=0` whenever `h<=tau`, which is exactly the zero region above the diagonal when row `h=tau+1` is paired with column `tau`. QED.
+
+### Lemma 4 — the diagonal is the one-query cold semantic premium
+
+At diagonal entry `h=tau+1`,
+
+```text
+D[tau+1,tau]
+ = I(tau) + S(1) - I(tau+1).
+```
+
+Under the frozen IID target population, expected inverse lifetime cost is additive across queries:
+
+```text
+I(tau+1) - I(tau) = I(1).
+```
+
+Therefore every diagonal entry is
+
+```text
+S(1) - I(1).
+```
+
+On all three primary coordinates the cold one-query semantic parent is strictly more expensive than inverse, so this quantity is nonzero. QED.
+
+### Theorem 5 — exact loss-difference matrix is invertible
+
+For each primary coordinate,
+
+```text
+det(D) = (S(1) - I(1))^M != 0.
+```
+
+### Proof
+
+By Lemma 3, `D` is triangular.  By Lemma 4, every diagonal entry is the same nonzero scalar.  The determinant of a triangular matrix is the product of its diagonal entries. QED.
+
+### Corollary 5.1 — preserving every threshold loss difference preserves the full horizon prior
+
+Write a prior as row vector `p` over `H=1,...,M`.  Its complete expected loss-difference vector is
+
+```text
+m(p) = p D.
+```
+
+Since `D` is invertible,
+
+```text
+p = m(p) D^{-1}.
+```
+
+Thus, on the frozen threshold family, the complete exact expected loss-difference vector is informationally equivalent to the full horizon prior.
+
+### Scope of this result
+
+This does **not** prove that every action-only decision quotient must encode all `M-1` prior degrees of freedom.  A one-shot representation is allowed to discard distinctions that never change the Bayes-optimal threshold.  The theorem proves a narrower but useful statement:
+
+```text
+there is no nontrivial exact linear/moment compression that preserves the
+complete threshold-loss vector for all lifetime priors.
+```
+
+It also matters for future cognition: if the controller must evaluate arbitrary later signals, survival conditioning, or changes in the admissible action set, preserving only the current argmin may be insufficient.  Full posterior information remains the safe conventional parent until a smaller dynamically sufficient quotient is proved.
+
+`distributional_lifecycle_verify.py` checks the triangular/nonzero-diagonal premises from the source-derived curves rather than relying on numerical matrix rank.
+
+## 7. Survival/hazard state is free information already present
 
 At age `d`, merely observing that the session has survived reveals `H>d`.  Under a registered prior, the exact posterior is
 
@@ -180,7 +276,7 @@ cost-relevant distribution over remaining reuse opportunity enough to alter the
 optimal paid cognition/state-investment decision.
 ```
 
-## 7. Blackwell/value-of-information consequence
+## 8. Blackwell/value-of-information consequence
 
 The correct ordering of candidate lifecycle signals is decision-relative.  A signal that predicts `Z` accurately can be economically weaker than a signal that predicts coarse residual-lifetime magnitude, because the latter may better separate threshold losses.
 
@@ -192,7 +288,7 @@ R_K(pi,0) = sum_z min_tau sum_H pi_H K(z|H) C_tau(H)
 
 and compare candidate channels by Bayes risk / Blackwell dominance where available.  Mutual information with `H` or classification accuracy for `Z` is secondary; neither is the protected objective.
 
-## 8. Research gate
+## 9. Research gate
 
 Do not open a learned lifecycle router merely because the binary decision region is predictable.  A future signal lane must establish, in order:
 
