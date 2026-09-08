@@ -138,3 +138,7 @@ next decisive test. Never summarize this lane as merely tests passing.
 The acceptance criterion remains the user's full multi-generation hypothesis.
 A functional governor, a supplied library search and a bounded engineering
 improvement are useful intermediate results with separate claim ceilings.
+
+## Epistemic Structure Discovery extension
+
+See [the central hypothesis and exact counterexamples](EPISTEMIC_STRUCTURE_DISCOVERY.md) and [prospective registry](STRUCTURE_DISCOVERY_REGISTRY_V1.json). The completed pilot selected repairs within a supplied decomposition. Learning that decomposition remains untested. External synthetic figures are retained separately as unverified reports. This extension does not revise frozen pilot protocols or outcomes.

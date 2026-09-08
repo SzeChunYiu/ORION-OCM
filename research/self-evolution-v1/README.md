@@ -140,3 +140,7 @@ python research/self-evolution-v1/plot_results.py
 ```
 
 Use new output paths; scripts refuse to overwrite previous attempts.
+
+## Epistemic Structure Discovery extension
+
+See [the central hypothesis and exact counterexamples](EPISTEMIC_STRUCTURE_DISCOVERY.md) and [prospective registry](STRUCTURE_DISCOVERY_REGISTRY_V1.json). The completed pilot selected repairs within a supplied decomposition. Learning that decomposition remains untested. External synthetic figures are retained separately as unverified reports. This extension does not revise frozen pilot protocols or outcomes.
