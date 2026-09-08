@@ -14,11 +14,11 @@ Some negatives are correctable design faults: the experiment could not have dete
 | N4-LEAVE-ONE-OUT | `STRUCTURALLY_INCOMPLETE` | **CORRECTABLE** | DONE |
 | N5-LEARNED-RELEVANCE | `INDEX_MAINTENANCE_DOMINATES` | **CORRECTABLE** | DONE |
 | N6-UNARY-ACQUISITION | `NO_METHOD_ACQUIRED` | **SUPERSEDED** | DONE |
-| N7-CLAUSE-DONOR | `NO_DEVELOPMENT_BENEFIT` | **CORRECTABLE** | RUNNING |
+| N7-CLAUSE-DONOR | `NO_DEVELOPMENT_BENEFIT` | **CORRECTABLE** | DONE |
 | N8-DIAGNOSIS-RESIDUAL | `ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST` | **CORRECT_FINDING** | NOT_STARTED |
-| N9-EAGER-DEPENDENCY | `DOMINATED_BY_LAZY_RE_DERIVATION` | **CORRECTABLE** | RUNNING |
+| N9-EAGER-DEPENDENCY | `DOMINATED_BY_LAZY_RE_DERIVATION` | **CORRECTABLE** | DONE |
 | N10-SCALAR-FACTORIZATION | `PARENT_SUFFICIENT` | **CORRECTABLE** | DONE |
-| N11-SPARSE-ACQUISITION | `FAILED_AT_REGISTERED_GRAMMAR` | **CORRECTABLE** | RUNNING |
+| N11-SPARSE-ACQUISITION | `FAILED_AT_REGISTERED_GRAMMAR` | **CORRECTABLE** | DONE |
 | N12-SELF-EVOLUTION | `AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION` | **CORRECTABLE** | NOT_STARTED |
 
 ## N1-SUPPLIED-KEY-LOOKUP — CORRECT_FINDING
@@ -89,7 +89,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** The same discovered schema run against certified essential-composite targets AND against a matched tautological control, with benefit on the first and none on the second. Benefit indifferent to the contrast would mean the gain was retrieval, not composition.
 
-**Fix.** E5 method discovery with an opportunity control; E7 rho sweep (DONE) supplied the demand side · **Status.** `RUNNING`
+**Fix.** E7 rho sweep (DONE) supplied the density side; E5 (DONE) certified the opportunity directly · **Status.** `DONE`
 
 ## N8-DIAGNOSIS-RESIDUAL — CORRECT_FINDING
 
@@ -109,7 +109,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** Beating lazy re-derivation on TOTAL work at matched correctness, which requires either a revocation density high enough to amortize, or a cheaper discovery mechanism. E6 must beat lazy explicitly, not merely beat leave-one-out.
 
-**Fix.** E6 with lazy_parent included as the arm to beat; E7 for the density side (DONE) · **Status.** `RUNNING`
+**Fix.** E6 with lazy_parent as the arm to beat (DONE); E7 for the density side (DONE); E10 (DONE) found the retention condition the whole finding depends on · **Status.** `DONE`
 
 ## N10-SCALAR-FACTORIZATION — CORRECTABLE
 
@@ -129,7 +129,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** A probe budget derived from the version space rather than fixed in advance, or a discovery level at which the space is smaller. The information-theoretic floor is computable here and was never computed.
 
-**Fix.** E5 shares the mechanism; the explicit budget-versus-version-space calculation is NOT STARTED · **Status.** `RUNNING`
+**Fix.** E5 method discovery against DreamCoder and Stitch; the explicit budget-versus-version-space calculation is still NOT STARTED · **Status.** `DONE`
 
 ## N12-SELF-EVOLUTION — CORRECTABLE
 

@@ -135,13 +135,19 @@ N(negative_id="N7-CLAUSE-DONOR", verdict="NO_DEVELOPMENT_BENEFIT",
                          "targets AND against a matched tautological control, with benefit on the "
                          "first and none on the second. Benefit indifferent to the contrast would "
                          "mean the gain was retrieval, not composition.",
-  fix="E5 method discovery with an opportunity control; E7 rho sweep (DONE) supplied the demand side",
-  fix_status="RUNNING",
+  fix="E7 rho sweep (DONE) supplied the density side; E5 (DONE) certified the opportunity "
+      "directly",
+  fix_status="DONE",
   outcome="E7 partially settles this. With reuse opportunity raised from zero, the machine does "
           "beat lazy re-derivation and memoization from density 0.05 upward, so the clause donor's "
           "zero-opportunity ecology genuinely was masking a working mechanism. But a "
           "deferred-induction parent, which retains evidence and induces only once demand is "
-          "proven, is cheaper at every density. Opportunity was necessary and is not sufficient."),
+          "proven, is cheaper at every density. Opportunity was necessary and is not sufficient. "
+          "E5 then measured opportunity directly instead of varying it: with an essential "
+          "composite opportunity CERTIFIED to exist, the acquired schema saves 54 work units, and "
+          "on rows where it is certified NOT to exist the same schema costs 235. The two sets are "
+          "never pooled. So N7's ecology was the whole of N7: the method was sound and the "
+          "ecology had no rows that needed it."),
 
 N(negative_id="N8-DIAGNOSIS-RESIDUAL", verdict="ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST",
   root="ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION",
@@ -153,7 +159,16 @@ N(negative_id="N8-DIAGNOSIS-RESIDUAL", verdict="ACCUMULATION_RESIDUAL_CONFINED_T
                          "Whether a machine can learn what a probe MEANS is untouched and is a "
                          "separate experiment.",
   fix="learned probe semantics; NOT STARTED and out of scope for the current tranche",
-  fix_status="NOT_STARTED"),
+  fix_status="NOT_STARTED",
+  outcome="STANDING_DECISION, NOT NEGLECT. N8 is a CORRECT_FINDING: three principled arms "
+          "reached 59/59 against a 0.288 constant baseline and the residual was 42 probe units "
+          "of 573, which the receipt identified exactly as memoisation of one boolean per "
+          "checker and scope. Learning probe SEMANTICS rather than probe ORDER is a different "
+          "experiment with a different world, not a repair of this one, and E5 has since made "
+          "the case for deferring it: when the strongest discovery parents were run against an "
+          "acquisition arm they closed the discovery gap completely, so instrument resolution "
+          "is not where this programme is currently losing. This stays open and is stated as "
+          "open rather than quietly reclassified."),
 
 N(negative_id="N9-EAGER-DEPENDENCY", verdict="DOMINATED_BY_LAZY_RE_DERIVATION",
   root="STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
@@ -165,12 +180,20 @@ N(negative_id="N9-EAGER-DEPENDENCY", verdict="DOMINATED_BY_LAZY_RE_DERIVATION",
                          "requires either a revocation density high enough to amortize, or a "
                          "cheaper discovery mechanism. E6 must beat lazy explicitly, not merely "
                          "beat leave-one-out.",
-  fix="E6 with lazy_parent included as the arm to beat; E7 for the density side (DONE)",
-  fix_status="RUNNING",
+  fix="E6 with lazy_parent as the arm to beat (DONE); E7 for the density side (DONE); E10 "
+      "(DONE) found the retention condition the whole finding depends on",
+  fix_status="DONE",
   outcome="E7 shows this is not a dependency-specific defect. The same shape appears in method "
           "acquisition: eager loses to deferred at every reuse density, against a parent sharing "
           "the mechanism and differing only in when it fires. N9 and N7 are therefore one finding "
-          "about acquisition policy, not two about different subsystems."),
+          "about acquisition policy, not two about different subsystems. E10 then found the "
+          "condition that finding depends on. Every world behind it gave retention away free and "
+          "unbounded, and there retaining nothing is provably optimal, so eager acquisition was "
+          "losing to arithmetic rather than to a better policy. Bound the store in bits and price "
+          "it, and above a compressibility threshold an ONLINE arm keeping generalizations beats "
+          "a parent shown the entire future and keeping instances -- 0.379 of its work at best. "
+          "N9 is therefore SCOPED to free unbounded retention, not withdrawn: at extension size "
+          "one, and wherever the budget holds everything, it reproduces exactly."),
 
 N(negative_id="N10-SCALAR-FACTORIZATION", verdict="PARENT_SUFFICIENT",
   root="PARENT_SHARES_THE_MECHANISM_UNDER_TEST",
@@ -203,8 +226,19 @@ N(negative_id="N11-SPARSE-ACQUISITION", verdict="FAILED_AT_REGISTERED_GRAMMAR",
   what_solved_would_mean="A probe budget derived from the version space rather than fixed in "
                          "advance, or a discovery level at which the space is smaller. The "
                          "information-theoretic floor is computable here and was never computed.",
-  fix="E5 shares the mechanism; the explicit budget-versus-version-space calculation is NOT STARTED",
-  fix_status="RUNNING"),
+  fix="E5 method discovery against DreamCoder and Stitch; the explicit "
+      "budget-versus-version-space calculation is still NOT STARTED",
+  fix_status="DONE",
+  outcome="DIAGNOSIS_SUPERSEDED. N11 blamed the instrument: a probe budget fixed without "
+          "reference to the hypothesis space. E5 ran the strongest available discovery parents "
+          "and they closed the gap COMPLETELY -- DreamCoder and Stitch found the arm's composite "
+          "and three more, so no discovery advantage is claimed against library learning on this "
+          "draw. Discovery was therefore not the bottleneck, which means N11's diagnosis, though "
+          "reasonable, was aimed at the wrong stage. What separated the arms was admission: "
+          "MDL-only acceptance with no support gate keeps macros that pay no rent, leaving both "
+          "library learners net-harmful on every set including where the opportunity exists. The "
+          "information-theoretic floor on the probe budget is still not computed and that piece "
+          "of the fix remains open; it is now a smaller question than N11 assumed."),
 
 N(negative_id="N12-SELF-EVOLUTION", verdict="AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION",
   root="PARENT_SHARES_THE_MECHANISM_UNDER_TEST",
@@ -216,7 +250,15 @@ N(negative_id="N12-SELF-EVOLUTION", verdict="AUTOML_PARENT_SUFFICIENT_BY_CONSTRU
                          "at matched information and lifecycle powers, and at least two materially "
                          "different learned changes surviving ablation.",
   fix="issue #149's own exit obligations; NOT STARTED in this lane",
-  fix_status="NOT_STARTED"),
+  fix_status="NOT_STARTED",
+  outcome="BLOCKED ON ANOTHER LANE, AND THE BLOCK IS REAL. N12's root is that the parent "
+          "shared the mechanism under test. E8 discharged exactly that root for the "
+          "factorization lane by supplying independently implemented parents, and the verdict "
+          "became informative -- the independent parent won. The same discharge for N12 needs a "
+          "real M11 runtime and issue #149's own exit obligations, which are not in this lane "
+          "and cannot be simulated here without rebuilding the thing under test. Recorded as "
+          "the one negative in the ledger whose fix is identified, feasible, and not available "
+          "to the session holding the ledger."),
 ]
 
 

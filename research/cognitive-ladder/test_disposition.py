@@ -85,3 +85,19 @@ def test_not_everything_is_correctable():
     """If this ever fails, the ledger has become an excuse generator."""
     c = DOC["counts_by_disposition"]
     assert c.get("CORRECT_FINDING", 0) + c.get("NARROW", 0) >= 2
+
+
+def test_no_negative_is_left_silently_open():
+    """An unexplained NOT_STARTED is indistinguishable from neglect."""
+    for n in D.NEGATIVES:
+        if n["fix_status"] in ("NOT_STARTED", "RUNNING"):
+            assert n.get("outcome"), (
+                f"{n['negative_id']} has no run fix and no note saying why")
+            assert len(n["outcome"]) > 120, n["negative_id"]
+
+
+def test_every_completed_fix_records_what_it_found():
+    for n in D.NEGATIVES:
+        if n["fix_status"] == "DONE" and n["disposition"] == "CORRECTABLE":
+            assert n.get("outcome"), (
+                f"{n['negative_id']} ran its fix and did not record the result")

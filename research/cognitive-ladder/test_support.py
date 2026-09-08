@@ -1024,9 +1024,12 @@ def test_the_receipt_carries_the_capability_gated_comparison():
     import json
     import pathlib
 
-    receipt = pathlib.Path("results/SUPPORT_E6_V1.json")
-    if not receipt.exists():  # pragma: no cover -- the receipt is built by run_support
-        pytest.skip("receipt not built in this checkout")
+    # Absolute, not cwd-relative: the receipt is committed, so its absence is a
+    # failure and never a skip. As written this test skipped silently whenever
+    # pytest was invoked from the repository root, which is the one situation in
+    # which a receipt check is most worth having.
+    receipt = pathlib.Path(__file__).parent / "results" / "SUPPORT_E6_V1.json"
+    assert receipt.is_file(), f"{receipt.name} is committed and must be present"
     data = json.loads(receipt.read_text())
     gated = data["capability_gated_comparison"]
     assert "lazy_parent" in gated["admitted"]
@@ -1051,6 +1054,7 @@ def test_the_sweep_reproduces_across_processes_with_different_hash_seeds():
     reported work to be identical.
     """
     import os
+    import pathlib
     import subprocess
     import sys
 
@@ -1062,7 +1066,12 @@ def test_the_sweep_reproduces_across_processes_with_different_hash_seeds():
     )
     outputs = []
     for seed in ("0", "12345"):
-        env = dict(os.environ, PYTHONHASHSEED=seed, PYTHONPATH=".")
+        # cwd and PYTHONPATH are pinned to this file's directory rather than
+        # inherited: run from the repository root, "." is the wrong directory and
+        # the child cannot import support_arms, which made this test pass or fail
+        # according to where pytest was invoked from.
+        here = str(pathlib.Path(__file__).parent)
+        env = dict(os.environ, PYTHONHASHSEED=seed, PYTHONPATH=here)
         outputs.append(
             subprocess.run(
                 [sys.executable, "-c", program],
@@ -1070,6 +1079,7 @@ def test_the_sweep_reproduces_across_processes_with_different_hash_seeds():
                 text=True,
                 check=True,
                 env=env,
+                cwd=here,
             ).stdout
         )
     assert outputs[0] == outputs[1]
