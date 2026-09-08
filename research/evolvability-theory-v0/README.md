@@ -18,7 +18,9 @@ Committed outputs:
 
 - `SYNTHETIC_RESULTS_V0.json` — historical V0 output.
 - `SYNTHETIC_RESULTS_V0_2.json` — current V0.2 output.
-- `LITERATURE_COLLISION_MATRIX_V0_2.md` — strongest-parent subtraction for the revised theory.
+- `LITERATURE_COLLISION_MATRIX_V0_2.md` — strongest-parent subtraction and synthesis map.
+- `PARENT_SYNTHESIS_DOCTRINE_V0_2.md` — how parent research is reconstructed, absorbed and generalized.
+- `PARENT_ABSORPTION_REGISTRY_V0_2.json` — machine-readable ADOPT/ADAPT/GENERALIZE/REJECT/OPEN registry.
 
 V0.2 pressures five claims:
 
@@ -39,3 +41,9 @@ The revised theory therefore uses the triad:
 and asks whether developmental experience moves a persistent machine toward a regime with lower future acquisition and self-change cost.
 
 Strongest-parent closure remains open. Real OCM studies must compare against active diagnosis/causal discovery, direct empirical/probabilistic self-models, AutoML/program repair, MARS-style reflective credit assignment, DGM/open-ended archives, learned abstraction/library parents, and adaptive neural/Transformer systems under #144.
+
+## Cumulative research doctrine
+
+Parents are not treated only as competitors. A `PARENT_SUFFICIENT` result removes a narrow novelty claim but can still produce `PARENT_MECHANISM_ABSORBED`: the mechanism is adopted or generalized into OCM and used to simplify the unified theory. The scientific residual must then move to a higher-order law, cross-domain invariance, developmental trajectory or phase boundary.
+
+Every important parent should be reconstructed and entered into `PARENT_ABSORPTION_REGISTRY_V0_2.json`; imported mechanism knowledge is counted as prior information.
