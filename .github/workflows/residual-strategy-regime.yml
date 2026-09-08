@@ -23,7 +23,11 @@ permissions:
 jobs:
   exact-no-ml-regime:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # The green run on 94f9f33 took 9m28s of a 10 minute budget, so any addition
+    # to this job timed out rather than failed. Raised with that measurement on
+    # record; if a step ever needs more than this, it is a slowdown to diagnose
+    # and not a budget to raise again.
+    timeout-minutes: 20
     env:
       PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
       PYTHONDONTWRITEBYTECODE: '1'
@@ -36,7 +40,19 @@ jobs:
         with:
           python-version: '3.11.14'
       - run: python -m pip install pytest==8.3.5
+      - name: R0A non-test checker population census
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B research/residual-strategy-regime-v1/checker_census.py \
+            --out "$out/r0a-checker-census.json" \
+            --github-notice
       - name: Source-derived exact controls
+        env:
+          # The census tests assert against the receipt the step above published
+          # rather than recomputing a private one: cheaper, and it checks the
+          # artifact that is actually shipped.
+          CHECKER_CENSUS_RECEIPT: '${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-census.json'
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           mkdir -p "$out"
@@ -66,12 +82,6 @@ jobs:
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           python -B research/residual-strategy-regime-v1/r0a_prospective_checker_binding.py \
             --out "$out/r0a-prospective-checker-binding.json" \
-            --github-notice
-      - name: R0A non-test checker population census
-        run: |
-          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          python -B research/residual-strategy-regime-v1/checker_census.py \
-            --out "$out/r0a-checker-census.json" \
             --github-notice
       - name: Native lifetime net-benefit bound
         run: |

@@ -298,7 +298,16 @@ def _pure_but_richer(node: ast.AST, param: str) -> bool:
 
 def classify_source(source: str) -> list[dict[str, Any]]:
     """Classify every checker site in one module's source."""
-    tree = ast.parse(source)
+    return classify_tree(ast.parse(source))
+
+
+def classify_tree(tree: ast.AST) -> list[dict[str, Any]]:
+    """Classify from an ALREADY PARSED module.
+
+    The census walks a few thousand files and parsing dominates its cost, so the
+    tree is parsed once and every derived fact -- sites, module constants, import
+    aliases -- is taken from that one parse.
+    """
     definitions = _definitions(tree)
     constants = _module_constants(tree)
     methods = _methods(tree)
@@ -428,26 +437,16 @@ def _import_aliases(tree: ast.AST) -> dict[str, str]:
     return aliases
 
 
-def _resolve_across_modules(sites: list[dict[str, Any]], root: pathlib.Path,
-                            files: Sequence[str]) -> int:
+def _resolve_across_modules(sites: list[dict[str, Any]],
+                            constants_by_module: Mapping[str, Mapping[str, Any]],
+                            aliases_by_path: Mapping[str, Mapping[str, str]]) -> int:
     """Upgrade ``M.NAME`` references to a constant defined in another tracked module.
 
     Only constants are resolved, and only one hop. A checker that is genuinely a
     callable in another module stays INDIRECT_UNRESOLVED, because guessing at it
-    would be worse than saying the census could not see it.
+    would be worse than saying the census could not see it. The two maps are built
+    during the single parse pass rather than by re-reading the tree.
     """
-    constants_by_module: dict[str, dict[str, Any]] = {}
-    aliases_by_path: dict[str, dict[str, str]] = {}
-    for relative in files:
-        try:
-            tree = ast.parse((root / relative).read_text(encoding="utf-8", errors="replace"))
-        except SyntaxError:
-            continue
-        aliases_by_path[relative] = _import_aliases(tree)
-        dotted = _module_name(relative)
-        if dotted:
-            constants_by_module[dotted] = _module_constants(tree)
-
     upgraded = 0
     for site in sites:
         if site["classification"] != "INDIRECT_UNRESOLVED":
@@ -502,8 +501,8 @@ def _compilable(node: ast.AST, param: str) -> bool:
     return True
 
 
-def differential_check(sites: Sequence[Mapping[str, Any]], root: pathlib.Path
-                       ) -> dict[str, Any]:
+def differential_check(sites: Sequence[Mapping[str, Any]],
+                       trees: Mapping[str, ast.AST]) -> dict[str, Any]:
     """Evaluate the original checker and its translation on the same candidates.
 
     Proposition 1 of R0A_CHECKER_CENSUS_V1.md says the translation preserves the
@@ -520,10 +519,8 @@ def differential_check(sites: Sequence[Mapping[str, Any]], root: pathlib.Path
     for site in sites:
         if site.get("dsl") is None:
             continue
-        try:
-            tree = ast.parse((root / site["path"]).read_text(encoding="utf-8",
-                                                             errors="replace"))
-        except SyntaxError:
+        tree = trees.get(site["path"])
+        if tree is None:
             skipped += 1
             continue
         lambdas = [n for n in ast.walk(tree) if isinstance(n, ast.Lambda)
@@ -578,18 +575,31 @@ def differential_check(sites: Sequence[Mapping[str, Any]], root: pathlib.Path
 def census(root: pathlib.Path) -> dict[str, Any]:
     files = tracked_python_files(root)
     scanned, unparsed, sites = 0, [], []
+    constants_by_module: dict[str, Mapping[str, Any]] = {}
+    aliases_by_path: dict[str, Mapping[str, str]] = {}
+    #: only the trees of files that produced a translatable site are kept, so the
+    #: differential check needs no second parse and memory stays bounded
+    trees: dict[str, ast.AST] = {}
     for relative in files:
         text = (root / relative).read_text(encoding="utf-8", errors="replace")
         try:
-            found = classify_source(text)
+            tree = ast.parse(text)
         except SyntaxError as exc:
             unparsed.append({"path": relative, "error": str(exc)})
             continue
         scanned += 1
+        aliases_by_path[relative] = _import_aliases(tree)
+        dotted = _module_name(relative)
+        if dotted:
+            constants_by_module[dotted] = _module_constants(tree)
+        found = classify_tree(tree)
+        if any(site["dsl"] is not None for site in found):
+            trees[relative] = tree
         for site in found:
             sites.append({**site, "path": relative, "bucket": _bucket(relative)})
 
-    cross_module_upgrades = _resolve_across_modules(sites, root, files)
+    cross_module_upgrades = _resolve_across_modules(sites, constants_by_module,
+                                                    aliases_by_path)
 
     admitted, admission_failures = 0, []
     for site in sites:
@@ -634,7 +644,7 @@ def census(root: pathlib.Path) -> dict[str, Any]:
         "sites_total": len(sites),
         "cross_module_constant_resolutions": cross_module_upgrades,
         "by_bucket": {bucket: tally(bucket) for bucket in BUCKETS},
-        "differential_check": differential_check(sites, root),
+        "differential_check": differential_check(sites, trees),
         "dsl_admission": {"translated": sum(1 for s in sites if s["dsl"] is not None),
                           "admitted_by_the_certified_calculus": admitted,
                           "admission_failures": admission_failures},

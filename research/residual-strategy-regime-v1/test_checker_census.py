@@ -12,6 +12,8 @@ an unsafe omission through.
 from __future__ import annotations
 
 import ast
+import json
+import os
 import pathlib
 import sys
 
@@ -224,6 +226,16 @@ def test_the_calculus_is_strictly_more_defined_and_that_is_counted_not_hidden():
 
 @pytest.fixture(scope="module")
 def real() -> dict:
+    """The census over the real tree.
+
+    In CI the census step runs first and publishes its receipt; these tests then
+    assert against THAT artifact rather than recomputing a private one. It is
+    cheaper, and it checks the thing that actually ships instead of a parallel
+    computation that could drift from it.
+    """
+    published = os.environ.get("CHECKER_CENSUS_RECEIPT")
+    if published and pathlib.Path(published).is_file():
+        return json.loads(pathlib.Path(published).read_text())
     root = HERE.parent.parent
     if not (root / ".git").exists():
         pytest.skip("not a git checkout")
