@@ -83,7 +83,7 @@
       "novelty_removed": "Any claim that carrying an ABSTRACTED store across a developmental boundary is the best use of a bounded budget. This lane's only developmental positive is withdrawn; what survives is DEV-1's comparison against RESET_OCM, which answers a different and narrower question.",
       "mapped_to": "the retention layer of the lineage, which should hold instances until the cost of verifying an abstraction is known to be low",
       "prior_information_charged": "the same D0 stream, the same bits, the same D1 stream; consolidation reads only the bounded buffer, not the lineage's uncharged record of everything it ever derived",
-      "next_experiment": "a world where verification is cheap or unnecessary, which is where the sweep says abstraction pays; that is a prediction this absorption makes and has not yet run"
+      "next_experiment": "RUN, in results/DEV3_GUARDED_RULES_V1.json, and the prediction held: a rule carrying its own precondition, paying bits from the same budget instead of a per-use check, beats this same replay parent at all twelve settings inside a computable budget window, by up to 3.6x, at correctness 1.0 -- with the unstructured-exception control still losing to replay, and with rule applications identical between the guarded and unguarded arms while checks fall from 3498 to 18"
     }
   ],
   "verdict_counts": {
@@ -400,5 +400,12 @@
   ],
   "in_sample_agreement_after_revision": 0.9,
   "candidate_missing_quantity": "The USE COST of an acquired object relative to the instance it replaces. All three coordinates are about acquisition -- is it demanded, is the economized resource scarce, does its evidence compose -- and none is about what it costs to invoke the thing once held. DEV-2 prices that directly: at a free scope check the lineage does 0.66 of replay's work and at the registered price 1.40, on identical worlds, with replay's own work unchanged. Adding a fourth coordinate would restore a perfect in-sample fit and would mean nothing. The test it implies instead is a world where verification is cheap or unnecessary, where this candidate predicts the lineage wins and the current three-coordinate law predicts nothing different.",
+  "candidate_follow_up": {
+    "ran": "results/DEV3_GUARDED_RULES_V1.json",
+    "verdict": "THE CANDIDATE WAS RIGHT, AND IT IS STILL NOT A COORDINATE",
+    "what_happened": "The counterexample said the law ignores what an acquired object costs to USE. DEV-3 changed the representation so that using one costs nothing extra -- a rule carrying its own scope precondition, charged in bits from the same budget -- and the sign flipped back: the lineage beats the replay parent at every setting inside a computable budget window, by up to 3.6x, at correctness 1.0. Rule applications are identical between the guarded and unguarded arms and checks fall from 3498 to 18, so the guard changes the PRICE of a use and not the number of uses.",
+    "what_it_says_about_the_law": "The DEV-1 row was mispredicted because the representation carried a use tax, not because the world was outside the joint regime. That is a real distinction and it cuts against a simple reading of the law: the three coordinates describe the world, and whether the machine wins in a world that satisfies them also depends on the representation it chose. The law as written predicts the best available representation's sign, which is a stronger and more falsifiable claim than the one it was fitted to make, and it is now stated that way rather than quietly assumed.",
+    "why_it_is_still_not_a_fourth_coordinate": "Adding use-cost would restore a perfect in-sample fit and would be the second time this module patched itself to match the data. The DEV-1 row STAYS mispredicted in the revised table. What DEV-3 buys is not a repair of the law but a sharper reading of what it claims, plus a new falsifier: find a world satisfying rho, beta and phi where NO representation without a use tax exists, and the law is wrong rather than incomplete."
+  },
   "what_this_does_not_establish": "Three binary coordinates over ten synthetic rows. Nothing here measures a real task ecology, none of the coordinates is measured continuously, and the beta interval rests on a single pair of budgets in one experiment. The law is falsifiable, which is its only current virtue."
 }

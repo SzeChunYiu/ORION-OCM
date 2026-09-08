@@ -1,0 +1,2221 @@
+{
+  "analytic_window": {
+    "high_bits": 2048,
+    "high_is": "rule_count * extension * FACT_BITS: at or above this the replay buffer holds the ENTIRE answer space and wins by arithmetic",
+    "low_bits": 768,
+    "low_is": "rule_count * (RULE_BITS + GUARD_BITS): below this the rules and their guards do not fit at all",
+    "note": "Both bounds are computed from the registered constants, not searched."
+  },
+  "arm_roles": {
+    "GUARDED_LINEAGE": "MACHINE",
+    "REPLAY_ONLY_PARENT": "PARENT_THAT_BEAT_US_IN_DEV2",
+    "UNGUARDED_LINEAGE": "PRIOR_MACHINE_DEV1"
+  },
+  "authority": "E2 synthetic. Responds to DEV2_CONTINUAL_PARENTS_V1, which withdrew this lane's only developmental positive and priced the reason. It withdraws no negative.",
+  "commitment": {
+    "commitment": "aeb85fd5d8bfb758d2c10489a17c554562e5550111dc45c050146624e29cb0ef",
+    "pilot_seed": "ed9c2bd041d3202817b516bad36e481fd8e4438983ba93585b7221f7920a8b06",
+    "protected_seed": "f4b684c0d76cf93737522fdf9abd80d8e5466aedc34cc95bea265585de88f382"
+  },
+  "control_exceptions": [],
+  "mean_ratio_to_replay_by_skew_in_window": {
+    "0.0": 0.3476806654017233,
+    "1.0": 0.5485001782604073
+  },
+  "novelty": "NONE CLAIMED. Preconditions on reusable abstractions are program synthesis and contract programming; version-space learning of a predicate is Mitchell 1982. The contribution is the regime comparison and the control that requires the unstructured regime to reproduce the earlier loss.",
+  "plan": {
+    "analytic_budget_window": "The comparison is informative only between two computable bounds. Below rule_count * (RULE_BITS + GUARD_BITS) = 768 bits the arm cannot hold its rules and their guards at all. At or above rule_count * extension * FACT_BITS = 2048 bits the replay parent holds the ENTIRE answer space and serves everything at LOOKUP, so it wins by arithmetic and nothing is being compared. Both bounds are computed from the registered constants, they are asserted in the tests, and the grid spans the window AND both sides of it so that the degenerate regions are visible in the table rather than excluded from it.",
+    "anti_rigging_control": "The RANDOM regime must REPRODUCE DEV-2: replay beats the guarded arm, because the arm degenerates to DEV-1's unguarded lineage when no guard is learnable. If the guarded arm wins under RANDOM exceptions, it is skipping checks it has not earned, the correctness gate should have caught it, and the run is VOID. Section 11 of the constitution is the reason this control exists: the way to fake this result is to build only the world where guards work.",
+    "capability_gate": "An arm may skip verification only when its version space over the guard language is a SINGLETON. The truth is always consistent with the observations, so a singleton provably contains it and skipping is sound. Correctness is asserted to be 1.0 for every arm in every regime; an arm below it is inadmissible and its work figure is not quoted.",
+    "contribution_level": "L1",
+    "costs": {
+      "compose": 5,
+      "fact_bits": 8,
+      "guard_bits": 16,
+      "guard_language_size": 15,
+      "rule_bits": 32,
+      "verify": 25
+    },
+    "decisive_causal_question": "The exception regime is the only knob. Under RANDOM exceptions no guard in the language is sound, the version space empties, and the arm must verify for ever. Under STRUCTURED exceptions a small sound guard exists. Everything else -- the streams, the budget, the parents, the costs -- is identical, so a sign change between the two regimes is caused by exception structure or by nothing.",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "kill_criterion": "If the guarded arm does not beat REPLAY_ONLY_PARENT in the STRUCTURED regime, then removing the per-use check is not sufficient to make abstraction pay, DEV-2's explanation is incomplete, and this lane has no carry advantage under any representation it has tried. That is to be reported in those words.",
+    "novelty": "NONE CLAIMED. Preconditions on reusable abstractions are program synthesis and contract programming; version-space learning of a predicate is Mitchell 1982. The contribution is the regime comparison and the control that requires the unstructured regime to reproduce the earlier loss.",
+    "pilot_disclosure": "A one-replicate pilot preceded this plan and did three things worth recording. It showed the guarded arm LOSING everywhere at the budgets DEV-1 and DEV-2 used. It then showed why, and the cause was an arm defect rather than a fact about guards: at 1024 bits the arm learned all sixteen guards during D0, filled the rest of the budget with facts, evicted every guard to fit them, and paid to verify 1958 of 2000 member demands -- an arm holding sixteen sound guards and using none. The policy is corrected here so that a guard is admitted with its rule and discarded only with its rule; guards are charged exactly what they were charged before. And it showed that budgets at or above 2048 bits are DEGENERATE, because the whole answer space fits in the replay buffer and memoization wins by arithmetic. The budget grid below is derived from that arithmetic rather than searched, and the protected sweep runs on a seed disjoint from the pilot.",
+    "predictions_frozen_before_execution": {
+      "G0": "The two regimes have the SAME number of exceptions in every replicate, by construction, so nothing below can be a rate effect. Asserted, not assumed.",
+      "G1": "RANDOM regime: REPLAY_ONLY_PARENT beats the guarded arm, reproducing DEV-2. This is the control and a failure here voids the run.",
+      "G2": "STRUCTURED regime: the guarded arm beats REPLAY_ONLY_PARENT at the loose budget, because a sound guard removes the per-use check that DEV-2 priced as the cause.",
+      "G3": "The guarded arm beats the UNGUARDED lineage in the STRUCTURED regime and ties it in the RANDOM regime, since with no learnable guard it degenerates to the same policy.",
+      "G4": "Correctness is 1.0 for every arm in both regimes. A guarded arm that is ever wrong has skipped a check it had not earned.",
+      "G5": "The guarded arm's advantage appears only INSIDE the analytic window and is absent below 768 bits and at or above 2048. If it appears outside the window the window is not the explanation and the receipt says so.",
+      "G6": "The advantage is at least as large at skew 0.0 as at skew 1.0. Uniform demand is the worst case for any cache, so it is where coverage -- what a rule has and a buffer does not -- should matter most. A result that needs a skewed stream is a result in a convenient world."
+    },
+    "prior_information_audit": {
+      "REPLAY_ONLY_PARENT": "DEV-2's parent exactly, unchanged",
+      "guarded_arm": "the guard LANGUAGE, not any guard. Which predicate holds for a rule is discovered from derivations it already paid for; that the right predicate is expressible is given, and under RANDOM exceptions it is not expressible and the arm must find that out too",
+      "regime": "NO ARM IS TOLD WHICH REGIME IT IS IN",
+      "unguarded_lineage": "DEV-1's arm exactly, unchanged"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "responds_to": "results/DEV2_CONTINUAL_PARENTS_V1.json",
+    "scientific_question": "DEV-2 showed the lineage loses to experience replay because a rule is dearer to USE than a stored answer, by exactly the price of its scope check. Does a rule that carries its own precondition -- paying BITS instead of a per-use check, from the same budget -- beat replay? And under what condition on the world?",
+    "strongest_parent_attack": "REPLAY_ONLY_PARENT, which beat the lineage in DEV-2 at five of six settings and by 1.57x at the loose budget. It is unchanged here, it runs the same streams at the same budget, and it does not care about exception structure at all -- a stored answer is correct whether or not its rule would have been.",
+    "study_id": "DEV3_GUARDED_RULES_V1",
+    "sweep": {
+      "budget_bits": [
+        256,
+        512,
+        1024,
+        1536,
+        2048
+      ],
+      "d0_length": 2000,
+      "d1_lengths": [
+        250,
+        1000,
+        4000
+      ],
+      "extension": 16,
+      "random_exception_count": "matched per replicate to the structured world's realised count, not drawn from a rate",
+      "regimes": [
+        "RANDOM",
+        "STRUCTURED"
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skews": [
+        0.0,
+        1.0
+      ]
+    },
+    "the_claim_under_test": "A guard pays exactly when the exception set is itself compressible. That is the same condition the acquired structure had to meet, applied one level up, and it predicts a SIGN CHANGE between two regimes of the same world rather than a win.",
+    "what_this_does_not_establish": "The guard language is given and contains the truth in one of the two regimes. A world where the language must also be learned is larger and can only be worse for the arm. Exceptions are either fully structured or fully unstructured; the interesting real case is partial structure and is not run. One stage pair, disjoint uniform rules, error-free induction, stationary streams."
+  },
+  "predictions": {
+    "G0_exception_counts_are_matched_across_regimes": true,
+    "G1_control_replay_beats_the_arm_under_random_exceptions": true,
+    "G2_guarded_beats_replay_under_structured_exceptions": true,
+    "G3_guarded_ties_unguarded_under_random_exceptions": true,
+    "G4_correctness_is_one_everywhere": true,
+    "G5_advantage_is_confined_to_the_window": true,
+    "G6_advantage_survives_uniform_demand": true
+  },
+  "primary_grid": [
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 161.5,
+          "correctness": 1.0,
+          "d1_work": 53218.75,
+          "guards_carried": 0.375,
+          "verifications": 231.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 44926.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 165.625,
+          "correctness": 1.0,
+          "d1_work": 52779.375,
+          "guards_carried": 0,
+          "verifications": 237.625
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 72.75,
+      "ratio_to_replay": 1.1845769884616775,
+      "ratio_to_unguarded": 1.008324748066835,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 250.125,
+          "correctness": 1.0,
+          "d1_work": 43464.375,
+          "guards_carried": 1.125,
+          "verifications": 351.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 38256.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 252.375,
+          "correctness": 1.0,
+          "d1_work": 43224.375,
+          "guards_carried": 0,
+          "verifications": 354.125
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68,
+      "ratio_to_replay": 1.1361378859663454,
+      "ratio_to_unguarded": 1.0055524226781765,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 356,
+          "correctness": 1.0,
+          "d1_work": 31977.125,
+          "guards_carried": 0.625,
+          "verifications": 465.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 39110.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 357,
+          "correctness": 1.0,
+          "d1_work": 31997.75,
+          "guards_carried": 0,
+          "verifications": 472.5
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 61.5,
+      "ratio_to_replay": 0.8176175606700311,
+      "ratio_to_unguarded": 0.9993554234282098,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 364.375,
+          "correctness": 1.0,
+          "d1_work": 31220.625,
+          "guards_carried": 0.5,
+          "verifications": 479.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 30781.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 365,
+          "correctness": 1.0,
+          "d1_work": 31183.125,
+          "guards_carried": 0,
+          "verifications": 481.125
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 61.5,
+      "ratio_to_replay": 1.01425763642418,
+      "ratio_to_unguarded": 1.0012025735073056,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 369.875,
+          "correctness": 1.0,
+          "d1_work": 30342.0,
+          "guards_carried": 0.125,
+          "verifications": 493
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 26759.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 370.125,
+          "correctness": 1.0,
+          "d1_work": 30406.25,
+          "guards_carried": 0,
+          "verifications": 496.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 64.625,
+      "ratio_to_replay": 1.133861798681795,
+      "ratio_to_unguarded": 0.9978869475847894,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 361.25,
+          "correctness": 1.0,
+          "d1_work": 30716.125,
+          "guards_carried": 0.5,
+          "verifications": 481.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 20065.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 361.375,
+          "correctness": 1.0,
+          "d1_work": 30971.5,
+          "guards_carried": 0,
+          "verifications": 491.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 65.25,
+      "ratio_to_replay": 1.530831049090456,
+      "ratio_to_unguarded": 0.9917545162488094,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 370.375,
+          "correctness": 1.0,
+          "d1_work": 30194.375,
+          "guards_carried": 0.25,
+          "verifications": 491.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 14793.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 370.375,
+          "correctness": 1.0,
+          "d1_work": 30416.25,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 66.25,
+      "ratio_to_replay": 2.0410913761343856,
+      "ratio_to_unguarded": 0.9927053795257469,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 374.625,
+          "correctness": 1.0,
+          "d1_work": 30033.75,
+          "guards_carried": 0,
+          "verifications": 500
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 11612.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 374.625,
+          "correctness": 1.0,
+          "d1_work": 30033.75,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 63.375,
+      "ratio_to_replay": 2.586245869347599,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 356.375,
+          "correctness": 1.0,
+          "d1_work": 31554.375,
+          "guards_carried": 0.125,
+          "verifications": 495.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 1762.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 356.375,
+          "correctness": 1.0,
+          "d1_work": 31676.25,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 73,
+      "ratio_to_replay": 17.90446130931272,
+      "ratio_to_unguarded": 0.9961524801704748,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 370.25,
+          "correctness": 1.0,
+          "d1_work": 30427.5,
+          "guards_carried": 0,
+          "verifications": 500
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 2158.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 370.25,
+          "correctness": 1.0,
+          "d1_work": 30427.5,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 71.75,
+      "ratio_to_replay": 14.097411246887125,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 684.375,
+          "correctness": 1.0,
+          "d1_work": 209235.625,
+          "guards_carried": 0.75,
+          "verifications": 943.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 180410.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 690.125,
+          "correctness": 1.0,
+          "d1_work": 208608.75,
+          "guards_carried": 0,
+          "verifications": 952
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 65.875,
+      "ratio_to_replay": 1.1597727964015474,
+      "ratio_to_unguarded": 1.0030050273538382,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1060,
+          "correctness": 1.0,
+          "d1_work": 167848.375,
+          "guards_carried": 1.375,
+          "verifications": 1447.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 139635.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1063.5,
+          "correctness": 1.0,
+          "d1_work": 167474.5,
+          "guards_carried": 0,
+          "verifications": 1452.875
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 65.125,
+      "ratio_to_replay": 1.202048730531868,
+      "ratio_to_unguarded": 1.0022324294146272,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1404.25,
+          "correctness": 1.0,
+          "d1_work": 129844.625,
+          "guards_carried": 0.25,
+          "verifications": 1874.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 155042.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1407.5,
+          "correctness": 1.0,
+          "d1_work": 129888.25,
+          "guards_carried": 0,
+          "verifications": 1894.625
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 67.25,
+      "ratio_to_replay": 0.8374796527072884,
+      "ratio_to_unguarded": 0.9996641343616532,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1400.625,
+          "correctness": 1.0,
+          "d1_work": 129751.875,
+          "guards_carried": 0.125,
+          "verifications": 1946.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 106891.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1401,
+          "correctness": 1.0,
+          "d1_work": 129708.75,
+          "guards_carried": 0,
+          "verifications": 1946.75
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 70,
+      "ratio_to_replay": 1.2138709058760793,
+      "ratio_to_unguarded": 1.0003324756425453,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1439,
+          "correctness": 1.0,
+          "d1_work": 125367.75,
+          "guards_carried": 0,
+          "verifications": 1994.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 105913.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1439.125,
+          "correctness": 1.0,
+          "d1_work": 125354.625,
+          "guards_carried": 0,
+          "verifications": 1994.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 71.25,
+      "ratio_to_replay": 1.1836819476293716,
+      "ratio_to_unguarded": 1.000104702957709,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1440.75,
+          "correctness": 1.0,
+          "d1_work": 125147.5,
+          "guards_carried": 0.125,
+          "verifications": 1986.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 67662.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1440.875,
+          "correctness": 1.0,
+          "d1_work": 125318.75,
+          "guards_carried": 0,
+          "verifications": 1994.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 69.125,
+      "ratio_to_replay": 1.8495911678964267,
+      "ratio_to_unguarded": 0.9986334846142337,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1515.125,
+          "correctness": 1.0,
+          "d1_work": 118211.0,
+          "guards_carried": 0.125,
+          "verifications": 1984.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 57118.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1515.125,
+          "correctness": 1.0,
+          "d1_work": 118638.75,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 62.625,
+      "ratio_to_replay": 2.0695655979866507,
+      "ratio_to_unguarded": 0.9963945169685284,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1433.125,
+          "correctness": 1.0,
+          "d1_work": 126020.625,
+          "guards_carried": 0,
+          "verifications": 1999.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 35870.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1433.125,
+          "correctness": 1.0,
+          "d1_work": 126020.625,
+          "guards_carried": 0,
+          "verifications": 1999.875
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 70.25,
+      "ratio_to_replay": 3.5131739886467783,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1493.75,
+          "correctness": 1.0,
+          "d1_work": 120562.5,
+          "guards_carried": 0,
+          "verifications": 2000
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 7000.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1493.75,
+          "correctness": 1.0,
+          "d1_work": 120562.5,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 63.75,
+      "ratio_to_replay": 17.223214285714285,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1470,
+          "correctness": 1.0,
+          "d1_work": 122072.5,
+          "guards_carried": 0.375,
+          "verifications": 1977.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 7556.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1469.625,
+          "correctness": 1.0,
+          "d1_work": 122733.75,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.75,
+      "ratio_to_replay": 16.153833429823838,
+      "ratio_to_unguarded": 0.9946123213867416,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 2787.75,
+          "correctness": 1.0,
+          "d1_work": 832149.625,
+          "guards_carried": 1,
+          "verifications": 3793.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 720863.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 2799.375,
+          "correctness": 1.0,
+          "d1_work": 830882.75,
+          "guards_carried": 0,
+          "verifications": 3809.25
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 71,
+      "ratio_to_replay": 1.1543783144910682,
+      "ratio_to_unguarded": 1.0015247337846405,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 4405.5,
+          "correctness": 1.0,
+          "d1_work": 654885.125,
+          "guards_carried": 1.625,
+          "verifications": 5906.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 531377.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 4408.375,
+          "correctness": 1.0,
+          "d1_work": 654569.5,
+          "guards_carried": 0,
+          "verifications": 5910.625
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.75,
+      "ratio_to_replay": 1.2324282884378654,
+      "ratio_to_unguarded": 1.0004821871474305,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5631.5,
+          "correctness": 1.0,
+          "d1_work": 519125.375,
+          "guards_carried": 0,
+          "verifications": 7593.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 623299.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5633,
+          "correctness": 1.0,
+          "d1_work": 518954.75,
+          "guards_carried": 0,
+          "verifications": 7595.75
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 66,
+      "ratio_to_replay": 0.8328668306461883,
+      "ratio_to_unguarded": 1.0003287858912555,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6017.375,
+          "correctness": 1.0,
+          "d1_work": 480122.0,
+          "guards_carried": 0.375,
+          "verifications": 7770.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 395698.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6017.125,
+          "correctness": 1.0,
+          "d1_work": 481180.75,
+          "guards_carried": 0,
+          "verifications": 7817.375
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 62.75,
+      "ratio_to_replay": 1.2133534791493648,
+      "ratio_to_unguarded": 0.9977996833830115,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6175.375,
+          "correctness": 1.0,
+          "d1_work": 461284.5,
+          "guards_carried": 0.25,
+          "verifications": 7880.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 423220.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6175.5,
+          "correctness": 1.0,
+          "d1_work": 464212.0,
+          "guards_carried": 0,
+          "verifications": 7998.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 58.375,
+      "ratio_to_replay": 1.089939254460516,
+      "ratio_to_unguarded": 0.993693614124581,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5856.25,
+          "correctness": 1.0,
+          "d1_work": 490871.5,
+          "guards_carried": 0.375,
+          "verifications": 7917.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 238214.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5857,
+          "correctness": 1.0,
+          "d1_work": 492689.5,
+          "guards_carried": 0,
+          "verifications": 7993.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 66.625,
+      "ratio_to_replay": 2.060631375238559,
+      "ratio_to_unguarded": 0.9963100492297887,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6001.5,
+          "correctness": 1.0,
+          "d1_work": 479865.0,
+          "guards_carried": 0,
+          "verifications": 8000
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 225876.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6001.5,
+          "correctness": 1.0,
+          "d1_work": 479865.0,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 63.875,
+      "ratio_to_replay": 2.124459742890189,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6191.25,
+          "correctness": 1.0,
+          "d1_work": 454665.625,
+          "guards_carried": 0.375,
+          "verifications": 7675.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 125787.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6191.25,
+          "correctness": 1.0,
+          "d1_work": 462787.5,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": true,
+      "mean_exception_count": 61.125,
+      "ratio_to_replay": 3.6145604979836987,
+      "ratio_to_unguarded": 0.9824500985873647,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5900.75,
+          "correctness": 1.0,
+          "d1_work": 488932.5,
+          "guards_carried": 0,
+          "verifications": 8000
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 28024.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5900.75,
+          "correctness": 1.0,
+          "d1_work": 488932.5,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 67.5,
+      "ratio_to_replay": 17.446453581209468,
+      "ratio_to_unguarded": 1.0,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5740.5,
+          "correctness": 1.0,
+          "d1_work": 502486.25,
+          "guards_carried": 0.125,
+          "verifications": 7965.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 28792.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5740.5,
+          "correctness": 1.0,
+          "d1_work": 503355.0,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.875,
+      "ratio_to_replay": 17.45228709363712,
+      "ratio_to_unguarded": 0.9982740809170466,
+      "regime": "RANDOM",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 119.125,
+          "correctness": 1.0,
+          "d1_work": 56295.875,
+          "guards_carried": 12.375,
+          "verifications": 90.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 44926.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 174.875,
+          "correctness": 1.0,
+          "d1_work": 51931.875,
+          "guards_carried": 0,
+          "verifications": 238.625
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 72.75,
+      "ratio_to_replay": 1.2530696055490789,
+      "ratio_to_unguarded": 1.0840331684538638,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 191.75,
+          "correctness": 1.0,
+          "d1_work": 43655.0,
+          "guards_carried": 12.5,
+          "verifications": 54.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 38256.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 236.625,
+          "correctness": 1.0,
+          "d1_work": 44662.5,
+          "guards_carried": 0,
+          "verifications": 352.75
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68,
+      "ratio_to_replay": 1.1411207319065513,
+      "ratio_to_unguarded": 0.9774419255527568,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 253,
+          "correctness": 1.0,
+          "d1_work": 37474.25,
+          "guards_carried": 15.5,
+          "verifications": 107.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 39110.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 352.75,
+          "correctness": 1.0,
+          "d1_work": 32426.25,
+          "guards_carried": 0,
+          "verifications": 471.75
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 61.5,
+      "ratio_to_replay": 0.9581725959709921,
+      "ratio_to_unguarded": 1.1556763424694498,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 316.125,
+          "correctness": 1.0,
+          "d1_work": 27179.125,
+          "guards_carried": 15.75,
+          "verifications": 57.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 30781.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 368.125,
+          "correctness": 1.0,
+          "d1_work": 30855.875,
+          "guards_carried": 0,
+          "verifications": 481.875
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 61.5,
+      "ratio_to_replay": 0.8829623072112535,
+      "ratio_to_unguarded": 0.8808411688211726,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 374.5,
+          "correctness": 1.0,
+          "d1_work": 8783.875,
+          "guards_carried": 16,
+          "verifications": 4.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 26759.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 373,
+          "correctness": 1.0,
+          "d1_work": 30159.25,
+          "guards_carried": 0,
+          "verifications": 496.75
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 64.625,
+      "ratio_to_replay": 0.32824798322114734,
+      "ratio_to_unguarded": 0.29124978240506644,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 382.875,
+          "correctness": 1.0,
+          "d1_work": 9856.125,
+          "guards_carried": 16,
+          "verifications": 10.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 20065.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 381.625,
+          "correctness": 1.0,
+          "d1_work": 29184.25,
+          "guards_carried": 0,
+          "verifications": 492.625
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 65.25,
+      "ratio_to_replay": 0.49120981809120356,
+      "ratio_to_unguarded": 0.3377206883850022,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 369.375,
+          "correctness": 1.0,
+          "d1_work": 5074.375,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 14793.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 369.375,
+          "correctness": 1.0,
+          "d1_work": 30506.25,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 66.25,
+      "ratio_to_replay": 0.3430196204349957,
+      "ratio_to_unguarded": 0.16633886498668304,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 380.875,
+          "correctness": 1.0,
+          "d1_work": 5252.125,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 11612.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 380.875,
+          "correctness": 1.0,
+          "d1_work": 29471.25,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 250,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 63.375,
+      "ratio_to_replay": 0.45226741870553155,
+      "ratio_to_unguarded": 0.17821181660092464,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 357.875,
+          "correctness": 1.0,
+          "d1_work": 4983.25,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 1762.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 357.875,
+          "correctness": 1.0,
+          "d1_work": 31541.25,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 73,
+      "ratio_to_replay": 2.827576423859848,
+      "ratio_to_unguarded": 0.15799151904252368,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 356.75,
+          "correctness": 1.0,
+          "d1_work": 5084.5,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 2158.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 356.75,
+          "correctness": 1.0,
+          "d1_work": 31642.5,
+          "guards_carried": 0,
+          "verifications": 500
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 250,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 71.75,
+      "ratio_to_replay": 2.3557074187756992,
+      "ratio_to_unguarded": 0.16068578652129256,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 479.5,
+          "correctness": 1.0,
+          "d1_work": 224222.875,
+          "guards_carried": 13.125,
+          "verifications": 308
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 180410.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 719,
+          "correctness": 1.0,
+          "d1_work": 205973.875,
+          "guards_carried": 0,
+          "verifications": 953.25
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 65.875,
+      "ratio_to_replay": 1.2428456710273148,
+      "ratio_to_unguarded": 1.0885986147515068,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 868.625,
+          "correctness": 1.0,
+          "d1_work": 167591.125,
+          "guards_carried": 11.625,
+          "verifications": 368.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 139635.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1052.625,
+          "correctness": 1.0,
+          "d1_work": 168465.875,
+          "guards_carried": 0,
+          "verifications": 1450.875
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 65.125,
+      "ratio_to_replay": 1.2002064306827969,
+      "ratio_to_unguarded": 0.9948075537553228,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 996.125,
+          "correctness": 1.0,
+          "d1_work": 151268.125,
+          "guards_carried": 15.625,
+          "verifications": 390.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 155042.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1398.625,
+          "correctness": 1.0,
+          "d1_work": 130711.875,
+          "guards_carried": 0,
+          "verifications": 1894.125
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 67.25,
+      "ratio_to_replay": 0.9756582283685805,
+      "ratio_to_unguarded": 1.1572638293192565,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1272,
+          "correctness": 1.0,
+          "d1_work": 107371.875,
+          "guards_carried": 15.625,
+          "verifications": 269.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 106891.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1445.625,
+          "correctness": 1.0,
+          "d1_work": 125647.0,
+          "guards_carried": 0,
+          "verifications": 1948.625
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 70,
+      "ratio_to_replay": 1.0044987417088436,
+      "ratio_to_unguarded": 0.8545518396778276,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1455.875,
+          "correctness": 1.0,
+          "d1_work": 44067.625,
+          "guards_carried": 16,
+          "verifications": 5.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 105913.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1454.625,
+          "correctness": 1.0,
+          "d1_work": 123998.625,
+          "guards_carried": 0,
+          "verifications": 1995.25
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 71.25,
+      "ratio_to_replay": 0.41607233269641347,
+      "ratio_to_unguarded": 0.3553880133751483,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1454.125,
+          "correctness": 1.0,
+          "d1_work": 36666.125,
+          "guards_carried": 16,
+          "verifications": 40
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 67662.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1452.5,
+          "correctness": 1.0,
+          "d1_work": 124198.75,
+          "guards_carried": 0,
+          "verifications": 1993.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 69.125,
+      "ratio_to_replay": 0.5418992865297858,
+      "ratio_to_unguarded": 0.29522136897513057,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1508.375,
+          "correctness": 1.0,
+          "d1_work": 20575.375,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 57118.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1508.375,
+          "correctness": 1.0,
+          "d1_work": 119246.25,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 62.625,
+      "ratio_to_replay": 0.3602210307473465,
+      "ratio_to_unguarded": 0.1725452582366322,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1476.875,
+          "correctness": 1.0,
+          "d1_work": 20477.5,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 35870.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1476.875,
+          "correctness": 1.0,
+          "d1_work": 122081.25,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 70.25,
+      "ratio_to_replay": 0.5708670334916558,
+      "ratio_to_unguarded": 0.16773665079608868,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1507.5,
+          "correctness": 1.0,
+          "d1_work": 20567.5,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 7000.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1507.5,
+          "correctness": 1.0,
+          "d1_work": 119325.0,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 63.75,
+      "ratio_to_replay": 2.938214285714286,
+      "ratio_to_unguarded": 0.1723653886444584,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1465.5,
+          "correctness": 1.0,
+          "d1_work": 20338.0,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 7556.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 1465.5,
+          "correctness": 1.0,
+          "d1_work": 123105.0,
+          "guards_carried": 0,
+          "verifications": 2000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 1000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.75,
+      "ratio_to_replay": 2.6913241253825158,
+      "ratio_to_unguarded": 0.1652085617968401,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 1712.375,
+          "correctness": 1.0,
+          "d1_work": 912858.0,
+          "guards_carried": 12.375,
+          "verifications": 956.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 720863.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 2721.75,
+          "correctness": 1.0,
+          "d1_work": 838001.5,
+          "guards_carried": 0,
+          "verifications": 3794.625
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 71,
+      "ratio_to_replay": 1.2663389464481072,
+      "ratio_to_unguarded": 1.0893274057385338,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 3452.375,
+          "correctness": 1.0,
+          "d1_work": 650585.5,
+          "guards_carried": 12.375,
+          "verifications": 567.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 531377.875,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 4270.5,
+          "correctness": 1.0,
+          "d1_work": 667040.125,
+          "guards_carried": 0,
+          "verifications": 5906.5
+        }
+      },
+      "budget_bits": 256,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.75,
+      "ratio_to_replay": 1.2243368243361656,
+      "ratio_to_unguarded": 0.9753318812717601,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 3924.125,
+          "correctness": 1.0,
+          "d1_work": 606662.25,
+          "guards_carried": 15.875,
+          "verifications": 1413.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 623299.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5648.75,
+          "correctness": 1.0,
+          "d1_work": 517580.875,
+          "guards_carried": 0,
+          "verifications": 7594
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": false,
+      "mean_exception_count": 66,
+      "ratio_to_replay": 0.9733079709890612,
+      "ratio_to_unguarded": 1.1721110251610436,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5195.75,
+          "correctness": 1.0,
+          "d1_work": 419194.0,
+          "guards_carried": 15.75,
+          "verifications": 1062.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 395698.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5932.375,
+          "correctness": 1.0,
+          "d1_work": 488836.875,
+          "guards_carried": 0,
+          "verifications": 7816.625
+        }
+      },
+      "budget_bits": 512,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 62.75,
+      "ratio_to_replay": 1.0593776130619692,
+      "ratio_to_unguarded": 0.8575335074711784,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6185.375,
+          "correctness": 1.0,
+          "d1_work": 117024.0,
+          "guards_carried": 16,
+          "verifications": 122.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 423220.375,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6184.625,
+          "correctness": 1.0,
+          "d1_work": 463346.125,
+          "guards_carried": 0,
+          "verifications": 7997.875
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 58.375,
+      "ratio_to_replay": 0.2765084266087142,
+      "ratio_to_unguarded": 0.25256281144036763,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5944.375,
+          "correctness": 1.0,
+          "d1_work": 136822.25,
+          "guards_carried": 16,
+          "verifications": 35.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 238214.125,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5942.375,
+          "correctness": 1.0,
+          "d1_work": 485060.25,
+          "guards_carried": 0,
+          "verifications": 7994.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 66.625,
+      "ratio_to_replay": 0.5743666543703065,
+      "ratio_to_unguarded": 0.2820726909698331,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5974.5,
+          "correctness": 1.0,
+          "d1_work": 81770.5,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 225876.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5974.5,
+          "correctness": 1.0,
+          "d1_work": 482295.0,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 63.875,
+      "ratio_to_replay": 0.36201459870172276,
+      "ratio_to_unguarded": 0.1695445733420417,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 6092.625,
+          "correctness": 1.0,
+          "d1_work": 83068.75,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 125787.25,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 6092.625,
+          "correctness": 1.0,
+          "d1_work": 471663.75,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "guarded_beats_replay": true,
+      "in_analytic_window": true,
+      "mean_exception_count": 61.125,
+      "ratio_to_replay": 0.6603908583739608,
+      "ratio_to_unguarded": 0.17611858023857038,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5896.5,
+          "correctness": 1.0,
+          "d1_work": 81068.5,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 28024.75,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5896.5,
+          "correctness": 1.0,
+          "d1_work": 489315.0,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 67.5,
+      "ratio_to_replay": 2.892746590067708,
+      "ratio_to_unguarded": 0.16567752879024758,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_LINEAGE": {
+          "applications": 5932.875,
+          "correctness": 1.0,
+          "d1_work": 81631.0,
+          "guards_carried": 16,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "correctness": 1.0,
+          "d1_work": 28792.0,
+          "guards_carried": 0,
+          "verifications": 0
+        },
+        "UNGUARDED_LINEAGE": {
+          "applications": 5932.875,
+          "correctness": 1.0,
+          "d1_work": 486041.25,
+          "guards_carried": 0,
+          "verifications": 8000
+        }
+      },
+      "budget_bits": 2048,
+      "d1_length": 4000,
+      "guarded_beats_replay": false,
+      "in_analytic_window": false,
+      "mean_exception_count": 68.875,
+      "ratio_to_replay": 2.8351972770213947,
+      "ratio_to_unguarded": 0.16795076549572696,
+      "regime": "STRUCTURED",
+      "reps": 8,
+      "skew": 1.0
+    }
+  ],
+  "study_id": "DEV3_GUARDED_RULES_V1",
+  "terminal": "GUARDED_CARRY_ADVANTAGE_INSIDE_THE_ANALYTIC_WINDOW",
+  "terminal_reason": "The guarded lineage beats experience replay in the STRUCTURED regime inside the analytic window, at 12 of 12 settings and by 3.62x at its best (4000 demands, 1024 bits, skew 0.0), at correctness 1.0. This is the first result in this lane where carried structure beats the strongest parent that has beaten it before, and the mechanism is the one DEV-2 priced: a guard removes the per-use scope check, and it is paid for in bits from the same budget. Against the unguarded lineage the same arm is 3.96x cheaper at that setting, so the guard and not the harness is doing the work. The control is clean: in the RANDOM regime, where no guard in the language is sound and the arm degenerates to the unguarded lineage, replay wins at every setting in the window, reproducing DEV-2.",
+  "what_this_does_not_establish": "The guard language is given and contains the truth in one of the two regimes. A world where the language must also be learned is larger and can only be worse for the arm. Exceptions are either fully structured or fully unstructured; the interesting real case is partial structure and is not run. One stage pair, disjoint uniform rules, error-free induction, stationary streams.",
+  "why_the_pilot_lost": {
+    "applications_by_arm_in_window": {
+      "GUARDED_LINEAGE": 2633.3125,
+      "UNGUARDED_LINEAGE": 2632.6145833333335
+    },
+    "note": "The pilot's guarded arm held every guard it had learned and used almost none of them, because facts were allowed to evict guards. The corrected policy admits a guard with its rule and discards it with its rule. The verification counts below are what that correction bought; they are reported because a reader is entitled to check that the guard is being USED and not merely held.",
+    "verifications_by_arm_in_window": {
+      "GUARDED_LINEAGE": 18.28125,
+      "UNGUARDED_LINEAGE": 3497.5416666666665
+    }
+  }
+}

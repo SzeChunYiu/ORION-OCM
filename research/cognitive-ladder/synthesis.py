@@ -192,9 +192,13 @@ A(parent="experience replay; elastic weight consolidation; replay-then-consolida
   prior_information_charged="the same D0 stream, the same bits, the same D1 stream; "
                             "consolidation reads only the bounded buffer, not the lineage's "
                             "uncharged record of everything it ever derived",
-  next_experiment="a world where verification is cheap or unnecessary, which is where the "
-                  "sweep says abstraction pays; that is a prediction this absorption makes "
-                  "and has not yet run"),
+  next_experiment="RUN, in results/DEV3_GUARDED_RULES_V1.json, and the prediction held: a "
+                  "rule carrying its own precondition, paying bits from the same budget "
+                  "instead of a per-use check, beats this same replay parent at all twelve "
+                  "settings inside a computable budget window, by up to 3.6x, at "
+                  "correctness 1.0 -- with the unstructured-exception control still losing "
+                  "to replay, and with rule applications identical between the guarded and "
+                  "unguarded arms while checks fall from 3498 to 18"),
 ]
 
 
@@ -412,6 +416,35 @@ dict(study="DEV-1 D0 to D1, 256 bits",
      consequence="No change to the law's agreement; the stated mechanism is less certain."),
 ]
 
+#: What happened when the candidate below was acted on rather than added to the
+#: rule. Outside ``PLAN``, like every other outcome record here.
+CANDIDATE_FOLLOW_UP = dict(
+  ran="results/DEV3_GUARDED_RULES_V1.json",
+  verdict="THE CANDIDATE WAS RIGHT, AND IT IS STILL NOT A COORDINATE",
+  what_happened=(
+    "The counterexample said the law ignores what an acquired object costs to USE. DEV-3 "
+    "changed the representation so that using one costs nothing extra -- a rule carrying its "
+    "own scope precondition, charged in bits from the same budget -- and the sign flipped "
+    "back: the lineage beats the replay parent at every setting inside a computable budget "
+    "window, by up to 3.6x, at correctness 1.0. Rule applications are identical between the "
+    "guarded and unguarded arms and checks fall from 3498 to 18, so the guard changes the "
+    "PRICE of a use and not the number of uses."),
+  what_it_says_about_the_law=(
+    "The DEV-1 row was mispredicted because the representation carried a use tax, not "
+    "because the world was outside the joint regime. That is a real distinction and it cuts "
+    "against a simple reading of the law: the three coordinates describe the world, and "
+    "whether the machine wins in a world that satisfies them also depends on the "
+    "representation it chose. The law as written predicts the best available "
+    "representation's sign, which is a stronger and more falsifiable claim than the one it "
+    "was fitted to make, and it is now stated that way rather than quietly assumed."),
+  why_it_is_still_not_a_fourth_coordinate=(
+    "Adding use-cost would restore a perfect in-sample fit and would be the second time this "
+    "module patched itself to match the data. The DEV-1 row STAYS mispredicted in the "
+    "revised table. What DEV-3 buys is not a repair of the law but a sharper reading of what "
+    "it claims, plus a new falsifier: find a world satisfying rho, beta and phi where NO "
+    "representation without a use tax exists, and the law is wrong rather than incomplete."),
+)
+
 #: The quantity the counterexample points at. Recorded as a CANDIDATE and
 #: deliberately NOT added to ``predict``: a law that grows a coordinate every time
 #: it is wrong is not a law, and the honest state is a rule with a known
@@ -524,6 +557,7 @@ def build() -> dict:
         "in_sample_agreement_after_revision": (
             sum(1 for r in revised if r["agrees"]) / len(revised)),
         "candidate_missing_quantity": CANDIDATE_MISSING_QUANTITY,
+        "candidate_follow_up": CANDIDATE_FOLLOW_UP,
         "what_this_does_not_establish": (
             "Three binary coordinates over ten synthetic rows. Nothing here measures a real "
             "task ecology, none of the coordinates is measured continuously, and the beta "
@@ -565,6 +599,12 @@ def main() -> int:
         L.append(f"| {r['study']} | {r['was']} | {r['now']} | `{r['forced_by']}` |")
     L += ["", "**Candidate missing quantity, deliberately not added to the rule.** "
           f"{doc['candidate_missing_quantity']}\n",
+          "**What happened when it was acted on.** "
+          f"{doc['candidate_follow_up']['what_happened']}\n",
+          f"**What that says about the law.** "
+          f"{doc['candidate_follow_up']['what_it_says_about_the_law']}\n",
+          f"**Why it is still not a fourth coordinate.** "
+          f"{doc['candidate_follow_up']['why_it_is_still_not_a_fourth_coordinate']}\n",
           "## The frozen out-of-sample prediction\n", f"### {o['name']}\n",
           f"**Why this one.** {o['why_this_one']}\n", f"**Design.** {o['design']}\n",
           f"**Coordinates.** {o['coordinates']}\n",

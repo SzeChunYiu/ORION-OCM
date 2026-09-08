@@ -137,3 +137,12 @@ def test_the_complete_transition_records_that_a_parent_beat_it():
     assert "DEV-1's comparison against RESET_OCM stands" in note
     entry = spine.EVIDENCE_MAP["DEV1_D0_TO_D1_V1.json"]["note"]
     assert "SUPERSEDED ON THE CARRY CLAIM" in entry
+
+
+def test_the_recovery_is_recorded_with_its_condition_not_as_a_clean_win():
+    note = DOC["the_one_complete_transition_lost_to_a_parent"]
+    assert "RECOVERED by DEV3_GUARDED_RULES_V1" in note
+    assert "conditional on a representation with no use tax" in note
+    assert "The control holds" in note
+    assert "PARENT_SUFFICIENT" in note, (
+        "the loss that preceded the recovery must stay in the same sentence")

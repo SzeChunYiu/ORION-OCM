@@ -285,7 +285,17 @@ def build() -> dict:
             "answer costs LOOKUP, and a sweep over the check price flips the sign between 10 "
             "and 25 with replay's own work constant throughout. DEV-1's comparison against "
             "RESET_OCM stands and answers the question it asked; the carry advantage is "
-            "PARENT_SUFFICIENT."),
+            "PARENT_SUFFICIENT. RECOVERED by DEV3_GUARDED_RULES_V1: a rule that carries its "
+            "own scope precondition, paying bits from the same budget instead of a per-use "
+            "check, beats that same replay parent at all twelve settings inside a "
+            "computable budget window -- above the bits needed for the rules and their "
+            "guards, below the bits that would let the parent memoize the entire answer "
+            "space -- by up to 3.6x, at correctness 1.0, and by more under UNIFORM demand "
+            "than under skewed. The control holds: where exceptions have no structure no "
+            "guard is learnable, the arm degenerates to the unguarded lineage, and replay "
+            "wins exactly as it did in DEV-2. So the carry advantage at this transition is "
+            "real but conditional on a representation with no use tax, and the condition is "
+            "computable in advance rather than discovered."),
         "complete_does_not_mean_succeeded": (
             "A transition counts as complete when all four DEV-D8 arms ran and every required "
             "field has evidence behind it. D0 to D1 qualifies and its own terminal is "

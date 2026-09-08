@@ -221,3 +221,20 @@ def test_the_continual_learning_absorption_is_no_longer_open():
     assert "BEATS the lineage" in entry[0]["teaches"]
     assert "withdrawn" in entry[0]["novelty_removed"]
     assert DOC["verdict_counts"]["OPEN"] == 0
+
+
+def test_acting_on_the_candidate_did_not_turn_it_into_a_coordinate():
+    from synthesis import Coordinates as C
+    f = DOC["candidate_follow_up"]
+    assert f["verdict"].startswith("THE CANDIDATE WAS RIGHT")
+    assert "STAYS mispredicted" in f["why_it_is_still_not_a_fourth_coordinate"]
+    assert set(C.__dataclass_fields__) == {"rho", "beta", "phi"}
+    assert DOC["in_sample_agreement_after_revision"] < 1.0, (
+        "the row the candidate explains must remain a recorded failure")
+
+
+def test_the_follow_up_states_the_new_falsifier():
+    f = DOC["candidate_follow_up"]
+    assert "the law is wrong rather than incomplete" in f["why_it_is_still_not_a_fourth_coordinate"]
+    assert "no representation without a use tax exists" in \
+        f["why_it_is_still_not_a_fourth_coordinate"].lower()
