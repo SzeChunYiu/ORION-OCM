@@ -32,6 +32,10 @@ parents. Full FLT is one demanding example, not a prerequisite for earlier trans
 The [proof curriculum](PROOF_CURRICULUM.md), [FLT design](FLT_RECONSTRUCTION.md) and
 [math-to-language design](MATH_TO_LANGUAGE.md) retain separate evidence obligations.
 
+The [proof-compression donor review](../proof-compression-parent-review-v1/CORE.md)
+selects existing CD Tools mechanisms for reuse. Typed open cuts and fresh native
+theorem admission still require explicit qualification.
+
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat
 its strongest matched parents or be reported as parent-sufficient engineering.

@@ -43,6 +43,14 @@ Withhold the target's own assertion and all prohibited derived shortcuts. Retrie
 an already supplied theorem is different from reconstructing its proof. Keep development
 and evaluation families separate; surface changes alone do not establish transfer.
 
+The [CD Tools source review](../proof-compression-parent-review-v1/CORE.md) identifies
+existing DAG/save-value and parameterized proof-grammar machinery. Reuse those
+mechanisms before building a larger miner. Keep an unchanged donor reference; an
+open typed cut is not automatically the same candidate as a complete subterm.
+Qualify exact reconstruction, fresh theorem context and native checking before
+using compression proposals as acquired methods. No donor execution or new
+learning opportunity is established by the source review.
+
 ## Test the scientific mechanism
 
 Compare the original catalogue, inline acquired methods, and the same acquired
