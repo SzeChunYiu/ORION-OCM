@@ -75,7 +75,7 @@ def main(output):
         "pid": os.getpid(),
         "native_calls": 0,
         "native_acceptance": "UNKNOWN",
-        "g2_4_causal_use_box": "CHECKED_NEGATIVE" if terminal != "CAUSAL_METHOD_REUSE_SUPPORTED" else "SUPPORTED_IN_SCOPE",
+        "g2_4_causal_use_box": "NOT_YET" if terminal != "CAUSAL_METHOD_REUSE_SUPPORTED" else "SUPPORTED_IN_SCOPE",
         "causal_method_reuse_supported": terminal == "CAUSAL_METHOD_REUSE_SUPPORTED",
         "lemma_occurrences": sealed["n_occurrences"],
         "unique_lemmas": sealed["n_unique"],

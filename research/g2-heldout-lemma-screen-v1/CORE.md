@@ -7,8 +7,10 @@ compile as ordinary `$p` lemmas from the frozen two-logical-step DAG. A
 chronological held-out family after training ordinal 4223 was screened in fresh
 processes. No lemma identity was invoked. Native successor checking is UNKNOWN.
 
-This is not `CAUSAL_METHOD_REUSE_SUPPORTED`. Issue #165 G2.4 can be marked
-**checked-negative** at this one-step domain; it cannot be marked achieved.
+This is not `CAUSAL_METHOD_REUSE_SUPPORTED`. Native admission of the same 22
+cuts is already on main (#179). One-step screening of ten later conclusions
+cannot consume two-step lemmas: they would appear as intermediates, not as
+the held-out target. Do **not** check #165 G2.4 from this capsule.
 
 [Result](RESULT.md) · [summary](SUMMARY.json) · [replay](records/replay-01/RESULT.json)
 
