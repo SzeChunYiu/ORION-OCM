@@ -33,8 +33,10 @@ interface. The full 4,323-contract parent is preserved. No useful new method or
 absence of opportunity follows. The [screening-only successor](../ordinary-cut-screening-result-v1/CORE.md)
 now reaches the full parent: four proposals have complete existing-theorem witness
 screens and 72 remain UNKNOWN under the fixed 60-second window. Parsing and proof
-emission dominate the measured cost. Exact conventional memoization is the next
-repair; no useful new method or learning benefit is established.
+emission dominate the measured cost. The [exact-cache source](../ordinary-cut-screening-cache-v1/CORE.md)
+now passes its corrected qualification; an actual cached run remains pending.
+No useful new method or learning benefit is established. The [parallel-lane review](../ordinary-cut-cross-lane-review-v1/CORE.md)
+keeps its longer exploratory run separate and qualifies unsupported negative claims.
 
 ## Next decisive work
 
@@ -46,7 +48,8 @@ The [proof curriculum](PROOF_CURRICULUM.md), [FLT design](FLT_RECONSTRUCTION.md)
 
 The [proof-compression donor review](../proof-compression-parent-review-v1/CORE.md)
 selects existing CD Tools mechanisms for reuse. Typed open cuts and fresh native
-theorem admission still require explicit qualification.
+theorem admission still require explicit qualification. The [consumer source review](../ordinary-lemma-consumer-source-review-v1/CORE.md)
+adds the official REFACTOR argument-subtree mechanism to the next repair.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat
