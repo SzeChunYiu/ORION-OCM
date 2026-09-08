@@ -1,0 +1,359 @@
+{
+  "schema": "ocm.g2-lemma-reuse-literature.source-reads.v1",
+  "date": "2026-09-08",
+  "host": "billy-laptop",
+  "worktree": "/Users/billy/Desktop/projects/ORION-OCM-wt/lit-g24",
+  "branch": "research/issue-165-lemma-reuse-literature",
+  "read_rule": "Primary sources fetched (arxiv html/pdf, DOI landing, author PDF, PMC). Search snippets alone are not a read. source_type is full-text, abstract, or metadata.",
+  "not_done": [
+    "No native verifier, search, refactoring, learner, or donor executed.",
+    "No OCM corpus or held-out set.mm scan rerun.",
+    "AIJ 1990 and AIJ 1972 publisher PDFs not obtained (closed). 1972 read via Nilsson-hosted copy.",
+    "AAAI-88 CDN URLs served bundled proceedings, not an isolated Minton extract.",
+    "Third-party PDFs in raw/ are local fetch cache and are not redistributed."
+  ],
+  "already_assimilated_not_reread_as_primary_here": [
+    "research/programme/PARENTS.md",
+    "research/parent-absorption-v1/CORE.md",
+    "research/parent-absorption-v1/LEDGER.json",
+    "research/g2-causal-lemma-reuse-v1/CORE.md",
+    "research/g2-causal-lemma-reuse-v1/RESULT.md",
+    "research/g2-causal-lemma-reuse-v1/SUMMARY.json",
+    "research/programme/NO_NEURAL_CONTRACT.md",
+    "research/architecture-net-benefit-v1/THEORY.md"
+  ],
+  "searches": [
+    {"query": "Mooney Effect of Rule Use Utility Explanation-Based Learning IJCAI 1989", "hits_used": ["https://ijcai.org/Proceedings/89-1/Papers/116.pdf"]},
+    {"query": "Minton 1990 Quantitative Results utility formula", "hits_used": ["DOI 10.1016/0004-3702(90)90059-9", "Langley 2023 slides", "Marks 1991"]},
+    {"query": "Kaliszyk Urban Lemma Mining HOL Light JSC 2015 CICM 2013", "hits_used": ["arXiv 1310.2797", "PMC4599631"]},
+    {"query": "REFACTOR ICLR 2024 2402.17032", "hits_used": ["arXiv html/pdf", "ICLR proceedings PDF"]},
+    {"query": "Wernhard JAR 2024 2505.12305 2602.15511", "hits_used": ["arXiv 2304.12827 pdf", "2505.12305", "2602.15511"]},
+    {"query": "Vyskočil Gauthier Kaliszyk Hetzl Fikes MACROPS SInE", "hits_used": ["author PDFs", "arXiv", "CEUR", "CADE author copy"]}
+  ],
+  "reads": [
+    {
+      "id": "G24-MOONEY",
+      "title": "The Effect of Rule Use on the Utility of Explanation-Based Learning",
+      "source_type": "full-text",
+      "venue": "IJCAI-89 proceedings, pp. 725-730",
+      "url": "https://ijcai.org/Proceedings/89-1/Papers/116.pdf",
+      "file": "raw/mooney-1989-ijcai.pdf",
+      "bytes": 136962,
+      "sha256": "20f36d5d492c5451015cfa296f6a51a6ff05dd2b4eaeddce594653145ecd8089",
+      "fetched_utc": "2026-09-08T20:06:36Z",
+      "status": 200,
+      "read_scope": "complete PDF; §§1,4 full-vs-limited, Tables 1-2, search-strategy discussion"
+    },
+    {
+      "id": "G24-MOONEY-LANDING",
+      "title": "IJCAI-89 volume I contents",
+      "source_type": "metadata",
+      "url": "https://www.ijcai.org/proceedings/1989-1",
+      "file": "raw/mooney-1989-ijcai-landing.html",
+      "bytes": 34897,
+      "sha256": "b258e2057469a531db7b69828547553bdf29cc577f615944465507109ed43e5d",
+      "fetched_utc": "2026-09-08T20:06:39Z",
+      "status": 200,
+      "read_scope": "proceedings index confirming title/pages"
+    },
+    {
+      "id": "G24-MINTON1990-DOI",
+      "title": "Quantitative results concerning the utility of explanation-based learning",
+      "source_type": "metadata",
+      "venue": "Artificial Intelligence 42(2-3):363-391, 1990",
+      "doi": "10.1016/0004-3702(90)90059-9",
+      "url": "https://doi.org/10.1016/0004-3702(90)90059-9",
+      "file": "raw/minton-1990-aij-doi.html",
+      "bytes": 2683,
+      "sha256": "803617389447fbe3c141d9d4b4713104fe77cf84923b6c8a0ffd9ab5491cf416",
+      "fetched_utc": "2026-09-08T20:06:42Z",
+      "status": 200,
+      "read_scope": "Elsevier linking-hub landing only; full text closed"
+    },
+    {
+      "id": "G24-MINTON1990-OPENALEX",
+      "source_type": "metadata",
+      "url": "https://api.openalex.org/works/https://doi.org/10.1016/0004-3702(90)90059-9",
+      "file": "raw/minton-1990-openalex.json",
+      "bytes": 12411,
+      "sha256_prefix": "8865358265f2",
+      "note": "is_oa=false; oa_url=null; any_repository_has_fulltext=false"
+    },
+    {
+      "id": "G24-MINTON1990-UNPAYWALL",
+      "source_type": "metadata",
+      "url": "https://api.unpaywall.org/v2/10.1016/0004-3702(90)90059-9?email=research@orion-ocm.local",
+      "file": "raw/minton-1990-unpaywall.json",
+      "bytes": 873,
+      "note": "oa_status=closed; best_oa_location=null"
+    },
+    {
+      "id": "G24-MINTON1990-S2",
+      "source_type": "metadata",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1016/0004-3702(90)90059-9",
+      "file": "raw/minton-1990-s2.json",
+      "bytes": 876,
+      "note": "openAccessPdf.status=CLOSED"
+    },
+    {
+      "id": "G24-MINTON1990-SD",
+      "source_type": "metadata",
+      "url": "https://www.sciencedirect.com/science/article/pii/0004370290900599",
+      "error": "HTTP 403",
+      "read_scope": "publisher HTML forbidden"
+    },
+    {
+      "id": "G24-MINTON1990-FORMULA-LANGLEY",
+      "title": "The Computational Gauntlet of Human-Like Learning (quotes Minton 1990 utility formula)",
+      "source_type": "full-text",
+      "role": "primary-quoting secondary for closed AIJ 1990 formula",
+      "url": "http://www.isle.org/~langley/talks/Gauntlet%20NRL%202023.pdf",
+      "file": "raw/langley-2023-minton-quote.pdf",
+      "bytes": 4420238,
+      "fetched_utc": "2026-09-08T20:10:12Z",
+      "read_scope": "section Quantitative Results on Utility of EBL; Utility=(AvrSavings×ApplicFreq)−AvrMatchCost"
+    },
+    {
+      "id": "G24-MINTON1990-FORMULA-MARKS",
+      "title": "Information filtering: Selection mechanisms in learning systems",
+      "source_type": "full-text",
+      "role": "primary-quoting secondary (Marks 1991 quotes Minton 1988a/b utility)",
+      "doi": "10.1007/bf00993503",
+      "url": "https://doi.org/10.1007/bf00993503",
+      "file": "raw/marks-1991-doi.html",
+      "bytes": 286040,
+      "read_scope": "Springer HTML; retention-filter formula and operational definition"
+    },
+    {
+      "id": "G24-AAAI88-CDN-MISBUNDLE",
+      "title": "AAAI-88 CDN objects (not isolated Minton)",
+      "source_type": "metadata",
+      "note": "cdn.aaai.org/AAAI/1988/AAAI88-105.pdf is Ginsberg Theory Revision (1,123,923 bytes). AAAI88-080.pdf is Gelfond/Lifschitz circumscription (852,052 bytes). Isolated Minton AAAI-88 PDF not obtained.",
+      "urls": [
+        "https://cdn.aaai.org/AAAI/1988/AAAI88-105.pdf",
+        "https://cdn.aaai.org/AAAI/1988/AAAI88-080.pdf"
+      ]
+    },
+    {
+      "id": "G24-KU2013",
+      "title": "Lemma Mining over HOL Light",
+      "source_type": "full-text",
+      "venue": "CICM 2013 / LNAI 7961; arXiv 1310.2797",
+      "url": "https://arxiv.org/pdf/1310.2797",
+      "file": "raw/kaliszyk-urban-2013-arxiv.pdf",
+      "bytes": 214241,
+      "sha256": "d4fa3a4f95c8320d4099671176bf2ef0be7e76d739063370fb036fd2d20c695b",
+      "fetched_utc": "2026-09-08T20:06:44Z",
+      "status": 200,
+      "html_also": {"url": "https://arxiv.org/html/1310.2797", "file": "raw/kaliszyk-urban-2013-arxiv.html", "bytes": 167056},
+      "read_scope": "complete; evaluation §§6-7 cheating/almost-honest/fully-honest; with vs without extra lemmas"
+    },
+    {
+      "id": "G24-KU2013-DOI",
+      "source_type": "metadata",
+      "doi": "10.1007/978-3-642-45221-5_34",
+      "url": "https://doi.org/10.1007/978-3-642-45221-5_34",
+      "file": "raw/kaliszyk-urban-2013-doi.html",
+      "bytes": 312024,
+      "note": "Springer landing (cookie wall); full text taken from arXiv"
+    },
+    {
+      "id": "G24-KU2015",
+      "title": "Learning-assisted theorem proving with millions of lemmas",
+      "source_type": "full-text",
+      "venue": "J. Symbolic Computation 69:109-128, 2015",
+      "doi": "10.1016/j.jsc.2014.09.032",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4599631/",
+      "file": "raw/kaliszyk-2015-pmc-html.html",
+      "bytes": 263070,
+      "fetched_utc": "2026-09-08T20:07:00Z",
+      "status": 200,
+      "read_scope": "PMC HTML complete; §§1-2,6-7 evaluation; Tables 3,5,9-11; Flyspeck with/without",
+      "failed_pdfs": [
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4599631/pdf/nihms693228.pdf HTTP 404",
+        "https://europepmc.org/articles/PMC4599631?pdf=render HTTP 404",
+        "ScienceDirect pdfft HTTP 403"
+      ]
+    },
+    {
+      "id": "G24-REFACTOR",
+      "title": "REFACTOR: Learning to Extract Theorems from Proofs",
+      "source_type": "full-text",
+      "venue": "ICLR 2024; arXiv 2402.17032",
+      "urls": [
+        "https://arxiv.org/html/2402.17032",
+        "https://arxiv.org/pdf/2402.17032",
+        "https://proceedings.iclr.cc/paper_files/paper/2024/file/b21ae5a5df83632324b61b595ab653b9-Paper-Conference.pdf"
+      ],
+      "files": [
+        {"file": "raw/refactor-2024-arxiv.html", "bytes": 246888, "sha256_prefix": "809dc9e57574"},
+        {"file": "raw/refactor-2024-arxiv.pdf", "bytes": 927191, "sha256_prefix": "a423fcbf2436"},
+        {"file": "raw/refactor-2024-iclr.pdf", "bytes": 794135, "sha256_prefix": "0187297c5610"}
+      ],
+      "read_scope": "complete; extraction as subtree classification; refactoring consumer; Tables 4-5; 16 theorems; 14092/27220"
+    },
+    {
+      "id": "G24-WB2024",
+      "title": "Investigations into Proof Structures",
+      "source_type": "full-text",
+      "venue": "JAR 68(24), 2024",
+      "doi": "10.1007/s10817-024-09711-8",
+      "url": "https://arxiv.org/pdf/2304.12827",
+      "file": "raw/wernhard-bibel-2024-arxiv.pdf",
+      "bytes": 1523935,
+      "sha256_prefix": "b2d3d3e87dea",
+      "html_status": "arxiv html 2304.12827 v1/v2 HTTP 404",
+      "doi_landing": {"file": "raw/wernhard-bibel-2024-doi.html", "bytes": 815820, "source_type": "metadata"},
+      "read_scope": "PDF complete; structure-as-term; lemma generation; CD Tools foundation"
+    },
+    {
+      "id": "G24-WZ2025",
+      "title": "Exploring Metamath Proof Structures / Mathematical knowledge bases as grammar-compressed proof terms",
+      "source_type": "full-text",
+      "venue": "arXiv 2505.12305",
+      "url": "https://arxiv.org/html/2505.12305",
+      "files": [
+        {"file": "raw/wernhard-zombori-2025-arxiv.html", "bytes": 730483},
+        {"file": "raw/wernhard-zombori-2025-arxiv.pdf", "bytes": 1749090}
+      ],
+      "read_scope": "complete HTML+PDF; grammar/TreeRePair; set.mm as compressed terms"
+    },
+    {
+      "id": "G24-W2026",
+      "title": "Generating theorems by proof structures",
+      "source_type": "full-text",
+      "venue": "arXiv 2602.15511",
+      "url": "https://arxiv.org/html/2602.15511",
+      "files": [
+        {"file": "raw/wernhard-2026-arxiv.html", "bytes": 3990347},
+        {"file": "raw/wernhard-2026-arxiv.pdf", "bytes": 1035873}
+      ],
+      "read_scope": "complete; save-value/combinator synthesis; lemmas improve prover rates; POI 1374"
+    },
+    {
+      "id": "G24-VSU2010",
+      "title": "Automated Proof Compression by Invention of New Definitions",
+      "source_type": "full-text",
+      "venue": "LPAR-16, LNCS 6355:447-462, 2010",
+      "url": "https://www.karlin.mff.cuni.cz/~stanovsk/math/komprese.pdf",
+      "file": "raw/vyskocil-2010-lpar.pdf",
+      "bytes": 305623,
+      "sha256_prefix": "df985c2f8bfb",
+      "read_scope": "complete author PDF; substitution-tree definitions; TPTP size evaluation"
+    },
+    {
+      "id": "G24-GK2015A",
+      "title": "Sharing HOL4 and HOL Light proof knowledge",
+      "source_type": "full-text",
+      "venue": "LPAR-20, LNCS 9450:372-386, 2015",
+      "url": "https://arxiv.org/pdf/1509.03527",
+      "files": [
+        {"file": "raw/gauthier-kaliszyk-2015-sharing.pdf", "bytes": 198351},
+        {"file": "raw/gauthier-kaliszyk-2015-sharing.html", "bytes": 209700}
+      ],
+      "read_scope": "complete; 30%→40% HOL Light with HOL4 advice"
+    },
+    {
+      "id": "G24-GK2015B",
+      "title": "Premise Selection and External Provers for HOL4",
+      "source_type": "full-text",
+      "venue": "CPP 2015",
+      "url": "https://arxiv.org/pdf/1509.03534",
+      "files": [
+        {"file": "raw/gauthier-kaliszyk-2015-cpp.pdf", "bytes": 221758},
+        {"file": "raw/gauthier-2015-cpp.html", "bytes": 171740}
+      ],
+      "read_scope": "complete; HOL4 hammer / learned selection"
+    },
+    {
+      "id": "G24-GKU2016",
+      "title": "Initial Experiments with Statistical Conjecturing over Large Formal Corpora",
+      "source_type": "full-text",
+      "venue": "CICM WiP 2016, CEUR 1785/W23",
+      "url": "https://ceur-ws.org/Vol-1785/W23.pdf",
+      "file": "raw/gauthier-2016-conjecturing.pdf",
+      "bytes": 294867,
+      "read_scope": "complete CEUR PDF"
+    },
+    {
+      "id": "G24-HETZL2012",
+      "title": "Towards Algorithmic Cut-Introduction",
+      "source_type": "full-text",
+      "venue": "LPAR-18, LNCS 7180:228-242, 2012",
+      "url": "https://www.dmg.tuwien.ac.at/hetzl/research/towards.pdf",
+      "file": "raw/hetzl-2012-cut-intro.pdf",
+      "bytes": 244368,
+      "sha256_prefix": "ff9e64818ca8",
+      "read_scope": "complete author PDF; Herbrand-sequent cut-introduction"
+    },
+    {
+      "id": "G24-HETZL2014",
+      "title": "Algorithmic Introduction of Quantified Cuts",
+      "source_type": "full-text",
+      "venue": "arXiv 1401.4330",
+      "url": "https://arxiv.org/html/1401.4330",
+      "files": [
+        {"file": "raw/hetzl-2014-quantified-cuts.html", "bytes": 1111351},
+        {"file": "raw/hetzl-2014-quantified-cuts.pdf", "bytes": 465793}
+      ],
+      "read_scope": "complete; inversion of Gentzen; exponential compression"
+    },
+    {
+      "id": "G24-FHN1972",
+      "title": "Learning and Executing Generalized Robot Plans",
+      "source_type": "full-text",
+      "venue": "Artificial Intelligence 3:251-288, 1972",
+      "doi": "10.1016/0004-3702(72)90051-3",
+      "url": "http://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/learningexecuting.pdf",
+      "file": "raw/fikes-1972-nilsson.pdf",
+      "bytes": 2410065,
+      "fetched_utc": "2026-09-08T20:08:00Z",
+      "status": 200,
+      "doi_landing": {"source_type": "metadata", "bytes": 2656, "file": "raw/fikes-1972-doi.html"},
+      "unpaywall": "closed; no repository copy",
+      "read_scope": "complete author/SRI copy; MACROPS, triangle tables, later planning, Problem 5"
+    },
+    {
+      "id": "G24-SINE",
+      "title": "Sine Qua Non for Large Theory Reasoning",
+      "source_type": "full-text",
+      "venue": "CADE-23, LNCS 6803:299-314, 2011",
+      "doi": "10.1007/978-3-642-22438-6_23",
+      "url": "https://tqft.net/web/notes/load.php?name=books%2F20180811-SineQuaNon",
+      "file": "raw/hoder-voronkov-2011-sine.html",
+      "bytes": 344208,
+      "content_type": "application/pdf",
+      "sha256_prefix": "0fbe06b298fb",
+      "doi_landing": {"file": "raw/hoder-voronkov-2011-doi.html", "bytes": 291591, "source_type": "metadata"},
+      "read_scope": "complete author-copy PDF; trigger-based selection definitions"
+    },
+    {
+      "id": "G24-SINE-PRES",
+      "title": "Hoder/Voronkov SInE slides",
+      "source_type": "full-text",
+      "role": "supplementary",
+      "url": "https://www.cs.man.ac.uk/~hoderk/sine_pres.pdf",
+      "file": "raw/hoder-sine-pres.pdf",
+      "bytes": 990709
+    },
+    {
+      "id": "G24-ETZIONI1990",
+      "title": "Why PRODIGY/EBL Works",
+      "source_type": "full-text",
+      "role": "adjacent; quotes Minton utility problem / match-cost growth",
+      "url": "https://cdn.aaai.org/AAAI/1990/AAAI90-137.pdf",
+      "file": "raw/etzioni-1990-prodigy.pdf",
+      "bytes": 1268151,
+      "read_scope": "utility problem restated; not used as a G2.4 parent"
+    }
+  ],
+  "source_type_counts": {
+    "full-text": 18,
+    "metadata": 9,
+    "abstract": 0
+  },
+  "closed_full_text": [
+    "Minton AIJ 1990 publisher PDF",
+    "Fikes et al. AIJ 1972 publisher PDF (author copy substituted)"
+  ]
+}
