@@ -1,0 +1,40 @@
+{
+  "schema": "ocm.paid-decision-region.r0d.source-custody.v1",
+  "base_branch": "claude/pr150-factorization-audit-20260908",
+  "donors": {
+    "DEV5": {
+      "commit": "a0c4931629263ee92fe676e479445b188af5df6e",
+      "receipt": "research/cognitive-ladder/results/DEV5_UNANIMITY_V1.json",
+      "decision_source": "research/developmental-spine/dev5_arms.py",
+      "role": "singleton versus per-query unanimity decision-rule ablation"
+    },
+    "DEV6": {
+      "commit": "f676a34274a9dfc09ae8205a902037cbe27bdd42",
+      "receipt": "research/cognitive-ladder/results/DEV6_HONEST_CONSULTATION_PRICE_V1.json",
+      "decision_source": "research/developmental-spine/dev6_arms.py",
+      "decision_source_blob": "7952b99500cd664ada6ff9c191b56e2a064336d5",
+      "runner": "research/developmental-spine/run_dev6.py",
+      "role": "honest deliberation-price audit; frozen sweep donor"
+    },
+    "X1": {
+      "commit": "2ba88a80593a8e3ddcbedaf6520da5bc7fddbed3",
+      "receipt": "research/cognitive-ladder/results/X1_UNANIMITY_TRANSFER_V1.json",
+      "role": "cross-domain one-line ablation of determined-question reasoning"
+    }
+  },
+  "new_parent": {
+    "source": "research/paid-decision-region-v1/shortcircuit_parent.py",
+    "transform": "one exact source-fragment substitution in DEV6 dev6_arms._run",
+    "changes_decision_rule": false,
+    "changes_version_space": false,
+    "adds_maintenance_state": false,
+    "adds_ml": false,
+    "changed_cost_semantics": "charge only verdict evaluations actually executed through first disagreement or complete unanimity"
+  },
+  "authority_boundary": {
+    "realizability_required_for_internal_unanimity_soundness": true,
+    "deficient_language_control_remains_unsound": true,
+    "production_authority_changed": false,
+    "learned_router_authorized": false
+  }
+}
