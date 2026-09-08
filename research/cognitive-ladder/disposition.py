@@ -81,7 +81,17 @@ N(negative_id="N4-LEAVE-ONE-OUT", verdict="STRUCTURALLY_INCOMPLETE",
   what_solved_would_mean="Discovering the family of MINIMAL SUPPORT SETS rather than one "
                          "dependency set, under a charged intervention budget, at precision and "
                          "recall matching an exhaustive powerset oracle.",
-  fix="E6 support-family discovery with adaptive group ablation", fix_status="RUNNING"),
+  fix="E6 support-family discovery with adaptive group ablation", fix_status="DONE",
+  outcome="INSTRUMENT_FIXED, ARM_STILL_DOMINATED. E6 built the instrument the fix called for and "
+          "it works: adaptive group ablation reaches precision 1.0 and recall 1.0 at the "
+          "registered scale, against leave-one-out's recall of 0.409 -- 0.00 on ALTERNATIVE_"
+          "SUPPORTS, the exact C11 shape, and 0.50 on REDUNDANT_SUPPORTS, where it returns a true "
+          "singleton, stops with half the family, and gives no signal that anything is missing. "
+          "So N4's diagnosis is confirmed and its instrument is repaired. The arm still lost: "
+          "lazy_parent, which discovers nothing and re-derives on demand, reached the same "
+          "precision and recall for half the work at every scale, and under the capability gate "
+          "the arm is not even admissible at 10x. Recorded as the fourth demonstration that the "
+          "fault is the acquisition trigger and not the instrument."),
 
 N(negative_id="N5-LEARNED-RELEVANCE", verdict="INDEX_MAINTENANCE_DOMINATES",
   root="STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
@@ -171,7 +181,18 @@ N(negative_id="N10-SCALAR-FACTORIZATION", verdict="PARENT_SUFFICIENT",
                          "still ties, the verdict becomes informative for the first time; if it "
                          "does not, the original verdict was an artifact of shared code.",
   fix="independent re-implementation of the factorization learner",
-  fix_status="NOT_STARTED"),
+  fix_status="DONE",
+  outcome="VERDICT_NOW_INFORMATIVE, AND_IT_IS_A_LOSS. E8 supplied parents written from their own "
+          "standard descriptions, sharing no code path with the arm; a test walks the import "
+          "graph and the string 'walsh' does not occur in the parent module. The independent "
+          "regression parent did not tie -- it won, at 564.5 objective calls against 724.4. So "
+          "the original PARENT_SUFFICIENT was not an artifact of shared code, and the correction "
+          "makes the negative stronger rather than weaker. E8 also localises it: steady-state "
+          "calls were identical to the call and the same parameters were recovered, so the gap "
+          "was entirely first-generation identification -- a full 2**n transform against "
+          "degree-escalating least squares. Under drift the capability gate fires on the arm "
+          "itself: it refits a support the world has moved, its own 4-point audit passes anyway, "
+          "and its argmax lands 4 per cent low. That audit is not a staleness certificate."),
 
 N(negative_id="N11-SPARSE-ACQUISITION", verdict="FAILED_AT_REGISTERED_GRAMMAR",
   root="PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED",

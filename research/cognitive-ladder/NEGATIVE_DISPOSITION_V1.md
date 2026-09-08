@@ -11,13 +11,13 @@ Some negatives are correctable design faults: the experiment could not have dete
 | N1-SUPPLIED-KEY-LOOKUP | `PARENT_SUFFICIENT` | **CORRECT_FINDING** | NONE_POSSIBLE |
 | N2-FAILURE-MEMORY | `PARENT_SUFFICIENT` | **NARROW** | DONE |
 | N3-ESCALATION-ARTIFACT | `GENERATOR_ARTIFACT` | **SUPERSEDED** | DONE |
-| N4-LEAVE-ONE-OUT | `STRUCTURALLY_INCOMPLETE` | **CORRECTABLE** | RUNNING |
+| N4-LEAVE-ONE-OUT | `STRUCTURALLY_INCOMPLETE` | **CORRECTABLE** | DONE |
 | N5-LEARNED-RELEVANCE | `INDEX_MAINTENANCE_DOMINATES` | **CORRECTABLE** | DONE |
 | N6-UNARY-ACQUISITION | `NO_METHOD_ACQUIRED` | **SUPERSEDED** | DONE |
 | N7-CLAUSE-DONOR | `NO_DEVELOPMENT_BENEFIT` | **CORRECTABLE** | RUNNING |
 | N8-DIAGNOSIS-RESIDUAL | `ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST` | **CORRECT_FINDING** | NOT_STARTED |
 | N9-EAGER-DEPENDENCY | `DOMINATED_BY_LAZY_RE_DERIVATION` | **CORRECTABLE** | RUNNING |
-| N10-SCALAR-FACTORIZATION | `PARENT_SUFFICIENT` | **CORRECTABLE** | NOT_STARTED |
+| N10-SCALAR-FACTORIZATION | `PARENT_SUFFICIENT` | **CORRECTABLE** | DONE |
 | N11-SPARSE-ACQUISITION | `FAILED_AT_REGISTERED_GRAMMAR` | **CORRECTABLE** | RUNNING |
 | N12-SELF-EVOLUTION | `AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION` | **CORRECTABLE** | NOT_STARTED |
 
@@ -59,7 +59,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** Discovering the family of MINIMAL SUPPORT SETS rather than one dependency set, under a charged intervention budget, at precision and recall matching an exhaustive powerset oracle.
 
-**Fix.** E6 support-family discovery with adaptive group ablation · **Status.** `RUNNING`
+**Fix.** E6 support-family discovery with adaptive group ablation · **Status.** `DONE`
 
 ## N5-LEARNED-RELEVANCE — CORRECTABLE
 
@@ -119,7 +119,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** An INDEPENDENTLY IMPLEMENTED parent given the same information. If it still ties, the verdict becomes informative for the first time; if it does not, the original verdict was an artifact of shared code.
 
-**Fix.** independent re-implementation of the factorization learner · **Status.** `NOT_STARTED`
+**Fix.** independent re-implementation of the factorization learner · **Status.** `DONE`
 
 ## N11-SPARSE-ACQUISITION — CORRECTABLE
 
