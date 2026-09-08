@@ -30,6 +30,7 @@ from ocm.kso.space import KnowledgeSpace, TypedRejection
 from ocm.kso.types import Authority, Scope
 from ocm.kso.warrant import CannotCheck, Liveness, WarrantProfile
 from .operator_index import SolveOperatorIndex
+from . import navigation_serving as NS
 
 
 class Status(str, Enum):
@@ -165,13 +166,21 @@ def atomise(ks: KnowledgeSpace, task: Task) -> tuple[StageResult, list[Fraction]
 
 def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg: SolveConfig, revoked: Iterable[Hashable]) -> tuple[StageResult, dict[str, Any]]:
     rv = frozenset(revoked)
+    exact_work = {"scope": "WHOLE_FIELD", "coverage": "FOUR_FIXED_POINTS_ONLY",
+                  "target_navigation_calls_outside_detail": 0, "calls": []}
+    def fixed(name, value, mode=N.NavigationMode.WARRANTED):
+        work = {"output": name}
+        exact_work["calls"].append(work)
+        return NS.fixed_point(ks, value, cfg.alpha, revoked=rv,
+                              relevance=cfg.relevance, mode=mode, work=work)
     try:
-        act_w = N.fixed_point(ks, seed, cfg.alpha, revoked=rv, relevance=cfg.relevance)
-        act_x = N.fixed_point(ks, seed, cfg.alpha, revoked=rv, relevance=cfg.relevance, mode=N.NavigationMode.EXPLORATORY)
-        background = N.fixed_point(ks, N.uniform_seed(ks), cfg.alpha, revoked=rv, relevance=cfg.relevance)
-        background_x = N.fixed_point(ks, N.uniform_seed(ks), cfg.alpha, revoked=rv, relevance=cfg.relevance, mode=N.NavigationMode.EXPLORATORY)
+        act_w = fixed("act_w", seed)
+        act_x = fixed("act_x", seed, N.NavigationMode.EXPLORATORY)
+        background = fixed("background", N.uniform_seed(ks))
+        background_x = fixed("background_x", N.uniform_seed(ks), N.NavigationMode.EXPLORATORY)
     except CannotCheck as exc:
-        return StageResult(Stage.NAVIGATION, Status.CANNOT_CHECK, str(exc)), {}
+        return StageResult(Stage.NAVIGATION, Status.CANNOT_CHECK, str(exc),
+                           payload={"exact_navigation": exact_work}), {}
     n = len(ks.ids)
     res = ResourceVector(navigation_work=4 * n * n)
     outcomes: dict[str, N.NavigationResult] = {}
@@ -179,10 +188,12 @@ def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg
     worst = Status.PASS
     reason = "ACTIVATION_COMPUTED"
     for t in task.targets:
+        exact_work["target_navigation_calls_outside_detail"] += 1
         try:
             r = N.navigate(ks, seed, t, cfg.budget, alpha=cfg.alpha, threshold=cfg.threshold, revoked=rv, relevance=cfg.relevance)
         except CannotCheck as exc:
-            return StageResult(Stage.NAVIGATION, Status.CANNOT_CHECK, str(exc)), {}
+            return StageResult(Stage.NAVIGATION, Status.CANNOT_CHECK, str(exc),
+                               payload={"exact_navigation": exact_work}), {}
         outcomes[t] = r
         res = res + r.resources
         if r.outcome is N.NavigationOutcome.OBSTRUCTION_WITNESSED:
@@ -196,7 +207,7 @@ def navigate_stage(ks: KnowledgeSpace, seed: Sequence[Fraction], task: Task, cfg
             if w is not None:
                 witness, worst, reason = w, Status.PROPOSAL, f"NONIDENTIFIABLE:{t}"
                 break
-    payload = {"outcomes": {t: f"{r.outcome.value}:{r.reason}" for t, r in outcomes.items()}, "live_atoms": len(ks.live_atoms(rv)), "unknown_atoms": len(ks.unknown_atoms(rv))}
+    payload = {"outcomes": {t: f"{r.outcome.value}:{r.reason}" for t, r in outcomes.items()}, "live_atoms": len(ks.live_atoms(rv)), "unknown_atoms": len(ks.unknown_atoms(rv)), "exact_navigation": exact_work}
     return StageResult(Stage.NAVIGATION, worst, reason, object_ids=tuple(task.targets), payload=payload, resources=res), {"act_w": act_w, "act_x": act_x, "background": background, "background_x": background_x, "witness": witness, "outcomes": outcomes}
 
 

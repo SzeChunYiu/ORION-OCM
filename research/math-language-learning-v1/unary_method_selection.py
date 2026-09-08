@@ -49,10 +49,11 @@ def trial(task,engine,row,*,rule=None):
         o["query_constraints"]=None if prep is None else engine.counters["constraints_checked"]-prep["constraints_checked"]
         o["wall_s"]=time.monotonic()-start
 
-def acquire_selected(training,development,selection_contract,*,work=None,observation=None,sources_sha256=None):
+def acquire_selected(training,development,selection_contract,*,work=None,observation=None,sources_sha256=None,dependency_donor=False):
     work={} if work is None else work;r={} if observation is None else observation
     start=time.monotonic();r.update(stage="INPUT",training=[],baseline=[],trials=[])
     try:
+        if type(dependency_donor) is not bool:raise InputRefused("DEPENDENCY_OPTION")
         policy=validate_contract(selection_contract)
         if (type(training) is not list or type(development) is not list or
             len(training)!=policy["training_rows"] or len(development)!=policy["development_rows"]):
@@ -64,7 +65,7 @@ def acquire_selected(training,development,selection_contract,*,work=None,observa
             r["stage"]="TRAINING";task=validate_task(value);o={}
             row={"task":task,"observation":o,"terminal":"ATTEMPTED"};r["training"].append(row)
             trial(task,pool.get(task,o),row);episodes.append({"task":task,"result":row["result"]})
-        r["stage"]="MINING";D.bump(work,"acquisition_calls");r["acquisition"]=acquire(episodes)
+        r["stage"]="MINING";D.bump(work,"acquisition_calls");r["acquisition"]=acquire(episodes,dependency=dependency_donor)
         if policy["scope"]=="ASSAY" and any(len(x["rule"]["premises"])!=2 for x in r["acquisition"]["rules"]):
             raise InputRefused("ASSAY_FRAGMENT_BOUND")
         for value in development:

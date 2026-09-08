@@ -6,6 +6,8 @@ import pytest
 from ocm.kso import navigation as N
 from ocm.kso import surprise as SP
 from ocm.kso.types import Authority
+from ocm.kso.warrant import CannotCheck
+from ocm.runtime import solve as SV
 from representation_donor_fixture import fixture
 
 
@@ -18,7 +20,7 @@ def test_real_consumer_and_all_four_channels_match(model, revoked):
     args = (f["ks"], f["task"], f["operators"])
     kwargs = dict(revoked=revoked, config=replace(f["config"], surprise_model=model),
                   commit_authority=f["authority"])
-    original_function = N.fixed_point
+    original_functions = (N.fixed_point, SP.surprise, SV.NS.fixed_point)
     reference = C.evaluate(*args, arm="reference", **kwargs)
     candidate = C.evaluate(*args, arm="sympy", **kwargs)
     assert candidate["consumer"] == reference["consumer"]
@@ -26,7 +28,7 @@ def test_real_consumer_and_all_four_channels_match(model, revoked):
     assert candidate["surprise"] == reference["surprise"]
     assert len(candidate["vectors"]) == 4
     assert sum(r["donor_solve_calls"] for r in candidate["checks"]) == 4
-    assert N.fixed_point is original_function
+    assert (N.fixed_point, SP.surprise, SV.NS.fixed_point) == original_functions
 
 
 def test_authority_refusal_is_unchanged():
@@ -53,11 +55,56 @@ def test_three_atom_channels_match_independent_known_values(model, monkeypatch):
                         (Hyperedge("qd", ("q",), ("d",), "SUPPORT"),))
     task = SV.Task("channels", (SV.QueryPart("q", "claim", ("q",)),))
     config = SV.SolveConfig(surprise_model=model)
-    monkeypatch.setattr(N, "fixed_point", D.fixed_point)
+    calls = []
+    def selected(*args, work, **kwargs):
+        calls.append(kwargs["mode"])
+        return D.fixed_point(*args, **kwargs)
+    monkeypatch.setattr(SV.NS, "fixed_point", selected)
     _, nav = SV.navigate_stage(ks, [F(1), F(0), F(0)], task, config, {1})
     assert nav["act_w"] == {"q": F(1,3), "d": F(0), "u": F(0)}
     assert nav["act_x"] == {"q": F(1,3), "d": F(2,9), "u": F(0)}
     assert nav["background"] == {"q": F(1,9), "d": F(0), "u": F(1,9)}
     assert nav["background_x"] == {"q": F(1,9), "d": F(5,27), "u": F(1,9)}
+    assert calls == [N.NavigationMode.WARRANTED, N.NavigationMode.EXPLORATORY] * 2
     _, extracted = SV.extract_stage(ks, [F(1), F(0), F(0)], nav, config, {1})
     assert "d" not in extracted["g_w"].atoms and "d" in extracted["g_x"].atoms
+
+
+@pytest.mark.parametrize("arm", ("reference", "sympy"))
+def test_explicit_comparator_never_bypasses_into_default_serving(arm, monkeypatch):
+    import exact_sparse_donor_consumer as C
+    f = fixture("alternative")
+    def forbidden(*args, **kwargs):
+        raise AssertionError("default serving cannot stand in for the selected research solver")
+    monkeypatch.setattr(SV.NS, "fixed_point", forbidden)
+    original = (N.fixed_point, SP.surprise, SV.NS.fixed_point)
+    result = C.evaluate(f["ks"], f["task"], f["operators"], arm=arm, revoked=(2,),
+                        config=f["config"], commit_authority=f["authority"])
+    assert len(result["vectors"]) == result["logical_fixed_point_calls"] == 4
+    expected = "SYMPY_QQ_RREF" if arm == "sympy" else "CURRENT_FRACTION_REFERENCE"
+    assert [check["route"] for check in result["checks"]] == [expected] * 4
+    assert sum(check["donor_solve_calls"] for check in result["checks"]) == (4 if arm == "sympy" else 0)
+    assert (N.fixed_point, SP.surprise, SV.NS.fixed_point) == original
+
+
+@pytest.mark.parametrize("error", (CannotCheck, ValueError))
+def test_all_intercepted_globals_restore_after_selected_solver_refusal(error, monkeypatch):
+    import exact_sparse_donor as D
+    import exact_sparse_donor_consumer as C
+    f = fixture("alternative"); calls = []
+    def refused(*args, **kwargs):
+        calls.append(1)
+        raise error("authored selected solver refusal")
+    monkeypatch.setattr(D, "solve_checked", refused)
+    original = (N.fixed_point, SP.surprise, SV.NS.fixed_point)
+    args = (f["ks"], f["task"], f["operators"])
+    kwargs = dict(arm="sympy", revoked=(2,), config=f["config"], commit_authority=f["authority"])
+    if error is CannotCheck:
+        result = C.evaluate(*args, **kwargs)
+        assert not result["consumer"]["committed"]
+        assert result["consumer"]["decision"] == "CANNOT_CHECK"
+    else:
+        with pytest.raises(ValueError, match="authored selected solver refusal"):
+            C.evaluate(*args, **kwargs)
+    assert calls == [1]
+    assert (N.fixed_point, SP.surprise, SV.NS.fixed_point) == original

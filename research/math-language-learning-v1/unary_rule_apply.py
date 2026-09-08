@@ -36,7 +36,8 @@ def apply_rule(value,task,engine,prepared):
     target=task["query"] if universal else negate(task["query"])
     seed={}
     if not _statement(rule["conclusion"],target,seed,work):
-        return {"terminal":"NO_MATCH","counters":work}
+        from unary_rule_clause_apply import apply
+        return apply(rule,task,engine,prepared,base,target,universal,work)
     index={"every":[],"no":[]}
     for i,premise in enumerate(task["premises"]):
         count(work,"premise_index_reads")
@@ -59,4 +60,5 @@ def apply_rule(value,task,engine,prepared):
         return {"terminal":"PROPOSED","result":result,"method_id":rule["rule_id"],
                 "binding":{name:bindings[name][0] for name in rule["parameters"]},
                 "cover":cover,"counters":work,"schema_check":schema}
-    return {"terminal":"NO_MATCH","counters":work}
+    from unary_rule_clause_apply import apply
+    return apply(rule,task,engine,prepared,base,target,universal,work)

@@ -1,8 +1,10 @@
 """One isolated research call around unchanged SV.solve; no default injection.
 
-Reference invokes current original behavior without added residual work.
+Reference explicitly invokes dense Fraction fixed_point, not default serving.
 Candidate pays its mandatory original-kernel residual. External parity compares
 all complete records. No candidate import, cross-call cache or timers in reference.
+Serving and direct fixed_point calls select the research solver;
+target-specific N.navigate remains unchanged.
 Temporary module patching is single-threaded research scope, not runtime API.
 """
 from collections import Counter
@@ -35,6 +37,11 @@ def evaluate(ks, task, operators, *, arm, revoked=(), config=None, commit_author
         checks.append(check)
         return values
 
+    def serving(field, seed, alpha, *, work, **kwargs):
+        # Solver-specific evidence remains in checks, outside consumer parity.
+        work["accounting"] = "EXPLICIT_RESEARCH_SOLVER_SEE_SEPARATE_CHECKS"
+        return nav(field, seed, alpha, **kwargs)
+
     def observed_surprise(*args, **kwargs):
         result = surprise_original(*args, **kwargs)
         surprises.append(wire(result))
@@ -43,7 +50,9 @@ def evaluate(ks, task, operators, *, arm, revoked=(), config=None, commit_author
     kwargs = dict(revoked=revoked, commit_authority=commit_authority)
     if config is not None:
         kwargs["config"] = config
-    with patch.object(N, "fixed_point", nav), patch.object(SP, "surprise", observed_surprise):
+    with patch.object(SV.NS, "fixed_point", serving), \
+            patch.object(N, "fixed_point", nav), \
+            patch.object(SP, "surprise", observed_surprise):
         outcome = SV.solve(ks, task, operators, **kwargs)
     consumer = {"status": "COMPLETED", "decision": outcome.decision, "answer": outcome.answer,
                 "committed": SV.committed(outcome), "trace": outcome.trace.as_dict(),

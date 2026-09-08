@@ -19,7 +19,8 @@ def _statement(pattern,binding,work):
 
 def verify_use(task,use,lookup,*,work,current=True):
     if type(work) is not dict:raise TypeError("work must be a dict")
-    fields(use,("method_id","rule_id","binding","cover","recipes_applied","replaced_branch"))
+    if type(use) is not dict:raise InputRefused("INVALID_FIELDS")
+    fields(use,("method_id","rule_id","binding","cover","recipes_applied","replaced_branch",*(("dependency",) if "dependency" in use else ())))
     if type(use["recipes_applied"]) is not int or use["recipes_applied"] not in (0,1):raise InputRefused("RECIPE_COUNT")
     if not use["recipes_applied"]:
         if use!={"method_id":None,"rule_id":None,"binding":{},"cover":[],"recipes_applied":0,"replaced_branch":None}:
@@ -33,6 +34,12 @@ def verify_use(task,use,lookup,*,work,current=True):
     cover=use["cover"]
     if (type(cover) is not list or any(type(i) is not int or not 0<=i<len(task["premises"]) for i in cover)
         or cover!=sorted(set(cover)) or len(cover)!=len(rule["premises"])):raise InputRefused("RULE_USE_COVER")
+    universal=task["query"]["kind"] in ("every","no")
+    if use["replaced_branch"]!=("no" if universal else "yes"):raise InputRefused("RULE_USE_BRANCH")
+    if "dependency" in use:
+        from unary_rule_dependency_check import verify_link
+        verify_link(rule,task,cover,use["binding"],use["dependency"],work)
+        return
     instantiated=[_statement(p,use["binding"],work) for p in rule["premises"]]
     actual=[task["premises"][i] for i in cover]
     if sorted(map(D.raw,instantiated))!=sorted(map(D.raw,actual)):raise InputRefused("RULE_USE_SUPPORT")

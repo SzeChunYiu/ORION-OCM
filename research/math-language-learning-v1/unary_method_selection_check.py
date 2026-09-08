@@ -77,6 +77,7 @@ def validate_receipt(value,*,work,sources_sha256=None):
             universal=row["task"]["query"]["kind"] in ("every","no")
             use={"method_id":row["rule_id"],"rule_id":row["rule_id"],"binding":app["binding"],
                  "cover":app["cover"],"recipes_applied":1,"replaced_branch":"no" if universal else "yes"}
+            if "dependency" in app:use["dependency"]=app["dependency"]
             verify_use(row["task"],use,lookup.__getitem__,work=work)
         elif app["terminal"] not in ("NO_MATCH","INCONSISTENT_BASE"):raise InputRefused("SELECTION_APPLICATION")
     for key,expected in decisions(r).items():

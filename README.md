@@ -33,6 +33,9 @@ The [continuation report](docs/IMPLEMENTATION_CONTINUATION_2026-09-05.md) record
 checks, recoverable data-only rollback, complete assurance measurements, numerical optimizations
 and current validation. Earlier results remain historical evidence.
 
+[Exact navigation serving](docs/EXACT_NAVIGATION_SERVING_V1.md) preserves rational
+answers with dense fallback; its authored comparison and added storage costs are recorded separately.
+
 Current integration: chat now proposes spelling corrections, asks about ambiguous
 spellings, remembers user-reported facts, and learns/reuses checked arithmetic
 methods across restarts. See [the current capability report](docs/CHAT_LEARNING_INTEGRATION_V4.md).
