@@ -111,8 +111,10 @@ structural proposals. The [native caller result](../ordinary-hole-native-result-
 now binds the current trace and verifies both source and rewritten whole proofs
 against the same 4,096-proof prefix. Composite syntax and a derived essential
 argument survive the fixed replacement. This is an authored noneligible alias,
-not a learned-method utility result. Use the qualified boundary in the next
-registered ordinary-lemma comparison; do not repeat this control as new evidence.
+not a learned-method utility result. The [next decision](ORDINARY_GOAL_SEARCH_NEXT.md)
+uses the existing finite-bank ordinary parent for goal-only search, with a current
+native proof boundary and a prospectively sealed allocation. Another exposed
+supplied-proof pass is not a prerequisite; do not repeat it as new evidence.
 
 ## Test the scientific mechanism
 
