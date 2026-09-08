@@ -74,7 +74,7 @@ def episode(session,e,generation,*,authored=False):
     out={"episode":e,"generation_terminal":generation["terminal"],"base_rows":n,"phases":{}}
     if generation["terminal"]!="GENERATED":
         out["reason"]="GENERATION_INCOMPLETE";return out
-    training=[x["task"] for x in parts["training"]];development=[x["task"] for x in parts["development"]]
+    training=[x["task"] for x in parts["train"]];development=[x["task"] for x in parts["development"]]
     policy=contract(len(training),len(development),authored=authored);a={}
     for arm in (("ADAPTIVE_PARENT","OCM_ENABLED") if e%2==0 else ("OCM_ENABLED","ADAPTIVE_PARENT")):
         slot=key(e,"A",arm);store=session.root/"stores"/slot

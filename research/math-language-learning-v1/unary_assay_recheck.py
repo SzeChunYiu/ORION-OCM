@@ -18,7 +18,7 @@ def episode(e,generated,calls,*,work):
         call=by.get(key(e,"A",arm))
         if call is None:continue
         r=call["request"]
-        if (D.raw(r["training"])!=D.raw([x["task"] for x in g["training"]])
+        if (D.raw(r["training"])!=D.raw([x["task"] for x in g["train"]])
             or D.raw(r["development"])!=D.raw([x["task"] for x in g["development"]])):
             raise ControlFailure("ACQUISITION_INPUT_SUBSTITUTION")
         if accepted(call):a[arm]=call["facts"]

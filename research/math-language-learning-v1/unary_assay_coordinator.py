@@ -16,6 +16,7 @@ def authored_partitions(values,e,work):
     for split,limit in SIZES.items():
         rows=values[split]
         if type(rows) is not list or not 1<=len(rows)<=limit:raise InputRefused("AUTHORED_PARTITION_COUNT")
+        split="train" if split=="training" else split
         parts[split]=[]
         for i,value in enumerate(rows):
             task=validate_task(value)
