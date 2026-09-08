@@ -63,6 +63,8 @@ passes structural qualification, including the separately corrected two-slot
 control. The [native replacement control](../ordinary-hole-native-result-v1/CORE.md)
 now checks an exact whole-proof replacement with composite and derived arguments.
 Both native calls pass; this authored alias control establishes no learned utility.
+The [next experiment](ORDINARY_GOAL_SEARCH_NEXT.md) reuses the existing ordinary
+prover for goal-only search under a newly bound input and native-checking contract.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat
