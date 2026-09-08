@@ -66,6 +66,20 @@ class VoteBook:
         return None
 
 
+
+def _unanimous(survivors, index: int) -> bool | None:
+    """The unanimity verdict for one index. Identical to dev5_arms.decide with the
+    ``unanimity`` rule; factored out so the precompiled modes cannot drift from it.
+    """
+    if not survivors:
+        return None
+    first = survivors[0].excludes(index)
+    for pred in survivors[1:]:
+        if pred.excludes(index) != first:
+            return None
+    return first
+
+
 def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
          mode: str, lang_level: int | None = None) -> tuple[Phase, Phase, VersionStore, dict]:
     # lang_level defaults to the full ladder, so every DEV-6 arm is unchanged and
@@ -78,6 +92,14 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
         store.versions[rule] = tuple(lang)
     votes = VoteBook(world.base.extension) if mode == "unanimity_incremental" else None
     seeded: set[int] = set()
+    #: X6. A compiled decision table per rule: the unanimity verdict for an index,
+    #: cached until the rule's version space actually shrinks. The table changes
+    #: what a consultation COSTS and never what it returns.
+    compiled: dict[int, dict] = {}
+    compilations = 0
+    compiled_cells = 0
+    cache_hits = 0
+    cache_misses = 0
 
     def observe(answer: int) -> None:
         rule = world.rule_of[answer]
@@ -86,7 +108,15 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
         store.observations[(rule, index)] = excluded
         before = store.versions[rule]
         after = tuple(p for p in before if p.excludes(index) == excluded)
-        store.versions[rule] = after
+        # A filter that removes nothing yields an equal tuple with a NEW identity.
+        # Keeping the old object is semantically a no-op -- the contents are the
+        # same order and the same members -- and it lets X6's compiled tables tell
+        # a real elimination from a re-observation instead of recompiling on both.
+        if len(after) != len(before):
+            store.versions[rule] = after
+            after = store.versions[rule]
+        else:
+            after = before
         if votes is not None:
             if rule not in seeded:
                 votes.seed(rule, before)
@@ -116,6 +146,14 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
         nonlocal consultation_charge, consultations
         consultation_charge += n
         consultations += 1
+        phase.lookup_work += n
+
+    def charge_compilation(n: int) -> None:
+        # Compiling a table is not a consultation. It costs the same kind of work
+        # and is charged into the same channel, but counting it as a consultation
+        # would inflate the meter X6 divides its cache hit rate by.
+        nonlocal consultation_charge
+        consultation_charge += n
         phase.lookup_work += n
 
     def evict(room: int) -> None:
@@ -162,6 +200,31 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
                 return None
             first = survivors[0].excludes(index)
             return first if all(p.excludes(index) == first for p in survivors[1:]) else None
+        if mode in ("precompiled_eager", "precompiled_demand"):
+            nonlocal compilations, compiled_cells, cache_hits, cache_misses
+            table = compiled.get(rule)
+            if table is None or table["version"] is not survivors:
+                table = compiled[rule] = {"version": survivors, "cells": {}}
+                compilations += 1
+                if mode == "precompiled_eager":
+                    # Compile every index whether or not anyone asks for it. This is
+                    # what an eagerly grounded bank does, and it is charged for the
+                    # whole scan it performs.
+                    width = max(1, len(survivors))
+                    for i in range(world.base.extension):
+                        table["cells"][i] = _unanimous(survivors, i)
+                    compiled_cells += world.base.extension
+                    charge_compilation(width * world.base.extension)
+            if index in table["cells"]:
+                cache_hits += 1
+                charge(1)
+                return table["cells"][index]
+            cache_misses += 1
+            charge(max(1, len(survivors)))
+            verdict = _unanimous(survivors, index)
+            table["cells"][index] = verdict
+            compiled_cells += 1
+            return verdict
         charge(1)
         if rule not in seeded:
             votes.seed(rule, store.versions[rule])
@@ -219,7 +282,9 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
 
     maintenance = votes.maintenance if votes is not None else 0
     phase.lookup_work += maintenance
-    meters = {"consultation_charge": consultation_charge, "maintenance": maintenance,
+    meters = {"compilations": compilations, "compiled_cells": compiled_cells,
+              "cache_hits": cache_hits, "cache_misses": cache_misses,
+              "consultation_charge": consultation_charge, "maintenance": maintenance,
               "deliberation_total": consultation_charge + maintenance,
               "consultations": consultations,
               "held_rules_final": len(store.held),

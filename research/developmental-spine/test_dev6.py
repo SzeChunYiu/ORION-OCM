@@ -39,7 +39,13 @@ def test_each_mode_is_charged_what_its_test_actually_costs():
     assert 'if mode == "singleton":' in body and "charge(1)" in body
     assert "charge(max(1, len(survivors)))" in body, (
         "the naive scan must be charged in proportion to what it scans")
-    assert body.count("charge(") == 3, "every mode must be charged exactly once per query"
+    # One charge per query per mode. X6 added two compiled modes, which share one
+    # consult branch with two exits -- a cache hit charged 1 and a miss charged the
+    # scan -- so five charge sites cover the five modes. A compiled TABLE build is
+    # not a query and goes through charge_compilation, which is counted separately
+    # below so that it can never be mistaken for a per-query charge.
+    assert body.count("charge(") == 5, "every mode must be charged exactly once per query"
+    assert body.count("charge_compilation(") == 1
 
 
 def test_the_incremental_arm_pays_for_its_own_bookkeeping():

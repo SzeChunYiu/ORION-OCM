@@ -327,3 +327,16 @@ def test_the_native_lane_cross_check_is_a_prediction_with_a_named_refutation():
     assert "prediction" in x["boundary"] and "not evidence" in x["boundary"]
     assert "native_lane_cross_check" in DOC
     assert "NATIVE_LANE_CROSS_CHECK" not in json.dumps(S.PLAN)
+
+
+def test_the_cross_lane_prediction_was_not_edited_after_its_analogue_ran():
+    """X6 refuted half of NATIVE_LANE_CROSS_CHECK. The prediction stays exactly as
+    published and the outcome lives in its own record next to it."""
+    x = S.NATIVE_LANE_CROSS_CHECK
+    assert "will NOT produce one" in x["the_prediction"], (
+        "the published prediction must keep the strong form it was published with")
+    r = S.NATIVE_LANE_CROSS_CHECK_ANALOGUE_RESULT
+    assert "NOT supported in this lane" in r["the_half_that_did_not"]
+    assert "is not quietly narrowed" in r["the_half_that_did_not"]
+    assert r["the_prediction_restated"] and r["why_the_analogue_cannot_settle_it"]
+    assert "native_lane_cross_check_analogue_result" in DOC

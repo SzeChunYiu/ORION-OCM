@@ -658,6 +658,46 @@ NATIVE_LANE_CROSS_CHECK = dict(
     "is a prediction, stated in the other lane's units, with the refutation named."),
 )
 
+
+#: What X6 found when the prediction above was run in this lane's own units.
+#: Recorded SEPARATELY and the prediction above is left exactly as it was
+#: published, because a prediction edited after its test is not a prediction.
+NATIVE_LANE_CROSS_CHECK_ANALOGUE_RESULT = dict(
+  receipt="results/X6_COMPILED_CONSULTATION_V1.json",
+  what_was_tested=(
+    "X6 built both halves of the native lane's lever in this lane: PRECOMPILED_EAGER, which "
+    "compiles every index of a rule whenever its version space changes, and "
+    "PRECOMPILED_DEMAND, which compiles an index the first time it is demanded. Both hold "
+    "the full 433-predicate language and return the unanimity verdict; only the price of a "
+    "consultation differs, and a per-replicate control confirmed that no non-deliberation "
+    "counter differs anywhere."),
+  the_half_that_held=(
+    "The ORDERING. Demand-driven compilation costs less deliberation than eager compilation "
+    "at every one of the thirty-six settings, and eager wins at no setting demand-driven "
+    "does not."),
+  the_half_that_did_not=(
+    "The claim that compiling the whole bank buys NOTHING. In the analogue it buys almost "
+    "everything: eager compilation beats the replay parent at 20 settings against "
+    "demand-driven's 21, where the naive scanning rule wins at 8. The prediction as "
+    "published is therefore NOT supported in this lane, and is not quietly narrowed."),
+  why_the_analogue_cannot_settle_it=(
+    "Eager compilation costs the scan times the EXTENSION, which is 16 here, and the "
+    "demanded indices already cover about 14 of those 16 -- the measured cache hit rate is "
+    "0.78 to 0.86. Compiling everything is therefore barely more than compiling what is "
+    "asked for, and the two levers are almost the same lever at this scale. The native lane "
+    "grounds 69,219 instances from 4,191 assertions, where a proof's demand cone is a tiny "
+    "fraction of the bank, so the gap this lane cannot resolve is exactly the gap that lane "
+    "would be measuring."),
+  the_prediction_restated=(
+    "The publishable form is narrower than what was published and is stated here rather than "
+    "substituted for it: the advantage from a carried method appears once the fixed cost of "
+    "preparing it is made proportional to the demand, and eager preparation achieves that "
+    "only to the extent that the demand already covers the bank. In the native lane it does "
+    "not, so eager compiled-bank reuse is predicted to leave most of the advantage on the "
+    "table there while capturing nearly all of it here. That is refutable in both lanes and "
+    "the earlier, stronger form is refuted in this one."),
+)
+
 PLAN: Mapping[str, Any] = {
     "study_id": "SYNTHESIS_V1",
     "doctrine": "PR #150, PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
@@ -742,6 +782,8 @@ def build() -> dict:
         "best_representation_signs": BEST_REPRESENTATION_SIGNS,
         "cross_domain": CROSS_DOMAIN,
         "native_lane_cross_check": NATIVE_LANE_CROSS_CHECK,
+        "native_lane_cross_check_analogue_result":
+            NATIVE_LANE_CROSS_CHECK_ANALOGUE_RESULT,
         "agreement_note": (
             "Two agreement figures exist and only one is quoted as the law's. Against the "
             "representation each experiment actually used, agreement is "
