@@ -1,0 +1,170 @@
+{
+  "schema": "ocm.independent-authorship-gate.audit.v1",
+  "issue": 165,
+  "section": 16,
+  "question": "Does current benchmark truth label the generator's planted cause, or an independently recovered minimum sufficient cause?",
+  "risk": "generator's planted cause != independently recovered minimum sufficient cause",
+  "policy": "fail-closed: do not label cause/diagnosis truth from generator intent; retain planted labels as audit-only; E3+ requires independently authored families",
+  "benchmarks": [
+    {
+      "id": "ME-X1",
+      "paths": [
+        "research/experiments/me-x1/mex1_generator.py",
+        "research/experiments/me-x1/mex1_oracle.py",
+        "research/experiments/me-x1/mex1_model.py",
+        "research/experiments/me-x1/mex1_arms.py"
+      ],
+      "what_is_planted": "Per-family planter (X1-A..X1-J × POSITIVE/NEGATIVE/AMBIGUITY) writes a world+event+request story, then rejection-samples until mex1_oracle.Expected satisfies the family invariant (often a decisive_atom prefix).",
+      "generator_intent_fields": ["Instance.family", "Instance.variant", "Instance.features.sub"],
+      "independent_oracle": {
+        "exists": true,
+        "cheap_exact": true,
+        "module": "research/experiments/me-x1/mex1_oracle.py",
+        "recovers": ["action", "reopened", "decisive_atom", "decisive_module"],
+        "arms_import_oracle": false
+      },
+      "current_truth_practice": "Decision scoring already uses the oracle, not the planter. Family name remains the public case identity and is the natural diagnosis target if a later arm is scored for 'recover the cause'. Generator and oracle share the IDENT/PROV/DEP/TRANS/EVAL/ATLAS/AUTH taxonomy.",
+      "circularity": "HIGH for cause/family labels; LOW for transition action. Positive-row family↔decisive agreement is produced by the planter's oracle invariant, so it is not independent authorship.",
+      "independent_recovery": "IMPLEMENTED in recover_mex1.py on the frozen 50-instance dev split (50/50 recovered; 32 planted≠recovered; 17 POSITIVE agreements are rejection-sampled artifacts) and 14 known-answer fixtures (14/14 action match).",
+      "recovery_status": "RECOVERED",
+      "e3_ready": false,
+      "disposition": "Use recovered min-sufficient atom/repair set as cause truth. Keep Instance.family as generator-intent audit. Do not promote ME-X1 to E3+ without independently authored worlds."
+    },
+    {
+      "id": "language-suites",
+      "paths": [
+        "src/ocm/evaluation/m3_microworld_eval.py",
+        "src/ocm/evaluation/n1_ud_induction_eval.py",
+        "research/machine-epistemics-lifetime-v1/ME_LANGUAGE_ACQUISITION_PROGRAM_V1.md"
+      ],
+      "what_is_planted": "Authored microworld families (transitive, negation, yes_no, passive), seed lexemes/constructions, and a planted polysemy suite ('bank'). Construction-identification scores whether the recovered construction id matches example.family.",
+      "generator_intent_fields": ["example.family", "seed construction ids", "authored demonstrations"],
+      "independent_oracle": {
+        "exists": "PARTIAL",
+        "cheap_exact": false,
+        "recovers": "canonical meaning graphs on the authored microworld can be checked exactly; 'which construction family is the cause' is author taxonomy",
+        "arms_import_oracle": "N/A"
+      },
+      "current_truth_practice": "Structural metric uses authored family names. Semantic exact-meaning match is closer to an independent check, but meanings and families are co-authored with the suite.",
+      "circularity": "HIGH for construction-family identification; MEDIUM for exact-meaning match on authored graphs; no cheap independent recovery of a minimum sufficient linguistic cause.",
+      "independent_recovery": "CANNOT_CHECK: no exact cheap cause oracle separate from the author taxonomy. Meaning-graph match is a different target and remains internally authored.",
+      "recovery_status": "CANNOT_CHECK",
+      "e3_ready": false,
+      "disposition": "Do not treat construction-family hit rate as independently recovered cause. Charge bootstrap/family inventory as prior information (L0). E3+ needs independently authored language families."
+    },
+    {
+      "id": "proof-corpus",
+      "paths": [
+        "research/proof-corpus-v1/",
+        "research/proof-corpus-coverage-v1/",
+        "research/ordinary-cut-opportunity-result-v1/"
+      ],
+      "what_is_planted": "External Metamath/Lean statements are independently authored. Current ordinary-cut / native-learning method identities are extracted from authored traces or coordinator-supplied aliases, not from an independent method oracle.",
+      "generator_intent_fields": ["authored training traces", "coordinator-supplied method/alias targets"],
+      "independent_oracle": {
+        "exists": true,
+        "cheap_exact": "kernel/statement identity is exact; proof-method identity is not currently cheap",
+        "recovers": "statement/dependency/reconstruction identity via the kernel; method identity unresolved at the syntax interface (#164)"
+      },
+      "current_truth_practice": "Inventory/reconstruction use external statement identity. Causal proof-method reuse is not closed. Ordinary-cut audit is unresolved (all 76 proposals UNKNOWN at wff admission).",
+      "circularity": "LOW for theorem identity (external authorship). HIGH if a later N4 score uses the author's intended method as the 'true method' without independent extraction.",
+      "independent_recovery": "CANNOT_CHECK for minimum sufficient proof-method. Theorem identity is already independently checkable and is not a planted cause.",
+      "recovery_status": "CANNOT_CHECK",
+      "e3_ready": false,
+      "disposition": "Keep kernel identity as truth for statements. Do not label proof-method truth from authored-trace intent. Syntax revival and independent method validation remain prior to any E3 method claim."
+    },
+    {
+      "id": "residual-routing",
+      "paths": [
+        "src/ocm/runtime/residuals.py",
+        "research/operator_selection_scaling.py",
+        "research/decision-core-successor-review-v1/source/research/residual-strategy-regime-v1/",
+        "research/metareasoning-parent-review-v1/review/THEORY-FINDINGS.md"
+      ],
+      "what_is_planted": "ResidualKind / Responsibility taxonomies are mechanism-authored. Residual-strategy-regime worlds (reviewed snapshot; not a live package on this branch) are internally generated decision-region sessions. Current compose-stage terminal is EXACT_POLICY_SUFFICIENT.",
+      "generator_intent_fields": ["ResidualKind labels", "authored regime sessions", "selector residual names"],
+      "independent_oracle": {
+        "exists": "PARTIAL",
+        "cheap_exact": "exact DP / common-action / paid-decision parents can recover optimal action independently of a planted residual name where the state is finite and fully observed",
+        "recovers": "optimal action / stop-vs-probe; not a unique residual-kind cause"
+      },
+      "current_truth_practice": "Action-optimal labels can be parent-computed. Residual-kind classification, if scored, would use the shared authored taxonomy.",
+      "circularity": "LOW for exact action/stop decisions. HIGH if residual kind or 'why the exact parent was insufficient' is labelled from the generator's residual name.",
+      "independent_recovery": "CANNOT_CHECK for residual-kind cause on this branch (live regime package absent). Action-optimal recovery remains the parent calculation, not generator intent.",
+      "recovery_status": "CANNOT_CHECK",
+      "e3_ready": false,
+      "disposition": "Preserve EXACT_POLICY_SUFFICIENT as an action result. Do not train or score a residual-kind classifier against generator-intent labels. Any later residual-cause claim needs an independent exact repair/ablation oracle."
+    },
+    {
+      "id": "native-learning",
+      "paths": [
+        "research/native-learning-evidence-v1/HANDOFF.md",
+        "research/programme/NATIVE_LEARNING_STATUS.md",
+        "research/ordinary-training-native-export-v1/"
+      ],
+      "what_is_planted": "Producer extracts method I from two authored verified traces designed to contain that method. Fresh-task meaning is also authored. Removal/restore ablations use the author-known canonical ID.",
+      "generator_intent_fields": ["authored traces", "intended method I", "authored full-task meaning"],
+      "independent_oracle": {
+        "exists": true,
+        "cheap_exact": "native checker is exact for proof acceptance; method identity vs author intent is not independently recovered",
+        "recovers": "checked proof / use-witness / removal effect; not an independent 'this is the min-sufficient method' distinct from the author"
+      },
+      "current_truth_practice": "Causal use and removal are real. The method body is author-planted. Controls qualify conventional chunking, not independent method discovery.",
+      "circularity": "HIGH for 'the learned method is I because the author planted I'. LOW for the removal ablation once I is admitted (that tests use, not authorship).",
+      "independent_recovery": "CANNOT_CHECK: no exact cheap procedure recovers a min-sufficient method identity without the authored traces' intended structure. Ordinary-cut opportunity remains unresolved.",
+      "recovery_status": "CANNOT_CHECK",
+      "e3_ready": false,
+      "disposition": "Treat native-learning positives as authored-control engineering. Artifact-explained method recovery is a negative finding for independent authorship. Separated families remain required."
+    },
+    {
+      "id": "M11-self-reorganisation",
+      "paths": [
+        "src/ocm/selfmodel/benchmark.py",
+        "docs/M11_SELF_REORGANISATION_REPORT.md"
+      ],
+      "what_is_planted": "S1–S7 plant one machine-layer fault. diagnosis_correct and minimum_class_correct score against Scenario.true_layer / true_class. Ablation channel is given the true layer's minimum repair.",
+      "generator_intent_fields": ["Scenario.true_layer", "Scenario.true_class", "Scenario.fix"],
+      "independent_oracle": {
+        "exists": "PARTIAL",
+        "cheap_exact": "environment scoring is exact and cheap; independent layer recovery would enumerate single-layer repairs without reading true_layer",
+        "recovers": "not currently: ablation_channel seeds the true layer first"
+      },
+      "current_truth_practice": "True cause = planter intent. This is the textbook §16 risk.",
+      "circularity": "HIGH. The diagnosis target is the planted layer.",
+      "independent_recovery": "CANNOT_CHECK in this package (ME-X1 was the tractable world family with an already-separated exact oracle). A later layer-ablation sweep that does not receive true_layer is the natural M11 check.",
+      "recovery_status": "CANNOT_CHECK",
+      "e3_ready": false,
+      "disposition": "Do not treat M11 7/7 diagnosis_correct as independently recovered cause. Keep planted layer as audit. Fail-closed until an unlabeled min-repair sweep exists."
+    }
+  ],
+  "section16_boxes": {
+    "do_not_label_benchmark_truth_from_generator_intent_when_intent_is_the_target": {
+      "status": "CHECK_POLICY",
+      "meaning": "Fail-closed policy + ME-X1 cause labels now refuse generator intent. Other suites are audited and must not score cause from planted names; their scoring code is not rewritten in this package."
+    },
+    "recover_ground_truth_independently_where_tractable": {
+      "status": "CHECK",
+      "meaning": "ME-X1 recovered-vs-planted procedure executed on the frozen 50-instance dev split (50/50 recovered; 32 planted≠recovered) and 14 fixtures (14/14 action match)."
+    },
+    "use_independently_authored_world_task_families_for_E3_plus": {
+      "status": "OPEN",
+      "meaning": "No independently authored replacement families are introduced. E3 use of current ME-X1/language/native/M11 worlds is CANNOT_CHECK."
+    },
+    "preserve_generator_intent_audit": {
+      "status": "CHECK",
+      "meaning": "AUDIT.json and RECOVERY.json keep planted family/variant/case id as audit-only fields."
+    },
+    "separate_task_generator_from_diagnosis_policy": {
+      "status": "PARTIAL",
+      "meaning": "ME-X1 arms already do not import the oracle. The planter still filters on oracle invariants and shares the mechanism taxonomy. Policy now forbids using family as diagnosis truth. Full process separation for E3 is not done."
+    },
+    "externally_validate_key_taxonomies": {
+      "status": "OPEN",
+      "meaning": "IDENT/PROV/DEP/TRANS/EVAL/AUTH, ResidualKind, M11 D-layers, and language construction families were not externally reviewed here."
+    },
+    "retain_artifact_explained_positive_results_as_negative_findings": {
+      "status": "CHECK_POLICY",
+      "meaning": "Policy classifies rejection-sampled / shared-taxonomy / author-planted agreement as a negative finding for independent authorship. ME-X1 POSITIVE family matches are recorded that way."
+    }
+  }
+}

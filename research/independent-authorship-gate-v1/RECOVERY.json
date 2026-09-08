@@ -1,0 +1,2408 @@
+{
+  "artifact_explained_positives_retained_as_negative_findings": true,
+  "bindings": {
+    "research/experiments/me-x1/mex1_generator.py": "08a50948c7fd12e4b0a0cbb24adc4b2b3225253bc9f821b1c5bddd2b539cc31d",
+    "research/experiments/me-x1/mex1_model.py": "e31fba5ec2319f566d4a7f3948e54c48b0194bcab8d0a7854ad606a83506543a",
+    "research/experiments/me-x1/mex1_oracle.py": "5a34146ca067f03c0557cdb71d229aca0d0f6dfeea690d2dce20f1f95fba696f",
+    "research/independent-authorship-gate-v1/policy.py": "6afce92d533594f7c17baf3cdd8b01cdb6ecf77cbac29960e9c36e701ea179c9",
+    "research/independent-authorship-gate-v1/recover_mex1.py": "088bd46308dde3e57c0193265edd95cff5577870682c600e0fa99782bbb44821"
+  },
+  "counts": {
+    "agreement": {
+      "AGREE": 18,
+      "DISAGREE": 32
+    },
+    "artifact_explained_if_family_used_as_truth": 17,
+    "cannot_check": 0,
+    "fixture_actions_match": 14,
+    "fixtures": 14,
+    "hostile_generator_intent_refused": true,
+    "instances": 50,
+    "policy_enforced": 50,
+    "reasons": {
+      "GENERATOR_FILTERED_BY_ORACLE_INVARIANT": 17,
+      "MATCH": 3,
+      "PLANTED_FAMILY_BUT_NO_INVALID_ATOM": 18,
+      "PLANTED_FAMILY_VS_CENSORED": 9,
+      "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET": 3
+    },
+    "recovered": 50
+  },
+  "e3_without_independent_authorship": "CANNOT_CHECK",
+  "fixtures": [
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-001",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "recovered_repair_classes": [
+          "X1-A_CLAIM_PROBLEM_IDENTITY"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "REVALIDATE",
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovered_action": "REVALIDATE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-002",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "UPDATE",
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovered_action": "UPDATE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-003",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "X1-B_MEASUREMENT_CALIBRATION",
+        "recovered_repair_classes": [
+          "X1-B_MEASUREMENT_CALIBRATION"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "REVALIDATE",
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovered_action": "REVALIDATE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-004",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET",
+        "recovered_decisive_class": "SUPPORT_REOPEN",
+        "recovered_repair_classes": [
+          "X1-C_HIDDEN_DEPENDENCE"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "SELECTIVELY_REOPEN",
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovered_action": "SELECTIVELY_REOPEN",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-005",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "PRESERVE",
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovered_action": "PRESERVE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-006",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "X1-D_INVALID_TRANSPORT",
+        "recovered_repair_classes": [
+          "X1-D_INVALID_TRANSPORT"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "BLOCK_TRANSPORT",
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovered_action": "BLOCK_TRANSPORT",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-007",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "PRESERVE",
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovered_action": "PRESERVE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-008",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET",
+        "recovered_decisive_class": "SUPPORT_REOPEN",
+        "recovered_repair_classes": [
+          "X1-E_DEFEATED_PREREQUISITE"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "SELECTIVELY_REOPEN",
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovered_action": "SELECTIVELY_REOPEN",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-009",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "DEFER_CANNOT_CHECK",
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovered_action": "DEFER_CANNOT_CHECK",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-010",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "X1-G_AUTHORITY_MISMATCH",
+        "recovered_repair_classes": [
+          "X1-G_AUTHORITY_MISMATCH"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "ABSTAIN_AUTHORITY",
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovered_action": "ABSTAIN_AUTHORITY",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-011",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "recovered_repair_classes": [
+          "X1-H_PROOF_WRONG_SPECIFICATION"
+        ],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "REVALIDATE",
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovered_action": "REVALIDATE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-012",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "DEFER_CANNOT_CHECK",
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovered_action": "DEFER_CANNOT_CHECK",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-013",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "UPDATE",
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovered_action": "UPDATE",
+      "recovery_status": "RECOVERED"
+    },
+    {
+      "action_agrees_with_fixture": true,
+      "case_id": "X1-DEV-014",
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "FIXTURE"
+      },
+      "fixture_expected_action": "DEFER_CANNOT_CHECK",
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovered_action": "DEFER_CANNOT_CHECK",
+      "recovery_status": "RECOVERED"
+    }
+  ],
+  "interpretation": "ME-X1 decisions are independently recoverable by the exact oracle. Planted family names are generator intent. Agreement on POSITIVE rows is expected because the planter rejection-samples until the oracle invariant matches the planted family; that agreement is artifact-explained, not independent authorship. NEGATIVE / empty-cause rows show planted family != recovered min-sufficient cause. Diagnosis truth is the recovered atom set, never Instance.family.",
+  "no_novelty_claim": true,
+  "oracle": "research/experiments/me-x1/mex1_oracle.py",
+  "policy": "fail-closed: cause truth is independent recovery or CANNOT_CHECK; generator intent is audit-only",
+  "rows": [
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "identity:r1",
+        "decisive_atom_module": "IDENT",
+        "decisive_module": "IDENT",
+        "invalid_atoms": [
+          "identity:r1"
+        ],
+        "min_sufficient_repair": [
+          "identity:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "recovered_repair_classes": [
+          "X1-A_CLAIM_PROBLEM_IDENTITY"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "identity:r1",
+      "decisive_module": "IDENT",
+      "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-000",
+      "invalid_atoms": [
+        "identity:r1"
+      ],
+      "min_sufficient_repair": [
+        "identity:r1"
+      ],
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "identity:r1"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "identity:r1",
+        "decisive_atom_module": "IDENT",
+        "decisive_module": "IDENT",
+        "invalid_atoms": [
+          "identity:r1"
+        ],
+        "min_sufficient_repair": [
+          "identity:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "recovered_repair_classes": [
+          "X1-A_CLAIM_PROBLEM_IDENTITY"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "identity:r1",
+      "decisive_module": "IDENT",
+      "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-003",
+      "invalid_atoms": [
+        "identity:r1"
+      ],
+      "min_sufficient_repair": [
+        "identity:r1"
+      ],
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-A_CLAIM_PROBLEM_IDENTITY",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-A_CLAIM_PROBLEM_IDENTITY-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-A_CLAIM_PROBLEM_IDENTITY",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "cal:e07",
+        "decisive_atom_module": "PROV",
+        "decisive_module": "PROV",
+        "invalid_atoms": [
+          "cal:e07"
+        ],
+        "min_sufficient_repair": [
+          "cal:e07"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-B_MEASUREMENT_CALIBRATION",
+        "recovered_repair_classes": [
+          "X1-B_MEASUREMENT_CALIBRATION"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "cal:e07",
+      "decisive_module": "PROV",
+      "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-000",
+      "invalid_atoms": [
+        "cal:e07"
+      ],
+      "min_sufficient_repair": [
+        "cal:e07"
+      ],
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "cal:e01"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "cal:e05",
+        "decisive_atom_module": "PROV",
+        "decisive_module": "PROV",
+        "invalid_atoms": [
+          "cal:e05"
+        ],
+        "min_sufficient_repair": [
+          "cal:e05"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-B_MEASUREMENT_CALIBRATION",
+        "recovered_repair_classes": [
+          "X1-B_MEASUREMENT_CALIBRATION"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "cal:e05",
+      "decisive_module": "PROV",
+      "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-003",
+      "invalid_atoms": [
+        "cal:e05"
+      ],
+      "min_sufficient_repair": [
+        "cal:e05"
+      ],
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-B_MEASUREMENT_CALIBRATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-B_MEASUREMENT_CALIBRATION-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-B_MEASUREMENT_CALIBRATION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "REQUEST_NEW_EVIDENCE",
+      "cause_truth": {
+        "action": "REQUEST_NEW_EVIDENCE",
+        "decisive_atom": "support:r1",
+        "decisive_atom_module": "DEP",
+        "decisive_module": "DEP",
+        "invalid_atoms": [
+          "support:r1"
+        ],
+        "min_sufficient_repair": [
+          "support:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-C_HIDDEN_DEPENDENCE",
+        "recovered_repair_classes": [
+          "X1-C_HIDDEN_DEPENDENCE"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "support:r1",
+      "decisive_module": "DEP",
+      "instance_id": "dev-X1-C_HIDDEN_DEPENDENCE-000",
+      "invalid_atoms": [
+        "support:r1"
+      ],
+      "min_sufficient_repair": [
+        "support:r1"
+      ],
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-C_HIDDEN_DEPENDENCE-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": [
+          "ind:c1.F2"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-C_HIDDEN_DEPENDENCE-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "SELECTIVELY_REOPEN",
+      "cause_truth": {
+        "action": "SELECTIVELY_REOPEN",
+        "decisive_atom": "",
+        "decisive_module": "SUPPORT",
+        "invalid_atoms": [
+          "ind:c3.F3"
+        ],
+        "min_sufficient_repair": [
+          "ind:c3.F3"
+        ],
+        "reopened": [
+          "c3"
+        ],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET",
+        "recovered_decisive_class": "SUPPORT_REOPEN",
+        "recovered_repair_classes": [
+          "X1-C_HIDDEN_DEPENDENCE"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "SUPPORT",
+      "instance_id": "dev-X1-C_HIDDEN_DEPENDENCE-003",
+      "invalid_atoms": [
+        "ind:c3.F3"
+      ],
+      "min_sufficient_repair": [
+        "ind:c3.F3"
+      ],
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-C_HIDDEN_DEPENDENCE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-C_HIDDEN_DEPENDENCE-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-C_HIDDEN_DEPENDENCE",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "BLOCK_TRANSPORT",
+      "cause_truth": {
+        "action": "BLOCK_TRANSPORT",
+        "decisive_atom": "transport:r1",
+        "decisive_atom_module": "TRANS",
+        "decisive_module": "TRANS",
+        "invalid_atoms": [
+          "transport:r1"
+        ],
+        "min_sufficient_repair": [
+          "transport:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-D_INVALID_TRANSPORT",
+        "recovered_repair_classes": [
+          "X1-D_INVALID_TRANSPORT"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "transport:r1",
+      "decisive_module": "TRANS",
+      "instance_id": "dev-X1-D_INVALID_TRANSPORT-000",
+      "invalid_atoms": [
+        "transport:r1"
+      ],
+      "min_sufficient_repair": [
+        "transport:r1"
+      ],
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-D_INVALID_TRANSPORT-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "transport:r1"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-D_INVALID_TRANSPORT-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "BLOCK_TRANSPORT",
+      "cause_truth": {
+        "action": "BLOCK_TRANSPORT",
+        "decisive_atom": "transport:r1",
+        "decisive_atom_module": "TRANS",
+        "decisive_module": "TRANS",
+        "invalid_atoms": [
+          "transport:r1"
+        ],
+        "min_sufficient_repair": [
+          "transport:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-D_INVALID_TRANSPORT",
+        "recovered_repair_classes": [
+          "X1-D_INVALID_TRANSPORT"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "transport:r1",
+      "decisive_module": "TRANS",
+      "instance_id": "dev-X1-D_INVALID_TRANSPORT-003",
+      "invalid_atoms": [
+        "transport:r1"
+      ],
+      "min_sufficient_repair": [
+        "transport:r1"
+      ],
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-D_INVALID_TRANSPORT",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-D_INVALID_TRANSPORT-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-D_INVALID_TRANSPORT",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "SELECTIVELY_REOPEN",
+      "cause_truth": {
+        "action": "SELECTIVELY_REOPEN",
+        "decisive_atom": "",
+        "decisive_module": "SUPPORT",
+        "invalid_atoms": [
+          "src:e07",
+          "src:e10"
+        ],
+        "min_sufficient_repair": [
+          "src:e07"
+        ],
+        "reopened": [
+          "c4",
+          "q_down"
+        ],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET",
+        "recovered_decisive_class": "SUPPORT_REOPEN",
+        "recovered_repair_classes": [
+          "X1-E_DEFEATED_PREREQUISITE"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "SUPPORT",
+      "instance_id": "dev-X1-E_DEFEATED_PREREQUISITE-000",
+      "invalid_atoms": [
+        "src:e07",
+        "src:e10"
+      ],
+      "min_sufficient_repair": [
+        "src:e07"
+      ],
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [
+          "src:e18"
+        ],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-E_DEFEATED_PREREQUISITE-001",
+      "invalid_atoms": [
+        "src:e18"
+      ],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": [
+          "src:e09"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-E_DEFEATED_PREREQUISITE-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "SELECTIVELY_REOPEN",
+      "cause_truth": {
+        "action": "SELECTIVELY_REOPEN",
+        "decisive_atom": "",
+        "decisive_module": "SUPPORT",
+        "invalid_atoms": [
+          "src:e11",
+          "src:e12",
+          "src:e14"
+        ],
+        "min_sufficient_repair": [
+          "src:e14"
+        ],
+        "reopened": [
+          "c4",
+          "q_down"
+        ],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_SUPPORT_REOPEN_SET",
+        "recovered_decisive_class": "SUPPORT_REOPEN",
+        "recovered_repair_classes": [
+          "X1-E_DEFEATED_PREREQUISITE"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "SUPPORT",
+      "instance_id": "dev-X1-E_DEFEATED_PREREQUISITE-003",
+      "invalid_atoms": [
+        "src:e11",
+        "src:e12",
+        "src:e14"
+      ],
+      "min_sufficient_repair": [
+        "src:e14"
+      ],
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [
+          "src:e07"
+        ],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-E_DEFEATED_PREREQUISITE",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-E_DEFEATED_PREREQUISITE-004",
+      "invalid_atoms": [
+        "src:e07"
+      ],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-E_DEFEATED_PREREQUISITE",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "REPLACE_OR_CHALLENGE_EVALUATOR",
+      "cause_truth": {
+        "action": "REPLACE_OR_CHALLENGE_EVALUATOR",
+        "decisive_atom": "evaluator:r1",
+        "decisive_atom_module": "EVAL",
+        "decisive_module": "EVAL",
+        "invalid_atoms": [
+          "evaluator:r1"
+        ],
+        "min_sufficient_repair": [
+          "evaluator:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-F_EVALUATOR_BLINDNESS",
+        "recovered_repair_classes": [
+          "X1-F_EVALUATOR_BLINDNESS"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "evaluator:r1",
+      "decisive_module": "EVAL",
+      "instance_id": "dev-X1-F_EVALUATOR_BLINDNESS-000",
+      "invalid_atoms": [
+        "evaluator:r1"
+      ],
+      "min_sufficient_repair": [
+        "evaluator:r1"
+      ],
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-F_EVALUATOR_BLINDNESS-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "evaluator:r1"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-F_EVALUATOR_BLINDNESS-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "REPLACE_OR_CHALLENGE_EVALUATOR",
+      "cause_truth": {
+        "action": "REPLACE_OR_CHALLENGE_EVALUATOR",
+        "decisive_atom": "evaluator:r1",
+        "decisive_atom_module": "EVAL",
+        "decisive_module": "EVAL",
+        "invalid_atoms": [
+          "evaluator:r1"
+        ],
+        "min_sufficient_repair": [
+          "evaluator:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-F_EVALUATOR_BLINDNESS",
+        "recovered_repair_classes": [
+          "X1-F_EVALUATOR_BLINDNESS"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "evaluator:r1",
+      "decisive_module": "EVAL",
+      "instance_id": "dev-X1-F_EVALUATOR_BLINDNESS-003",
+      "invalid_atoms": [
+        "evaluator:r1"
+      ],
+      "min_sufficient_repair": [
+        "evaluator:r1"
+      ],
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-F_EVALUATOR_BLINDNESS",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-F_EVALUATOR_BLINDNESS-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-F_EVALUATOR_BLINDNESS",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "ABSTAIN_AUTHORITY",
+      "cause_truth": {
+        "action": "ABSTAIN_AUTHORITY",
+        "decisive_atom": "authority",
+        "decisive_atom_module": "AUTH",
+        "decisive_module": "AUTH",
+        "invalid_atoms": [
+          "authority"
+        ],
+        "min_sufficient_repair": [
+          "authority"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-G_AUTHORITY_MISMATCH",
+        "recovered_repair_classes": [
+          "X1-G_AUTHORITY_MISMATCH"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "authority",
+      "decisive_module": "AUTH",
+      "instance_id": "dev-X1-G_AUTHORITY_MISMATCH-000",
+      "invalid_atoms": [
+        "authority"
+      ],
+      "min_sufficient_repair": [
+        "authority"
+      ],
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-G_AUTHORITY_MISMATCH-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "authority"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-G_AUTHORITY_MISMATCH-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "ABSTAIN_AUTHORITY",
+      "cause_truth": {
+        "action": "ABSTAIN_AUTHORITY",
+        "decisive_atom": "authority",
+        "decisive_atom_module": "AUTH",
+        "decisive_module": "AUTH",
+        "invalid_atoms": [
+          "authority"
+        ],
+        "min_sufficient_repair": [
+          "authority"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-G_AUTHORITY_MISMATCH",
+        "recovered_repair_classes": [
+          "X1-G_AUTHORITY_MISMATCH"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "authority",
+      "decisive_module": "AUTH",
+      "instance_id": "dev-X1-G_AUTHORITY_MISMATCH-003",
+      "invalid_atoms": [
+        "authority"
+      ],
+      "min_sufficient_repair": [
+        "authority"
+      ],
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-G_AUTHORITY_MISMATCH",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-G_AUTHORITY_MISMATCH-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-G_AUTHORITY_MISMATCH",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "spec:r1",
+        "decisive_atom_module": "IDENT",
+        "decisive_module": "IDENT",
+        "invalid_atoms": [
+          "spec:r1"
+        ],
+        "min_sufficient_repair": [
+          "spec:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "recovered_repair_classes": [
+          "X1-H_PROOF_WRONG_SPECIFICATION"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "spec:r1",
+      "decisive_module": "IDENT",
+      "instance_id": "dev-X1-H_PROOF_WRONG_SPECIFICATION-000",
+      "invalid_atoms": [
+        "spec:r1"
+      ],
+      "min_sufficient_repair": [
+        "spec:r1"
+      ],
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-H_PROOF_WRONG_SPECIFICATION-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": [
+          "spec:r1"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-H_PROOF_WRONG_SPECIFICATION-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "REVALIDATE",
+      "cause_truth": {
+        "action": "REVALIDATE",
+        "decisive_atom": "spec:r1",
+        "decisive_atom_module": "IDENT",
+        "decisive_module": "IDENT",
+        "invalid_atoms": [
+          "spec:r1"
+        ],
+        "min_sufficient_repair": [
+          "spec:r1"
+        ],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "recovered_repair_classes": [
+          "X1-H_PROOF_WRONG_SPECIFICATION"
+        ],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "spec:r1",
+      "decisive_module": "IDENT",
+      "instance_id": "dev-X1-H_PROOF_WRONG_SPECIFICATION-003",
+      "invalid_atoms": [
+        "spec:r1"
+      ],
+      "min_sufficient_repair": [
+        "spec:r1"
+      ],
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-H_PROOF_WRONG_SPECIFICATION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-H_PROOF_WRONG_SPECIFICATION-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-H_PROOF_WRONG_SPECIFICATION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "REFORMULATE_PROBLEM",
+      "cause_truth": {
+        "action": "REFORMULATE_PROBLEM",
+        "decisive_atom": "overlap:o:c0:c2",
+        "decisive_atom_module": "ATLAS",
+        "decisive_module": "ATLAS",
+        "invalid_atoms": [
+          "overlap:o:c0:c2"
+        ],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "CLOSE_GLOBAL",
+        "unknown_atoms": [
+          "witness:g0"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "recovered_repair_classes": [],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "overlap:o:c0:c2",
+      "decisive_module": "ATLAS",
+      "instance_id": "dev-X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION-000",
+      "invalid_atoms": [
+        "overlap:o:c0:c2"
+      ],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "CLOSE_GLOBAL",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "DEFER_CANNOT_CHECK",
+      "cause_truth": {
+        "action": "DEFER_CANNOT_CHECK",
+        "decisive_atom": "",
+        "decisive_atom_module": "CENSORED",
+        "decisive_module": "CENSORED",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "CLOSE_GLOBAL",
+        "unknown_atoms": [
+          "overlap:o:c0:c4"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_VS_CENSORED",
+        "recovered_decisive_class": "CENSORED",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "CENSORED",
+      "instance_id": "dev-X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "REFORMULATE_PROBLEM",
+      "cause_truth": {
+        "action": "REFORMULATE_PROBLEM",
+        "decisive_atom": "overlap:o:c1:c2",
+        "decisive_atom_module": "ATLAS",
+        "decisive_module": "ATLAS",
+        "invalid_atoms": [
+          "overlap:o:c1:c2"
+        ],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": "no repair of invalid atoms restores the warranted transition",
+        "repair_to_warranted_status": "CANNOT_CHECK",
+        "request_kind": "CLOSE_GLOBAL",
+        "unknown_atoms": [
+          "witness:g0"
+        ]
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "recovered_repair_classes": [],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "overlap:o:c1:c2",
+      "decisive_module": "ATLAS",
+      "instance_id": "dev-X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION-003",
+      "invalid_atoms": [
+        "overlap:o:c1:c2"
+      ],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "CLOSE_GLOBAL",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "DISAGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": false,
+        "planted_family": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+        "planted_matches_decisive_class": false,
+        "reason": "PLANTED_FAMILY_BUT_NO_INVALID_ATOM",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-I_LOCAL_COMPAT_GLOBAL_OBSTRUCTION",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-J_FULLY_WARRANTED-000",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-J_FULLY_WARRANTED-001",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "AMBIGUITY"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-J_FULLY_WARRANTED-002",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovery_status": "RECOVERED",
+      "variant": "AMBIGUITY"
+    },
+    {
+      "action": "UPDATE",
+      "cause_truth": {
+        "action": "UPDATE",
+        "decisive_atom": "",
+        "decisive_atom_module": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "ACCEPT_RESULT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": true,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "GENERATOR_FILTERED_BY_ORACLE_INVARIANT",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "POSITIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-J_FULLY_WARRANTED-003",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovery_status": "RECOVERED",
+      "variant": "POSITIVE"
+    },
+    {
+      "action": "PRESERVE",
+      "cause_truth": {
+        "action": "PRESERVE",
+        "decisive_atom": "",
+        "decisive_module": "",
+        "invalid_atoms": [],
+        "min_sufficient_repair": [],
+        "reopened": [],
+        "repair_to_warranted_reason": null,
+        "repair_to_warranted_status": "RECOVERED",
+        "request_kind": "PROPAGATE_DEFEAT",
+        "unknown_atoms": []
+      },
+      "cause_truth_source": "INDEPENDENT_RECOVERY",
+      "comparison": {
+        "agreement": "AGREE",
+        "artifact_explained_if_used_as_truth": false,
+        "comparable": true,
+        "planted_covers_repair": true,
+        "planted_family": "X1-J_FULLY_WARRANTED",
+        "planted_matches_decisive_class": true,
+        "reason": "MATCH",
+        "recovered_decisive_class": "NO_INVALID_ATOM",
+        "recovered_repair_classes": [],
+        "variant": "NEGATIVE"
+      },
+      "decisive_atom": "",
+      "decisive_module": "",
+      "instance_id": "dev-X1-J_FULLY_WARRANTED-004",
+      "invalid_atoms": [],
+      "min_sufficient_repair": [],
+      "planted_family_audit": "X1-J_FULLY_WARRANTED",
+      "recovery_status": "RECOVERED",
+      "variant": "NEGATIVE"
+    }
+  ],
+  "schema": "ocm.independent-authorship-gate.recovery.v1",
+  "split": {
+    "n": 50,
+    "name": "dev",
+    "per_family": 5,
+    "seed": "ME-X1-DEV-20260902"
+  },
+  "wall_s": 0.04610587516799569,
+  "world_family": "ME-X1"
+}
