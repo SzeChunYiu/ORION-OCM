@@ -240,6 +240,15 @@ def build() -> dict[str, Any]:
             "about compilation in general, and the counts here are published so the "
             "difference between the two is visible rather than argued."),
         "highest_price_the_advantage_survives": max(surviving) if surviving else None,
+        "the_surviving_price_is_right_censored": bool(
+            surviving and max(surviving) == max(SW["cell_bit_prices"])),
+        "how_to_read_the_surviving_price": (
+            "This is the highest price IN THE SWEEP at which the advantage still exists. "
+            "If it equals the top of the sweep, the number is a LOWER BOUND on the "
+            "break-even price and not the break-even price, because the sweep stopped "
+            "before the advantage did. It must be reported as a bound in that case, and a "
+            "successor study with higher prices is the only thing that can locate the "
+            "boundary."),
         "settings_per_price": len(SW["budget_bits"]) * len(SW["skews"]) * len(SW["levels"]),
         "language_size": len(language(LANG_LEVEL, SW["extension"])),
         "honest_cell_bits": HONEST_CELL_BITS,
