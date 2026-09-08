@@ -5,7 +5,7 @@ on:
     branches: [codex/ocm-evolvability-independent-20260908]
     paths:
       - 'research/evolvability-independent/**'
-      - 'tests/m11/test_pr150_factorization_bridge.py'
+      - 'tests/m11/test_pr150_*.py'
       - '.github/workflows/evolvability-independent.yml'
   workflow_dispatch:
 
@@ -30,8 +30,8 @@ jobs:
       - run: ./scripts/m0_install_dev.sh
       - name: V2 pre-protected implementation audit
         run: python research/evolvability-independent/audit_v2.py
-      - name: M11 governed factorization bridge
-        run: python -m pytest -q tests/m11/test_pr150_factorization_bridge.py
+      - name: PR150 governed M11 and hidden-cause lanes
+        run: python -m pytest -q tests/m11/test_pr150_factorization_bridge.py tests/m11/test_pr150_hidden_cause_hc1.py
       - name: Full M11 regression
         run: python -m pytest -q tests/m11
       - name: Preserve cognitive-ladder negatives
