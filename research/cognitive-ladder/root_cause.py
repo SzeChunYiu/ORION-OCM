@@ -305,6 +305,44 @@ DEEP_ROOTS = {
     "finding rather than two."),
   fixable=True),
 
+"EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION": dict(
+  subsumes=("STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
+            "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED"),
+  chains_supporting=6,
+  statement=(
+    "Across three independent experiments, with three different mechanisms and three different "
+    "parent sets, acquiring structure up front loses to deriving it when it is actually needed. "
+    "The winning parent in each case shares the machine's mechanism and differs only in WHEN it "
+    "fires, so the loss is about acquisition policy and not about representation, instrument "
+    "resolution, or architecture."),
+  the_missing_quantity=(
+    "A trigger. Every arm in this programme acquires on a schedule -- at admission, at install, at "
+    "the end of an episode -- and none acquires on demonstrated demand."),
+  evidence_that_rho_is_near_zero=(
+    "E3: under the capability gate, eager dependency discovery lost to lazy re-derivation on both "
+    "work and stale survivors. E7: no crossover at any reuse density against a deferred-induction "
+    "parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy "
+    "re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, "
+    "against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even "
+    "the gifted ATMS ceiling that was handed its justifications for free."),
+  consequence=(
+    "This supersedes the demand-density explanation as the primary root. Raising demand was "
+    "necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving "
+    "eager acquisition dominated. And E6 shows that letting the instrument choose its own "
+    "granularity, which the probe-resolution root prescribed as its fix, does not rescue it "
+    "either. Both earlier roots were real and both were upstream of this one."),
+  what_it_does_not_excuse=(
+    "It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in "
+    "these worlds partly because evidence is perfectly retainable, so a derivation can always be "
+    "redone later at the same price. Where re-deriving is impossible or the evidence is "
+    "perishable, the comparison inverts and eager acquisition may be the only option. Nothing here "
+    "measures that regime, and the retainability assumption is doing real work."),
+  falsifier=(
+    "Build a world where evidence is perishable or re-derivation is strictly more expensive later, "
+    "and show eager acquisition still loses. If it wins there, the finding is scoped to retainable "
+    "evidence rather than general, which would be a narrowing and not a refutation."),
+  fixable=True),
+
 "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": dict(
   subsumes=("PARENT_SHARES_THE_MECHANISM_UNDER_TEST",),
   chains_supporting=2,
