@@ -29,7 +29,7 @@ Do not extend the bespoke recipe interface merely to duplicate that capability.
 The [ordinary-theorem acquisition design](../typed-next-parent-design-v1/CORE.md)
 selects existing proof-compilation machinery as the first mechanism to engineer.
 Its whole-demonstrated-theorem parent separates imported facts from acquired cuts.
-Its witness counts are conditional on readiness; no opportunity scan has run.
+Its design counts remain conditional; the first executed audit is recorded below.
 Bounded alias screening preserves UNKNOWN. An all-alias result may instead motivate
 separately registered selection learning when actual search telemetry supports it.
 
@@ -39,11 +39,24 @@ training roots produce 71 transport-ready traces and 57 interface exclusions; al
 whole theorems remain in P1. This is not a cut opportunity count. The source release
 and native-export gates are consumed once and must not be replayed.
 
-Use the frozen [consumer-v3 source](../ordinary-cut-source-evidence-v1/consumer-v3/CORE.md)
-for the next separately bound training-only opportunity audit. Preserve its original
-population, resource/interface restrictions and exact one-step parent. The observed
-DV/hypothesis obstruction motivates a later registered interface extension, with
-this result retained; do not select replacements to improve the readiness count.
+The [registered fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) has
+now run once with the frozen [consumer-v3 source](../ordinary-cut-source-evidence-v1/consumer-v3/CORE.md).
+Its 128 positions comprise 57 unusable traces, 54 source-interface refusals and
+17 enumerated roots. Seventy-six proposals (74 distinct canonical bodies) all stop
+at the ground-syntax guard: 28 wff-operator and 48 wff-type refusals. Two additional
+boundaries lack the required three parameters. Parent matching was not reached;
+the question of additional learning opportunities remains unresolved.
+
+Repair this single syntax boundary using admitted syntax contracts and an existing
+grammar parser. Require replayable typed witnesses and preserve UNKNOWN for
+unsupported contracts or incomplete work. A separately registered screening-only
+successor can reuse every retained proposal in original order and the full P1,
+without repeating native export or extraction. Retain all first-run costs and
+refusals; the consumed audit gate cannot be reused. Preserve the candidate family
+and original resource bounds rather than choosing replacements.
+
+The DV/hypothesis and other source-interface refusals remain separate later
+extensions. Fixing the screening grammar does not qualify those excluded roots.
 
 For later populations, register compatibility and opportunity audits before opening
 per-root records.

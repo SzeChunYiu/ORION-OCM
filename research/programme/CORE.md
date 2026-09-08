@@ -27,7 +27,10 @@ eligible. The first failed consumer remains part of the evidence.
 The [fixed native training export](../ordinary-training-native-export-v1/CORE.md)
 now verifies all 4,223 prefix theorems. All 128 newly released training theorems stay
 in the complete ordinary parent; 71 traces fit the bounded interface and 57 do not.
-This is input readiness, with no new acquired-method or opportunity result yet.
+The [first fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) recorded
+76 proposals from 17 roots, but every parent screen remained UNKNOWN at the syntax
+interface. The full 4,323-contract parent is preserved. No useful new method or
+absence of opportunity follows; repair the grammar boundary before comparison.
 
 ## Next decisive work
 
