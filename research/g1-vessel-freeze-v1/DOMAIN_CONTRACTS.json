@@ -1,0 +1,52 @@
+{
+  "schema": "ocm.g1-vessel-freeze.domain-contracts.v1",
+  "question": "Do language, mathematics and procedural domains enter through typed field/operator contracts rather than architectural forks?",
+  "terminal_candidate": "TYPED_FIELD_OPERATOR_CONTRACTS_CONFIRMED",
+  "fail_closed_terminal_not_issued": "DOMAIN_CORE_FORK_REQUIRED",
+  "verdict": "CONFIRMED_AT_ARCHITECTURE_SCOPE",
+  "evidence": [
+    {
+      "domain": "language",
+      "contract": "TypeRegistry.register_atom_type('meaning:*') + register_relation_type; field_bridge admits representation atoms via OCMRuntime.admit",
+      "paths": [
+        "src/ocm/language/meaning.py",
+        "src/ocm/language/field_bridge.py",
+        "docs/spec/KSO_CORE_V1.md"
+      ],
+      "second_truth_store": false
+    },
+    {
+      "domain": "dialogue",
+      "contract": "commitment_meaning restores polarity; bind_commitment requires ACTIVE live evidence; delegates to language.field_bridge",
+      "paths": [
+        "src/ocm/dialogue/field_binding.py"
+      ],
+      "second_truth_store": false
+    },
+    {
+      "domain": "mathematics / proof",
+      "contract": "registered BackendKind.PROOF / science.proof kernels return PASS|FAIL|CANNOT_CHECK; kernel warrant kept apart from correspondence warrant; ScienceLedger.conclude admits into OCMRuntime",
+      "paths": [
+        "src/ocm/science/proof.py",
+        "src/ocm/science/lifecycle.py",
+        "src/ocm/operators/registry.py"
+      ],
+      "second_truth_store": false
+    },
+    {
+      "domain": "procedural / work",
+      "contract": "Operator carries WarrantProfile/Authority/Scope; lifetime PersistentOCM admits demonstration evidence into the shared ledger; science maps work roles through TransferMap",
+      "paths": [
+        "src/ocm/work/contracts.py",
+        "src/ocm/lifetime/machine.py",
+        "src/ocm/science/lifecycle.py"
+      ],
+      "second_truth_store": false,
+      "note": "Parallel operator API remains; it still uses the KSO warrant lattice."
+    }
+  ],
+  "limits": [
+    "Compact domain views (MeaningGraph, DialogueWorkspace, work dict-state) are not flattened into KSO atoms. That is a typed-view choice, not a second Check/Authority/Meter/Commit.",
+    "This is an architecture-scope confirmation. It is not #93 empirical closure and does not grow cross-domain N."
+  ]
+}

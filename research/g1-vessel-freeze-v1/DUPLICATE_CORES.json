@@ -1,0 +1,80 @@
+{
+  "schema": "ocm.g1-vessel-freeze.duplicate-cores.v1",
+  "live_core": {
+    "F": "one KnowledgeSpace + one EvidenceRegistry on one OCMRuntime (ocm.runtime.ocm_runtime)",
+    "O": "one OperatorRegistry on that runtime; work.Operator is a parallel schema, not a second field",
+    "\u03a0": "solve.py stage pipeline + ocm_runtime orchestration",
+    "C": "constitution boundary + host-injected CommitAuthority"
+  },
+  "production_code_deleted": false,
+  "items": [
+    {
+      "id": "M0_RUNTIME_NAME_COLLISION",
+      "kind": "historical_wrapper",
+      "paths": [
+        "src/ocm/runtime/state.py",
+        "src/ocm/runtime/__init__.py"
+      ],
+      "live_second_core": false,
+      "disposition": "RETAIN_AS_CUSTODY",
+      "detail": "ocm.runtime.OCMRuntime is the M0 Boolean-procedure custody runtime. Live cognition imports ocm.runtime.ocm_runtime.OCMRuntime. Not deleted."
+    },
+    {
+      "id": "WORK_OPERATOR_PARALLEL_SCHEMA",
+      "kind": "parallel_operator_api",
+      "paths": [
+        "src/ocm/work/contracts.py",
+        "src/ocm/operators/registry.py"
+      ],
+      "live_second_core": false,
+      "disposition": "RETAIN_AS_DONOR_SCHEMA",
+      "detail": "work.Operator/Skill operate on dict state with KSO WarrantProfile/Authority/Scope. Not a second warrant lattice or truth store. Unification into OperatorSpec is not required to freeze G1.1 and was not performed."
+    },
+    {
+      "id": "MEANINGGRAPH_COMPACT_VIEW",
+      "kind": "typed_working_view",
+      "paths": [
+        "src/ocm/language/meaning.py",
+        "src/ocm/language/field_bridge.py"
+      ],
+      "live_second_core": false,
+      "disposition": "TYPED_VIEW",
+      "detail": "MeaningGraph is a compact language representation. Persistent identity goes through representation atoms + correspondence warrant on the KSO. Not a second truth store."
+    },
+    {
+      "id": "DIALOGUE_WORKSPACE_COMPACT_VIEW",
+      "kind": "typed_working_view",
+      "paths": [
+        "src/ocm/dialogue/workspace.py",
+        "src/ocm/dialogue/field_binding.py"
+      ],
+      "live_second_core": false,
+      "disposition": "TYPED_VIEW",
+      "detail": "Speaker commitments stay speaker authority. Binding reuses language.field_bridge. Retraction revokes the same evidence id."
+    },
+    {
+      "id": "HISTORICAL_KSO_WRAPPERS",
+      "kind": "historical_wrapper",
+      "paths": [
+        "docs/spec/KSO_CORE_V1.md",
+        "src/ocm/kso/space.py"
+      ],
+      "live_second_core": false,
+      "disposition": "ALREADY_COLLAPSED_TO_VIEWS",
+      "detail": "KnowledgeSpace / GovernedSpace / RecursiveKSO / UnifiedKSO are documented as views of one object. No second live field."
+    },
+    {
+      "id": "KSO_PI_VS_EXECUTIVE_PI",
+      "kind": "naming_collision",
+      "paths": [
+        "docs/spec/KSO_NAVIGATION_REFERENCE_V1.md",
+        "src/ocm/runtime/solve.py"
+      ],
+      "live_second_core": false,
+      "disposition": "DISAMBIGUATED",
+      "detail": "KSO contract calls navigation \u03a0_t. Issue #165 calls the executive \u03a0_t. This freeze names them \u03a0_nav and \u03a0_exec. Not two cores."
+    }
+  ],
+  "elimination_checkbox": "NOT_EARNED_AS_DELETION",
+  "inventory_complete": true
+}
