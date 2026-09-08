@@ -25,18 +25,20 @@ consumer recovery reconstructed all seven issued claims. No new method became
 eligible. The first failed consumer remains part of the evidence.
 
 The [fixed native training export](../ordinary-training-native-export-v1/CORE.md)
-now verifies all 4,223 prefix theorems. All 128 newly released training theorems stay
+verifies all 4,223 prefix theorems. All 128 newly released training theorems remain
 in the complete ordinary parent; 71 traces fit the bounded interface and 57 do not.
-The [first fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) recorded
-76 proposals from 17 roots, but every parent screen remained UNKNOWN at the syntax
-interface. The full 4,323-contract parent is preserved. No useful new method or
-absence of opportunity follows. The [screening-only successor](../ordinary-cut-screening-result-v1/CORE.md)
-now reaches the full parent: four proposals have complete existing-theorem witness
-screens and 72 remain UNKNOWN under the fixed 60-second window. Parsing and proof
-emission dominate the measured cost. The [exact-cache source](../ordinary-cut-screening-cache-v1/CORE.md)
-now passes its corrected qualification; an actual cached run remains pending.
-No useful new method or learning benefit is established. The [parallel-lane review](../ordinary-cut-cross-lane-review-v1/CORE.md)
-keeps its longer exploratory run separate and qualifies unsupported negative claims.
+The [fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) recorded 76 proposals
+from 17 roots. Its syntax refusals and the [first screening attempt](../ordinary-cut-screening-result-v1/CORE.md)
+remain retained costs. The [cached screening result](../ordinary-cut-screening-cache-result-v1/CORE.md)
+now completes all 76 screens against the full 4,323-contract parent in 55.57 seconds:
+44 proposals have existing-theorem witnesses and 32 lack a match within the exact
+one-assertion domain. No native admission or useful learned method follows yet.
+
+The [exact cache](../ordinary-cut-screening-cache-v1/CORE.md) reuses conventional
+memoization; its storage and lookup costs remain visible. This is a completed
+screening result, not an equal-output speed ratio or an OCM novelty claim.
+The [parallel-lane review](../ordinary-cut-cross-lane-review-v1/CORE.md) preserves its
+longer exploratory run and the limitations of its negative conclusions.
 
 ## Next decisive work
 
