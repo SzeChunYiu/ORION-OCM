@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - 'research/cognitive-ladder/**'
+      - 'research/cognitive-theory/**'
       - 'docs/spec/COGNITIVE_LADDER_*.md'
       - '.github/workflows/cognitive-ladder.yml'
   pull_request:
     paths:
       - 'research/cognitive-ladder/**'
+      - 'research/cognitive-theory/**'
       - 'docs/spec/COGNITIVE_LADDER_*.md'
       - '.github/workflows/cognitive-ladder.yml'
   workflow_dispatch:
@@ -22,7 +24,7 @@ jobs:
     env:
       PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
       PYTHONDONTWRITEBYTECODE: '1'
-      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/cognitive-ladder'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/cognitive-ladder:${{ github.workspace }}/research/cognitive-theory'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,7 +33,7 @@ jobs:
       - run: python -m pip install pytest==8.3.5
       - name: Lane tests
         run: >-
-          python -B -m pytest -q research/cognitive-ladder
+          python -B -m pytest -q research/cognitive-ladder research/cognitive-theory
           --basetemp=${{ runner.temp }}/ladder
           --junitxml=${{ runner.temp }}/ladder.xml
       - name: Generated artifacts are current
@@ -39,6 +41,7 @@ jobs:
           python research/cognitive-ladder/atlas.py
           python research/cognitive-ladder/study_cards.py
           python research/cognitive-ladder/claim_ledger.py
+          python research/cognitive-theory/registry.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

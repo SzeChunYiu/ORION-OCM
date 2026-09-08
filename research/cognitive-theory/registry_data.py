@@ -1,0 +1,305 @@
+"""Source of truth for the theory-to-empirics registry of #145 (GUO-D1).
+
+Issue #145 asks that no theory claim enter manuscript prose without a registry
+row, and that every row name a concrete rung of #143 capable of killing it.  This
+file is that registry.
+
+It is written the unusual way round.  Most theory registries are populated with
+statements someone hopes to prove, and their status column stays OPEN for years.
+This one is populated first with the statements the programme has already
+*killed*, because those are the rows that were load-bearing and turned out not to
+be.  A theory registry whose refuted rows are missing is a wish list.
+
+Three verification routes, per #145 §5: V1 formal proof, V2 exact computational
+verification over a complete finite universe, V3 prospective empirical study.
+Every row declares exactly one primary route.
+"""
+
+from __future__ import annotations
+
+ROUTES = ("V1_FORMAL_PROOF", "V2_EXACT_COMPUTATION", "V3_PROSPECTIVE_EMPIRICAL")
+
+STATUS = (
+    "OPEN", "SUPPORTED_AT_SCOPE", "REFUTED", "PARENT_SUFFICIENT",
+    "PARENT_OWNED", "NON_IDENTIFIABLE", "CANNOT_CHECK", "NOT_YET_TESTABLE",
+)
+
+FIELD_FLAT = "flat competence store, family-keyed"
+FIELD_GRAPH = "typed object graph with declared support edges"
+FIELD_CLAUSE = "signed-clause proof DAG"
+
+
+def T(**kw):
+    base = dict(
+        theory_id="", statement="", statement_version="v1", scope="", assumptions=(),
+        field_identity="", operator_basis_identity="", resource_model="",
+        predicted_observable="", predicted_direction="", verification_route="",
+        empirical_rung="", strongest_parent="", causal_ablation="", negative_twin="",
+        falsifier="", status="OPEN", evidence="", reopen_condition="",
+    )
+    base.update(kw)
+    return base
+
+
+THEORIES = [
+
+T(theory_id="TH-01-SPARSE-IS-COGNITIVE",
+  statement="Touching a small fraction of a growing store, at matched correctness, is a signature of "
+            "cognitive organisation rather than of ordinary filing.",
+  scope="finite competence stores addressed by a supplied family key, N up to about 2000",
+  assumptions=("the relevance key is available at query time",),
+  field_identity=FIELD_FLAT, operator_basis_identity="SELECT_RELEVANT",
+  resource_model="instrumented per-object touches; index build and maintenance charged separately",
+  predicted_observable="k, k/N and query work versus an ordinary index parent",
+  predicted_direction="the machine arm separates from the index parent on at least one coordinate",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-6 / lane E-scaling",
+  strongest_parent="an ordinary database index keyed on the supplied family identity",
+  causal_ablation="global-scan arm with k equal to N",
+  negative_twin="cache parent, sparsest of all arms and unable to answer",
+  falsifier="the index parent matches on every coordinate",
+  status="REFUTED",
+  evidence="results/SCALING_PILOT_V1.json: exact match on k, k/N, query work and correctness at "
+           "every scale; the machine arm's persistent bytes are strictly larger",
+  reopen_condition="only under a relevance key the machine had to discover, which is TH-03"),
+
+T(theory_id="TH-02-DECLARED-DEPENDENCY-LOCALITY",
+  statement="Given declared dependencies, revocation cost tracks the true dependency cone rather "
+            "than the store size, and a genuinely global withdrawal is not disguised as local.",
+  scope="declared support graphs, N up to about 2000",
+  assumptions=("every dependency is declared at admission time",),
+  field_identity=FIELD_GRAPH, operator_basis_identity="REVISE / REOPEN",
+  resource_model="cone size, revision work, index maintenance",
+  predicted_observable="observed cone versus true cone for a local and a globally shared trigger",
+  predicted_direction="cone exact in both cases; local constant in N, global growing in N",
+  verification_route="V1_FORMAL_PROOF", empirical_rung="#143 CL-6 / lane E-scaling",
+  strongest_parent="truth maintenance; an audited O(N) scan over declared supports",
+  causal_ablation="arm with dependency edges removed",
+  negative_twin="revocation of evidence that was never load-bearing",
+  falsifier="a cone that stays small when the true dependency is global",
+  status="PARENT_OWNED",
+  evidence="results/SCALING_PILOT_V1.json: exact at every scale, local cone constant at 2, shared "
+           "cone growing 21/61/201/601. Exactness is by construction because the graph was declared; "
+           "the audited O(N) scan parent recovers both cones and was not run",
+  reopen_condition="under discovered rather than declared dependencies, which is TH-04 and TH-05"),
+
+T(theory_id="TH-03-FIXED-RELEVANCE-KEY-IS-SCALE-STABLE",
+  statement="A relevance key adequate at one store size remains adequate as the store grows.",
+  scope="prediction-prefix keys over periodic rule stores, N from 17 to 481",
+  assumptions=("the key is fixed at design time",),
+  field_identity=FIELD_FLAT, operator_basis_identity="SELECT_RELEVANT",
+  resource_model="collision rate, maximum bucket, query work, index build and maintenance",
+  predicted_observable="collision rate of the hand-specified key across the scale sweep",
+  predicted_direction="collision rate stays near zero",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-6 / lane E1",
+  strongest_parent="the same index rebuilt on a richer feature",
+  causal_ablation="fixed-feature arm that never re-indexes",
+  negative_twin="a store that grows only in already-distinguished directions",
+  falsifier="collision rate rising materially with N",
+  status="REFUTED",
+  evidence="results/SUBSPACE_E1_V1.json: collision rate 0 to 0.98 and maximum bucket 1 to 20 from "
+           "N=17 to N=481, while correctness never moved because a colliding key is slower and "
+           "never wrong. Noticing the decay cost more than it saved at the largest scale",
+  reopen_condition="an incremental re-index search, not run here, may change the cost side"),
+
+T(theory_id="TH-04-LEAVE-ONE-OUT-IS-COMPLETE",
+  statement="Removing one piece of evidence at a time identifies everything a conclusion depends on.",
+  scope="induced periodic rules over evidence blocks, N from 80 to 800",
+  assumptions=("support is non-redundant",),
+  field_identity=FIELD_GRAPH, operator_basis_identity="REVISE / CHECK",
+  resource_model="re-inductions charged; precision and recall against a powerset oracle",
+  predicted_observable="fraction of methods whose support is invisible to single-element ablation",
+  predicted_direction="near zero",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-6 / lane E3",
+  strongest_parent="joint-witness search over subsets; a co-occurrence heuristic",
+  causal_ablation="simultaneous withdrawal of two individually redundant supports",
+  negative_twin="a method with a single genuine support, where the method is exact",
+  falsifier="a measurable population of methods with redundant support",
+  status="REFUTED",
+  evidence="results/DEPEND_E3_V1.json: between 16.3% and 25% of methods have support no "
+           "single-element ablation can see. An arm at perfect precision and recall against its own "
+           "leave-one-out oracle still left a stale survivor under multi-block revocation",
+  reopen_condition="closed as stated; the successor statement is TH-05"),
+
+T(theory_id="TH-05-SUPPORT-FAMILY-DISCOVERY",
+  statement="The correct object of dependency discovery is the family of minimal support sets, and "
+            "it can be identified under a bounded intervention budget by adaptive selection more "
+            "cheaply than by exhaustive group ablation.",
+  scope="small evidence sets where the powerset oracle is exactly computable",
+  assumptions=("interventions are available and charged",),
+  field_identity=FIELD_GRAPH, operator_basis_identity="DISTINGUISH / PROBE + REVISE",
+  resource_model="interventions spent to reach a given support-family precision and recall",
+  predicted_observable="interventions versus adaptive, random and exhaustive selection",
+  predicted_direction="adaptive selection approaches the exhaustive ceiling at materially lower cost",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-6 / lane E6",
+  strongest_parent="ATMS minimal-environment labelling, which is expected to be sufficient when "
+                   "handed the justifications and is parent-owned since 1986",
+  causal_ablation="random group ablation under the same budget",
+  negative_twin="a family where no evidence is load-bearing",
+  falsifier="ATMS given the same interventions matches the adaptive arm",
+  status="OPEN", evidence="lane E6 in progress",
+  reopen_condition="not applicable while open"),
+
+T(theory_id="TH-06-PLANTED-DEFECT-LABELS-ARE-VALID",
+  statement="In a benchmark whose worlds are built by planting a known defect, the planted defect is "
+            "a valid label for what the world requires.",
+  scope="escalation worlds under a nine-item perturbation menu, n=2000",
+  assumptions=("at most two simultaneous perturbations",),
+  field_identity="registered repair lattice over representation, operators and formulation",
+  operator_basis_identity="RE-REPRESENT / EXPAND",
+  resource_model="not applicable; this is a construction-validity statement",
+  predicted_observable="agreement between the planted-defect label and the minimum repair recovered "
+                       "by exhaustive search over the repair lattice",
+  predicted_direction="high agreement",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-3 / lane E4",
+  strongest_parent="none applicable; exhaustive repair search is ground truth by definition in a "
+                   "finite world",
+  causal_ablation="not applicable",
+  negative_twin="zero-perturbation worlds, where both labels agree trivially",
+  falsifier="material disagreement between planted intent and minimum repair",
+  status="REFUTED",
+  evidence="results/ESCALATION_INDEPENDENT_E4_V1.json: agreement on 53.4% of worlds, overstating "
+           "the requirement 759 times and understating it 173 times. One repair can fix two defects; "
+           "neither defect alone determines the requirement",
+  reopen_condition="the mechanism is general; the percentage is menu-specific and would need "
+                   "re-measuring for a different perturbation menu"),
+
+T(theory_id="TH-07-WITNESS-REQUIREMENT-IS-NECESSARY",
+  statement="Requiring an exhibited obstruction is what prevents false escalation, as distinct from "
+            "any other principled trigger.",
+  scope="2000 blindly perturbed worlds levelled by an independent repair oracle",
+  assumptions=("the repair lattice is enumerable",),
+  field_identity="registered repair lattice", operator_basis_identity="RE-REPRESENT under CHECK",
+  resource_model="false escalations and accuracy at matched information",
+  predicted_observable="false escalation rate of the witness policy versus an exact repair planner",
+  predicted_direction="the witness policy is strictly better",
+  verification_route="V3_PROSPECTIVE_EMPIRICAL", empirical_rung="#143 CL-3 / lane E4",
+  strongest_parent="an exact repair planner testing each repair in cost order",
+  causal_ablation="timeout, saturation and counterexample-refinement policies",
+  negative_twin="worlds needing no escalation at all",
+  falsifier="the planner also reaches zero false escalations",
+  status="REFUTED",
+  evidence="results/ESCALATION_INDEPENDENT_E4_V1.json: both principled arms reach zero false "
+           "escalations. The witness requirement is not what buys it. What survives is the weaker "
+           "and still useful TH-08",
+  reopen_condition="in settings where the repair lattice is not enumerable, the planner is "
+                   "unavailable and the comparison changes"),
+
+T(theory_id="TH-08-UNPRINCIPLED-TRIGGERS-FALSE-ESCALATE",
+  statement="Escalating on exhaustion, on a stalled search, or on any counterexample produces false "
+            "escalation at a material rate that a principled trigger removes at no accuracy cost.",
+  scope="2000 blindly perturbed worlds levelled by an independent repair oracle",
+  assumptions=("ground truth is the minimum sufficient repair level",),
+  field_identity="registered repair lattice", operator_basis_identity="RE-REPRESENT under CHECK",
+  resource_model="false escalations, missed escalations, exact-match accuracy",
+  predicted_observable="false escalation counts across five policies",
+  predicted_direction="zero for principled policies, materially positive for the three heuristics",
+  verification_route="V3_PROSPECTIVE_EMPIRICAL", empirical_rung="#143 CL-3 / lane E4",
+  strongest_parent="the exact repair planner, which also reaches zero",
+  causal_ablation="the three heuristic policies under identical visible state",
+  negative_twin="zero-perturbation worlds, where all five policies are perfect",
+  falsifier="a heuristic policy reaching zero false escalations",
+  status="SUPPORTED_AT_SCOPE",
+  evidence="results/ESCALATION_INDEPENDENT_E4_V1.json: 0 for both principled arms against 232, 232 "
+           "and 245 for saturation, refinement and timeout, with 22 accuracy points on top. "
+           "Replicates a 0-versus-21 and 0-versus-14 asymmetry recorded earlier in the programme",
+  reopen_condition="an independently authored world family, still outstanding under #144 §11"),
+
+T(theory_id="TH-09-FLAT-FRAGMENT-DISCOVERY",
+  statement="Reusable methods can be discovered by mining repeated flat surface fragments from "
+            "solved episodes.",
+  scope="checked unary-language proof episodes",
+  assumptions=("useful structure recurs at the surface level",),
+  field_identity=FIELD_CLAUSE, operator_basis_identity="CONSOLIDATE / GENERALIZE_METHOD",
+  resource_model="candidate pool size, admitted methods, fresh-task search",
+  predicted_observable="size of the admitted method pool",
+  predicted_direction="non-empty",
+  verification_route="V2_EXACT_COMPUTATION",
+  empirical_rung="#143 CL-1 / research/math-language-learning-v1",
+  strongest_parent="anti-unification; Stitch-style corpus compression; DreamCoder library induction",
+  causal_ablation="the repeated-support gate itself",
+  negative_twin="episodes with genuinely no shared structure",
+  falsifier="an empty pool despite independently checked sound fragments",
+  status="REFUTED",
+  evidence="research/math-language-learning-v1/ASSAY-ACQUISITION-DIAGNOSIS.md: 21 attempts, three "
+           "independently checked essential fragments, all singletons, terminal NO_METHOD_ACQUIRED. "
+           "The stated cause is that flat queried fragments differ while the intermediate dependency "
+           "step recurs",
+  reopen_condition="closed as stated; the successor statement is TH-10"),
+
+T(theory_id="TH-10-STEP-LEVEL-DISCOVERY",
+  statement="Latent reusable structure that is invisible at the surface is recoverable at the level "
+            "of proof steps, by anti-unification over normalised steps plus semantic-equivalence "
+            "clustering, and survives persistence, restart and causal invocation.",
+  scope="propositional clause worlds where flat fragments are pairwise distinct by construction",
+  assumptions=("the recurring object is a parameterised resolution step",),
+  field_identity=FIELD_CLAUSE, operator_basis_identity="CONSOLIDATE + RE-REPRESENT",
+  resource_model="discovery cost, fresh-task search, checker calls, persistent bytes",
+  predicted_observable="schemas admitted, and fresh-task work against the reset arm",
+  predicted_direction="non-empty pool, and work reduction that disappears under method removal",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-1 / lane E5",
+  strongest_parent="DreamCoder-style library induction and Stitch-style compression, both of which "
+                   "can in principle find step-level structure if the traces expose it",
+  causal_ablation="remove the discovered schema and re-run the fresh tasks",
+  negative_twin="false-common-pattern schemas that recur by chance and do not help held-out tasks",
+  falsifier="library learning finds the same schemas, or no schema survives independent checking",
+  status="OPEN", evidence="lane E5 in progress",
+  reopen_condition="not applicable while open"),
+
+T(theory_id="TH-11-FAILURE-LEARNING-IS-DERIVED",
+  statement="Failure learning is not primitive: it decomposes into CHECK-failure, REVISE and "
+            "CONSOLIDATE, and a truth-maintenance parent therefore reproduces it.",
+  scope="seven worlds with the failure cause supplied, and 59 episodes with it withheld",
+  assumptions=("the cause taxonomy is registered in advance",),
+  field_identity=FIELD_GRAPH, operator_basis_identity="CHECK + REVISE + CONSOLIDATE",
+  resource_model="repeated wasted work, false exclusions, missed reopenings, probe cost",
+  predicted_observable="whether a nogood or decision-tree parent matches the governed store",
+  predicted_direction="it matches",
+  verification_route="V3_PROSPECTIVE_EMPIRICAL", empirical_rung="#143 CL-2 / lane failure pilot and E2",
+  strongest_parent="a full-strength nogood store; a fixed near-optimal probe decision tree",
+  causal_ablation="cause-blind exclusion; task-identity keying",
+  negative_twin="a checker defective in one scope and sound in another",
+  falsifier="a coordinate on which no parent reproduces the behaviour",
+  status="PARENT_SUFFICIENT",
+  evidence="results/FAILURE_PILOT_V1.json: the nogood parent ties on four of seven worlds and "
+           "avoids all 640 avoidable work units. results/DIAGNOSIS_E2_V1.json: the governed greedy "
+           "rule provably reproduces the hand-authored decision tree ordering; the residual is 42 "
+           "probe units of 573 and is memoisation",
+  reopen_condition="a setting where probe semantics must be learned rather than authored"),
+
+T(theory_id="TH-12-PRIMITIVE-PRESSURE-CONVERGES",
+  statement="As materially different domains are added, the number of genuinely new primitive "
+            "operators required trends toward zero while learned macros continue to grow.",
+  scope="not yet testable: the programme has one domain family",
+  assumptions=("an operator basis has been frozen",),
+  field_identity="undetermined", operator_basis_identity="undetermined",
+  resource_model="new primitives admitted per domain versus new macros admitted",
+  predicted_observable="the primitive-pressure curve of #145 §10",
+  predicted_direction="declining",
+  verification_route="V3_PROSPECTIVE_EMPIRICAL", empirical_rung="#143 CL-7 through CL-10",
+  strongest_parent="production systems, ACT-R production compilation, library learning",
+  causal_ablation="not yet designed",
+  negative_twin="a domain that requires a genuinely new primitive",
+  falsifier="persistent non-zero primitive pressure across held-out domains",
+  status="NOT_YET_TESTABLE",
+  evidence="none; recorded so that the curve is instrumented from the first real run rather than "
+           "reconstructed afterwards, per #145 GUO-D7",
+  reopen_condition="testable once a basis is frozen and a second domain family exists"),
+
+T(theory_id="TH-13-FIELD-AFFECTS-DISCOVERABILITY",
+  statement="The choice of field organisation materially changes how easily reusable methods are "
+            "discovered, how small an operator basis suffices, and what exact revision costs.",
+  scope="matched exact tasks under at least three field organisations",
+  assumptions=("information is matched across fields",),
+  field_identity="flat store, typed graph, hypergraph, fibred field, TMS substrate",
+  operator_basis_identity="the same registered operator contracts across fields",
+  resource_model="the full lifetime vector of #145 §9",
+  predicted_observable="method discovery rate, operator basis size, revision cost per field",
+  predicted_direction="no universal winner is assumed; a Pareto family is an admissible result",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-1 to CL-3 / #145 GUO-D5",
+  strongest_parent="a flat relational store, which is the simplest and must be beaten on total cost",
+  causal_ablation="same tasks, same operators, field swapped",
+  negative_twin="a task family where field structure is irrelevant",
+  falsifier="the flat store matches every field on every coordinate",
+  status="OPEN", evidence="not started; this is the next tranche after E5 and E6",
+  reopen_condition="not applicable while open"),
+]
