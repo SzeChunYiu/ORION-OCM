@@ -1,0 +1,153 @@
+"""Integrity tests for the absorption register and the phase-boundary conjecture.
+
+A post-hoc law that reproduces its own training data is the single most seductive
+artifact this programme could produce, so these tests are aimed at it: the rule
+must have no free parameters, the in-sample agreement must be labelled as
+worthless, the out-of-sample prediction must be frozen before the experiment
+exists, and every absorption must cite a receipt that is actually on disk.
+"""
+
+from __future__ import annotations
+
+import inspect
+import json
+import pathlib
+
+import pytest
+
+import synthesis as S
+
+HERE = pathlib.Path(__file__).parent
+DOC = S.build()
+
+
+# --- absorption -------------------------------------------------------------
+
+@pytest.mark.parametrize("a", S.ABSORPTIONS, ids=[a["parent"][:24] for a in S.ABSORPTIONS])
+def test_every_absorption_is_complete(a):
+    assert a["verdict"] in S.VERDICTS, a["parent"]
+    for field in ("teaches", "novelty_removed", "mapped_to",
+                  "prior_information_charged", "next_experiment"):
+        assert a[field], (a["parent"], field)
+
+
+@pytest.mark.parametrize("a", S.ABSORPTIONS, ids=[a["parent"][:24] for a in S.ABSORPTIONS])
+def test_every_absorption_cites_a_receipt_that_exists(a):
+    for ref in a["receipt"].split(","):
+        ref = ref.strip()
+        if ref.startswith("../") or "..." in ref:
+            continue   # cross-lane references are checked by the spine, not here
+        assert (HERE / ref).is_file(), (a["parent"], ref)
+
+
+def test_an_absorption_names_what_novelty_it_removes():
+    """The doctrine's whole point: a parent kills a claim and strengthens the machine."""
+    for a in S.ABSORPTIONS:
+        assert a["novelty_removed"].strip().lower().startswith(("any claim", "whether")), (
+            a["parent"], "novelty_removed must name the claim being given up")
+
+
+def test_the_open_verdict_says_what_is_missing():
+    for a in S.ABSORPTIONS:
+        if a["verdict"] == "OPEN":
+            assert "not been run" in a["next_experiment"] or "hole" in a["next_experiment"], (
+                a["parent"])
+
+
+# --- the rule has nowhere to hide -------------------------------------------
+
+def test_the_rule_has_no_free_parameters():
+    src = inspect.getsource(S.predict)
+    code = src.split('"""')[-1]          # the body, not the prose about the body
+    assert "0." not in code, "a rule with a knob fits anything"
+    assert "weight" not in code.lower()
+    body = [l for l in code.splitlines() if l.strip().startswith("return")]
+    assert len(body) == 1
+
+
+def test_the_rule_is_a_conjunction_and_can_therefore_be_wrong():
+    from synthesis import Coordinates as C
+    assert S.predict(C(True, True, True)) == "MACHINE"
+    for combo in ((False, True, True), (True, False, True), (True, True, False),
+                  (False, False, False)):
+        assert S.predict(C(*combo)) == "PARENT_SUFFICIENT", combo
+
+
+def test_in_sample_agreement_is_labelled_as_worthless():
+    assert DOC["in_sample_agreement"] == 1.0
+    note = DOC["in_sample_is_not_evidence"]
+    assert "not about the world" in note
+    assert "CONJECTURE, FITTED POST HOC" in DOC["law_status"]
+
+
+def test_the_row_most_at_risk_of_being_scored_to_fit_is_flagged():
+    risky = [r for r in S.OBSERVED if "at risk of being scored to fit" in r["note"]]
+    assert len(risky) == 1, "the DEV-1 tight-budget row must carry its own warning"
+    assert risky[0]["beta"] is False
+    assert "interval reading" in risky[0]["note"]
+
+
+def test_beta_is_documented_as_an_interval_not_a_threshold():
+    assert "NOT a threshold" in S.CONDITIONS["beta"]["measurable_as"]
+    assert "upper edge" in S.CONDITIONS["beta"]["measurable_as"]
+
+
+def test_every_condition_names_the_experiment_that_isolated_it():
+    for key, c in S.CONDITIONS.items():
+        assert "results/" in c["isolated_by"] or "E" in c["isolated_by"], key
+        assert c["absent_reproduces"], key
+        assert c["measurable_as"], key
+
+
+# --- the out-of-sample prediction -------------------------------------------
+
+def test_the_prediction_is_frozen_in_the_commitment():
+    assert S.OUT_OF_SAMPLE in S.PLAN.values() or S.PLAN["out_of_sample"] is S.OUT_OF_SAMPLE
+    assert S.COMMITMENT.commitment == S.commit(S.PLAN).commitment
+    assert S.OUT_OF_SAMPLE["predicted_before_the_experiment_exists"] is True
+
+
+def test_the_prediction_follows_from_the_rule_and_not_from_taste():
+    from synthesis import Coordinates as C
+    c = S.OUT_OF_SAMPLE["coordinates"]
+    assert S.predict(C(c["rho"], c["beta"], c["phi"])) == S.OUT_OF_SAMPLE["predicted"]
+
+
+def test_the_prediction_names_what_would_refute_the_law():
+    o = S.OUT_OF_SAMPLE
+    assert "PARENT_SUFFICIENT" in o["what_refutes_the_law"]
+    assert "caching result with an inflated name" in o["what_refutes_the_law"]
+    assert "one out-of-sample point, not a validated law" in o["what_confirms_it_weakly"]
+
+
+def test_the_load_bearing_move_is_declared_rather_than_assumed():
+    """beta must mean scarcity of the economized resource, or the law is about caches."""
+    j = S.OUT_OF_SAMPLE["coordinate_justification"]
+    assert "unbounded" in j
+    assert "statement about caches" in j
+
+
+def test_changing_the_prediction_changes_the_commitment():
+    import copy
+    altered = copy.deepcopy(dict(S.PLAN))
+    altered["out_of_sample"] = dict(S.OUT_OF_SAMPLE, predicted="PARENT_SUFFICIENT")
+    assert S.commit(altered).commitment != S.COMMITMENT.commitment
+
+
+# --- the generated artifact -------------------------------------------------
+
+def test_generated_artifact_matches_the_source():
+    assert json.loads((HERE / "SYNTHESIS_V1.json").read_text()) == DOC
+
+
+def test_the_document_prints_the_disagreements_if_any():
+    md = (HERE / "SYNTHESIS_V1.md").read_text()
+    for r in DOC["in_sample"]:
+        if not r["agrees"]:
+            assert "| NO |" in md
+
+
+def test_the_artifact_produces_no_evidence_and_says_so():
+    assert "produces no evidence" in DOC["authority"]
+    assert "stands unchanged" in DOC["authority"]
+    assert "falsifiable, which is its only current virtue" in DOC["what_this_does_not_establish"]
