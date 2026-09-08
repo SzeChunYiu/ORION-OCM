@@ -87,3 +87,16 @@ Independent source/95-control review is external at
 ../unary-clause-revival-independent-review-v1/REVIEW.json,
 SHA256 995505f8cd5dd695b1c92517c695f1b869fdb419e2c7c2562b7ea30bef2344d1.
 That review excludes the later 06/07 diagnostic results.
+
+## Current main integration
+
+The isolated branch incorporates main c14b0026853da0d5fd01cb1cad3b3e9ada099011,
+preserving its unrelated missing-facts cost repair and result documents.
+All 17 donor code/test files are unchanged; the index retains upstream content
+plus the single donor pointer. The relevant successor qualification has 104 passes,
+zero failures/errors/skips, 5.432380978 seconds, and 385 unchanged source identities.
+This comprises the prior 95 controls and nine upstream unavailable-cost cases.
+Current source map: 10-integration-focused/SOURCE-AFTER.json,
+SHA256 d39ca3d4b11f1da03135ae621d0c10c133ef8e48123d79adb7f1962ae9f5636c.
+The earlier 95-control and exploratory diagnostic records remain historical;
+no development selection or final evaluation was rerun during integration.
