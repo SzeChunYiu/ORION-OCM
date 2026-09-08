@@ -1,0 +1,1655 @@
+{
+  "body": {
+    "nodes": [
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V0"
+        ]
+      },
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V1"
+        ]
+      },
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V2"
+        ]
+      },
+      {
+        "kind": "hole",
+        "output": [
+          "|-",
+          "R",
+          "V0",
+          "V1",
+          "V2"
+        ],
+        "slot": 0
+      },
+      {
+        "kind": "hole",
+        "output": [
+          "|-",
+          "R",
+          "V0",
+          "V1",
+          "V2"
+        ],
+        "slot": 1
+      },
+      {
+        "inputs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "kind": "apply",
+        "label": "step1",
+        "output": [
+          "|-",
+          "S",
+          "V0",
+          "V1"
+        ],
+        "substitution": {
+          "ch": [
+            "V2"
+          ],
+          "ph": [
+            "V0"
+          ],
+          "ps": [
+            "V1"
+          ]
+        }
+      },
+      {
+        "inputs": [
+          0,
+          1,
+          2,
+          5,
+          4
+        ],
+        "kind": "apply",
+        "label": "step2",
+        "output": [
+          "|-",
+          "T",
+          "V0",
+          "V1",
+          "V2"
+        ],
+        "substitution": {
+          "ch": [
+            "V2"
+          ],
+          "ph": [
+            "V0"
+          ],
+          "ps": [
+            "V1"
+          ]
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "V0",
+        "type": "wff"
+      },
+      {
+        "id": "V1",
+        "type": "wff"
+      },
+      {
+        "id": "V2",
+        "type": "wff"
+      }
+    ],
+    "premises": [
+      [
+        "|-",
+        "R",
+        "V0",
+        "V1",
+        "V2"
+      ],
+      [
+        "|-",
+        "R",
+        "V0",
+        "V1",
+        "V2"
+      ]
+    ],
+    "query": [
+      "|-",
+      "T",
+      "V0",
+      "V1",
+      "V2"
+    ],
+    "root": 6,
+    "schema": "native.typed-proper-chunk.v1"
+  },
+  "context": {
+    "library_identity": {
+      "bytes": 22,
+      "sha256": "3a1282a91976874c0caf25d79693a1ba19b8eeb88dd0b570c931505cdcf5de91"
+    },
+    "native_authority_identity": {
+      "bytes": 34,
+      "sha256": "e43c3653dff46f5a099f73fcd8aab5edd9ef592b91dd92c9165e5e0b831a40ec"
+    },
+    "parameter_context": {
+      "dv": [],
+      "parameters": [
+        {
+          "floating_label": "wph",
+          "id": "V0",
+          "type": "wff",
+          "variable": "ph"
+        },
+        {
+          "floating_label": "wps",
+          "id": "V1",
+          "type": "wff",
+          "variable": "ps"
+        },
+        {
+          "floating_label": "wch",
+          "id": "V2",
+          "type": "wff",
+          "variable": "ch"
+        }
+      ],
+      "schema": "native.typed-context.v1"
+    },
+    "pins": {
+      "body": {
+        "bytes": 763,
+        "sha256": "0050fd9e787cbb0f61ca4d463cdf56151e7b2d08435f3614eac9f327ce7f6378"
+      },
+      "lemma": {
+        "bytes": 349,
+        "sha256": "13545f5f410bc4908e677717e459e31244decee736ab0f5a6b5d6a4307f293d6"
+      },
+      "parameter_context": {
+        "bytes": 251,
+        "sha256": "f77daf9c70ce8c72927688ba20c3dbc411d9ddbfca7366752c89b68c07e783c8"
+      },
+      "pattern_contracts": {
+        "bytes": 878,
+        "sha256": "deb42870583282a887537780e1fd58555bbb7fe21050113a0cfa4cca0b90af30"
+      },
+      "target_contracts": {
+        "bytes": 1795,
+        "sha256": "0f7e9831a66bb39c01ae968adfd31628cbbf56acf373e1ccad07e554c92b92f4"
+      },
+      "target_trace": {
+        "bytes": 6749,
+        "sha256": "40155e8da3e295fd90894fa9aabb01a837b6c263c5a16f354edec3f0e0523cff"
+      }
+    },
+    "schema": "ordinary.hole-context.v1"
+  },
+  "lemma": {
+    "dv": [],
+    "essential": [
+      {
+        "label": "lemma-h0",
+        "statement": [
+          "|-",
+          "R",
+          "ph",
+          "ps",
+          "ch"
+        ]
+      },
+      {
+        "label": "lemma-h1",
+        "statement": [
+          "|-",
+          "R",
+          "ph",
+          "ps",
+          "ch"
+        ]
+      }
+    ],
+    "floating": [
+      {
+        "label": "wph",
+        "statement": [
+          "wff",
+          "ph"
+        ]
+      },
+      {
+        "label": "wps",
+        "statement": [
+          "wff",
+          "ps"
+        ]
+      },
+      {
+        "label": "wch",
+        "statement": [
+          "wff",
+          "ch"
+        ]
+      }
+    ],
+    "kind": "$p",
+    "label": "learned-cut",
+    "statement": [
+      "|-",
+      "T",
+      "ph",
+      "ps",
+      "ch"
+    ]
+  },
+  "occurrence_path": [
+    3
+  ],
+  "pattern": {
+    "step1": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "step1-h0",
+          "statement": [
+            "|-",
+            "R",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$a",
+      "label": "step1",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "S",
+        "ph",
+        "ps"
+      ]
+    },
+    "step2": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "step2-h0",
+          "statement": [
+            "|-",
+            "S",
+            "ph",
+            "ps"
+          ]
+        },
+        {
+          "label": "step2-h1",
+          "statement": [
+            "|-",
+            "R",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "step2",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "T",
+        "ph",
+        "ps",
+        "ch"
+      ]
+    },
+    "wch": {
+      "kind": "$f",
+      "label": "wch",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "ch"
+      ]
+    },
+    "wph": {
+      "kind": "$f",
+      "label": "wph",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "ph"
+      ]
+    },
+    "wps": {
+      "kind": "$f",
+      "label": "wps",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "ps"
+      ]
+    }
+  },
+  "target": 24,
+  "target_contracts": {
+    "argument": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "argument-h0",
+          "statement": [
+            "|-",
+            "R",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "argument",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "R",
+        "ph",
+        "ps",
+        "ch"
+      ]
+    },
+    "fa": {
+      "kind": "$f",
+      "label": "fa",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "a"
+      ]
+    },
+    "fb": {
+      "kind": "$f",
+      "label": "fb",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "b"
+      ]
+    },
+    "fc": {
+      "kind": "$f",
+      "label": "fc",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "wff",
+        "c"
+      ]
+    },
+    "ht": {
+      "kind": "$e",
+      "label": "ht",
+      "span": [
+        0,
+        1
+      ],
+      "statement": [
+        "|-",
+        "R",
+        "(",
+        "a",
+        "op",
+        "b",
+        ")",
+        "c",
+        "a"
+      ]
+    },
+    "outer": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "outer-h0",
+          "statement": [
+            "|-",
+            "T",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "outer",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "T",
+        "ph",
+        "ps",
+        "ch"
+      ]
+    },
+    "step1": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "step1-h0",
+          "statement": [
+            "|-",
+            "R",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$a",
+      "label": "step1",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "S",
+        "ph",
+        "ps"
+      ]
+    },
+    "step2": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "step2-h0",
+          "statement": [
+            "|-",
+            "S",
+            "ph",
+            "ps"
+          ]
+        },
+        {
+          "label": "step2-h1",
+          "statement": [
+            "|-",
+            "R",
+            "ph",
+            "ps",
+            "ch"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "step2",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "|-",
+        "T",
+        "ph",
+        "ps",
+        "ch"
+      ]
+    },
+    "syn": {
+      "dv": [],
+      "essential": [],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        }
+      ],
+      "kind": "$a",
+      "label": "syn",
+      "span": [
+        1,
+        2
+      ],
+      "statement": [
+        "wff",
+        "(",
+        "ph",
+        "op",
+        "ps",
+        ")"
+      ]
+    }
+  },
+  "trace": {
+    "events": [
+      {
+        "kind": "step",
+        "node": 0
+      },
+      {
+        "kind": "step",
+        "node": 1
+      },
+      {
+        "kind": "step",
+        "node": 2
+      },
+      {
+        "kind": "step",
+        "node": 3
+      },
+      {
+        "kind": "step",
+        "node": 4
+      },
+      {
+        "kind": "step",
+        "node": 5
+      },
+      {
+        "kind": "step",
+        "node": 6
+      },
+      {
+        "kind": "step",
+        "node": 7
+      },
+      {
+        "kind": "step",
+        "node": 8
+      },
+      {
+        "kind": "step",
+        "node": 9
+      },
+      {
+        "kind": "step",
+        "node": 10
+      },
+      {
+        "kind": "step",
+        "node": 11
+      },
+      {
+        "kind": "step",
+        "node": 12
+      },
+      {
+        "kind": "step",
+        "node": 13
+      },
+      {
+        "kind": "step",
+        "node": 14
+      },
+      {
+        "kind": "step",
+        "node": 15
+      },
+      {
+        "kind": "step",
+        "node": 16
+      },
+      {
+        "kind": "step",
+        "node": 17
+      },
+      {
+        "kind": "step",
+        "node": 18
+      },
+      {
+        "kind": "step",
+        "node": 19
+      },
+      {
+        "kind": "step",
+        "node": 20
+      },
+      {
+        "kind": "step",
+        "node": 21
+      },
+      {
+        "kind": "step",
+        "node": 22
+      },
+      {
+        "kind": "step",
+        "node": 23
+      },
+      {
+        "kind": "step",
+        "node": 24
+      },
+      {
+        "kind": "step",
+        "node": 25
+      }
+    ],
+    "external_logical_hypotheses": [
+      {
+        "label": "ht",
+        "statement": [
+          "|-",
+          "R",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ]
+      }
+    ],
+    "label": "authored-target",
+    "nodes": [
+      {
+        "id": 0,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 1,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fb",
+        "output": [
+          "wff",
+          "b"
+        ]
+      },
+      {
+        "assertion_kind": "$a",
+        "distinct_variable_obligations": [],
+        "id": 2,
+        "inputs": [
+          0,
+          1
+        ],
+        "kind": "syntax_application",
+        "label": "syn",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 0,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "b"
+            ],
+            "from": 1,
+            "hypothesis": "wps",
+            "kind": "floating"
+          }
+        ],
+        "output": [
+          "wff",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")"
+        ],
+        "substitution": {
+          "ph": [
+            "a"
+          ],
+          "ps": [
+            "b"
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fc",
+        "output": [
+          "wff",
+          "c"
+        ]
+      },
+      {
+        "id": 4,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 5,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 6,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fb",
+        "output": [
+          "wff",
+          "b"
+        ]
+      },
+      {
+        "assertion_kind": "$a",
+        "distinct_variable_obligations": [],
+        "id": 7,
+        "inputs": [
+          5,
+          6
+        ],
+        "kind": "syntax_application",
+        "label": "syn",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 5,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "b"
+            ],
+            "from": 6,
+            "hypothesis": "wps",
+            "kind": "floating"
+          }
+        ],
+        "output": [
+          "wff",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")"
+        ],
+        "substitution": {
+          "ph": [
+            "a"
+          ],
+          "ps": [
+            "b"
+          ]
+        }
+      },
+      {
+        "id": 8,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fc",
+        "output": [
+          "wff",
+          "c"
+        ]
+      },
+      {
+        "id": 9,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 10,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 11,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fb",
+        "output": [
+          "wff",
+          "b"
+        ]
+      },
+      {
+        "assertion_kind": "$a",
+        "distinct_variable_obligations": [],
+        "id": 12,
+        "inputs": [
+          10,
+          11
+        ],
+        "kind": "syntax_application",
+        "label": "syn",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 10,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "b"
+            ],
+            "from": 11,
+            "hypothesis": "wps",
+            "kind": "floating"
+          }
+        ],
+        "output": [
+          "wff",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")"
+        ],
+        "substitution": {
+          "ph": [
+            "a"
+          ],
+          "ps": [
+            "b"
+          ]
+        }
+      },
+      {
+        "id": 13,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fc",
+        "output": [
+          "wff",
+          "c"
+        ]
+      },
+      {
+        "id": 14,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 15,
+        "inputs": [],
+        "kind": "essential_hypothesis",
+        "label": "ht",
+        "output": [
+          "|-",
+          "R",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ]
+      },
+      {
+        "assertion_kind": "$a",
+        "distinct_variable_obligations": [],
+        "id": 16,
+        "inputs": [
+          12,
+          13,
+          14,
+          15
+        ],
+        "kind": "semantic_application",
+        "label": "step1",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")"
+            ],
+            "from": 12,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "c"
+            ],
+            "from": 13,
+            "hypothesis": "wps",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 14,
+            "hypothesis": "wch",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "|-",
+              "R",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")",
+              "c",
+              "a"
+            ],
+            "from": 15,
+            "hypothesis": "step1-h0",
+            "kind": "essential"
+          }
+        ],
+        "output": [
+          "|-",
+          "S",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c"
+        ],
+        "substitution": {
+          "ch": [
+            "a"
+          ],
+          "ph": [
+            "(",
+            "a",
+            "op",
+            "b",
+            ")"
+          ],
+          "ps": [
+            "c"
+          ]
+        }
+      },
+      {
+        "id": 17,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 18,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fb",
+        "output": [
+          "wff",
+          "b"
+        ]
+      },
+      {
+        "assertion_kind": "$a",
+        "distinct_variable_obligations": [],
+        "id": 19,
+        "inputs": [
+          17,
+          18
+        ],
+        "kind": "syntax_application",
+        "label": "syn",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 17,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "b"
+            ],
+            "from": 18,
+            "hypothesis": "wps",
+            "kind": "floating"
+          }
+        ],
+        "output": [
+          "wff",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")"
+        ],
+        "substitution": {
+          "ph": [
+            "a"
+          ],
+          "ps": [
+            "b"
+          ]
+        }
+      },
+      {
+        "id": 20,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fc",
+        "output": [
+          "wff",
+          "c"
+        ]
+      },
+      {
+        "id": 21,
+        "inputs": [],
+        "kind": "floating_hypothesis",
+        "label": "fa",
+        "output": [
+          "wff",
+          "a"
+        ]
+      },
+      {
+        "id": 22,
+        "inputs": [],
+        "kind": "essential_hypothesis",
+        "label": "ht",
+        "output": [
+          "|-",
+          "R",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ]
+      },
+      {
+        "assertion_kind": "$p",
+        "distinct_variable_obligations": [],
+        "id": 23,
+        "inputs": [
+          19,
+          20,
+          21,
+          22
+        ],
+        "kind": "semantic_application",
+        "label": "argument",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")"
+            ],
+            "from": 19,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "c"
+            ],
+            "from": 20,
+            "hypothesis": "wps",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 21,
+            "hypothesis": "wch",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "|-",
+              "R",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")",
+              "c",
+              "a"
+            ],
+            "from": 22,
+            "hypothesis": "argument-h0",
+            "kind": "essential"
+          }
+        ],
+        "output": [
+          "|-",
+          "R",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ],
+        "substitution": {
+          "ch": [
+            "a"
+          ],
+          "ph": [
+            "(",
+            "a",
+            "op",
+            "b",
+            ")"
+          ],
+          "ps": [
+            "c"
+          ]
+        }
+      },
+      {
+        "assertion_kind": "$p",
+        "distinct_variable_obligations": [],
+        "id": 24,
+        "inputs": [
+          7,
+          8,
+          9,
+          16,
+          23
+        ],
+        "kind": "semantic_application",
+        "label": "step2",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")"
+            ],
+            "from": 7,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "c"
+            ],
+            "from": 8,
+            "hypothesis": "wps",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 9,
+            "hypothesis": "wch",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "|-",
+              "S",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")",
+              "c"
+            ],
+            "from": 16,
+            "hypothesis": "step2-h0",
+            "kind": "essential"
+          },
+          {
+            "expected": [
+              "|-",
+              "R",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")",
+              "c",
+              "a"
+            ],
+            "from": 23,
+            "hypothesis": "step2-h1",
+            "kind": "essential"
+          }
+        ],
+        "output": [
+          "|-",
+          "T",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ],
+        "substitution": {
+          "ch": [
+            "a"
+          ],
+          "ph": [
+            "(",
+            "a",
+            "op",
+            "b",
+            ")"
+          ],
+          "ps": [
+            "c"
+          ]
+        }
+      },
+      {
+        "assertion_kind": "$p",
+        "distinct_variable_obligations": [],
+        "id": 25,
+        "inputs": [
+          2,
+          3,
+          4,
+          24
+        ],
+        "kind": "semantic_application",
+        "label": "outer",
+        "obligations": [
+          {
+            "expected": [
+              "wff",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")"
+            ],
+            "from": 2,
+            "hypothesis": "wph",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "c"
+            ],
+            "from": 3,
+            "hypothesis": "wps",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "wff",
+              "a"
+            ],
+            "from": 4,
+            "hypothesis": "wch",
+            "kind": "floating"
+          },
+          {
+            "expected": [
+              "|-",
+              "T",
+              "(",
+              "a",
+              "op",
+              "b",
+              ")",
+              "c",
+              "a"
+            ],
+            "from": 24,
+            "hypothesis": "outer-h0",
+            "kind": "essential"
+          }
+        ],
+        "output": [
+          "|-",
+          "T",
+          "(",
+          "a",
+          "op",
+          "b",
+          ")",
+          "c",
+          "a"
+        ],
+        "substitution": {
+          "ch": [
+            "a"
+          ],
+          "ph": [
+            "(",
+            "a",
+            "op",
+            "b",
+            ")"
+          ],
+          "ps": [
+            "c"
+          ]
+        }
+      }
+    ],
+    "root": 25,
+    "source": {
+      "active_dv": [],
+      "dv": [],
+      "essential": [
+        {
+          "label": "ht",
+          "statement": [
+            "|-",
+            "R",
+            "(",
+            "a",
+            "op",
+            "b",
+            ")",
+            "c",
+            "a"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "fa",
+          "statement": [
+            "wff",
+            "a"
+          ]
+        },
+        {
+          "label": "fb",
+          "statement": [
+            "wff",
+            "b"
+          ]
+        },
+        {
+          "label": "fc",
+          "statement": [
+            "wff",
+            "c"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "authored-target",
+      "span": [
+        100,
+        101
+      ],
+      "statement": [
+        "|-",
+        "T",
+        "(",
+        "a",
+        "op",
+        "b",
+        ")",
+        "c",
+        "a"
+      ]
+    },
+    "terminal": "NATIVE_VERIFIED"
+  }
+}
