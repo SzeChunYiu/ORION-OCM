@@ -1,0 +1,209 @@
+{
+  "schema": "ocm.g1-minimality-subtraction.summary.v1",
+  "issue": 165,
+  "gate": "G1.2",
+  "terminal": "CURRENT_KSO_PARENT_NOT_MINIMAL",
+  "not_issued": [
+    "MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE",
+    "MINIMUM_SELF_EXTENDING_VESSEL",
+    "CURRENT_KSO_PARENT_SUFFICIENT",
+    "COMPACT_VESSEL_PARTIAL"
+  ],
+  "parent_freeze": {
+    "path": "research/g1-vessel-freeze-v1",
+    "terminal": "COMPACT_VESSEL_PARTIAL",
+    "git_head": "b35093a26e51ccf4829aa1218957827d95db8923",
+    "src_ocm_tree": "3a4dcbcf3a1875acefcec80cfa8d47330d172655"
+  },
+  "this_run": {
+    "date": "2026-09-08",
+    "branch": "research/issue-165-g1-minimality",
+    "worktree": "/Users/billy/Desktop/projects/ORION-OCM-wt/g1-min",
+    "git_head": "d23410aaf084d03e658a020b0ec9c32d66b5d2e8",
+    "git_tree": "c20d6facf29ba38f9409c44b138df486249998d8",
+    "src_ocm_tree": "3a4dcbcf3a1875acefcec80cfa8d47330d172655",
+    "src_ocm_unchanged_from_freeze": true,
+    "production_code_deleted": false,
+    "no_push": true,
+    "python": "CPython 3.14",
+    "pytest": "8.3.5"
+  },
+  "blocker": {
+    "id": "M0_OCMRUNTIME_AND_WORK_OPERATOR_REQUIRED_BY_TESTS",
+    "detail": "Both leftover schemas named by the G1.1 freeze are imported by passing tests (and by production). Neither is a proven-unused duplicate. Unification would be a rewrite, not a deletion.",
+    "conjuncts": [
+      {
+        "id": "M0_RUNTIME_NAME_COLLISION",
+        "path": "src/ocm/runtime/state.py",
+        "sha256": "a9002dd5e75cc370f96a82573944c6fc0e5fd22977a208048b7534401619166a",
+        "nloc": 122,
+        "bytes": 8329,
+        "live_second_core": false,
+        "test_unused": false,
+        "blocking_tests": [
+          "tests/m0/test_runtime_persistence.py"
+        ],
+        "blocking_production": [
+          "src/ocm/runtime/__init__.py",
+          "src/ocm/demo.py"
+        ],
+        "ci": [
+          ".github/workflows/m0-canonical.yml:hostile-controls",
+          ".github/workflows/m0-canonical.yml:controlled-demo"
+        ]
+      },
+      {
+        "id": "WORK_OPERATOR_PARALLEL_SCHEMA",
+        "path": "src/ocm/work/contracts.py",
+        "sha256": "7017588e2920851ceb8aeec8d6121ccbe6c1f0688eeced3e0814109bf63407bf",
+        "nloc": 188,
+        "bytes": 10760,
+        "live_second_core": false,
+        "test_unused": false,
+        "blocking_tests": [
+          "tests/m9/test_work.py",
+          "tests/m9/test_method_contract_integrity_v3.py",
+          "tests/m10/test_proof_lifecycle.py",
+          "tests/m12/test_current_comparator_parity.py"
+        ],
+        "blocking_production": [
+          "src/ocm/work/envs.py",
+          "src/ocm/work/methods.py",
+          "src/ocm/lifetime/machine.py",
+          "src/ocm/lifetime/phases.py",
+          "src/ocm/science/lifecycle.py",
+          "src/ocm/science/transfer.py",
+          "src/ocm/selfmodel/benchmark.py",
+          "src/ocm/evaluation/m9_transfer_eval.py",
+          "src/ocm/evaluation/m10_science_eval.py"
+        ]
+      }
+    ]
+  },
+  "cheapest_proven_unused": {
+    "path": "src/ocm/store/evidence_identity.py",
+    "sha256": "1aa121f3a71939b4c65b114b5d799c894dd84b494898d6fd7397c78376368aee",
+    "nloc": 46,
+    "bytes": 2185,
+    "kind": "unused_sibling_EvidenceRecord_not_a_cognitive_core",
+    "hide_probe": {
+      "id": "probe1-hide-evidence-identity",
+      "result": "177 passed",
+      "suites": [
+        "tests/m0/test_runtime_persistence.py",
+        "tests/m9/test_work.py",
+        "tests/m9/test_method_contract_integrity_v3.py",
+        "tests/m1",
+        "tests/m2/test_ocm_runtime.py",
+        "tests/m2/test_sqlite_ledger_parent.py"
+      ]
+    },
+    "deleted": false,
+    "why_retained": "G1.2/008: do not call the machine minimal merely because unused code can be deleted. This file is not M0 OCMRuntime or work.Operator."
+  },
+  "probes": [
+    {
+      "id": "baseline",
+      "hidden": [],
+      "m0_persistence": "3 passed",
+      "m9_work": "8 passed",
+      "m1_plus_m2_slice": "166 passed"
+    },
+    {
+      "id": "probe1-hide-evidence-identity",
+      "hidden": ["src/ocm/store/evidence_identity.py"],
+      "result": "177 passed",
+      "capability_loss": false
+    },
+    {
+      "id": "probe2-hide-m0-raw",
+      "hidden": ["src/ocm/runtime/state.py"],
+      "compensation": null,
+      "result": "2 collection errors",
+      "capability_loss": "package init cannot load; live ocm.runtime.ocm_runtime import also fails",
+      "epistemic_invariant_failure": "M0 hash-chain tests uncollected"
+    },
+    {
+      "id": "probe3-hide-m0-compensated",
+      "hidden": ["src/ocm/runtime/state.py"],
+      "compensation": "empty src/ocm/runtime/__init__.py",
+      "m0_persistence": "1 collection ImportError",
+      "m2_ocm_runtime": "8 passed",
+      "demo_import": "ImportError",
+      "capability_loss": "M0 persist/revoke/reinstate and controlled demo; live M2 executive survives",
+      "epistemic_invariant_failure": "test_event_hash_chain_rejects_tamper uncollected"
+    },
+    {
+      "id": "probe4-hide-work-operator",
+      "hidden": ["src/ocm/work/contracts.py"],
+      "result": "2 collection errors on tests/m9",
+      "capability_loss": "M9 skill/transfer suite uncollected"
+    }
+  ],
+  "necessity": {
+    "M0_OCMRuntime": {
+      "algebraic": false,
+      "resource": false,
+      "epistemic": true
+    },
+    "work.Operator": {
+      "algebraic": true,
+      "resource": true,
+      "epistemic": true
+    },
+    "evidence_identity.py": {
+      "algebraic": false,
+      "resource": false,
+      "epistemic": false
+    }
+  },
+  "G1.2": [
+    {
+      "id": "G1.2/001",
+      "text": "Remove candidate architecture components one at a time.",
+      "status": "EARNED_AS_PROBES"
+    },
+    {
+      "id": "G1.2/002",
+      "text": "Permit compensating compositions where scientifically appropriate.",
+      "status": "EARNED_AS_PROBES"
+    },
+    {
+      "id": "G1.2/003",
+      "text": "Measure capability loss.",
+      "status": "EARNED"
+    },
+    {
+      "id": "G1.2/004",
+      "text": "Measure resource change.",
+      "status": "EARNED"
+    },
+    {
+      "id": "G1.2/005",
+      "text": "Measure epistemic-invariant failure.",
+      "status": "EARNED"
+    },
+    {
+      "id": "G1.2/006",
+      "text": "Distinguish algebraic / resource / epistemic necessity.",
+      "status": "EARNED"
+    },
+    {
+      "id": "G1.2/007",
+      "text": "Preserve PARENT_SUFFICIENT where ordinary architecture mechanisms suffice.",
+      "status": "PRESERVED"
+    },
+    {
+      "id": "G1.2/008",
+      "text": "Do not call the machine minimal merely because code was deleted.",
+      "status": "OBEYED"
+    }
+  ],
+  "why": [
+    "G1.2 subtraction was run as restore-after probes on the leftover G1.1 schemas.",
+    "M0 OCMRuntime is required by tests/m0/test_runtime_persistence.py, ocm.demo, and package export.",
+    "work.Operator is required by M9/M10/M12 tests and lifetime/science production.",
+    "The cheapest unused file (evidence_identity.py) is not a cognitive core and was not deleted.",
+    "MINIMUM_SELF_EXTENDING_VESSEL is not claimed."
+  ]
+}
