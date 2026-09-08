@@ -1,0 +1,1376 @@
+{
+  "schema": "ocm.g1-vessel-freeze.g1-3-counts.v1",
+  "scope": "single git head source snapshot; not instance learned-state size; not across-domain growth",
+  "git_head": "b35093a26e51ccf4829aa1218957827d95db8923",
+  "src_ocm_tree": "3a4dcbcf3a1875acefcec80cfa8d47330d172655",
+  "nloc_definition": "non-blank, non-comment Python lines under src/ocm/",
+  "by_role": {
+    "CUSTODY": {
+      "files": 6,
+      "bytes": 23245,
+      "lines": 373,
+      "nloc": 309
+    },
+    "HARNESS": {
+      "files": 38,
+      "bytes": 315169,
+      "lines": 5302,
+      "nloc": 4551
+    },
+    "C": {
+      "files": 7,
+      "bytes": 70007,
+      "lines": 1347,
+      "nloc": 1094
+    },
+    "PRIOR": {
+      "files": 41,
+      "bytes": 318552,
+      "lines": 6104,
+      "nloc": 5046
+    },
+    "F": {
+      "files": 36,
+      "bytes": 277334,
+      "lines": 6479,
+      "nloc": 5287
+    },
+    "O": {
+      "files": 14,
+      "bytes": 83823,
+      "lines": 1705,
+      "nloc": 1392
+    },
+    "\u03a0": {
+      "files": 21,
+      "bytes": 236230,
+      "lines": 4310,
+      "nloc": 3588
+    }
+  },
+  "ratios": {
+    "pi_nloc": 3588,
+    "f_nloc": 5287,
+    "o_nloc": 1392,
+    "c_nloc": 1094,
+    "prior_nloc": 5046,
+    "harness_nloc": 4551,
+    "custody_nloc": 309,
+    "pi_over_prior": 0.7111,
+    "pi_over_f": 0.6786,
+    "pi_over_f_plus_o": 0.5372,
+    "prior_over_live_machine": 0.3019
+  },
+  "interpretation": [
+    "F machinery 5287 nloc and PRIOR 5046 nloc are the two largest live buckets.",
+    "\u03a0 3588 nloc is smaller than F but larger than O (1392) and C (1094).",
+    "This does not show CONTROLLER_GROWTH_DOMINATES (no growth series) or STATE_SIZE_DOMINATES (no instance state bytes).",
+    "Authored domain source is large enough that G1.3 competence-in-state is not demonstrated."
+  ],
+  "files": [
+    {
+      "path": "src/ocm/__init__.py",
+      "role": "CUSTODY",
+      "bytes": 164,
+      "lines": 7,
+      "nloc": 5,
+      "sha256": "c6005a99672b6a12e1677e2f90b354ded4e0180758b2b55d47b2eaf6c0f858b7"
+    },
+    {
+      "path": "src/ocm/chat/__init__.py",
+      "role": "HARNESS",
+      "bytes": 101,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "521231b9a22ca935f461ee5b4bcaba7435bac7b6052cca1e934c9c97961e7b09"
+    },
+    {
+      "path": "src/ocm/chat/__main__.py",
+      "role": "HARNESS",
+      "bytes": 4436,
+      "lines": 110,
+      "nloc": 99,
+      "sha256": "688e6d98dfee65464eeee4eaeb5503dda357a48261d86ba6f8a5de1ef175cb04"
+    },
+    {
+      "path": "src/ocm/chat/learning.py",
+      "role": "HARNESS",
+      "bytes": 7858,
+      "lines": 129,
+      "nloc": 120,
+      "sha256": "5c236e61e554512ad16996d0f336794a24748b794173e1ba9d5c0476a8998245"
+    },
+    {
+      "path": "src/ocm/chat/session.py",
+      "role": "HARNESS",
+      "bytes": 30789,
+      "lines": 444,
+      "nloc": 391,
+      "sha256": "0af79af73e314723d9907fe092cee6b3f7a893b2cae00c8193ef967af4748def"
+    },
+    {
+      "path": "src/ocm/chat/spelling.py",
+      "role": "HARNESS",
+      "bytes": 4104,
+      "lines": 91,
+      "nloc": 81,
+      "sha256": "7fa54e8f6cf95f0041d15cdf3e6012794590b86be05277f422f5dbb11b203346"
+    },
+    {
+      "path": "src/ocm/cli.py",
+      "role": "HARNESS",
+      "bytes": 1594,
+      "lines": 31,
+      "nloc": 28,
+      "sha256": "7380b90c6db8f8d2257aba00d4f6b78409789228671b3c2cc02af151eb184a5a"
+    },
+    {
+      "path": "src/ocm/comparators/__init__.py",
+      "role": "HARNESS",
+      "bytes": 79,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "3f9be0fc49590ae5fe2b73527880c7e1eea664115fd73d0f6dfbee504506823f"
+    },
+    {
+      "path": "src/ocm/comparators/matched_parent.py",
+      "role": "HARNESS",
+      "bytes": 7774,
+      "lines": 146,
+      "nloc": 126,
+      "sha256": "2c3b551e93faaea23c0faf8eaad8011700d6ca7b573979312e741777177f8730"
+    },
+    {
+      "path": "src/ocm/comparators/semantic_memory.py",
+      "role": "HARNESS",
+      "bytes": 3873,
+      "lines": 80,
+      "nloc": 67,
+      "sha256": "1575f187d12f860bad86a0e21eb0983b34c2adcde25ef6d3fd216706a4d3914b"
+    },
+    {
+      "path": "src/ocm/comparators/semantic_parent.py",
+      "role": "HARNESS",
+      "bytes": 7571,
+      "lines": 137,
+      "nloc": 127,
+      "sha256": "44cbcb44529ace397cda9e4e3127a07d06c6fe30dd154d7d4973239fa3ecec79"
+    },
+    {
+      "path": "src/ocm/constitution/__init__.py",
+      "role": "C",
+      "bytes": 97,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "8d910f105f4c3bfa31fb12b470c5cb7ba04a2b151481301e6c22324c7fe0faa2"
+    },
+    {
+      "path": "src/ocm/constitution/action.py",
+      "role": "C",
+      "bytes": 8013,
+      "lines": 178,
+      "nloc": 139,
+      "sha256": "52cbe05471cbb52a34246c95d131358c0007b1f987cf90af9dec54da634191a2"
+    },
+    {
+      "path": "src/ocm/constitution/boundary.py",
+      "role": "C",
+      "bytes": 5615,
+      "lines": 92,
+      "nloc": 77,
+      "sha256": "7f6d36dca9360eee3356390ddc30331fc3f1d126a38d7f989f85383c64210056"
+    },
+    {
+      "path": "src/ocm/constitution/hard_gates.py",
+      "role": "C",
+      "bytes": 7637,
+      "lines": 217,
+      "nloc": 178,
+      "sha256": "419bf679f3080a432c0b684aafcc1f18d5e93194c6ab99374db1a4665c14e9e8"
+    },
+    {
+      "path": "src/ocm/data/__init__.py",
+      "role": "PRIOR",
+      "bytes": 877,
+      "lines": 23,
+      "nloc": 17,
+      "sha256": "6b5e1570f8eddd1d6af85d73c354666d47f8e2d9f091395e0254a405c5ebfb55"
+    },
+    {
+      "path": "src/ocm/demo.py",
+      "role": "HARNESS",
+      "bytes": 3548,
+      "lines": 36,
+      "nloc": 33,
+      "sha256": "7a112ff2bb7f3d87de1f0729630aa1e43b6a5e1f5ae4d2f6d1858270a580c11f"
+    },
+    {
+      "path": "src/ocm/dependency_audit.py",
+      "role": "CUSTODY",
+      "bytes": 6468,
+      "lines": 63,
+      "nloc": 54,
+      "sha256": "89deab86299132735334d9be22383ef25072e576b15477366f53c18ed6ce5c46"
+    },
+    {
+      "path": "src/ocm/dialogue/__init__.py",
+      "role": "PRIOR",
+      "bytes": 98,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "39b0bab4bb932812f78d244be5673a9c0e671ebd63a922aee5daeeb19011815d"
+    },
+    {
+      "path": "src/ocm/dialogue/clarify.py",
+      "role": "PRIOR",
+      "bytes": 4854,
+      "lines": 97,
+      "nloc": 78,
+      "sha256": "d2a699741a90d66e71a1e4b0260e1ed6a82e088649c251e397222ce804a11de0"
+    },
+    {
+      "path": "src/ocm/dialogue/field_binding.py",
+      "role": "F",
+      "bytes": 4499,
+      "lines": 113,
+      "nloc": 96,
+      "sha256": "83cdf387eea7d6ed8eb0012ecd72814e00175ff9ea48c304e4aca7f06b93c3e4"
+    },
+    {
+      "path": "src/ocm/dialogue/gate.py",
+      "role": "PRIOR",
+      "bytes": 9969,
+      "lines": 185,
+      "nloc": 150,
+      "sha256": "8bbd90fba1169f0febe18c9b95f4821cea1759e114b2d1980965d1e957d1be38"
+    },
+    {
+      "path": "src/ocm/dialogue/microworld.py",
+      "role": "PRIOR",
+      "bytes": 6331,
+      "lines": 101,
+      "nloc": 82,
+      "sha256": "702ce69230268b8e2ebd5d1b078c77f3de9518d71ecf6d3b50cb8e3c56d41e4c"
+    },
+    {
+      "path": "src/ocm/dialogue/planner.py",
+      "role": "PRIOR",
+      "bytes": 12280,
+      "lines": 203,
+      "nloc": 170,
+      "sha256": "fc2e4167dbf6d63636ac0a360acc9d214452a7ae4b1955273436c348baefa27b"
+    },
+    {
+      "path": "src/ocm/dialogue/reference.py",
+      "role": "PRIOR",
+      "bytes": 6070,
+      "lines": 117,
+      "nloc": 95,
+      "sha256": "85988997729375132e1adf9959c344707ab2fdf1920dc8b7dcee99139f6e8605"
+    },
+    {
+      "path": "src/ocm/dialogue/session.py",
+      "role": "PRIOR",
+      "bytes": 18842,
+      "lines": 295,
+      "nloc": 255,
+      "sha256": "1dcae0751b92ce052f7a667572d5dae533f71f52f4dc15b9a1043bbae9c118f9"
+    },
+    {
+      "path": "src/ocm/dialogue/surface_text.py",
+      "role": "PRIOR",
+      "bytes": 7855,
+      "lines": 138,
+      "nloc": 126,
+      "sha256": "960e5b87a2f653e04eb4a1100efaac34d705321742498dbecd8c3efa776b94a1"
+    },
+    {
+      "path": "src/ocm/dialogue/workspace.py",
+      "role": "PRIOR",
+      "bytes": 16267,
+      "lines": 314,
+      "nloc": 259,
+      "sha256": "9cba9a818471eee8e1b73e899d3530fb3c3b9da503d0832ceba96a8bab59f7ae"
+    },
+    {
+      "path": "src/ocm/epistemics/__init__.py",
+      "role": "C",
+      "bytes": 167,
+      "lines": 5,
+      "nloc": 3,
+      "sha256": "f2ea76d9ec54289f6cb0a2fa6fe64557ef2e2b5a1ff4f65bc2320ee884577198"
+    },
+    {
+      "path": "src/ocm/epistemics/authority.py",
+      "role": "C",
+      "bytes": 1997,
+      "lines": 40,
+      "nloc": 29,
+      "sha256": "5ed03c5dd41d6076081d060104ce8929ef0b805e16036c589170e549550b8971"
+    },
+    {
+      "path": "src/ocm/evaluation/__init__.py",
+      "role": "HARNESS",
+      "bytes": 51,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "0cdbd761f0fbab55005c701131f212317735d5547aee3ab84f7f304977c43346"
+    },
+    {
+      "path": "src/ocm/evaluation/historical.py",
+      "role": "HARNESS",
+      "bytes": 6467,
+      "lines": 124,
+      "nloc": 94,
+      "sha256": "d917c83f7b5fdce6a28fe8da3da7de970e6808571bc7d83a9676c699e84de115"
+    },
+    {
+      "path": "src/ocm/evaluation/m10_science_eval.py",
+      "role": "HARNESS",
+      "bytes": 11899,
+      "lines": 169,
+      "nloc": 146,
+      "sha256": "09bbb7c25a9ea572938b39d7e67b9baa6231df8486d30eeea4349f74f84046c7"
+    },
+    {
+      "path": "src/ocm/evaluation/m11_self_eval.py",
+      "role": "HARNESS",
+      "bytes": 3878,
+      "lines": 66,
+      "nloc": 58,
+      "sha256": "6a7dbca1154a59e8ae40613a76795a79b606dcc89e91406d0c444ba45a41c2b3"
+    },
+    {
+      "path": "src/ocm/evaluation/m12_lifetime_eval.py",
+      "role": "HARNESS",
+      "bytes": 18830,
+      "lines": 259,
+      "nloc": 227,
+      "sha256": "8986d1c55126697d939e0c3d9d302e8dc7537af59362c4ce22705e64d08d4e91"
+    },
+    {
+      "path": "src/ocm/evaluation/m12_paired_eval.py",
+      "role": "HARNESS",
+      "bytes": 16239,
+      "lines": 212,
+      "nloc": 186,
+      "sha256": "ffc4b098a3d5e89c2a01908ecdc5310817fb87b4d0bd658aabf61fd6f1b96bf7"
+    },
+    {
+      "path": "src/ocm/evaluation/m12_reference_arm.py",
+      "role": "HARNESS",
+      "bytes": 3278,
+      "lines": 60,
+      "nloc": 47,
+      "sha256": "e5c551388238e7f13a05b2b705268ec76d84d09c2b2c373c9b7dfae824a216fe"
+    },
+    {
+      "path": "src/ocm/evaluation/m21_surprise_revival.py",
+      "role": "HARNESS",
+      "bytes": 8461,
+      "lines": 160,
+      "nloc": 143,
+      "sha256": "55eae81ba6542c1c1119f3bc16c848af83104fb1461b3bced805e27278bab5ce"
+    },
+    {
+      "path": "src/ocm/evaluation/m3_microworld_eval.py",
+      "role": "HARNESS",
+      "bytes": 7123,
+      "lines": 131,
+      "nloc": 112,
+      "sha256": "bd41be13682c9cf2d614b408521b8b1803b56c04f38d38f0ac51f3993436e973"
+    },
+    {
+      "path": "src/ocm/evaluation/m4_dialogue_eval.py",
+      "role": "HARNESS",
+      "bytes": 8860,
+      "lines": 168,
+      "nloc": 154,
+      "sha256": "45b2c5a6db221430c74fb0cde1d2f76a5d02bd38fc3204ee40b4354d4f4402e1"
+    },
+    {
+      "path": "src/ocm/evaluation/m5_acquisition_eval.py",
+      "role": "HARNESS",
+      "bytes": 13417,
+      "lines": 239,
+      "nloc": 197,
+      "sha256": "57128be33fea6dceac83b18c061e71cb339d629cf0e920663f35b31278a837a6"
+    },
+    {
+      "path": "src/ocm/evaluation/m6_alpha_eval.py",
+      "role": "HARNESS",
+      "bytes": 5905,
+      "lines": 114,
+      "nloc": 97,
+      "sha256": "fd5a1faef81666370d5469bee427498caf708c9b24d3f1eefe0d3105f6a8f250"
+    },
+    {
+      "path": "src/ocm/evaluation/m7_blimp_ud.py",
+      "role": "HARNESS",
+      "bytes": 5070,
+      "lines": 116,
+      "nloc": 102,
+      "sha256": "c34a0f157a4ece07b58beac1fec67e5368a5ea1be706e13114d59f38a7a98a41"
+    },
+    {
+      "path": "src/ocm/evaluation/m7_comparison.py",
+      "role": "HARNESS",
+      "bytes": 18664,
+      "lines": 326,
+      "nloc": 267,
+      "sha256": "b97b80d81b2017721529751983381ba3ec1e54fc8381bc60023041442b08c3e7"
+    },
+    {
+      "path": "src/ocm/evaluation/m8_organisation_eval.py",
+      "role": "HARNESS",
+      "bytes": 7412,
+      "lines": 124,
+      "nloc": 106,
+      "sha256": "b30e770e5435543a1a83fff25bb020a298fd37e677ede82a45f18490014fb8a9"
+    },
+    {
+      "path": "src/ocm/evaluation/m9_transfer_eval.py",
+      "role": "HARNESS",
+      "bytes": 18489,
+      "lines": 284,
+      "nloc": 241,
+      "sha256": "cc09715b0acecf83479842fa3f40ebabf32b443a2bd7e97d5e2839f757439bd1"
+    },
+    {
+      "path": "src/ocm/evaluation/method_learning_eval.py",
+      "role": "HARNESS",
+      "bytes": 3384,
+      "lines": 72,
+      "nloc": 64,
+      "sha256": "ccd2d4918794d1ad48f7e6d239caed14c9f3a53c7c7d0e6c208fcc39b9380834"
+    },
+    {
+      "path": "src/ocm/evaluation/n1_ud_induction_eval.py",
+      "role": "HARNESS",
+      "bytes": 5957,
+      "lines": 67,
+      "nloc": 59,
+      "sha256": "2f418c82722df6efab15d745136bcf869a0230af20a41f41156fe1993865c156"
+    },
+    {
+      "path": "src/ocm/evaluation/output.py",
+      "role": "HARNESS",
+      "bytes": 783,
+      "lines": 20,
+      "nloc": 16,
+      "sha256": "86d642593b9ef288db252434c4640ca5e94655cf20e9db63d7059390d1d3faf8"
+    },
+    {
+      "path": "src/ocm/evaluation/scaling.py",
+      "role": "HARNESS",
+      "bytes": 4939,
+      "lines": 113,
+      "nloc": 98,
+      "sha256": "faa7f3ab4764a9c476844de9b71575b4e493acd06275c853eef797a1a74d73ab"
+    },
+    {
+      "path": "src/ocm/evaluation/stats.py",
+      "role": "HARNESS",
+      "bytes": 7159,
+      "lines": 158,
+      "nloc": 133,
+      "sha256": "7805639e72fb5b97c47b35c3b21cb1cdce5653f199f21bcd21920a8685214f01"
+    },
+    {
+      "path": "src/ocm/historical.py",
+      "role": "CUSTODY",
+      "bytes": 1621,
+      "lines": 48,
+      "nloc": 39,
+      "sha256": "ff5f98daf08751225c5f7fefdf480f731fd0d5a9c1605e96000a6563b87cc47d"
+    },
+    {
+      "path": "src/ocm/knowledge/__init__.py",
+      "role": "F",
+      "bytes": 102,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "28e8ecaff0f9396c191d6e992344823d903e536e6a4d6a9600ca61ba65c462b4"
+    },
+    {
+      "path": "src/ocm/knowledge/world.py",
+      "role": "F",
+      "bytes": 8662,
+      "lines": 174,
+      "nloc": 144,
+      "sha256": "69cbe0ba732fb8b53f559a6346542735265cf43ec529a927da624180599cf82c"
+    },
+    {
+      "path": "src/ocm/kso/__init__.py",
+      "role": "F",
+      "bytes": 1238,
+      "lines": 20,
+      "nloc": 17,
+      "sha256": "6e8345eac56214787ed686efb64a1e248c6e404a98cf9f78b73c41db0e61e03f"
+    },
+    {
+      "path": "src/ocm/kso/abstraction.py",
+      "role": "F",
+      "bytes": 10525,
+      "lines": 232,
+      "nloc": 174,
+      "sha256": "fc773cdb8f89e1cb12a76d4cba1b0a8f55d84a3f395053837926d88e73e726a5"
+    },
+    {
+      "path": "src/ocm/kso/admission.py",
+      "role": "F",
+      "bytes": 17227,
+      "lines": 388,
+      "nloc": 310,
+      "sha256": "5bee8e24b91f1d7f475b79682685907d974df1bd116ff44c56e4ac25479e7e33"
+    },
+    {
+      "path": "src/ocm/kso/checks.py",
+      "role": "C",
+      "bytes": 46481,
+      "lines": 814,
+      "nloc": 667,
+      "sha256": "d37f74e41fbf0731a870dc26b241e640349f5d2a6465f4c5a12bdf091784347d"
+    },
+    {
+      "path": "src/ocm/kso/extraction.py",
+      "role": "F",
+      "bytes": 9133,
+      "lines": 217,
+      "nloc": 189,
+      "sha256": "eaa2cbf870b880c1cb24d2e2f9b85959d47ba9b49744f40523907664495466eb"
+    },
+    {
+      "path": "src/ocm/kso/extraction_index.py",
+      "role": "F",
+      "bytes": 6461,
+      "lines": 143,
+      "nloc": 122,
+      "sha256": "407ef67dfe3e40c8aef4ec66381fe24073d96b244abeef7edcbb117ace03948b"
+    },
+    {
+      "path": "src/ocm/kso/extraction_indexed.py",
+      "role": "F",
+      "bytes": 6784,
+      "lines": 141,
+      "nloc": 123,
+      "sha256": "a3f4fd828b9e1190db0cd9601f7c5de82637f8d2231096a2103c5d107c80794d"
+    },
+    {
+      "path": "src/ocm/kso/firing.py",
+      "role": "O",
+      "bytes": 3335,
+      "lines": 83,
+      "nloc": 67,
+      "sha256": "c836d81f53f24fef1b5f8da21def2d58e1ae589282bd0a877256141a312b0259"
+    },
+    {
+      "path": "src/ocm/kso/ids.py",
+      "role": "F",
+      "bytes": 2692,
+      "lines": 71,
+      "nloc": 50,
+      "sha256": "7d5fe947aa8807a82b3bde181b2ac7c42f86404d47f017ef69d9e62e28e9b6e5"
+    },
+    {
+      "path": "src/ocm/kso/jump.py",
+      "role": "\u03a0",
+      "bytes": 5399,
+      "lines": 149,
+      "nloc": 128,
+      "sha256": "c68c8963123946614cd20b4b2ab2a2b1bef06e7b0bf4804107e8cfa363a43da1"
+    },
+    {
+      "path": "src/ocm/kso/navigation.py",
+      "role": "\u03a0",
+      "bytes": 24403,
+      "lines": 556,
+      "nloc": 454,
+      "sha256": "57acd4e5ec8a803a2573599f09d9318075ade8df4809070a0e6f197df73407cb"
+    },
+    {
+      "path": "src/ocm/kso/navigation_matrix_free.py",
+      "role": "\u03a0",
+      "bytes": 9420,
+      "lines": 242,
+      "nloc": 193,
+      "sha256": "c1bf180b85f80fa50f07253baf30e86cdd2e57569555335795c3799a57caa5ff"
+    },
+    {
+      "path": "src/ocm/kso/navigation_sparse.py",
+      "role": "\u03a0",
+      "bytes": 10826,
+      "lines": 218,
+      "nloc": 179,
+      "sha256": "a36b3ef555694f7d554329da929f0ff2d3e0441c8c66713a415e508154c5d6d1"
+    },
+    {
+      "path": "src/ocm/kso/nogoods.py",
+      "role": "F",
+      "bytes": 6987,
+      "lines": 130,
+      "nloc": 100,
+      "sha256": "6c9e554ee29a391564502ac83c3ac4fb6de3f30137a4dfc1fe8133ba808e969b"
+    },
+    {
+      "path": "src/ocm/kso/obligations.py",
+      "role": "F",
+      "bytes": 3882,
+      "lines": 93,
+      "nloc": 76,
+      "sha256": "3f382ff2441388a33507e905a19c2a53fd1993baed048aad36ddee013246ed6e"
+    },
+    {
+      "path": "src/ocm/kso/procedures.py",
+      "role": "O",
+      "bytes": 9347,
+      "lines": 232,
+      "nloc": 188,
+      "sha256": "f642459fb3b2202444bea7e7c6abe927f86d59db9e7fab8019cd9c561d8b0cd1"
+    },
+    {
+      "path": "src/ocm/kso/resources.py",
+      "role": "F",
+      "bytes": 2805,
+      "lines": 83,
+      "nloc": 65,
+      "sha256": "6febb49b0c6b43e366c8e7ef0f0181d5c541e7d8f69aaef29efe2b9214c2ae7a"
+    },
+    {
+      "path": "src/ocm/kso/revocation.py",
+      "role": "F",
+      "bytes": 13476,
+      "lines": 288,
+      "nloc": 243,
+      "sha256": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543"
+    },
+    {
+      "path": "src/ocm/kso/space.py",
+      "role": "F",
+      "bytes": 17930,
+      "lines": 404,
+      "nloc": 313,
+      "sha256": "4e72a24b7a19c874137ef17a070b85a0511d74b83071a88607e7c2eddcd527cd"
+    },
+    {
+      "path": "src/ocm/kso/surprise.py",
+      "role": "F",
+      "bytes": 5848,
+      "lines": 115,
+      "nloc": 96,
+      "sha256": "c321d6ac4c55c8928804c8acdebb147b9ca550eb1037dc8f851a3ea3aabebc14"
+    },
+    {
+      "path": "src/ocm/kso/types.py",
+      "role": "F",
+      "bytes": 9040,
+      "lines": 248,
+      "nloc": 188,
+      "sha256": "d92e8b7a733390203e434f2f655d2a8a5c1d320e0c77d37f52855b7a7bf00a92"
+    },
+    {
+      "path": "src/ocm/kso/warrant.py",
+      "role": "F",
+      "bytes": 11769,
+      "lines": 304,
+      "nloc": 224,
+      "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406"
+    },
+    {
+      "path": "src/ocm/kso/warrant_expr.py",
+      "role": "F",
+      "bytes": 7327,
+      "lines": 212,
+      "nloc": 157,
+      "sha256": "a240e9235a923f5a2a106277004780c7c045c2a84e9d9d78e45596fa0484bd10"
+    },
+    {
+      "path": "src/ocm/language/__init__.py",
+      "role": "PRIOR",
+      "bytes": 87,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "a84eb1faf7b703f6c86f0bfa9187dcfcaf0ab40562eb6be7dd302bde0f7bfa2e"
+    },
+    {
+      "path": "src/ocm/language/acquisition.py",
+      "role": "PRIOR",
+      "bytes": 5901,
+      "lines": 110,
+      "nloc": 83,
+      "sha256": "e1f7b17334bc7069d9d4895e34fbf68c9726ff52e9bb892e9d273ce3b7ff099a"
+    },
+    {
+      "path": "src/ocm/language/bootstrap.py",
+      "role": "PRIOR",
+      "bytes": 3335,
+      "lines": 49,
+      "nloc": 43,
+      "sha256": "c8d3eb5129660b43c35608466c4783fd852397c678fca4ef865157d9b51a8900"
+    },
+    {
+      "path": "src/ocm/language/chart.py",
+      "role": "PRIOR",
+      "bytes": 16423,
+      "lines": 316,
+      "nloc": 270,
+      "sha256": "634aa6be59e84082cf27185edfafb7e3d6a7eb213a7c2b59ea38a06b696344b9"
+    },
+    {
+      "path": "src/ocm/language/chat_frontend.py",
+      "role": "PRIOR",
+      "bytes": 7864,
+      "lines": 149,
+      "nloc": 118,
+      "sha256": "c503300d5a15ce8127e998f11b502c49fd150134cb5f3315f582e291a3c81f0d"
+    },
+    {
+      "path": "src/ocm/language/constructions.py",
+      "role": "PRIOR",
+      "bytes": 15706,
+      "lines": 305,
+      "nloc": 242,
+      "sha256": "2a0651b5114f368438aeeba91e2df2831b0359072acb44d975c7c7e0cf73ca3b"
+    },
+    {
+      "path": "src/ocm/language/field_bridge.py",
+      "role": "F",
+      "bytes": 15718,
+      "lines": 361,
+      "nloc": 315,
+      "sha256": "b5d4b0c6db1572d4aca173f91db69ae8cda0f1dd7f29b73eb1586fd63b936bac"
+    },
+    {
+      "path": "src/ocm/language/interpret.py",
+      "role": "PRIOR",
+      "bytes": 7491,
+      "lines": 161,
+      "nloc": 135,
+      "sha256": "9042649f2785745e2caaa80837ebda87a1cac31920ff33d10e0ab46e13ca06d3"
+    },
+    {
+      "path": "src/ocm/language/lexicon.py",
+      "role": "PRIOR",
+      "bytes": 9357,
+      "lines": 218,
+      "nloc": 174,
+      "sha256": "6ce467fe8b379163289ca8dec4192a2a38bd78ba1b7b48427ee176368cdacbbc"
+    },
+    {
+      "path": "src/ocm/language/meaning.py",
+      "role": "PRIOR",
+      "bytes": 14906,
+      "lines": 244,
+      "nloc": 192,
+      "sha256": "f6e5c6aef27c4e35d2098af6969894e9c5d62dbf1de9d92441340053ab7a2ec4"
+    },
+    {
+      "path": "src/ocm/language/meaning_tree.py",
+      "role": "PRIOR",
+      "bytes": 3436,
+      "lines": 79,
+      "nloc": 67,
+      "sha256": "fad39bc4a6c2cbfe3c0daf8ed8e283f85b70c33a65cb8ad2cf0d106894fae4c7"
+    },
+    {
+      "path": "src/ocm/language/microworld.py",
+      "role": "PRIOR",
+      "bytes": 5705,
+      "lines": 118,
+      "nloc": 100,
+      "sha256": "ed15dd574a99fac96b8f7de6c3cc5b65679c2ec816aa8229b65f9fed6d1f2f03"
+    },
+    {
+      "path": "src/ocm/language/realize.py",
+      "role": "PRIOR",
+      "bytes": 6541,
+      "lines": 140,
+      "nloc": 120,
+      "sha256": "1898a800907ccb2cd20a2b19c85eb1117d080be873e9701f408e9a429f9f1101"
+    },
+    {
+      "path": "src/ocm/language/session.py",
+      "role": "PRIOR",
+      "bytes": 12356,
+      "lines": 220,
+      "nloc": 177,
+      "sha256": "ff8789371034668b4493ada611a32aad2c0f2f0b668964024eb4d5cafc28b851"
+    },
+    {
+      "path": "src/ocm/learning/__init__.py",
+      "role": "O",
+      "bytes": 375,
+      "lines": 5,
+      "nloc": 3,
+      "sha256": "0dfd80ab13927fbd57cee19cb327c0365315d9611ce0d49b2589889903c89e19"
+    },
+    {
+      "path": "src/ocm/learning/language/__init__.py",
+      "role": "PRIOR",
+      "bytes": 170,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "80d5c614bf7fde51a20f2adc217dbbb4de8d925033afcc53cb06e53f1a05d0e1"
+    },
+    {
+      "path": "src/ocm/learning/language/active.py",
+      "role": "PRIOR",
+      "bytes": 4592,
+      "lines": 98,
+      "nloc": 79,
+      "sha256": "3ed7eaced2d54b9c00dbcfd0bf423a31b093d8a4430eb4532aeb9b36b4ed6ed6"
+    },
+    {
+      "path": "src/ocm/learning/language/corpus.py",
+      "role": "PRIOR",
+      "bytes": 5533,
+      "lines": 123,
+      "nloc": 95,
+      "sha256": "ed5bc81ecec1cdc260a665a68e12e6da34761455ff0a1fc6e0ed675cbfe70fc1"
+    },
+    {
+      "path": "src/ocm/learning/language/interaction.py",
+      "role": "PRIOR",
+      "bytes": 4563,
+      "lines": 83,
+      "nloc": 64,
+      "sha256": "07198a26d132a07540fa45cb608840dd8059930e87c7c819513223f2f6f88a04"
+    },
+    {
+      "path": "src/ocm/learning/language/lexical.py",
+      "role": "PRIOR",
+      "bytes": 9056,
+      "lines": 159,
+      "nloc": 130,
+      "sha256": "a0afe6756ea4a975ef97c7bc20eecb5fa538539625ff8de33e14f6a9b4caedb4"
+    },
+    {
+      "path": "src/ocm/learning/language/morphology.py",
+      "role": "PRIOR",
+      "bytes": 6653,
+      "lines": 140,
+      "nloc": 115,
+      "sha256": "601432fa7a2691793d1a95f2bd29db1b5f380a7c734a088abf79acf8fbf9cced"
+    },
+    {
+      "path": "src/ocm/learning/language/transfer.py",
+      "role": "PRIOR",
+      "bytes": 5867,
+      "lines": 107,
+      "nloc": 82,
+      "sha256": "2e3798053e88cf4b8f7779c59c36b7fe74dbaa6b6bbb5e5a2cc694f296b5b533"
+    },
+    {
+      "path": "src/ocm/learning/language/ud.py",
+      "role": "PRIOR",
+      "bytes": 14926,
+      "lines": 282,
+      "nloc": 245,
+      "sha256": "8f47574cfa0d2fd7c3e1a89237e5025e950246f0f8fcfd81fe1a7397828e16f6"
+    },
+    {
+      "path": "src/ocm/learning/language/ud_grammar.py",
+      "role": "PRIOR",
+      "bytes": 24188,
+      "lines": 404,
+      "nloc": 355,
+      "sha256": "4764c4ab037da5a74893aa6cd14cc70f612f35ce2304b2e4af0a8de9f8285863"
+    },
+    {
+      "path": "src/ocm/learning/learner.py",
+      "role": "O",
+      "bytes": 11685,
+      "lines": 216,
+      "nloc": 178,
+      "sha256": "68c1e059a226e8f5ca8a8f667973c3f4fc04abe1bd16722652edfe11be93a8a1"
+    },
+    {
+      "path": "src/ocm/learning/methods.py",
+      "role": "PRIOR",
+      "bytes": 14581,
+      "lines": 298,
+      "nloc": 248,
+      "sha256": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3"
+    },
+    {
+      "path": "src/ocm/lifetime/__init__.py",
+      "role": "HARNESS",
+      "bytes": 97,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "4107ad222e283f0b51bf70817ddcd2f64e93ae486afd544e708a6c9aeb82ae94"
+    },
+    {
+      "path": "src/ocm/lifetime/machine.py",
+      "role": "HARNESS",
+      "bytes": 11914,
+      "lines": 231,
+      "nloc": 177,
+      "sha256": "89cd42001609bd65a977df30684dabe759626e1db5792b239ebcc534cb53a9ae"
+    },
+    {
+      "path": "src/ocm/lifetime/native_parent.py",
+      "role": "HARNESS",
+      "bytes": 4021,
+      "lines": 85,
+      "nloc": 73,
+      "sha256": "112f1d0f02eef16fad4fe30da4f6a4d9c198d86162d537e5349c893121e3502c"
+    },
+    {
+      "path": "src/ocm/lifetime/phases.py",
+      "role": "HARNESS",
+      "bytes": 30188,
+      "lines": 410,
+      "nloc": 344,
+      "sha256": "c0d2a2906189490d0bcc6eb65499ac660f9a313c558ff57e57b37fbc920a8de8"
+    },
+    {
+      "path": "src/ocm/lifetime/reference.py",
+      "role": "HARNESS",
+      "bytes": 12109,
+      "lines": 223,
+      "nloc": 192,
+      "sha256": "79df29f506dbfddb122f7fd2a88ad68bb88ac20edeb253892a1ec432e1ce4bae"
+    },
+    {
+      "path": "src/ocm/lifetime/streams.py",
+      "role": "HARNESS",
+      "bytes": 8848,
+      "lines": 163,
+      "nloc": 142,
+      "sha256": "62e8ea8469bc73f33ba3f53d2622f6b4bbb8031378f2ff0c35a12e3bb63fa6e3"
+    },
+    {
+      "path": "src/ocm/operators/__init__.py",
+      "role": "O",
+      "bytes": 330,
+      "lines": 5,
+      "nloc": 3,
+      "sha256": "e214ee34288c4685532edeaeb16150f5dfc658eb63d5148ceb79f49f5dcf23b6"
+    },
+    {
+      "path": "src/ocm/operators/indexed_registry.py",
+      "role": "O",
+      "bytes": 3538,
+      "lines": 85,
+      "nloc": 69,
+      "sha256": "7a2550b8201d015d2ba68810c7cd3ba9e2e4810240ebfc8effae2bea2e09b554"
+    },
+    {
+      "path": "src/ocm/operators/metrics.py",
+      "role": "O",
+      "bytes": 2489,
+      "lines": 78,
+      "nloc": 64,
+      "sha256": "d6c0f550f3e4d657690e1bfdd9a98d3fb18d8186fa240356d3225ee8e5c2357c"
+    },
+    {
+      "path": "src/ocm/operators/receipt.py",
+      "role": "O",
+      "bytes": 2704,
+      "lines": 65,
+      "nloc": 57,
+      "sha256": "fc5e8d2cdcaa80c971920fca5091ba5f14a5c3e4e401d821132506ca2ff22dc8"
+    },
+    {
+      "path": "src/ocm/operators/registry.py",
+      "role": "O",
+      "bytes": 11272,
+      "lines": 222,
+      "nloc": 184,
+      "sha256": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f"
+    },
+    {
+      "path": "src/ocm/organisation/__init__.py",
+      "role": "F",
+      "bytes": 290,
+      "lines": 3,
+      "nloc": 3,
+      "sha256": "6ae849574dedb9ce0863367ec3a7b7e61fd0d23089eb06a78a483d6f6551f4b8"
+    },
+    {
+      "path": "src/ocm/organisation/arms.py",
+      "role": "F",
+      "bytes": 13683,
+      "lines": 309,
+      "nloc": 241,
+      "sha256": "4b9ec6f479ff175e74be5420e4d5b2adc5c4ea77558344355e0a2929187728ec"
+    },
+    {
+      "path": "src/ocm/organisation/interface.py",
+      "role": "F",
+      "bytes": 6918,
+      "lines": 147,
+      "nloc": 118,
+      "sha256": "7fb30cdecb6ba2a3c0fa778fd35309037708a7a2f781b30620851509bd801568"
+    },
+    {
+      "path": "src/ocm/organisation/language_stream.py",
+      "role": "F",
+      "bytes": 3919,
+      "lines": 77,
+      "nloc": 64,
+      "sha256": "e859b1549d47fccf5eaa97ef6ed8bda5f2dd8ee32be3183d1111256994af856d"
+    },
+    {
+      "path": "src/ocm/organisation/navigate.py",
+      "role": "F",
+      "bytes": 6358,
+      "lines": 131,
+      "nloc": 111,
+      "sha256": "fb3f74218b0d72f07362a1540f398f359027d65d5c44d46b8cbf0e0167ca1b01"
+    },
+    {
+      "path": "src/ocm/organisation/worlds.py",
+      "role": "F",
+      "bytes": 5497,
+      "lines": 109,
+      "nloc": 93,
+      "sha256": "b0b4956bb216a0e7e6a1553f89093c5e128419082e849576d210fb3ce3989376"
+    },
+    {
+      "path": "src/ocm/provenance.py",
+      "role": "CUSTODY",
+      "bytes": 4703,
+      "lines": 86,
+      "nloc": 65,
+      "sha256": "f33c925f38f0a1dd87ca6b12ff7433a7ce84c15a59abb7edbc3f96e6b636c420"
+    },
+    {
+      "path": "src/ocm/runtime/__init__.py",
+      "role": "\u03a0",
+      "bytes": 124,
+      "lines": 5,
+      "nloc": 3,
+      "sha256": "07ab3bdfb7f13af243394cff4a7bf57d01310a670e2a267859c4db748ae5e6ec"
+    },
+    {
+      "path": "src/ocm/runtime/navigation_serving.py",
+      "role": "\u03a0",
+      "bytes": 6260,
+      "lines": 121,
+      "nloc": 112,
+      "sha256": "15d25239875162779e76fa45b3301e1d83b549d5e5126f8ac20f29ef39f95a5e"
+    },
+    {
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "\u03a0",
+      "bytes": 41960,
+      "lines": 641,
+      "nloc": 539,
+      "sha256": "23078a3fe4631d350cafb14a1ff48dd3e208d4daf4d3f123365a5a575e361fe2"
+    },
+    {
+      "path": "src/ocm/runtime/operator_index.py",
+      "role": "O",
+      "bytes": 3587,
+      "lines": 86,
+      "nloc": 70,
+      "sha256": "884909f1cf0f26a2eff9b8cb34578f0003a40e1d4fb0c8a7473a5a5bc462d499"
+    },
+    {
+      "path": "src/ocm/runtime/residuals.py",
+      "role": "\u03a0",
+      "bytes": 1269,
+      "lines": 45,
+      "nloc": 37,
+      "sha256": "2e0e1289ded368df20844d76013278e62e3b39ff4b8e5cbd08cf4c1ac62b769f"
+    },
+    {
+      "path": "src/ocm/runtime/solve.py",
+      "role": "\u03a0",
+      "bytes": 34057,
+      "lines": 628,
+      "nloc": 536,
+      "sha256": "c27e4b9fe787961a6c6ecb278f385535e375283aa72c4ec618fd2c90b4d08f63"
+    },
+    {
+      "path": "src/ocm/runtime/state.py",
+      "role": "CUSTODY",
+      "bytes": 8329,
+      "lines": 145,
+      "nloc": 122,
+      "sha256": "a9002dd5e75cc370f96a82573944c6fc0e5fd22977a208048b7534401619166a"
+    },
+    {
+      "path": "src/ocm/runtime/trace.py",
+      "role": "\u03a0",
+      "bytes": 4371,
+      "lines": 103,
+      "nloc": 84,
+      "sha256": "41c35e6618fa8200a432fd45c2e4adae6d587adef195dbc7a34c7327d8e26cca"
+    },
+    {
+      "path": "src/ocm/runtime/transition.py",
+      "role": "\u03a0",
+      "bytes": 4030,
+      "lines": 113,
+      "nloc": 83,
+      "sha256": "f33378c86017e4f032105748f5f1f85ebab5f91eae1573f7d682c9629f994b45"
+    },
+    {
+      "path": "src/ocm/science/__init__.py",
+      "role": "PRIOR",
+      "bytes": 279,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "de615ce3b7a15119cb1c581b7f3638e2a7733f6969e9136aae6b6c048173bd20"
+    },
+    {
+      "path": "src/ocm/science/analysis.py",
+      "role": "PRIOR",
+      "bytes": 5226,
+      "lines": 127,
+      "nloc": 109,
+      "sha256": "063e7bb5289bcbe54ac5205ada33ecadacedd47051f38a8ee3dcceab5bff35aa"
+    },
+    {
+      "path": "src/ocm/science/causal.py",
+      "role": "PRIOR",
+      "bytes": 5326,
+      "lines": 123,
+      "nloc": 102,
+      "sha256": "91482777155a5e13590acf1fc2577eafde5578b0256d53b5c337eb761facafff"
+    },
+    {
+      "path": "src/ocm/science/evidence.py",
+      "role": "PRIOR",
+      "bytes": 5861,
+      "lines": 143,
+      "nloc": 117,
+      "sha256": "6ca87bd65da9d1f0e321c9afd892727721e23e899039da90d2f01ad4344931c1"
+    },
+    {
+      "path": "src/ocm/science/finite_identification.py",
+      "role": "PRIOR",
+      "bytes": 4178,
+      "lines": 84,
+      "nloc": 70,
+      "sha256": "9067852148205b81f635a141b057da52124bcaeac395dd4a579d872c70e0493f"
+    },
+    {
+      "path": "src/ocm/science/lifecycle.py",
+      "role": "F",
+      "bytes": 6238,
+      "lines": 104,
+      "nloc": 82,
+      "sha256": "63dee7cb884cfa82544645ec92ec76f9ad8784641a0c734617ede525674f4d81"
+    },
+    {
+      "path": "src/ocm/science/proof.py",
+      "role": "PRIOR",
+      "bytes": 6732,
+      "lines": 185,
+      "nloc": 145,
+      "sha256": "33b5b148778d9f4e3d7cdf23e9df072caa89e442c07d309a56cd8c8c076121b6"
+    },
+    {
+      "path": "src/ocm/science/selection.py",
+      "role": "PRIOR",
+      "bytes": 5729,
+      "lines": 122,
+      "nloc": 101,
+      "sha256": "aed95433731762ea05f85bfd1a0c53dd34eed616edbc4ddcd7b0fb7b4e388e52"
+    },
+    {
+      "path": "src/ocm/science/transfer.py",
+      "role": "PRIOR",
+      "bytes": 2541,
+      "lines": 40,
+      "nloc": 32,
+      "sha256": "5ff866c3dda1b3068977f4f4565f90a4fa6dea1ac89ef061f9a6fe21dec8335f"
+    },
+    {
+      "path": "src/ocm/selfmodel/__init__.py",
+      "role": "\u03a0",
+      "bytes": 306,
+      "lines": 1,
+      "nloc": 1,
+      "sha256": "4eabd7e118505daac10846343d391f1b09cde0b5c7c0c6235f3aa704ee65db34"
+    },
+    {
+      "path": "src/ocm/selfmodel/benchmark.py",
+      "role": "\u03a0",
+      "bytes": 16592,
+      "lines": 228,
+      "nloc": 188,
+      "sha256": "1d70ba98b0f3180ea6cc021664c3706d54c4db1c83d92f864244aaa7ce067c8f"
+    },
+    {
+      "path": "src/ocm/selfmodel/diagnose.py",
+      "role": "\u03a0",
+      "bytes": 9404,
+      "lines": 167,
+      "nloc": 132,
+      "sha256": "6100689e9f16bcd0926e3511dd3eaa2b8e33c7678829aab718457237069dcf5b"
+    },
+    {
+      "path": "src/ocm/selfmodel/govern.py",
+      "role": "\u03a0",
+      "bytes": 30167,
+      "lines": 508,
+      "nloc": 437,
+      "sha256": "855dcd81e758047e39a1a8a209565c8fcd2bc4858c94e44e2730c53e0adf906c"
+    },
+    {
+      "path": "src/ocm/selfmodel/intake.py",
+      "role": "\u03a0",
+      "bytes": 9884,
+      "lines": 77,
+      "nloc": 63,
+      "sha256": "0177aee157a9e7fbe13f3f1c1a58877e5dc5918a1af4dde520db619133bf0482"
+    },
+    {
+      "path": "src/ocm/selfmodel/jump_evidence.py",
+      "role": "\u03a0",
+      "bytes": 2239,
+      "lines": 37,
+      "nloc": 31,
+      "sha256": "ea1149818f08ed9f3c3022ff8f18c29b8b8a6eade86c4a458d3ee9d6267a778e"
+    },
+    {
+      "path": "src/ocm/selfmodel/model.py",
+      "role": "\u03a0",
+      "bytes": 6718,
+      "lines": 143,
+      "nloc": 117,
+      "sha256": "ff1d79d50c8c7da9524a4f2f041a344477c5df7584f2235fd66b23d986abc71c"
+    },
+    {
+      "path": "src/ocm/selfmodel/proposal.py",
+      "role": "\u03a0",
+      "bytes": 7970,
+      "lines": 150,
+      "nloc": 116,
+      "sha256": "adada6679940833fc0134f1d07bcd57e81bf90db0cf7defef1d12690663658fc"
+    },
+    {
+      "path": "src/ocm/selfmodel/replay.py",
+      "role": "\u03a0",
+      "bytes": 6011,
+      "lines": 66,
+      "nloc": 56,
+      "sha256": "70e351b8ff53e76b5d2ae4933160505483992a349520687ca465c37d1d452c6b"
+    },
+    {
+      "path": "src/ocm/selfmodel/rollback_data.py",
+      "role": "\u03a0",
+      "bytes": 4820,
+      "lines": 112,
+      "nloc": 99,
+      "sha256": "774aa3b42d99fcec286468ca26b726918c293ec830d0dad475d1b0e00865793e"
+    },
+    {
+      "path": "src/ocm/status.py",
+      "role": "CUSTODY",
+      "bytes": 1960,
+      "lines": 24,
+      "nloc": 24,
+      "sha256": "95ec3cf9075b35c5dcef606982519ac36eaaf19a9ccd42e505952143212beefb"
+    },
+    {
+      "path": "src/ocm/store/__init__.py",
+      "role": "F",
+      "bytes": 194,
+      "lines": 5,
+      "nloc": 3,
+      "sha256": "0393e1df138cdae6b48342863a06b3fd75222063576735b69ab3d79329ab6c64"
+    },
+    {
+      "path": "src/ocm/store/canonical.py",
+      "role": "F",
+      "bytes": 7523,
+      "lines": 196,
+      "nloc": 164,
+      "sha256": "914ccfdb97f37f3f476175c4307ddc80eebd4839ff90f579b77403f6d4605cf8"
+    },
+    {
+      "path": "src/ocm/store/dependency_history.py",
+      "role": "F",
+      "bytes": 7353,
+      "lines": 200,
+      "nloc": 157,
+      "sha256": "6f3bebfdae3cdc7f47eecbf031a265e461bfa0ac5cf1514e66d43458b9c43115"
+    },
+    {
+      "path": "src/ocm/store/event.py",
+      "role": "F",
+      "bytes": 10393,
+      "lines": 254,
+      "nloc": 212,
+      "sha256": "4d0b6e8b18869fc1b6d8dec791ccc5dea6b80c2e7d073bc18c5e7e4b07732984"
+    },
+    {
+      "path": "src/ocm/store/evidence.py",
+      "role": "F",
+      "bytes": 9964,
+      "lines": 219,
+      "nloc": 187,
+      "sha256": "f2a4ef7080566829515c50334905098b7e343879ea87b2931336c81a544662d6"
+    },
+    {
+      "path": "src/ocm/store/evidence_identity.py",
+      "role": "F",
+      "bytes": 2185,
+      "lines": 61,
+      "nloc": 46,
+      "sha256": "1aa121f3a71939b4c65b114b5d799c894dd84b494898d6fd7397c78376368aee"
+    },
+    {
+      "path": "src/ocm/store/ledger.py",
+      "role": "F",
+      "bytes": 15863,
+      "lines": 426,
+      "nloc": 362,
+      "sha256": "560cd148a50dfa1422347f7a01456289f85ecf09ffbd95e089bcccd47089189d"
+    },
+    {
+      "path": "src/ocm/store/registry.py",
+      "role": "F",
+      "bytes": 7522,
+      "lines": 212,
+      "nloc": 176,
+      "sha256": "96c043a8d900c346844f87e421457b2171d65fe32e8fd83da12db8122862bf27"
+    },
+    {
+      "path": "src/ocm/store/sqlite_ledger.py",
+      "role": "F",
+      "bytes": 11329,
+      "lines": 288,
+      "nloc": 265,
+      "sha256": "b366325a5a4a03e332d7fd9ed784b69dc32dcd2b089c3f352ee1e9751658e294"
+    },
+    {
+      "path": "src/ocm/work/__init__.py",
+      "role": "O",
+      "bytes": 283,
+      "lines": 3,
+      "nloc": 3,
+      "sha256": "a5760c030f4b9fd8c23277281c2009cdc6cb6088d96ba0d568c1671a1c16ff26"
+    },
+    {
+      "path": "src/ocm/work/contracts.py",
+      "role": "O",
+      "bytes": 10760,
+      "lines": 219,
+      "nloc": 188,
+      "sha256": "7017588e2920851ceb8aeec8d6121ccbe6c1f0688eeced3e0814109bf63407bf"
+    },
+    {
+      "path": "src/ocm/work/envs.py",
+      "role": "O",
+      "bytes": 12615,
+      "lines": 186,
+      "nloc": 138,
+      "sha256": "4aa5540706d6e0805af4e9962ec9bcc83f6bfecc14c45d22762f07a531aca8ed"
+    },
+    {
+      "path": "src/ocm/work/methods.py",
+      "role": "O",
+      "bytes": 11503,
+      "lines": 220,
+      "nloc": 180,
+      "sha256": "c2955a1f8d9b341cb4d004477c36a1cb576ed2c2e64e4432a11d7be0d93fb05a"
+    }
+  ]
+}

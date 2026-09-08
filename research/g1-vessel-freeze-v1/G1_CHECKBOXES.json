@@ -1,0 +1,185 @@
+{
+  "schema": "ocm.g1-vessel-freeze.checkboxes.v1",
+  "G1.1": [
+    {
+      "id": "G1.1.1",
+      "text": "Freeze the current (F,O,\u03a0,C) implementation manifest.",
+      "status": "EARNED",
+      "evidence": "research/g1-vessel-freeze-v1/MANIFEST.json"
+    },
+    {
+      "id": "G1.1.2",
+      "text": "Bind each component to the corresponding ORION-V2 Machine Epistemics semantics.",
+      "status": "EARNED",
+      "evidence": "MANIFEST.json package_bindings + research/orion-machine/theory/KSO_SUBSTRATE_CONTRACT_V1.md"
+    },
+    {
+      "id": "G1.1.3",
+      "text": "Record all currently immutable machinery.",
+      "status": "EARNED",
+      "evidence": "IMMUTABLE_VS_MUTABLE.json"
+    },
+    {
+      "id": "G1.1.4",
+      "text": "Record all mutable machine state.",
+      "status": "EARNED",
+      "evidence": "IMMUTABLE_VS_MUTABLE.json"
+    },
+    {
+      "id": "G1.1.5",
+      "text": "Classify every domain-specific primitive as prior information.",
+      "status": "EARNED",
+      "evidence": "PRIOR_INFORMATION.json"
+    },
+    {
+      "id": "G1.1.6",
+      "text": "Eliminate duplicated cognitive cores.",
+      "status": "NOT_EARNED",
+      "evidence": "DUPLICATE_CORES.json",
+      "note": "Inventory complete. No live second F or C. M0 runtime and work.Operator remain; production code was not deleted."
+    },
+    {
+      "id": "G1.1.7",
+      "text": "Confirm language, mathematics and procedural domains enter through typed field/operator contracts rather than architectural forks.",
+      "status": "EARNED",
+      "evidence": "DOMAIN_CONTRACTS.json"
+    }
+  ],
+  "G1.2": [
+    {
+      "id": "G1.2.*",
+      "text": "Minimality / subtraction experiments.",
+      "status": "NOT_EARNED",
+      "note": "Not run. Do not call the machine minimal."
+    }
+  ],
+  "G1.3": [
+    {
+      "id": "G1.3.1",
+      "text": "Measure controller source/branch growth across domain additions.",
+      "status": "PARTIAL",
+      "note": "Single-head snapshot only; no across-addition delta."
+    },
+    {
+      "id": "G1.3.2",
+      "text": "Demonstrate new competence predominantly appears in learned/imported field/operator state.",
+      "status": "NOT_EARNED",
+      "note": "Requires G2 causal reuse. Source snapshot shows large authored PRIOR."
+    },
+    {
+      "id": "G1.3.3",
+      "text": "Add hostile where a domain-specific hard-coded \u03a0 rule would trivially solve the task.",
+      "status": "NOT_EARNED"
+    },
+    {
+      "id": "G1.3.4",
+      "text": "Require that hostile to be absent from the mechanism arm.",
+      "status": "NOT_EARNED"
+    },
+    {
+      "id": "G1.3.5",
+      "text": "Count every retained domain-specific rule as prior information.",
+      "status": "EARNED",
+      "evidence": "PRIOR_INFORMATION.json"
+    }
+  ],
+  "section_2_architecture_rules": [
+    {
+      "id": "C_EXTERNAL_NON_SELF_CERTIFYING",
+      "text": "C remains externally governed and non-self-certifying.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/constitution/action.py",
+        "src/ocm/constitution/boundary.py",
+        "src/ocm/kso/types.py:internal_authority",
+        "src/ocm/runtime/ocm_runtime.py:commit_authority injected",
+        "src/ocm/selfmodel/proposal.py:ChangeClass.C6_CONSTITUTION"
+      ]
+    },
+    {
+      "id": "INTELLIGENCE_IN_F_AND_O",
+      "text": "Machine intelligence accumulates primarily in F and O, not in an ever-growing hard-coded controller.",
+      "status": "DESIGN_EARNED_EMPIRICAL_NOT_EARNED",
+      "evidence": [
+        "src/ocm/runtime/ocm_runtime.py:RuntimeState.learned / operators / ks",
+        "src/ocm/learning/learner.py",
+        "research/g1-vessel-freeze-v1/G1_3_COUNTS.json"
+      ],
+      "note": "Learned records are designed to land in F/O state. G1.3 snapshot shows large authored PRIOR source (5046 nloc) beside \u03a0 (3588 nloc). Causal accumulation is G2, not claimed here."
+    },
+    {
+      "id": "PI_SMALL_DOMAIN_GENERAL",
+      "text": "\u03a0 remains small and domain-general.",
+      "status": "PARTIAL",
+      "evidence": [
+        "src/ocm/runtime/solve.py",
+        "src/ocm/dialogue/planner.py",
+        "research/g1-vessel-freeze-v1/G1_3_COUNTS.json"
+      ],
+      "note": "solve.py is domain-general. Dialogue planner and organisation arms add domain-specific control. \u03a0_exec+\u03a0_nav+selfmodel = 3588 nloc. Not shown small by subtraction (G1.2)."
+    },
+    {
+      "id": "NO_NEW_CORES_BY_DEFAULT",
+      "text": "New domains do not receive new cognitive cores by default.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/language/field_bridge.py",
+        "src/ocm/science/lifecycle.py",
+        "src/ocm/lifetime/machine.py",
+        "src/ocm/kso/types.py:register_atom_type"
+      ]
+    },
+    {
+      "id": "DONOR_OPERATORS",
+      "text": "Domain-specific tools enter as declared donor operators when appropriate.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/operators/registry.py:BackendKind",
+        "src/ocm/science/proof.py:KERNELS",
+        "src/ocm/learning/methods.py:PRIMITIVES",
+        "src/ocm/work/envs.py"
+      ]
+    },
+    {
+      "id": "METHOD_HISTORY",
+      "text": "Learned or imported methods retain origin, scope, warrant and resource history.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/operators/registry.py:OperatorSpec.lineage/scope/warrant/resource_model",
+        "src/ocm/learning/learner.py:Experience/UpdateProposal",
+        "src/ocm/work/contracts.py:Operator.lineage",
+        "src/ocm/selfmodel/proposal.py:Origin"
+      ]
+    },
+    {
+      "id": "NEURAL_REMAIN_PROPOSALS",
+      "text": "Approximate/neural outputs remain proposals until independently admitted.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/operators/registry.py:BackendKind.STATISTICAL",
+        "src/ocm/runtime/solve.py:Status.PROPOSAL",
+        "research/programme/NO_NEURAL_CONTRACT.md"
+      ]
+    },
+    {
+      "id": "STORAGE_NOT_AUTHORITY",
+      "text": "Physical storage is not epistemic authority.",
+      "status": "EARNED",
+      "evidence": [
+        "src/ocm/store/ledger.py",
+        "src/ocm/kso/warrant.py",
+        "src/ocm/runtime/ocm_runtime.py:_replay"
+      ]
+    },
+    {
+      "id": "NO_NEW_CORE_ISSUES",
+      "text": "New core architecture issues are forbidden unless (F,O,\u03a0,C) fails a registered falsifier.",
+      "status": "EARNED_AS_PROCESS_RECORD",
+      "evidence": [
+        "research/g1-vessel-freeze-v1/CORE.md",
+        "issue #165 \u00a72 / \u00a720"
+      ],
+      "note": "This freeze does not open a new core. DOMAIN_CORE_FORK_REQUIRED is not issued."
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "schema": "ocm.g1-vessel-freeze.immutable-vs-mutable.v1",
+  "immutable_machinery": [
+    {
+      "name": "warrant interval + three-valued liveness",
+      "path": "src/ocm/kso/warrant.py",
+      "orion_v2": "\u039b_t / KS-T21",
+      "why": "LIVE/DEAD/UNKNOWN algebra; CANNOT_CHECK cannot become success"
+    },
+    {
+      "name": "authority lattice with commit stripped internally",
+      "path": "src/ocm/kso/types.py",
+      "orion_v2": "A_t; MEG-04 / internal_authority",
+      "why": "Meet-only composition; commit coordinate never minted by internal operators"
+    },
+    {
+      "name": "scope/epoch algebra",
+      "path": "src/ocm/kso/types.py",
+      "orion_v2": "S_t",
+      "why": "Intersection under composition; unknown chronology is unsatisfied"
+    },
+    {
+      "name": "type registry extensibility without warrant forks",
+      "path": "src/ocm/kso/types.py",
+      "orion_v2": "\u03c4_V, \u03c4_H / KS-A1",
+      "why": "New atom/relation types register as data"
+    },
+    {
+      "name": "KnowledgeSpace object schema",
+      "path": "src/ocm/kso/space.py",
+      "orion_v2": "V_t, H_t",
+      "why": "One atom/hyperedge model; structural edits return a new space"
+    },
+    {
+      "name": "admission / compose / genome",
+      "path": "src/ocm/kso/admission.py",
+      "orion_v2": "Admit_C field writer",
+      "why": "Only certified channels mint warrant"
+    },
+    {
+      "name": "impact cone + reopening",
+      "path": "src/ocm/kso/revocation.py",
+      "orion_v2": "KS-T09 / KS-T22",
+      "why": "Exact dependents reopen; alternate support preserved"
+    },
+    {
+      "name": "evidence identity",
+      "path": "src/ocm/kso/ids.py",
+      "orion_v2": "evidence identity",
+      "why": "Collision \u2260 merge; one id scheme"
+    },
+    {
+      "name": "operator candidate warrant rule",
+      "path": "src/ocm/operators/registry.py",
+      "orion_v2": "MEG-02",
+      "why": "STATISTICAL/NEURAL outputs enter UNKNOWN; score is outside the lattice"
+    },
+    {
+      "name": "learner cannot admit",
+      "path": "src/ocm/learning/learner.py",
+      "orion_v2": "\ud835\udcb0_t proposes; Admit_C admits",
+      "why": "Feedback alone never mints warrant unless a registered FeedbackContract says so"
+    },
+    {
+      "name": "hard-gate contract + permits_closure",
+      "path": "src/ocm/constitution/hard_gates.py",
+      "orion_v2": "Check",
+      "why": "No score; CANNOT_CHECK \u2260 FAIL; contract frozen by round index"
+    },
+    {
+      "name": "commit_external_action sequence",
+      "path": "src/ocm/constitution/boundary.py",
+      "orion_v2": "Commit",
+      "why": "Intent \u2192 warrant \u2192 gate \u2192 injected authority \u2192 execute \u2192 receipt. No skip path in production."
+    },
+    {
+      "name": "host-injected CommitAuthority",
+      "path": "src/ocm/constitution/action.py",
+      "orion_v2": "Authority / capability non-distribution",
+      "why": "Runtime never holds an object that can grant commit"
+    },
+    {
+      "name": "event reducer + replay",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "orion_v2": "restart / historical receipt identity",
+      "why": "State is a function of events; executable backends rebound by host, never deserialized"
+    },
+    {
+      "name": "physical ledger",
+      "path": "src/ocm/store/ledger.py",
+      "orion_v2": "Meter / storage; not authority",
+      "why": "Crash-atomic hash chain. Bytes are not warrant."
+    },
+    {
+      "name": "solve commitment gate",
+      "path": "src/ocm/runtime/solve.py",
+      "orion_v2": "Check on answers",
+      "why": "CANNOT_CHECK propagates; solver does not write the store"
+    },
+    {
+      "name": "C6 constitutional proposals are recommendation-only",
+      "path": "src/ocm/selfmodel/proposal.py",
+      "orion_v2": "external adoption authority",
+      "why": "Proposer cannot adopt constitution changes"
+    }
+  ],
+  "mutable_machine_state": [
+    {
+      "name": "KnowledgeSpace atoms/edges",
+      "holder": "RuntimeState.ks",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "F"
+    },
+    {
+      "name": "certificates / quarantine / nogoods",
+      "holder": "RuntimeState.certificates, quarantine, nogoods",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "F"
+    },
+    {
+      "name": "revoked evidence set",
+      "holder": "RuntimeState.revoked",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "F"
+    },
+    {
+      "name": "evidence registry + epoch",
+      "holder": "RuntimeState.evidence",
+      "path": "src/ocm/store/evidence.py",
+      "role": "F"
+    },
+    {
+      "name": "operator registry + manifests",
+      "holder": "RuntimeState.operators, operator_manifests",
+      "path": "src/ocm/operators/registry.py",
+      "role": "O"
+    },
+    {
+      "name": "learned skill/object records",
+      "holder": "RuntimeState.learned (SKILL_PROMOTED)",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "O"
+    },
+    {
+      "name": "jump proposals/adoptions",
+      "holder": "RuntimeState.jumps",
+      "path": "src/ocm/kso/jump.py",
+      "role": "\u03a0"
+    },
+    {
+      "name": "resource meter",
+      "holder": "RuntimeState.meter",
+      "path": "src/ocm/kso/resources.py",
+      "role": "C"
+    },
+    {
+      "name": "event log / ledger head",
+      "holder": "OCMRuntime.events + LedgerStore",
+      "path": "src/ocm/store/ledger.py",
+      "role": "F"
+    },
+    {
+      "name": "host operator implementations",
+      "holder": "OCMRuntime._host_operators",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "O",
+      "notes": "Code is host-supplied and rebound after replay; not deserialized from the log"
+    },
+    {
+      "name": "injected commit authority handle",
+      "holder": "OCMRuntime._authority",
+      "path": "src/ocm/runtime/ocm_runtime.py",
+      "role": "C",
+      "notes": "Held privately; never exposed to operators. Identity of the authority is host state, not field state."
+    }
+  ]
+}
