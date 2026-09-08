@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
-"""Exploratory synthetic falsification harness for Machine Epistemics evolvability theory V0.
+"""Exploratory synthetic falsification harness for Machine Epistemics evolvability theory V0.2.
 
-Status: E2 exploratory only. This is not OCM evidence and establishes no neural-network
-superiority. It tests qualitative boundary hypotheses about diagnosis cost, causal
-factorization, coupling, drift, and lifetime amortization.
+Status: E2 exploratory only. This is not OCM evidence and establishes no superiority
+over neural, AutoML, causal-discovery, active-diagnosis, or open-ended-search parents.
+
+The harness tests:
+1. diagnosis value under probe noise/cost;
+2. factorization/coupling/drift phase behavior;
+3. an information-theoretic self-identifiability lower bound (Fano);
+4. learning a self-model from resolved interventions versus a direct probabilistic parent;
+5. monotonic self-improvement versus a governed shadow stepping-stone archive and a
+   broader mutation/search parent on a deceptive landscape.
 
 Stdlib only; deterministic seeds.
 """
 from __future__ import annotations
-import argparse, json, math, random, statistics
+import argparse, itertools, json, math, random, statistics
 
 
 def entropy(ps):
@@ -20,7 +27,37 @@ def normalize(xs):
     return [x / s for x in xs] if s else [1 / len(xs)] * len(xs)
 
 
-def diagnosis_sweep(seed=20260908, episodes=5000):
+def binary_entropy(p):
+    if p <= 0.0 or p >= 1.0:
+        return 0.0
+    return -p * math.log2(p) - (1 - p) * math.log2(1 - p)
+
+
+def fano_required_information(m, error):
+    """Uniform m-way identification: I(Z;Y) >= log2(m)-h2(e)-e log2(m-1)."""
+    if m < 2:
+        return 0.0
+    return max(0.0, math.log2(m) - binary_entropy(error) - error * math.log2(m - 1))
+
+
+def identifiability_bounds():
+    rows = []
+    for m in (8, 30, 100):
+        for error in (0.01, 0.05, 0.10):
+            info = fano_required_information(m, error)
+            rows.append({
+                "candidate_causes": m,
+                "target_error": error,
+                "required_mutual_information_bits_lower_bound": info,
+                "probe_count_lower_bounds": {
+                    str(bits): math.ceil(info / bits)
+                    for bits in (0.10, 0.25, 0.50, 1.0, 2.0)
+                },
+            })
+    return rows
+
+
+def diagnosis_sweep(seed=20260908, episodes=3000):
     def one(noise, probe_cost):
         rng = random.Random(seed + int(noise * 1000) * 31 + int(probe_cost * 1000))
         F, P = 8, 6
@@ -216,7 +253,7 @@ def evolutionary_search(land, rng, budget):
     return max(pop)[0], evals
 
 
-def lifetime(seed, K, drift, evo_budget, generations=30, reps=8, n=10):
+def lifetime(seed, K, drift, evo_budget, generations=24, reps=5, n=10):
     master = random.Random(seed)
     rows = []
     for _ in range(reps):
@@ -283,29 +320,245 @@ def lifetime_sweeps():
     return {"high_budget_parent": high, "approximately_matched_cost_parent": matched}
 
 
+def make_self_system(rng, n_components=30, n_symptoms=80, causes_per_component=6):
+    return [set(rng.sample(range(n_symptoms), causes_per_component)) for _ in range(n_components)]
+
+
+def observe_self_fault(rng, causal, faults, n_symptoms=80, p_causal=0.82, p_background=0.03):
+    out = []
+    for symptom in range(n_symptoms):
+        active = any(symptom in causal[c] for c in faults)
+        p = p_causal if active else p_background
+        out.append(1 if rng.random() < p else 0)
+    return out
+
+
+class SelfModelCounts:
+    def __init__(self, n_components, n_symptoms, alpha=1.0):
+        self.n_components = n_components
+        self.n_symptoms = n_symptoms
+        self.pos = [[alpha] * n_symptoms for _ in range(n_components)]
+        self.neg = [[alpha] * n_symptoms for _ in range(n_components)]
+        self.n = [2 * alpha] * n_components
+        self.global_pos = [alpha] * n_symptoms
+        self.global_n = 2 * alpha
+
+    def update(self, component, symptoms):
+        self.n[component] += 1
+        self.global_n += 1
+        for s, v in enumerate(symptoms):
+            if v:
+                self.pos[component][s] += 1
+                self.global_pos[s] += 1
+            else:
+                self.neg[component][s] += 1
+
+    def explicit_graph_scores(self, symptoms):
+        scores = []
+        for c in range(self.n_components):
+            score = 0.0
+            for s, v in enumerate(symptoms):
+                if v:
+                    pc = self.pos[c][s] / self.n[c]
+                    pg = self.global_pos[s] / self.global_n
+                    score += math.log((pc + 1e-9) / (pg + 1e-9))
+            scores.append(score)
+        return scores
+
+    def direct_bernoulli_parent_scores(self, symptoms):
+        scores = []
+        for c in range(self.n_components):
+            score = -math.log(self.n_components)
+            for s, v in enumerate(symptoms):
+                pc = self.pos[c][s] / self.n[c]
+                pc = min(max(pc, 1e-5), 1 - 1e-5)
+                score += math.log(pc if v else 1 - pc)
+            scores.append(score)
+        return scores
+
+
+def rank_until_all_causes(scores, causes):
+    order = sorted(range(len(scores)), key=lambda c: (-scores[c], c))
+    rank = {c: i + 1 for i, c in enumerate(order)}
+    return max(rank[c] for c in causes)
+
+
+def one_self_intervention(seed, training_episodes, test_episodes=120, pair_faults=False):
+    rng = random.Random(seed)
+    n_components, n_symptoms = 30, 80
+    causal = make_self_system(rng, n_components, n_symptoms)
+    model = SelfModelCounts(n_components, n_symptoms)
+
+    for _ in range(training_episodes):
+        c = rng.randrange(n_components)
+        symptoms = observe_self_fault(rng, causal, [c], n_symptoms)
+        model.update(c, symptoms)
+
+    explicit, parent, blind = [], [], []
+    for _ in range(test_episodes):
+        causes = rng.sample(range(n_components), 2 if pair_faults else 1)
+        symptoms = observe_self_fault(rng, causal, causes, n_symptoms)
+        explicit.append(rank_until_all_causes(model.explicit_graph_scores(symptoms), causes))
+        parent.append(rank_until_all_causes(model.direct_bernoulli_parent_scores(symptoms), causes))
+        order = list(range(n_components))
+        rng.shuffle(order)
+        rank = {c: i + 1 for i, c in enumerate(order)}
+        blind.append(max(rank[c] for c in causes))
+    return statistics.mean(explicit), statistics.mean(parent), statistics.mean(blind)
+
+
+def self_intervention_learning_sweep():
+    rows = []
+    for pair_faults in (False, True):
+        for training in (50, 100, 200, 400):
+            reps = [
+                one_self_intervention(
+                    9000 + i + training * 17 + (100000 if pair_faults else 0),
+                    training,
+                    pair_faults=pair_faults,
+                )
+                for i in range(5)
+            ]
+            rows.append({
+                "training_resolved_interventions": training,
+                "test_fault_cardinality": 2 if pair_faults else 1,
+                "explicit_self_graph_mean_components_inspected": statistics.mean(x[0] for x in reps),
+                "direct_probabilistic_parent_mean_components_inspected": statistics.mean(x[1] for x in reps),
+                "blind_mean_components_inspected": statistics.mean(x[2] for x in reps),
+                "repetitions": 5,
+                "test_episodes_per_repetition": 120,
+            })
+    return rows
+
+
+TRAP_GROUPS = ((0,1,2), (3,4,5), (6,7,8), (9,10,11))
+
+
+def deceptive_fitness(x):
+    total = 0.0
+    for group in TRAP_GROUPS:
+        ones = sum((x >> b) & 1 for b in group)
+        if ones == 0:
+            value = 0.8
+        elif ones == 3:
+            value = 1.0
+        else:
+            value = 0.35 + 0.10 * ones
+        total += value
+    return total / len(TRAP_GROUPS)
+
+
+def monotonic_single_bit(budget):
+    x, fx, evals = 0, deceptive_fitness(0), 1
+    while evals < budget:
+        bestf, bestx = fx, x
+        for b in range(12):
+            if evals >= budget:
+                break
+            y = x ^ (1 << b)
+            fy = deceptive_fitness(y)
+            evals += 1
+            if fy > bestf + 1e-12:
+                bestf, bestx = fy, y
+        if bestf <= fx + 1e-12:
+            break
+        fx, x = bestf, bestx
+    return fx, evals
+
+
+def shadow_archive_search(budget, seed):
+    """Deployed best never regresses; shadow archive may retain lower-fitness stepping stones."""
+    rng = random.Random(seed)
+    archive = {0: deceptive_fitness(0)}
+    bestf, evals = 0.8, 1
+    while evals < budget and len(archive) < (1 << 12):
+        parent = rng.choice(tuple(archive))
+        unseen_bits = [b for b in range(12) if (parent ^ (1 << b)) not in archive]
+        if not unseen_bits:
+            continue
+        y = parent ^ (1 << rng.choice(unseen_bits))
+        fy = deceptive_fitness(y)
+        evals += 1
+        archive[y] = fy
+        bestf = max(bestf, fy)
+    return bestf, evals
+
+
+def broad_mutation_parent(budget, seed, max_flip=3):
+    """Conventional wider search from the deployed incumbent; may cross each 3-bit trap directly."""
+    rng = random.Random(seed)
+    x, fx, evals = 0, deceptive_fitness(0), 1
+    while evals < budget:
+        candidates = []
+        for k in range(1, max_flip + 1):
+            candidates.extend(itertools.combinations(range(12), k))
+        rng.shuffle(candidates)
+        improved = False
+        for bits in candidates:
+            if evals >= budget:
+                break
+            y = x
+            for b in bits:
+                y ^= 1 << b
+            fy = deceptive_fitness(y)
+            evals += 1
+            if fy > fx + 1e-12:
+                x, fx = y, fy
+                improved = True
+                break
+        if not improved:
+            break
+    return fx, evals
+
+
+def stepping_stone_sweep():
+    base_quality, base_evals = monotonic_single_bit(5000)
+    rows = []
+    for budget in (50, 100, 250, 500, 1000, 2500, 4000):
+        archive = [shadow_archive_search(budget, seed=30000+i)[0] for i in range(10)]
+        broad = [broad_mutation_parent(budget, seed=40000+i)[0] for i in range(10)]
+        rows.append({
+            "budget": budget,
+            "monotonic_single_bit_quality": base_quality,
+            "monotonic_single_bit_initial_stop_evals": base_evals,
+            "shadow_archive_mean_best_quality": statistics.mean(archive),
+            "shadow_archive_optimum_fraction": sum(q >= 0.999999 for q in archive) / len(archive),
+            "broad_1_to_3_bit_parent_mean_best_quality": statistics.mean(broad),
+            "broad_parent_optimum_fraction": sum(q >= 0.999999 for q in broad) / len(broad),
+            "repetitions": 10,
+        })
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--output")
     args = ap.parse_args()
     result = {
         "status": "E2_EXPLORATORY_SYNTHETIC_ONLY",
-        "claim_authority": "NO_OCM_OR_NEURAL_SUPERIORITY_CLAIM",
-        "seed_family": "20260908",
+        "claim_authority": "NO_OCM_OR_NEURAL_OR_AUTOML_SUPERIORITY_CLAIM",
+        "seed_family": "20260908-v0.2",
+        "identifiability_lower_bound": identifiability_bounds(),
         "diagnosis": diagnosis_sweep(),
         "factorization_lifetime": lifetime_sweeps(),
+        "self_intervention_learning": self_intervention_learning_sweep(),
+        "stepping_stone_search": stepping_stone_sweep(),
         "interpretation_rules": [
-            "Diagnosis is useful only when saved repair search exceeds probe cost.",
-            "Factorization is useful only under a declared quality/resource comparison; it is not universally higher-quality.",
-            "Sparse/stable interaction structure permits large evaluation savings; dense coupling reduces or removes the quality advantage.",
-            "Drift creates maintenance/refactorization cost and can erase amortization.",
-            "Evolutionary search here is not the strongest possible learned black-box parent; parent superiority is not established.",
+            "Low effective coupling is not sufficient for evolvability; failure causes must also be identifiable from affordable observations/interventions and the localized repair space must be searchable.",
+            "Fano's inequality supplies a lower bound on diagnostic information, not an OCM-specific theorem or performance result.",
+            "Learning predictive self-structure from resolved interventions can greatly reduce later fault-localization search, but the direct probabilistic parent can match or outperform it; self-model learning alone is parent-owned.",
+            "A monotonic deployed lineage can be trapped by deceptive landscapes. Retaining non-deployed stepping stones can improve reachability, but a conventional broader mutation/search parent can dominate the naive archive.",
+            "Factorization remains a regime hypothesis: sparse/stable interaction structure permits evaluation savings, while dense coupling and drift erode or remove the advantage.",
+            "All results are synthetic E2 theory pressure. Strongest-parent closure requires real OCM studies and substantially stronger adaptive parents."
         ],
     }
-    txt = json.dumps(result, indent=2, sort_keys=True) + "\n"
+    text = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
-        open(args.output, "w", encoding="utf-8").write(txt)
+        with open(args.output, "w", encoding="utf-8") as f:
+            f.write(text)
     else:
-        print(txt)
+        print(text)
+
 
 if __name__ == "__main__":
     main()
