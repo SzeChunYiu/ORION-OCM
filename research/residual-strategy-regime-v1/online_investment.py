@@ -8,9 +8,10 @@ model, each fixed frontier has setup b_f and recurring expected rate r_f.
 
 If the Pareto-pruned points have increasing setup and decreasing rate, the
 expected-cost problem satisfies the additive multislope geometry in
-FORMAL_DECISION_CORE_V2 Theorem 15 on the registered phase coordinate.  That
-licenses importing ordinary online-investment parents for the UNKNOWN-HORIZON
-tranche; it does not license ML.
+FORMAL_DECISION_CORE_V2 Theorem 15 on the registered phase coordinate.  Geometry
+alone does not make the family a useful parent: its known-horizon offline
+envelope must first beat the incumbent exact static arms somewhere.  If it does
+not, scheduling its slopes cannot establish a new strategy advantage.
 
 Important scope correction: the Phase-1 cost-informed DP is an oracle only over
 its two original per-query arms (inverse versus target-triggered semantic).  This
@@ -26,6 +27,9 @@ from pathlib import Path
 
 import decision_core as D
 import regime_sweep as R
+
+
+EPS = 1e-12
 
 
 def _write_json(path, value):
@@ -53,8 +57,6 @@ def fixed_frontier_points(tasks, profile, inverse, coordinate):
 
 def efficient_slopes(points):
     """Collapse exact point duplicates and remove Pareto-dominated levels."""
-    # If two frontiers have exactly the same scalar setup/rate, keep the larger
-    # frontier as the more informative non-authoritative state at no extra cost.
     unique = {}
     for setup, recurring, frontier in points:
         key = (setup, recurring)
@@ -101,13 +103,7 @@ def envelope_breakpoints(rows):
 
 
 def compare_known_horizon_parent(rows, static_rows, phase1_oracle_rows, coordinate):
-    """Compare against old parents without treating the old oracle as global.
-
-    The Phase-1 DP is optimal only inside its original two-arm action set.  This
-    function therefore reports a signed comparison to that reference.  Negative
-    `fixed_frontier_minus_phase1_reference_fraction` means the new parent beats
-    the old two-arm oracle because it introduced a new admissible action family.
-    """
+    """Compare against old parents without treating the old oracle as global."""
     by_horizon_static = {row["horizon"]: row for row in static_rows}
     by_horizon_phase1 = {row["horizon"]: row for row in phase1_oracle_rows}
     result = []
@@ -145,6 +141,7 @@ def build_report(max_horizon=R.MAX_HORIZON):
     tasks, profile, inverse, static_rows, _, oracle = R.calibrate()
     coordinates = {}
     all_multislope = True
+    useful_anywhere = False
     for coordinate in R.PHASE_COORDS:
         points = fixed_frontier_points(tasks, profile, inverse, coordinate)
         slopes = efficient_slopes(points)
@@ -157,6 +154,8 @@ def build_report(max_horizon=R.MAX_HORIZON):
             oracle[coordinate]["rows"][:max_horizon],
             coordinate,
         )
+        beats_static = max_static_gain["fraction"] > EPS
+        useful_anywhere = useful_anywhere or beats_static
         coordinates[coordinate] = {
             "raw_frontier_points": len(points),
             "pareto_slopes": [
@@ -167,18 +166,24 @@ def build_report(max_horizon=R.MAX_HORIZON):
             "breakpoints": envelope_breakpoints(envelope),
             "known_horizon_rows": envelope,
             "comparison_rows": comparisons,
+            "beats_best_static_at_any_horizon": beats_static,
             "max_gain_over_best_static": max_static_gain,
             "max_gap_above_phase1_two_arm_oracle_reference": max_above_phase1,
             "max_gain_below_phase1_two_arm_oracle_reference": max_below_phase1,
         }
 
-    terminal = (
-        "EXPECTED_MULTISLOPE_REDUCTION_SUPPORTED_R0B_PHASE2B0"
-        if all_multislope
-        else "GENERAL_CAPITAL_INVESTMENT_PARENT_REQUIRED_R0B_PHASE2B0"
-    )
+    if not all_multislope:
+        terminal = "GENERAL_CAPITAL_INVESTMENT_PARENT_REQUIRED_R0B_PHASE2B0"
+        next_parent = "general finite-state capital-investment/online-control policy"
+    elif not useful_anywhere:
+        terminal = "FIXED_FRONTIER_MULTISLOPE_PARENT_DOMINATED_R0B_PHASE2B0"
+        next_parent = "online switching/stopping among incumbent exact arms; do not schedule dominated prebuild slopes"
+    else:
+        terminal = "EXPECTED_MULTISLOPE_REDUCTION_USEFUL_R0B_PHASE2B0"
+        next_parent = "multislope/capital-investment competitive policy"
+
     return {
-        "schema": "ocm.residual-strategy-regime.r0b.phase2b0.investment.v2",
+        "schema": "ocm.residual-strategy-regime.r0b.phase2b0.investment.v3",
         "study": "Exact fixed-frontier expected investment reduction; no ML",
         "scope": {
             "demand": "iid uniform frozen 142-target population",
@@ -197,12 +202,9 @@ def build_report(max_horizon=R.MAX_HORIZON):
             "phase1_oracle_scope": "OPTIMAL_ONLY_OVER_ORIGINAL_INVERSE_VS_TARGET_TRIGGERED_SEMANTIC_ARMS",
             "fixed_frontier_is_action_set_expansion": True,
             "phase1_oracle_is_upper_bound_for_phase2b0": False,
+            "multislope_geometry_alone_is_not_useful_parent_evidence": True,
             "ml_authorized": False,
-            "next_parent": (
-                "multislope/capital-investment competitive policy"
-                if all_multislope
-                else "general finite-state capital-investment/online-control policy"
-            ),
+            "next_parent": next_parent,
         },
         "terminal": terminal,
     }
@@ -216,6 +218,7 @@ def _notice(report):
             "breakpoints": [
                 [row["horizon"], row["frontier"]] for row in value["breakpoints"]
             ],
+            "beats_static": value["beats_best_static_at_any_horizon"],
             "max_static_gain": value["max_gain_over_best_static"],
             "max_above_phase1_ref": value["max_gap_above_phase1_two_arm_oracle_reference"],
             "max_below_phase1_ref": value["max_gain_below_phase1_two_arm_oracle_reference"],
