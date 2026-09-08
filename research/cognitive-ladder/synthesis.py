@@ -516,6 +516,49 @@ BEST_REPRESENTATION_SIGNS = {
 ),
 }
 
+#: Doctrine S3 asks whether a learned computational contract survives a change of
+#: validation semantics. This is the first thing in this lane that answers it,
+#: and the answer has a boundary in it. Outside ``PLAN``, like every outcome here.
+CROSS_DOMAIN = dict(
+  contract="act wherever the hypothesis space already determines this question, rather "
+           "than waiting for it to collapse to one candidate",
+  first_domain=dict(
+    receipt="results/DEV5_UNANIMITY_V1.json",
+    object="a version space of periodic predicates guarding a rule",
+    resource_saved="scope checks against the world",
+    sign="WINS, on both columns; up to 5.1x, checks falling from about 1700 to about 200"),
+  second_domain=dict(
+    receipt="results/X1_UNANIMITY_TRANSFER_V1.json",
+    object="a lattice of evidence subsets, enumerating minimal support families",
+    resource_saved="charged interventions",
+    sign="WINS on interventions by 2.67x at matched capability and LOSES on total work by "
+         "1.63x, because the reasoning that establishes 'already answered' is charged and "
+         "here it costs more than the intervention it avoids",
+    provenance="the mechanism was already in E6, written by another author for another "
+               "question before DEV-5 existed; X1 is an ablation of E6's own source "
+               "transformed by one line, not a re-implementation"),
+  what_the_pair_identifies=(
+    "Neither experiment identifies this alone and together they do: the contract is "
+    "domain-neutral and its SIGN is not. It pays when the machine's own reasoning is cheap "
+    "relative to querying the world, and it loses when reasoning is dear. DEV-5 measured "
+    "that boundary inside its own domain with a consultation-price sweep -- it won up to a "
+    "price of 5 and lost at 25 -- and E6 sits on the losing side of the same ratio. So the "
+    "quantity to carry forward is a PRICE RATIO between internal deliberation and external "
+    "query, and it is the second time this lane has found that what decides a comparison is "
+    "the cost of the machine's own operations rather than the structure of the world."),
+  relation_to_the_candidate_missing_quantity=(
+    "CANDIDATE_MISSING_QUANTITY named the use cost of an acquired object relative to the "
+    "instance it replaces. This names the cost of deliberating about an object relative to "
+    "asking the world. They are the same shape -- an internal price measured against an "
+    "external one -- and neither is in the law's three coordinates, all of which describe "
+    "the world. That is now TWO independent pointers at the same gap, which is worth more "
+    "than either, and it is still not a reason to bolt a fourth coordinate on."),
+  what_it_does_not_establish=(
+    "Two domains is not domain-neutrality, and both are synthetic and in this repository. "
+    "The strength of the evidence is not its breadth but its independence: E6's use of the "
+    "rule was not arranged after the fact."),
+)
+
 LAW_STATUS_AFTER_THE_TEST = (
     "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is "
     "left exactly as written, because it is inside the commitment digest and editing it "
@@ -614,6 +657,7 @@ def build() -> dict:
         "candidate_missing_quantity": CANDIDATE_MISSING_QUANTITY,
         "candidate_follow_up": CANDIDATE_FOLLOW_UP,
         "best_representation_signs": BEST_REPRESENTATION_SIGNS,
+        "cross_domain": CROSS_DOMAIN,
         "agreement_note": (
             "Two agreement figures exist and only one is quoted as the law's. Against the "
             "representation each experiment actually used, agreement is "

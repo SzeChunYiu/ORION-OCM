@@ -263,3 +263,23 @@ def test_a_row_that_changed_sign_twice_says_so():
     rows = [r for r in S.OBSERVED_REVISIONS if r["study"] == "DEV-1 D0 to D1, 1024 bits"]
     assert len(rows) == 2, "both sign changes must be on the record, not just the latest"
     assert any("changed sign TWICE" in r["why"] for r in rows)
+
+
+def test_the_cross_domain_entry_reports_a_boundary_not_a_transfer():
+    c = DOC["cross_domain"]
+    assert "WINS" in c["first_domain"]["sign"]
+    assert "LOSES on total work" in c["second_domain"]["sign"]
+    assert "domain-neutral and its SIGN is not" in c["what_the_pair_identifies"]
+    assert "not a re-implementation" in c["second_domain"]["provenance"]
+    assert "Two domains is not domain-neutrality" in c["what_it_does_not_establish"]
+
+
+def test_the_second_pointer_at_the_gap_is_still_not_a_coordinate():
+    from synthesis import Coordinates as C
+    c = DOC["cross_domain"]
+    assert "TWO independent pointers at the same gap" in \
+        c["relation_to_the_candidate_missing_quantity"]
+    assert "not a reason to bolt a fourth coordinate on" in \
+        c["relation_to_the_candidate_missing_quantity"]
+    assert set(C.__dataclass_fields__) == {"rho", "beta", "phi"}
+    assert DOC["in_sample_agreement_after_revision"] < 1.0
