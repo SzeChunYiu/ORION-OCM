@@ -1,0 +1,32 @@
+--- historical/run_screening.py
++++ wiring-01/run_screening.py
+@@ -9,6 +9,7 @@
+  raw=request_path.read_bytes();request_id={"bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest()}
+  request=json.loads(raw)
+  if request.get("schema")!="ordinary.retained-screening-request.v1":raise ValueError("screening request schema")
++ if request.get("syntax_method")!="functools.cache.completed-syntax-results.v1":raise ValueError("screening syntax method")
+  if request.get("gate_path") is None:raise ValueError("missing root screening gate")
+  gate_path=Path(request["gate_path"]);gate_id=identity(gate_path);gate=json.loads(gate_path.read_bytes())
+  if gate.get("authorization")!="ROOT_RETAINED_SCREENING_GATE" or gate.get("request")!=request_id:
+@@ -29,7 +30,7 @@
+  from screen_work import Work
+  from syntax_adapter import SyntaxPool
+  from screen import screen
+- result={"schema":"ordinary.retained-screening-result.v1","terminal":"RUNNING","pid":os.getpid(),
++ result={"schema":"ordinary.retained-screening-result.v1","syntax_method":request["syntax_method"],"terminal":"RUNNING","pid":os.getpid(),
+   "cwd":os.getcwd(),"request":request_id,"native_calls":0,"new_native_admissions":0,"rows":[]}
+  work=Work(request["max_token_states"],request["max_wall_s"],started);pool=None
+  try:
+@@ -40,6 +41,12 @@
+    "outer_process":read_bound(request["inputs"]["previous_outer_process"]),
+    "caller_process":read_bound(request["inputs"]["previous_caller_process"]),
+    "scope":"Earlier disjoint attempt retained; nested intervals must not be summed as independent totals."}
++  prior_screen=read_bound(request["inputs"]["prior_screen_result"])
++  result["prior_screen_costs"]={"driver_wall_s":prior_screen["measured_driver_wall_s"],
++   "work":prior_screen["work"],"contexts":prior_screen["contexts"],
++   "outer_process":read_bound(request["inputs"]["prior_screen_outer_process"]),
++   "caller_process":read_bound(request["inputs"]["prior_screen_caller_process"]),
++   "scope":"Earlier disjoint screening attempt retained. Its caller/outer/driver windows are nested, not additive. Original opportunity costs remain separate."}
+   result["inputs"]=request["inputs"];result["P1_count"]=len(contracts);result["occurrence_count"]=len(rows)
+   pool=SyntaxPool(contracts,work)
+   for row in rows:

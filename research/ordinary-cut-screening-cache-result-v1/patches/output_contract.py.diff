@@ -1,0 +1,32 @@
+--- historical/output_contract.py
++++ wiring-01/output_contract.py
+@@ -75,6 +75,19 @@
+   cost_match=(costs.get("driver_wall_s")==previous["wall_s"] and costs.get("work")==previous["work"]
+    and costs.get("outer_process")==read_bound(request["inputs"]["previous_outer_process"])
+    and costs.get("caller_process")==read_bound(request["inputs"]["previous_caller_process"]))
++  prior_screen=read_bound(request["inputs"]["prior_screen_result"])
++  prior_costs=result.get("prior_screen_costs",{})
++  screen_cost_match=(prior_costs.get("driver_wall_s")==prior_screen["measured_driver_wall_s"]
++   and prior_costs.get("work")==prior_screen["work"] and prior_costs.get("contexts")==prior_screen["contexts"]
++   and prior_costs.get("outer_process")==read_bound(request["inputs"]["prior_screen_outer_process"])
++   and prior_costs.get("caller_process")==read_bound(request["inputs"]["prior_screen_caller_process"]))
++  report["prior_screen_costs_preserved"]=screen_cost_match
++  contexts=result.get("contexts")
++  cache_reports=(type(contexts) is list and all(type(c) is dict and (c.get("error") is not None or
++   (type(c.get("syntax_cache")) is dict and c["syntax_cache"].get("primitive")=="functools._lru_cache_wrapper"
++    and type(c["syntax_cache"].get("cache_info")) is dict and type(c["syntax_cache"].get("namespace")) is list))
++   for c in contexts))
++  report["cache_reports_present"]=cache_reports
+   imported=imports_ok(result.get("imported_modules",{}),request,root)
+   report["declared_import_paths_ok"]=imported;report["previous_costs_preserved"]=cost_match
+   report["completed_contract"]=(result.get("schema")=="ordinary.retained-screening-result.v1"
+@@ -83,7 +96,8 @@
+    and result.get("request")==request_pin and result.get("cwd")==str(root)
+    and result.get("inputs")==request["inputs"] and result.get("P1_count")==len(contracts)
+    and result.get("occurrence_count")==len(expected) and result.get("native_calls")==0
+-   and result.get("new_native_admissions")==0 and imported and cost_match
++   and result.get("new_native_admissions")==0 and imported and cost_match and screen_cost_match and cache_reports
++   and result.get("syntax_method")==request.get("syntax_method")=="functools.cache.completed-syntax-results.v1"
+    and all(result.get(k) is True for k in ("inputs_unchanged","sources_unchanged","runtime_unchanged","request_unchanged")))
+  except (OSError,ValueError,KeyError,TypeError,IndexError) as error:
+   report["errors"].append(type(error).__name__+": "+str(error))

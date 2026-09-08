@@ -48,31 +48,32 @@ boundaries lack the required three parameters. Parent matching was not reached;
 the question of additional learning opportunities remains unresolved.
 
 The [contract-derived syntax prototype](../ordinary-cut-screen-revival-v1/CORE.md)
-reuses Lark with replayable typed witnesses. Its separately qualified
-[screening-only successor](../ordinary-cut-screening-result-v1/CORE.md) has now run once
-on all 76 original occurrences and full P1. Four complete screens retain eight
-witnesses from ordinary theorems ssinss1 and ssinss1OLD. The fifth screen stops after
-314 parent visits; the remaining 71 record UNKNOWN before context acquisition after
-the shared 60-second soft deadline. No complete negative or population-wide alias
-conclusion follows. This attempt and the original audit remain separate consumed runs.
+reuses Lark with replayable typed witnesses. The [first screening run](../ordinary-cut-screening-result-v1/CORE.md)
+completed four screens and left 72 UNKNOWN at its shared 60-second deadline.
+Its 110,178 parser calls and 58.96 seconds of parsing/proof emission identified
+repeated syntax work as the repair target; the attempt remains part of cost history.
 
-The measured bottleneck is repeated syntax work: 110,178 parser calls and 58.96 seconds
-of parsing/proof emission within 60.00 seconds of driver work. Cold grammar construction
-is 0.077 seconds. Reuse standard exact memoization for completed syntax decisions and
-immutable witnesses within a fixed library/context. Preserve UNKNOWN, check the deadline
-on hits, and charge cache storage/lookup and actual parse work without double-counting.
-Keep all proposals, full P1, original resources and every prior attempt cost. The
-[cache source and metadata correction](../ordinary-cut-screening-cache-v1/CORE.md) are now
-qualified; minimal driver/observer integration and a separately bound next screen
-remain pending. Do not replay a consumed gate. This is conventional parent engineering,
-with no OCM novelty or actual cached-screen speed claim yet.
+The [corrected exact-cache source](../ordinary-cut-screening-cache-v1/CORE.md) reuses
+standard memoization for completed syntax decisions and immutable witnesses.
+The [single cached screening result](../ordinary-cut-screening-cache-result-v1/CORE.md)
+now completes every original occurrence against all 4,323 P1 contracts: 44 have
+existing-theorem witnesses, 32 are negative within the registered one-assertion
+matching domain, and none remain UNKNOWN. The driver takes 55.57 seconds within
+the unchanged 60-second window; all 328,548 parent visits remain charged.
+This compares completion under a fixed work window, not equal-output timing.
 
-The [parallel-lane source review](../ordinary-cut-cross-lane-review-v1/CORE.md) binds another
-76-row run reporting 44 aliases and 32 negatives. Its 366-second elapsed work and
-different runtime do not replace the fixed-time comparison. Its recursive parser
-can lose syntax refusals inside matching, leaving complete-negative claims unqualified;
-no particular recorded negative is shown false. Preserve that exploratory evidence
-and reuse its useful components without promoting those statuses to certified eligibility.
+The cache records 5,422,830 hits, 21,608 misses/entries and 16,178 actual parser
+calls. It retains memory and incurs lookup/copy-out overhead; those costs and the
+original audit/uncached attempt are retained. There are no native admissions.
+The 32 bounded negatives do not establish unrestricted non-derivability, useful
+novel methods or future transfer. They qualify a candidate population for the next
+ordinary-lemma comparison, subject to construction and fresh native checking.
+All completed gates are consumed; do not repeat the same experiment.
+
+The [parallel-lane review](../ordinary-cut-cross-lane-review-v1/CORE.md) keeps the
+separate 366-second exploratory run and recursive-parser limitations explicit.
+The new result has its own exact syntax/completeness contract; it does not repair
+or retrospectively certify that run, even though aggregate statuses agree.
 
 The DV/hypothesis and other source-interface refusals remain separate later
 extensions. Fixing the screening grammar does not qualify those excluded roots.
