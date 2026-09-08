@@ -48,15 +48,22 @@ boundaries lack the required three parameters. Parent matching was not reached;
 the question of additional learning opportunities remains unresolved.
 
 The [contract-derived syntax prototype](../ordinary-cut-screen-revival-v1/CORE.md)
-now reuses Lark with replayable typed witnesses. Independent review accepted its
-coverage correction and nine affected controls; the original 17 controls remain
-separate evidence. No retained proposal has been parsed by that prototype.
-Wire it into the ordinary screen while preserving UNKNOWN for unsupported
-contracts or incomplete work. A separately registered screening-only
-successor can reuse every retained proposal in original order and the full P1,
-without repeating native export or extraction. Retain all first-run costs and
-refusals; the consumed audit gate cannot be reused. Preserve the candidate family
-and original resource bounds rather than choosing replacements.
+reuses Lark with replayable typed witnesses. Its separately qualified
+[screening-only successor](../ordinary-cut-screening-result-v1/CORE.md) has now run once
+on all 76 original occurrences and full P1. Four complete screens retain eight
+witnesses from ordinary theorems ssinss1 and ssinss1OLD. The fifth screen stops after
+314 parent visits; the remaining 71 record UNKNOWN before context acquisition after
+the shared 60-second soft deadline. No complete negative or population-wide alias
+conclusion follows. This attempt and the original audit remain separate consumed runs.
+
+The measured bottleneck is repeated syntax work: 110,178 parser calls and 58.96 seconds
+of parsing/proof emission within 60.00 seconds of driver work. Cold grammar construction
+is 0.077 seconds. Reuse standard exact memoization for completed syntax decisions and
+immutable witnesses within a fixed library/context. Preserve UNKNOWN, check the deadline
+on hits, and charge cache storage/lookup and actual parse work without double-counting.
+Keep all proposals, full P1, original resources and every prior attempt cost. Qualify this
+small source change before a separately bound next screen; do not replay any consumed gate.
+It is conventional parent engineering, with no OCM novelty or speed claim yet.
 
 The DV/hypothesis and other source-interface refusals remain separate later
 extensions. Fixing the screening grammar does not qualify those excluded roots.

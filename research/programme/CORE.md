@@ -30,8 +30,11 @@ in the complete ordinary parent; 71 traces fit the bounded interface and 57 do n
 The [first fragment audit](../ordinary-cut-opportunity-result-v1/CORE.md) recorded
 76 proposals from 17 roots, but every parent screen remained UNKNOWN at the syntax
 interface. The full 4,323-contract parent is preserved. No useful new method or
-absence of opportunity follows. A [syntax prototype](../ordinary-cut-screen-revival-v1/CORE.md)
-now passes authored controls; connecting it to the parent screen is next.
+absence of opportunity follows. The [screening-only successor](../ordinary-cut-screening-result-v1/CORE.md)
+now reaches the full parent: four proposals have complete existing-theorem witness
+screens and 72 remain UNKNOWN under the fixed 60-second window. Parsing and proof
+emission dominate the measured cost. Exact conventional memoization is the next
+repair; no useful new method or learning benefit is established.
 
 ## Next decisive work
 
@@ -57,6 +60,10 @@ older next-action wording; historical negative outcomes remain unchanged.
 [Grounding donor review](../native-grounding-review-v1/CORE.md) identifies the
 observed construction bottleneck. [Evolvability review](../evolvability-source-review-v1/CORE.md)
 qualifies useful diagnosis/search ideas without creating another flagship programme.
+
+The [architecture benefit corrigendum](../architecture-net-benefit-corrigendum-v1/CORE.md)
+clarifies reachable-cycle and resource-dimension wording while preserving the
+original theory source and historical measurements.
 
 Push each completed research or code milestone to GitHub, with its evidence and
 limitations. Preserve source versions and wait for exact-head CI before merging.

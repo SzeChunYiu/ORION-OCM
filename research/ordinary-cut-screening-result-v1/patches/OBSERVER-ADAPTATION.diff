@@ -1,0 +1,40 @@
+--- reviewed/observe_controls.py
++++ screening/observe_controls.py
+@@ -2,7 +2,7 @@
+ from pathlib import Path
+ import hashlib,json,os,subprocess,sys,time
+ ROOT=Path(__file__).resolve().parent
+-BASE=ROOT.parent
++BASE=ROOT.parent/"ordinary-cut-screen-revival-v1"
+ OUT=ROOT/"qualification-01"
+ def pin(p):
+  b=p.read_bytes();return {"bytes":len(b),"sha256":hashlib.sha256(b).hexdigest()}
+@@ -12,8 +12,8 @@
+ assert not OUT.exists(),"create-only qualification"
+ OUT.mkdir()
+ lark=json.loads((BASE/"donor/LARK-FILES.json").read_bytes())["files"]
+-paths=[ROOT/"check_coverage.py",Path(__file__).resolve(),Path(sys.executable).resolve()]
+-paths+=list((ROOT/"source").glob("*.py"))
++paths=[ROOT/"check_integration.py",Path(__file__).resolve(),Path(sys.executable).resolve()]
++paths+=list((ROOT/"source").glob("*.py"))+[ROOT/"run_screening.py"]
+ paths+=[BASE/"donor/lark-runtime"/name for name in lark]
+ # Pre-pin the isolated interpreter's standard library sources/extensions so every
+ # file-backed imported module can later be reconciled, including lazy imports.
+@@ -29,7 +29,7 @@
+  BASE/"qualification-01/PROCESS.json"]
+ old_before={str(p):pin(p) for p in historical}
+ write(OUT/"PINS-BEFORE.json",before);write(OUT/"HISTORY-BEFORE.json",old_before)
+-argv=[sys.executable,"-I","-S","-B",str(ROOT/"check_coverage.py"),str(OUT)]
++argv=[sys.executable,"-I","-S","-B",str(ROOT/"check_integration.py"),str(OUT)]
+ started=time.perf_counter()
+ with (OUT/"stdout.txt").open("xb") as stdout,(OUT/"stderr.txt").open("xb") as stderr:
+  child=subprocess.Popen(argv,cwd=ROOT,stdout=stdout,stderr=stderr)
+@@ -43,7 +43,7 @@
+ imports=control["imported_modules"] if control else {}
+ uncovered={name:row for name,row in imports.items()
+  if before.get(row["path"])!={"bytes":row["bytes"],"sha256":row["sha256"]}}
+-receipt={"schema":"ordinary.syntax-coverage-process.v1","observer_pid":os.getpid(),
++receipt={"schema":"ordinary.screening-integration-process.v1","observer_pid":os.getpid(),
+  "pid":pid,"argv":argv,"cwd":str(ROOT),"exit_code":child.returncode,
+  "child_window_wall_s":wall,"child_user_s":usage.ru_utime,"child_system_s":usage.ru_stime,
+  "child_peak_rss_kib":usage.ru_maxrss,"before_after_equal":before==after,
