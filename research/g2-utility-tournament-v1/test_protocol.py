@@ -5,9 +5,10 @@ import tempfile
 import unittest
 
 HERE = Path(__file__).resolve().parent
-SPEC = importlib.util.spec_from_file_location("g2_utility_tournament", HERE / "experiment.py")
-E = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(E)
+SPEC = importlib.util.spec_from_file_location("g2_utility_tournament_runner", HERE / "experiment_runner.py")
+R = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(R)
+E = R.E
 
 
 class TestProspectiveProtocol(unittest.TestCase):
@@ -66,15 +67,15 @@ class TestProspectiveProtocol(unittest.TestCase):
         self.assertEqual(loaded, method)
         self.assertEqual(loaded.fingerprint, method.fingerprint)
 
-    def test_ocm_research_adapter_survives_restart_and_fails_after_support_revoke(self):
+    def test_connected_ocm_adapter_survives_restart_and_fails_after_support_revoke(self):
         method = E.M.GeneratorMethod((("inc", "double"),), ("a", "b"))
         training = {"schema": "test.training", "candidate": ["inc", "double"]}
         utility = {"schema": "test.utility", "accepted": True}
         with tempfile.TemporaryDirectory() as temp:
-            live, _atom, _te, _ue = E.admit_selected_method(
+            live, _atom, _te, _ue = R.admit_selected_method(
                 Path(temp) / "live", method, training, utility, revoke=False
             )
-            dead, _atom2, _te2, _ue2 = E.admit_selected_method(
+            dead, _atom2, _te2, _ue2 = R.admit_selected_method(
                 Path(temp) / "dead", method, training, utility, revoke=True
             )
         self.assertEqual(live, method)
