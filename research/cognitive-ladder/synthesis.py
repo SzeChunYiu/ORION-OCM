@@ -92,6 +92,29 @@ def A(**kw):
 
 #: Doctrine section 3, applied to every parent that beat an arm in this lane.
 ABSORPTIONS = [
+A(parent="Independent mathematical review of PR #150 (PR #153, "
+         "research/evolvability-source-review-v1)", field="theory review",
+  receipt="PR #153 research/evolvability-source-review-v1/PR150-MATH-REVIEW.md",
+  verdict="GENERALIZE",
+  teaches="A calibrated posterior's perplexity does not bound the expected cost of finding "
+          "the right answer. With N = 2^m repairs of probability 1/(mN) and one leading "
+          "repair of probability 1 - 1/m, chi = 2^H is at most 4 while the expected optimal "
+          "guess rank is 1 + (N+1)/(2m) and grows without bound. Effective diversity is a "
+          "statistic about a distribution, not about the work of searching it.",
+  novelty_removed="Any claim in this lane that a small hypothesis space wins BECAUSE it is "
+                  "small. Size is not the operative quantity.",
+  mapped_to="The charge rule this lane has used since DEV-6: a consultation costs what it "
+            "examines. X5's Y5 tested the review's objection directly on this lane's own "
+            "arms and confirmed it -- the same language produces BOTH signs of the carry "
+            "advantage, so no function of version-space size predicts the sign, while the "
+            "margin rebuilt from the priced events reproduces the measured work difference "
+            "to the integer in every one of the thirty-six cells.",
+  prior_information_charged="None. The review was written against PR #150's theory without "
+                            "reference to this lane, and its counterexample is arithmetic.",
+  next_experiment="A world where the version space is LARGE but a consultation is O(1) "
+                  "regardless -- a perfect hash or a precompiled decision over the space. "
+                  "The size story predicts a loss and the charge story predicts a win, and "
+                  "this lane has never built one."),
 A(parent="Belady (1966) optimal replacement", field="caching",
   receipt="results/RETAIN_E10_V1.json", verdict="ADOPT",
   teaches="For uniform-size uniform-cost items, furthest-in-future eviction is optimal, "
@@ -590,6 +613,51 @@ LAW_STATUS_AFTER_THE_TEST = (
 )
 
 
+
+#: A second lane, a real workload, and the same shape. Recorded OUTSIDE ``PLAN``.
+#:
+#: PR #153 publishes an eight-call comparison on the actual OCM PROGRAMMATIC
+#: dispatcher rather than on synthetic worlds. It is not this lane's evidence and
+#: nothing here re-analyses it; what follows quotes its own reported numbers and
+#: states what this lane's law predicts about it, so that the prediction is on
+#: record before that lane runs the experiment that would settle it.
+NATIVE_LANE_CROSS_CHECK = dict(
+  source="PR #153 research/native-serving-evidence-v1/HANDOFF.md and "
+         "research/native-grounding-review-v1/DECISION.md",
+  what_it_reports=(
+    "A learned method carried into a proof task is causally used and reduces the positive "
+    "rule-tree cost from 3 to 2 and action attempts from 141,792 to 72,579 -- very close to "
+    "a halving of the search. OCM nevertheless added cold overhead in every one of the four "
+    "pairs, 1.104 to 1.756 seconds, and the handoff states that no cold speedup or lifetime "
+    "advantage follows. The grounding review locates why: full ordinary compilation costs "
+    "3.689 to 3.931 seconds per arm while search costs 0.256 to 0.442, because compile_parent "
+    "grounds the WHOLE bank -- 69,219 instances from 4,191 assertions and 255 formulas -- "
+    "before any demand is consulted."),
+  why_this_lane_recognises_it=(
+    "It is X5's shape in another domain. A carried representation halves the VARIABLE cost "
+    "and is charged a FIXED cost that does not shrink with the demand, and the advantage is "
+    "invisible because the fixed cost dominates. In this lane the fixed cost is bits: the "
+    "guarded arm holds a minority of its guards until the budget is large enough, its work "
+    "is nearly flat while that is true, and it wins only in the interval where the fixed "
+    "cost is paid and the parent cannot yet memoise. Halving something that is a tenth of "
+    "the total cannot be seen, whichever lane you are in."),
+  the_prediction=(
+    "The grounding review's own next lever -- demand-driven grounding, adapted from "
+    "Souffle's magic-set transformation -- is exactly the intervention that makes the fixed "
+    "cost proportional to the demand. This lane therefore predicts, before that experiment "
+    "exists, that the learned method's already-measured halving of search becomes a "
+    "measurable end-to-end advantage only after grounding is made demand-driven, and that "
+    "adding indexes or caching the compiled bank will NOT produce one, because neither "
+    "changes the proportion of the fixed cost to the demand. This is refutable in that "
+    "lane's units, which is the point of writing it down here."),
+  what_would_refute_it=(
+    "An end-to-end advantage appearing from compiled-bank reuse or indexing alone, or "
+    "demand-driven grounding landing without one."),
+  boundary=(
+    "This lane's receipts are synthetic and this is not evidence about the native lane. It "
+    "is a prediction, stated in the other lane's units, with the refutation named."),
+)
+
 PLAN: Mapping[str, Any] = {
     "study_id": "SYNTHESIS_V1",
     "doctrine": "PR #150, PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
@@ -673,6 +741,7 @@ def build() -> dict:
         "candidate_follow_up": CANDIDATE_FOLLOW_UP,
         "best_representation_signs": BEST_REPRESENTATION_SIGNS,
         "cross_domain": CROSS_DOMAIN,
+        "native_lane_cross_check": NATIVE_LANE_CROSS_CHECK,
         "agreement_note": (
             "Two agreement figures exist and only one is quoted as the law's. Against the "
             "representation each experiment actually used, agreement is "
@@ -684,9 +753,13 @@ def build() -> dict:
             "predicted the first attempt."),
         "what_this_does_not_establish": (
             "Three binary coordinates over ten synthetic rows. Nothing here measures a real "
-            "task ecology, none of the coordinates is measured continuously, and the beta "
-            "interval rests on a single pair of budgets in one experiment. The law is "
-            "falsifiable, which is its only current virtue."),
+            "task ecology and none of the coordinates is measured continuously. The beta "
+            "interval rested on a single pair of budgets until X5_BUDGET_CROSSING_V1 swept "
+            "nine; the interval is now measured rather than assumed, and it is NARROWER "
+            "than the one DEV-3 computed -- [1408, 1536] bits at both demand shapes against "
+            "a computed window of [768, 2048]. The upper edge DEV-3 computed is confirmed "
+            "out of sample; the lower one is necessary and not sufficient. The law is "
+            "falsifiable, which remains its main virtue."),
     }
 
 

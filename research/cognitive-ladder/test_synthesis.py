@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import re
 import pathlib
 
 import pytest
@@ -37,6 +38,13 @@ def test_every_absorption_cites_a_receipt_that_exists(a):
         ref = ref.strip()
         if ref.startswith("../") or "..." in ref:
             continue   # cross-lane references are checked by the spine, not here
+        if ref.startswith("PR #"):
+            # An absorption may cite an UNMERGED pull request, whose files are not
+            # in this checkout. It must then name the PR number and a path inside
+            # it, so a reader can find the exact source, and it must not be able to
+            # pass as a local receipt that happens to be missing.
+            assert re.match(r"^PR #\d+ \S+/\S+", ref), (a["parent"], ref)
+            continue
         assert (HERE / ref).is_file(), (a["parent"], ref)
 
 
@@ -150,7 +158,7 @@ def test_the_document_prints_the_disagreements_if_any():
 def test_the_artifact_produces_no_evidence_and_says_so():
     assert "produces no evidence" in DOC["authority"]
     assert "stands unchanged" in DOC["authority"]
-    assert "falsifiable, which is its only current virtue" in DOC["what_this_does_not_establish"]
+    assert "falsifiable, which remains its main virtue" in DOC["what_this_does_not_establish"]
 
 
 def test_recording_the_outcome_did_not_rewrite_the_prediction():
@@ -297,3 +305,25 @@ def test_the_cross_domain_entry_records_the_audit_it_forced():
     assert "the lane that made the mechanism look free was this one" in a
     assert "refuted the fix this lane proposed" in a
     assert "only visible because the bookkeeping was charged" in a
+
+
+def test_an_absorption_from_an_unmerged_pr_says_so_and_is_not_this_lanes_evidence():
+    """PR #153's independent review of PR #150's mathematics is absorbed here. It
+    is another lane's document, not a receipt this lane produced, and the record
+    must not let the two look alike."""
+    external = [a for a in S.ABSORPTIONS if a["receipt"].startswith("PR #")]
+    assert external, "the PR #153 review should be in the register"
+    for a in external:
+        assert "PR #" in a["parent"], a["parent"]
+        assert a["prior_information_charged"], a["parent"]
+
+
+def test_the_native_lane_cross_check_is_a_prediction_with_a_named_refutation():
+    """Doctrine S3 asks for a cross-domain test. A prediction into another lane is
+    only worth recording if that lane can kill it."""
+    x = S.NATIVE_LANE_CROSS_CHECK
+    assert "PR #153" in x["source"]
+    assert x["what_would_refute_it"].strip()
+    assert "prediction" in x["boundary"] and "not evidence" in x["boundary"]
+    assert "native_lane_cross_check" in DOC
+    assert "NATIVE_LANE_CROSS_CHECK" not in json.dumps(S.PLAN)

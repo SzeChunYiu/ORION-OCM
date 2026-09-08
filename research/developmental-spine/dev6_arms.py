@@ -106,10 +106,16 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
     phase = Phase()
     freq: dict[int, int] = {}
     consultation_charge = 0
+    consultations = 0
 
     def charge(n: int) -> None:
-        nonlocal consultation_charge
+        # ``consultations`` counts calls and ``consultation_charge`` counts what
+        # those calls examined. X5 needs both to separate the SIZE of a version
+        # space from the COST of consulting one; DEV-6 needs only the second and
+        # its receipt is unchanged by the extra counter.
+        nonlocal consultation_charge, consultations
         consultation_charge += n
+        consultations += 1
         phase.lookup_work += n
 
     def evict(room: int) -> None:
@@ -214,7 +220,11 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
     maintenance = votes.maintenance if votes is not None else 0
     phase.lookup_work += maintenance
     meters = {"consultation_charge": consultation_charge, "maintenance": maintenance,
-              "deliberation_total": consultation_charge + maintenance}
+              "deliberation_total": consultation_charge + maintenance,
+              "consultations": consultations,
+              "held_rules_final": len(store.held),
+              "rules_final": len(store.base.rules),
+              "language_size": len(lang)}
     return p0, phase, carried, meters
 
 
