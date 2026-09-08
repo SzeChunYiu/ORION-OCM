@@ -161,3 +161,11 @@ def test_the_receipt_carries_the_plan_and_no_wall_clock():
     text = RECEIPT.read_text().lower()
     for banned in ("elapsed", "timestamp", "duration_ms", "wall"):
         assert banned not in text, banned
+
+
+def test_the_correction_to_x3s_reading_is_recorded_without_editing_its_commitment():
+    """X4 found X3's arms all held the full language. The correction is recorded
+    outside X3_PLAN so the frozen digest is untouched and nothing is withdrawn."""
+    assert x3.READING_CORRECTED_BY == "X4_FINAL_ACCOUNTING_V1"
+    assert "does not generalise" in x3.READING_CORRECTION
+    assert "READING_CORRECT" not in json.dumps(x3.X3_PLAN)

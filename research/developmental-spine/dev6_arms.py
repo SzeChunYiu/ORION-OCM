@@ -67,8 +67,11 @@ class VoteBook:
 
 
 def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
-         mode: str) -> tuple[Phase, Phase, VersionStore, dict]:
-    lang = language(max(LEVELS), world.base.extension)
+         mode: str, lang_level: int | None = None) -> tuple[Phase, Phase, VersionStore, dict]:
+    # lang_level defaults to the full ladder, so every DEV-6 arm is unchanged and
+    # its receipt reproduces; X4 passes 1 to run the SMALL language DEV-3 used.
+    lang = language(max(LEVELS) if lang_level is None else lang_level,
+                    world.base.extension)
     base, p0 = run_d0(world, d0, budget)
     store = VersionStore(base=base.copy())
     for rule in range(world.base.rule_count):

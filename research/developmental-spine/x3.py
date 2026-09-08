@@ -211,3 +211,21 @@ X3_PLAN: Mapping[str, Any] = {
 }
 
 COMMITMENT: Commitment = commit(X3_PLAN)
+
+
+#: Recorded AFTER execution and deliberately OUTSIDE X3_PLAN, so the commitment
+#: digest above is unchanged and this receipt is not retroactively edited.
+#:
+#: X3's counts are correct. Its READING was too broad. Every arm it compared held
+#: the full 433-predicate language, inherited from DEV-6, and DEV-6 had run the
+#: singleton rule over that language rather than over the small one DEV-3 used. A
+#: version space that large rarely collapses, so the rule rarely fires, and the
+#: resulting loss to replay is a statement about language SIZE and not about
+#: whether a guard pays. X4_FINAL_ACCOUNTING_V1 ran both languages under one
+#: charge rule and found the small-language arm beats replay at four of eight
+#: level-1 settings at correctness 1.0. Nothing here is withdrawn from X3.
+READING_CORRECTED_BY: str = "X4_FINAL_ACCOUNTING_V1"
+READING_CORRECTION: str = (
+    "X3 concluded the carry advantage against replay mostly fails the honest price. "
+    "That holds for the LARGE-language arms it measured and does not generalise to the "
+    "small-language guarded arm DEV-3 actually used, which X4 measured directly.")
