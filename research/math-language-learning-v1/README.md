@@ -1,13 +1,16 @@
-# Checked unary method tranche
+# Checked unary methods and fixed experiment
 
-The [adaptive-parent apparatus](ADAPTIVE-PARENT.md) is the current qualified component,
-with [277 authored controls and sealed records](ADAPTIVE-PARENT-QUALIFICATION.md).
-The acquisition description below retains its original first-tranche scope.
+The [fixed non-neural experiment](ASSAY-RESULT.md) completed four episodes with
+checked formal/text answers and premise revision, but acquired no reusable method.
+[Evidence and source histories](ASSAY-EVIDENCE.md) preserve the corrected execution,
+the earlier handoff failure and the [acquisition diagnosis](ASSAY-ACQUISITION-DIAGNOSIS.md).
 
-This package supplies a small conventional mechanical acquisition and application layer.
-It is authored apparatus: no persistent learner, OCM dispatch, fresh-process causal assay,
-held-out evaluation, speedup, language-learning or novelty result is established here.
-The grammar and predicate-to-word mapping remain supplied shared interfaces.
+The earlier [adaptive-parent apparatus](ADAPTIVE-PARENT.md) has its own
+[277 authored controls and sealed records](ADAPTIVE-PARENT-QUALIFICATION.md).
+The acquisition description below retains the original first-tranche scope:
+conventional mechanical acquisition/application before persistent runtime integration.
+Its original qualification alone established no restart, held-out transfer or speedup.
+Grammar and predicate-to-word mappings remain supplied shared interfaces.
 
 ## Read first
 
