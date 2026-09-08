@@ -161,6 +161,20 @@
       ],
       "terminates_at": "PARENT_SHARES_THE_MECHANISM_UNDER_TEST",
       "preserved": true
+    },
+    {
+      "observation_id": "N13-INDEPENDENT-FACTORIZATION-PARENT",
+      "verdict": "INDEPENDENT_PARENT_SUFFICIENT",
+      "source": "results/INDEP_E8_V1.json",
+      "why": [
+        "a regression parent written from its own standard description, sharing no code path with the arm, beat it at 564.5 objective calls against 724.4 with both attaining the exact optimum everywhere",
+        "steady-state calls were identical to the call and both recovered the same number of parameters, so the representation was not what separated them",
+        "the whole gap was first-generation identification: the arm computed a full 2**n transform while the parent escalated degree only until the fit stopped improving",
+        "the arm paid for every coefficient in the basis and the world only ever demanded the sparse ones"
+      ],
+      "terminates_at": "STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
+      "preserved": true,
+      "supersedes": "N10-SCALAR-FACTORIZATION"
     }
   ],
   "first_order_roots": {
@@ -179,7 +193,7 @@
       "consequence": "Amortization has a demand term and the programme has only ever measured the supply term. Every INDEX_MAINTENANCE_DOMINATES and NO_DEVELOPMENT_BENEFIT verdict is consistent with a perfectly good mechanism facing no demand.",
       "falsifier": "Sweep reuse-opportunity density from zero to one with the mechanism and the parents fixed. If no density produces a crossover, the mechanism is at fault and this root is wrong.",
       "fixable": true,
-      "chains_supporting": 3,
+      "chains_supporting": 4,
       "status": "ROOT"
     },
     "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED": {
@@ -196,6 +210,7 @@
       "why_it_happened": "Building a faithful strong parent is most easily done by reusing the arm's own implementation, and both sessions said so explicitly rather than hiding it.",
       "consequence": "These two verdicts should not be counted as evidence that a genuinely independent parent is sufficient. They are honest, and they are also nearly vacuous.",
       "falsifier": "Re-run with an independently implemented parent. If it still ties, the verdict becomes informative for the first time.",
+      "falsifier_status": "HALF_FIRED. E8 (results/INDEP_E8_V1.json) supplied independent parents for the factorization lane. The verdict did not tie: the independent regression parent beat the arm outright, at 0.779 of its objective calls. So N10's PARENT_SUFFICIENT is now informative and its content is a loss, not a vacuum. N12, the self-evolution lane, has not been re-run against an independently implemented parent, so this root stays open there and the entry stands.",
       "fixable": true,
       "chains_supporting": 2,
       "status": "ROOT"
@@ -217,7 +232,6 @@
         "STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
         "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED"
       ],
-      "chains_supporting": 9,
       "statement": "The first two roots are one fact seen from two sides. If tasks are drawn independently and each carries complete information, then nothing carries forward and nothing acquired is demanded. The third root sits downstream of the same fact: experiment E1 let the machine choose its own probe granularity and the maintenance cost dominated, which is what adapting an instrument costs when there is no demand to amortize it against.",
       "the_missing_quantity": "Reuse-opportunity density, rho: the fraction of future tasks whose solution essentially requires structure acquired earlier. Amortization is benefit = rho * savings-per-reuse * horizon, minus discovery, maintenance and storage. This programme has measured the subtracted terms exhaustively and has never measured rho.",
       "evidence_that_rho_is_near_zero": "In the clause donor it is exactly zero by construction: every eligible development target was a Boolean tautology, so no target could require the learned method. In the games, diagnosis and dependency lanes task instances were drawn independently, and rho was neither controlled nor reported. The single place a work advantage did appear -- the twelve-generation factorization study, and the episode-twelve payback in the self-evolution lane -- is the one place consecutive tasks shared structure, which is rho > 0.",
@@ -226,34 +240,36 @@
       "falsifier": "Sweep rho from zero to one with the mechanism, the parents, the budgets and the checker held fixed. If no density produces a crossover where the machine's cumulative cost falls below the strongest parent's at matched capability, then demand was not the binding constraint, this deep root is wrong, and the fault is in the mechanisms after all.",
       "falsifier_outcome": "PARTIALLY_FIRED",
       "outcome": "E7 ran the sweep (results/RHO_E7_V1.json, terminal CROSSOVER_ONLY_AGAINST_PARENTS_THAT_DO_NOT_SHARE_THE_MECHANISM). The root is CONFIRMED in part and REFUTED in part, and the refutation is the more useful half.\n\nConfirmed: density zero reproduced the negatives at both discovery costs, so the knob is the one the earlier experiments varied and the sweep is valid. Real crossovers appear at density 0.05 against lazy re-derivation and against memoization, and the crossover point rises with discovery cost as predicted. Demand was therefore a genuine binding constraint for those comparisons, exactly as this root claimed.\n\nRefuted: there is no crossover at any density against a deferred-induction parent, which retains the evidence a derivation produced and defers induction until demand is proven. It is cheaper than the machine at every density at both discovery costs. So raising demand rescues PERSISTENCE and does not rescue EAGER ACQUISITION.\n\nThe refined root: absent demand explained why persisting was worthless, but it never explained why acquiring eagerly was worse than acquiring on demand. That second question is about acquisition POLICY, not about the ecology and not about architecture, since the parent that beats the machine shares its mechanism and differs only in trigger. It is also the same shape as N9, where eager dependency discovery lost to lazy re-derivation, so the two are now one finding rather than two.",
-      "fixable": true
+      "fixable": true,
+      "chains_supporting": 10
     },
     "EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION": {
       "subsumes": [
         "STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
         "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED"
       ],
-      "chains_supporting": 6,
-      "statement": "Across three independent experiments, with three different mechanisms and three different parent sets, acquiring structure up front loses to deriving it when it is actually needed. The winning parent in each case shares the machine's mechanism and differs only in WHEN it fires, so the loss is about acquisition policy and not about representation, instrument resolution, or architecture.",
+      "statement": "Across four independent experiments, with four different mechanisms and four different parent sets, acquiring structure up front loses to deriving it when it is actually needed. In the first three the winning parent shared the machine's mechanism and differed only in WHEN it fired, which localised the loss to acquisition policy rather than representation, instrument resolution, or architecture -- but left open the objection that a parent built from the arm proves nothing. E8 closes that objection: its winning parent was implemented independently, from its own standard description, and the loss survived.",
       "the_missing_quantity": "A trigger. Every arm in this programme acquires on a schedule -- at admission, at install, at the end of an episode -- and none acquires on demonstrated demand.",
-      "evidence_that_rho_is_near_zero": "E3: under the capability gate, eager dependency discovery lost to lazy re-derivation on both work and stale survivors. E7: no crossover at any reuse density against a deferred-induction parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even the gifted ATMS ceiling that was handed its justifications for free.",
-      "consequence": "This supersedes the demand-density explanation as the primary root. Raising demand was necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving eager acquisition dominated. And E6 shows that letting the instrument choose its own granularity, which the probe-resolution root prescribed as its fix, does not rescue it either. Both earlier roots were real and both were upstream of this one.",
+      "evidence_that_rho_is_near_zero": "E3: under the capability gate, eager dependency discovery lost to lazy re-derivation on both work and stale survivors. E7: no crossover at any reuse density against a deferred-induction parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even the gifted ATMS ceiling that was handed its justifications for free. E8: an independently implemented regression parent beat the Walsh arm at 564.5 objective calls against 724.4, with steady-state cost identical to the call and the same parameters recovered, so the whole gap was the arm computing a full 2**n transform where the parent escalated degree only until the fit stopped improving. The arm paid for every coefficient in the basis; the world demanded only the sparse ones.",
+      "consequence": "This supersedes the demand-density explanation as the primary root. Raising demand was necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving eager acquisition dominated. And E6 shows that letting the instrument choose its own granularity, which the probe-resolution root prescribed as its fix, does not rescue it either. Both earlier roots were real and both were upstream of this one. E8 additionally removes the shared-mechanism confound: the pattern is not an artifact of parents built out of the arm, because it reproduces against a parent built out of nothing but its own textbook description.",
       "what_it_does_not_excuse": "It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in these worlds partly because evidence is perfectly retainable, so a derivation can always be redone later at the same price. Where re-deriving is impossible or the evidence is perishable, the comparison inverts and eager acquisition may be the only option. Nothing here measures that regime, and the retainability assumption is doing real work.",
       "falsifier": "Build a world where evidence is perishable or re-derivation is strictly more expensive later, and show eager acquisition still loses. If it wins there, the finding is scoped to retainable evidence rather than general, which would be a narrowing and not a refutation.",
-      "fixable": true
+      "fixable": true,
+      "chains_supporting": 7
     },
     "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": {
       "subsumes": [
         "PARENT_SHARES_THE_MECHANISM_UNDER_TEST"
       ],
-      "chains_supporting": 2,
       "statement": "In the factorization and self-evolution lanes the strongest parent was the arm's own generic algorithm holding separate state. Both sessions said so explicitly. PARENT_SUFFICIENT is then true by construction and carries no information.",
       "the_missing_quantity": "an independently implemented parent",
       "evidence_that_rho_is_near_zero": "not applicable",
       "consequence": "Two of the twelve verdicts are honest but nearly vacuous and should not be counted as evidence that a genuinely independent parent suffices.",
       "what_it_does_not_excuse": "It does not weaken the other ten verdicts, several of which used genuinely independent parents: an ordinary index, a nogood store, a hand-authored decision tree, an exact repair planner.",
       "falsifier": "re-run with an independent implementation; a tie then becomes informative",
-      "fixable": true
+      "falsifier_status": "HALF_FIRED on the factorization lane by E8 (results/INDEP_E8_V1.json), and the outcome was not a tie. The independent regression parent beat the arm at 0.779 of its objective calls, so N10's verdict is now informative and what it informs us of is a loss. The self-evolution lane N12 has not been re-run against an independent parent and this root still holds there, which is why the entry is not withdrawn.",
+      "fixable": true,
+      "chains_supporting": 2
     }
   },
   "decisive_experiment": {
@@ -266,5 +282,5 @@
     "falsifier": "No crossover at any rho up to and including 1.0, at matched capability and with full accounting. That would refute the deep root and return the fault to the mechanisms.",
     "claim_ceiling": "Even a clean crossover would establish only that amortization is achievable in a synthetic ecology whose reuse density is set by hand. It would not establish that any real task ecology has that density, and the honest next question would immediately be what rho is in the domains anyone cares about."
   },
-  "headline": "Nine of twelve why-chains terminate on one deep root: the task ecologies had no accumulation structure. The programme measured every subtracted term of the amortization inequality and never measured its demand term. Several preserved negatives are therefore consistent with a sound mechanism facing no demand, which makes the central hypothesis unmeasurable in those ecologies rather than refuted."
+  "headline": "10 of 13 why-chains terminate on one deep root: the task ecologies had no accumulation structure. The programme measured every subtracted term of the amortization inequality and never measured its demand term. Several preserved negatives are therefore consistent with a sound mechanism facing no demand, which makes the central hypothesis unmeasurable in those ecologies rather than refuted."
 }

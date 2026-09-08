@@ -81,3 +81,40 @@ def test_generated_artifact_matches_the_source():
 def test_no_root_claims_more_chains_than_exist():
     total = sum(r["chains_supporting"] for r in DOC["first_order_roots"].values())
     assert total == len(RC.OBSERVATIONS)
+
+
+def test_deep_root_chain_counts_are_derived_not_asserted():
+    """A hand-typed count is the easiest place to inflate an explanation's support."""
+    counts = {k: v["chains_supporting"] for k, v in DOC["first_order_roots"].items()}
+    for name, r in DOC["deep_roots"].items():
+        assert r["chains_supporting"] == sum(counts[s] for s in r["subsumes"]), name
+    assert "chains_supporting" not in RC.DEEP_ROOTS["COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM"], (
+        "deep roots must not carry a literal count in the source")
+
+
+def test_the_headline_count_tracks_the_observations():
+    eco = DOC["deep_roots"]["ECOLOGY_HAS_NO_ACCUMULATION_STRUCTURE"]
+    assert DOC["headline"].startswith(f"{eco['chains_supporting']} of {len(RC.OBSERVATIONS)} ")
+
+
+def test_a_fired_falsifier_is_recorded_where_it_fired():
+    """A root whose falsifier has been run may not keep presenting it as untested."""
+    fired = {"PARENT_SHARES_THE_MECHANISM_UNDER_TEST": DOC["first_order_roots"],
+             "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": DOC["deep_roots"]}
+    for name, table in fired.items():
+        status = table[name].get("falsifier_status", "")
+        assert status.startswith("HALF_FIRED"), name
+        assert "INDEP_E8_V1.json" in status or "E8" in status, name
+        assert "N12" in status, f"{name} must say where the root still stands"
+
+
+def test_a_superseding_observation_names_what_it_supersedes():
+    ids = {o["observation_id"] for o in RC.OBSERVATIONS}
+    for o in RC.OBSERVATIONS:
+        if "supersedes" in o:
+            assert o["supersedes"] in ids, o["observation_id"]
+            assert o["observation_id"] != o["supersedes"]
+    superseded = {o["supersedes"] for o in RC.OBSERVATIONS if "supersedes" in o}
+    for o in RC.OBSERVATIONS:
+        if o["observation_id"] in superseded:
+            assert o["preserved"] is True, "superseding may not withdraw the original"

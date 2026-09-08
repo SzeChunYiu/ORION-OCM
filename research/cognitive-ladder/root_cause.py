@@ -156,6 +156,20 @@ O(observation_id="N12-SELF-EVOLUTION", verdict="AUTOML_PARENT_SUFFICIENT_BY_CONS
     "the comparison was built so that the parent shares the mechanism under test",
   ),
   terminates_at="PARENT_SHARES_THE_MECHANISM_UNDER_TEST"),
+
+O(observation_id="N13-INDEPENDENT-FACTORIZATION-PARENT", verdict="INDEPENDENT_PARENT_SUFFICIENT",
+  source="results/INDEP_E8_V1.json",
+  supersedes="N10-SCALAR-FACTORIZATION",
+  why=(
+    "a regression parent written from its own standard description, sharing no code path with the arm, "
+    "beat it at 564.5 objective calls against 724.4 with both attaining the exact optimum everywhere",
+    "steady-state calls were identical to the call and both recovered the same number of parameters, "
+    "so the representation was not what separated them",
+    "the whole gap was first-generation identification: the arm computed a full 2**n transform while "
+    "the parent escalated degree only until the fit stopped improving",
+    "the arm paid for every coefficient in the basis and the world only ever demanded the sparse ones",
+  ),
+  terminates_at="STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED"),
 ]
 
 
@@ -227,6 +241,12 @@ ROOTS = {
   falsifier=(
     "Re-run with an independently implemented parent. If it still ties, the verdict becomes "
     "informative for the first time."),
+  falsifier_status=(
+    "HALF_FIRED. E8 (results/INDEP_E8_V1.json) supplied independent parents for the factorization "
+    "lane. The verdict did not tie: the independent regression parent beat the arm outright, at "
+    "0.779 of its objective calls. So N10's PARENT_SUFFICIENT is now informative and its content "
+    "is a loss, not a vacuum. N12, the self-evolution lane, has not been re-run against an "
+    "independently implemented parent, so this root stays open there and the entry stands."),
   fixable=True),
 
 "GROUND_TRUTH_SHARED_AN_AUTHOR_WITH_THE_POLICY": dict(
@@ -248,7 +268,6 @@ DEEP_ROOTS = {
   subsumes=("ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION",
             "STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
             "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED"),
-  chains_supporting=9,
   statement=(
     "The first two roots are one fact seen from two sides. If tasks are drawn independently and "
     "each carries complete information, then nothing carries forward and nothing acquired is "
@@ -308,13 +327,14 @@ DEEP_ROOTS = {
 "EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION": dict(
   subsumes=("STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED",
             "PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED"),
-  chains_supporting=6,
   statement=(
-    "Across three independent experiments, with three different mechanisms and three different "
+    "Across four independent experiments, with four different mechanisms and four different "
     "parent sets, acquiring structure up front loses to deriving it when it is actually needed. "
-    "The winning parent in each case shares the machine's mechanism and differs only in WHEN it "
-    "fires, so the loss is about acquisition policy and not about representation, instrument "
-    "resolution, or architecture."),
+    "In the first three the winning parent shared the machine's mechanism and differed only in "
+    "WHEN it fired, which localised the loss to acquisition policy rather than representation, "
+    "instrument resolution, or architecture -- but left open the objection that a parent built "
+    "from the arm proves nothing. E8 closes that objection: its winning parent was implemented "
+    "independently, from its own standard description, and the loss survived."),
   the_missing_quantity=(
     "A trigger. Every arm in this programme acquires on a schedule -- at admission, at install, at "
     "the end of an episode -- and none acquires on demonstrated demand."),
@@ -324,13 +344,21 @@ DEEP_ROOTS = {
     "parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy "
     "re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, "
     "against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even "
-    "the gifted ATMS ceiling that was handed its justifications for free."),
+    "the gifted ATMS ceiling that was handed its justifications for free. E8: an independently "
+    "implemented regression parent beat the Walsh arm at 564.5 objective calls against 724.4, "
+    "with steady-state cost identical to the call and the same parameters recovered, so the whole "
+    "gap was the arm computing a full 2**n transform where the parent escalated degree only until "
+    "the fit stopped improving. The arm paid for every coefficient in the basis; the world "
+    "demanded only the sparse ones."),
   consequence=(
     "This supersedes the demand-density explanation as the primary root. Raising demand was "
     "necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving "
     "eager acquisition dominated. And E6 shows that letting the instrument choose its own "
     "granularity, which the probe-resolution root prescribed as its fix, does not rescue it "
-    "either. Both earlier roots were real and both were upstream of this one."),
+    "either. Both earlier roots were real and both were upstream of this one. E8 additionally "
+    "removes the shared-mechanism confound: the pattern is not an artifact of parents built out "
+    "of the arm, because it reproduces against a parent built out of nothing but its own "
+    "textbook description."),
   what_it_does_not_excuse=(
     "It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in "
     "these worlds partly because evidence is perfectly retainable, so a derivation can always be "
@@ -345,7 +373,6 @@ DEEP_ROOTS = {
 
 "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": dict(
   subsumes=("PARENT_SHARES_THE_MECHANISM_UNDER_TEST",),
-  chains_supporting=2,
   statement=(
     "In the factorization and self-evolution lanes the strongest parent was the arm's own generic "
     "algorithm holding separate state. Both sessions said so explicitly. PARENT_SUFFICIENT is then "
@@ -360,6 +387,12 @@ DEEP_ROOTS = {
     "parents: an ordinary index, a nogood store, a hand-authored decision tree, an exact repair "
     "planner."),
   falsifier="re-run with an independent implementation; a tie then becomes informative",
+  falsifier_status=(
+    "HALF_FIRED on the factorization lane by E8 (results/INDEP_E8_V1.json), and the outcome was "
+    "not a tie. The independent regression parent beat the arm at 0.779 of its objective calls, "
+    "so N10's verdict is now informative and what it informs us of is a loss. The self-evolution "
+    "lane N12 has not been re-run against an independent parent and this root still holds there, "
+    "which is why the entry is not withdrawn."),
   fixable=True),
 }
 
@@ -424,12 +457,16 @@ def build() -> dict:
                     status="ROOT" if counts.get(k, 0) >= 2 else "CONJECTURE_SINGLE_CHAIN")
             for k, v in ROOTS.items()
         },
-        "deep_roots": {k: {kk: (list(vv) if isinstance(vv, tuple) else vv)
-                           for kk, vv in v.items()} for k, v in DEEP_ROOTS.items()},
+        "deep_roots": {
+            k: dict({kk: (list(vv) if isinstance(vv, tuple) else vv) for kk, vv in v.items()},
+                    chains_supporting=sum(counts.get(s, 0) for s in v["subsumes"]))
+            for k, v in DEEP_ROOTS.items()
+        },
         "decisive_experiment": DECISIVE_EXPERIMENT,
         "headline": (
-            "Nine of twelve why-chains terminate on one deep root: the task ecologies had no "
-            "accumulation structure. The programme measured every subtracted term of the "
+            f"{sum(counts.get(s, 0) for s in DEEP_ROOTS['ECOLOGY_HAS_NO_ACCUMULATION_STRUCTURE']['subsumes'])} "
+            f"of {len(OBSERVATIONS)} why-chains terminate on one deep root: the task ecologies had "
+            "no accumulation structure. The programme measured every subtracted term of the "
             "amortization inequality and never measured its demand term. Several preserved "
             "negatives are therefore consistent with a sound mechanism facing no demand, which "
             "makes the central hypothesis unmeasurable in those ecologies rather than refuted."),

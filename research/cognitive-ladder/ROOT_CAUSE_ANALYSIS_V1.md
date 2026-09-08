@@ -4,14 +4,14 @@
 
 Recursive why-analysis over every negative result in the programme. This reinterprets evidence; it produces none and withdraws none.
 
-> Nine of twelve why-chains terminate on one deep root: the task ecologies had no accumulation structure. The programme measured every subtracted term of the amortization inequality and never measured its demand term. Several preserved negatives are therefore consistent with a sound mechanism facing no demand, which makes the central hypothesis unmeasurable in those ecologies rather than refuted.
+> 10 of 13 why-chains terminate on one deep root: the task ecologies had no accumulation structure. The programme measured every subtracted term of the amortization inequality and never measured its demand term. Several preserved negatives are therefore consistent with a sound mechanism facing no demand, which makes the central hypothesis unmeasurable in those ecologies rather than refuted.
 
 ## Where the chains terminate
 
 | terminal statement | chains | status |
 |---|---|---|
 | ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION | 3 | ROOT |
-| STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED | 3 | ROOT |
+| STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED | 4 | ROOT |
 | PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED | 3 | ROOT |
 | PARENT_SHARES_THE_MECHANISM_UNDER_TEST | 2 | ROOT |
 | GROUND_TRUTH_SHARED_AN_AUTHOR_WITH_THE_POLICY | 1 | CONJECTURE_SINGLE_CHAIN |
@@ -150,6 +150,17 @@ Source: `SzeChunYiu/ORION-OCM#149`
 
 → **PARENT_SHARES_THE_MECHANISM_UNDER_TEST**
 
+### N13-INDEPENDENT-FACTORIZATION-PARENT — `INDEPENDENT_PARENT_SUFFICIENT`
+
+Source: `results/INDEP_E8_V1.json`
+
+1. a regression parent written from its own standard description, sharing no code path with the arm, beat it at 564.5 objective calls against 724.4 with both attaining the exact optimum everywhere
+2. steady-state calls were identical to the call and both recovered the same number of parameters, so the representation was not what separated them
+3. the whole gap was first-generation identification: the arm computed a full 2**n transform while the parent escalated degree only until the fit stopped improving
+4. the arm paid for every coefficient in the basis and the world only ever demanded the sparse ones
+
+→ **STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED**
+
 ## First-order roots
 
 ### ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION (ROOT, 3 chains)
@@ -162,7 +173,7 @@ The endpoints chosen were single decisions taken with all relevant information a
 
 **Falsifier.** Construct the same decisions inside a sequence where earlier decisions constrain later ones, and show the parent still ties. That would mean the regime was not the explanation.
 
-### STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED (ROOT, 3 chains)
+### STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED (ROOT, 4 chains)
 
 The machine repeatedly paid to acquire structure that later tasks did not require. The clause donor learned a method that fired zero times because every eligible target was a tautology. The eager dependency arm discovered a graph most of which was never queried. The relevance arm rebuilt its index more often than it used it.
 
@@ -204,7 +215,7 @@ Benchmark labels were produced by the same taxonomy the policy reasons in, so th
 
 ## Deep roots
 
-### ECOLOGY_HAS_NO_ACCUMULATION_STRUCTURE (9 chains, subsumes ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION, STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED, PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED)
+### ECOLOGY_HAS_NO_ACCUMULATION_STRUCTURE (10 chains, subsumes ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION, STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED, PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED)
 
 The first two roots are one fact seen from two sides. If tasks are drawn independently and each carries complete information, then nothing carries forward and nothing acquired is demanded. The third root sits downstream of the same fact: experiment E1 let the machine choose its own probe granularity and the maintenance cost dominated, which is what adapting an instrument costs when there is no demand to amortize it against.
 
@@ -218,15 +229,15 @@ The first two roots are one fact seen from two sides. If tasks are drawn indepen
 
 **Falsifier.** Sweep rho from zero to one with the mechanism, the parents, the budgets and the checker held fixed. If no density produces a crossover where the machine's cumulative cost falls below the strongest parent's at matched capability, then demand was not the binding constraint, this deep root is wrong, and the fault is in the mechanisms after all.
 
-### EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION (6 chains, subsumes STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED, PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED)
+### EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION (7 chains, subsumes STRUCTURE_ACQUIRED_IS_NOT_SUBSEQUENTLY_DEMANDED, PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED)
 
-Across three independent experiments, with three different mechanisms and three different parent sets, acquiring structure up front loses to deriving it when it is actually needed. The winning parent in each case shares the machine's mechanism and differs only in WHEN it fires, so the loss is about acquisition policy and not about representation, instrument resolution, or architecture.
+Across four independent experiments, with four different mechanisms and four different parent sets, acquiring structure up front loses to deriving it when it is actually needed. In the first three the winning parent shared the machine's mechanism and differed only in WHEN it fired, which localised the loss to acquisition policy rather than representation, instrument resolution, or architecture -- but left open the objection that a parent built from the arm proves nothing. E8 closes that objection: its winning parent was implemented independently, from its own standard description, and the loss survived.
 
 **The missing quantity.** A trigger. Every arm in this programme acquires on a schedule -- at admission, at install, at the end of an episode -- and none acquires on demonstrated demand.
 
-**Evidence it is near zero.** E3: under the capability gate, eager dependency discovery lost to lazy re-derivation on both work and stale survivors. E7: no crossover at any reuse density against a deferred-induction parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even the gifted ATMS ceiling that was handed its justifications for free.
+**Evidence it is near zero.** E3: under the capability gate, eager dependency discovery lost to lazy re-derivation on both work and stale survivors. E7: no crossover at any reuse density against a deferred-induction parent that retains evidence and defers induction until demand is proven. E6: at N=850 lazy re-derivation reached precision and recall 1.0 with 141 interventions and 67350 total work, against the adaptive arm's 0.941 recall, 1936 interventions and 133525 work -- beating even the gifted ATMS ceiling that was handed its justifications for free. E8: an independently implemented regression parent beat the Walsh arm at 564.5 objective calls against 724.4, with steady-state cost identical to the call and the same parameters recovered, so the whole gap was the arm computing a full 2**n transform where the parent escalated degree only until the fit stopped improving. The arm paid for every coefficient in the basis; the world demanded only the sparse ones.
 
-**Consequence.** This supersedes the demand-density explanation as the primary root. Raising demand was necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving eager acquisition dominated. And E6 shows that letting the instrument choose its own granularity, which the probe-resolution root prescribed as its fix, does not rescue it either. Both earlier roots were real and both were upstream of this one.
+**Consequence.** This supersedes the demand-density explanation as the primary root. Raising demand was necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving eager acquisition dominated. And E6 shows that letting the instrument choose its own granularity, which the probe-resolution root prescribed as its fix, does not rescue it either. Both earlier roots were real and both were upstream of this one. E8 additionally removes the shared-mechanism confound: the pattern is not an artifact of parents built out of the arm, because it reproduces against a parent built out of nothing but its own textbook description.
 
 **What it does not excuse.** It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in these worlds partly because evidence is perfectly retainable, so a derivation can always be redone later at the same price. Where re-deriving is impossible or the evidence is perishable, the comparison inverts and eager acquisition may be the only option. Nothing here measures that regime, and the retainability assumption is doing real work.
 
