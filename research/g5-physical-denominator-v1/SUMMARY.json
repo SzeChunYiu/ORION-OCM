@@ -1,0 +1,107 @@
+{
+  "schema": "ocm.g5-physical-denominator.summary.v1",
+  "issue": 165,
+  "lane": "P2 / G5.1",
+  "execution_terminal": "DATABASE_PARENT_SUFFICIENT",
+  "interpretation": "SQLite/WAL with application snapshots, suffix restart replay and incremental authenticated identity matches JSONL ledger semantics and removes whole-file rewrite plus full-history head scans. Packed KSO field beyond kind handles remains CANNOT_CHECK. Production JSONL default was not switched.",
+  "host": {
+    "hostname": "BillydeMac-mini.local",
+    "cpu": "Apple M4",
+    "system": "Darwin",
+    "release": "25.4.0",
+    "machine": "arm64",
+    "python": "3.13.12 | packaged by conda-forge | (main, Feb  5 2026, 06:11:05) [Clang 19.1.7 ]"
+  },
+  "production_sources_unchanged": [
+    "src/ocm/store/ledger.py",
+    "src/ocm/store/sqlite_ledger.py"
+  ],
+  "source_sha256": {
+    "src/ocm/store/ledger.py": "560cd148a50dfa1422347f7a01456289f85ecf09ffbd95e089bcccd47089189d",
+    "src/ocm/store/sqlite_ledger.py": "b366325a5a4a03e332d7fd9ed784b69dc32dcd2b089c3f352ee1e9751658e294",
+    "research/g5-physical-denominator-v1/wal_ledger.py": "124e9a53baccb1bbb5e3e18183636d230e8e4ada6609b8e5bf4df0c182bd12ba",
+    "research/g5-physical-denominator-v1/adapter.py": "1280a9916744f3edf50d12d73d57f6fba3c407aaa560145c0f9a3c33be69f6ac",
+    "research/g5-physical-denominator-v1/benchmark_append.py": "bfe21d3458a793b4c5e9220170b9b123361027493cc9cd48c6842ae4e1d43502"
+  },
+  "tests": {
+    "passed": 14,
+    "exit_code": 0,
+    "pytest_wall_s": 0.34,
+    "receipt": "results/pytest_receipt.json",
+    "files": [
+      "test_semantic_parity.py",
+      "test_restart_and_queries.py"
+    ],
+    "parity": {
+      "sequence": true,
+      "entry_and_prev_hashes": true,
+      "compare_and_swap": true,
+      "identified_transaction_ids": true,
+      "export_jsonl_bytes": true
+    }
+  },
+  "scaling": {
+    "ns": [64, 128, 256, 512, 1024, 2048],
+    "payload_pad_chars": 32,
+    "raw": "results/scaling_raw.json",
+    "summary": "results/scaling_summary.json",
+    "n_2048": {
+      "jsonl_total_s": 3.0367368331644684,
+      "sqlite_parent_total_s": 1.3647856251336634,
+      "wal_checkpointed_total_s": 2.8778151250444353,
+      "jsonl_head_s": 0.014331749873235822,
+      "sqlite_parent_head_s": 6.63751270622015e-05,
+      "wal_checkpointed_head_s": 0.0004990408197045326,
+      "jsonl_cumulative_rewrite_bytes": 529399134,
+      "sqlite_parent_cumulative_rewrite_bytes": 4697488,
+      "wal_checkpointed_cumulative_rewrite_bytes": 753664,
+      "jsonl_dir_bytes": 517972,
+      "wal_checkpointed_dir_bytes": 786432,
+      "jsonl_write_amplification": 1022.06,
+      "wal_suffix_rows_verified_on_open": 0
+    },
+    "growth_64_to_2048": {
+      "n_ratio": 32.0,
+      "jsonl_total_growth": 142.62895179921856,
+      "sqlite_parent_total_growth": 75.7463804662453,
+      "wal_checkpointed_total_growth": 50.612629522574174
+    }
+  },
+  "g5_1_boxes": {
+    "stop_whole_file_ledger_rewrite": "checked_on_parent_not_production_default",
+    "evaluate_sqlite_wal": "checked",
+    "real_snapshots_checkpoints": "checked",
+    "suffix_replay_on_normal_restart": "checked",
+    "full_genesis_replay_as_audit": "checked",
+    "incremental_authenticated_state_identity": "checked",
+    "no_hot_path_detached_full_state_copies": "checked",
+    "no_linear_scans_for_normal_head_queries": "checked",
+    "count_build_update_costs": "checked"
+  },
+  "g5_2_packed_field": {
+    "stable_integer_handles": "kind_dict_only",
+    "dictionary_encoded_identifiers": "ledger_kinds_only",
+    "packed_atom_edge_columns": "CANNOT_CHECK",
+    "incidence_arrays": "CANNOT_CHECK",
+    "bitmap_index_structures": "CANNOT_CHECK",
+    "structural_sharing_cow": "CANNOT_CHECK",
+    "version_bound_indexes": "CANNOT_CHECK",
+    "local_deltas": "CANNOT_CHECK",
+    "immutable_payload_archive_handles": "CANNOT_CHECK",
+    "exact_kso_semantic_parity": "CANNOT_CHECK"
+  },
+  "p2_boxes": {
+    "ledger_append_scaling": "checked",
+    "snapshots": "checked",
+    "incremental_state_identity": "checked",
+    "packed_local_data_structures": "CANNOT_CHECK_beyond_kind_handles",
+    "exact_index_revision_semantics": "checked_for_ledger_not_kso_field",
+    "no_full_history_work_hidden_in_future_measurements": "checked_if_parent_is_the_metered_store"
+  },
+  "not_claimed": [
+    "production LedgerStore replacement",
+    "PHYSICAL_DENOMINATOR_CLEAN",
+    "INDEX_MAINTENANCE_DOMINATES",
+    "cognitive amortization or scientific efficiency"
+  ]
+}
