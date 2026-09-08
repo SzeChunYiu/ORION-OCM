@@ -80,6 +80,13 @@ jobs:
             --certificate research/residual-strategy-regime-v1/ROBUST_LIFECYCLE_ADVICE_CERTIFICATE_V1.json \
             --out "$out/lifecycle-advice.json" \
             --github-notice
+      - name: Verify distributional lifecycle state witness
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/distributional_lifecycle_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/distributional-lifecycle.json" \
+            --github-notice
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -92,6 +99,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/randomized-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/lifecycle-advice.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/distributional-lifecycle.json
           if-no-files-found: error
       - name: Source custody
         if: always()
