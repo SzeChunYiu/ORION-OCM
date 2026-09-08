@@ -1,0 +1,59 @@
+name: Residual strategy regime
+
+on:
+  pull_request:
+    paths:
+      - 'research/residual-strategy-regime-v1/**'
+      - '.github/workflows/residual-strategy-regime.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/ids.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/residual-strategy-regime-v1/**'
+      - '.github/workflows/residual-strategy-regime.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/ids.py'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-no-ml-regime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/residual-strategy-regime-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Source-derived exact controls
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m pytest -q research/residual-strategy-regime-v1 \
+            --basetemp="$out/cases" \
+            --junitxml="$out/tests.xml"
+      - name: Deterministic regime and lifecycle sweep
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/regime_sweep.py \
+            --out "$out/regime.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: residual-strategy-regime-r0b
+          path: |
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code
