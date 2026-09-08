@@ -370,12 +370,20 @@ class Schema:
 
     @property
     def body(self) -> dict:
+        """The identity-bearing structure.
+
+        ``origin`` is deliberately NOT part of it.  Two schemas that behave
+        identically are the same cognitive object however they were reached, and
+        an identity that recorded provenance would make the discovery arm's
+        composite and the library-learning parents' subsequence abstraction look
+        like different objects when they are the same one.  That would flatter
+        this lane's arm, so provenance is reported and never coded.
+        """
         return {
             "premises": [p.as_list() for p in self.premises],
             "conclusion": self.conclusion.as_list(),
             "pivot_vars": list(self.pivot_vars),
             "step_count": self.step_count,
-            "origin": self.origin,
         }
 
     @property
@@ -386,6 +394,7 @@ class Schema:
         d = dict(self.body)
         d["schema_id"] = self.schema_id
         d["arity"] = self.arity
+        d["origin"] = self.origin
         return d
 
 
@@ -1540,7 +1549,7 @@ def schema_from_body(body: dict) -> Schema:
         conclusion=Pattern(tuple(sorted((v, bool(s)) for v, s in body["conclusion"]))),
         pivot_vars=tuple(body["pivot_vars"]),
         step_count=int(body["step_count"]),
-        origin=str(body["origin"]),
+        origin=str(body.get("origin", "restored_from_disk")),
     )
 
 
