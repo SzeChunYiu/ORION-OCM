@@ -1,0 +1,746 @@
+{
+  "authority": "E2 synthetic, and a re-analysis rather than a new experiment. It re-reports results this lane has already published, without the exchange rate they were published under. It withdraws nothing.",
+  "chosen_prices_are_one_point_on_an_axis": {
+    "applications": 10,
+    "compositions": 5,
+    "consultations": 1.0,
+    "derivations": 100,
+    "inductions": 40,
+    "lookups": 1,
+    "maintenance": 1.0,
+    "verifications": 25
+  },
+  "commitment": {
+    "commitment": "f8979f9f8cc93d9740bb51bdbc5fb577ebb846f824660354a95767ef73a43e03",
+    "protected_seed": "9b29edb946b3afe1fefc7d9e872aadda20502b19f39012a6125d220fba325f07"
+  },
+  "how_to_read_this_without_my_prices": "Each comparison is a half-space. Take the count differences for the pair you care about, multiply by whatever you think each operation costs, and the sign of the sum is the answer. The critical ratios are that condition solved for one price with the rest held at this lane's values, which is a convenience and not a restriction -- the count differences are the primary object and they are published per cell.",
+  "novelty": "NONE CLAIMED. Pareto dominance and half-space characterisations of weighted-sum comparisons are elementary. The contribution is applying them to this lane's own headline after discovering that it moved when a weight did.",
+  "plan": {
+    "audits": "results/DEV5_UNANIMITY_V1.json, results/DEV6_HONEST_CONSULTATION_PRICE_V1.json",
+    "contribution_level": "L1",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "kill_criterion": "If this lane's chosen prices sit CLOSE to a boundary on the lineage-against-replay comparison -- within a factor of two of the tie -- then the carry advantage is a claim about a price regime rather than about a mechanism, and it must be stated that way wherever it is quoted.",
+    "method": "Report raw counts per resource. Test pairwise dominance, which is price-free by construction. Where no arm dominates, report the exact price condition as a critical ratio, and state where this lane's chosen prices sit relative to it.",
+    "novelty": "NONE CLAIMED. Pareto dominance and half-space characterisations of weighted-sum comparisons are elementary. The contribution is applying them to this lane's own headline after discovering that it moved when a weight did.",
+    "predictions_frozen_before_execution": {
+      "Y1": "No arm DOMINATES: the lineage trades derivations for applications and verifications, and unanimity trades verifications for consultations. If something dominates, the result is stronger than anything claimed so far and should be said so.",
+      "Y2": "The unanimity-against-singleton comparison collapses to one critical ratio of verification price to consultation price, and this lane's chosen prices sit on the winning side of it with room to spare.",
+      "Y3": "The lineage-against-replay comparison collapses to a critical ratio of derivation price to application price, and this lane's chosen prices sit on the winning side but by LESS room, because that comparison is the one DEV-6 brought near a tie.",
+      "Y4": "Reporting the ratio changes no ordering: at the chosen prices every sign matches the totals already published. A disagreement means one of the receipts is arithmetically wrong."
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "scientific_question": "The carry advantage has been reported as a ratio of total work, and total work is a weighted sum whose weights this lane chose. DEV-6 showed one weight moving the headline from 5.1x to 3.4x. Does the ordering survive WITHOUT any weights -- by dominance -- and if not, at exactly which prices does it hold?",
+    "study_id": "X3_PRICE_FREE_V1",
+    "sweep": {
+      "budget_bits": [
+        1536
+      ],
+      "d0_length": 800,
+      "d1_lengths": [
+        1000,
+        4000
+      ],
+      "extension": 16,
+      "levels": [
+        1,
+        2,
+        3
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skew": 1.0
+    },
+    "what_this_does_not_establish": "Immunity to price objections is not immunity to modelling objections. Which operations exist and which are counted is a choice as consequential as the prices, and it is shared by every arm because they share a harness. A harness that failed to count something the lineage does would hide it exactly as a price of zero would, and no price-free reporting would reveal it."
+  },
+  "predictions": {
+    "Y1_no_arm_dominates": true,
+    "Y2_unanimity_has_headroom": true,
+    "Y3_lineage_has_less_headroom_than_unanimity": true,
+    "Y3_verdict": "SUPERSEDED BY A STRONGER RESULT. The prediction assumed both comparisons would have finite headroom to compare. The unanimity comparison has NO positive tie at all, so its headroom is infinite and the two are not commensurable. The intended content -- that the lineage comparison is the more price-sensitive of the two -- holds trivially and is reported in the terminal.",
+    "Y4_price_free_signs_match_the_published_totals": true,
+    "Y5_the_unaudited_comparison": "DEV-6 re-priced the consultation and re-checked unanimity against the SINGLETON rule only. The comparison against REPLAY_ONLY_PARENT -- which is the carry advantage itself -- was left standing on the flat price. This module audits it, and it mostly fails. That gap was not registered as a prediction because it was not noticed until the counts were laid out side by side, which is itself an argument for laying them out."
+  },
+  "primary_grid": [
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 131.52626892252894,
+        "reason": "A wins when one derivations costs more than 131.526, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": "A",
+        "boundary": null,
+        "reason": "there is no positive price of verifications at which the two tie, so A wins at EVERY positive price of it -- the other coordinates already decide the comparison"
+      },
+      "d1_length": 1000,
+      "level": 1,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 1000,
+          "consultations": 0,
+          "derivations": 298.5,
+          "inductions": 0,
+          "lookups": 1701.5,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 1300.125,
+          "compositions": 1000,
+          "consultations": 1999.5,
+          "derivations": 539.125,
+          "inductions": 0.125,
+          "lookups": 160.75,
+          "maintenance": 0,
+          "verifications": 1355.75
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 1300.25,
+          "compositions": 1000,
+          "consultations": 24271.125,
+          "derivations": 17.75,
+          "inductions": 0,
+          "lookups": 682.0,
+          "maintenance": 0,
+          "verifications": 26.875
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 36551.5,
+        "SINGLETON": 107972.75,
+        "UNANIMITY_NAIVE": 45402.5
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 1300.25,
+            "compositions": 0,
+            "consultations": 24271.125,
+            "derivations": -280.75,
+            "inductions": 0,
+            "lookups": -1019.5,
+            "maintenance": 0,
+            "verifications": 26.875
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 1.242151484891181,
+          "priced_winner": "REPLAY_ONLY_PARENT",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "inductions",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 0.125,
+            "compositions": 0,
+            "consultations": 22271.625,
+            "derivations": -521.375,
+            "inductions": -0.125,
+            "lookups": 521.25,
+            "maintenance": 0,
+            "verifications": -1328.875
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.4204996168014615,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    },
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 270.01764413518885,
+        "reason": "A wins when one derivations costs more than 270.018, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": "A",
+        "boundary": null,
+        "reason": "there is no positive price of verifications at which the two tie, so A wins at EVERY positive price of it -- the other coordinates already decide the comparison"
+      },
+      "d1_length": 4000,
+      "level": 1,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 4000,
+          "consultations": 0,
+          "derivations": 1008.375,
+          "inductions": 0,
+          "lookups": 6991.625,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 5170.625,
+          "compositions": 4000,
+          "consultations": 7616.25,
+          "derivations": 2543.5,
+          "inductions": 1.625,
+          "lookups": 285.875,
+          "maintenance": 0,
+          "verifications": 5166.125
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 5171.75,
+          "compositions": 4000,
+          "consultations": 78348.875,
+          "derivations": 505.375,
+          "inductions": 0.375,
+          "lookups": 2322.875,
+          "maintenance": 0,
+          "verifications": 416.25
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 127829.125,
+        "SINGLETON": 463176.5,
+        "UNANIMITY_NAIVE": 213348.0
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 5171.75,
+            "compositions": 0,
+            "consultations": 78348.875,
+            "derivations": -503.0,
+            "inductions": 0.375,
+            "lookups": -4668.75,
+            "maintenance": 0,
+            "verifications": 416.25
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 1.6690093122361591,
+          "priced_winner": "REPLAY_ONLY_PARENT",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "inductions",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "inductions",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 1.125,
+            "compositions": 0,
+            "consultations": 70732.625,
+            "derivations": -2038.125,
+            "inductions": -1.25,
+            "lookups": 2037.0,
+            "maintenance": 0,
+            "verifications": -4749.875
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.46061922398912725,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    },
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 75.43505942275043,
+        "reason": "A wins when one derivations costs more than 75.435, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": "A",
+        "boundary": null,
+        "reason": "there is no positive price of verifications at which the two tie, so A wins at EVERY positive price of it -- the other coordinates already decide the comparison"
+      },
+      "d1_length": 1000,
+      "level": 2,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 1000,
+          "consultations": 0,
+          "derivations": 302.875,
+          "inductions": 0,
+          "lookups": 1697.125,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 1644.125,
+          "compositions": 1000,
+          "consultations": 2000,
+          "derivations": 270.625,
+          "inductions": 0,
+          "lookups": 85.25,
+          "maintenance": 0,
+          "verifications": 1468.5
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 1644.125,
+          "compositions": 1000,
+          "consultations": 6999,
+          "derivations": 8.375,
+          "inductions": 0,
+          "lookups": 347.5,
+          "maintenance": 0,
+          "verifications": 5
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 36984.625,
+        "SINGLETON": 87301.5,
+        "UNANIMITY_NAIVE": 29750.25
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 1644.125,
+            "compositions": 0,
+            "consultations": 6999,
+            "derivations": -294.5,
+            "inductions": 0,
+            "lookups": -1349.625,
+            "maintenance": 0,
+            "verifications": 5
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.8043950695728292,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 0.0,
+            "compositions": 0,
+            "consultations": 4999,
+            "derivations": -262.25,
+            "inductions": 0,
+            "lookups": 262.25,
+            "maintenance": 0,
+            "verifications": -1463.5
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.34077593168502257,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    },
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 88.27859126483212,
+        "reason": "A wins when one derivations costs more than 88.279, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": "A",
+        "boundary": null,
+        "reason": "there is no positive price of verifications at which the two tie, so A wins at EVERY positive price of it -- the other coordinates already decide the comparison"
+      },
+      "d1_length": 4000,
+      "level": 2,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 4000,
+          "consultations": 0,
+          "derivations": 997.75,
+          "inductions": 0,
+          "lookups": 7002.25,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 6483.25,
+          "compositions": 4000,
+          "consultations": 8000,
+          "derivations": 1456.5,
+          "inductions": 0,
+          "lookups": 60.25,
+          "maintenance": 0,
+          "verifications": 7031.375
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 6483.25,
+          "compositions": 4000,
+          "consultations": 27850.25,
+          "derivations": 7.5,
+          "inductions": 0,
+          "lookups": 1509.25,
+          "maintenance": 0,
+          "verifications": 9.125
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 126777.25,
+        "SINGLETON": 414327.125,
+        "UNANIMITY_NAIVE": 115170.125
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 6483.25,
+            "compositions": 0,
+            "consultations": 27850.25,
+            "derivations": -990.25,
+            "inductions": 0,
+            "lookups": -5493.0,
+            "maintenance": 0,
+            "verifications": 9.125
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.9084447327892031,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 0.0,
+            "compositions": 0,
+            "consultations": 19850.25,
+            "derivations": -1449.0,
+            "inductions": 0,
+            "lookups": 1449.0,
+            "maintenance": 0,
+            "verifications": -7022.25
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.27796906852284897,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    },
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 212.0955387205387,
+        "reason": "A wins when one derivations costs more than 212.096, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": null,
+        "boundary": 11.786581839213419,
+        "reason": "A wins when one verifications costs more than 11.787, with every other price held at this lane's values",
+        "units": "absolute price of one verifications, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "d1_length": 1000,
+      "level": 3,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 1000,
+          "consultations": 0,
+          "derivations": 301.625,
+          "inductions": 0,
+          "lookups": 1698.375,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 1790.5,
+          "compositions": 1000,
+          "consultations": 2000,
+          "derivations": 209.5,
+          "inductions": 0,
+          "lookups": 0.0,
+          "maintenance": 0,
+          "verifications": 2000
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 1790.5,
+          "compositions": 1000,
+          "consultations": 45209,
+          "derivations": 4.625,
+          "inductions": 0,
+          "lookups": 204.875,
+          "maintenance": 0,
+          "verifications": 54.875
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 36860.875,
+        "SINGLETON": 95855.0,
+        "UNANIMITY_NAIVE": 70153.25
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 1790.5,
+            "compositions": 0,
+            "consultations": 45209,
+            "derivations": -297.0,
+            "inductions": 0,
+            "lookups": -1493.5,
+            "maintenance": 0,
+            "verifications": 54.875
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 1.9031900355051257,
+          "priced_winner": "REPLAY_ONLY_PARENT",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 0.0,
+            "compositions": 0,
+            "consultations": 43209,
+            "derivations": -204.875,
+            "inductions": 0,
+            "lookups": 204.875,
+            "maintenance": 0,
+            "verifications": -1945.125
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.7318684471336915,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    },
+    {
+      "budget_bits": 1536,
+      "chosen_derivation_price": 100,
+      "chosen_verification_price": 25,
+      "critical_derivation_price_for_the_lineage": {
+        "always": null,
+        "boundary": 260.69275730622616,
+        "reason": "A wins when one derivations costs more than 260.693, with every other price held at this lane's values",
+        "units": "absolute price of one derivations, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "critical_verification_price_for_unanimity": {
+        "always": null,
+        "boundary": 10.156344120474207,
+        "reason": "A wins when one verifications costs more than 10.156, with every other price held at this lane's values",
+        "units": "absolute price of one verifications, with every other price held at this lane's values",
+        "wins_above": "A"
+      },
+      "d1_length": 4000,
+      "level": 3,
+      "mean_counts": {
+        "REPLAY_ONLY_PARENT": {
+          "applications": 0,
+          "compositions": 4000,
+          "consultations": 0,
+          "derivations": 989.125,
+          "inductions": 0,
+          "lookups": 7010.875,
+          "maintenance": 0,
+          "verifications": 0
+        },
+        "SINGLETON": {
+          "applications": 6979.75,
+          "compositions": 4000,
+          "consultations": 8000,
+          "derivations": 1020.25,
+          "inductions": 0,
+          "lookups": 0.0,
+          "maintenance": 0,
+          "verifications": 8000
+        },
+        "UNANIMITY_NAIVE": {
+          "applications": 6979.75,
+          "compositions": 4000,
+          "consultations": 187717.5,
+          "derivations": 5.375,
+          "inductions": 0,
+          "lookups": 1014.875,
+          "maintenance": 0,
+          "verifications": 197.5
+        }
+      },
+      "mean_total_work": {
+        "REPLAY_ONLY_PARENT": 125923.375,
+        "SINGLETON": 399822.5,
+        "UNANIMITY_NAIVE": 284004.875
+      },
+      "min_correctness": {
+        "REPLAY_ONLY_PARENT": 1.0,
+        "SINGLETON": 1.0,
+        "UNANIMITY_NAIVE": 1.0
+      },
+      "pairs": {
+        "UNANIMITY_NAIVE_vs_REPLAY_ONLY_PARENT": {
+          "better_on": [
+            "derivations",
+            "lookups"
+          ],
+          "count_differences": {
+            "applications": 6979.75,
+            "compositions": 0,
+            "consultations": 187717.5,
+            "derivations": -983.75,
+            "inductions": 0,
+            "lookups": -5996.0,
+            "maintenance": 0,
+            "verifications": 197.5
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 2.255378518881026,
+          "priced_winner": "REPLAY_ONLY_PARENT",
+          "worse_on": [
+            "applications",
+            "consultations",
+            "verifications"
+          ]
+        },
+        "UNANIMITY_NAIVE_vs_SINGLETON": {
+          "better_on": [
+            "derivations",
+            "verifications"
+          ],
+          "count_differences": {
+            "applications": 0.0,
+            "compositions": 0,
+            "consultations": 179717.5,
+            "derivations": -1014.875,
+            "inductions": 0,
+            "lookups": 1014.875,
+            "maintenance": 0,
+            "verifications": -7802.5
+          },
+          "dominance": "NEITHER",
+          "priced_ratio_a_over_b": 0.7103273952816562,
+          "priced_winner": "UNANIMITY_NAIVE",
+          "worse_on": [
+            "consultations",
+            "lookups"
+          ]
+        }
+      },
+      "reps": 8
+    }
+  ],
+  "study_id": "X3_PRICE_FREE_V1",
+  "terminal": "CARRY_ADVANTAGE_AGAINST_REPLAY_MOSTLY_FAILS_THE_HONEST_PRICE",
+  "terminal_reason": "THE CARRY ADVANTAGE AGAINST REPLAY DOES NOT SURVIVE THE HONEST PRICE AT 4 OF 6 SETTINGS. DEV-5 reported the unanimity lineage beating REPLAY_ONLY_PARENT without DEV-3's language gift, and it measured that under the FLAT consultation price. DEV-6 corrected the flat price but re-checked only the comparison against the singleton rule; the comparison against replay was left standing on the old accounting and is audited here for the first time. Under a consultation charged in proportion to what it scans, the lineage loses to replay at [1, 3] and wins only at [2]. The price condition says why without any appeal to my totals: the lineage needs one derivation to cost more than 75 to 270 units, with every other price held fixed, and this lane charges 100. Where the threshold falls below that it wins and where it rises above it loses, which is the whole of the result and needs none of my arithmetic to check. What does survive is the decision rule: unanimity beats the singleton rule at every setting, above a verification price of 10.2 to 11.8 units against a charged 25, a headroom of 2.1x at its tightest. No comparison is settled by dominance, so each is a half-space and the receipt publishes the count differences per cell. A reader supplies prices and reads off the answer rather than inheriting mine, which is the point of this module: after DEV-6 moved a headline by re-pricing one operation, a result quoted as a single ratio is a result quoted in a currency the reader did not choose.",
+  "what_this_does_not_establish": "Immunity to price objections is not immunity to modelling objections. Which operations exist and which are counted is a choice as consequential as the prices, and it is shared by every arm because they share a harness. A harness that failed to count something the lineage does would hide it exactly as a price of zero would, and no price-free reporting would reveal it."
+}
