@@ -1037,3 +1037,39 @@ def test_the_receipt_carries_the_capability_gated_comparison():
         "ADAPTIVE_SELECTION_ADDS_NOTHING",
         "NO_SEPARATION",
     }
+
+
+def test_the_sweep_reproduces_across_processes_with_different_hash_seeds():
+    """A receipt that does not reproduce is not a receipt.
+
+    Iterating a ``set`` of ``frozenset[str]`` follows Python's per-process
+    randomised string hashing.  Any charged loop that walks a believed support
+    family and stops early would then spend a different number of predicate
+    evaluations on different runs, and two honest runs of the same code would
+    disagree in the fourth significant figure.  This test runs the sweep in two
+    subprocesses under different ``PYTHONHASHSEED`` values and requires the
+    reported work to be identical.
+    """
+    import os
+    import subprocess
+    import sys
+
+    program = (
+        "import json;"
+        "from support_arms import sweep, sweep_table, summarise;"
+        "rows = sweep_table(sweep());"
+        "print(json.dumps(summarise(rows), sort_keys=True))"
+    )
+    outputs = []
+    for seed in ("0", "12345"):
+        env = dict(os.environ, PYTHONHASHSEED=seed, PYTHONPATH=".")
+        outputs.append(
+            subprocess.run(
+                [sys.executable, "-c", program],
+                capture_output=True,
+                text=True,
+                check=True,
+                env=env,
+            ).stdout
+        )
+    assert outputs[0] == outputs[1]

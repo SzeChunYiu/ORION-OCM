@@ -283,6 +283,26 @@ DEEP_ROOTS = {
     "fixed. If no density produces a crossover where the machine's cumulative cost falls below the "
     "strongest parent's at matched capability, then demand was not the binding constraint, this "
     "deep root is wrong, and the fault is in the mechanisms after all."),
+  falsifier_outcome="PARTIALLY_FIRED",
+  outcome=(
+    "E7 ran the sweep (results/RHO_E7_V1.json, terminal "
+    "CROSSOVER_ONLY_AGAINST_PARENTS_THAT_DO_NOT_SHARE_THE_MECHANISM). The root is CONFIRMED in "
+    "part and REFUTED in part, and the refutation is the more useful half.\n\n"
+    "Confirmed: density zero reproduced the negatives at both discovery costs, so the knob is the "
+    "one the earlier experiments varied and the sweep is valid. Real crossovers appear at density "
+    "0.05 against lazy re-derivation and against memoization, and the crossover point rises with "
+    "discovery cost as predicted. Demand was therefore a genuine binding constraint for those "
+    "comparisons, exactly as this root claimed.\n\n"
+    "Refuted: there is no crossover at any density against a deferred-induction parent, which "
+    "retains the evidence a derivation produced and defers induction until demand is proven. It is "
+    "cheaper than the machine at every density at both discovery costs. So raising demand rescues "
+    "PERSISTENCE and does not rescue EAGER ACQUISITION.\n\n"
+    "The refined root: absent demand explained why persisting was worthless, but it never explained "
+    "why acquiring eagerly was worse than acquiring on demand. That second question is about "
+    "acquisition POLICY, not about the ecology and not about architecture, since the parent that "
+    "beats the machine shares its mechanism and differs only in trigger. It is also the same shape "
+    "as N9, where eager dependency discovery lost to lazy re-derivation, so the two are now one "
+    "finding rather than two."),
   fixable=True),
 
 "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": dict(

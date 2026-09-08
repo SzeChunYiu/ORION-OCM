@@ -89,7 +89,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** The same discovered schema run against certified essential-composite targets AND against a matched tautological control, with benefit on the first and none on the second. Benefit indifferent to the contrast would mean the gain was retrieval, not composition.
 
-**Fix.** E5 method discovery with an opportunity control · **Status.** `RUNNING`
+**Fix.** E5 method discovery with an opportunity control; E7 rho sweep (DONE) supplied the demand side · **Status.** `RUNNING`
 
 ## N8-DIAGNOSIS-RESIDUAL — CORRECT_FINDING
 
@@ -109,7 +109,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** Beating lazy re-derivation on TOTAL work at matched correctness, which requires either a revocation density high enough to amortize, or a cheaper discovery mechanism. E6 must beat lazy explicitly, not merely beat leave-one-out.
 
-**Fix.** E6 with lazy_parent included as the arm to beat; E7 for the density side · **Status.** `RUNNING`
+**Fix.** E6 with lazy_parent included as the arm to beat; E7 for the density side (DONE) · **Status.** `RUNNING`
 
 ## N10-SCALAR-FACTORIZATION — CORRECTABLE
 

@@ -125,7 +125,13 @@ N(negative_id="N7-CLAUSE-DONOR", verdict="NO_DEVELOPMENT_BENEFIT",
                          "targets AND against a matched tautological control, with benefit on the "
                          "first and none on the second. Benefit indifferent to the contrast would "
                          "mean the gain was retrieval, not composition.",
-  fix="E5 method discovery with an opportunity control", fix_status="RUNNING"),
+  fix="E5 method discovery with an opportunity control; E7 rho sweep (DONE) supplied the demand side",
+  fix_status="RUNNING",
+  outcome="E7 partially settles this. With reuse opportunity raised from zero, the machine does "
+          "beat lazy re-derivation and memoization from density 0.05 upward, so the clause donor's "
+          "zero-opportunity ecology genuinely was masking a working mechanism. But a "
+          "deferred-induction parent, which retains evidence and induces only once demand is "
+          "proven, is cheaper at every density. Opportunity was necessary and is not sufficient."),
 
 N(negative_id="N8-DIAGNOSIS-RESIDUAL", verdict="ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST",
   root="ONE_SHOT_DECISION_WITH_COMPLETE_INFORMATION",
@@ -149,8 +155,12 @@ N(negative_id="N9-EAGER-DEPENDENCY", verdict="DOMINATED_BY_LAZY_RE_DERIVATION",
                          "requires either a revocation density high enough to amortize, or a "
                          "cheaper discovery mechanism. E6 must beat lazy explicitly, not merely "
                          "beat leave-one-out.",
-  fix="E6 with lazy_parent included as the arm to beat; E7 for the density side",
-  fix_status="RUNNING"),
+  fix="E6 with lazy_parent included as the arm to beat; E7 for the density side (DONE)",
+  fix_status="RUNNING",
+  outcome="E7 shows this is not a dependency-specific defect. The same shape appears in method "
+          "acquisition: eager loses to deferred at every reuse density, against a parent sharing "
+          "the mechanism and differing only in when it fires. N9 and N7 are therefore one finding "
+          "about acquisition policy, not two about different subsystems."),
 
 N(negative_id="N10-SCALAR-FACTORIZATION", verdict="PARENT_SUFFICIENT",
   root="PARENT_SHARES_THE_MECHANISM_UNDER_TEST",

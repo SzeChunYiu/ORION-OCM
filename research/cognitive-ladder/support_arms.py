@@ -266,6 +266,21 @@ class SupportArm:
         self.believed.setdefault(method_id, set()).add(support_set)
         self.index_entries += 1
 
+    def _believed_in_order(self, method_id: str) -> list[frozenset[str]]:
+        """A believed family in a DETERMINISTIC order, smallest set first.
+
+        Iterating a ``set`` of ``frozenset[str]`` follows string hashing, which
+        Python randomises per process.  Every charged loop that walks a
+        believed family and stops early would then spend a different number of
+        predicate evaluations on different runs, and the receipt would not
+        reproduce.  Ordering here fixes that at the one place it can leak, and
+        smallest-first is also the order a real index would keep, because the
+        cheapest set to satisfy is the one most likely to fire.
+        """
+        return sorted(
+            self.believed.get(method_id, ()), key=lambda s: (len(s), sorted(s))
+        )
+
     # ---- reporting surface ----------------------------------------------
 
     @property
@@ -306,8 +321,8 @@ class SupportArm:
         family answers from what it holds.  An arm that holds none has to
         derive one, and that derivation is charged here in full.
         """
-        for method_id, sets in self.believed.items():
-            for _ in sets:
+        for method_id in sorted(self.believed):
+            for _ in self._believed_in_order(method_id):
                 ledger.probe_index()
         return {k: set(v) for k, v in self.believed.items()}
 
@@ -356,7 +371,7 @@ class SupportArm:
             if not self._affected(method_id, newly, ledger):
                 continue
             ledger.probe_index()
-            for support_set in self.believed.get(method_id, ()):
+            for support_set in self._believed_in_order(method_id):
                 ledger.predicate_evaluations += 1
                 if support_set <= cumulative_revoked:
                     self.store.revoke_method(method_id)
@@ -421,7 +436,7 @@ class SupportArm:
     def _answer(self, method_id: str, ledger: TouchLedger) -> bool:
         """"Is this method still supported?", answered from what the arm holds."""
         ledger.probe_index()
-        for support_set in self.believed.get(method_id, ()):
+        for support_set in self._believed_in_order(method_id):
             ledger.predicate_evaluations += 1
             if support_set <= frozenset(self.revoked_evidence):
                 return False

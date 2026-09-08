@@ -18,6 +18,7 @@ PUB-D1 of #144. The load-bearing columns are the last two. Every result is recor
 | C10-WITNESS-ELIMINATES-FALSE-ESCALATION | L2 | E2 | Zero false escalations for both principled arms, against 232 for the saturation and refinement policies and 245 for the timeout policy |
 | C11-ABLATION-ATTRIBUTION-INCOMPLETE | L2 | E1 | Between 16 |
 | C12-RELEVANCE-KEY-DECAYS-WITH-SCALE | L1 | E1 | The hand-specified prefix goes from max bucket 1 and collision rate 0 at N=17 to max bucket 20 and collision rate 0 |
+| C13-DEMAND-RESCUES-PERSISTENCE-NOT-EAGER-ACQUISITION | L1 | E2 | Crossovers are real but bounded |
 
 ## C1-SPARSE-LOOKUP
 
@@ -258,3 +259,23 @@ PUB-D1 of #144. The load-bearing columns are the last two. Every result is recor
 **Permitted wording.** A relevance key adequate at one store size is not adequate at thirty times that size, and the cost of the degradation appears in query work rather than in correctness.
 
 **Forbidden wording.** _The machine adapts its representation as it learns._
+
+## C13-DEMAND-RESCUES-PERSISTENCE-NOT-EAGER-ACQUISITION
+
+**Claim.** Raising the density of tasks that essentially require earlier structure makes persistence pay, and does not make eager acquisition pay.
+
+**Level.** L1 · **Evidence class.** E2
+
+**Hypothesis.** If reuse opportunity is the binding constraint on amortization, a density sweep should produce a crossover against the strongest parent somewhere below density one.
+
+**Strongest parent.** a deferred-induction parent: retains the evidence a derivation produced, and defers induction itself until demand is proven. It shares the machine's mechanism and differs only in trigger.
+
+**Experiment.** `E7, run_rho.py, eleven densities, two discovery costs, six arms` · **Replication.** none; the density-zero row reproduces the prior negatives, which is an internal consistency check rather than a replication
+
+**Result.** Crossovers are real but bounded. Against lazy re-derivation and against memoization the machine wins from density 0.05 upward, and the crossover point rises with discovery cost as predicted. Against the deferred-induction parent there is NO crossover at any density up to the realised maximum of 0.875, at either discovery cost. Density zero reproduced the negatives, so the sweep is valid rather than void.
+
+**Limitation.** The density is set by hand and says nothing about the density of any real task ecology. The realised maximum is 0.875 rather than 1.0, because the donor tasks that make structure acquirable can never themselves be essential. The lazy gap saturates at one avoided derivation per family rather than compounding with the horizon. The deferred parent is cheap here only because evidence is perfectly retainable, which will not hold everywhere.
+
+**Permitted wording.** Absent reuse opportunity explains why persisting was worthless, but not why acquiring eagerly was worse than acquiring on demand; the second is a question about acquisition policy rather than about the ecology or the architecture.
+
+**Forbidden wording.** _Given enough reuse opportunity, the machine amortizes its structure._
