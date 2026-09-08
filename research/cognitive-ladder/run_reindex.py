@@ -92,13 +92,13 @@ def main(argv=None) -> int:
         return 1
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    reindex.register()
     arms = ["discovering_arm", reindex.INCREMENTAL_ARM_ID,
             "signature_hash_parent", "exact_scan_parent"]
-    frozen_rows = SA.sweep_table(SA.sweep(arms, multipliers=FROZEN))
-    ext_rows = SA.sweep_table(SA.sweep(
-        [reindex.INCREMENTAL_ARM_ID, "signature_hash_parent", "exact_scan_parent"],
-        multipliers=FROZEN + [EXPLORATORY_MAX]))
+    with reindex.registered():
+        frozen_rows = SA.sweep_table(SA.sweep(arms, multipliers=FROZEN))
+        ext_rows = SA.sweep_table(SA.sweep(
+            [reindex.INCREMENTAL_ARM_ID, "signature_hash_parent", "exact_scan_parent"],
+            multipliers=FROZEN + [EXPLORATORY_MAX]))
 
     table = {
         "frozen": _cells(frozen_rows, "discovering_arm", reindex.INCREMENTAL_ARM_ID,

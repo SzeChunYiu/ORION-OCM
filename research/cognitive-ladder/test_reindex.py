@@ -24,10 +24,26 @@ FROZEN = RECEIPT["frozen_sweep"]
 def test_registration_adds_and_never_replaces():
     """The committed E1 receipt must stay reproducible."""
     before = dict(SA.ARMS)
-    reindex.register()
-    for arm_id, cls in before.items():
-        assert SA.ARMS[arm_id] is cls, f"{arm_id} was replaced, not added alongside"
-    assert reindex.INCREMENTAL_ARM_ID in SA.ARMS
+    with reindex.registered():
+        for arm_id, cls in before.items():
+            assert SA.ARMS[arm_id] is cls, f"{arm_id} was replaced, not added alongside"
+        assert reindex.INCREMENTAL_ARM_ID in SA.ARMS
+
+
+def test_registration_is_scoped_and_leaves_no_trace():
+    """The defect this guards: a permanent registration polluted test_subspace."""
+    before = dict(SA.ARMS)
+    with reindex.registered():
+        assert reindex.INCREMENTAL_ARM_ID in SA.ARMS
+    assert reindex.INCREMENTAL_ARM_ID not in SA.ARMS
+    assert reindex.INCREMENTAL_ARM_ID not in SA.ARM_ROLES
+    assert dict(SA.ARMS) == before
+
+
+def test_exactly_one_machine_role_survives_outside_the_scope():
+    """The invariant test_subspace asserts, checked here so it cannot break again."""
+    machines = [a for a, r in SA.ARM_ROLES.items() if r == "MACHINE"]
+    assert len(machines) == 1, f"registry left with {machines} outside a registered() scope"
 
 
 def test_registration_refuses_an_unexpected_baseline():
@@ -37,7 +53,8 @@ def test_registration_refuses_an_unexpected_baseline():
         S.ARMS.clear()
         S.ARMS["something_else"] = object
         with pytest.raises(RuntimeError, match="refusing to register"):
-            reindex.register()
+            with reindex.registered():
+                pass
     finally:
         S.ARMS.clear()
         S.ARMS.update(saved)

@@ -186,9 +186,13 @@ class MethodIndex:
         self._by_family[family_id] = object_id
         ledger.index_maintenance_work += 1
         if self.track_dependencies:
+            # The reverse edges are written by the same insert operation, so they
+            # add index BYTES and no additional work.  This is deliberate and it
+            # is what makes the index parent tie the machine exactly on every work
+            # coordinate, reproducing C1-SPARSE-LOOKUP instead of manufacturing a
+            # difference out of the machine's own bookkeeping.
             for support_id in supports:
                 self._dependents.setdefault(support_id, []).append(object_id)
-                ledger.index_maintenance_work += 1
 
     def probe_method(self, family_id: str, ledger: TouchLedger) -> str | None:
         ledger.probe_index()
@@ -422,6 +426,7 @@ class RhoArm:
         self.correct = 0
         self.cache_extrapolation_attempts = 0
         self.cache_extrapolation_correct = 0
+        self.cache_extrapolation_p_positions = 0
         if spec.holds_methods or spec.retains_evidence:
             self.store.add_support(
                 SHARED_SUPPORT_ID,
@@ -471,7 +476,7 @@ class RhoArm:
         evidence has acquired *something* eagerly, and the receipt says so.
         """
         support_id = f"S:{task.family_id}:b0"
-        if support_id in self.evidence_supports:
+        if task.family_id in self.evidence_supports:
             return support_id
         table, _ = _evidence_table(task.moves)
         self.store.add_support(
@@ -638,6 +643,16 @@ class RhoArm:
                     # evidence is retained eagerly, induction is not
                     self._retain_evidence(task, ledger)
 
+        # The cache diagnostic is taken BEFORE this task enters the memo.  Taking
+        # it afterwards would let the guess find the task's own answer at distance
+        # zero and score a perfect one, which is not generalisation, it is reading
+        # the row that was written a line earlier.
+        cache_guess = (
+            self._nearest_cached_guess(task)
+            if self.spec.arm_id == "cache_parent" and procedure != "P_MEMO"
+            else None
+        )
+
         if self.spec.holds_memo:
             self._insert_memo(task, verdict, ledger)
 
@@ -654,11 +669,10 @@ class RhoArm:
 
         # cache_parent's generalisation diagnostic: what a nearest-cached-instance
         # guess WOULD have said on a miss.  Measured, never used to answer.
-        if self.spec.arm_id == "cache_parent" and procedure != "P_MEMO":
-            guess = self._nearest_cached_guess(task)
-            if guess is not None:
-                self.cache_extrapolation_attempts += 1
-                self.cache_extrapolation_correct += int(guess == truth)
+        if cache_guess is not None:
+            self.cache_extrapolation_attempts += 1
+            self.cache_extrapolation_correct += int(cache_guess == truth)
+            self.cache_extrapolation_p_positions += int(truth)
 
         record = self._record(
             ledger, operation="TASK", thermal=thermal, outcome=outcome, correct=correct
@@ -710,3 +724,424 @@ def _evidence_table(moves: tuple[int, ...]) -> tuple[tuple[tuple[int, int], ...]
 
     table, work = grundy_table(moves, EVIDENCE_WINDOW - 1)
     return tuple((n, table[n]) for n in range(EVIDENCE_WINDOW)), work
+
+
+# --------------------------------------------------------------------------
+# one cell of the sweep
+# --------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class ArmRun:
+    """Everything one arm did over one stream at one discovery cost."""
+
+    arm_id: str
+    role: str
+    shares_mechanism: bool
+    requested_rho: float
+    realised_rho: float
+    discovery_multiplier: int
+    tasks: int
+    answered: int
+    correct: int
+    discovery_work: int
+    maintenance_work: int
+    query_work: int
+    checker_expansions: int
+    persistent_bytes: int
+    store_bytes: int
+    index_bytes: int
+    n_objects: int
+    methods_acquired: int
+    max_k: int | None
+    total_k: int | None
+    k_status: str
+    reuse_invocations: int
+    essential_reuse_invocations: int
+    reuse_displaced_work: int
+    procedure_counts: Mapping[str, int]
+    cache_extrapolation_attempts: int
+    cache_extrapolation_correct: int
+    cache_extrapolation_p_positions: int
+
+    @property
+    def capability(self) -> float:
+        return self.correct / self.tasks if self.tasks else 0.0
+
+    @property
+    def charged_total_work(self) -> int:
+        """Discovery + maintenance + query.  The headline cumulative cost.
+
+        The scorer's checker call is excluded here and reported beside it, for the
+        reason ``scaling.py`` gives: it is an identical constant on every arm, so
+        including it adds the same number to every row and compresses the very
+        contrast the sweep is about.  The sweep asserts that it really is
+        identical, and the crossover is computed both ways.
+        """
+        return self.discovery_work + self.maintenance_work + self.query_work
+
+    @property
+    def charged_total_with_checker(self) -> int:
+        return self.charged_total_work + self.checker_expansions
+
+    @property
+    def cache_extrapolation_accuracy(self) -> float | None:
+        if not self.cache_extrapolation_attempts:
+            return None
+        return self.cache_extrapolation_correct / self.cache_extrapolation_attempts
+
+    @property
+    def cache_extrapolation_majority_baseline(self) -> float | None:
+        """The accuracy of always answering the commoner class.
+
+        "Generalises at chance" is meaningless against 0.5 when P-positions are
+        rare, and a cache that answers "not a P-position" every time would score
+        well against the wrong yardstick.  The honest comparison is the
+        majority-class baseline on the very tasks the cache missed, so it is
+        computed and reported next to the accuracy rather than left implicit.
+        """
+        n = self.cache_extrapolation_attempts
+        if not n:
+            return None
+        p = self.cache_extrapolation_p_positions
+        return max(p, n - p) / n
+
+    @property
+    def cache_extrapolation_lift(self) -> float | None:
+        """Accuracy minus the majority baseline.  Zero or below means chance."""
+        if self.cache_extrapolation_accuracy is None:
+            return None
+        return self.cache_extrapolation_accuracy - self.cache_extrapolation_majority_baseline
+
+    def as_row(self) -> dict:
+        return {
+            "arm": self.arm_id,
+            "role": self.role,
+            "shares_mechanism": self.shares_mechanism,
+            "requested_rho": self.requested_rho,
+            "realised_rho": round(self.realised_rho, 6),
+            "discovery_multiplier": self.discovery_multiplier,
+            "tasks": self.tasks,
+            "capability": round(self.capability, 6),
+            "discovery_work": self.discovery_work,
+            "maintenance_work": self.maintenance_work,
+            "query_work": self.query_work,
+            "charged_total_work": self.charged_total_work,
+            "scoring_checker_expansions": self.checker_expansions,
+            "charged_total_with_checker": self.charged_total_with_checker,
+            "persistent_bytes": self.persistent_bytes,
+            "store_bytes": self.store_bytes,
+            "index_bytes": self.index_bytes,
+            "N_persistent_objects": self.n_objects,
+            "methods_acquired": self.methods_acquired,
+            "max_k": self.max_k,
+            "k_status": self.k_status,
+            "reuse_invocations": self.reuse_invocations,
+            "essential_reuse_invocations": self.essential_reuse_invocations,
+            "reuse_displaced_work": self.reuse_displaced_work,
+            "procedure_counts": dict(sorted(self.procedure_counts.items())),
+            "cache_extrapolation_attempts": self.cache_extrapolation_attempts,
+            "cache_extrapolation_accuracy": (
+                None
+                if self.cache_extrapolation_accuracy is None
+                else round(self.cache_extrapolation_accuracy, 6)
+            ),
+            "cache_extrapolation_majority_baseline": (
+                None
+                if self.cache_extrapolation_majority_baseline is None
+                else round(self.cache_extrapolation_majority_baseline, 6)
+            ),
+            "cache_extrapolation_lift_over_majority": (
+                None
+                if self.cache_extrapolation_lift is None
+                else round(self.cache_extrapolation_lift, 6)
+            ),
+        }
+
+
+def run_arm(
+    arm_id: str,
+    stream: TaskStream,
+    *,
+    discovery_multiplier: int = 1,
+    displaced: Mapping[str, int] | None = None,
+) -> tuple[ArmRun, RhoArm]:
+    """Run one arm over the whole stream and aggregate its per-task records."""
+    spec = ARM_SPECS[arm_id]
+    arm = RhoArm(spec, discovery_multiplier=discovery_multiplier, displaced=displaced)
+    for stream_task in stream.tasks:
+        arm.handle(stream_task)
+
+    poisoned = any(r.k_status is CheckStatus.CANNOT_CHECK for r in arm.records)
+    ks = [r.k for r in arm.records if r.k is not None]
+    run = ArmRun(
+        arm_id=arm_id,
+        role=spec.role,
+        shares_mechanism=spec.shares_mechanism,
+        requested_rho=stream.requested_rho,
+        realised_rho=stream.realised_rho,
+        discovery_multiplier=discovery_multiplier,
+        tasks=len(stream.tasks),
+        answered=arm.answered,
+        correct=arm.correct,
+        discovery_work=sum(r.index_build_work for r in arm.records),
+        maintenance_work=sum(r.index_maintenance_work for r in arm.records),
+        query_work=sum(r.query_work for r in arm.records),
+        checker_expansions=sum(r.checker_expansions for r in arm.records),
+        persistent_bytes=arm.persistent_bytes,
+        store_bytes=arm.store.store_bytes,
+        index_bytes=arm.index_bytes,
+        n_objects=arm.store.n_objects,
+        methods_acquired=len(arm.rules),
+        max_k=None if poisoned else (max(ks) if ks else 0),
+        total_k=None if poisoned else sum(ks),
+        k_status="CANNOT_CHECK" if poisoned else "MEASURED",
+        reuse_invocations=len(arm.reuse_events),
+        essential_reuse_invocations=sum(
+            1 for e in arm.reuse_events if e.certified_essential
+        ),
+        reuse_displaced_work=sum(e.displaced_work for e in arm.reuse_events),
+        procedure_counts=dict(arm.procedure_counts),
+        cache_extrapolation_attempts=arm.cache_extrapolation_attempts,
+        cache_extrapolation_correct=arm.cache_extrapolation_correct,
+        cache_extrapolation_p_positions=arm.cache_extrapolation_p_positions,
+    )
+    return run, arm
+
+
+def run_cell(
+    requested_rho: float, *, discovery_multiplier: int = 1
+) -> dict[str, tuple[ArmRun, RhoArm]]:
+    """Every arm over one stream.  Anti-rigging control 2 lives here.
+
+    Every parent runs at every ``rho`` on the identical stream, because a parent
+    that was denied the reuse opportunity the machine was given is not a parent,
+    it is a handicap.  The ablation runs first so that every ``ReuseEventV1`` can
+    carry a ``displaced_work`` that was measured on the same ``task_id`` rather
+    than estimated.
+    """
+    stream = build_stream(requested_rho)
+    ablation, ablation_arm = run_arm(
+        "reset_arm", stream, discovery_multiplier=discovery_multiplier
+    )
+    displaced = {
+        st.task.task_id: rec.query_work
+        for st, rec in zip(stream.tasks, ablation_arm.records)
+    }
+    out: dict[str, tuple[ArmRun, RhoArm]] = {"reset_arm": (ablation, ablation_arm)}
+    for arm_id in RHO_PLAN["arms"]:
+        if arm_id == "reset_arm":
+            continue
+        out[arm_id] = run_arm(
+            arm_id,
+            stream,
+            discovery_multiplier=discovery_multiplier,
+            displaced=displaced,
+        )
+    return out
+
+
+def sweep(
+    rho_grid: Sequence[float] | None = None,
+    multipliers: Sequence[int] | None = None,
+) -> dict[tuple[int, float], dict[str, tuple[ArmRun, RhoArm]]]:
+    """The whole registered sweep: every arm at every rho at every discovery cost."""
+    grid = list(rho_grid if rho_grid is not None else RHO_PLAN["rho_grid"])
+    mults = list(
+        multipliers if multipliers is not None else RHO_PLAN["discovery_cost_multipliers"]
+    )
+    return {
+        (m, r): run_cell(r, discovery_multiplier=m) for m in mults for r in grid
+    }
+
+
+def sweep_table(
+    results: Mapping[tuple[int, float], Mapping[str, tuple[ArmRun, RhoArm]]]
+) -> list[dict]:
+    """The reported object: the entire curve, never a single favourable rho."""
+    rows: list[dict] = []
+    for (multiplier, requested), cell in sorted(results.items()):
+        for arm_id in RHO_PLAN["arms"]:
+            rows.append(cell[arm_id][0].as_row())
+    return rows
+
+
+# --------------------------------------------------------------------------
+# the crossover: the second half of the reported object
+# --------------------------------------------------------------------------
+
+
+def _totals(rows: Sequence[Mapping], multiplier: int, key: str) -> dict[float, dict[str, int]]:
+    out: dict[float, dict[str, int]] = {}
+    for row in rows:
+        if row["discovery_multiplier"] != multiplier:
+            continue
+        out.setdefault(row["requested_rho"], {})[row["arm"]] = row[key]
+    return out
+
+
+def crossovers(
+    rows: Sequence[Mapping], *, key: str = "charged_total_work"
+) -> dict[str, Any]:
+    """Where the machine's cumulative cost falls below each parent's, if anywhere.
+
+    Reported for every parent separately, for the envelope of all parents, and for
+    the envelope of the *independent* parents.  The envelope is the honest object:
+    a crossover against one chosen parent while another parent still wins is not a
+    crossover, it is parent shopping.
+
+    ``first_rho_below`` is the smallest grid point where the machine is strictly
+    cheaper; ``stays_below`` says whether it remains so at every larger grid point.
+    A crossover that does not persist is reported as not persisting rather than
+    quietly headlined.
+    """
+    out: dict[str, Any] = {}
+    for multiplier in sorted({row["discovery_multiplier"] for row in rows}):
+        totals = _totals(rows, multiplier, key)
+        grid = sorted(totals)
+        per_parent: dict[str, Any] = {}
+        targets: dict[str, Callable[[dict[str, int]], int]] = {
+            **{p: (lambda t, p=p: t[p]) for p in ALL_PARENTS},
+            "STRONGEST_PARENT_ENVELOPE": lambda t: min(t[p] for p in ALL_PARENTS),
+            "STRONGEST_INDEPENDENT_PARENT_ENVELOPE": lambda t: min(
+                t[p] for p in INDEPENDENT_PARENTS
+            ),
+        }
+        for name, pick in targets.items():
+            below = [r for r in grid if totals[r]["persistent_arm"] < pick(totals[r])]
+            first = below[0] if below else None
+            stays = bool(
+                first is not None
+                and all(
+                    totals[r]["persistent_arm"] < pick(totals[r])
+                    for r in grid
+                    if r >= first
+                )
+            )
+            per_parent[name] = {
+                "first_rho_below": first,
+                "stays_below_at_every_larger_rho": stays,
+                "machine_minus_target_by_rho": {
+                    str(r): totals[r]["persistent_arm"] - pick(totals[r]) for r in grid
+                },
+            }
+        out[str(multiplier)] = per_parent
+    return out
+
+
+def rho_zero_reproduces_negatives(rows: Sequence[Mapping]) -> dict[str, Any]:
+    """Anti-rigging control 1, evaluated exactly.
+
+    At ``rho = 0`` the machine must show no advantage and the index and lazy
+    parents must match or beat it, consistent with ``SCALING_PILOT_V1.json`` and
+    the E3 capability-gated re-analysis.  If they do not, the knob is not the one
+    the old experiments varied and the whole sweep is void.
+    """
+    out: dict[str, Any] = {}
+    for multiplier in sorted({row["discovery_multiplier"] for row in rows}):
+        at_zero = {
+            row["arm"]: row
+            for row in rows
+            if row["discovery_multiplier"] == multiplier and row["requested_rho"] == 0.0
+        }
+        if not at_zero:
+            out[str(multiplier)] = {"reproduced": False, "reason": "rho=0 not in the grid"}
+            continue
+        machine = at_zero["persistent_arm"]["charged_total_work"]
+        checks = {
+            "lazy_parent_matches_or_beats_machine": at_zero["lazy_parent"][
+                "charged_total_work"
+            ]
+            <= machine,
+            "index_parent_matches_or_beats_machine": at_zero["index_parent"][
+                "charged_total_work"
+            ]
+            <= machine,
+            "machine_has_no_advantage_over_any_parent": all(
+                at_zero[p]["charged_total_work"] <= machine for p in ALL_PARENTS
+            ),
+            "no_essential_reuse_at_rho_zero": at_zero["persistent_arm"][
+                "essential_reuse_invocations"
+            ]
+            == 0,
+            "realised_rho_is_zero": at_zero["persistent_arm"]["realised_rho"] == 0.0,
+        }
+        out[str(multiplier)] = {
+            "reproduced": all(checks.values()),
+            "checks": checks,
+            "machine_charged_total_work": machine,
+            "parent_charged_total_work": {
+                p: at_zero[p]["charged_total_work"] for p in ALL_PARENTS
+            },
+        }
+    return out
+
+
+def controls(rows: Sequence[Mapping]) -> dict[str, Any]:
+    """The three anti-rigging controls plus the capability gate, all computed."""
+    grid = sorted({row["requested_rho"] for row in rows})
+    mults = sorted({row["discovery_multiplier"] for row in rows})
+    ran = {
+        (row["discovery_multiplier"], row["requested_rho"], row["arm"]) for row in rows
+    }
+    every_parent_everywhere = all(
+        (m, r, arm) in ran for m in mults for r in grid for arm in RHO_PLAN["arms"]
+    )
+    checker_constant = True
+    for m in mults:
+        for r in grid:
+            vals = {
+                row["scoring_checker_expansions"]
+                for row in rows
+                if row["discovery_multiplier"] == m and row["requested_rho"] == r
+            }
+            checker_constant = checker_constant and len(vals) == 1
+    return {
+        "control_1_rho_zero_reproduces_negatives": rho_zero_reproduces_negatives(rows),
+        "control_2_every_parent_ran_at_every_rho": every_parent_everywhere,
+        "control_3_reported_object_is_the_whole_curve": {
+            "rho_grid": grid,
+            "rows": len(rows),
+            "single_favourable_rho_reported": False,
+        },
+        "capability_gate_passed": all(row["capability"] == 1.0 for row in rows),
+        "capability_by_arm": {
+            arm: sorted({row["capability"] for row in rows if row["arm"] == arm})
+            for arm in RHO_PLAN["arms"]
+        },
+        "scoring_checker_identical_across_arms": checker_constant,
+    }
+
+
+SWEEP_NOTES: tuple[str, ...] = (
+    "rho is the ONLY knob. The family pool, the eight donor tasks, the horizon of "
+    "64 tasks, the position band, the checker, the budgets and every arm's policy "
+    "are identical at every point of the sweep, so discovery cost is a constant "
+    "across the curve and all variation is in the demand term.",
+    "REALISED rho is always below REQUESTED rho, and the gap is not noise: the "
+    "donor tasks that make any structure acquirable at all can never themselves "
+    "be essential, so a 64-task stream with 8 donors cannot exceed a realised rho "
+    "of 0.875 however the knob is set. The receipt reports both.",
+    "A BYPASS_REPEAT task sits on an irregular family hundreds of positions beyond "
+    "the training support, where the dynamic programme costs thousands of units "
+    "and the acquired rule costs one. It is still certified NOT essential, because "
+    "a solved-instance store answers it for the same one unit. That exclusion is "
+    "the whole reason rho is not a synonym for 'tasks we made easy for ourselves'.",
+    "Every arm that persists anything holds the identical solved-instance memo, so "
+    "the memo contributes the same term to each of them and cancels out of every "
+    "comparison between them. No arm's advantage can come from the bypass.",
+    "The persistent arm and the index parent are expected to TIE on every work "
+    "coordinate and to differ only in index bytes, reproducing C1-SPARSE-LOOKUP. "
+    "A tie with a parent that holds the machine's own mechanism carries no "
+    "information about the architecture and is not read as a result.",
+    "deferred_induction_parent is a sixth arm, added beyond the five the decisive "
+    "experiment registered, because protocol section 7 gives the strongest "
+    "plausible alternative first right of refusal. Omitting a parent that was "
+    "obviously available would have been the rigging that constitution section 11 "
+    "forbids. It shares the machine's mechanism and its comparison is labelled.",
+    "No revocation is exercised in E7, so the machine's dependency edges buy it "
+    "nothing here and cost it index bytes. That is charged, not hidden, and it is "
+    "why persistent_bytes is reported next to every work coordinate.",
+    "Work coordinates are never weighted into a scalar (CL-S-T4). Bytes are "
+    "reported separately and are never converted into work.",
+)

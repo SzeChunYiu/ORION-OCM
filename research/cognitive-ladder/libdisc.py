@@ -489,11 +489,20 @@ def _match_pattern(
 
 
 def match_schema(
-    schema: Schema, clauses: Sequence[Clause], work: SearchWork | None = None
+    schema: Schema, clauses: Sequence[Clause], work: SearchWork | None = None,
+    relevance_index: bool = False,
 ) -> list[tuple[tuple[Clause, ...], dict[str, int]]]:
     """Every way ``schema``'s premises match distinct clauses from ``clauses``.
 
-    Match attempts are charged to ``work`` whether or not they succeed.
+    Match attempts are charged to ``work`` whether or not they succeed; the
+    clause-revival negative is 4,425 matching-work units against zero uses, and
+    an experiment that charged only successful matches could not reproduce it.
+
+    ``relevance_index`` is the duplicate relevance cache: a precomputed shape
+    filter that lets a holder skip clauses that cannot match without paying a
+    trial for them.  It changes cost and never changes the match set, which is
+    exactly what makes ``symbolic_compact_parent`` -- the same learner without
+    the cache -- the sharpest comparison in this lane.
     """
     results: list[tuple[tuple[Clause, ...], dict[str, int]]] = []
     n = len(schema.premises)
@@ -503,13 +512,17 @@ def match_schema(
             results.append((tuple(chosen), dict(binding)))
             return
         pat = schema.premises[k]
+        shape = sorted(s for _, s in pat.lits)
         for c in clauses:
             if c in chosen:
                 continue
-            if len(c) != len(pat.lits):
-                continue
+            if relevance_index and (
+                len(c) != len(pat.lits) or sorted(s for _, s in c) != shape):
+                continue  # the index rules this clause out without a trial
             if work is not None:
                 work.macro_match_attempts += 1
+            if len(c) != len(pat.lits):
+                continue
             for b in _match_pattern(pat, c, binding):
                 rec(k + 1, b, chosen + [c])
 
@@ -627,6 +640,7 @@ def solve(
     library: Sequence[Schema] = (),
     max_depth: int = MAX_SEARCH_DEPTH,
     check_answer: bool = True,
+    relevance_index: bool = False,
 ) -> SolveResult:
     """Breadth-first resolution search, optionally holding a macro library.
 
@@ -665,6 +679,11 @@ def solve(
         new: dict[Clause, tuple] = {}
         for i in range(len(ordered)):
             for j in range(i + 1, len(ordered)):
+                # examining a pair costs one unit whether or not it resolves;
+                # a prover has to look at it either way, and not charging for
+                # the look would understate the baseline's cost in exactly the
+                # rounds where the clause set has grown.
+                work.resolution_attempts += 1
                 for pivot in pivots(ordered[i], ordered[j]):
                     work.resolution_attempts += 1
                     r = resolve(ordered[i], ordered[j], pivot)
@@ -672,7 +691,8 @@ def solve(
                         continue
                     new[r] = ("resolve", ordered[i], ordered[j], pivot)
         for m in macros:
-            for chosen, binding in match_schema(m, ordered, work):
+            for chosen, binding in match_schema(
+                    m, ordered, work, relevance_index):
                 r = instantiate(m.conclusion, binding)
                 if r is None or r in current or r in new:
                     continue
@@ -819,9 +839,15 @@ def binding_space(arity: int) -> int:
 
 
 def schema_code_bits(schema: Schema) -> float:
-    """``bits(M)``: one class bit plus a uniform index inside the class."""
+    """``bits(M)``: one class bit plus a uniform index inside the class.
+
+    A composite that collapses ``s`` steps is coded as ``s - 1`` composite
+    indices, so a longer macro costs strictly more to write down.  The code is
+    fixed with the language and does not depend on which schema turned out to be
+    useful, which is the property CL-D1(a) needs.
+    """
     if schema.step_count >= 2:
-        return 1.0 + math.log2(COMPOSITE_SCHEMA_SPACE)
+        return 1.0 + (schema.step_count - 1) * math.log2(COMPOSITE_SCHEMA_SPACE)
     return 1.0 + math.log2(SINGLE_SCHEMA_SPACE)
 
 
@@ -927,7 +953,7 @@ def _task(name: str, premises: Sequence[Clause], query: Clause, role: str) -> Ta
 #: not a tautology and removing the composite schema strictly increases the
 #: minimal derivation depth.  Certified, not assumed.
 ESSENTIAL_COMPOSITE_TASKS: tuple[Task, ...] = (
-    _task("C1", [C(M(0), L(1)), C(M(1), L(2)), C(M(2), L(3)), C(M(6), L(7))],
+    _task("C1", [C(M(0), L(1)), C(M(1), L(2)), C(M(2), L(3)), C(L(6), L(7))],
           C(M(0), L(3)), "essential_composite"),
     _task("C2", [C(M(4), L(5)), C(M(5), L(6)), C(M(6), L(7)), C(L(0), L(1)),
                  C(M(1), L(2))], C(M(4), L(7)), "essential_composite"),
@@ -1069,7 +1095,11 @@ def canonical_schema(schema: Schema) -> Schema:
             key=lambda p: p.lits,
         ))
         concl = _rename_pattern(schema.conclusion, mapping)
-        pivots_ = tuple(mapping[v] for v in schema.pivot_vars)
+        # Pivot variables are a derived annotation, not part of the schema's
+        # behaviour, so they are canonicalised as a sorted tuple: two schemas
+        # that act identically get the same ``schema_id`` however the prover
+        # happened to order the two steps that produced them.
+        pivots_ = tuple(sorted(mapping[v] for v in schema.pivot_vars))
         cand = Schema(prem, concl, pivots_, schema.step_count, schema.origin)
         key = (tuple(p.lits for p in prem), concl.lits, pivots_)
         if best_key is None or key < best_key:
@@ -1162,3 +1192,377 @@ def extrapolation_probes(schema: Schema, above: int) -> list[dict[str, int]]:
         {v: combo[i] for i, v in enumerate(schema.variables)}
         for combo in itertools.permutations(pool, k)
     ]
+
+
+#: The single-step chain schema the training proofs make recur.
+CHAIN_SCHEMA = lift_step(_step(C(M(0), L(1)), C(M(1), L(2)), 1))
+
+#: The single-step merge schema: recurs, is admissible, and is never demanded.
+MERGE_SCHEMA = lift_step(_step(C(L(0), L(1)), C(M(1), L(2)), 1))
+
+#: The two-step composite the discovery arm has to build for itself.  Declared
+#: here as the *reference* the generator certifies its draw against; the arms
+#: never read it, and ``test_libdisc.py`` asserts that what discovery finds is
+#: behaviourally identical to it rather than assuming so.
+CHAIN2_SCHEMA = lift_two_step(
+    _step(C(M(0), L(1)), C(M(1), L(2)), 1),
+    _step(C(M(0), L(2)), C(M(2), L(3)), 2),
+)
+assert CHAIN2_SCHEMA is not None
+
+
+# --------------------------------------------------------------------------
+# the four certifications
+# --------------------------------------------------------------------------
+
+
+def checked_flat_fragments(episode: Episode) -> list[tuple]:
+    """Flat fragments of one episode that the diagnosis's miner would accept.
+
+    A candidate is a PROPER two-premise subcover whose pair the independent
+    checker certifies as entailing the query (sound) and as essential (neither
+    premise alone suffices).  These are the "three structurally different
+    essential fragments" of the diagnosis, at the level of abstraction that made
+    them singletons.
+    """
+    out: list[tuple] = []
+    prem = episode.premises
+    if len(prem) <= 2:
+        return out  # a two-premise task cannot donate a PROPER subcover
+    for pair in itertools.combinations(prem, 2):
+        if not entails(pair, episode.query):
+            continue
+        if any(entails([single], episode.query) for single in pair):
+            continue
+        out.append(flat_fragment(pair, episode.query))
+    return out
+
+
+def step_schema_supports(
+    episodes: Sequence[Episode] = TRAINING_EPISODES,
+) -> dict[str, dict]:
+    """Distinct-episode support counts for every lifted single step in the draw."""
+    table: dict[str, dict] = {}
+    for ep in episodes:
+        for st in ep.proof:
+            sch = lift_step(st)
+            row = table.setdefault(sch.schema_id, {
+                "schema": sch, "episodes": set(), "instances": 0})
+            row["episodes"].add(ep.episode_id)
+            row["instances"] += 1
+    return table
+
+
+def composite_supports(
+    episodes: Sequence[Episode] = TRAINING_EPISODES,
+) -> dict[str, dict]:
+    """Distinct-episode support counts for every lifted two-step composite."""
+    table: dict[str, dict] = {}
+    for ep in episodes:
+        for a, b in zip(ep.proof, ep.proof[1:]):
+            sch = lift_two_step(a, b)
+            if sch is None:
+                continue
+            row = table.setdefault(sch.schema_id, {
+                "schema": sch, "episodes": set(), "instances": 0})
+            row["episodes"].add(ep.episode_id)
+            row["instances"] += 1
+    return table
+
+
+@dataclass(frozen=True)
+class Certification:
+    """What the generator proves about its own draw before anything is run."""
+
+    flat_fragments_distinct: bool
+    flat_fragment_count: int
+    flat_fragment_max_multiplicity: int
+    step_schema_recurs: bool
+    recurring_schema_id: str
+    recurring_schema_episodes: int
+    recurring_schema_instances: int
+    composite_schema_episodes: int
+    essential_composite_exists: bool
+    essential_rows: tuple[dict, ...]
+    tautological_control_exists: bool
+    control_rows: tuple[dict, ...]
+    tautology_count: int
+    bypass_count: int
+    fresh_disjoint_from_training: bool
+    all_certified: bool
+    failures: tuple[str, ...]
+
+    def as_dict(self) -> dict:
+        return {
+            "flat_fragments_distinct": self.flat_fragments_distinct,
+            "flat_fragment_count": self.flat_fragment_count,
+            "flat_fragment_max_multiplicity": self.flat_fragment_max_multiplicity,
+            "step_schema_recurs": self.step_schema_recurs,
+            "recurring_schema_id": self.recurring_schema_id,
+            "recurring_schema_episodes": self.recurring_schema_episodes,
+            "recurring_schema_instances": self.recurring_schema_instances,
+            "composite_schema_episodes": self.composite_schema_episodes,
+            "essential_composite_exists": self.essential_composite_exists,
+            "essential_rows": list(self.essential_rows),
+            "tautological_control_exists": self.tautological_control_exists,
+            "control_rows": list(self.control_rows),
+            "tautology_count": self.tautology_count,
+            "bypass_count": self.bypass_count,
+            "fresh_disjoint_from_training": self.fresh_disjoint_from_training,
+            "all_certified": self.all_certified,
+            "failures": list(self.failures),
+        }
+
+
+def certify_draw(
+    episodes: Sequence[Episode] = TRAINING_EPISODES,
+    essential: Sequence[Task] = ESSENTIAL_COMPOSITE_TASKS,
+    control: Sequence[Task] = TAUTOLOGICAL_CONTROL_TASKS,
+    reference: Schema = CHAIN2_SCHEMA,
+) -> Certification:
+    """Certify the four properties the design needs, by computation.
+
+    1. every flat surface fragment the flat miner would accept occurs at most
+       once, so the flat miner finds no repeated support;
+    2. a lifted step schema recurs across at least
+       ``REPEATED_SUPPORT_THRESHOLD`` distinct training episodes, and so does
+       the two-step composite;
+    3. ESSENTIAL-COMPOSITE fresh tasks exist: non-tautological targets on which
+       removing the composite schema STRICTLY INCREASES the minimal derivation
+       depth;
+    4. TAUTOLOGICAL / BYPASSABLE fresh tasks exist: targets the same schema
+       matches, which are tautologies or admit a bypass at equal depth.
+
+    Nothing here is hoped for.  If a property fails, ``all_certified`` is False
+    and ``failures`` names it; the registered response is to report that as the
+    finding, never to relax the property.
+    """
+    failures: list[str] = []
+
+    # (1) flat surface fragments
+    frags: list[tuple] = []
+    for ep in episodes:
+        frags.extend(checked_flat_fragments(ep))
+    counts: dict[tuple, int] = {}
+    for f in frags:
+        counts[f] = counts.get(f, 0) + 1
+    max_mult = max(counts.values()) if counts else 0
+    flat_distinct = max_mult <= 1
+    if not flat_distinct:
+        failures.append("flat surface fragments are not pairwise distinct")
+    if not frags:
+        failures.append("no flat fragment is even accepted; the ablation is vacuous")
+
+    # (2) recurrence at the step level
+    steps = step_schema_supports(episodes)
+    best_id, best = "", {"episodes": set(), "instances": 0}
+    for sid, row in steps.items():
+        if len(row["episodes"]) > len(best["episodes"]):
+            best_id, best = sid, row
+    recurs = len(best["episodes"]) >= REPEATED_SUPPORT_THRESHOLD
+    if not recurs:
+        failures.append("no step schema recurs across the required episode count")
+    comps = composite_supports(episodes)
+    comp_eps = max((len(r["episodes"]) for r in comps.values()), default=0)
+    if comp_eps < REPEATED_SUPPORT_THRESHOLD:
+        failures.append("no two-step composite recurs across the required episodes")
+
+    # (3) essential composite opportunity
+    essential_rows: list[dict] = []
+    for t in essential:
+        without = min_derivation_length(t.premises, t.query, ())
+        with_ = min_derivation_length(t.premises, t.query, (reference,))
+        matched = bool(match_schema(reference, sorted(t.premises)))
+        ok = (
+            not is_tautology(t.query)
+            and matched
+            and without is not None
+            and with_ is not None
+            and without > with_
+        )
+        essential_rows.append({
+            "task_id": t.task_id, "role": t.role, "matched": matched,
+            "tautology": is_tautology(t.query),
+            "min_depth_without": without, "min_depth_with": with_,
+            "strictly_shorter": ok,
+        })
+        if not ok:
+            failures.append(f"{t.task_id} declared essential-composite but is not")
+    essential_exists = bool(essential_rows) and all(
+        r["strictly_shorter"] for r in essential_rows)
+
+    # (4) tautological / bypassable control
+    control_rows: list[dict] = []
+    tauto = 0
+    bypass = 0
+    for t in control:
+        without = min_derivation_length(t.premises, t.query, ())
+        with_ = min_derivation_length(t.premises, t.query, (reference,))
+        matched = bool(match_schema(reference, sorted(t.premises)))
+        taut = is_tautology(t.query)
+        equal = without == with_
+        ok = matched and (taut or equal)
+        if taut:
+            tauto += 1
+        elif equal:
+            bypass += 1
+        control_rows.append({
+            "task_id": t.task_id, "role": t.role, "matched": matched,
+            "tautology": taut, "min_depth_without": without,
+            "min_depth_with": with_, "no_opportunity": ok,
+        })
+        if not ok:
+            failures.append(f"{t.task_id} declared a control but has an opportunity")
+    control_exists = (
+        bool(control_rows)
+        and all(r["no_opportunity"] for r in control_rows)
+        and tauto > 0
+        and bypass > 0
+    )
+    if tauto == 0:
+        failures.append("no tautological target in the control set")
+    if bypass == 0:
+        failures.append("no equal-cost bypass in the control set")
+
+    # freshness
+    training_forms = {flat_fragment(ep.premises, ep.query) for ep in episodes}
+    fresh_ok = all(
+        flat_fragment(t.premises, t.query) not in training_forms
+        for t in tuple(essential) + tuple(control))
+    if not fresh_ok:
+        failures.append("a fresh task duplicates a training episode")
+
+    return Certification(
+        flat_fragments_distinct=flat_distinct,
+        flat_fragment_count=len(frags),
+        flat_fragment_max_multiplicity=max_mult,
+        step_schema_recurs=recurs,
+        recurring_schema_id=best_id,
+        recurring_schema_episodes=len(best["episodes"]),
+        recurring_schema_instances=best["instances"],
+        composite_schema_episodes=comp_eps,
+        essential_composite_exists=essential_exists,
+        essential_rows=tuple(essential_rows),
+        tautological_control_exists=control_exists,
+        control_rows=tuple(control_rows),
+        tautology_count=tauto,
+        bypass_count=bypass,
+        fresh_disjoint_from_training=fresh_ok,
+        all_certified=not failures,
+        failures=tuple(failures),
+    )
+
+
+# --------------------------------------------------------------------------
+# pre-registration (CL-D4)
+# --------------------------------------------------------------------------
+
+LIBDISC_PLAN = {
+    "study_id": "CL-LIBDISC-E5-V1",
+    "question": (
+        "Two negatives have been reported in this programme and they are "
+        "different failures: NO_METHOD_ACQUIRED, where discovery happened at "
+        "the wrong level of abstraction, and NO_DEVELOPMENT_BENEFIT, where "
+        "discovery succeeded and no task demanded what was discovered. Run the "
+        "SAME discovered schema against a fresh-task set that has an essential "
+        "composite opportunity and one that does not, and report which term is "
+        "doing the work."
+    ),
+    "domain": {
+        "logic": "propositional signed clauses",
+        "predicates": N_PREDS,
+        "assignments": N_ASSIGNMENTS,
+        "max_clause_width": MAX_CLAUSE_WIDTH,
+        "every(A,B)": "(not A or B)",
+        "no(A,B)": "(not A or not B)",
+        "checker": "exhaustive assignment enumeration, CL-D1(c)",
+    },
+    "repeated_support_threshold": REPEATED_SUPPORT_THRESHOLD,
+    "threshold_is_frozen": (
+        "The >=2 gate is the registered discovery criterion of the diagnosed "
+        "learner and is not lowered here under any circumstances. "
+        "ASSAY-ACQUISITION-DIAGNOSIS.md: 'Keep >=2 unchanged in the first "
+        "revival to isolate representation.'"
+    ),
+    "semantic_weakening": (
+        "NOT IMPLEMENTED. CLAUSE-REVIVAL-RESULT.md considered accepting "
+        "redundant sound substitutions and refused: 'Counting them as learned "
+        "benefit would be misleading.' Redundant-but-sound matches are counted "
+        "in their own column."
+    ),
+    "max_search_depth": MAX_SEARCH_DEPTH,
+    "arms": [
+        "libdisc_discovery_arm", "flat_mining_ablation",
+        "anti_unification_parent", "stitch_parent", "dreamcoder_parent",
+        "symbolic_compact_parent", "symbolic_incremental_memory_parent",
+        "no_library_baseline", "reset_arm",
+    ],
+    "fresh_task_sets": ["essential_composite", "tautological_control"],
+    "controls": [
+        "false_common_pattern", "surface_similar_different_polarity",
+        "singleton_no_generalisation", "harmful_abstraction", "scope_revision",
+    ],
+    "leakage": {
+        "learner_visible_episode_fields": list(LEARNER_VISIBLE_EPISODE_FIELDS),
+        "learner_visible_task_fields": list(LEARNER_VISIBLE_TASK_FIELDS),
+        "evaluator_only_fields": list(EVALUATOR_ONLY_FIELDS),
+        "adopted_from": (
+            "codex/ocm-evolvability-independent-20260908:"
+            "research/evolvability-independent/PROTECTED_PROTOCOL_V3.md card E150-A"
+        ),
+    },
+    "custody": "CL-T1: acquiring process serializes and EXITS; a different PID reads it",
+    "endpoints": {
+        "primary": "fresh-task search work on each set, reported separately",
+        "secondary": [
+            "schemas discovered and admitted per arm",
+            "flat ablation pool size",
+            "harmful-transfer rate S5",
+            "redundant-but-sound matches, separate column",
+        ],
+    },
+}
+
+COMMITMENT_BODY = digest_of(LIBDISC_PLAN)
+
+
+def schema_from_body(body: dict) -> Schema:
+    """Rebuild a schema from its serialized body.
+
+    Used across the custody boundary: the acquiring process writes bodies to
+    disk and exits, and the reading process reconstructs the objects from the
+    file and from nothing else.
+    """
+    return Schema(
+        premises=tuple(
+            Pattern(tuple(sorted((v, bool(s)) for v, s in p)))
+            for p in body["premises"]),
+        conclusion=Pattern(tuple(sorted((v, bool(s)) for v, s in body["conclusion"]))),
+        pivot_vars=tuple(body["pivot_vars"]),
+        step_count=int(body["step_count"]),
+        origin=str(body["origin"]),
+    )
+
+
+def _negative_task(name: str, premises: Sequence[Clause], query: Clause,
+                   role: str) -> Task:
+    prem = tuple(premises)
+    if entails(prem, query):
+        raise ValueError(f"{name}: query IS entailed; this is not a trap")
+    return Task(name, prem, query, role)
+
+
+#: Tasks whose query is NOT entailed, chosen so that a polarity-blind or
+#: over-general macro would fire on them.  Any arm that reports these solved has
+#: produced a wrong answer, which is endpoint S5 (harmful transfer) in its
+#: sharpest form.  The sign-preserving matcher does not fire here; the
+#: ``polarity_blind_refutations`` control measures what a sign-blind one would
+#: have done.
+UNSOUND_TRAP_TASKS: tuple[Task, ...] = (
+    _negative_task("X1", [C(M(0), L(1)), C(L(1), L(2)), C(M(2), L(3))],
+                   C(M(0), L(3)), "unsound_trap"),
+    _negative_task("X2", [C(M(0), L(1)), C(M(1), L(2)), C(M(2), L(3))],
+                   C(M(3), L(0)), "unsound_trap"),
+    _negative_task("X3", [C(M(0), M(1)), C(M(1), L(2)), C(M(2), L(3)),
+                          C(L(6), L(7))], C(M(0), L(3)), "unsound_trap"),
+)

@@ -220,6 +220,17 @@ SUPPORT_PLAN: dict[str, Any] = {
         "not drawn against the discovery budget, because an arm that discovers nothing is "
         "not thereby forbidden from serving a revocation."
     ),
+    "budget_curve_points": [4, 8, 12, 24, 48, 63],
+    "budget_curve_disclosure": (
+        "THE REGISTERED BUDGET IS 24 AND ITS ROW IS REPORTED UNCHANGED. The curve over "
+        "the other points was added after a pilot run at the registered budget showed the "
+        "budget to be BINDING for the adaptive arm on two of eleven archetypes. It is "
+        "added because the declared residual coordinate is 'interventions spent to reach "
+        "a given support-family precision and recall', and a single budget reports one "
+        "point on that curve rather than the curve. The registered budget was NOT changed "
+        "in response to the pilot, and this note exists so that the addition is visible "
+        "rather than silent."
+    ),
     "budget_exempt": {
         "exhaustive_powerset_parent": (
             "a truncated exhaustive enumeration is a different arm, not a correctness "

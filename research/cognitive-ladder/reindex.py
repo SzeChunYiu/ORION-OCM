@@ -35,6 +35,7 @@ is void, and a test asserts it on every scale of the sweep.
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from dataclasses import dataclass
 
 from scaling import TouchLedger
@@ -173,23 +174,43 @@ class EquivalenceCheck:
 # --------------------------------------------------------------------------
 
 #: ``subspace_arms.run_lifetime`` resolves an arm by id through its ``ARMS``
-#: map.  Registering here ADDS an entry; it replaces nothing, so every existing
-#: arm behaves exactly as it did and the committed E1 receipt stays reproducible.
+#: map, so the arm must be reachable there while a sweep runs.  Registration is
+#: therefore **scoped**: it adds the entry, yields, and removes it again.
+#:
+#: An earlier version registered permanently at import.  That mutated global
+#: state another suite asserts on -- ``test_subspace`` checks that exactly one
+#: registered arm carries the MACHINE role, and this arm is a second one -- so
+#: two of its tests failed whenever they ran after this module was imported.
+#: The arm was innocent; the permanence was the defect.
 INCREMENTAL_ARM_ID = "incremental_discovering_arm"
 
+EXPECTED_BASELINE = frozenset({
+    "discovering_arm", "fixed_feature_arm", "oracle_key_parent",
+    "exact_scan_parent", "signature_hash_parent", "nearest_neighbour_parent",
+})
 
-def register() -> None:
+
+@contextmanager
+def registered():
+    """Add the incremental arm for the duration of a sweep, then remove it.
+
+    Refuses to register against an unexpected baseline rather than silently
+    comparing against something other than the committed E1 arm set.
+    """
     import subspace_arms as SA
 
-    if INCREMENTAL_ARM_ID in SA.ARMS:
+    if INCREMENTAL_ARM_ID in SA.ARMS:      # already inside an outer scope
+        yield
         return
-    if set(SA.ARMS) != {
-        "discovering_arm", "fixed_feature_arm", "oracle_key_parent",
-        "exact_scan_parent", "signature_hash_parent", "nearest_neighbour_parent",
-    }:
+    if set(SA.ARMS) != EXPECTED_BASELINE:
         raise RuntimeError(
             "the E1 arm registry changed; refusing to register against an unexpected "
             "baseline rather than silently comparing against something else"
         )
     SA.ARMS[INCREMENTAL_ARM_ID] = IncrementalDiscoveringArm
     SA.ARM_ROLES[INCREMENTAL_ARM_ID] = IncrementalDiscoveringArm.role
+    try:
+        yield
+    finally:
+        SA.ARMS.pop(INCREMENTAL_ARM_ID, None)
+        SA.ARM_ROLES.pop(INCREMENTAL_ARM_ID, None)
