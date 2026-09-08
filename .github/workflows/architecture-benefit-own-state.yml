@@ -1,0 +1,51 @@
+name: Architecture benefit own-state
+
+on:
+  pull_request:
+    paths:
+      - 'research/architecture-benefit-own-state-v1/**'
+      - '.github/workflows/architecture-benefit-own-state.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/architecture-benefit-own-state-v1/**'
+      - '.github/workflows/architecture-benefit-own-state.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-contract-and-native-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/architecture-benefit-own-state-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Exact finite controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/net-benefit-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/architecture-benefit-own-state-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/architecture-benefit-own-state-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Exposed native method-lane pilot
+        run: |
+          out="$RUNNER_TEMP/net-benefit-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/architecture-benefit-own-state-v1/native_probe.py \
+            --out "$out/native.json" --repetitions 3
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: architecture-benefit-own-state
+          path: '${{ runner.temp }}/net-benefit-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
