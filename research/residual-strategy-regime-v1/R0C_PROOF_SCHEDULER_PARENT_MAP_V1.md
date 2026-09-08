@@ -1,6 +1,6 @@
 # R0C proof scheduler parent map V1
 
-**Status:** literature-saturated parent map / no new proof result / no ML authorization.
+**Status:** literature-saturated parent map + merged-donor oracle-bound audit / no ML authorization.
 
 The layered-vs-indexed observation from the native proof lane is a legitimate
 future strategy-selection population only after it is expanded beyond the tiny
@@ -160,3 +160,61 @@ PROOF_SCHEDULER_RESIDUAL_ALGORITHM_SELECTION_R0C
 Only the final terminal opens learned algorithm selection.  It still does not
 make a neural network authoritative for proof acceptance; the exact checker
 remains the authority boundary.
+
+## 8. Merged-donor residual checkpoint
+
+`r0c_scheduler_residual_audit.py` now source-custodies the merged native donor
+
+```text
+research/native-indexed-deduction-evidence-v1/SUMMARY.json
+Git blob fb5c1ecdcccf68023e328cd6b59309fb0262f407
+```
+
+and recomputes the strongest deliberately unfair routing upper bound available at
+that scope.  The donor has only four authored cells:
+
+```text
+positive/false × baseline/learn
+```
+
+with layered and indexed exact schedulers run on every cell.  Scheduler sign does
+vary across those cells, but `positive/false` is an eventual outcome label and is
+**not** a legal pre-search selector feature.  The audit therefore gives the
+oracle full cell identity for free only to upper-bound possible value.
+
+Equal-weight authored-cell totals are:
+
+```text
+whole-process wall seconds
+  static layered     18.513788321
+  static indexed     18.315104110   <- best static
+  free-cell oracle   18.262926388
+  oracle residual     0.2848890276 %
+
+search seconds only
+  static layered      1.426318450
+  static indexed      1.282425732   <- best static
+  free-cell oracle    1.243620865
+  oracle residual     3.0258958497 %
+```
+
+Thus the local scheduler choice is real, but cold whole-process costs compress the
+best possible routing gain by more than an order of magnitude.  Even a selector
+handed the protected cell identity for free can improve the best static whole
+process by less than `0.285%` on this donor, before feature extraction, scheduler
+inference, training, update or lifecycle cost.
+
+This does **not** establish `STATIC_OR_PORTFOLIO_PARENT_SUFFICIENT_R0C` for a proof
+ecology.  Four authored cells are not a selection population, the equal weighting
+is not a demand model, and the donor itself is one fixed-order observation per
+cell rather than a statistical speed study.  Current audit terminal is therefore:
+
+```text
+R0C_DONOR_ORACLE_BOUND_ONLY_NO_SELECTION_POPULATION
+```
+
+The next useful R0C experiment is not a classifier on these four cells.  Expand
+only after prospectively freezing a materially larger theorem population and a
+lifecycle regime in which scheduler-local savings can plausibly survive
+compilation/index/checker overhead.  That population must obey the legal-feature
+boundary above before any outcome is seen.
