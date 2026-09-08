@@ -1,0 +1,11 @@
+--- frozen/syntax_memo.py
++++ successor/syntax_memo.py
+@@ -52,7 +52,7 @@
+             if replayed is not None:result["structural_replay"]=replayed
+             self.work.checkpoint()
+         except Uncacheable as exc:
+-            result=exc.result
++            result={**exc.result, "unsupported_contracts":json.loads(self._unsupported)}
+             self.work.add("cache_uncacheable_results")
+         except (SyntaxUnknown,ValueError,KeyError,TypeError,MemoryError) as exc:
+             result=self._unknown(type(exc).__name__+": "+str(exc))

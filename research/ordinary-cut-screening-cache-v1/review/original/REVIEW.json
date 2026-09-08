@@ -1,0 +1,154 @@
+{
+  "accounting_clarification": {
+    "anchor": "COSTS.md:10-11; source/syntax_memo.py:45-70",
+    "correct_interpretation": "It counts labels in successfully returned proof lists. A list can be materialized then discarded after the post-checkpoint; those labels are excluded from this return counter, while that copy work remains in request/management wall time.",
+    "effect": "Documentation interpretation only; no semantic cache defect, production edit or control replay requested.",
+    "original_wording": "cache_returned_proof_labels counts fresh proof-list materializations",
+    "required_publication_wording": "Use successfully returned proof labels; do not describe this as a count of every materialization.",
+    "retained_witness": "test_deadline_after_hit_refuses_without_changing_entry makes three proof materializations but two successful returns, retaining6 returned labels. The post-miss-refusal control has no returned-label counter despite a completed3-label cached proof."
+  },
+  "bindings": {
+    "bytes": 9944,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/independent-source-review-01/BINDINGS.json",
+    "sha256": "9bffa2589ff3ee7ac36b3cf2d0daa54b7be0f984c3675cce56a8066e93dfece6"
+  },
+  "findings": [
+    {
+      "affected_control": "Mutate the first UNKNOWN response's unsupported_contracts, then repeat; engine unsupported context must remain unchanged, both responses remain UNKNOWN, and cache currsize stays zero.",
+      "by_hand_witness": [
+        "Create the same incomplete authored grammar used by test_incomplete_unknown_not_cached.",
+        "r = context.prove('wff', ['ABSENT']) is UNKNOWN and is not cached.",
+        "r['unsupported_contracts'].clear() clears the engine's compiled unsupported list through that alias.",
+        "Repeating the identical query reads grammar_coverage_complete=True, so its nonmembership can be returned and cached as complete."
+      ],
+      "consequence": "Mutation of returned UNKNOWN metadata changes fixed-context grammar coverage and can turn unsupported nonmembership into a complete negative. This does not require direct mutation of private engine/cache state.",
+      "evidence": "SyntaxEngine.prove assigns result['unsupported_contracts'] directly from self.compiled['unsupported']. On an uncacheable UNKNOWN, Context.prove returns exc.result without the fresh metadata copy used by its normal and _unknown paths.",
+      "execution": "Source and by-hand reasoning only. No witness/control/parser/screen executed by reviewer. Existing twelve controls cover positive metadata copy-out, not this UNKNOWN branch.",
+      "id": "UNKNOWN-METADATA-ALIAS-01",
+      "severity": "material helper-contract defect; no actual retained outcome implicated",
+      "smallest_repair": "Detach unsupported_contracts on the Uncacheable response too, using the frozen _unsupported JSON snapshot or an equivalent fresh copy. Preserve status/proof/cost and UNKNOWN noncaching semantics.",
+      "source": "source/syntax_memo.py Context.prove except Uncacheable; unchanged source/syntax_engine.py SyntaxEngine.prove result initialization"
+    }
+  ],
+  "identities": {
+    "adapter": {
+      "bytes": 3055,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/source/syntax_adapter.py",
+      "sha256": "048a0bdc631822ac7e7ff8350e89105f09546046d627b9045446ddd3d2a4a0a6"
+    },
+    "files": {
+      "bytes": 4751,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/FILES.json",
+      "sha256": "855abcd34b0c82b28e959513679802340f90ec4c2c84a49a87a30839f863a98d"
+    },
+    "freeze": {
+      "bytes": 6223,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/SOURCE-FREEZE.json",
+      "sha256": "b03a1e4047fd5da6c853cfc54161870b7a9315b2d9fe581f67aea13d26111405"
+    },
+    "future_run": {
+      "bytes": 3223,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/FUTURE-RUN.json",
+      "sha256": "0ecba8eeab4914aee2f42126a163ee8377522846f47e6dabb650ab41a1460629"
+    },
+    "memo": {
+      "bytes": 5586,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/source/syntax_memo.py",
+      "sha256": "04ca6119e1e524e2a9418fd656cda5ea44d4ea9260c489a38dccec8a2fbf5dc5"
+    },
+    "qualification": {
+      "bytes": 4519,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/QUALIFICATION.json",
+      "sha256": "d0cfe576d36d6f25caf47207f0807153cd9701cd35d2838f263bd2143429da66"
+    },
+    "request": {
+      "bytes": 1248,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/SOURCE-REVIEW-REQUEST.json",
+      "sha256": "f28d3f0122b8114120314f4f1c46b439900c2442a620437116917acecbe5c79a"
+    }
+  },
+  "integration_and_limits": [
+    "Driver integration acceptance is pending the single UNKNOWN metadata copy-out correction and its affected retained control. No broad replay or storage redesign is requested.",
+    "Preserve every original76 occurrence and complete4323 P1, original2M matcher states/60-second shared window,512-token/4096-proof-label boundaries and180-second outer containment. FUTURE-RUN binds both prior attempts' complete result/outer/caller records.",
+    "The next concrete source map must include syntax_memo.py and bind the new adapter; old ten-file request/observer counts cannot be copied unchanged. New observer/output binding must retain both prior cost histories and expose cache reports.",
+    "The namespace is fixed and single-threaded within one finite attempt. Runtime mutation of internal engines/cache/context state, cross-process warm-state reuse and concurrent counters are outside this contract.",
+    "Unbounded functools entries persist until context/process release. Logical key/proof/snapshot lengths are not resident object-byte totals; process RSS and driver timing cover additional overhead. No unbounded-service storage policy is qualified.",
+    "Miss UNKNOWN/resource failures remain unresolved; cached positives are not native theorem admissions. The affected authored controls do not establish an actual speedup, full retained-population completion, useful learning or novelty."
+  ],
+  "primary_source_assumptions": [
+    {
+      "read_scope": "cache/lru_cache argument hashing, retained references, hit/miss/current-size APIs and reference reuse. The installed3.11.14 fallback source is separately pinned; retained controls identify the actual accelerated wrapper. Cached mutable results require explicit copy-out.",
+      "url": "https://docs.python.org/3.11/library/functools.html"
+    },
+    {
+      "read_scope": "Lark cache concerns LALR grammar analysis. It is not an Earley syntax-query cache; unchanged Earley parsing remains the computation on misses.",
+      "url": "https://lark-parser.readthedocs.io/en/stable/classes.html#lark.Lark"
+    }
+  ],
+  "readback": {
+    "adapter_diff_matches_retained_preimage_exactly": true,
+    "all_eight_match_predecessor_bytes": true,
+    "all_imports_reconcile": true,
+    "all_manifest_bytes_match": true,
+    "all_pin_bytes_match": true,
+    "file_backed_imported_modules": 126,
+    "five_historical_pre_post_current_pins_match": true,
+    "future_six_cost_history_and_P1_proposal_descriptors_match": true,
+    "manifest_entries": 33,
+    "pre_post_current_pins": 799,
+    "unchanged_source_files": [
+      "contract_grammar.py",
+      "matcher.py",
+      "proof_replay.py",
+      "retained_inputs.py",
+      "screen.py",
+      "screen_work.py",
+      "syntax_engine.py",
+      "typed_context.py"
+    ]
+  },
+  "remaining_source_blockers": [
+    "UNKNOWN-METADATA-ALIAS-01"
+  ],
+  "retained_controls": {
+    "actual_cwd": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1",
+    "actual_python": "/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python3.11",
+    "controls": {
+      "bytes": 56803,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/qualification-01/CONTROLS.json",
+      "sha256": "471f3f674b28b3180b0eed4dd0e757ba575defe01b4306047515f2867c94c035"
+    },
+    "costs": {
+      "child_peak_rss_kib": 41364,
+      "child_system_s": 0.008128999999999999,
+      "child_user_s": 0.121942,
+      "child_window_wall_s": 0.13292637298582122,
+      "timing_scope": "Popen through log closure/wait4; source/import custody and observer setup/serialization excluded."
+    },
+    "coverage": "Positive and complete-negative hits; incomplete/replay UNKNOWN recomputation; input bypass; pre/post-hit deadline; immutable library/context/type/token isolation; proof/metadata copy-out; ordinary-screen equivalence; actual functools._lru_cache_wrapper and retained miss cost on post-refusal.",
+    "evidence": "All twelve retained test records pass. Observed module paths include the new memo/adapter, pinned old adapter comparator, Lark and Python files;126 imports reconcile with799 equal pre/post/current pins. No earlier suite was replayed.",
+    "exit_code": 0,
+    "parent_pid": 2329275,
+    "pid": 2329276,
+    "process": {
+      "bytes": 1139,
+      "path": "/home/billy/orion-director-work/20260908/ordinary-cut-screening-cache-successor-v1/qualification-01/PROCESS.json",
+      "sha256": "debf6be3cb43faf7599623d056f4044c870f35b476805cc6bcb620d8906f15b1"
+    },
+    "reviewer_execution": false,
+    "tests": 12
+  },
+  "schema": "ordinary.syntax-cache-independent-source-review.v1",
+  "scope": "Exact frozen syntax-cache prototype, changed adapter, retained affected controls and history/source byte bindings. No reviewed-code imports, control replay, retained-data parser/screen/native/extraction/learner execution or gate creation.",
+  "source_decisions": [
+    "Each SyntaxPool serializes the complete ordered library to a detached canonical JSON snapshot and supplies a recursively read-only matcher view. Each exact parameter-list descriptor creates one persistent Context from fresh decoded inputs. Context and pool caches do not share entries; the namespace digest identifies rather than implements isolation.",
+    "The private functools cache key is the requested syntax type and exact token tuple. Strict str/list/token validation excludes typed-equality collisions and preserves token boundaries. Parameter order/types and library differences remain isolated by distinct context callables.",
+    "Cacheable returns are structurally replayed SYNTAX_PROVED values or NOT_DERIVABLE_REGISTERED_GRAMMAR with complete query coverage. Other outcomes raise Uncacheable, a SyntaxUnknown subtype, before cache return. ValueError/resource failures are converted to UNKNOWN; the matcher receives ValueError only for certified nonmembership.",
+    "Positive syntax witnesses under incomplete grammar retain false coverage while remaining reusable. Cached proof payloads are tuples; each successful response constructs a fresh proof list and fresh unsupported-contract metadata.",
+    "The shared deadline is checked before lookup and after copy-out, including hits. A post-computation refusal may leave the completed logical result in cache but returns UNKNOWN with no proof. This does not cache UNKNOWN. Prelookup refusal performs no cache lookup.",
+    "Only cache misses call SyntaxEngine and advance parse duration/counters. Hit results report no historic parse duration. Miss computation, request and management timers are nested attribution; cold library/grammar setup, retained key/proof lengths and cache_info counts are exposed.",
+    "Readonly contract tuples preserve unchanged matcher's indexed pattern traversal and list-valued ground substitutions. The affected control compares exact ordinary screen output to the retained adapter and repeats the screen without extra parsing. No full-parent semantic run is claimed."
+  ],
+  "status": "CORRECTION_REQUIRED_UNKNOWN_METADATA_COPY_OUT",
+  "unissued_candidate_history": "history/UNISSUED-CANDIDATE-01-* preserves the just-written but unissued acceptance candidate; this corrected review is current."
+}

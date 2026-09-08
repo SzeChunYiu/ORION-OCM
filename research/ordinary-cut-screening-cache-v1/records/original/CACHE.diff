@@ -1,0 +1,89 @@
+--- reviewed/syntax_adapter.py
++++ memoized/syntax_adapter.py
+@@ -1,11 +1,26 @@
+-"""One cold grammar per exact canonical parameter descriptor; no syntax-result cache."""
+-import copy,json,time
++"""Detached immutable P1 namespace, one grammar and exact-result cache per context."""
++import copy,hashlib,json,time
++from types import MappingProxyType
+ from syntax_engine import SyntaxEngine,SyntaxUnknown
++from syntax_memo import Context
++def readonly(value):
++    if type(value) is dict:return MappingProxyType({k:readonly(v) for k,v in value.items()})
++    if type(value) is list:return tuple(readonly(x) for x in value)
++    return value
+ class SyntaxPool:
+     def __init__(self,contracts,work):
+-        self.contracts=copy.deepcopy(contracts);self.work=work;self.contexts={}
+-        labels=[r["label"] for r in self.contracts]
++        started=time.perf_counter()
++        self.work=work;self.contexts={}
++        self._library=json.dumps(contracts,sort_keys=True,separators=(",",":"),allow_nan=False)
++        decoded=json.loads(self._library)
++        labels=[r["label"] for r in decoded]
+         if len(set(labels))!=len(labels):raise SyntaxUnknown("duplicate P1 labels")
++        self._contracts=readonly(decoded)
++        self.library_sha256=hashlib.sha256(self._library.encode()).hexdigest()
++        work.add("cache_library_snapshot_bytes",len(self._library.encode()))
++        work.add("cache_library_preparation_wall_s",time.perf_counter()-started)
++    @property
++    def contracts(self):return self._contracts
+     def context(self,parameters):
+         key=json.dumps(parameters,sort_keys=True,separators=(",",":"),allow_nan=False)
+         self.work.add("context_requests")
+@@ -13,13 +28,15 @@
+             self.work.checkpoint()
+             self.work.add("grammar_construction_attempts")
+             started=time.perf_counter()
+-            entry={"parameters":copy.deepcopy(parameters),"engine":None,"error":None}
++            entry={"parameters":json.loads(key),"engine":None,"context":None,"error":None}
+             self.contexts[key]=entry
+             try:
+-                entry["engine"]=SyntaxEngine(self.contracts,parameters)
++                entry["engine"]=SyntaxEngine(json.loads(self._library),json.loads(key))
+                 self.work.add("grammar_constructions_completed")
+                 for name in ("grammar_contracts_read","syntax_contracts","compiled_syntax_contracts"):
+                     self.work.add(name,entry["engine"].work[name])
++                entry["context"]=Context(entry["engine"],self.work,(self.library_sha256,key))
++                self.work.add("cache_context_key_bytes",len(key.encode()))
+                 self.work.checkpoint()
+             except SyntaxUnknown as exc:
+                 entry["error"]=str(exc)
+@@ -27,32 +44,11 @@
+                 self.work.add("grammar_construction_wall_s",time.perf_counter()-started)
+         entry=self.contexts[key]
+         if entry["error"] is not None:raise SyntaxUnknown(entry["error"])
+-        return Context(entry["engine"],self.work)
++        return entry["context"]
+     def report(self):
+-        return [{"parameters":v["parameters"],"error":v["error"],
++        return [{"parameters":copy.deepcopy(v["parameters"]),"error":v["error"],
+                  "grammar_coverage_complete":bool(v["engine"] and not v["engine"].compiled["unsupported"]),
+-                 "unsupported_contracts":v["engine"].compiled["unsupported"] if v["engine"] else None,
+-                 "engine_work":dict(v["engine"].work) if v["engine"] else None}
++                 "unsupported_contracts":copy.deepcopy(v["engine"].compiled["unsupported"]) if v["engine"] else None,
++                 "engine_work":dict(v["engine"].work) if v["engine"] else None,
++                 "syntax_cache":v["context"].report() if v["context"] else None}
+                 for v in self.contexts.values()]
+-class Context:
+-    def __init__(self,engine,work):self.engine=engine;self.work=work
+-    def prove(self,wanted,tokens):
+-        self.work.add("syntax_requests")
+-        before=dict(self.engine.work)
+-        result=self.engine.prove(wanted,tokens,self.work.checkpoint)
+-        for key in ("parse_calls","input_tokens","emitted_proof_labels"):
+-            self.work.add(key,self.engine.work[key]-before[key])
+-        self.work.add("parse_emit_wall_s",result["parse_emit_wall_s"])
+-        self.work.add("syntax_status_"+result["status"])
+-        return result
+-    def checker(self,wanted,tokens):
+-        result=self.prove(wanted,tokens)
+-        if result["status"]=="SYNTAX_PROVED":return True
+-        if result["status"]=="NOT_DERIVABLE_REGISTERED_GRAMMAR":
+-            raise ValueError("not a member of registered syntax grammar")
+-        raise SyntaxUnknown(result.get("reason","syntax UNKNOWN"))
+-    def proof(self,wanted,tokens):
+-        result=self.prove(wanted,tokens)
+-        if result["status"]!="SYNTAX_PROVED":
+-            raise SyntaxUnknown("syntax proof: "+result.get("reason",result["status"]))
+-        return result["proof"]

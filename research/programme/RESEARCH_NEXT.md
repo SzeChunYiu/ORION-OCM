@@ -61,9 +61,18 @@ of parsing/proof emission within 60.00 seconds of driver work. Cold grammar cons
 is 0.077 seconds. Reuse standard exact memoization for completed syntax decisions and
 immutable witnesses within a fixed library/context. Preserve UNKNOWN, check the deadline
 on hits, and charge cache storage/lookup and actual parse work without double-counting.
-Keep all proposals, full P1, original resources and every prior attempt cost. Qualify this
-small source change before a separately bound next screen; do not replay any consumed gate.
-It is conventional parent engineering, with no OCM novelty or speed claim yet.
+Keep all proposals, full P1, original resources and every prior attempt cost. The
+[cache source and metadata correction](../ordinary-cut-screening-cache-v1/CORE.md) are now
+qualified; minimal driver/observer integration and a separately bound next screen
+remain pending. Do not replay a consumed gate. This is conventional parent engineering,
+with no OCM novelty or actual cached-screen speed claim yet.
+
+The [parallel-lane source review](../ordinary-cut-cross-lane-review-v1/CORE.md) binds another
+76-row run reporting 44 aliases and 32 negatives. Its 366-second elapsed work and
+different runtime do not replace the fixed-time comparison. Its recursive parser
+can lose syntax refusals inside matching, leaving complete-negative claims unqualified;
+no particular recorded negative is shown false. Preserve that exploratory evidence
+and reuse its useful components without promoting those statuses to certified eligibility.
 
 The DV/hypothesis and other source-interface refusals remain separate later
 extensions. Fixing the screening grammar does not qualify those excluded roots.
@@ -86,6 +95,14 @@ open typed cut is not automatically the same candidate as a complete subterm.
 Qualify exact reconstruction, fresh theorem context and native checking before
 using compression proposals as acquired methods. No donor execution or new
 learning opportunity is established by the source review.
+
+The [consumer source reconciliation](../ordinary-lemma-consumer-source-review-v1/CORE.md)
+uses the official REFACTOR implementation to resolve a narrower local comparison:
+match assertion structure with typed argument subtrees, then check an actual
+replacement. Flattened whole-subtree equality and shared rule names cannot certify
+that parent's full reuse domain. The existing post-search learned-label count is a
+diagnostic, not an enforced search policy. Preserve earlier no-use results within
+their measured scope; qualify this small donor adaptation before another sweep.
 
 ## Test the scientific mechanism
 
