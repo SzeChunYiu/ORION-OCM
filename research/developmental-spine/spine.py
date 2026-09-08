@@ -175,7 +175,13 @@ EVIDENCE_MAP = {
              "bounds the claim, and a task-specific arm bounds how much of the gain is "
              "generality. It counts only for D0 to D1, and its own terminal is CONDITIONAL: "
              "the lineage wins at 1024 bits and loses at 256, so this transition is complete "
-             "in the sense of being MEASURED, not in the sense of being won everywhere."),
+             "in the sense of being MEASURED, not in the sense of being won everywhere. "
+             "SUPERSEDED ON THE CARRY CLAIM by DEV2_CONTINUAL_PARENTS_V1: a plain experience "
+             "replay parent, at the same budget on the same streams, beats the lineage at "
+             "five of six settings and by 1.57x at the loose budget where DEV-1 reported its "
+             "only positive. The transition is still measured and its four arms still ran; "
+             "what is withdrawn is the claim that carrying an ABSTRACTED store was the best "
+             "use of the budget."),
 }
 
 
@@ -269,6 +275,17 @@ def build() -> dict:
             "arm across those boundaries and no lane has run a RESET arm to compare it with. The "
             "existing receipts for them are stage evidence, not transition evidence, and that "
             "difference is the whole of #151."),
+        "the_one_complete_transition_lost_to_a_parent": (
+            "DEV-2 ran the continual-learning parents DEV-1 never ran. Experience replay -- "
+            "keep the answers, never abstract -- beats the lineage at the budget where DEV-1 "
+            "reported its win, and its margin GROWS with D1 length (1.19, 1.40, 1.57 at "
+            "lengths 250, 1000, 4000), which is the opposite shape from the decaying head "
+            "start DEV-1 described. The mechanism is priced rather than asserted: a held "
+            "rule licenses a scope check, so using one costs VERIFY + APPLY where a stored "
+            "answer costs LOOKUP, and a sweep over the check price flips the sign between 10 "
+            "and 25 with replay's own work constant throughout. DEV-1's comparison against "
+            "RESET_OCM stands and answers the question it asked; the carry advantage is "
+            "PARENT_SUFFICIENT."),
         "complete_does_not_mean_succeeded": (
             "A transition counts as complete when all four DEV-D8 arms ran and every required "
             "field has evidence behind it. D0 to D1 qualifies and its own terminal is "

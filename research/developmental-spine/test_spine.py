@@ -126,3 +126,14 @@ def test_complete_is_never_presented_as_a_score():
     assert "never 'succeeded'" in note or "never alone" in note
     assert "CONDITIONAL" in DOC["headline"], (
         "the headline must carry the one measured transition's actual terminal")
+
+
+def test_the_complete_transition_records_that_a_parent_beat_it():
+    """A spine that counts a transition complete must not hide that it lost."""
+    assert "the_one_complete_transition_lost_to_a_parent" in DOC
+    note = DOC["the_one_complete_transition_lost_to_a_parent"]
+    assert "PARENT_SUFFICIENT" in note
+    assert "opposite shape" in note
+    assert "DEV-1's comparison against RESET_OCM stands" in note
+    entry = spine.EVIDENCE_MAP["DEV1_D0_TO_D1_V1.json"]["note"]
+    assert "SUPERSEDED ON THE CARRY CLAIM" in entry

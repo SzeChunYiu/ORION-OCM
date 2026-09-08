@@ -171,19 +171,30 @@ A(parent="lazy re-derivation (retain nothing, recompute on demand)",
   prior_information_charged="none; it holds nothing",
   next_experiment="already run: E10 bounds the resource and the sign reverses"),
 
-A(parent="curriculum and transfer learning; catastrophic forgetting",
+A(parent="experience replay; elastic weight consolidation; replay-then-consolidate",
   field="continual learning",
-  receipt="../developmental-spine/... DEV1_D0_TO_D1_V1.json", verdict="OPEN",
-  teaches="Whether earlier training makes later training cheaper is their question, and the "
-          "risk side -- negative transfer -- is theirs too. DEV-1 reproduces both in one "
-          "run: the lineage wins at 1024 bits and loses at 256, where its carried structure "
-          "cannot be displaced by what the next stage needs.",
-  novelty_removed="Any claim that developmental carry-over is a new phenomenon.",
-  mapped_to="the beta interval; DEV-1 is the evidence that beta is a band and not a threshold",
-  prior_information_charged="the D0 store, earned by paying for every derivation in it",
-  next_experiment="OPEN because no continual-learning parent has been run against the "
-                  "lineage at all; a replay or EWC parent is the obvious next comparator "
-                  "and its absence is a hole in the DEV-1 result, not a detail"),
+  receipt="results/DEV2_CONTINUAL_PARENTS_V1.json, results/DEV1_D0_TO_D1_V1.json",
+  verdict="ADOPT",
+  teaches="Plain experience replay -- keep the answers, never abstract -- BEATS the lineage "
+          "at five of six settings and by 1.57x at the loose budget where DEV-1 reported "
+          "its only positive, and its margin GROWS with the length of the second stage "
+          "rather than decaying. The mechanism is priced, not asserted: a held rule "
+          "licenses a scope check, so using one costs VERIFY + APPLY where a stored answer "
+          "costs LOOKUP, and a sweep over the check price flips the sign between 10 and 25 "
+          "with replay's own work constant throughout. EWC is the weaker of the two ideas "
+          "here and loses to the lineage except where the store saturates.",
+  novelty_removed="Any claim that carrying an ABSTRACTED store across a developmental "
+                  "boundary is the best use of a bounded budget. This lane's only "
+                  "developmental positive is withdrawn; what survives is DEV-1's comparison "
+                  "against RESET_OCM, which answers a different and narrower question.",
+  mapped_to="the retention layer of the lineage, which should hold instances until the "
+            "cost of verifying an abstraction is known to be low",
+  prior_information_charged="the same D0 stream, the same bits, the same D1 stream; "
+                            "consolidation reads only the bounded buffer, not the lineage's "
+                            "uncharged record of everything it ever derived",
+  next_experiment="a world where verification is cheap or unnecessary, which is where the "
+                  "sweep says abstraction pays; that is a prediction this absorption makes "
+                  "and has not yet run"),
 ]
 
 
@@ -363,7 +374,8 @@ OUT_OF_SAMPLE_RESULT = dict(
     "One out-of-sample point. The law now has one prediction it could have failed and did "
     "not, which moves it from a rule fitted to ten rows to a rule with one surviving "
     "prediction, and no further. Two of its three coordinates have still never been varied "
-    "outside the experiments that defined them."),
+    "outside the experiments that defined them, and the law has since acquired a known "
+    "counterexample: see OBSERVED_REVISIONS."),
   adverse_finding_in_the_same_run=(
     "E12 also ran the unrun half of the deep root's falsifier and it went AGAINST the "
     "machine. eager_all_rules_parent -- which acquires every rule before seeing any demand, "
@@ -375,13 +387,60 @@ OUT_OF_SAMPLE_RESULT = dict(
     "receipt and out of the summary."),
 )
 
+#: Rows whose observed sign changed after a stronger parent was run. Kept OUTSIDE
+#: ``PLAN`` for the same reason ``OUT_OF_SAMPLE_RESULT`` is: ``OBSERVED`` is inside
+#: the commitment digest, and editing a row to match a later result would rewrite
+#: the record the prediction was frozen against.
+OBSERVED_REVISIONS = [
+dict(study="DEV-1 D0 to D1, 1024 bits",
+     was="MACHINE", now="PARENT_SUFFICIENT",
+     forced_by="results/DEV2_CONTINUAL_PARENTS_V1.json",
+     why=("The row was scored against RESET_OCM, which is the right control for 'did "
+          "carrying help' and the wrong parent for 'is carrying the best use of these "
+          "bits'. A plain experience-replay parent, never run when the row was written, "
+          "beats the lineage by up to 1.57x at this budget."),
+     consequence=("The law scores this row rho beta phi all true and predicts MACHINE. It "
+                  "is now WRONG on it. In-sample agreement is no longer total and the "
+                  "generated document reports both figures.")),
+dict(study="DEV-1 D0 to D1, 256 bits",
+     was="PARENT_SUFFICIENT", now="PARENT_SUFFICIENT",
+     forced_by="results/DEV2_CONTINUAL_PARENTS_V1.json",
+     why=("Unchanged in sign, but for a different reason than recorded: the row was "
+          "attributed to the store saturating, and DEV-2 shows EWC_PARENT beating the "
+          "lineage at the shortest D1 there, so protection helps in exactly the cell the "
+          "saturation story said it should hurt."),
+     consequence="No change to the law's agreement; the stated mechanism is less certain."),
+]
+
+#: The quantity the counterexample points at. Recorded as a CANDIDATE and
+#: deliberately NOT added to ``predict``: a law that grows a coordinate every time
+#: it is wrong is not a law, and the honest state is a rule with a known
+#: counterexample rather than a rule with four coordinates and no failures.
+CANDIDATE_MISSING_QUANTITY = (
+    "The USE COST of an acquired object relative to the instance it replaces. All three "
+    "coordinates are about acquisition -- is it demanded, is the economized resource scarce, "
+    "does its evidence compose -- and none is about what it costs to invoke the thing once "
+    "held. DEV-2 prices that directly: at a free scope check the lineage does 0.66 of "
+    "replay's work and at the registered price 1.40, on identical worlds, with replay's own "
+    "work unchanged. Adding a fourth coordinate would restore a perfect in-sample fit and "
+    "would mean nothing. The test it implies instead is a world where verification is cheap "
+    "or unnecessary, where this candidate predicts the lineage wins and the current "
+    "three-coordinate law predicts nothing different."
+)
+
 LAW_STATUS_AFTER_THE_TEST = (
     "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is "
     "left exactly as written, because it is inside the commitment digest and editing it "
     "would rewrite the prediction after seeing the result. What changed is only this: the "
     "prediction was run and did not fail. That is one point. It is not a validated law, the "
     "in-sample agreement is still worth nothing, and the run that confirmed the prediction "
-    "also refuted the argument that motivated it."
+    "also refuted the argument that motivated it. Since then the law has picked up a "
+    "COUNTEREXAMPLE from a different direction: running the continual-learning parents "
+    "against DEV-1 turned one of the rows it was fitted to from MACHINE into "
+    "PARENT_SUFFICIENT, so revised agreement is 9 of 10 rather than 10 of 10. The candidate "
+    "missing quantity is named in CANDIDATE_MISSING_QUANTITY and is deliberately NOT added "
+    "to the rule. A conjecture with one surviving prediction and one known failure is a "
+    "more honest object than a conjecture with four coordinates and none."
 )
 
 
@@ -406,8 +465,25 @@ def check_in_sample() -> list[dict]:
     return out
 
 
+def check_after_revision() -> list[dict]:
+    """The in-sample table with later parents taken into account.
+
+    ``OBSERVED`` stays frozen; this applies the revisions on top of it, so the
+    record of what the law was fitted to and the record of what is now true are
+    both available and neither overwrites the other.
+    """
+    fix = {r["study"]: r["now"] for r in OBSERVED_REVISIONS}
+    out = []
+    for row in check_in_sample():
+        observed = fix.get(row["study"], row["observed"])
+        out.append(dict(row, observed=observed, revised=row["study"] in fix,
+                        agrees=row["predicted"] == observed))
+    return out
+
+
 def build() -> dict:
     rows = check_in_sample()
+    revised = check_after_revision()
     return {
         "schema": "orion.parent-synthesis.v1",
         "programme": "SzeChunYiu/ORION-OCM#143",
@@ -443,6 +519,11 @@ def build() -> dict:
         "out_of_sample": OUT_OF_SAMPLE,
         "out_of_sample_result": OUT_OF_SAMPLE_RESULT,
         "law_status_after_the_test": LAW_STATUS_AFTER_THE_TEST,
+        "observed_revisions": OBSERVED_REVISIONS,
+        "in_sample_after_revision": revised,
+        "in_sample_agreement_after_revision": (
+            sum(1 for r in revised if r["agrees"]) / len(revised)),
+        "candidate_missing_quantity": CANDIDATE_MISSING_QUANTITY,
         "what_this_does_not_establish": (
             "Three binary coordinates over ten synthetic rows. Nothing here measures a real "
             "task ecology, none of the coordinates is measured continuously, and the beta "
@@ -475,6 +556,15 @@ def main() -> int:
                  f"| {r['predicted']} | {r['observed']} | {'yes' if r['agrees'] else 'NO'} |")
     o = doc["out_of_sample"]
     L += ["", f"{doc['in_sample_is_not_evidence']}\n",
+          "## After a stronger parent was run\n",
+          f"In-sample agreement falls from {doc['in_sample_agreement']:.0%} to "
+          f"{doc['in_sample_agreement_after_revision']:.0%}. The frozen table above is left "
+          "as it was fitted; the revisions are applied on top of it.\n",
+          "| study | was | now | forced by |", "|---|---|---|---|"]
+    for r in doc["observed_revisions"]:
+        L.append(f"| {r['study']} | {r['was']} | {r['now']} | `{r['forced_by']}` |")
+    L += ["", "**Candidate missing quantity, deliberately not added to the rule.** "
+          f"{doc['candidate_missing_quantity']}\n",
           "## The frozen out-of-sample prediction\n", f"### {o['name']}\n",
           f"**Why this one.** {o['why_this_one']}\n", f"**Design.** {o['design']}\n",
           f"**Coordinates.** {o['coordinates']}\n",

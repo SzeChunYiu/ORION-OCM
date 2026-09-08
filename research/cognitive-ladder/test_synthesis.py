@@ -176,3 +176,48 @@ def test_the_adverse_finding_is_carried_in_the_summary_not_only_the_receipt():
     assert "AGAINST the" in r
     assert "eager_all_rules_parent" in r
     assert "itself a cost once waiting is charged" in r
+
+
+def test_a_later_parent_can_revise_a_row_without_rewriting_the_frozen_table():
+    assert S.COMMITMENT.commitment == S.commit(S.PLAN).commitment
+    assert "OBSERVED_REVISIONS" not in json.dumps(S.PLAN)
+    frozen = {r["study"]: r["observed"] for r in S.OBSERVED}
+    revised = {r["study"]: r["observed"] for r in DOC["in_sample_after_revision"]}
+    changed = [k for k in frozen if frozen[k] != revised[k]]
+    assert changed == ["DEV-1 D0 to D1, 1024 bits"]
+    assert frozen["DEV-1 D0 to D1, 1024 bits"] == "MACHINE"
+
+
+def test_the_revised_agreement_is_reported_and_is_below_the_fitted_one():
+    assert DOC["in_sample_agreement"] == 1.0
+    assert DOC["in_sample_agreement_after_revision"] < 1.0
+    md = (HERE / "SYNTHESIS_V1.md").read_text()
+    assert "In-sample agreement falls from 100% to 90%" in md
+
+
+def test_every_revision_names_the_receipt_that_forced_it():
+    for r in S.OBSERVED_REVISIONS:
+        assert "results/" in r["forced_by"], r["study"]
+        assert r["why"] and r["consequence"]
+        assert r["study"] in {o["study"] for o in S.OBSERVED}
+
+
+def test_the_missing_quantity_is_a_candidate_and_not_a_coordinate():
+    from synthesis import Coordinates as C
+    import inspect
+    assert "use" in S.CANDIDATE_MISSING_QUANTITY.lower()
+    assert "deliberately NOT added" in S.CANDIDATE_MISSING_QUANTITY or \
+        "would mean nothing" in S.CANDIDATE_MISSING_QUANTITY
+    params = list(inspect.signature(S.predict).parameters)
+    assert params == ["c"]
+    assert set(C.__dataclass_fields__) == {"rho", "beta", "phi"}, (
+        "the rule must still have exactly three coordinates")
+
+
+def test_the_continual_learning_absorption_is_no_longer_open():
+    entry = [a for a in S.ABSORPTIONS if a["field"] == "continual learning"]
+    assert len(entry) == 1
+    assert entry[0]["verdict"] == "ADOPT"
+    assert "BEATS the lineage" in entry[0]["teaches"]
+    assert "withdrawn" in entry[0]["novelty_removed"]
+    assert DOC["verdict_counts"]["OPEN"] == 0

@@ -107,7 +107,9 @@ class Phase:
 
 
 def _evict_for(store: Store, world: D1World, room: int, budget: int,
-               phase: "Phase", freq: dict[int, int]) -> None:
+               phase: "Phase", freq: dict[int, int],
+               protected_rules: frozenset[int] = frozenset(),
+               protected_facts: frozenset[int] = frozenset()) -> None:
     """Make ``room`` bits, giving up the least-demanded objects first.
 
     The first smoke run of this experiment made the case for rule eviction on its
@@ -123,14 +125,30 @@ def _evict_for(store: Store, world: D1World, room: int, budget: int,
     Rules are evicted by uses-since-arrival, and a rule that has never been used
     is evicted before any fact.  Carried structure therefore has to earn its slot
     against the current stage, which is the whole point of a bounded store.
+
+    ``protected_rules`` and ``protected_facts`` are the EWC hook added for DEV-2:
+    objects an importance-weighted parent has decided not to overwrite. Both
+    default to empty, so every DEV-1 arm behaves exactly as it did and DEV-1's
+    receipt reproduces byte for byte; a test asserts that. Protection is dropped
+    the moment nothing unprotected is left, because a store that cannot make room
+    would deadlock, and refusing to serve is not an option any arm here has.
     """
     def rule_uses(r: int) -> int:
         return sum(freq.get(g, 0) for g in world.members[r])
 
     while store.bits() + room > budget:
-        cold_rules = [r for r in store.rules if rule_uses(r) == 0]
+        cold_rules = [r for r in store.rules
+                      if rule_uses(r) == 0 and r not in protected_rules]
         if cold_rules:
             store.rules.discard(min(cold_rules))
+            continue
+        free_facts = [g for g in store.facts if g not in protected_facts]
+        if free_facts:
+            store.facts.remove(min(free_facts, key=lambda g: (freq.get(g, 0), g)))
+            continue
+        free_rules = [r for r in store.rules if r not in protected_rules]
+        if free_rules:
+            store.rules.discard(min(free_rules, key=lambda r: (rule_uses(r), r)))
             continue
         if store.facts:
             store.facts.remove(min(store.facts, key=lambda g: (freq.get(g, 0), g)))
@@ -146,7 +164,9 @@ def _evict_for(store: Store, world: D1World, room: int, budget: int,
 
 
 def _on_derive(store: Store, world: D1World, answer: int, budget: int,
-               phase: Phase, freq: dict[int, int], induce_base: bool) -> None:
+               phase: Phase, freq: dict[int, int], induce_base: bool,
+               protect: tuple[frozenset[int], frozenset[int]] = (frozenset(), frozenset()),
+               ) -> None:
     """Record what a derivation revealed, and induce if demand has proved itself."""
     r = world.rule_of[answer]
     if not world.generated_by_rule(answer):
@@ -154,7 +174,7 @@ def _on_derive(store: Store, world: D1World, answer: int, budget: int,
     else:
         store.seen.setdefault(r, set()).add(answer)
     if induce_base and r not in store.rules and len(store.seen.get(r, ())) >= K_INDUCE:
-        _evict_for(store, world, RULE_BITS, budget, phase, freq)
+        _evict_for(store, world, RULE_BITS, budget, phase, freq, *protect)
         if store.bits() + RULE_BITS <= budget:
             phase.induce_work += INDUCE_COST
             phase.inductions += 1
@@ -165,7 +185,7 @@ def _on_derive(store: Store, world: D1World, answer: int, budget: int,
                       if world.rule_of[g] == r and world.generated_by_rule(g)]:
                 store.facts.remove(g)
             return
-    _evict_for(store, world, FACT_BITS, budget, phase, freq)
+    _evict_for(store, world, FACT_BITS, budget, phase, freq, *protect)
     if store.bits() + FACT_BITS <= budget:
         store.facts.append(answer)
 
@@ -203,7 +223,9 @@ def run_d0(world: D1World, stream: Sequence[int], budget: int,
 
 
 def _serve_member(world: D1World, store: Store, answer: int, budget: int,
-                  phase: Phase, freq: dict[int, int], induce_base: bool) -> bool:
+                  phase: Phase, freq: dict[int, int], induce_base: bool,
+                  protect: tuple[frozenset[int], frozenset[int]] = (frozenset(), frozenset()),
+                  ) -> bool:
     """Answer one member of a pair.  Returns whether the answer given was correct."""
     r = world.rule_of[answer]
     if r in store.rules:
@@ -219,7 +241,7 @@ def _serve_member(world: D1World, store: Store, answer: int, budget: int,
         phase.negative_transfer_work += VERIFY_COST
         phase.derive_work += DERIVE_COST
         phase.derivations += 1
-        _on_derive(store, world, answer, budget, phase, freq, induce_base)
+        _on_derive(store, world, answer, budget, phase, freq, induce_base, protect)
         return True
     if answer in store.facts:
         phase.lookup_work += LOOKUP_COST
@@ -228,13 +250,15 @@ def _serve_member(world: D1World, store: Store, answer: int, budget: int,
         return True
     phase.derive_work += DERIVE_COST
     phase.derivations += 1
-    _on_derive(store, world, answer, budget, phase, freq, induce_base)
+    _on_derive(store, world, answer, budget, phase, freq, induce_base, protect)
     return True
 
 
 def run_d1(world: D1World, stream: Sequence[Pair], budget: int, store: Store,
            induce_base: bool = True, induce_composites: bool = False,
-           verify_before_applying: bool = True) -> tuple[Store, Phase]:
+           verify_before_applying: bool = True,
+           protect: tuple[frozenset[int], frozenset[int]] = (frozenset(), frozenset()),
+           ) -> tuple[Store, Phase]:
     phase = Phase()
     freq: dict[int, int] = {}
     for pair in stream:
@@ -258,8 +282,9 @@ def run_d1(world: D1World, stream: Sequence[Pair], budget: int, store: Store,
                     phase.negative_transfer_work += VERIFY_COST
                     phase.derive_work += DERIVE_COST
                     phase.derivations += 1
-                    _on_derive(world=world, store=store, answer=answer, budget=budget,
-                               phase=phase, freq=freq, induce_base=induce_base)
+                    _on_derive(store=store, world=world, answer=answer, budget=budget,
+                               phase=phase, freq=freq, induce_base=induce_base,
+                               protect=protect)
         elif not verify_before_applying:
             for answer in (pair.left, pair.right):
                 r = world.rule_of[answer]
@@ -273,17 +298,18 @@ def run_d1(world: D1World, stream: Sequence[Pair], budget: int, store: Store,
                 else:
                     phase.derive_work += DERIVE_COST
                     phase.derivations += 1
-                    _on_derive(store, world, answer, budget, phase, freq, induce_base)
+                    _on_derive(store, world, answer, budget, phase, freq, induce_base,
+                               protect)
         else:
             for answer in (pair.left, pair.right):
                 ok = _serve_member(world, store, answer, budget, phase, freq,
-                                   induce_base) and ok
+                                   induce_base, protect) and ok
         phase.compose_work += COMPOSE_COST
         phase.correct += 1 if ok else 0
         if induce_composites:
             store.pair_seen[key] = store.pair_seen.get(key, 0) + 1
             if key not in store.composites and store.pair_seen[key] >= K_INDUCE:
-                _evict_for(store, world, COMPOSITE_BITS, budget, phase, freq)
+                _evict_for(store, world, COMPOSITE_BITS, budget, phase, freq, *protect)
                 if store.bits() + COMPOSITE_BITS <= budget:
                     phase.induce_work += INDUCE_COST
                     phase.inductions += 1

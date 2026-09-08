@@ -16,7 +16,7 @@
 | ordinary least squares over a monomial basis, degree-escalating | `GENERALIZE` | `results/INDEP_E8_V1.json` | Any claim that learned causal factorization needs a transform representation, and any reading of the earlier PARENT_SUFFICIENT as vacuous -- with an independent parent it became informative and adverse. |
 | lookup classifier over evidence vectors; naive Bayes over per-probe likelihoods | `GENERALIZE` | `results/PROBESEM_E11_V1.json` | Any claim that OCM diagnoses better because it represents semantics. |
 | lazy re-derivation (retain nothing, recompute on demand) | `GENERALIZE` | `results/DEPEND_E3_V1.json, results/SUPPORT_E6_V1.json, results/RHO_E7_V1.json` | Any claim that those four negatives were about OCM's architecture. |
-| curriculum and transfer learning; catastrophic forgetting | `OPEN` | `../developmental-spine/... DEV1_D0_TO_D1_V1.json` | Any claim that developmental carry-over is a new phenomenon. |
+| experience replay; elastic weight consolidation; replay-then-consolidate | `ADOPT` | `results/DEV2_CONTINUAL_PARENTS_V1.json, results/DEV1_D0_TO_D1_V1.json` | Any claim that carrying an ABSTRACTED store across a developmental boundary is the best use of a bounded budget. This lane's only developmental positive is withdrawn; what survives is DEV-1's comparison against RESET_OCM, which answers a different and narrower question. |
 
 Not one parent in this lane is classified REJECT, because not one of them lost. Under the old reading that was seven defeats; under the doctrine it is an absorption backlog, and the backlog has a shape, which is the next section.
 
@@ -69,6 +69,17 @@ Does evidence about the acquired object compose across episodes?
 
 The rule was written knowing all of these rows. Agreement of 10/10 is a statement about the rule's construction, not about the world.
 
+## After a stronger parent was run
+
+In-sample agreement falls from 100% to 90%. The frozen table above is left as it was fitted; the revisions are applied on top of it.
+
+| study | was | now | forced by |
+|---|---|---|---|
+| DEV-1 D0 to D1, 1024 bits | MACHINE | PARENT_SUFFICIENT | `results/DEV2_CONTINUAL_PARENTS_V1.json` |
+| DEV-1 D0 to D1, 256 bits | PARENT_SUFFICIENT | PARENT_SUFFICIENT | `results/DEV2_CONTINUAL_PARENTS_V1.json` |
+
+**Candidate missing quantity, deliberately not added to the rule.** The USE COST of an acquired object relative to the instance it replaces. All three coordinates are about acquisition -- is it demanded, is the economized resource scarce, does its evidence compose -- and none is about what it costs to invoke the thing once held. DEV-2 prices that directly: at a free scope check the lineage does 0.66 of replay's work and at the registered price 1.40, on identical worlds, with replay's own work unchanged. Adding a fourth coordinate would restore a perfect in-sample fit and would mean nothing. The test it implies instead is a world where verification is cheap or unnecessary, where this candidate predicts the lineage wins and the current three-coordinate law predicts nothing different.
+
 ## The frozen out-of-sample prediction
 
 ### PERISHABLE_EVIDENCE
@@ -97,11 +108,11 @@ The crossover extension at which a rule beats a memoizer falls from 16 to 8 as t
 
 **The correction it forced.** The prediction's justification contained an error and E12's pilot found it. This module argued that with storage free and unbounded, keeping everything you derive is the folklore-optimal policy. That is false. Compression reduces the number of DERIVATIONS, not merely the number of bits, so at a large enough extension a rule wins whether or not derivation perishes -- and the pilot duly produced a confirmation that was an artifact of compression with perishability doing nothing at all. The corrected experiment sweeps extension, checks the lam = 0 row against an arithmetic break-even computed from the cost constants alone, and reports the SHIFT of the boundary rather than a win. Both the wrong argument and the confirmation it would have bought are on the record.
 
-**How much this is worth.** One out-of-sample point. The law now has one prediction it could have failed and did not, which moves it from a rule fitted to ten rows to a rule with one surviving prediction, and no further. Two of its three coordinates have still never been varied outside the experiments that defined them.
+**How much this is worth.** One out-of-sample point. The law now has one prediction it could have failed and did not, which moves it from a rule fitted to ten rows to a rule with one surviving prediction, and no further. Two of its three coordinates have still never been varied outside the experiments that defined them, and the law has since acquired a known counterexample: see OBSERVED_REVISIONS.
 
 **Adverse finding in the same run.** E12 also ran the unrun half of the deep root's falsifier and it went AGAINST the machine. eager_all_rules_parent -- which acquires every rule before seeing any demand, and lost in E3, E6, E7 and E10 -- beats the demand-triggered arm wherever the ramp is steep, because it buys every derivation at the cheapest price the world will ever offer. The demand trigger this programme identified as the missing ingredient is itself a cost once waiting is charged. It is recorded here because it is the finding a lane reporting its own surviving prediction would be most tempted to leave in the receipt and out of the summary.
 
-**Status now.** CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is left exactly as written, because it is inside the commitment digest and editing it would rewrite the prediction after seeing the result. What changed is only this: the prediction was run and did not fail. That is one point. It is not a validated law, the in-sample agreement is still worth nothing, and the run that confirmed the prediction also refuted the argument that motivated it.
+**Status now.** CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is left exactly as written, because it is inside the commitment digest and editing it would rewrite the prediction after seeing the result. What changed is only this: the prediction was run and did not fail. That is one point. It is not a validated law, the in-sample agreement is still worth nothing, and the run that confirmed the prediction also refuted the argument that motivated it. Since then the law has picked up a COUNTEREXAMPLE from a different direction: running the continual-learning parents against DEV-1 turned one of the rows it was fitted to from MACHINE into PARENT_SUFFICIENT, so revised agreement is 9 of 10 rather than 10 of 10. The candidate missing quantity is named in CANDIDATE_MISSING_QUANTITY and is deliberately NOT added to the rule. A conjecture with one surviving prediction and one known failure is a more honest object than a conjecture with four coordinates and none.
 
 ## What this does not establish
 

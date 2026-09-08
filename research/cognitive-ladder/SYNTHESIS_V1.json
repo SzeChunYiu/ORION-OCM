@@ -75,23 +75,23 @@
       "next_experiment": "already run: E10 bounds the resource and the sign reverses"
     },
     {
-      "parent": "curriculum and transfer learning; catastrophic forgetting",
+      "parent": "experience replay; elastic weight consolidation; replay-then-consolidate",
       "field": "continual learning",
-      "receipt": "../developmental-spine/... DEV1_D0_TO_D1_V1.json",
-      "verdict": "OPEN",
-      "teaches": "Whether earlier training makes later training cheaper is their question, and the risk side -- negative transfer -- is theirs too. DEV-1 reproduces both in one run: the lineage wins at 1024 bits and loses at 256, where its carried structure cannot be displaced by what the next stage needs.",
-      "novelty_removed": "Any claim that developmental carry-over is a new phenomenon.",
-      "mapped_to": "the beta interval; DEV-1 is the evidence that beta is a band and not a threshold",
-      "prior_information_charged": "the D0 store, earned by paying for every derivation in it",
-      "next_experiment": "OPEN because no continual-learning parent has been run against the lineage at all; a replay or EWC parent is the obvious next comparator and its absence is a hole in the DEV-1 result, not a detail"
+      "receipt": "results/DEV2_CONTINUAL_PARENTS_V1.json, results/DEV1_D0_TO_D1_V1.json",
+      "verdict": "ADOPT",
+      "teaches": "Plain experience replay -- keep the answers, never abstract -- BEATS the lineage at five of six settings and by 1.57x at the loose budget where DEV-1 reported its only positive, and its margin GROWS with the length of the second stage rather than decaying. The mechanism is priced, not asserted: a held rule licenses a scope check, so using one costs VERIFY + APPLY where a stored answer costs LOOKUP, and a sweep over the check price flips the sign between 10 and 25 with replay's own work constant throughout. EWC is the weaker of the two ideas here and loses to the lineage except where the store saturates.",
+      "novelty_removed": "Any claim that carrying an ABSTRACTED store across a developmental boundary is the best use of a bounded budget. This lane's only developmental positive is withdrawn; what survives is DEV-1's comparison against RESET_OCM, which answers a different and narrower question.",
+      "mapped_to": "the retention layer of the lineage, which should hold instances until the cost of verifying an abstraction is known to be low",
+      "prior_information_charged": "the same D0 stream, the same bits, the same D1 stream; consolidation reads only the bounded buffer, not the lineage's uncharged record of everything it ever derived",
+      "next_experiment": "a world where verification is cheap or unnecessary, which is where the sweep says abstraction pays; that is a prediction this absorption makes and has not yet run"
     }
   ],
   "verdict_counts": {
-    "ADOPT": 2,
+    "ADOPT": 3,
     "ADAPT": 1,
     "GENERALIZE": 3,
     "REJECT": 0,
-    "OPEN": 1
+    "OPEN": 0
   },
   "no_parent_was_rejected": "Not one parent in this lane is classified REJECT, because not one of them lost. Under the old reading that was seven defeats; under the doctrine it is an absorption backlog, and the backlog has a shape, which is the next section.",
   "conditions": {
@@ -254,9 +254,151 @@
     "verdict": "SURVIVED_ONE_TEST",
     "what_happened": "The crossover extension at which a rule beats a memoizer falls from 16 to 8 as the perishability ramp rises, so acquisition pays at strictly lower compressibility once the opportunity to derive cheaply perishes. beta therefore does generalize beyond bounded storage, which is what the prediction was for.",
     "the_correction_it_forced": "The prediction's justification contained an error and E12's pilot found it. This module argued that with storage free and unbounded, keeping everything you derive is the folklore-optimal policy. That is false. Compression reduces the number of DERIVATIONS, not merely the number of bits, so at a large enough extension a rule wins whether or not derivation perishes -- and the pilot duly produced a confirmation that was an artifact of compression with perishability doing nothing at all. The corrected experiment sweeps extension, checks the lam = 0 row against an arithmetic break-even computed from the cost constants alone, and reports the SHIFT of the boundary rather than a win. Both the wrong argument and the confirmation it would have bought are on the record.",
-    "how_much_this_is_worth": "One out-of-sample point. The law now has one prediction it could have failed and did not, which moves it from a rule fitted to ten rows to a rule with one surviving prediction, and no further. Two of its three coordinates have still never been varied outside the experiments that defined them.",
+    "how_much_this_is_worth": "One out-of-sample point. The law now has one prediction it could have failed and did not, which moves it from a rule fitted to ten rows to a rule with one surviving prediction, and no further. Two of its three coordinates have still never been varied outside the experiments that defined them, and the law has since acquired a known counterexample: see OBSERVED_REVISIONS.",
     "adverse_finding_in_the_same_run": "E12 also ran the unrun half of the deep root's falsifier and it went AGAINST the machine. eager_all_rules_parent -- which acquires every rule before seeing any demand, and lost in E3, E6, E7 and E10 -- beats the demand-triggered arm wherever the ramp is steep, because it buys every derivation at the cheapest price the world will ever offer. The demand trigger this programme identified as the missing ingredient is itself a cost once waiting is charged. It is recorded here because it is the finding a lane reporting its own surviving prediction would be most tempted to leave in the receipt and out of the summary."
   },
-  "law_status_after_the_test": "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is left exactly as written, because it is inside the commitment digest and editing it would rewrite the prediction after seeing the result. What changed is only this: the prediction was run and did not fail. That is one point. It is not a validated law, the in-sample agreement is still worth nothing, and the run that confirmed the prediction also refuted the argument that motivated it.",
+  "law_status_after_the_test": "CONJECTURE WITH ONE SURVIVING OUT-OF-SAMPLE PREDICTION. The frozen LAW_STATUS above is left exactly as written, because it is inside the commitment digest and editing it would rewrite the prediction after seeing the result. What changed is only this: the prediction was run and did not fail. That is one point. It is not a validated law, the in-sample agreement is still worth nothing, and the run that confirmed the prediction also refuted the argument that motivated it. Since then the law has picked up a COUNTEREXAMPLE from a different direction: running the continual-learning parents against DEV-1 turned one of the rows it was fitted to from MACHINE into PARENT_SUFFICIENT, so revised agreement is 9 of 10 rather than 10 of 10. The candidate missing quantity is named in CANDIDATE_MISSING_QUANTITY and is deliberately NOT added to the rule. A conjecture with one surviving prediction and one known failure is a more honest object than a conjecture with four coordinates and none.",
+  "observed_revisions": [
+    {
+      "study": "DEV-1 D0 to D1, 1024 bits",
+      "was": "MACHINE",
+      "now": "PARENT_SUFFICIENT",
+      "forced_by": "results/DEV2_CONTINUAL_PARENTS_V1.json",
+      "why": "The row was scored against RESET_OCM, which is the right control for 'did carrying help' and the wrong parent for 'is carrying the best use of these bits'. A plain experience-replay parent, never run when the row was written, beats the lineage by up to 1.57x at this budget.",
+      "consequence": "The law scores this row rho beta phi all true and predicts MACHINE. It is now WRONG on it. In-sample agreement is no longer total and the generated document reports both figures."
+    },
+    {
+      "study": "DEV-1 D0 to D1, 256 bits",
+      "was": "PARENT_SUFFICIENT",
+      "now": "PARENT_SUFFICIENT",
+      "forced_by": "results/DEV2_CONTINUAL_PARENTS_V1.json",
+      "why": "Unchanged in sign, but for a different reason than recorded: the row was attributed to the store saturating, and DEV-2 shows EWC_PARENT beating the lineage at the shortest D1 there, so protection helps in exactly the cell the saturation story said it should hurt.",
+      "consequence": "No change to the law's agreement; the stated mechanism is less certain."
+    }
+  ],
+  "in_sample_after_revision": [
+    {
+      "study": "E1 supplied-key lookup",
+      "receipt": "results/SCALING_PILOT_V1.json",
+      "rho": false,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "the key was supplied, so nothing was demanded of the machine",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E3 eager dependency",
+      "receipt": "results/DEPEND_E3_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "most of what was discovered was never queried and holding it was free",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E6 support families",
+      "receipt": "results/SUPPORT_E6_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "lazy re-derivation reached the same capability for half the work",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E7 rho sweep",
+      "receipt": "results/RHO_E7_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "crossovers against weak parents, none against the deferred-induction parent",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E5 library discovery",
+      "receipt": "results/LIBDISC_E5_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "the arm beat no-library and DreamCoder and Stitch, and tied a parent holding the identical schema; with holding free, every holder is equal",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E8 independent factorization",
+      "receipt": "results/INDEP_E8_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": false,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "the arm computed a whole basis where the parent escalated degree on demand",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E10 bounded retention",
+      "receipt": "results/RETAIN_E10_V1.json",
+      "rho": true,
+      "beta": true,
+      "phi": true,
+      "observed": "MACHINE",
+      "note": "online generalizer beats a clairvoyant instance-optimal parent above a compressibility threshold; at extension size one phi fails and so does the arm",
+      "predicted": "MACHINE",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "E11 learned probe semantics",
+      "receipt": "results/PROBESEM_E11_V1.json",
+      "rho": true,
+      "beta": true,
+      "phi": true,
+      "observed": "MACHINE",
+      "note": "labelled cases are the scarce resource; per-cell evidence composes and per-row evidence does not",
+      "predicted": "MACHINE",
+      "agrees": true,
+      "revised": false
+    },
+    {
+      "study": "DEV-1 D0 to D1, 1024 bits",
+      "receipt": "results/DEV1_D0_TO_D1_V1.json",
+      "rho": true,
+      "beta": true,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "carried structure makes the next stage cheaper where the store has headroom",
+      "predicted": "MACHINE",
+      "agrees": false,
+      "revised": true
+    },
+    {
+      "study": "DEV-1 D0 to D1, 256 bits",
+      "receipt": "results/DEV1_D0_TO_D1_V1.json",
+      "rho": true,
+      "beta": false,
+      "phi": true,
+      "observed": "PARENT_SUFFICIENT",
+      "note": "beta is scored FALSE at the tight budget on the interval reading: the store is past the upper edge, saturated by D0's own rules, so carried structure cannot be displaced. This is the row most at risk of being scored to fit, and it is flagged as such rather than buried",
+      "predicted": "PARENT_SUFFICIENT",
+      "agrees": true,
+      "revised": true
+    }
+  ],
+  "in_sample_agreement_after_revision": 0.9,
+  "candidate_missing_quantity": "The USE COST of an acquired object relative to the instance it replaces. All three coordinates are about acquisition -- is it demanded, is the economized resource scarce, does its evidence compose -- and none is about what it costs to invoke the thing once held. DEV-2 prices that directly: at a free scope check the lineage does 0.66 of replay's work and at the registered price 1.40, on identical worlds, with replay's own work unchanged. Adding a fourth coordinate would restore a perfect in-sample fit and would mean nothing. The test it implies instead is a world where verification is cheap or unnecessary, where this candidate predicts the lineage wins and the current three-coordinate law predicts nothing different.",
   "what_this_does_not_establish": "Three binary coordinates over ten synthetic rows. Nothing here measures a real task ecology, none of the coordinates is measured continuously, and the beta interval rests on a single pair of budgets in one experiment. The law is falsifiable, which is its only current virtue."
 }
