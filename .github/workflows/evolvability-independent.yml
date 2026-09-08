@@ -1,0 +1,44 @@
+name: evolvability independent survival
+
+on:
+  push:
+    branches: [codex/ocm-evolvability-independent-20260908]
+    paths:
+      - 'research/evolvability-independent/**'
+      - 'tests/m11/test_pr150_factorization_bridge.py'
+      - '.github/workflows/evolvability-independent.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  adversarial-survival:
+    runs-on: ubuntu-latest
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: ./scripts/m0_install_dev.sh
+      - name: M11 governed factorization bridge
+        run: python -m pytest -q tests/m11/test_pr150_factorization_bridge.py
+      - name: Full M11 regression
+        run: python -m pytest -q tests/m11
+      - name: Preserve cognitive-ladder negatives
+        run: python -m pytest -q research/cognitive-ladder research/cognitive-theory
+      - name: Exploratory deterministic smoke only
+        run: |
+          python research/evolvability-independent/factorization_survival_v1.py \
+            --seeds 1 --regimes sparse_stable --jobs 1 --out /tmp/e150-dev.json >/tmp/e150-dev-summary.txt
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/e150-dev.json'))
+          s=x['summary']['sparse_stable']
+          assert s['factor_vs_strongest_parent']['parent_equal_or_better'] == 1
+          assert s['factor_local']['g8_median_support_f1'] == 1.0
+          print('exploratory smoke: exact sparse recovery, adaptive parent equal-or-better')
+          PY
