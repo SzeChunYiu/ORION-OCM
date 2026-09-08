@@ -2,13 +2,13 @@
 
 The language contains only bounded read-only predicates over detached candidate
 data.  There are no user callbacks or runtime capabilities.  Admission recomputes
-a complete certificate, and evaluation returns only a registered solve Status.
+a complete certificate, enforces predicate/checker syntax sorts, and evaluation
+returns only a registered solve Status.
 """
 from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
 from ocm.runtime import solve as SV
@@ -22,6 +22,8 @@ MAX_PATH = 16
 MAX_LITERAL_BYTES = 4096
 KINDS = {"dict", "list", "tuple", "str", "int", "float", "bool", "none"}
 STATUSES = {status.value: status for status in (SV.Status.PASS, SV.Status.FAIL, SV.Status.CANNOT_CHECK)}
+PREDICATE_OPS = {"TRUE", "FALSE", "HAS", "TYPE", "EQ", "NOT", "AND", "OR"}
+CHECKER_OPS = {"STATUS", "IF"}
 
 
 class CertificateRejected(ValueError):
@@ -96,14 +98,21 @@ def _validate_path(path):
         raise CertificateRejected("path components must be string keys or nonnegative integer indices")
 
 
-def _validate(node, depth, stats):
+def _validate(node, depth, stats, expected_sort):
     if depth > MAX_DEPTH or type(node) is not dict or type(node.get("op")) is not str:
         raise CertificateRejected("malformed or too-deep AST")
+    if expected_sort not in ("predicate", "checker"):
+        raise AssertionError("invalid validator sort")
     stats["node_count"] += 1
     stats["max_depth"] = max(stats["max_depth"], depth)
     if stats["node_count"] > MAX_NODES:
         raise CertificateRejected("too many AST nodes")
     op = node["op"]
+    if expected_sort == "predicate" and op not in PREDICATE_OPS:
+        raise CertificateRejected("checker expression used where predicate required")
+    if expected_sort == "checker" and op not in CHECKER_OPS:
+        raise CertificateRejected("predicate expression used where checker required")
+
     if op in ("TRUE", "FALSE"):
         if set(node) != {"op"}:
             raise CertificateRejected("unexpected fields")
@@ -123,37 +132,39 @@ def _validate(node, depth, stats):
         if op == "EQ":
             if not _literal_ok(node["literal"]):
                 raise CertificateRejected("literal outside detached grammar")
-            literal_bytes = len(_canonical(node["literal"]))
-            stats["literal_bytes"] += literal_bytes
+            stats["literal_bytes"] += len(_canonical(node["literal"]))
             if stats["literal_bytes"] > MAX_LITERAL_BYTES:
                 raise CertificateRejected("literal budget exceeded")
         return
     if op == "NOT":
         if set(node) != {"op", "arg"}:
             raise CertificateRejected("unexpected NOT fields")
-        _validate(node["arg"], depth + 1, stats)
+        _validate(node["arg"], depth + 1, stats, "predicate")
         return
     if op in ("AND", "OR"):
         if set(node) != {"op", "left", "right"}:
             raise CertificateRejected("unexpected binary fields")
-        _validate(node["left"], depth + 1, stats)
-        _validate(node["right"], depth + 1, stats)
+        _validate(node["left"], depth + 1, stats, "predicate")
+        _validate(node["right"], depth + 1, stats, "predicate")
         return
     if op == "IF":
         if set(node) != {"op", "predicate", "then", "else"}:
             raise CertificateRejected("unexpected IF fields")
-        _validate(node["predicate"], depth + 1, stats)
-        _validate(node["then"], depth + 1, stats)
-        _validate(node["else"], depth + 1, stats)
+        _validate(node["predicate"], depth + 1, stats, "predicate")
+        _validate(node["then"], depth + 1, stats, "checker")
+        _validate(node["else"], depth + 1, stats, "checker")
         return
     raise CertificateRejected("unknown AST opcode")
 
 
 def issue_certificate(ast: Mapping[str, Any]) -> dict[str, Any]:
-    """Validate a bounded pure AST and return a recomputable certificate."""
-    detached = json.loads(_canonical(ast))
+    """Validate a bounded pure checker AST and return a recomputable certificate."""
+    try:
+        detached = json.loads(_canonical(ast))
+    except (TypeError, ValueError, UnicodeError) as exc:
+        raise CertificateRejected("AST must be canonical JSON data") from exc
     stats = {"node_count": 0, "max_depth": 0, "max_path_length": 0, "literal_bytes": 0}
-    _validate(detached, 1, stats)
+    _validate(detached, 1, stats, "checker")
     digest = hashlib.sha256(_canonical(detached)).hexdigest()
     return {
         "schema": SCHEMA,
@@ -196,7 +207,7 @@ def _predicate(node, candidate, work):
         return _predicate(node["left"], candidate, work) and _predicate(node["right"], candidate, work)
     if op == "OR":
         return _predicate(node["left"], candidate, work) or _predicate(node["right"], candidate, work)
-    raise CertificateRejected("checker branch used where predicate expected")
+    raise AssertionError("validated checker branch reached predicate evaluator")
 
 
 def _checker(node, candidate, work):
@@ -206,14 +217,12 @@ def _checker(node, candidate, work):
     if node["op"] == "IF":
         branch = node["then"] if _predicate(node["predicate"], candidate, work) else node["else"]
         return _checker(branch, candidate, work)
-    raise CertificateRejected("predicate used where checker branch expected")
+    raise AssertionError("validated predicate reached checker evaluator")
 
 
 def evaluate(certificate: Mapping[str, Any], candidate: Any) -> tuple[SV.Status, dict[str, int]]:
     """Evaluate with no callback/runtime capability; returns exact work counters."""
     cert = verify_certificate(certificate)
-    # The existing solve boundary supplies detached canonical candidate data.  We
-    # still reject research callers that try to pass an outside type directly.
     if not _literal_ok(candidate):
         raise CertificateRejected("candidate outside detached data grammar")
     work = {"ast_nodes": 0, "path_steps": 0}
@@ -224,11 +233,10 @@ def evaluate(certificate: Mapping[str, Any], candidate: Any) -> tuple[SV.Status,
 def break_even_horizon(build, maintenance, saving_per_use, overhead_per_use):
     """Smallest integer H satisfying H*s > B+M+H*u, or None if impossible."""
     values = tuple(float(x) for x in (build, maintenance, saving_per_use, overhead_per_use))
-    if any(x < 0 for x in values):
-        raise ValueError("costs must be nonnegative")
+    if any(not (x >= 0.0) for x in values):
+        raise ValueError("costs must be finite and nonnegative")
     build, maintenance, saving, overhead = values
     if saving <= overhead:
         return None
     fixed = build + maintenance
-    # strict inequality H > fixed/(saving-overhead)
     return int(fixed // (saving - overhead)) + 1
