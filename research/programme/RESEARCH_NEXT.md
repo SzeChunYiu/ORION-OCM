@@ -94,6 +94,12 @@ Read [primary methods and their assumptions](../metareasoning-parent-review-v1/C
 before adding control policies. Reuse or adapt established mechanisms first, state
 the remaining gap, and end the review with a concrete design or falsifying test.
 
+The [exact decision-parent correction](../decision-core-successor-repair-v1/CURRENT.md)
+repairs numerical, iterator and adaptive-information defects in an isolated helper.
+Its bounded controls and source review are complete. Integrating the patch into
+the changing source branch, including Fraction costs and STOP contracts, remains
+a separate engineering step; it supplies no new learning or novelty result.
+
 The Boolean meaning bridge is a bounded language interface, not an admission requirement
 for all native mathematics. Future native-only studies must register native proof
 validity, source/dependency-family separation and explicit support/alias policies.

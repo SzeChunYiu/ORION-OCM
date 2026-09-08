@@ -1,0 +1,101 @@
+{
+  "schema": "ocm.decision-core-successor.repair-qualification.v1",
+  "utc": "2026-09-08T16:29:22.774886+00:00",
+  "platform": "billy-laptop Linux",
+  "python": "3.8.10 (default, Mar 18 2025, 20:04:55) \n[GCC 9.4.0]",
+  "scope": "bounded pure helper qualification only; no frozen research experiments/native verifier/learner/protected corpus",
+  "source_binding": "SOURCE-BINDINGS.json",
+  "arithmetic": "exact Fraction computation for int, Fraction, or the exact represented value of finite built-in float; no arbitrary-real claim",
+  "red": {
+    "tests": 16,
+    "failure_events": 21,
+    "errors": 2,
+    "returncode": 1,
+    "note": "Expected original source failures; errors are iterator exhaustion and unvalidated unknown successor. Positive controls also executed.",
+    "receipt": "RED.json",
+    "log": "RED.txt"
+  },
+  "green": {
+    "tests": 16,
+    "passed": 16,
+    "returncode": 0,
+    "receipt": "GREEN-01.json",
+    "log": "GREEN-01.txt"
+  },
+  "legacy_controls": {
+    "tests": 10,
+    "passed": 10,
+    "returncode": 0,
+    "receipt": "LEGACY-01.json",
+    "log": "LEGACY-01.txt"
+  },
+  "patch_check": "PATCH-CHECK.json",
+  "regression_names": [
+    "test_near_equal_laws_do_not_certify_exact_bisimulation",
+    "test_exact_equal_laws_and_split_mass_are_accepted",
+    "test_admissible_action_order_is_irrelevant",
+    "test_different_action_sets_and_contracts_remain_rejected",
+    "test_integer_stop_margin_survives_above_binary64_precision",
+    "test_finite_zero_cost_loop_stops_at_allowance_zero",
+    "test_transition_and_action_iterators_survive_two_steps",
+    "test_binary_float_inputs_mean_their_exact_stored_rationals",
+    "test_rational_feature_regret_is_exact_with_iterable_inputs",
+    "test_zero_regret_control_and_nonempty_common_optimum",
+    "test_signed_and_inexactly_normalized_kernels_are_rejected",
+    "test_unknown_successors_are_rejected_even_at_zero_probability",
+    "test_invalid_numeric_inputs_fail_closed",
+    "test_invalid_probability_weight_and_allowance_domains",
+    "test_numeric_helpers_reject_nonfinite_costs",
+    "test_adaptive_information_erratum_two_world_control"
+  ],
+  "artifacts": [
+    {
+      "path": "decision_core.py",
+      "sha256": "7056ffd5876a16331c63d966ff03cfdf91ed9045aaa09d33a0bd1fdf2189cc91",
+      "bytes": 12311,
+      "lines": 287
+    },
+    {
+      "path": "test_decision_core_exact_regressions.py",
+      "sha256": "21bfb0ebeca8ade0930b0731006d75b3d07d62bea2b7973d153043de741ae123",
+      "bytes": 7572,
+      "lines": 156
+    },
+    {
+      "path": "MATH-ERRATUM.md",
+      "sha256": "2262d84308d92a3da154550f7575fb673efc30e52081297da0a3599380320075",
+      "bytes": 3261,
+      "lines": 56
+    },
+    {
+      "path": "CORE.md",
+      "sha256": "ee5fcfde02c0bdc7719e4336e2d1bc87f160c7c5698d41df389694d22cd18e36",
+      "bytes": 1905,
+      "lines": 30
+    },
+    {
+      "path": "integration.patch",
+      "sha256": "58c475a0ff928e7e8a135229150ba8e6ca2334fedbf74b1b3e6f1fdd24483c86",
+      "bytes": 24207,
+      "lines": 528
+    },
+    {
+      "path": "decision-core.patch",
+      "sha256": "cc46eca03e10f4b596f6beb467dcf9f6994dd74691b6e865000debcd368b4093",
+      "bytes": 14470,
+      "lines": 317
+    },
+    {
+      "path": "adaptive-information.patch",
+      "sha256": "d569383235647a352a1297915711c3f22f9b873ed8f1e250931f1e706dfea2d7",
+      "bytes": 1894,
+      "lines": 52
+    }
+  ],
+  "remaining_scope": [
+    "Root must match source blobs against actual integration head.",
+    "Unchanged prospective-selector numerical outputs are not certified.",
+    "Fraction serialization and arithmetic lifecycle costs need integration accounting.",
+    "No unbounded stopping, model adequacy, protected legality or full PR qualification."
+  ]
+}
