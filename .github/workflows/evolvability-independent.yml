@@ -28,24 +28,25 @@ jobs:
         with:
           python-version: '3.11'
       - run: ./scripts/m0_install_dev.sh
-      - name: V2 pre-protected implementation audit
-        run: python research/evolvability-independent/audit_v2.py
+      - name: V3 pre-protected source and accounting audit
+        run: python research/evolvability-independent/audit_v3.py
       - name: PR150 governed M11 and hidden-cause lanes
         run: python -m pytest -q tests/m11/test_pr150_factorization_bridge.py tests/m11/test_pr150_hidden_cause_hc1.py
       - name: Full M11 regression
         run: python -m pytest -q tests/m11
       - name: Preserve cognitive-ladder negatives
         run: python -m pytest -q research/cognitive-ladder research/cognitive-theory
-      - name: Exploratory V2 deterministic smoke only
+      - name: V3 development-only deterministic smoke
         run: |
-          python research/evolvability-independent/factorization_survival_v2.py \
-            --seeds 1 --regimes sparse_stable --jobs 1 --out /tmp/e150-v2-dev.json >/tmp/e150-v2-dev-summary.txt
+          python research/evolvability-independent/factorization_survival_v3.py \
+            --seeds 1 --regimes sparse_stable --jobs 1 --out /tmp/e150-v3-dev.json >/tmp/e150-v3-dev-summary.txt
           python - <<'PY'
           import json
-          x=json.load(open('/tmp/e150-v2-dev.json'))
+          x=json.load(open('/tmp/e150-v3-dev.json'))
           s=x['summary']['sparse_stable']
           assert s['factor_local']['g8_median_support_f1'] == 1.0
           assert s['factor_vs_symbolic_frontier']['symbolic_compact_parent'] == 1
           assert s['factor_vs_symbolic_frontier']['any_symbolic_parent'] == 1
-          print('V2 exploratory smoke: exact sparse recovery; compact symbolic parent dominates')
+          assert s['factor_local']['g8_median_state_bytes'] > s['symbolic_compact_parent']['g8_median_state_bytes']
+          print('V3 exploratory smoke: exact sparse recovery; compact symbolic parent dominates componentwise')
           PY
