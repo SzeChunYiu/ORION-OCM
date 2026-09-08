@@ -1,0 +1,13 @@
+--- a/research/paid-decision-region-v1/run_shortcircuit.py
++++ b/research/paid-decision-region-v1/run_shortcircuit.py
+@@ -22,8 +22,10 @@
+ verify_inventory(REPOSITORY_ROOT)  # before any donor/plan import
+ import dev6_arms as A
+ import run_dev6 as D6
++import dev6 as D6_CONFIG
+ require_module_path(A, REPOSITORY_ROOT, "research/developmental-spine/dev6_arms.py")
+ require_module_path(D6, REPOSITORY_ROOT, "research/developmental-spine/run_dev6.py")
++require_module_path(D6_CONFIG, REPOSITORY_ROOT, "research/developmental-spine/dev6.py")
+ import shortcircuit_parent as S
+ from dev4 import build_level_world, d1_stream
+ from retain import demand_stream

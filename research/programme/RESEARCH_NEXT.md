@@ -118,3 +118,9 @@ for all native mathematics. Future native-only studies must register native proo
 validity, source/dependency-family separation and explicit support/alias policies.
 Distinct statements or families do not establish distinct meanings. Language transfer
 remains within its qualified bridge; this changes no current fixture or support policy.
+
+The [paid decision-region correction](../paid-decision-region-correction-v1/CURRENT.md)
+reuses the exact numeric foundation while preserving its proper-tree worst-case
+recurrence. The maintenance and declared three-module source checks are repaired
+and independently reviewed. The patch remains separate from PR158 integration;
+no donor sweep or aggregate result is requalified by the source capsule.
