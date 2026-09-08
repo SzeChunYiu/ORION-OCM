@@ -43,7 +43,7 @@ jobs:
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/g2-utility-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          /usr/bin/time -v python -B research/g2-utility-tournament-v1/experiment.py --out "$out/result.json" \
+          /usr/bin/time -v python -B research/g2-utility-tournament-v1/experiment_runner.py --out "$out/result.json" \
             2> >(tee "$out/time-and-stderr.txt" >&2) \
             | tee "$out/console.txt"
       - name: Source custody
