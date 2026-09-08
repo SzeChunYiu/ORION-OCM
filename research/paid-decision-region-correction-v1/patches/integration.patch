@@ -1,0 +1,450 @@
+--- /dev/null
++++ b/research/paid-decision-region-v1/DONOR_SOURCE_PINS.json
+@@ -0,0 +1,25 @@
++{
++  "files": [
++    {
++      "bytes": 15008,
++      "git_blob_sha1": "7952b99500cd664ada6ff9c191b56e2a064336d5",
++      "path": "research/developmental-spine/dev6_arms.py",
++      "sha256": "5e9f7af0ca96c46a0926cb233b4874e46a4e13ac9555fdd983fe07e80a96952a"
++    },
++    {
++      "bytes": 12449,
++      "git_blob_sha1": "33af37cbd3a7b9c74148781cadffe8cd317da9a5",
++      "path": "research/developmental-spine/run_dev6.py",
++      "sha256": "95e93cf6f1f3c1abfe4d3c166670cdec153fef583bd7c4d37e3f81d6ecd7aa26"
++    },
++    {
++      "bytes": 8139,
++      "git_blob_sha1": "129287edc92b4b825146a1ad73db8627486e8dfc",
++      "path": "research/developmental-spine/dev6.py",
++      "sha256": "c08ab20d61a894aa1af37fe67660cd01aa29f20ade779bba18241f7f9db45118"
++    }
++  ],
++  "reviewed_head": "1f6a975b5921da4109dd2286ac030613a55e8261",
++  "schema": "paid-drd.declared-source-inventory.v1",
++  "scope": "Exactly three declared donor/runner/sweep-configuration files. This is not full transitive source, input, runtime or study requalification."
++}
+--- /dev/null
++++ b/research/paid-decision-region-v1/EXACT_MODEL_CONTRACT.md
+@@ -0,0 +1,60 @@
++# Exact DRD successor contract
++
++The helper minimizes worst-case cost over finite terminating decision trees on a
++finite, nonempty admitted hypothesis set. It is conventional decision theory.
++The true world must remain in that set for common-action safety to hold.
++
++## Numeric and state domain
++
++`exact_numeric.py` reuses the qualified PR159 `_rational` and `_items` function
++bodies verbatim. Numeric inputs are built-in int, Fraction or finite built-in
++float, interpreted as their exact stored binary rational. Boolean, Decimal,
++string and nonfinite numeric inputs refuse. Results are Fraction values.
++No decimal intent, rounding tolerance or arbitrary-real computation is inferred.
++
++Action costs may be signed and finite. Probe costs must be nonnegative and are
++validated before uninformative probes are skipped. Hypothesis IDs are distinct,
++hashable and mutually sortable, as required by the original version-space code.
++Safe-action/probe IDs are distinct and hashable; None is reserved for no stopping
++action. Finite iterables are materialized before recursive reuse. Deterministic
++probe outcomes must be available for each probe/hypothesis and be hashable.
++Inputs remain stable throughout a call. Tied minimum action IDs must support the
++original tie order `(str(action), action)`; exact ties between STOP and a probe
++retain STOP. No result here establishes protected-model adequacy.
++
++## Proper terminating policy
++
++Each retained probe partitions the current set into strictly smaller nonempty
++sets. An uninformative probe has nonnegative cost and cannot improve a terminating
++policy, so it is omitted. This yields finite recursion even at zero probe cost.
++It does not assign a value to arbitrary policies that loop forever. The displayed
++Bellman equation in the formal note is interpreted in this proper finite-tree
++class, not as an unqualified fixed-point selection theorem.
++
++The recurrence uses min/max worst-case cost. It is not PR159's expectation-based
++finite-allowance DP; only the shared numeric/domain foundation is reused.
++The fixed-prefix unanimity lower bound assumes an unstructured verdict oracle
++whose unseen suffix admits the alternative completions in its proof. It does
++not exclude cheaper structural inference or already-paid information.
++
++## Declared source custody and execution scope
++
++`donor_custody.py` checks the digest of `DONOR_SOURCE_PINS.json`, then exact byte,
++SHA256 and Git-blob identities for its three declared donor/runner/plan modules.
++The adapter and runner call this before their donor imports; imported module
++paths and the donor function's exact source digest are checked as well. Drift
++refuses instead of advertising a constant as observed authority. That inventory
++is deliberately not a full transitive closure or study requalification.
++The unresolved historical DEV6 ref is preserved separately in source custody.
++
++The existing sweep runner's receipt schema becomes v2 only to make this bounded
++source assertion explicit. No v2 result has been produced. No donor, sweep,
++native verifier or learner was executed to qualify this correction. The existing
++workflow is unchanged and still invokes donor simulations/full sweep; it has not
++been triggered or newly qualified by this capsule.
++
++The short-circuit change remains a D1 tariff correction: the donor already exits
++at first disagreement, and both versions copy the survivor tail. Its modeled
++work excludes D0 and gives storage bit-steps zero price. Source-check overhead,
++Fraction arithmetic/serialization and complete runtime/lifetime costs still need
++accounting during any later integration. No previous aggregate result changes.
+--- a/research/paid-decision-region-v1/PAID_DECISION_REGION_CORE_V1.md
++++ b/research/paid-decision-region-v1/PAID_DECISION_REGION_CORE_V1.md
+@@ -1,4 +1,7 @@
+ # Paid Decision Region Determination — formal core for R0D
++
++The corrective [exact model contract](EXACT_MODEL_CONTRACT.md) defines the current
++numeric domain, proper finite-tree scope and bounded source-custody checks.
+ 
+ **Research status:** conventional Decision Region Determination + rational
+ metareasoning synthesis / source-derived OCM reduction / no novelty claim / no ML
+--- a/research/paid-decision-region-v1/SOURCE_CUSTODY_V1.json
++++ b/research/paid-decision-region-v1/SOURCE_CUSTODY_V1.json
+@@ -1,20 +1,27 @@
+ {
+-  "schema": "ocm.paid-decision-region.r0d.source-custody.v1",
++  "authority_boundary": {
++    "deficient_language_control_remains_unsound": true,
++    "learned_router_authorized": false,
++    "production_authority_changed": false,
++    "realizability_required_for_internal_unanimity_soundness": true
++  },
+   "base_branch": "claude/pr150-factorization-audit-20260908",
+   "donors": {
+     "DEV5": {
+       "commit": "a0c4931629263ee92fe676e479445b188af5df6e",
++      "decision_source": "research/developmental-spine/dev5_arms.py",
+       "receipt": "research/cognitive-ladder/results/DEV5_UNANIMITY_V1.json",
+-      "decision_source": "research/developmental-spine/dev5_arms.py",
+       "role": "singleton versus per-query unanimity decision-rule ablation"
+     },
+     "DEV6": {
+-      "commit": "f676a34274a9dfc09ae8205a902037cbe27bdd42",
+-      "receipt": "research/cognitive-ladder/results/DEV6_HONEST_CONSULTATION_PRICE_V1.json",
+       "decision_source": "research/developmental-spine/dev6_arms.py",
+       "decision_source_blob": "7952b99500cd664ada6ff9c191b56e2a064336d5",
++      "historical_commit_unresolved": "f676a34274a9dfc09ae8205a902037cbe27bdd42",
++      "historical_ref_status": "Both GitHub commit and contents APIs returned 404 during independent review; not proof of absence elsewhere.",
++      "receipt": "research/cognitive-ladder/results/DEV6_HONEST_CONSULTATION_PRICE_V1.json",
++      "role": "honest deliberation-price audit; frozen sweep donor",
+       "runner": "research/developmental-spine/run_dev6.py",
+-      "role": "honest deliberation-price audit; frozen sweep donor"
++      "runtime_source_head": "1f6a975b5921da4109dd2286ac030613a55e8261"
+     },
+     "X1": {
+       "commit": "2ba88a80593a8e3ddcbedaf6520da5bc7fddbed3",
+@@ -22,19 +29,19 @@
+       "role": "cross-domain one-line ablation of determined-question reasoning"
+     }
+   },
++  "enforced_inventory": {
++    "path": "DONOR_SOURCE_PINS.json",
++    "scope": "Exactly three declared source files; not full transitive or study requalification.",
++    "sha256": "511966073b83f4de3cb9f7fef1b8dfea776a23e7866be157dc0f84e0fa3c4921"
++  },
+   "new_parent": {
+-    "source": "research/paid-decision-region-v1/shortcircuit_parent.py",
+-    "transform": "one exact source-fragment substitution in DEV6 dev6_arms._run",
++    "adds_maintenance_state": false,
++    "adds_ml": false,
++    "changed_cost_semantics": "charge only verdict evaluations actually executed through first disagreement or complete unanimity",
+     "changes_decision_rule": false,
+     "changes_version_space": false,
+-    "adds_maintenance_state": false,
+-    "adds_ml": false,
+-    "changed_cost_semantics": "charge only verdict evaluations actually executed through first disagreement or complete unanimity"
++    "source": "research/paid-decision-region-v1/shortcircuit_parent.py",
++    "transform": "one exact source-fragment substitution in DEV6 dev6_arms._run"
+   },
+-  "authority_boundary": {
+-    "realizability_required_for_internal_unanimity_soundness": true,
+-    "deficient_language_control_remains_unsound": true,
+-    "production_authority_changed": false,
+-    "learned_router_authorized": false
+-  }
++  "schema": "ocm.paid-decision-region.r0d.source-custody.v1"
+ }
+--- a/research/paid-decision-region-v1/decision_region_core.py
++++ b/research/paid-decision-region-v1/decision_region_core.py
+@@ -7,7 +7,9 @@
+ from __future__ import annotations
+ 
+ from functools import lru_cache
+-import math
++
++from exact_numeric import _rational
++from drd_model import prepare_model
+ 
+ 
+ INF = float("inf")
+@@ -26,12 +28,13 @@
+ 
+ def robust_stop_cost(version, safe_actions, action_cost):
+     """Worst-case cost of the cheapest currently common protected action."""
++    version = tuple(version)
+     actions = common_actions(version, safe_actions)
+     if not actions:
+         return INF, None
+     best = min(
+         (
+-            max(float(action_cost[(hypothesis, action)]) for hypothesis in version),
++            max(_rational(action_cost[(hypothesis, action)]) for hypothesis in version),
+             str(action),
+             action,
+         )
+@@ -62,7 +65,11 @@
+     *,
+     identification_only=False,
+ ):
+-    """Exact finite worst-case Bellman solution.
++    """Exact represented-rational optimum over finite terminating decision trees.
++
++    Uninformative probes are omitted; other probes strictly shrink each branch.
++    Nonnegative probe costs are checked before that omission. Exact ties retain
++    STOP. Action costs may be signed and must be finite in the shared domain.
+ 
+     With ``identification_only=True``, stopping is forbidden until one hypothesis
+     remains.  Otherwise a common safe action may be taken at any version space,
+@@ -72,8 +79,9 @@
+     The mathematical policy is a normative exact parent.  If deployed as a table
+     or solver, its own build/lookup/storage/update costs must be charged separately.
+     """
+-    initial = tuple(sorted(hypotheses))
+-    probes = tuple(probes)
++    initial, safe_actions, action_cost, probes, outcomes, probe_cost = prepare_model(
++        hypotheses, safe_actions, action_cost, probes, outcomes, probe_cost
++    )
+ 
+     @lru_cache(maxsize=None)
+     def value(version):
+@@ -83,7 +91,7 @@
+             stop_value, stop_action = INF, None
+ 
+         best_value = stop_value
+-        best_decision = ("stop", stop_action) if math.isfinite(stop_value) else None
++        best_decision = ("stop", stop_action) if stop_action is not None else None
+ 
+         for probe in probes:
+             parts = probe_partitions(version, outcomes, probe)
+@@ -91,10 +99,10 @@
+             # problem and would create a self-loop in the recursion.
+             if len(parts) <= 1:
+                 continue
+-            candidate = float(probe_cost[probe]) + max(
++            candidate = probe_cost[probe] + max(
+                 value(block)[0] for _outcome, block in parts
+             )
+-            if candidate < best_value - 1e-12:
++            if candidate < best_value:
+                 best_value = candidate
+                 best_decision = ("probe", probe)
+ 
+--- /dev/null
++++ b/research/paid-decision-region-v1/donor_custody.py
+@@ -0,0 +1,48 @@
++"""Fail closed on a declared source inventory, without importing donor code."""
++import hashlib
++import json
++from pathlib import Path
++
++
++EXPECTED_INVENTORY_SHA256 = "511966073b83f4de3cb9f7fef1b8dfea776a23e7866be157dc0f84e0fa3c4921"
++DEFAULT_INVENTORY = Path(__file__).with_name("DONOR_SOURCE_PINS.json")
++
++
++def verify_inventory(repository_root, inventory=DEFAULT_INVENTORY,
++                     expected_sha256=EXPECTED_INVENTORY_SHA256):
++    root = Path(repository_root).resolve(strict=True)
++    raw = Path(inventory).read_bytes()
++    if hashlib.sha256(raw).hexdigest() != expected_sha256:
++        raise ValueError("SOURCE_INVENTORY_DRIFT")
++    document = json.loads(raw)
++    if document.get("schema") != "paid-drd.declared-source-inventory.v1":
++        raise ValueError("SOURCE_INVENTORY_SCHEMA")
++    rows = document.get("files")
++    if not isinstance(rows, list) or not rows:
++        raise ValueError("SOURCE_INVENTORY_EMPTY")
++    checked, seen = [], set()
++    for row in rows:
++        name = row["path"]
++        relative = Path(name)
++        if relative.is_absolute() or ".." in relative.parts or name in seen:
++            raise ValueError("SOURCE_INVENTORY_PATH")
++        seen.add(name)
++        path = (root / relative).resolve(strict=True)
++        if not path.is_relative_to(root) or not path.is_file():
++            raise ValueError("SOURCE_INVENTORY_PATH")
++        data = path.read_bytes()
++        digest = hashlib.sha256(data).hexdigest()
++        blob = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
++        if (len(data), digest, blob) != (row["bytes"], row["sha256"], row["git_blob_sha1"]):
++            raise ValueError("DONOR_SOURCE_DRIFT:" + name)
++        checked.append({"path": name, "bytes": len(data), "sha256": digest,
++                        "git_blob_sha1": blob})
++    return {"inventory_sha256": expected_sha256, "checked_files": checked,
++            "scope": document["scope"], "complete_study_requalification": False}
++
++
++def require_module_path(module, repository_root, relative_path):
++    expected = (Path(repository_root) / relative_path).resolve(strict=True)
++    actual = Path(module.__file__).resolve(strict=True)
++    if actual != expected:
++        raise ValueError("DONOR_MODULE_PATH_DRIFT:" + relative_path)
+--- /dev/null
++++ b/research/paid-decision-region-v1/drd_model.py
+@@ -0,0 +1,20 @@
++"""Normalize the finite proper-tree DRD input before any branch is explored."""
++from exact_numeric import _items, _rational
++
++
++def prepare_model(hypotheses, safe_actions, action_cost, probes, outcomes, probe_cost):
++    # Hypothesis IDs retain the original mutually sortable/hashable domain.
++    states = tuple(sorted(_items(hypotheses, "hypotheses")))
++    probes = _items(probes, "probes", True)
++    safe = {state: _items(safe_actions[state], "safe actions", True) for state in states}
++    if any(action is None for actions in safe.values() for action in actions):
++        raise ValueError("None is reserved for the absence of a stopping action")
++    costs = {(state, action): _rational(action_cost[state, action])
++             for state in states for action in safe[state]}
++    probe_costs = {probe: _rational(probe_cost[probe]) for probe in probes}
++    if any(cost < 0 for cost in probe_costs.values()):
++        raise ValueError("probe costs must be nonnegative")
++    observed = {(probe, state): outcomes[probe, state] for probe in probes for state in states}
++    for result in observed.values():
++        hash(result)  # deterministic outcome IDs must be hashable partition keys
++    return states, safe, costs, probes, observed, probe_costs
+--- /dev/null
++++ b/research/paid-decision-region-v1/exact_numeric.py
+@@ -0,0 +1,22 @@
++"""Verbatim PR159 represented-rational and finite-ID foundation.
++Source: qualified decision_core.py c0705b32136f53843595c6bae9d0e750e682cbe92af9a4d0de3289140f8df10b.
++Only the two function bodies are reused; provenance is in REUSE.json.
++"""
++from fractions import Fraction
++from math import isfinite
++
++
++def _rational(value):
++    if type(value) not in (int, Fraction, float):
++        raise TypeError("numeric input must be int, Fraction, or finite float")
++    if type(value) is float and not isfinite(value):
++        raise ValueError("numeric input must be finite")
++    return Fraction(value)
++
++
++def _items(values, name, allow_empty=False):
++    values = tuple(values)
++    if len(set(values)) != len(values) or (not values and not allow_empty):
++        raise ValueError(name + " must contain distinct IDs and be nonempty")
++    return values
++
+--- /dev/null
++++ b/research/paid-decision-region-v1/run_guards.py
+@@ -0,0 +1,8 @@
++"""Pure runner admission guards; no donor imports."""
++
++
++def require_zero_maintenance(full, short):
++    if type(full) is not int or type(short) is not int:
++        raise TypeError("maintenance counters must be built-in integers")
++    if full != 0 or short != 0:
++        raise AssertionError("short-circuit parent unexpectedly introduced maintenance")
+--- a/research/paid-decision-region-v1/run_shortcircuit.py
++++ b/research/paid-decision-region-v1/run_shortcircuit.py
+@@ -15,14 +15,23 @@
+ sys.path.insert(0, str(COG))
+ sys.path.insert(0, str(HERE))
+ 
++from donor_custody import require_module_path, verify_inventory
++from run_guards import require_zero_maintenance
++
++REPOSITORY_ROOT = HERE.resolve().parents[1]
++verify_inventory(REPOSITORY_ROOT)  # before any donor/plan import
+ import dev6_arms as A
+ import run_dev6 as D6
++import dev6 as D6_CONFIG
++require_module_path(A, REPOSITORY_ROOT, "research/developmental-spine/dev6_arms.py")
++require_module_path(D6, REPOSITORY_ROOT, "research/developmental-spine/run_dev6.py")
++require_module_path(D6_CONFIG, REPOSITORY_ROOT, "research/developmental-spine/dev6.py")
+ import shortcircuit_parent as S
+ from dev4 import build_level_world, d1_stream
+ from retain import demand_stream
+ 
+ 
+-SCHEMA = "ocm.paid-decision-region.r0d.shortcircuit.v1"
++SCHEMA = "ocm.paid-decision-region.r0d.shortcircuit.v2"
+ 
+ 
+ def _same_nonlookup_semantics(left, right) -> bool:
+@@ -43,8 +52,7 @@
+ 
+     if not _same_nonlookup_semantics(fullscan, short):
+         raise AssertionError("short-circuit parent changed a non-deliberation Phase coordinate")
+-    if fullscan_m["maintenance"] != short_m["maintenance"] != 0:
+-        raise AssertionError("short-circuit parent unexpectedly introduced maintenance")
++    require_zero_maintenance(fullscan_m["maintenance"], short_m["maintenance"])
+     if fullscan_m["consultations"] != short_m["consultations"]:
+         raise AssertionError("short-circuit parent changed the number of consultations")
+     if short_m["consultation_charge"] > fullscan_m["consultation_charge"]:
+@@ -133,7 +141,8 @@
+         "source_custody": S.source_fidelity(),
+         "scope": {
+             "donor": "DEV6_HONEST_CONSULTATION_PRICE_V1",
+-            "donor_sweep_reused_exactly": True,
++            "declared_source_inventory_checked": True,
++            "complete_study_requalification": False,
+             "decision_rule_changed": False,
+             "version_space_changed": False,
+             "consultation_calls_changed": False,
+--- a/research/paid-decision-region-v1/shortcircuit_parent.py
++++ b/research/paid-decision-region-v1/shortcircuit_parent.py
+@@ -16,11 +16,18 @@
+ 
+ import hashlib
+ import inspect
++from pathlib import Path
+ 
++from donor_custody import require_module_path, verify_inventory
++
++REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
++verify_inventory(REPOSITORY_ROOT)  # source check precedes any donor import
+ import dev6_arms as D
++require_module_path(D, REPOSITORY_ROOT, "research/developmental-spine/dev6_arms.py")
+ 
+ 
+ DONOR_BLOB_SHA = "7952b99500cd664ada6ff9c191b56e2a064336d5"
++DONOR_FUNCTION_SHA256 = "d9ca0192a3cce99973b5e0b4cddf4264634a9aaea85878d64fab40f20464cbdf"
+ 
+ OLD = '''        if mode == "unanimity_naive":
+             charge(max(1, len(survivors)))
+@@ -47,7 +54,12 @@
+ 
+ 
+ def donor_source() -> str:
+-    return inspect.getsource(D._run)
++    verify_inventory(REPOSITORY_ROOT)
++    require_module_path(D, REPOSITORY_ROOT, "research/developmental-spine/dev6_arms.py")
++    source = inspect.getsource(D._run)
++    if hashlib.sha256(source.encode()).hexdigest() != DONOR_FUNCTION_SHA256:
++        raise ValueError("DONOR_FUNCTION_SOURCE_DRIFT")
++    return source
+ 
+ 
+ def transformed_source() -> str:
+@@ -64,6 +76,7 @@
+     transformed = transformed_source()
+     return {
+         "donor_function": "research/developmental-spine/dev6_arms.py::_run",
++        "declared_source_inventory": verify_inventory(REPOSITORY_ROOT),
+         "donor_blob_sha": DONOR_BLOB_SHA,
+         "original_source_sha256": hashlib.sha256(source.encode()).hexdigest(),
+         "transformed_source_sha256": hashlib.sha256(transformed.encode()).hexdigest(),
+@@ -84,6 +97,7 @@
+ 
+ def run_shortcircuit(world, d0, d1, budget):
+     """Run DEV-6's naive-unanimity arm with exact short-circuit comparison cost."""
++    verify_inventory(REPOSITORY_ROOT)
+     return _SHORT_RUN(world, d0, d1, budget, "unanimity_naive")
+ 
+ 
