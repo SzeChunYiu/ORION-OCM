@@ -71,6 +71,13 @@ jobs:
             --regime "$out/regime.json" \
             --out "$out/known-horizon-pareto.json" \
             --github-notice
+      - name: Verify exact objective coverage set
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/objective_coverage_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/objective-coverage.json" \
+            --github-notice
       - name: Verify randomized time-only minimax certificate
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -120,6 +127,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/known-horizon-pareto.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/objective-coverage.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/randomized-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/price-conflict.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/lifecycle-advice.json
