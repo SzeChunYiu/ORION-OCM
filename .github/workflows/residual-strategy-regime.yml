@@ -72,6 +72,14 @@ jobs:
             --certificate research/residual-strategy-regime-v1/RANDOMIZED_SWITCH_CERTIFICATE_V1.json \
             --out "$out/randomized-switch.json" \
             --github-notice
+      - name: Verify robust lifecycle advice certificate
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/robust_lifecycle_advice_verify.py \
+            --regime "$out/regime.json" \
+            --certificate research/residual-strategy-regime-v1/ROBUST_LIFECYCLE_ADVICE_CERTIFICATE_V1.json \
+            --out "$out/lifecycle-advice.json" \
+            --github-notice
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -83,6 +91,7 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/randomized-switch.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/lifecycle-advice.json
           if-no-files-found: error
       - name: Source custody
         if: always()
