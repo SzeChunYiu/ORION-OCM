@@ -96,3 +96,26 @@ def test_operational_phase_continuation_has_zero_retry(tmp_path,monkeypatch,fail
     out=episode(session,0,g,authored=True)
     assert [p for p,a in seen]==expected_phases and out["reason"]==fail_phase+"_INCOMPLETE"
     if fail_phase!="A":assert [a for p,a in seen if p=="B"]==list(ARMS)
+
+@pytest.mark.parametrize("phase",["A","B","C"])
+@pytest.mark.parametrize("failure",["inspect","signal","refused"])
+def test_missing_child_facts_preserve_unavailable_cost(tmp_path,monkeypatch,phase,failure):
+    import unary_assay_phase as p
+    process={"terminal":"CANNOT_CHECK" if failure=="refused" else "COMPLETED",
+             "returncode":-15 if failure=="signal" else (None if failure=="refused" else 0)}
+    monkeypatch.setattr(p,"launch",lambda *a,**kw:process)
+    def unavailable(*a,**kw):raise p.A.CustodyFailure("AUTHORED_"+failure.upper())
+    monkeypatch.setattr(p.A,"inspect",unavailable)
+    session=Session(tmp_path/"failed-call",deadline=time.monotonic()+20,profile=observe())
+    slot="e0--"+phase+"--ADAPTIVE_PARENT"
+    session.expect(slot,{"episode":0,"phase":phase,"arm":"ADAPTIVE_PARENT"})
+    record=session.call(slot,"ADAPTIVE_PARENT","acquire_selected" if phase=="A" else "presented_batch",{})
+    assert record["facts"] is None and session.slots[slot]["state"]=="UNAVAILABLE"
+    calls=[cost(arm,"A",1) for arm in ("ADAPTIVE_PARENT","OCM_ENABLED")]
+    calls += [cost(arm,"B",1,[.25]) for arm in ARMS]
+    calls += [cost(arm,"C",1) for arm in ARMS]
+    calls=[record if c["slot"]==slot else c for c in calls]
+    result=evaluate(calls,physical=None)
+    assert result["terminal"]=="ECONOMICS_CANNOT_CHECK"
+    assert result["reason"]=="UNAVAILABLE_COST"
+    assert "physical_call_totals" not in result

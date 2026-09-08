@@ -75,6 +75,15 @@ cache files triggered the source-only guard. After preserving those exact files 
 removing them, the source-identical retry passed. No guard or source was weakened.
 These are engineering controls, not additional scientific episodes.
 
+## Post-study failure-handling correction
+
+Later review reproduced a separate cost-reader bug: a refused or failed child can
+retain `facts=None`, which the old reader dereferenced. The successor explicitly
+refuses missing/untyped facts as `UNAVAILABLE_COST`. Nine authored A/B/C controls
+reproduced the crash through the real coordinator call boundary; all nine then
+passed within 54 focused controls, with no skips. These use simulated child outcomes.
+The original scientific snapshot, results, clock and cost closure were not rerun or changed.
+
 ## Next decisive work
 
 First repair the diagnosed discovery representation using only training and

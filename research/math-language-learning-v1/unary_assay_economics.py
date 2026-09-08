@@ -8,8 +8,10 @@ def number(x):
 
 def measured(call):
     # The outer caller observes all launch/child-readback work before coordinator audit.
-    if call is None or call.get("facts",{}).get("terminal")!="CHECKED":raise ValueError("UNAVAILABLE_COST")
-    p=call["facts"]["process"]
+    if type(call) is not dict:raise ValueError("UNAVAILABLE_COST")
+    facts=call.get("facts")
+    if type(facts) is not dict or facts.get("terminal")!="CHECKED":raise ValueError("UNAVAILABLE_COST")
+    p=facts["process"]
     return {"wall_s":number(call["launch_return_wall_s"]),
             "cpu_s":number(call["launch_return_own_cpu_s"])+number(p["waited_child_user_s"])+number(p["waited_child_system_s"])}
 

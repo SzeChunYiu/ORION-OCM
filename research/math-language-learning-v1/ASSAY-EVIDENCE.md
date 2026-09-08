@@ -6,7 +6,8 @@ Read [result and measured limits](ASSAY-RESULT.md), then
 [the acquisition diagnosis](ASSAY-ACQUISITION-DIAGNOSIS.md).
 
 Execution source: `6465c982ee9c17fbbad0a3484da36e06ae807bdc`.
-Current source release includes later documentation; the experiment's snapshot and
+Current source release includes later documentation and missing-facts error handling;
+the experiment's snapshot and
 original receipts remain bound to their own source.
 
 ## Reproduction and retained records
