@@ -34,7 +34,7 @@ FIX_STATUS = ("RUNNING", "NOT_STARTED", "DONE", "NONE_POSSIBLE")
 
 def N(**kw):
     base = dict(negative_id="", verdict="", root="", disposition="", why="",
-                what_solved_would_mean="", fix="", fix_status="", preserved=True)
+                what_solved_would_mean="", fix="", fix_status="", outcome="", preserved=True)
     base.update(kw)
     return base
 
@@ -93,9 +93,17 @@ N(negative_id="N5-LEARNED-RELEVANCE", verdict="INDEX_MAINTENANCE_DOMINATES",
                          "or a stream long enough and dense enough in reuse for the rebuild to pay "
                          "back. The receipt already concedes the first: an incremental search "
                          "would cost materially less and was not run.",
-  fix="E7 rho sweep addresses the demand side; incremental re-index is NOT STARTED and is the "
-      "cheapest remaining engineering fix in the programme",
-  fix_status="RUNNING"),
+  fix="E9 incremental re-index (DONE, terminal solved); E7 rho sweep addresses the demand side",
+  fix_status="DONE",
+  outcome="INDEX_MAINTENANCE_TERMINAL_SOLVED. Monotone resumption plus early exit cut index work "
+          "by 68.2 per cent at 30x with the SAME feature chosen, identical query work and "
+          "identical correctness, so capability provably did not move. Payback against exhaustive "
+          "scan now arrives at every registered scale: at 30x the crossover falls from 97.9 "
+          "queries to 31.1 against a stream of 50. PARENT_SUFFICIENT nonetheless STANDS: the "
+          "hand-specified key remains cheaper in total by 10.4x at 30x and 7.3x at 46x. The "
+          "machine's query work falls with N while the parent's rises, so a crossover in N is "
+          "implied, but it is not reached by 46x and the registered draw is exhausted, so it is "
+          "unresolved rather than answered."),
 
 N(negative_id="N6-UNARY-ACQUISITION", verdict="NO_METHOD_ACQUIRED",
   root="PROBE_ABSTRACTION_LEVEL_IS_AUTHORED_NOT_ADAPTED",

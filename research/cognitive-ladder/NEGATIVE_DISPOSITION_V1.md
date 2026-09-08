@@ -12,7 +12,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 | N2-FAILURE-MEMORY | `PARENT_SUFFICIENT` | **NARROW** | DONE |
 | N3-ESCALATION-ARTIFACT | `GENERATOR_ARTIFACT` | **SUPERSEDED** | DONE |
 | N4-LEAVE-ONE-OUT | `STRUCTURALLY_INCOMPLETE` | **CORRECTABLE** | RUNNING |
-| N5-LEARNED-RELEVANCE | `INDEX_MAINTENANCE_DOMINATES` | **CORRECTABLE** | RUNNING |
+| N5-LEARNED-RELEVANCE | `INDEX_MAINTENANCE_DOMINATES` | **CORRECTABLE** | DONE |
 | N6-UNARY-ACQUISITION | `NO_METHOD_ACQUIRED` | **SUPERSEDED** | DONE |
 | N7-CLAUSE-DONOR | `NO_DEVELOPMENT_BENEFIT` | **CORRECTABLE** | RUNNING |
 | N8-DIAGNOSIS-RESIDUAL | `ACCUMULATION_RESIDUAL_CONFINED_TO_PROBE_COST` | **CORRECT_FINDING** | NOT_STARTED |
@@ -69,7 +69,7 @@ Some negatives are correctable design faults: the experiment could not have dete
 
 **What solved would mean.** Either an incremental re-index that repairs only the colliding buckets, or a stream long enough and dense enough in reuse for the rebuild to pay back. The receipt already concedes the first: an incremental search would cost materially less and was not run.
 
-**Fix.** E7 rho sweep addresses the demand side; incremental re-index is NOT STARTED and is the cheapest remaining engineering fix in the programme · **Status.** `RUNNING`
+**Fix.** E9 incremental re-index (DONE, terminal solved); E7 rho sweep addresses the demand side · **Status.** `DONE`
 
 ## N6-UNARY-ACQUISITION — SUPERSEDED
 
