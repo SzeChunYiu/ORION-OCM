@@ -11,6 +11,12 @@ expected-cost problem satisfies the additive multislope geometry in
 FORMAL_DECISION_CORE_V2 Theorem 15 on the registered phase coordinate.  That
 licenses importing ordinary online-investment parents for the UNKNOWN-HORIZON
 tranche; it does not license ML.
+
+Important scope correction: the Phase-1 cost-informed DP is an oracle only over
+its two original per-query arms (inverse versus target-triggered semantic).  This
+file adds a third policy family, partial prebuild + exact fallback.  Therefore a
+fixed-frontier parent may legitimately beat the Phase-1 oracle reference; that
+would demonstrate action-set expansion, not an oracle contradiction.
 """
 from __future__ import annotations
 
@@ -94,33 +100,45 @@ def envelope_breakpoints(rows):
     return changes
 
 
-def compare_known_horizon_parent(rows, static_rows, oracle_rows, coordinate):
+def compare_known_horizon_parent(rows, static_rows, phase1_oracle_rows, coordinate):
+    """Compare against old parents without treating the old oracle as global.
+
+    The Phase-1 DP is optimal only inside its original two-arm action set.  This
+    function therefore reports a signed comparison to that reference.  Negative
+    `fixed_frontier_minus_phase1_reference_fraction` means the new parent beats
+    the old two-arm oracle because it introduced a new admissible action family.
+    """
     by_horizon_static = {row["horizon"]: row for row in static_rows}
-    by_horizon_oracle = {row["horizon"]: row for row in oracle_rows}
+    by_horizon_phase1 = {row["horizon"]: row for row in phase1_oracle_rows}
     result = []
-    best_parent_gap = {"fraction": 0.0, "horizon": 1}
-    max_oracle_residual = {"fraction": 0.0, "horizon": 1}
+    best_static_gain = {"fraction": 0.0, "horizon": 1}
+    max_above_phase1 = {"fraction": 0.0, "horizon": 1}
+    max_below_phase1 = {"fraction": 0.0, "horizon": 1}
     for row in rows:
         horizon = row["horizon"]
         static = by_horizon_static[horizon]
         best_static = min(static["semantic"][coordinate], static["inverse"][coordinate])
         parent = row["expected_cost"]
-        oracle = by_horizon_oracle[horizon]["oracle"]
+        phase1_reference = by_horizon_phase1[horizon]["oracle"]
         static_gain = max(0.0, (best_static - parent) / best_static) if best_static else 0.0
-        oracle_gap = max(0.0, (parent - oracle) / parent) if parent else 0.0
-        if static_gain > best_parent_gap["fraction"]:
-            best_parent_gap = {"fraction": static_gain, "horizon": horizon}
-        if oracle_gap > max_oracle_residual["fraction"]:
-            max_oracle_residual = {"fraction": oracle_gap, "horizon": horizon}
+        signed_phase1 = ((parent - phase1_reference) / parent) if parent else 0.0
+        above = max(0.0, signed_phase1)
+        below = max(0.0, -signed_phase1)
+        if static_gain > best_static_gain["fraction"]:
+            best_static_gain = {"fraction": static_gain, "horizon": horizon}
+        if above > max_above_phase1["fraction"]:
+            max_above_phase1 = {"fraction": above, "horizon": horizon}
+        if below > max_below_phase1["fraction"]:
+            max_below_phase1 = {"fraction": below, "horizon": horizon}
         result.append({
             "horizon": horizon,
             "best_static": best_static,
             "fixed_frontier_parent": parent,
-            "full_information_oracle": oracle,
+            "phase1_two_arm_oracle_reference": phase1_reference,
             "gain_over_best_static_fraction": static_gain,
-            "remaining_oracle_gap_fraction": oracle_gap,
+            "fixed_frontier_minus_phase1_reference_fraction": signed_phase1,
         })
-    return result, best_parent_gap, max_oracle_residual
+    return result, best_static_gain, max_above_phase1, max_below_phase1
 
 
 def build_report(max_horizon=R.MAX_HORIZON):
@@ -133,7 +151,7 @@ def build_report(max_horizon=R.MAX_HORIZON):
         monotone = D.multislope_monotone(slopes)
         all_multislope = all_multislope and monotone
         envelope = offline_envelope(slopes, max_horizon=max_horizon)
-        comparisons, max_static_gain, max_oracle_gap = compare_known_horizon_parent(
+        comparisons, max_static_gain, max_above_phase1, max_below_phase1 = compare_known_horizon_parent(
             envelope,
             static_rows[:max_horizon],
             oracle[coordinate]["rows"][:max_horizon],
@@ -150,7 +168,8 @@ def build_report(max_horizon=R.MAX_HORIZON):
             "known_horizon_rows": envelope,
             "comparison_rows": comparisons,
             "max_gain_over_best_static": max_static_gain,
-            "max_remaining_gap_to_full_information_oracle": max_oracle_gap,
+            "max_gap_above_phase1_two_arm_oracle_reference": max_above_phase1,
+            "max_gain_below_phase1_two_arm_oracle_reference": max_below_phase1,
         }
 
     terminal = (
@@ -159,7 +178,7 @@ def build_report(max_horizon=R.MAX_HORIZON):
         else "GENERAL_CAPITAL_INVESTMENT_PARENT_REQUIRED_R0B_PHASE2B0"
     )
     return {
-        "schema": "ocm.residual-strategy-regime.r0b.phase2b0.investment.v1",
+        "schema": "ocm.residual-strategy-regime.r0b.phase2b0.investment.v2",
         "study": "Exact fixed-frontier expected investment reduction; no ML",
         "scope": {
             "demand": "iid uniform frozen 142-target population",
@@ -175,6 +194,9 @@ def build_report(max_horizon=R.MAX_HORIZON):
         "claim_boundary": {
             "exact_reduction_is_expected_cost_only": True,
             "target_sequence_adversarial_multislope_claimed": False,
+            "phase1_oracle_scope": "OPTIMAL_ONLY_OVER_ORIGINAL_INVERSE_VS_TARGET_TRIGGERED_SEMANTIC_ARMS",
+            "fixed_frontier_is_action_set_expansion": True,
+            "phase1_oracle_is_upper_bound_for_phase2b0": False,
             "ml_authorized": False,
             "next_parent": (
                 "multislope/capital-investment competitive policy"
@@ -195,7 +217,8 @@ def _notice(report):
                 [row["horizon"], row["frontier"]] for row in value["breakpoints"]
             ],
             "max_static_gain": value["max_gain_over_best_static"],
-            "max_oracle_gap": value["max_remaining_gap_to_full_information_oracle"],
+            "max_above_phase1_ref": value["max_gap_above_phase1_two_arm_oracle_reference"],
+            "max_below_phase1_ref": value["max_gain_below_phase1_two_arm_oracle_reference"],
         }
         for coordinate, value in report["coordinates"].items()
     }
