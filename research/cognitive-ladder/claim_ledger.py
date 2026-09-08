@@ -241,6 +241,19 @@ CLAIMS = [
  "permitted_wording": "Absent reuse opportunity explains why persisting was worthless, but not why acquiring eagerly was worse than acquiring on demand; the second is a question about acquisition policy rather than about the ecology or the architecture.",
  "forbidden_wording": "Given enough reuse opportunity, the machine amortizes its structure.",
 },
+{
+ "claim_id": "C14-BOUNDED-RETENTION-FAVOURS-GENERALIZATION",
+ "claim": "When retention is bounded in bits and priced, and the answer population is compressible enough, an ONLINE machine that keeps generalizations serves a demand stream for less total work than a CLAIRVOYANT machine that keeps instances.",
+ "level": "L1", "evidence": "E2",
+ "hypothesis": "Every prior negative in this programme ran where holding what you derived cost nothing and was never bounded. Under those conditions retaining nothing is optimal and the parents' wins are arithmetic. Bound retention in bits and the choice of WHAT to keep becomes the decision under test, and representation should start to matter.",
+ "strongest_parent": "belady_instance_cache: handed the entire future demand stream and evicting furthest-in-future, which for uniform-size uniform-cost items is Belady's rule and is optimal over every instance policy, offline or online. It has strictly more information than the arm, on purpose, so that a loss cannot be blamed on scheduling.",
+ "experiment": "E10, run_retain.py, three grids, nine arms, protected draw derived from the plan digest",
+ "replication": "none; the extension-size-one row and the free-retention rows reproduce the prior negatives, which is an internal consistency check rather than a replication",
+ "result": "A crossover exists at extension size 16 at every registered budget, and the best observed ratio is 0.379 at extension 32 and 1024 bits. It survives at uniform demand, the hardest setting for any cache. The negative control held: at extension one, where a rule regenerates one answer for four answer-slots, the arm does not beat the clairvoyant. The placebo subtraction is positive wherever the arm wins. The one parent that still beats the arm is the clairvoyant that may also hold rules -- itself a generalizer.",
+ "limitation": "Rules are disjoint, uniform in extension, and induced without error, and derivation reveals rule membership, so induction difficulty is held at zero and a world where the rule must be learned can only be worse for the arm. The stream is stationary. m* was located on a grid stepping 8, 16, 32, so it is bracketed rather than measured, and the horizon prediction P3 is untested rather than confirmed for exactly that reason. Sigma is priced after the fact and no arm is sigma-aware; a sigma-aware arm would beat every arm here at a high price of storage.",
+ "permitted_wording": "In a world where retention is bounded in bits and the answer population is compressible, keeping a generator beat keeping its outputs, and beat it even against an instance-keeper shown the whole future. That is a claim about representation under scarcity, and the compressibility threshold is a property of the world rather than of the machine.",
+ "forbidden_wording": "OCM's persistent structure amortizes. The machine beats the optimal baseline.",
+},
 ]
 
 

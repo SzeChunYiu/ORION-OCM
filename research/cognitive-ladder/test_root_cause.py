@@ -118,3 +118,22 @@ def test_a_superseding_observation_names_what_it_supersedes():
     for o in RC.OBSERVATIONS:
         if o["observation_id"] in superseded:
             assert o["preserved"] is True, "superseding may not withdraw the original"
+
+
+def test_the_eager_acquisition_root_records_that_its_falsifier_fired():
+    """The programme's central negative explanation is now scoped; it must say so."""
+    root = DOC["deep_roots"]["EAGER_ACQUISITION_IS_DOMINATED_BY_DEFERRED_ACQUISITION"]
+    status = root["falsifier_status"]
+    assert status.startswith("FIRED, AND THE ROOT IS NARROWED")
+    assert "RETAIN_E10_V1.json" in status
+    assert "scoped, not refuted" in status
+    assert "perishability half of the falsifier is still unrun" in status, (
+        "half a falsifier is not a falsifier; the unrun half must stay visible")
+
+
+def test_every_recorded_falsifier_status_reaches_the_generated_document():
+    md = (HERE / "ROOT_CAUSE_ANALYSIS_V1.md").read_text()
+    for table in (RC.ROOTS, RC.DEEP_ROOTS):
+        for name, r in table.items():
+            if r.get("falsifier_status"):
+                assert r["falsifier_status"] in md, name

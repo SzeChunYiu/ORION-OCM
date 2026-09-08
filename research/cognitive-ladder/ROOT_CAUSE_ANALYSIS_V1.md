@@ -203,6 +203,8 @@ In two lanes the parent was the same generic algorithm holding separate state, s
 
 **Falsifier.** Re-run with an independently implemented parent. If it still ties, the verdict becomes informative for the first time.
 
+**Falsifier status.** HALF_FIRED. E8 (results/INDEP_E8_V1.json) supplied independent parents for the factorization lane. The verdict did not tie: the independent regression parent beat the arm outright, at 0.779 of its objective calls. So N10's PARENT_SUFFICIENT is now informative and its content is a loss, not a vacuum. N12, the self-evolution lane, has not been re-run against an independently implemented parent, so this root stays open there and the entry stands.
+
 ### GROUND_TRUTH_SHARED_AN_AUTHOR_WITH_THE_POLICY (CONJECTURE_SINGLE_CHAIN, 1 chains)
 
 Benchmark labels were produced by the same taxonomy the policy reasons in, so the policy was scored against its own categories.
@@ -239,9 +241,11 @@ Across four independent experiments, with four different mechanisms and four dif
 
 **Consequence.** This supersedes the demand-density explanation as the primary root. Raising demand was necessary and turned out not to be sufficient: E7 showed it rescues persistence while leaving eager acquisition dominated. And E6 shows that letting the instrument choose its own granularity, which the probe-resolution root prescribed as its fix, does not rescue it either. Both earlier roots were real and both were upstream of this one. E8 additionally removes the shared-mechanism confound: the pattern is not an artifact of parents built out of the arm, because it reproduces against a parent built out of nothing but its own textbook description.
 
-**What it does not excuse.** It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in these worlds partly because evidence is perfectly retainable, so a derivation can always be redone later at the same price. Where re-deriving is impossible or the evidence is perishable, the comparison inverts and eager acquisition may be the only option. Nothing here measures that regime, and the retainability assumption is doing real work.
+**What it does not excuse.** It is not a licence to call the architecture vindicated. Deferred acquisition is cheap in these worlds partly because evidence is perfectly retainable, so a derivation can always be redone later at the same price. Where re-deriving is impossible or the evidence is perishable, the comparison inverts and eager acquisition may be the only option. Nothing here measures that regime, and the retainability assumption is doing real work. E10 has since measured the neighbouring assumption -- that KEEPING is free and unbounded -- and found the sign reverses when it is dropped, which is why this root now carries a falsifier_status rather than standing unqualified.
 
 **Falsifier.** Build a world where evidence is perishable or re-derivation is strictly more expensive later, and show eager acquisition still loses. If it wins there, the finding is scoped to retainable evidence rather than general, which would be a narrowing and not a refutation.
+
+**Falsifier status.** FIRED, AND THE ROOT IS NARROWED. E10 (results/RETAIN_E10_V1.json) built the world. It varied the half of the falsifier about the COST OF KEEPING rather than the half about perishability: retention was capped in bits and priced, so what to keep became a decision with an opportunity cost. Above a compressibility threshold the sign of the comparison reverses -- an online arm that keeps generalizations serves the same demand stream for as little as 0.379 of the work of a parent shown the entire future and evicting furthest-in-future, which is optimal over instance policies. The root therefore describes worlds with UNBOUNDED FREE RETENTION, which is every world this programme had built until now and which nobody had noticed was a constant. It is scoped, not refuted: at extension size one, and wherever the budget holds everything, the parents still win exactly as they did. The perishability half of the falsifier is still unrun.
 
 ### COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM (2 chains, subsumes PARENT_SHARES_THE_MECHANISM_UNDER_TEST)
 
@@ -254,6 +258,8 @@ In the factorization and self-evolution lanes the strongest parent was the arm's
 **What it does not excuse.** It does not weaken the other ten verdicts, several of which used genuinely independent parents: an ordinary index, a nogood store, a hand-authored decision tree, an exact repair planner.
 
 **Falsifier.** re-run with an independent implementation; a tie then becomes informative
+
+**Falsifier status.** HALF_FIRED on the factorization lane by E8 (results/INDEP_E8_V1.json), and the outcome was not a tie. The independent regression parent beat the arm at 0.779 of its objective calls, so N10's verdict is now informative and what it informs us of is a loss. The self-evolution lane N12 has not been re-run against an independent parent and this root still holds there, which is why the entry is not withdrawn.
 
 ## Decisive experiment implied
 

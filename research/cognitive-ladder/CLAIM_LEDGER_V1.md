@@ -19,6 +19,7 @@ PUB-D1 of #144. The load-bearing columns are the last two. Every result is recor
 | C11-ABLATION-ATTRIBUTION-INCOMPLETE | L2 | E1 | Between 16 |
 | C12-RELEVANCE-KEY-DECAYS-WITH-SCALE | L1 | E1 | The hand-specified prefix goes from max bucket 1 and collision rate 0 at N=17 to max bucket 20 and collision rate 0 |
 | C13-DEMAND-RESCUES-PERSISTENCE-NOT-EAGER-ACQUISITION | L1 | E2 | Crossovers are real but bounded |
+| C14-BOUNDED-RETENTION-FAVOURS-GENERALIZATION | L1 | E2 | A crossover exists at extension size 16 at every registered budget, and the best observed ratio is 0 |
 
 ## C1-SPARSE-LOOKUP
 
@@ -279,3 +280,23 @@ PUB-D1 of #144. The load-bearing columns are the last two. Every result is recor
 **Permitted wording.** Absent reuse opportunity explains why persisting was worthless, but not why acquiring eagerly was worse than acquiring on demand; the second is a question about acquisition policy rather than about the ecology or the architecture.
 
 **Forbidden wording.** _Given enough reuse opportunity, the machine amortizes its structure._
+
+## C14-BOUNDED-RETENTION-FAVOURS-GENERALIZATION
+
+**Claim.** When retention is bounded in bits and priced, and the answer population is compressible enough, an ONLINE machine that keeps generalizations serves a demand stream for less total work than a CLAIRVOYANT machine that keeps instances.
+
+**Level.** L1 · **Evidence class.** E2
+
+**Hypothesis.** Every prior negative in this programme ran where holding what you derived cost nothing and was never bounded. Under those conditions retaining nothing is optimal and the parents' wins are arithmetic. Bound retention in bits and the choice of WHAT to keep becomes the decision under test, and representation should start to matter.
+
+**Strongest parent.** belady_instance_cache: handed the entire future demand stream and evicting furthest-in-future, which for uniform-size uniform-cost items is Belady's rule and is optimal over every instance policy, offline or online. It has strictly more information than the arm, on purpose, so that a loss cannot be blamed on scheduling.
+
+**Experiment.** `E10, run_retain.py, three grids, nine arms, protected draw derived from the plan digest` · **Replication.** none; the extension-size-one row and the free-retention rows reproduce the prior negatives, which is an internal consistency check rather than a replication
+
+**Result.** A crossover exists at extension size 16 at every registered budget, and the best observed ratio is 0.379 at extension 32 and 1024 bits. It survives at uniform demand, the hardest setting for any cache. The negative control held: at extension one, where a rule regenerates one answer for four answer-slots, the arm does not beat the clairvoyant. The placebo subtraction is positive wherever the arm wins. The one parent that still beats the arm is the clairvoyant that may also hold rules -- itself a generalizer.
+
+**Limitation.** Rules are disjoint, uniform in extension, and induced without error, and derivation reveals rule membership, so induction difficulty is held at zero and a world where the rule must be learned can only be worse for the arm. The stream is stationary. m* was located on a grid stepping 8, 16, 32, so it is bracketed rather than measured, and the horizon prediction P3 is untested rather than confirmed for exactly that reason. Sigma is priced after the fact and no arm is sigma-aware; a sigma-aware arm would beat every arm here at a high price of storage.
+
+**Permitted wording.** In a world where retention is bounded in bits and the answer population is compressible, keeping a generator beat keeping its outputs, and beat it even against an instance-keeper shown the whole future. That is a claim about representation under scarcity, and the compressibility threshold is a property of the world rather than of the machine.
+
+**Forbidden wording.** _OCM's persistent structure amortizes. The machine beats the optimal baseline._

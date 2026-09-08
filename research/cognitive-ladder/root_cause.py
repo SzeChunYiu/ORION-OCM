@@ -364,11 +364,26 @@ DEEP_ROOTS = {
     "these worlds partly because evidence is perfectly retainable, so a derivation can always be "
     "redone later at the same price. Where re-deriving is impossible or the evidence is "
     "perishable, the comparison inverts and eager acquisition may be the only option. Nothing here "
-    "measures that regime, and the retainability assumption is doing real work."),
+    "measures that regime, and the retainability assumption is doing real work. E10 has since "
+    "measured the neighbouring assumption -- that KEEPING is free and unbounded -- and found the "
+    "sign reverses when it is dropped, which is why this root now carries a falsifier_status "
+    "rather than standing unqualified."),
   falsifier=(
     "Build a world where evidence is perishable or re-derivation is strictly more expensive later, "
     "and show eager acquisition still loses. If it wins there, the finding is scoped to retainable "
     "evidence rather than general, which would be a narrowing and not a refutation."),
+  falsifier_status=(
+    "FIRED, AND THE ROOT IS NARROWED. E10 (results/RETAIN_E10_V1.json) built the world. It varied "
+    "the half of the falsifier about the COST OF KEEPING rather than the half about "
+    "perishability: retention was capped in bits and priced, so what to keep became a decision "
+    "with an opportunity cost. Above a compressibility threshold the sign of the comparison "
+    "reverses -- an online arm that keeps generalizations serves the same demand stream for as "
+    "little as 0.379 of the work of a parent shown the entire future and evicting "
+    "furthest-in-future, which is optimal over instance policies. The root therefore describes "
+    "worlds with UNBOUNDED FREE RETENTION, which is every world this programme had built until "
+    "now and which nobody had noticed was a constant. It is scoped, not refuted: at extension "
+    "size one, and wherever the budget holds everything, the parents still win exactly as they "
+    "did. The perishability half of the falsifier is still unrun."),
   fixable=True),
 
 "COMPARISON_WAS_CONSTRUCTED_FROM_THE_ARM": dict(
@@ -499,6 +514,8 @@ def main() -> int:
         L.append(f"**Why it happened.** {v['why_it_happened']}\n")
         L.append(f"**Consequence.** {v['consequence']}\n")
         L.append(f"**Falsifier.** {v['falsifier']}\n")
+        if v.get("falsifier_status"):
+            L.append(f"**Falsifier status.** {v['falsifier_status']}\n")
     L += ["## Deep roots\n"]
     for k, v in doc["deep_roots"].items():
         L.append(f"### {k} ({v['chains_supporting']} chains, subsumes "
@@ -510,6 +527,8 @@ def main() -> int:
         L.append(f"**Consequence.** {v['consequence']}\n")
         L.append(f"**What it does not excuse.** {v['what_it_does_not_excuse']}\n")
         L.append(f"**Falsifier.** {v['falsifier']}\n")
+        if v.get("falsifier_status"):
+            L.append(f"**Falsifier status.** {v['falsifier_status']}\n")
     d = doc["decisive_experiment"]
     L += ["## Decisive experiment implied\n", f"### {d['name']}\n", f"{d['question']}\n",
           f"**Design.** {d['design']}\n",
