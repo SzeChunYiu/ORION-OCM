@@ -133,16 +133,16 @@ because `H=1` lies in the inverse region and `H_c` and `M=142` lie in the semant
 
 `distributional_lifecycle_verify.py` rebuilds `I_r,S_r` from the source-derived `regime.json`, enumerates every legal threshold `tau in 0..M`, and requires the two Bayes-optimal threshold sets to be disjoint.  No hard-coded expected cost is trusted.
 
-The currently observed source-derived witness is:
+For the current source-derived curves the witness has the following tied sets:
 
 ```text
-coordinate                    P_r optimum    Q_r optimum
-transitions                        tau=4          tau=1
-arithmetic additions               tau=6          tau=1
-arithmetic multiplications         tau=9          tau=1
+coordinate                    T*(P_r)                  T*(Q_r)
+transitions                    {4,...,142}              {1}
+arithmetic additions           {6,...,142}              {1}
+arithmetic multiplications     {9,...,142}              {1}
 ```
 
-The verifier, not this prose table, is authoritative for the branch head.
+Every threshold at or after `H_c` is behaviorally identical on `P_r` because that witness has no mass beyond `H_c`; the theorem does not pretend `tau=H_c` is a unique optimum.  What matters is that the complete optimal sets are disjoint.  The verifier, not this prose table, is authoritative for the branch head.
 
 ## 5. A sufficient finite economic representation
 
