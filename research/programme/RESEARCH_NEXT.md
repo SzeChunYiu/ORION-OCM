@@ -73,3 +73,13 @@ meaning, audience-sensitive generation or empirical truth. Keep those claims sep
 A paper needs a concrete new mechanism or theorem, meaningful generalization,
 strong matched parents, complete cost accounting and reproducible evidence. Preserve
 PARENT_SUFFICIENT when earned. Write the paper only when that scientific result exists.
+
+The prospective [ordinary derived-lemma parent](../native-ordinary-lemma-parent-v1/CORE.md) is source-reviewed. Its contract and conditional action-cost argument authorize no native experiment; qualify the typed interface before the registered comparison.
+
+The [typed structural seam](../native-typed-trace-evidence-v1/CORE.md) passes 43 pure controls. Native fixture qualification, support grouping, admission and the A-exit/fresh-B lifecycle remain separate next steps.
+
+The Boolean meaning bridge is a bounded language interface, not an admission requirement
+for all native mathematics. Future native-only studies must register native proof
+validity, source/dependency-family separation and explicit support/alias policies.
+Distinct statements or families do not establish distinct meanings. Language transfer
+remains within its qualified bridge; this changes no current fixture or support policy.

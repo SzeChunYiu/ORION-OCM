@@ -1,0 +1,1613 @@
+{
+  "schema": "ocm.ordinary-lemma-parent.source-review.v1",
+  "date": "2026-09-08",
+  "status": "SOURCE_REVIEW_ONLY",
+  "read_scope": "Existing source bytes and published base only; no module import, corpus record, proof search, learner or native execution.",
+  "sources": [
+    {
+      "repository_path": "research/native-method-serving-v1/native_macros.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 2515,
+      "sha256": "55ca415cb131e3ceb871c4cb99dfcd742a374cd859e11c8b71dddde88831548b",
+      "inspected_ranges": [
+        [
+          6,
+          33
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 6,
+          "text": "def compile_macros(methods,eligible,removed,bank,constructor,work):"
+        },
+        {
+          "line": 7,
+          "text": "    require(len(eligible)==len(set(eligible)) and set(eligible)<=set(methods),'eligible IDs')"
+        },
+        {
+          "line": 8,
+          "text": "    require(set(removed)<=set(eligible),'removed ID outside eligibility')"
+        },
+        {
+          "line": 9,
+          "text": "    formulas=[['|-']+r['tokens'] for r in bank['wff']];lookup={tuple(t):i for i,t in enumerate(formulas)}"
+        },
+        {
+          "line": 10,
+          "text": "    actions=[]"
+        },
+        {
+          "line": 11,
+          "text": "    for key in sorted(set(eligible)-set(removed)):"
+        },
+        {
+          "line": 12,
+          "text": "        payload=methods[key];body=payload['body'];trace=payload['trace'];contracts=payload['contracts']"
+        },
+        {
+          "line": 13,
+          "text": "        for perm in itertools.permutations(T.ATOMS):"
+        },
+        {
+          "line": 14,
+          "text": "            mapping=dict(zip(T.ATOMS,perm));holes=['macro-hole-'+str(i) for i in range(len(body['premises']))]"
+        },
+        {
+          "line": 15,
+          "text": "            renamed=copy.deepcopy(body)"
+        },
+        {
+          "line": 16,
+          "text": "            for field in ('premises',):renamed[field]=[T.rename(p,mapping) for p in body[field]]"
+        },
+        {
+          "line": 17,
+          "text": "            renamed['query']=T.rename(body['query'],mapping)"
+        },
+        {
+          "line": 18,
+          "text": "            for node in renamed['nodes']:"
+        },
+        {
+          "line": 19,
+          "text": "                node['output']=T.rename(node['output'],mapping)"
+        },
+        {
+          "line": 20,
+          "text": "                if 'substitution' in node:node['substitution']={k:T.rename(v,mapping) for k,v in node['substitution'].items()}"
+        },
+        {
+          "line": 21,
+          "text": "            hypotheses=[{'label':h,'statement':p} for h,p in zip(holes,renamed['premises'])]"
+        },
+        {
+          "line": 22,
+          "text": "            emitted=constructor.construct(trace,contracts,mapping,hypotheses,4096)"
+        },
+        {
+          "line": 23,
+          "text": "            expected=H.emit(renamed,contracts,holes,work)"
+        },
+        {
+          "line": 24,
+          "text": "            require(emitted['proof']==expected['proof'] and emitted['target']==renamed['query'],'admitted constructor/recipe equality')"
+        },
+        {
+          "line": 25,
+          "text": "            for node in renamed['nodes']:"
+        },
+        {
+          "line": 26,
+          "text": "                if node['output'][0]=='|-':require(tuple(node['output']) in lookup,'BANK_INCOMPLETE: learned intermediate')"
+        },
+        {
+          "line": 27,
+          "text": "            require(tuple(renamed['query']) in lookup and all(tuple(p) in lookup for p in renamed['premises']),'BANK_INCOMPLETE: learned boundary')"
+        },
+        {
+          "line": 28,
+          "text": "            action={'kind':'macro','method_id':key,'substitution':{k:[v] for k,v in mapping.items()},"
+        },
+        {
+          "line": 29,
+          "text": "                    'query':lookup[tuple(renamed['query'])],'premises':[lookup[tuple(p)] for p in renamed['premises']],"
+        },
+        {
+          "line": 30,
+          "text": "                    'template':emitted['proof'],'holes':holes}"
+        },
+        {
+          "line": 31,
+          "text": "            action['id']=C.raw_id(C.canonical(action))['sha256'];actions.append(action)"
+        },
+        {
+          "line": 32,
+          "text": "            H.count(work,'macro_instances');H.count(work,'constructor_node_validations',len(trace['nodes']))"
+        },
+        {
+          "line": 33,
+          "text": "    return actions"
+        }
+      ]
+    },
+    {
+      "repository_path": "research/native-method-serving-v1/vendor/finite_search.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 6817,
+      "sha256": "5b174d610c99fcc5e74fa4df803045357729916d76723826bc2918e1536e6de3",
+      "inspected_ranges": [
+        [
+          11,
+          116
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 11,
+          "text": "def compile_parent(parent,bank,work,limit=200000):"
+        },
+        {
+          "line": 12,
+          "text": "    formulas=[[\"|-\"]+r[\"tokens\"] for r in bank[\"wff\"]]"
+        },
+        {
+          "line": 13,
+          "text": "    lookup={tuple(t):i for i,t in enumerate(formulas)}"
+        },
+        {
+          "line": 14,
+          "text": "    maxima={}"
+        },
+        {
+          "line": 15,
+          "text": "    for f in formulas:"
+        },
+        {
+          "line": 16,
+          "text": "        for t,n in collections.Counter(f).items():maxima[t]=max(n,maxima.get(t,0))"
+        },
+        {
+          "line": 17,
+          "text": "    actions=[]"
+        },
+        {
+          "line": 18,
+          "text": "    for row in parent:"
+        },
+        {
+          "line": 19,
+          "text": "        count(work,\"parent_contracts_scanned\")"
+        },
+        {
+          "line": 20,
+          "text": "        if row[\"statement\"][0]!=\"|-\":continue"
+        },
+        {
+          "line": 21,
+          "text": "        variables={h[\"statement\"][1] for h in row[\"floating\"]}"
+        },
+        {
+          "line": 22,
+          "text": "        patterns=[row[\"statement\"]]+[h[\"statement\"] for h in row[\"essential\"]]"
+        },
+        {
+          "line": 23,
+          "text": "        if any(any(n>maxima.get(t,0) for t,n in collections.Counter(x for x in p if x not in variables).items()) for p in patterns):"
+        },
+        {
+          "line": 24,
+          "text": "            count(work,\"bank_literal_exclusions\");continue"
+        },
+        {
+          "line": 25,
+          "text": "        for qi,query in enumerate(formulas):"
+        },
+        {
+          "line": 26,
+          "text": "            for mapping in M.match(row[\"statement\"],query,row[\"floating\"],{},work):"
+        },
+        {
+          "line": 27,
+          "text": "                states=[(mapping,[])]"
+        },
+        {
+          "line": 28,
+          "text": "                for h in row[\"essential\"]:"
+        },
+        {
+          "line": 29,
+          "text": "                    successors=[]"
+        },
+        {
+          "line": 30,
+          "text": "                    for prior,slots in states:"
+        },
+        {
+          "line": 31,
+          "text": "                        if {t for t in h[\"statement\"] if t in variables}<=set(prior):"
+        },
+        {
+          "line": 32,
+          "text": "                            pi=lookup.get(tuple(replace(h[\"statement\"],prior)))"
+        },
+        {
+          "line": 33,
+          "text": "                            count(work,\"ground_hypothesis_lookups\")"
+        },
+        {
+          "line": 34,
+          "text": "                            if pi is not None:successors.append((prior,slots+[pi]))"
+        },
+        {
+          "line": 35,
+          "text": "                        else:"
+        },
+        {
+          "line": 36,
+          "text": "                            for pi,premise in enumerate(formulas):"
+        },
+        {
+          "line": 37,
+          "text": "                                count(work,\"ground_hypothesis_matches\")"
+        },
+        {
+          "line": 38,
+          "text": "                                for nxt in M.match(h[\"statement\"],premise,row[\"floating\"],prior,work):"
+        },
+        {
+          "line": 39,
+          "text": "                                    successors.append((nxt,slots+[pi]))"
+        },
+        {
+          "line": 40,
+          "text": "                        if len(successors)>limit:raise ValueError(\"INSTANCE_BOUND: partial instantiations\")"
+        },
+        {
+          "line": 41,
+          "text": "                    states=successors"
+        },
+        {
+          "line": 42,
+          "text": "                for mapping,slots in states:"
+        },
+        {
+          "line": 43,
+          "text": "                    if set(mapping)!=variables:raise ValueError(\"unbound mandatory variable\")"
+        },
+        {
+          "line": 44,
+          "text": "                    count(work,\"dv_checks\")"
+        },
+        {
+          "line": 45,
+          "text": "                    if not M.dv_valid(row,mapping):continue"
+        },
+        {
+          "line": 46,
+          "text": "                    action={\"kind\":\"primitive\",\"label\":row[\"label\"],\"substitution\":mapping,"
+        },
+        {
+          "line": 47,
+          "text": "                            \"query\":qi,\"premises\":slots}"
+        },
+        {
+          "line": 48,
+          "text": "                    action[\"id\"]=hashlib.sha256(C.canonical(action)).hexdigest()"
+        },
+        {
+          "line": 49,
+          "text": "                    actions.append(action);count(work,\"primitive_instances\")"
+        },
+        {
+          "line": 50,
+          "text": "                    if len(actions)>limit:raise ValueError(\"INSTANCE_BOUND: complete instantiations\")"
+        },
+        {
+          "line": 51,
+          "text": "    return actions"
+        },
+        {
+          "line": 52,
+          "text": ""
+        },
+        {
+          "line": 53,
+          "text": "def order(action,formulas):"
+        },
+        {
+          "line": 54,
+          "text": "    name=(\"native:\"+action[\"label\"]) if action[\"kind\"]==\"primitive\" else (\"macro:\"+action[\"method_id\"])"
+        },
+        {
+          "line": 55,
+          "text": "    return (tuple(formulas[action[\"query\"]]),name,C.canonical(action[\"substitution\"]))"
+        },
+        {
+          "line": 56,
+          "text": "def search(actions,bank,task,work,max_decisions=8):"
+        },
+        {
+          "line": 57,
+          "text": "    formulas=[[\"|-\"]+r[\"tokens\"] for r in bank[\"wff\"]];lookup={tuple(t):i for i,t in enumerate(formulas)}"
+        },
+        {
+          "line": 58,
+          "text": "    if tuple(task[\"query\"]) not in lookup or any(tuple(p) not in lookup for p in task[\"premises\"]):"
+        },
+        {
+          "line": 59,
+          "text": "        raise ValueError(\"BANK_INCOMPLETE: task\")"
+        },
+        {
+          "line": 60,
+          "text": "    target=lookup[tuple(task[\"query\"])];facts={}"
+        },
+        {
+          "line": 61,
+          "text": "    for i,p in enumerate(task[\"premises\"]):"
+        },
+        {
+          "line": 62,
+          "text": "        facts.setdefault(lookup[tuple(p)],{\"kind\":\"premise\",\"slot\":i,\"decision_count\":0,\"output\":p})"
+        },
+        {
+          "line": 63,
+          "text": "    if target in facts:return {\"terminal\":\"PROVED\",\"decision_count\":0,\"derivation\":facts[target]}"
+        },
+        {
+          "line": 64,
+          "text": "    ordered=sorted(actions,key=lambda a:order(a,formulas))"
+        },
+        {
+          "line": 65,
+          "text": "    for layer in range(1,max_decisions+1):"
+        },
+        {
+          "line": 66,
+          "text": "        count(work,\"search_layers\")"
+        },
+        {
+          "line": 67,
+          "text": "        for action in ordered:"
+        },
+        {
+          "line": 68,
+          "text": "            count(work,\"action_attempts\");count(work,action[\"kind\"]+\"_action_attempts\")"
+        },
+        {
+          "line": 69,
+          "text": "            qi=action[\"query\"]"
+        },
+        {
+          "line": 70,
+          "text": "            if qi in facts or any(p not in facts for p in action[\"premises\"]):continue"
+        },
+        {
+          "line": 71,
+          "text": "            parents=[facts[p] for p in action[\"premises\"]]"
+        },
+        {
+          "line": 72,
+          "text": "            cost=1+sum(p[\"decision_count\"] for p in parents)"
+        },
+        {
+          "line": 73,
+          "text": "            if cost!=layer:continue"
+        },
+        {
+          "line": 74,
+          "text": "            derivation={\"kind\":\"action\",\"action\":action,\"parents\":parents,"
+        },
+        {
+          "line": 75,
+          "text": "                        \"decision_count\":cost,\"output\":formulas[qi]}"
+        },
+        {
+          "line": 76,
+          "text": "            facts[qi]=derivation;count(work,\"successful_relaxations\")"
+        },
+        {
+          "line": 77,
+          "text": "            if qi==target:return {\"terminal\":\"PROVED\",\"decision_count\":cost,\"derivation\":derivation}"
+        },
+        {
+          "line": 78,
+          "text": "    return {\"terminal\":\"NO_PROOF_WITHIN_BOUND\",\"max_decisions\":max_decisions,\"reached_facts\":len(facts)}"
+        },
+        {
+          "line": 79,
+          "text": ""
+        },
+        {
+          "line": 80,
+          "text": "def emit(derivation,parent,bank,work):"
+        },
+        {
+          "line": 81,
+          "text": "    contracts={r[\"label\"]:r for r in parent}"
+        },
+        {
+          "line": 82,
+          "text": "    syntax={(k,tuple(r[\"tokens\"])):r[\"proof\"] for k in (\"class\",\"wff\") for r in bank[k]}"
+        },
+        {
+          "line": 83,
+          "text": "    def visit(node):"
+        },
+        {
+          "line": 84,
+          "text": "        if node[\"kind\"]==\"premise\":return [\"search-hyp-\"+str(node[\"slot\"])]"
+        },
+        {
+          "line": 85,
+          "text": "        action=node[\"action\"];parents=[visit(p) for p in node[\"parents\"]]"
+        },
+        {
+          "line": 86,
+          "text": "        if action[\"kind\"]==\"primitive\":"
+        },
+        {
+          "line": 87,
+          "text": "            row=contracts[action[\"label\"]];proof=[]"
+        },
+        {
+          "line": 88,
+          "text": "            for h in row[\"floating\"]:"
+        },
+        {
+          "line": 89,
+          "text": "                key=(h[\"statement\"][0],tuple(action[\"substitution\"][h[\"statement\"][1]]))"
+        },
+        {
+          "line": 90,
+          "text": "                if key not in syntax:raise ValueError(\"BANK_INCOMPLETE: syntax\")"
+        },
+        {
+          "line": 91,
+          "text": "                proof+=syntax[key];count(work,\"construction_syntax_label_visits\",len(syntax[key]))"
+        },
+        {
+          "line": 92,
+          "text": "            for p in parents:proof+=p"
+        },
+        {
+          "line": 93,
+          "text": "            proof.append(row[\"label\"]);count(work,\"construction_primitive_semantic_visits\")"
+        },
+        {
+          "line": 94,
+          "text": "            return proof"
+        },
+        {
+          "line": 95,
+          "text": "        holes=action[\"holes\"]"
+        },
+        {
+          "line": 96,
+          "text": "        if len(parents)!=len(holes):raise ValueError(\"macro hole population\")"
+        },
+        {
+          "line": 97,
+          "text": "        proof=[]"
+        },
+        {
+          "line": 98,
+          "text": "        for label in action[\"template\"]:"
+        },
+        {
+          "line": 99,
+          "text": "            if label in holes:proof+=parents[holes.index(label)]"
+        },
+        {
+          "line": 100,
+          "text": "            else:proof.append(label)"
+        },
+        {
+          "line": 101,
+          "text": "        count(work,\"construction_macro_template_visits\",len(action[\"template\"]))"
+        },
+        {
+          "line": 102,
+          "text": "        return proof"
+        },
+        {
+          "line": 103,
+          "text": "    proof=visit(derivation)"
+        },
+        {
+          "line": 104,
+          "text": "    if len(proof)>4096:raise ValueError(\"PROOF_BOUND\")"
+        },
+        {
+          "line": 105,
+          "text": "    # Count the final expanded stream, including repeated macro-hole splices."
+        },
+        {
+          "line": 106,
+          "text": "    # Construction visits above intentionally count physical constructor work only."
+        },
+        {
+          "line": 107,
+          "text": "    for label in proof:"
+        },
+        {
+          "line": 108,
+          "text": "        if label.startswith(\"search-hyp-\"):"
+        },
+        {
+          "line": 109,
+          "text": "            count(work,\"final_hypothesis_labels\")"
+        },
+        {
+          "line": 110,
+          "text": "        elif label in (\"cA\",\"cB\",\"cC\"):"
+        },
+        {
+          "line": 111,
+          "text": "            count(work,\"final_floating_labels\")"
+        },
+        {
+          "line": 112,
+          "text": "        elif label in contracts:"
+        },
+        {
+          "line": 113,
+          "text": "            key=\"final_semantic_labels\" if contracts[label][\"statement\"][0]==\"|-\" else \"final_syntax_labels\""
+        },
+        {
+          "line": 114,
+          "text": "            count(work,key)"
+        },
+        {
+          "line": 115,
+          "text": "        else:raise ValueError(\"unclassified final proof label\")"
+        },
+        {
+          "line": 116,
+          "text": "    count(work,\"normal_proof_labels\",len(proof))"
+        }
+      ]
+    },
+    {
+      "repository_path": "research/native-method-serving-v1/vendor/native_match.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 3496,
+      "sha256": "d4ddc554f6cc284733418ddec0f9dac08bcef2f53cc77fc9d60b25415754edfb",
+      "inspected_ranges": [
+        [
+          1,
+          200
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 1,
+          "text": "\"\"\"Finite complete one-assertion matching to typed ground strings.\"\"\""
+        },
+        {
+          "line": 2,
+          "text": "import importlib.util"
+        },
+        {
+          "line": 3,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 4,
+          "text": ""
+        },
+        {
+          "line": 5,
+          "text": "spec=importlib.util.spec_from_file_location(\"_chunk_types\",Path(__file__).with_name(\"typed_terms.py\"))"
+        },
+        {
+          "line": 6,
+          "text": "T=importlib.util.module_from_spec(spec); spec.loader.exec_module(T)"
+        },
+        {
+          "line": 7,
+          "text": "def count(work,key,n=1):"
+        },
+        {
+          "line": 8,
+          "text": "    work[key]=work.get(key,0)+n"
+        },
+        {
+          "line": 9,
+          "text": "def match(pattern, ground, floating, initial, work):"
+        },
+        {
+          "line": 10,
+          "text": "    variables={h[\"statement\"][1]:h[\"statement\"][0] for h in floating}"
+        },
+        {
+          "line": 11,
+          "text": "    results=[]; cache={}"
+        },
+        {
+          "line": 12,
+          "text": "    def walk(i,j,mapping):"
+        },
+        {
+          "line": 13,
+          "text": "        count(work,\"token_states\")"
+        },
+        {
+          "line": 14,
+          "text": "        if i==len(pattern):"
+        },
+        {
+          "line": 15,
+          "text": "            if j==len(ground): results.append(mapping)"
+        },
+        {
+          "line": 16,
+          "text": "            return"
+        },
+        {
+          "line": 17,
+          "text": "        token=pattern[i]"
+        },
+        {
+          "line": 18,
+          "text": "        if token not in variables:"
+        },
+        {
+          "line": 19,
+          "text": "            if j<len(ground) and token==ground[j]: walk(i+1,j+1,mapping)"
+        },
+        {
+          "line": 20,
+          "text": "        elif token in mapping:"
+        },
+        {
+          "line": 21,
+          "text": "            value=mapping[token]"
+        },
+        {
+          "line": 22,
+          "text": "            if ground[j:j+len(value)]==value: walk(i+1,j+len(value),mapping)"
+        },
+        {
+          "line": 23,
+          "text": "        else:"
+        },
+        {
+          "line": 24,
+          "text": "            for end in range(j+1,len(ground)+1):"
+        },
+        {
+          "line": 25,
+          "text": "                value=ground[j:end]; key=(variables[token],tuple(value))"
+        },
+        {
+          "line": 26,
+          "text": "                if key not in cache:"
+        },
+        {
+          "line": 27,
+          "text": "                    count(work,\"type_checks\")"
+        },
+        {
+          "line": 28,
+          "text": "                    try: T.syntax(variables[token],value); cache[key]=True"
+        },
+        {
+          "line": 29,
+          "text": "                    except ValueError: cache[key]=False"
+        },
+        {
+          "line": 30,
+          "text": "                if cache[key]: walk(i+1,end,{**mapping,token:value})"
+        },
+        {
+          "line": 31,
+          "text": "    walk(0,0,dict(initial))"
+        },
+        {
+          "line": 32,
+          "text": "    return results"
+        },
+        {
+          "line": 33,
+          "text": "def dv_valid(row,mapping):"
+        },
+        {
+          "line": 34,
+          "text": "    # Authored scope has class variables A/B/C and no declared distinct pairs."
+        },
+        {
+          "line": 35,
+          "text": "    for a,b in row[\"dv\"]:"
+        },
+        {
+          "line": 36,
+          "text": "        av=set(mapping[a]) & set(T.ATOMS); bv=set(mapping[b]) & set(T.ATOMS)"
+        },
+        {
+          "line": 37,
+          "text": "        if av and bv: return False"
+        },
+        {
+          "line": 38,
+          "text": "    return True"
+        },
+        {
+          "line": 39,
+          "text": "def applications(row,query,premises,work):"
+        },
+        {
+          "line": 40,
+          "text": "    answers=[]"
+        },
+        {
+          "line": 41,
+          "text": "    for m in match(row[\"statement\"],query,row[\"floating\"],{},work):"
+        },
+        {
+          "line": 42,
+          "text": "        states=[(m,[])]"
+        },
+        {
+          "line": 43,
+          "text": "        for h in row[\"essential\"]:"
+        },
+        {
+          "line": 44,
+          "text": "            successors=[]"
+        },
+        {
+          "line": 45,
+          "text": "            for prior,slots in states:"
+        },
+        {
+          "line": 46,
+          "text": "                for i,p in enumerate(premises):"
+        },
+        {
+          "line": 47,
+          "text": "                    count(work,\"essential_matches\")"
+        },
+        {
+          "line": 48,
+          "text": "                    for nxt in match(h[\"statement\"],p,row[\"floating\"],prior,work):"
+        },
+        {
+          "line": 49,
+          "text": "                        successors.append((nxt,slots+[i]))"
+        },
+        {
+          "line": 50,
+          "text": "            states=successors"
+        },
+        {
+          "line": 51,
+          "text": "        for mapping,slots in states:"
+        },
+        {
+          "line": 52,
+          "text": "            if set(mapping)!={h[\"statement\"][1] for h in row[\"floating\"]}:"
+        },
+        {
+          "line": 53,
+          "text": "                raise ValueError(\"mandatory variable missing from conclusion and hypotheses\")"
+        },
+        {
+          "line": 54,
+          "text": "            count(work,\"dv_checks\")"
+        },
+        {
+          "line": 55,
+          "text": "            if dv_valid(row,mapping):"
+        },
+        {
+          "line": 56,
+          "text": "                answers.append({\"label\":row[\"label\"],\"substitution\":mapping,\"premise_indices\":slots})"
+        },
+        {
+          "line": 57,
+          "text": "    return answers"
+        },
+        {
+          "line": 58,
+          "text": "def ground_guard(query,premises):"
+        },
+        {
+          "line": 59,
+          "text": "    for statement in [query]+premises:"
+        },
+        {
+          "line": 60,
+          "text": "        if type(statement) is not list or not statement or statement[0]!=\"|-\" or any(type(t) is not str for t in statement):"
+        },
+        {
+          "line": 61,
+          "text": "            raise ValueError(\"UNSUPPORTED_GROUND_SYNTAX: token vector\")"
+        },
+        {
+          "line": 62,
+          "text": "        try:T.syntax(\"wff\",statement[1:])"
+        },
+        {
+          "line": 63,
+          "text": "        except ValueError as exc:raise ValueError(\"UNSUPPORTED_GROUND_SYNTAX: \"+str(exc)) from exc"
+        },
+        {
+          "line": 64,
+          "text": "def one_step(contracts,query,premises,work):"
+        },
+        {
+          "line": 65,
+          "text": "    if type(premises) is not list:raise ValueError(\"UNSUPPORTED_GROUND_SYNTAX: premise vector\")"
+        },
+        {
+          "line": 66,
+          "text": "    ground_guard(query,premises)"
+        },
+        {
+          "line": 67,
+          "text": "    if any(h[\"statement\"][0] not in (\"class\",\"wff\",\"setvar\") for r in contracts for h in r[\"floating\"]):"
+        },
+        {
+          "line": 68,
+          "text": "        raise ValueError(\"UNSUPPORTED_NATIVE_INVENTORY: floating type\")"
+        },
+        {
+          "line": 69,
+          "text": "    result=[]"
+        },
+        {
+          "line": 70,
+          "text": "    for row in contracts:"
+        },
+        {
+          "line": 71,
+          "text": "        count(work,\"assertions_visited\")"
+        },
+        {
+          "line": 72,
+          "text": "        result+=applications(row,query,premises,work)"
+        },
+        {
+          "line": 73,
+          "text": "    return result"
+        }
+      ]
+    },
+    {
+      "repository_path": "research/native-method-serving-v1/native_checker.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 3912,
+      "sha256": "4f368a261f3b13fa72e6d8a0ea59ba221d7cba8def57b8bf17397655a44075a8",
+      "inspected_ranges": [
+        [
+          12,
+          48
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 12,
+          "text": "    def verify(self,claims):"
+        },
+        {
+          "line": 13,
+          "text": "        start=time.monotonic();prefix=(self.bundle/\"PREFIX.mm\").read_bytes()"
+        },
+        {
+          "line": 14,
+          "text": "        require(C.raw_id(prefix)==PINS[\"PREFIX.mm\"],\"CHECKER_LIBRARY_CHANGED\")"
+        },
+        {
+          "line": 15,
+          "text": "        require(type(claims) is list and len(claims)==1,\"CHECKER_CLAIM_BOUND\")"
+        },
+        {
+          "line": 16,
+          "text": "        suffix=[];selected=[]"
+        },
+        {
+          "line": 17,
+          "text": "        for i,claim in enumerate(claims):"
+        },
+        {
+          "line": 18,
+          "text": "            validate_task(claim[\"task\"]);proof=claim[\"proof\"]"
+        },
+        {
+          "line": 19,
+          "text": "            require(type(proof) is list and 0<len(proof)<=4096 and all(type(x) is str and x and all(c.isalnum() or c in \"-_.\" for c in x) for x in proof),\"PROOF_TOKENS\")"
+        },
+        {
+          "line": 20,
+          "text": "            names=claim[\"holes\"]"
+        },
+        {
+          "line": 21,
+          "text": "            require(names==[\"search-hyp-\"+str(j) for j in range(len(claim[\"task\"][\"premises\"]))],\"EXACT_HOLE_NAMES\")"
+        },
+        {
+          "line": 22,
+          "text": "            label=\"native-serving-result-\"+str(i);selected.append(label);suffix.append(\"${\")"
+        },
+        {
+          "line": 23,
+          "text": "            for h,statement in zip(names,claim[\"task\"][\"premises\"]):suffix.append(h+\" $e \"+\" \".join(statement)+\" $.\")"
+        },
+        {
+          "line": 24,
+          "text": "            suffix.append(label+\" $p \"+\" \".join(claim[\"task\"][\"query\"])+\" $= \"+\" \".join(proof)+\" $.\");suffix.append(\"$}\")"
+        },
+        {
+          "line": 25,
+          "text": "        raw=prefix+(\"\\n\"+\"\\n\".join(suffix)+\"\\n\").encode(\"ascii\");digest=C.raw_id(raw)"
+        },
+        {
+          "line": 26,
+          "text": "        db=self.archive/(digest[\"sha256\"]+\".mm\")"
+        },
+        {
+          "line": 27,
+          "text": "        if db.exists():require(db.read_bytes()==raw,\"CHECKER_ARCHIVE_COLLISION\")"
+        },
+        {
+          "line": 28,
+          "text": "        else:"
+        },
+        {
+          "line": 29,
+          "text": "            with db.open(\"xb\") as f:f.write(raw);f.flush();__import__(\"os\").fsync(f.fileno())"
+        },
+        {
+          "line": 30,
+          "text": "        rows,_=S.index(raw);trusted=[r[\"label\"] for r in rows.values() if r[\"kind\"]==\"$a\"]"
+        },
+        {
+          "line": 31,
+          "text": "        expected=[r[\"label\"] for r in rows.values() if r[\"kind\"]==\"$p\"]"
+        },
+        {
+          "line": 32,
+          "text": "        require(len(trusted)==96 and len(expected)==4095+len(claims) and expected[-len(claims):]==selected,\"NATIVE_POPULATION\")"
+        },
+        {
+          "line": 33,
+          "text": "        N=C.load(\"mmverify\");log=io.StringIO();N.verbosity,N.logfile=2,log"
+        },
+        {
+          "line": 34,
+          "text": "        class Tokens(N.Toks):"
+        },
+        {
+          "line": 35,
+          "text": "            def __init__(self,file):super().__init__(file);self.recent=[]"
+        },
+        {
+          "line": 36,
+          "text": "            def readc(self):"
+        },
+        {
+          "line": 37,
+          "text": "                word=super().readc();self.recent=(self.recent+[word])[-2:];return word"
+        },
+        {
+          "line": 38,
+          "text": "        mm=A.traced_class(N,rows)(selected,None);error=None"
+        },
+        {
+          "line": 39,
+          "text": "        try:"
+        },
+        {
+          "line": 40,
+          "text": "            with db.open(encoding=\"ascii\") as stream,contextlib.redirect_stdout(log),contextlib.redirect_stderr(log):mm.read(Tokens(stream))"
+        },
+        {
+          "line": 41,
+          "text": "            require(mm.verified==expected and set(mm.traces)==set(selected),\"NATIVE_REPLAY_POPULATION\")"
+        },
+        {
+          "line": 42,
+          "text": "        except Exception as exc:error={\"type\":type(exc).__name__,\"message\":str(exc)}"
+        },
+        {
+          "line": 43,
+          "text": "        require(db.read_bytes()==raw and C.raw_id((self.bundle/\"PREFIX.mm\").read_bytes())==PINS[\"PREFIX.mm\"],\"NATIVE_CONSUMED_DRIFT\")"
+        },
+        {
+          "line": 44,
+          "text": "        result={\"schema\":\"native.replay.v1\",\"terminal\":\"NATIVE_VERIFIED\" if error is None else \"NATIVE_REJECTED\","
+        },
+        {
+          "line": 45,
+          "text": "                \"claims_sha256\":D.hashed(claims),\"database\":digest,\"prefix\":PINS[\"PREFIX.mm\"],\"error\":error,"
+        },
+        {
+          "line": 46,
+          "text": "                \"verified_count\":len(mm.verified),\"trusted_count\":len(trusted),\"trusted_sha256\":D.hashed(trusted),"
+        },
+        {
+          "line": 47,
+          "text": "                \"trace_sha256\":D.hashed(mm.traces),\"wall_s\":time.monotonic()-start}"
+        },
+        {
+          "line": 48,
+          "text": "        # Each invocation is retained even for identical claim bytes."
+        }
+      ]
+    },
+    {
+      "repository_path": "research/native-method-serving-v1/native_inputs.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 2984,
+      "sha256": "14a90e2c2ef5725754fbd99f4f9f4a0dc468fc350d4db945d63389faa981d31c",
+      "inspected_ranges": [
+        [
+          9,
+          43
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 9,
+          "text": "class Inputs:"
+        },
+        {
+          "line": 10,
+          "text": "    def __init__(self,root,work):"
+        },
+        {
+          "line": 11,
+          "text": "        self.root=Path(root);self.work=work;self.loaded={}"
+        },
+        {
+          "line": 12,
+          "text": "        self.parent=self.read(\"PARENT.json\");self.bank=self.read(\"BANK.json\")"
+        },
+        {
+          "line": 13,
+          "text": "        self.methods=self.read(\"METHODS.json\");self.binding=self.read(\"BINDING.json\")"
+        },
+        {
+          "line": 14,
+          "text": "        self.identity=D.parse(D.raw({k:v for k,v in PINS.items() if k not in (\"positive.json\",\"false.json\")}))"
+        },
+        {
+          "line": 15,
+          "text": "        require(len(self.parent)==4191 and len(self.bank[\"class\"])==15 and len(self.bank[\"wff\"])==255,\"FINITE_INVENTORY\")"
+        },
+        {
+          "line": 16,
+          "text": "        require(self.binding[\"projection\"]==PINS[\"METHODS.json\"],\"PROJECTION_BINDING\")"
+        },
+        {
+          "line": 17,
+          "text": "        for name,key in ((\"PARENT.json\",\"parent\"),(\"BANK.json\",\"bank\")):"
+        },
+        {
+          "line": 18,
+          "text": "            require({k:self.binding[key][k] for k in (\"bytes\",\"sha256\")}==PINS[name],\"LIBRARY_BINDING\")"
+        },
+        {
+          "line": 19,
+          "text": "        require(set(self.methods)==set().union(*(set(v) for v in self.binding[\"eligible\"].values())),\"ELIGIBILITY_POPULATION\")"
+        },
+        {
+          "line": 20,
+          "text": "        parent={x[\"label\"]:x for x in self.parent}"
+        },
+        {
+          "line": 21,
+          "text": "        for mid,item in self.methods.items():"
+        },
+        {
+          "line": 22,
+          "text": "            fields(item,(\"id\",\"body\",\"trace\",\"contracts\",\"admission\"))"
+        },
+        {
+          "line": 23,
+          "text": "            require(item[\"id\"]==mid==C.raw_id(C.canonical(item[\"body\"]))[\"sha256\"],\"METHOD_ID\")"
+        },
+        {
+          "line": 24,
+          "text": "            require(item[\"admission\"]==self.binding[\"admission\"],\"OPAQUE_PROVENANCE_BINDING\")"
+        },
+        {
+          "line": 25,
+          "text": "            for label,row in item[\"contracts\"].items():"
+        },
+        {
+          "line": 26,
+          "text": "                if row[\"kind\"] in (\"$a\",\"$p\"):"
+        },
+        {
+          "line": 27,
+          "text": "                    require({k:v for k,v in row.items() if k!=\"span\"}==parent.get(label),\"ORDINARY_CONTRACT_BINDING\")"
+        },
+        {
+          "line": 28,
+          "text": "            D.bump(work,\"method_payloads_validated\")"
+        },
+        {
+          "line": 29,
+          "text": "        scope=S.certify(self.parent,[[\"|-\"]+r[\"tokens\"] for r in self.bank[\"wff\"]])"
+        },
+        {
+          "line": 30,
+          "text": "        D.bump(work,\"syntax_contracts_checked\",scope[\"syntax_assertions\"])"
+        },
+        {
+          "line": 31,
+          "text": "    def read(self,name):"
+        },
+        {
+          "line": 32,
+          "text": "        require(name in PINS and name!=\"PREFIX.mm\",\"SEARCH_INPUT_ALLOWLIST\")"
+        },
+        {
+          "line": 33,
+          "text": "        require((self.root/name).stat().st_size==PINS[name][\"bytes\"],\"INPUT_BYTES_CHANGED\")"
+        },
+        {
+          "line": 34,
+          "text": "        raw=(self.root/name).read_bytes();D.bump(self.work,\"input_bytes_read\",len(raw));D.bump(self.work,\"input_files_read\")"
+        },
+        {
+          "line": 35,
+          "text": "        require(C.raw_id(raw)==PINS[name],\"INPUT_BYTES_CHANGED\")"
+        },
+        {
+          "line": 36,
+          "text": "        value=json.loads(raw);require(C.canonical(value)==raw,\"INPUT_CANONICAL\")"
+        },
+        {
+          "line": 37,
+          "text": "        self.loaded[name]=C.raw_id(C.canonical(value))[\"sha256\"]"
+        },
+        {
+          "line": 38,
+          "text": "        return value"
+        },
+        {
+          "line": 39,
+          "text": "    def check(self):"
+        },
+        {
+          "line": 40,
+          "text": "        require(self.identity=={k:v for k,v in PINS.items() if k not in (\"positive.json\",\"false.json\")},\"LIBRARY_IDENTITY_CHANGED\")"
+        },
+        {
+          "line": 41,
+          "text": "        for name in tuple(self.loaded):self.read(name)"
+        },
+        {
+          "line": 42,
+          "text": "        for name,value in ((\"PARENT.json\",self.parent),(\"BANK.json\",self.bank),(\"METHODS.json\",self.methods),(\"BINDING.json\",self.binding)):"
+        },
+        {
+          "line": 43,
+          "text": "            require(C.raw_id(C.canonical(value))[\"sha256\"]==self.loaded[name],\"MUTATED_INPUT_OBJECT\")"
+        }
+      ]
+    },
+    {
+      "repository_path": "research/native-method-serving-v1/native_data.py",
+      "commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+      "bytes": 5012,
+      "sha256": "f4db872a09126d6606b20726ff12239ca9c7fd26b8cecba3d7ce840860d76218",
+      "inspected_ranges": [
+        [
+          70,
+          100
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 70,
+          "text": "        if event.event_type.value!=\"EVIDENCE_ADMITTED\" or event.status.value!=\"PASS\":continue"
+        },
+        {
+          "line": 71,
+          "text": "        p=event.payload"
+        },
+        {
+          "line": 72,
+          "text": "        if evidence_id(rt.state.evidence.namespace,{\"payload\":p[\"payload\"],\"source\":p[\"source\"],"
+        },
+        {
+          "line": 73,
+          "text": "                                                  \"channel\":p[\"channel\"]})==eid:found=p"
+        },
+        {
+          "line": 74,
+          "text": "    if found is None:raise InputRefused(\"MISSING_EVIDENCE_PAYLOAD\")"
+        },
+        {
+          "line": 75,
+          "text": "    data=parse(raw(found[\"payload\"]));fields(data,(\"schema\",\"role\",\"body\"))"
+        },
+        {
+          "line": 76,
+          "text": "    if data[\"schema\"]!=\"ocm.native-method.evidence.v1\" or data[\"role\"]!=role:"
+        },
+        {
+          "line": 77,
+          "text": "        raise InputRefused(\"EVIDENCE_ROLE\")"
+        },
+        {
+          "line": 78,
+          "text": "    channel={\"proof\":\"proof\",\"discovery\":\"demonstration\"}.get(role,\"instruction\")"
+        },
+        {
+          "line": 79,
+          "text": "    if (rec.channel.value!=channel or rec.source!=\"native-method.v1:\"+role or"
+        },
+        {
+          "line": 80,
+          "text": "        rec.scope!=SCOPE or rec.authority!=Authority() or rec.derived_from!=derived or"
+        },
+        {
+          "line": 81,
+          "text": "        rec.content_hash!=content_hash(data)):raise InputRefused(\"EVIDENCE_POLICY\")"
+        },
+        {
+          "line": 82,
+          "text": "    if expected is not None and raw(data[\"body\"])!=raw(expected):raise InputRefused(\"EVIDENCE_BODY\")"
+        },
+        {
+          "line": 83,
+          "text": "    return data[\"body\"]"
+        },
+        {
+          "line": 84,
+          "text": ""
+        },
+        {
+          "line": 85,
+          "text": "def admit_evidence(rt,role,body,work,derived=None):"
+        },
+        {
+          "line": 86,
+          "text": "    channel={\"proof\":\"proof\",\"discovery\":\"demonstration\"}.get(role,\"instruction\")"
+        },
+        {
+          "line": 87,
+          "text": "    data={\"schema\":\"ocm.native-method.evidence.v1\",\"role\":role,\"body\":parse(raw(body))}"
+        },
+        {
+          "line": 88,
+          "text": "    _,eid=rt.admit_evidence(data,channel,\"native-method.v1:\"+role,scope=SCOPE,derived_from=derived)"
+        },
+        {
+          "line": 89,
+          "text": "    bump(work,\"evidence_admissions\")"
+        },
+        {
+          "line": 90,
+          "text": "    payload(rt,eid,role,expected=body,derived=derived,work=work)"
+        },
+        {
+          "line": 91,
+          "text": "    return eid"
+        },
+        {
+          "line": 92,
+          "text": ""
+        },
+        {
+          "line": 93,
+          "text": "def live(rt,warrant):"
+        },
+        {
+          "line": 94,
+          "text": "    w=rt.state.nogoods.filter_interval(warrant)"
+        },
+        {
+          "line": 95,
+          "text": "    w=rt.state.evidence.nogoods.filter_interval(w)"
+        },
+        {
+          "line": 96,
+          "text": "    return w.liveness(rt.state.revoked|rt.state.evidence.revoked).value"
+        },
+        {
+          "line": 97,
+          "text": ""
+        },
+        {
+          "line": 98,
+          "text": "def atom_data(atom,work):"
+        },
+        {
+          "line": 99,
+          "text": "    bump(work,\"atoms_read\")"
+        },
+        {
+          "line": 100,
+          "text": "    if (type(atom.meta) is not tuple or len(atom.meta)!=1 or type(atom.meta[0]) is not tuple"
+        }
+      ]
+    },
+    {
+      "historical_path": "/home/billy/orion-director-work/20260908/native-trace-chunk-control-v1/produce.py",
+      "bytes": 5778,
+      "sha256": "44348db06616796300e40f5e73eaa33d6d1cd3e1f46c44f66cd57b8e20a79982",
+      "inspected_ranges": [
+        [
+          20,
+          86
+        ]
+      ],
+      "excerpts": [
+        {
+          "line": 20,
+          "text": "allowed={(\"class\",tuple(x[\"tokens\"])) for x in bank[\"class\"]}|{(\"wff\",tuple(x[\"tokens\"])) for x in bank[\"wff\"]}"
+        },
+        {
+          "line": 21,
+          "text": "labels=result[\"selected\"]"
+        },
+        {
+          "line": 22,
+          "text": "datasets={\"learn\":labels[:2],\"replacement\":labels[2:]}"
+        },
+        {
+          "line": 23,
+          "text": "out=C.HERE/\"producer-01\";C.mkdir(out);work={};discovery={}"
+        },
+        {
+          "line": 24,
+          "text": "for name,selected in datasets.items():"
+        },
+        {
+          "line": 25,
+          "text": "    discovery[name]=H.discover([result[\"traces\"][label] for label in selected],work)"
+        },
+        {
+          "line": 26,
+          "text": "    for candidate in discovery[name][\"candidates\"]:"
+        },
+        {
+          "line": 27,
+          "text": "        body=candidate[\"body\"]"
+        },
+        {
+          "line": 28,
+          "text": "        aliases=M.one_step(parent,body[\"query\"],body[\"premises\"],work)"
+        },
+        {
+          "line": 29,
+          "text": "        candidate[\"alias_matches\"]=aliases"
+        },
+        {
+          "line": 30,
+          "text": "        candidate[\"eligible_before_native\"]=not aliases"
+        },
+        {
+          "line": 31,
+          "text": "        for permutation in itertools.permutations((\"A\",\"B\",\"C\")):"
+        },
+        {
+          "line": 32,
+          "text": "            mapping=dict(zip((\"A\",\"B\",\"C\"),permutation))"
+        },
+        {
+          "line": 33,
+          "text": "            for node in body[\"nodes\"]:"
+        },
+        {
+          "line": 34,
+          "text": "                tokens=[mapping.get(t,t) for t in node[\"output\"]]"
+        },
+        {
+          "line": 35,
+          "text": "                kind=\"wff\" if tokens[0]==\"|-\" else tokens[0]"
+        },
+        {
+          "line": 36,
+          "text": "                H.count(work,\"shared_bank_checks\")"
+        },
+        {
+          "line": 37,
+          "text": "                if (kind,tuple(tokens[1:])) not in allowed:raise ValueError(\"BANK_INCOMPLETE\")"
+        },
+        {
+          "line": 38,
+          "text": "C.write(out/\"DISCOVERY.json\",{\"datasets\":discovery,\"work\":work,"
+        },
+        {
+          "line": 39,
+          "text": "    \"actual_training\":C.identity(training),\"native_training_process\":C.identity(C.HERE/\"records/training-01/PROCESS.json\"),"
+        },
+        {
+          "line": 40,
+          "text": "    \"parent\":binding[\"parent\"],\"bank\":binding[\"bank\"],\"scope\":\"data-derived proposals; native admission still pending\"})"
+        },
+        {
+          "line": 41,
+          "text": "candidates={r[\"id\"]:r for d in discovery.values() for r in d[\"candidates\"] if r[\"eligible_before_native\"]}"
+        },
+        {
+          "line": 42,
+          "text": "if not candidates:raise ValueError(\"NO_ELIGIBLE_CHUNK\")"
+        },
+        {
+          "line": 43,
+          "text": "prefix=(C.HERE/\"prepared/PREFIX.mm\").read_bytes();suffix=[];labels_by_id={};proposals=[]"
+        },
+        {
+          "line": 44,
+          "text": "for number,key in enumerate(sorted(candidates)):"
+        },
+        {
+          "line": 45,
+          "text": "    candidate=candidates[key];body=candidate[\"body\"]"
+        },
+        {
+          "line": 46,
+          "text": "    label=\"authored-chunk-\"+str(number);labels_by_id[key]=label"
+        },
+        {
+          "line": 47,
+          "text": "    holes=[label+\".\"+str(i) for i in range(len(body[\"premises\"]))]"
+        },
+        {
+          "line": 48,
+          "text": "    emission=H.emit(body,result[\"contracts\"],holes,work)"
+        },
+        {
+          "line": 49,
+          "text": "    suffix.append(\"$\"+\"{\\n\")"
+        },
+        {
+          "line": 50,
+          "text": "    for hole,statement in zip(holes,body[\"premises\"]):suffix.append(hole+\" $e \"+\" \".join(statement)+\" $.\\n\")"
+        },
+        {
+          "line": 51,
+          "text": "    suffix.append(label+\" $p \"+\" \".join(body[\"query\"])+\" $= \"+\" \".join(emission[\"proof\"])+\" $.\\n$}\\n\")"
+        },
+        {
+          "line": 52,
+          "text": "    proposals.append({\"id\":key,\"label\":label,\"emission\":emission})"
+        },
+        {
+          "line": 53,
+          "text": "db=out/\"ADMISSION.mm\""
+        },
+        {
+          "line": 54,
+          "text": "with db.open(\"xb\") as f:f.write(prefix+\"\".join(suffix).encode());f.flush();os.fsync(f.fileno())"
+        },
+        {
+          "line": 55,
+          "text": "C.write(out/\"PROPOSALS.json\",proposals)"
+        },
+        {
+          "line": 56,
+          "text": "admission=N.verify(db,[labels_by_id[k] for k in sorted(candidates)])"
+        },
+        {
+          "line": 57,
+          "text": "C.write(out/\"NATIVE-ADMISSION.json\",admission)"
+        },
+        {
+          "line": 58,
+          "text": "if admission[\"terminal\"]!=\"NATIVE_VERIFIED\":raise ValueError(\"NATIVE_ADMISSION_REFUSED\")"
+        },
+        {
+          "line": 59,
+          "text": "constructor=C.load(\"constructor\",C.read(C.HERE/\"PINS.json\")[\"constructor\"][\"path\"])"
+        },
+        {
+          "line": 60,
+          "text": "payloads={}"
+        },
+        {
+          "line": 61,
+          "text": "for key in sorted(candidates):"
+        },
+        {
+          "line": 62,
+          "text": "    trace=admission[\"traces\"][labels_by_id[key]]"
+        },
+        {
+          "line": 63,
+          "text": "    used={n[\"label\"] for n in trace[\"nodes\"] if \"label\" in n}"
+        },
+        {
+          "line": 64,
+          "text": "    contracts={label:admission[\"contracts\"][label] for label in sorted(used)}"
+        },
+        {
+          "line": 65,
+          "text": "    holes=[{\"label\":\"restored-hole-\"+str(i),\"statement\":p} for i,p in enumerate(candidates[key][\"body\"][\"premises\"])]"
+        },
+        {
+          "line": 66,
+          "text": "    emission=constructor.construct(trace,contracts,{\"A\":\"A\",\"B\":\"B\",\"C\":\"C\"},holes,4096)"
+        },
+        {
+          "line": 67,
+          "text": "    expected=H.emit(candidates[key][\"body\"],result[\"contracts\"],[h[\"label\"] for h in holes],work)"
+        },
+        {
+          "line": 68,
+          "text": "    if emission[\"proof\"]!=expected[\"proof\"]:raise ValueError(\"actual admission/recipe mismatch\")"
+        },
+        {
+          "line": 69,
+          "text": "    payloads[key]={\"id\":key,\"body\":candidates[key][\"body\"],\"trace\":trace,\"contracts\":contracts,"
+        },
+        {
+          "line": 70,
+          "text": "        \"discovery_history\":candidates[key][\"supports\"],\"admission\":C.identity(out/\"NATIVE-ADMISSION.json\")}"
+        },
+        {
+          "line": 71,
+          "text": "state=out/\"state\";C.mkdir(state)"
+        },
+        {
+          "line": 72,
+          "text": "payload_pin=C.write(state/\"METHODS.json\",payloads)"
+        },
+        {
+          "line": 73,
+          "text": "state_value={\"schema\":\"native.admission-only-state.v1\",\"methods\":payload_pin,"
+        },
+        {
+          "line": 74,
+          "text": "    \"parent\":binding[\"parent\"],\"bank\":binding[\"bank\"],"
+        },
+        {
+          "line": 75,
+          "text": "    \"eligible\":{name:[r[\"id\"] for r in d[\"candidates\"] if r[\"eligible_before_native\"]] for name,d in discovery.items()},"
+        },
+        {
+          "line": 76,
+          "text": "    \"constructor\":C.read(C.HERE/\"PINS.json\")[\"constructor\"],"
+        },
+        {
+          "line": 77,
+          "text": "    \"policy\":\"immutable eligible native-checked nonalias chunks; no utility selection\","
+        },
+        {
+          "line": 78,
+          "text": "    \"producer_inputs\":{\"training_sha256\":C.identity(training)[\"sha256\"],\"admission_sha256\":C.identity(out/\"NATIVE-ADMISSION.json\")[\"sha256\"]}}"
+        },
+        {
+          "line": 79,
+          "text": "state_pin=C.write(state/\"STATE.json\",state_value)"
+        },
+        {
+          "line": 80,
+          "text": "fd=os.open(state,os.O_RDONLY)"
+        },
+        {
+          "line": 81,
+          "text": "try:os.fsync(fd)"
+        },
+        {
+          "line": 82,
+          "text": "finally:os.close(fd)"
+        },
+        {
+          "line": 83,
+          "text": "C.write(out/\"PERSISTED.json\",{\"terminal\":\"ADMITTED_AND_PERSISTED\",\"state\":state_pin,\"methods\":payload_pin,"
+        },
+        {
+          "line": 84,
+          "text": "    \"work\":work,\"native_admission\":C.identity(out/\"NATIVE-ADMISSION.json\"),\"datasets\":state_value[\"eligible\"],"
+        },
+        {
+          "line": 85,
+          "text": "    \"scope\":\"producer exits now; no target input or search was read/executed\"})"
+        },
+        {
+          "line": 86,
+          "text": "print(\"ADMITTED_AND_PERSISTED\",state_value[\"eligible\"])"
+        }
+      ]
+    }
+  ]
+}
