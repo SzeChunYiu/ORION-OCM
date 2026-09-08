@@ -1,0 +1,484 @@
+{
+  "schema": "orion.developmental-spine.v1",
+  "issue": "SzeChunYiu/ORION-OCM#151",
+  "discharges": [
+    "DEV-D1 transition schema and lineage identity",
+    "DEV-D8 continued/reset/task-specific/strong-parent controls"
+  ],
+  "authority": "This defines a receipt shape and reports coverage. It runs no experiment, produces no evidence and upgrades nothing. Existing pilots remain E1/E2 per #151 section 12.",
+  "stages": [
+    {
+      "stage": "D0",
+      "description": "basic exact interaction"
+    },
+    {
+      "stage": "D1",
+      "description": "composition, failure and scope"
+    },
+    {
+      "stage": "D2",
+      "description": "planning and uncertainty"
+    },
+    {
+      "stage": "D3",
+      "description": "formal mathematics and controlled language"
+    },
+    {
+      "stage": "D4",
+      "description": "coding, tools and scientific investigation"
+    },
+    {
+      "stage": "D5",
+      "description": "metacognition and learning to learn"
+    },
+    {
+      "stage": "D6",
+      "description": "governed self-evolution"
+    }
+  ],
+  "required_arms": {
+    "CONTINUED_OCM": "full earned prior developmental state",
+    "RESET_OCM": "same immutable architecture and current-stage information, no prior competence",
+    "STRONG_ADAPTIVE_PARENT": "strongest faithful parent with matched information, memory, tools and adaptation permissions",
+    "TASK_SPECIFIC_OCM": "built for this stage alone; bounds how much of any gain is generality"
+  },
+  "transition_fields": [
+    "lineage_id",
+    "source_stage",
+    "target_stage",
+    "source_machine_identity",
+    "target_machine_identity",
+    "persistent_state_digest",
+    "prior_information_manifest",
+    "new_information_supplied",
+    "new_methods",
+    "new_schemas",
+    "new_representations",
+    "reused_object_identities",
+    "reuse_execution_witnesses",
+    "new_primitive_operators_admitted",
+    "composition_depth",
+    "acquisition_cost",
+    "query_cost",
+    "verification_cost",
+    "revision_cost",
+    "maintenance_cost",
+    "persistent_bytes",
+    "active_k",
+    "total_N",
+    "retention",
+    "negative_transfer",
+    "harmful_transfer_refusals",
+    "ablation_result",
+    "strongest_parent_result",
+    "terminal",
+    "cheaper_because"
+  ],
+  "field_added_beyond_151": {
+    "cheaper_because": "#151 section 3 states the decisive question is not whether the older machine scores higher but whether prior experience causally made the next competence cheaper. A receipt recording only the score would satisfy the listed fields and still not answer that, so the causal attribution is a required field here."
+  },
+  "evidence_map": {
+    "SCALING_PILOT_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "query_cost",
+        "maintenance_cost",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "carries state across scales without reset, so its k and byte measurements are lineage measurements. It has no reset arm and no acquisition of new competence, so it is stage evidence, not transition evidence."
+    },
+    "SUBSPACE_E1_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "query_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "same lineage discipline; adds the relevance-key degradation measurement."
+    },
+    "REINDEX_E9_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "maintenance_cost",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "an engineering fix to one coordinate; contributes maintenance cost only."
+    },
+    "DEPEND_E3_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "revision_cost",
+        "ablation_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "revocation across a growing store; supplies revision cost."
+    },
+    "FAILURE_PILOT_V1.json": {
+      "stage": "D1",
+      "supplies": [
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "scope and failure knowledge, which is D1 material, but each world is independent so nothing is carried from D0."
+    },
+    "DIAGNOSIS_E2_V1.json": {
+      "stage": "D2",
+      "supplies": [
+        "verification_cost",
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "probe selection under hidden cause, which is D2 material."
+    },
+    "ESCALATION_INDEPENDENT_E4_V1.json": {
+      "stage": "D2",
+      "supplies": [
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "obstruction versus search-more, which is D2 material."
+    }
+  },
+  "transitions": [
+    {
+      "source_stage": "D0",
+      "target_stage": "D1",
+      "complete": false,
+      "supporting_receipts": [
+        "DEPEND_E3_V1.json",
+        "FAILURE_PILOT_V1.json",
+        "REINDEX_E9_V1.json",
+        "SCALING_PILOT_V1.json",
+        "SUBSPACE_E1_V1.json"
+      ],
+      "arms_present": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [
+        "ablation_result",
+        "active_k",
+        "harmful_transfer_refusals",
+        "maintenance_cost",
+        "negative_transfer",
+        "persistent_bytes",
+        "query_cost",
+        "revision_cost",
+        "strongest_parent_result",
+        "terminal",
+        "total_N"
+      ],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "verification_cost",
+        "retention",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D1",
+      "target_stage": "D2",
+      "complete": false,
+      "supporting_receipts": [
+        "DIAGNOSIS_E2_V1.json",
+        "ESCALATION_INDEPENDENT_E4_V1.json",
+        "FAILURE_PILOT_V1.json"
+      ],
+      "arms_present": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [
+        "harmful_transfer_refusals",
+        "negative_transfer",
+        "strongest_parent_result",
+        "terminal",
+        "verification_cost"
+      ],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "ablation_result",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D2",
+      "target_stage": "D3",
+      "complete": false,
+      "supporting_receipts": [
+        "DIAGNOSIS_E2_V1.json",
+        "ESCALATION_INDEPENDENT_E4_V1.json"
+      ],
+      "arms_present": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [
+        "strongest_parent_result",
+        "terminal",
+        "verification_cost"
+      ],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D3",
+      "target_stage": "D4",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D4",
+      "target_stage": "D5",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D5",
+      "target_stage": "D6",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    }
+  ],
+  "complete_transitions": 0,
+  "transitions_total": 6,
+  "headline": "0 of 6 developmental transitions are complete. Every one is blocked on the same two things: no lane has run a CONTINUED arm that carried state across a stage boundary, and no lane has run a RESET arm to compare it with. The existing receipts are stage evidence, not transition evidence, and the difference is the whole of #151.",
+  "what_is_actually_missing": [
+    "A machine that acquires competence at D0 and then meets D1 carrying it. Every current receipt either holds one stage's tasks with no acquisition across a boundary, or draws its tasks independently so nothing is carried.",
+    "A reset arm. Without it a lower cost at D1 is equally explained by D1 being easier, which #151 section 6 names as the thing not to claim development from.",
+    "Reuse execution witnesses across a boundary. No object identity in the repository is currently observed being acquired at one stage and invoked at the next."
+  ],
+  "cheapest_first_transition": "D0 to D1 on the exact game families already built. D0 acquires periodic-rule methods; D1 requires composing two of them, which the SUBNIM family in games.py already supports because neither the one-heap nor the Nim training family contains the combined solution. That is DEV-D10 and it needs no new domain."
+}
