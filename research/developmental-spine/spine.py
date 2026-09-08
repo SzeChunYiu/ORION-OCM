@@ -311,7 +311,14 @@ def build() -> dict:
             "holding a language large enough to contain every world's truth rather than "
             "one fitted to it. So the carry advantage at this transition stands WITHOUT "
             "DEV-3's gift -- it needs a big language, which is available without knowing "
-            "the world, rather than the right one, which is not."),
+            "the world, rather than the right one, which is not. DEV6_HONEST_CONSULTATION_"
+            "PRICE_V1 then audited that number against the accounting standard the "
+            "cognitive-ladder lane already used and corrected it downward: DEV-5 charged a "
+            "flat price for consulting a version space whether the arm tested one predicate "
+            "or scanned 433, and under a charge proportional to the scan the factor falls "
+            "from 5.1x to 3.4x with the weakest cell nearly a tie. The ordering survives "
+            "and the magnitude does not, so the carry advantage at this transition is real, "
+            "independent of DEV-3's gift, and smaller than first reported."),
         "complete_does_not_mean_succeeded": (
             "A transition counts as complete when all four DEV-D8 arms ran and every required "
             "field has evidence behind it. D0 to D1 qualifies and its own terminal is "

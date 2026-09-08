@@ -526,7 +526,12 @@ CROSS_DOMAIN = dict(
     receipt="results/DEV5_UNANIMITY_V1.json",
     object="a version space of periodic predicates guarding a rule",
     resource_saved="scope checks against the world",
-    sign="WINS, on both columns; up to 5.1x, checks falling from about 1700 to about 200"),
+    sign="WINS, on both columns; checks falling from about 1700 to about 200. The FACTOR "
+         "was first reported as up to 5.1x and is corrected to up to 3.4x by "
+         "results/DEV6_HONEST_CONSULTATION_PRICE_V1.json, which re-prices the "
+         "consultation in proportion to what it scans -- the accounting standard the "
+         "second domain was already using. The ordering survives the correction and the "
+         "magnitude does not; the weakest cell becomes nearly a tie at 0.97"),
   second_domain=dict(
     receipt="results/X1_UNANIMITY_TRANSFER_V1.json",
     object="a lattice of evidence subsets, enumerating minimal support families",
@@ -553,6 +558,16 @@ CROSS_DOMAIN = dict(
     "external one -- and neither is in the law's three coordinates, all of which describe "
     "the world. That is now TWO independent pointers at the same gap, which is worth more "
     "than either, and it is still not a reason to bolt a fourth coordinate on."),
+  the_audit_this_pair_forced=(
+    "Comparing the two domains is what exposed the pricing difference, and the lane that "
+    "made the mechanism look free was this one. E6 charged its deliberation in proportion "
+    "to the knowledge consulted; DEV-5 charged a flat price whether the arm tested one "
+    "predicate or scanned 433. DEV-6 re-ran DEV-5 under the proportional charge and the "
+    "conclusion held while the number shrank. It also refuted the fix this lane proposed to "
+    "recover the difference -- maintaining per-index vote counts costs more than the "
+    "scanning it replaces, at every workload measured -- which was only visible because the "
+    "bookkeeping was charged. So the cross-domain comparison paid for itself twice: once as "
+    "a boundary, and once as an audit of the result on our side of it."),
   what_it_does_not_establish=(
     "Two domains is not domain-neutrality, and both are synthetic and in this repository. "
     "The strength of the evidence is not its breadth but its independence: E6's use of the "

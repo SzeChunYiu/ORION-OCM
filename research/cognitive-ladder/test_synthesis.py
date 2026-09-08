@@ -283,3 +283,17 @@ def test_the_second_pointer_at_the_gap_is_still_not_a_coordinate():
         c["relation_to_the_candidate_missing_quantity"]
     assert set(C.__dataclass_fields__) == {"rho", "beta", "phi"}
     assert DOC["in_sample_agreement_after_revision"] < 1.0
+
+
+def test_the_dev5_factor_is_corrected_where_it_is_quoted():
+    sign = DOC["cross_domain"]["first_domain"]["sign"]
+    assert "5.1x" in sign and "corrected to up to 3.4x" in sign
+    assert "DEV6_HONEST_CONSULTATION_PRICE_V1.json" in sign
+    assert "ordering survives the correction and the magnitude does not" in sign
+
+
+def test_the_cross_domain_entry_records_the_audit_it_forced():
+    a = DOC["cross_domain"]["the_audit_this_pair_forced"]
+    assert "the lane that made the mechanism look free was this one" in a
+    assert "refuted the fix this lane proposed" in a
+    assert "only visible because the bookkeeping was charged" in a
