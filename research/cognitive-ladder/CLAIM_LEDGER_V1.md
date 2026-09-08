@@ -155,7 +155,7 @@ PUB-D1 of #144. The load-bearing columns are the last two. Every result is recor
 
 **Limitation.** Leave-one-out cannot see redundant support, which is a limitation of the discovery method and not of the measurement.
 
-**Permitted wording.** Discovering dependencies by single-element ablation is incomplete at a measured rate and its up-front cost is repaid only against parents that recompute everything.
+**Permitted wording.** Discovering dependencies eagerly by single-element ablation is incomplete at a measured rate and, among arms that meet matched correctness, is dominated by re-deriving them lazily on demand until roughly thirty revocations have accumulated.
 
 **Forbidden wording.** _The machine knows what it believes and why._
 

@@ -145,7 +145,21 @@ CLAIMS = [
  "result": 'LEAVE_ONE_OUT_DISCOVERY_INCOMPLETE. No parent was sufficient on all coordinates: the gifted declared-supports ceiling reaches only 0.61 to 0.74 precision and the co-occurrence heuristic misses about 8% of edges. But the learned arm is not a winner either: the cheap parents beat it on total work by two to four orders of magnitude at any realistic revocation count, and it crosses over against full recomputation only after 5 revocations and against the lazy learner after 27 to 39.',
  "limitation": "Leave-one-out cannot see redundant support, which is a limitation of the discovery "
                "method and not of the measurement.",
- "permitted_wording": 'Discovering dependencies by single-element ablation is incomplete at a measured rate and its up-front cost is repaid only against parents that recompute everything.',
+ "capability_gated_reanalysis": (
+   "Applying the #144 capability gate, which admits a work comparison only between arms that meet "
+   "matched correctness, removes declared_supports (precision 0.61 to 0.74), co_occurrence "
+   "(precision 0.77 to 0.84, recall 0.92) and all_evidence (precision near zero, up to 797 "
+   "collateral invalidations). Three arms survive at precision and recall 1.0. Under that gate the "
+   "eager learned_dependency_arm is DOMINATED by the lazy_learner_arm, which re-derives on demand: "
+   "1317 versus 7033 total work at N=80 and 9237 versus 70249 at N=800, and the lazy arm leaves "
+   "zero stale survivors where the eager arm leaves one. Eager discovery amortises only after 27 "
+   "revocations at 1x and 39 at 10x, a crossover that grows slowly in N, and even past it the eager "
+   "arm is still the less correct of the two. The gate was applied hoping to strengthen the arm and "
+   "it weakened it; the result is recorded because that is what it showed."),
+  "permitted_wording": ("Discovering dependencies eagerly by single-element ablation is "
+   "incomplete at a measured rate and, among arms that meet matched correctness, is "
+   "dominated by re-deriving them lazily on demand until roughly thirty revocations have "
+   "accumulated."),
  "forbidden_wording": "The machine knows what it believes and why.",
 },
 {
