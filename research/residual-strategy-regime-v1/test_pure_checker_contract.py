@@ -26,7 +26,8 @@ def test_certificate_is_recomputed_and_effect_set_is_empty():
     assert cert["schema"] == P.SCHEMA
     assert cert["language_version"] == P.LANGUAGE
     assert cert["claimed_effects"] == []
-    assert cert["node_count"] == 7
+    # One node per opcode: IF + AND + HAS + TYPE + two STATUS leaves.
+    assert cert["node_count"] == 6
     assert cert["max_path_length"] == 1
     assert P.verify_certificate(cert) == cert
 
