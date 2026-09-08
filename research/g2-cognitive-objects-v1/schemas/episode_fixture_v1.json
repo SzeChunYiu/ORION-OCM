@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/episode_fixture_v1.json",
+  "title": "Frozen G2.1 episode fixture document",
+  "description": "Transport fixture only. Not causal-reuse evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "fixture_id",
+    "claim_authority",
+    "episode",
+    "method_record",
+    "method_schema",
+    "reuse_event",
+    "failure_attempt",
+    "scope_transfer",
+    "representation_change"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.episode-fixture.v1"},
+    "fixture_id": {"type": "string", "minLength": 1},
+    "claim_authority": {"type": "string", "const": "SCHEMA_TRANSPORT_ONLY"},
+    "episode": {"$ref": "cognitive_episode_v1.json"},
+    "method_record": {"$ref": "method_record_v1.json"},
+    "method_schema": {"$ref": "method_schema_v1.json"},
+    "reuse_event": {"$ref": "reuse_event_v1.json"},
+    "failure_attempt": {"$ref": "failure_attempt_v1.json"},
+    "scope_transfer": {"$ref": "scope_transfer_v1.json"},
+    "representation_change": {"$ref": "representation_change_v1.json"}
+  }
+}
