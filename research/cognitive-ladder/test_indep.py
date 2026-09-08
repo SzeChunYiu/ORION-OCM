@@ -214,9 +214,13 @@ def test_the_parents_module_imports_no_arm_internal():
     imported: set[str] = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
-            assert node.module in {"indep", "dataclasses", "functools", "typing"}, (
-                node.module
-            )
+            assert node.module in {
+                "indep",
+                "dataclasses",
+                "functools",
+                "typing",
+                "__future__",
+            }, node.module
             imported.update(alias.name for alias in node.names)
         elif isinstance(node, ast.Import):
             imported.update(alias.name for alias in node.names)
@@ -231,7 +235,7 @@ def test_the_two_solvers_are_disjoint_code_paths():
     parents_source = inspect.getsource(indep_parents)
     assert "_walsh_refit" in arm_source and "_walsh_refit" not in parents_source
     assert "_solve_design" in parents_source and "_solve_design" not in arm_source
-    assert "monomial" in parents_source and "monomial" not in arm_source
+    assert "monomial(" in parents_source and "monomial(" not in arm_source
 
 
 def test_no_arm_or_parent_can_see_the_landscape_structure():
@@ -327,8 +331,11 @@ def test_the_gate_actually_excludes_somebody(rows):
     missed = [r for r in rows if not r["capability_ok"]]
     assert missed, "no arm missed the optimum, so the capability gate is untested"
     for row in missed:
-        assert row["arm_role"] == "INDEPENDENT_PARENT"
         assert row["optimum_attained_fraction"] < 1.0
+        assert row["objective_calls_if_admissible"] is None
+    # it fires on the mechanism under test as well as on parents, which is the
+    # only way to know it is not a gate written to exclude parents
+    assert {r["arm"] for r in missed} & {"walsh_arm", "constructive_parent"}
 
 
 def test_attainment_is_scored_against_the_oracle_not_self_reported():
@@ -346,10 +353,32 @@ def test_attainment_is_scored_against_the_oracle_not_self_reported():
         assert record.attained == (abs(record.attained_value - optimum) <= 1e-12)
 
 
-def test_arm_and_ceiling_pass_the_gate_everywhere(swept):
+def test_the_ceiling_passes_the_gate_everywhere_and_the_arm_does_not(swept):
     for regime in REGIMES:
-        for arm in ("walsh_arm", "constructive_parent", "global_enumeration_parent"):
-            assert _row(swept, regime.name, arm).capability_ok, (regime.name, arm)
+        assert _row(swept, regime.name, "global_enumeration_parent").capability_ok
+    for regime in ("sparse_stable", "dense_stable"):
+        assert _row(swept, regime, "walsh_arm").capability_ok
+    assert not _row(swept, "sparse_drift", "walsh_arm").capability_ok
+
+
+def test_the_arms_audit_is_not_a_sufficient_staleness_certificate(swept):
+    """Reported because it is against the mechanism under test.
+
+    Under drift the arm refits a support that the world has moved out from
+    under it, its four-point audit passes anyway, and its model's argmax is not
+    the optimum.  It happens once in ninety-six generations, and once is enough
+    to make the arm inadmissible for the cost comparison in that regime -- which
+    is exactly what a capability gate is for.  Two independently implemented
+    parents attain the optimum in all ninety-six.
+    """
+    arm = _row(swept, "sparse_drift", "walsh_arm")
+    assert not arm.capability_ok
+    assert arm.objective_calls_if_admissible() is None
+    assert 0.98 < arm.optimum_attained_fraction < 1.0
+    assert arm.mean_quality_over_optimum < 1.0
+    for parent in ("regression_parent", "tabu_parent"):
+        assert _row(swept, "sparse_drift", parent).capability_ok
+    assert terminal_for(swept["sparse_drift"])[0] == "ARM_NOT_CAPABLE"
 
 
 # --------------------------------------------------------------------------
@@ -650,3 +679,54 @@ def test_the_sweep_is_the_registered_shape(rows):
         assert row["reps"] == REPS
     assert N_BITS == 8
     assert GENERATIONS * (1 << N_BITS) == 3072
+
+
+# --------------------------------------------------------------------------
+# the receipt says what it does not establish
+# --------------------------------------------------------------------------
+
+
+def test_the_receipt_refuses_to_overwrite_and_states_its_own_limits(tmp_path):
+    import json
+
+    out = tmp_path / "INDEP_E8_TEST.json"
+    assert run_indep.main(["--out", str(out)]) == 0
+    assert run_indep.main(["--out", str(out)]) == 1  # never silently overwritten
+
+    receipt = json.loads(out.read_text())
+    assert receipt["terminal"] in TERMINALS
+    assert receipt["study_role"] == (
+        "INDEPENDENT_SECOND_IMPLEMENTATION_OF_A_CONTESTED_PARENT_COMPARISON"
+    )
+    assert receipt["protected_claim_authority"] is False
+    assert receipt["scientific_promotion"] == "NOT_ESTABLISHED"
+
+    limits = " ".join(receipt["what_this_does_not_establish"])
+    assert "FOUR HAND-WRITTEN PARENTS ARE NOT PARENT CLOSURE" in limits
+    assert "NO NEURAL AND NO MODERN AutoML COMPARATOR WAS RUN" in limits
+
+    # the second-implementation positioning, and no claim of priority
+    authority = receipt["authority"]
+    assert "INDEPENDENT SECOND IMPLEMENTATION" in authority
+    assert "claims no priority" in authority
+    assert "codex/ocm-evolvability-independent-20260908" in authority
+    assert "research/evolvability-independent/PROTECTED_PROTOCOL_V3.md" in authority
+    assert "factorization_survival_v3.py" in authority
+
+    # the reconstruction is declared, including what it does NOT reproduce
+    notes = " ".join(receipt["reconstruction_notes"])
+    assert "does NOT reproduce the reported 442" in notes
+    assert "524928" in notes
+
+    # the tautology is on the record in every regime
+    for regime in REGIMES:
+        tie = receipt["constructive_tie"][regime.name]
+        assert all(v is True for k, v in tie.items() if k.endswith("_equal"))
+
+
+def test_the_gap_is_attributed_to_discovery_not_representation(swept):
+    arm = _row(swept, DECISIVE_REGIME, "walsh_arm")
+    parent = _row(swept, DECISIVE_REGIME, "regression_parent")
+    assert arm.call_split["steady_state"] == parent.call_split["steady_state"]
+    assert arm.model_parameters == parent.model_parameters
+    assert arm.call_split["discovery"] > parent.call_split["discovery"]

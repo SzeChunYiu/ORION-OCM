@@ -150,7 +150,7 @@ def _headline(results) -> dict:
     arm = rows["walsh_arm"]
     out = {"regime": DECISIVE_REGIME, "arm_objective_calls": arm.objective_calls}
     for name, row in rows.items():
-        if row.arm_role != "INDEPENDENT_PARENT":
+        if row.arm_role not in ("INDEPENDENT_PARENT", "CEILING"):
             continue
         cost = row.objective_calls_if_admissible()
         out[name] = {
@@ -160,6 +160,39 @@ def _headline(results) -> dict:
             "excluded_from_match_test": name in MATCH_TEST_EXCLUDES,
         }
     return out
+
+
+def _gap_attribution(results) -> dict:
+    """Where the difference between the two model-based arms actually lives.
+
+    Reported because the honest reading of the headline depends on it: if the
+    two arms are identical in steady state and differ only in what it costs to
+    identify a model from nothing, then the comparison is about discovery
+    policy and not about the representation.
+    """
+    rows = {r.arm: r for r in results[DECISIVE_REGIME]}
+    arm, parent = rows["walsh_arm"], rows["regression_parent"]
+    return {
+        "regime": DECISIVE_REGIME,
+        "arm_discovery_calls": arm.call_split["discovery"],
+        "parent_discovery_calls": parent.call_split["discovery"],
+        "arm_steady_state_calls": arm.call_split["steady_state"],
+        "parent_steady_state_calls": parent.call_split["steady_state"],
+        "steady_state_is_identical": (
+            arm.call_split["steady_state"] == parent.call_split["steady_state"]
+        ),
+        "model_parameters_are_identical": arm.model_parameters == parent.model_parameters,
+        "reading": (
+            "The whole difference is first-generation discovery: a full 2**n "
+            "transform against degree-escalating least squares. In steady state "
+            "the two arms cost the same to the call, because the number of "
+            "observations needed to re-identify a model is set by the number of "
+            "free parameters and not by the representation -- and both "
+            "representations find the same number of parameters. The independent "
+            "parent is cheaper because its discovery policy is cheaper, not "
+            "because monomials beat characters."
+        ),
+    }
 
 
 def main(argv=None) -> int:
@@ -199,6 +232,7 @@ def main(argv=None) -> int:
         "table": rows,
         "constructive_tie": _tie_report(results),
         "headline": _headline(results),
+        "gap_attribution": _gap_attribution(results),
         "per_regime_terminal": per_regime,
         "terminal": terminal,
         "terminal_reason": reason,
@@ -257,6 +291,11 @@ def main(argv=None) -> int:
             "that the tabu and bandit parents do not pay at all. Fewer objective "
             "calls is not whole-resource dominance and this receipt does not "
             "report a total.",
+            "The arm's single capability failure under drift is ONE generation "
+            "of ninety-six on one landscape family at one drift rate. It shows "
+            "that a four-point audit is not a sufficient staleness certificate; "
+            "it does not measure how often that happens in general, and a larger "
+            "audit budget would reduce it at a cost this lane did not sweep.",
             "This measures the cost of reaching a known-checkable optimum under a "
             "capability gate. It measures nothing about cognition, nothing about "
             "a machine learning a causal factorization OF ITS OWN reasoning, and "
@@ -268,9 +307,18 @@ def main(argv=None) -> int:
             "demonstration that the earlier PARENT_SUFFICIENT verdict compared a "
             "program with itself",
             "the capability gate is enforced through an accessor rather than by "
-            "convention: tabu_parent and bandit_parent miss the optimum in some "
-            "regimes and their objective-call counts are therefore unreadable "
-            "there, however favourable they look",
+            "convention, and it fires on the MECHANISM UNDER TEST: under drift "
+            "the arm refits a support the world has moved out from under it, its "
+            "four-point audit passes anyway, and its model's argmax is 4 per cent "
+            "below the optimum. One generation in ninety-six is enough to make "
+            "the arm inadmissible for the cost comparison in that regime, while "
+            "regression_parent and tabu_parent attain the optimum in all "
+            "ninety-six. The arm's audit is not a sufficient staleness "
+            "certificate and this receipt says so rather than reporting the "
+            "arm's favourable drift cost",
+            "tabu_parent and bandit_parent miss the optimum in the stable regimes "
+            "and their objective-call counts are therefore unreadable there, "
+            "however favourable they look",
             "the shared model-parameter ceiling refuses a model in the dense "
             "regime for the arm and for the regression parent alike, so neither "
             "can look cheap by carrying a model that costs more to identify than "
@@ -306,6 +354,7 @@ def main(argv=None) -> int:
                 "terminal": terminal,
                 "per_regime": {k: v["terminal"] for k, v in per_regime.items()},
                 "headline": _headline(results),
+        "gap_attribution": _gap_attribution(results),
                 "out": str(out),
             },
             indent=1,
