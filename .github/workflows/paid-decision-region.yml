@@ -1,0 +1,52 @@
+name: Paid decision region research
+
+on:
+  pull_request:
+    paths:
+      - 'research/paid-decision-region-v1/**'
+      - 'research/developmental-spine/dev6_arms.py'
+      - 'research/developmental-spine/run_dev6.py'
+      - '.github/workflows/paid-decision-region.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/paid-decision-region-v1/**'
+      - '.github/workflows/paid-decision-region.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-no-ml-drd:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Short-circuit integrity tests
+        run: |
+          python -B -m pytest -q research/paid-decision-region-v1/test_shortcircuit_parent.py
+      - name: DEV6 frozen sweep with short-circuit parent
+        run: |
+          out="$RUNNER_TEMP/r0d-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B research/paid-decision-region-v1/run_shortcircuit.py \
+            --out "$out/shortcircuit.json" \
+            --github-notice
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paid-decision-region-r0d
+          path: ${{ runner.temp }}/r0d-${{ github.run_id }}-${{ github.run_attempt }}/shortcircuit.json
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code
