@@ -37,6 +37,8 @@ def test_real_reduction_report_is_explicitly_expected_cost_and_no_ml():
     assert report["scope"]["semantic_target_triggered_expansion"] is False
     assert report["claim_boundary"]["exact_reduction_is_expected_cost_only"] is True
     assert report["claim_boundary"]["target_sequence_adversarial_multislope_claimed"] is False
+    assert report["claim_boundary"]["phase1_oracle_is_upper_bound_for_phase2b0"] is False
+    assert report["claim_boundary"]["multislope_geometry_alone_is_not_useful_parent_evidence"] is True
     assert report["claim_boundary"]["ml_authorized"] is False
     assert set(report["coordinates"]) == {
         "transitions", "arithmetic_additions", "arithmetic_multiplications"
@@ -45,10 +47,11 @@ def test_real_reduction_report_is_explicitly_expected_cost_and_no_ml():
                for value in report["coordinates"].values())
 
 
-def test_terminal_matches_actual_monotone_geometry():
-    report = O.build_report(max_horizon=1)
-    all_monotone = all(
-        value["multislope_monotone"]
-        for value in report["coordinates"].values()
-    )
-    assert (report["terminal"] == "EXPECTED_MULTISLOPE_REDUCTION_SUPPORTED_R0B_PHASE2B0") is all_monotone
+def test_real_full_horizon_parent_is_dominated_despite_valid_multislope_geometry():
+    report = O.build_report(max_horizon=O.R.MAX_HORIZON)
+    assert all(value["multislope_monotone"] for value in report["coordinates"].values())
+    assert all(not value["beats_best_static_at_any_horizon"]
+               for value in report["coordinates"].values())
+    assert all(value["max_gain_over_best_static"]["fraction"] == 0.0
+               for value in report["coordinates"].values())
+    assert report["terminal"] == "FIXED_FRONTIER_MULTISLOPE_PARENT_DOMINATED_R0B_PHASE2B0"
