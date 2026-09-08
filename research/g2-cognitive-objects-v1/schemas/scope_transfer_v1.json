@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/scope_transfer_v1.json",
+  "title": "ScopeTransferV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "transfer_id",
+    "method_id",
+    "source_scope",
+    "target_scope",
+    "correspondence_witness_id",
+    "outcome",
+    "acquisition_lineage",
+    "correctness",
+    "usefulness",
+    "authorization",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.scope-transfer.v1"},
+    "transfer_id": {"$ref": "common.json#/$defs/nonempty_string"},
+    "method_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "source_scope": {"$ref": "common.json#/$defs/scope_state"},
+    "target_scope": {"$ref": "common.json#/$defs/scope_state"},
+    "correspondence_witness_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "outcome": {
+      "type": "string",
+      "enum": ["TRANSFERRED", "REFUSED", "HARMFUL", "UNKNOWN", "CANNOT_CHECK"]
+    },
+    "acquisition_lineage": {"$ref": "common.json#/$defs/acquisition_lineage"},
+    "correctness": {"$ref": "common.json#/$defs/correctness_evidence"},
+    "usefulness": {"$ref": "common.json#/$defs/usefulness_evidence"},
+    "authorization": {"$ref": "common.json#/$defs/current_authorization_state"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/common.json",
+  "title": "G2.1 common cognitive-object definitions",
+  "description": "Shared contracts for G2.1. Resource and information vectors ADOPT research/machine-epistemics-lifetime-v1/ME_LIFETIME_RECEIPT_SCHEMA_V1.json $defs.resource and $defs.information. Correctness, usefulness, acquisition history, and current authority remain distinct axes.",
+  "$defs": {
+    "nni": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "nonempty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unknownable_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Object identity or the literal UNKNOWN when the source receipt has no identity."
+    },
+    "check_status": {
+      "type": "string",
+      "enum": ["MEASURED", "UNKNOWN", "CANNOT_CHECK"]
+    },
+    "liveness": {
+      "type": "string",
+      "enum": ["LIVE", "DEAD", "UNKNOWN"],
+      "description": "ADAPT src/ocm/kso/warrant.py Liveness. UNKNOWN is not LIVE."
+    },
+    "origin_category": {
+      "type": "string",
+      "enum": [
+        "TAUGHT_IMPORTED",
+        "LEARNED_APPLICABILITY",
+        "LEARNED_COMPOSITION",
+        "INDEPENDENT_REDISCOVERY",
+        "UNKNOWN"
+      ],
+      "description": "G7 origin categories. TAUGHT_IMPORTED covers authored import, donor synthesis, and instruction. Do not relabel an import as rediscovery."
+    },
+    "resource_vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-adopted-from": "research/machine-epistemics-lifetime-v1/ME_LIFETIME_RECEIPT_SCHEMA_V1.json#/$defs/resource",
+      "required": [
+        "wall_seconds",
+        "cpu_seconds",
+        "gpu_seconds",
+        "peak_memory_bytes",
+        "persistent_read_bytes",
+        "persistent_write_bytes",
+        "index_read_entries",
+        "index_write_entries",
+        "external_io_calls",
+        "tool_calls",
+        "verifier_calls",
+        "work_units",
+        "preprocessing_work_units",
+        "maintenance_work_units",
+        "static_model_parameters",
+        "persistent_storage_bytes",
+        "index_storage_bytes",
+        "notes"
+      ],
+      "properties": {
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "cpu_seconds": {"type": "number", "minimum": 0},
+        "gpu_seconds": {"type": "number", "minimum": 0},
+        "peak_memory_bytes": {"$ref": "#/$defs/nni"},
+        "persistent_read_bytes": {"$ref": "#/$defs/nni"},
+        "persistent_write_bytes": {"$ref": "#/$defs/nni"},
+        "index_read_entries": {"$ref": "#/$defs/nni"},
+        "index_write_entries": {"$ref": "#/$defs/nni"},
+        "external_io_calls": {"$ref": "#/$defs/nni"},
+        "tool_calls": {"$ref": "#/$defs/nni"},
+        "verifier_calls": {"$ref": "#/$defs/nni"},
+        "work_units": {"$ref": "#/$defs/nni"},
+        "preprocessing_work_units": {"$ref": "#/$defs/nni"},
+        "maintenance_work_units": {"$ref": "#/$defs/nni"},
+        "static_model_parameters": {"$ref": "#/$defs/nni"},
+        "persistent_storage_bytes": {"$ref": "#/$defs/nni"},
+        "index_storage_bytes": {"$ref": "#/$defs/nni"},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "information_vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-adopted-from": "research/machine-epistemics-lifetime-v1/ME_LIFETIME_RECEIPT_SCHEMA_V1.json#/$defs/information",
+      "required": [
+        "words",
+        "tokens",
+        "examples",
+        "demonstrations",
+        "labels",
+        "explicit_lessons",
+        "interaction_turns",
+        "grounded_observations",
+        "source_assertions",
+        "annotations"
+      ],
+      "properties": {
+        "words": {"$ref": "#/$defs/nni"},
+        "tokens": {"$ref": "#/$defs/nni"},
+        "examples": {"$ref": "#/$defs/nni"},
+        "demonstrations": {"$ref": "#/$defs/nni"},
+        "labels": {"$ref": "#/$defs/nni"},
+        "explicit_lessons": {"$ref": "#/$defs/nni"},
+        "interaction_turns": {"$ref": "#/$defs/nni"},
+        "grounded_observations": {"$ref": "#/$defs/nni"},
+        "source_assertions": {"$ref": "#/$defs/nni"},
+        "annotations": {"$ref": "#/$defs/nni"}
+      }
+    },
+    "authority_rank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coordinate", "rank"],
+      "properties": {
+        "coordinate": {"$ref": "#/$defs/nonempty_string"},
+        "rank": {"$ref": "#/$defs/nni"}
+      }
+    },
+    "scope_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "JSON projection of src/ocm/kso/types.py Scope. contexts null means universal.",
+      "required": ["contexts", "epoch_start", "epoch_end"],
+      "properties": {
+        "contexts": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "array", "items": {"$ref": "#/$defs/nonempty_string"}, "uniqueItems": true}
+          ]
+        },
+        "epoch_start": {"type": "number"},
+        "epoch_end": {"anyOf": [{"type": "number"}, {"type": "null"}]}
+      }
+    },
+    "acquisition_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-g21-axis": "acquisition_history",
+      "required": [
+        "origin_category",
+        "episode_ids",
+        "donor_ids",
+        "prior_information_ids",
+        "source_sha256",
+        "training_task_ids",
+        "information",
+        "resources",
+        "discovery_evidence_id",
+        "status",
+        "cannot_check_reason"
+      ],
+      "properties": {
+        "origin_category": {"$ref": "#/$defs/origin_category"},
+        "episode_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "donor_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "prior_information_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "source_sha256": {"$ref": "#/$defs/unknownable_id"},
+        "training_task_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "information": {"$ref": "#/$defs/information_vector"},
+        "resources": {"$ref": "#/$defs/resource_vector"},
+        "discovery_evidence_id": {"$ref": "#/$defs/unknownable_id"},
+        "status": {"$ref": "#/$defs/check_status"},
+        "cannot_check_reason": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    },
+    "correctness_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-g21-axis": "correctness",
+      "description": "Independent checker/proof certificate. Must not encode later-task benefit.",
+      "required": [
+        "checker_id",
+        "proof_evidence_id",
+        "certificate_sha256",
+        "verdict",
+        "counterexample",
+        "independent_of_usefulness",
+        "status",
+        "cannot_check_reason"
+      ],
+      "properties": {
+        "checker_id": {"$ref": "#/$defs/unknownable_id"},
+        "proof_evidence_id": {"$ref": "#/$defs/unknownable_id"},
+        "certificate_sha256": {"$ref": "#/$defs/unknownable_id"},
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNKNOWN", "CANNOT_CHECK"]
+        },
+        "counterexample": {"anyOf": [{"type": "null"}, {"type": "object"}]},
+        "independent_of_usefulness": {"type": "boolean", "const": true},
+        "status": {"$ref": "#/$defs/check_status"},
+        "cannot_check_reason": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    },
+    "usefulness_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-g21-axis": "usefulness",
+      "description": "Later-task causal benefit. Authored selection/import policy is not usefulness.",
+      "required": [
+        "fresh_task_id",
+        "effect_coordinate",
+        "effect_observed",
+        "invocation_witness_id",
+        "ablation_witness_id",
+        "restart_witness_id",
+        "independent_of_correctness",
+        "status",
+        "cannot_check_reason"
+      ],
+      "properties": {
+        "fresh_task_id": {"$ref": "#/$defs/unknownable_id"},
+        "effect_coordinate": {"$ref": "#/$defs/unknownable_id"},
+        "effect_observed": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "invocation_witness_id": {"$ref": "#/$defs/unknownable_id"},
+        "ablation_witness_id": {"$ref": "#/$defs/unknownable_id"},
+        "restart_witness_id": {"$ref": "#/$defs/unknownable_id"},
+        "independent_of_correctness": {"type": "boolean", "const": true},
+        "status": {"$ref": "#/$defs/check_status"},
+        "cannot_check_reason": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    },
+    "current_authorization_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-g21-axis": "current_authority",
+      "description": "Present serving permission. Distinct from proof correctness and from historical acquisition. CLIA withdrawal is authority, not falsification.",
+      "required": [
+        "admitted",
+        "proof_liveness",
+        "applicability_liveness",
+        "serving_liveness",
+        "revoked_support_ids",
+        "warrant_ids",
+        "scope",
+        "authority_ranks",
+        "status",
+        "cannot_check_reason"
+      ],
+      "properties": {
+        "admitted": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "proof_liveness": {"$ref": "#/$defs/liveness"},
+        "applicability_liveness": {"$ref": "#/$defs/liveness"},
+        "serving_liveness": {"$ref": "#/$defs/liveness"},
+        "revoked_support_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "warrant_ids": {"type": "array", "items": {"$ref": "#/$defs/unknownable_id"}, "uniqueItems": true},
+        "scope": {"$ref": "#/$defs/scope_state"},
+        "authority_ranks": {"type": "array", "items": {"$ref": "#/$defs/authority_rank"}},
+        "status": {"$ref": "#/$defs/check_status"},
+        "cannot_check_reason": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    },
+    "g24_lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "G2.4 gates. Completeness is never inferred from a subset. Default UNKNOWN.",
+      "required": [
+        "admitted_before_fresh_task",
+        "process_restarted",
+        "fresh_task_disjoint_from_acquisition",
+        "actually_invoked",
+        "execution_trace_identifies_object",
+        "material_effect",
+        "removal_ablation",
+        "answer_cache_excluded",
+        "retrieval_only_excluded",
+        "complete",
+        "status",
+        "cannot_check_reason"
+      ],
+      "properties": {
+        "admitted_before_fresh_task": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "process_restarted": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "fresh_task_disjoint_from_acquisition": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "actually_invoked": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "execution_trace_identifies_object": {"anyOf": [{"type": "boolean"}, {"type": "null"}]},
+        "material_effect": {"$ref": "#/$defs/check_status"},
+        "removal_ablation": {"$ref": "#/$defs/check_status"},
+        "answer_cache_excluded": {"$ref": "#/$defs/check_status"},
+        "retrieval_only_excluded": {"$ref": "#/$defs/check_status"},
+        "complete": {"type": "boolean", "description": "True only when every G2.4 gate is MEASURED and satisfied. G2.1 must not set this from schema emission alone."},
+        "status": {"$ref": "#/$defs/check_status"},
+        "cannot_check_reason": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    }
+  }
+}

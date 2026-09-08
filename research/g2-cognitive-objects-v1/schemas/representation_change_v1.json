@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/representation_change_v1.json",
+  "title": "RepresentationChangeV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "change_id",
+    "before_representation_id",
+    "after_representation_id",
+    "trigger",
+    "primitive_alias",
+    "lifecycle_equivalence",
+    "acquisition_lineage",
+    "correctness",
+    "usefulness",
+    "authorization",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.representation-change.v1"},
+    "change_id": {"$ref": "common.json#/$defs/nonempty_string"},
+    "before_representation_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "after_representation_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "trigger": {"$ref": "common.json#/$defs/nonempty_string"},
+    "primitive_alias": {
+      "type": "string",
+      "enum": ["PRIMITIVE_ALIAS", "NO_NEW_ABSTRACTION", "NOT_ASSESSED", "UNKNOWN"]
+    },
+    "lifecycle_equivalence": {"$ref": "common.json#/$defs/check_status"},
+    "acquisition_lineage": {"$ref": "common.json#/$defs/acquisition_lineage"},
+    "correctness": {"$ref": "common.json#/$defs/correctness_evidence"},
+    "usefulness": {"$ref": "common.json#/$defs/usefulness_evidence"},
+    "authorization": {"$ref": "common.json#/$defs/current_authorization_state"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

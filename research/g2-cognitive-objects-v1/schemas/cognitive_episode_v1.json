@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/cognitive_episode_v1.json",
+  "title": "CognitiveEpisodeV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "episode_id",
+    "task_id",
+    "grammar",
+    "outcome",
+    "trace_id",
+    "resources",
+    "information",
+    "acquisition_lineage",
+    "correctness",
+    "usefulness",
+    "authorization",
+    "emitted_method_ids",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.cognitive-episode.v1"},
+    "episode_id": {"$ref": "common.json#/$defs/nonempty_string"},
+    "task_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "grammar": {"$ref": "common.json#/$defs/nonempty_string"},
+    "outcome": {"$ref": "common.json#/$defs/nonempty_string"},
+    "trace_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "resources": {"$ref": "common.json#/$defs/resource_vector"},
+    "information": {"$ref": "common.json#/$defs/information_vector"},
+    "acquisition_lineage": {"$ref": "common.json#/$defs/acquisition_lineage"},
+    "correctness": {"$ref": "common.json#/$defs/correctness_evidence"},
+    "usefulness": {"$ref": "common.json#/$defs/usefulness_evidence"},
+    "authorization": {"$ref": "common.json#/$defs/current_authorization_state"},
+    "emitted_method_ids": {"type": "array", "items": {"$ref": "common.json#/$defs/unknownable_id"}, "uniqueItems": true},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}
