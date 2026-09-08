@@ -1,0 +1,119 @@
+--- reviewed/observe_opportunity.py
++++ screening/observe_screening.py
+@@ -1,4 +1,4 @@
+-"""One root-bound training opportunity audit; no native checker is invoked here."""
++"""One root-bound retained screen; no parser/learner/native work occurs in this observer."""
+ from pathlib import Path
+ import hashlib
+ import json
+@@ -11,16 +11,16 @@
+ HERE = Path(__file__).resolve().parent
+ sys.path.insert(0, str(HERE))
+ 
+-ROOT = Path("/home/billy/orion-director-work/20260908/ordinary-cut-opportunity-v1/consumer-v3")
+-RUN = ROOT / "prospective-run-01"
+-REQUEST = RUN / "REQUEST-PROSPECTIVE.json"
+-GATE = RUN / "ROOT-OPPORTUNITY-GATE.json"
+-OUTPUT = RUN / "opportunity-01"
++ROOT = HERE.parent
++RUN = HERE
++REQUEST = RUN / "EXECUTION-REQUEST-DRAFT.json"
++GATE = RUN / "ROOT-SCREENING-GATE.json"
++OUTPUT = RUN / "screening-01"
+ OBSERVATION = RUN / "observation-01"
+ CONTRACT = HERE / "OBSERVER-CONTRACT.json"
+ PYTHON = Path("/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python3.11")
+ EXPECTED_PYTHON = {"bytes":21334200,"sha256":"edca1fc80dbd58182c849c13707fb6bfb522b0d7049adc408225f7c69b124d3b"}
+-EXPECTED_REQUEST = {"bytes":4584,"sha256":"0e3b85d6fda159c653d46f9e7104eea4869a29d911a7aec18f64297fdf96b564"}
++EXPECTED_REQUEST = {'bytes': 12127, 'sha256': '240998a5c5a6b529d9bc561e444661c2563d46478a39e4942bd8a5664abd6cb3'}
+ 
+ 
+ def byte_identity(raw):
+@@ -48,20 +48,21 @@
+     gate = json.loads(gate_raw)
+     contract_raw = CONTRACT.read_bytes()
+     contract = json.loads(contract_raw)
+-    assert gate["authorization"] == "ROOT_TRAINING_OPPORTUNITY_GATE"
++    assert gate["authorization"] == "ROOT_RETAINED_SCREENING_GATE"
+     assert gate["request"] == EXPECTED_REQUEST and gate["max_runs"] == 1
+     assert type(gate["outer_wall_s"]) is int and gate["outer_wall_s"] == 180
+     assert gate["observer"] == identity(Path(__file__).resolve())
+     assert gate["observer_contract"] == byte_identity(contract_raw)
+     assert request["gate_path"] == str(GATE)
+-    assert request["schema"] == "ordinary.training-opportunity-request.v3"
++    assert request["schema"] == "ordinary.retained-screening-request.v1"
+     assert request["max_wall_s"] == 60 and request["max_token_states"] == 2000000
++    assert (request["P1_count"], request["proposal_occurrences"], request["syntax_token_limit"], request["syntax_proof_limit"]) == (4323, 76, 512, 4096)
+     assert gate["output"] == str(OUTPUT) and gate["observation"] == str(OBSERVATION)
+-    argv = [str(PYTHON), "-I", "-S", "-B", str(ROOT / "run_opportunity.py"), str(REQUEST), str(OUTPUT)]
++    argv = [str(PYTHON), "-I", "-S", "-B", str(ROOT / "run_screening.py"), str(REQUEST), str(OUTPUT)]
+     assert gate["argv"] == argv and gate["cwd"] == str(ROOT)
+     assert gate["runtime"] == {"path": str(PYTHON), **EXPECTED_PYTHON}
+     assert contract["request"] == {"path": str(REQUEST), **EXPECTED_REQUEST}
+-    assert contract["sources"] == request["sources"] and len(request["sources"]) == 18
++    assert contract["sources"] == request["sources"] and len(request["sources"]) == 10
+     pins = {}
+ 
+     def pin(path, value):
+@@ -77,15 +78,17 @@
+     pin(str(Path(__file__).resolve()), gate["observer"])
+     pin(str(HERE / "output_contract.py"), contract["output_contract"])
+     pin(contract["source_freeze"]["path"], contract["source_freeze"])
+-    for key in ("P0_contracts", "training_packet", "release_receipt", "P1_inventory",
+-                "qualified_native_trace_authority", "registry_scope"):
+-        assert request[key] == contract["inputs"][key]
+-        pin(request[key]["path"], request[key])
+-    for key in ("qualified_native_trace_authority", "P1_inventory", "training_packet"):
+-        assert gate[key] == request[key]
+-    for value in contract["implicit_registry_inputs"].values():
++    assert request["inputs"] == contract["inputs"] == gate["inputs"]
++    for value in request["inputs"].values():
+         pin(value["path"], value)
+-    assert set(gate["accepted_reviews"]) == {"native_outcome", "consumer_source", "observer_source"}
++    assert request["runtime"] == contract["lark_runtime"]
++    for name, value in request["runtime"]["files"].items():
++        pin(str(Path(request["runtime"]["path"]) / name), value)
++    for key in ("manifest", "wheel"):
++        value = request["runtime"][key]
++        pin(value["path"], value)
++    assert set(gate["accepted_reviews"]) == {"screening_source", "observer_source"}
++    assert gate["accepted_reviews"]["screening_source"] == request["source_review"]
+     for value in gate["accepted_reviews"].values():
+         assert set(value) == {"path", "bytes", "sha256"}
+         pin(value["path"], value)
+@@ -99,7 +102,7 @@
+     OBSERVATION.mkdir()
+     write(OBSERVATION / "START.json", {"observer_pid": os.getpid(), "observer_parent_pid": os.getppid(),
+         "gate": byte_identity(gate_raw), "request": EXPECTED_REQUEST, "pins": pins, "argv": argv,
+-        "runtime": gate["runtime"], "observer_argv": sys.argv})
++        "runtime": gate["runtime"], "observer_argv": sys.argv, "observer_cwd": os.getcwd(), "child_cwd": str(ROOT)})
+     process_start = time.perf_counter()
+     timed_out = False
+     child, pid, status, usage, process_error = None, None, None, None, None
+@@ -147,13 +150,13 @@
+     reaped = child is not None and pid == child.pid
+     exit_code = child.returncode if reaped else None
+     try:
+-        outputs = inspect_outputs(OUTPUT, child.pid if child else None, EXPECTED_REQUEST, request)
++        outputs = inspect_outputs(OUTPUT, child.pid if child else None, EXPECTED_REQUEST, request, ROOT)
+     except BaseException as error:
+         outputs = {"files": {}, "entries": [], "population_ok": False, "completed_contract": False,
+                    "errors": [type(error).__name__ + ": " + str(error)]}
+     successful = (reaped and exit_code == 0 and all(unchanged.values()) and not timed_out
+         and not read_errors and outputs["population_ok"] and outputs["completed_contract"] and not outputs["errors"])
+-    receipt = {"schema": "ordinary.opportunity.outer-process.v1", "observer_pid": os.getpid(),
++    receipt = {"schema": "ordinary.retained-screening.outer-process.v1", "observer_pid": os.getpid(),
+         "observer_parent_pid": os.getppid(), "pid": child.pid if child else None,
+         "child_parent_pid": os.getpid() if child else None,
+         "reaped": reaped, "exit_code": exit_code, "signal": -exit_code if exit_code is not None and exit_code < 0 else None,
+@@ -165,8 +168,8 @@
+         "stderr": identity(OBSERVATION / "stderr.log") if (OBSERVATION / "stderr.log").is_file() else None,
+         "measured_outer_wall_s": time.perf_counter() - measured_start,
+         "measurement_scope": "Observer run entry through post-run input/output checks; excludes interpreter/import startup, source preparation, root review and final receipt serialization. Child wall is nested, not additive. Not lifetime cost.",
+-        "terminal": "OPPORTUNITY_PROCESS_COMPLETED" if successful else "OPPORTUNITY_PROCESS_FAILED",
+-        "scope": "Once-only training opportunity recording; no native admission, serving utility, held-out result or novelty follows."}
++        "terminal": "SCREENING_PROCESS_COMPLETED" if successful else "SCREENING_PROCESS_FAILED",
++        "scope": "Once-only retained screening recording; no native admission, acquisition, serving utility, held-out result or novelty follows."}
+     write(OBSERVATION / "PROCESS.json", receipt)
+     print(json.dumps({"terminal": receipt["terminal"], "pid": receipt["pid"], "exit_code": exit_code,
+         "receipt": str(OBSERVATION / "PROCESS.json")}))
