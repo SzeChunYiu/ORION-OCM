@@ -64,6 +64,30 @@ They must not be presented as an uninstrumented production-speedup estimate.
 Whole-subprocess timings include interpreter/import overhead and reduce the
 apparent timing ratio substantially.
 
+### Exposed timing audit
+
+After the original result, a separate measurement audit reran all eight exact
+orderings with the baseline arithmetic-counting wrappers disabled. New engines
+kept their inline counters; frozen experiment sources were unchanged. All 40
+audit subprocesses again achieved 142/142 evaluation answers. This is exposed
+E2 measurement evidence, not an additional held-out verification route.
+
+| Arm | Lifetime wall median, ms (range) | Whole subprocess median, ms |
+|---|---:|---:|
+| Current primitive search, wrappers disabled | 374.44 (365.87–421.26) | 452.86 |
+| Current learned search, wrappers disabled | 362.99 (333.12–403.29) | 441.44 |
+| Semantic reset, existing counters | 133.93 (126.88–162.22) | 206.94 |
+| Persistent semantic, existing counters | 12.65 (12.04–13.85) | 93.60 |
+| Inverse parent, existing counters | 21.47 (19.86–23.62) | 97.03 |
+
+The lower measured synthesis time survives removal of baseline arithmetic
+instrumentation: about 28.7 times for the learned-search/persistent comparison
+inside the measured lifetime, and about 4.7 times including subprocess startup.
+The audit is not fully uninstrumented, and timing differences across the two
+run blocks do not isolate instrumentation overhead from runtime variation.
+See [timing_followup.py](timing_followup.py) and
+[audit raw records and summary](results/timing-audit-v1).
+
 ## Causal mechanism and negative result
 
 Resetting the same semantic engine before each target increased lifetime
