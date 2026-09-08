@@ -1,0 +1,11 @@
+--- candidate02/release_training.py
++++ release03/release_training.py
+@@ -2,7 +2,7 @@
+ import hashlib,json,sys
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent
+-sys.path.insert(0,str(ROOT/"donor"))
++sys.path[:0]=[str(ROOT),str(ROOT/"donor")]
+ import trace_source as S
+ import trace_adapter as T
+ import registry_scope as R

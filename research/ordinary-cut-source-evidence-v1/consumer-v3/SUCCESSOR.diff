@@ -1,0 +1,76 @@
+--- consumer-v2/teaching_packet.py
++++ consumer-v3/teaching_packet.py
+@@ -1,5 +1,6 @@
+ """Bindings for externally native-qualified training data; never a native checker."""
+ import hashlib,json
++import trace_context
+ POLICY="ALL_PREFIX_AXIOMS_PLUS_P0_THEOREMS_PLUS_RELEASED_TRAINING_THEOREMS"
+ FIELDS={"label","kind","statement","floating","essential","dv"}
+ ROW={"ordinal","label","source_disposition","whole_contract","trace_disposition","trace","contracts"}
+@@ -30,7 +31,7 @@
+         raise ValueError("complete P1 authority")
+     if authority["schema"]!="ordinary.native-prefix-authority.v2" or authority["terminal"]!="FRESH_PREFIX_NATIVE_VERIFIED" or authority["proof_ordinal_count"]!=4223:
+         raise ValueError("fresh native authority contract")
+-    if authority["release"]!=request["release_receipt"] or authority["registry_scope"]!=request["registry_scope"]:
++    if authority["release"]!=request["release_receipt"] or authority["registry_scope"]!=request["registry_scope"] or authority["corpus"]!=request["corpus"] or authority["P0_contracts"]!=request["P0_contracts"]:
+         raise ValueError("fresh native authority bindings")
+     if {k:authority["prefix"][k] for k in ("bytes","sha256")}!=release["closed_source"]:
+         raise ValueError("fresh native prefix identity")
+@@ -61,6 +62,16 @@
+     if inventory["released_labels"]!=released or inventory["base_labels"]!=[
+        r["label"] for r in inventory["contracts"] if r["kind"]=="$a" or r["label"] in base_p]:
+         raise ValueError("P1 manifest labels")
++    if set(authority["selected_scope_bindings"])!=set(released) or set(authority["trace_dispositions"])!=set(released):
++        raise ValueError("native released scope population")
++    ready={r["label"] for r in roots if r["trace_disposition"]=="TRACE_READY"}
++    if set(authority["trace_bindings"])!=ready:raise ValueError("native ready trace population")
++    native_axioms=authority["axioms"]
++    if [a["contract"] for a in native_axioms]!=[r for r in inventory["contracts"] if r["kind"]=="$a"] or [
++       {"label":a["contract"]["label"],"raw":a["raw"]} for a in native_axioms]!=release["axiom_identities"]:
++        raise ValueError("native complete axiom identity")
++    if authority["additional_axiom_labels"]!=[x for x in axioms if x not in base_index]:
++        raise ValueError("native additional axiom disclosure")
+     released_by={r["label"]:r for r in release["roots"]}
+     for row in roots:
+         if row["source_disposition"]!="RELEASED":
+@@ -69,13 +80,19 @@
+             if row["whole_contract"] is not None or row["trace"] is not None or row["contracts"]!={} or row["trace_disposition"]!="EXCLUDED":
+                 raise ValueError("excluded root exposure")
+             continue
++        selected=authority["selected_scope_bindings"][row["label"]]
++        issued=released_by[row["label"]]
++        if selected["contract"]!=row["whole_contract"] or selected["source_raw"]!=issued["source_raw"] or selected["proof_raw"]!=issued["proof_raw"]:
++            raise ValueError("native released whole-contract/source binding")
++        disposition=authority["trace_dispositions"][row["label"]]
++        if set(disposition)!={"status","reason"} or disposition["status"]!=row["trace_disposition"]:
++            raise ValueError("native trace disposition")
+         if p1[row["label"]]["statement"]!=released_by[row["label"]]["statement"]:raise ValueError("released whole theorem statement")
+         if row["whole_contract"]!=contract_identity(p1[row["label"]]):raise ValueError("whole theorem contract binding")
+         if row["trace_disposition"]=="TRACE_UNUSABLE":
+             if row["trace"] is not None or row["contracts"]!={}:raise ValueError("unusable trace schema")
+         elif row["trace_disposition"]=="TRACE_READY":
+-            if contract(row["trace"]["source"])!=p1[row["label"]]:raise ValueError("trace whole contract")
+-            if any(contract(value)!=p1.get(label) or value["label"]!=label for label,value in row["contracts"].items()):
+-                raise ValueError("trace ordinary contract authority")
++            if disposition["reason"] is not None:raise ValueError("ready trace reason")
++            trace_context.validate(row,p1[row["label"]],p1,authority,contract,contract_identity)
+         else:raise ValueError("trace disposition")
+     return inventory["contracts"]
+--- consumer-v2/run_opportunity.py
++++ consumer-v3/run_opportunity.py
+@@ -24,13 +24,13 @@
+     gate=json.loads(gate_bytes)
+     if gate.get("authorization")!="ROOT_TRAINING_OPPORTUNITY_GATE" or gate["request"]!=request_identity:
+         raise ValueError("root training-only authorization")
+-    if request.get("schema")!="ordinary.training-opportunity-request.v2":raise ValueError("opportunity request schema")
++    if request.get("schema")!="ordinary.training-opportunity-request.v3":raise ValueError("opportunity request schema")
+     source=request["sources"]
+     for name,pin in source.items():
+         if identity(ROOT/name)!=pin:raise ValueError("source freeze")
+     if output.exists():raise ValueError("output already exists")
+     output.mkdir()
+-    result={"schema":"ordinary.training-only-opportunity.v2","roots":[],"native_calls":0,"pid":os.getpid(),
++    result={"schema":"ordinary.training-only-opportunity.v3","roots":[],"native_calls":0,"pid":os.getpid(),
+             "terminal":"RUNNING","request":request_identity,"training_outcome_is_not_native_admission":True}
+     work=Work(request["max_token_states"])
+     try:

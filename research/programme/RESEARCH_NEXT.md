@@ -33,7 +33,20 @@ Its witness counts are conditional on readiness; no opportunity scan has run.
 Bounded alias screening preserves UNKNOWN. An all-alias result may instead motivate
 separately registered selection learning when actual search telemetry supports it.
 
-Register a trace-compatibility and opportunity audit before opening per-root records.
+The [fixed training-source result](../ordinary-training-native-export-v1/CORE.md)
+now establishes fresh validity for the registered 4,223-theorem prefix. The 128 new
+training roots produce 71 transport-ready traces and 57 interface exclusions; all
+whole theorems remain in P1. This is not a cut opportunity count. The source release
+and native-export gates are consumed once and must not be replayed.
+
+Use the frozen [consumer-v3 source](../ordinary-cut-source-evidence-v1/consumer-v3/CORE.md)
+for the next separately bound training-only opportunity audit. Preserve its original
+population, resource/interface restrictions and exact one-step parent. The observed
+DV/hypothesis obstruction motivates a later registered interface extension, with
+this result retained; do not select replacements to improve the readiness count.
+
+For later populations, register compatibility and opportunity audits before opening
+per-root records.
 Count proper repeated fragments, exact type/scope compatibility, independent support
 meanings, family separation and strongest ordinary one-step availability. Report
 all exclusions and negatives. Do not choose task quotas before observing readiness.
