@@ -107,8 +107,12 @@ their measured scope. The [typed argument-hole adapter](../ordinary-lemma-hole-a
 now has eight original authored controls plus one separately observed two-slot
 correction; both production modules are unchanged. It binds whole argument proofs,
 checks typed substitutions and emits one chosen tree occurrence. Its results remain
-structural proposals: integrate current native trace/admission bindings and check
-the exact rewritten whole proof before measuring real reuse or starting another sweep.
+structural proposals. The [native caller result](../ordinary-hole-native-result-v1/CORE.md)
+now binds the current trace and verifies both source and rewritten whole proofs
+against the same 4,096-proof prefix. Composite syntax and a derived essential
+argument survive the fixed replacement. This is an authored noneligible alias,
+not a learned-method utility result. Use the qualified boundary in the next
+registered ordinary-lemma comparison; do not repeat this control as new evidence.
 
 ## Test the scientific mechanism
 
@@ -157,7 +161,8 @@ The prospective [ordinary derived-lemma parent](../native-ordinary-lemma-parent-
 is source-reviewed. Its contract and conditional action-cost argument authorize no
 native experiment. The [43 structural controls](../native-typed-trace-evidence-v1/CORE.md)
 and [separate native lifecycle](TYPED_NATIVE_LIFECYCLE.md) retain distinct evidence
-scope; the ordinary-theorem successor still needs its own qualified execution.
+scope. The new native replacement control qualifies its authored interface only;
+an ordinary-cut learning comparison remains a separate experiment.
 
 Read [primary methods and their assumptions](../metareasoning-parent-review-v1/CORE.md)
 before adding control policies. [Explicit non-neural learned selectors](NON_NEURAL_PARENT_SELECTION.md)

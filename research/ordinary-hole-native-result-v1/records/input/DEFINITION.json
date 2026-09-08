@@ -1,0 +1,632 @@
+{
+  "alias_witness_id": "3a3edbba45f4bd28ccf7a357a28e1087df380bd2fe151d8d87dc27284fd093a2",
+  "body": {
+    "nodes": [
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V0"
+        ]
+      },
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V1"
+        ]
+      },
+      {
+        "kind": "float",
+        "output": [
+          "wff",
+          "V2"
+        ]
+      },
+      {
+        "kind": "hole",
+        "output": [
+          "|-",
+          "(",
+          "V0",
+          "->",
+          "V1",
+          ")"
+        ],
+        "slot": 0
+      },
+      {
+        "kind": "hole",
+        "output": [
+          "|-",
+          "(",
+          "V1",
+          "->",
+          "V2",
+          ")"
+        ],
+        "slot": 1
+      },
+      {
+        "inputs": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "kind": "apply",
+        "label": "syl",
+        "output": [
+          "|-",
+          "(",
+          "V0",
+          "->",
+          "V2",
+          ")"
+        ],
+        "substitution": {
+          "ch": [
+            "V2"
+          ],
+          "ph": [
+            "V0"
+          ],
+          "ps": [
+            "V1"
+          ]
+        }
+      },
+      {
+        "inputs": [
+          0,
+          1,
+          2,
+          3,
+          5
+        ],
+        "kind": "apply",
+        "label": "jca",
+        "output": [
+          "|-",
+          "(",
+          "V0",
+          "->",
+          "(",
+          "V1",
+          "/\\",
+          "V2",
+          ")",
+          ")"
+        ],
+        "substitution": {
+          "ch": [
+            "V2"
+          ],
+          "ph": [
+            "V0"
+          ],
+          "ps": [
+            "V1"
+          ]
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "V0",
+        "type": "wff"
+      },
+      {
+        "id": "V1",
+        "type": "wff"
+      },
+      {
+        "id": "V2",
+        "type": "wff"
+      }
+    ],
+    "premises": [
+      [
+        "|-",
+        "(",
+        "V0",
+        "->",
+        "V1",
+        ")"
+      ],
+      [
+        "|-",
+        "(",
+        "V1",
+        "->",
+        "V2",
+        ")"
+      ]
+    ],
+    "query": [
+      "|-",
+      "(",
+      "V0",
+      "->",
+      "(",
+      "V1",
+      "/\\",
+      "V2",
+      ")",
+      ")"
+    ],
+    "root": 6,
+    "schema": "native.typed-proper-chunk.v1"
+  },
+  "eligible_method_ids": [],
+  "expected_binding": {
+    "essential_arguments": [
+      14,
+      23
+    ],
+    "floating_arguments": [
+      9,
+      10,
+      11
+    ],
+    "substitution": {
+      "V0": [
+        "(",
+        "ph",
+        "/\\",
+        "ps",
+        ")"
+      ],
+      "V1": [
+        "ps"
+      ],
+      "V2": [
+        "ch"
+      ]
+    }
+  },
+  "expected_replacement_labels": 21,
+  "expected_source_labels": 30,
+  "expected_trace_target_node": 25,
+  "lemma": {
+    "dv": [],
+    "essential": [
+      {
+        "label": "typed-admitted-0.h0",
+        "statement": [
+          "|-",
+          "(",
+          "ph",
+          "->",
+          "ps",
+          ")"
+        ]
+      },
+      {
+        "label": "typed-admitted-0.h1",
+        "statement": [
+          "|-",
+          "(",
+          "ps",
+          "->",
+          "ch",
+          ")"
+        ]
+      }
+    ],
+    "floating": [
+      {
+        "label": "wph",
+        "statement": [
+          "wff",
+          "ph"
+        ]
+      },
+      {
+        "label": "wps",
+        "statement": [
+          "wff",
+          "ps"
+        ]
+      },
+      {
+        "label": "wch",
+        "statement": [
+          "wff",
+          "ch"
+        ]
+      }
+    ],
+    "kind": "$p",
+    "label": "typed-admitted-0",
+    "statement": [
+      "|-",
+      "(",
+      "ph",
+      "->",
+      "(",
+      "ps",
+      "/\\",
+      "ch",
+      ")",
+      ")"
+    ]
+  },
+  "occurrence_path": [
+    3
+  ],
+  "parameter_context": {
+    "dv": [],
+    "parameters": [
+      {
+        "floating_label": "wph",
+        "id": "V0",
+        "type": "wff",
+        "variable": "ph"
+      },
+      {
+        "floating_label": "wps",
+        "id": "V1",
+        "type": "wff",
+        "variable": "ps"
+      },
+      {
+        "floating_label": "wch",
+        "id": "V2",
+        "type": "wff",
+        "variable": "ch"
+      }
+    ],
+    "schema": "native.typed-context.v1"
+  },
+  "pattern_contracts": {
+    "jca": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "jca.1",
+          "statement": [
+            "|-",
+            "(",
+            "ph",
+            "->",
+            "ps",
+            ")"
+          ]
+        },
+        {
+          "label": "jca.2",
+          "statement": [
+            "|-",
+            "(",
+            "ph",
+            "->",
+            "ch",
+            ")"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "jca",
+      "span": [
+        195230,
+        195305
+      ],
+      "statement": [
+        "|-",
+        "(",
+        "ph",
+        "->",
+        "(",
+        "ps",
+        "/\\",
+        "ch",
+        ")",
+        ")"
+      ]
+    },
+    "syl": {
+      "dv": [],
+      "essential": [
+        {
+          "label": "syl.1",
+          "statement": [
+            "|-",
+            "(",
+            "ph",
+            "->",
+            "ps",
+            ")"
+          ]
+        },
+        {
+          "label": "syl.2",
+          "statement": [
+            "|-",
+            "(",
+            "ps",
+            "->",
+            "ch",
+            ")"
+          ]
+        }
+      ],
+      "floating": [
+        {
+          "label": "wph",
+          "statement": [
+            "wff",
+            "ph"
+          ]
+        },
+        {
+          "label": "wps",
+          "statement": [
+            "wff",
+            "ps"
+          ]
+        },
+        {
+          "label": "wch",
+          "statement": [
+            "wff",
+            "ch"
+          ]
+        }
+      ],
+      "kind": "$p",
+      "label": "syl",
+      "span": [
+        36197,
+        36258
+      ],
+      "statement": [
+        "|-",
+        "(",
+        "ph",
+        "->",
+        "ch",
+        ")"
+      ]
+    },
+    "typed-admitted-0.h0": {
+      "kind": "$e",
+      "label": "typed-admitted-0.h0",
+      "span": [
+        1757209,
+        1757250
+      ],
+      "statement": [
+        "|-",
+        "(",
+        "ph",
+        "->",
+        "ps",
+        ")"
+      ]
+    },
+    "typed-admitted-0.h1": {
+      "kind": "$e",
+      "label": "typed-admitted-0.h1",
+      "span": [
+        1757251,
+        1757292
+      ],
+      "statement": [
+        "|-",
+        "(",
+        "ps",
+        "->",
+        "ch",
+        ")"
+      ]
+    },
+    "wch": {
+      "kind": "$f",
+      "label": "wch",
+      "span": [
+        16916,
+        16932
+      ],
+      "statement": [
+        "wff",
+        "ch"
+      ]
+    },
+    "wph": {
+      "kind": "$f",
+      "label": "wph",
+      "span": [
+        16802,
+        16818
+      ],
+      "statement": [
+        "wff",
+        "ph"
+      ]
+    },
+    "wps": {
+      "kind": "$f",
+      "label": "wps",
+      "span": [
+        16859,
+        16875
+      ],
+      "statement": [
+        "wff",
+        "ps"
+      ]
+    }
+  },
+  "purpose": "Authored alias-only noneligible native replacement control",
+  "replacement_claim": {
+    "holes": [
+      "native-hole-replacement-v1.h0"
+    ],
+    "label": "native-hole-replacement-v1",
+    "parameters": [
+      {
+        "floating_label": "wph",
+        "type": "wff",
+        "variable": "ph"
+      },
+      {
+        "floating_label": "wps",
+        "type": "wff",
+        "variable": "ps"
+      },
+      {
+        "floating_label": "wch",
+        "type": "wff",
+        "variable": "ch"
+      }
+    ],
+    "premises": [
+      [
+        "|-",
+        "(",
+        "ps",
+        "->",
+        "ch",
+        ")"
+      ]
+    ],
+    "proof": [
+      "wph",
+      "wps",
+      "wa",
+      "wps",
+      "wch",
+      "wa",
+      "wch",
+      "wph",
+      "wps",
+      "wa",
+      "wps",
+      "wch",
+      "wph",
+      "wps",
+      "simpr",
+      "native-hole-replacement-v1.h0",
+      "typed-admitted-0",
+      "wps",
+      "wch",
+      "simpr",
+      "syl"
+    ],
+    "query": [
+      "|-",
+      "(",
+      "(",
+      "ph",
+      "/\\",
+      "ps",
+      ")",
+      "->",
+      "ch",
+      ")"
+    ]
+  },
+  "schema": "ordinary.hole-native-definition.v1",
+  "source_claim": {
+    "holes": [
+      "native-hole-source-v1.h0"
+    ],
+    "label": "native-hole-source-v1",
+    "parameters": [
+      {
+        "floating_label": "wph",
+        "type": "wff",
+        "variable": "ph"
+      },
+      {
+        "floating_label": "wps",
+        "type": "wff",
+        "variable": "ps"
+      },
+      {
+        "floating_label": "wch",
+        "type": "wff",
+        "variable": "ch"
+      }
+    ],
+    "premises": [
+      [
+        "|-",
+        "(",
+        "ps",
+        "->",
+        "ch",
+        ")"
+      ]
+    ],
+    "proof": [
+      "wph",
+      "wps",
+      "wa",
+      "wps",
+      "wch",
+      "wa",
+      "wch",
+      "wph",
+      "wps",
+      "wa",
+      "wps",
+      "wch",
+      "wph",
+      "wps",
+      "simpr",
+      "wph",
+      "wps",
+      "wa",
+      "wps",
+      "wch",
+      "wph",
+      "wps",
+      "simpr",
+      "native-hole-source-v1.h0",
+      "syl",
+      "jca",
+      "wps",
+      "wch",
+      "simpr",
+      "syl"
+    ],
+    "query": [
+      "|-",
+      "(",
+      "(",
+      "ph",
+      "/\\",
+      "ps",
+      ")",
+      "->",
+      "ch",
+      ")"
+    ]
+  }
+}
