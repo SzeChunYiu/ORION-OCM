@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11.14'
-      - run: python -m pip install pytest==8.3.5 numpy==2.1.3 scipy==1.14.1
+      - run: python -m pip install pytest==8.3.5
       - name: Source-derived exact controls
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -64,10 +64,12 @@ jobs:
           python -B research/residual-strategy-regime-v1/online_switch.py \
             --out "$out/online-switch.json" \
             --github-notice
-      - name: Randomized time-only switch minimax
+      - name: Verify randomized time-only minimax certificate
         run: |
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          python -B research/residual-strategy-regime-v1/randomized_switch_lp.py \
+          python -B research/residual-strategy-regime-v1/randomized_switch_verify.py \
+            --regime "$out/regime.json" \
+            --certificate research/residual-strategy-regime-v1/RANDOMIZED_SWITCH_CERTIFICATE_V1.json \
             --out "$out/randomized-switch.json" \
             --github-notice
       - uses: actions/upload-artifact@v4
