@@ -1,0 +1,122 @@
+--- preserved/decision_core.py
++++ reviewed/decision_core.py
+@@ -76,8 +76,9 @@
+ def decision_regions(states, actions, good_actions):
+     """R_a = states in which action a is protected/acceptable."""
+     states, actions = tuple(states), tuple(actions)
++    acceptable = {state: frozenset(good_actions[state]) for state in states}
+     return {
+-        action: frozenset(state for state in states if action in good_actions[state])
++        action: frozenset(state for state in states if action in acceptable[state])
+         for action in actions
+     }
+ 
+@@ -230,6 +231,8 @@
+     Actions are sets of distinct IDs; their iteration order is irrelevant.
+     Contract values must have deterministic equality semantics. Numeric kernels
+     use the module's rational domain. All supplied kernels are validated first.
++    Only supplied action contracts are checked; a separate meta-DP STOP is not.
++    Combined use must also preserve stop outputs/costs within each block.
+     """
+     states, actions, kernels = _model(states, actions_by_state, transitions)
+     blocks = defaultdict(list)
+--- preserved/test_decision_core_exact_regressions.py
++++ reviewed/test_decision_core_exact_regressions.py
+@@ -18,6 +18,18 @@
+         return D.finite_meta_dp(
+             ("s", "t"), {"s": stop, "t": 0}, {"s": ("probe",), "t": ()},
+             {("s", "probe"): cost}, {("s", "probe"): outcomes}, budget)
++
++    def test_decision_regions_snapshot_good_action_iterables(self):
++        states, actions = ("s",), ("a", "b")
++        expected = {"a": frozenset(), "b": frozenset({"s"})}
++        for container in (tuple, iter):
++            with self.subTest(container=container.__name__):
++                regions = D.decision_regions(
++                    iter(states), iter(actions), {"s": container(("b",))})
++                self.assertEqual(regions, expected)
++                common = D.common_actions(states, {"s": container(("b",))})
++                self.assertEqual(common, frozenset({"b"}))
++                self.assertEqual(D.contained_decision_actions(states, regions), common)
+ 
+     def test_near_equal_laws_do_not_certify_exact_bisimulation(self):
+         delta = F(1, 2**42)
+--- preserved/MATH-ERRATUM.md
++++ reviewed/MATH-ERRATUM.md
+@@ -44,6 +44,12 @@
+ Bisimulation compares action sets independent of iteration order and literal
+ contracts; contract equality must be deterministic. None is reserved for STOP.
+ 
++The bisimulation helper checks only the action contracts supplied to it.
++The separate Stop(s) values in finite_meta_dp are not covered automatically.
++Combining a quotient with that DP also requires block-preserved stop outputs and
++costs, either as an explicitly checked STOP action/contract or a separate exact
++condition. Then V_0(s)=Stop(s) is block-constant and the finite induction applies.
++
+ The finite cognition allowance is a nonnegative built-in integer. Every cognitive
+ transition consumes one unit, and STOP is mandatory at zero. A STOP tie remains
+ STOP. This repairs arithmetic in the bounded parent; it does not establish
+--- preserved/CORE.md
++++ reviewed/CORE.md
+@@ -1,30 +1,39 @@
+ # Exact decision-core corrective capsule
+ 
+-**Ready for root's integration review:** an isolated exact-rational helper,
+-16 regression controls, and a small adaptive-information lemma patch.
+-The original PR154 files remain unchanged.
++This is the current landing page for an **isolated qualified helper and patch**.
++The changing PR154 source branch remains unapplied.
++The [historical source review](../decision-core-successor-review-v1/CORE.md)
++records findings against the original four-file snapshot; its unresolved labels
++must be read with that historical scope. Current correction evidence is below.
+ 
+-- [decision_core.py](decision_core.py): exact costs and kernels, complete kernel
+-  validation, reusable iterator inputs, and order-independent action-set checks.
+-- [test_decision_core_exact_regressions.py](test_decision_core_exact_regressions.py):
+-  reported witnesses plus positive equality/zero-regret/finite-stopping controls.
+-- [MATH-ERRATUM.md](MATH-ERRATUM.md): corrected identity and precise model/domain.
+-- [integration.patch](integration.patch): helper replacement, new tests, and
+-  bounded replacement of Lemma 8's adaptive identity paragraph.
+-- [QUALIFICATION.json](QUALIFICATION.json): inputs, environment, commands and
+-  machine-readable outcomes; [SHA256SUMS](SHA256SUMS) binds capsule files.
++**Iterator correction ready for independent recheck.** Decision regions now
++snapshot each state's acceptable-action iterable before checking candidate actions.
++The erratum and bisimulation docstring explicitly require block-preserved STOP
++outputs/costs when combining bisimulation with finite_meta_dp.
+ 
+-**Qualified on billy-laptop:** all 16 new regressions and all 10 original pure-helper controls pass. The patch applies cleanly in a read-only check against the bound source.
+-No frozen research experiment, native verifier, learner, or protected corpus ran.
+-The mathematical witness was checked on its two-world finite table.
++Read [revision receipt](REVISION-02.md), [math/domain erratum](MATH-ERRATUM.md),
++and [integration.patch](integration.patch). The patch modifies only the helper,
++adds its regression file, and corrects the adaptive-information lemma.
+ 
+-The patch base is the unchanged four-file content reviewed at PR154 head
++Current focused qualification: **2 affected controls pass** on billy-laptop:
++the tuple/iterator/containment equivalence regression and the original common-action
++control. [FOCUSED-03.json](FOCUSED-03.json) records actual child PID, cwd, imported
++module path, and equal source hashes before/after the run.
++
++The prior candidate and all exact receipts are preserved under
++[history/01-before-good-action-iterator](history/01-before-good-action-iterator/).
++Its 16-regression/10-control results remain historical results on that candidate.
++Only affected tests were rerun for this revision; no broader result is implied.
++[QUALIFICATION.json](QUALIFICATION.json) and [SHA256SUMS](SHA256SUMS) bind the
++current owned artifacts and preserved records. Root metadata and independent
++review files are outside this manifest's ownership.
++
++The patch base is the four-file content reviewed at PR154 head
+ `c8cc8ed14a1d3d3aaa8c13fc8b68df28f82bf8bd`, tree
+ `05fef3d2bafe7acd6e6a89fbaf610171381b052c`.
+-Root must match blob hashes against the integration head; this capsule does not
+-authorize applying to a changed source or certify all intervening PR additions.
++Root must match those source blobs against the integration head.
+ 
+-Finite float inputs are accepted as exact stored binary rationals. Approximate
+-normalization is rejected; exact decimal intent requires explicit fractions.
+-Outputs are Fraction values. Integration must handle their serialization and
+-charge exact-arithmetic costs. Arbitrary-real exact computation is not claimed.
++Finite floats mean their exact stored binary rationals; normalization is exact.
++Outputs use Fraction, whose serialization and lifecycle costs need integration
++accounting. No arbitrary-real exactness, frozen research result, full-PR repair,
++unbounded stopping theorem, or automatic coverage of omitted STOP contracts is claimed.

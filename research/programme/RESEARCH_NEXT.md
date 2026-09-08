@@ -43,6 +43,14 @@ Withhold the target's own assertion and all prohibited derived shortcuts. Retrie
 an already supplied theorem is different from reconstructing its proof. Keep development
 and evaluation families separate; surface changes alone do not establish transfer.
 
+The [CD Tools source review](../proof-compression-parent-review-v1/CORE.md) identifies
+existing DAG/save-value and parameterized proof-grammar machinery. Reuse those
+mechanisms before building a larger miner. Keep an unchanged donor reference; an
+open typed cut is not automatically the same candidate as a complete subterm.
+Qualify exact reconstruction, fresh theorem context and native checking before
+using compression proposals as acquired methods. No donor execution or new
+learning opportunity is established by the source review.
+
 ## Test the scientific mechanism
 
 Compare the original catalogue, inline acquired methods, and the same acquired
@@ -85,6 +93,12 @@ scope; the ordinary-theorem successor still needs its own qualified execution.
 Read [primary methods and their assumptions](../metareasoning-parent-review-v1/CORE.md)
 before adding control policies. Reuse or adapt established mechanisms first, state
 the remaining gap, and end the review with a concrete design or falsifying test.
+
+The [exact decision-parent correction](../decision-core-successor-repair-v1/CURRENT.md)
+repairs numerical, iterator and adaptive-information defects in an isolated helper.
+Its bounded controls and source review are complete. Integrating the patch into
+the changing source branch, including Fraction costs and STOP contracts, remains
+a separate engineering step; it supplies no new learning or novelty result.
 
 The Boolean meaning bridge is a bounded language interface, not an admission requirement
 for all native mathematics. Future native-only studies must register native proof

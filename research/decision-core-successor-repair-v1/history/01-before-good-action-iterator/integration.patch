@@ -1,0 +1,528 @@
+--- a/research/residual-strategy-regime-v1/decision_core.py
++++ b/research/residual-strategy-regime-v1/decision_core.py
+@@ -1,15 +1,65 @@
+ """Executable finite lemmas for FORMAL_DECISION_CORE_V2.md.
+ 
+-This module is deliberately small and stdlib-only.  It is not a production
+-router.  It keeps the finite identities used by the research note executable so
+-that future experiments cannot silently change the meaning of decision
+-sufficiency, feature regret, resource dominance, metalevel stopping, or
+-contract-bisimulation checks.
++Exact numeric domain: built-in int, Fraction, and finite built-in float.
++Floats mean their exact stored binary rational, not an intended decimal or
++arbitrary real. Numeric results use Fraction. NaN/infinity/bool/other numeric
++types are rejected. Kernel/weight normalization is exact; no renormalization.
++
++Inputs are finite, stable collections/mappings with hashable state/action IDs.
++Iterables are materialized before reuse. None is reserved for STOP in meta-DP.
++Contracts must have deterministic literal equality; they are not scalar costs.
++This finite reference helper does not certify source costs or policy-model
++adequacy, unbounded stopping, protected-action legality, or lifecycle coverage.
+ """
+ from __future__ import annotations
+ 
+ from collections import defaultdict
+-from math import isclose
++from fractions import Fraction
++from math import isfinite
++
++
++def _rational(value):
++    if type(value) not in (int, Fraction, float):
++        raise TypeError("numeric input must be int, Fraction, or finite float")
++    if type(value) is float and not isfinite(value):
++        raise ValueError("numeric input must be finite")
++    return Fraction(value)
++
++
++def _items(values, name, allow_empty=False):
++    values = tuple(values)
++    if len(set(values)) != len(values) or (not values and not allow_empty):
++        raise ValueError(name + " must contain distinct IDs and be nonempty")
++    return values
++
++
++def _probabilities(values):
++    values = tuple(_rational(value) for value in values)
++    if any(value < 0 or value > 1 for value in values) or sum(values) != 1:
++        raise ValueError("probabilities must be nonnegative and sum exactly to one")
++    return values
++
++
++def _weighted_problem(states, actions, costs, weights):
++    states, actions = _items(states, "states"), _items(actions, "actions")
++    probabilities = _probabilities(weights[state] for state in states)
++    exact_costs = {(s, a): _rational(costs[s, a]) for s in states for a in actions}
++    return states, actions, exact_costs, dict(zip(states, probabilities))
++
++
++def _model(states, actions_by_state, transitions):
++    states = _items(states, "states")
++    state_set = set(states)
++    actions = {s: _items(actions_by_state[s], "actions", True) for s in states}
++    kernels = {}
++    for state in states:
++        for action in actions[state]:
++            outcomes = tuple(transitions[state, action])
++            probabilities = _probabilities(p for p, _ in outcomes)
++            if any(successor not in state_set for _, successor in outcomes):
++                raise ValueError("transition successor is outside the supplied state space")
++            kernels[state, action] = tuple(zip(probabilities, (s for _, s in outcomes)))
++    return states, actions, kernels
+ 
+ 
+ def common_actions(version, good_actions):
+@@ -25,6 +75,7 @@
+ 
+ def decision_regions(states, actions, good_actions):
+     """R_a = states in which action a is protected/acceptable."""
++    states, actions = tuple(states), tuple(actions)
+     return {
+         action: frozenset(state for state in states if action in good_actions[state])
+         for action in actions
+@@ -38,7 +89,8 @@
+ 
+ 
+ def optimal_actions(state, actions, costs):
+-    values = {action: costs[(state, action)] for action in actions}
++    actions = _items(actions, "actions")
++    values = {action: _rational(costs[state, action]) for action in actions}
+     best = min(values.values())
+     return frozenset(action for action, value in values.items() if value == best)
+ 
+@@ -52,6 +104,7 @@
+ 
+ def fiber_common_optima(states, actions, costs, feature):
+     """Common optimal action set for each feature fiber."""
++    states, actions = _items(states, "states"), _items(actions, "actions")
+     result = {}
+     for key, members in feature_fibers(states, feature).items():
+         shared = set(actions)
+@@ -67,17 +120,19 @@
+ 
+ 
+ def full_information_expected_cost(states, actions, costs, weights):
+-    return sum(weights[state] * min(costs[(state, action)] for action in actions)
+-               for state in states)
++    states, actions, costs, weights = _weighted_problem(states, actions, costs, weights)
++    return sum((weights[state] * min(costs[state, action] for action in actions)
++                for state in states), Fraction())
+ 
+ 
+ def best_feature_expected_cost(states, actions, costs, weights, feature):
+-    """Theorem 4 exact expected optimum among deterministic/randomized heads."""
+-    total = 0.0
++    """Theorem 4 optimum over the supplied exact rational decision problem."""
++    states, actions, costs, weights = _weighted_problem(states, actions, costs, weights)
++    total = Fraction()
+     policy = {}
+     for key, members in feature_fibers(states, feature).items():
+         values = {
+-            action: sum(weights[state] * costs[(state, action)] for state in members)
++            action: sum(weights[state] * costs[state, action] for state in members)
+             for action in actions
+         }
+         chosen = min(actions, key=lambda action: (values[action], repr(action)))
+@@ -87,13 +142,12 @@
+ 
+ 
+ def feature_regret_floor(states, actions, costs, weights, feature):
++    states, actions = tuple(states), tuple(actions)
+     feature_cost, policy = best_feature_expected_cost(
+         states, actions, costs, weights, feature
+     )
+     full_cost = full_information_expected_cost(states, actions, costs, weights)
+     regret = feature_cost - full_cost
+-    if regret < 0 and isclose(regret, 0.0, abs_tol=1e-12):
+-        regret = 0.0
+     if regret < 0:
+         raise AssertionError("feature policy beat full information")
+     return {
+@@ -106,6 +160,7 @@
+ 
+ def price_independent_dominates(cost_a, cost_b):
+     """A <= B for every nonnegative scalarization iff componentwise A <= B."""
++    cost_a, cost_b = tuple(map(_rational, cost_a)), tuple(map(_rational, cost_b))
+     if len(cost_a) != len(cost_b):
+         raise ValueError("resource vectors must have equal dimension")
+     return all(a <= b for a, b in zip(cost_a, cost_b))
+@@ -113,6 +168,7 @@
+ 
+ def incomparable_price_witnesses(cost_a, cost_b):
+     """Return unit-coordinate witnesses preferring A and B, if both exist."""
++    cost_a, cost_b = tuple(map(_rational, cost_a)), tuple(map(_rational, cost_b))
+     if len(cost_a) != len(cost_b):
+         raise ValueError("resource vectors must have equal dimension")
+     a_wins = next((i for i, (a, b) in enumerate(zip(cost_a, cost_b)) if a < b), None)
+@@ -122,101 +178,91 @@
+ 
+ def local_gain_beats_overhead(method_a, overhead_a, method_b, overhead_b):
+     """Lemma 13: method A yields a whole-machine win iff total cost is lower."""
+-    local_gain = method_b - method_a
+-    overhead_penalty = overhead_a - overhead_b
++    local_gain = _rational(method_b) - _rational(method_a)
++    overhead_penalty = _rational(overhead_a) - _rational(overhead_b)
+     return local_gain > overhead_penalty
+ 
+ 
+ def finite_meta_dp(states, stop_cost, cognitive_actions, action_cost, transitions, budget):
+-    """Theorem 9 finite paid-cognition dynamic program.
+-
+-    transitions[(state, action)] is an iterable of (probability, next_state).
+-    `cognitive_actions[state]` may be empty.  Returns value/policy tables for all
+-    budgets 0..budget.  Policy value None means STOP.
++    """Theorem 9 for a finite model with at most budget cognitive actions.
++
++    Every transition consumes one step; at zero, STOP is mandatory.
++    Costs use the module's rational domain; cognitive costs must be nonnegative.
++    Kernels are validated even for budget zero. Each iterable is consumed once.
++    Returns exact value/policy tables; None means STOP and wins exact ties.
+     """
++    if type(budget) is not int:
++        raise TypeError("budget must be a built-in integer")
+     if budget < 0:
+         raise ValueError("budget must be nonnegative")
+-    states = tuple(states)
+-    values = [{state: float(stop_cost[state]) for state in states}]
+-    policies = [{state: None for state in states}]
+-
++    states, actions, kernels = _model(states, cognitive_actions, transitions)
++    stop = {s: _rational(stop_cost[s]) for s in states}
++    costs = {}
++    for state in states:
++        for action in actions[state]:
++            if action is None:
++                raise ValueError("None is reserved for STOP")
++            cost = _rational(action_cost[state, action])
++            if cost < 0:
++                raise ValueError("cognitive costs must be nonnegative")
++            costs[state, action] = cost
++    values, policies = [stop.copy()], [{s: None for s in states}]
+     for remaining in range(1, budget + 1):
+         previous = values[-1]
+-        current = {}
+-        current_policy = {}
++        current, current_policy = {}, {}
+         for state in states:
+-            best_cost = float(stop_cost[state])
+-            best_action = None
+-            for action in cognitive_actions[state]:
+-                outcomes = tuple(transitions[(state, action)])
+-                probability = sum(prob for prob, _ in outcomes)
+-                if not isclose(probability, 1.0, rel_tol=1e-12, abs_tol=1e-12):
+-                    raise ValueError("transition probabilities must sum to one")
+-                candidate = float(action_cost[(state, action)]) + sum(
+-                    prob * previous[next_state] for prob, next_state in outcomes
++            best_cost, best_action = stop[state], None
++            for action in actions[state]:
++                candidate = costs[state, action] + sum(
++                    prob * previous[next_state] for prob, next_state in kernels[state, action]
+                 )
+                 if candidate < best_cost:
+-                    best_cost = candidate
+-                    best_action = action
+-            current[state] = best_cost
+-            current_policy[state] = best_action
++                    best_cost, best_action = candidate, action
++            current[state], current_policy[state] = best_cost, best_action
+         values.append(current)
+         policies.append(current_policy)
+     return values, policies
+ 
+ 
+ def is_contract_bisimulation(states, actions_by_state, contract, transitions, block_of):
+-    """Check the exact finite protected-contract bisimulation conditions.
+-
+-    `contract[(s,a)]` may be any equality-comparable tuple (output, authority,
+-    raw resource vector, etc.).  `transitions[(s,a)]` is (prob,next_state).
++    """Check exact finite contract equality and successor block probabilities.
++
++    Actions are sets of distinct IDs; their iteration order is irrelevant.
++    Contract values must have deterministic equality semantics. Numeric kernels
++    use the module's rational domain. All supplied kernels are validated first.
+     """
++    states, actions, kernels = _model(states, actions_by_state, transitions)
+     blocks = defaultdict(list)
+     for state in states:
+         blocks[block_of[state]].append(state)
+-
+     for members in blocks.values():
+         reference = members[0]
+-        reference_actions = tuple(actions_by_state[reference])
+-        for state in members[1:]:
+-            if tuple(actions_by_state[state]) != reference_actions:
+-                return False
+-        for action in reference_actions:
+-            reference_contract = contract[(reference, action)]
+-            reference_mass = _block_transition_mass(
+-                transitions[(reference, action)], block_of
+-            )
++        reference_actions = frozenset(actions[reference])
++        if any(frozenset(actions[state]) != reference_actions for state in members[1:]):
++            return False
++        for action in actions[reference]:
++            reference_contract = contract[reference, action]
++            reference_mass = _block_transition_mass(kernels[reference, action], block_of)
+             for state in members[1:]:
+-                if contract[(state, action)] != reference_contract:
++                if contract[state, action] != reference_contract:
+                     return False
+-                if not _mass_equal(
+-                    reference_mass,
+-                    _block_transition_mass(transitions[(state, action)], block_of),
+-                ):
++                if reference_mass != _block_transition_mass(kernels[state, action], block_of):
+                     return False
+     return True
+ 
+ 
+ def _block_transition_mass(outcomes, block_of):
+-    mass = defaultdict(float)
+-    total = 0.0
++    """Aggregate already validated rational kernels; zero masses are omitted."""
++    mass = defaultdict(Fraction)
+     for probability, next_state in outcomes:
+-        mass[block_of[next_state]] += probability
+-        total += probability
+-    if not isclose(total, 1.0, rel_tol=1e-12, abs_tol=1e-12):
+-        raise ValueError("transition probabilities must sum to one")
++        if probability:
++            mass[block_of[next_state]] += probability
+     return dict(mass)
+-
+-
+-def _mass_equal(left, right):
+-    keys = set(left) | set(right)
+-    return all(isclose(left.get(key, 0.0), right.get(key, 0.0),
+-                       rel_tol=1e-12, abs_tol=1e-12)
+-               for key in keys)
+ 
+ 
+ def prune_dominated_slopes(slopes):
+     """Pareto-prune (setup, recurring, payload) options for Theorem 15 audits."""
++    slopes = tuple((_rational(b), _rational(r), payload) for b, r, payload in slopes)
+     result = []
+     for index, slope in enumerate(slopes):
+         setup, recurring, _ = slope
+@@ -236,7 +282,6 @@
+ 
+ def multislope_monotone(slopes):
+     """After pruning, setup must increase while recurring rate decreases."""
+-    for left, right in zip(slopes, slopes[1:]):
+-        if not (left[0] < right[0] and left[1] > right[1]):
+-            return False
+-    return True
++    slopes = tuple((_rational(b), _rational(r), payload) for b, r, payload in slopes)
++    return all(left[0] < right[0] and left[1] > right[1]
++               for left, right in zip(slopes, slopes[1:]))
+--- /dev/null
++++ b/research/residual-strategy-regime-v1/test_decision_core_exact_regressions.py
+@@ -0,0 +1,156 @@
++"""Bounded helper qualification; no corpus, learner, or native verifier."""
++from fractions import Fraction as F
++from decimal import Decimal
++import unittest
++import decision_core as D
++
++
++class ExactCoreTests(unittest.TestCase):
++    def model(self, ps, pt, sa=("a",), ta=("a",)):
++        states = ("s", "t", "u", "v")
++        actions = {"s": sa, "t": ta, "u": ("a", "b"), "v": ("a", "b")}
++        contract = {(s, a): int(s == "u") for s in states for a in actions[s]}
++        kernels = {"s": ps, "t": pt, "u": ((1, "u"),), "v": ((1, "v"),)}
++        transitions = {(s, a): kernels[s] for s in states for a in actions[s]}
++        return states, actions, contract, transitions, dict(zip(states, ("B", "B", "U", "V")))
++
++    def dp(self, stop, cost, outcomes, budget=1):
++        return D.finite_meta_dp(
++            ("s", "t"), {"s": stop, "t": 0}, {"s": ("probe",), "t": ()},
++            {("s", "probe"): cost}, {("s", "probe"): outcomes}, budget)
++
++    def test_near_equal_laws_do_not_certify_exact_bisimulation(self):
++        delta = F(1, 2**42)
++        model = self.model(((F(1, 2) + delta, "u"), (F(1, 2) - delta, "v")),
++                           ((F(1, 2), "u"), (F(1, 2), "v")))
++        self.assertFalse(D.is_contract_bisimulation(*model))
++
++    def test_exact_equal_laws_and_split_mass_are_accepted(self):
++        model = self.model(((F(1, 3), "u"), (F(2, 3), "v")),
++                           ((F(1, 6), "u"), (F(1, 6), "u"), (F(2, 3), "v")))
++        self.assertTrue(D.is_contract_bisimulation(*model))
++
++    def test_admissible_action_order_is_irrelevant(self):
++        model = self.model(((1, "u"),), ((1, "u"),), ("a", "b"), ("b", "a"))
++        self.assertTrue(D.is_contract_bisimulation(*model))
++
++    def test_different_action_sets_and_contracts_remain_rejected(self):
++        model = self.model(((1, "u"),), ((1, "u"),), ("a",), ("b",))
++        self.assertFalse(D.is_contract_bisimulation(*model))
++        model = self.model(((1, "u"),), ((1, "u"),))
++        model[2]["t", "a"] = 7
++        self.assertFalse(D.is_contract_bisimulation(*model))
++
++    def test_integer_stop_margin_survives_above_binary64_precision(self):
++        values, policies = self.dp(2**53 + 1, 2**53, ((1, "t"),))
++        self.assertEqual(policies[1]["s"], "probe")
++        self.assertEqual(values[1]["s"], F(2**53))
++        self.assertEqual(values[0]["s"], F(2**53 + 1))
++
++    def test_finite_zero_cost_loop_stops_at_allowance_zero(self):
++        values, policies = self.dp(1, 0, ((1, "s"),), budget=3)
++        self.assertEqual([v["s"] for v in values], [F(1)] * 4)
++        self.assertTrue(all(p["s"] is None for p in policies))
++
++    def test_transition_and_action_iterators_survive_two_steps(self):
++        values, policies = D.finite_meta_dp(
++            iter(("s", "t")), {"s": 3, "t": 0},
++            {"s": iter(("probe",)), "t": iter(())}, {("s", "probe"): 1},
++            {("s", "probe"): iter(((1, "t"),))}, 2)
++        self.assertEqual(values[2]["s"], F(1))
++        self.assertEqual(policies[2]["s"], "probe")
++
++    def test_binary_float_inputs_mean_their_exact_stored_rationals(self):
++        values, _ = self.dp(1.0, 0.5, ((0.5, "s"), (0.5, "t")))
++        self.assertIsInstance(values[1]["s"], F)
++        self.assertEqual(values[1]["s"], 1)
++
++    def test_rational_feature_regret_is_exact_with_iterable_inputs(self):
++        costs = {("x", "a"): 0, ("x", "b"): 1,
++                 ("y", "a"): 1, ("y", "b"): 0}
++        report = D.feature_regret_floor(
++            iter(("x", "y")), iter(("a", "b")), costs,
++            {"x": F(1, 3), "y": F(2, 3)}, {"x": "z", "y": "z"})
++        self.assertEqual(report["regret"], F(1, 3))
++        self.assertIsInstance(report["regret"], F)
++        self.assertEqual(report["policy"], {"z": "b"})
++
++    def test_zero_regret_control_and_nonempty_common_optimum(self):
++        costs = {("x", "a"): 0, ("x", "b"): F(1, 3)}
++        result = D.feature_regret_floor(("x",), ("a", "b"), costs, {"x": 1}, {"x": 0})
++        self.assertEqual(result["regret"], 0)
++        self.assertTrue(D.exact_feature_sufficient(("x",), ("a", "b"), costs, {"x": 0}))
++
++    def test_signed_and_inexactly_normalized_kernels_are_rejected(self):
++        for outcomes in (((-1, "s"), (2, "t")),
++                         ((1 - F(1, 2**42), "s"),),
++                         ((0.1, "s"), (0.9, "t"))):
++            with self.subTest(outcomes=outcomes):
++                with self.assertRaises(ValueError):
++                    self.dp(3, 1, outcomes)
++                with self.assertRaises(ValueError):
++                    D.is_contract_bisimulation(*self.model(outcomes, outcomes))
++
++    def test_unknown_successors_are_rejected_even_at_zero_probability(self):
++        with self.assertRaises(ValueError):
++            self.dp(1, 0, ((1, "t"), (0, "outside")))
++        with self.assertRaises(ValueError):
++            D.is_contract_bisimulation(
++                *self.model(((1, "outside"),), ((1, "outside"),)))
++
++    def test_invalid_numeric_inputs_fail_closed(self):
++        for bad in (float("nan"), float("inf"), -float("inf")):
++            with self.subTest(bad=bad):
++                with self.assertRaises(ValueError):
++                    self.dp(bad, 0, ((1, "t"),))
++        for bad in (True, "1", Decimal("1")):
++            with self.subTest(bad=repr(bad)):
++                with self.assertRaises(TypeError):
++                    self.dp(bad, 0, ((1, "t"),))
++        with self.assertRaises(ValueError):
++            self.dp(1, -1, ((1, "t"),))
++
++    def test_invalid_probability_weight_and_allowance_domains(self):
++        for bad in (True, "1", float("nan")):
++            with self.subTest(probability=repr(bad)):
++                with self.assertRaises((TypeError, ValueError)):
++                    self.dp(1, 0, ((bad, "t"),))
++        for bad in (True, F(1), -1):
++            with self.subTest(allowance=bad):
++                with self.assertRaises((TypeError, ValueError)):
++                    self.dp(1, 0, ((1, "t"),), budget=bad)
++        for weight in (-1, F(1, 2), float("nan")):
++            with self.subTest(weight=weight):
++                with self.assertRaises(ValueError):
++                    D.best_feature_expected_cost(("x",), ("a",), {("x", "a"): 1},
++                                                 {"x": weight}, {"x": "z"})
++
++    def test_numeric_helpers_reject_nonfinite_costs(self):
++        calls = (
++            lambda: D.optimal_actions("s", ("a",), {("s", "a"): float("nan")}),
++            lambda: D.price_independent_dominates((float("nan"),), (1,)),
++            lambda: D.local_gain_beats_overhead(0, 0, float("inf"), 0),
++            lambda: D.prune_dominated_slopes(((0, float("inf"), "x"),)),
++        )
++        for call in calls:
++            with self.assertRaises(ValueError):
++                call()
++
++    def test_adaptive_information_erratum_two_world_control(self):
++        # Columns: Theta, P1, Y1, P2, Y2. Two equally likely worlds.
++        rows = ((0, "fixed", 0, 0, "constant"), (1, "fixed", 1, 1, "constant"))
++        def entropy(columns):
++            distinct = {tuple(row[c] for c in columns) for row in rows}
++            return int(len(distinct) == 2)  # Exactly 0 or 1 bit in this table.
++        def cmi(x, y, z=()):
++            return entropy(x + z) + entropy(y + z) - entropy(z) - entropy(x + y + z)
++        obsolete_lhs = cmi((0,), (2, 4), (1, 3))
++        incremental = cmi((0,), (2,), (1,)) + cmi((0,), (4,), (1, 2, 3))
++        corrected_lhs = cmi((0,), (1, 2, 3, 4))
++        self.assertEqual(obsolete_lhs, 0)
++        self.assertEqual(incremental, 1)
++        self.assertEqual(corrected_lhs, incremental)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- a/research/residual-strategy-regime-v1/FORMAL_DECISION_CORE_V2.md
++++ b/research/residual-strategy-regime-v1/FORMAL_DECISION_CORE_V2.md
+@@ -390,24 +390,36 @@
+ 
+ ## Lemma 8 — adaptive probe bit bounds must be conditional
+ 
+-Let `Theta` be the decision-relevant target and let an adaptive procedure choose
+-probe `P_i` from history `H_{i-1}`, observe `Y_i`, and extend the history.  The
+-chain rule gives
+-
+-```text
+-I(Theta;Y_1,...,Y_n | P_1,...,P_n as generated)
+- = sum_i I(Theta;Y_i | H_{i-1},P_i)
+-```
+-
+-under the usual representation of the adaptive transcript.
+-
+-Hence if every legal probe satisfies the **conditional** bound
++Fix a finite number `n` of probe slots and define
++`H_i=(H_{i-1},P_i,Y_i)`.  Initial history `H_0` records all initial information
++and any independent algorithm random seed used by the adaptive policy.
++Assume probe selection adds no target information beyond that history:
++
++```text
++I(Theta;P_i | H_{i-1}) = 0.
++```
++
++Then the ordinary chain rule gives
++
++```text
++I(Theta;H_n | H_0)
++ = sum_i I(Theta;P_i,Y_i | H_{i-1})
++ = sum_i I(Theta;Y_i | H_{i-1},P_i).
++```
++
++The second equality expands each increment and uses the displayed independence
++condition.  Conditioning on all generated probe choices at once is different:
++future choices may encode past answers and remove their information.
++
++Hence if every increment satisfies the **conditional** bound
+ 
+ ```text
+ I(Theta;Y_i | H_{i-1},P_i) <= b,
+ ```
+ 
+-then the whole transcript carries at most `nb` bits about `Theta`.
++then the transcript adds at most `nb` bits beyond `H_0`.  If `H_0` is
++independent of `Theta`, this also bounds full-transcript information.
++No random or unbounded stopping-time extension is asserted here.
+ 
+ A bound only on marginal `I(Theta;Y_i)` is insufficient because observations can
+ be individually weak or redundant/masked while becoming informative jointly.
