@@ -1,0 +1,5853 @@
+{
+  "aggregate": {
+    "A_admissible_distribution": {
+      "0": 38,
+      "1": 36,
+      "2": 21,
+      "3": 1
+    },
+    "catalogue_sizes": {
+      "0": 3,
+      "1": 47,
+      "2": 42,
+      "3": 1,
+      "1001": 2,
+      "1002": 1
+    },
+    "distinct_sources": 70,
+    "exact_early_exit": {
+      "median_verification_calls": 0,
+      "note": "recoverable by an exact policy with no learner, under contract C1",
+      "p95_verification_calls": 2,
+      "queries_with_recoverable_work": 20,
+      "rho_exit": 0.20833333333333334,
+      "total_composition_work": 33,
+      "total_verification_calls": 40
+    },
+    "fraction_admissible_gt_1": 0.22916666666666666,
+    "fraction_admissible_le_1": 0.7708333333333334,
+    "fraction_with_multiple_passing": 0.20833333333333334,
+    "incumbent_totals": {
+      "composition_work": 125,
+      "verification_calls": 159
+    },
+    "passing_distribution": {
+      "0": 52,
+      "1": 24,
+      "2": 20
+    },
+    "queries": 96,
+    "residual_routing": {
+      "note": "rho_R counts only queries where a router could BOTH save work and preserve the chosen operator. A query with two passing candidates is excluded because reordering there changes the answer under decide()'s passed[0] semantics, which is a selection-contract violation and not an opportunity.",
+      "of_which_reordering_is_answer_safe": 0,
+      "queries_where_a_non_passing_candidate_precedes_the_answer": 0,
+      "rho_R": 0.0
+    },
+    "selection_modes": {
+      "EXACT_INPUT_INDEX": 7,
+      "FULL_SCAN": 89
+    }
+  },
+  "authority": "EVIDENCE_ONLY. No ML, NN, bandit or router is implemented, proposed as code, or run. The study reads and counts the existing exact policy.",
+  "cognitive_ladder_synthesis_fields": {
+    "beta_scarcity_of_the_economized_resource": "ZERO on the coordinate a router would economize. Verification calls after the answer are spent unconditionally by the incumbent, so they are not scarce to a reordering policy -- they are not reachable by one at all.",
+    "phi_evidence_composes": "NOT REACHED. phi asks whether evidence about an object composes across episodes; no evidence is being accumulated about operators because no policy here holds state across queries.",
+    "rho_later_demand": "NOT DEFINED for this object. rho asks whether acquired structure is demanded again; nothing is acquired here. The operator catalogue is supplied, not learned, and the index is a physical view of it.",
+    "u_per_use_cost": "The per-use cost of any future learned policy is strictly positive and the available per-query budget is zero, which is the lifetime inequality failing at its first term."
+  },
+  "counterfactual_identifiability": {
+    "identified_fraction": 0.9791666666666666,
+    "records": 96,
+    "records_where_composition_did_not_reach_check": [
+      "tests/m2/test_runtime_backend_purity.py::test_later_checker_mutation_invalidates_earlier_pass_and_stops_callbacks",
+      "tests/m2/test_solve_operator_index.py::test_compose_reads_index_without_iterating_full_catalogue"
+    ],
+    "records_with_every_admissible_candidate_checked": 56,
+    "records_with_no_admissible_candidate": 38,
+    "route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+    "what_would_break_this": "An early-exiting runtime. If compose or check stopped at the first pass, the outcomes of later candidates would be genuinely unobserved and this study would fall to CANNOT_CHECK_COUNTERFACTUAL_OPERATOR_OUTCOMES unless it re-executed them, which for side-effecting backends it could not safely do.",
+    "why_no_off_policy_inference_is_needed": "Every admissible candidate is composed and checked by the incumbent on every query, so no alternative is untried and nothing has to be inferred. The counterfactual outcome of every candidate is a recorded fact of the incumbent run.",
+    "why_this_is_also_the_routing_problem": "The same exhaustiveness that makes the counterfactual free makes the routing opportunity empty on the work coordinates: composition and verification work are sums over the admissible set, and a permutation does not change a sum. \u0394(q) under any pure reordering is therefore identically zero, for every query, without measuring anything."
+  },
+  "delta_summary": {
+    "exact_early_exit_verification_calls": 40,
+    "pure_reordering_verification_calls": 0,
+    "reading": "The three deltas are reported apart on purpose. Adding the early-exit recovery to the routing residual would credit a learner with work an exact policy already takes, which is the central error available in this study.",
+    "routing_specific_verification_calls": 0
+  },
+  "frontier": {
+    "bound_sources": {
+      "src/ocm/operators/indexed_registry.py": "7a2550b8201d015d2ba68810c7cd3ba9e2e4810240ebfc8effae2bea2e09b554",
+      "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+      "src/ocm/runtime/operator_index.py": "884909f1cf0f26a2eff9b8cb34578f0003a40e1d4fb0c8a7473a5a5bc462d499",
+      "src/ocm/runtime/solve.py": "c27e4b9fe787961a6c6ecb278f385535e375283aa72c4ec618fd2c90b4d08f63",
+      "src/ocm/science/selection.py": "aed95433731762ea05f85bfd1a0c53dd34eed616edbc4ddcd7b0fb7b4e388e52"
+    },
+    "branch": "claude/machine-epistemics-cognitive-ladder-69lo4d",
+    "commit": "47d706ab42d8528060356c7d4a267e1454ce9e7a",
+    "note": "Every claim in this study is a claim about these exact files. The study adds no operator, no policy and no learner to any of them; it only reads and counts.",
+    "repository": "SzeChunYiu/ORION-OCM",
+    "tree_is_clean_for_bound_sources": true
+  },
+  "information_lower_bound": {
+    "max_required_bits": 1.2485655436052,
+    "note": "Fano list-decoding bound on the information a legal feature channel must carry for a future top-1 proposal at 5% miss. Reported per query in the raw rows; the aggregate below is over queries where it is not vacuous.",
+    "queries_with_nonvacuous_bound": 22
+  },
+  "instrumentation_fidelity": {
+    "instrumented": {
+      "errors": 6,
+      "passed": 1301,
+      "skipped": 2
+    },
+    "note": "The instrument wraps two runtime functions and must not change what the runtime does. The repository's own suite was run twice at the frozen commit, once without the wrapper and once with it, and the outcome must match exactly. The six errors are pre-existing on this commit: tests/test_distribution.py fails at collection for wheel-build reasons that predate this study and reach no selection point.",
+    "uninstrumented": {
+      "errors": 6,
+      "passed": 1301,
+      "skipped": 2
+    }
+  },
+  "issue": "SzeChunYiu/ORION-OCM#152",
+  "lifetime_adoption": {
+    "max_additional_learner_cost_per_query": 0.0,
+    "mean_routing_delta_verification_calls_per_query": 0.0,
+    "note": "E[Delta_r] > E[U_r] + m_r is required for any horizon to repay a learner. The per-query routing-specific Delta is the entire budget available for inference, update and maintenance.",
+    "reading": "A per-use budget of zero verification calls admits no learner at any horizon, because D and M are non-negative and U is strictly positive for any model that runs."
+  },
+  "no_ml_implemented": "This study contains no model, no parameters, no training, no bandit and no router. It adds one read-only wrapper around two runtime functions and a pytest plugin, and restores both.",
+  "order_invariance": {
+    "claim": "For any permutation pi of the admissible candidate sequence, the incumbent's composition_work and verification_calls are unchanged.",
+    "consequence": "No reordering policy -- learned or otherwise -- can reduce incumbent work on these coordinates. Any router with positive inference cost strictly increases total work on every query.",
+    "proof": "compose_stage iterates candidate_ops in order and appends to `candidates` with no early termination, accumulating ResourceVector(composition_work=len(op.input_atoms), verification_calls=1) per candidate that composes. check_stage iterates `candidates` with no early termination and returns ResourceVector(verification_calls=len(checked)). Both totals are sums over the same finite set with order-independent summands, hence invariant under permutation.",
+    "what_it_does_not_say": "It says nothing about policies that CHANGE THE SET examined. Early exit removes candidates from the set and does reduce work; that is why this study measures it. Early exit is an exact policy and requires no learner."
+  },
+  "preserved_negatives": [
+    "supplied-key sparse lookup is not cognition (#143 N1)",
+    "exact indexing wins are not a neural opportunity (#115)",
+    "guarded-rule wins are not evidence for routing (DEV-3/DEV-5)",
+    "method discovery is not sufficient for useful reuse (E5)",
+    "parent-sufficient lanes are not failed science (PR #150 doctrine)"
+  ],
+  "protocol": {
+    "authority": "EVIDENCE_ONLY. No ML, NN, bandit or router is implemented, proposed as code, or run. The study reads and counts the existing exact policy.",
+    "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+    "frontier": {
+      "bound_sources": {
+        "src/ocm/operators/indexed_registry.py": "7a2550b8201d015d2ba68810c7cd3ba9e2e4810240ebfc8effae2bea2e09b554",
+        "src/ocm/operators/registry.py": "7354247b18cc56db98948926c7171b11aa383c6f2caf4096238ca7fb9f08785f",
+        "src/ocm/runtime/operator_index.py": "884909f1cf0f26a2eff9b8cb34578f0003a40e1d4fb0c8a7473a5a5bc462d499",
+        "src/ocm/runtime/solve.py": "c27e4b9fe787961a6c6ecb278f385535e375283aa72c4ec618fd2c90b4d08f63",
+        "src/ocm/science/selection.py": "aed95433731762ea05f85bfd1a0c53dd34eed616edbc4ddcd7b0fb7b4e388e52"
+      },
+      "branch": "claude/machine-epistemics-cognitive-ladder-69lo4d",
+      "commit": "47d706ab42d8528060356c7d4a267e1454ce9e7a",
+      "note": "Every claim in this study is a claim about these exact files. The study adds no operator, no policy and no learner to any of them; it only reads and counts.",
+      "repository": "SzeChunYiu/ORION-OCM",
+      "tree_is_clean_for_bound_sources": true
+    },
+    "issue": "SzeChunYiu/ORION-OCM#152",
+    "kill_criterion": "If the routing-specific residual is large, answer-safe, repeatedly demanded and repays a learner's per-use cost, this study must return RESIDUAL_ROUTING_OPPORTUNITY_CONFIRMED even though every prior expectation in this repository points the other way. The study stops there and does not proceed into learned routing.",
+    "negative_terminals": [
+      "NO_RESIDUAL_ROUTING_OPPORTUNITY",
+      "EXACT_POLICY_SUFFICIENT",
+      "GUARDED_REPRESENTATION_SUFFICIENT",
+      "COUNTERFACTUAL_VALUE_NOT_IDENTIFIABLE",
+      "SELECTION_POLICY_EQUIVALENCE_NOT_ESTABLISHED",
+      "RESIDUAL_TOO_SMALL_TO_AMORTIZE_ANY_LEARNER",
+      "ROUTING_DEMAND_TOO_LOW",
+      "REPRESENTATION_CHANNEL_INSUFFICIENT",
+      "CANNOT_CHECK_COUNTERFACTUAL_OPERATOR_OUTCOMES"
+    ],
+    "noninferiority": "a transformation is admissible only if it preserves every protected coordinate of its contract exactly; there is no tolerance margin",
+    "population": {
+      "command": "python -m pytest tests -q -p harvest_plugin",
+      "definition": "every invocation of ocm.runtime.solve.compose_stage reached by the repository's own test suite at the frozen commit",
+      "exclusions": [
+        "research/ scripts that construct their own operators outside the runtime path -- they are not the deployed selection surface",
+        "tests/test_distribution.py, which errors at collection on this commit for reasons predating this study (wheel build environment) and reaches no selection point",
+        "the mechanical-proof and proof-runtime lanes, which supply a single operator per solve and therefore register |A^E| <= 1 rows rather than routing rows"
+      ],
+      "independent_units": "the test node id that produced the record; several selection points may share one node and are not independent",
+      "unit": "one selection point = one compose_stage call = one query q"
+    },
+    "predictions_frozen_before_scored_execution": {
+      "F1": "A material fraction of selection points has |A^E| > 1, so the trivial theorem region of #152 does not settle the question by itself.",
+      "F2": "Incumbent work is invariant under any reordering of the admissible sequence, because compose and check have no early exit. \u0394(q) under pure reordering is therefore identically zero.",
+      "F3": "Work IS recoverable by stopping at the first passing candidate, and that policy is exact, needs no learner, and preserves decision, answer and chosen operator under contract C1.",
+      "F4": "The residual specific to ROUTING -- work spent on non-passing candidates BEFORE the answer, recoverable only by knowing which candidate passes -- is small relative to the early-exit recovery.",
+      "F5": "On queries with more than one passing candidate, reordering changes the chosen operator and is therefore outside every contract registered here."
+    },
+    "primary_terminal_rule": "If a material fraction of queries has |A^E| > 1 AND a router could recover work that an exact policy cannot AND that recovery is answer-safe AND it survives the lifetime inequality, the terminal is RESIDUAL_ROUTING_OPPORTUNITY_CONFIRMED. If the recoverable work is entirely available to an exact early-exit policy, the terminal is EXACT_POLICY_SUFFICIENT. If no query admits more than one candidate, NO_RESIDUAL_ROUTING_OPPORTUNITY. If candidate outcomes are unobserved, CANNOT_CHECK_COUNTERFACTUAL_OPERATOR_OUTCOMES. If reordering cannot be shown to preserve the chosen operator, SELECTION_POLICY_EQUIVALENCE_NOT_ESTABLISHED. If a routing residual exists but cannot repay a learner's per-use cost, RESIDUAL_TOO_SMALL_TO_AMORTIZE_ANY_LEARNER.",
+    "resource_coordinates": [
+      "composition_work",
+      "verification_calls"
+    ],
+    "safe_speculation_budget": "none used; no candidate is executed by this study",
+    "selection_contracts": [
+      "C1_ANSWER_EQUIVALENCE",
+      "C2_TRACE_EQUIVALENCE",
+      "C3_ANSWER_EQUIVALENCE_WITH_UNIQUE_PASS"
+    ],
+    "study_id": "RESIDUAL_ROUTING_OPPORTUNITY_V1",
+    "unlocks": "SzeChunYiu/ORION-OCM#71"
+  },
+  "protocol_commitment": "2e1fcf1e94fceac847e62af63db52a543f11d98105f6f7d5d17532a734ab9706",
+  "raw_records": [
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/integration/test_runtime_atomic_admission.py::test_batch_mutation_inside_solve_cannot_commit_answer[backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/integration/test_runtime_atomic_admission.py::test_batch_mutation_inside_solve_cannot_commit_answer[checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 0,
+      "N_total": 0,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_event_reducer_consistency.py::test_real_solve_obstruction_records_non_authoritative_jump_live_and_replays",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked0]",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked0]",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked1]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked1]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked2]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[0-revoked2]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked0]",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked0]",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked1]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked1]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked2]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_complete_solve_matches_dense_ranking_tie_and_resources[12-revoked2]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_actual_runtime_records_path_revocation_and_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_actual_runtime_records_path_revocation_and_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_actual_runtime_records_path_revocation_and_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_navigation_serving_runtime.py::test_actual_runtime_records_path_revocation_and_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 0,
+      "N_total": 0,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_ocm_runtime.py::test_solve_emits_events_referring_to_real_ids_and_jump_is_only_proposed",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_revocation_inside_actual_runtime_callback_cannot_commit[backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_revocation_inside_actual_runtime_callback_cannot_commit[checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[field-backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[field-checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[evidence-backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[evidence-checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[registry_rebind-backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[registry_rebind-checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[audit_write-backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[audit_write-checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[revoke_then_raise-backend]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_all_runtime_epochs_and_exception_paths_abort[revoke_then_raise-checker]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 3,
+      "A_structural_count": 3,
+      "N_total": 3,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 1.2485655436052,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "first",
+          "second",
+          "third"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK",
+          "CANNOT_CHECK",
+          "PENDING"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 3,
+        "verification_calls": 5
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_later_checker_mutation_invalidates_earlier_pass_and_stops_callbacks",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1001,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "answer",
+        "first_passing_index": 0,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_pure_callbacks_keep_query_audits_and_index_locality",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1001,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "answer",
+        "first_passing_index": 0,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_backend_purity.py::test_pure_callbacks_keep_query_audits_and_index_locality",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked0-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked0-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked0-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked0-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked1-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked1-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked1-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked1-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked2-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked2-0]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked2-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_default_and_indexed_solve_preserve_all_semantic_trace_fields[revoked2-12]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_actual_runtime_selected_path_forbids_incumbent_reaction_and_greedy",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_reused_index_reports_caller_build_without_recurring_query_charge",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_reused_index_reports_caller_build_without_recurring_query_charge",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_actual_runtime_revocation_and_reinstatement_reuse_same_snapshot",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_actual_runtime_revocation_and_reinstatement_reuse_same_snapshot",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_actual_runtime_revocation_and_reinstatement_reuse_same_snapshot",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_restart_requires_rebinding_index_to_replayed_space",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_extraction_index.py::test_restart_requires_rebinding_index_to_replayed_space",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_dict_subclass_contains_cannot_revoke_between_guards",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[False-items]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[False-getitem]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[False-nested]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[True-items]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[True-getitem]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_delayed_mapping_consumption_cannot_commit[True-nested]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "answer",
+        "first_passing_index": 0,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_solve_wide_checkpoint_invalidates_late_transition",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_checker_cannot_change_candidate_then_approve_it",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "answer",
+        "first_passing_index": 0,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_plain_nested_payload_and_mapping_materialization_keep_semantics",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 1,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 1,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_opaque_candidate_data_fails_closed[value0]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_opaque_candidate_data_fails_closed[value1]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_cyclic_candidate_data_fails_closed",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_checker_bool_int_coercion_is_a_changed_candidate",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "answer"
+        ],
+        "verdicts": [
+          "FAIL"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 1,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_runtime_output_boundary.py::test_opaque_exception_diagnostic_cannot_execute_after_guard",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_answer_committed_when_everything_is_live_and_checked",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "CANNOT_CHECK"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_cannot_check_checker_is_never_promoted_to_success",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_revoked_input_kills_the_candidate_and_reopens_as_learn",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 0,
+      "N_total": 0,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_unknown_warrant_target_yields_clarify",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_obstruction_becomes_a_jump_proposal_not_an_answer",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_commitment_refuses_insufficient_authority_and_scope",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_commitment_refuses_insufficient_authority_and_scope",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "boom"
+        ],
+        "verdicts": [
+          "FAIL"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_crashing_backend_is_a_failed_candidate_never_a_pass",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_trace_resources_are_a_vector_sum",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_propagated_surprise_recovers_the_deep_decisive_atom",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_loop.py::test_propagated_surprise_recovers_the_deep_decisive_atom",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 1002,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PENDING",
+          "PENDING"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 3,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_compose_reads_index_without_iterating_full_catalogue",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_real_solve_keeps_first_passing_answer_and_checks_live_warrant",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 2,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": 0.7136030428840437,
+      "incumbent_order_and_choice": {
+        "chosen": "z_first",
+        "first_passing_index": 0,
+        "order": [
+          "z_first",
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS",
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 4,
+        "verification_calls": 4
+      },
+      "passing_candidate_count": 2,
+      "protected_output_equivalence_classes": "2 passing candidates; reordering would change the chosen operator",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_real_solve_keeps_first_passing_answer_and_checks_live_warrant",
+      "work_split": {
+        "after": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 4,
+          "verification_calls": 4
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_real_solve_keeps_first_passing_answer_and_checks_live_warrant",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 2,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "a_second",
+        "first_passing_index": 0,
+        "order": [
+          "a_second"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_real_solve_keeps_first_passing_answer_and_checks_live_warrant",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "chosen",
+        "first_passing_index": 0,
+        "order": [
+          "chosen"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_runtime_consumes_index_and_rebinds_after_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 2,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "chosen",
+        "first_passing_index": 0,
+        "order": [
+          "chosen"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_solve_operator_index.py::test_runtime_consumes_index_and_rebinds_after_restart",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked0-UNIFORM]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked0-PROPAGATED]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked1-UNIFORM]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked1-PROPAGATED]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked2-UNIFORM]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked2-PROPAGATED]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 0,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": null,
+        "first_passing_index": null,
+        "order": [],
+        "verdicts": []
+      },
+      "incumbent_work_vector": {
+        "composition_work": 0,
+        "verification_calls": 0
+      },
+      "passing_candidate_count": 0,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked3-UNIFORM]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      }
+    },
+    {
+      "A_admissible_count": 1,
+      "A_structural_count": 1,
+      "N_total": 1,
+      "counterfactual_identification_route": "EXACT_FINITE_REFERENCE_FROM_EXHAUSTIVE_INCUMBENT_EXECUTION",
+      "delta_by_coordinate": {
+        "exact_early_exit": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "pure_reordering": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "routing_specific": {
+          "composition_work": 0,
+          "verification_calls": 0
+        }
+      },
+      "fano_lower_bound_bits_top1_eps05": null,
+      "incumbent_order_and_choice": {
+        "chosen": "apply_rule",
+        "first_passing_index": 0,
+        "order": [
+          "apply_rule"
+        ],
+        "verdicts": [
+          "PASS"
+        ]
+      },
+      "incumbent_work_vector": {
+        "composition_work": 2,
+        "verification_calls": 2
+      },
+      "passing_candidate_count": 1,
+      "protected_output_equivalence_classes": "single answer; reordering answer-safe",
+      "selection_contract_id": "C1_ANSWER_EQUIVALENCE",
+      "side_effect_class": "READ_ONLY (this study executes nothing)",
+      "source": "tests/m2/test_surprise_channel_backgrounds.py::test_existing_solve_fixture_preserves_refusal_and_unrelated_capability[revoked3-PROPAGATED]",
+      "work_split": {
+        "after": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "before": {
+          "composition_work": 0,
+          "verification_calls": 0
+        },
+        "chosen": {
+          "composition_work": 2,
+          "verification_calls": 2
+        },
+        "chosen_known": true,
+        "total": {
+          "composition_work": 2,
+          "verification_calls": 2
+        }
+      }
+    }
+  ],
+  "repetition_and_demand": {
+    "distinct_operator_identities": 9,
+    "distinct_test_sources": 70,
+    "family_level_independent_units": 70,
+    "maintenance_or_revision_frequency": "NOT APPLICABLE. No policy is held across queries, so there is nothing to maintain or revise. A future learner would add this cost from zero.",
+    "note": "Independent units are test node ids, not selection points: several points can come from one test and are not independent. rho_R and every rate are reported over selection points and would be smaller over independent units, which is the conservative direction for a negative.",
+    "selection_points": 96
+  },
+  "rho_R": 0.0,
+  "schema": "ocm.residual-routing-opportunity.v1",
+  "selection_contracts": {
+    "C1_ANSWER_EQUIVALENCE": {
+      "admissible_set_identity": "A^E is the ordered sequence compose_stage actually composes: structurally applicable under the reacting subgraph, operator warrant live, every input atom live. Preconditions are enforced by the registry path; the solve path checks warrant and input liveness.",
+      "allowed_transformations": [
+        "early_exit_at_first_pass_in_supplied_order"
+      ],
+      "applies_when": "every eligible query",
+      "commit_authority_boundary": "unchanged; commitment remains behind _finish_commitment and no contract here touches it",
+      "contract_id": "C1_ANSWER_EQUIVALENCE",
+      "fallback_policy": "the incumbent supplied-order policy, unchanged",
+      "optimization_coordinates": [
+        "composition_work",
+        "verification_calls"
+      ],
+      "output_equivalence": "two runs are equivalent when the decision, the answer mapping and the chosen operator identity are equal",
+      "protected_output_coordinates": [
+        "decision",
+        "answer",
+        "chosen_operator_id"
+      ],
+      "scope": "ocm.runtime.solve compose/check/decide over a supplied OperatorSpec sequence",
+      "side_effect_class": "backends are invoked by the incumbent already; this study invokes nothing extra and re-executes no candidate, so its own side-effect class is READ_ONLY",
+      "speculation_budget": "none; this study proposes no speculative execution"
+    },
+    "C2_TRACE_EQUIVALENCE": {
+      "admissible_set_identity": "A^E is the ordered sequence compose_stage actually composes: structurally applicable under the reacting subgraph, operator warrant live, every input atom live. Preconditions are enforced by the registry path; the solve path checks warrant and input liveness.",
+      "allowed_transformations": [],
+      "applies_when": "every eligible query",
+      "commit_authority_boundary": "unchanged; commitment remains behind _finish_commitment and no contract here touches it",
+      "contract_id": "C2_TRACE_EQUIVALENCE",
+      "fallback_policy": "the incumbent supplied-order policy, unchanged",
+      "optimization_coordinates": [
+        "composition_work",
+        "verification_calls"
+      ],
+      "output_equivalence": "two runs are equivalent when C1 holds AND the same candidates were examined with the same verdicts, so the trace a reviewer reads is unchanged",
+      "protected_output_coordinates": [
+        "decision",
+        "answer",
+        "chosen_operator_id",
+        "examined_candidate_set",
+        "verdict_map"
+      ],
+      "scope": "ocm.runtime.solve compose/check/decide over a supplied OperatorSpec sequence",
+      "side_effect_class": "backends are invoked by the incumbent already; this study invokes nothing extra and re-executes no candidate, so its own side-effect class is READ_ONLY",
+      "speculation_budget": "none; this study proposes no speculative execution"
+    },
+    "C3_ANSWER_EQUIVALENCE_WITH_UNIQUE_PASS": {
+      "admissible_set_identity": "A^E is the ordered sequence compose_stage actually composes: structurally applicable under the reacting subgraph, operator warrant live, every input atom live. Preconditions are enforced by the registry path; the solve path checks warrant and input liveness.",
+      "allowed_transformations": [
+        "early_exit_at_first_pass_in_supplied_order",
+        "reorder_admissible_candidates"
+      ],
+      "applies_when": "queries on which at most one admissible candidate passes",
+      "commit_authority_boundary": "unchanged; commitment remains behind _finish_commitment and no contract here touches it",
+      "contract_id": "C3_ANSWER_EQUIVALENCE_WITH_UNIQUE_PASS",
+      "fallback_policy": "the incumbent supplied-order policy, unchanged",
+      "optimization_coordinates": [
+        "composition_work",
+        "verification_calls"
+      ],
+      "output_equivalence": "as C1",
+      "protected_output_coordinates": [
+        "decision",
+        "answer",
+        "chosen_operator_id"
+      ],
+      "scope": "ocm.runtime.solve compose/check/decide over a supplied OperatorSpec sequence",
+      "side_effect_class": "backends are invoked by the incumbent already; this study invokes nothing extra and re-executes no candidate, so its own side-effect class is READ_ONLY",
+      "speculation_budget": "none; this study proposes no speculative execution"
+    }
+  },
+  "static_pc_parent": {
+    "distinct_operator_identities": 9,
+    "note": "Where every operator's empirical pass rate is 0 or 1, the static p/c order is determined without any learning: put the always-passing operators first. A learner cannot beat a rule that is already exact, and #152 requires reporting parent sufficiency rather than escalating model class when this holds.",
+    "operators_that_ever_pass": 5,
+    "operators_that_never_pass": 4,
+    "pass_rate_is_degenerate": false
+  },
+  "study_id": "RESIDUAL_ROUTING_OPPORTUNITY_V1",
+  "terminal": "EXACT_POLICY_SUFFICIENT",
+  "terminal_reason": "22.9% of selection points admit more than one candidate, so the trivial |A^E| <= 1 region of #152 does not settle this. Two separate facts do.\n\nFIRST, and independent of any workload: the incumbent composes and checks every admissible candidate with no early exit, so its work is a sum over a set and is invariant under every permutation of that set. Delta(q) under pure reordering is identically zero for every query the current runtime can be given. A router that only reorders cannot save work here at any rate, on any ecology, and with positive inference cost it strictly increases total work on every query. This is a property of solve.py at the frozen commit, checked against the source by test.\n\nSECOND, and dependent on this population: on all 44 queries that produce an answer, the first admissible candidate is the one that passes, so no work is ever spent on a non-passing candidate before the answer. The routing-specific residual -- the only part a predictor could claim -- is zero. All 40 recoverable verification calls lie AFTER the answer and are recoverable by stopping at the first passing candidate: an exact policy preserving decision, answer and chosen operator under contract C1, requiring no scores, no features and no learner.\n\nThe 20 queries with more than one admissible candidate are also the 20 with exactly two PASSING candidates. There, reordering would change which operator decide() returns, so it leaves every registered selection contract and is not an opportunity but a violation.\n\nAn exact policy explains the entire opportunity, and the part of the argument that blocks routing does not depend on the population.",
+  "what_this_does_not_establish": "The population is the repository's own test suite. Tests are written to exercise behaviour, not to reproduce a deployment workload's frequency distribution, so rho_R here is a rate over exercised selection points and not over a task ecology. A different ecology could admit more candidates per query. What does NOT depend on the population is the order-invariance argument: it is a property of the source at the frozen commit and holds for every query the current runtime can be given.",
+  "which_findings_depend_on_the_population": {
+    "population_dependent": "That the routing-specific residual is zero. It is zero here because the first admissible candidate passes on every answering query, which is plausibly an artifact of test fixtures supplying the intended operator first. A deployment ecology could place the passing candidate later, and then work WOULD be spent before the answer.",
+    "population_independent": "Order-invariance of incumbent work. compose_stage and check_stage have no early exit at the frozen commit, so no reordering of any candidate sequence changes composition_work or verification_calls. This holds for every query the runtime can be given, including workloads not in this population.",
+    "why_the_terminal_survives_that": "Even in such an ecology, recovering that work requires stopping early, and the runtime does not stop early. Reordering alone still saves nothing, because the work is still a sum over the whole set. So a router remains unable to help until an exact early-exit policy is adopted first -- at which point the exact policy has already taken the AFTER work, and the residual question must be re-measured on the real ecology. That is the recommendation this study leaves for #71, not an unlock."
+  }
+}
