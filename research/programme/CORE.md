@@ -67,9 +67,10 @@ revision-aware library learning with measured lifetime benefit. A result must be
 its strongest matched parents or be reported as parent-sufficient engineering.
 
 Read [the scientific charter](SCIENTIFIC_PROGRAMME.md),
-[ORION concept audit](ORION_CONCEPTS.md), [parents](PARENTS.md) and
-[abstraction parents](ABSTRACTION_PARENTS.md). The current sequence above supersedes
-older next-action wording; historical negative outcomes remain unchanged.
+[ORION concept audit](ORION_CONCEPTS.md), [parents](PARENTS.md),
+[abstraction parents](ABSTRACTION_PARENTS.md) and
+[non-neural selector eligibility](NON_NEURAL_PARENT_SELECTION.md). The current
+sequence above supersedes older next-action wording; historical outcomes remain unchanged.
 
 [Grounding donor review](../native-grounding-review-v1/CORE.md) identifies the
 observed construction bottleneck. [Evolvability review](../evolvability-source-review-v1/CORE.md)
