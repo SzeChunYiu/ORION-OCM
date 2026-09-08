@@ -1,0 +1,357 @@
+{
+  "schema": "math-n4-disposition.checklist.v1",
+  "issue": 165,
+  "lane": "MATH-1",
+  "owner_issue": 46,
+  "worktree_head": "b35093a26e51ccf4829aa1218957827d95db8923",
+  "math2_n5": "LOCKED",
+  "math3_n6": "LOCKED",
+  "n4_close": {
+    "required_positive": "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED",
+    "positive_status": "NOT_ESTABLISHED",
+    "valid_negative_available": false,
+    "valid_negative_examples": [
+      "PARENT_SUFFICIENT",
+      "PRIMITIVE_ALIAS",
+      "NO_NEW_ABSTRACTION",
+      "NO_CAUSAL_REUSE"
+    ],
+    "authored_terminal_not_n4_close": "CAUSAL_CHUNK_CONSUMPTION_IN_FIXED_AUTHORED_CONTROL",
+    "opportunity_terminal": "TRAINING_ONLY_OPPORTUNITY_RECORDED",
+    "opportunity_qualification": "EXECUTION_CUSTODY_ACCEPTED_SCIENTIFIC_QUESTION_UNRESOLVED",
+    "reason": "Theorem storage and known reconstruction cannot close N4. The authored extraction+ablation is near-transfer chunking, not held-out theorem-family causal reuse. The ordinary-cut audit never reached parent matching, so neither a nonalias opportunity nor a completed all-alias negative exists."
+  },
+  "flt": {
+    "prs": [129, 130, 131, 132],
+    "status": "BLOCKED",
+    "note": "Each PR states #46 remains LOCKED and does not complete N4. Native kernel jobs have failed. Do not expand FLT in this lane."
+  },
+  "existing_extraction_ablation": {
+    "exists": true,
+    "scope": "authored near-transfer; conventional chunking parent",
+    "does_not_establish": "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED",
+    "method_id_I": "5c8ff07719c450616a56ebe26ab8983473c4ad1d95f208df330d4de3c2270a06",
+    "ordinary_instances": 69219,
+    "ordinary_instance_sha256": "a7ef326f24a0ceb8507d0ff86b0007dc450aedd886ffad44ef3955280f2e7d0a",
+    "arms": [
+      {"arm": "ordinary", "tree_cost": 3, "action_attempts": 141792, "used_I": false},
+      {"arm": "learned_I", "tree_cost": 2, "action_attempts": 72579, "used_I": true},
+      {"arm": "exact_I_removed", "tree_cost": 3, "action_attempts": 141792, "used_I": false},
+      {"arm": "exact_I_restored", "tree_cost": 2, "action_attempts": 72579, "used_I": true},
+      {"arm": "replacement_U", "tree_cost": 3, "action_attempts": 141804, "used_I": false}
+    ],
+    "citations": [
+      {
+        "path": "research/native-learning-evidence-v1/HANDOFF.md",
+        "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda",
+        "bytes": 7244
+      },
+      {
+        "path": "research/native-learning-evidence-v1/SUMMARY.json",
+        "sha256": "edaa6f8775bd8f31cf19e8073ed1792c200dbf6fa07a3d377c1eeb03870acefa",
+        "bytes": 14779
+      },
+      {
+        "path": "research/programme/NATIVE_LEARNING_STATUS.md",
+        "sha256": "c65b633647257df1aa02103bb50024d7dc57271dce20af5a695786d152388fa3",
+        "bytes": 2847
+      }
+    ]
+  },
+  "checkable_now": [
+    "exact kernel/environment identity",
+    "theorem statement identity",
+    "dependency closure",
+    "known reconstruction",
+    "proof-method extraction",
+    "independent method validation",
+    "persistent method admission",
+    "restart",
+    "method ablation",
+    "symbolic tactic-search parent"
+  ],
+  "items": [
+    {
+      "id": "exact_kernel_environment_identity",
+      "label": "exact kernel/environment identity",
+      "status": "CHECK",
+      "scope": "Metamath native training/serving prefix and pinned Lean replay/F0 toolchains. Not Lean/Mathlib semantic environment for the 29,511-pair corpus.",
+      "citations": [
+        {"path": "research/ordinary-training-native-export-v1/CORE.md", "sha256": "a45509733b293df0e62cedceb77954a9bf468b2f3c1132f7c9e6080c63652285", "note": "100-assertion prefix; 4,223 theorems checked"},
+        {"path": "research/native-learning-evidence-v1/SUMMARY.json", "sha256": "edaa6f8775bd8f31cf19e8073ed1792c200dbf6fa07a3d377c1eeb03870acefa", "note": "96 trusted assertions; 4,096 verified per positive arm"},
+        {"path": "research/proof-replay-v1/README.md", "sha256": "1561ee100b4f091a6397182a9af4afc14c126a3b8d07ea51e15bc3d428caf9a5", "note": "Lean 4.19.0 archive SHA256 6fe3ce97a58f44e2b3567d455b994eacec5bfe9ae7774f2a573444480ba813fe"},
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196", "note": "Lean 4.33.1 F0; runtime manifest SHA256 93aa17a738a8511bbb8996eff91e81da0ec5868db50d0f81ab26809e38661894"}
+      ],
+      "does_not_establish": "Elaborated Lean/Mathlib environment closure for proof-corpus-v1."
+    },
+    {
+      "id": "theorem_statement_identity",
+      "label": "theorem statement identity",
+      "status": "CHECK",
+      "scope": "Metamath P1 contracts and authored native targets. Lean corpus statements are lexical inventory identities, not elaborated types.",
+      "citations": [
+        {"path": "research/ordinary-training-native-export-v1/RESULT.md", "sha256": "27ce5ed6fb7232fff55d540bee2a2f15d7caceb35cbb8e147c5a29908b840ce0", "note": "P1 4,323 contracts; training ordinals 4096-4223"},
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda", "note": "authored target identity; wrong-hole native rejection"},
+        {"path": "research/proof-corpus-v1/LIMITATIONS.md", "sha256": "de916b2fd94d5a5d3f2befc7e1639649510fb32651520fe699bfa617464956dc", "note": "lexical bridge is not LeanExpr"}
+      ],
+      "does_not_establish": "Semantic statement identity for the FLT/Anthropic corpus pairs."
+    },
+    {
+      "id": "dependency_closure",
+      "label": "dependency closure",
+      "status": "CHECK",
+      "scope": "Native verification of the bound Metamath prefix under its declared assertions.",
+      "citations": [
+        {"path": "research/ordinary-training-native-export-v1/CORE.md", "sha256": "a45509733b293df0e62cedceb77954a9bf468b2f3c1132f7c9e6080c63652285", "note": "4,223 fresh proof checks then 4,223 trace-observation checks"},
+        {"path": "research/ordinary-cut-opportunity-result-v1/SUMMARY.json", "sha256": "c6f4217ded77e3e3b1af9008b6c897e347a044ac7ddc11e8c435b7625eee62f5", "note": "4,323 ordinary contracts retained"},
+        {"path": "research/proof-corpus-v1/LIMITATIONS.md", "sha256": "de916b2fd94d5a5d3f2befc7e1639649510fb32651520fe699bfa617464956dc", "note": "Lean import graph is not elaborated proof-support closure"}
+      ],
+      "does_not_establish": "Lean definition/instance/aux closure required before F1."
+    },
+    {
+      "id": "known_reconstruction",
+      "label": "known reconstruction",
+      "status": "CHECK",
+      "scope": "Replay/check of known proofs and exposed F0 composition. Not hidden-region F1 reconstruction.",
+      "citations": [
+        {"path": "research/ordinary-training-native-export-v1/RESULT.md", "sha256": "27ce5ed6fb7232fff55d540bee2a2f15d7caceb35cbb8e147c5a29908b840ce0"},
+        {"path": "research/proof-replay-v1/README.md", "sha256": "1561ee100b4f091a6397182a9af4afc14c126a3b8d07ea51e15bc3d428caf9a5", "note": "nine authored Lean fixtures"},
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196", "note": "PARENT_SUFFICIENT exposed composition"},
+        {"path": "research/native-typed-consumer-revival-v1/CORE.md", "sha256": "a9aae9eb30523bf422fbb419dc488c298d697a9514ad279fd2ded993dbb06ca4", "note": "seven issued claims reconstructed; eligibility empty"},
+        {"path": "research/proof-corpus-coverage-v1/RESULT.md", "sha256": "bedd2442d672f7f4cc9a53bfb74db9188cd1ad7b87a8cd2b54c2e4889488006c", "note": "zero semantic results on four assigned rows"}
+      ],
+      "does_not_establish": "F1 masked reconstruction, FLT, or causal method reuse."
+    },
+    {
+      "id": "unseen_composition",
+      "label": "unseen composition",
+      "status": "OPEN",
+      "scope": "Held-out composition of acquired methods is untested. F0 constructs an exposed composition by search, not by learned methods.",
+      "citations": [
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196"},
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda", "note": "near transfer, shared substructure"},
+        {"path": "research/programme/PROOF_CURRICULUM.md", "sha256": "e2cd789b0d6955da12ed83e7c1ffb2f5eb7bebeb0a8e6f2d86f72e740f28bbad"}
+      ],
+      "does_not_establish": "G3 method composition."
+    },
+    {
+      "id": "proof_method_extraction",
+      "label": "proof-method extraction",
+      "status": "CHECK",
+      "scope": "Authored miner extracted I from two traces and U from replacement traces. Corpus extraction produced 76 unresolved proposals; matching was not reached.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/ordinary-cut-opportunity-result-v1/SUMMARY.json", "sha256": "c6f4217ded77e3e3b1af9008b6c897e347a044ac7ddc11e8c435b7625eee62f5", "note": "76 CUT_PROPOSAL, 2 UNKNOWN_INTERFACE; matcher counters absent"},
+        {"path": "research/math-language-learning-v1/ASSAY-RESULT.md", "sha256": "9804a58d135c8178e5691f0158b464e436471ee3edceb85d5ac0cc5caa30122e", "note": "NO_METHOD_ACQUIRED; not a second extraction success"}
+      ],
+      "does_not_establish": "Useful nonalias methods from the 128 training roots."
+    },
+    {
+      "id": "independent_method_validation",
+      "label": "independent method validation",
+      "status": "CHECK",
+      "scope": "Native checker admitted extracted methods as derived $p; wrong-hole variant rejected after prefix replay.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/native-learning-evidence-v1/SUMMARY.json", "sha256": "edaa6f8775bd8f31cf19e8073ed1792c200dbf6fa07a3d377c1eeb03870acefa", "note": "wrong_hole terminal NATIVE_REJECTED; 4095 old proofs verified"}
+      ],
+      "does_not_establish": "Validation of corpus-mined nonalias cuts (none admitted)."
+    },
+    {
+      "id": "persistent_method_admission",
+      "label": "persistent method admission",
+      "status": "CHECK",
+      "scope": "Producer persisted METHODS/STATE; serving projection omitted discovery history. Typed producer persisted an ordinary alias with empty eligibility.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/SUMMARY.json", "sha256": "edaa6f8775bd8f31cf19e8073ed1792c200dbf6fa07a3d377c1eeb03870acefa", "note": "producer METHODS.json sha256 e3193121c705fcb8c0b329a2340f7ad1aef77bab4836561f16cf06d389fd30bb; serving METHODS.json sha256 755634c8e95573075622a8a582cd8c9edebb917c3247a0e1f9578f957e751e51"},
+        {"path": "research/programme/TYPED_NATIVE_LIFECYCLE.md", "sha256": "e9c9eec4def2189ed23d69f9d8908aeec0fd04f2dfadc03c4fb44736b04ca66b"}
+      ],
+      "does_not_establish": "Admission of a useful new training-corpus method."
+    },
+    {
+      "id": "restart",
+      "label": "restart",
+      "status": "CHECK",
+      "scope": "Fresh processes restored admitted methods or reconstructed issued claims without reacquisition.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/native-serving-evidence-v1/HANDOFF.md", "sha256": "fbac1d9ac0eba1903e0fabd8a9661bbf3fa77080d9a7e761a89861daa0ba8017"},
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196", "note": "fresh-process KERNEL_PASS identical counters"},
+        {"path": "research/native-typed-consumer-revival-v1/CORE.md", "sha256": "a9aae9eb30523bf422fbb419dc488c298d697a9514ad279fd2ded993dbb06ca4"}
+      ],
+      "does_not_establish": "Restart after corpus-method admission (no such admission)."
+    },
+    {
+      "id": "fresh_theorem_family_reuse",
+      "label": "fresh theorem-family reuse",
+      "status": "OPEN",
+      "blocked_by": "ordinary-cut syntax revival, then completed alias/nonalias screening and a sealed family split",
+      "scope": "Authored control is a different wrapper of a shared substructure, explicitly not an independent family.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/typed-next-parent-design-v1/EXPERIMENT.md", "sha256": "79aca0f6b702f1860429d4f19aba29096b83ab0fcd573b8498a734cda53e95e5"},
+        {"path": "research/programme/RESEARCH_NEXT.md", "sha256": "7d6022d08bad5ab86a132629f103e470b43552be9caa31b6466e9b49b7316a29"},
+        {"path": "research/ordinary-cut-opportunity-result-v1/CORE.md", "sha256": "b179f4c950c4a01ba938c1e8c85378143f935b14ca81102976d1b4b636dce069"}
+      ],
+      "does_not_establish": "N4 transfer."
+    },
+    {
+      "id": "method_ablation",
+      "label": "method ablation",
+      "status": "CHECK",
+      "scope": "Exact canonical-ID removal reversed the search reduction; restoration reproduced enabled work; replacement U unused. Authored only.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/native-learning-evidence-v1/SUMMARY.json", "sha256": "edaa6f8775bd8f31cf19e8073ed1792c200dbf6fa07a3d377c1eeb03870acefa", "note": "removed_matches_baseline_search true; restored_search_exact true"},
+        {"path": "research/native-serving-evidence-v1/HANDOFF.md", "sha256": "fbac1d9ac0eba1903e0fabd8a9661bbf3fa77080d9a7e761a89861daa0ba8017", "note": "ordinary vs I serving comparison of imported methods"}
+      ],
+      "does_not_establish": "Ablation of a corpus-acquired nonalias method."
+    },
+    {
+      "id": "lemma_reuse",
+      "label": "lemma reuse",
+      "status": "OPEN",
+      "blocked_by": "ordinary derived-lemma parent not executed; screening must finish first",
+      "scope": "P1 stores whole training theorems. The ordinary-lemma vs recipe comparison is design-only. Typed result is already-ordinary jccir.",
+      "citations": [
+        {"path": "research/native-ordinary-lemma-parent-v1/CORE.md", "sha256": "4d22a0ddb9798749eed4c30cdb9e265fb3e7fbd047b84e1ee72455548532557d"},
+        {"path": "research/typed-next-parent-design-v1/CORE.md", "sha256": "36913af104f99dba37b1330651b24e5aaa36e10412d99af05db43c2dfc1e27c2"},
+        {"path": "research/programme/TYPED_NATIVE_LIFECYCLE.md", "sha256": "e9c9eec4def2189ed23d69f9d8908aeec0fd04f2dfadc03c4fb44736b04ca66b"}
+      ],
+      "does_not_establish": "P1 theorem storage as learned lemma reuse."
+    },
+    {
+      "id": "failure_attempt_reuse",
+      "label": "failure-attempt reuse",
+      "status": "OPEN",
+      "scope": "False-task bounded exhaustion exists; it is not scoped failure-memory reuse that reduces later compatible dead ends.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda", "note": "false targets NO_PROOF_WITHIN_BOUND"},
+        {"path": "research/programme/PROOF_CURRICULUM.md", "sha256": "e2cd789b0d6955da12ed83e7c1ffb2f5eb7bebeb0a8e6f2d86f72e740f28bbad"}
+      ]
+    },
+    {
+      "id": "subgoal_discovery",
+      "label": "subgoal discovery",
+      "status": "OPEN",
+      "scope": "F0 application search introduces hypotheses on an exposed goal. No learned subgoal discovery from training proofs.",
+      "citations": [
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196"},
+        {"path": "research/programme/FLT_RECONSTRUCTION.md", "sha256": "d52fba3c1e5ca6f785e85575e0a34e81b926761c838d0cdb4cb15fd4c8af4cd0"}
+      ]
+    },
+    {
+      "id": "representation_lemma_introduction",
+      "label": "representation/lemma introduction",
+      "status": "OPEN",
+      "scope": "Curriculum requires checked representation/lemma introduction. No executed N4 study.",
+      "citations": [
+        {"path": "research/programme/PROOF_CURRICULUM.md", "sha256": "e2cd789b0d6955da12ed83e7c1ffb2f5eb7bebeb0a8e6f2d86f72e740f28bbad"},
+        {"path": "research/programme/EXPERIMENTS.md", "sha256": "53afacfe677e3825f0b9dc9d2ff003fcd148bdfcd8d7a654c769ab34853c9047"}
+      ]
+    },
+    {
+      "id": "exact_support_revocation",
+      "label": "exact support revocation",
+      "status": "OPEN",
+      "scope": "Proof-replay exercises OCM kernel-run warrant revocation on authored fixtures. That is not acquired-method/lemma dependency-cone revocation. Method-ID ablation is recorded separately under method ablation.",
+      "citations": [
+        {"path": "research/proof-replay-v1/README.md", "sha256": "1561ee100b4f091a6397182a9af4afc14c126a3b8d07ea51e15bc3d428caf9a5"},
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"}
+      ]
+    },
+    {
+      "id": "symbolic_tactic_search_parent",
+      "label": "symbolic tactic-search parent",
+      "status": "CHECK",
+      "scope": "Ordinary Metamath finite-search parent in the authored native-learning/serving controls. Lean tactic-search parent (Aesop-class) not executed; do not expand FLT.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda"},
+        {"path": "research/programme/NATIVE_SERVING.md", "sha256": "b9ca0b9a91af5350825e528d62c14bfac12b36bca6afdf0f5675f7191bb32f41"},
+        {"path": "research/mechanical-proof-v1/RESULT.md", "sha256": "fff8e57593bcc836ee44f47c148b6e4246346fa01a3e3954fffdf44ffbac8196", "note": "PARENT_SUFFICIENT symbolic application search"}
+      ],
+      "does_not_establish": "Lean tactic-search parent comparison on Mathlib/FLT."
+    },
+    {
+      "id": "retrieval_prover",
+      "label": "retrieval prover",
+      "status": "OPEN",
+      "scope": "No retrieval-prover comparator run. Indexed-deduction successor is not this parent.",
+      "citations": [
+        {"path": "research/programme/NATIVE_LEARNING_STATUS.md", "sha256": "c65b633647257df1aa02103bb50024d7dc57271dce20af5a695786d152388fa3"},
+        {"path": "research/programme/EXPERIMENTS.md", "sha256": "53afacfe677e3825f0b9dc9d2ff003fcd148bdfcd8d7a654c769ab34853c9047"}
+      ]
+    },
+    {
+      "id": "neural_guided_prover",
+      "label": "neural-guided prover",
+      "status": "OPEN",
+      "scope": "External reference only. Mechanism arm remains no-neural. Not executed.",
+      "citations": [
+        {"path": "research/programme/FLT_RECONSTRUCTION.md", "sha256": "d52fba3c1e5ca6f785e85575e0a34e81b926761c838d0cdb4cb15fd4c8af4cd0"}
+      ]
+    },
+    {
+      "id": "transformer_proof_reference_same_checker",
+      "label": "Transformer proof reference with same checker",
+      "status": "OPEN",
+      "blocked_by": "FLT PRs 129-132 BLOCKED; #46 LOCKED; do not expand FLT",
+      "scope": "Issue 46 names an open-weight LM proof reference verified by the same kernel. No such matched run exists.",
+      "citations": [
+        {"path": "research/programme/FLT_RECONSTRUCTION.md", "sha256": "d52fba3c1e5ca6f785e85575e0a34e81b926761c838d0cdb4cb15fd4c8af4cd0"},
+        {"path": "research/proof-corpus-coverage-v1/RESULT.md", "sha256": "bedd2442d672f7f4cc9a53bfb74db9188cd1ad7b87a8cd2b54c2e4889488006c"}
+      ]
+    },
+    {
+      "id": "full_search_check_storage_acquisition_cost",
+      "label": "full search/check/storage/acquisition cost",
+      "status": "CANNOT_CHECK",
+      "scope": "Windowed costs exist. Complete lifetime economics, including acquisition-to-use amortization, are explicitly not established.",
+      "citations": [
+        {"path": "research/native-learning-evidence-v1/HANDOFF.md", "sha256": "d1770dfc41b71cfb0887df4afdf36099e9047527d7e3661197b920683d259dda", "note": "lifecycle 38.825923 s; not complete lifetime economics"},
+        {"path": "research/ordinary-cut-opportunity-result-v1/SUMMARY.json", "sha256": "c6f4217ded77e3e3b1af9008b6c897e347a044ac7ddc11e8c435b7625eee62f5", "note": "not_lifetime_cost true"},
+        {"path": "research/math-language-learning-v1/ASSAY-RESULT.md", "sha256": "9804a58d135c8178e5691f0158b464e436471ee3edceb85d5ac0cc5caa30122e", "note": "ECONOMICS_CANNOT_CHECK"}
+      ]
+    }
+  ],
+  "remaining_experiment": {
+    "id": "ordinary-cut-screening-then-p0-p1-p2-removal",
+    "depends_on_syntax_revival": true,
+    "syntax_revival_owner": "separate worker; not this capsule",
+    "do_not_rerun": [
+      "research/ordinary-training-native-export-v1 native export gate CONSUMED_ONCE_NO_RETRY",
+      "research/ordinary-cut-opportunity-result-v1 first audit"
+    ],
+    "do_not_expand": ["FLT PRs 129-132", "MATH-2/N5", "MATH-3/N6"],
+    "inputs_to_reuse": {
+      "training_roots": 128,
+      "P1_contracts": 4323,
+      "proposal_occurrences": 76,
+      "distinct_canonical_bodies": 74,
+      "proposal_order": "original first-run order",
+      "first_run_result_sha256": "94626dd0a0ac7ad4ce0f727b1542b3dc0bf20f8fd545a0893b7ee47cbc5aecd1"
+    },
+    "steps": [
+      {
+        "n": 1,
+        "name": "screening-only successor",
+        "action": "After syntax/interface revival, screen every retained proposal against full P1. Measure matcher work. Preserve UNKNOWN."
+      },
+      {
+        "n": 2,
+        "name": "completed negative if earned",
+        "action": "If all-alias or NO_VIABLE_ALLOCATION, emit that terminal as a valid N4 negative for new-method acquisition. Do not infer it from the unresolved first audit."
+      },
+      {
+        "n": 3,
+        "name": "causal reuse if a nonalias cut survives",
+        "action": "Admit selected cut as ordinary $p; producer exit; fresh consumer; held-out source family; P0 vs P1 vs P2 vs exact removal vs matched unused candidate. Require selected-proof consumption. Only this may emit CAUSAL_PROOF_METHOD_REUSE_SUPPORTED or NO_CAUSAL_REUSE."
+      }
+    ],
+    "protocol_design": {
+      "path": "research/typed-next-parent-design-v1/EXPERIMENT.md",
+      "sha256": "79aca0f6b702f1860429d4f19aba29096b83ab0fcd573b8498a734cda53e95e5",
+      "note": "Proposed design; no final execution protocol was registered there. This disposition freezes the remaining experiment identity without executing it."
+    }
+  }
+}
