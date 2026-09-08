@@ -19,6 +19,13 @@ lifetime benefit remain open. The new source integration has 42 portable control
 passing, with three external-input controls explicitly excluded and no native calls.
 Those controls do not reproduce the historical native experiment.
 
+A [separate polynomial macro study](../g2-macro-source-reconciliation-v1/CORE.md)
+now demonstrates causal use of training-derived structure after persistence and
+runtime reconstruction: 13 of 64 tasks improve in search rank and 51 worsen.
+The ordinary persistent parent matches OCM exactly. Acquisition and selection do
+not repay their registered work at this horizon; rank savings are not measured
+serving-time savings. This result does not establish utility for the Metamath cuts.
+
 The [typed native lifecycle](TYPED_NATIVE_LIFECYCLE.md) now has an executed result:
 the producer persisted an existing-theorem alias, and a separately qualified
 consumer recovery reconstructed all seven issued claims. No new method became
@@ -51,7 +58,9 @@ The [proof curriculum](PROOF_CURRICULUM.md), [FLT design](FLT_RECONSTRUCTION.md)
 The [proof-compression donor review](../proof-compression-parent-review-v1/CORE.md)
 selects existing CD Tools mechanisms for reuse. Typed open cuts and fresh native
 theorem admission still require explicit qualification. The [consumer source review](../ordinary-lemma-consumer-source-review-v1/CORE.md)
-adds the official REFACTOR argument-subtree mechanism to the next repair.
+selects the REFACTOR argument-subtree mechanism. The [small typed adapter](../ordinary-lemma-hole-adapter-v1/CORE.md)
+now passes structural qualification, including the separately corrected two-slot
+control. Exact native whole-proof replacement remains the next integration boundary.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat

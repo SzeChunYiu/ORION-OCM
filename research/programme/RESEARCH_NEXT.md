@@ -103,7 +103,12 @@ match assertion structure with typed argument subtrees, then check an actual
 replacement. Flattened whole-subtree equality and shared rule names cannot certify
 that parent's full reuse domain. The existing post-search learned-label count is a
 diagnostic, not an enforced search policy. Preserve earlier no-use results within
-their measured scope; qualify this small donor adaptation before another sweep.
+their measured scope. The [typed argument-hole adapter](../ordinary-lemma-hole-adapter-v1/CORE.md)
+now has eight original authored controls plus one separately observed two-slot
+correction; both production modules are unchanged. It binds whole argument proofs,
+checks typed substitutions and emits one chosen tree occurrence. Its results remain
+structural proposals: integrate current native trace/admission bindings and check
+the exact rewritten whole proof before measuring real reuse or starting another sweep.
 
 ## Test the scientific mechanism
 
@@ -111,6 +116,14 @@ Compare the original catalogue, inline acquired methods, and the same acquired
 sequents as ordinary derived lemmas. Give adaptive parents the same discovery data,
 persistence, scope, verifiers and adaptation opportunities. Measure selected-proof
 consumption separately from methods attempted during failed search.
+
+The [polynomial macro result](../g2-macro-source-reconciliation-v1/CORE.md) supplies
+bounded causal reuse with an equal ordinary parent. Its 13 strict wins and 51
+harmed tasks identify selection costs; acquisition and validation still exceed
+saved test work. Preserve its first-hit-rank meaning: the implementation eagerly
+builds complete bounded indexes before lookup. Its source review queues precise
+cost-wording and parity-length corrections. Reuse this evidence and the separately
+registered composition study; do not duplicate them or promote ranks to latency.
 
 Choose a concrete retention/revision or certified-locality treatment from a measured
 obstruction. Keep that treatment distinct from shared donor infrastructure. Include
