@@ -1,0 +1,335 @@
+--- candidate01/life_common.py
++++ candidate02/life_common.py
+@@ -3,6 +3,8 @@
+ import hashlib,importlib.util,json,os,sys,time
+ HERE=Path(__file__).resolve().parent
+ IO={"read_operations":0,"bytes_read":0,"write_operations":0,"bytes_written":0}
++ACTIVE_WORK={}
++AUDIT_READS=None
+ 
+ 
+ def require(ok,why):
+@@ -51,13 +53,15 @@
+     return read(HERE/"SOURCE-FREEZE.json")
+ 
+ 
+-def check_sources(role="supervisor"):
++def check_sources(role="supervisor",expected_freeze=None):
++    if expected_freeze is not None:require(identity(HERE/"SOURCE-FREEZE.json")==expected_freeze,"FREEZE_CHANGED")
+     frozen=freeze()
+     for relative,pin in frozen["sources"].items():
+         require(identity(HERE/relative)==pin,"SOURCE_CHANGED:"+relative)
+     for relative,pin in frozen["inputs"].items():
+         if role=="B" and relative not in frozen["b_inputs"]:continue
+         require(identity(HERE/relative)==pin,"INPUT_CHANGED:"+relative)
++    if expected_freeze is not None:require(identity(HERE/"SOURCE-FREEZE.json")==expected_freeze,"FREEZE_CHANGED_DURING_CHECK")
+     return frozen
+ 
+ 
+@@ -66,7 +70,10 @@
+     require(entry["authorization"]=="ROOT_GATE_OPEN","EXECUTION_GATE_CLOSED")
+     request=checked(HERE/"RUN-REQUEST.json",entry["request"])
+     require(identity(HERE/"SOURCE-FREEZE.json")==request["source_freeze"],"FREEZE_CHANGED")
+-    check_sources(role)
++    require(Path(sys.executable).resolve()==Path(request["python"]).resolve() and
++            identity(sys.executable)==request["python_identity"],"PYTHON_IDENTITY")
++    require(sys.flags.isolated and sys.flags.no_site and sys.dont_write_bytecode,"PYTHON_FLAGS")
++    check_sources(role,request["source_freeze"])
+     return request
+ 
+ 
+@@ -101,10 +108,15 @@
+ 
+ def native(claims,archive,work,suffix=None):
+     checker=load("life_native","life_native.py");bindings,authority=native_configuration()
+-    start=time.monotonic()
+-    result=checker.verify(HERE/"inputs/PREFIX.mm",claims,archive,bindings,authority,suffix)
+-    bump(work,"native_wrapper_invocations");bump(work,"native_calls",result["native_calls"])
+-    bump(work,"native_wrapper_wall_s",time.monotonic()-start)
++    start=time.monotonic();bump(work,"native_wrapper_invocations")
++    try:
++        result=checker.verify(HERE/"inputs/PREFIX.mm",claims,archive,bindings,authority,suffix)
++    except Exception:
++        bump(work,"native_wrapper_unreturned")
++        bump(work,"native_calls_unresolved_invocations")
++        raise
++    finally:bump(work,"native_wrapper_wall_s",time.monotonic()-start)
++    bump(work,"native_calls",result["native_calls"])
+     require(result["claims_sha256"]==digest(claims),"NATIVE_REQUEST_BINDING")
+     return result
+ 
+@@ -120,19 +132,26 @@
+ 
+ 
+ def invocation(main,role="A"):
+-    output=Path(sys.argv[1])
++    output=Path(sys.argv[1]);created=False
+     try:
+-        output.mkdir(exist_ok=False)
+-        gate(role)
++        output.mkdir(exist_ok=False);created=True
++        opening_request=gate(role)
+         result=main(output)
+         result["pid"]=os.getpid();result["parent_pid"]=os.getppid()
+-        check_sources(role)
+-        if role=="B":write(output/"OPEN-AUDIT.json",AUDIT_READS)
++        check_sources(role,opening_request["source_freeze"])
++        if role=="B":write(output/"OPEN-AUDIT.json",{
++            "status":"COMPLETED_MAIN_AND_SOURCE_CUSTODY","open_attempts":AUDIT_READS})
+         result["common_io"]=dict(IO)
+-        result["common_io_scope"]="explicit common I/O only; imports and native wrapper I/O reported separately; final result write excluded"
++        result["common_io_scope"]="explicit common helpers only; Python import I/O uncounted here but included in process wall; native wrapper I/O in native receipts; final result write excluded"
+         write(output/"RESULT.json",result)
+     except Exception as error:
+-        if output.exists() and not (output/"RESULT.json").exists():
++        if created:
++            audit=None
++            if role=="B":
++                audit=write(output/"OPEN-AUDIT-FAILURE.json",{
++                    "status":"UNINITIALIZED" if AUDIT_READS is None else "INITIALIZED_AT_FAILURE",
++                    "open_attempts":AUDIT_READS})
+             write(output/"FAILURE.json",{"type":type(error).__name__,"message":str(error),
+-                                        "pid":os.getpid(),"parent_pid":os.getppid()})
++                "pid":os.getpid(),"parent_pid":os.getppid(),"work":dict(ACTIVE_WORK),
++                "common_io":dict(IO),"audit":audit,"scope":"through failure; final failure receipt write excluded"})
+         raise
+--- candidate01/life_discovery.py
++++ candidate02/life_discovery.py
+@@ -1,39 +1,66 @@
+-"""All-candidate support grouping through the unchanged registered bridge."""
++"""All-candidate grouping; every completed stage survives a later hard refusal."""
++import time
+ import life_common as C
+ 
+ 
+-def discover(training,engine,work):
+-    contract=C.load("unary_contract","authority/unary_contract.py")
+-    verifier=C.load("unary_verify","authority/unary_verify.py")
+-    syntax=C.load("registered_bridge_syntax","authority/bridge_syntax.py")
+-    meaning=C.load("registered_bridge_meaning","authority/bridge_meaning.py")
+-    signatures=C.load("registered_signatures","authority/signatures.py")
+-    groups={};occurrences=[];contexts=[]
+-    for label in training["selected"]:
+-        trace=training["traces"][label];source=trace["source"]
+-        bridge=syntax.translate(source["statement"],source["essential"],source["floating"],contract)
+-        checked=meaning.check(source,bridge,contract,verifier)
+-        C.require(checked["terminal"]=="INTERPRETATION_EQUIVALENT","BRIDGE_REFUSED")
+-        gates=checked["gates"]
+-        C.require(gates["premises_satisfiable"] is not None and gates["query_not_tautological"] is not None
+-                  and gates["entailment_counterexample"] is None
+-                  and all(x is not None for x in gates["essentiality_counterexamples"]),"SOURCE_MEANING_GATES")
+-        sign=signatures.canonical(checked["table"],bridge["task"]["predicates"])
+-        joint=sign["joint_premise_query"]["sha256"]
+-        contexts.append({"label":label,"bridge":bridge,"meaning":checked,"signatures":sign})
+-        C.bump(work,"bridge_worlds",checked["worlds"]);C.bump(work,"signature_world_permutations",6*255)
+-        used={n["label"] for n in trace["nodes"] if "label" in n}
+-        contracts={key:training["contracts"][key] for key in sorted(used)}
+-        for item in engine["typed_extract"].extract(trace,contracts,work):
+-            body=item["body"];key=C.digest(body)
+-            support={"source_label":label,"joint_sha256":joint,"source_root":item["source_root"],
+-                     "source_nodes":item["source_nodes"],"source_proof_sha256":C.digest(source["proof"])}
+-            groups.setdefault(key,{"id":key,"body":body,"context":item["context"],"supports":[]})["supports"].append(support)
+-            occurrences.append({"id":key,"support":support})
+-    records=[];supported=[]
+-    for key in sorted(groups):
+-        row=groups[key];count=len({s["joint_sha256"] for s in row["supports"]})
+-        row["support_disposition"]="SUPPORTED" if count>=2 else "INSUFFICIENT_DISTINCT_JOINT_SUPPORT"
+-        records.append(row)
+-        if count>=2:supported.append(row)
+-    return {"contexts":contexts,"occurrences":occurrences,"groups":records,"supported":supported}
++def discover(training,engine,work,archive):
++    archive.mkdir(exist_ok=False)
++    groups={};occurrences=[];contexts=[];sequence=0;current=None;stage="imports"
++    def checkpoint(status,error=None):
++        nonlocal sequence
++        C.write(archive/(str(sequence).zfill(3)+".json"),{"stage":stage,"status":status,
++            "current":current,"contexts":contexts,"groups":[groups[k] for k in sorted(groups)],
++            "occurrences":occurrences,"work":dict(work),"error":error,
++            "partial_extraction":"Only returned candidates are available; a failed extractor call does not expose its partial local list."})
++        sequence+=1
++    started=time.perf_counter()
++    try:
++        contract=C.load("unary_contract","authority/unary_contract.py")
++        verifier=C.load("unary_verify","authority/unary_verify.py")
++        syntax=C.load("registered_bridge_syntax","authority/bridge_syntax.py")
++        meaning=C.load("registered_bridge_meaning","authority/bridge_meaning.py")
++        signatures=C.load("registered_signatures","authority/signatures.py")
++        for label in training["selected"]:
++            trace=training["traces"][label];source=trace["source"]
++            current={"label":label};contexts.append(current)
++            stage="translation";C.bump(work,"bridge_attempts");checkpoint("STARTED")
++            bridge=syntax.translate(source["statement"],source["essential"],source["floating"],contract)
++            current["bridge"]=bridge;checkpoint("RETURNED")
++            stage="meaning";C.bump(work,"meaning_calls");checkpoint("STARTED")
++            checked=meaning.check(source,bridge,contract,verifier);current["meaning"]=checked
++            C.bump(work,"bridge_completed_worlds",checked["worlds"]);checkpoint("RETURNED")
++            stage="meaning_gates"
++            C.require(checked["terminal"]=="INTERPRETATION_EQUIVALENT","BRIDGE_REFUSED")
++            gates=checked["gates"]
++            C.require(gates["premises_satisfiable"] is not None and gates["query_not_tautological"] is not None
++                      and gates["entailment_counterexample"] is None
++                      and all(x is not None for x in gates["essentiality_counterexamples"]),"SOURCE_MEANING_GATES")
++            C.bump(work,"bridge_accepted_worlds",checked["worlds"]);checkpoint("PASSED")
++            stage="signature";C.bump(work,"signature_calls");checkpoint("STARTED")
++            sign=signatures.canonical(checked["table"],bridge["task"]["predicates"])
++            current["signatures"]=sign;joint=sign["joint_premise_query"]["sha256"]
++            C.bump(work,"signature_world_permutations",6*255);checkpoint("RETURNED")
++            used={n["label"] for n in trace["nodes"] if "label" in n}
++            contracts={key:training["contracts"][key] for key in sorted(used)}
++            stage="extraction";C.bump(work,"extractor_calls");checkpoint("STARTED")
++            found=engine["typed_extract"].extract(trace,contracts,work)
++            C.bump(work,"returned_candidates",len(found))
++            for item in found:
++                body=item["body"];key=C.digest(body)
++                support={"source_label":label,"joint_sha256":joint,"source_root":item["source_root"],
++                         "source_nodes":item["source_nodes"],"source_proof_sha256":C.digest(source["proof"])}
++                groups.setdefault(key,{"id":key,"body":body,"context":item["context"],"supports":[]})["supports"].append(support)
++                occurrences.append({"id":key,"support":support});checkpoint("CANDIDATE_RETAINED")
++            checkpoint("RETURNED")
++        records=[];supported=[];stage="support_grouping"
++        for key in sorted(groups):
++            row=groups[key];count=len({s["joint_sha256"] for s in row["supports"]})
++            row["support_disposition"]="SUPPORTED" if count>=2 else "INSUFFICIENT_DISTINCT_JOINT_SUPPORT"
++            records.append(row)
++            if count>=2:supported.append(row)
++        checkpoint("COMPLETE")
++        return {"contexts":contexts,"occurrences":occurrences,"groups":records,"supported":supported}
++    except Exception as exc:
++        checkpoint("FAILED",{"type":type(exc).__name__,"message":str(exc)})
++        raise
++    finally:C.bump(work,"discovery_wall_s",time.perf_counter()-started)
+--- candidate01/life_process.py
++++ candidate02/life_process.py
+@@ -8,8 +8,10 @@
+ 
+ def observe(script,output,receipt):
+     request_before=C.identity(C.HERE/"RUN-REQUEST.json")
+-    before=C.check_sources();source_before=C.digest(before)
+-    argv=[C.read(C.HERE/"RUN-REQUEST.json")["python"],"-I","-S","-B",str(C.HERE/script),str(output)]
++    opening_request=C.checked(C.HERE/"RUN-REQUEST.json",request_before)
++    opening_freeze=opening_request["source_freeze"]
++    before=C.check_sources(expected_freeze=opening_freeze);source_before=C.digest(before)
++    argv=[opening_request["python"],"-I","-S","-B",str(C.HERE/script),str(output)]
+     started=time.perf_counter();start_utc=now()
+     with open(str(receipt)+".stdout","xb") as stdout,open(str(receipt)+".stderr","xb") as stderr:
+         child=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr,cwd=C.HERE)
+@@ -17,14 +19,14 @@
+         child.returncode=os.waitstatus_to_exitcode(status)
+     elapsed=time.perf_counter()-started;exit_utc=now()
+     stable=True;error=None
+-    try:C.check_sources()
++    try:C.check_sources(expected_freeze=opening_freeze)
+     except Exception as exc:stable=False;error=str(exc)
+     result_path=output/"RESULT.json";failure_path=output/"FAILURE.json"
+     result={"argv":argv,"pid":pid,"parent_pid":os.getpid(),"exit_code":child.returncode,"reaped":True,
+         "start_utc":start_utc,"exit_utc":exit_utc,"wall_s":elapsed,"user_cpu_s":usage.ru_utime,
+         "system_cpu_s":usage.ru_stime,"highwater_rss_kib":usage.ru_maxrss,
+         "cost_scope":"fresh child through wait4; parent custody hashing excluded",
+-        "sources_unchanged":stable,"source_error":error,"source_freeze_sha256":source_before,
++        "sources_unchanged":stable,"source_error":error,"source_manifest_canonical_sha256":source_before,"source_freeze_raw_identity":opening_freeze,
+         "request_before":request_before,"request_after":C.identity(C.HERE/"RUN-REQUEST.json"),
+         "request_unchanged":C.identity(C.HERE/"RUN-REQUEST.json")==request_before,
+         "result":C.identity(result_path) if result_path.exists() else None,
+--- candidate01/lifecycle.py
++++ candidate02/lifecycle.py
+@@ -26,7 +26,7 @@
+     output=C.HERE/"lifecycle-01";output.mkdir(exist_ok=False)
+     result={"terminal":"INCOMPLETE","native_gate":"root","pid":os.getpid()}
+     try:
+-        C.gate();request=C.read(C.HERE/"RUN-REQUEST.json")
++        request=C.gate()
+         C.require(request["argv"]==[request["python"],"-I","-S","-B",str(C.HERE/"lifecycle.py")],
+                   "ENTRY_ARGV_CONTRACT")
+         io=controls(output);C.write(output/"IO-CONTROLS.json",io)
+@@ -83,6 +83,7 @@
+                   b["request"]==request_pin and b["projection"]==projection,"B_RESULT_BINDING")
+         C.require(a["pid"]==process["pid"] and a["parent_pid"]==os.getpid() and
+                   process["pid"]!=bprocess["pid"] and process["exit_utc"]<bprocess["start_utc"],"A_EXIT_FRESH_B")
++        C.check_sources(expected_freeze=request["source_freeze"])
+         result.update(terminal=b["terminal"],consumer=b,consumer_process=C.identity(output/"B-PROCESS.json"))
+         C.require(C.identity(C.HERE/"PROJECTION.json")==projection and
+                   C.identity(C.HERE/"B-REQUEST.json")==request_pin,"FINAL_SERVING_CUSTODY")
+--- candidate01/run_a.py
++++ candidate02/run_a.py
+@@ -6,23 +6,25 @@
+ 
+ 
+ def main(out):
+-    work={};engine=C.engine();packet=C.read(C.HERE/"inputs/fixtures/FIXTURES.json")
++    work={};C.ACTIVE_WORK=work;engine=C.engine();packet=C.read(C.HERE/"inputs/fixtures/FIXTURES.json")
+     claims=[{**{k:row[k] for k in ("label","premises","query","holes","proof")},
+              "parameters":packet["parameters"]} for row in packet["fixtures"]]
+     training=C.native(claims,out/"native-training",work,
+                       C.bytes_read(C.HERE/"inputs/fixtures/TRAINING-SUFFIX.mm"))
+     C.write(out/"TRAINING.json",training)
+     C.require(training["terminal"]=="NATIVE_VERIFIED","NATIVE_TRAINING_REFUSED")
+-    discovery=C.load("life_discovery","life_discovery.py").discover(training,engine,work)
++    discovery=C.load("life_discovery","life_discovery.py").discover(training,engine,work,out/"discovery-progress")
+     parent=C.read(C.HERE/"inputs/PARENT.json");by_label={r["label"]:r for r in parent}
+     C.require(len(parent)==4191 and len(by_label)==4191,"ORDINARY_CATALOGUE_POPULATION")
+-    for row in discovery["supported"]:
++    C.write(out/"DISCOVERY-PROPOSED.json",discovery)
++    for alias_number,row in enumerate(discovery["supported"]):
+         for node in row["body"]["nodes"]:
+             if node["kind"]=="apply":
+                 actual=training["contracts"][node["label"]]
+                 C.require({k:v for k,v in actual.items() if k!="span"}==by_label[node["label"]],
+                           "ORDINARY_CONTRACT_MISMATCH")
+         row["alias"]=engine["typed_alias"].classify(parent,row["body"],work)
++        C.write(out/("ALIAS-"+str(alias_number)+".json"),{"id":row["id"],"alias":row["alias"],"work":work})
+     discovery_pin=C.write(out/"DISCOVERY.json",discovery)
+     if not discovery["supported"]:
+         return {"terminal":"NO_SUPPORTED_CANDIDATE","discovery":discovery_pin,"work":work}
+--- candidate01/run_b.py
++++ candidate02/run_b.py
+@@ -13,6 +13,13 @@
+     else:raise ValueError("FALSE_ACCEPT:"+name)
+ 
+ 
++def require_native_negative(result,claim,verified_prefix,mode):
++    C.require(result["terminal"]=="NATIVE_REJECTED" and result["native_calls"]==1 and
++              result["error"]["stage"]=="native_check" and result["error"]["pending"]==claim["label"] and
++              result["verified_labels"]==verified_prefix,
++              "NATIVE_NEGATIVE_DID_NOT_REFUSE_EXACT_ISSUED_CLAIM:"+mode)
++
++
+ def main(out):
+     opened=[]
+     allowed=set(C.freeze()["sources"])|set(C.freeze()["b_inputs"])|{
+@@ -24,12 +31,12 @@
+         try:relative=str(path.relative_to(C.HERE))
+         except ValueError:return
+         if out==path or out in path.parents:return
++        opened.append({"path":relative,"mode":str(args[1]),"flags":args[2]})
+         if relative.endswith(".pyc") and relative.startswith("engine/"):
+             C.require(not path.exists(),"B_BYTECODE_PRESENT:"+relative)
+         else:C.require(relative in allowed,"B_FORBIDDEN_READ:"+relative)
+-        opened.append({"path":relative,"mode":str(args[1]),"flags":args[2]})
+     sys.addaudithook(audit);C.AUDIT_READS=opened
+-    work={};engine=C.engine();P=C.load("life_payload","life_payload.py")
++    work={};C.ACTIVE_WORK=work;engine=C.engine();P=C.load("life_payload","life_payload.py")
+     R=C.load("life_requests","life_requests.py")
+     entry=C.checked(C.HERE/"B-INPUT.json",C.read(C.HERE/"B-GATE.json")["input"])
+     C.require(set(entry)=={"projection","request","source_freeze"},"B_INPUT_SCHEMA")
+@@ -90,16 +97,18 @@
+     C.write(out/"NATIVE-RECONSTRUCTION.json",checked)
+     C.require(checked["terminal"]=="NATIVE_VERIFIED","FRESH_RECONSTRUCTION_REFUSED")
+     negative=[]
++    _,authority=C.native_configuration()
++    verified_prefix=checked["verified_labels"][:authority["prefix_proof_count"]]
+     for mode in ("wrong_hole","wrong_target"):
+         claim=copy.deepcopy(proposals[0])
+         if mode=="wrong_hole":claim["premises"][0]=["|-","-."]+claim["premises"][0][1:]
+         else:claim["query"]=["|-","-."]+claim["query"][1:]
+         result=C.native([claim],out/("native-"+mode),work)
+         C.write(out/(mode.upper()+".json"),result)
+-        C.require(result["terminal"]=="NATIVE_REJECTED" and result["native_calls"]==1,
+-                  "NATIVE_NEGATIVE_DID_NOT_REACH_REFUSAL:"+mode)
++        require_native_negative(result,claim,verified_prefix,mode)
+         negative.append({"control":mode,"claims_sha256":result["claims_sha256"],"error":result["error"],
+-                         "native_calls":result["native_calls"]})
++                         "native_calls":result["native_calls"],"issued_label":claim["label"],
++                         "verified_prefix_sha256":C.digest(verified_prefix)})
+     C.require(C.identity(C.HERE/"PROJECTION.json")==entry["projection"] and
+               C.identity(C.HERE/"B-REQUEST.json")==entry["request"],"CONSUMED_B_INPUT_CHANGED")
+     return {"terminal":"TYPED_INTERFACE_QUALIFIED_ALIAS_ONLY" if not payload["eligible_method_ids"]

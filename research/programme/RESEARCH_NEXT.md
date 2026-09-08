@@ -4,32 +4,34 @@ The current scientific uncertainty is whether acquired structure improves future
 verified cognition beyond the strongest equally equipped conventional parent.
 Another wrapper, index or authored success cannot answer that alone.
 
-## Qualify the immediate type boundary
+## Use the qualified type boundary
 
-The existing Boolean bridge has an aggregate of 52 eligible wff roots and three
-class roots. It exports semantic records, not the learner's native proof DAGs.
-That aggregate is not a usable-training or transfer-opportunity count. The current
-constructor and learner remain class-specific. Do not open a new corpus allocation
-or widen syntax alone and assume the rest of the chain remains valid.
+The [typed native result](TYPED_NATIVE_LIFECYCLE.md) qualifies acquisition through
+persistence of an alias witness, followed by a separately repaired fresh consumer.
+All six atomic wff permutations and one class reconstruction pass native checking.
+The supported fragment is already ordinary theorem `jccir`; learned eligibility
+remains empty. No new learning-benefit study is authorized by that witness.
 
-First qualify three typed wff parameters on authored examples. Thread one explicit
-parameter/type list and bound floating-label table through extraction, canonical
-identity, admission, persistence and reconstruction. Keep atomic type-preserving
-bijections, empty DV, no extra floating variables and existing proof/node bounds.
-Keep class behavior as a regression control. Use current native theorem/axiom checks.
+The Boolean bridge's aggregate of 52 eligible wff roots and three class roots is
+not a usable-training or transfer-opportunity count. Its exported semantic records
+do not establish repeated native proof fragments or independent support. Register
+the opportunity audit before opening per-root records; retain the completed controls.
 
-Two declared training contexts must contain a repeated proper fragment with different
-registered joint meanings. The extractor selects from traces; no theorem-name dispatch
-or expected-body insertion. Preserve A exit, sealed serving projection and fresh B.
-Check wrong type, mismatched/repeated/ordered holes, changed contracts and out-of-scope
-DV. This qualifies an interface, not a corpus discovery or timing result.
-
-Then separately qualify composite and permitted repeated substitutions with explicit
-native syntax proofs at floating leaves and simultaneous typed substitution. Every
-applied rule keeps its DV obligations. Recognizing only variable names A/B/C is
-insufficient after extending to wff parameters. Unsupported scope must refuse.
+Start the next consumer from ordinary proved-theorem reuse where it suffices.
+Its full qualified substitution interface is the conventional parent. Composite
+and permitted repeated substitutions need explicit native syntax proofs at floating
+leaves and simultaneous typed substitution, including every applied rule's DV
+obligations. Qualify this boundary separately; unsupported scope must refuse.
+Do not extend the bespoke recipe interface merely to duplicate that capability.
 
 ## Establish actual learning opportunities
+
+The [ordinary-theorem acquisition design](../typed-next-parent-design-v1/CORE.md)
+selects existing proof-compilation machinery as the first mechanism to engineer.
+Its whole-demonstrated-theorem parent separates imported facts from acquired cuts.
+Its witness counts are conditional on readiness; no opportunity scan has run.
+Bounded alias screening preserves UNKNOWN. An all-alias result may instead motivate
+separately registered selection learning when actual search telemetry supports it.
 
 Register a trace-compatibility and opportunity audit before opening per-root records.
 Count proper repeated fragments, exact type/scope compatibility, independent support
@@ -74,9 +76,15 @@ A paper needs a concrete new mechanism or theorem, meaningful generalization,
 strong matched parents, complete cost accounting and reproducible evidence. Preserve
 PARENT_SUFFICIENT when earned. Write the paper only when that scientific result exists.
 
-The prospective [ordinary derived-lemma parent](../native-ordinary-lemma-parent-v1/CORE.md) is source-reviewed. Its contract and conditional action-cost argument authorize no native experiment; qualify the typed interface before the registered comparison.
+The prospective [ordinary derived-lemma parent](../native-ordinary-lemma-parent-v1/CORE.md)
+is source-reviewed. Its contract and conditional action-cost argument authorize no
+native experiment. The [43 structural controls](../native-typed-trace-evidence-v1/CORE.md)
+and [separate native lifecycle](TYPED_NATIVE_LIFECYCLE.md) retain distinct evidence
+scope; the ordinary-theorem successor still needs its own qualified execution.
 
-The [typed structural seam](../native-typed-trace-evidence-v1/CORE.md) passes 43 pure controls. Native fixture qualification, support grouping, admission and the A-exit/fresh-B lifecycle remain separate next steps.
+Read [primary methods and their assumptions](../metareasoning-parent-review-v1/CORE.md)
+before adding control policies. Reuse or adapt established mechanisms first, state
+the remaining gap, and end the review with a concrete design or falsifying test.
 
 The Boolean meaning bridge is a bounded language interface, not an admission requirement
 for all native mathematics. Future native-only studies must register native proof
