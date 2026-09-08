@@ -23,7 +23,7 @@ def main():
     colors = ["#176B95", "#5C478F", "#8A969D", "#8A969D", "#B44D3C"]
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.3))
     for ax, key, title in zip(axes, ["queries", "work"],
-                             ["Paid source queries", "Counted operations (log scale)"]):
+                             ["Paid queries (correct / total below count)", "Counted operations (log scale)"]):
         values = [r["cost"]["query_calls"] if key == "queries" else
                   r["counted_operations"] for r in rows]
         ax.bar(range(len(rows)), values, color=colors, width=0.68)
@@ -35,7 +35,7 @@ def main():
         for i, (r, value) in enumerate(zip(rows, values)):
             annotation = f"{value:,}"
             if key == "queries":
-                annotation += f"\n{r['correct']}/{r['n']} correct"
+                annotation += f"\n{r['correct']}/{r['n']}"
             ax.annotate(annotation, (i, value), xytext=(0, 5),
                         textcoords="offset points", ha="center", fontsize=9)
         ax.set_xticks(range(len(rows)), [labels[r["arm"]] for r in rows], fontsize=9)
