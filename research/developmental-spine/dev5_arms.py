@@ -37,14 +37,20 @@ class VersionStore:
     observations: dict[tuple[int, int], bool] = field(default_factory=dict)
     #: rules whose version space is small enough to be worth holding bits for
     held: set[int] = field(default_factory=set)
+    #: X7. Cells of a compiled decision table currently held, and what one costs.
+    #: Both default to zero, so every arm before X7 measures exactly what it did.
+    table_cells: int = 0
+    table_cell_bits: int = 0
 
     def bits(self) -> int:
-        return self.base.bits() + len(self.held) * GUARD_BITS
+        return (self.base.bits() + len(self.held) * GUARD_BITS
+                + self.table_cells * self.table_cell_bits)
 
     def copy(self) -> "VersionStore":
         return VersionStore(self.base.copy(),
                             {k: tuple(v) for k, v in self.versions.items()},
-                            dict(self.observations), set(self.held))
+                            dict(self.observations), set(self.held),
+                            self.table_cells, self.table_cell_bits)
 
 
 def decide(survivors: Sequence[Pred], index: int, rule_name: str) -> bool | None:

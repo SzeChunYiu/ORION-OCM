@@ -81,13 +81,17 @@ def _unanimous(survivors, index: int) -> bool | None:
 
 
 def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
-         mode: str, lang_level: int | None = None) -> tuple[Phase, Phase, VersionStore, dict]:
+         mode: str, lang_level: int | None = None,
+         table_cell_bits: int = 0) -> tuple[Phase, Phase, VersionStore, dict]:
     # lang_level defaults to the full ladder, so every DEV-6 arm is unchanged and
     # its receipt reproduces; X4 passes 1 to run the SMALL language DEV-3 used.
     lang = language(max(LEVELS) if lang_level is None else lang_level,
                     world.base.extension)
     base, p0 = run_d0(world, d0, budget)
     store = VersionStore(base=base.copy())
+    # X7 charges a compiled table cell bits from the SAME budget as facts and
+    # guards. At the default of zero this is identical to every earlier arm.
+    store.table_cell_bits = table_cell_bits
     for rule in range(world.base.rule_count):
         store.versions[rule] = tuple(lang)
     votes = VoteBook(world.base.extension) if mode == "unanimity_incremental" else None
@@ -96,6 +100,11 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
     #: cached until the rule's version space actually shrinks. The table changes
     #: what a consultation COSTS and never what it returns.
     compiled: dict[int, dict] = {}
+    #: last step at which each compiled rule was consulted, for LRU discard
+    table_touched: dict[int, int] = {}
+    step = 0
+    tables_discarded = 0
+    cells_refused = 0
     compilations = 0
     compiled_cells = 0
     cache_hits = 0
@@ -202,17 +211,45 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
             return first if all(p.excludes(index) == first for p in survivors[1:]) else None
         if mode in ("precompiled_eager", "precompiled_demand"):
             nonlocal compilations, compiled_cells, cache_hits, cache_misses
+            nonlocal tables_discarded, cells_refused
+            table_touched[rule] = step
+
+            def room_for(cells: int) -> bool:
+                """Make space for ``cells`` table cells, discarding whole tables.
+
+                Whole tables rather than single cells, and least-recently-consulted
+                first: per-cell bookkeeping would itself need bits and work, and
+                charging for a policy this study did not measure would be worse than
+                choosing a coarse one and saying so. The current rule is never
+                discarded to make room for itself.
+                """
+                need = cells * store.table_cell_bits
+                if not need or store.bits() + need <= budget:
+                    return True
+                order = sorted((r for r in compiled if r != rule),
+                               key=lambda r: table_touched.get(r, -1))
+                for victim in order:
+                    nonlocal tables_discarded
+                    store.table_cells -= len(compiled[victim]["cells"])
+                    del compiled[victim]
+                    table_touched.pop(victim, None)
+                    tables_discarded += 1
+                    if store.bits() + need <= budget:
+                        return True
+                return store.bits() + need <= budget
+
             table = compiled.get(rule)
             if table is None or table["version"] is not survivors:
                 table = compiled[rule] = {"version": survivors, "cells": {}}
                 compilations += 1
-                if mode == "precompiled_eager":
+                if mode == "precompiled_eager" and room_for(world.base.extension):
                     # Compile every index whether or not anyone asks for it. This is
                     # what an eagerly grounded bank does, and it is charged for the
                     # whole scan it performs.
                     width = max(1, len(survivors))
                     for i in range(world.base.extension):
                         table["cells"][i] = _unanimous(survivors, i)
+                    store.table_cells += world.base.extension
                     compiled_cells += world.base.extension
                     charge_compilation(width * world.base.extension)
             if index in table["cells"]:
@@ -222,8 +259,15 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
             cache_misses += 1
             charge(max(1, len(survivors)))
             verdict = _unanimous(survivors, index)
-            table["cells"][index] = verdict
-            compiled_cells += 1
+            if room_for(1):
+                table["cells"][index] = verdict
+                store.table_cells += 1
+                compiled_cells += 1
+            else:
+                # No bits for the cell. The arm still answers, and answers the same
+                # thing; it simply pays the scan again next time. This is how the
+                # compiled arms degrade to the naive rule rather than failing.
+                cells_refused += 1
             return verdict
         charge(1)
         if rule not in seeded:
@@ -269,6 +313,7 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
         return True
 
     for pair in d1:
+        step += 1
         phase.served += 1
         ok = True
         for answer in (pair.left, pair.right):
@@ -283,6 +328,8 @@ def _run(world: D1World, d0: Sequence[int], d1: Sequence[Pair], budget: int,
     maintenance = votes.maintenance if votes is not None else 0
     phase.lookup_work += maintenance
     meters = {"compilations": compilations, "compiled_cells": compiled_cells,
+              "tables_discarded": tables_discarded, "cells_refused": cells_refused,
+              "table_cells_held": store.table_cells,
               "cache_hits": cache_hits, "cache_misses": cache_misses,
               "consultation_charge": consultation_charge, "maintenance": maintenance,
               "deliberation_total": consultation_charge + maintenance,
