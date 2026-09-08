@@ -7,6 +7,7 @@ on:
       - '.github/workflows/residual-strategy-regime.yml'
       - 'src/ocm/learning/methods.py'
       - 'src/ocm/kso/ids.py'
+      - 'src/ocm/lifetime/phases.py'
   push:
     branches: [main]
     paths:
@@ -14,6 +15,7 @@ on:
       - '.github/workflows/residual-strategy-regime.yml'
       - 'src/ocm/learning/methods.py'
       - 'src/ocm/kso/ids.py'
+      - 'src/ocm/lifetime/phases.py'
 
 permissions:
   contents: read
@@ -70,6 +72,18 @@ jobs:
           out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           python -B research/residual-strategy-regime-v1/checker_census.py \
             --out "$out/r0a-checker-census.json" \
+            --github-notice
+      - name: Native lifetime net-benefit bound
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/general_net_benefit_gate.py \
+            --out "$out/general-net-benefit.json" \
+            --github-notice
+      - name: M12 strongest-parent parity audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/m12_parent_parity_audit.py \
+            --out "$out/m12-parent-parity.json" \
             --github-notice
       - name: R0D paid decision-region exact audit
         run: |
@@ -169,6 +183,8 @@ jobs:
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-frozen-source-forensic.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-prospective-checker-binding.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-census.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/general-net-benefit.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/m12-parent-parity.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0d-paid-decision-region.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0c-scheduler-residual.json
             ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
