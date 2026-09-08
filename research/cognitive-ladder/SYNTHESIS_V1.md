@@ -10,7 +10,7 @@
 
 | parent | verdict | receipt | novelty removed |
 |---|---|---|---|
-| Independent mathematical review of PR #150 (PR #153, research/evolvability-source-review-v1) | `GENERALIZE` | `PR #153 research/evolvability-source-review-v1/PR150-MATH-REVIEW.md` | Any claim in this lane that a small hypothesis space wins BECAUSE it is small. Size is not the operative quantity. |
+| Independent mathematical review of PR #150 (arrived as PR #153, since merged as research/evolvability-source-review-v1) | `GENERALIZE` | `../evolvability-source-review-v1/PR150-MATH-REVIEW.md` | Any claim in this lane that a small hypothesis space wins BECAUSE it is small. Size is not the operative quantity. |
 | Belady (1966) optimal replacement | `ADOPT` | `results/RETAIN_E10_V1.json` | Any claim that OCM's retention policy is a good cache. It is not the policy that pays; a clairvoyant policy is available and was used. |
 | de Kleer (1986) ATMS; Reiter (1987) minimal hitting sets | `ADOPT` | `results/SUPPORT_E6_V1.json, results/DEPEND_E3_V1.json` | Any claim that support-family discovery is new. It is 1986 work. |
 | DreamCoder and Stitch | `ADAPT` | `results/LIBDISC_E5_V1.json` | Any claim that OCM discovers reusable abstractions others miss. |

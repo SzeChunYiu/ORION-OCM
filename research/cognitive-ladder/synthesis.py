@@ -92,9 +92,9 @@ def A(**kw):
 
 #: Doctrine section 3, applied to every parent that beat an arm in this lane.
 ABSORPTIONS = [
-A(parent="Independent mathematical review of PR #150 (PR #153, "
-         "research/evolvability-source-review-v1)", field="theory review",
-  receipt="PR #153 research/evolvability-source-review-v1/PR150-MATH-REVIEW.md",
+A(parent="Independent mathematical review of PR #150 (arrived as PR #153, since "
+         "merged as research/evolvability-source-review-v1)", field="theory review",
+  receipt="../evolvability-source-review-v1/PR150-MATH-REVIEW.md",
   verdict="GENERALIZE",
   teaches="A calibrated posterior's perplexity does not bound the expected cost of finding "
           "the right answer. With N = 2^m repairs of probability 1/(mN) and one leading "

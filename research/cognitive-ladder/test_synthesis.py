@@ -36,8 +36,13 @@ def test_every_absorption_is_complete(a):
 def test_every_absorption_cites_a_receipt_that_exists(a):
     for ref in a["receipt"].split(","):
         ref = ref.strip()
-        if ref.startswith("../") or "..." in ref:
-            continue   # cross-lane references are checked by the spine, not here
+        if "..." in ref:
+            continue
+        if ref.startswith("../"):
+            # A sibling research lane in the same repository. This used to be
+            # skipped as "the spine's problem"; it is checkable here and now is.
+            assert (HERE / ref).is_file(), (a["parent"], ref)
+            continue
         if ref.startswith("PR #"):
             # An absorption may cite an UNMERGED pull request, whose files are not
             # in this checkout. It must then name the PR number and a path inside
@@ -307,15 +312,28 @@ def test_the_cross_domain_entry_records_the_audit_it_forced():
     assert "only visible because the bookkeeping was charged" in a
 
 
-def test_an_absorption_from_an_unmerged_pr_says_so_and_is_not_this_lanes_evidence():
+def test_an_absorption_from_another_lane_is_named_as_another_lanes_document():
     """PR #153's independent review of PR #150's mathematics is absorbed here. It
-    is another lane's document, not a receipt this lane produced, and the record
-    must not let the two look alike."""
-    external = [a for a in S.ABSORPTIONS if a["receipt"].startswith("PR #")]
-    assert external, "the PR #153 review should be in the register"
-    for a in external:
-        assert "PR #" in a["parent"], a["parent"]
+    was cited as an unmerged pull request when it was absorbed and is now merged,
+    so the citation points at the file itself. It is still another lane's
+    document, not a receipt this lane produced, and the record must not let the
+    two look alike."""
+    foreign = [a for a in S.ABSORPTIONS if a["receipt"].startswith("../")]
+    assert foreign, "the PR #153 review should be in the register"
+    for a in foreign:
+        assert "PR #" in a["parent"], (
+            a["parent"], "the pull request it arrived through must stay named")
         assert a["prior_information_charged"], a["parent"]
+
+
+def test_the_checker_still_accepts_a_citation_to_an_unmerged_pull_request():
+    """The ``PR #<n> <path>`` form is how an absorption cites a document that is
+    not in this checkout. Nothing uses it now that #153 has merged, so it is
+    exercised directly rather than left to rot."""
+    good = "PR #153 research/evolvability-source-review-v1/PR150-MATH-REVIEW.md"
+    assert re.match(r"^PR #\d+ \S+/\S+", good)
+    for bad in ("PR #153", "PR #x research/a/b.md", "research/a/b.md"):
+        assert not re.match(r"^PR #\d+ \S+/\S+", bad), bad
 
 
 def test_the_native_lane_cross_check_is_a_prediction_with_a_named_refutation():
