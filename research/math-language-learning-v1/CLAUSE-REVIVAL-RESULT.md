@@ -100,3 +100,13 @@ Current source map: 10-integration-focused/SOURCE-AFTER.json,
 SHA256 d39ca3d4b11f1da03135ae621d0c10c133ef8e48123d79adb7f1962ae9f5636c.
 The earlier 95-control and exploratory diagnostic records remain historical;
 no development selection or final evaluation was rerun during integration.
+
+## Subsequent migration compatibility
+
+Main 92310f13 removed 19 historical evidence files required by the milestone gates.
+Its normal merge preserves ancestry; exact original blobs are restored and the
+completed destructive one-shot workflow is retired. See the
+[incident and current custody checks](../../docs/provenance/engineering_revisions/MIGRATION_CUSTODY_RESTORATION_V2.md).
+All 12 receipt wrappers and 13 existing archive/tamper controls pass afterward.
+The donor's 385 source identities and 104-control result remain unchanged;
+no selection or scientific evaluation was rerun for this compatibility repair.
