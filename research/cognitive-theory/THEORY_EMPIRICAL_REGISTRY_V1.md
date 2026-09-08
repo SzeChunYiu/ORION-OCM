@@ -24,12 +24,14 @@ universe, `V3_PROSPECTIVE_EMPIRICAL`. Each row declares exactly one primary rout
 | TH-06-PLANTED-DEFECT-LABELS-ARE-VALID | **REFUTED** | V2 | #143 CL-3 / lane E4 |
 | TH-07-WITNESS-REQUIREMENT-IS-NECESSARY | **REFUTED** | V3 | #143 CL-3 / lane E4 |
 | TH-09-FLAT-FRAGMENT-DISCOVERY | **REFUTED** | V2 | #143 CL-1 / research/math-language-learning-v1 |
+| TH-14-DISCOVERY-IS-THE-BINDING-CONSTRAINT | **REFUTED** | V2 | #143 CL-1 / research/math-language-learning-v1 clause donor |
 | TH-11-FAILURE-LEARNING-IS-DERIVED | **PARENT_SUFFICIENT** | V3 | #143 CL-2 / lane failure pilot and E2 |
 | TH-02-DECLARED-DEPENDENCY-LOCALITY | **PARENT_OWNED** | V1 | #143 CL-6 / lane E-scaling |
 | TH-08-UNPRINCIPLED-TRIGGERS-FALSE-ESCALATE | **SUPPORTED_AT_SCOPE** | V3 | #143 CL-3 / lane E4 |
 | TH-05-SUPPORT-FAMILY-DISCOVERY | **OPEN** | V2 | #143 CL-6 / lane E6 |
 | TH-10-STEP-LEVEL-DISCOVERY | **OPEN** | V2 | #143 CL-1 / lane E5 |
 | TH-13-FIELD-AFFECTS-DISCOVERABILITY | **OPEN** | V2 | #143 CL-1 to CL-3 / #145 GUO-D5 |
+| TH-15-OPPORTUNITY-IS-THE-BINDING-CONSTRAINT | **OPEN** | V2 | #143 CL-1 / CL-2 |
 | TH-12-PRIMITIVE-PRESSURE-CONVERGES | **NOT_YET_TESTABLE** | V3 | #143 CL-7 through CL-10 |
 
 ## Rows
@@ -190,6 +192,32 @@ universe, `V3_PROSPECTIVE_EMPIRICAL`. Each row declares exactly one primary rout
 
 **Reopen condition.** closed as stated; the successor statement is TH-10
 
+### TH-14-DISCOVERY-IS-THE-BINDING-CONSTRAINT — REFUTED
+
+> Method reuse fails because reusable structure is not discovered; fix the discovery level and reuse follows.
+
+**Scope.** checked unary-language proof episodes, four episodes, sixteen development trials
+
+**Assumptions.** the task ecology contains targets that require the discovered method
+
+**Field.** signed-clause proof DAG · **Operator basis.** CONSOLIDATE + APPLY_METHOD
+
+**Resource model.** candidate pool size, method uses, matching work
+
+**Predicted observable.** uses of a method once discovery is repaired — **direction:** positive
+
+**Route.** V2_EXACT_COMPUTATION · **Falsifying rung.** #143 CL-1 / research/math-language-learning-v1 clause donor
+
+**Strongest parent.** the flat miner, which acquires nothing at all
+
+**Causal ablation.** donor off versus donor on, identical inputs · **Negative twin.** episodes with no shared structure, where both arms acquire nothing
+
+**Falsifier.** a repaired discovery mechanism that acquires a method which is then never used
+
+**Evidence.** research/math-language-learning-v1/CLAUSE-REVIVAL-RESULT.md: with the clause donor on, episode 0's pool goes from 0 to 1, so step-level abstraction does fix discovery. The acquired rule's sixteen development trials then all report NO_MATCH: zero uses, zero query-constraint benefit, 4425 matching-work units, terminal NO_DEVELOPMENT_BENEFIT. Only rows 0/2/4/8 were eligible and every one of those targets is a Boolean tautology, so there was no essential composite target opportunity among the sixteen tasks
+
+**Reopen condition.** the successor statement is TH-15: opportunity, not discovery, is the binding constraint, and it needs an ecology with genuinely composite targets plus a tautological control
+
 ### TH-11-FAILURE-LEARNING-IS-DERIVED — PARENT_SUFFICIENT
 
 > Failure learning is not primitive: it decomposes into CHECK-failure, REVISE and CONSOLIDATE, and a truth-maintenance parent therefore reproduces it.
@@ -343,6 +371,32 @@ universe, `V3_PROSPECTIVE_EMPIRICAL`. Each row declares exactly one primary rout
 **Falsifier.** the flat store matches every field on every coordinate
 
 **Evidence.** not started; this is the next tranche after E5 and E6
+
+**Reopen condition.** not applicable while open
+
+### TH-15-OPPORTUNITY-IS-THE-BINDING-CONSTRAINT — OPEN
+
+> Once discovery is repaired, whether a learned method pays depends on whether the task ecology contains targets that essentially require it, and an ecology of tautologies or bypassable targets yields zero benefit from a correctly discovered method.
+
+**Scope.** clause worlds with a registered essential-composite condition and a tautological control
+
+**Assumptions.** the discovered method is independently checked and sound
+
+**Field.** signed-clause proof DAG · **Operator basis.** APPLY_METHOD under CHECK
+
+**Resource model.** method uses, matching work, fresh-task search against a reset arm
+
+**Predicted observable.** uses and work reduction under essential-composite versus tautological ecologies at identical discovery — **direction:** benefit in the first, zero in the second
+
+**Route.** V2_EXACT_COMPUTATION · **Falsifying rung.** #143 CL-1 / CL-2
+
+**Strongest parent.** DreamCoder and Stitch style library learning, which face the same ecology
+
+**Causal ablation.** remove the method and re-run the essential-composite tasks · **Negative twin.** the tautological ecology itself, where zero benefit is the correct outcome
+
+**Falsifier.** benefit that is indifferent to whether the target essentially requires the method, which would mean the measured gain was retrieval rather than composition
+
+**Evidence.** not yet run; the experiment intended to test it was cancelled before producing a receipt, and no result should be read into its absence
 
 **Reopen condition.** not applicable while open
 

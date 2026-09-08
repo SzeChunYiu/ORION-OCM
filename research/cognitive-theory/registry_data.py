@@ -302,4 +302,51 @@ T(theory_id="TH-13-FIELD-AFFECTS-DISCOVERABILITY",
   falsifier="the flat store matches every field on every coordinate",
   status="OPEN", evidence="not started; this is the next tranche after E5 and E6",
   reopen_condition="not applicable while open"),
+T(theory_id="TH-14-DISCOVERY-IS-THE-BINDING-CONSTRAINT",
+  statement="Method reuse fails because reusable structure is not discovered; fix the discovery "
+            "level and reuse follows.",
+  scope="checked unary-language proof episodes, four episodes, sixteen development trials",
+  assumptions=("the task ecology contains targets that require the discovered method",),
+  field_identity=FIELD_CLAUSE, operator_basis_identity="CONSOLIDATE + APPLY_METHOD",
+  resource_model="candidate pool size, method uses, matching work",
+  predicted_observable="uses of a method once discovery is repaired",
+  predicted_direction="positive",
+  verification_route="V2_EXACT_COMPUTATION",
+  empirical_rung="#143 CL-1 / research/math-language-learning-v1 clause donor",
+  strongest_parent="the flat miner, which acquires nothing at all",
+  causal_ablation="donor off versus donor on, identical inputs",
+  negative_twin="episodes with no shared structure, where both arms acquire nothing",
+  falsifier="a repaired discovery mechanism that acquires a method which is then never used",
+  status="REFUTED",
+  evidence="research/math-language-learning-v1/CLAUSE-REVIVAL-RESULT.md: with the clause donor on, "
+           "episode 0's pool goes from 0 to 1, so step-level abstraction does fix discovery. The "
+           "acquired rule's sixteen development trials then all report NO_MATCH: zero uses, zero "
+           "query-constraint benefit, 4425 matching-work units, terminal NO_DEVELOPMENT_BENEFIT. "
+           "Only rows 0/2/4/8 were eligible and every one of those targets is a Boolean tautology, "
+           "so there was no essential composite target opportunity among the sixteen tasks",
+  reopen_condition="the successor statement is TH-15: opportunity, not discovery, is the binding "
+                   "constraint, and it needs an ecology with genuinely composite targets plus a "
+                   "tautological control"),
+
+T(theory_id="TH-15-OPPORTUNITY-IS-THE-BINDING-CONSTRAINT",
+  statement="Once discovery is repaired, whether a learned method pays depends on whether the task "
+            "ecology contains targets that essentially require it, and an ecology of tautologies or "
+            "bypassable targets yields zero benefit from a correctly discovered method.",
+  scope="clause worlds with a registered essential-composite condition and a tautological control",
+  assumptions=("the discovered method is independently checked and sound",),
+  field_identity=FIELD_CLAUSE, operator_basis_identity="APPLY_METHOD under CHECK",
+  resource_model="method uses, matching work, fresh-task search against a reset arm",
+  predicted_observable="uses and work reduction under essential-composite versus tautological "
+                       "ecologies at identical discovery",
+  predicted_direction="benefit in the first, zero in the second",
+  verification_route="V2_EXACT_COMPUTATION", empirical_rung="#143 CL-1 / CL-2",
+  strongest_parent="DreamCoder and Stitch style library learning, which face the same ecology",
+  causal_ablation="remove the method and re-run the essential-composite tasks",
+  negative_twin="the tautological ecology itself, where zero benefit is the correct outcome",
+  falsifier="benefit that is indifferent to whether the target essentially requires the method, "
+            "which would mean the measured gain was retrieval rather than composition",
+  status="OPEN",
+  evidence="not yet run; the experiment intended to test it was cancelled before producing a "
+           "receipt, and no result should be read into its absence",
+  reopen_condition="not applicable while open"),
 ]
