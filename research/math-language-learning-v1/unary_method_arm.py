@@ -4,14 +4,20 @@ from pathlib import Path
 from unary_contract import InputRefused,fields
 import unary_method_outer as D
 
-MODES=("acquire","solve","acquire_selected","batch","revise","status")
-def run(arm,mode,value,*,observation=None):
+MODES=("acquire","solve","acquire_selected","batch","presented_batch","revise","status")
+def run(arm,mode,value,*,observation=None,row_sink=None):
     o={} if observation is None else observation
-    if type(arm) is not str or arm not in ("ocm","conventional"):raise InputRefused("PROCESS_ARM")
+    if type(arm) is not str or arm not in ("ocm","conventional","exact"):raise InputRefused("PROCESS_ARM")
     if mode not in MODES:raise InputRefused("PROCESS_MODE")
+    if arm=="exact":
+        if mode!="presented_batch":raise InputRefused("EXACT_MODE")
+        fields(value,("rows","deadline_monotonic"))
+        from unary_assay_service import run as presented
+        from unary_assay_exact import ExactRuntime
+        return {"outcome":presented(ExactRuntime(),value["rows"],deadline=value["deadline_monotonic"],observation=o,sink=row_sink)}
     keys={"acquire":("store","training"),"solve":("store","task","invoke"),
           "acquire_selected":("store","training","development","contract"),
-          "batch":("store","tasks","invoke"),"revise":("store","role","state","method_id"),"status":("store",)}
+          "batch":("store","tasks","invoke"),"presented_batch":("store","rows","invoke","deadline_monotonic"),"revise":("store","role","state","method_id"),"status":("store",)}
     fields(value,keys[mode])
     if type(value["store"]) is not str:raise InputRefused("STORE_PATH")
     path=Path(value["store"]);create=mode in ("acquire","acquire_selected")
@@ -37,6 +43,11 @@ def run(arm,mode,value,*,observation=None):
     elif mode=="acquire_selected":
         o["stage"]="ACQUISITION";o["selection_attempt"]={}
         outcome=store.acquire_selected(value["training"],value["development"],value["contract"],observation=o["selection_attempt"])
+    elif mode=="presented_batch":
+        from unary_assay_service import run as presented
+        o["stage"]="SOLVING";o["presented"]={}
+        outcome=presented(runtime(),value["rows"],deadline=value["deadline_monotonic"],
+                          invoke=value["invoke"],observation=o["presented"],sink=row_sink)
     elif mode in ("solve","batch"):
         tasks=[value["task"]] if mode=="solve" else value["tasks"]
         if type(tasks) is not list or not 1<=len(tasks)<=128:raise InputRefused("BATCH_BOUND")

@@ -28,9 +28,19 @@ def imported():
         result[name]=identity(p)
     return result
 
-def run(mode,value,*,arm="ocm",observation=None):
+def affinity():
+    result={"availability":"UNAVAILABLE"}
+    try:
+        result["cpu"]=sorted(os.sched_getaffinity(0));result["threads"]={}
+        for p in sorted(Path("/proc/self/task").iterdir()):
+            result["threads"][p.name]=sorted(os.sched_getaffinity(int(p.name)))
+        result["availability"]="OBSERVED"
+    except (AttributeError,OSError) as exc:result["error"]={"class":type(exc).__name__,"message":str(exc)}
+    return result
+
+def run(mode,value,*,arm="ocm",observation=None,row_sink=None):
     from unary_method_arm import run as dispatch
-    return dispatch(arm,mode,value,observation=observation)
+    return dispatch(arm,mode,value,observation=observation,row_sink=row_sink)
 
 
 def main():
@@ -39,17 +49,30 @@ def main():
         from unary_method_arm import MODES
         if len(sys.argv)!=4 or sys.argv[1] not in MODES:raise InputRefused("ARGV")
         mode=sys.argv[1];out=Path(sys.argv[3]);arm=os.environ.get("OCM_UNARY_ARM","ocm")
-        if arm not in ("ocm","conventional"):raise InputRefused("PROCESS_ARM")
+        if arm not in ("ocm","conventional","exact"):raise InputRefused("PROCESS_ARM")
         if out.exists():raise InputRefused("CREATE_ONLY_RESULT")
         profile=B.validate(D.parse(os.environ["OCM_UNARY_PYTHON_PROFILE"].encode()))
         result["profile"]=profile;python=B.verify(profile,actual=True)
         before=D.sources();origins=imported();input_bytes=Path(sys.argv[2]).read_bytes()
         result={"arm":arm,"profile":profile,"mode":mode,"input_sha256":hashlib.sha256(input_bytes).hexdigest(),"source_before":before,
-                "python":python,"pid":os.getpid(),"argv":sys.argv,
+                "python":python,"pid":os.getpid(),"argv":sys.argv,"affinity_before":affinity(),
                 "flags":{"isolated":sys.flags.isolated,"no_site":sys.flags.no_site,"dont_write_bytecode":sys.flags.dont_write_bytecode}}
+        value=D.parse(input_bytes)
+        if mode=="presented_batch":
+            from unary_assay_service import remaining
+            deadline=D.parse(os.environ["OCM_UNARY_DEADLINE"].encode());remaining(deadline)
+            if value.get("deadline_monotonic")!=deadline:raise InputRefused("PRESENTED_CHILD_DEADLINE")
+            result["deadline_monotonic"]=deadline
+        sink=None
+        if mode=="presented_batch":
+            from unary_assay_rows import Writer
+            sink=Writer(out.parent)
         result["active_observation"]={}
-        result.update(run(mode,D.parse(input_bytes),arm=arm,observation=result["active_observation"]))
-        result["imports"]=imported();result["source_after"]=D.sources()
+        result.update(run(mode,value,arm=arm,observation=result["active_observation"],row_sink=sink))
+        if mode=="presented_batch":
+            result["active_observation"]={"detail_location":"outcome","stage":result["outcome"]["stage"],
+                                          "rows_recorded":len(result["outcome"]["rows"])}
+        result["imports"]=imported();result["affinity_after"]=affinity();result["source_after"]=D.sources()
         B.verify(profile,actual=True)
         if before!=result["source_after"]:raise InputRefused("SOURCE_DRIFT")
         result["terminal"]="COMPLETED";result["reason"]="AUTHORED_PROCESS_EXECUTION"
