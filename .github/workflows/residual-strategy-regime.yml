@@ -1,0 +1,214 @@
+name: Residual strategy regime
+
+on:
+  pull_request:
+    paths:
+      - 'research/residual-strategy-regime-v1/**'
+      - '.github/workflows/residual-strategy-regime.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/ids.py'
+      - 'src/ocm/lifetime/phases.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/residual-strategy-regime-v1/**'
+      - '.github/workflows/residual-strategy-regime.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/ids.py'
+      - 'src/ocm/lifetime/phases.py'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-no-ml-regime:
+    runs-on: ubuntu-latest
+    # The green run on 94f9f33 took 9m28s of a 10 minute budget, so any addition
+    # to this job timed out rather than failed. Raised with that measurement on
+    # record; if a step ever needs more than this, it is a slowdown to diagnose
+    # and not a budget to raise again.
+    timeout-minutes: 20
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/residual-strategy-regime-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: R0A non-test checker population census
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B research/residual-strategy-regime-v1/checker_census.py \
+            --out "$out/r0a-checker-census.json" \
+            --github-notice
+      - name: Source-derived exact controls
+        env:
+          # The census tests assert against the receipt the step above published
+          # rather than recomputing a private one: cheaper, and it checks the
+          # artifact that is actually shipped.
+          CHECKER_CENSUS_RECEIPT: '${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-census.json'
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m pytest -q research/residual-strategy-regime-v1 \
+            --basetemp="$out/cases" \
+            --junitxml="$out/tests.xml"
+      - name: R0A suffix-elision hostile audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_suffix_elision.py \
+            --out "$out/r0a-suffix-elision.json" \
+            --github-notice
+      - name: R0A checker provenance audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_checker_provenance_audit.py \
+            --out "$out/r0a-checker-provenance.json" \
+            --github-notice
+      - name: R0A frozen source forensic audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_frozen_source_forensic.py \
+            --out "$out/r0a-frozen-source-forensic.json" \
+            --github-notice
+      - name: R0A prospective pure-checker binding audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0a_prospective_checker_binding.py \
+            --out "$out/r0a-prospective-checker-binding.json" \
+            --github-notice
+      - name: Native lifetime net-benefit bound
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/general_net_benefit_gate.py \
+            --out "$out/general-net-benefit.json" \
+            --github-notice
+      - name: M12 strongest-parent parity audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/m12_parent_parity_audit.py \
+            --out "$out/m12-parent-parity.json" \
+            --github-notice
+      - name: R0D paid decision-region exact audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0d_paid_decision_region.py \
+            --out "$out/r0d-paid-decision-region.json" \
+            --github-notice
+      - name: R0C native proof scheduler donor audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/r0c_scheduler_residual_audit.py \
+            --out "$out/r0c-scheduler-residual.json" \
+            --github-notice
+      - name: Deterministic regime and lifecycle sweep
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/regime_sweep.py \
+            --out "$out/regime.json"
+      - name: Prospective legal-feature cold audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/prospective_selector.py \
+            --out "$out/prospective.json" \
+            --github-notice
+      - name: Fixed-frontier investment reduction audit
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/online_investment.py \
+            --out "$out/investment.json" \
+            --github-notice
+      - name: Unknown-horizon exact switch threshold
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/online_switch.py \
+            --out "$out/online-switch.json" \
+            --github-notice
+      - name: Verify known-horizon threshold Pareto frontier
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/known_horizon_pareto_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/known-horizon-pareto.json" \
+            --github-notice
+      - name: Verify exact objective coverage set
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/objective_coverage_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/objective-coverage.json" \
+            --github-notice
+      - name: Verify randomized time-only minimax certificate
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/randomized_switch_verify.py \
+            --regime "$out/regime.json" \
+            --certificate research/residual-strategy-regime-v1/RANDOMIZED_SWITCH_CERTIFICATE_V1.json \
+            --out "$out/randomized-switch.json" \
+            --github-notice
+      - name: Verify perfect-horizon price conflict
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/price_conflict_verify.py \
+            --regime "$out/regime.json" \
+            --certificate research/residual-strategy-regime-v1/PRICE_OBJECTIVE_CONFLICT_CERTIFICATE_V1.json \
+            --out "$out/price-conflict.json" \
+            --github-notice
+      - name: Verify robust lifecycle advice certificate
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/robust_lifecycle_advice_verify.py \
+            --regime "$out/regime.json" \
+            --certificate research/residual-strategy-regime-v1/ROBUST_LIFECYCLE_ADVICE_CERTIFICATE_V1.json \
+            --out "$out/lifecycle-advice.json" \
+            --github-notice
+      - name: Verify distributional lifecycle state witness
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/distributional_lifecycle_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/distributional-lifecycle.json" \
+            --github-notice
+      - name: Verify mean plus region belief collision
+        run: |
+          out="$RUNNER_TEMP/r0b-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/residual-strategy-regime-v1/moment_collision_verify.py \
+            --regime "$out/regime.json" \
+            --out "$out/moment-collision.json" \
+            --github-notice
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: residual-strategy-regime-r0b
+          path: |
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-suffix-elision.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-provenance.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-frozen-source-forensic.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-prospective-checker-binding.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0a-checker-census.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/general-net-benefit.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/m12-parent-parity.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0d-paid-decision-region.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/r0c-scheduler-residual.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/regime.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/prospective.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/investment.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/online-switch.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/known-horizon-pareto.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/objective-coverage.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/randomized-switch.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/price-conflict.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/lifecycle-advice.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/distributional-lifecycle.json
+            ${{ runner.temp }}/r0b-${{ github.run_id }}-${{ github.run_attempt }}/moment-collision.json
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code

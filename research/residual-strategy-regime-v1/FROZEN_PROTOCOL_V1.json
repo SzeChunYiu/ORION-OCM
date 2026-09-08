@@ -1,0 +1,115 @@
+{
+  "experiment": "R0B",
+  "issue": 152,
+  "policy": {
+    "ml": "FORBIDDEN",
+    "oracle": "COST_INFORMED_NONDEPLOYABLE_UPPER_BOUND",
+    "post_hoc_scalarization": "FORBIDDEN",
+    "protected_143": "NOT_RUN",
+    "report_raw_resource_vectors": true,
+    "runtime_lifecycle": "NOT_RUN_IN_THIS_TRANCHE",
+    "selector_cost": "NOT_YET_CHARGED_PHASE1"
+  },
+  "population": {
+    "checkpoint_intervals": [
+      4,
+      8,
+      16,
+      32,
+      64,
+      71
+    ],
+    "expected_distinct_targets": 142,
+    "grammar": [
+      "inc",
+      "dec",
+      "double",
+      "square"
+    ],
+    "iid_horizons": [
+      1,
+      142
+    ],
+    "lifecycle_permutation_seeds": [
+      5201,
+      5202,
+      5203,
+      5204,
+      5205,
+      5206,
+      5207,
+      5208
+    ],
+    "reset_intervals": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      142
+    ],
+    "shortest_primitive_length": 4
+  },
+  "primary_resource_coordinates": [
+    "transitions",
+    "arithmetic_additions",
+    "arithmetic_multiplications"
+  ],
+  "registered_at": "2026-09-08",
+  "schema": "ocm.residual-strategy-regime.protocol.v1",
+  "secondary_raw_coordinates": {
+    "inverse": [
+      "arithmetic_divisions",
+      "integer_sqrt_calls",
+      "coefficient_visits",
+      "index_probes",
+      "index_key_coefficients",
+      "index_writes",
+      "answer_checks",
+      "answer_program_length",
+      "queries",
+      "states_created",
+      "peak_query_states"
+    ],
+    "persistent_storage": "serialized bytes",
+    "semantic": [
+      "index_probes",
+      "index_key_coefficients",
+      "index_writes",
+      "answer_checks",
+      "answer_program_length",
+      "checkpoint_bytes_written",
+      "checkpoint_bytes_read",
+      "restore_transitions",
+      "checkpoints",
+      "restores",
+      "resets"
+    ]
+  },
+  "source": {
+    "base_main_commit": "6032fa6ff06e021ef2adcd142060e68a7642aef6",
+    "base_main_note": "Includes merged PR #153; no native/protected study is rerun here.",
+    "donor_branch": "research/epistemic-structure-discovery-20260908",
+    "donor_head": "f0cc17cf145d19f065a3c6c1f3f06a74768656df",
+    "inverse_parent_git_blob": "9b24096721b1d434bf710c17083e0be912b0468f",
+    "main_methods_git_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3",
+    "semantic_session_git_blob": "b5b62a4a453b9393b603f1dcc5c08e53368e6f85"
+  },
+  "source_derived_calibration_checks": {
+    "cost_free_oracle_max_residual_fraction_upper_bound": 0.08,
+    "first_semantic_expected_win": {
+      "arithmetic_additions": 6,
+      "arithmetic_multiplications": 9,
+      "transitions": 4
+    },
+    "inverse_pareto_through_horizon": 3,
+    "semantic_frontier_states": 206,
+    "semantic_frontier_transitions": 256,
+    "semantic_pareto_from_horizon": 9,
+    "status": "EXPOSED_NOT_BLIND; used as source-drift hostiles, not as protected predictions"
+  },
+  "terminal": "LEARNED_ROUTER_NOT_AUTHORIZED_R0B_PHASE1",
+  "title": "Exact lifetime strategy-regime sweep before learned routing"
+}
