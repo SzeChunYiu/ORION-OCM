@@ -1,0 +1,81 @@
+name: G6 intervention parent remainder v3
+
+on:
+  pull_request:
+    paths:
+      - 'research/g6-intervention-parents-v3/**'
+      - 'research/g6-intervention-parents-v2/**'
+      - 'research/g6-intervention-lab-v1/**'
+      - '.github/workflows/g6-intervention-parents-v3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g6-intervention-parents-v3/**'
+      - '.github/workflows/g6-intervention-parents-v3.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  intervention-parents-v3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g6-intervention-parents-v3'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g6-parents-v3-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g6-intervention-parents-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/g6-intervention-parents-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Remainder parent comparison
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g6-parents-v3-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/g6-intervention-parents-v3/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          python -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g6-parents-v3-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "PARENT_SUFFICIENT",
+              "NO_MULTI_GENERATION_IMPROVEMENT",
+              "CANNOT_CHECK_NO_BO_LIBRARY",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result.get("ml_selector_trained"):
+              sys.exit("this capsule must not train an ML selector")
+          if result["automl_bo"].get("invented"):
+              sys.exit("AutoML/BO must not be invented")
+          if result["v2_frozen"]["cited"]["terminal"] != "PARENT_SUFFICIENT":
+              sys.exit("v2 citation must remain PARENT_SUFFICIENT")
+          if "AutoML/BO" not in result["cannot_check"]:
+              sys.exit("AutoML/BO must stay CANNOT_CHECK")
+          if result["atms_still_cheapest"] and result["terminal"] != "PARENT_SUFFICIENT":
+              sys.exit("ATMS cheapest must keep PARENT_SUFFICIENT")
+          PY
+      - name: Frozen v1 plant and v2 RESULT not overwritten
+        run: |
+          git diff --exit-code -- research/g6-intervention-lab-v1
+          git diff --exit-code -- research/g6-intervention-parents-v2
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g6-intervention-parents-v3
+          path: '${{ runner.temp }}/g6-parents-v3-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
