@@ -1,0 +1,433 @@
+{
+  "schema": "ocm.q216.fq4.obstruction-layer-binding.v1",
+  "issue": "SzeChunYiu/ORION-OCM#216 section 4 FQ-4 (resource-responsibility mapping)",
+  "role": "Concrete ResourceResponsibilityMap instance: obstruction-witness to load-bearing-layer binding over REAL recorded obstructions on main. Descriptive binding of recorded witnesses, not a validated causal responsibility map.",
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "bound_on_date": "2026-09-09",
+  "layer_vocabulary": [
+    "representation",
+    "retrieval",
+    "search",
+    "verification",
+    "tools-API",
+    "model-donor",
+    "state-maintenance",
+    "acquisition",
+    "revision",
+    "cost-charging",
+    "other-named: custody-binding",
+    "other-named: attribution-discipline"
+  ],
+  "confidence_levels": [
+    "bound (source states the attribution explicitly, or a revival/withdrawal confirmed it)",
+    "inferred (attribution derived from recorded evidence, not stated verbatim)",
+    "contested (recorded evidence supports more than one layer)"
+  ],
+  "witnesses": [
+    {
+      "witness_id": "W01-FNA1-REACH-UNWINNABLE",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA1_TYPED_CHANNEL_V1.json:8 (proposition_3)",
+      "obstruction": "Typed channel subsets can never recover task-decisive state the exact closure misses; a reach advantage is structurally unavailable.",
+      "quoted_obstruction": "(3) Therefore the only advantage available to typed channels over an UNBOUNDED exact closure is WORK, never REACH. A study reporting a capability gain there has a defect.",
+      "load_bearing_layer": "search",
+      "classification_evidence": "Proposition 3 part (2): 'gated_closure's worklist admits a head only via an edge all of whose tails are reached and whose warrant is live' -- the closure's expansion rule, a search-layer object, fixes the impossibility; representation and retrieval cannot change it.",
+      "confidence": "bound",
+      "decision_consequence": "Drove the pivot from reach claims to binding-budget expansion-order studies (FNA-1 Q2); lever applied was in the same search layer -- match.",
+      "reopen_falsifier": "A channel-selection policy that admits an atom the undifferentiated closure misses under any edge/warrant semantics then in force."
+    },
+    {
+      "witness_id": "W02-FNA1-RARITY-SELECTIVITY",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA1_HOSTILE_RARITY_V1.json:15 (verdict.terminal_reason)",
+      "obstruction": "Rarity-first ordering is strictly worse than naive at budget 64 when an adversary puts bulk on a scarce channel.",
+      "quoted_obstruction": "So rarity is a SELECTIVITY heuristic, not a relevance signal: it predicts where FEW edges are, never where the ANSWER is. It pays when scarcity happens to coincide with decisiveness, costs nothing when it does not, and is actively harmful when an adversary puts bulk on a scarce channel.",
+      "load_bearing_layer": "search",
+      "classification_evidence": "The failure is in expansion ordering under a binding budget ('which edges are expanded FIRST determines what is inside the budget', FNA1_TYPED_CHANNEL_V1.json:8); the representation and the index are unchanged across arms.",
+      "confidence": "bound",
+      "decision_consequence": "Revival lever applied (FNA-1b METAPATH_TYPE_YIELD) was again an ordering policy -- same search layer -- match; README:104 'FNA-1's negative ... was treated as an engineering task, not a stopping point.'",
+      "reopen_falsifier": "An ordering signal that is non-oracle yet adversarially robust on all four world shapes, which would re-attribute the residual to the world generator (verification)."
+    },
+    {
+      "witness_id": "W03-FNA1B-FALSIFIER-NODISCRIMINATE",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA1B_METAPATH_V1.json:16 (verdict.terminal_reason)",
+      "obstruction": "The TYPE_DECOY hostile world neither defeated nor was beaten by the policy; two banked wins rest on an untested mechanism.",
+      "quoted_obstruction": "Without a world that can kill the policy, a positive on the other three is not evidence the mechanism is sound rather than over-informed. The honest disposition is that this pass did not check it.",
+      "load_bearing_layer": "verification",
+      "classification_evidence": "FNA1B verdict field type_decoy_note: 'TYPE_DECOY neither defeated nor was beaten by the policy: it did not discriminate. That is a weak test, not a passed one.' The defect is in the test's discriminating power, not the mechanism.",
+      "confidence": "bound",
+      "decision_consequence": "Lever applied was hostile v2: 'sharpen the falsifier, not the policy' (README:118) -- a verification-layer lever on a verification-layer obstruction; match. v2 put the answer on a type-poor channel first in insertion order and the policy was strictly worse at all budgets.",
+      "reopen_falsifier": "A hostile-construction method that reliably discriminates any non-oracle policy, which would make future CANNOT_CHECK_DID_NOT_DISCRIMINATE terminals attributable to the policy instead."
+    },
+    {
+      "witness_id": "W04-FNA1B-UNCHARGED-PREPARATION",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA1B_METAPATH_V1.json:19 (verdict.what_this_does_not_establish)",
+      "obstruction": "The metapath ordering's preparation is a full edge scan that no arm was charged for, so the reported savings are not net.",
+      "quoted_obstruction": "computing the metapath score is itself a scan over edges and is NOT charged against the query budget here, which is a real accounting gap and the next thing to close.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The obstruction is stated as an accounting gap ('NOT charged against the query budget'); the mechanism itself is unchanged -- only its cost accounting is wrong.",
+      "confidence": "bound",
+      "decision_consequence": "FNA-1c charged preparation at one edge-read per expansion using main's ExtractionIndex build-work discipline; result: the policy NEVER pays on a single query, break-even 2/4/5/never queries (FNA1C_CHARGED_V1.json:30) -- match, and the charge reversed the economics reading.",
+      "reopen_falsifier": "A commensurable charge under which the policy pays on a single query -- FNA1C registers the guard: 'CANNOT_CHECK_SINGLE_QUERY_PAYBACK_IMPLIES_UNCHARGED_PREPARATION'."
+    },
+    {
+      "witness_id": "W05-FNA1C-MAINTENANCE-TERM-UNPAID",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA1C_CHARGED_V1.json:31 (verdict.what_this_does_not_establish)",
+      "obstruction": "Break-even in queries ignores that a structurally edited space re-pays the whole preparation scan, so the recorded break-even is optimistic for changing spaces.",
+      "quoted_obstruction": "Nothing here charges score maintenance under revocation or structural edit, and main's own rule is that a structurally replaced space needs fresh preparation -- so a space that changes often would re-pay the scan repeatedly and the break-even above would be optimistic. That is the next term to charge, and it is not charged here.",
+      "load_bearing_layer": "state-maintenance",
+      "classification_evidence": "The named missing term is maintenance of the prepared state under edit/revocation; FNA1D authority field: 'Charges score maintenance, the term FNA-1c named and did not pay.'",
+      "confidence": "bound",
+      "decision_consequence": "FNA-1d charged it: critical edit rate 1.62-4.45 queries/edit, 'a phase boundary in a parameter nobody had measured' (FNA1D_MAINTENANCE_V1.json:232) -- match; revocation itself was found free where it matters (score survives type-preserving revocation).",
+      "reopen_falsifier": "An incremental maintenance scheme that keeps the order valid across structural edits below the scan cost, which would move the binding constraint back to cost-charging of preparation."
+    },
+    {
+      "witness_id": "W06-FNA1D-EDIT-DETECTION-UNCHARGED",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/README.md:172-173",
+      "obstruction": "The cost of detecting that an edit occurred is still uncharged, and real spaces are not edited at a constant rate.",
+      "quoted_obstruction": "**Still uncharged:** the cost of *detecting* that an edit occurred. Real spaces are not edited at a constant rate.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "Named explicitly as the next uncharged term at the end of the FNA-1d economics chain; it is a measurement gap, not a mechanism failure.",
+      "confidence": "bound",
+      "decision_consequence": "NO lever recorded -- open item at capsule close. This is the FNA chain's one named-but-unpaid term.",
+      "reopen_falsifier": "An edit-detection charge (e.g. validated dirty-flagging or version probing) under which the critical edit rate shifts materially, which would re-attribute to state-maintenance."
+    },
+    {
+      "witness_id": "W07-FNA2-APPROX-ORDERING-UNSAFE",
+      "scope": "ocm-cognition",
+      "source": "research/functional-neural-absorption-v1/FNA2_APPROXIMATE_V1.json:322 (verdict.terminal_reason)",
+      "obstruction": "The VSA/kNN approximate proposal converges, increasingly reliably with dimension, to an ordering that differs from the exact one on near-twins.",
+      "quoted_obstruction": "Cosine over bundled hypervectors and Jaccard over signature sets simply rank this surface differently, and capacity buys fidelity to the projection's own ordering, not to the exact one. That is APPROXIMATE_RETRIEVAL_NOT_SAFE in the meaningful sense: an exact distance over identical information returns the decisive atom and the approximation systematically does not, with more resources making it worse.",
+      "load_bearing_layer": "representation",
+      "classification_evidence": "The failure is in what the projection preserves (its ordering), not in search or verification: 'the projection only proposes' and 'Exact machinery still decides' (FNA2 authority field). The terminal name says retrieval; the recorded cause is the projection's representational ordering.",
+      "confidence": "bound",
+      "decision_consequence": "Terminal negative; approximate proposal never gains identity/warrant/authority; exact machinery still decides. No revival sought -- consistent with the #214 contract. NOT model-donor: authority field records 'no training set, no objective, no fitted parameter, no gradient'.",
+      "reopen_falsifier": "A projection whose near-twin ordering agrees with the exact distance at some dimension (would re-attribute to capacity/retrieval-k instead of representation)."
+    },
+    {
+      "witness_id": "W08-EXE203-GROUNDING-RESOURCE-BOUND",
+      "scope": "ocm-cognition",
+      "source": "research/programme-execution-20260909/EXECUTION_REPORT.md:75-76",
+      "obstruction": "All 30 task-arm rows of the unchanged #203 repeat return UNKNOWN at REGISTERED_SOFT_WALL_BOUND during preparation/grounding, before any native proof check; zero verified target proofs.",
+      "quoted_obstruction": "Every row reports `SyntaxUnknown: REGISTERED_SOFT_WALL_BOUND` during preparation/grounding, before a complete target-search/native-check result. ... The result diagnoses the registered resource boundary, not unprovability, method uselessness, or representation insufficiency.",
+      "load_bearing_layer": "search",
+      "classification_evidence": "The source itself performs the FQ-4 exclusion: 'not unprovability, method uselessness, or representation insufficiency' -- the binding constraint is the grounding/preparation budget, a search-layer resource bound.",
+      "confidence": "bound",
+      "decision_consequence": "Terminal COMPLETE_THREE_ARM_ENGINEERING_RUN with #203 licensing only RESOURCE_BOUND; UNKNOWN rows must not be promoted to proof competence or method uselessness. No revival attempted (explicit post-exposure repeat; the separately described successor remains separate).",
+      "reopen_falsifier": "A grounding budget lift or indexing change that completes preparation on the same population, which would expose whether verification (native checking) binds next."
+    },
+    {
+      "witness_id": "W09-G3-STEPS-SAVED-NO-PAYBACK",
+      "scope": "ocm-cognition",
+      "source": "research/programme-execution-20260909/EXECUTION_REPORT.md:199,211-213",
+      "obstruction": "Failure-point memory saves 2,072 interpreter steps but adds 14,155 lookups plus checking/admission/persistence work; measured wall/RSS show no physical advantage to pay acquisition back.",
+      "quoted_obstruction": "It nevertheless provides no demonstrated physical advantage to pay acquisition back. ... the raw marginal trade is 2,072 saved interpreter steps versus 14,155 added lookups, 64 certificate checks, 168 certificate program steps and 64 index insertions, before remaining persistence/lifecycle costs.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The mechanism works exactly as designed (all 80 task-arm results match; withdrawal removes exactly the effect) -- the obstruction is that the improved internal coordinate (interpreter steps) does not convert to any whole-task/lifetime coordinate. This is FQ-4's donor lesson instantiated on main.",
+      "confidence": "bound",
+      "decision_consequence": "Recorded a conditional price boundary (lookup_price/interpreter_step_price < 2072/14155) rather than a win; next admissible evidence names source-qualified strongest learners and measured payback before invalidation (E row) -- acquisition-plus-cost lever, consistent cross-layer by design.",
+      "reopen_falsifier": "A deployment regime where the priced inequality holds (cheap lookups, expensive interpretation), which would re-attribute the obstruction from cost-charging to acquisition quality."
+    },
+    {
+      "witness_id": "W10-CONT-PREFIX-STEPS-NO-WALLTIME",
+      "scope": "ocm-cognition",
+      "source": "research/programme-execution-20260909/CONTINUATION_REPORT.md:8",
+      "obstruction": "The prefix-trie representation removes 130,377 interpreter steps with exact result parity, yet measured elapsed time does not improve and whole-lifetime payback is not established.",
+      "quoted_obstruction": "It preserves every original search result while removing 130,377 interpreter primitive steps relative to exact point memory on 64 new mathematical task identities. Its equally equipped conventional parent matches it exactly. Measured elapsed time does not improve, and whole-lifetime payback is not established.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The mechanism layer here IS representation (P2 prefix trie), and it succeeds at its own coordinate; the obstruction recorded is that the step coordinate is not a physical or lifetime cost -- 'an interpreter-step improvement alone never proves payback' (g3 REPRESENTATION_PROTOCOL.md). Obstruction layer differs from mechanism layer.",
+      "confidence": "bound",
+      "decision_consequence": "A trie-lookup price boundary was recorded (CONTINUATION_REPORT.md:61); no further lever applied -- open.",
+      "reopen_falsifier": "A regime where trie lookups are cheaper than interpreter steps by the recorded factor, re-attributing to acquisition economics as in W09."
+    },
+    {
+      "witness_id": "W11-OWNSTATE-SEARCH-UTILITY",
+      "scope": "ocm-cognition",
+      "source": "research/architecture-benefit-own-state-v1/NATIVE_PILOT_RESULT.md:44-47",
+      "obstruction": "A live learned library (both learned arms, identical traces) uses 1.6363x the query slots and 1.6526x the total slots of primitive search on the exposed 24-task tape.",
+      "quoted_obstruction": "The existing library's two selected validation successes did not translate into aggregate search savings on this broader exposed task slice. Here both learned arms use 1.6363 times the query slots and 1.6526 times the total search slots of primitive search. This is a search-utility failure on this tape, not a theorem that endogenous library learning cannot help.",
+      "load_bearing_layer": "search",
+      "classification_evidence": "The capsule performs the OCM-vs-ordinary transplant control (NATIVE_PILOT_RESULT.md:48-50: 'The search effect is attributable to the shared mechanism, not to the OCM architectural label'), isolating search utility as the failing coordinate; a secondary cost observation (1.5174x wall, provenance/admission/lifecycle work, 'how much is necessary versus avoidable has not been profiled', :51-56) stays unprofiled and does not yet bind.",
+      "confidence": "bound",
+      "decision_consequence": "Terminal ARCHITECTURE_NET_BENEFIT_NOT_ESTABLISHED preserved as a negative development control; next gates: a utility model that predicts actual future search savings (search layer) and profiling separating necessary semantic work from avoidable bookkeeping (cost-charging layer). No lever applied yet.",
+      "reopen_falsifier": "A utility model whose predicted savings match measured aggregate slot reduction on independently frozen task families under a full-contract persistent parent."
+    },
+    {
+      "witness_id": "W12-COSTERRATUM-RANK-NOT-SERVING-TIME",
+      "scope": "ocm-cognition",
+      "source": "research/g2-cost-parity-repair-v1/COST-ERRATUM.md:12,34-36",
+      "obstruction": "G2/G3 rank-sum reductions are build-time first-hit counters, not serving-time speedups; the index generates and expands overlong descendants without prefix pruning.",
+      "quoted_obstruction": "It does not perform prefix pruning or avoid generating such descendants. ... A reduction in their sums is not a serving-time speedup. Whole-study wall time includes construction/filtering, but a registered rank sum is not complete acquisition, storage, maintenance, verification or lifetime cost.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The defect is in what the metric is charged for: 'saved per-task counters are first-hit positions during index construction, not measured repeated online searches or serving latency' (:21-23). The mechanism (bounded index) is unchanged; only its cost accounting was overstated.",
+      "confidence": "bound",
+      "decision_consequence": "Additive correction to frozen prose; no index, population, held-out row or aggregate output recomputed (:37). Rank coordinates retained as measured under their original definitions.",
+      "reopen_falsifier": "A measured serving-time comparison on the same population showing the rank reductions convert to wall-time gains under complete accounting."
+    },
+    {
+      "witness_id": "W13-OPPORTUNITY-INTERFACE-BOTTLENECK",
+      "scope": "ocm-cognition",
+      "source": "research/ordinary-cut-opportunity-result-v1/CORE.md:5,7",
+      "obstruction": "All 76 ordinary-cut proposal screens stop at unsupported wff syntax/type admission before any matching occurs.",
+      "quoted_obstruction": "All 76 proposal screens stopped at unsupported wff syntax/type admission before matching. ... It identifies the current interface bottleneck; any revival is a separately reviewed successor.",
+      "load_bearing_layer": "tools-API",
+      "classification_evidence": "The stop is at admission (the consumer interface's syntax/type contract), before the matcher runs ('Matcher counters were absent', RESULT.md context :3 of CORE); search and representation were never reached.",
+      "confidence": "bound",
+      "decision_consequence": "Directed the successor ordinary-cut-syntax-revival-v1 at the same layer (admit tokens by matching P1 syntax axioms already in the constructor DAG) -- lever follows layer.",
+      "reopen_falsifier": "After admission repair, matching-stage failures dominating, which would re-attribute to search or representation."
+    },
+    {
+      "witness_id": "W14-REVIVAL-DEADLINE-BREACH",
+      "scope": "ocm-cognition",
+      "source": "research/ordinary-cut-syntax-revival-v1/RESULT.md:24",
+      "obstruction": "Completing all 76 screens functionally (0 still-UNSUPPORTED) required 366.067 s wall, above the original 60 s consumer deadline and the 180 s outer containment control.",
+      "quoted_obstruction": "A 180-second outer-containment control [records/replay-01](records/replay-01/RESULT.json) truncated the last 13 screens. Completing the family required 366.067 s wall / 347.704 s user CPU, above the original 60 s consumer deadline and 180 s outer containment. Token-states stayed at 1,773,758 of the registered 2,000,000 bound.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The interface repair itself succeeded completely at its own layer ('Still UNSUPPORTED_GROUND_SYNTAX: 0', RESULT.md:16); what binds is the whole-task resource envelope (deadlines), the FQ-4 internal-coordinate trap in miniature.",
+      "confidence": "bound",
+      "decision_consequence": "Revival recorded as mixed (44 ALIAS_FOUND_PROOF_READY, 32 SCREENED_NEGATIVE_IN_DOMAIN, no causal-use claim); RESULT.md:36 states the repair's scope: 'Repairing screening grammar does not qualify those excluded roots.' The 54 interface refusals and 57 unusable traces remain later extensions.",
+      "reopen_falsifier": "An implementation of the same admission path that completes the family within the registered consumer deadline, re-attributing to tools-API throughput."
+    },
+    {
+      "witness_id": "W15-SCREENING-CACHE-REPAIR",
+      "scope": "ocm-cognition",
+      "source": "research/ordinary-cut-screening-cache-result-v1/NEXT.md:3",
+      "obstruction": "Repeated parsing of the same material across screens (no retained parse state) consumed the screening budget.",
+      "quoted_obstruction": "The repeated-parsing obstruction is repaired for the registered training screen.",
+      "load_bearing_layer": "state-maintenance",
+      "classification_evidence": "The capsule names the obstruction 'repeated-parsing'; the repair is retention of the parsed form across screens (a state-maintenance mechanism). The layer is inferred from the named obstruction and repair shape; the capsule does not use layer vocabulary.",
+      "confidence": "inferred",
+      "decision_consequence": "Repair landed for the registered training screen; cache tuning and per-key instrumentation explicitly deferred ('they are not needed to reinterpret the completed screen as novel or useful learning', NEXT.md:22). The 32 in-domain negatives become candidates for the separately registered next step.",
+      "reopen_falsifier": "A screen population where the cache changes a scientific (not engineering) outcome, which would re-attribute to retrieval."
+    },
+    {
+      "witness_id": "W16-ASSAY-TRAIN-FIELD-BOUNDARY",
+      "scope": "ocm-cognition",
+      "source": "research/math-language-learning-v1/ASSAY-RESULT.md:21-24",
+      "obstruction": "The earlier registered execution generated the correct task stream but failed at the producer/consumer train field boundary, before any acquisition could occur.",
+      "quoted_obstruction": "The earlier registered execution is retained separately: it generated the same task stream but failed at the producer/consumer `train` field boundary before acquisition. Its result remains `CANNOT_CHECK`. The correction does not convert the earlier attempt into a success and is not an independent replication.",
+      "load_bearing_layer": "tools-API",
+      "classification_evidence": "The failure is at a producer/consumer field contract ('before acquisition' -- explicitly upstream of the acquisition layer); the capsule separates it from the acquisition outcome.",
+      "confidence": "bound",
+      "decision_consequence": "Corrected execution finished under its original 1,200 s clock; the earlier attempt stays CANNOT_CHECK as a retained record. Lever (field-contract fix) same layer.",
+      "reopen_falsifier": "None required -- repaired; retained as record."
+    },
+    {
+      "witness_id": "W17-ASSAY-SINGLE-SUPPORT-CANDIDATES",
+      "scope": "ocm-cognition",
+      "source": "research/math-language-learning-v1/ASSAY-RESULT.md:30-32",
+      "obstruction": "Every surviving acquisition candidate had only one distinct semantic training support, below the frozen requirement of two, so no candidate entered development ranking and the library stayed empty.",
+      "quoted_obstruction": "Every surviving candidate had only one distinct semantic training support, below its frozen requirement of two. Thus no candidate entered development ranking; selection and persistence did not cause the empty library.",
+      "load_bearing_layer": "acquisition",
+      "classification_evidence": "The capsule itself excludes downstream layers: 'selection and persistence did not cause the empty library'. The obstruction is in the acquisition pipeline's yield (candidate quality/diversity of supports) before ranking.",
+      "confidence": "bound",
+      "decision_consequence": "All four episodes NO_METHOD_ACQUIRED with the cause located pre-ranking. Named revival: improve how checked training traces expose repeated structure (a representation-layer lever) while keeping the two-support requirement fixed 'to isolate the representation change' -- a cross-layer lever with a recorded isolation reason.",
+      "reopen_falsifier": "A representation change yielding candidates with two or more distinct semantic supports on an untouched stream under the same frozen criterion."
+    },
+    {
+      "witness_id": "W18-ASSAY-HISTORY-GROWTH-OVERHEAD",
+      "scope": "ocm-cognition",
+      "source": "research/math-language-learning-v1/ASSAY-RESULT.md:49-54,93",
+      "obstruction": "OCM-enabled call wall is 12.755-12.856 s versus 1.326-1.376 s for the equally adaptive parent and 0.420-0.571 s for the exact parent, with the responsible sub-layer unattributed.",
+      "quoted_obstruction": "There is already a concrete serving-cost problem. Across the four 64-presentation B batches, observed OCM-enabled call wall was 12.755–12.856 s; the equally adaptive parent took 1.326–1.376 s, and the exact parent 0.420–0.571 s (rounded). ... In parallel, attribute the previously measured OCM history-growth overhead before optimizing source validation, support lookup, state hashing or ledger persistence.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "Contested: the source records the deficit but explicitly declines to attribute it, naming four candidate sub-layers (source validation = verification, support lookup = retrieval, state hashing = state-maintenance, ledger persistence = state-maintenance). The binding entry is the cost coordinate itself; the controlling sub-layer is an open FQ-4 question inside this capsule.",
+      "confidence": "contested",
+      "decision_consequence": "Next-work directive: attribute before optimizing -- the programme already obeys FQ-4's do-not-optimize-the-measurable-proxy rule here by refusing to pick a lever pre-attribution. No lever applied.",
+      "reopen_falsifier": "A profiling decomposition assigning the 10x deficit to one sub-layer, which would re-bind this witness to that layer."
+    },
+    {
+      "witness_id": "W19-LIFECYCLE-PROBE-AUDIT-SCOPE",
+      "scope": "ocm-cognition",
+      "source": "research/native-typed-lifecycle-attempt-v1/RESULT.md:14-17",
+      "obstruction": "The fresh consumer refused an importlib cache probe at __pycache__/life_payload.cpython-311.pyc because its audit allowed absent engine cache probes but omitted root helper probes.",
+      "quoted_obstruction": "B refused an importlib cache probe at `__pycache__/life_payload.cpython-311.pyc`; the path was absent on subsequent filesystem readback. Its audit allowed absent engine cache probes but omitted root helper probes.",
+      "load_bearing_layer": "other-named: custody-binding",
+      "classification_evidence": "The defect is in the audit's scope rule (which absent paths are admissible), a custody/provenance boundary, not in the payload, reconstruction or native checking, all of which 'remain unqualified by this attempt' but were never reached.",
+      "confidence": "bound",
+      "decision_consequence": "LIFECYCLE_FAILED; a narrow read-audit repair was named, and the consumer-only successor revival landed (research/native-typed-consumer-revival-v1/CORE.md, terminal TYPED_INTERFACE_QUALIFIED_ALIAS_ONLY) -- same-layer lever via successor.",
+      "reopen_falsifier": "Already reopened by the successor; this attempt stays a retained failed control."
+    },
+    {
+      "witness_id": "W20-LEMMA-CONSUMER-MATCH-SCOPE-GAP",
+      "scope": "ocm-cognition",
+      "source": "research/ordinary-lemma-consumer-source-review-v1/CORE.md:20-21",
+      "obstruction": "match_getsteps misses valid structural instances whenever a boundary argument expands into additional assertion steps, so the consumer undercounts reusable structure.",
+      "quoted_obstruction": "`match_getsteps` therefore misses a valid structural instance whenever a boundary argument expands into additional assertion steps. This is a source-derived scope gap, not an executed counterexample on any held-out proof.",
+      "load_bearing_layer": "tools-API",
+      "classification_evidence": "The gap is in the consumer's matching interface (flattened full-subtree matching versus the donor's recursive pattern matching with argument holes); the capsule contrasts it with the donor mechanism at CORE.md:10-16.",
+      "confidence": "bound",
+      "decision_consequence": "Named next repair: adapt the donor's recursive pattern matching with explicit argument holes, repeated-variable consistency, essential hypotheses and DV checks, with composite-argument and inconsistent-binding controls qualified first -- same-layer lever, proposed not yet run. Also warns against promoting the recorded inundif spine occurrence to an actual replacement.",
+      "reopen_falsifier": "After the argument-hole repair, a retained proof containing a composite-argument instance that the matcher finds and native checking admits."
+    },
+    {
+      "witness_id": "W21-R0C-NO-SELECTION-POPULATION",
+      "scope": "ocm-cognition",
+      "source": "research/residual-strategy-regime-v1/R0C_PROOF_SCHEDULER_PARENT_MAP_V1.md:5-7,210-214",
+      "obstruction": "The layered-vs-indexed scheduler observation rests on four authored cells -- not a selection population -- so no strategy-selection claim is legitimate yet.",
+      "quoted_obstruction": "The layered-vs-indexed observation from the native proof lane is a legitimate future strategy-selection population only after it is expanded beyond the tiny current task set. ... Current audit terminal is therefore ... R0C_DONOR_ORACLE_BOUND_ONLY_NO_SELECTION_POPULATION",
+      "load_bearing_layer": "verification",
+      "classification_evidence": "The obstruction is the discriminating power of the evaluation population (four authored cells; even a free-cell oracle improves best static whole-process by <0.285%), not the scheduler mechanism; the capsule records a secondary cost observation ('cold whole-process costs compress the best possible routing gain by more than an order of magnitude', :201-203).",
+      "confidence": "bound",
+      "decision_consequence": "Registered the P0-P8 parent ladder with exact selector-sufficiency audit before learning; 'The next useful R0C experiment is not a classifier on these four cells' (:216).",
+      "reopen_falsifier": "A prospectively frozen, materially larger theorem population under the legal-feature boundary where scheduler-local savings survive compilation/index/checker overhead."
+    },
+    {
+      "witness_id": "W22-ME-CONFIRMATORY-LIFETIME-NOT-RUN",
+      "scope": "ocm-cognition",
+      "source": "research/machine-epistemics-lifetime-v1/README.md:37-39,57",
+      "obstruction": "The decisive fresh protected matched-lifetime comparison (N3/N5-era) has not been run, so the joint-governed-lifelong-coupling thesis cannot be checked.",
+      "quoted_obstruction": "The confirmatory terminal is: `CANNOT_CHECK_N3_N5_LOCKED_AND_FRESH_MATCHED_LIFETIMES_NOT_RUN` ... Do not close #50 as supported until the N3/N5-era fresh protected lifetime exists and the P6 comparator is actually instantiated. ... close with the explicit `CANNOT_CHECK_...` terminal rather than converting design completion into scientific support.",
+      "load_bearing_layer": "verification",
+      "classification_evidence": "The terminal names the missing object as the confirmatory lifetime run itself; eight reviewer-forced findings (:43-51) each subtract a parent or forbid a meter from hiding work, but the binding obstruction to the thesis is the absent decisive test.",
+      "confidence": "bound",
+      "decision_consequence": "Exit discipline registered: design completion must not be converted into scientific support; synthetic meters stay PARTIAL_SIGNATURE_ONLY_SYNTHETIC_METERS_CALIBRATED.",
+      "reopen_falsifier": "The N3/N5-era fresh protected lifetime with the instantiated P6 composite comparator, whichever way it decides."
+    },
+    {
+      "witness_id": "W23-ME-KMETER-HIDDEN-WORK",
+      "scope": "ocm-cognition",
+      "source": "research/machine-epistemics-lifetime-v1/README.md:46-47",
+      "obstruction": "navigation_sparse.py is adjacency-sparse but its fixed-point iteration still updates every state row, so an O(k) task-cost claim would hide work; and N cannot be padded by untouchable aggregate counts.",
+      "quoted_obstruction": "**The current `navigation_sparse.py` is adjacency-sparse but not yet evidence for `O(k)` task cost.** Its fixed-point iteration still updates every state row, so #50's `k` meter must expose rather than hide that work. ... **`N` cannot be padded by untouchable aggregate counts.** Identity-bearing object counts define the denominator; aggregates such as current warrant-set cardinality are auxiliary until aligned identity-level touch instrumentation exists.",
+      "load_bearing_layer": "cost-charging",
+      "classification_evidence": "The obstruction is that an internal-coordinate claim (O(k) sparsity) would mis-charge whole-task cost; the guard demands the meter expose the hidden per-row work -- FQ-4's rule applied to a meter before any result exists.",
+      "confidence": "bound",
+      "decision_consequence": "Meter discipline registered pre-measurement; calibration Figure D 'correctly returns CANNOT_CHECK rather than inventing a cost scalar' (README.md:14); hostile/no-alarm/CANNOT_CHECK tests including denominator padding and hidden-global-scan attacks (README.md:15).",
+      "reopen_falsifier": "An aligned identity-level touch instrumentation under which the fixed-point iteration's whole cost is exposed and still yields O(k) on protected lifetimes."
+    },
+    {
+      "witness_id": "W24-PRESENTATION-DEPENDENT-OBSTRUCTION",
+      "scope": "programme-attribution",
+      "source": "research/orion-machine/OCM_FAILURE_LEDGER.md:105-106,112-115",
+      "obstruction": "Obstructions recorded in presentation coordinates (e.g. 'needs a non-rectangular class') are satisfiable without touching the content (decomposability), so satisfying the literal lever reopens nothing.",
+      "quoted_obstruction": "an obstruction is named in a coordinate that is a *presentation* of the problem rather than its content, so that objects satisfying the literal negation of the obstruction exist and leave the underlying difficulty untouched. The lever the obstruction names is then satisfiable without progress, and a lane that satisfies it reports a reopen that reopens nothing. ... the three planted non-rectangular classes of the first pass are all decomposable (`I = 0`, certified), so the literal lever was already satisfied by the first pass's own controls",
+      "load_bearing_layer": "other-named: attribution-discipline",
+      "classification_evidence": "The failure class is about attribution itself: recording the obstruction in the wrong coordinate. Guard: 'when recording an obstruction, state the *invariant* it stands for and give a planted object that satisfies the literal condition without meeting the invariant' (:115-117).",
+      "confidence": "bound",
+      "decision_consequence": "Both first-pass records superseded by reference (theory/OCM_NONRECTANGULAR_CLASS_V1.md section 2, OCM_SEPARATION_TEST_REAUDIT_V2.md Theorem N2), not edited. This witness disciplines FQ-4 itself: every row of this table must bind content, not presentation.",
+      "reopen_falsifier": "An obstruction coordinate shown content-carrying by the planted-object test (no object satisfies the literal condition without meeting the invariant)."
+    },
+    {
+      "witness_id": "W25-VACUOUS-CONTRAST-CONTROLS",
+      "scope": "programme-attribution",
+      "source": "research/orion-machine/OCM_FAILURE_LEDGER.md:252-253,256-258",
+      "obstruction": "Three RCL controls were structurally incapable of reporting the condition they exist to catch (identity reconstruction, literal-True verdict field, x==x agreement).",
+      "quoted_obstruction": "Three controls in the revocation-complete-learning lane are structurally incapable of reporting the condition they exist to catch: ... reconstructs from `profile_from_bits(bits[:stored] + bits[stored:], n)`. That expression is the identity on the full bit vector for **every** value of `stored`, and the emitted `exact` field is the literal `True`.",
+      "load_bearing_layer": "verification",
+      "classification_evidence": "The controls' failure mode is absent discriminating power -- comparisons with no contrast; the guarded quantities (reconstructions, agreement counts) were never actually tested.",
+      "confidence": "bound",
+      "decision_consequence": "Withdrawn to CANNOT_CHECK rather than repaired (the sites are hash-bound inside the frozen RCL review packet; repairing would break the binding a second time and convert a finding into a green result); the ledger reopening rule gained 'a registered control is shown to be incapable of failing' as a reopen condition.",
+      "reopen_falsifier": "Independent hostile review by a party outside the authoring sessions (issues #199/#245), which the ledger names as the smallest next action."
+    },
+    {
+      "witness_id": "W26-BINDING-OVER-UNCOMMITTED-BYTES",
+      "scope": "programme-custody",
+      "source": "research/orion-machine/OCM_FAILURE_LEDGER.md:27-28,125-126",
+      "obstruction": "A content binding was recorded over a pre-commit draft that never entered version control, so the recorded digest has no recoverable referent.",
+      "quoted_obstruction": "a content binding is computed over a working-tree or pre-commit draft rather than over the committed blob, and the artifact then enters version control at a different length. Every downstream receipt inherits the wrong digest. ... **The file has never existed in version control at its recorded length**, so there was no clean version to restore.",
+      "load_bearing_layer": "other-named: custody-binding",
+      "classification_evidence": "Six reconstruction sweeps with positive controls all failed because 'there was nothing to regenerate ... the referent was never pushed, so no search of the repository, however exhaustive, can reach it' (:32-36) -- the obstruction is in the binding procedure's custody of its own inputs.",
+      "confidence": "bound",
+      "decision_consequence": "Disposition DRIFT_RECORDED_NOT_BLESSED: binding re-taken over committed bytes with superseded_binding retained; guard registered (compute every binding from `git show <commit>:<path>`, never from disk).",
+      "reopen_falsifier": "A custody instrument that can detect recorded bytes that never existed in version control -- by construction impossible with current tools; the guard is prevention, not detection."
+    },
+    {
+      "witness_id": "W27-CONTROLLER-OPEN-ISSUE-ASSUMPTION",
+      "scope": "programme-custody",
+      "source": "research/programme-execution-20260909/EXECUTION_REPORT.md:37",
+      "obstruction": "The first controller run refused to write because it wrongly assumed the roadmap issue was open, skipping step B.",
+      "quoted_obstruction": "The first controller run `34319927202` refused to write because it wrongly assumed an open issue; B was skipped in that attempt. Its snapshot was retained. The repaired controller checks for concurrent drift, updates only the body and verifies that state/reason are unchanged. The drift check is not an atomic compare-and-swap.",
+      "load_bearing_layer": "tools-API",
+      "classification_evidence": "Layer inferred: the defect is a precondition assumption about the issue-tracking interface's state semantics (closed-with-completed vs open), not about the science; the source records the defect and repair without layer vocabulary, and records a residual (non-atomic drift check).",
+      "confidence": "inferred",
+      "decision_consequence": "Repaired same-layer (drift check + body-only update + state/reason verification); the non-atomic residual is recorded rather than hidden.",
+      "reopen_falsifier": "A concurrent body edit landing between the controller's drift check and write, which the recorded non-atomic window admits."
+    },
+    {
+      "witness_id": "W28-G1-LEAN4-CHECKER-CANNOT-CHECK",
+      "scope": "ocm-cognition",
+      "source": "research/g1-vessel-freeze-v1/CORE.md:75-76",
+      "obstruction": "The lean4 proof kernel is a declared donor checker whose admission is CANNOT_CHECK -- the external checker interface is not qualified.",
+      "quoted_obstruction": "proof kernels are declared donor checkers (`propositional` exact; `lean4` is `CANNOT_CHECK`)",
+      "load_bearing_layer": "tools-API",
+      "classification_evidence": "Layer inferred from the sentence's own structure: the kernel enters through the typed donor-checker contract and its admission status is CANNOT_CHECK; the capsule does not attribute a finer layer.",
+      "confidence": "inferred",
+      "decision_consequence": "The exact propositional kernel remains the qualified authority; no lean4-route claim is available until the donor checker interface is qualified.",
+      "reopen_falsifier": "A qualified lean4 checker binding (versioned, reproducible, custody-audited) admitted through the same donor-checker contract."
+    }
+  ],
+  "aggregate": {
+    "witness_count": 28,
+    "layer_histogram": {
+      "cost-charging": 8,
+      "search": 4,
+      "verification": 4,
+      "tools-API": 5,
+      "state-maintenance": 2,
+      "representation": 1,
+      "retrieval": 0,
+      "model-donor": 0,
+      "acquisition": 1,
+      "revision": 0,
+      "other-named: custody-binding": 2,
+      "other-named: attribution-discipline": 1
+    },
+    "confidence_histogram": {
+      "bound": 24,
+      "inferred": 3,
+      "contested": 1
+    },
+    "lever_layer_analysis": {
+      "model": "FNA revival chain (FNA-1 -> hostile v2 -> FNA-1c -> FNA-1d): the lever applied is the lever the obstruction's own layer names; a lever aimed at a non-binding layer is a mismatch and a RESULT.",
+      "same_layer_lever_applied": {
+        "count": 9,
+        "witnesses": ["W02-FNA1-RARITY-SELECTIVITY", "W03-FNA1B-FALSIFIER-NODISCRIMINATE", "W04-FNA1B-UNCHARGED-PREPARATION", "W05-FNA1C-MAINTENANCE-TERM-UNPAID", "W13-OPPORTUNITY-INTERFACE-BOTTLENECK", "W15-SCREENING-CACHE-REPAIR", "W16-ASSAY-TRAIN-FIELD-BOUNDARY", "W19-LIFECYCLE-PROBE-AUDIT-SCOPE", "W27-CONTROLLER-OPEN-ISSUE-ASSUMPTION"]
+      },
+      "cross_layer_lever_with_recorded_reason": {
+        "count": 2,
+        "witnesses": ["W09-G3-STEPS-SAVED-NO-PAYBACK (cost-charging obstruction; next evidence names acquisition: source-qualified strongest learners + measured payback)", "W17-ASSAY-SINGLE-SUPPORT-CANDIDATES (acquisition obstruction; representation lever with the acquisition criterion held fixed 'to isolate the representation change')"]
+      },
+      "mechanism_succeeded_obstruction_layer_unmoved": {
+        "count": 3,
+        "witnesses": ["W10-CONT-PREFIX-STEPS-NO-WALLTIME (representation mechanism removed 130,377 steps at exact parity; cost-charging binds: no wall/lifetime gain)", "W11-OWNSTATE-SEARCH-UTILITY (acquisition/library mechanism live and trace-identical; search layer shows 1.6363x slot deficit)", "W14-REVIVAL-DEADLINE-BREACH (tools-API repair achieved 0 still-UNSUPPORTED; cost-charging binds: 366 s vs 60/180 s envelopes)"],
+        "note": "These three are the FQ-4 warning instantiated on main: an internal-coordinate improvement with no whole-task improvement, recorded as programme non-progress."
+      },
+      "no_lever_recorded_open": {
+        "count": 3,
+        "witnesses": ["W06-FNA1D-EDIT-DETECTION-UNCHARGED", "W12-COSTERRATUM-RANK-NOT-SERVING-TIME", "W18-ASSAY-HISTORY-GROWTH-OVERHEAD"]
+      },
+      "lever_proposed_deferred": {
+        "count": 4,
+        "witnesses": ["W20-LEMMA-CONSUMER-MATCH-SCOPE-GAP", "W21-R0C-NO-SELECTION-POPULATION", "W22-ME-CONFIRMATORY-LIFETIME-NOT-RUN", "W28-G1-LEAN4-CHECKER-CANNOT-CHECK"]
+      },
+      "guard_or_rule_applied_no_experiment": {
+        "count": 4,
+        "witnesses": ["W23-ME-KMETER-HIDDEN-WORK", "W24-PRESENTATION-DEPENDENT-OBSTRUCTION", "W25-VACUOUS-CONTRAST-CONTROLS", "W26-BINDING-OVER-UNCOMMITTED-BYTES"]
+      },
+      "none_applicable_structural_or_contract": {
+        "count": 3,
+        "witnesses": ["W01-FNA1-REACH-UNWINNABLE (structural theorem, recorded as a design constraint)", "W07-FNA2-APPROX-ORDERING-UNSAFE (#214 contract terminal; exact machinery decides)", "W08-EXE203-GROUNDING-RESOURCE-BOUND (post-exposure repeat discipline; no revival attempted)"]
+      }
+    },
+    "surprises": [
+      "model-donor count is ZERO: across all mined capsules on main, no recorded obstruction attributes to a model/neural component in the loop. The nearest mechanism (FNA-2's VSA projection) is explicitly non-neural ('no training set, no objective, no fitted parameter, no gradient') and binds to representation. The layer OCM's failures never needed is the layer the donor programme is named after.",
+      "cost-charging is the modal layer (8/28) and the terminal layer of all three internal-coordinate traps (W10, W11, W14): the binding constraint between internal wins and whole-task gains is dominated by cost accounting, and only one cost-charging obstruction (W04) was ever closed by a lever.",
+      "The FNA chain is a four-link same-layer discipline (W02->W03->W04->W05) already on main: each capsule's named-next-thing sat in the obstruction's own layer, and each lever moved the terminal. FQ-4's rule is not new to the programme; it is what that chain did informally.",
+      "W18 is the only witness whose source explicitly declines to attribute a layer ('attribute ... before optimizing') -- an unresolved FQ-4 question already living inside the ASSAY capsule.",
+      "The candidate source list names two capsules that do not exist on main (see boundary note 3); the layer table can only be as real as the paths it cites."
+    ]
+  },
+  "boundary_notes": [
+    "This is a DESCRIPTIVE binding of recorded witnesses, not a validated responsibility map: no row claims that moving its layer would have changed the outcome; only the reopen_falsifier fields define what would license such a claim, and none has fired.",
+    "No causal claim is made anywhere in this table without reopen evidence; 'bound' grades attribution quality of the recorded evidence, not causal sufficiency of the layer.",
+    "Source scope: candidate capsules g1-hostile-pi-v1 and l1-meaning-graph-bound-v1 were searched for by basename across the whole tree at b801a03 (patterns *hostile-pi*, *hostile_pi*, *meaning-graph*, *meaning_graph*) and do not exist; nearest existing objects are research/g1-vessel-freeze-v1 (mined: W28) and tests/m3/test_meaning_graph.py (a test, not an obstruction record). machine-epistemics-lifetime-v1 yielded W22-W23 via its README.",
+    "programme-attribution / programme-custody witnesses (W24-W27) are bound under the same discipline but describe the programme's own record-keeping (OCM state-maintenance in the broad sense), not task cognition; they are kept separate by the scope field.",
+    "Layer vocabulary extensions other-named:custody-binding and other-named:attribution-discipline were added because four real obstructions (W19, W24, W26, plus W25's withdrawal regime) do not fit the ten named layers; forcing them into verification or state-maintenance would have blurred the histogram.",
+    "This table binds single-obstruction witnesses; capsules recording multi-term cost chains (FNA-1c/1d) appear as multiple rows because each uncharged term was separately named and separately paid."
+  ]
+}
