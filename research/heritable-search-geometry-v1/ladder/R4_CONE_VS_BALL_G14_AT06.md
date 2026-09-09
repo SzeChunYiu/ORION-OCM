@@ -23,8 +23,9 @@ d(S,A) = 2.
 - Intervene on S: A changes (A ∈ Desc(S)); B does not (B ∉ Desc(S)). The metric ball
   B_d(S, 2) ⊇ {A, B} predicts "B affected" — WRONG. Cone locality (T06) gives the exact
   affected set {A}: right.
-- Mirrored case: add edge S → B and remove S → A with a metric where d(S,A) = 3 > r:
-  every ball of radius r < 3 MISSES the affected node A. Balls are symmetric and
+- Mirrored case (witness case2): edges S → A and S → B BOTH kept, d(S,B) = 2,
+  d(S,A) = 3: affected = {A, B}, and the ball B_d(S, 2) = {B} MISSES the affected
+  node A (every ball of radius r < 3 misses A). Balls are symmetric and
   inclusion-nested; Desc(S) need be neither.
 
 Structural reason (no metric repairs it): Desc(·) is an order-theoretic cone —

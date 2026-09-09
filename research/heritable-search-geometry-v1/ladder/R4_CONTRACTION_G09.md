@@ -46,8 +46,8 @@ in the repair bound.
 ## Machine witness
 
 `../hostiles/witnesses/witness_dobrushin_composition.json`: submultiplicativity sweep;
-state-shared transport example (δ(K) = ½ ≤ δ(Q) = ½); state-dependent falsification
-(δ(K) = 1 > ½ = δ(Q)); the repair bound verified pair-exact. Witness certifies the
+state-shared transport example (δ(K) = 3/4 ≤ δ(Q) = 3/4); state-dependent falsification
+(δ(K) = 1 > 3/4 = δ(Q)); the repair bound verified pair-exact. Witness certifies the
 finite specialization only, never the rung verdict.
 
 ## What HSG may NOT claim
