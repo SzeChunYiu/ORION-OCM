@@ -1,0 +1,27 @@
+{
+ "$id": "pdev217.proxy_decision.v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "properties": {
+  "approved": {
+   "type": "boolean"
+  },
+  "gate": {
+   "const": "HUMAN_GATE_BYPASSED__MODEL_PROXY"
+  },
+  "proposal_fingerprint": {
+   "type": [
+    "string",
+    "null"
+   ]
+  }
+ },
+ "required": [
+  "schema",
+  "gate",
+  "approved",
+  "reason",
+  "decided_unix",
+  "model"
+ ],
+ "type": "object"
+}

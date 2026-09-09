@@ -1,0 +1,32 @@
+{
+ "$id": "pdev217.wave_batch.v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "properties": {
+  "candidates": {
+   "items": {
+    "required": [
+     "candidate_id",
+     "config",
+     "digest",
+     "arm",
+     "origin",
+     "change_class",
+     "size",
+     "rollback_plan"
+    ],
+    "type": "object"
+   },
+   "type": "array"
+  }
+ },
+ "required": [
+  "schema",
+  "generation",
+  "wave",
+  "salt",
+  "quota_per_arm",
+  "candidates",
+  "denominator"
+ ],
+ "type": "object"
+}

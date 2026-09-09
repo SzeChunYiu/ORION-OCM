@@ -1,0 +1,252 @@
+{
+ "arms_freeze": {
+  "arms": [
+   "qd",
+   "random",
+   "tpe_stdlib",
+   "evolutionary",
+   "repair",
+   "reflection",
+   "human",
+   "incumbent",
+   "ocm_alternatives",
+   "ocm_composition",
+   "ocm_representation",
+   "ocm_index",
+   "ocm_acquisition",
+   "ocm_resource",
+   "ocm_donor214",
+   "learned_policy"
+  ],
+  "evolutionary_declaration": "population = top-24 by scalar; per-dimension uniform crossover; mutation = one redrawn dimension with p=0.7",
+  "file": "execution/pdev_search.py",
+  "matched_surface": "every arm sees the same frozen shared history (measured raw vectors, no labels beyond registered coordinates), the same grammar, and the same per-wave quota; arms differ ONLY in how they choose",
+  "qd_declaration": "MAP-Elites over the frozen descriptor space; empty/rare cells targeted by a morphology prior; elite replaced only on strictly better declared scalar",
+  "rng": "per-arm sha256(master_salt|arm|generation|wave) -> random.Random; no wall-clock, no unseeded entropy",
+  "scalar_objective": "lexicographic (n - success, work), used only by scalar arms and elite replacement; the Pareto/admissibility machinery never collapses to it",
+  "tpe_declaration": "minimal Parzen estimator, gamma=0.25, eps=1e-3, draws = max(64, 32*quota), score = prod_dim (p_good+eps)/(p_bad+eps); stdlib only, no external library"
+ },
+ "denominators": {
+  "campaign_bound": {
+   "candidates_per_cycle_upper_bound": 784,
+   "cycle_2_precondition": "cycle 2 runs only at generation 3, i.e. only if cycle 1 ended DEVELOPMENT_CHANGE_ADOPTED",
+   "exhaustion_terminal": "a cycle whose 5 waves end with no winner closes that cycle with PARENT_SUFFICIENT_NO_ADOPTION or PARENT_SUFFICIENT_BY_REVIVAL_EXHAUSTION (per-wave failure_stage attribution + next-wave lever recorded); the programme then closes",
+   "generation_cycles_bound": 2,
+   "parent_array": "once per generation, denominator registered on that generation's first wave",
+   "verify_cap_per_wave": 40,
+   "wave_quotas": "wave 1 quota=1 (smoke), waves 2-5 quota=12 per arm",
+   "waves_per_generation_cycle": 5
+  },
+  "registration": "frozen per wave in manifests/BATCH.json BEFORE array submission",
+  "rule": "compute inside the registered denominator is the point; compute outside it is a violation",
+  "smoke": "wave 1 of generation 2 at quota=1 per arm: the harness-proof wave; it is INSIDE the freeze (its compute and its ledger rows count; nothing it observes is used to retune any frozen rule)"
+ },
+ "directives": {
+  "coordinator_morphology_2026-09-09": {
+   "quote_summary": "let the parallel ocm basic units evolve; even the forms of the basic units can be different (basic-unit FORM x knowledge-space STRUCTURE); add an optimization programme measuring what adapts the best",
+   "response": "s_unit (4 forms) and d_unit (5 forms) are first-class grammar dimensions with C3/C5 classification; s_feature/s_bucket/s_growth/d_composite widen the knowledge-space structure; the 16 matched arms + scalar/Pareto selection ARE the optimization programme; the QD descriptor space makes form-diversity a measured coordinate"
+  },
+  "coordinator_qd_2026-09-09": {
+   "collision_note": "population adoption would collide with the serial-lineage invariant; kept SERIAL: the archive selects, the canonical lineage adopts at most one change per generation through the full M11 path. Open-endedness beyond the frozen task pool would collide with freeze-before-outcome; the pool's 216 contracts bound the programme's horizon honestly",
+   "quote_summary": "quality-diversity + open-ended evolution; ordinary optimization is not enough; preserve many kinds of successful intelligence; QD archive as first-class deliverable; if a directive collides with a frozen invariant, keep the invariant and record the collision",
+   "response": "MAP-Elites archive (3240 cells) is the core selector arm and a first-class deliverable (DIVERSITY_ARCHIVE_V1.json), persisting across generations; scalar optimizers run as matched controls on the identical budget/information surface; QD-specific hostiles H10/H11 added"
+  },
+  "operator_compute_2026-09-09": {
+   "quote": "we need to do a lot of heavy computation on lunarc, so we should have as many computation as possible",
+   "response": "campaign shaped as large frozen job-array denominators on the hep cpu-only partition; smoke first, then full waves; all compute on LUNARC"
+  }
+ },
+ "grammar_freeze": {
+  "dimensions": {
+   "d_composite": [
+    "none",
+    "escalate_on_stale"
+   ],
+   "d_unit": [
+    "learned",
+    "lazy",
+    "recompute",
+    "cooc",
+    "all_evidence"
+   ],
+   "s_bucket": [
+    2,
+    4,
+    8
+   ],
+   "s_choose": [
+    true,
+    false
+   ],
+   "s_composite": [
+    "none",
+    "in_store_first_refusal"
+   ],
+   "s_feature": "prefix9 + the full registered feature language (512 features, fl000..fl511; resolve_feature rejects anything outside it)",
+   "s_growth": [
+    1,
+    2,
+    5
+   ],
+   "s_reindex": [
+    true,
+    false
+   ],
+   "s_unit": [
+    "feature",
+    "family_key",
+    "vector",
+    "scan"
+   ]
+  },
+  "file": "execution/pdev_grammar.py",
+  "incumbent_g0_equals_parent_g2_map": {
+   "d_composite": "none",
+   "d_unit": "lazy",
+   "s_bucket": 4,
+   "s_choose": false,
+   "s_composite": "none",
+   "s_feature": "prefix9",
+   "s_growth": 1,
+   "s_reindex": false,
+   "s_unit": "feature"
+  },
+  "legality": "s_choose requires feature unit; s_reindex requires s_choose; non-feature units carry neutral knob values (normalized canonical form); unknown keys are rejected (checker/evaluator/authority are outside the grammar)",
+  "raw_sample_space_size": 1474560
+ },
+ "identity": {
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "branch": "research/parallel-developmental-evolution-v1",
+  "capsule": "research/parallel-developmental-evolution-v1",
+  "frozen_before_any_outcome": "all salts, seeds, suites, arms, hostiles, selection rules, and budgets below were fixed before any PDEV candidate measurement ran (smoke included)",
+  "issue": "SzeChunYiu/ORION-OCM#217"
+ },
+ "m11_adoption_freeze": {
+  "budget_justification": "parent's pinned g2 cycle measured work 270274 and peak persistent_bytes 22943, scaled ~10x; frozen before any PDEV measurement",
+  "budgets": {
+   "persistent_bytes": 400000,
+   "work": 4000000
+  },
+  "cell": "vendored #149 evolution.EvolutionCell (byte-identical, origin f0cc17cf145d19f065a3c6c1f3f06a74768656df) over the repo's real ocm package, shipped wholesale to the cluster",
+  "external_gate": "AdoptionDecision authority = frozen decision file (schema pdev217.proxy_decision.v1, gate HUMAN_GATE_BYPASSED__MODEL_PROXY) produced by a fresh-context model given ONLY ADOPTION_PACKET.json; fail-closed on absence/mismatch; the cell's own assurance still applies in full",
+  "probe_limit": 6,
+  "receipts": [
+   "GenerationSnapshotV1 before/after",
+   "cold-restart identity",
+   "rollback counterfactual (clone)",
+   "determinism re-measurement"
+  ]
+ },
+ "master_salt": "pdev217-20260909-uniform-ignorance",
+ "meter_freeze": {
+  "bucket_override": "SA/S.MAX_BUCKET_SIZE patched per candidate evaluation and always restored (fail-closed on exception)",
+  "file": "execution/pdev_runner.py",
+  "persistent_bytes": "store_bytes + index_bytes of every live arm, peaked",
+  "resource_keys": [
+   "work",
+   "persistent_bytes"
+  ],
+  "scorer_field_isolation": "Query.in_store / Query.truth are the scorer's fields; the meter never reads them; the composite family-key unit uses the public Query.family_id (donor ceiling absorbed as transferrable form, #214 first-refusal precedent) and every receipt flags it",
+  "work_definition": "sum over every charged record of charged_total_work + checker_expansions; construction, growth, queries, family-probe fallthrough and both composite arms are all inside the ledger"
+ },
+ "qd_freeze": {
+  "archive": "persists across generations (DIVERSITY_ARCHIVE_V1.json); failed niches recorded with reasons; integrity-admission only (see H11)",
+  "behaviour_bounds": {
+   "acq_share": [
+    0.2,
+    0.5
+   ],
+   "bytes_vs_incumbent": [
+    0.75,
+    1.5
+   ],
+   "retrieval_share": [
+    0.2,
+    0.5
+   ],
+   "revision_share": [
+    0.05,
+    0.3
+   ]
+  },
+  "binning": "3 bins per behaviour axis (below/within/above), 4 s-forms, 5 d-forms, 2 composite",
+  "canonical_lineage_invariant": "the archive is a SELECTION organ only: the canonical lineage stays SERIAL, one adoption per generation cycle, never a population adoption",
+  "descriptor_axes": [
+   "acq_share",
+   "retrieval_share",
+   "revision_share",
+   "bytes_vs_incumbent",
+   "s_form",
+   "d_form",
+   "composite"
+  ],
+  "descriptors_from": "measured raw vectors + morphology dims, never the claimed objective",
+  "qsd_hostiles": [
+   "H10_novelty_gaming",
+   "H11_niche_colonizing"
+  ],
+  "space_size": 3240
+ },
+ "schema": "pdev217.protocol.v1",
+ "selection_rules_freeze": {
+  "admission": "status MEASURED, n == |dev suite|, preservation_violations == 0, success >= incumbent dev success",
+  "file": "execution/centre_aggregate.py",
+  "final_admissibility": "every hostile in {PASS, NOT_APPLICABLE, ADVERSE_RECORDED}; any FAIL is inadmissible",
+  "hostiles": {
+   "H10_novelty_gaming": "canonical digest must differ from incumbent and every sitting elite",
+   "H11_niche_colonizing": "archive admission requires the integrity hostiles (H1/H2/H4/H5/H8) to PASS",
+   "H1_checker_weakening": ">=1 checker call per arm-query on every s task; d domain requires MEASURED revision work",
+   "H2_protected_data_access": "grammar rejects protected keys live + dynamic audit: truth never read; in_store only within the scorer allowance (1 per arm-query, 2 for composite)",
+   "H3_memorization": "dev success must survive the fresh suite within drop bound 1; relabel suite must show no false matches",
+   "H4_unmetered_scan": "no CANNOT_CHECK rows; query reads within the k+probe envelope",
+   "H5_hidden_preprocessing": "QUERY rows carry zero build/maintenance work",
+   "H6_preservation_regression": "preservation + harmful suites clean; noninferior to incumbent within quality_margin 0",
+   "H7_overcompression": "k_max measured and density ratios reported (visible, not gated) for feature units",
+   "H8_cost_moving": "headline vector reproduced EXACTLY from per-record rows",
+   "H9_probe_vs_total_work": "registered adverse example (scan unit) always measured and recorded as ADVERSE_RECORDED"
+  },
+  "negative_wave": "failure_stage in {quality, integrity, dominance}; the next wave's reflection/repair/qd arms consume the shared history as the matching revival lever; no rule is ever relaxed",
+  "preliminary_frontier": "non-dominated on (failures, work, persistent_bytes) over admitted rows + the incumbent point",
+  "verify_survivors": "frontier candidates capped at 40 by (failures, work, bytes, digest)",
+  "winner": "finally admissible and (failures, work, bytes) dominated-vs-incumbent with >=1 strict improvement; tie-break by the same order then digest; zero or one per wave"
+ },
+ "task_pool_freeze": {
+  "d_instances": [
+   0,
+   1
+  ],
+  "d_scales": "4..39",
+  "file": "execution/pdev_tasks.py",
+  "identity_rule": "sha256(json{domain,scale,instance}) exactly as the parent computed it; disjointness is checked, not asserted",
+  "parent_consumed_contracts": "13 (9 s-domain, 4 d-domain) verified against the pinned #149 machine history",
+  "s_instances": "100..111 (parent used 0..11; probe position = 2003+2*instance)",
+  "s_scales": [
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   12,
+   15,
+   16,
+   18,
+   21,
+   24,
+   25,
+   27,
+   28
+  ],
+  "suite_recipes": {
+   "audit": "n4 s3d1",
+   "dev": "n6 s4d2",
+   "fresh": "n6 s4d2",
+   "harmful": "n4 s4",
+   "preservation": "n6 s4d2",
+   "relabel": "n4 s4",
+   "target": "n6 s4d2"
+  }
+ },
+ "terminals": "only the issue's section-21 vocabulary, emitted by the canonical cycle (see EXPECTED_TERMINALS.json)"
+}

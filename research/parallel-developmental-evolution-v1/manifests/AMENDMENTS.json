@@ -1,0 +1,32 @@
+{
+  "schema": "pdev217.freeze_amendments.v1",
+  "run_root": "/projects/hep/fs9/users/scyiu/pdev217-20260909/run",
+  "base_freeze": "PROTOCOL.json frozen before any campaign measurement: per generation cycle 5 waves, wave 1 quota=1 (smoke), waves 2-5 quota=12 per arm, <=784 candidate evaluations per cycle, verify cap 40 per wave, parent array once per generation",
+  "operator_directive": "2026-09-09: frozen denominators are the FLOOR; wider arrays and extra replicates are wanted as numbered amendments recorded BEFORE the extended jobs are scored; frozen-minimum and full-set results are reported separately; no frozen comparison changes silently",
+  "amendments": [
+    {
+      "id": "AMENDMENT-1",
+      "recorded_unix": "BEFORE g3 wave 2 submission",
+      "scope": "generation 3 waves 2-5",
+      "change": "eval quota per arm 12 -> 24 (wider candidate arrays; same frozen admission/frontier/winner rules; verify cap stays 40)",
+      "frozen_minimum_reporting": "per wave, the frozen-minimum outcome is recomputed over the first 12 candidates per arm in the frozen batch order; the full-set outcome is the wave's recorded outcome",
+      "rationale": "more parallel honest charged search inside the same selection rule; extension recorded before any wave-2+ job is scored"
+    },
+    {
+      "id": "AMENDMENT-2",
+      "recorded_unix": "BEFORE g3 wave 2 submission",
+      "scope": "generation 3 amendment waves 6-7",
+      "change": "adds waves 6 and 7 at quota=24 per arm beyond the frozen 5-wave floor; per-cycle evaluation budget extended accordingly",
+      "frozen_minimum_reporting": "waves 1-5 at frozen quotas remain the frozen-minimum set; waves 6-7 rows are reported as amendment-only",
+      "rationale": "additional compute power on the same frozen meter; never scored before this amendment record"
+    },
+    {
+      "id": "AMENDMENT-3",
+      "recorded_unix": "BEFORE any replicate job runs",
+      "scope": "cross-host replicate lane (billy-laptop, billy-laptop-old)",
+      "change": "adds independent re-measurement replicates of already-frozen eval rows on two additional hosts (different machines / python versions); rows land under replicates/<host>/ and NEVER enter selection, packets, ledgers of record, or adoption",
+      "frozen_minimum_reporting": "replicates are pure full-set additions; the frozen comparison is untouched",
+      "rationale": "strengthens the PDEV-9 determinism receipt to cross-host cross-version; extra charged compute with zero selection impact"
+    }
+  ]
+}

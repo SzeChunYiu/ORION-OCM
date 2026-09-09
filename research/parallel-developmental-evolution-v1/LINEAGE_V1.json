@@ -1,0 +1,27 @@
+{
+ "schema": "pdev217.lineage.v1",
+ "status": "declared at freeze; the closing LINEAGE_FINAL.json reports what actually happened",
+ "canonical_serial_lineage": {
+  "rule": "ONE serial cell; parallel search never adopts; at most one adoption per generation cycle through the full M11 path (vendored #149 EvolutionCell over the real ocm package)",
+  "entering_state": {
+   "generation": 2,
+   "config_map": {
+    "parent_route_s": "s3 (signature_hash_parent) -> s_unit=feature, s_feature=prefix9, s_choose=false, s_reindex=false",
+    "parent_route_d": "d1 (lazy_learner_arm) -> d_unit=lazy"
+   },
+   "parent_terminal": "AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION",
+   "mapping_status": "MORPHOLOGY_LEVEL_MAP: the parent's route vocabulary mapped into the grammar; not a byte-level re-execution of the parent adapter (both statements recorded in every GenerationSnapshotV1)"
+  },
+  "transition_rule": "g_{k+1} exists iff a PDEV cycle terminates DEVELOPMENT_CHANGE_ADOPTED",
+  "rollback": "exact M11 rollback proven in a clone (rollback counterfactual receipt) before/with every adoption",
+  "cold_restart": "identity (generation, config digest, protocol hash) verified by destroying and reopening the cell every cycle",
+  "disjoint_fresh_use": "every generation allocates fresh suites from the parent-disjoint pool; the cell enforces semantic-id disjointness across its own cycles"
+ },
+ "controls": {
+  "PARENT": "the g2 morphology, fixed forever, re-measured on every generation's suite (matched parent arm)",
+  "CONTINUED": "serial self-change control continuing from g2 (frozen scalar rule, one adoption per generation max)",
+  "RESET": "serial self-change control reset to the donor initial morphology (discovering/learned), same procedure, same information surface",
+  "discriminator": "PDEV-11: does CONTINUED self-change from an already-sufficient g2 still find admissible improvement, versus RESET re-search, versus the parallel population programme"
+ },
+ "population_note": "the QD archive and the 16-arm population are selection organs; they never install configurations; population adoption would break the serial invariant and is not implemented (recorded as a design collision, PROTOCOL.json)"
+}
