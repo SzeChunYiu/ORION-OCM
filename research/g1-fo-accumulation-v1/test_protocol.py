@@ -25,9 +25,12 @@ class TestG1FOAccumulationProtocol(unittest.TestCase):
             str(path): E.sha256_file(path) if path.is_file() and E.git_tracked(path) else None
             for path in PROTECTED
         }
+        capsule = HERE / "RESULT.json"
+        cls.frozen_before = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
         with tempfile.TemporaryDirectory() as tmp:
             cls.result = E.main(Path(tmp) / "RESULT.json")
-        cls.disk = json.loads((HERE / "RESULT.json").read_text())
+        cls.frozen_after = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
+        cls.disk = json.loads(capsule.read_text(encoding="utf-8"))
         cls.world = cls.result["microworld"]
 
     def test_measured_controller_files_are_justified(self):
@@ -149,6 +152,8 @@ class TestG1FOAccumulationProtocol(unittest.TestCase):
         self.assertFalse(self.result["src_custody"]["deleted"])
 
     def test_capsule_result_matches_run(self):
+        self.assertIsNotNone(self.frozen_before)
+        self.assertEqual(self.frozen_before, self.frozen_after)
         self.assertEqual(self.disk["schema"], E.SCHEMA)
         self.assertEqual(self.disk["salt"], E.SALT)
         self.assertEqual(self.disk["terminal"], self.result["terminal"])

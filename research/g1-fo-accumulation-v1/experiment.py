@@ -586,19 +586,18 @@ def run_study() -> dict[str, Any]:
     return result
 
 
-def write_outputs(out: Path | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+def write_outputs(out: Path, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Write RESULT only to ``out``. Tests must pass a tempfile, not the capsule."""
     payload = payload or run_study()
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
-    capsule = HERE / "RESULT.json"
-    capsule.write_text(text)
-    if out is not None and out.resolve() != capsule.resolve():
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(text)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text)
     return payload
 
 
 def main(out: Path | None = None) -> dict[str, Any]:
-    result = write_outputs(out)
+    target = out if out is not None else HERE / "RESULT.json"
+    result = write_outputs(target)
     world = result["microworld"]
     print(
         json.dumps(

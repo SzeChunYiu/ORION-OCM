@@ -145,9 +145,12 @@ class TestLifecycleAndLifetime(unittest.TestCase):
 class TestResultAndUnlockLock(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        capsule = HERE / "RESULT.json"
+        cls.frozen_before = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
         with tempfile.TemporaryDirectory() as tmp:
             cls.result = E.main(Path(tmp) / "RESULT.json")
-        cls.disk = json.loads((HERE / "RESULT.json").read_text(encoding="utf-8"))
+        cls.frozen_after = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
+        cls.disk = json.loads(capsule.read_text(encoding="utf-8"))
 
     def test_terminal_does_not_claim_g44(self):
         self.assertEqual(self.result["terminal"], "G4_NON_ML_ADEQUACY_SUPPORTED_AT_TOY_SCOPE")
@@ -194,10 +197,13 @@ class TestResultAndUnlockLock(unittest.TestCase):
         self.assertEqual(self.result["refuted"], [E.G44_BOXES[3]])
 
     def test_capsule_result_matches_run(self):
+        self.assertIsNotNone(self.frozen_before)
+        self.assertEqual(self.frozen_before, self.frozen_after)
         self.assertEqual(self.disk["schema"], E.SCHEMA)
         self.assertEqual(self.disk["salt"], E.SALT)
         self.assertEqual(self.disk["g4_4_unlock_score"], "0/9")
         self.assertEqual(self.disk["earned"], self.result["earned"])
+        self.assertEqual(self.disk["terminal"], self.result["terminal"])
         self.assertFalse(self.disk["horizon_engine_copied"])
         self.assertFalse(self.disk["production_src_edited"])
 
