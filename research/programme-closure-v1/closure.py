@@ -259,14 +259,96 @@ DERIVATION = (
     "programme may take a positive terminal.\n"
     "3. If some gates are positive and any gate is CANNOT_CHECK, the programme "
     "takes PARTIAL_SIGNATURE_ONLY_<which>, naming the supported parts.\n"
-    "4. A positive gate whose own receipt records the mechanism as reproducible "
-    "by an ordinary parent contributes to <which> only with that qualification "
-    "attached; it may never be read as an architecture residual.\n"
-    "5. PARENT_PRODUCT_SUFFICIENT requires the COMPLETE signature to be "
+    "4. A positive gate whose mechanism an ordinary parent reproduces still "
+    "counts as SUPPORTED. Section 12 is explicit -- 'PARENT_SUFFICIENT is not "
+    "programme failure' -- and section 1 disclaims any requirement that OCM "
+    "rediscover existing algorithms or that learned components be novel. "
+    "Mechanism-level parent sufficiency is the DESIGNED mode and is recorded as "
+    "an absorption, never as evidence against the thesis.\n"
+    "5. The programme's own novelty target is therefore NOT the mechanism level. "
+    "Section 12 places it upward: developmental law, cross-domain invariance, "
+    "phase boundary, lifetime regime, principled impossibility result, "
+    "integrated interaction effect -- 'mere component integration remains "
+    "engineering'. The residual question is decided THERE, and the upper-level "
+    "ledger below is the object that decides it.\n"
+    "6. PARENT_PRODUCT_SUFFICIENT requires the COMPLETE signature to be "
     "reproduced by a parent product, which requires an integrated prototype. "
     "While PROTOTYPE is CANNOT_CHECK that terminal is unavailable in either "
     "direction."
 )
+
+
+#: Section 12's upward novelty targets. This is where the programme says its own
+#: contribution lives, so a closure that only scores gates would be scoring the
+#: engineering and ignoring the science.
+UPPER_LEVEL = {
+    "phase_boundary": {
+        "disposition": "CANDIDATE_SUPPORTED_E2_SYNTHETIC",
+        "receipts": ["research/cognitive-ladder/results/X5_BUDGET_CROSSING_V1.json",
+                     "research/cognitive-ladder/results/X7_PRICED_TABLE_V1.json",
+                     "research/cognitive-ladder/results/X8_TABLE_BREAK_EVEN_V1.json"],
+        "basis": (
+            "A carry advantage with all three edges located and none assumed: a "
+            "soundness precondition on the language (DEV-4), a budget window of "
+            "[1408, 1536] bits at both demand shapes (X5), and a storage ceiling "
+            "below 32 bits per compiled verdict (X8). DEV-3's computed window of "
+            "[768, 2048] was tested at both edges for the first time: the upper "
+            "edge held out of sample, the lower is necessary and not sufficient."),
+        "boundary": "E2 synthetic worlds. Not a real task ecology.",
+    },
+    "principled_impossibility": {
+        "disposition": "CANDIDATE_SUPPORTED_TWO_INDEPENDENT_RESULTS",
+        "receipts": ["research/residual-routing-v1/results/RESIDUAL_ROUTING_OPPORTUNITY_V1.json",
+                     "research/g2-acquisition-economics-v1/README.md"],
+        "basis": (
+            "Two negative results with mechanism rather than mere absence. The "
+            "compose-stage routing residual is exactly zero (rho_R = 0.0) and the "
+            "legal-feature ladder drives it to <=0.08% before charging feature "
+            "extraction, so decision ambiguity is not economically useful routing "
+            "residual. Separately, no zero-search selector reproduces a utility "
+            "tournament's choice: compression reaches rho = +0.518 against measured "
+            "utility yet its argmax ranks 13 of 16, because support is both the "
+            "benefit proxy and the cost driver."),
+        "boundary": "Both are scope-bounded, not universal impossibility theorems.",
+    },
+    "lifetime_regime": {
+        "disposition": "CANNOT_CHECK_NO_REAL_LIFETIME_MEASURED",
+        "receipts": ["research/g4-horizon-exact-v1/SUMMARY.json"],
+        "basis": (
+            "Break-even horizons are computable and computed -- 2,136 length-8 "
+            "tasks with tournament acquisition against 41 with a scan, and 32 bits "
+            "per compiled verdict -- but every one is over a synthetic or "
+            "single-population workload. No production OCM lifetime exists."),
+        "boundary": "Conversion needs a real lifetime with all six cost terms charged.",
+    },
+    "developmental_law": {
+        "disposition": "CANDIDATE_SURVIVED_ONE_OUT_OF_SAMPLE_TEST",
+        "receipts": ["research/cognitive-ladder/SYNTHESIS_V1.json"],
+        "basis": (
+            "A three-coordinate conjecture (rho AND beta AND phi) registered before "
+            "its out-of-sample test and surviving it. Agreement in sample is a "
+            "statement about the rule's construction, and the receipt says so."),
+        "boundary": "Ten synthetic rows, three binary coordinates, one test.",
+    },
+    "cross_domain_invariance": {
+        "disposition": "CANNOT_CHECK_NO_SECOND_DOMAIN_RESULT",
+        "receipts": ["research/programme-closure-v1/ISSUE_165_BODY.md"],
+        "basis": (
+            "One mechanism has been transferred across domains as an intervention "
+            "contract with its sign NOT transferring, which is a negative and is "
+            "retained. No positive cross-domain invariance is measured anywhere."),
+        "boundary": "Conversion needs the same law measured in a structurally "
+                    "different population.",
+    },
+    "integrated_interaction_effect": {
+        "disposition": "CANNOT_CHECK_NO_INTEGRATED_PROTOTYPE_EXISTS",
+        "receipts": ["research/programme-closure-v1/ISSUE_165_BODY.md"],
+        "basis": (
+            "No lane composes the gates into one machine, so no interaction between "
+            "them can be observed, positive or negative."),
+        "boundary": "Conversion needs #73.",
+    },
+}
 
 POSITIVE_PREFIXES = ("CAUSAL_", "METHOD_COMPOSITION_SUPPORTED", "EXACT_",
                      "MINIMUM_", "DEVELOPMENTAL_", "USEFUL_", "SELF_EVOLUTION_",
@@ -308,6 +390,20 @@ def validate(gates: Sequence[Mapping[str, Any]] = GATES) -> dict[str, Any]:
                                  "detail": relative})
         if not entry["basis"] or len(entry["basis"]) < 80:
             problems.append({"gate": entry["gate"], "why": "basis too thin to audit"})
+    for name, row in UPPER_LEVEL.items():
+        if not row.get("disposition"):
+            problems.append({"gate": f"upper:{name}", "why": "no disposition"})
+        if not row.get("receipts"):
+            problems.append({"gate": f"upper:{name}", "why": "no receipt cited"})
+        for relative in row.get("receipts", []):
+            if not (REPO / relative).is_file():
+                problems.append({"gate": f"upper:{name}", "why": "cited receipt is missing",
+                                 "detail": relative})
+        if row.get("disposition", "").startswith("CANNOT_CHECK") and not row.get("boundary"):
+            problems.append({"gate": f"upper:{name}",
+                             "why": "CANNOT_CHECK without a stated conversion"})
+        if not row.get("basis") or len(row["basis"]) < 80:
+            problems.append({"gate": f"upper:{name}", "why": "basis too thin to audit"})
     return {"problems": problems, "valid": not problems,
             "body_authentic": body_is_authentic()}
 
@@ -340,12 +436,17 @@ def programme_terminal(gates: Sequence[Mapping[str, Any]] = GATES) -> dict[str, 
             "#165 section 18's stated closure condition, so the programme is closed. "
             "It closes MIXED, not positive. "
             f"{len(supported)} gate dispositions are positive and {len(cannot)} gates "
-            "are CANNOT_CHECK with a stated conversion. Decisively, every gate that "
-            "produced a positive also records that an ordinary parent reproduces the "
-            f"mechanism -- {parent_qualified} -- so none of the supported parts is an "
-            "architecture residual. PARENT_PRODUCT_SUFFICIENT is nevertheless "
-            "unavailable in either direction, because deciding it needs an integrated "
-            "prototype and none exists."),
+            "are CANNOT_CHECK with a stated conversion. "
+            f"Ordinary parents reproduce the mechanisms at {parent_qualified}, and per "
+            "section 12 that is NOT programme failure -- it is the designed absorption "
+            "mode, and section 1 disclaims any requirement that OCM rediscover existing "
+            "algorithms. Mechanism-level parent sufficiency therefore says nothing "
+            "against the thesis. The thesis is decided one level up, where section 12 "
+            "puts the novelty: two upper-level candidates are supported at E2 "
+            "(a located phase boundary and two principled impossibility results) and "
+            "three are CANNOT_CHECK (lifetime regime, cross-domain invariance, "
+            "integrated interaction effect). PARENT_PRODUCT_SUFFICIENT is unavailable "
+            "in either direction, because deciding it needs an integrated prototype."),
     }
 
 
@@ -364,6 +465,12 @@ def build() -> dict[str, Any]:
         "vocabularies_parsed_from_the_roadmap": {k: list(v) for k, v in vocabularies().items()},
         "derivation_rule": DERIVATION,
         "gates": [{k: v for k, v in g.items()} for g in GATES],
+        "upper_level_novelty": UPPER_LEVEL,
+        "upper_level_note": (
+            "Section 12 places the programme's own novelty target above the mechanism "
+            "level and says 'mere component integration remains engineering'. A closure "
+            "that scored only the gates would be scoring the engineering and ignoring "
+            "the science, so the residual question is decided here."),
         "issue_terminals": issue_terminals(),
         "issue_terminals_note": (
             "Section 22's Final list. An issue that owns a gate inherits that gate's "

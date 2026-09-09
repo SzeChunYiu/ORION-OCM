@@ -42,38 +42,31 @@ Three gates reached measured positives — **G2** causal method reuse, **G3** me
 composition, **G4** exact metareasoning sufficiency. Four gates and the prototype are
 unmeasured, each with a stated conversion.
 
-The decisive fact is not the count. It is that **every gate which produced a positive also
-records an ordinary parent reproducing the mechanism**:
+Ordinary parents reproduce the mechanisms at G2, G4, G5 and G7. **Per §12 that is not
+programme failure** — the roadmap says so in four words, and §1 disclaims any requirement
+that OCM rediscover existing algorithms or that learned components be novel. Mechanism-level
+parent sufficiency is the **designed absorption mode** and says nothing against the thesis.
 
-- G2: `ordinary persistent == OCM live`, task-by-task, on the untouched test stratum.
-- G3: `ordinary A+B == OCM A+B`, task-by-task.
-- G4: exact policy sufficient — the residual is `rho_R = 0.0`, so there is nothing for an
-  architecture to add.
-- G5: `DATABASE_PARENT_SUFFICIENT` — SQLite/WAL matches the ledger semantics.
+So the thesis is decided one level up, where §12 puts the novelty and where "mere component
+integration remains engineering":
 
-So **no supported part of the signature is an architecture residual.** What the programme
-has demonstrated at this scope is that a persistent machine can acquire a cognitive object
-from verified experience, keep it across restart, use it causally on fresh tasks, compose
-two of them, and stop cognition exactly when an exact policy suffices — and that a
-conventional parent given the same object does all of it equally well.
+| §12 upward target | disposition |
+|---|---|
+| **phase boundary** | `CANDIDATE_SUPPORTED_E2_SYNTHETIC` — three located edges: soundness precondition, budget window [1408, 1536] bits, storage ceiling below 32 bits per compiled verdict |
+| **principled impossibility** | `CANDIDATE_SUPPORTED_TWO_INDEPENDENT_RESULTS` — `rho_R = 0.0` with the legal-feature ladder at ≤0.08%; and no zero-search selector reproducing a utility tournament, compression's argmax at rank 13/16 despite ρ = +0.518 |
+| **developmental law** | `CANDIDATE_SURVIVED_ONE_OUT_OF_SAMPLE_TEST` — a three-coordinate conjecture registered before its test |
+| **lifetime regime** | `CANNOT_CHECK_NO_REAL_LIFETIME_MEASURED` — break-evens computed (2,136 vs 41 tasks; 32 bits/cell) but only over synthetic or single populations |
+| **cross-domain invariance** | `CANNOT_CHECK_NO_SECOND_DOMAIN_RESULT` — one mechanism transferred as a contract with its sign *not* transferring, retained as a negative |
+| **integrated interaction effect** | `CANNOT_CHECK_NO_INTEGRATED_PROTOTYPE_EXISTS` |
 
-Against §21's four outcomes, the evidence points at **Outcome C (parent-product
-sufficiency)** and has not yet earned it. Earning it requires an integrated prototype;
-`PARENT_PRODUCT_SUFFICIENT` is unavailable **in either direction** while `PROTOTYPE` is
-`CANNOT_CHECK`, and the ledger refuses to emit it. **Outcome A is not supported** by
-anything currently in the repository.
+**Three upper-level candidates are supported at E2; three are `CANNOT_CHECK`.** That, not the
+mechanism-level parent sufficiency, is where the programme's residual question actually sits.
 
-Two further results sharpen rather than soften this:
-
-- **Acquisition does not pay at this ecology, and cheap acquisition does not exist.** #192
-  spends 12,520,017 attempts to buy a 275,329 saving. Its successor shows no zero-search
-  selector reproduces the tournament's choice — every one picks a macro ranked 13 of 16 by
-  measured utility, and compression's argmax is near the bottom despite ρ = +0.518. The
-  tournament is load-bearing, so the 45× acquisition gap is a property of the problem.
-- **The learned-routing question is closed negatively and by measurement.** G4.4's nine
-  unlock conditions stand at 0 of 9, with the fourth *actively refuted*: the legal-feature
-  ladder drives the residual to ≤0.08% before charging feature extraction, lookup,
-  maintenance or replay. Decision ambiguity is not economically useful routing residual.
+Against §21's four outcomes: `PARENT_PRODUCT_SUFFICIENT` is unavailable **in either
+direction** while `PROTOTYPE` is `CANNOT_CHECK`, and the ledger refuses to emit it. Outcome A
+is not supported by anything currently in the repository. The honest reading is that the
+programme has assembled the engineering and has **three synthetic candidates** for the
+science, none of them yet measured on a real lifetime.
 
 ## What closure does not mean
 

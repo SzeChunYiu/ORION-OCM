@@ -171,12 +171,13 @@ class ProgrammeTerminal(unittest.TestCase):
         self.assertTrue(out["unmeasured_gates"])
 
     def test_every_supported_gate_that_is_parent_sufficient_is_named_as_such(self):
-        """A positive whose own receipt says an ordinary parent reproduces it must
-        never be read as an architecture residual, and the terminal must carry
-        that qualification rather than leave it to prose."""
+        """Parent-sufficient gates must be NAMED, so a reader can see which
+        mechanisms an ordinary parent reproduces -- and named as an absorption,
+        which is what section 12 calls it, not as evidence against the thesis."""
         out = C.programme_terminal()
         self.assertIn("G2", out["parent_sufficient_gates"])
-        self.assertIn("ordinary parent reproduces the mechanism", out["reason"])
+        self.assertIn("Ordinary parents reproduce the mechanisms", out["reason"])
+        self.assertIn("NOT programme failure", out["reason"])
 
     def test_the_derivation_rule_is_stated_before_the_dispositions(self):
         source = (HERE / "closure.py").read_text()
@@ -232,6 +233,67 @@ class IssueTerminals(unittest.TestCase):
 
     def test_71_inherits_the_router_terminal_and_stays_blocked(self):
         self.assertIn("LEARNED_ROUTER_NOT_NEEDED", C.issue_terminals()["71"]["terminal"])
+
+
+
+
+class AbsorptionDoctrine(unittest.TestCase):
+    """Section 12 says PARENT_SUFFICIENT is not programme failure. An earlier draft
+    of this ledger read the collection of parent-sufficient mechanisms as the
+    decisive negative finding, which inverts the doctrine. These tests exist so
+    that error cannot come back."""
+
+    def test_the_roadmap_says_parent_sufficient_is_not_failure(self):
+        body = C.BODY.read_text()
+        self.assertIn("`PARENT_SUFFICIENT` is not programme failure.", body)
+        self.assertIn("OCM must rediscover all existing algorithms itself", body)
+        self.assertIn("every learned component must be novel", body)
+
+    def test_a_parent_sufficient_gate_still_counts_as_supported(self):
+        out = C.programme_terminal()
+        supported = {g for g, _ in
+                     [(r["gate"], r["disposition"]) for r in out["supported_gates"]]}
+        self.assertIn("G2", supported)
+        self.assertIn("G2", out["parent_sufficient_gates"])
+
+    def test_the_reason_does_not_read_parent_sufficiency_as_evidence_against(self):
+        reason = C.programme_terminal()["reason"]
+        self.assertIn("NOT programme failure", reason)
+        self.assertIn("designed absorption", reason)
+        self.assertNotIn("none of the supported parts is an architecture residual", reason)
+
+    def test_the_derivation_puts_the_novelty_question_one_level_up(self):
+        self.assertIn("mere component integration remains", C.DERIVATION)
+        for target in ("developmental law", "cross-domain invariance", "phase boundary",
+                       "lifetime regime", "principled impossibility"):
+            self.assertIn(target, C.DERIVATION)
+
+
+class UpperLevel(unittest.TestCase):
+    def test_every_section_12_upward_target_has_a_disposition(self):
+        expected = {"developmental_law", "cross_domain_invariance", "phase_boundary",
+                    "lifetime_regime", "principled_impossibility",
+                    "integrated_interaction_effect"}
+        self.assertEqual(set(C.UPPER_LEVEL), expected)
+
+    def test_every_upper_level_receipt_exists(self):
+        for name, row in C.UPPER_LEVEL.items():
+            self.assertTrue(row["receipts"], name)
+            for relative in row["receipts"]:
+                self.assertTrue((C.REPO / relative).is_file(), f"{name}: {relative}")
+
+    def test_every_upper_level_candidate_states_its_boundary(self):
+        """An E2 synthetic candidate that does not say it is synthetic would be the
+        most damaging overclaim available to this programme."""
+        for name, row in C.UPPER_LEVEL.items():
+            self.assertTrue(row["boundary"], name)
+        self.assertIn("synthetic", C.UPPER_LEVEL["phase_boundary"]["boundary"].lower())
+
+    def test_the_validator_checks_upper_level_receipts_too(self):
+        out = C.validate()
+        self.assertTrue(out["valid"], out["problems"])
+        source = (HERE / "closure.py").read_text()
+        self.assertIn("for name, row in UPPER_LEVEL.items():", source)
 
 
 if __name__ == "__main__":
