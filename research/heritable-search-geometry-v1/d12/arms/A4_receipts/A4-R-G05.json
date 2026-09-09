@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G05",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "G05 E_t ecology (R7: open system, task inflow/outflow, non-conserved measures)",
+  "donor_domain": "applied probability (open queueing networks); mathematical physics (compositional open Markov processes)",
+  "donor_source_ids": "open Markov processes / compositional Markov processes (Baez-Fong 2015 - ledger-flagged PARENT_STATEMENT_UNVERIFIED_TEXT; L2 read was of survey-level exposition only); open-queueing positive-recurrence conditions (standard)",
+  "donor_structure": "Open Markov process: chain coupled to boundary terminals with inflow/outflow rates; probability mass is not conserved; a stationary state exists iff boundary fluxes balance (source rate = sink rate); the compositional dressing describes gluing open processes along shared boundaries.",
+  "target_structure": "ecology E_t as an open system: tasks arrive (inflow) and complete/expire (outflow); the task measure is non-conserved; R7 asks when the HSG process under ecology drift has a stable operating regime rather than divergent backlog.",
+  "mapping": "boundary terminal -> task admission / completion interface; inflow rate lambda -> task arrival; service rate mu -> completion under frozen burden; flux balance -> positive-recurrence condition of the coupled process; non-conserved stationary state -> equilibrium task measure with time-varying ecology.",
+  "preserved_relations": [
+    "stability iff flux balance: stationary task measure exists iff arrival rate times mean burden < service capacity (positive recurrence; queueing-parent form)",
+    "non-conservation is the point: mass/measure bookkeeping on the boundary, not in the interior - matches R7's non-conservation clause directly",
+    "compositional gluing of open processes along shared boundaries parallels the module-boundary accounting of T18's admission ledger (R7 flux-drift form)"
+  ],
+  "known_broken_relations": [
+    "the category-theoretic compositional machinery of the donor is vocabulary-level here: no HSG theorem is derived from the functorial framing; primary text unverified (ledger flag stands after this L2 read of secondary exposition)",
+    "queueing stationarity assumes independent arrivals; HSG task admission is governed (constitution-filtered) - correlated arrivals can break the classic condition",
+    "donor treats fixed boundary rates; HSG ecology drifts (vi removal) - condition must be re-checked per regime, no uniform bound"
+  ],
+  "unknown_correspondences": [
+    "governed admission (constitution-filtered arrival processes) vs Poisson-type arrival theory: gap not owned by any parent",
+    "coupled multi-level ecologies (R7 full form) beyond single-boundary systems: no donor theorem"
+  ],
+  "assumptions_added": [
+    "mean task burden finite and admission ledger charged per task (T18 interface)",
+    "regime-wise fixed rates within which the flux-balance condition is evaluated"
+  ],
+  "candidate_theorem": "Under drifting ecology the HSG process has a stationary task measure within each regime iff lambda_regime * E[burden per task] < mu_regime (flux balance); backlog diverges otherwise, and no frozen-B_0 bound survives at positive inflow (matching R7_T18 FLUX-DRIFT).",
+  "strongest_parent": "open-queueing positive recurrence (standard); Baez-Fong 2015 compositional vocabulary (unverified primary text - flagged)",
+  "route": "L0 x2 + L2 survey-level read + map/synth/validate; validation by checking the queueing-parent form subsumes the statement (it does, minus the governed-arrival caveat)",
+  "mapping_search_cost": {"L0": 2, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 107},
+  "status": "PARTIAL",
+  "status_rationale": "the load-bearing content (flux-balance stability) is owned by standard queueing theory and transfers cleanly; the compositional-open-Markov dressing remains unverified against primary text and contributes vocabulary only - receipt claims the queueing-level statement, not the categorical one."
+}
