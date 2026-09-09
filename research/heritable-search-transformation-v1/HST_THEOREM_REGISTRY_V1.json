@@ -51,9 +51,28 @@
       "parent_theorem": "transformation semigroup generator theory (owned by #145)",
       "proof_class": "P1/P2",
       "statement": "For fixed F,C: if p notin <O> (transformation closure) and p admissible, then <O> strict-subset <O ∪ {p}>. Bounded version: strict Reach_B expansion requires an explicit witness task/state reachable with p within B but not from O within B.",
-      "status": "OPEN",
+      "status": "FINITE_CERTIFIED",
       "theorem_id": "HST-T02",
-      "title": "Reach expansion by irreducible primitive"
+      "title": "Reach expansion by irreducible primitive",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "<O> = full transformation closure of {a2,m2} on Z_16 (BFS to fixpoint, |<O>|=40, closed-under-generators verified); <O u {a1}> (|.|=80); Reach_B = tasks solvable by words of length <= B (complete word-tree enumeration: 511 words over O, 9841 over O+{a1} at B=8); per-task all-lengths solvability by complete state-BFS on the 16-state space",
+        "exact_checker": "exact/run_all_v1.py -> exact/T02_REACH_WITNESS_V1.json (sha256 in RUN_ALL_V1_MANIFEST.json)",
+        "witness": "p=a1 notin <O> (exhaustive closure absence; parity structure: every f in <O> maps evens to evens); 5 witness tasks (tau06-tau10) solvable with p at cost 2-4 but unreachable from O at ANY length (state-BFS fixpoint + closure + parity, three independent exhaustive proofs)",
+        "hostile": "adding a1 to the proposal grammar strictly expands Reach_8 (5/10 -> 10/10 tasks) while mean exact first-admissible-solution cost over the previously-solvable 5 tasks WORSENS (uniform-over-words<=6 proposal distribution; exact Wald arithmetic, no sampling)",
+        "at_scope": "universe FW1 only (Z_16, 2+1 operators, 10 tasks, B=8)",
+        "claim_ceiling": "P2 finite exact != general: certified for this world only; no claim about other operator bases, infinite universes, or real developmental grammars",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
     },
     {
       "assumptions": [
@@ -86,9 +105,25 @@
       "parent_theorem": "Levin search / Solomonoff prior mass; Schmidhuber OOPS incremental bias-optimal search",
       "proof_class": "P1",
       "statement": "Under prefix-coded Levin-style allocation where candidate p receives share 2^{-L(p)}, an admitted macro changing a target solution encoding from L to L-Delta (verification and construction cost unchanged) multiplies its prior/search share by 2^Delta. Wall-time improvement remains conditional on scheduler/execution/verification costs.",
-      "status": "OPEN",
+      "status": "PARENT_SUFFICIENT",
       "theorem_id": "HST-T04",
-      "title": "Compression-to-search acceleration under coded search"
+      "title": "Compression-to-search acceleration under coded search",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "parent_owns": "Levin universal search / Schmidhuber OOPS bias-optimal allocation 2^{-L} (LITERATURE_LEDGER: OWNS)",
+        "instantiation_at_hst_scope": "prefix codes C0={m1:0,m2:10,m3:110,m4:111} and post-macro C1={m0:0,m2:10,m3:110,m4:111}, both Kraft-complete (sum=1, prefix-free verified); solution encoding 110111 -> 0 shortens L by Delta=5, multiplying Levin share 2^-6 -> 2^-1 by exactly 2^Delta=32; allocation table enumerated exactly",
+        "exact_checker": "exact/run_all_v1.py -> exact/PARENT_WITNESSES_T04_T08_V1.json",
+        "claim_ceiling": "allocation ratio is exact; wall-time gain stays conditional on scheduler/execution/verification costs (allocation != runtime); no new mathematics claimed",
+        "fields_filled": [
+          "exact_checker",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
     },
     {
       "assumptions": [
@@ -162,9 +197,25 @@
       "parent_theorem": "Blackwell 1951/1953 comparison of experiments",
       "proof_class": "P1",
       "statement": "If experiment E1 Blackwell-dominates E0, then for every Bayesian expected-utility decision problem the optimal value with E1 is >= that with E0 when information is free. With probe cost, buy information only when expected decision improvement exceeds cost.",
-      "status": "OPEN",
+      "status": "PARENT_SUFFICIENT",
       "theorem_id": "HST-T08",
-      "title": "Information dominance / decision sufficiency"
+      "title": "Information dominance / decision sufficiency",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "parent_owns": "Blackwell 1951/1953 comparison of experiments (LITERATURE_LEDGER: OWNS)",
+        "instantiation_at_hst_scope": "HST-scope experiments = evaluator evidence channels: E1 ungarbled reveal of hidden state w in {0,1}, E0 garbled binary channel (flip gamma=1/4, an a.s. garbling of E1); disjoint-correct-action utility; V(E1)=1 >= V(E0)=3/4, value of information exactly 1/4; cost-aware correction: probe price 0.3 > 0.25 => do not buy",
+        "exact_checker": "exact/run_all_v1.py -> exact/PARENT_WITNESSES_T04_T08_V1.json",
+        "claim_ceiling": "Blackwell owns the dominance theorem; the finite witness only instantiates it and the priced correction; no claim that external evaluator evidence is free or sufficient for safety",
+        "fields_filled": [
+          "exact_checker",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
     },
     {
       "assumptions": [
@@ -214,9 +265,28 @@
       "parent_theorem": "innovation/evolvability measures in QD literature (useful-novelty rates)",
       "proof_class": "definition+P2/P3",
       "statement": "Ev_t(x; U, D) = P_{x prime ~ Q_t(.|x)}[admissible and useful under U]. Exactly enumerable at finite scope; generalization to unseen ecologies needs P3 assumptions. HST claim form: Ev_{t+1} > Ev_t or lower first-useful-change burden, not higher current fitness.",
-      "status": "OPEN",
+      "status": "FINITE_CERTIFIED",
       "theorem_id": "HST-T10",
-      "title": "Evolvability as useful-descendant mass"
+      "title": "Evolvability as useful-descendant mass",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "candidate set X = all 40 words of length <= 3 over {a1,a2,m2}; kernel Q(.|x) = uniform over distinct one-edit neighbours (sub/ins/del, length <= 4, self excluded), exactly computable; ecology D_fut = {tau06..tau10}, D_cur = {tau01..tau05}; frozen Useful(x';D_fut) := future tasks solved >= 1; Ev(x) = |useful neighbours|/|N(x)| exact rational for EVERY x (no sampling)",
+        "exact_checker": "exact/run_all_v1.py -> exact/T10_EV_ORACLE_V1.json",
+        "hostile": "max-current-fitness candidate with lowest Ev (high fitness / low useful-descendant mass) coexists with a zero-current-fitness candidate of high Ev (stepping stone): current fitness does not certify evolvability",
+        "p3_seed_for_lane_d": "hatEv_m(x) = (1/m) sum Useful(x'_i), x'_i iid ~ Q(.|x); Hoeffding P(|hatEv_m - Ev| >= eps) <= 2 exp(-2 m eps^2), eps_delta = sqrt(ln(2/delta)/(2m)); demo at m=200, delta=0.05, seed 20260910 recorded in the JSON",
+        "at_scope": "universe FW1 restricted to |X|=40 candidates, one frozen kernel and one registered ecology",
+        "claim_ceiling": "P2 finite exact oracle != general: exact only at this scope; Ev comparisons on real lineages and across ecologies remain P4; generalization bounds are P3 (lane D)",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
     },
     {
       "assumptions": [
@@ -229,9 +299,28 @@
       "parent_theorem": "grammar compression / module acquisition cost models (DreamCoder-class; MDL)",
       "proof_class": "P1/P2 conditional",
       "statement": "If a repeatedly instantiated subgraph M behind an interface preserving registered external semantics reduces total description+execution+search cost after charging module definition+interface+maintenance, then promoting M to a higher-level unit is a valid compression/search transformation. Conditional economic criterion only; cannot prove spontaneous emergence of major transitions.",
-      "status": "OPEN",
+      "status": "FINITE_CERTIFIED",
       "theorem_id": "HST-T11",
-      "title": "Cognitive major-transition compression criterion"
+      "title": "Cognitive major-transition compression criterion",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "module MA := (m2,a2) (x->2x+2 mod 16); frozen ledger C_def=3, C_iface=1/2 per call, C_maint=1, C_rev=0 (operator-slot units); net saving per use = 2-1-1/2 = 1/2; reuse suites tau_s=(s,2s+2 mod 16), s=0..h-1, solution exactly the pattern",
+        "exact_checker": "exact/run_all_v1.py -> exact/T11_MODULE_PROMOTION_V1.json",
+        "witness": "exact threshold H* = (C_def+C_maint+C_rev)/net = 8 uses; h=7: 21 vs 21.5 reject; h=8: 24 vs 24 boundary (strict criterion rejects); h=9: 27 vs 26.5 promote -- decision flips exactly at the derived threshold",
+        "interface_preservation": "CHECKED not asserted: promoted program == expanded program as functions on all 16 states of Z_16, per program",
+        "at_scope": "universe FW1 with the frozen cost ledger and pattern (m2,a2); arithmetic criterion only",
+        "claim_ceiling": "P2 arithmetic at finite scope != general: proves the conditional economic criterion, not that major transitions emerge spontaneously (that remains P4)",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
     },
     {
       "assumptions": [
