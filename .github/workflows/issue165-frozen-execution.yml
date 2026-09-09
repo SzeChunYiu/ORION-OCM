@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
-      EVIDENCE: ${{ runner.temp }}/issue165-frozen
+      EVIDENCE: /tmp/issue165-frozen
     steps:
       - uses: actions/checkout@v4
         with:
@@ -124,6 +124,6 @@ jobs:
         if: always()
         with:
           name: issue165-frozen203-${{ github.run_id }}
-          path: ${{ runner.temp }}/issue165-frozen/
+          path: /tmp/issue165-frozen/
           retention-days: 30
           if-no-files-found: error
