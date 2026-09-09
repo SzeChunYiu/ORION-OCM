@@ -1,0 +1,944 @@
+{
+  "boxes": {
+    "GEF/010-grow_unrelated_cross_domain_n": {
+      "N_t": [
+        128,
+        512,
+        2048
+      ],
+      "digest_parity": [
+        true,
+        true,
+        true
+      ],
+      "n_atoms": [
+        64,
+        256,
+        1024
+      ],
+      "note": "Language and mathematics share one packed KSO. Unrelated other-domain atoms grow N; planted targets stay 8+8.",
+      "one_field": true,
+      "status": "EARNED_AT_SCOPE",
+      "text": "grow unrelated cross-domain N",
+      "unrelated_language_atoms": [
+        24,
+        120,
+        504
+      ],
+      "unrelated_mathematics_atoms": [
+        24,
+        120,
+        504
+      ]
+    },
+    "GEF/011-measure_relevant_k": {
+      "k_lang": [
+        8,
+        8,
+        8
+      ],
+      "k_math": [
+        8,
+        8,
+        8
+      ],
+      "k_over_N": [
+        0.0625,
+        0.015625,
+        0.00390625
+      ],
+      "linear_touched": [
+        64,
+        256,
+        1024
+      ],
+      "note": "Relevant k is the planted domain query (8), not type-index size and not N. Type postings grow with extra same-type atoms; tag postings do not.",
+      "scaling": {
+        "bitmap_growth": 16.0,
+        "bitmap_tracks_n_not_k": true,
+        "k_growth": 1.0,
+        "k_ll_N_at_largest": true,
+        "k_over_N_decreases": true,
+        "linear_tracks_n": true,
+        "linear_work_growth": 14.333333333333334,
+        "n_growth": 16.0,
+        "posting_tracks_k_better_than_n": true,
+        "posting_work_growth": 1.0,
+        "posting_work_per_k": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "status": "MEASURED"
+      },
+      "status": "EARNED_AT_SCOPE",
+      "text": "measure relevant k",
+      "type_index_lang_hits": [
+        32,
+        128,
+        512
+      ]
+    },
+    "GEF/012-charge_cross_domain_indexes": {
+      "incremental_posting_units": [
+        1,
+        1,
+        1
+      ],
+      "lang_linear_hidden_scan_units": [
+        64,
+        256,
+        1024
+      ],
+      "lang_tag_materialization_units": [
+        8,
+        8,
+        8
+      ],
+      "lang_tag_retrieval_units": [
+        8,
+        8,
+        8
+      ],
+      "mutant_status": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN",
+      "note": "Construction scans N once. Incremental unrelated-math append is 1; rebuild is N+1. Language tag retrieval does not hide a math scan. Uninstrumented linear is CANNOT_CHECK.",
+      "packed_index_build_touches": [
+        256,
+        1024,
+        4096
+      ],
+      "posting_construction_units": [
+        64,
+        256,
+        1024
+      ],
+      "rebuild_posting_units": [
+        65,
+        257,
+        1025
+      ],
+      "status": "EARNED_AT_SCOPE",
+      "text": "charge cross-domain indexes"
+    },
+    "GEF/013-compare_parent_federation": {
+      "federation_copy_duplicates_identity": [
+        true,
+        true,
+        true
+      ],
+      "isolated_compose_ok": [
+        false,
+        false,
+        false
+      ],
+      "naive_scan_both_stores": [
+        64,
+        256,
+        1024
+      ],
+      "note": "Routed isolated typed indexes tie unified tag postings on in-domain query work (k). Naive federation and unified linear track N. Isolated stores cannot compose across domains without copying, which duplicates identity. One packed KSO composes in place.",
+      "routed_federation_lang_work": [
+        16,
+        16,
+        16
+      ],
+      "status": "EARNED_AT_SCOPE",
+      "text": "compare parent federation",
+      "unified_compose_ok": [
+        true,
+        true,
+        true
+      ],
+      "unified_lang_work": [
+        16,
+        16,
+        16
+      ],
+      "unified_linear_work": [
+        72,
+        264,
+        1032
+      ]
+    }
+  },
+  "cannot_check": [],
+  "claim_ceiling": "Planted-oracle \u00a78 GEF N/k/index/federation boxes on one packed KSO with two typed domains (lexeme, theorem). Unrelated other-domain N grows; relevant k stays planted. Indexes are charged. Routed isolated indexes tie unified tag postings on in-domain work; federation copy duplicates identity. Not programme-wide GEF close. Not #73 prototype. Not language fluency. Does not re-issue v1 type/warrant boxes.",
+  "default_registry_is_core": true,
+  "default_registry_untouched": true,
+  "earned": [
+    "GEF/010-grow_unrelated_cross_domain_n",
+    "GEF/011-measure_relevant_k",
+    "GEF/012-charge_cross_domain_indexes",
+    "GEF/013-compare_parent_federation"
+  ],
+  "head": "eacb33de890481f739eec69853bcf7e165481655",
+  "index_parent_ties_in_domain_k": true,
+  "issue": 165,
+  "k_lang": 8,
+  "k_math": 8,
+  "language_type": "lexeme",
+  "mathematics_type": "theorem",
+  "not_issued": [
+    "PROGRAMME_WIDE_GEF_CLOSE",
+    "GENERAL_EPISTEMIC_FIELD_SUPPORTED_AT_REGISTERED_SCOPE",
+    "LANGUAGE_FLUENCY_BOUNDARY_MEASURED",
+    "DOMAIN_CORE_FORK_REQUIRED",
+    "PARENT_PRODUCT_SUFFICIENT",
+    "PROTOTYPE_73",
+    "GEF/001",
+    "GEF/002",
+    "GEF/003",
+    "GEF/004",
+    "GEF/005",
+    "GEF/006",
+    "GEF/007",
+    "GEF/008",
+    "GEF/009"
+  ],
+  "ns": [
+    64,
+    256,
+    1024
+  ],
+  "open": [],
+  "parent": "G5.2 packed physical field (interned identifiers, type bitmaps, version-bound CSR indexes) plus inverted type/tag postings; isolated typed-store federation as the in-domain k parent; production ocm.kso compose for cross-domain identity",
+  "parent_sufficient": true,
+  "production_src_edited": false,
+  "programme_wide_close": false,
+  "rows": [
+    {
+      "N_t": 128,
+      "digest_parity": true,
+      "federation": {
+        "federation_copy": {
+          "compose": {
+            "head": "fed_bridge",
+            "n_atoms": 34,
+            "ok": true,
+            "one_store": true
+          },
+          "copied_atom": "math_t0",
+          "duplicated_identity": true,
+          "lang_store_n_after_copy": 33,
+          "ok": true,
+          "second_copy_not_correspondence": true
+        },
+        "isolated_compose": {
+          "error": "UNKNOWN_ATOM: math_t0",
+          "n_atoms": 32,
+          "ok": false
+        },
+        "isolated_lang_n": 32,
+        "isolated_math_n": 32,
+        "naive_scan_both_stores": 64,
+        "naive_tracks_n": true,
+        "routed_lang_work": 16,
+        "routed_math_work": 16,
+        "routed_ties_unified": true,
+        "unified_compose": {
+          "head": "bridge",
+          "n_atoms": 65,
+          "ok": true,
+          "one_store": true
+        },
+        "unified_lang_work": 16,
+        "unified_linear_work": 72,
+        "unified_math_work": 16
+      },
+      "hidden_scan_classification": {
+        "lang_linear": "CHARGED",
+        "lang_tag": "CHARGED",
+        "mutant": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN"
+      },
+      "hit_parity": true,
+      "index_construction": {
+        "charged": true,
+        "packed_index_build_touches": 256,
+        "posting_construction_units": 64
+      },
+      "index_update": {
+        "charged": true,
+        "incremental_lt_rebuild": true,
+        "incremental_posting_units": 1,
+        "lang_hits_after_unrelated_math_append": 8,
+        "lang_k_after_unrelated_math_append": 8,
+        "packed_rebuild_touches_after_append": 257,
+        "rebuild_posting_units": 65
+      },
+      "k_lang_planted": 8,
+      "k_math_planted": 8,
+      "lang_bitmap": {
+        "hit_count": 32,
+        "query_work_units": 40,
+        "retrieval_units": 8
+      },
+      "lang_linear": {
+        "N_t": 128,
+        "construction_units": 64,
+        "global_scan": true,
+        "hidden_scan_units": 64,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.0625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 64,
+        "n_edges": 64,
+        "packed_index_build_touches": 256,
+        "query_work_units": 72,
+        "relevant_k": 8,
+        "retrieval_units": 64,
+        "status": "MEASURED",
+        "touched": 64,
+        "update_units": 0
+      },
+      "lang_tag": {
+        "N_t": 128,
+        "construction_units": 64,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.0625,
+        "materialization_units": 8,
+        "method": "tag:lang-target",
+        "n_atoms": 64,
+        "n_edges": 64,
+        "packed_index_build_touches": 256,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "lang_type": {
+        "hit_count": 32,
+        "query_work_units": 64,
+        "retrieval_units": 32
+      },
+      "math_linear": {
+        "N_t": 128,
+        "construction_units": 64,
+        "global_scan": true,
+        "hidden_scan_units": 64,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.0625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 64,
+        "n_edges": 64,
+        "packed_index_build_touches": 256,
+        "query_work_units": 72,
+        "relevant_k": 8,
+        "retrieval_units": 64,
+        "status": "MEASURED",
+        "touched": 64,
+        "update_units": 0
+      },
+      "math_tag": {
+        "N_t": 128,
+        "construction_units": 64,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.0625,
+        "materialization_units": 8,
+        "method": "tag:math-target",
+        "n_atoms": 64,
+        "n_edges": 64,
+        "packed_index_build_touches": 256,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "math_type": {
+        "hit_count": 32,
+        "query_work_units": 64,
+        "retrieval_units": 32
+      },
+      "mutant_uninstrumented_linear": {
+        "N_t": 128,
+        "construction_units": 0,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": false,
+        "k_over_N": 0.0625,
+        "materialization_units": 8,
+        "method": "mutant_uninstrumented_linear",
+        "n_atoms": 64,
+        "n_edges": 64,
+        "packed_index_build_touches": 0,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN",
+        "touched": 8,
+        "update_units": 0
+      },
+      "n": 64,
+      "n_atoms": 64,
+      "n_edges": 64,
+      "n_language_atoms": 32,
+      "n_mathematics_atoms": 32,
+      "one_field": true,
+      "second_truth_store": false,
+      "unrelated_language_atoms": 24,
+      "unrelated_mathematics_atoms": 24,
+      "warrant_size_auxiliary": 256
+    },
+    {
+      "N_t": 512,
+      "digest_parity": true,
+      "federation": {
+        "federation_copy": {
+          "compose": {
+            "head": "fed_bridge",
+            "n_atoms": 130,
+            "ok": true,
+            "one_store": true
+          },
+          "copied_atom": "math_t0",
+          "duplicated_identity": true,
+          "lang_store_n_after_copy": 129,
+          "ok": true,
+          "second_copy_not_correspondence": true
+        },
+        "isolated_compose": {
+          "error": "UNKNOWN_ATOM: math_t0",
+          "n_atoms": 128,
+          "ok": false
+        },
+        "isolated_lang_n": 128,
+        "isolated_math_n": 128,
+        "naive_scan_both_stores": 256,
+        "naive_tracks_n": true,
+        "routed_lang_work": 16,
+        "routed_math_work": 16,
+        "routed_ties_unified": true,
+        "unified_compose": {
+          "head": "bridge",
+          "n_atoms": 257,
+          "ok": true,
+          "one_store": true
+        },
+        "unified_lang_work": 16,
+        "unified_linear_work": 264,
+        "unified_math_work": 16
+      },
+      "hidden_scan_classification": {
+        "lang_linear": "CHARGED",
+        "lang_tag": "CHARGED",
+        "mutant": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN"
+      },
+      "hit_parity": true,
+      "index_construction": {
+        "charged": true,
+        "packed_index_build_touches": 1024,
+        "posting_construction_units": 256
+      },
+      "index_update": {
+        "charged": true,
+        "incremental_lt_rebuild": true,
+        "incremental_posting_units": 1,
+        "lang_hits_after_unrelated_math_append": 8,
+        "lang_k_after_unrelated_math_append": 8,
+        "packed_rebuild_touches_after_append": 1025,
+        "rebuild_posting_units": 257
+      },
+      "k_lang_planted": 8,
+      "k_math_planted": 8,
+      "lang_bitmap": {
+        "hit_count": 128,
+        "query_work_units": 160,
+        "retrieval_units": 32
+      },
+      "lang_linear": {
+        "N_t": 512,
+        "construction_units": 256,
+        "global_scan": true,
+        "hidden_scan_units": 256,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.015625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 256,
+        "n_edges": 256,
+        "packed_index_build_touches": 1024,
+        "query_work_units": 264,
+        "relevant_k": 8,
+        "retrieval_units": 256,
+        "status": "MEASURED",
+        "touched": 256,
+        "update_units": 0
+      },
+      "lang_tag": {
+        "N_t": 512,
+        "construction_units": 256,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.015625,
+        "materialization_units": 8,
+        "method": "tag:lang-target",
+        "n_atoms": 256,
+        "n_edges": 256,
+        "packed_index_build_touches": 1024,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "lang_type": {
+        "hit_count": 128,
+        "query_work_units": 256,
+        "retrieval_units": 128
+      },
+      "math_linear": {
+        "N_t": 512,
+        "construction_units": 256,
+        "global_scan": true,
+        "hidden_scan_units": 256,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.015625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 256,
+        "n_edges": 256,
+        "packed_index_build_touches": 1024,
+        "query_work_units": 264,
+        "relevant_k": 8,
+        "retrieval_units": 256,
+        "status": "MEASURED",
+        "touched": 256,
+        "update_units": 0
+      },
+      "math_tag": {
+        "N_t": 512,
+        "construction_units": 256,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.015625,
+        "materialization_units": 8,
+        "method": "tag:math-target",
+        "n_atoms": 256,
+        "n_edges": 256,
+        "packed_index_build_touches": 1024,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "math_type": {
+        "hit_count": 128,
+        "query_work_units": 256,
+        "retrieval_units": 128
+      },
+      "mutant_uninstrumented_linear": {
+        "N_t": 512,
+        "construction_units": 0,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": false,
+        "k_over_N": 0.015625,
+        "materialization_units": 8,
+        "method": "mutant_uninstrumented_linear",
+        "n_atoms": 256,
+        "n_edges": 256,
+        "packed_index_build_touches": 0,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN",
+        "touched": 8,
+        "update_units": 0
+      },
+      "n": 256,
+      "n_atoms": 256,
+      "n_edges": 256,
+      "n_language_atoms": 128,
+      "n_mathematics_atoms": 128,
+      "one_field": true,
+      "second_truth_store": false,
+      "unrelated_language_atoms": 120,
+      "unrelated_mathematics_atoms": 120,
+      "warrant_size_auxiliary": 1024
+    },
+    {
+      "N_t": 2048,
+      "digest_parity": true,
+      "federation": {
+        "federation_copy": {
+          "compose": {
+            "head": "fed_bridge",
+            "n_atoms": 514,
+            "ok": true,
+            "one_store": true
+          },
+          "copied_atom": "math_t0",
+          "duplicated_identity": true,
+          "lang_store_n_after_copy": 513,
+          "ok": true,
+          "second_copy_not_correspondence": true
+        },
+        "isolated_compose": {
+          "error": "UNKNOWN_ATOM: math_t0",
+          "n_atoms": 512,
+          "ok": false
+        },
+        "isolated_lang_n": 512,
+        "isolated_math_n": 512,
+        "naive_scan_both_stores": 1024,
+        "naive_tracks_n": true,
+        "routed_lang_work": 16,
+        "routed_math_work": 16,
+        "routed_ties_unified": true,
+        "unified_compose": {
+          "head": "bridge",
+          "n_atoms": 1025,
+          "ok": true,
+          "one_store": true
+        },
+        "unified_lang_work": 16,
+        "unified_linear_work": 1032,
+        "unified_math_work": 16
+      },
+      "hidden_scan_classification": {
+        "lang_linear": "CHARGED",
+        "lang_tag": "CHARGED",
+        "mutant": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN"
+      },
+      "hit_parity": true,
+      "index_construction": {
+        "charged": true,
+        "packed_index_build_touches": 4096,
+        "posting_construction_units": 1024
+      },
+      "index_update": {
+        "charged": true,
+        "incremental_lt_rebuild": true,
+        "incremental_posting_units": 1,
+        "lang_hits_after_unrelated_math_append": 8,
+        "lang_k_after_unrelated_math_append": 8,
+        "packed_rebuild_touches_after_append": 4097,
+        "rebuild_posting_units": 1025
+      },
+      "k_lang_planted": 8,
+      "k_math_planted": 8,
+      "lang_bitmap": {
+        "hit_count": 512,
+        "query_work_units": 640,
+        "retrieval_units": 128
+      },
+      "lang_linear": {
+        "N_t": 2048,
+        "construction_units": 1024,
+        "global_scan": true,
+        "hidden_scan_units": 1024,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.00390625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 1024,
+        "n_edges": 1024,
+        "packed_index_build_touches": 4096,
+        "query_work_units": 1032,
+        "relevant_k": 8,
+        "retrieval_units": 1024,
+        "status": "MEASURED",
+        "touched": 1024,
+        "update_units": 0
+      },
+      "lang_tag": {
+        "N_t": 2048,
+        "construction_units": 1024,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.00390625,
+        "materialization_units": 8,
+        "method": "tag:lang-target",
+        "n_atoms": 1024,
+        "n_edges": 1024,
+        "packed_index_build_touches": 4096,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "lang_type": {
+        "hit_count": 512,
+        "query_work_units": 1024,
+        "retrieval_units": 512
+      },
+      "math_linear": {
+        "N_t": 2048,
+        "construction_units": 1024,
+        "global_scan": true,
+        "hidden_scan_units": 1024,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.00390625,
+        "materialization_units": 8,
+        "method": "g5_linear_tag",
+        "n_atoms": 1024,
+        "n_edges": 1024,
+        "packed_index_build_touches": 4096,
+        "query_work_units": 1032,
+        "relevant_k": 8,
+        "retrieval_units": 1024,
+        "status": "MEASURED",
+        "touched": 1024,
+        "update_units": 0
+      },
+      "math_tag": {
+        "N_t": 2048,
+        "construction_units": 1024,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "math_t0",
+          "math_t1",
+          "math_t2",
+          "math_t3",
+          "math_t4",
+          "math_t5",
+          "math_t6",
+          "math_t7"
+        ],
+        "instrumented": true,
+        "k_over_N": 0.00390625,
+        "materialization_units": 8,
+        "method": "tag:math-target",
+        "n_atoms": 1024,
+        "n_edges": 1024,
+        "packed_index_build_touches": 4096,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "MEASURED",
+        "touched": 8,
+        "update_units": 0
+      },
+      "math_type": {
+        "hit_count": 512,
+        "query_work_units": 1024,
+        "retrieval_units": 512
+      },
+      "mutant_uninstrumented_linear": {
+        "N_t": 2048,
+        "construction_units": 0,
+        "global_scan": false,
+        "hidden_scan_units": 0,
+        "hit_count": 8,
+        "hits": [
+          "lang_t0",
+          "lang_t1",
+          "lang_t2",
+          "lang_t3",
+          "lang_t4",
+          "lang_t5",
+          "lang_t6",
+          "lang_t7"
+        ],
+        "instrumented": false,
+        "k_over_N": 0.00390625,
+        "materialization_units": 8,
+        "method": "mutant_uninstrumented_linear",
+        "n_atoms": 1024,
+        "n_edges": 1024,
+        "packed_index_build_touches": 0,
+        "query_work_units": 16,
+        "relevant_k": 8,
+        "retrieval_units": 8,
+        "status": "CANNOT_CHECK_UNINSTRUMENTED_GLOBAL_SCAN",
+        "touched": 8,
+        "update_units": 0
+      },
+      "n": 1024,
+      "n_atoms": 1024,
+      "n_edges": 1024,
+      "n_language_atoms": 512,
+      "n_mathematics_atoms": 512,
+      "one_field": true,
+      "second_truth_store": false,
+      "unrelated_language_atoms": 504,
+      "unrelated_mathematics_atoms": 504,
+      "warrant_size_auxiliary": 4096
+    }
+  ],
+  "scaling": {
+    "bitmap_growth": 16.0,
+    "bitmap_tracks_n_not_k": true,
+    "k_growth": 1.0,
+    "k_ll_N_at_largest": true,
+    "k_over_N_decreases": true,
+    "linear_tracks_n": true,
+    "linear_work_growth": 14.333333333333334,
+    "n_growth": 16.0,
+    "posting_tracks_k_better_than_n": true,
+    "posting_work_growth": 1.0,
+    "posting_work_per_k": [
+      2.0,
+      2.0,
+      2.0
+    ],
+    "status": "MEASURED"
+  },
+  "schema": "ocm.kso.general-field-nk.v2",
+  "second_truth_store": false,
+  "section": 8,
+  "terminal": "CURRENT_KSO_ALREADY_GENERAL_ENOUGH",
+  "v1_capsule_overwritten": false
+}
