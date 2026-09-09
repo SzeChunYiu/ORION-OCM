@@ -1,0 +1,165 @@
+{
+  "engineering_duty": "Every verdict below carries the measurement that would REOPEN it. A verdict without a falsifier is a defect: if the stated falsifier fires, this map must be revised from PARENT_SUFFICIENT to RESIDUAL_FOR_OCM before any implementation resumes.",
+  "fqs": [
+    {
+      "function_id": "FQ-1",
+      "function_name": "decision-sufficient quotient state",
+      "literature_parent": {
+        "name": "partition refinement / bisimulation minimization (Paige-Tarjan 1987; Kemeny-Snell lumpability 1976) composed with abstract-interpretation completeness for a query family (Giacobazzi-Ranzato-Scozzari, JACM 2000) and database materialized views",
+        "owns": "quotient-by-irrelevant-distinctions with a proof that the protected behaviour is preserved on the quotient, and view maintenance charging; completeness is relative to the declared operations, exactly the query-relative sufficiency discipline"
+      },
+      "repo_parent": {
+        "path": "src/ocm/kso/abstraction.py",
+        "sha256": "fc773cdb8f89e1cb12a76d4cba1b0a8f55d84a3f395053837926d88e73e726a5",
+        "supplies": "is_lumpable + warrant_measurable (quotient valid only when per-block liveness is equal under EVERY registered revocation), summarize (macro atom whose warrant is the correspondence warrant — aggregation never mints warrant), answer_with_summary (answers only under a registered SufficiencyCertificate, else REFINE_REQUIRED)",
+        "supporting": "research/residual-strategy-regime-v1/ACTION_SUFFICIENT_STATE_V1.md section 4 defines the decision quotient explicitly (decision-equivalence = every admissible action and intervention has the same contract-relevant value and successor class; 'the usual decision-state/bisimulation idea')",
+        "in_family_parent_demonstration": "MAX_R4EA_AUTHORITY_INDEXED_ROUTER_RESULTS.json (ORION main blob defcc04eab70): authority-indexed routing of real compiler receipts over representation sizes [45,54,715,715], B2 arm 10/10 correct routes, 0 false authority, 0 overcompression, 7/7 compact-authorized captured, vs B1 aggressive-smallest 4 correct / 5 false-authority / 6 overcompressions. Already non-quantum and receipt-level: the closest in-family parent demo of query-indexed representation selection, not merely an analogy (per sibling source ledger)",
+        "recovery_note": "the issue's 'discarded distinctions remain recoverable/reopenable' property is owned repo-side by warrant antichains + reopening_report (REOPEN/RECHECK-via-alternative-warrant/UNAFFECTED); KSO_CORE_PARENTS_V1.md clause (c) files reopening-set semantics as PARENT_OWNED (DRed / Backward-Forward / self-adjusting computation)"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none of mechanism. Open MEASUREMENT, not open mechanism: quotient economics (build+maintenance vs query savings) — routed to the Minimum Sufficient Cognition experiment arm Q2 with terminal QUOTIENT_MAINTENANCE_DOMINATES if it fails",
+      "falsifier_that_reopens": "a registered OCM query family for which NO SufficiencyCertificate expressible in the current certificate language preserves the protected decision, while a bisimulation-minimal quotient of the same space does — certificate-language incompleteness measured at OCM scope would show the parent is adopted only partially and reopen a residual for a richer quotient constructor"
+    },
+    {
+      "function_id": "FQ-2",
+      "function_name": "adaptive probing / active cognition",
+      "literature_parent": {
+        "name": "twenty-questions minimax identification (Garey 1972) / generalised binary search, Bayesian experimental design and value of information (Howard 1966), test cover / hitting set, decision-region determination",
+        "owns": "choose-next-observation-conditional-on-outcomes with a stopping rule at determination. NOTE: ORION's own fixed-vs-adaptive-vs-universal hierarchy headline (D*=3 < F*=4 < U*=5) was RETRACTED as null-reproducible (see repo_evidence), so the literature parent remains the only standing authority on separation questions, and any OCM separation claim must carry a shuffle-equal-n null"
+      },
+      "repo_evidence_retraction_leads": {
+        "retraction_doc": "ORION research/extensions/orion-qg + development/orion-qg-regime-geometry/QG_RETRACTION_SELECTION_HEADLINES_V1.md (main blob e8dd0f4918b5, landed PR #926 commit 2589801ac): the separation counts 85/92 and 708/715 are identities forced by the class-size histogram frozen before any solver ran; the whole hierarchy D*=3 < F*=4 < U*=5 and the regret headline are reproduced by a row-shuffle null that destroys all TARE content; QG35/QG35b/QG36/QG39/QG32c demoted from contributions to internal machine-checked notes; interpretation retraction, arithmetic rebuilt with zero discrepancies",
+        "retraction_rule_verbatim": "A claim of the form 'X is not determined by Y' needs a null, because non-determination is the generic case.",
+        "what_stands": "QG-32: a deterministic 5-probe fixed set ([18,68,101,181,139]) separates all 715 indexed local-response identities after joint summaries — UPPER_BOUND_ONLY (minimum_probe_cardinality null, HiGHS time limit). QG-34: D*=3 exact minimax adaptive depth on the frozen post-summary query, stands as arithmetic with infeasibility certificate at depth 2 on all 16 worst classes; canonical identity = QG34_ADAPTIVE_PROBE_TREE_RESULTS_CORRECTION_RECEIPT_V1.md (blob 2de63fe9a60ba1cb9d90ea29b83a6bd476e94ceb; source_result_digest 7c48f505582a36401632489562c7181f4e763e2e1fd1e36549b9a24c794f8a55; sealed blob 61ad64ed01036b1dd44d7c684c35e43c62534c29) — the main JSON copy (13a1a28030af...) is identity-welded with three duplicate top-level keys and must NOT be bound via naive json.loads. MAX-R4E-B0: prospective frozen-then-adjudicated held-out transfer BORNE_OUT_UPPER_BOUND_ONLY",
+        "in_family_parent_demonstrations": "MAX-R4E-A routing and MAX-R4E replay are already classical receipt-level research-control mechanisms inside ORION (sibling ledger session_findings); they strengthen parent-sufficiency and are NOT quantum donors needing semantic stripping"
+      },
+      "repo_parent": {
+        "path": "src/ocm/science/finite_identification.py",
+        "sha256": "9067852148205b81f635a141b057da52124bcaeac395dd4a579d872c70e0493f",
+        "supplies": "ExperimentLearner: worst-case survivor-split query selection, stop at IDENTIFIED_WITHIN_DECLARED_MODEL_CLASS, OBSERVATIONALLY_EQUIVALENT barrier, revocable observations, scope-honest verdict string",
+        "supporting": "src/ocm/science/selection.py (EV = expected elimination - cost - risk with stopping rule) and ACTION_SUFFICIENT_STATE_V1.md section 2 (paid-cognition recurrence D_w; stop arm vs buy arm, both charged)"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none of mechanism. Open MEASUREMENT with a mandatory negative control: whether ANY adaptive-vs-fixed observation separation exists on an OCM task population at charged cost — every such claim must carry a shuffle-equal-n null (the retraction rule) — routed to the MSC experiment arm Q4. The donor's honest bequest is the null discipline itself, not a hierarchy",
+      "falsifier_that_reopens": "an OCM-scope task population where a parent probe policy (minimax GBS or VOI) charged for its own computation FAILS to determine the protected decision that an OCM-state-aware policy achieves at the same information surface, AND the separation survives a shuffle-equal-n null — the advantage must demonstrably require OCM's typed/warranted state rather than the parent's hypothesis set"
+    },
+    {
+      "function_id": "FQ-3",
+      "function_name": "bounded-defect / active-subspace localization",
+      "literature_parent": {
+        "name": "program slicing (Weiser 1981), diagnosis from first principles / GDE (Reiter 1987; de Kleer-Williams 1987), dependency-directed backtracking cones (Stallman-Sussman 1977; Doyle 1979), prize-collecting Steiner tree",
+        "owns": "reduce search/diagnosis from the whole program/state to the minimal causal subgraph, with correctness relative to the dependency relation; sparse-support extraction as an optimization"
+      },
+      "repo_parent": {
+        "path": "src/ocm/kso/extraction.py",
+        "sha256": "eaa2cbf870b880c1cb24d2e2f9b85959d47ba9b49744f40523907664495466eb",
+        "supplies": "reacting_subgraph (atoms with positive gated-closure reaction surprise + live interior hyperedges) and pcst_exact_bounded (exact connected-subhypergraph optimum, ties reported)",
+        "supporting": "src/ocm/kso/revocation.py impact_cone (KS-T09 least dependency-closed superset); src/ocm/kso/extraction_indexed.py warm sparse-support reaction; src/ocm/kso/navigation_sparse.py local diffusion with exact residual bound",
+        "donor_side_earned_evidence": "QG27_BULK_DEFECT_RESULTS.json (blob e015cec136683a5ff5d8ecb30dfa35aedcb9f03d): uniform all-N band B_min(N)-34 <= C_DP(N) <= B_min(N)+8, defect constants explicitly NOT sharp, spectator_range [0,6], one_active_feasible_rows 48; QG29: defects clip at k=6, every pure scaling ray affine by k=43 (onset not sharp). Both are bounded compiler-local results — OCM must earn localization per domain, never inherit it from the TARE instance",
+        "transferred_obligation_not_mechanism": "the #903 S5 skill 'prove a finite saturation/crossover bound before extrapolating' is a rule OCM adopts (cached/bulk models reused for growing instances need a proved saturation bound), not a mechanism to rebuild"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none of mechanism. Open MEASUREMENT: the k/N active-fraction and work saved on real failure populations — routed to the MSC experiment arm Q3",
+      "falsifier_that_reopens": "a registered failure class whose minimal causal support is NOT a dependency-closed local neighbourhood (long-range coupling): measured cases where every closure/slice/PCST cone misses the cause that an OCM-internal witness (nogood, obstruction record) identifies — the cone construction would then be an unsound localizer at OCM scope and a residual localization mechanism would be licensed"
+    },
+    {
+      "function_id": "FQ-4",
+      "function_name": "resource-responsibility mapping",
+      "literature_parent": {
+        "name": "rational metareasoning (Russell-Wefald 1991) composed with bottleneck / causal-responsibility analysis and algorithm selection (Rice 1976)",
+        "owns": "the principle that an internal proxy is optimized only when it is bound to the layer that controls end-to-end cost/failure; attribution of outcome responsibility to system layers via measured cost deltas"
+      },
+      "repo_parent": {
+        "path": "research/residual-strategy-regime-v1/LIFECYCLE_COST_LEDGER_V1.md",
+        "supplies": "the six-term whole-lifetime ledger (PREPARATION/PER_USE/OCCUPANCY/INVALIDATION/CHECKPOINT_REPLAY/CUSTODY) that makes proxy-vs-end-to-end divergence measurable",
+        "supporting": "src/ocm/kso/resources.py 11-coordinate non-compensatory ResourceVector; src/ocm/kso/extraction_index.py build-vs-query work separation; QUANTUM_DONOR_TRANSFER_MATRIX_V0.md rows QD-08/QD-16 already rank responsibility escalation HIGHEST PRIORITY; research/parent-absorption-v1/CORE.md decision-rule 'do not invent a new indexer/selector while the parent owns the job'",
+        "donor_side_earned_evidence": "QG21_FT_CHEMISTRY_RESULTS.json (blob 041045985496736f760a222507f8a4bd6b050b42): the studied geometry moves under 1 percent of audited fault-tolerant cost (delta_max 2 against a 270-900 T-gate backdrop) because every family member carries exactly nine arbitrary-angle rotations at identical angles, so the implied T-cost ratio between members is EXACTLY 1; 90 control-point rows improve vs 18 defensible-objective rows. QG21 verdict: 'FT_OBJECTIVE_DEFENSIBLE__T_DOMINANT_REWEIGHTING_OF_SUPPORT_COORDINATES_NOT_DERIVABLE'. MAX_R4E_QG_SKILL_REPLAY_RESULTS.json (blob 2a418b5b2673): theorem/certificate-aware stopping avoids 10^7-10^8-scale search work (StabPrep E_floor=43 stops before 79,896,607 DFS nodes; SixLCU 4,545,400 raw conjunctions) — replay-only operational value, explicitly not held-out transfer",
+        "s6_lesson_verbatim": "exactly solve the cheap inner problem, but do not confuse inner optimality with end-to-end method value (#903 S6, the highest-value ORION-Q feedback per its own body)",
+        "already_substrate_independent": "per the sibling ledger this is the single most transfer-ready QG lesson: it is a governance/accounting rule, not a quantum mechanism — nothing needed stripping, which is why the verdict is parent-sufficient with only an engineering adoption gap"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none of principle. Adoption gap (engineering, not mechanism): a registered obstruction-witness -> layer binding table over OCM's own layer vocabulary (representation, retrieval, search, verification, tools/API, model donor, state maintenance, acquisition, revision), wired to the six-term ledger",
+      "falsifier_that_reopens": "a measured population where bottleneck analysis over ledger deltas MISATTRIBUTES the controlling layer that OCM's own obstruction witnesses (nogoods, STRUCTURAL_NONIDENTIFIABILITY / GLOBAL_OBSTRUCTION triggers) identify correctly — ledger deltas would then be insufficient statistics for layer attribution and an OCM-native responsibility witness would be a residual"
+    },
+    {
+      "function_id": "FQ-5",
+      "function_name": "anti-overcompression / missing-coordinate discovery",
+      "literature_parent": {
+        "name": "counterexample-guided abstraction refinement (CEGAR; Kurshan; Clarke et al. 2000) composed with identification/Blackwell insufficiency witnesses and minimal test cover / hitting set for the minimal missing coordinate",
+        "owns": "same abstract state + different required downstream decision => representation insufficient => refine or reopen; the minimal distinguishing coordinate is a set-cover minimization over the distinguishing constraints"
+      },
+      "repo_parent": {
+        "path": "src/ocm/kso/abstraction.py (answer_with_summary / REFINE_REQUIRED)",
+        "sha256": "fc773cdb8f89e1cb12a76d4cba1b0a8f55d84a3f395053837926d88e73e726a5",
+        "supplies": "a summary answers a query family ONLY under a registered sufficiency certificate; otherwise REFINE_REQUIRED — the refusal half of the hostile",
+        "supporting": "ACTION_SUFFICIENT_STATE_V1.md section 5 (feature-collision impossibility lemma + Regret_floor(B) = C_phi(B) - C_oracle(B)); DISTRIBUTIONAL_LIFECYCLE_STATE_V1.md (same representation + disjoint Bayes-optimal action sets => no optimal controller); science/finite_identification.py OBSERVATIONALLY_EQUIVALENT; research/g3-scoped-failure-memory-v1/REPRESENTATION_PROTOCOL.md misleading candidate Q0 (collapse programs agreeing at input 0; refuted when EVAL(1) joins); src/ocm/kso/jump.py REPRESENTATION_REGIME_TRANSITION trigger",
+        "donor_side_earned_evidence": "QG30_BULK_COARSE_GRAIN_RESULTS.json (blob 4de0a0a9e980): the 45-bin bulk histogram is EXACTLY sufficient for asymptotic density (BULK_45_HISTOGRAM_SUFFICIENT_FOR_ASYMPTOTIC_DENSITY=true) and provably lossy for finite defects (BULK_SIGNATURE_SUFFICIENT_FOR_FULL_DEFECT=false; 54 one-active defect profiles, 15 bulk signatures splitting into multiple profiles; first witness common_bulk_signature [2,2,2,2] with representatives having divergent K-histograms). QG-31 adds the third witness same_spectrum_same_bulk_different_indexed_response: even the JOINT cheap summaries lose indexed identity. Scope discipline: sufficiency is PER QUERY CLASS, not global",
+        "null_control_rule": "the retraction adds the converse discipline (sibling ledger FQ-5): an index-forgetting summary failing an index-dependent question is a strawman by construction — any OCM 'compressed state loses information' claim requires a shuffle-equal-n null before it counts as a finding"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none. The registered terminal REPRESENTATION_INSUFFICIENT__MISSING_COORDINATE_FOUND is CEGAR's counterexample step plus hitting-set minimality, both parent-owned, and the refusal side is already implemented in answer_with_summary. The donor supplies the exact falsifier SHAPE (same-compressed-state pairs with different correct downstream decisions, machine-checkable at coordinate level), not a new mechanism",
+      "falsifier_that_reopens": "a same-state/different-decision witness whose missing coordinate is NOT expressible in OCM's registered coordinate language AND on which the registered jump triggers (EXPRESSIVE_CEILING, STRUCTURAL_NONIDENTIFIABILITY, ...) do not fire — refinement-within-language and regime-transition would both be closed, reopening a residual for a missing-coordinate discovery mechanism; until such a witness is measured, CEGAR owns the function"
+    },
+    {
+      "function_id": "FQ-6",
+      "function_name": "safe equivalence, symmetry and ordering",
+      "literature_parent": {
+        "name": "contextual equivalence / bisimulation for quotient validity; canonical forms under group actions restricted to independent local degrees of freedom (orbit-reduction discipline in SAT/graph canonicalization); rewriting confluence and transactions/serializability for order-sensitivity",
+        "owns": "a quotient/symmetry is valid only relative to a behaviour-of-interest and must preserve it; order-dependent transformations must be either proved confluent, sequenced by a protocol, or charged with a richer state"
+      },
+      "repo_parent": {
+        "path": "src/ocm/kso/abstraction.py (warrant_measurable) + src/ocm/kso/revocation.py (prune_equivalence)",
+        "sha256": "fc773cdb8f89e1cb12a76d4cba1b0a8f55d84a3f395053837926d88e73e726a5 / 692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543",
+        "supplies": "warrant_measurable requires per-block liveness equality under every REGISTERED revocation (equivalence relative to an explicit context, not absolute); KS-T04 prune-equivalence proves gated and pruned spaces navigate identically before any quotient is used",
+        "supporting": "src/ocm/kso/nogoods.py MEG-16(ii): the nogood filter is NOT a homomorphism under composition — it must be applied AFTER composition; applying it before (the planted mutant) leaves a composite LIVE on a nogood — an explicit A-then-B != B-then-A witness with a test",
+        "donor_side_earned_evidence": "QG28_LOCAL_CLIFFORD_ORBIT_RESULTS.json (blob 271349b476e99320cc77dab327e4c08accdff6a4): the per-qubit local-Clifford S3 quotient 4096 -> 715 is exact because cost invariance was ACTIVELY verified (1,572,864 protected rows, 0 mismatches, cost_before_sha256 == cost_after_sha256) — safety relative to the frozen objective, proven not assumed; the tempting per-column position relabeling was explicitly VETOED (INDEPENDENT_POSITION_RELABEL_PER_COLUMN=false, COMBINED_LOCAL_POSITION_QUOTIENT_54=false): quotient validity is per-degree-of-freedom independence, not per-plausibility",
+        "identity_hygiene_lesson": "QG34_ADAPTIVE_PROBE_TREE_RESULTS_CORRECTION_RECEIPT_V1.md (blob 2de63fe9a60ba1cb9d90ea29b83a6bd476e94ceb): a union-merge welded two identity layers into one JSON (duplicate keys silently selecting an authority state); repair direction includes duplicate-key rejection on the committed-result loader — a direct ordering/identity-hygiene rule for OCM's authority-bearing state files"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT",
+      "residual_if_any": "none. Both structural warnings of the donor (query-relative validity; order sensitivity) have parent-owned and repo-implemented counterparts, and the donor's veto/digest-verification discipline is adoptable as rules without new mechanism",
+      "falsifier_that_reopens": "(i) a block partition that is warrant-measurable (per-block liveness equal under every registered revocation) yet flips a registered protected decision — would show the repo's equivalence criterion is not decision-relative enough; or (ii) a composition order pair whose order changes a protected outcome through a path not covered by the MEG-16(ii) apply-after-composition discipline — either measured witness reopens a residual for a richer safe-equivalence certificate"
+    },
+    {
+      "function_id": "FQ-7",
+      "function_name": "finite-regime-geometry invariant tuple and RG-F0 implication matrix (discovered donor from ORION #894; numbering follows the sibling source ledger)",
+      "source_status_first": "NO EARNED RESULT EXISTS. #894 (ORION-RG RG-0) is CLOSED AS SUPERSEDED, registered-not-executed: the issue body freezes the invariant tuple (d_sem, kappa, a_cert, N_label, N_value, T_*, K(theta), rho_cert, lambda_crit; no equality/inequality assumed before proof), theorem targets RG-T1..T4, falsification tranche RG-F0 and claim ladder RG0..RG5 — but NO RG_* result receipt exists (sibling ledger: ls-tree searches empty, census confirms registered-not-executed). Folded targets live in the OPEN NQ lane #1383/#1384/#1396. Nothing from RG-0 may be cited as an earned result — only as a frozen negative-control design",
+      "literature_parent": {
+        "name": "algorithm selection (Rice 1976) over parametric performance models; tropical/min-plus spectral theory for eventual regime behaviour; normal fans of parametric optimization; abstract interpretation and automata minimization",
+        "owns": "recognizing the correct regime/strategy can be strictly cheaper than computing the optimum, with separations proved on explicit quotients; #894's own mission declares all this generic machinery donor-owned"
+      },
+      "repo_parent": {
+        "path": "research/residual-strategy-regime-v1/ (FORMAL_DECISION_CORE_V2.md, LIFECYCLE_REPRESENTATION_HIERARCHY_V1.md, CONVERGENCE_PHASE2C_V1.md)",
+        "supplies": "the exact decision-state regime programme on main: Level-0 ex-post decision class vs Level-1 belief states, collision theorems killing too-coarse representations, price-region reporting instead of scalar superiority",
+        "supporting": "src/ocm/science/selection.py (regime-conditional experiment choice); QUANTUM_DONOR_TRANSFER_MATRIX_V0.md QD-13 (phase/regime map; algorithm-selection parent first refusal)"
+      },
+      "ownership_verdict_draft": "PARENT_SUFFICIENT__NO_EARNED_DONOR_RESULT",
+      "residual_if_any": "none — a fortiori: the donor never produced a mechanism, only a typing discipline. What OCM adopts as RULES (not mechanisms): the distinction lattice 'exact-value finite-state vs regime-label-only vs bounded-domain vs all-instance — no finite-domain observation may self-promote to all-instance authority', and the RG-F0 implication matrix (bounded d_sem does NOT imply bounded kappa; bounded N_label does NOT imply finite objective-independent T_*; ...) as the falsification tranche any OCM 'compression implies X' claim must survive",
+      "falsifier_that_reopens": "an OCM population where correct protected strategy choice requires a recognition quotient strictly finer than every parent-representable performance-model partition at matched charge AND the claim survives RG-F0-style counterexample worlds plus a shuffle-equal-n null — measured and null-surviving, this would license an OCM-native regime geometry and re-open the never-executed RG lane as an OCM question"
+    },
+    {
+      "function_id": "FQ-8",
+      "function_name": "quantum/frontier census, transfer boundary and fail-closed transfer protocol (discovered donor from ORION #1359/#1362/#903; numbering follows the sibling source ledger)",
+      "literature_parent": {
+        "name": "none required beyond the in-family artifacts: this donor is ALREADY classical — receipt-level census/disposition governance with no quantum semantics to strip",
+        "owns": "per-issue disposition vocabulary (COMPUTATIONALLY_GREEN_BOUNDED, VALID_NEGATIVE_OR_BOUNDARY_RESULT, COUNTEREXAMPLE, ...) with merged-PR + artifact-path evidence; and the #903 Discovery V2 fail-closed transfer protocol: relation-preserving correspondence (not shared vocabulary), target-native validator, donor-first refusal, matched information and vector resource contract, separate representation-gain vs implementation-cost accounting, quantum_scientific_authority_transfer = FORBIDDEN"
+      },
+      "repo_parent": {
+        "path": "in-family artifacts, adopt verbatim",
+        "supplies": "V1_QUANTUM_CENSUS_V1.json (blob 95c4af5fbafd401e9898222c5b3fad28be013dba; 56 scoped issues, per-issue evidence verified); V1_ISSUE_DISPOSITION_LEDGER_V1.json (blob b701930a93b92951eb4ba7ecd354a53852d7254e); ORION_QG_PROGRAMME_SCIENTIFIC_CLOSURE_RESULTS.json (blob 7d5d63fb69898e7e531d8b5a5ff444b75bb6832a, terminal ..._NOT_NOVELTY_AUTHORITY); the #216 transfer rule itself already mirrors this protocol almost clause-for-clause",
+        "supporting": "#1362 is OPEN and UNEXECUTED (PAPER_CANDIDATE_BLOCKED, no bound artifact of its own per census) — its mechanism list is candidacy, not evidence; the census grants no issue-closure, novelty, physical-quantum or quantum-advantage authority"
+      },
+      "ownership_verdict_draft": "ALREADY_CLASSICAL_IN_FAMILY",
+      "residual_if_any": "none: OCM should reuse the census disposition vocabulary and the fail-closed protocol VERBATIM rather than reinvent them; the contextuality warning ('no globally sufficient scalar state') maps onto OCM's query-relative compressed state refusal, which answer_with_summary already implements",
+      "falsifier_that_reopens": "an OCM transfer case needing a disposition class outside the census terminal vocabulary, or a protocol requirement not expressible in the five fail-closed clauses — either would show the in-family protocol is incomplete for OCM scope and reopen a residual for an OCM-native transfer protocol; none is known"
+    }
+  ],
+  "issue_floor_note": "Issue #216 section 4 lists suggested parents per FQ-1..FQ-6; those were treated as a floor and enriched with the sibling ledger's earned-evidence rows (QG-28/30/31/32/34 canonical receipt, QG-21, MAX-R4E-A/B0/replay as IN-FAMILY classical parents). FQ-7/FQ-8 follow the sibling source ledger's discovered-donor numbering: FQ-7 = the #894 regime-geometry tuple (unexecuted, design control only), FQ-8 = the census/transfer-boundary protocol (already classical). The recovery function named in issue section 2's closing line is folded into FQ-1 (reopenability of discarded distinctions; KSO_CORE_PARENTS_V1.md clause (c) PARENT_OWNED).",
+  "schema": "ocm.q216.strongest_classical_parent_map.v1",
+  "verdict_summary": {
+    "PARENT_SUFFICIENT": 6,
+    "PARENT_SUFFICIENT__NO_EARNED_DONOR_RESULT": 1,
+    "ALREADY_CLASSICAL_IN_FAMILY": 1,
+    "RESIDUAL_FOR_OCM": 0,
+    "note": "Zero mechanism residuals survive first refusal; the retraction-corrected FQ-2 verdict converts the donor's 'adaptivity hierarchy' into a null-discipline rule. What remains open are MEASUREMENTS (quotient economics, adaptive-vs-fixed separation under a mandatory shuffle null, k/N localization fraction, layer attribution) — all routed to the sibling MSC-V1 experiment, which is exactly the issue's instruction to select the single highest-value residual only after the atlas is complete."
+  }
+}
