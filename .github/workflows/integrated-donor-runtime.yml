@@ -1,0 +1,88 @@
+name: Integrated donor runtime qualification
+
+on:
+  push:
+    branches: [research/integrated-donor-runtime-20260909]
+    paths:
+      - '.github/workflows/integrated-donor-runtime.yml'
+      - 'research/integrated-donor-runtime-v1/**'
+  pull_request:
+    paths:
+      - '.github/workflows/integrated-donor-runtime.yml'
+      - 'research/integrated-donor-runtime-v1/**'
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Recover exact other-lane additions without merging them
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ocm-integration/donors"
+          git fetch --no-tags --depth=1 origin 4853a5d0f0d3ca5170aaa2010e4919ae5b88551d eacb33de890481f739eec69853bcf7e165481655 789bea2a85fcdb3d7fd78c571c83f43b33e545fd
+          python - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ocm-integration'
+          base = '4853a5d0f0d3ca5170aaa2010e4919ae5b88551d'
+          pins = {'lane206': 'eacb33de890481f739eec69853bcf7e165481655', 'lane205': '789bea2a85fcdb3d7fd78c571c83f43b33e545fd'}
+          manifest = {'base': base, 'controller': os.environ['GITHUB_SHA'], 'lanes': {}}
+          for name, sha in pins.items():
+              paths = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=ACMRT', base, sha], text=True).splitlines()
+              archive = out / (name + '.tar.gz')
+              subprocess.run(['git', 'archive', '--format=tar.gz', '-o', str(archive), sha, '--', *paths], check=True)
+              tree = subprocess.check_output(['git', 'ls-tree', '-r', sha, '--', *paths], text=True)
+              (out / (name + '-TREE.txt')).write_text(tree)
+              manifest['lanes'][name] = {'commit': sha, 'paths': paths, 'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}
+          (out / 'SOURCE-INTAKE.json').write_text(json.dumps(manifest, indent=2) + '\n')
+          PY
+      - name: Fetch hash-pinned donor binary and source without running acquisition
+        run: |
+          set -euo pipefail
+          echo 'stitch-core==0.1.29 --hash=sha256:a37f1ff040637a52862bdadb86ebcf5a620962027465d7bfdaebced590faa1ec' > "$RUNNER_TEMP/stitch-lock.txt"
+          python -m pip download --require-hashes --no-deps --only-binary=:all: -r "$RUNNER_TEMP/stitch-lock.txt" -d "$RUNNER_TEMP/ocm-integration/donors"
+          python - <<'PY'
+          import hashlib, json, os, pathlib, urllib.request
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ocm-integration/donors'
+          meta = json.load(urllib.request.urlopen('https://pypi.org/pypi/stitch-core/0.1.29/json', timeout=30))
+          entry = next(x for x in meta['urls'] if x['filename'] == 'stitch_core-0.1.29.tar.gz')
+          expected = '307a72bae661e39cd6fa400ac342d858a289ac67116d7eb5237fdae5642fab9e'
+          if entry['digests']['sha256'] != expected:
+              raise ValueError('source digest drift')
+          data = urllib.request.urlopen(entry['url'], timeout=30).read()
+          if hashlib.sha256(data).hexdigest() != expected:
+              raise ValueError('source byte drift')
+          (out / entry['filename']).write_bytes(data)
+          (out / 'PYPI-METADATA.json').write_text(json.dumps(meta, indent=2) + '\n')
+          PY
+      - name: Run reviewed integration controls when present
+        run: |
+          set -euo pipefail
+          if test -f research/integrated-donor-runtime-v1/validate.py; then
+            python -m pip install --no-index --no-deps "$RUNNER_TEMP/ocm-integration/donors/"*.whl
+            python -B research/integrated-donor-runtime-v1/validate.py --output "$RUNNER_TEMP/ocm-integration/validation"
+          fi
+      - name: Preserve source custody
+        if: always()
+        run: |
+          git diff --exit-code
+          git status --porcelain > "$RUNNER_TEMP/ocm-integration/WORKTREE.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integrated-donor-runtime-${{ github.sha }}
+          path: '${{ runner.temp }}/ocm-integration/'
+          if-no-files-found: error
