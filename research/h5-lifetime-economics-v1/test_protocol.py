@@ -71,6 +71,11 @@ class TestH5LifetimeEconomics(unittest.TestCase):
             scan["agrees_with_h1_admitted"],
             "H1 rewrite-benefit scan has no G2 widening term; it must not be silently treated as SEARCH_AWARE agreement",
         )
+        self.assertFalse(self.result["same_path_acquisition_payback"])
+        self.assertTrue(self.result["h1_v3_not_this_capsule"])
+        self.assertTrue(self.result["g2_does_not_license_h1_selection_equivalence"])
+        self.assertIn("SAME_PATH_H1_SELECTION_EQUIVALENCE", self.result["not_issued"])
+        self.assertIn("H1_V3_CONFLATION", self.result["not_issued"])
         cheap = self.result["arms"]["search_aware"]
         tourn = self.result["arms"]["tournament"]
         self.assertEqual(cheap["acquisition_compute"], 3866)
@@ -219,7 +224,14 @@ class TestH5LifetimeEconomics(unittest.TestCase):
         self.assertIn("H5/003-survives_pareto_resource_price", boxes)
         self.assertEqual(
             boxes["H5/001-lifetime_benefit_after_training_inference_update_maintenance"]["status"],
-            "EARNED_AT_SCOPE_ON_COMPUTE_AFTER_CHEAP_ACQUISITION",
+            "CONDITIONAL_COST_SCENARIO_NOT_SAME_PATH",
+        )
+        self.assertFalse(
+            boxes["H5/001-lifetime_benefit_after_training_inference_update_maintenance"]["same_path_acquisition_payback"]
+        )
+        self.assertNotIn(
+            "H5/001-lifetime_benefit_after_training_inference_update_maintenance",
+            self.result["earned"],
         )
         self.assertFalse(boxes["H5/001-lifetime_benefit_after_training_inference_update_maintenance"]["vector_strictly_positive"])
         self.assertFalse(self.result["programme_wide_close"])
@@ -239,6 +251,7 @@ class TestH5LifetimeEconomics(unittest.TestCase):
     def test_scope_is_polynomial_microworld_only(self):
         self.assertEqual(self.result["scope"], "polynomial-microworld-lifetime-only")
         self.assertIn("polynomial+microworld", self.result["claim_ceiling"])
+        self.assertIn("not executed same-path", self.result["claim_ceiling"])
         self.assertNotIn("corpus-scale N1", self.result["claim_ceiling"])
 
 

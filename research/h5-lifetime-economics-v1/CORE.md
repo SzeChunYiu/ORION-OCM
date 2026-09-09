@@ -58,9 +58,11 @@ indexes are **not** rebuilt.
 The H1 rewrite-benefit scan (0 enumeration, 512 token operations) does **not**
 select H1's admitted `square square`. That is expected: H1 serving never widens
 the 4-ary grammar, so G2's SEARCH_AWARE width term is absent. The cheap arm is
-therefore a **G2-licensed cost substitution** (zero extra enumeration, same
-tournament fragment and H1 later savings), not a claim that the H1 rewrite scan
-is SEARCH_AWARE.
+therefore a **conditional cost scenario**: G2-licensed zero extra enumeration
+on the **same** H1 v2 fragment and later savings, not an executed same-path
+acquisition/payback. A G2 result in another selector/serving regime cannot
+license the missing H1 selection equivalence. **H1 v3 is a separate actual
+acquisition successor** and must not be conflated with this substitution.
 
 ## Arms
 
@@ -101,9 +103,12 @@ to polynomial enumeration.
 
 ## Not claimed
 
-Programme-wide H5 close. Matched P6 lifetime residual. M12 V5 with N1/N2 corpus
-cost. `PHYSICAL_DENOMINATOR_CLEAN`. OCM uniqueness over a persistent
-program-library parent. Salt retune of H1. Dollars. Neural/Transformer lifetime.
+Same-path H1 acquisition/payback (the reconstructed scan does not select
+`square square`). H1 v3 recoup. Programme-wide H5 close. Matched P6 lifetime
+residual. M12 V5 with N1/N2 corpus cost. `PHYSICAL_DENOMINATOR_CLEAN`. OCM
+uniqueness over a persistent program-library parent. Salt retune of H1.
+Dollars. Neural/Transformer lifetime. Compression savings as serving or
+lifetime savings.
 
 ## Freeze
 

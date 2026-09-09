@@ -484,19 +484,21 @@ def box_map(tournament: dict[str, Any], cheap: dict[str, Any],
             "tournament_compute_positive": tournament_positive,
             "search_aware_compute_positive": cheap_positive,
             "vector_strictly_positive": False,
+            "same_path_acquisition_payback": False,
             "status": (
-                "EARNED_AT_SCOPE_ON_COMPUTE_AFTER_CHEAP_ACQUISITION"
-                if cheap_positive and not tournament_positive
+                "CONDITIONAL_COST_SCENARIO_NOT_SAME_PATH"
+                if cheap_positive
                 else "NO_STRICT_SAVING"
-                if not cheap_positive
-                else "EARNED_AT_SCOPE"
             ),
             "unit": "enumeration attempts on the polynomial microscope; maintenance work units; persist bytes stay separate",
             "note": (
-                "Tournament capital remains net-negative on compute at the frozen "
-                "16 later-task horizon even after cheap maintenance. SEARCH_AWARE "
-                "(zero extra enumeration) flips the compute sign. State written and "
-                "examples have no later saving."
+                "Conditional cost scenario: the cheap arm keeps H1 v2's admitted "
+                "square square later-saving and substitutes G2-licensed zero extra "
+                "enumeration. The reconstructed H1 rewrite scan does not select "
+                "that fragment. A G2 selector result in another serving regime "
+                "does not license H1 selection equivalence. Not H1 v3. Tournament "
+                "capital remains net-negative. State written and examples have no "
+                "later saving."
             ),
         },
         "H5/002-m12_lifetime_v5_n1_n2_acquisition": {
@@ -561,10 +563,13 @@ def mechanism_comment(terminal: str, tournament: dict[str, Any], cheap: dict[str
         f"{scan['token_operations']} measured) drops acquisition compute to training "
         f"{cheap['acquisition_compute']}, so compute net becomes "
         f"{cheap['compute_net_later_saving_minus_acquisition_minus_maintenance']}. "
-        f"That is the sign flip. G2 length-8 break-even remains 2136 vs 41 and was "
-        f"not rerun. H1-horizon break-even is reported from the frozen later saving "
-        f"and is not a salt retune. State written and examples stay unrecouped. "
-        f"M12 V5 + N1/N2 corpus is CANNOT_CHECK. No dollars. Terminal {terminal}."
+        f"That sign flip is a conditional cost scenario: the scan does not select "
+        f"H1 v2's admitted fragment, and G2 agreement on another ecology does not "
+        f"license H1 selection equivalence. Not H1 v3. G2 length-8 break-even "
+        f"remains 2136 vs 41 and was not rerun. H1-horizon break-even is reported "
+        f"from the frozen later saving and is not a salt retune. State written and "
+        f"examples stay unrecouped. M12 V5 + N1/N2 corpus is CANNOT_CHECK. No "
+        f"dollars. Terminal {terminal}."
     )
 
 
@@ -717,10 +722,16 @@ def run_study() -> dict[str, Any]:
         "parent": "ordinary persistent rewrite/library + SEARCH_AWARE scan (G2) + SQLite/WAL physical parent (G5)",
         "parent_sufficient_on_serving": h1["parent_sufficient"],
         "mechanism_comment": comment,
+        "same_path_acquisition_payback": False,
+        "h1_v3_not_this_capsule": True,
+        "g2_does_not_license_h1_selection_equivalence": True,
         "claim_ceiling": (
-            "Bounded polynomial+microworld lifetime ledger on the frozen H1 "
-            "polynomial microscope plus a labelled MINIATURE_ONLY language analog. "
-            "Not M12 V5 with N1/N2 corpus cost, not programme-wide H5, not "
+            "Conditional cost scenario on the frozen H1 v2 fragment/saving plus a "
+            "G2-licensed cheaper acquisition coordinate. The reconstructed scan "
+            "does not select square square; this is not executed same-path "
+            "acquisition/payback and not H1 v3. Bounded polynomial+microworld "
+            "ledger plus a labelled MINIATURE_ONLY language analog. Not M12 V5 "
+            "with N1/N2 corpus cost, not programme-wide H5, not "
             "PHYSICAL_DENOMINATOR_CLEAN, not dollars."
         ),
         "h1_capital_input": h1,
@@ -757,7 +768,12 @@ def run_study() -> dict[str, Any]:
         "earned": sorted(k for k, v in boxes.items() if str(v["status"]).startswith("EARNED")),
         "not_earned": sorted(
             k for k, v in boxes.items()
-            if v["status"] in {"NO_STRICT_SAVING", "NO_UNQUALIFIED_SURVIVAL", "PRICE_REGIME_ONLY"}
+            if v["status"] in {
+                "NO_STRICT_SAVING",
+                "NO_UNQUALIFIED_SURVIVAL",
+                "PRICE_REGIME_ONLY",
+                "CONDITIONAL_COST_SCENARIO_NOT_SAME_PATH",
+            }
         ),
         "cannot_check": sorted(k for k, v in boxes.items() if str(v["status"]).startswith("CANNOT_CHECK")),
         "not_issued": [
@@ -770,6 +786,8 @@ def run_study() -> dict[str, Any]:
             "OCM_ARCHITECTURE_UNIQUENESS_OVER_LIBRARY_SEARCH",
             "SALT_RETUNE_OF_H1",
             "NEURAL_TRANSFORMER_LIFETIME",
+            "SAME_PATH_H1_SELECTION_EQUIVALENCE",
+            "H1_V3_CONFLATION",
         ],
         "negative_terminals_frozen": list(ALLOWED_TERMINALS),
         "h1_v1_terminal": load_json(H1_V1_RESULT)["terminal"] if H1_V1_RESULT.exists() else None,

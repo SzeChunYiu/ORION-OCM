@@ -69,6 +69,10 @@ jobs:
               sys.exit("must not claim M12 V5 with N1/N2 corpus cost")
           if result.get("programme_wide_close"):
               sys.exit("must not claim programme-wide close")
+          if result.get("same_path_acquisition_payback"):
+              sys.exit("H5 must not claim executed same-path H1 acquisition/payback")
+          if result["boxes"]["H5/001-lifetime_benefit_after_training_inference_update_maintenance"]["status"] != "CONDITIONAL_COST_SCENARIO_NOT_SAME_PATH":
+              sys.exit("H5/001 must remain a conditional cost scenario")
           g2 = result["g2_cited_not_rerun"]
           if g2["break_even_tasks_with_tournament"] != 2136:
               sys.exit("G2 tournament break-even must remain 2136")

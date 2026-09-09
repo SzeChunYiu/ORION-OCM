@@ -75,7 +75,7 @@ not push this remaining-gates branch.
 | G4 non-ML | `research/g4-decision-adequacy-v1/` | `G4_NON_ML_ADEQUACY_SUPPORTED_AT_TOY_SCOPE` |
 | G5.3 ZDD | `research/g5-zdd-warrant-v3/` | `ZDD_PARENT_N3_PARITY_SUPPORTED` (production unchanged) |
 | H1 v3 | `research/h1-amortized-lifetime-v3/` | `AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE` |
-| H5 | `research/h5-lifetime-economics-v1/` | `LIFETIME_NET_POSITIVE_AFTER_CHEAP_ACQUISITION` |
+| H5 | `research/h5-lifetime-economics-v1/` | `LIFETIME_NET_POSITIVE_AFTER_CHEAP_ACQUISITION` (conditional cost scenario; **not** same-path H1 selection; not H1 v3) |
 | L1 v4 | `research/l1-linguistic-g2-v4/` | `COMPOSITIONAL_LANGUAGE_LEARNING_ONLY` (morphology/UD/curves at planted scope) |
 | G1 F/O | `research/g1-fo-accumulation-v1/` | `FO_ACCUMULATION_AT_MICRO_SCOPE` (programme still PARTIAL) |
 | G6 parents v3 | `research/g6-intervention-parents-v3/` | `PARENT_SUFFICIENT` (surrogate/ES/G&T; BO still `CANNOT_CHECK`) |
@@ -120,4 +120,13 @@ Development evidence on that review branch (do not tick #165 from it):
   bottleneck, not causal cohort reuse or an OCM architecture advantage.
 - Frozen #203 stays unchanged / all-UNKNOWN.
 - G2.2 tiny-parent `REJECT` of compression/Stitch-style stand-ins is not
-  rejection of hash-pinned upstream Stitch 0.1.29.
+  rejection of hash-pinned upstream Stitch 0.1.29. On the H1 v3 16-program
+  corpus that binary learned a typed arity-3 lambda, not a fixed unary
+  fragment; the gap is the consumer, not a wrong fixed-fragment choice.
+  Compression savings are not serving or lifetime savings. Initial
+  fixed-fragment Stitch protocol stays unsupported.
+- H5 v1 is a **conditional cost scenario**: it keeps H1 v2's `square square`
+  later-saving and substitutes cheaper acquisition. The reconstructed scan
+  does not select that fragment. G2 cannot license H1 selection equivalence.
+  H1 v3 is a separate actual acquisition successor. Keep that ceiling on any
+  H5 checkbox.
