@@ -16,14 +16,14 @@ from morphology.mutations import mutate
 
 
 def run(budget: int = 4000, seed: int = 0, start_from=None,
-        archive_dims: str = "S_structural_2d") -> Dict[str, Any]:
+        archive_dims: str = "S_structural_2d", sampler=None) -> Dict[str, Any]:
     rng = random.Random(seed)
     t0 = time.time()
     population: List[Dict[str, Any]] = []
     n_feasible = 0
     for i in range(budget):
         g = mutate(start_from, rng) if (start_from is not None and rng.random() < 0.5) \
-            else random_genome(rng)
+            else (sampler(rng) if sampler else random_genome(rng))
         r = evaluate_genome(g)
         if not r["feasible"]:
             continue

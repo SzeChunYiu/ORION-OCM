@@ -25,6 +25,14 @@ from typing import Any, Dict, List, Tuple
 W_REF = 500.0
 B_REF = 150.0
 
+# T2 (MZ-D7, FREEZE_V1_AMEND_3) scalar references: MEDIANS of work_total and
+# persistent_bytes over the feasible census at tier T2 (CENSUS_P00C truth,
+# run 2026-09-09: feasible 28584/56160).  Frozen BEFORE any scored T2 run;
+# identical values are recorded in FREEZE_V1_AMEND_3.json and asserted by
+# tests.
+W2_REF = 484.7
+B2_REF = 152.8
+
 OBJECTIVE_NAMES: Tuple[str, ...] = (
     "capability", "acquisition_work", "reasoning_work", "verification_work",
     "persistent_bytes", "active_bytes", "maintenance_work", "revision_work",
@@ -50,7 +58,17 @@ def objective_vector(ev: Dict[str, Any]) -> List[float]:
 
 
 def dev_score(ev: Dict[str, Any]) -> float:
-    cost = (ev.get("work_total", 0.0) / W_REF + ev.get("persistent_bytes", 0.0) / B_REF) / 2.0
+    """Frozen scalar.  T0: V1 battery formula (W_REF/B_REF).  T2: the same
+    formula shape re-referenced to the T2 census medians (W2_REF/B2_REF,
+    FREEZE_V1_AMEND_3) so the cost term is ~1 at the feasible median."""
+    if ev.get("tier") == "T2":
+        assert W2_REF is not None and B2_REF is not None, \
+            "T2 scalar refs not frozen (FREEZE_V1_AMEND_3)"
+        cost = (ev.get("work_total", 0.0) / W2_REF
+                + ev.get("persistent_bytes", 0.0) / B2_REF) / 2.0
+    else:
+        cost = (ev.get("work_total", 0.0) / W_REF
+                + ev.get("persistent_bytes", 0.0) / B_REF) / 2.0
     return round(ev.get("solved_fraction", 0.0) - 0.5 * cost, 6)
 
 

@@ -67,9 +67,14 @@ class GridArchive:
 
 
 def run(budget: int = 4000, seed: int = 0, init_fraction: float = 0.2,
-        archive: str = "S_structural_2d", res: int = 10,
-        start_from=None) -> Dict[str, Any]:
-    """Standard MAP-Elites loop: random init, then mutation/crossover elites."""
+        archive: str = "S_structural_2d", res: int = 10, start_from=None,
+        sampler=None, mutator=None, crossover_fn=None) -> Dict[str, Any]:
+    """Standard MAP-Elites loop: random init, then mutation/crossover elites.
+
+    Optional encoding hooks (FREEZE_V1_AMEND_2, E1-CGP arms): sampler(rng)
+    replaces random_genome, mutator(g, rng) replaces mutate, crossover_fn(a,
+    b, rng) replaces crossover.  With all None the loop is byte-identical to
+    the pre-amendment behaviour (RNG consumption order unchanged)."""
     rng = random.Random(seed)
     t0 = time.time()
     arch = GridArchive(archive, res)
@@ -78,21 +83,28 @@ def run(budget: int = 4000, seed: int = 0, init_fraction: float = 0.2,
     n_feasible = 0
     batch = []
     for _ in range(n_init):
-        g = start_from.clone() if start_from is not None else random_genome(rng)
+        g = start_from.clone() if start_from is not None else (
+            sampler(rng) if sampler else random_genome(rng))
         batch.append(g)
     while n_evals < budget:
         if not batch:
             if not arch.cells:
-                batch = [random_genome(rng)]
+                batch = [sampler(rng) if sampler else random_genome(rng)]
             else:
                 elites = arch.elites()
                 for _ in range(10):
+                    # branch condition MUST stay identical to the pre-amend-2
+                    # loop: adding "or crossover_fn is None" here suppressed
+                    # crossover for hook-less (E0) arms and broke E0==amend-1
+                    # reproducibility (caught by the QDA2-vs-QDA1 xcheck)
                     if rng.random() < 0.5 or len(elites) == 1:
-                        batch.append(mutate(_genome_of(rng.choice(elites), rng), rng))
+                        g1 = _genome_of(rng.choice(elites), rng)
+                        batch.append(mutator(g1, rng) if mutator else mutate(g1, rng))
                     else:
                         a = _genome_of(rng.choice(elites), rng)
                         b = _genome_of(rng.choice(elites), rng)
-                        batch.append(crossover(a, b, rng))
+                        batch.append(crossover_fn(a, b, rng) if crossover_fn
+                                     else crossover(a, b, rng))
                     if len(batch) >= 10:
                         break
         g = batch.pop()

@@ -139,3 +139,35 @@ def random_cgp_genome(rng: random.Random) -> CGPGenomeV1:
     redundancy biases the induced distribution — measured, not assumed)."""
     return CGPGenomeV1([rng.randrange(UNIFORM_ALPHABET) for _ in _SLOTS],
                        [rng.randrange(i + 1) for i in range(len(_SLOTS))])
+
+
+def cgp_crossover(a: CGPGenomeV1, b: CGPGenomeV1,
+                  rng: random.Random) -> CGPGenomeV1:
+    """Uniform per-gene mixing: each payload and wire gene is drawn from
+    either parent independently.  Legality holds by construction."""
+    child = a.clone()
+    for i in range(len(_SLOTS)):
+        if rng.random() < 0.5:
+            child.payload[i] = b.payload[i]
+        if rng.random() < 0.5:
+            child.wires[i] = b.wires[i]
+    return child
+
+
+def cgp_sample_direct(rng: random.Random) -> OCMMorphologyGenomeV1:
+    """sampler hook for the search arms: uniform CGP genotype -> organism."""
+    return random_cgp_genome(rng).decode()
+
+
+def cgp_mutate_direct(g: OCMMorphologyGenomeV1,
+                      rng: random.Random) -> OCMMorphologyGenomeV1:
+    """mutator hook: canonical re-encode, single-gene CGP mutation, decode."""
+    return CGPGenomeV1.encode(g).mutate(rng).decode()
+
+
+def cgp_crossover_direct(a: OCMMorphologyGenomeV1, b: OCMMorphologyGenomeV1,
+                         rng: random.Random) -> OCMMorphologyGenomeV1:
+    """crossover_fn hook: encode both parents canonically, mix genes, decode."""
+    return cgp_crossover(CGPGenomeV1.encode(a), CGPGenomeV1.encode(b),
+                         rng).decode()
+

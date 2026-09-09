@@ -94,6 +94,8 @@ def transfer_profile(ev: Dict[str, Any]) -> List[float]:
 D_DIMS = ("primitive_pressure_slope", "marginal_acquisition_slope",
           "persistent_growth_per_capability", "learned_vs_imported",
           "consolidation_ratio")
+# interpretable grid-view axes over Archive D (MZ-D7, FREEZE_V1_AMEND_3)
+D2_VIEW_DIMS = ("marginal_acquisition_slope", "persistent_growth_per_capability")
 
 
 def _slope(ys: Sequence[float]) -> float:
@@ -140,6 +142,20 @@ DESCRIPTOR_REGISTRY: Dict[str, Dict[str, Any]] = {
                       "bounds": ((0.0, 32.0), (0.0, 1.0)), "kind": "grid"},
     "B_cvtd": {"dims": B_DIMS, "kind": "cvt"},
     "D_developmental": {"dims": D_DIMS, "kind": "cvt"},
+    # MZ-D7 (FREEZE_V1_AMEND_3): grid views over Archive D.  Bounds are the
+    # empirical feasible-census ranges quantized outward to 0.05, taken from
+    # CENSUS_P00C truth and frozen BEFORE any scored T2 run (asserted by
+    # tests against archives/CENSUS_P00C_TRUTH.json).  The 3d view's third
+    # axis is primitive_pressure_slope: consolidation_ratio is IDENTICALLY 0
+    # over the frozen V1 census space (its only charging paths are
+    # T_family in {recurrent_event_graph, distributed_local_controllers,
+    # growing_pruning} and L == consolidation_schema_residual — none present
+    # in the 56160-genome space), so it is a dead axis there (P00C finding).
+    "D_dev_2d": {"dims": D2_VIEW_DIMS,
+                 "bounds": ((1.35, 37.75), (3.0, 10.4)), "kind": "grid"},
+    "D_dev_3d": {"dims": D2_VIEW_DIMS + ("primitive_pressure_slope",),
+                 "bounds": ((1.35, 37.75), (3.0, 10.4), (1.85, 38.85)),
+                 "kind": "grid"},
 }
 
 
