@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g7/development_transition_v1.json",
+  "title": "DevelopmentTransitionV1",
+  "description": "Issue #165 G7 transition receipt. Every listed property is required. Comparators CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM, STRONG_ADAPTIVE_PARENT live under strongest_parent_result. κ/Ω/χ are kappa/omega/chi.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "lineage_id",
+    "source_stage",
+    "target_stage",
+    "source_machine_identity",
+    "target_machine_identity",
+    "persistent_state_digest",
+    "imported_donor_identities",
+    "prior_information_manifest",
+    "new_information_supplied",
+    "new_methods_schemas",
+    "reused_method_identities",
+    "actual_execution_witnesses",
+    "primitive_operators_added",
+    "composition_depth",
+    "acquisition_cost",
+    "reasoning_cost",
+    "verification_cost",
+    "revision_cost",
+    "self_change_cost",
+    "maintenance_cost",
+    "persistent_bytes",
+    "active_k_n",
+    "kappa",
+    "omega",
+    "chi",
+    "retention",
+    "negative_transfer",
+    "ablation",
+    "strongest_parent_result",
+    "terminal"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ocm.g7.development-transition.v1"
+    },
+    "lineage_id": {"$ref": "#/$defs/nonempty_string"},
+    "source_stage": {"$ref": "#/$defs/stage"},
+    "target_stage": {"$ref": "#/$defs/stage"},
+    "source_machine_identity": {"$ref": "#/$defs/sha256"},
+    "target_machine_identity": {"$ref": "#/$defs/sha256"},
+    "persistent_state_digest": {"$ref": "#/$defs/sha256"},
+    "imported_donor_identities": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonempty_string"}
+    },
+    "prior_information_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items", "charge"],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonempty_string"}
+        },
+        "charge": {"$ref": "#/$defs/nni"}
+      }
+    },
+    "new_information_supplied": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["training_task_ids", "examples", "labels"],
+      "properties": {
+        "training_task_ids": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonempty_string"}
+        },
+        "examples": {"$ref": "#/$defs/nni"},
+        "labels": {"$ref": "#/$defs/nni"}
+      }
+    },
+    "new_methods_schemas": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/method_or_schema"}
+    },
+    "reused_method_identities": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonempty_string"}
+    },
+    "actual_execution_witnesses": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/execution_witness"}
+    },
+    "primitive_operators_added": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonempty_string"}
+    },
+    "composition_depth": {"$ref": "#/$defs/nni"},
+    "acquisition_cost": {"$ref": "#/$defs/cost"},
+    "reasoning_cost": {"$ref": "#/$defs/cost"},
+    "verification_cost": {"$ref": "#/$defs/cost"},
+    "revision_cost": {"$ref": "#/$defs/cost"},
+    "self_change_cost": {"$ref": "#/$defs/cost"},
+    "maintenance_cost": {"$ref": "#/$defs/cost"},
+    "persistent_bytes": {"$ref": "#/$defs/nni"},
+    "active_k_n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["k", "N", "ratio"],
+      "properties": {
+        "k": {"$ref": "#/$defs/nni"},
+        "N": {"$ref": "#/$defs/nni"},
+        "ratio": {"type": "number", "minimum": 0}
+      }
+    },
+    "kappa": {"$ref": "#/$defs/coordinate"},
+    "omega": {"$ref": "#/$defs/coordinate"},
+    "chi": {"$ref": "#/$defs/coordinate"},
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prior_methods_retained", "prior_failure_knowledge_retained", "notes"],
+      "properties": {
+        "prior_methods_retained": {"type": "boolean"},
+        "prior_failure_knowledge_retained": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "negative_transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed", "harmful_tasks", "notes"],
+      "properties": {
+        "observed": {"type": "boolean"},
+        "harmful_tasks": {"$ref": "#/$defs/nni"},
+        "notes": {"type": "string"}
+      }
+    },
+    "ablation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["removed", "effect_disappears", "notes"],
+      "properties": {
+        "removed": {"$ref": "#/$defs/nonempty_string"},
+        "effect_disappears": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "strongest_parent_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "reset_costs_more_or_fails_reuse",
+        "parent_ties_continued_mechanism",
+        "winner",
+        "notes"
+      ],
+      "properties": {
+        "CONTINUED_OCM": {"$ref": "#/$defs/arm_result"},
+        "RESET_OCM": {"$ref": "#/$defs/arm_result"},
+        "TASK_SPECIFIC_OCM": {"$ref": "#/$defs/arm_result"},
+        "STRONG_ADAPTIVE_PARENT": {"$ref": "#/$defs/arm_result"},
+        "reset_costs_more_or_fails_reuse": {"type": "boolean"},
+        "parent_ties_continued_mechanism": {"type": "boolean"},
+        "winner": {"$ref": "#/$defs/nonempty_string"},
+        "notes": {"type": "string"}
+      }
+    },
+    "terminal": {"$ref": "#/$defs/nonempty_string"}
+  },
+  "$defs": {
+    "nni": {"type": "integer", "minimum": 0},
+    "nonempty_string": {"type": "string", "minLength": 1},
+    "sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "EMPTY",
+        "OCM_0",
+        "OCM_1",
+        "OCM_2",
+        "OCM_3",
+        "OCM_4",
+        "OCM_5",
+        "OCM_6"
+      ]
+    },
+    "origin_category": {
+      "type": "string",
+      "enum": [
+        "TAUGHT_IMPORTED",
+        "LEARNED_APPLICABILITY",
+        "LEARNED_COMPOSITION",
+        "INDEPENDENT_REDISCOVERY"
+      ]
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["work_units", "verifier_calls", "notes"],
+      "properties": {
+        "work_units": {"$ref": "#/$defs/nni"},
+        "verifier_calls": {"$ref": "#/$defs/nni"},
+        "notes": {"type": "string"}
+      }
+    },
+    "coordinate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "status", "notes"],
+      "properties": {
+        "value": {"type": "number", "minimum": 0},
+        "status": {
+          "type": "string",
+          "enum": ["MEASURED", "UNKNOWN", "CANNOT_CHECK"]
+        },
+        "notes": {"type": "string"}
+      }
+    },
+    "method_or_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "kind", "origin_category", "payload"],
+      "properties": {
+        "identity": {"$ref": "#/$defs/nonempty_string"},
+        "kind": {
+          "type": "string",
+          "enum": ["method", "schema", "failure_record"]
+        },
+        "origin_category": {"$ref": "#/$defs/origin_category"},
+        "payload": {"type": "object"}
+      }
+    },
+    "execution_witness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "invoked_identities", "token_word", "program", "enumeration_attempts", "verified"],
+      "properties": {
+        "task_id": {"$ref": "#/$defs/nonempty_string"},
+        "invoked_identities": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonempty_string"}
+        },
+        "token_word": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "program": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "enumeration_attempts": {"$ref": "#/$defs/nni"},
+        "verified": {"type": "boolean"}
+      }
+    },
+    "arm_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arm",
+        "work_units",
+        "reused_prior_methods",
+        "loaded_foreign_store",
+        "notes"
+      ],
+      "properties": {
+        "arm": {
+          "type": "string",
+          "enum": [
+            "CONTINUED_OCM",
+            "RESET_OCM",
+            "TASK_SPECIFIC_OCM",
+            "STRONG_ADAPTIVE_PARENT"
+          ]
+        },
+        "work_units": {"$ref": "#/$defs/nni"},
+        "reused_prior_methods": {"type": "boolean"},
+        "loaded_foreign_store": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

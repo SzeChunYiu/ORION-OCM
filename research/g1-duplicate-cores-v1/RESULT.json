@@ -1,0 +1,299 @@
+{
+  "G1_1_6": {
+    "can_be_honestly_checked": true,
+    "can_be_honestly_earned_as_deletion": false,
+    "check_kind": "architecture_measurement_and_classification",
+    "id": "G1.1.6",
+    "live_second_core_count": 0,
+    "reason": "Language, mathematics and procedural domains already share one (F, O, \u03a0, C). Lookalikes are classified, not deleted. The checkbox verb \u201celiminate\u201d is not an applicable deletion: there is no live second core.",
+    "status": "NOT_EARNED_AS_DELETION",
+    "text": "Eliminate duplicated cognitive cores."
+  },
+  "G1_checkboxes": {
+    "G1.1": [
+      {
+        "can_be_honestly_checked": true,
+        "can_be_honestly_earned_as_deletion": false,
+        "evidence": "research/g1-duplicate-cores-v1/RESULT.json",
+        "id": "G1.1.6",
+        "status": "NOT_EARNED_AS_DELETION",
+        "text": "Eliminate duplicated cognitive cores."
+      }
+    ]
+  },
+  "all_three_domains_share_one_core": true,
+  "claim_ceiling": "Architecture-scope measurement: language, mathematics and procedural work enter one (F, O, \u03a0, C) at this head. Lookalikes classified. Production not deleted. Not #93 empirical field closure. Not G1.2 minimality.",
+  "classified_constructors": [
+    {
+      "detail": "DialogueRuntime.resume reopens OCMRuntime at the same ledger root; not a second field.",
+      "kind": "SHARED_RUNTIME_REOPEN",
+      "lineno": 69,
+      "live_second_core": false,
+      "name": "OCMRuntime",
+      "path": "src/ocm/dialogue/session.py"
+    },
+    {
+      "detail": "ChatSession constructs the one live ocm_runtime.OCMRuntime ledger for the session.",
+      "kind": "SHARED_RUNTIME_ENTRY",
+      "lineno": 89,
+      "live_second_core": false,
+      "name": "OCMRuntime",
+      "path": "src/ocm/chat/session.py"
+    }
+  ],
+  "domain_scans": [
+    {
+      "constructors": [],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 0,
+      "package": "language"
+    },
+    {
+      "constructors": [],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 0,
+      "package": "science"
+    },
+    {
+      "constructors": [],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 0,
+      "package": "work"
+    },
+    {
+      "constructors": [
+        {
+          "lineno": 69,
+          "name": "OCMRuntime",
+          "path": "src/ocm/dialogue/session.py"
+        }
+      ],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 1,
+      "package": "dialogue"
+    },
+    {
+      "constructors": [],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 0,
+      "package": "lifetime"
+    },
+    {
+      "constructors": [
+        {
+          "lineno": 89,
+          "name": "OCMRuntime",
+          "path": "src/ocm/chat/session.py"
+        }
+      ],
+      "core_class_defs": [],
+      "n_core_class_defs": 0,
+      "n_core_constructors": 1,
+      "package": "chat"
+    }
+  ],
+  "domains_share_one_core": {
+    "language": true,
+    "mathematics": true,
+    "procedural": true
+  },
+  "gate": "G1.1.6",
+  "head": "eacb33de890481f739eec69853bcf7e165481655",
+  "identities": {
+    "custody_class": "ocm.runtime.state.OCMRuntime",
+    "language_field_bridge_uses_live": true,
+    "lifetime_persistent_uses_live_attr": true,
+    "live_class": "ocm.runtime.ocm_runtime.OCMRuntime",
+    "live_is_not_custody": true,
+    "package_export_is_custody": true,
+    "package_export_is_live": false,
+    "science_ledger_holds_runtime": true,
+    "science_lifecycle_uses_live": true,
+    "work_operator_is_not_operator_spec": true
+  },
+  "issue": 165,
+  "live_core": {
+    "C": "constitution + host-injected CommitAuthority; domains do not construct C",
+    "F": "one KnowledgeSpace + one EvidenceRegistry on one ocm.runtime.ocm_runtime.OCMRuntime",
+    "O": "one OperatorRegistry; work.Operator is a parallel dict-state schema",
+    "Pi": "runtime.solve executive; work.apply_operator is not a second executive field",
+    "class": "ocm.runtime.ocm_runtime.OCMRuntime",
+    "custody_class": "ocm.runtime.state.OCMRuntime"
+  },
+  "live_second_cores": [],
+  "lookalikes": [
+    {
+      "detail": "Package export ocm.runtime.OCMRuntime is the M0 custody runtime. Live cognition imports ocm.runtime.ocm_runtime.OCMRuntime.",
+      "disposition": "RETAIN_AS_CUSTODY",
+      "id": "M0_RUNTIME_NAME_COLLISION",
+      "kind": "historical_wrapper",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/runtime/state.py",
+        "src/ocm/runtime/__init__.py"
+      ]
+    },
+    {
+      "detail": "work.Operator applies to dict state and does not write KnowledgeSpace. Persistent identity is admitted through the shared OCMRuntime ledger.",
+      "disposition": "RETAIN_AS_DONOR_SCHEMA",
+      "id": "WORK_OPERATOR_PARALLEL_SCHEMA",
+      "kind": "parallel_operator_api",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/work/contracts.py",
+        "src/ocm/operators/registry.py"
+      ]
+    },
+    {
+      "detail": "MeaningGraph is compact language representation. Persistence goes through field_bridge onto the one KSO.",
+      "disposition": "TYPED_VIEW",
+      "id": "MEANINGGRAPH_COMPACT_VIEW",
+      "kind": "typed_working_view",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/language/meaning.py",
+        "src/ocm/language/field_bridge.py"
+      ]
+    },
+    {
+      "detail": "DialogueWorkspace is a conversation view. Binding reuses language.field_bridge.",
+      "disposition": "TYPED_VIEW",
+      "id": "DIALOGUE_WORKSPACE_COMPACT_VIEW",
+      "kind": "typed_working_view",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/dialogue/workspace.py",
+        "src/ocm/dialogue/field_binding.py"
+      ]
+    },
+    {
+      "detail": "ScienceLedger holds the shared OCMRuntime. Proof kernels are donor checkers, not a second C.",
+      "disposition": "ADAPTER_ON_SHARED_RUNTIME",
+      "id": "SCIENCE_LEDGER_ADAPTER",
+      "kind": "typed_working_view",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/science/lifecycle.py",
+        "src/ocm/science/proof.py"
+      ]
+    },
+    {
+      "detail": "GovernedSpace / documented KSO wrappers are views of one KnowledgeSpace. No RecursiveKSO or UnifiedKSO class remains.",
+      "disposition": "ALREADY_COLLAPSED_TO_VIEWS",
+      "id": "GOVERNEDSPACE_VIEW",
+      "kind": "historical_wrapper",
+      "live_second_core": false,
+      "paths": [
+        "src/ocm/kso/admission.py",
+        "src/ocm/kso/space.py"
+      ]
+    },
+    {
+      "detail": "KSO navigation is \u03a0_nav. Issue #165 executive is \u03a0_exec (solve.py). Not two cores.",
+      "disposition": "DISAMBIGUATED",
+      "id": "KSO_PI_VS_EXECUTIVE_PI",
+      "kind": "naming_collision",
+      "live_second_core": false,
+      "paths": [
+        "docs/spec/KSO_NAVIGATION_REFERENCE_V1.md",
+        "src/ocm/runtime/solve.py"
+      ]
+    }
+  ],
+  "not_issued": [
+    "MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE",
+    "CURRENT_KSO_PARENT_SUFFICIENT",
+    "DOMAIN_CORE_FORK_REQUIRED",
+    "CONTROLLER_GROWTH_DOMINATES",
+    "STATE_SIZE_DOMINATES",
+    "PARENT_SUFFICIENT"
+  ],
+  "not_issued_reasons": {
+    "CURRENT_KSO_PARENT_SUFFICIENT": "Reserved for #93 empirical field closure. This capsule is architecture-scope core identity, issued as SINGLE_CORE_AT_SCOPE when the probe shares one core.",
+    "DOMAIN_CORE_FORK_REQUIRED": "Issued only if a domain constructs a live second (F, O, \u03a0, C)."
+  },
+  "parent_freeze": {
+    "duplicate_cores_sha256": "61a69fb88f3121e2597c90709b8c20efb6ea6f7685f2b42763f3c7b9c0218b40",
+    "freeze_G1_1_6_status": "NOT_EARNED",
+    "freeze_terminal": "COMPACT_VESSEL_PARTIAL",
+    "g1_checkboxes_sha256": "24e5cf26317cdfa720e709172a3189211b02ccc4e2fef1b3bba67c71bdea6bd5",
+    "not_overwritten": true,
+    "path": "research/g1-vessel-freeze-v1",
+    "present": true
+  },
+  "probe": {
+    "C": {
+      "commit_authority_host_injected_not_constructed": true,
+      "independent_warrants_survive_cross_domain_revoke": true,
+      "language_liveness_after_utterance_revoke": "DEAD",
+      "math_liveness_after_language_revoke": "LIVE",
+      "procedural_liveness_after_language_revoke": "LIVE",
+      "revoke_uses_shared_runtime": true
+    },
+    "F": {
+      "evidence_record_count": 7,
+      "ks_atom_count": 3,
+      "ks_replaced_on_admit": true,
+      "language_representation_in_ks": true,
+      "math_conclusion_in_evidence": true,
+      "procedural_demo_in_evidence": true,
+      "reopen_shares_all_three": true,
+      "same_evidence_registry_object": true,
+      "same_knowledge_space_object": true,
+      "science_ledger_is_adapter_on_same_runtime": true
+    },
+    "O": {
+      "operator_spec_registered_on_shared_registry": true,
+      "same_operator_registry_object": true,
+      "work_apply_outcome": "APPLIED",
+      "work_dict_state_after": {
+        "n": 1
+      },
+      "work_operator_apply_does_not_write_ks": true
+    },
+    "Pi": {
+      "runtime_has_solve": true,
+      "work_apply_is_not_runtime_solve": true
+    },
+    "language": {
+      "live_before_revoke": true,
+      "representation_id": "meaning-binding:2e1020bc476b9867",
+      "utterance_evidence": "ev:ocm:eee2a137810ee890"
+    },
+    "math": {
+      "conclusion_evidence": "ev:ocm:a6f7d823a56291a0",
+      "kernel": "propositional",
+      "kernel_detail": "tautology over 1 variables (2 rows)",
+      "kernel_verdict": "PASS"
+    },
+    "procedural": {
+      "demo_evidence": "ev:ocm:9d7505ef0204983f",
+      "operator_manifest_keys": [
+        "inc-spec@1"
+      ]
+    },
+    "shared_one_core": true,
+    "slots": {
+      "C": "constitution + host-injected CommitAuthority; domains do not construct C",
+      "F": "one KnowledgeSpace + one EvidenceRegistry on one ocm.runtime.ocm_runtime.OCMRuntime",
+      "O": "one OperatorRegistry; work.Operator is a parallel dict-state schema",
+      "Pi": "runtime.solve executive; work.apply_operator is not a second executive field"
+    }
+  },
+  "production_code_deleted": false,
+  "salt": "orion-ocm-g1-duplicate-cores-v1",
+  "schema": "ocm.g1.duplicate-cores.v1",
+  "src_custody": {
+    "deleted": false,
+    "exists": true,
+    "n_files": 219,
+    "note": "This capsule writes only under research/g1-duplicate-cores-v1/ and the workflow file."
+  },
+  "static_commit_authority_available_to_host": "StaticCommitAuthority",
+  "terminal": "SINGLE_CORE_AT_SCOPE"
+}

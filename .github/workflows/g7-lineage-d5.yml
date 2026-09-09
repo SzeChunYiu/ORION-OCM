@@ -1,0 +1,71 @@
+name: G7 lineage D5 successor
+
+on:
+  pull_request:
+    paths:
+      - 'research/g7-lineage-d5-v5/**'
+      - 'research/g7-lineage-d4-v4/RESULT.json'
+      - 'research/g7-lineage-d3-v3/RESULT.json'
+      - 'research/g7-lineage-d2-v2/RESULT.json'
+      - 'research/g7-lineage-v1/RESULT.json'
+      - 'research/math-n4-subgoal-v2/kernel.py'
+      - 'research/math-n4-lemma-reuse-v1/kernel.py'
+      - '.github/workflows/g7-lineage-d5.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g7-lineage-d5-v5/**'
+      - '.github/workflows/g7-lineage-d5.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  microscope-lineage-d5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/g7-lineage-d5-v5'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-lineage-d5-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g7-lineage-d5-v5 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g7-lineage-d5-v5 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Six-transition lineage study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-lineage-d5-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          /usr/bin/time -v python3 -B research/g7-lineage-d5-v5/experiment.py \
+            --out "$out/result.json" \
+            --transitions "$out/transitions" \
+            2> >(tee "$out/time-and-stderr.txt" >&2) \
+            | tee "$out/console.txt"
+      - name: Frozen prior RESULT files not overwritten
+        run: |
+          git diff --exit-code -- research/g7-lineage-v1/RESULT.json
+          git diff --exit-code -- research/g7-lineage-d2-v2/RESULT.json
+          git diff --exit-code -- research/g7-lineage-d3-v3/RESULT.json
+          if [ -f research/g7-lineage-d4-v4/RESULT.json ]; then
+            git diff --exit-code -- research/g7-lineage-d4-v4/RESULT.json
+          fi
+          git diff --exit-code -- research/math-n4-subgoal-v2/RESULT.json
+          git diff --exit-code -- research/math-n4-lemma-reuse-v1/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g7-lineage-d5
+          path: '${{ runner.temp }}/g7-lineage-d5-${{ github.run_id }}-${{ github.run_attempt }}'
+          if-no-files-found: error
