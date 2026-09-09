@@ -1,0 +1,35 @@
+{
+ "$id": "pdev217.verify_row.v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "properties": {
+  "hostiles": {
+   "items": {
+    "properties": {
+     "status": {
+      "enum": [
+       "PASS",
+       "FAIL",
+       "ADVERSE_RECORDED",
+       "NOT_APPLICABLE"
+      ]
+     }
+    },
+    "required": [
+     "hostile_id",
+     "status"
+    ],
+    "type": "object"
+   },
+   "type": "array"
+  }
+ },
+ "required": [
+  "schema",
+  "candidate_id",
+  "hostiles",
+  "failing_hostiles",
+  "integrity_failures",
+  "shadow"
+ ],
+ "type": "object"
+}
