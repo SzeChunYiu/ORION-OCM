@@ -1,0 +1,55 @@
+name: Cold-process goal-only native OCM
+on:
+  push:
+    branches: [research/goal-only-cold-native-20260909]
+  pull_request:
+    paths:
+      - 'research/goal-only-cold-native-v1/**'
+      - '.github/workflows/goal-only-cold-native.yml'
+permissions:
+  contents: read
+jobs:
+  authored-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install pytest==8.3.5
+      - name: Controls and selected production regressions
+        shell: bash
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: src
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/cold-evidence"
+          python -B -m unittest discover -s research/goal-only-cold-native-v1 -p test_controls.py -v 2>&1 | tee "$RUNNER_TEMP/cold-evidence/unit-normal.log"
+          python -O -B -m unittest discover -s research/goal-only-cold-native-v1 -p test_controls.py -v 2>&1 | tee "$RUNNER_TEMP/cold-evidence/unit-optimized.log"
+          python -B -m pytest -q tests/m2/test_ocm_runtime.py tests/m2/test_runtime_lifecycle_regressions.py tests/m2/test_runtime_backend_purity.py tests/m2/test_runtime_output_boundary.py tests/integration/test_runtime_atomic_admission.py 2>&1 | tee "$RUNNER_TEMP/cold-evidence/runtime-regressions.log"
+      - name: Fresh native authored cycle and evidence mutations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B research/goal-only-cold-native-v1/qualify.py --out "$RUNNER_TEMP/cold-evidence/cycle" | tee "$RUNNER_TEMP/cold-evidence/qualification.log"
+          python -B research/goal-only-cold-native-v1/audit_mutants.py --source "$RUNNER_TEMP/cold-evidence/cycle" --out "$RUNNER_TEMP/cold-evidence/AUDIT-MUTANTS.json"
+          git rev-parse HEAD > "$RUNNER_TEMP/cold-evidence/COMMIT.txt"
+          git diff --exit-code
+      - name: Preserve records without redundant parser copies
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/cold-evidence"
+          tar --exclude='*/runtime' -czf "$RUNNER_TEMP/cold-evidence.tar.gz" -C "$RUNNER_TEMP/cold-evidence" .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cold-native-${{ github.sha }}
+          path: ${{ runner.temp }}/cold-evidence.tar.gz
+          if-no-files-found: error
+          retention-days: 14
