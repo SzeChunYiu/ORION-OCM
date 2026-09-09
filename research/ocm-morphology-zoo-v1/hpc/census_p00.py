@@ -125,7 +125,7 @@ def main() -> None:
         "chunk": CHUNK,
     }
     tag = "" if CHUNK is None else "_c%dof%d" % CHUNK
-    with open(os.path.join(MAN, "CENSUS_P00_MANIFEST.json"), "w") as f:
+    with open(os.path.join(MAN, "CENSUS_P00_MANIFEST%s.json" % tag), "w") as f:
         json.dump({"config_digest": config_digest(), "bound": CENSUS_BOUND_V1,
                    "expected": expected, "chunk": CHUNK,
                    "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, f, indent=1)
