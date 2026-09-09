@@ -1,0 +1,193 @@
+{
+ "arms": {
+  "P0_ORACLE": "true generating source (synthetic worlds only). On W4/W5 recorded as CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS.",
+  "P1_NGRAM_WB_D8": "interpolated n-gram, Witten-Bell lambda = n(ctx)/(n(ctx)+d(ctx)), frozen max order 8, deterministic backoff to shorter context, add-1/2 at unigram base against alphabet+1",
+  "P2_PPM_C_O8": "PPM with escape method C, max order 8, NO exclusion (declared conservative); escape mass over unseen symbols divided uniformly over symbols unseen at that order",
+  "P3_CTW_KT_D12": "exact Context Tree Weighting, Krichevsky-Trofimov / Dirichlet(1/2,...,1/2) per-context estimator, mixture weight 1/2 estimated : 1/2 children-product, context depth 12, log-domain, lazy child creation, unseen-subtree weight 1",
+  "P4_WFA_EM": "weighted finite automaton = hidden-Markov model, k=8 states, seeded row-normalised init from Random(2140354), 10 Baum-Welch iterations CAP with deterministic early stop at relative LL gain < 1e-6, frozen at eval (batch arm). SCOPE (pre-run amendment A2, pure-Python compute feasibility, decided before any scored run): W1/W2/W3 at n=16000 only and W5 at n=20000 only; every other ladder step and W4 recorded CANNOT_CHECK_COMPUTE_BUDGET. The spectral (Hankel/SVD) variant is recorded CANNOT_CHECK_NO_STDLIB_SVD; EM-HMM is the declared bounded substitute parent.",
+  "P5_PCFG_EM": "PCFG induction inside a frozen budget: hand-authored rule TEMPLATE (declared and charged as prior information), probabilities by inside-outside EM, 60 iterations CAP with the same deterministic early stop, EM fit over the most recent 1500 depth-0 blocks (pre-run amendment A3: declared fit subsample, charged). W2 template in chart form: S->a T, T->S b, S->c plus distractors S->S S, S->b W, W->S a, S->a S, S->b S (EM must push distractors down). DECLARED INFORMATION GIFT, charged in results: on W2 (which has no surface sentence boundaries) the PCFG arm receives the stream pre-segmented into constituent blocks at depth-0 boundaries, for BOTH fitting and scoring; all other arms see the raw stream. Per-symbol prediction uses Earley-style prefix probabilities (Stolcke 1995) with a deterministic relaxation tolerance 1e-12 capped at 50 sweeps, so the chain rule P(x_t|x_<t) is exact up to that declared tolerance. SCOPE: W2 (main + expressivity dial); every other world CANNOT_CHECK_OUT_OF_DECLARED_SCOPE.",
+  "P6_BPE_PPM": "byte-pair segmentation with a frozen budget of 200 merges + PPM order 4 over unit ids. W4: merges learned over whitespace-delimited word types weighted by frequency (the original BPE setting; word boundary is real surface structure, not an answer). W3: merges learned on the raw character burn-in slice (no boundary given). Merge-learning work is charged in full. SCOPE: W3 and W4; elsewhere CANNOT_CHECK_OUT_OF_DECLATED_SCOPE.",
+  "P7_KNN_SEQ": "case-based sequence memory: window h=6, bucket index on the window's first 3 symbols (first 2 on W4 where alphabet is large), scan at most the 8000 most recent same-bucket windows, k=8 nearest by Hamming distance, distance-weighted vote. Index build and every window comparison charged. Scored on a deterministic stride-8 subsample of the protected tail (declared; accuracy estimated on subsample).",
+  "P8_LOGISTIC_DIAG": "DIAGNOSTIC ONLY, NO ADOPTION AUTHORITY: single-layer softmax over one-hot last-4 symbols, SGD 5 epochs, fixed learning rate 0.05, seeded init Random(2140358). SCOPE: W1/W2/W3 and W5; W4 CANNOT_CHECK_COMPUTE_BUDGET."
+ },
+ "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+ "controls": {
+  "hand_authored_prior_charge": "P5's rule template is hand-authored prior information: 6 rules (W2) / (3 + |tags|) rules (W5) with free probability vectors, counted in the results and the protocol.",
+  "no_free_preprocessing": "every per-arm preparation is charged inside that arm's work counters: P5 grammar-template EM, P6 merge induction, P3 tree storage, P7 index build, P4/P8 full retrain on each ladder step.",
+  "protected_split_disjointness": "the scored region of every world is disjoint from every burn-in ladder position; on W4/W5 additionally the test FILE is sha256-gated and opened only by the frozen evaluator path.",
+  "shuffle_null": "at the largest n per world, the burn-in region is permuted by a fixed Random(2140360) permutation (marginals preserved, temporal structure destroyed) and the affected arms re-scored on the SAME protected tail. Registered null direction: every parent whose gain comes from temporal structure must degrade toward the unigram floor; an arm that keeps its score under a shuffled burn-in fails the causal gate for this function."
+ },
+ "execution": {
+  "artifact_flow": "rsync capsule to laptop, run fna3.py there, rsync results back, md5-verify both directions",
+  "determinism": "all randomness through stdlib random.Random(seed) with seeds registered above; float arithmetic identical on a single host and single run",
+  "host": "billy-laptop (ssh alias billy-laptop, hostname billy), Python 3.8.10, stdlib only",
+  "mac_role": "edits / git / gh only; no execution"
+ },
+ "expressivity_dial": {
+  "arms": [
+   "P0",
+   "P1",
+   "P2",
+   "P3",
+   "P5",
+   "P8"
+  ],
+  "purpose": "measure the finite-context break as unbounded-dependency depth grows past any fixed model context",
+  "world": "W2_NESTED regenerated with D_MAX in [8,16,32,48], same seed 2140302, n=64000, T=20000"
+ },
+ "frozen_at_utc": "2026-09-09",
+ "frozen_before_execution": true,
+ "issue": "SzeChunYiu/ORION-OCM#214",
+ "language_issue_owners": [
+  "#43",
+  "#44",
+  "#45"
+ ],
+ "note": "Worlds, arms, splits, seeds, metrics, predictions and terminals below are registered BEFORE any scored run. Code digests are recorded in sha256 below BEFORE the first scored run of fna3.py. Any later edit to fna3.py invalidates this freeze and must be recorded, not silently re-hashed.",
+ "post_run_amendments": [
+  {
+   "change": "fna3.py: run_shuffle_null gains score_stream parameter (protected scored stream scored instead of the empty slice); the two UD null call sites pass it and W4 applies the same A6 sentinel substitution as the main run; new driver nullfix_a8.py recomputes ONLY the UD nulls with identical arms/seeds/n",
+   "declared_utc": "2026-09-09T21:20:00Z",
+   "defect": "reading V1 showed every UD shuffle-null entry with bits_per_symbol exactly 0.0: run_shuffle_null scored stream[n:n+T], which is EMPTY for the UD worlds because the real-corpus fit streams are truncated to exactly n symbols; the 7 R5 cases derived from those entries were invalid",
+   "id": "A8",
+   "results_record": "FNA3_RESULTS_V1.json post_run_corrections.A8 (keeps the invalid 0.0 entries as a defect record)",
+   "sha256_after_a8": {
+    "fna3.py": "b170c5421763143d31c559b1279b449794e3e80d5824db492640dd974c4cbf51",
+    "nullfix_a8.py": "31bd10fa3d2c58320fdca423607beef9b40352142d51318679bccd2ab6a14a2d"
+   },
+   "tests_after_change": "python3 test_fna3.py -> 23/23 OK on billy-laptop (Python 3.8.10)",
+   "timing": "post-run (declared AFTER the scored run V1 completed; the pre-run digest set above is untouched)",
+   "unaffected": "all scored results (worlds/ladders/dial/floors/revocation), the synthetic-world nulls (their streams are full-length so the slice was the real tail), and the pre-run digests"
+  }
+ ],
+ "pre_run_amendments": [
+  {
+   "change": "accuracy computed on a uniform stride-8 subsample for all arms (incl. oracle)",
+   "decided_before_any_scored_run": true,
+   "id": "A1",
+   "reason": "candidate-closure accuracy costs |closure| predictive calls per position; uniform subsampling keeps the metric arm-independent and the suite inside budget. Outcome-neutral: identical rule for every arm."
+  },
+  {
+   "change": "P4 scope narrowed to n=16000 (W1/W2/W3) and n=20000 (W5); EM iteration cap 40 -> 10",
+   "decided_before_any_scored_run": true,
+   "id": "A2",
+   "reason": "pure-Python Baum-Welch is ~1.5e3 elementary ops/position/iteration; the originally registered scope cannot finish inside any honest budget. Narrowed scope recorded as CANNOT_CHECK elsewhere."
+  },
+  {
+   "change": "P5 EM fits on the most recent 1500 depth-0 blocks",
+   "decided_before_any_scored_run": true,
+   "id": "A3",
+   "reason": "inside-outside is cubic in block length x block count; 1500 recent blocks bounds one EM sweep. Declared fit subsample, charged in lifecycle cost."
+  },
+  {
+   "change": "budget cap 3600 s -> 7200 s",
+   "decided_before_any_scored_run": true,
+   "id": "A4",
+   "reason": "post-sizing estimate for the full 5-world, 8-arm, ladder + dial + nulls + revocation suite on billy-laptop Python 3.8.10."
+  },
+  {
+   "change": "Depth-first recursion law: after 'a' the innermost S decides a/c; after 'c' or 'b' the stack unwinds with deterministic 'b' until depth 0; at depth 0 a fresh S decides a/c; at the depth cap termination 'c' is forced. Every depth-0 block is exactly a^k c b^k (k <= D_MAX). Oracle conditions on exact pending depth (max suffix-sum) + phase (deciding/unwinding/cap) and reproduces the generator empirically (worst |empirical-oracle| = 0.0057 at n=20000, sampling noise).",
+   "declared_before_any_scored_run": true,
+   "id": "A5",
+   "scope": "research/fna3-seqgrammar-parents-v1/fna3.py only (gen_nested + its oracle closure); no other world, arm, metric, control, or terminal touched.",
+   "what": "W2_NESTED generator and oracle corrected to the freeze-declared law 'S -> a S b (p_open=0.72) | S -> c (0.28), depth truncated at D_MAX'.",
+   "why": "The implementation generated a different stochastic process (sibling/forest opens after an inner close, empty interiors 'ab'), which is not the declared grammar's language; the frozen P5 template cannot derive those strings (P=0 on every non-singleton block), making the declared P5 arm unexecutable rather than informative."
+  },
+  {
+   "change": "One sentinel per world, a first-class symbol for every arm (fit window never contains it); substitution count recorded per world as oov_substitutions. No fit-stream, oracle, metric, control, or terminal change.",
+   "declared_before_any_scored_run": true,
+   "id": "A6",
+   "scope": "run_real_world in research/fna3-seqgrammar-parents-v1/fna3.py only.",
+   "what": "Real-corpus worlds (W4_UD_CHAR, W5_UD_POS): characters in the protected score stream that are absent from the train-window alphabet are substituted by a single sentinel symbol appended to the alphabet.",
+   "why": "The W4 character stream contains typographic characters (e.g. '\u00b4') that never occur in the train window; alpha.index() crashed and no arm could be scored."
+  },
+  {
+   "change": "Type guard only; the frozen verdict rule (gap <= 0.05 vs oracle at max n) is unchanged.",
+   "declared_before_any_scored_run": true,
+   "id": "A7",
+   "scope": "world_verdict in research/fna3-seqgrammar-parents-v1/fna3.py only.",
+   "what": "world_verdict: ladder entries holding CANNOT_CHECK scope notes (strings, e.g. P4 compute-budget notes) are skipped instead of dereferenced.",
+   "why": "First execution attempt crashed in verdict assembly (AttributeError) 95 s before writing results; no scored results file was produced, so this remains pre-first-scored-run."
+  }
+ ],
+ "protocol": {
+  "accuracy": "top-1 exact-symbol prediction over the same scored region, computed on the declared uniform stride-8 subsample of that region for EVERY arm including the oracle (pre-run amendment A1: uniform across arms, cost-driven, decided before any scored run); for P7 the loss subsample and the accuracy subsample coincide (stride 8).",
+  "budget_cap": "whole suite wall clock <= 7200 s on the execution host (pre-run amendment A4, raised from 3600 s after sizing the pure-Python 3.8 implementation; decided before any scored run); any arm exceeding its declared scope is recorded CANNOT_CHECK_<reason>, never silently dropped.",
+  "constituent_block_gift": "W2 only: P5 sees depth-0 constituent blocks (fit + score); charged as declared extra information in every comparison involving P5.",
+  "data_efficiency": "samples-to-threshold = smallest ladder n with scored bits/symbol <= oracle + 0.05 (synthetic worlds). On W4/W5 the reference is the strongest parent in the suite, declared as such.",
+  "lifecycle_cost": "train_wall_seconds, work counters (declared elementary operations per arm), persistent bytes = len of canonical compact JSON serialisation of fitted state, update work per scored symbol, refit cost for batch arms.",
+  "primary": "prequential: predict x_t from x_<t then update, for online arms P1/P2/P3/P7 and the P6 unit model. Batch arms (P4/P5/P8, P6 merges) fit on burn-in [0,n) then frozen during the scored region; the protocol difference is inherent to the parent class and is itself reported.",
+  "revocation": "retract the last 256 burn-in symbols: count-based online arms must restore exactly (state digest equality asserted); batch arms pay a full refit, timed. Ratio reported.",
+  "scored_region": "protected tail T of each world (see worlds); per-symbol log-loss = -log2(max(p, floor)) with eps_floor = 2^-20 applied identically to every arm; unseen-symbol rate reported per world."
+ },
+ "registered_predictions_before_execution": {
+  "R1": "On W1_PSA, P3 CTW is within 0.02 bits/symbol of P0 by n=16000; P1 n-gram-D8 is not within 0.02 until n=64000.",
+  "R2": "On W2_NESTED at D_MAX=48, every finite-context arm (P1,P2,P3) is at least 0.10 bits/symbol worse than P0; P5 recovers to within 0.05 of P0 if EM finds the true rule weights.",
+  "R3": "On W3_LEXICON, P6 BPE+PPM beats char-level P2 at n=64000 in bits/symbol after merge induction is charged.",
+  "R4": "On W5_UD_POS, the strongest online non-neural parent (expected P3) is not worse than the P8 logistic diagnostic in bits/symbol (parent sufficiency at registered scope).",
+  "R5": "Under the shuffle null at max n, every arm degrades by at least 0.05 bits/symbol on every world where it beat the unigram floor."
+ },
+ "schema": "ocm.fna.fna3.freeze.v1",
+ "sha256_before_first_scored_run": {
+  "fna3.py": "312ceacac8f553e494c428fce49ceee3b13f02232af9b74e85d3a377c58d4bb9",
+  "test_fna3.py": "34901da629d96de6b55294b8838f854eb7d47b75a55dfd2a9f6900d7273a0ec0"
+ },
+ "task_world_hook": {
+  "custody_rule": "Acquire via the repo's own scripts/acquire_ud_ewt.sh on the compute host; every file sha256 must match the frozen custody manifest before parsing. The EWT test split is PROTECTED: parsed only by the frozen evaluator inside fna3.py, never inspected, never used for any per-arm choice. dev split: parsed for a registered sanity check only (sha256 + parseability + stream shape), NOT used for tuning \u2014 every hyperparameter is frozen a priori in this file.",
+  "decision": "Hook into main's frozen language corpus: UD English EWT r2.14 under docs/provenance/UD_EWT_CUSTODY_MANIFEST_V1.json (the #43/#44/#45 n1 lane's own custody contract). Synthetic worlds below exist ONLY where a controlled generative oracle is required for expressivity-boundary measurement; each is declared synthetic and seeded.",
+  "verified_absent_on_main": "grep for ngram/n_gram/PPM/ContextTree/perplexity/log_loss across src/, research/, scripts/, tools/ returns no sequence-prediction parent: the FNA-3 parent suite does not exist on main and is not a rebuild of existing arms."
+ },
+ "terminals_allowed": [
+  "PARENT_SUFFICIENT_FOR_<function>",
+  "NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE",
+  "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE",
+  "REPRESENTATION_INSUFFICIENT",
+  "STATE_SEARCH_COST_DOMINATES",
+  "ACQUISITION_COST_DOMINATES",
+  "NO_LIFETIME_PAYBACK",
+  "NEURAL_DONOR_DOMINATES_AT_SCOPE",
+  "CANNOT_CHECK_<reason>"
+ ],
+ "terminals_forbidden": [
+  "TRANSFORMER_REPLACED",
+  "LLM_EQUIVALENT",
+  "AGI",
+  "GENERAL_SUPERIORITY"
+ ],
+ "work_package": "FNA-3 (deliverable FNA-D5) \u2014 non-neural sequence / language learning",
+ "worlds": {
+  "W1_PSA": {
+   "class": "synthetic",
+   "generator": "variable-order Markov source (probabilistic suffix automaton) over alphabet [a,b,c]; frozen sparse context table, max context depth 3, table burned in before use",
+   "oracle": "the generating table itself (exact next-symbol distribution)",
+   "seed": 2140301,
+   "stream": "84000 symbols: burn-in ladder n in [1000,4000,16000,64000] then T=20000 protected scored tail (positions n..n+20000)"
+  },
+  "W2_NESTED": {
+   "class": "synthetic",
+   "generator": "stochastic nesting grammar S -> a S b with prob 0.72, S -> c with prob 0.28; nesting depth truncated at D_MAX=48; alphabet [a,b,c]",
+   "oracle": "the generating grammar with exact stack depth (exact next-symbol distribution)",
+   "seed": 2140302,
+   "stream": "84000 symbols: same ladder and T=20000 tail as W1"
+  },
+  "W3_LEXICON": {
+   "class": "synthetic",
+   "generator": "24 multi-character words (length 2-5, drawn from a frozen seeded generator with shared internal character structure), word occurrence Zipf-distributed, word order order-1 Markov over word ids, word internals deterministic given id; character stream",
+   "oracle": "the word-level Markov chain mapped through the word table (exact next-character distribution)",
+   "seed": 2140303,
+   "stream": "84000 characters: same ladder and T=20000 tail"
+  },
+  "W4_UD_CHAR": {
+   "class": "real-corpus",
+   "oracle": "ABSENT (real corpus has no generative oracle)",
+   "source": "UD_English-EWT r2.14, sha256-gated by the frozen custody manifest",
+   "stream": "sentence texts joined by single newline, character level; train slice = first 1000000 chars of the train split; scored protected tail = first 100000 chars of the PROTECTED test split; burn-in ladder n in [50000,200000,1000000]"
+  },
+  "W5_UD_POS": {
+   "class": "real-corpus",
+   "oracle": "ABSENT (real corpus has no generative oracle)",
+   "source": "UD_English-EWT r2.14, same custody gate",
+   "stream": "UPOS tag per token, sentences joined by boundary symbol '_', stream over tags; burn-in ladder n in [20000,80000,254000] tags (largest = whole train split); scored protected tail = the ENTIRE test split stream"
+  }
+ }
+}
