@@ -1,0 +1,89 @@
+{
+ "checker": "exact/check_t17_v1.py",
+ "failures": [],
+ "hostile_row": "self-modifier that raises mutable score without protected capability",
+ "machine": {
+  "domains": {
+   "s": [
+    0,
+    1,
+    2
+   ],
+   "w": [
+    0,
+    1,
+    2
+   ]
+  },
+  "enumerated": {
+   "system_W": "all 6 atomic updates; all sequences of length 1-2 (6 + 36)",
+   "system_X": "all 3 atomic acts from every invariant state (w, E(w))"
+  },
+  "evaluator": "E(w)=w, recomputed by the constitution after every optimizer act in system X",
+  "initial_state": [
+   1,
+   1
+  ],
+  "registers": [
+   "w (work; protected meaning P(w)=w)",
+   "s (score; measured objective M(w,s)=s)"
+  ]
+ },
+ "not_proved": [
+  "external evaluation does NOT solve Goodhart in general: E==P is a tautological toy binding; real E is a proxy for external truth",
+  "no protection against evaluator rewrite/corruption/collusion is proven here; C's write-protection is a constitutional assumption",
+  "no quantitative claim beyond |W|=|S|=3, sequences of length <= 2"
+ ],
+ "proof_file": "proofs/T17_TOY.md",
+ "system_W_pure_score_optimum_no_w_write": {
+  "sequence": [
+   "s:=2",
+   "s:=2"
+  ],
+  "to": [
+   1,
+   2
+  ]
+ },
+ "system_W_tamper_capability_degraded": {
+  "dM": 1,
+  "dP": -1,
+  "from": [
+   1,
+   1
+  ],
+  "sequence": [
+   "w:=0",
+   "s:=2"
+  ],
+  "to": [
+   0,
+   2
+  ]
+ },
+ "system_W_tamper_capability_unchanged": {
+  "dM": 1,
+  "dP": 0,
+  "from": [
+   1,
+   1
+  ],
+  "sequence": [
+   "s:=2"
+  ],
+  "to": [
+   1,
+   2
+  ]
+ },
+ "system_X_properties": {
+  "exists_M_gain_without_P_gain": false,
+  "exists_act_with_ds_ne_0_and_dw_eq_0": false,
+  "kinds_reaching_optimum_(2,2)": [
+   "w-write+eval"
+  ]
+ },
+ "theorem": "HST-T17",
+ "verdict": "WITNESS_CERTIFIED",
+ "witness_id": "T17_TAMPER_WITNESS_V1"
+}

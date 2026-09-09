@@ -1,0 +1,79 @@
+{
+ "amendment_id": "REGISTRY_PATCH_C",
+ "lane": "lane C (D4 formal limits T12-T16 + D5 evaluator-tampering toy T17), issue #233",
+ "base_registry": "HST_THEOREM_REGISTRY_V1.json @ frozen_at_commit 421333c40aabca7113977751ee4af69f88c8564c",
+ "branch": "hst/d4-d5-limits",
+ "note": "Fills only designated fields for rows T12-T17. The shared registry JSON is untouched. No row is PROVED because a test passed: P1/P5 proofs live in the cited proof artifacts; exact checkers are P2 witnesses.",
+ "run_receipt": {
+  "host": "billy-laptop",
+  "python": "3.8.10",
+  "executed_utc": "2026-09-09T22:10Z",
+  "checkers": {
+   "exact/check_t12_v1.py": {
+    "md5": "cf61a404410d8ce48a7c4f247d092106",
+    "exit": 0,
+    "verdict": "PASS",
+    "certificate": "exact/check_t12_v1.cert.json",
+    "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+   },
+   "exact/check_t13_v1.py": {
+    "md5": "1eb2be128ed227f688632ec8fb760a67",
+    "exit": 0,
+    "verdict": "PASS",
+    "certificate": "exact/check_t13_v1.cert.json",
+    "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+   },
+   "exact/check_t17_v1.py": {
+    "md5": "3082b2b4025af11c9fe0d91207a9704f",
+    "exit": 0,
+    "verdict": "WITNESS_CERTIFIED",
+    "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+    "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+   }
+  }
+ },
+ "rows": {
+  "HST-T12": {
+   "proof_artifact": "proofs/LIMITS_V1.md#T12 (pigeonhole Claims 1-2 + corollary; parents stated exactly: pigeonhole; Adams-Zenil-Davies-Walker 2017 Sci.Rep. 7:997 unbounded-evolution-vs-Poincare-recurrence; Dolson et al. 2019 Artif.Life 25(1):50-71 MODES)",
+   "exact_checker": "exact/check_t12_v1.py (all 288 maps on n=1..4, all 1114 initial states: first repeat within |S|+1, novelty saturation at first repeat, period<=|S|, pre-period<=|S|; PASS on billy-laptop)",
+   "counterexample_when_assumption_removed": "drop 'state space fixed': growing effective state (open H_t/tape/archive) leaves the regime entirely -- but then unbounded growth is itself the claim and T13 bars proving it from finite evidence. Stochasticity: sequence non-repetition escapes, state-set novelty still bounded (<=n). hostiles/HOSTILES_LIMITS_V1.md H1: k-bit counter delivers 2^k novel steps then freezes (saturation exponential in description length).",
+   "claim_ceiling": "No #221 run on frozen finite state may claim never-repeating/unbounded novelty; admissible vocabulary = window-scoped MODES-style metrics with recurrence baseline |S_eff| stated. Register of horizon-scoped OEE vocabulary for #221: HOSTILES_LIMITS_V1.md H1 + LIMITS_V1.md#T12 consequence.",
+   "status": "PROVED"
+  },
+  "HST-T13": {
+   "proof_artifact": "proofs/LIMITS_V1.md#T13 (explicit constructions: bounded continuation S_b = m states/T clauses; novelty continuation S_n = m+aleph_0 states, Case A simple-path; Case B self-repeating prefix forces periodicity in EVERY consistent system -- observation refutes unbounded novelty; Expansion Lemma for same-universe boundary; halting-reduction sharpening: boundedness of future novelty of a fully specified Turing-complete system is undecidable)",
+   "exact_checker": "exact/check_t13_v1.py (U_3, all 120 prefixes of length 1..4, all 3^3 maps each: 66 consistent prefixes all admit a bounded continuation; 9 simple-path prefixes with unused state admit a novelty continuation; 57 expansion-boundary prefixes admit none in-universe; 54 inconsistent prefixes admit zero systems; PASS on billy-laptop)",
+   "counterexample_when_assumption_removed": "drop 'transition law not proved' by CARRYING a proved growth premise (verified append-only discipline): boundedness is then refuted by construction -- the burden moves to proving the premise, which T15 limits for arbitrary program classes. Bayesian posterior shift from long streaks = P3 statement about the observer, not a proof.",
+   "claim_ceiling": "A positive #221 result may support scoped novelty/complexity/evolvability trends over its observed window only; it cannot prove unbounded open-endedness. Binding on #221/#144 claim language.",
+   "status": "PROVED"
+  },
+  "HST-T14": {
+   "proof_artifact": "proofs/LIMITS_V1.md#T14 (parents stated exactly with hypothesis structure: Wolpert-Macready 1997 IEEE TEC 1(1):67-82 Thm 1 sum over ALL f; Schumacher-Vose-Whitley GECCO 2001 sharpened NFL: c.u.p. iff NFL; Igel-Toussaint 2005 JMMA 3(4):313-322 Thm 5: non-uniform NFL iff orbit-constant distribution)",
+   "exact_checker": null,
+   "counterexample_when_assumption_removed": "The non-assumptions ARE the row content (LIMITS_V1.md#T14): (1) non-c.u.p. registered task class -- any locality/structured-optima class (certificate given: c.u.p. class containing a unique-minimum function contains one for every argmin location); (2) non-orbit-constant frozen task distribution; (3) nonstationary/coevolving objective (outside parent hypothesis); (4) burden-vector accounting beyond value sequences. NOT escaping: all-objectives averages, unnamed-distribution 'beats X in general', i.i.d.-random landscapes (orbit-constant = NFL regime, a null not an arena).",
+   "claim_ceiling": "No HST/OCM claim of a permanently superior mutation/search/operator/translator; registered-ecology comparisons must name the task class + distribution and are scoped to them. Enforces forbidden terminal UNIVERSAL_BEST_SEARCH_ALGORITHM.",
+   "status": "PROVED"
+  },
+  "HST-T15": {
+   "proof_artifact": "proofs/LIMITS_V1.md#T15 (limitations ledger with exact parents: Rice 1953 Trans.AMS 74(2):358-366 nontrivial extensional property of partial computable functions; Turing 1937 halting as (M,x) property; Goedel 1931 + Rosser 1936 hypotheses = consistent + r.e. axiomatized + contains Q, 'true-unprovable' needs soundness; Schmidhuber arXiv:cs/0309048 conditional optimality form with unbounded proof-search hypothesis)",
+   "exact_checker": null,
+   "counterexample_when_assumption_removed": "Escapes: bounded contracts (halts-within-k, frozen finite test suites, resource meters) are decidable; total/ranked change languages make halting decidable by construction; weak complete theories (Presburger, RCF, propositional contract logics) escape Goedel by lacking expressiveness; empirical protected validation changes claim class to P4, proving nothing universally.",
+   "claim_ceiling": "No universal complete proof that arbitrary self-change is beneficial. C must expose bounded decidable contracts + protected validation + explicit CANNOT_CHECK; no 'mathematically prove every useful self-change' requirement may be imposed on OCM.",
+   "status": "PROVED"
+  },
+  "HST-T16": {
+   "proof_artifact": "proofs/LIMITS_V1.md#T16 (Blum 1967 JACM 14(2):322-336 stated exactly: Blum axioms B1 domain-coincidence + B2 decidability of Phi_i(x)=y; speedup: for every total recursive r a total recursive g with no asymptotically optimal program, Phi_j(x) <= Phi_i(x)/r(x) co-finitely)",
+   "exact_checker": null,
+   "counterexample_when_assumption_removed": "Escapes: fixed finite domains (a best solver exists by exhaustion -- lane B's P2 regime); problems with matching lower bounds (speedup regime does not transfer); real hardware floors (asymptotic-only theorem). Scope discipline recorded: Blum's g is a contrived diagonal function; the theorem is an existence limit on universal claims, not a prediction of empirical speedup chains.",
+   "claim_ceiling": "No HST/OCM promise of convergence to a final globally fastest cognition/solver over all computable problems; 'final architecture' language barred. Supporting reading (scoped): continued search-transformation pressure in speedup-regime families.",
+   "status": "PROVED"
+  },
+  "HST-T17": {
+   "proof_artifact": "proofs/T17_TOY.md (toy theorem (a) writable-s system: tamper with dP=0 and tamper with dP<0; (b) external-evaluator system: no ds!=0 with dw=0, and with E=P every M-gain is a P-gain; (c) reachability asymmetry; loud NOT-PROVED section: no Goodhart solution, no evaluator-corruption protection, E=P is a tautological toy binding, real C is formal-by-contract + empirical)",
+   "exact_checker": "exact/check_t17_v1.py (all atomic updates + all length-1..2 sequences from (1,1) in W; all acts from all invariant states in X; WITNESS_CERTIFIED on billy-laptop)",
+   "counterexample_when_assumption_removed": "hostiles/T17_TAMPER_WITNESS.json: [s:=2] raises measured objective with protected performance unchanged; [w:=0, s:=2] raises it while protected performance falls. Removing the external-evaluator constraint (writable s) is exactly what admits the witness; the witness is the hostile row 'self-modifier that raises mutable score without protected capability'.",
+   "claim_ceiling": "Bars direct score-register tampering claims only. NOT a claim that external C is sufficient for safe self-improvement / solves Goodhart; independence/completeness/robustness of the real C is P4 (formal-by-contract + empirical), campaign by campaign.",
+   "status": "PROVED"
+  }
+ }
+}
