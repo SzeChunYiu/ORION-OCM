@@ -1,0 +1,142 @@
+{
+ "schema": "ocm.fna.fna8-privilege-ladder.freeze.v1",
+ "frozen_at_utc": "2026-09-09T17:54:18Z",
+ "consolidated_at_utc": "2026-09-09T19:30:00Z",
+ "issue": "SzeChunYiu/ORION-OCM#214",
+ "work_package": "FNA-8",
+ "deliverable": "FNA-D9",
+ "base_commit": "ab5310942b01be11776c0eddc4403dc0e0dcb51c",
+ "salt": "fna8-privilege-ladder-v1::b41d7e2c",
+ "study_schema": "ocm.fna.fna8-privilege-ladder.v1",
+ "frozen_before_outcome_access": true,
+ "evidence_class": "E1/L1 (one authored task world, one population, one author)",
+ "sha256": {
+  "PROTOCOL.md": "04ce882239b4fff763c989fc4aa15cd2588ff399bc77d0359e9bfc530b2c04b6",
+  "fna8_world.py": "60c2e69d5c7eed14a068bd4e5bfa7466aff21a0cd0e246d1ef5ba1741f9ea6aa",
+  "fna8_model.py": "740006e448ff89f117991671bd6e11432d1a393d3c093c28ac1d89060d343170",
+  "fna8_ledger.py": "f5244cd4fdbcbce0c13af7eb276b0c7772ede39a13fc126f951c7cfb643b7770",
+  "fna8.py": "8da19b6fa39bcb47a2bffeafff4430ab251f3a1429a65589b8a4007aa047116a",
+  "test_fna8.py": "bf2e5508fc78f958d5a5fedabc4a042aae8aecd392516454331871296395aed6"
+ },
+ "sha256_note": "digests frozen after tests green on billy-laptop (19/19, 1 expected freeze skip) and BEFORE any full-config scored run; later changes require numbered freeze_amendments entries, all pre-outcome",
+ "world_declaration": {
+  "n_queries_full": 240,
+  "n_atoms_full": 120,
+  "n_queries_tiny": 40,
+  "n_atoms_tiny": 48,
+  "slice_size_range": [
+   6,
+   24
+  ],
+  "task_mix": "AGG/THRESH 50/50 seeded",
+  "thresh_band": "theta_q ~ U(0.85,1.15)*true_mass (boundary band)",
+  "families": [
+   "scan",
+   "probe",
+   "window",
+   "sample"
+  ],
+  "catalogue_main": [
+   "probe:0",
+   "probe:1",
+   "window:16",
+   "window:40",
+   "sample:12",
+   "scan"
+  ],
+  "catalogue_costs": {
+   "probe:0|probe:1": "base 16/20, unit 2.4/2.0",
+   "window:16|40": "base 8/9, unit 1.3/1.1",
+   "sample:12": "base 14, unit 2.2",
+   "scan": "base 34, unit 1.0"
+  },
+  "declared_centres": {
+   "theta1c": 0.35,
+   "theta3s": 0.3,
+   "theta4": 0.42,
+   "theta7": 0.65
+  },
+  "approx_laws": "window PASS iff disp+0.12*(u-0.5) <= theta1_eff(W); sample PASS iff alias+0.12*(u-0.5)<=theta3s and theta4<=disp<=theta7",
+  "drift_event": "window:40 removed, sample:24 added (base 15, unit 2.0), scan law x1.6",
+  "revocation_event": "frozen rule: first atom (sorted) with >=3 EVAL-slice membership, weight voided, affected queries re-answered (model rungs re-asked, measured)"
+ },
+ "splits": {
+  "DEV": "30% (salted hash buckets 0-2)",
+  "EVAL": "50% (buckets 3-7, protected)",
+  "DRIFT": "20% (buckets 8-9)"
+ },
+ "model_caps": {
+  "eval_cap_full": 24,
+  "rev_cap_full": 8
+ },
+ "model_config_frozen": {
+  "cli": "codex",
+  "subcommand": "exec",
+  "model": "gpt-5.5",
+  "model_reasoning_effort": "low",
+  "sandbox_mode": "read-only",
+  "timeout_s": 300,
+  "retries": 0,
+  "cli_version_expected": "codex-cli 0.129.0-alpha.15",
+  "scaffold_note": "fixed agent-scaffold overhead (~19k tokens on the 2026-09-09 probe) charged as measured"
+ },
+ "rungs_executed_now": [
+  "R6 full (exact arms over whole stream incl. DRIFT+REV)",
+  "R1 shadow micro-execution (24 EVAL + <=8 REV real calls)",
+  "R2 shadow micro-execution (24 EVAL + <=8 REV real calls)"
+ ],
+ "rungs_pending_gate": [
+  "R3",
+  "R4",
+  "R5"
+ ],
+ "frozen_margins": {
+  "eps_capability": 0.05,
+  "guard_exact_tol": 2.0
+ },
+ "frozen_terminal_tree": {
+  "R6": [
+   "PARENT_SUFFICIENT_FOR_obligation_control",
+   "NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE",
+   "CANNOT_CHECK_HARNESS_FAILED_BASELINE"
+  ],
+  "R1": [
+   "NO_FUNCTIONAL_PARITY_control_at_scope",
+   "NEURAL_DONOR_DOMINATES_AT_SCOPE",
+   "NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE"
+  ],
+  "R2": [
+   "R2_CAPABILITY_PRESERVED_AT_SCOPE",
+   "NO_FUNCTIONAL_PARITY_proposal_at_scope"
+  ],
+  "R3-R5": [
+   "RUNG_PENDING_ACTIVATION_GATE (status, not a terminal; gate text in PROTOCOL.md)"
+  ]
+ },
+ "controls": [
+  "mock_never_scores",
+  "no_fabrication_rule",
+  "no_oracle_information_surface_tested",
+  "determinism_tested",
+  "forbidden_token_scan_tested"
+ ],
+ "freeze_amendments": [
+  {
+   "amendment_id": 1,
+   "dated_utc": "2026-09-09T18:55:00Z",
+   "stage_attribution": "model-interface stage (not model capability, not harness)",
+   "trigger": "First scored R1/R2 attempt (billy-laptop 2026-09-09 19:54-20:39 CEST): every codex exec call exited rc=1 with the server refusing the turn (rollout token_count info null, last_agent_message null; machine line: 'ERROR: You've hit your usage limit. ... try again at Sep 15th, 2026 3:26 AM'). All 29 R1 calls and all R2 calls refused; 0 model commits; every query rescued by the charged scan fallback. The instrument itself is verified live the same day: the 19:24 probe rollout completed with total_token_usage 21,562 and reply 'FNA8_PROBE_OK', so adapter, parse and harness work when the surface answers.",
+   "receipts_kept_verbatim": {
+    "FNA8_R1_CODEX_INTERFACE_REFUSED.json": "md5 c9f7f63b98c9a565a79c423d14fe5a34",
+    "FNA8_R2_CODEX_INTERFACE_REFUSED.json": "md5 faf87ac39b968c181693a79678229a64"
+   },
+   "change": "fna8.py: added _interface_refused() and R1/R2 terminal branches \u2014 a model arm with calls>0, calls_ok==0 and every query scan-rescued is scored CANNOT_CHECK_NO_MODEL_ACCESS (the branch PROTOCOL.md pre-declared in its limitations), never as a capability terminal. test_fna8.py: added InterfaceRefusalTests (4 tests) incl. classification of the verbatim refused receipts. No change to world, margins, splits, arms, protocol semantics, or the mock-never-scores control.",
+   "digests_old_to_new": {
+    "fna8.py": "3d3a04e517f5dcbe2850d7cd310066198871b46429d09aec6301c7b2814b19df -> 8da19b6fa39bcb47a2bffeafff4430ab251f3a1429a65589b8a4007aa047116a",
+    "test_fna8.py": "fdbfaaa9b5fd79e0202e71c57efb1a802292e5f8ff3958cc88ab6cdaaafad628 -> bf2e5508fc78f958d5a5fedabc4a042aae8aecd392516454331871296395aed6"
+   },
+   "reexecution_path": "when the model surface answers again: re-run 'fna8.py --rung 1 --model codex ...' and '--rung 2 ...' on billy-laptop, name receipts FNA8_R1_CODEX.json / FNA8_R2_CODEX.json, re-run consolidate.py; the refused receipts remain as the interface-stage evidence and are superseded, not edited",
+   "amendment_written_before_outcome_access": "amendment concerns the interface-failure classifier only; no scored outcome was consulted beyond the refusal receipts themselves"
+  }
+ ]
+}
