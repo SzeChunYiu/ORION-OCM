@@ -1,0 +1,419 @@
+{
+  "schema": "ORIONOCM.QuantumStructuralSourceLedger.v1",
+  "issue": "SzeChunYiu/ORION-OCM#216",
+  "scope": "Mandatory ORION quantum/QG donor recovery (issue #216 section 2). Source-result identity binding only. No implementation, no quantum authority transfer.",
+  "verification_method": "Every binding below was verified in this session by (a) gh read of the full issue body + comments (SzeChunYiu/ORION) and (b) /usr/bin/git -C /Users/billy/Desktop/projects/ORION (read-only live checkout) resolving cited commit SHAs and reading artifact content at pinned commits and at origin/main = 1b6f767ea6cdcc97183b961cc07c371140ee0e26. 'main_add_commit' is the first origin/main-side commit touching the path (lane branches squash-merge, so lane-intro commits are usually NOT ancestors of main; blob byte-identity between pinned commit and main was checked instead).",
+  "orion_origin_main_verified": "1b6f767ea6cdcc97183b961cc07c371140ee0e26",
+  "binding_counts": {"donor_entries": 8, "distinct_bound_artifacts": 27, "unbound_or_phantom": 3},
+  "donors": [
+    {
+      "donor_id": "FQ-1",
+      "name": "query-indexed abstraction ladder / decision-sufficient representation selection",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [904, 908, 911],
+        "note": "#904 (QG-31) CLOSED COMPUTATIONALLY_GREEN_BOUNDED; #908 (MAX-R4E-A) merged; both referenced by #903 (S4) and #911."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG31_QUERY_INDEXED_ABSTRACTION_RESULTS.json",
+            "pinned_commit": "fdb287143 (lane-intro, not a main ancestor)",
+            "main_add_commit": "af7163662 (PR #940)",
+            "main_blob_sha1": "39234e2cfd06491317a86348136bb924200d5704",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "QG31_QUERY_INDEXED_ABSTRACTION_LADDER_CONFIRMED__INDEXED_LOCAL_RESPONSE_INJECTIVE_ON_715_ORBITS"
+          },
+          {
+            "path": "research/extensions/orion-q/MAX_R4EA_AUTHORITY_INDEXED_ROUTER_RESULTS.json",
+            "pinned_commit": "962e9d264fe24780291ca8223b8da130ebd6cea9 (cited verbatim in #903 comment issuecomment-5380753049)",
+            "main_blob_sha1": "defcc04eab70",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "MAX_R4EA_AUTHORITY_INDEXED_ROUTER_PARETO_DOMINATES_STATIC_ABSTRACTION_POLICIES_ON_REAL_RECEIPTS"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG22_COMPLEXITY_SEPARATION_RESULTS.json",
+            "main_add_commit": "c756b29f8 (PR #892, ORION-QG waves 2-3 closure)",
+            "main_blob_sha1": "c15dd814ccceeeacfeace2c090c824fa0f9d7660",
+            "terminal": "QG22_PARTIAL__HARDNESS_LOCATED_ELSEWHERE"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/903#issuecomment-5380753049 (MAX-R4E-A: B2 10/10, committed receipt 962e9d264...)",
+          "https://github.com/SzeChunYiu/ORION/issues/903#issuecomment-5379882821 (QG-30/QG-31 ladder evidence entering S4)"
+        ]
+      },
+      "original_quantum_meaning": "TARE compiler state space admits three exact observation partitions indexed by query type: bulk signature (45 classes, asymptotic/bulk questions), unlabeled one-active defect spectrum (54 classes), full indexed 384-probe response (715 classes = the orbit types themselves). The two cheap partitions are incomparable and their joint information is still insufficient for indexed-response identity (explicit witness in the receipt). 'Exact referee first': the frozen TARE family has an exact DP referee linear in n (from a fixed 9-bit conserved syndrome), so no learned/predicted regime model is needed as truth authority.",
+      "original_assumptions_scope": "Frozen unit-cost TARE grammar (715 local-Clifford orbit types, 384 indexed probes, F2^2/F3 semantics); machine-checked partition counts only; FULL_FINITE_N_OPTIMUM_REQUIRES_715_CLASSES=false explicitly recorded; no global state minimality, no novelty, no physical quantum advantage. QG-22's polynomiality comes from the fixed syndrome dimension, and its own receipt records that the QG-7e closed form is asymptotically MORE expensive (O(n^6)) than the Theta(n) referee it characterizes. MAX-R4E-A is 10 frozen real receipt-derived routing cases on three compiler families, not a general policy theorem.",
+      "loadbearing_claims": [
+        "QG31 receipt: class_counts {bulk: 45, defect_spectrum: 54, indexed_local_response: 715}; partition_relations: bulk_and_defect_spectrum_incomparable=true; QUERY_INDEXED_ABSTRACTION_REQUIRED=true; witness same_spectrum_same_bulk_different_indexed_response present",
+        "QG22 receipt: '(i) For the frozen unit-cost TARE family ... deciding regime membership, computing the exact optimum and deciding whether a given compilation is optimal are all polynomial in n, and the exact optimum is computable in time affine in n'",
+        "MAX_R4EA receipt: B2_authority_indexed {correct_route_count: 10, false_authority_count: 0, overcompression_count: 0, compact_authorized_captured: 7/7, tare_selected_representation_sizes: [45,54,715,715]} vs B0_conservative_richest {3 correct, 7 avoidable rich-state uses} and B1_aggressive_smallest {4 correct, 5 false-authority, 6 overcompressions}"
+      ],
+      "transfer_relevance": "Directly the OCM DecisionSufficientState/DecisionSufficientQuotient function (FQ-1 in #216 section 4): choose the coarsest representation licensed for the current query, escalate exactly when the query type changes. The MAX-R4E-A router is already a non-quantum, receipt-level demonstration of this function inside ORION (representation sizes [45,54,715,715] chosen per query with zero false authority), so the OCM rebuild can treat it as the closest in-family parent demonstration, not merely an analogy."
+    },
+    {
+      "donor_id": "FQ-2",
+      "name": "minimum separating probe basis and adaptive probe tree (WITH RETRACTION SCOPE)",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [911, 924, 933, 942, 914],
+        "note": "#911 (QG-32) and #924 (QG-34) CLOSED COMPUTATIONALLY_GREEN_BOUNDED; #933 (QG-36) and #942 (QG-38) CLOSED VALID_NEGATIVE_OR_BOUNDARY_RESULT after an internal adversarial referee retraction; #914 (MAX-R4E-B0) prospective held-out transfer."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG32_MIN_SEPARATING_PROBES_RESULTS.json",
+            "pinned_commit": "33bf62e54a6c1fce8ce7dd1a648dad08226eb99d (cited verbatim in #911 comment issuecomment-5380885902)",
+            "main_add_commit": "9f4134c5f (PR #913)",
+            "main_blob_sha1": "df0d8def4aee",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "QG32_JOINT_SEPARATING_PROBE_UPPER_BOUND_ONLY",
+            "quoted": "minimum_probe_cardinality: null; certified_probe_upper_bound: 5; selected_probe_indices: [18,68,101,181,139]; joint_partition: 92 classes, largest 48, unresolved_pair_count 5895; distinct_pair_coverage_classes 168; milp status 'Time limit reached', incumbent 5.0, optimal false"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG34_ADAPTIVE_PROBE_TREE_RESULTS.json",
+            "pinned_commit": "ccf31548e (lane-intro of the freeze-registry-layer object; terminal QG34_EXACT_MINIMAX_ADAPTIVE_DEPTH_ESTABLISHED, digest d13a0d25...)",
+            "main_add_commit": "2589801ac (PR #926)",
+            "main_blob_sha1": "13a1a28030afdbed915df128ec7cb92c3c7e2326",
+            "byte_identical_pinned_vs_main": false,
+            "weld_adjudication": "main copy carries THREE duplicate top-level identity keys (welded layers, PR #940 union-merge repaired parse-only by PR #1013). Canonical committed-result identity declared by QG34_ADAPTIVE_PROBE_TREE_RESULTS_CORRECTION_RECEIPT_V1.md: schema ORIONQG.QG34.CommittedResult.v1 / terminal QG34_EXACT_MINIMAX_ADAPTIVE_PROBE_DEPTH_MACHINE_CHECKED / source_result_digest 7c48f505582a36401632489562c7181f4e763e2e1fd1e36549b9a24c794f8a55; sealed protected-lane blob 61ad64ed01036b1dd44d7c684c35e43c62534c29 verified present in the local object store"
+          },
+          {
+            "path": "development/orion-qg-regime-geometry/QG34_PROTECTED_RUN_RECEIPT_2026-08-22.json",
+            "pinned_commit": "4ff87a97a (commit protected dual-harness receipt)",
+            "main_add_commit": "af7163662 (PR #940)",
+            "main_blob_sha1": "b8476763f83d11a941942f799edb76666eeba679",
+            "byte_identical_pinned_vs_main": true
+          },
+          {
+            "path": "research/extensions/orion-qg/QG35_SUMMARY_CONDITIONED_FIXED_RESULTS.json",
+            "main_blob_sha1": "cd7fe47b3c07d4fff115d9f8a6cdb4b2f4730c5d",
+            "terminal": "QG35_EXACT_SUMMARY_CONDITIONED_FIXED_PROBE_COMPLEXITY_MACHINE_CHECKED",
+            "post_retraction_status": "DEMOTED from contribution to internal machine-checked note (retraction doc: 'QG35, QG35b, QG36, QG39, QG32c are demoted from contributions to internal machine-checked notes')"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG32C_OBSERVATION_COST_HIERARCHY_RESULTS.json",
+            "main_blob_sha1": "2cba5082469188e9fa4d1f428650619b32f7a062",
+            "post_retraction_status": "DEMOTED (same retraction); its hierarchy headline D*=3 < F*=4 < U*=5 is null-reproducible"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG39_SELECTION_REGRET_RESULTS.json",
+            "main_add_commit": "2589801ac (PR #926)",
+            "main_blob_sha1": "ff3ed811c4ffd89a838992f08408add9d9a901eb",
+            "quoted": "regret_curve {0:5, 1:3, 2:2, 3:0}; consistency 'regret reaches 0 at budget 3, matching QG-35b D_act* = 3'; units 'frozen cost model (config_cost - baseline); NOT T-count, ancilla, depth or any physical resource'"
+          },
+          {
+            "path": "research/extensions/orion-q/MAX_R4EB0_HELDOUT_QG32_RESULTS.json",
+            "pinned_commit": "9a9ab3a844a9a681414961ccfdf9ac5a2710275d (cited verbatim in #903 comment issuecomment-5380925673)",
+            "main_blob_sha1": "5e3d15d89d9c",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "MAX_R4EB0_QG_DERIVED_AUTHORITY_SKILL_TRANSFERS_PROSPECTIVELY_TO_HELD_OUT_TARE_QUERY",
+            "quoted": "adjudication decision 'BORNE_OUT_UPPER_BOUND_ONLY'"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/911#issuecomment-5380885902 (QG-32 GREEN upper-bound-only result)",
+          "https://github.com/SzeChunYiu/ORION/issues/924#issuecomment-5381986917 (QG-34 GREEN: D_*=3, histograms, 1,065 memoized feasibility calls)",
+          "https://github.com/SzeChunYiu/ORION/issues/933#issuecomment-5387724960 (RETRACTION notice)",
+          "https://github.com/SzeChunYiu/ORION/issues/942#issuecomment-5387725058 (same retraction on the hierarchy issue)"
+        ],
+        "unbound": [
+          {
+            "path": "research/extensions/orion-qg/QG39_POST_NULL_RESIDUAL_RESULTS.json",
+            "status": "UNBOUND_IN_LOCAL_CHECKOUT",
+            "reason": "Cited as evidence path by V1_QUANTUM_CENSUS_V1.json entry #924 (main_add_commit 2589801ac9). Searched: ls-tree at origin/main 1b6f767ea (absent), ls-tree at 2589801ac9 (absent), git log --all by exact path (empty), basename grep 'QG39' over full origin/main tree (only QG39_SELECTION_REGRET_RESULTS.json, QG39_SELECTION_REGRET_V1.md, qg39_selection_regret_curve.py). The post-null residual numbers the census attributes to it (real depth histogram {0:7,1:30,2:39,3:16} vs null {0:7,1:42,2:34,3:9}; budget-2 regret 2-vs-1) ARE bound, verbatim, in QG_RETRACTION_SELECTION_HEADLINES_V1.md (main blob e8dd0f4918b5) and in the census text itself. Treat the census path citation as a phantom-path defect; do not re-cite it."
+          }
+        ]
+      },
+      "original_quantum_meaning": "Above the cheap joint (bulk, spectrum) summaries of the 715 TARE orbit types, a small FIXED set of indexed probes ([18,68,101,181,139], 5 of 384) suffices to separate all 715 indexed local-response identities; if the next probe may be chosen adaptively as a function of previous outcomes, worst-case depth D_*=3. Framed as an active-verification operator: carry cheap summaries by default, ask the next structural probe conditionally, stop exactly when identity is determined.",
+      "original_assumptions_scope": "CRITICAL — the adaptivity 'advantage' headline did not survive ORION's own adversarial referee. Scope after retraction (QG_RETRACTION_SELECTION_HEADLINES_V1.md, landed on main via PR #926, commit 2589801ac): (1) the separation counts 85/92 and 708/715 are identities forced by the class-size histogram frozen before any solver ran; (2) the whole hierarchy D_*=3 < F_*=4 < U_*=5 and the regret headline are reproduced by a row-shuffle null that destroys all TARE content; (3) 'D_* >= 3 is forced by the class-size histogram plus max arity 6 (ceil(log_6 48) = 3); the solver was needed only for achievability'; (4) U_*=5 'exactly, by complete enumeration. The enumeration stands'; (5) the ONLY surviving TARE-specific signal is the depth DISTRIBUTION residual (real {0:7,1:30,2:39,3:16} vs null {0:7,1:42,2:34,3:9}) and budget-2 regret 2-vs-1; (6) QG35/QG35b/QG36/QG39/QG32c demoted to internal machine-checked notes. All arithmetic was rebuilt with zero discrepancies — this is an interpretation retraction, not a computational one.",
+      "loadbearing_claims": [
+        "QG-32 (stands, upper-bound-only): deterministic 5-probe fixed set separates all 715 identities after joint summaries; minimum_probe_cardinality remains null (HiGHS time limit); authority_level UPPER_ONLY",
+        "QG-34 (stands as arithmetic, bounded reading): D_*=3 exact minimax adaptive depth on the frozen post-summary identification query; infeasibility certificate at depth 2 on all 16 worst classes; independent generic rederivation per-class agreement",
+        "RETRACTED (must not be transferred as quantum authority): 'adaptive beats fixed' separation, 85/92 and 708/715 counts, regret-curve headline",
+        "Retraction lesson (verbatim): 'A claim of the form \"X is not determined by Y\" needs a null, because non-determination is the generic case.'",
+        "MAX-R4E-B0 (stands): prospective frozen-then-adjudicated held-out TARE query landed BORNE_OUT_UPPER_BOUND_ONLY with zero hidden-outcome dependencies"
+      ],
+      "transfer_relevance": "OCM AdaptiveProbePolicy (FQ-2 in #216 section 4). What transfers honestly: (a) the fixed separating-probe construction as a query-scoped minimal observation set with certified-coverage verification; (b) the minimax DP-with-infeasibility-certificate as the exact stop-rule primitive; (c) MOST IMPORTANTLY the retraction itself as a mandatory design rule — any OCM claim that 'adaptive observation beats fixed observation' must carry a shuffle-equal-n null before it can register, because non-determination is generic. The numbers 5/3/715 are TARE-specific and must not be hardcoded into OCM."
+    },
+    {
+      "donor_id": "FQ-3",
+      "name": "bounded-defect / bulk-plus-defect localization",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [886, 903],
+        "note": "#886 (QG-27) merged; QG-23/QG-26/QG-29 cited as skill sources in #903 section S3/S5."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG27_BULK_DEFECT_RESULTS.json",
+            "pinned_commit": "43f7ad1c6 (lane-intro, not a main ancestor)",
+            "main_add_commit": "af7163662 (PR #940)",
+            "main_blob_sha1": "e015cec136683a5ff5d8ecb30dfa35aedcb9f03d",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "QG27_TARE_BULK_DEFECT_LAW_AND_EXACT_ASYMPTOTIC_COST_DENSITY_ALL_N_MACHINE_CHECKED",
+            "quoted": "uniform_all_n_band 'B_min(N)-34 <= C_DP(N) <= B_min(N)+8'; defect_constants claimed_sharp=false; spectator_range [0,6]; one_active_feasible_rows 48; global_structural_lower_bound 2; optimized_auxiliary_term_is_subextensive_O1=true"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG23_AUX_SUPPORT_COMPACTNESS_RESULTS.json",
+            "main_blob_sha1": "7d50e3e92e8301cbb5177915aa19e4336cd4dbb1"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG26_NERODE_MINIMALITY_RESULTS.json",
+            "main_blob_sha1": "4a2581c35029127a7b0bf17f84c73ed6017adf2f"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG29_DEFECT_SATURATION_RESULTS.json",
+            "main_blob_sha1": "648bb0ec6c4f309fb9a4067a355818af5a69e6f0",
+            "terminal": "QG29_TARE_DEFECTS_CLIP_AT_6_AND_ALL_SCALING_RAYS_AFFINE_BY_K43_MACHINE_CHECKED",
+            "quoted": "DEFECT_POTENTIAL_CLIP6_SUFFICIENT=true; PURE_SCALING_RAY_DEFECTS_STABLE_BY_K6=true; PURE_SCALING_RAY_AFFINE_BY_K43=true; K43_SHARP_FOR_REAL_TARE=false; universal_affine_onset_k=43"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/894#issuecomment-5379875259 (QG-26/27/28/29/30 summaries registered as RG motivating instances)"
+        ]
+      },
+      "original_quantum_meaning": "The exact optimum of the TARE family decomposes as an additive, analytically-treated bulk term plus a bounded O(1) defect correction confined to a small local support: a uniform band B_min(N)-34 <= C_DP(N) <= B_min(N)+8 holds for all N; defect potentials saturate ('clip') at k=6 and every pure scaling ray is exactly affine by k=43 (onset bound universal but explicitly not claimed sharp).",
+      "original_assumptions_scope": "Frozen TARE grammar and frozen cost model; defect constants NOT sharp (claimed_sharp=false); FINITE_N_GLOBAL_PHASE_BOUNDARY=false; PHYSICAL_PHASE_TRANSITION=false; the asymptotic density is exact but no finite-n global phase boundary is claimed. QG-23 compactness and QG-26 guarded templates are the companion exact-structure results cited by #903 S3.",
+      "loadbearing_claims": [
+        "Bulk+O(1)-defect decomposition is machine-checked for all N with an explicit uniform band and non-sharp constants",
+        "Finite saturation is PROVED before extrapolation (clip6 stability; affine onset k=43), exactly the #903 S5 skill: 'prove a finite saturation/crossover bound before extrapolating'"
+      ],
+      "transfer_relevance": "OCM LocalDefectSubspace (FQ-3 in #216 section 4): reduce task/failure/search from whole field F to a small causal/diagnostic subgraph while retaining spectator/bulk contributions exactly (not approximately). The saturation-bound-before-extrapolation rule transfers as an OCM obligation whenever a cached/bulk model is reused for growing instances. Note ORION's own census treats these as bounded compiler-local results — the OCM reconstruction must earn localization per domain, never inherit it from the TARE instance."
+    },
+    {
+      "donor_id": "FQ-4",
+      "name": "resource-responsibility mapping (do not optimize an uncharged proxy)",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [903, 839],
+        "note": "QG-21 landed via ORION-QG closure PR #892 (c756b29f8); the S6 lesson is the highest-value ORION-Q feedback from QG per #903 body."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG21_FT_CHEMISTRY_RESULTS.json",
+            "main_add_commit": "c756b29f8 (PR #892)",
+            "main_blob_sha1": "041045985496736f760a222507f8a4bd6b050b42",
+            "terminal": "QG21_REAL_CHEMISTRY_STRICTLY_IMPROVED_UNDER_FT_OBJECTIVE",
+            "quoted": "q1_accounting.verdict 'FT_OBJECTIVE_DEFENSIBLE__T_DOMINANT_REWEIGHTING_OF_SUPPORT_COORDINATES_NOT_DERIVABLE'; non-Clifford operations: 'only the Uanti arbitrary-angle Pauli exponentials; 2m-1 = 3 per TARE-M2 block, nine per three-block compilation, one synthesized rotation each'; implied_t_cost_ratio: 'the T term is the constant 9*kappa_T and cancels from every comparison, so the ratio of T cost between any two family members is exactly 1'; QG-2 O1 'is therefore retained as a control point and is not derivable from fault-tolerant accounting'; q3_magnitude: control_point_improved_rows 90 vs defensible_objective_improved_rows 18, delta_max 2 against implied_t_gate_backdrop_range [270,900]"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG21_REGIME_ROBUSTNESS_RESULTS.json",
+            "main_blob_sha1": "present on origin/main (verified via ls-tree)",
+            "terminal": "QG21_CERTIFIED_REGIME_ROBUSTNESS_RADIUS_MACHINE_CHECKED"
+          },
+          {
+            "path": "research/extensions/orion-q/MAX_R4E_QG_SKILL_REPLAY_RESULTS.json",
+            "pinned_commit": "3b594a326147e4b943b3f9e525c446987583c33e (cited verbatim in #903 comment issuecomment-5379949903)",
+            "main_blob_sha1": "2a418b5b2673",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "MAX_R4E_QG_SKILLS_HAVE_REAL_COMPILER_OPERATIONAL_VALUE__REPLAY_CALIBRATED"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/903#issuecomment-5379949903 (replay calibration GREEN: R6I ratios 10,37,82,145,226 for n=2..6; SixLCU 4,545,400 raw conjunctions / 530,944 distinct vectors; StabPrep E_floor=43 stopping before 79,896,607 DFS nodes; actions RESTRICT_TO_PROVED_SUPPORT1, USE_MINIMAL_EXACT_K1D1_PREDICATE, REJECT_ZERO_ERROR_IN_FROZEN_VOCAB__ESCALATE_REPRESENTATION)"
+        ]
+      },
+      "original_quantum_meaning": "A support-weight objective (QG-2 O1) that ranked TARE geometries is not derivable from fault-tolerant cost accounting: FT accounting charges T per arbitrary-angle rotation, every family member carries exactly nine such rotations at identical angles, so the T ratio between family members is exactly 1 and the studied geometry moves under 1 percent of audited FT cost (delta_max 2 against a 270-900 T-gate backdrop). The responsible obstruction layer for real compilation is structured-unitary implementation cost, not compiler geometry.",
+      "original_assumptions_scope": "Frozen TARE family with fixed matching; the reduction lemma making the FT objective outcome 'entailed by the committed R6Q receipt rather than discovered here' is disclosed in the protocol; improvements are counted on frozen receipts (90 control-point rows vs 18 defensible-objective rows); no physical quantum advantage. The MAX-R4E replay numbers are replay-only operational value — explicitly not held-out transfer, not compiler-general, not novelty.",
+      "loadbearing_claims": [
+        "#903 S6 (verbatim core lesson): 'exactly solve the cheap inner problem, but do not confuse inner optimality with end-to-end method value'",
+        "QG-21 receipt: an internal proxy can strictly improve while the physical/end-to-end objective is invariant (T ratio exactly 1 across the family)",
+        "MAX-R4E replay: QG-derived operators avoid large amounts of exact search work (order 10^7-10^8 DFS nodes / conjunctions) by theorem/certificate-aware stopping and representation escalation, replay-only"
+      ],
+      "transfer_relevance": "OCM ResourceResponsibilityMap (FQ-4 in #216 section 4): at each obstruction classify the load-bearing layer (representation, retrieval, search, verification, tools/API, model donor, state maintenance, acquisition, revision) and refuse to book internal-metric gains with no whole-task/lifetime gain. This is the single most transfer-ready QG lesson because it is already substrate-independent in ORION's own framing — it is a governance/accounting rule, not a quantum mechanism."
+    },
+    {
+      "donor_id": "FQ-5",
+      "name": "anti-overcompression / missing-coordinate discovery",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [893, 904, 903],
+        "note": "#893 (QG-30) merged, GREEN dual harness; its witness is the canonical anti-overcompression pattern; QG-15B predicate-language failures cited by #903 S7."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG30_BULK_COARSE_GRAIN_RESULTS.json",
+            "pinned_commit": "645fd92900587ccae551c7d876ae56dffa2950ac (cited verbatim in #903 comment issuecomment-5379882821)",
+            "main_blob_sha1": "4de0a0a9e980",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "QG30_TARE_BULK_GEOMETRY_COMPRESSES_EXACTLY_TO_45_SIGNATURE_COUNTS__DEFECT_INFORMATION_REMAINS",
+            "quoted": "finite_defect_census: 54 distinct one-active defect profiles, 15 bulk signatures with multiple defect profiles; first_information_loss_witness: common_bulk_signature [2,2,2,2], representatives [0,0,0,0,1,1] vs [0,0,0,0,1,2] with K-histograms {3:32,5:224,6:128} vs {4:96,5:128,6:160}; BULK_SIGNATURE_SUFFICIENT_FOR_FULL_DEFECT=false; BULK_45_HISTOGRAM_SUFFICIENT_FOR_ASYMPTOTIC_DENSITY=true; native responsibility 'BULK45_ASYMPTOTIC_SUFFICIENCY__FINITE_DEFECT_INFORMATION_BARRIER'"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG31_QUERY_INDEXED_ABSTRACTION_RESULTS.json",
+            "main_blob_sha1": "39234e2cfd06491317a86348136bb924200d5704",
+            "quoted": "third witness same_spectrum_same_bulk_different_indexed_response — even the JOINT cheap summaries cannot recover indexed identity"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG15B_PREDICATE_LANGUAGE_RESULTS.json",
+            "main_blob_sha1": "6efedd0942e62ebe9bf885152f6b501141b5cab9"
+          },
+          {
+            "path": "development/orion-qg-regime-geometry/QG_RETRACTION_SELECTION_HEADLINES_V1.md",
+            "pinned_commit": "b502365c2 (RETRACTION: the QG-35 headline separation counts are null-reproducible)",
+            "main_add_commit": "2589801ac (PR #926)",
+            "main_blob_sha1": "e8dd0f4918b57539e21c6f7576f2f3e7e4b8a956",
+            "byte_identical_pinned_vs_main": true
+          },
+          {
+            "path": "development/orion-qg-regime-geometry/QG_ADVERSARIAL_REFEREE_REPORT.md",
+            "main_blob_sha1": "66ab32a5f9a7eb2161a3773e766035beb5097c73"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/903#issuecomment-5379882821 ('the 45-bin map is provably information-losing for finite defects: 54 one-active profiles exist and 15 bulk signatures split into multiple profiles; first witness (IIIIXX, IIIIXY) has the same (2,2,2,2) bulk signature but different defect responses')"
+        ]
+      },
+      "original_quantum_meaning": "A statistic can be exactly lossless for one query class (asymptotic/bulk density descends to 45 counts) while provably lossy for another (finite defect behavior): explicit same-bulk different-defect witnesses exist, and even bulk+spectrum jointly loses indexed-response information. #903 S7: treat a quotient counterexample as a reusable state-design lesson — locate the hidden coordinate that distinguishes behavior and keep it until an exact quotient theorem removes it.",
+      "original_assumptions_scope": "Scope is per-query-class exactness, not global insufficiency: the SAME receipt records BULK_45_HISTOGRAM_SUFFICIENT_FOR_ASYMPTOTIC_DENSITY=true. QG-30 entered S4 evidence only after its own protected dual harness was GREEN (#903 dependency rule). The retraction adds the converse discipline: non-determination claims need a null because non-determination is the generic case (an index-forgetting summary failing an index-dependent question is a strawman by construction).",
+      "loadbearing_claims": [
+        "Exact information-loss witnesses exist and are machine-checkable at the coordinate level (K-histogram divergence between same-bulk representatives)",
+        "Coarse-to-fine is licensed per query: 'choose the coarsest exact representation licensed for the requested quantity, and refuse to reuse a bulk quotient for finite-size decisions unless a separate information-preservation theorem is available' (#903 comment issuecomment-5379882821)",
+        "Retraction-methodology rule: any 'X is not determined by Y' claim requires a shuffle-equal-n null before it counts as a finding"
+      ],
+      "transfer_relevance": "OCM anti-overcompression hostile (FQ-5 in #216 section 4) and the terminal REPRESENTATION_INSUFFICIENT__MISSING_COORDINATE_FOUND. The donor supplies the exact falsifier shape for OCM quotients: construct same-compressed-state pairs with different correct downstream decisions; when found, name the minimal missing coordinate and reopen the representation. The shuffle-null rule doubles as the mandatory negative control for any OCM claim that a compressed OCM state 'loses information'."
+    },
+    {
+      "donor_id": "FQ-6",
+      "name": "safe equivalence, symmetry veto, and identity/ordering hygiene",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [888, 1034],
+        "note": "#888 (QG-28) merged; the unsafe-symmetry veto is quoted by #903 S2 and #894. #1034 is the duplicate-identity correction that adjudicated the QG-34 file weld."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/extensions/orion-qg/QG28_LOCAL_CLIFFORD_ORBIT_RESULTS.json",
+            "pinned_commit": "29d53e143 (lane-intro, not a main ancestor)",
+            "main_add_commit": "af7163662 (PR #940)",
+            "main_blob_sha1": "271349b476e99320cc77dab327e4c08accdff6a4",
+            "byte_identical_pinned_vs_main": true,
+            "terminal": "QG28_TARE_EXACT_COST_DESCENDS_TO_715_LOCAL_CLIFFORD_COLUMN_ORBIT_COUNTS_ALL_N",
+            "quoted": "group GL(2,2) ~= S3 order 6 acting 'independently per physical qubit, fixing I and permuting X/Y/Z simultaneously on targets/frames/Tag'; orbit_census 4096 -> 715 (Burnside: 4096 fixed by identity, 64 by each transposition, 1 by each 3-cycle; orbit sizes {1:1, 3:63, 6:651}); protected_active_canonicalization: 1,572,864 rows, 0 mismatches, cost_before_sha256 == cost_after_sha256; INDEPENDENT_POSITION_RELABEL_PER_COLUMN=false; COMBINED_LOCAL_POSITION_QUOTIENT_54=false"
+          },
+          {
+            "path": "research/extensions/orion-qg/QG34_ADAPTIVE_PROBE_TREE_RESULTS_CORRECTION_RECEIPT_V1.md",
+            "main_add_commit": "9291bc6a7 (PR #1470, V1 freeze)",
+            "main_blob_sha1": "2de63fe9a60ba1cb9d90ea29b83a6bd476e94ceb",
+            "quoted": "canonical committed-result identity adjudication after a union-merge welded two identity layers into one JSON file: 'schema = ORIONQG.QG34.CommittedResult.v1, terminal = QG34_EXACT_MINIMAX_ADAPTIVE_PROBE_DEPTH_MACHINE_CHECKED, source_result_digest = 7c48f505...'; 'The defect is the two layers sharing one file, not either name being wrong'; repair direction includes 'Add duplicate-key rejection on the committed-result loader so ordinary json.loads cannot silently choose an authority state'"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/894#issuecomment-5379875259 ('explicit hard veto on the tempting globally coupled per-column position quotient')"
+        ]
+      },
+      "original_quantum_meaning": "Canonicalizing TARE columns under the per-qubit local-Clifford group S3 is exact: the cost function is constant on every orbit (verified on 1,572,864 active rows with zero mismatches and identical before/after cost digests), so 4096 column types compress to 715 orbits with no loss. The tempting per-column target-position relabeling is NOT independent of the local degrees of freedom being quotiented and is explicitly vetoed; the combined local+position quotient is likewise refused.",
+      "original_assumptions_scope": "Safety of the quotient is relative to the frozen cost function (invariance verified by digest equality, not assumed); ORBIT_HISTOGRAM_SUFFICIENT_STATISTIC_ALL_N is scoped to the guarded tropical geometry; no closed-form completeness, no practical static forecaster, no novelty. The QG-34 correction receipt shows the failure mode on the identity layer itself: duplicate JSON keys silently selecting an authority state.",
+      "loadbearing_claims": [
+        "A symmetry quotient is exact only when the quotiented objective is verified invariant on it (active canonicalization with 0 mismatches and digest-equal costs), and only relative to that objective",
+        "A plausible, more aggressive quotient (per-column position relabeling) was rejected by explicit veto — quotient validity is per-degree-of-freedom independence, not per-plausibility",
+        "Identity layers must not share one namespace: duplicate-key parsing can silently choose an authority state"
+      ],
+      "transfer_relevance": "OCM FQ-6 (safe equivalence/symmetry/ordering): every OCM equivalence (caching key, canonical form, merge criterion) must carry (a) an explicit query/context relative to which it preserves the protected result, (b) an active invariance verification, and (c) a veto record for refused larger quotients. The QG-34 weld is a direct donor lesson for OCM ledger hygiene: strict duplicate-key rejection on any authority-bearing state file."
+    },
+    {
+      "donor_id": "FQ-7",
+      "name": "finite-regime-geometry invariant tuple and RG-F0 implication matrix (discovered donor from #894)",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [894, 1383, 1384, 1396],
+        "note": "#894 (ORION-RG RG-0) CLOSED AS SUPERSEDED (registered-not-executed lane); folded targets live in the NQ lane (#1383/#1384/#1396, all OPEN as of this session). #894 is NOT in V1_QUANTUM_CENSUS_V1.json (56-issue quantum-scoped census list verified; it lists 762..1427 including 903/911/924/933/942/1359/1362 but not 894) — RG was a separate general-theory programme."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "papers/PAPER_PORTFOLIO_REFACTOR_PLAN_V1.md",
+            "main_add_commit": "f58c1b3dc; amended by R0/R1 waves (10b6ef95d, 3a1a83178)",
+            "main_blob_sha1": "9c1eb53f33bcaae4867f6a09bd0eceb817f4b82f",
+            "binding_note": "Named by BOTH the #1362 comment (lane mapping: P18 = ORION-28 reserved, sections 2-5) and the #894 closure comment (single live owner of the superseded RG lane)"
+          },
+          {
+            "path": "research/orion-v1-freeze/V1_ISSUE_DISPOSITION_LEDGER_V1.json",
+            "main_add_commit": "9291bc6a7 (PR #1470); amended by census residual repairs (0f54f4d75, PR #1504)",
+            "main_blob_sha1": "b701930a93b92951eb4ba7ecd354a53852d7254e",
+            "binding_note": "Authoritative census snapshot preserving the #894 closure record verbatim per its closing comment"
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/894#issuecomment-5431815204 (closure as superseded; successor home = V1 execution job ledger; folded targets live in the NQ lane #1383/#1384/#1396)"
+        ],
+        "unbound": [
+          {
+            "path": "no RG-0 theorem/receipt artifact",
+            "status": "UNBOUND_IN_LOCAL_CHECKOUT",
+            "reason": "#894 is a registered-not-executed programme: its issue body freezes the invariant tuple, theorem targets RG-T1..T4, falsification tranche RG-F0 and claim ladder, but no RG_* result receipt exists. Searched: ls-tree of origin/main for 'RG' under research/ and development/ (only unrelated hits); the census closure confirms 'registered-not-executed'. The tuple and RG-F0 matrix below are bound to the issue body itself (frozen text), not to any result."
+          }
+        ]
+      },
+      "original_quantum_meaning": "ORION-QG motivating instances suggested a candidate general theory: structured families may admit a finite regime geometry (exact finite weighted-state representation of optimum/regime label) even when exact optimization is globally complex. The programme defined a deliberately over-complete invariant tuple per family: d_sem (conserved semantic quotient dimension), kappa (intrinsic optimal-support number), a_cert (regime-boundary certificate arity), N_label (regime-label quotient cardinality), N_value (value-state quotient cardinality), T_* (primitive semantics-preserving move basis), K(theta) (certified objective/regime cells), rho_cert (robustness margin), lambda_crit (asymptotic critical-cycle value), with NO equality/inequality among them assumed before proof.",
+      "original_assumptions_scope": "Never executed: no RG_T* terminal was earned. The RG-F0 implication matrix of tempting-but-false implications was frozen as a design control: bounded d_sem does NOT imply bounded kappa; bounded kappa does NOT imply bounded N_value; bounded N_label does NOT imply finite objective-independent T_*; finite T_* does NOT imply complete phase-boundary generation; finite exact state does NOT imply a human closed form; local certificate arity does NOT imply cheap global optimization. Generic machinery (weighted/tropical automata, Graver/test sets, DP, abstract interpretation, automata minimization, normal fans, transfer matrices) was declared donor-owned; QG-28..30 were registered as motivating instances/theorem-boundary controls ONLY.",
+      "loadbearing_claims": [
+        "The distinction lattice itself: exact-value finite-state representation vs regime-label-only finite quotient vs bounded-domain quotient vs all-instance finite quotient — 'No finite-domain observation may self-promote to all-instance authority' (#894 body)",
+        "QG-30 (per the #894 comment) supplies the anti-overcompression pattern: 'a statistic can be lossless for asymptotic phase/bulk geometry while provably lossy for finite defect behavior'",
+        "Closure disposition: superseded without execution; nothing in RG-0 is an earned theorem"
+      ],
+      "transfer_relevance": "Direct skeleton for the OCM donor atlas (the sibling deliverables of #216): the RG invariant tuple is the prototype for typing OCM quotient claims (which distinction is dropped, relative to which query, with which finite-domain scope), and RG-F0 is the prototype falsification matrix any OCM 'compression implies X' claim must survive. Because RG-0 never executed, NOTHING from it may be cited as an earned result — only as a frozen negative-control design."
+    },
+    {
+      "donor_id": "FQ-8",
+      "name": "quantum/frontier census, transfer boundary, and fail-closed transfer protocol (discovered donors from #1359/#1362/#903)",
+      "orion_source": {
+        "repo": "SzeChunYiu/ORION",
+        "issues": [1359, 1362, 903, 839],
+        "note": "#1359 CLOSED COORDINATION_BOUND (census discharged); #1362 OPEN (PAPER_CANDIDATE_BLOCKED — no bound artifact of its own, per census); #903 CLOSED with Discovery V2 successor registration (#1301/#1302); #839 = ORION-QG programme closure."
+      },
+      "source_result_identity": {
+        "artifacts": [
+          {
+            "path": "research/orion-v1-freeze/V1_QUANTUM_CENSUS_V1.json",
+            "main_add_commit": "9291bc6a7 (PR #1470); amended 0f54f4d75 (PR #1504)",
+            "main_blob_sha1": "95c4af5fbafd401e9898222c5b3fad28be013dba",
+            "quoted": "summary.scoped_issues=56; per-issue evidence blocks verified for #911, #924, #933, #942, #903, #1359, #1362; e.g. #924 evidence: 'headline regret of 5 demoted; residual signal = depth distribution {0:7,1:30,2:39,3:16} vs null {0:7,1:42,2:34,3:9} and budget-2 regret 2-vs-1'"
+          },
+          {
+            "path": "research/orion-v1-freeze/V1_ISSUE_DISPOSITION_LEDGER_V1.json",
+            "main_blob_sha1": "b701930a93b92951eb4ba7ecd354a53852d7254e"
+          },
+          {
+            "path": "research/extensions/orion-qg/ORION_QG_PROGRAMME_SCIENTIFIC_CLOSURE_RESULTS.json",
+            "main_add_commit": "aac06e593 (PR #861)",
+            "main_blob_sha1": "7d5d63fb69898e7e531d8b5a5ff444b75bb6832a",
+            "terminal": "ORION_QG_PROGRAMME_SCIENTIFICALLY_CLOSED__THEOREMS_REFUTATIONS_AND_BOUNDED_CANNOT_CHECKS_RECEIPTED__NOT_NOVELTY_AUTHORITY"
+          },
+          {
+            "path": "research/orion-v1-execution/V1-QUANTUM-ISSUE-DISPOSITION-01/EXECUTION_PACKET_V1.json",
+            "pinned_commit": "5aa84b52cea15871506c2603c728d5b85342037b (created_by_commit cited in #1359 comment issuecomment-5422756888)",
+            "git_blob_sha1": "23f6f15bcbe590405000bca567fa02791306f06e (verified present in local object store)",
+            "status_note": "Coordination packet, NOT on origin/main (ls-tree count 0); readable at the lane commit only. The #1359 comment also cites sha256 dca2e861634a1e77f3b092335910be070b63d1110e4249e52f0270b359bea45e and branch shadow/orion-v1-deadline-migration-freeze-20260826 — branch ref not resolved locally (live multi-lane checkout; deliberately not touched)."
+          }
+        ],
+        "comment_identities": [
+          "https://github.com/SzeChunYiu/ORION/issues/1359#issuecomment-5422756888 (acquisition denominator 129 open issues / 67 lexical quantum-frontier candidates; packet binding)",
+          "https://github.com/SzeChunYiu/ORION/issues/1359#issuecomment-5431795823 (closure: census discharged; no scientific authority change)",
+          "https://github.com/SzeChunYiu/ORION/issues/1362#issuecomment-5431831609 (kept open; P18 = ORION-28 reserved; census binding entry #1362)",
+          "https://github.com/SzeChunYiu/ORION/issues/903#issuecomment-5406968372 (Discovery V2 successor registration with the fail-closed transfer protocol)"
+        ]
+      },
+      "original_quantum_meaning": "The corpus-level boundary, not a single mechanism: quantum structure 'may donate quotient-state, syndrome, noncommutation, resource-monotone, tensor/factor, adaptive-measurement, phase-boundary, and recovery mechanisms. It does not grant quantum advantage, physical validity, or novelty without target-native validation and independently governed comparisons' (#1359 body). #1362 adds contextuality 'as a warning against globally sufficient scalar state'. The #903 Discovery V2 registration freezes the transfer protocol: relation-preserving correspondence (not shared vocabulary), target-native validator, donor-first refusal, matched information and vector resource contract, separate representation-gain vs implementation-cost accounting, quantum_scientific_authority_transfer = FORBIDDEN.",
+      "original_assumptions_scope": "#1362 is an OPEN, unexecuted paper candidate — its mechanism list is candidacy, not evidence. The census is 'an authoritative census only; it grants no issue-closure, paper, novelty, physical-quantum, or quantum-advantage authority' (#1359 comment). The ORION-QG closure terminal itself carries NOT_NOVELTY_AUTHORITY, and PR #892's hostile lane 'removed the programme's novelty' (commit c756b29f8 title).",
+      "loadbearing_claims": [
+        "Census disposition vocabulary now exists on main: per_issue_terminal {COMPUTATIONALLY_GREEN_BOUNDED, VALID_NEGATIVE_OR_BOUNDARY_RESULT, COUNTEREXAMPLE, ...} with per-issue merged-PR + artifact-path evidence verified at frozen base ef51b7b and origin/main",
+        "The fail-closed transfer protocol (5 requirements + explicit FORBIDDEN authority flag) is already frozen in ORION and matches #216's transfer rule almost clause-for-clause",
+        "A surface-analogy or unmatched-resource win terminates a transfer as unsupported (#903 comment issuecomment-5406968372)"
+      ],
+      "transfer_relevance": "This donor IS the meta-contract for the whole of #216: OCM must reuse the census's disposition vocabulary and the fail-closed protocol verbatim rather than reinvent them. The contextuality warning maps onto the OCM refusal of a single globally-sufficient scalar cognitive state (a compressed OCM state is always query-relative). Practical consequence recorded here: every donor above keeps its original scope flag; none may promote to all-instance or physical authority inside OCM."
+    }
+  ],
+  "session_findings": {
+    "phantom_census_path": "V1_QUANTUM_CENSUS_V1.json entry #924 cites research/extensions/orion-qg/QG39_POST_NULL_RESIDUAL_RESULTS.json which does not exist anywhere in the local object store by that path (searched origin/main ls-tree, 2589801ac9 ls-tree, git log --all by path, basename grep). The residual numbers themselves are bound verbatim in QG_RETRACTION_SELECTION_HEADLINES_V1.md and in the census text. Recorded as a census binding defect; not fabricated around.",
+    "welded_identity_file": "QG34_ADAPTIVE_PROBE_TREE_RESULTS.json on origin/main carries three duplicate top-level identity keys; canonical identity per the correction receipt (main add 9291bc6a7) is the sealed dual-harness triple. OCM must bind QG-34 through the correction receipt, not through naive json.loads of the main copy.",
+    "squash_merge_pinning": "Lane-intro commits (fdb287143, 29d53e143, 43f7ad1c6, ccf31548e, ...) are not ancestors of origin/main because ORION squash-merges; bindings therefore pair (lane-intro commit, byte-identical main blob) or (main_add_commit) — verified per artifact above.",
+    "already_classical_donors": "The most OCM-shaped results (MAX-R4E-A authority-indexed routing, MAX-R4E replay, MAX-R4E-B0 held-out adjudication) are already non-quantum research-control mechanisms built on classical receipts; and the QG-21 S6 lesson is substrate-independent governance by construction. These should be treated as in-family parent demonstrations in the sibling classical-parent map, not as quantum donors needing semantic stripping."
+  }
+}
