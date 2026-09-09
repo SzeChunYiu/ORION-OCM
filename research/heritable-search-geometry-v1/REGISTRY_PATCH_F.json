@@ -1,0 +1,110 @@
+{
+  "lane": "F",
+  "capsule": "heritable-search-geometry-v1",
+  "issue": 233,
+  "rungs": ["R4", "R5"],
+  "checker": "exact/geometry_dynamics_check_v1.py (11/11 PASS on billy-laptop, exit 0)",
+  "rows": {
+    "G03": {
+      "R4": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R4_INFO_GEOMETRY_G03_G17.md",
+             "parent": "Chentsov 1972 (AMS 1982 transl.), verified; Ay-Jost-Le-Schwachhofer extension cited",
+             "owned_statement": "Fisher metric unique up to scale among Markov-morphism-invariant Riemannian metrics on the family; no second natural metric to choose"},
+      "R5": {"verdict": "NOT_APPLICABLE", "reason": "composed proposals as semigroup elements is the G09 R5 row (R5_SEMIGROUP_G09.md); no separate G03 content"}
+    },
+    "G09": {
+      "R4": {"verdict": "LIFT_CONDITIONAL", "artifact": "ladder/R4_CONTRACTION_G09.md",
+             "condition": "state-shared transport: U(Σ,x)=T(x) with T fixed; otherwise only the coupling-triangle repair bound (vacuous for deterministic state-dependent U)",
+             "parent": "Dobrushin 1956 (verified): delta(PQ)<=delta(P)delta(Q); max-coupling triangle",
+             "counterexample": "witness_dobrushin_composition.json: delta(K)=1 with delta(Q)=3/4, state-dependent deterministic U"},
+      "R5": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R5_SEMIGROUP_G09.md",
+             "parent": "Dobrushin 1956 nonstationary products (verified); #145 owns <O> closure (project)",
+             "owned_statement": "sup_t delta(K_t)<1 => all orbits coalesce in TV at geometric rate, order-free; nonhomogeneous form needs only sum(1-delta(K_t))=infinity"}
+    },
+    "G10": {
+      "R4": {"verdict": "LIFT_FAILS", "artifact": "ladder/R4_BURDEN_LIPSCHITZ_G10.md",
+             "counterexample": "hostiles/witnesses/hostile_burden_lipschitz.json (H1: one edit, burden N*p vs p)",
+             "condition_restored": "Lipschitz iff d >= c*d_B (burden pseudometric); admissibility discontinuity is structural"},
+      "R5": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R5_BURDEN_TELESCOPE_G10.md",
+             "parent": "tower property of conditional expectation (standard)",
+             "owned_statement": "E[B(Sigma_T)] = B(Sigma_0) + sum E[(K_t B - B)(Sigma_t)]; stopped form CONDITIONAL on E[tau*]<infinity"}
+    },
+    "G11": {
+      "R4": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R4_EV_SENSITIVITY_G11.md",
+             "parent": "Dobrushin coupling (verified); witness_ev_sensitivity.json",
+             "owned_statement": "|Ev_Sigma - Ev_Sigma'| <= TV(Q_Sigma, Q_Sigma')"},
+      "R5": {"verdict": "NOT_APPLICABLE", "reason": "lane-table routes G11 to R4/R6 only; R6 is lane G"}
+    },
+    "G12": {
+      "R4": {"verdict": "NOT_APPLICABLE", "artifact": "ladder/R5_REACH_G12_AT02.md",
+             "reason": "balls-vs-sets mismatch has no content beyond the H1/H3 mechanisms; folded into the R5 file"},
+      "R5": {"verdict": "LIFT_FAILS", "artifact": "ladder/R5_REACH_G12_AT02.md",
+             "counterexample": "hostiles/witnesses/hostile_reach_iff.json (H5: aliasing pseudometric, new state inside d-closure)",
+             "condition_restored": "metric reach expands iff new state outside d-closure of prior reachable set"}
+    },
+    "G14": {
+      "R4": {"verdict": "LIFT_FAILS", "artifact": "ladder/R4_CONE_VS_BALL_G14_AT06.md",
+             "counterexample": "hostiles/witnesses/hostile_cone_ball.json (H3: over_recompute B and under_invalidate A)",
+             "load_bearing": "cache-skip by metric proximity unsound in both directions; only the cone licence (lane A iff) is sound"},
+      "R5": {"verdict": "NOT_APPLICABLE", "reason": "atom-table routes G14 to R4/R7; R7 is not this lane"}
+    },
+    "G15": {
+      "R4": {"verdict": "LIFT_FAILS", "artifact": "ladder/R4_HYPERVOLUME_G15_AT07.md",
+             "counterexample": "hostiles/witnesses/hostile_hypervolume_capacity.json (H4: capacity 1, HV 4 -> 3/2 while order-ratchet holds)",
+             "parent_sufficient_part": "Zitzler-Thiele 1999 (verified) + measure monotonicity: HV(A u {x}) >= HV(A) at unlimited capacity",
+             "condition_restored": "HV monotone along trajectory iff evictions never remove positive exclusive-contribution points"},
+      "R5": {"verdict": "LIFT_SURVIVES", "artifact": "ladder/R5_RATCHET_G15.md",
+             "statement": "running-max ratchet holds verbatim along every orbit (pathwise, no kernel/metric assumptions)"}
+    },
+    "G16": {
+      "R4": {"verdict": "NOT_APPLICABLE", "reason": "scalars carry no R4 geometry; atom-table routes G16 to R5/R7"},
+      "R5": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R5_AMORTIZATION_AT05_G16.md",
+             "parent": "renewal-reward theorem (verified; Wald for the expectation form)",
+             "owned_statement": "long-run amortized cost per use -> E[cost per cycle]/E[uses per cycle]; T05 threshold = renewal-reward breakeven with H_eff the expected regenerative use count",
+             "condition": "use process regenerative at module boundary; else report stationary use rate (witnessed deviation: 2.0167 vs 4/3)"}
+    },
+    "G17": {
+      "R4": {"verdict": "LIFT_CONDITIONAL", "artifact": "ladder/R4_INFO_GEOMETRY_G03_G17.md",
+             "parent": "Chentsov 1972 (verified); KL = 0.5 d_F^2 + O(d^3) standard",
+             "condition": "crossover m* shrinks iff registered-family sup-KL shrinks (family restriction); metric re-description buys nothing",
+             "lane_D_interface": "T09-B bound inherits this as its complexity term"},
+      "R5": {"verdict": "NOT_APPLICABLE", "reason": "atom-table routes G17 to R4/R6; R6 is lane G"}
+    },
+    "A_T01": {
+      "R4": {"verdict": "LIFT_FAILS", "artifact": "ladder/R4_APPROX_SETS_AT01.md",
+             "counterexample": "hostiles/witnesses/hostile_approx_sets.json (H2: d_H = eps, inf N*p -> p)",
+             "condition_restored": "|inf C(A) - inf C(A')| <= L d_H iff C is L-Lipschitz — fails for program costs per H1; T01's own P1 statement untouched"}
+    },
+    "A_T02": {
+      "R4": {"verdict": "NOT_APPLICABLE", "reason": "R4 content folded into G12 R5 row"},
+      "R5": {"verdict": "LIFT_CONDITIONAL", "artifact": "ladder/R5_REACH_G12_AT02.md",
+             "condition": "metric-reach expansion iff new reachable state outside d-closure (set => metric direction fails: hostile H5); metric => set direction holds trivially"}
+    },
+    "A_T03": {
+      "R4": {"verdict": "LIFT_CONDITIONAL", "artifact": "ladder/R4_ALIASING_METRIC_AT03.md",
+             "condition": "metric separates aliased states for the contract iff the metric function is admitted to the observation (sigma(phi,d)); price = channel cost",
+             "parent": "T03's own quotient/aliasing parent (Mealy-minimization duality); witness_aliasing_metric.json"}
+    },
+    "A_T05": {
+      "R5": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R5_AMORTIZATION_AT05_G16.md",
+             "parent": "renewal-reward theorem (verified)",
+             "owned_statement": "T05 identity with random use counts = renewal-reward long-run form; degrades to LIFT_CONDITIONAL under ecology drift (regenerative condition named)"}
+    },
+    "A_T06": {
+      "R4": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R4_CONE_VS_BALL_G14_AT06.md",
+             "parent": "Pearl-class causal DAG intervention locality (d-separation/intervention semantics)",
+             "owned_statement": "do(S=s) changes the law only on Desc(S) u {S}; outside invariant",
+             "mismatch_residual": "metric-ball reading FAILS — that verdict is filed on G14 R4 (hostile H3)"}
+    },
+    "A_T07": {
+      "R4": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R4_HYPERVOLUME_G15_AT07.md",
+             "parent": "Zitzler-Thiele 1999 IEEE TEC 3(4) (verified) + measure monotonicity",
+             "owned_statement": "HV monotone under archive inclusion for fixed reference point; capacity caveat machine-witnessed (filed as G15 R4 FAIL)"}
+    },
+    "A_T12": {
+      "R5": {"verdict": "PARENT_SUFFICIENT", "artifact": "ladder/R5_ERGODIC_AT12.md",
+             "parent": "finite Markov chain convergence / Perron-Frobenius (standard modern statement, Levin-Peres-Wilson class)",
+             "owned_statement": "finite-state kernel: decomposition into closed irreducible classes; mu P^t -> sum alpha_i pi_i iff aperiodic; Cesaro convergence always; periodicity becomes cyclic classes, recurrence becomes ergodic decomposition + absorption",
+             "witness": "witness_ergodic_decomposition.json (216 kernels, exact Fractions)"}
+    }
+  }
+}
