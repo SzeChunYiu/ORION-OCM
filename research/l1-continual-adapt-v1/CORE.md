@@ -6,7 +6,9 @@ box: **continual adaptation parent**. Coordinator:
 
 L1 v4 (`research/l1-linguistic-g2-v4/`) left
 `continual_adaptation_parent: CANNOT_CHECK_NOT_RUN`. That file is **cited, not
-overwritten**. v1–v3 same. New salts; not a retune.
+overwritten**. v1–v3 same. New salts; not a retune. The v1 RESULT hash pin
+tracks the later numeral-drop claim-boundary restatement
+(`EARNED_ADJ_NOUN_SUFFIX_NUMERAL_DROPPED`); schema and terminal are unchanged.
 
 ## Question
 

@@ -90,7 +90,7 @@ V4_CONTENT_SURFACES = frozenset(
 
 FROZEN_TERMINAL = "COMPOSITIONAL_LANGUAGE_LEARNING_ONLY"
 FROZEN_CAPS = (
-    ("l1-linguistic-g2-v1", "ocm.l1.linguistic-g2.v1", "3083d4286a8d569771da1dad3dc244a6dafa56652a361a9cd1419be4dcc3fe94"),
+    ("l1-linguistic-g2-v1", "ocm.l1.linguistic-g2.v1", "472497f7878e4ec76de1bf35ec794d103786d5c941593176f1e5ac28912a8860"),
     ("l1-linguistic-g2-v2", "ocm.l1.linguistic-g2.v2", "133e8550b0948ddbfb4b3e1673aae80c3d4de225e4004738639ed15e1b301a60"),
     ("l1-linguistic-g2-v3", "ocm.l1.linguistic-g2.v3", "a8943fcbe0ffe92f0537f27b166686cd9aab4a34b21c5dc8ad286e3ec1e3b79f"),
     ("l1-linguistic-g2-v4", "ocm.l1.linguistic-g2.v4", "cf168d7bfcdfabf01f53d0ca462218266ce134aff65fad4aa721062bd3c883ae"),
