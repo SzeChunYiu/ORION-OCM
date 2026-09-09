@@ -1,0 +1,103 @@
+name: H1 examples-charge polynomial microscope
+
+on:
+  pull_request:
+    paths:
+      - 'research/h1-examples-charge-v1/**'
+      - '.github/workflows/h1-examples-charge.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h1-examples-charge-v1/**'
+      - '.github/workflows/h1-examples-charge.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h1-examples-charge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-ex-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h1-examples-charge-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h1-examples-charge-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: H1 examples-charge study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-ex-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h1-examples-charge-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          if [ -f research/h1-examples-charge-v1/RESULT.json ]; then
+            cp research/h1-examples-charge-v1/RESULT.json "$out/capsule-RESULT.json"
+          fi
+          python -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "h1-ex-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "EXAMPLES_ARE_LIBRARY_CAPITAL",
+              "H1_EXAMPLES_EARNED_AT_SCOPE",
+              "CANNOT_CHECK_PREDECESSOR_DRIFT",
+              "CANNOT_CHECK_PARTITION_RECONSTRUCTION",
+              "CANNOT_CHECK_REVOCATION_ABLATION",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result.get("later_search_rerun"):
+              sys.exit("must not rerun v3 later-task search")
+          if result.get("tournament_rerun"):
+              sys.exit("must not rerun the G2 9e6 tournament")
+          if result.get("salts_retuned"):
+              sys.exit("must not retune v3 salts")
+          if result.get("m12_v5_claimed"):
+              sys.exit("must not claim M12 V5")
+          if result.get("programme_wide_close"):
+              sys.exit("must not claim programme-wide close")
+          if result.get("production_src_edited"):
+              sys.exit("must not edit production src")
+          g2 = result["g2_cited_not_rerun"]
+          if g2["tournament_acquisition_enumeration_attempts"] != 9010526:
+              sys.exit("G2 tournament size must remain 9010526")
+          v3 = result["v3_capital_input"]
+          if v3["terminal"] != "AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE":
+              sys.exit("v3 terminal drifted")
+          if "HUMAN_INSTRUCTIONAL_BURDEN" not in result.get("not_issued", []):
+              sys.exit("must not issue human instructional burden")
+          print(result["terminal"])
+          PY
+      - name: Do not overwrite frozen H1 / H5 / G2 capsules
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- research/h1-amortized-acquisition-v1
+          git diff --exit-code -- research/h1-amortized-rewrite-v2
+          git diff --exit-code -- research/h1-amortized-lifetime-v3
+          git diff --exit-code -- research/h5-lifetime-economics-v1
+          git diff --exit-code -- research/g2-acquisition-economics-v1
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h1-examples-charge
+          path: '${{ runner.temp }}/h1-ex-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
