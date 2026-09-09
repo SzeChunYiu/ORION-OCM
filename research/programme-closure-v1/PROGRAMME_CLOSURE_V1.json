@@ -30,19 +30,20 @@
       "what_would_convert_it": null
     },
     {
-      "basis": "G3.1 is measured and positive: #193 selected A and B in independent lanes, and on a 256-task population fixed independently of those outcomes exactly 3 tasks used both identities, all three meeting the pre-registered strong witness, with per-method revocation removing exactly its own contribution. G3.2 is now measured and negative under declared prices: scoped failure memory trades 94,208 prefix extensions for 216,777 store probes and pays only where a probe costs under 0.416 of an extension. Scope itself is separately shown load-bearing by a falsifier -- the same store without a budget on its entries cuts 68% of search and then solves 0 of 48, unsound rather than merely worse. G3.3 representation improvement and G3.4 insufficiency diagnosis remain unrun.",
+      "basis": "G3.1 is measured and positive: #193 selected A and B in independent lanes, and on a 256-task population fixed independently of those outcomes exactly 3 tasks used both identities, all three meeting the pre-registered strong witness, with per-method revocation removing exactly its own contribution. G3.2 is now measured and negative under declared prices: scoped failure memory trades 94,208 prefix extensions for 216,777 store probes and pays only where a probe costs under 0.416 of an extension. Scope itself is separately shown load-bearing by a falsifier -- the same store without a budget on its entries cuts 68% of search and then solves 0 of 48, unsound rather than merely worse. G3.3 is measured and negative: the only coarser representation that stays sound is behaviourally identical to the exact one and saves nothing, while every representation coarse enough to merge anything destroys solutions, because the coefficient tuple is nearly a bijection with the program prefix and the state space has no redundancy to exploit. G3.4's diagnosis is implemented by re-running under changed conditions, with a timeout mapping to RESOURCE_BOUND and never licensing REPRESENTATION_INSUFFICIENT. All four G3 obligations are now measured.",
       "dispositions": [
         "METHOD_COMPOSITION_SUPPORTED",
         "FAILURE_MEMORY_NOT_USEFUL",
-        "CANNOT_CHECK_REPRESENTATION_GROWTH_AND_INSUFFICIENCY_DIAGNOSIS_NOT_RUN"
+        "REPRESENTATION_PRIOR_DOMINATES"
       ],
       "gate": "G3",
       "receipts": [
         "research/g3-independent-composition-v1/README.md",
-        "research/g3-scoped-failure-memory-v1/G3_2_SCOPED_FAILURE_MEMORY_V1.json"
+        "research/g3-scoped-failure-memory-v1/G3_2_SCOPED_FAILURE_MEMORY_V1.json",
+        "research/g3-representation-v1/G3_REPRESENTATION_V1.json"
       ],
       "vocabulary": "G3 exit terminals",
-      "what_would_convert_it": "Representation change (G3.3) and insufficiency diagnosis (G3.4), which have no study."
+      "what_would_convert_it": null
     },
     {
       "basis": "The compose-stage residual is exactly zero (rho_R = 0.0) over 96 selection points from 70 sources, and its five bound runtime sources are byte-identical on this head, so the terminal still describes the current runtime. Every exact parent registered in G4.3 has been run. G4.4's nine unlock conditions stand at 0 of 9 with the fourth actively refuted: the legal-feature ladder drives the residual to <=0.08% before charging feature extraction, lookup, maintenance or replay. #71 stays blocked.",
@@ -322,7 +323,7 @@
       "G5",
       "G7"
     ],
-    "reason": "Every required gate carries an explicit bounded disposition, which is #165 section 18's stated closure condition, so the programme is closed. It closes MIXED, not positive. 4 gate dispositions are positive and 6 gates are CANNOT_CHECK with a stated conversion. Ordinary parents reproduce the mechanisms at ['G2', 'G4', 'G5', 'G7'], and per section 12 that is NOT programme failure -- it is the designed absorption mode, and section 1 disclaims any requirement that OCM rediscover existing algorithms. Mechanism-level parent sufficiency therefore says nothing against the thesis. The thesis is decided one level up, where section 12 puts the novelty: two upper-level candidates are supported at E2 (a located phase boundary and two principled impossibility results) and three are CANNOT_CHECK (lifetime regime, cross-domain invariance, integrated interaction effect). PARENT_PRODUCT_SUFFICIENT is unavailable in either direction, because deciding it needs an integrated prototype.",
+    "reason": "Every required gate carries an explicit bounded disposition, which is #165 section 18's stated closure condition, so the programme is closed. It closes MIXED, not positive. 4 gate dispositions are positive and 5 gates are CANNOT_CHECK with a stated conversion. Ordinary parents reproduce the mechanisms at ['G2', 'G4', 'G5', 'G7'], and per section 12 that is NOT programme failure -- it is the designed absorption mode, and section 1 disclaims any requirement that OCM rediscover existing algorithms. Mechanism-level parent sufficiency therefore says nothing against the thesis. The thesis is decided one level up, where section 12 puts the novelty: two upper-level candidates are supported at E2 (a located phase boundary and two principled impossibility results) and three are CANNOT_CHECK (lifetime regime, cross-domain invariance, integrated interaction effect). PARENT_PRODUCT_SUFFICIENT is unavailable in either direction, because deciding it needs an integrated prototype.",
     "supported_gates": [
       {
         "disposition": "CAUSAL_METHOD_REUSE_SUPPORTED",
@@ -343,7 +344,6 @@
     ],
     "terminal": "PARTIAL_SIGNATURE_ONLY_G2_AND_G3_AND_G4",
     "unmeasured_gates": [
-      "G3",
       "G4",
       "G5",
       "G6",
