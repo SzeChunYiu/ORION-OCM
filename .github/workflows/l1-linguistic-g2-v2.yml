@@ -1,0 +1,53 @@
+name: L1 linguistic G2 v2 operator-scope microworld
+
+on:
+  pull_request:
+    paths:
+      - 'research/l1-linguistic-g2-v2/**'
+      - '.github/workflows/l1-linguistic-g2-v2.yml'
+      - 'src/ocm/language/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/l1-linguistic-g2-v2/**'
+      - '.github/workflows/l1-linguistic-g2-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  linguistic-g2-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/l1-linguistic-g2-v2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/l1-g2-v2-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/l1-linguistic-g2-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+      - name: Microworld study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/l1-g2-v2-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/l1-linguistic-g2-v2/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+      - name: Frozen v1 not overwritten
+        run: git diff --exit-code -- research/l1-linguistic-g2-v1/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: l1-linguistic-g2-v2
+          path: '${{ runner.temp }}/l1-g2-v2-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

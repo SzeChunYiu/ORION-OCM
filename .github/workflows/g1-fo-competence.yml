@@ -1,0 +1,62 @@
+name: G1 F/O competence at polynomial plus L1 microworld
+
+on:
+  pull_request:
+    paths:
+      - 'research/g1-fo-competence-v2/**'
+      - '.github/workflows/g1-fo-competence.yml'
+      - 'research/g2-macro-operator-v1/experiment.py'
+      - 'research/l1-linguistic-g2-v1/experiment.py'
+      - 'research/g1-controller-growth-v1/RESULT.json'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/dialogue/planner.py'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g1-fo-competence-v2/**'
+      - '.github/workflows/g1-fo-competence.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  g1-fo-competence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g1-fo-competence-v2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-fo-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g1-fo-competence-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/g1-fo-competence-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Polynomial plus L1 F/O competence study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-fo-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/g1-fo-competence-v2/study.py \
+            2>&1 | tee "$out/console.txt"
+          cp research/g1-fo-competence-v2/RESULT.json "$out/RESULT.json"
+          cp research/g1-fo-competence-v2/SUMMARY.json "$out/SUMMARY.json"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g1-fo-competence
+          path: '${{ runner.temp }}/g1-fo-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
