@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -93,13 +92,6 @@ NOT_ISSUED = (
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def git_head() -> str:
-    try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
-    except (OSError, subprocess.CalledProcessError):
-        return "UNKNOWN"
 
 
 def is_already_earned(identity: str) -> bool:
@@ -287,7 +279,6 @@ def run_study() -> dict[str, Any]:
         "issue": ISSUE,
         "gate": GATE,
         "salt": SALT,
-        "git_head": git_head(),
         "lineage_id": LINEAGE_ID,
         "scope": "registered G7 miniature microscope D0-D6; not programme-wide",
         "primary_source": "research/g7-lineage-d6-v6/RESULT.json",

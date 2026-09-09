@@ -36,7 +36,11 @@ class TestLoadContract(unittest.TestCase):
                 imported.update(alias.name.split(".")[0] for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imported.add(node.module.split(".")[0])
-        self.assertTrue(imported.issubset({"argparse", "hashlib", "json", "subprocess", "sys", "pathlib", "typing"}))
+        self.assertTrue(
+            imported.issubset(
+                {"__future__", "argparse", "hashlib", "json", "sys", "pathlib", "typing"}
+            )
+        )
         self.assertNotIn("ocm", imported)
         self.assertNotIn("from ocm", source)
         self.assertNotIn("sys.path.insert", source)
