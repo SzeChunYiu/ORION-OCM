@@ -1,0 +1,33 @@
+name: Issue 165 lineage integration
+on:
+  push:
+    branches: [research/issue165-lineage-integration-20260909]
+    paths: [.github/workflows/issue165-lineage-integration.yml, research/issue165-lineage-integration-v1/**]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 1eb80592b25be08e3e451bee3464d363b2908fba
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Archive exact development donor source, not protected outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/issue165-source"
+          git rev-parse HEAD > "$RUNNER_TEMP/issue165-source/COMMIT.txt"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/issue165-source/TREE.txt"
+          git archive --format=tar.gz HEAD research/g3-failure-memory-v1 research/g3-representation-v1 research/g3-representation-diagnosis-v1 research/g6-intervention-lab-v1 research/g7-lineage-v1 research/cross-domain-transfer-v1 research/l1-linguistic-g2-v1 research/math-n4-lemma-reuse-v1 research/g5-packed-field-v1 research/g5-factored-warrant-v1 research/g5-consolidation-v1 research/g2-strong-parents-v1 research/publication-constitution-v1 > "$RUNNER_TEMP/issue165-source/donors.tar.gz"
+          sha256sum "$RUNNER_TEMP/issue165-source/donors.tar.gz" > "$RUNNER_TEMP/issue165-source/SHA256.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-pinned-donors-${{ github.run_id }}
+          path: ${{ runner.temp }}/issue165-source
+          if-no-files-found: error
+          retention-days: 30
