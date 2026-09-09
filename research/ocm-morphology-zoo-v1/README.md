@@ -143,6 +143,71 @@ admission) is owed. Descriptive: 28,584 phenotypes map to only 5,232
 distinct objective vectors (0.817 objective-space collapse) — morphological
 diversity exceeds behavioral diversity, a lead for the next tranche.
 
+## Amend-5 (FREEZE_V1_AMEND_5.json): quality-gated D-archive admission — the owed revival
+
+Amend-4's own frozen mzd9 rule 3 (UNDERMINED_QUALITY) owes a revival iteration:
+attribute the failure to ONE stage (the QUALITY stage of archive admission) and
+apply the matching lever — `map_elites.run(admission_bar=b)` admits a feasible
+record to the D-archive only if `dev_score >= b`; rejected evals stay charged to
+the budget.  Junk-free coverage becomes the archive's own objective, so the
+amend-3 DIVERSE terminal either stands cleanly at scope with the gate ON or is
+honestly revised to quality-conditional.  The gate is the ONE varied dimension:
+G00 no-gate twins (same algorithm/budget 40,000/seeds 0-2/axis/res) run in the
+same array for attribution and double as in-array determinism xchecks —
+`admission_bar=None` consumes no RNG, so each G00 arm must reproduce its frozen
+QDA3 twin archive record-for-record (asserted in the worker, plus HZD9R
+junk-free cross-check since the bar equals the census median).
+
+Bar chosen PROSPECTIVELY from a new unscored census (`hpc/gate_ceiling.py`,
+`archives/GATE_CEILING_TRUTH.json`, receipt 6ce5ceff38a0de5c, xchecked against
+P00C/HZD9): per-cell in-census MAX dev gives the structural ceiling of
+own-axis recovery at each bar; the frozen rule takes the STRICTEST ladder
+quantile keeping ceil >= 0.25 on both gated axes — q0.5 (census median
+0.224507 == HZD9 quality_bar_T2) qualified (ceil D2d 16/50 = 0.32, D3d 21/83 =
+0.253012), so the coordinator's default was frozen and no relaxation was
+needed; the full ladder is embedded in the freeze for audit (dev scores go
+negative below q0.25: q0.2 bar is -0.0509).
+
+Arms (12 tasks = 4 arms x 3 seeds): G01_gate_D2d / G01_gate_D3d (bar ON) vs
+G00_nogate_D2d / G00_nogate_D3d (control).  First-match terminal rules in #221
+sec-15 vocabulary, frozen pre-score: (1) some gated arm seed-mean own-axis
+recovery >= 0.25 AND best_dev_T2 >= 0.561144 (P01 0.571144 - 0.01, the amend-3
+DIVERSE clause verbatim) -> DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE
++ RESTORED_QUALITY_GATED_AT_SCOPE; (2) every gated arm < 0.25 ->
+NO_MEANINGFUL_BEHAVIORAL_DIVERSITY + REVISED_QUALITY_CONDITIONAL; (3) else
+MIXED_INTERMEDIATE_NO_TERMINAL + PARTIAL_RESTORATION.  Aggregate reports
+gate-minus-control deltas per axis (attribution, never rule-firing).  Scored
+artifacts: `manifests/CAMPAIGN_AMEND5_MANIFEST.json`,
+`results/AGGREGATE_AMEND5.json`.
+
+**Amend-5 scored (smoke 3587175, array 3587176 12/12 ok, aggregate 3587226):
+rule 1 fired on BOTH gated arms — `DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_
+FOUND_AT_SCOPE` / `RESTORED_QUALITY_GATED_AT_SCOPE`.**  G01_gate_D2d: own-axis
+0.32 per seed (16/50, junk-free ratio 1.0 by construction), best_dev 0.603719;
+G01_gate_D3d: own-axis 0.289157 (24/83), best_dev 0.598576.  Controls confirm
+attribution: G00 raw coverage 1.0 / 0.987952 but junk-free only 0.326667 /
+0.288597 (reproducing HZD9R exactly) — the gate trades raw coverage for
+clean coverage (delta -0.68 / -0.698795) while best_dev is unchanged, i.e.
+the junk elites were never load-bearing for quality, only for cell counts.
+All G00 byte-identity xchecks true (admission_bar=None reproduced the frozen
+QDA3 twins record-for-record; HZD9R junk-free equality).
+
+**Post-score finding (unscored diagnostic, `results/GRAMMAR_ESCAPE_DIAGNOSTIC.
+json`): the enumerated census is a strict SUBSET of the searched grammar.**
+G01_gate_D3d exceeded its GATE-CEILING "ceiling" (24/83 > 21/83) — impossible
+for census-member genomes under deterministic evaluation.  Cause:
+`morphology/mutations.py` draws families from the FULL vocabularies (not
+CENSUS_BOUND_V1), can add units outside the census pool, and perturbs thetas
+(a continuous dimension `enumerate_census` never varies — every census genome
+carries DEFAULT_THETA).  98.15% of amend-5 archive elites escape the enumerated
+grammar; archive best devs (0.6037) live entirely outside it, while P01
+(random_genome only, in-grammar) tops out at the census best 0.571144.  So the
+GATE-CEILING ceil_* values are census-subset maxima, not bounds on the searched
+space (verdict unaffected: the frozen rules reference recovery and best_dev
+bars, never ceilings), and P01-vs-QD best_dev comparisons carry a grammar
+confound — a lead for a future amendment (grammar-fair comparison or a
+theta-extended census).
+
 ## Status
 
 - MZ-D0/D1/D2/D3/D6 done (census, calibration, production campaign, LUNARC harness; amend-1 re-ranking complete)
@@ -151,4 +216,6 @@ diversity exceeds behavioral diversity, a lead for the next tranche.
 - MZ-D5 encoding fit DEMONSTRATED for E1 CGP (`results/MZD5_ENCODING_FIT.json`): surjective over all 56,160, mutations legal, codec 4.5% of eval, neutral network measured; scored direct-vs-CGP comparison needs its own numbered amendment
 - MZ-D8 done via amend-4: MIXED_INTERMEDIATE_NO_TERMINAL, both island hostiles refuted (migration entropy-neutral, no frontier monoculture)
 - MZ-D9 done via amend-4: amend-3 terminal UNDERMINED_QUALITY (junk-filtered D2d/D3d coverage 0.33/0.29 at the census-median bar); collapse and descriptor-confound hostiles refuted; quality-gated revival owed
+- Amend-5 done (array 3587176, 12/12 ok): DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE / RESTORED_QUALITY_GATED_AT_SCOPE on both gated axes at the census-median bar 0.224507; junk-free ratio 1.0 by construction; controls reproduce HZD9R
+- Post-amend-5 unscored finding: mutation escapes the enumerated census grammar (98% of elites; full-vocab family draws + theta perturbation); census per-cell maxima are subset maxima, P01-vs-QD best_dev carries a grammar confound — lead for a future amendment
 - MZ-D5 scored-encoding question remains MIXED_INTERMEDIATE (amend-2)

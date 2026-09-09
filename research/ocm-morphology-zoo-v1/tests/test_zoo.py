@@ -520,3 +520,114 @@ def test_hz9_truth_shape():
     assert set(hz["island_regions"]) == {p["island_id"] for p in ISLAND_PRIORS_V1}
     for v in hz["island_regions"].values():
         assert v["n_genotypes"] >= 1, "empty island region — prior is dead"
+
+
+def test_map_elites_admission_gate_filters_and_none_is_identity():
+    """FREEZE_V1_AMEND_5 quality gate (the one varied dimension of the
+    revival): a pass-everything bar must reproduce the None archive exactly
+    (the gate consumes no RNG), a real bar filters admission so every
+    admitted elite clears it, and rejected evaluations stay charged to the
+    budget."""
+    from search import map_elites
+    kw = dict(budget=100, seed=5, archive="D_dev_2d", res=10)
+
+    def sig(res):
+        return sorted((e["genotype_digest"], e["phenotype_digest"],
+                       round(e["dev_score"], 9)) for e in res["archive"])
+
+    a = map_elites.run(**kw, admission_bar=None)
+    b = map_elites.run(**kw, admission_bar=-1e9)
+    assert sig(a) == sig(b), "admission gate perturbed the None code path"
+    assert b["n_admissible_feasible"] == b["feasible_found"], \
+        "a pass-everything bar must admit every feasible eval"
+    assert a["n_admissible_feasible"] == a["feasible_found"]
+    assert b["evals"] == a["evals"] == kw["budget"]
+    # an unreachable bar empties the archive but still charges the budget
+    c = map_elites.run(**kw, admission_bar=1e9)
+    assert c["n_elites"] == 0 and c["evals"] == kw["budget"]
+    assert c["n_admissible_feasible"] == 0
+    # a permissive real bar: gate active, every admitted elite clears it
+    bar = min(e["dev_score"] for e in a["archive"])
+    d = map_elites.run(**kw, admission_bar=bar)
+    assert d["n_elites"] > 0, "permissive bar starved the archive"
+    assert all(e["dev_score"] >= bar for e in d["archive"]), \
+        "an elite below the admission bar leaked into the archive"
+    assert d["n_admissible_feasible"] <= d["feasible_found"]
+
+
+def test_amend5_freeze_chain_and_gate_binding():
+    import hashlib
+    path = os.path.join(ROOT, "FREEZE_V1_AMEND_5.json")
+    if not os.path.exists(path):
+        return  # not yet frozen in this checkout; smoke asserts it on-host
+    a5 = json.load(open(path))
+    chain = {"FREEZE_V1.json": "freeze_v1_sha256",
+             "FREEZE_V1_AMEND_1.json": "amend_1_sha256",
+             "FREEZE_V1_AMEND_2.json": "amend_2_sha256",
+             "FREEZE_V1_AMEND_3.json": "amend_3_sha256",
+             "FREEZE_V1_AMEND_4.json": "amend_4_sha256"}
+    for fn, key in chain.items():
+        d = hashlib.sha256(open(os.path.join(ROOT, fn), "rb").read()).hexdigest()
+        assert d == a5[key], fn
+    assert a5["amend_4_sha256"].startswith("b51a9959"), \
+        "amend-5 must bind the merged-main amend-4 freeze (b51a9959...)"
+    assert "freeze_amend5.py" in a5["created_utc_by"], \
+        "created_utc must be tool-stamped (amend-3 erratum)"
+    assert a5["supersedes_sha256"] is None, "first freeze must not supersede"
+    qg = a5["quality_gate_amend5"]
+    assert qg["admission_bar"] == qg["census_median_bar_hz9"] == 0.224507
+    assert qg["admission_bar_quantile"] == "q0.5"
+    # ladder monotonicity: bars fall along the quantile order and the
+    # structural ceilings never shrink as the bar relaxes
+    order = ["q0.5", "q0.4", "q0.3", "q0.25", "q0.2", "q0.15", "q0.1"]
+    lad = qg["ceiling_ladder"]
+    bars = [lad[q]["bar"] for q in order]
+    assert all(bars[i] >= bars[i + 1] for i in range(len(bars) - 1)), bars
+    for ax in ("ceil_D2d_recovery", "ceil_D3d_recovery", "ceil_CVTD_recovery"):
+        vals = [lad[q][ax] for q in order]
+        assert all(vals[i] <= vals[i + 1] for i in range(len(vals) - 1)), ax
+    # the frozen choice is the STRICTEST ladder bar keeping 0.25 reachable
+    chosen = qg["admission_bar_quantile"]
+    assert lad[chosen]["ceil_D2d_recovery"] >= 0.25
+    assert lad[chosen]["ceil_D3d_recovery"] >= 0.25
+    for q in order[:order.index(chosen)]:
+        e = lad[q]
+        assert not (e["ceil_D2d_recovery"] >= 0.25
+                    and e["ceil_D3d_recovery"] >= 0.25), \
+            "a stricter bar also qualified — the selection rule misapplied"
+    arms = a5["arms_amend5"]
+    assert arms["gated_arms"] == ["G01_gate_D2d", "G01_gate_D3d"]
+    assert arms["nogate_arms"] == ["G00_nogate_D2d", "G00_nogate_D3d"]
+    assert arms["budget"] == 40000 and arms["seeds"] == [0, 1, 2]
+    amap = {a["arm_id"]: a for a in arms["arms"]}
+    for axis, twin in (("D2d", "P05_map_elites_D2d"),
+                       ("D3d", "P09_map_elites_D3d")):
+        assert amap["G01_gate_%s" % axis]["gated"] is True
+        assert amap["G00_nogate_%s" % axis]["gated"] is False
+        assert amap["G01_gate_%s" % axis]["nogate_twin"] == twin
+        assert amap["G00_nogate_%s" % axis]["nogate_twin"] == twin
+        assert amap["G01_gate_%s" % axis]["archive"] == \
+            "D_dev_%s" % axis[1:].lower()
+    thr = a5["thresholds_amend5"]
+    assert thr["own_axis_absolute_bar"] == 0.25
+    assert thr["best_dev_ref_P01"] == 0.571144
+    assert abs(thr["best_dev_bar"]
+               - (thr["best_dev_ref_P01"] - thr["best_dev_slack"])) < 1e-12
+    tr = a5["scoring_rules_amend5"]["terminal_rule_FROZEN_first_match"]
+    assert any("RESTORED_QUALITY_GATED_AT_SCOPE" in s for s in tr)
+    assert any("REVISED_QUALITY_CONDITIONAL" in s for s in tr)
+    assert any("PARTIAL_RESTORATION" in s for s in tr)
+    den = a5["census_truth_P00C"]["denominators"]
+    assert (den["PARETO_T2"], den["D2d@10_occupied"], den["D3d@10_occupied"],
+            den["CVTD_occupied_niches"]) == (792, 50, 83, 64)
+    hz_path = os.path.join(ROOT, "archives", "HZD9_TRUTH.json")
+    gc_path = os.path.join(ROOT, "archives", "GATE_CEILING_TRUTH.json")
+    if os.path.exists(hz_path):
+        hz = json.load(open(hz_path))["summary"]
+        assert qg["admission_bar"] == hz["quality_bar_T2"] == 0.224507
+    if os.path.exists(gc_path):
+        gc = json.load(open(gc_path))["summary"]
+        assert qg["ceiling_ladder"] == gc["ladder"], "ladder drift vs truth"
+        for k, v in gc["xcheck_vs_P00C_HZD9"].items():
+            if isinstance(v, bool):
+                assert v is True, k
