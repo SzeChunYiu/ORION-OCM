@@ -2003,7 +2003,7 @@ All four are scientifically valid programme completions.
 - [ ] one persistent lineage;
 - [ ] continued vs reset at every major stage;
 - [x] parent absorption tracked;
-- [ ] primitive pressure tracked;
+- [x] primitive pressure tracked;
 - [ ] `(κ,Ω,χ)` tracked;
 - [ ] acquisition cost tracked;
 - [ ] self-change cost tracked;
