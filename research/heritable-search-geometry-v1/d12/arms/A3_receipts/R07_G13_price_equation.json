@@ -1,0 +1,42 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "G13 -> M11 -> Price equation",
+ "atom_id": "G13_inheritance_economics",
+ "donor_domain": "evolutionary theory (quantitative genetics)",
+ "donor_source_ids": [
+  "Price 1970/1972 (selection + transmission identity)",
+  "replicator-mutator / selection-mutation balance (context, L1)"
+ ],
+ "donor_structure": "exact identity: change in mean trait = Cov(relative-retention, trait) + E(relative-retention x trait-change); selection term + transmission-fidelity term; an identity, valid for any owner/inheritance accounting",
+ "target_structure": "A_t subset A_{t+1} with overhead M: net dominance between strategy distributions under optional inheritance (viii-M=0 removal)",
+ "mapping": "strategy <-> trait; voluntary acceptance/retention weight w; gross gain - M <-> net trait value z; selection Cov term <-> differential retention of inherited strategies; transmission term <-> fidelity loss through inheritance (M)",
+ "preserved_relations": [
+  "exact bookkeeping of net change under differential retention",
+  "decomposition localizes WHERE net value is lost (selection sign vs transmission cost)"
+ ],
+ "known_broken_relations": [
+  "net FOSD FAILS for M > gross gain (in-repo hostile G13_M_overhead_FOSD.md): Price does NOT rescue dominance",
+  "voluntary-acceptance rescue is a policy property (w chosen), never a growth law"
+ ],
+ "unknown_correspondences": [
+  "cross-level charging (R7: level-l M charged to level-l' strategies) in multilevel-Price form",
+  "M endogenous to acceptance rate (feedback loop)"
+ ],
+ "assumptions_added": [
+  "retention weights well-defined per lineage",
+  "trait values measurable under ecology (vi caveat)"
+ ],
+ "candidate_theorem": "inheritance economics has an exact Price-type identity: Delta(net value) = Cov(acceptance, gross gain) - E[acceptance x M] + transmission residual; net-dominance (FOSD) holds only when the Cov term dominates M pointwise",
+ "strongest_parent": "Price 1970/1972 (identity form; standard)",
+ "proof_route": "identity verification is algebraic (two-line); FOSD failure already machine-witnessed in-repo",
+ "mapping_search_cost": {
+  "donor_L2": 10,
+  "donor_L1": 3,
+  "map": 15,
+  "synth": 30,
+  "atom_total": 58,
+  "amortized_over_motif_atoms": 1
+ },
+ "status": "PARTIAL"
+}

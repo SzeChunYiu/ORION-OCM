@@ -1,0 +1,44 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "G09 -> M03 -> Dobrushin ergodic coefficient",
+ "atom_id": "G09_update_map",
+ "donor_domain": "probability theory (Markov kernel contraction)",
+ "donor_source_ids": [
+  "Dobrushin 1956, 'Central Limit Theorem for Nonstationary Markov Chains I/II', TVP 1(1):72-89, 1(4):365-425 (verified in-repo, ladder/R4_CONTRACTION_G09.md)"
+ ],
+ "donor_structure": "delta(P) = sup_{x,y} TV(P(x,.),P(y,.)); operator norm of P on zero-mass signed measures: ||muP - nuP||_TV <= delta(P)||mu-nu||_TV; submultiplicative delta(PQ) <= delta(P)delta(Q); max-coupling triangle",
+ "target_structure": "contraction of the composed development kernel K_t = U o Q_t; orbit coalescence of search states under repeated development",
+ "mapping": "Sigma-space kernels <-> common-space kernels of the parent; state coalescence <-> TV contraction of state laws; proposal mixing Q_t <-> P; update transport U <-> Q in the product; orbit coalescence at geometric rate when sup_t delta(K_t) < 1",
+ "preserved_relations": [
+  "submultiplicativity",
+  "coupling characterization (TV = min-coupling mismatch)",
+  "nonhomogeneous products: sum_t (1-delta(K_t)) = infinity suffices for coalescence"
+ ],
+ "known_broken_relations": [
+  "naive delta(K) <= delta(Q) FALSE for state-dependent U (machine witness: delta(K)=1 at delta(Q)=3/4)",
+  "contraction is TV-specific: no canonical metric claim (per HSG_DEFINITIONS)"
+ ],
+ "unknown_correspondences": [
+  "whether any OCM-live kernel family satisfies state-shared transport (empirical, P4-barred)",
+  "restricted Dobrushin-contractive families vs Blum speedup (A_T16 open)"
+ ],
+ "assumptions_added": [
+  "state-shared transport: U(Sigma,x)=T(x) fixed measurable T; else pay the Delta_U repair term",
+  "measurability (iii) restored at infinite scope"
+ ],
+ "candidate_theorem": "sup_t delta(K_t) < 1 => all search-state orbits coalesce in TV at geometric rate, order-free (in-repo, ladder/R5_SEMIGROUP_G09.md PARENT_SUFFICIENT); naive composition bound false without state-shared transport (LIFT_CONDITIONAL)",
+ "strongest_parent": "Dobrushin 1956 (verified; checker: 3375 enumerated 3-state kernels, exact Fractions)",
+ "proof_route": "parent-owned; machine witness hostiles/witnesses/witness_dobrushin_composition.json; validation this run: receipt fields cross-checked against ladder/R4_CONTRACTION_G09.md and R5_SEMIGROUP_G09.md - consistent (PASS)",
+ "mapping_search_cost": {
+  "donor_L2": 20,
+  "donor_L1": 3,
+  "donor_L3": 40,
+  "map": 15,
+  "synth": 30,
+  "validate": 50,
+  "atom_total": 158,
+  "amortized_over_motif_atoms": 1
+ },
+ "status": "SUPPORTED"
+}

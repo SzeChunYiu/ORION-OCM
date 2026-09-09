@@ -1,0 +1,45 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "P3 -> M06 -> CSP consistency / sheaf gluing / lumpability",
+ "atom_id": "P3_local_to_global_consistency",
+ "donor_domain": "constraint programming / topology / probability",
+ "donor_source_ids": [
+  "CSP local-consistency hierarchy (arc/path/k-consistency; Mackworth)",
+  "sheaf theory gluing condition (sections agreeing on overlaps)",
+  "strong/ordinary lumpability (Kemeny-Snell)"
+ ],
+ "donor_structure": "local consistency = fixpoint of constraint-propagation operators; global satisfiability strictly stronger (classical separating families); sheaf condition: local sections agreeing on overlaps glue to a global section (failure measured by H^1); lumpability: block projection is Markov iff transition rates constant on blocks",
+ "target_structure": "per-module validated state must compose to a globally consistent state (cache/cone locality, T06/G14 structure)",
+ "mapping": "module validity <-> local sections/constraints; inter-module agreement <-> overlap restriction maps; global consistency <-> gluing/sheaf condition; local-only validation <-> CSP local consistency; state aggregation <-> lumpability",
+ "preserved_relations": [
+  "local consistency necessary for global",
+  "propagation to fixpoint is monotone and terminating on finite domains",
+  "lumpability exactly characterizes when the coarse view is dynamics-preserving"
+ ],
+ "known_broken_relations": [
+  "arc/path consistency NOT sufficient for global satisfiability (separating counterexample families)",
+  "sheaf condition requires the overlap structure be fixed (cone completeness assumption xi - its removal fails per G14 hostile)",
+  "lumpability is a strong algebraic condition rarely holding for learned blocks"
+ ],
+ "unknown_correspondences": [
+  "obstruction-class analogue for burden-bounded caches (is there a computable H^1-style invariant?)",
+  "approximate gluing with epsilon budget"
+ ],
+ "assumptions_added": [
+  "finite modules/domains",
+  "overlap (dependency) structure known and fixed"
+ ],
+ "candidate_theorem": "no purely local validation scheme implies global consistency without the gluing condition; any cache protocol that skips it admits a two-module hostile witness (matches in-repo hostile H3 shape)",
+ "strongest_parent": "classical CSP consistency theory + sheaf gluing condition",
+ "proof_route": "reduction to classical separating families; witness construction standard",
+ "mapping_search_cost": {
+  "donor_L2": 30,
+  "donor_L3": 40,
+  "map": 15,
+  "synth": 30,
+  "atom_total": 115,
+  "amortized_over_motif_atoms": 2
+ },
+ "status": "SUPPORTED"
+}

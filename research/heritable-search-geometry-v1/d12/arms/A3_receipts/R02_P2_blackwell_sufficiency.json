@@ -1,0 +1,45 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "P2 -> M05 -> Blackwell / bisimulation / information bottleneck",
+ "atom_id": "P2_representation_sufficiency",
+ "donor_domain": "statistics / process algebra / information theory",
+ "donor_source_ids": [
+  "Blackwell 1951 (comparison of experiments)",
+  "Blackwell 1953 (equiv. garbling characterization)",
+  "van Glabbeek bisimulation spectrum",
+  "Tishby-Pereira-Bialek 1999 (information bottleneck)"
+ ],
+ "donor_structure": "E' sufficient for E iff there is a stochastic garbling matrix G with E = E'G; then E' dominates E in value for EVERY decision problem; bisimulation = maximal equivalence preserving all behavioral queries; IB = maximize I(rep;Y) - beta^-1 I(rep;X)",
+ "target_structure": "representation rho(Sigma) admissible as a state substitute for the verifier/decision workload",
+ "mapping": "Sigma <-> experiment; rho <-> coarser experiment; admissibility <-> garbling condition restricted to the verifier's decision set; bisimulation <-> maximal admissible garbling (behavioral queries only); IB <-> burden-priced choice inside the garbling family",
+ "preserved_relations": [
+  "value dominance uniform over decision problems",
+  "garbling composes (data processing)",
+  "quotient by a sufficient representation loses nothing for the covered query class"
+ ],
+ "known_broken_relations": [
+  "for a FINITE query set, strictly weaker-than-Blackwell representations suffice (query-restricted sufficiency); the iff weakens to one direction",
+  "IB optimality is Lagrangian/algorithmic (Blahut-Arimoto fixed points), not a closed-form guarantee"
+ ],
+ "unknown_correspondences": [
+  "whether OCM verifier decision sets are rich enough to force full Blackwell sufficiency (conjecture: yes under adaptive verification)",
+  "bisimulation across constitution amendments (moving query set)"
+ ],
+ "assumptions_added": [
+  "finite decision/action spaces for the garbling matrix form",
+  "query set fixed at representation time"
+ ],
+ "candidate_theorem": "rho(Sigma) is a sound state substitute iff rho = garbling of Sigma on every query in the verifier's registered decision set; minimal such rho = behavioral quotient",
+ "strongest_parent": "Blackwell 1951/1953 (ledger row R3, class OWNS)",
+ "proof_route": "parent theorem direct; reduction of 'sound state substitute' to the garbling condition is a restatement, not new mathematics",
+ "mapping_search_cost": {
+  "donor_L2": 30,
+  "donor_L3": 40,
+  "map": 15,
+  "synth": 30,
+  "atom_total": 115,
+  "amortized_over_motif_atoms": 4
+ },
+ "status": "SUPPORTED"
+}

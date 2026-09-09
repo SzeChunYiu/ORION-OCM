@@ -1,0 +1,43 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "G11 -> M02 -> neutral networks in fitness landscapes",
+ "atom_id": "G11_evolvability",
+ "donor_domain": "computational/evolutionary biology (RNA genotype-phenotype maps)",
+ "donor_source_ids": [
+  "Schuster et al. 1994 (RNA neutral networks)",
+  "Ancel-Fontana 2000 (plasticity/robustness-evolvability)",
+  "Wagner 2011 (genotype networks and innovability; survey-level)"
+ ],
+ "donor_structure": "genotype networks: connected sets of genotypes mapping to the same phenotype/fitness; large networks span phenotype space; neighborhood phenotype diversity grows with network size; robustness promotes evolvability",
+ "target_structure": "Ev(Sigma) = P(useful descendant | kernel) at R3/R4; R6 Ev of the kernel-modifying process itself",
+ "mapping": "proposal state <-> genotype; equal-fitness reachable set <-> neutral network component; kernel Q_t <-> mutation/neighborhood distribution; Ev <-> probability that the network boundary exposes a fitter phenotype; robustness <-> component size; evolvability <-> boundary phenotype spread",
+ "preserved_relations": [
+  "neutral drift reaches variant phenotypes at rate ~ component size x boundary diversity",
+  "robustness-evolvability positive coupling at network level",
+  "Ev continuity under kernel perturbation: |Ev_S - Ev_S'| <= TV(Q_S,Q_S') already owned in-repo (Dobrushin coupling, ladder/R4_EV_SENSITIVITY_G11.md)"
+ ],
+ "known_broken_relations": [
+  "finite-population drift vs infinite-population network statistics: OCM has a single optimizer lineage (stronger drift variance)",
+  "fitness-landscape results are empirical/per-enumeration in RNA models, not theorems over all GP maps"
+ ],
+ "unknown_correspondences": [
+  "R6: 'evolvability of the kernel-modifying process' has no clean donor analogue (network-of-networks; open)",
+  "whether cell-grid vs Wasserstein archive geometry (the parents_hint) changes Ev monotonicity"
+ ],
+ "assumptions_added": [
+  "usefulness event measurable (analytic + universal completion, per in-repo R3 note)",
+  "phenotype spread stationary within an ecology epoch"
+ ],
+ "candidate_theorem": "Ev(Sigma) is bounded below on neutral components whose boundary sets intersect the useful set; kernel modification (R6) increases Ev iff it enlarges boundary diversity faster than it loses component size",
+ "strongest_parent": "no single parent theorem; donor is an empirical/model-based discipline (PARENT = none claimed; structure-level transport)",
+ "proof_route": "model-level: enumerable GP-map experiments (RNA-like) map to OCM small-world enumerations; no proof executed here",
+ "mapping_search_cost": {
+  "donor_L3": 40,
+  "map": 15,
+  "synth": 30,
+  "atom_total": 85,
+  "donor_first_read_L2_charged_to": "P1 (M02 amortization)"
+ },
+ "status": "PROPOSAL"
+}
