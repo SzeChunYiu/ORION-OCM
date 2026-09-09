@@ -1,0 +1,177 @@
+{
+ "certificate_id": "T11_MODULE_PROMOTION_V1",
+ "cost_ledger_frozen": {
+  "C_def": [
+   "3",
+   3.0
+  ],
+  "C_iface_per_call": [
+   "1/2",
+   0.5
+  ],
+  "C_maint": [
+   "1",
+   1.0
+  ],
+  "C_revision_expected": [
+   "0",
+   0.0
+  ],
+  "gross_saving_per_use": [
+   "1",
+   1.0
+  ],
+  "net_saving_per_use": [
+   "1/2",
+   0.5
+  ],
+  "unit": "operator-slot cost units"
+ },
+ "criterion": "promote iff h * net_saving > C_def + C_maint + C_rev",
+ "deterministic": true,
+ "flip_verified": true,
+ "module": {
+  "body": [
+   "m2",
+   "a2"
+  ],
+  "function": "x -> 2x+2 mod 16",
+  "interface_definition": "promoted program computes the SAME function on every state of Z_16 as the expanded program (checked by exhaustive evaluation on all 16 states, per program)",
+  "interface_preservation_all_16_states": true,
+  "pattern_image_tuple": [
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   14,
+   0,
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   14,
+   0
+  ],
+  "token": "MA"
+ },
+ "regimes": [
+  {
+   "interface_preservation_all_states_all_programs": true,
+   "n_programs": 7,
+   "promote": false,
+   "reuse_count_h": 7,
+   "total_cost_promoted": [
+    "29/2",
+    14.5
+   ],
+   "total_cost_unpromoted": [
+    "14",
+    14.0
+   ]
+  },
+  {
+   "interface_preservation_all_states_all_programs": true,
+   "n_programs": 8,
+   "promote": false,
+   "reuse_count_h": 8,
+   "total_cost_promoted": [
+    "16",
+    16.0
+   ],
+   "total_cost_unpromoted": [
+    "16",
+    16.0
+   ]
+  },
+  {
+   "interface_preservation_all_states_all_programs": true,
+   "n_programs": 9,
+   "promote": true,
+   "reuse_count_h": 9,
+   "total_cost_promoted": [
+    "35/2",
+    17.5
+   ],
+   "total_cost_unpromoted": [
+    "18",
+    18.0
+   ]
+  }
+ ],
+ "runtime_seconds": 0.0,
+ "scope_statement": "P2 finite exact over universe FW1 with the frozen cost ledger below and reuse suites of size h in {7,8,9}; the criterion is ARITHMETIC at this scope; no claim that real development discovers modules spontaneously (that stays P4).",
+ "theorem_id": "HST-T11",
+ "threshold_H_star": [
+  "8",
+  8.0
+ ],
+ "world": {
+  "admissibility": "Adm(w,tau) iff composed function maps s_tau to g_tau (exact)",
+  "candidate_primitive": {
+   "a1": "x->x+1 mod 16"
+  },
+  "cost_model": "cost(word) = number of operator applications (composition length)",
+  "operator_basis": {
+   "a2": "x->x+2 mod 16",
+   "m2": "x->2x mod 16"
+  },
+  "state_space": "Z_16",
+  "tasks": [
+   {
+    "goal": 6,
+    "start": 1,
+    "task_id": "tau01"
+   },
+   {
+    "goal": 8,
+    "start": 0,
+    "task_id": "tau02"
+   },
+   {
+    "goal": 12,
+    "start": 3,
+    "task_id": "tau03"
+   },
+   {
+    "goal": 0,
+    "start": 13,
+    "task_id": "tau04"
+   },
+   {
+    "goal": 10,
+    "start": 4,
+    "task_id": "tau05"
+   },
+   {
+    "goal": 11,
+    "start": 2,
+    "task_id": "tau06"
+   },
+   {
+    "goal": 7,
+    "start": 0,
+    "task_id": "tau07"
+   },
+   {
+    "goal": 13,
+    "start": 6,
+    "task_id": "tau08"
+   },
+   {
+    "goal": 15,
+    "start": 8,
+    "task_id": "tau09"
+   },
+   {
+    "goal": 5,
+    "start": 12,
+    "task_id": "tau10"
+   }
+  ],
+  "world_id": "FW1"
+ }
+}
