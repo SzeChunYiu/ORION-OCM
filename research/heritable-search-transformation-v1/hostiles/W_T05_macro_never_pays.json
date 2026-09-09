@@ -1,0 +1,24 @@
+{
+  "witness_id": "W-T05",
+  "theorem_id": "HST-T05",
+  "assumption_removed": "none removed — witness instantiates the identity with H_eff * dC_use < C_build + C_maint + E[C_revision]; companion case drops the 'all costs charged' discipline",
+  "claim_falsified": "macro/library acquisition is beneficial when it shortens code",
+  "world": {
+    "case_A_never_pays_back": {
+      "C_build": 8, "C_maint": 1, "E_C_revision": 0,
+      "H_eff": 3, "C_use_s": 10, "C_use_m": 8,
+      "dC_use": 2,
+      "lifecycle_baseline": 30, "lifecycle_macro": 33,
+      "verdict": "harmful: H_eff*dC_use = 6 < 9 = C_build + C_maint + E_C_revision"
+    },
+    "case_B_shorter_code_costlier_run": {
+      "description": "macro shrinks description length L: 20 -> 5 (T04-style share gain 2^15) but per-use cost rises: C_use_s = 4, C_use_m = 7",
+      "C_build": 2, "C_maint": 1, "E_C_revision": 0, "H_eff": 4,
+      "C_use_s": 4, "C_use_m": 7,
+      "dC_use": -3,
+      "lifecycle_baseline": 16, "lifecycle_macro": 31,
+      "verdict": "harmful on the execution coordinate while beneficial on a pure description-length reading — the two coordinates disagree; only a frozen scalarization adjudicates"
+    }
+  },
+  "self_check": "check_core_v1.py recomputes both lifecycle totals directly (baseline vs macro) and asserts they match the sign of H_eff*dC_use - (C_build+C_maint+E_C_revision) for both cases"
+}
