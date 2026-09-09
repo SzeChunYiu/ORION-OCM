@@ -1,0 +1,55 @@
+{
+  "schema": "ocm.fna.fna4.freeze.v1",
+  "frozen_at_commit": "b9909a5",
+  "base_commit": "86ddd9bcedfb48de804fbb68d599f00ebd8316ba",
+  "evidence_class": "E1 / L1",
+  "statement": "Everything below was recorded BEFORE any scored run. The scored suite (run_fna4.py) must be executed against exactly these digests; any drift is a defect run, preserved and reported, never edited.",
+  "frozen_files_sha256": {
+    "fna4.py": "dc061edbcf8b64bbbbdbdbc2ece769d323fd650f26d4111c78a9f2ba97fc5c5c",
+    "fna4_solver.py": "8d5285a45fc450f1b3f13da177e4a6a42a318d4c28ccd900bcaae64ccb2ab47f",
+    "fna4_learners.py": "9b333ae882faeebd5835a130743370c2be6de5740fca9b4df4379d06433254f0",
+    "run_fna4.py": "29315492bc49be7ac150bd86dad1ab45176b418de7dcb4b452da90942fea2ce8",
+    "test_fna4.py": "a21ba784519d9d019dd88922ebb4fae76b0b0948fdc2a75af90d9107f8043cc6",
+    "FNA4_PROTOCOL.md": "6b0c218f26d6cdfa1e915f5d885e000c191eab97875f029e2ad573e8eea75648",
+    "FNA4_SOURCE_LEDGER.json": "3459c6c694a4368337e4326300c1900f2926a086bbb8417da6c59634e91e10f9"
+  },
+  "salts": {
+    "SALT_ACQ": 620001,
+    "SALT_TEST": 630001,
+    "SALT_SWEEP": 640001,
+    "SALT_DETERMINISM": 650001,
+    "test_suite_salts": [7101, 7102, 7103, 7104, 7105, 7106, 7107, 7108, 7109],
+    "selection_mirror_seed": 77003
+  },
+  "streams": {
+    "acquisition": "4 F1 + 4 F2, seed SALT_ACQ, ids ACQ-F1-0..3 / ACQ-F2-0..3",
+    "test": "8 F1 + 4 F2 + 4 F3, seed SALT_TEST, ids T-F1-0..7 / T-F2-0..3 / T-F3-0..3; disjoint from acquisition",
+    "repeat_rate_sweep": "12 F1 + 12 F2 per grid point, seeds SALT_SWEEP+1000*ri, forced-parameter construction for the uncovered quota",
+    "r_grid": [0.0, 0.25, 0.5, 0.75, 1.0]
+  },
+  "arms": [
+    "NO_LIBRARY",
+    "CHUNK",
+    "AU_PAIR",
+    "STITCH",
+    "EGGRAPH",
+    "NOGOOD_ONLY_per_op",
+    "NOGOOD_ONLY_per_batch",
+    "STITCH_NOGOOD_CEGIS",
+    "ORACLE_TELEPORT (labelled upper bound; never a result)"
+  ],
+  "cost_model": "one commensurable integer unit per backend simulation, checker call, posting read, learner step; macro bodies charge every internal simulation; DOMAIN_CAP=24 hole-assignment enumeration cap; INCUMBENT_CAP=1000000 expansions, uniform across all arms",
+  "incumbent_cap_provenance": "sized pre-score from the frozen families on the execution host (hardest F2 draw: 382353 expansions; hardest F1: 4831; hardest F3: 662); ~2.6x margin over the hardest draw; identical for every arm",
+  "predictions": {
+    "P1": "CHUNK scores 0 fresh-task hits (parameters differ) -- caching is not consolidation; abstraction is load-bearing.",
+    "P2": "AU_PAIR and STITCH reach finite lifetime break-even on a same-family stream; STITCH >= AU_PAIR.",
+    "P3": "EGGRAPH = AU_PAIR on F1 (no AC structure) and > AU_PAIR on F2 (merge canonicalization).",
+    "P4": "Held-out F3: zero macro hits for F1/F2 libraries, bounded waste, no capability loss.",
+    "P5": "Revocation cone is exactly the dependent macros; zero collateral; unaffected macros keep firing.",
+    "P6": "A critical repeat rate r* exists; below it NO_LIFETIME_PAYBACK holds on any horizon.",
+    "P7": "NOGOOD_ONLY saves on streams with repeated hard misfires, loses nothing on F3."
+  },
+  "revocation_evidence": "ev:fam:filter",
+  "execution_host": "billy-old (tailscale), Python 3.14.4; Mac mini used for edits and git only",
+  "pre_freeze_validation": "unittest 13/13 green on the execution host at these digests; selection mirror green; all 9 probe tasks solved uncapped"
+}
