@@ -2,11 +2,17 @@
 
     python3 run_fna4.py <output_dir>
 
-Phases, in order: harness validation -> main comparison (8 arms) -> ablation ->
-revocation cone -> repeat-rate sweep -> nogood granularity revival pair -> assembly.
-Output is written progressively (FNA4_RESULTS_PARTIAL.json) so a crash preserves the
-defect run; the final artifact is FNA4_RUN_RECEIPTS.json. All salts live here and are
-frozen by FNA4_FREEZE.json before any scored run.
+Phases, in order: harness validation -> main comparison (8 arms; the per_op -> per_batch
+nogood-granularity revival pair is measured inside it) -> ablation -> revocation cone ->
+repeat-rate sweep -> determinism. Output is written progressively
+(FNA4_RESULTS_PARTIAL.json) so a crash preserves the defect run; the final artifact is
+FNA4_RUN_RECEIPTS.json. All salts live here and are frozen by FNA4_FREEZE.json (and its
+addenda) before any scored run.
+
+Acquisition solves run collect_all=True: the paid search runs to its bound and records
+every checker-passing chain -- experience is everything the incumbent actually ran, the
+identical information surface for every arm. Test solves keep the early exit (fresh-task
+cost = time-to-first-solution).
 """
 from __future__ import annotations
 
@@ -55,7 +61,8 @@ def run_arm(name, learner=None, registry_gran=None, use_cegis=False):
     acq_tasks = acquisition_stream()
     work_acq = Work()
     registry = MisfireRegistry(registry_gran) if registry_gran else None
-    acq_receipts = [solve_task(t, macros=(), registry=registry, work=work_acq)
+    acq_receipts = [solve_task(t, macros=(), registry=registry, work=work_acq,
+                               collect_all=True)
                     for t in acq_tasks]
     macros = learner(acq_receipts, work_acq) if learner is not None else []
     acq_work = work_acq.as_dict()
@@ -81,6 +88,8 @@ def run_arm(name, learner=None, registry_gran=None, use_cegis=False):
             "library": [m.as_dict() for m in macros],
             "library_size_final": len(lib),
             "acq_solved": sum(1 for r in acq_receipts if r["solved"]),
+            "acq_experience_chains": sum(len(r["all_solution_chains"])
+                                         for r in acq_receipts),
             "test_receipts": test_receipts,
             "test_solved": sum(1 for r in test_receipts if r["solved"]),
             "test_work_total": sum(r["work"]["total_units"] for r in test_receipts),
@@ -140,7 +149,8 @@ def main():
         _dump(results)
 
         # ---- phase 2: ablation (library removed mid-stream) --------------------
-        macros = L.learn_stitch([solve_task(t) for t in acquisition_stream()], Work())
+        macros = L.learn_stitch([solve_task(t, collect_all=True)
+                                 for t in acquisition_stream()], Work())
         half1 = test_stream()[:8]
         half2 = test_stream()[8:]
         abl = {"with_library": [], "revoked_mid_stream": []}
@@ -148,14 +158,17 @@ def main():
             abl["with_library"].append(solve_task(t, macros=macros))
         for t in half2:
             abl["revoked_mid_stream"].append(solve_task(t, macros=()))
+        no_half1 = [solve_task(t) for t in half1]
         no_half2 = [solve_task(t) for t in half2]
         abl["regression_to_no_library_exact"] = all(
             a["work"] == b["work"] for a, b in zip(abl["revoked_mid_stream"], no_half2))
-        abl["with_library_work"] = sum(r["work"]["total_units"]
-                                       for r in abl["with_library"])
-        abl["revoked_work"] = sum(r["work"]["total_units"]
-                                  for r in abl["revoked_mid_stream"])
-        abl["no_library_half2_work"] = sum(r["work"]["total_units"] for r in no_half2)
+        # same-mix references: with/without totals are computed over the SAME tasks
+        abl["with_library_work_half1"] = sum(r["work"]["total_units"]
+                                             for r in abl["with_library"])
+        abl["no_library_work_half1"] = sum(r["work"]["total_units"] for r in no_half1)
+        abl["revoked_work_half2"] = sum(r["work"]["total_units"]
+                                        for r in abl["revoked_mid_stream"])
+        abl["no_library_work_half2"] = sum(r["work"]["total_units"] for r in no_half2)
         results["phases"]["ablation"] = abl
         _dump(results)
 

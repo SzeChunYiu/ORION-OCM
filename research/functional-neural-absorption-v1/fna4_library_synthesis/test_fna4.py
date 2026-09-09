@@ -181,6 +181,41 @@ class TestExperience(unittest.TestCase):
         self.assertFalse(ok4)  # wrong-arity counterexample: refused, not crashed
 
 
+class TestExperienceSurface(unittest.TestCase):
+    def test_collect_all_records_every_paid_success(self):
+        rng = random.Random(7110)
+        t = gen_task(rng, "F1", "CA-1")
+        first = solve_task(t)
+        full = solve_task(t, collect_all=True)
+        self.assertTrue(full["solved"])
+        self.assertGreaterEqual(len(full["all_solution_chains"]), 1)
+        self.assertIn(first["solution_chain"], full["all_solution_chains"])
+        self.assertGreaterEqual(full["work"]["total_units"],
+                                first["work"]["total_units"])
+
+    def test_macro_consumes_derived_atoms(self):
+        # a macro whose ENTRY type is tokens can only fire on a state that already
+        # derived one -- state-aware application, impossible under initial-tape semantics
+        rng = random.Random(7111)
+        t = gen_task(rng, "F3", "SA-1", force={"fmt": "csv", "k": "2"})
+        sk = (("zip", ()), ("scale", ("2",)))
+        m = make_macro(sk, [list(sk)], label="SA")
+        self.assertEqual(m.in_types(), ("tokens",))
+        r = solve_task(t, macros=[m])
+        self.assertGreaterEqual(r["macro_hits"], 1)
+
+    def test_oracle_macro_enumerates_entry_combos(self):
+        # F2's two raws in either atom order: combo enumeration must find the parse order
+        rng = random.Random(7112)
+        t = gen_task(rng, "F2", "OC-1")
+        sigs = [L.step_sig(n) for n in t.true_chain]
+        m = make_macro(tuple(sigs), [sigs], label="OC")
+        r = solve_task(t, macros=[m])
+        self.assertTrue(r["solved"])
+        self.assertEqual(r["macro_hits"], 1)
+        self.assertEqual(r["solution_chain"], ["<macro:%s>" % m.macro_id])
+
+
 class TestClaims(unittest.TestCase):
     def test_forbidden_claims_absent(self):
         # occurrence count 1 = the FORBIDDEN_CLAIMS definition itself; any second

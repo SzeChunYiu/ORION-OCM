@@ -32,7 +32,19 @@ def step_sig(name):
 
 
 def traces_of(receipts):
-    return [tuple(r["solution_chain"]) for r in receipts if r["solved"]]
+    """The experience surface: every chain the incumbent actually succeeded with (the
+    acquisition receipts carry all_solution_chains; single-solve receipts collapse to
+    their one chain). Identical for every arm -- parent parity."""
+    out = []
+    for r in receipts:
+        if not r.get("solved"):
+            continue
+        chains = r.get("all_solution_chains") or [r["solution_chain"]]
+        for c in chains:
+            t = tuple(c)
+            if t not in out:
+                out.append(t)
+    return out
 
 
 def anti_unify(t1, t2):
@@ -128,13 +140,15 @@ def _dedupe_macros(macros):
 
 
 def learn_chunk(receipts, work):
-    """Soar chunking: store every solved composition verbatim (exact-difference key)."""
+    """Soar chunking: store every solved composition verbatim (exact-difference key).
+    Under the shared MAX_LIBRARY budget, largest compositions first -- the cache analogue
+    of the other parents' admission filtering."""
     macros = []
     for t in traces_of(receipts):
         work.learn()
         skeleton = tuple(step_sig(n) for n in t)
         macros.append(make_macro(skeleton, [skeleton], label="CHUNK"))
-    return macros
+    return _dedupe_macros(macros)
 
 
 def learn_au(receipts, work):

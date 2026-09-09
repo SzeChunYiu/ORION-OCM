@@ -48,46 +48,65 @@ class MisfireRegistry(object):
         return (op_name, surface) in self.misfires
 
 
-def _apply_macro(macro, task, work, revoked=frozenset()):
-    """Enumerate hole assignments (capped); simulate the body step by step, all charged.
+def _apply_macro(macro, state, store, task, work, revoked=frozenset()):
+    """State-aware macro application: the macro is one more catalogue entry.
 
-    Returns (hit, value, assignments_tried, misfires, first_failed_assignment). The physics
-    still runs: every body step is one charged simulation, and a misfiring assignment's
-    work is not refunded. first_failed_assignment is the CEGIS counterexample (None if the
-    macro never misfired, e.g. pure non-match)."""
+    Entry inputs are enumerated exactly like a primitive's -- every ordered combo of the
+    state's atoms of the macro's entry input types -- and the body then runs chain
+    semantics over the remaining tape (each step consumes the most recent atom of each
+    of its input types), one charged simulation per body step. Hole assignments enumerate
+    within DOMAIN_CAP, all charged. The physics never becomes free; what the macro saves
+    is search.
+
+    Returns (hit, value, assignments_tried, misfires, first_failed_assignment).
+    first_failed_assignment is the CEGIS counterexample (None if the macro never
+    misfired, e.g. pure structural non-match)."""
     if not macro.warrant.is_live(revoked):
         return False, None, 0, 0, None
+    by_type = {}
+    for aid in sorted(state):
+        by_type.setdefault(aid.split(":", 1)[0], []).append(aid)
+    combos = list(itertools.product(*(by_type.get(t, []) for t in macro.in_types())))
     tried = mis = 0
     first_bad = None
-    for assignment in macro.assignments():
-        tried += 1
-        body = macro.body_names(assignment)
-        tape = [(t, d) for (t, _s, d) in task.initial]
-        ok = True
-        for name in body:
-            ins, out, _fn = PRIMITIVES[name]
-            args = []
-            for t in ins:
-                idx = [i for i, (tt, _d) in enumerate(tape) if tt == t]
-                if not idx:
+    for combo in combos:
+        if not combo:
+            continue
+        consumed = set(combo)
+        seed = [(aid.split(":", 1)[0], store[aid])
+                for aid in sorted(state) if aid not in consumed]
+        entry_args = [store[aid] for aid in combo]
+        for assignment in macro.assignments():
+            tried += 1
+            body = macro.body_names(assignment)
+            tape = list(seed)
+            args = list(entry_args)
+            ok = True
+            for name in body:
+                if args is None:
+                    args = []
+                    for t in PRIMITIVES[name][0]:
+                        idx = [i for i, (tt, _d) in enumerate(tape) if tt == t]
+                        if not idx:
+                            ok = False
+                            break
+                        args.append(tape.pop(idx[-1])[1])
+                    if not ok:
+                        break
+                work.sim()
+                try:
+                    tape.append((PRIMITIVES[name][1], simulate(name, args)))
+                except Misfire:
+                    mis += 1
+                    if first_bad is None:
+                        first_bad = tuple(assignment)
                     ok = False
                     break
-                args.append(tape.pop(idx[-1])[1])
-            if not ok:
-                break
-            work.sim()
-            try:
-                tape.append((out, simulate(name, args)))
-            except Misfire:
-                mis += 1
-                if first_bad is None:
-                    first_bad = tuple(assignment)
-                ok = False
-                break
-        if ok and macro.out_type() == "scalar":
-            work.check()
-            if tape[-1][1] == task.goal:
-                return True, tape[-1][1], tried, mis, None
+                args = None  # subsequent steps consume the tape
+            if ok and macro.out_type() == "scalar":
+                work.check()
+                if tape[-1][1] == task.goal:
+                    return True, tape[-1][1], tried, mis, None
     return False, None, tried, mis, first_bad
 
 
@@ -110,8 +129,15 @@ def _solution_chain(goal_aid, produced_by):
 
 
 def solve_task(task, macros=(), registry=None, work=None, cap=INCUMBENT_CAP, index=None,
-               revoked=frozenset(), macros_enabled=True):
-    """Breadth-first composition search. Returns the task receipt dict; all work charged."""
+               revoked=frozenset(), macros_enabled=True, collect_all=False):
+    """Breadth-first composition search. Returns the task receipt dict; all work charged.
+
+    collect_all=True (acquisition discipline): do NOT early-exit on the first
+    goal-reaching composition -- run the paid search to its bound and record EVERY
+    checker-passing chain found. Experience E_t is everything the incumbent actually ran,
+    not only its luckiest shallowest success; recording a found chain costs one charged
+    bookkeeping step (the search itself was already paid). Test-time solves keep the
+    early exit: fresh-task cost is time-to-first-solution."""
     from fna4 import INDEX
     index = index or INDEX
     work = work if work is not None else Work()
@@ -130,6 +156,23 @@ def solve_task(task, macros=(), registry=None, work=None, cap=INCUMBENT_CAP, ind
     expansions = misfires = macro_hits = 0
     macro_attempts = []
     capped = False
+    all_chains = []
+    solved_chain = None
+
+    def goal_found(name, combo, out_aid):
+        nonlocal solved_chain
+        produced_by[out_aid] = (name, combo)
+        chain = _solution_chain(out_aid, produced_by)
+        if collect_all:
+            work.learn()  # one charged bookkeeping step per recorded experience chain
+            if chain not in all_chains:
+                all_chains.append(chain)
+            if solved_chain is None:
+                solved_chain = chain
+            return False
+        solved_chain = chain
+        return True
+
     while queue and not capped:
         state, _ = queue.popleft()
         types_here = {aid.split(":", 1)[0] for aid in state}
@@ -167,10 +210,11 @@ def solve_task(task, macros=(), registry=None, work=None, cap=INCUMBENT_CAP, ind
                 if typ == "scalar":
                     work.check()
                     if out == task.goal:
-                        produced_by[aid] = (name, combo)
-                        return _receipt(task, True, work, expansions, misfires, macro_hits,
-                                        _solution_chain(aid, produced_by), capped,
-                                        macro_attempts)
+                        if goal_found(name, combo, aid):
+                            return _receipt(task, True, work, expansions, misfires,
+                                            macro_hits, solved_chain, capped,
+                                            macro_attempts, all_chains)
+                        continue
                 if aid in state:
                     continue
                 produced_by[aid] = (name, combo)
@@ -187,7 +231,8 @@ def solve_task(task, macros=(), registry=None, work=None, cap=INCUMBENT_CAP, ind
             if not all(t in types_here for t in macro.in_types()):
                 continue
             expansions += 1
-            hit, _value, tried, mis, first_bad = _apply_macro(macro, task, work, revoked)
+            hit, _value, tried, mis, first_bad = _apply_macro(macro, state, store, task,
+                                                              work, revoked)
             misfires += mis
             macro_attempts.append({"macro_id": macro.macro_id, "hit": hit,
                                    "assignments_tried": tried, "misfires": mis,
@@ -195,21 +240,24 @@ def solve_task(task, macros=(), registry=None, work=None, cap=INCUMBENT_CAP, ind
                                    if first_bad is not None else None})
             if hit:
                 macro_hits += 1
+                if collect_all:
+                    continue  # acquisition discipline: record, keep searching
                 return _receipt(task, True, work, expansions, misfires, macro_hits,
                                 ("<macro:%s>" % macro.macro_id,), capped,
-                                macro_attempts)
+                                macro_attempts, all_chains)
         if expansions > cap:
             capped = True
-    return _receipt(task, False, work, expansions, misfires, macro_hits, (), capped,
-                    macro_attempts)
+    return _receipt(task, solved_chain is not None, work, expansions, misfires,
+                    macro_hits, solved_chain or (), capped, macro_attempts, all_chains)
 
 
 def _receipt(task, solved, work, expansions, misfires, macro_hits, chain, capped,
-             macro_attempts=()):
+             macro_attempts=(), all_chains=()):
     return {"task_id": task.task_id, "family": task.family, "solved": solved,
             "capped": capped, "expansions": expansions, "misfires": misfires,
             "macro_hits": macro_hits, "solution_chain": list(chain),
-            "macro_attempts": list(macro_attempts), "work": work.as_dict()}
+            "macro_attempts": list(macro_attempts), "work": work.as_dict(),
+            "all_solution_chains": [list(c) for c in all_chains]}
 
 
 def validate_selection_mirror(index, trials=40, rng=None):
