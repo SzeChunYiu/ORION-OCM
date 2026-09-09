@@ -299,16 +299,18 @@ class Work(object):
 # ---------------------------------------------------------------------------
 
 
-def make_macro(skeleton, instances, label="LEARNED"):
+def make_macro(skeleton, instances, label="LEARNED", domains=None):
     """skeleton: tuple of (family, slots); slots[i] is None (hole) or a constant.
-    Hole domains are the observed values across `instances` (traces the pattern matched).
+    Hole domains are the observed values across `instances` (traces the pattern matched),
+    or taken verbatim from ``domains`` when an incremental learner maintained them itself.
     Warrant = meet of the families' registration evidence (KS-T20 bridge rule)."""
-    domains = []
-    for pos, (_fam, slots) in enumerate(skeleton):
-        for i, s in enumerate(slots):
-            if s is None:
-                dom = sorted({inst[pos][1][i] for inst in instances})
-                domains.append(tuple(dom))
+    if domains is None:
+        domains = []
+        for pos, (_fam, slots) in enumerate(skeleton):
+            for i, s in enumerate(slots):
+                if s is None:
+                    dom = sorted({inst[pos][1][i] for inst in instances})
+                    domains.append(tuple(dom))
     warr = meet_all_profiles([FAMILY_WARRANT[f] for f, _s in skeleton]) if skeleton \
         else WarrantProfile.one()
     mid = hashlib.sha256(repr((skeleton, label)).encode("utf-8")).hexdigest()[:16]

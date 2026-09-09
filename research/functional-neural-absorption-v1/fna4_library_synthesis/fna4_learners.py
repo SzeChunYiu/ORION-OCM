@@ -20,6 +20,8 @@ compositions (solution chains) -- the same information surface for every arm.
 """
 from __future__ import annotations
 
+import hashlib
+
 from fna4 import family_of, name_params, make_macro, Macro
 from fna4_solver import solve_task
 
@@ -151,23 +153,52 @@ def learn_chunk(receipts, work):
     return _dedupe_macros(macros)
 
 
+def _sk_sort_key(s):
+    """None-safe ordering key over skeletons (holes sort first, deterministically)."""
+    return (-len(s), tuple((f, tuple("\x00" if x is None else str(x) for x in slots))
+                           for f, slots in s))
+
+
 def learn_au(receipts, work):
-    """Reynolds anti-unification over whole solved traces, pairwise and incremental."""
+    """Reynolds anti-unification over whole solved traces, incremental: each new trace
+    is anti-unified against every stored trace; a recurring skeleton (>= 2 pair
+    observations) is admitted with hole domains = the per-hole value sets the matched
+    traces exhibited -- exactly what per-instance derivation would produce, accumulated
+    without materialising the quadratic instance list. One charged learner step per pair
+    comparison, as frozen; one per admitted macro (the admission decision itself)."""
     traces = traces_of(receipts)
-    candidates = []
-    for i in range(len(traces)):
-        for j in range(i + 1, len(traces)):
+    sigs = [[step_sig(n) for n in t] for t in traces]  # computed once, not per pair
+    obs = {}      # skeleton -> pair observations
+    vals = {}     # skeleton -> {hole index (step-major): set of exhibited values}
+    for i, s1 in enumerate(sigs):
+        for s2 in sigs[i + 1:]:
             work.learn()
-            sk = anti_unify(traces[i], traces[j])
-            if sk is not None:
-                candidates.append(sk)
+            sk = _au_stepwise(s1, s2)
+            if sk is None:
+                continue
+            obs[sk] = obs.get(sk, 0) + 1
+            holes = vals.setdefault(sk, {})
+            h = 0
+            for (_fa, pa), (_fb, pb) in zip(s1, s2):
+                for x, y in zip(pa, pb):
+                    if x != y:  # hole position by construction of _au_stepwise
+                        holes.setdefault(h, set()).update((x, y))
+                        h += 1
+    # Admission is lazy: the shared library cap admits only the first MAX_LIBRARY
+    # skeletons in _dedupe_macros order, so macro construction (warrant meet, sha256,
+    # domain materialisation) runs for those alone -- identical admission semantics to
+    # materialising every candidate first, at O(cap) instead of O(candidates).
+    def _mid(sk):
+        return hashlib.sha256(repr((sk, "AU")).encode("utf-8")).hexdigest()[:16]
+    ranked = sorted((sk for sk in obs if obs[sk] >= 2), key=_sk_sort_key)
+    ranked.sort(key=lambda sk: (-len(sk), _mid(sk)))  # exact _dedupe_macros order
     macros = []
-    for sk in sorted(set(candidates), key=lambda s: (-len(s), s)):
-        inst = find_instances(sk, traces)
-        if len(inst) >= 2:
-            work.learn()
-            macros.append(make_macro(sk, inst, label="AU"))
-    return _dedupe_macros(macros)
+    for sk in ranked[:MAX_LIBRARY]:
+        work.learn()
+        domains = tuple(tuple(sorted(vals[sk][h])) for h in range(len(vals[sk])))
+        inst = [tuple((f, tuple(s)) for f, s in sk)]  # const-shaped parity instance
+        macros.append(make_macro(sk, inst, label="AU", domains=domains))
+    return macros
 
 
 def learn_stitch(receipts, work, budget=8):
