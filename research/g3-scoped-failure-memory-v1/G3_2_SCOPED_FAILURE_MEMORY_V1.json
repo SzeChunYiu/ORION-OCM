@@ -4,7 +4,8 @@
       "arm": "NOGOOD",
       "charged": {
         "entries": 4096,
-        "lookups": 262080,
+        "hits": 192512,
+        "lookups": 196604,
         "maintenance": 4096,
         "reopenings": 0,
         "storage_bits": 65536
@@ -114,7 +115,7 @@
       "tasks_solved": 0,
       "vector": {
         "extensions": 69568,
-        "lookups": 262080,
+        "lookups": 196604,
         "maintenance": 4096,
         "storage_bits": 65536
       }
@@ -123,6 +124,7 @@
       "arm": "NO_MEMORY",
       "charged": {
         "entries": 0,
+        "hits": 0,
         "lookups": 0,
         "maintenance": 0,
         "reopenings": 0,
@@ -242,7 +244,8 @@
       "arm": "SCOPED_NOGOOD",
       "charged": {
         "entries": 0,
-        "lookups": 216777,
+        "hits": 94208,
+        "lookups": 98300,
         "maintenance": 4096,
         "reopenings": 4096,
         "storage_bits": 0
@@ -352,7 +355,7 @@
       "tasks_solved": 24,
       "vector": {
         "extensions": 122569,
-        "lookups": 216777,
+        "lookups": 98300,
         "maintenance": 4096,
         "storage_bits": 0
       }
@@ -376,15 +379,15 @@
   },
   "schema": "ocm.g3.scoped-failure-memory.v1",
   "verdict": {
-    "break_even_lookup_price": 0.41568985639620437,
-    "break_even_lookup_reading": "Scoped failure memory buys fewer prefix extensions and pays for them in store probes: 94,208 extensions saved against 216,777 extra lookups. It pays only where one lookup costs less than this fraction of one extension. That is a number a real system can check against its own data structure before adopting a nogood store, which is more useful than a verdict at one arbitrary price.",
+    "break_even_lookup_price": 0.9167039674465921,
+    "break_even_lookup_reading": "Scoped failure memory buys fewer prefix extensions and pays for them in store probes: 94,208 extensions saved against 98,300 extra lookups. It pays only where one lookup costs less than this fraction of one extension. That is a number a real system can check against its own data structure before adopting a nogood store, which is more useful than a verdict at one arbitrary price.",
     "break_even_reading": "The price per stored bit at which scoped failure memory exactly ties the memoryless arm, with every other price held at its declared value. Below it the memory pays; above it it does not. A null value means storage is not the deciding coordinate here at all.",
     "break_even_storage_bit_price": null,
     "extensions_saved": 94208,
-    "extra_lookups": 216777,
+    "extra_lookups": 98300,
     "gross_reduction_vs_no_memory": 94208,
     "memory_pays_net": false,
-    "net_reduction_vs_no_memory": -126665.0,
+    "net_reduction_vs_no_memory": -8188.0,
     "no_task_identity_in_keys": true,
     "pareto_scoped_vs_no_memory": "INCOMPARABLE_WITHOUT_A_PRICE",
     "prices": {
@@ -393,10 +396,21 @@
       "maintenance": 1.0,
       "storage_bits": 0.125
     },
+    "proposition_1": {
+      "bound_net_le_zero": true,
+      "extensions_saved_equals_hits": true,
+      "hits": 94208,
+      "identity_holds": true,
+      "maintenance": 4096,
+      "measured_net": -8188.0,
+      "predicted_net": -8188,
+      "probes": 98300,
+      "statement": "Proposition 1 (goal-independent nogoods cannot pay).\n\nSetting: prefix-extending BFS over a token alphabet with a length budget b, unit\nprice 1 for one prefix extension, 1 for one store probe, 1 per entry for one\nmaintenance pass. A nogood may not mention the goal (a goal-keyed entry is the\ntask-ID blacklist #165 forbids by name).\n\n(1) The ONLY failure fact derivable without the goal is \"candidate c overruns the\n    budget\", i.e. |c| > b. Any statement of the form \"no extension of p reaches a\n    solution\" for |p| <= b quantifies over solutions and therefore over the goal.\n\n(2) Such a c is discovered at a cost of exactly one extension: the search appends\n    one token, compares |c| to b, and stops. There is no subtree beneath it to\n    prune, because the frontier does not carry over-budget candidates forward.\n\n(3) Hence one store hit saves exactly one extension, and every hit was preceded\n    by a probe. Writing H for hits, P for probes and M for maintenance,\n\n        net = H - P - M,   with P >= H and M >= 0,   so   net <= 0,\n\n    with equality only if every probe hits and the store is never maintained.\n\nCorollary: no population, no budget schedule and no store implementation can make\na goal-independent nogood memory strictly profitable in this search geometry. The\nFAILURE_MEMORY_NOT_USEFUL terminal below is therefore NOT contingent on the\ntask ecology, which is a stronger negative than the measurement alone supports.\nIt IS contingent on one price ratio, and that dependence is the point rather than\na loophole: step (3) charges one probe and one extension the same unit. Where a\nprobe is genuinely cheaper than a node expansion the inequality can reverse, and\n``break_even_lookup_price`` reports exactly where. So the finding is \"this cannot\npay unless probing is strictly cheaper than expanding, by this measured margin\",\nnot \"this happens not to pay here\".\n\nWhere the boundary lies, stated so it can be attacked: a failure memory pays only\nwhen a nogood prunes a SUBTREE. That requires nogoods above the leaf depth, which\nby (1) requires the goal, which makes the key task-scoped. So in this geometry the\nchoice is between a memory that cannot pay and a memory that is a blacklist. A\nsearch whose infeasibility test is expensive relative to one probe, or whose dead\nends are interior rather than leaves, escapes the proposition -- and that is the\ncondition under which the mechanism is worth revisiting.\n"
+    },
     "raw_vectors": {
       "NOGOOD": {
         "extensions": 69568,
-        "lookups": 262080,
+        "lookups": 196604,
         "maintenance": 4096,
         "storage_bits": 65536
       },
@@ -408,7 +422,7 @@
       },
       "SCOPED_NOGOOD": {
         "extensions": 122569,
-        "lookups": 216777,
+        "lookups": 98300,
         "maintenance": 4096,
         "storage_bits": 0
       }
@@ -418,7 +432,7 @@
     "scoped_is_sound": true,
     "scoped_solved": 24,
     "terminal": "FAILURE_MEMORY_NOT_USEFUL",
-    "terminal_reason": "Scoped failure memory reduces gross search but does not repay its own storage, lookup and maintenance cost at this ecology under the declared prices. Remembering dead ends is not free and here it does not pay, which is a registered G3 terminal and is retained rather than rescued. This is NOT a finding that scope is unnecessary -- scope is separately demonstrated to be load-bearing by a falsifier: the same store without a budget on its entries solves 0 of 48 against the memoryless arm's 24, so it is not merely worse, it is UNSOUND. The two findings are independent and both are retained.",
+    "terminal_reason": "Scoped failure memory reduces gross search but does not repay its own storage, lookup and maintenance cost. This is NOT a verdict at one price on one population: Proposition 1 shows the net is the identity hits - probes - maintenance, which is <= 0 for any goal-independent nogood store in this search geometry, because an over-budget candidate is discovered in one extension and has no subtree to prune. The run confirms the identity exactly (94,208 hits - 98,300 probes - 4,096 maintenance = -8,188). The negative is therefore structural and is retained rather than rescued. This is NOT a finding that scope is unnecessary -- scope is separately demonstrated to be load-bearing by a falsifier: the same store without a budget on its entries solves 0 of 48 against the memoryless arm's 24, so it is not merely worse, it is UNSOUND. The two findings are independent and both are retained.",
     "unscoped_is_sound": false,
     "unscoped_lost_to_memory": [
       [

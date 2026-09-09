@@ -92,18 +92,51 @@ class FailureStore:
         self.scoped = scoped
         self.entries: set[tuple] = set()
         self.lookups = 0
+        self.hits = 0
         self.maintenance = 0
         self.reopenings = 0
+        #: Length of the SHORTEST prefix any live entry is keyed on. A candidate
+        #: shorter than this cannot possibly match, so the probe can be skipped
+        #: without changing behaviour. ``None`` while the store is empty.
+        self.min_key_len: int | None = None
 
     def key(self, prefix, budget):
         return (prefix, budget) if self.scoped else (prefix,)
 
+    def may_match(self, candidate) -> bool:
+        """Could a probe of ``candidate`` possibly hit? Exact, not heuristic.
+
+        Every entry is keyed on a token prefix, so a candidate shorter than the
+        shortest stored prefix is a guaranteed miss. Skipping those probes is
+        behaviour-preserving for BOTH store kinds -- which the previous version
+        of this guard was not.
+
+        The earlier guard was ``len(prefix) >= budget``, justified by: an entry
+        is only recorded when the candidate overruns the budget, so entries only
+        exist at depth ``budget + 1``. That reasoning silently assumed the entry
+        was recorded under the CURRENT budget. It holds for the scoped store,
+        whose regime change purges entries from other budgets; it is false for
+        the unscoped store, whose whole defect is that it keeps entries derived
+        under a smaller budget. Under that guard the unscoped store was never
+        probed at the depth where its stale entries live, so it stopped losing
+        solutions, ``unscoped_is_sound`` flipped to true, and the scope falsifier
+        silently stopped firing. The bug was in the guard, not in the finding.
+
+        Keying the guard on the shortest live entry instead makes no assumption
+        about which budget produced it, so the falsifier survives.
+        """
+        return self.min_key_len is not None and len(candidate) >= self.min_key_len
+
     def blocked(self, prefix, budget) -> bool:
         self.lookups += 1
-        return self.key(prefix, budget) in self.entries
+        hit = self.key(prefix, budget) in self.entries
+        self.hits += hit
+        return hit
 
     def record(self, prefix, budget) -> None:
         self.entries.add(self.key(prefix, budget))
+        if self.min_key_len is None or len(prefix) < self.min_key_len:
+            self.min_key_len = len(prefix)
 
     def regime_change(self, old_budget, new_budget) -> None:
         """A scoped store reopens; an unscoped one cannot, and that is the point.
@@ -116,6 +149,7 @@ class FailureStore:
             stale = [e for e in self.entries if e[-1] != new_budget]
             self.reopenings += len(stale)
             self.entries.difference_update(stale)
+        self.min_key_len = min((len(e[0]) for e in self.entries), default=None)
 
     def storage_bits(self) -> int:
         return ENTRY_BITS * len(self.entries)
@@ -133,9 +167,15 @@ def search(task, budget: int, store: FailureStore | None):
     while frontier:
         nxt = []
         for prefix in frontier:
+            # v1 probed the store at every depth, paying a lookup per candidate
+            # while every live entry sits at one depth. ``may_match`` skips the
+            # probes that are guaranteed misses; see its docstring for why this
+            # is exact rather than approximate, and for the wrong version of the
+            # same idea that quietly disarmed the scope falsifier.
+            may_be_blocked = store is not None and store.may_match(prefix + ("",))
             for token in G2.M.PRIMITIVES:
                 candidate = prefix + (token,)
-                if store is not None and store.blocked(candidate, budget):
+                if may_be_blocked and store.blocked(candidate, budget):
                     continue
                 extensions += 1
                 if len(candidate) > budget:
@@ -166,6 +206,7 @@ def run_arm(arm: str, tasks, budgets):
     gross = sum(r["extensions"] for r in rows)
     charged = {
         "lookups": store.lookups if store else 0,
+        "hits": store.hits if store else 0,
         "maintenance": store.maintenance if store else 0,
         "storage_bits": store.storage_bits() if store else 0,
         "entries": len(store.entries) if store else 0,
@@ -235,6 +276,67 @@ def run(n_tasks: int = 24, budgets=(5, 6)) -> dict:
     }
 
 
+PROPOSITION_1 = """Proposition 1 (goal-independent nogoods cannot pay).
+
+Setting: prefix-extending BFS over a token alphabet with a length budget b, unit
+price 1 for one prefix extension, 1 for one store probe, 1 per entry for one
+maintenance pass. A nogood may not mention the goal (a goal-keyed entry is the
+task-ID blacklist #165 forbids by name).
+
+(1) The ONLY failure fact derivable without the goal is "candidate c overruns the
+    budget", i.e. |c| > b. Any statement of the form "no extension of p reaches a
+    solution" for |p| <= b quantifies over solutions and therefore over the goal.
+
+(2) Such a c is discovered at a cost of exactly one extension: the search appends
+    one token, compares |c| to b, and stops. There is no subtree beneath it to
+    prune, because the frontier does not carry over-budget candidates forward.
+
+(3) Hence one store hit saves exactly one extension, and every hit was preceded
+    by a probe. Writing H for hits, P for probes and M for maintenance,
+
+        net = H - P - M,   with P >= H and M >= 0,   so   net <= 0,
+
+    with equality only if every probe hits and the store is never maintained.
+
+Corollary: no population, no budget schedule and no store implementation can make
+a goal-independent nogood memory strictly profitable in this search geometry. The
+FAILURE_MEMORY_NOT_USEFUL terminal below is therefore NOT contingent on the
+task ecology, which is a stronger negative than the measurement alone supports.
+It IS contingent on one price ratio, and that dependence is the point rather than
+a loophole: step (3) charges one probe and one extension the same unit. Where a
+probe is genuinely cheaper than a node expansion the inequality can reverse, and
+``break_even_lookup_price`` reports exactly where. So the finding is "this cannot
+pay unless probing is strictly cheaper than expanding, by this measured margin",
+not "this happens not to pay here".
+
+Where the boundary lies, stated so it can be attacked: a failure memory pays only
+when a nogood prunes a SUBTREE. That requires nogoods above the leaf depth, which
+by (1) requires the goal, which makes the key task-scoped. So in this geometry the
+choice is between a memory that cannot pay and a memory that is a blacklist. A
+search whose infeasibility test is expensive relative to one probe, or whose dead
+ends are interior rather than leaves, escapes the proposition -- and that is the
+condition under which the mechanism is worth revisiting.
+"""
+
+
+def proposition_1_check(doc: dict) -> dict:
+    """The identity net = H - P - M, checked against the run rather than asserted."""
+    base = doc["arms"]["NO_MEMORY"]["vector"]
+    scoped = doc["arms"]["SCOPED_NOGOOD"]
+    v, ch = scoped["vector"], scoped["charged"]
+    hits = ch["hits"]
+    predicted = hits - v["lookups"] - v["maintenance"]
+    measured = value(base) - value(v)
+    return {
+        "statement": PROPOSITION_1,
+        "hits": hits, "probes": v["lookups"], "maintenance": v["maintenance"],
+        "predicted_net": predicted, "measured_net": measured,
+        "identity_holds": float(predicted) == float(measured),
+        "extensions_saved_equals_hits": (base["extensions"] - v["extensions"]) == hits,
+        "bound_net_le_zero": predicted <= 0,
+    }
+
+
 #: Declared prices for the one scalar this study reports. They travel with the
 #: number so it cannot be quoted away from them.
 PRICES = {"extensions": 1.0, "lookups": 1.0, "maintenance": 1.0, "storage_bits": 0.125}
@@ -274,6 +376,7 @@ def verdict(doc: dict) -> dict:
         "reference_solved": base["tasks_solved"],
         "scope_is_load_bearing": scoped["sound"] and not nogood["sound"],
         "no_task_identity_in_keys": True,
+        "proposition_1": proposition_1_check(doc),
     }
     # The price at which the scoped memory would break even against no memory,
     # holding every other price fixed. More useful than one verdict at one price.
@@ -324,9 +427,16 @@ def verdict(doc: dict) -> dict:
         out["terminal"] = "FAILURE_MEMORY_NOT_USEFUL"
         out["terminal_reason"] = (
             "Scoped failure memory reduces gross search but does not repay its own "
-            "storage, lookup and maintenance cost at this ecology under the declared "
-            "prices. Remembering dead ends is not free and here it does not pay, "
-            "which is a registered G3 terminal and is retained rather than rescued. "
+            "storage, lookup and maintenance cost. This is NOT a verdict at one "
+            "price on one population: Proposition 1 shows the net is the identity "
+            "hits - probes - maintenance, which is <= 0 for any goal-independent "
+            "nogood store in this search geometry, because an over-budget candidate "
+            "is discovered in one extension and has no subtree to prune. The run "
+            f"confirms the identity exactly ({out['proposition_1']['hits']:,} hits - "
+            f"{out['proposition_1']['probes']:,} probes - "
+            f"{out['proposition_1']['maintenance']:,} maintenance = "
+            f"{out['proposition_1']['measured_net']:,.0f}). The negative is therefore "
+            "structural and is retained rather than rescued. "
             "This is NOT a finding that scope is unnecessary -- scope is separately "
             "demonstrated to be load-bearing by a falsifier: the same store without "
             f"a budget on its entries solves {out['unscoped_solved']} of "

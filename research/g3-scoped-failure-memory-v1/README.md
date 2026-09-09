@@ -28,8 +28,8 @@ scope_is_load_bearing: TRUE        (independently, by falsifier)
 | arm | extensions | lookups | maint | bits | solved | sound |
 |---|---:|---:|---:|---:|---:|:--:|
 | `NO_MEMORY` | 216,777 | 0 | 0 | 0 | 24/48 | ✓ |
-| `NOGOOD` (unscoped) | **69,568** | 262,080 | 4,096 | 65,536 | **0/48** | ✗ |
-| `SCOPED_NOGOOD` | 122,569 | 216,777 | 4,096 | 0 | 24/48 | ✓ |
+| `NOGOOD` (unscoped) | **69,568** | 196,604 | 4,096 | 65,536 | **0/48** | ✗ |
+| `SCOPED_NOGOOD` | 122,569 | 98,300 | 4,096 | 0 | 24/48 | ✓ |
 
 Pareto: **`INCOMPARABLE_WITHOUT_A_PRICE`**. Coordinates are not summed — bits are not
 extensions, and adding them is the post-hoc scalarization #165 forbids.
@@ -47,17 +47,35 @@ Note the storage column: the scoped store ends at **0 bits** precisely *because*
 correctly discarded stale nogoods, while the unscoped store holds 65,536 bits of entries
 that are actively harmful.
 
-**2. The memory does not pay at this ecology.** It trades **94,208 extensions saved** for
-**216,777 extra lookups** — one store probe per candidate against a 43% extension saving.
+**2. The memory does not pay — and Proposition 1 says it cannot.** It trades **94,208
+extensions saved** for **98,300 probes** and 4,096 maintenance:
 
 ```text
-break-even lookup price   0.416
+net = hits - probes - maintenance = 94,208 - 98,300 - 4,096 = -8,188
+break-even lookup price   0.917
 ```
 
-Scoped failure memory pays **iff one store probe costs less than 0.416 of one prefix
-extension**. That is a number a real system can check against its own data structure before
-adopting a nogood store — more useful than a verdict at one arbitrary price. No storage
-price rescues it; storage is not the deciding coordinate.
+That is not an arithmetic coincidence of this population, it is an **identity**. A nogood
+that may not mention the goal can only ever say "this candidate overruns the budget", and
+such a candidate is discovered in exactly one extension and has no subtree beneath it to
+prune. So one hit saves exactly one extension, every hit was preceded by a probe, and
+`net = H − P − M ≤ 0` for **any** population, budget schedule or store implementation in
+this search geometry. `proposition_1_check` verifies the identity against the run rather
+than asserting it, and a test pins it.
+
+The proposition names its own escape and the escape is the useful part: it charges a probe
+and an extension the same unit. Scoped failure memory pays **iff one store probe costs less
+than 0.917 of one prefix extension** — and in most real search engines a hash probe is far
+cheaper than a node expansion. So the engineering reading is not "nogoods are worthless"
+but "nogoods over leaf-only, goal-independent facts buy at most a constant factor of one,
+and are worth it only when probing is strictly cheaper than expanding."
+
+The deeper boundary, stated so it can be attacked: a failure memory pays properly only when
+a nogood prunes a **subtree**. That needs nogoods above the leaf depth, which needs the
+goal, which makes the key task-scoped — the task-ID blacklist #165 forbids by name. In this
+geometry the choice is between a memory that cannot pay and a memory that is a blacklist.
+
+No storage price rescues it; storage is not the deciding coordinate.
 
 **The negative does not say scope is unnecessary.** Both findings are independent and both
 are retained; a test asserts the terminal reason says so.

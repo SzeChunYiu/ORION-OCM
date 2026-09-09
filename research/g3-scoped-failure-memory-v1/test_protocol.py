@@ -118,6 +118,7 @@ class Terminals(unittest.TestCase):
             row = {"arm": name, "vector": vector, "solved_keys": solved_keys,
                    "tasks_solved": len(solved_keys), "rows_total": 4,
                    "charged": {"entries": entries, "reopenings": reopenings,
+                               "hits": 0,
                                "lookups": vector["lookups"],
                                "maintenance": vector["maintenance"],
                                "storage_bits": vector["storage_bits"]}}
@@ -126,6 +127,9 @@ class Terminals(unittest.TestCase):
         arms = {"NO_MEMORY": arm("NO_MEMORY", base, [("a", 6), ("b", 6)]),
                 "NOGOOD": arm("NOGOOD", nogood, []),
                 "SCOPED_NOGOOD": arm("SCOPED_NOGOOD", scoped, [("a", 6), ("b", 6)])}
+        # Keep the synthetic doc coherent with Proposition 1: a hit is exactly one
+        # extension the memoryless arm paid and the scoped arm did not.
+        arms["SCOPED_NOGOOD"]["charged"]["hits"] = base["extensions"] - scoped["extensions"]
         reference = set(map(tuple, arms["NO_MEMORY"]["solved_keys"]))
         for row in arms.values():
             got = set(map(tuple, row["solved_keys"]))
@@ -179,6 +183,97 @@ class Terminals(unittest.TestCase):
         out = E.verdict(doc)
         self.assertAlmostEqual(out["break_even_lookup_price"], 400 / 800)
         self.assertIn("a real system can check", out["break_even_lookup_reading"])
+
+
+class GuardExactness(unittest.TestCase):
+    """The probe-skipping guard must not change any arm's behaviour.
+
+    This class exists because an earlier guard DID change behaviour and the study
+    did not notice. It skipped the probe whenever ``len(prefix) < budget``, on the
+    argument that entries only ever live at depth ``budget + 1``. That is true of
+    the scoped store, whose regime change purges other budgets, and false of the
+    unscoped store, whose defining defect is that it keeps entries derived under a
+    SMALLER budget -- exactly the entries that live at a shallower depth than the
+    current budget implies. The unscoped store was therefore never probed where
+    its stale entries sit, stopped losing solutions, and the scope falsifier went
+    quiet while every other number improved. Nothing failed; the finding just
+    disappeared. These tests make that failure mode loud.
+    """
+
+    def test_a_shorter_candidate_than_any_entry_is_a_guaranteed_miss(self):
+        store = E.FailureStore(scoped=True)
+        self.assertFalse(store.may_match(("a",)))          # empty store
+        store.record(("a", "b", "c"), 2)
+        self.assertFalse(store.may_match(("a",)))
+        self.assertFalse(store.may_match(("a", "b")))
+        self.assertTrue(store.may_match(("a", "b", "c")))
+        self.assertTrue(store.may_match(("a", "b", "c", "d")))
+
+    def test_the_guard_tracks_a_stale_shallower_entry_in_an_unscoped_store(self):
+        """The precise case the old guard got wrong."""
+        store = E.FailureStore(scoped=False)
+        store.record(("a",) * 6, 5)          # recorded under budget 5
+        store.regime_change(5, 6)            # unscoped: cannot reopen, entry stays
+        # Under budget 6 a depth-6 candidate is feasible, and this is where the
+        # stale entry wrongly blocks it. The guard must still allow the probe.
+        self.assertTrue(store.may_match(("a",) * 6))
+        self.assertTrue(store.blocked(("a",) * 6, 6))
+
+    def test_the_guard_never_suppresses_a_probe_that_would_have_hit(self):
+        """Exhaustive: for every stored entry, the guard admits its own probe."""
+        for scoped in (True, False):
+            store = E.FailureStore(scoped=scoped)
+            for depth in (2, 4, 7):
+                store.record(("t",) * depth, 3)
+            for depth in range(1, 10):
+                candidate = ("t",) * depth
+                if store.key(candidate, 3) in store.entries:
+                    self.assertTrue(store.may_match(candidate),
+                                    f"guard suppressed a real hit at depth {depth}")
+
+    def test_regime_change_recomputes_the_guard_after_reopening(self):
+        store = E.FailureStore(scoped=True)
+        store.record(("a", "b"), 1)
+        store.record(("a", "b", "c"), 2)
+        self.assertEqual(store.min_key_len, 2)
+        store.regime_change(1, 2)            # drops the budget-1 entry
+        self.assertEqual(store.min_key_len, 3)
+        self.assertFalse(store.may_match(("a", "b")))
+
+
+class Proposition1(unittest.TestCase):
+    """The negative is an identity, not a price verdict."""
+
+    def test_the_statement_names_its_own_escape_condition(self):
+        for phrase in ("net = H - P - M", "goal-independent", "prunes a SUBTREE",
+                       "escapes the proposition"):
+            self.assertIn(phrase, E.PROPOSITION_1)
+
+    def test_a_hit_saves_exactly_one_extension_so_net_cannot_be_positive(self):
+        doc = self._run
+        prop = doc["verdict"]["proposition_1"]
+        self.assertTrue(prop["extensions_saved_equals_hits"],
+                        "a hit that saved more or less than one extension would "
+                        "break the proposition's step (2)")
+        self.assertTrue(prop["identity_holds"])
+        self.assertTrue(prop["bound_net_le_zero"])
+        self.assertLessEqual(prop["hits"], prop["probes"])
+
+    def test_the_negative_terminal_cites_the_identity_not_the_prices(self):
+        reason = self._run["verdict"]["terminal_reason"]
+        self.assertIn("Proposition 1", reason)
+        self.assertIn("structural", reason)
+
+    def test_the_scope_falsifier_still_fires_alongside_the_proposition(self):
+        v = self._run["verdict"]
+        self.assertTrue(v["scoped_is_sound"])
+        self.assertFalse(v["unscoped_is_sound"])
+        self.assertTrue(v["scope_is_load_bearing"])
+
+    @classmethod
+    def setUpClass(cls):
+        cls._run = E.run(n_tasks=6)
+        cls._run["verdict"] = E.verdict(cls._run)
 
 
 if __name__ == "__main__":
