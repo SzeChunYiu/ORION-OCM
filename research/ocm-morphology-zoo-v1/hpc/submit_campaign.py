@@ -76,14 +76,23 @@ def main():
     # binary-safe sync (rsync, never ssh pipes) + checksum verification
     sh("ssh %s 'mkdir -p zoo221/capsule'" % HOST)
     sh("rsync -a --delete --exclude __pycache__ --exclude .pytest_cache "
-       "--exclude logs %s/ %s:zoo221/capsule/" % (ROOT, HOST))
-    chk_local = sh("cd %s && find . -name '*.py' -o -name '*.json' | sort | "
-                   "xargs shasum -a 256 | shasum -a 256 | cut -d' ' -f1" % ROOT).stdout.strip()
-    chk_remote = sh("ssh %s \"cd zoo221/capsule && find . -name '*.py' -o -name '*.json' | sort | "
-                    "xargs sha256sum | sha256sum | cut -d' ' -f1\"" % HOST).stdout.strip()
-    if chk_local != chk_remote:
-        raise SystemExit("checksum mismatch after rsync: %s vs %s" % (chk_local, chk_remote))
-    print("capsule synced, checksum %s" % chk_local[:16])
+       "--exclude logs --exclude .DS_Store %s/ %s:zoo221/capsule/" % (ROOT, HOST))
+    def _cks(local: bool) -> str:
+        probe = "command -v sha256sum" if local else None
+        if local and subprocess.run(probe, shell=True).returncode != 0:
+            return "shasum -a 256"
+        return "sha256sum"
+    sh("cd %s && find . \\( -name '*.py' -o -name '*.json' \\) | LC_ALL=C sort | "
+       "xargs sha256sum > /tmp/zoo_local.list" % ROOT)
+    sh("ssh %s \"cd zoo221/capsule && find . \\\\( -name '*.py' -o -name '*.json' \\\\) | "
+       "LC_ALL=C sort | xargs sha256sum > /tmp/zoo_remote.list\"" % HOST)
+    sh("scp -q %s:/tmp/zoo_remote.list /tmp/zoo_remote.list.local" % HOST)
+    diff = sh("diff /tmp/zoo_local.list /tmp/zoo_remote.list.local", check=False)
+    if diff.returncode != 0:
+        print(diff.stdout[-3000:])
+        raise SystemExit("capsule checksum mismatch after rsync (listing above)")
+    chk_local = sh("sha256sum /tmp/zoo_local.list | cut -d' ' -f1").stdout.strip()
+    print("capsule synced byte-identical, listing digest %s" % chk_local[:16])
 
     # smoke first (--qos=test only for short smoke jobs)
     r = sh("ssh %s 'cd zoo221/capsule && sbatch --parsable hpc/smoke.sbatch'" % HOST)

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #SBATCH -J zoo-audit
-#SBATCH -A snic2025-22-104
-#SBATCH -p cosmos
+#SBATCH -A lu2026-2-51
+#SBATCH -p lu48
 #SBATCH -t 00:20:00
 #SBATCH -c 1
 #SBATCH -o logs/audit_%j.out
 #SBATCH -e logs/audit_%j.err
 # Post-aggregate audit: tests green, freeze denominators == census truth,
 # every receipt verifies, aggregate matches per-run rows.
-source "$(dirname "$0")/common_env.sh"
+source "${SLURM_SUBMIT_DIR}/hpc/common_env.sh"
 set -euo pipefail
 cd "$ZOO_ROOT"
 $ZOO_PY -m pytest tests/ -q
