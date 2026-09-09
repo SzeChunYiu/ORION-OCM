@@ -1644,6 +1644,603 @@
    },
    "pass": "E4_WORKLIST",
    "stage_attribution": "per-query counting-closure work: full-scan fixpoint schedule + eager all-block liveness dominate Q2/Q5 object cost at 482 blocks over 488 atoms"
+  },
+  {
+   "arms": {
+    "Q2_QUOTIENT_E4E5": {
+     "aggregates": {
+      "candidates": {
+       "mean": 171.3125,
+       "median": 165.5,
+       "sum": 5482.0
+      },
+      "edges_touched": {
+       "mean": 687.0,
+       "median": 537.5,
+       "sum": 21984.0
+      },
+      "expansions": {
+       "mean": 466.96875,
+       "median": 317.0,
+       "sum": 14943.0
+      },
+      "false_candidates": {
+       "mean": 137.46875,
+       "median": 139.0,
+       "sum": 4399.0
+      },
+      "k_active_objects": {
+       "mean": 171.90625
+      },
+      "k_over_N_mean": 0.35813802083333335,
+      "objects_touched": {
+       "mean": 663.75,
+       "median": 644.5,
+       "sum": 21240.0
+      },
+      "probes": {
+       "mean": 0.0,
+       "median": 0.0,
+       "sum": 0.0
+      },
+      "refuted_tasks": {
+       "n": 13,
+       "objects_touched": 422.84615384615387
+      },
+      "supported_tasks": {
+       "n": 19,
+       "objects_touched": 828.578947368421
+      },
+      "verifier_calls": {
+       "mean": 0.59375,
+       "median": 1.0,
+       "sum": 19.0
+      }
+     },
+     "all_correct": true,
+     "cpu_seconds": 0.331534432,
+     "lifetime": {
+      "atom_warrant_checks": 0,
+      "build_work": 26690,
+      "edge_warrant_checks": 0,
+      "edges_examined": 0,
+      "expansions": 0,
+      "maintenance_work": 0,
+      "persistent_bytes": 244360,
+      "quotient_blocks": 482,
+      "quotient_build_atom_sig_evals": 5856,
+      "quotient_build_incidence_evals": 20834,
+      "quotient_build_passes": 12,
+      "quotient_qedges": 1308,
+      "reopen_work": 0,
+      "tasks": 32,
+      "verifier_calls": 0
+     },
+     "mechanism_counters": {
+      "confirmation_fallbacks": 0,
+      "confirmations_used": 19,
+      "rebuilds": 6,
+      "refutations_used": 13
+     },
+     "n_correct": 32,
+     "n_tasks": 32,
+     "name": "Q2_QUOTIENT_E4E5",
+     "wall_seconds": 0.3315355309750885
+    },
+    "Q5_COMPOSED_E4E5": {
+     "aggregates": {
+      "candidates": {
+       "mean": 170.8125,
+       "median": 165.5,
+       "sum": 5466.0
+      },
+      "edges_touched": {
+       "mean": 466.96875,
+       "median": 317.0,
+       "sum": 14943.0
+      },
+      "expansions": {
+       "mean": 703.0,
+       "median": 601.5,
+       "sum": 22496.0
+      },
+      "false_candidates": {
+       "mean": 159.875,
+       "median": 155.5,
+       "sum": 5116.0
+      },
+      "k_active_objects": {
+       "mean": 171.90625
+      },
+      "k_over_N_mean": 0.35813802083333335,
+      "objects_touched": {
+       "mean": 651.40625,
+       "median": 640.5,
+       "sum": 20845.0
+      },
+      "probes": {
+       "mean": 110.46875,
+       "median": 46.5,
+       "sum": 3535.0
+      },
+      "refuted_tasks": {
+       "n": 13,
+       "objects_touched": 422.84615384615387
+      },
+      "supported_tasks": {
+       "n": 19,
+       "objects_touched": 807.7894736842105
+      },
+      "verifier_calls": {
+       "mean": 0.59375,
+       "median": 1.0,
+       "sum": 19.0
+      }
+     },
+     "all_correct": true,
+     "cpu_seconds": 0.295709575,
+     "lifetime": {
+      "atom_warrant_checks": 0,
+      "build_work": 40035,
+      "early_stops": 16,
+      "edge_warrant_checks": 0,
+      "edges_examined": 0,
+      "edges_revealed": 0,
+      "expansions": 7553,
+      "maintenance_work": 0,
+      "persistent_bytes": 244360,
+      "probes": 3535,
+      "quotient_blocks": 482,
+      "quotient_build_atom_sig_evals": 5856,
+      "quotient_build_incidence_evals": 20834,
+      "quotient_build_passes": 12,
+      "quotient_qedges": 1308,
+      "reopen_work": 0,
+      "tasks": 32,
+      "verifier_calls": 19,
+      "warrant_observations": 0
+     },
+     "mechanism_counters": {
+      "cone_restrictions_applied": 19,
+      "confirmation_fallbacks": 0,
+      "confirmations_used": 19,
+      "probe_early_stops": 16,
+      "refutations_used": 13
+     },
+     "n_correct": 32,
+     "n_tasks": 32,
+     "name": "Q5_COMPOSED_E4E5",
+     "wall_seconds": 0.29572090797591954
+    }
+   },
+   "code_sha256": {
+    "arms.py": "4b2b81b7d6549be6be15d191fb1e64dc8c7b2dcf19467dff3e8d4dfa9ee71b48",
+    "lever_e4.py": "e821a6f411162bec2607d5b61305011b116b145ddf77576c71ee870076963aab",
+    "lever_e5.py": "6b348f7c59f039f999d6b3b11faaa874b0e2e31f08d0545af746a55eea9f387e",
+    "probing.py": "137f8f14d70f97c3f1f30a5998bc73b3ce081733b3a839b91e20288227215ee1",
+    "quotient.py": "6fd7d09fce77a2f679cb2a160987ca2b394ba3b07c4fbd730c89c88fb81e2bbc",
+    "run_e5_pass.py": "bf91bf97ae340d8f74b1291f894fee43d4be8204f6f46ee0b3502799b3b34e16",
+    "run_msc.py": "d10aaf32ed62e982054a9bda56311982ef4898d40938d2dedf94905ce934c0a1",
+    "world.py": "c018960d38197eacab3e97b5588d996b3ca389c3e18749a5b5cb22a647bf7fc7"
+   },
+   "commit": "e228f550e65a6da62e9ac0f9cf6695461c34ca07",
+   "component_decomposition_of_E4_objects": {
+    "Q1_parent_objects_mean": 767.88,
+    "counting_objects_mean": 540.94,
+    "fallback_objects_mean": 289.75,
+    "note": "measured on the frozen stream by wrapping split_singletons / counting_closure / confirm_on_induced; fallback reconciles exactly as 488 atoms x 19 positive tasks / 32 tasks",
+    "objects_mean": 839.34,
+    "path_member_fetch_mean": 8.66
+   },
+   "cone_confirmation_counters": {
+    "Q2_QUOTIENT_E4E5": {
+     "confirmation_fallbacks": 0,
+     "confirmations_used": 19
+    },
+    "Q5_COMPOSED_E4E5": {
+     "confirmation_fallbacks": 0,
+     "confirmations_used": 19
+    }
+   },
+   "decision_equivalence_vs_base": {
+    "Q2_QUOTIENT_E4E5": true,
+    "Q5_COMPOSED_E4E5": true
+   },
+   "deltas_vs_base": {
+    "Q2_QUOTIENT_E4E5": {
+     "edges_touched": {
+      "base_mean": 4092.78125,
+      "lever_mean": 687.0
+     },
+     "expansions": {
+      "base_mean": 4088.8125,
+      "lever_mean": 466.96875
+     },
+     "objects_touched": {
+      "base_mean": 1561.3125,
+      "lever_mean": 663.75
+     },
+     "per_task_deltas": [
+      {
+       "edges": -4010,
+       "objects": -174,
+       "task_idx": 0
+      },
+      {
+       "edges": -1282,
+       "objects": -477,
+       "task_idx": 1
+      },
+      {
+       "edges": -1284,
+       "objects": -481,
+       "task_idx": 2
+      },
+      {
+       "edges": -1991,
+       "objects": -448,
+       "task_idx": 3
+      },
+      {
+       "edges": -2179,
+       "objects": -482,
+       "task_idx": 4
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 5
+      },
+      {
+       "edges": -2587,
+       "objects": -478,
+       "task_idx": 6
+      },
+      {
+       "edges": -5419,
+       "objects": -1196,
+       "task_idx": 7
+      },
+      {
+       "edges": -2906,
+       "objects": -506,
+       "task_idx": 8
+      },
+      {
+       "edges": -2338,
+       "objects": -870,
+       "task_idx": 9
+      },
+      {
+       "edges": -2684,
+       "objects": -840,
+       "task_idx": 10
+      },
+      {
+       "edges": -10363,
+       "objects": -3255,
+       "task_idx": 11
+      },
+      {
+       "edges": -7823,
+       "objects": -3068,
+       "task_idx": 12
+      },
+      {
+       "edges": -1303,
+       "objects": -477,
+       "task_idx": 13
+      },
+      {
+       "edges": -3501,
+       "objects": -812,
+       "task_idx": 14
+      },
+      {
+       "edges": -2129,
+       "objects": -792,
+       "task_idx": 15
+      },
+      {
+       "edges": -9152,
+       "objects": -3372,
+       "task_idx": 16
+      },
+      {
+       "edges": -10466,
+       "objects": -3579,
+       "task_idx": 17
+      },
+      {
+       "edges": -3661,
+       "objects": -506,
+       "task_idx": 18
+      },
+      {
+       "edges": -3597,
+       "objects": -414,
+       "task_idx": 19
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 20
+      },
+      {
+       "edges": -2911,
+       "objects": -207,
+       "task_idx": 21
+      },
+      {
+       "edges": -1308,
+       "objects": -482,
+       "task_idx": 22
+      },
+      {
+       "edges": -1305,
+       "objects": -476,
+       "task_idx": 23
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 24
+      },
+      {
+       "edges": -2530,
+       "objects": -547,
+       "task_idx": 25
+      },
+      {
+       "edges": -5510,
+       "objects": -1000,
+       "task_idx": 26
+      },
+      {
+       "edges": -2638,
+       "objects": -423,
+       "task_idx": 27
+      },
+      {
+       "edges": -4905,
+       "objects": -651,
+       "task_idx": 28
+      },
+      {
+       "edges": -4271,
+       "objects": -465,
+       "task_idx": 29
+      },
+      {
+       "edges": -3082,
+       "objects": 24,
+       "task_idx": 30
+      },
+      {
+       "edges": -1850,
+       "objects": -825,
+       "task_idx": 31
+      }
+     ],
+     "probes": {
+      "base_mean": 0.0,
+      "lever_mean": 0.0
+     },
+     "verifier_calls": {
+      "base_mean": 1.1875,
+      "lever_mean": 0.59375
+     }
+    },
+    "Q5_COMPOSED_E4E5": {
+     "edges_touched": {
+      "base_mean": 4088.8125,
+      "lever_mean": 466.96875
+     },
+     "expansions": {
+      "base_mean": 4089.4375,
+      "lever_mean": 703.0
+     },
+     "objects_touched": {
+      "base_mean": 1561.3125,
+      "lever_mean": 651.40625
+     },
+     "per_task_deltas": [
+      {
+       "edges": -4699,
+       "objects": -304,
+       "task_idx": 0
+      },
+      {
+       "edges": -1282,
+       "objects": -477,
+       "task_idx": 1
+      },
+      {
+       "edges": -1284,
+       "objects": -481,
+       "task_idx": 2
+      },
+      {
+       "edges": -2254,
+       "objects": -454,
+       "task_idx": 3
+      },
+      {
+       "edges": -2339,
+       "objects": -501,
+       "task_idx": 4
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 5
+      },
+      {
+       "edges": -2587,
+       "objects": -478,
+       "task_idx": 6
+      },
+      {
+       "edges": -6276,
+       "objects": -1197,
+       "task_idx": 7
+      },
+      {
+       "edges": -3078,
+       "objects": -508,
+       "task_idx": 8
+      },
+      {
+       "edges": -2389,
+       "objects": -874,
+       "task_idx": 9
+      },
+      {
+       "edges": -2718,
+       "objects": -842,
+       "task_idx": 10
+      },
+      {
+       "edges": -10363,
+       "objects": -3255,
+       "task_idx": 11
+      },
+      {
+       "edges": -7823,
+       "objects": -3068,
+       "task_idx": 12
+      },
+      {
+       "edges": -1303,
+       "objects": -477,
+       "task_idx": 13
+      },
+      {
+       "edges": -3799,
+       "objects": -812,
+       "task_idx": 14
+      },
+      {
+       "edges": -2163,
+       "objects": -795,
+       "task_idx": 15
+      },
+      {
+       "edges": -9152,
+       "objects": -3372,
+       "task_idx": 16
+      },
+      {
+       "edges": -10466,
+       "objects": -3579,
+       "task_idx": 17
+      },
+      {
+       "edges": -3945,
+       "objects": -507,
+       "task_idx": 18
+      },
+      {
+       "edges": -4365,
+       "objects": -482,
+       "task_idx": 19
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 20
+      },
+      {
+       "edges": -3461,
+       "objects": -207,
+       "task_idx": 21
+      },
+      {
+       "edges": -1308,
+       "objects": -482,
+       "task_idx": 22
+      },
+      {
+       "edges": -1305,
+       "objects": -476,
+       "task_idx": 23
+      },
+      {
+       "edges": 0,
+       "objects": -481,
+       "task_idx": 24
+      },
+      {
+       "edges": -2669,
+       "objects": -554,
+       "task_idx": 25
+      },
+      {
+       "edges": -6344,
+       "objects": -1002,
+       "task_idx": 26
+      },
+      {
+       "edges": -2952,
+       "objects": -458,
+       "task_idx": 27
+      },
+      {
+       "edges": -5229,
+       "objects": -732,
+       "task_idx": 28
+      },
+      {
+       "edges": -4587,
+       "objects": -498,
+       "task_idx": 29
+      },
+      {
+       "edges": -3878,
+       "objects": 24,
+       "task_idx": 30
+      },
+      {
+       "edges": -1881,
+       "objects": -826,
+       "task_idx": 31
+      }
+     ],
+     "probes": {
+      "base_mean": 8.28125,
+      "lever_mean": 110.46875
+     },
+     "verifier_calls": {
+      "base_mean": 1.1875,
+      "lever_mean": 0.59375
+     }
+    }
+   },
+   "equivalence_argument": "decisions cannot change sign: negative refutation is untouched (count([t]) == 0 exact); a SUPPORTED answer requires t reached by gated_closure inside the projected subfield, and any firing there (tails reached in-region, warrant live, heads a subset of the field heads) is a firing in the full field, so confirmation never affirms a non-derivation; per-task decision equality vs the frozen base is asserted before recording",
+   "exactness_preserved": true,
+   "lever": "E5 cone confirmation: witness region = the counted cone (every block with count > 0 at early stop) instead of one backward-walk path, confirmed under the production-faithful tail projection (an edge is kept when all tails are in-region; heads are admitted individually in-region). The charged full-closure fallback is kept for residual non-singleton ambiguity and its counter recorded; member fetch and projected-edge charges mirror confirm_on_induced",
+   "parent_comparison": {
+    "Q2_QUOTIENT_E4E5": {
+     "Q1_parent_edges_mean": 1010.53125,
+     "Q1_parent_objects_mean": 767.875,
+     "beats_parent_on_edges": true,
+     "beats_parent_on_objects": true,
+     "edges_mean": 687.0,
+     "objects_mean": 663.75,
+     "probes_mean": 0.0
+    },
+    "Q5_COMPOSED_E4E5": {
+     "Q1_parent_edges_mean": 1010.53125,
+     "Q1_parent_objects_mean": 767.875,
+     "beats_parent_on_edges": true,
+     "beats_parent_on_objects": true,
+     "edges_mean": 466.96875,
+     "objects_mean": 651.40625,
+     "probes_mean": 110.46875
+    }
+   },
+   "pass": "E5_CONE_CONFIRM",
+   "stage_attribution": "witness extraction, not counting: E4 objects decompose as 839.34 = 540.94 counting + 8.66 path-member fetch + 289.75 charged full-closure fallback (488 atoms x 19 positives / 32 tasks); the counting stage alone already beat the parent (540.94 vs 767.88), but path_blocks never confirmed (19/19 positives fell back) because the fully-inside induced-subfield restriction drops any derivation edge carrying a side-head outside the extracted region, while production gated_closure admits heads individually"
   }
  ],
  "environment": {
