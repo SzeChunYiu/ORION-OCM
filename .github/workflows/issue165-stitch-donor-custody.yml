@@ -1,0 +1,54 @@
+name: Issue 165 Stitch donor custody
+on:
+  push:
+    branches: [research/g3-failure-representation-20260909]
+    paths: ['.github/workflows/issue165-stitch-donor-custody.yml']
+permissions:
+  contents: read
+jobs:
+  pinned-donor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Download exact existing donor without installing or executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stitch-custody/wheels"
+          python -m pip download --only-binary=:all: --no-deps --dest "$RUNNER_TEMP/stitch-custody/wheels" stitch-core==0.1.29 2>&1 | tee "$RUNNER_TEMP/stitch-custody/pip-download.txt"
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, sys, zipfile
+          root = Path(os.environ['RUNNER_TEMP']) / 'stitch-custody'
+          files = list((root / 'wheels').iterdir())
+          name = 'stitch_core-0.1.29-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
+          expected = 'a37f1ff040637a52862bdadb86ebcf5a620962027465d7bfdaebced590faa1ec'
+          if len(files) != 1 or files[0].name != name:
+              raise RuntimeError('unexpected donor wheel population')
+          raw = files[0].read_bytes()
+          if hashlib.sha256(raw).hexdigest() != expected:
+              raise RuntimeError('donor bytes do not match registered PyPI identity')
+          with zipfile.ZipFile(files[0]) as z:
+              for member in z.namelist():
+                  if member.endswith('/METADATA') or 'LICENSE' in member.upper():
+                      (root / Path(member).name).write_bytes(z.read(member))
+          receipt = {'commit': os.environ['GITHUB_SHA'], 'run': os.environ['GITHUB_RUN_ID'], 'python': sys.version,
+                     'wheel': {'name': name, 'bytes': len(raw), 'sha256': expected},
+                     'scope': 'Dependency custody only; no learning, serving or discovery executed in this job.'}
+          (root / 'RECEIPT.json').write_text(json.dumps(receipt, sort_keys=True, indent=2) + '\n')
+          PY
+          git archive --format=tar.gz HEAD research/g3-scoped-development-v1/PROTOCOL.md research/acquisition-semantic-sharing-v1/PROTOCOL.md > "$RUNNER_TEMP/stitch-custody/protocols.tar.gz"
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: issue165-stitch-donor-${{ github.sha }}
+          path: ${{ runner.temp }}/stitch-custody/
+          retention-days: 30
+          if-no-files-found: error
