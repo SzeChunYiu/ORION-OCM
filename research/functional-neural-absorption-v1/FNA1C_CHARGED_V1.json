@@ -1,0 +1,276 @@
+{
+  "analysis_status": "CHARGED_ACCOUNTING_FOR_FNA1B_POLICY",
+  "authority": "Research-only. Adopts main's ExtractionIndex discipline -- build work separated from query work -- rather than inventing an accounting scheme. No production source modified.",
+  "charges": {
+    "note": "One edge read is charged the same as one expansion, so the two are commensurable without a conversion factor that could be tuned to produce a payback.",
+    "scan_cost_per_edge": 1
+  },
+  "evidence_class": "E1 / L1",
+  "schema": "ocm.fna.fna1c-charged-metapath.v1",
+  "verdict": {
+    "break_even_queries": {
+      "COMMON_DECISIVE": 4,
+      "RARE_DECISIVE": 2,
+      "RARE_DECOY": 5,
+      "TYPE_DECOY": null
+    },
+    "expansions_saved": {
+      "COMMON_DECISIVE": 33,
+      "RARE_DECISIVE": 66,
+      "RARE_DECOY": 33,
+      "TYPE_DECOY": -7
+    },
+    "preparation_cost": {
+      "COMMON_DECISIVE": 107,
+      "RARE_DECISIVE": 107,
+      "RARE_DECOY": 147,
+      "TYPE_DECOY": 147
+    },
+    "terminal": "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE",
+    "terminal_reason": "Charged honestly, the policy NEVER pays on a single query in any world: the scan that produces the ordering costs more than the ordering saves, which is exactly the 'explicit retrieval moves rather than removes cost' risk #214 section 6 names. It pays only as an AMORTISED preparation, and the break-even is now a number rather than a hope: {'RARE_DECISIVE': 2, 'COMMON_DECISIVE': 4, 'RARE_DECOY': 5, 'TYPE_DECOY': None}. That is the same shape main already uses -- ExtractionIndex charges build_work separately from query work with object-bound validity -- so the mechanism inherits an existing discipline instead of needing a new one. Where the break-even is None the scan is never repaid at any horizon and the honest reading for that world is NO_LIFETIME_PAYBACK.",
+    "what_this_does_not_establish": "A break-even in QUERIES is not a lifetime result. Nothing here charges score maintenance under revocation or structural edit, and main's own rule is that a structurally replaced space needs fresh preparation -- so a space that changes often would re-pay the scan repeatedly and the break-even above would be optimistic. That is the next term to charge, and it is not charged here. E1/L1: four planted worlds, one author.",
+    "worlds_that_never_repay_the_scan": [
+      "TYPE_DECOY"
+    ],
+    "worlds_where_metapath_pays_on_a_SINGLE_query": [],
+    "worlds_with_a_finite_break_even": [
+      "COMMON_DECISIVE",
+      "RARE_DECISIVE",
+      "RARE_DECOY"
+    ]
+  },
+  "worlds": {
+    "COMMON_DECISIVE": {
+      "break_even_queries": 4,
+      "edges": 107,
+      "expansions_saved_vs_naive": 33,
+      "expansions_to_find": {
+        "METAPATH_TYPE_YIELD": 34,
+        "NAIVE": 67,
+        "RARITY_FIRST": 67
+      },
+      "per_query": {
+        "1": {
+          "metapath_charge_per_query": 141.0,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "128": {
+          "metapath_charge_per_query": 34.8359375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "16": {
+          "metapath_charge_per_query": 40.6875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "2": {
+          "metapath_charge_per_query": 87.5,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "256": {
+          "metapath_charge_per_query": 34.41796875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "32": {
+          "metapath_charge_per_query": 37.34375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "4": {
+          "metapath_charge_per_query": 60.75,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "64": {
+          "metapath_charge_per_query": 35.671875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "8": {
+          "metapath_charge_per_query": 47.375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        }
+      },
+      "preparation_cost": 107
+    },
+    "RARE_DECISIVE": {
+      "break_even_queries": 2,
+      "edges": 107,
+      "expansions_saved_vs_naive": 66,
+      "expansions_to_find": {
+        "METAPATH_TYPE_YIELD": 1,
+        "NAIVE": 67,
+        "RARITY_FIRST": 1
+      },
+      "per_query": {
+        "1": {
+          "metapath_charge_per_query": 108.0,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "128": {
+          "metapath_charge_per_query": 1.8359375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "16": {
+          "metapath_charge_per_query": 7.6875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "2": {
+          "metapath_charge_per_query": 54.5,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "256": {
+          "metapath_charge_per_query": 1.41796875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "32": {
+          "metapath_charge_per_query": 4.34375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "4": {
+          "metapath_charge_per_query": 27.75,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "64": {
+          "metapath_charge_per_query": 2.671875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "8": {
+          "metapath_charge_per_query": 14.375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        }
+      },
+      "preparation_cost": 107
+    },
+    "RARE_DECOY": {
+      "break_even_queries": 5,
+      "edges": 147,
+      "expansions_saved_vs_naive": 33,
+      "expansions_to_find": {
+        "METAPATH_TYPE_YIELD": 34,
+        "NAIVE": 67,
+        "RARITY_FIRST": 107
+      },
+      "per_query": {
+        "1": {
+          "metapath_charge_per_query": 181.0,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "128": {
+          "metapath_charge_per_query": 35.1484375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "16": {
+          "metapath_charge_per_query": 43.1875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "2": {
+          "metapath_charge_per_query": 107.5,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "256": {
+          "metapath_charge_per_query": 34.57421875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "32": {
+          "metapath_charge_per_query": 38.59375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "4": {
+          "metapath_charge_per_query": 70.75,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "64": {
+          "metapath_charge_per_query": 36.296875,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        },
+        "8": {
+          "metapath_charge_per_query": 52.375,
+          "metapath_pays": true,
+          "naive_charge_per_query": 67
+        }
+      },
+      "preparation_cost": 147
+    },
+    "TYPE_DECOY": {
+      "break_even_queries": null,
+      "edges": 147,
+      "expansions_saved_vs_naive": -7,
+      "expansions_to_find": {
+        "METAPATH_TYPE_YIELD": 74,
+        "NAIVE": 67,
+        "RARITY_FIRST": 107
+      },
+      "per_query": {
+        "1": {
+          "metapath_charge_per_query": 221.0,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "128": {
+          "metapath_charge_per_query": 75.1484375,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "16": {
+          "metapath_charge_per_query": 83.1875,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "2": {
+          "metapath_charge_per_query": 147.5,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "256": {
+          "metapath_charge_per_query": 74.57421875,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "32": {
+          "metapath_charge_per_query": 78.59375,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "4": {
+          "metapath_charge_per_query": 110.75,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "64": {
+          "metapath_charge_per_query": 76.296875,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        },
+        "8": {
+          "metapath_charge_per_query": 92.375,
+          "metapath_pays": false,
+          "naive_charge_per_query": 67
+        }
+      },
+      "preparation_cost": 147
+    }
+  }
+}

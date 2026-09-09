@@ -1,0 +1,253 @@
+{
+  "authority": "Research-only. Runs main's own gated closure and indexed extraction. No production source modified, no model trained, no router implemented. #71 remains LEARNED_ROUTER_NOT_YET_AUTHORIZED.",
+  "evidence_class": "E1 / L1 (planted world, single population, one author)",
+  "harness_validation": {
+    "bounded_closure_at_slack_budget_equals_production": true,
+    "why": "The bounded arm is research-side code. If it disagreed with production at an unbinding budget, every bounded result would be measuring the reimplementation rather than the budget."
+  },
+  "proposition_3": "Proposition 3 (typed channels cannot add reach to an exact closure).\n\nLet E be the edge set of a space and E_T = {e in E : relation_type(e) in T} for a channel\nsubset T. Let C(E, s) be the gated closure from seed s over edge set E.\n\n(1) MONOTONICITY. gated_closure's worklist admits a head only via an edge all of whose\n    tails are reached and whose warrant is live. Removing edges can only remove admissions;\n    it never creates one. So E_T subset-of E implies C(E_T, s) subset-of C(E, s), by\n    induction on the worklist order.\n\n(2) Hence for ANY channel subset T, and any channel-selection policy however clever,\n    the reached set is a SUBSET of the undifferentiated closure. A multi-channel retrieval\n    mechanism cannot recover task-decisive state that the exact closure misses, because\n    the exact closure misses nothing that any subset reaches.\n\n(3) Therefore the only advantage available to typed channels over an UNBOUNDED exact\n    closure is WORK, never REACH. A study reporting a capability gain there has a defect.\n\nThe escape, and it is the interesting half: (2) assumes the closure runs to completion.\nUnder a truncation budget B, the closure is cut off, and then which edges are expanded\nFIRST determines what is inside the budget. Channel order becomes capability-relevant\nexactly when B is binding. So the registered claim of this study is conditional: typed\nchannels are worthless for reach when the budget is slack, and can matter when it binds.\nQ2 measures where that boundary is, using a non-oracle rarity-first policy.\n",
+  "q1_unbounded": {
+    "R0_DENSE": {
+      "found_decisive": true,
+      "reached": 62
+    },
+    "R1_INDEXED": {
+      "build_work": {
+        "accounting_rows_examined": 62,
+        "atom_entries_built": 0,
+        "cold_atom_index_build": false,
+        "cold_incident_index_build": true,
+        "cold_outgoing_index_build": false,
+        "edge_entries_scanned": 101,
+        "incident_postings_built": 202,
+        "outgoing_postings_built": 0,
+        "total_objects": 62,
+        "total_relations": 101
+      },
+      "found_decisive": true,
+      "query_work": {
+        "atom_warrant_checks": 62,
+        "candidate_evaluations": 0,
+        "closure_expansions": 62,
+        "cold_build_work": {},
+        "cold_incident_index_build": false,
+        "dense_seed_entries_examined": 0,
+        "distinct_atoms_examined": 62,
+        "distinct_edges_examined": 101,
+        "edge_warrant_checks": 101,
+        "incidence_memberships_examined": 303,
+        "incident_postings_examined": 202,
+        "index_probes": 124,
+        "objective_evaluations": 0,
+        "outgoing_postings_examined": 101,
+        "seed_entries_examined": 1,
+        "total_objects": 62,
+        "total_relations": 101
+      },
+      "reached": 62
+    },
+    "R5_CHANNEL_DEPENDENCE": {
+      "found_decisive": false,
+      "reached": 41,
+      "subset_of_full_closure": true
+    },
+    "R5_CHANNEL_SCALE_CHANGE": {
+      "found_decisive": true,
+      "reached": 2,
+      "subset_of_full_closure": true
+    },
+    "R5_CHANNEL_SUPPORT": {
+      "found_decisive": false,
+      "reached": 31,
+      "subset_of_full_closure": true
+    },
+    "R5_COMMON_CHANNELS_ONLY": {
+      "found_decisive": false,
+      "reached": 61,
+      "subset_of_full_closure": true
+    },
+    "R5_UNION_ALL_CHANNELS": {
+      "equals_undifferentiated_closure": true,
+      "found_decisive": true,
+      "reached": 62
+    }
+  },
+  "q2_bounded": {
+    "128": {
+      "BOUNDED_NAIVE": {
+        "expansions": 101,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": false
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 101,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": false
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 101,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": false
+      },
+      "budget_binds": false
+    },
+    "16": {
+      "BOUNDED_NAIVE": {
+        "expansions": 16,
+        "found_decisive": false,
+        "reached": 17,
+        "truncated": true
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 16,
+        "found_decisive": true,
+        "reached": 17,
+        "truncated": true
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 16,
+        "found_decisive": true,
+        "reached": 17,
+        "truncated": true
+      },
+      "budget_binds": true
+    },
+    "32": {
+      "BOUNDED_NAIVE": {
+        "expansions": 32,
+        "found_decisive": false,
+        "reached": 33,
+        "truncated": true
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 32,
+        "found_decisive": true,
+        "reached": 33,
+        "truncated": true
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 32,
+        "found_decisive": true,
+        "reached": 33,
+        "truncated": true
+      },
+      "budget_binds": true
+    },
+    "4": {
+      "BOUNDED_NAIVE": {
+        "expansions": 4,
+        "found_decisive": false,
+        "reached": 5,
+        "truncated": true
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 4,
+        "found_decisive": true,
+        "reached": 5,
+        "truncated": true
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 4,
+        "found_decisive": true,
+        "reached": 5,
+        "truncated": true
+      },
+      "budget_binds": true
+    },
+    "64": {
+      "BOUNDED_NAIVE": {
+        "expansions": 64,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": true
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 64,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": true
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 64,
+        "found_decisive": true,
+        "reached": 62,
+        "truncated": true
+      },
+      "budget_binds": true
+    },
+    "8": {
+      "BOUNDED_NAIVE": {
+        "expansions": 8,
+        "found_decisive": false,
+        "reached": 9,
+        "truncated": true
+      },
+      "BOUNDED_RARITY_FIRST": {
+        "expansions": 8,
+        "found_decisive": true,
+        "reached": 9,
+        "truncated": true
+      },
+      "ORACLE_DECISIVE_CHANNEL_FIRST": {
+        "authority": "ORACLE UPPER BOUND, NOT ACHIEVABLE, NEVER A RESULT",
+        "expansions": 8,
+        "found_decisive": true,
+        "reached": 9,
+        "truncated": true
+      },
+      "budget_binds": true
+    }
+  },
+  "schema": "ocm.fna.fna1-typed-channel-retrieval.v1",
+  "verdict": {
+    "any_channel_arm_added_reach": false,
+    "budgets_where_both_find_it": [
+      "64"
+    ],
+    "budgets_where_budget_binds": [
+      "16",
+      "32",
+      "4",
+      "64",
+      "8"
+    ],
+    "budgets_where_rarity_first_finds_decisive_and_naive_does_not": [
+      "16",
+      "32",
+      "4",
+      "8"
+    ],
+    "every_channel_subset_is_a_subset_of_the_full_closure": true,
+    "harness_agrees_with_production": true,
+    "proposition_3_holds_in_run": true,
+    "terminal": "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE",
+    "terminal_reason": "UNBOUNDED: typed channels add NOTHING. Every channel subset is a subset of the exact closure, the union reproduces it exactly, and no channel arm reached more than the indexed parent. Proposition 3 holds and the reach question is closed negatively, structurally, for any channel policy whatsoever. BOUNDED: when the budget binds, channel ORDER decides what is inside it. A rarity-first policy recovers the decisive item at budgets ['16', '32', '4', '8'] where a naive order does not. That policy is NOT an oracle -- it reads only edge-type counts, a property of the space and not of the task -- and it is the same selectivity heuristic runtime/operator_index.py already applies to operator inputs. So the advantage is owned by the classical IR parent, not by a bespoke OCM mechanism and not by multi-head attention, whose function the literature gives as ensemble variance reduction that an exact closure has no need of.",
+    "union_of_channels_equals_undifferentiated_closure": true,
+    "what_this_does_not_establish": "Not a claim about attention, Transformers or any neural system: no neural arm was run, and R3/R6/R7 remain absent. Not a lifetime result -- no acquisition, maintenance or revocation cost is amortised here. One planted world, one author, one population: E1/L1. The bounded advantage is contingent on a budget that binds and on the decisive item sitting on a rare channel; a decisive item on a COMMON channel would reverse the rarity policy's advantage, which is the obvious next hostile and is not run here."
+  },
+  "world": {
+    "atoms": 62,
+    "channel_counts": {
+      "DEPENDENCE": 50,
+      "SCALE_CHANGE": 1,
+      "SUPPORT": 50
+    },
+    "decisive_atom": "decisive",
+    "edges": 101,
+    "n_distractors": 60,
+    "rare_channel": "SCALE_CHANGE",
+    "rarity_order": [
+      "SCALE_CHANGE",
+      "DEPENDENCE",
+      "SUPPORT"
+    ]
+  }
+}

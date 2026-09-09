@@ -1,0 +1,616 @@
+{
+  "analysis_status": "ENGINEERED_RESPONSE_TO_FNA1_NEGATIVE",
+  "authority": "Research-only. Runs main's gated closure through the FNA-1 bounded harness. No production source modified, no model trained, no router. #71 remains LEARNED_ROUTER_NOT_YET_AUTHORIZED.",
+  "evidence_class": "E1 / L1",
+  "policy_information_surface": "METAPATH_TYPE_YIELD reads the query's target atom type plus the space's own edge and atom types. It never reads which atom is the answer. Every world contains several target-type atoms so that type NARROWS and cannot IDENTIFY.",
+  "schema": "ocm.fna.fna1b-metapath-channel-policy.v1",
+  "target_type": "counterexample",
+  "verdict": {
+    "target_type_atom_counts": {
+      "COMMON_DECISIVE": 7,
+      "RARE_DECISIVE": 7,
+      "RARE_DECOY": 7,
+      "TYPE_DECOY": 47
+    },
+    "terminal": "CANNOT_CHECK_TYPE_DECOY_DID_NOT_DISCRIMINATE",
+    "terminal_reason": "The hostile world built to defeat METAPATH_TYPE_YIELD did not defeat it, and did not clearly fail to either. Without a world that can kill the policy, a positive on the other three is not evidence the mechanism is sound rather than over-informed. The honest disposition is that this pass did not check it.",
+    "type_decoy_defeated_the_policy": false,
+    "type_decoy_note": "TYPE_DECOY neither defeated nor was beaten by the policy: it did not discriminate. That is a weak test, not a passed one.",
+    "what_this_does_not_establish": "Not a general retrieval policy: it is measured on four planted worlds, one author, one population (E1/L1). Not a claim about attention -- no neural arm was run, and R3/R6/R7 remain absent. Not a lifetime result: computing the metapath score is itself a scan over edges and is NOT charged against the query budget here, which is a real accounting gap and the next thing to close.",
+    "worlds_survived": [
+      "COMMON_DECISIVE",
+      "RARE_DECISIVE",
+      "RARE_DECOY",
+      "TYPE_DECOY"
+    ],
+    "worlds_where_metapath_beats_rarity": [
+      "COMMON_DECISIVE",
+      "RARE_DECOY"
+    ],
+    "worlds_where_metapath_is_worse_than_naive": []
+  },
+  "worlds": {
+    "COMMON_DECISIVE": {
+      "channel_counts": {
+        "DEPENDENCE": 53,
+        "SUPPORT": 54
+      },
+      "decisive_channel": "SUPPORT",
+      "metapath_WORSE_than_naive": [],
+      "metapath_beats_naive": [
+        "64"
+      ],
+      "metapath_beats_rarity": [
+        "64"
+      ],
+      "metapath_order": [
+        "SUPPORT",
+        "DEPENDENCE"
+      ],
+      "metapath_score": {
+        "DEPENDENCE": 0.05660377358490566,
+        "SUPPORT": 0.07407407407407407
+      },
+      "rarity_order": [
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rows": {
+        "128": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 68
+          },
+          "NAIVE": {
+            "found": true,
+            "reached": 68
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 68
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 68
+          },
+          "budget_binds": false
+        },
+        "16": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 17
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 17
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 17
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 17
+          },
+          "budget_binds": true
+        },
+        "32": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 33
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 33
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 33
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 33
+          },
+          "budget_binds": true
+        },
+        "4": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 5
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 5
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 5
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 5
+          },
+          "budget_binds": true
+        },
+        "64": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 65
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 65
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 65
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 65
+          },
+          "budget_binds": true
+        },
+        "8": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 9
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 9
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 9
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 9
+          },
+          "budget_binds": true
+        }
+      },
+      "target_type_atom_count": 7
+    },
+    "RARE_DECISIVE": {
+      "channel_counts": {
+        "DEPENDENCE": 53,
+        "SCALE_CHANGE": 1,
+        "SUPPORT": 53
+      },
+      "decisive_channel": "SCALE_CHANGE",
+      "metapath_WORSE_than_naive": [],
+      "metapath_beats_naive": [
+        "16",
+        "32",
+        "4",
+        "64",
+        "8"
+      ],
+      "metapath_beats_rarity": [],
+      "metapath_order": [
+        "SCALE_CHANGE",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "metapath_score": {
+        "DEPENDENCE": 0.05660377358490566,
+        "SCALE_CHANGE": 1.0,
+        "SUPPORT": 0.05660377358490566
+      },
+      "rarity_order": [
+        "SCALE_CHANGE",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rows": {
+        "128": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 68
+          },
+          "NAIVE": {
+            "found": true,
+            "reached": 68
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 68
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 68
+          },
+          "budget_binds": false
+        },
+        "16": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 17
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 17
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 17
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 17
+          },
+          "budget_binds": true
+        },
+        "32": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 33
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 33
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 33
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 33
+          },
+          "budget_binds": true
+        },
+        "4": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 5
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 5
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 5
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 5
+          },
+          "budget_binds": true
+        },
+        "64": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 65
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 65
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 65
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 65
+          },
+          "budget_binds": true
+        },
+        "8": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 9
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 9
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 9
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 9
+          },
+          "budget_binds": true
+        }
+      },
+      "target_type_atom_count": 7
+    },
+    "RARE_DECOY": {
+      "channel_counts": {
+        "DEPENDENCE": 53,
+        "EMBEDDING": 40,
+        "SUPPORT": 54
+      },
+      "decisive_channel": "SUPPORT",
+      "metapath_WORSE_than_naive": [],
+      "metapath_beats_naive": [
+        "64"
+      ],
+      "metapath_beats_rarity": [
+        "64"
+      ],
+      "metapath_order": [
+        "SUPPORT",
+        "DEPENDENCE",
+        "EMBEDDING"
+      ],
+      "metapath_score": {
+        "DEPENDENCE": 0.05660377358490566,
+        "EMBEDDING": 0.0,
+        "SUPPORT": 0.07407407407407407
+      },
+      "rarity_order": [
+        "EMBEDDING",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rows": {
+        "128": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 108
+          },
+          "NAIVE": {
+            "found": true,
+            "reached": 108
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 108
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 108
+          },
+          "budget_binds": true
+        },
+        "16": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 17
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 17
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 17
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 17
+          },
+          "budget_binds": true
+        },
+        "32": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 33
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 33
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 33
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 33
+          },
+          "budget_binds": true
+        },
+        "4": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 5
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 5
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 5
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 5
+          },
+          "budget_binds": true
+        },
+        "64": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 65
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 65
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 65
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 65
+          },
+          "budget_binds": true
+        },
+        "8": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 9
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 9
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 9
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 9
+          },
+          "budget_binds": true
+        }
+      },
+      "target_type_atom_count": 7
+    },
+    "TYPE_DECOY": {
+      "channel_counts": {
+        "DEPENDENCE": 53,
+        "EMBEDDING": 40,
+        "SUPPORT": 54
+      },
+      "decisive_channel": "SUPPORT",
+      "metapath_WORSE_than_naive": [],
+      "metapath_beats_naive": [],
+      "metapath_beats_rarity": [],
+      "metapath_order": [
+        "EMBEDDING",
+        "SUPPORT",
+        "DEPENDENCE"
+      ],
+      "metapath_score": {
+        "DEPENDENCE": 0.05660377358490566,
+        "EMBEDDING": 1.0,
+        "SUPPORT": 0.07407407407407407
+      },
+      "rarity_order": [
+        "EMBEDDING",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rows": {
+        "128": {
+          "METAPATH_TYPE_YIELD": {
+            "found": true,
+            "reached": 108
+          },
+          "NAIVE": {
+            "found": true,
+            "reached": 108
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 108
+          },
+          "RARITY_FIRST": {
+            "found": true,
+            "reached": 108
+          },
+          "budget_binds": true
+        },
+        "16": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 17
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 17
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 17
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 17
+          },
+          "budget_binds": true
+        },
+        "32": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 33
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 33
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 33
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 33
+          },
+          "budget_binds": true
+        },
+        "4": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 5
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 5
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 5
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 5
+          },
+          "budget_binds": true
+        },
+        "64": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 65
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 65
+          },
+          "ORACLE": {
+            "found": true,
+            "reached": 65
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 65
+          },
+          "budget_binds": true
+        },
+        "8": {
+          "METAPATH_TYPE_YIELD": {
+            "found": false,
+            "reached": 9
+          },
+          "NAIVE": {
+            "found": false,
+            "reached": 9
+          },
+          "ORACLE": {
+            "found": false,
+            "reached": 9
+          },
+          "RARITY_FIRST": {
+            "found": false,
+            "reached": 9
+          },
+          "budget_binds": true
+        }
+      },
+      "target_type_atom_count": 47
+    }
+  }
+}

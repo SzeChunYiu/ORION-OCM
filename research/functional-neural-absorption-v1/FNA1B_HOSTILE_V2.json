@@ -1,0 +1,202 @@
+{
+  "analysis_status": "SHARPENED_FALSIFIER_AFTER_V1_DID_NOT_DISCRIMINATE",
+  "authority": "Research-only. Sharpens a hostile so it can kill the policy; it cannot strengthen the policy. fna1b.py is untouched.",
+  "metapath_WORSE_than_naive": [
+    "16",
+    "2",
+    "32",
+    "4",
+    "64",
+    "8"
+  ],
+  "rows": {
+    "128": {
+      "METAPATH_TYPE_YIELD": {
+        "found": true,
+        "reached": 108
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 108
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 108
+      },
+      "budget_binds": false
+    },
+    "16": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 17
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 17
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 17
+      },
+      "budget_binds": true
+    },
+    "160": {
+      "METAPATH_TYPE_YIELD": {
+        "found": true,
+        "reached": 108
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 108
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 108
+      },
+      "budget_binds": false
+    },
+    "2": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 3
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 3
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 3
+      },
+      "budget_binds": true
+    },
+    "32": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 33
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 33
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 33
+      },
+      "budget_binds": true
+    },
+    "4": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 5
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 5
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 5
+      },
+      "budget_binds": true
+    },
+    "64": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 65
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 65
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 65
+      },
+      "budget_binds": true
+    },
+    "8": {
+      "METAPATH_TYPE_YIELD": {
+        "found": false,
+        "reached": 9
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 9
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 9
+      },
+      "budget_binds": true
+    },
+    "96": {
+      "METAPATH_TYPE_YIELD": {
+        "found": true,
+        "reached": 97
+      },
+      "NAIVE": {
+        "found": true,
+        "reached": 97
+      },
+      "RARITY_FIRST": {
+        "found": true,
+        "reached": 97
+      },
+      "budget_binds": true
+    }
+  },
+  "schema": "ocm.fna.fna1b-hostile-v2.v1",
+  "supersedes_note": "fna1b.py returned CANNOT_CHECK_TYPE_DECOY_DID_NOT_DISCRIMINATE. That receipt is retained; this does not overwrite it.",
+  "verdict": {
+    "falsifier_discriminates": true,
+    "metapath_order": [
+      "EMBEDDING",
+      "SUPPORT",
+      "DEPENDENCE"
+    ],
+    "metapath_score": {
+      "DEPENDENCE": 0.047619047619047616,
+      "EMBEDDING": 1.0,
+      "SUPPORT": 0.23076923076923078
+    },
+    "metapath_worse_than_naive_at": [
+      "16",
+      "2",
+      "32",
+      "4",
+      "64",
+      "8"
+    ],
+    "terminal": "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE",
+    "terminal_reason": "The falsifier now bites, and the policy fails it. METAPATH_TYPE_YIELD is strictly worse than a naive order at budgets ['16', '2', '32', '4', '64', '8'], because a channel enriched with target-type atoms that are not the answer draws the whole budget before a type-poor channel carrying the answer is touched. Combined with fna1b's confirmed first prediction -- METAPATH beats RARITY on COMMON_DECISIVE and RARE_DECOY -- the mechanism's scope is now bounded on BOTH sides. It carries relevance where rarity carried only scarcity, and it is misled by exactly the signal it reads. That failure is what shows it is not an oracle. The engineered fix is therefore real and bounded, not a rescue: FNA-1's negative is solved for the two worlds that motivated it and a third world is now known to break it.",
+    "what_this_does_not_establish": "The metapath score is computed by a scan over all edges and is NOT charged against the query budget in any arm here. That is a real accounting gap -- #214 section 6 names exactly this ('explicit retrieval may move, not remove, cost') -- and it is the next thing to close, not something these numbers already handle."
+  },
+  "world": {
+    "atoms": 108,
+    "channel_counts": {
+      "DEPENDENCE": 21,
+      "EMBEDDING": 60,
+      "SUPPORT": 26
+    },
+    "decisive_channel": "DEPENDENCE",
+    "decisive_edge_insertion_index": 0,
+    "edges": 107,
+    "metapath_order": [
+      "EMBEDDING",
+      "SUPPORT",
+      "DEPENDENCE"
+    ],
+    "metapath_score": {
+      "DEPENDENCE": 0.047619047619047616,
+      "EMBEDDING": 1.0,
+      "SUPPORT": 0.23076923076923078
+    },
+    "rarity_order": [
+      "DEPENDENCE",
+      "SUPPORT",
+      "EMBEDDING"
+    ],
+    "target_type_atom_count": 67
+  }
+}
