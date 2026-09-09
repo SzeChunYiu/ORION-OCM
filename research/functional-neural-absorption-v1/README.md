@@ -98,6 +98,53 @@ nothing when it does not, and is actively harmful when bulk sits on a scarce cha
 An earlier draft of that verdict said the common-channel world made the policy "strictly
 worse". It does not — it makes it *neutral*. Corrected, with a test pinning the distinction.
 
+## Engineering the negative away (FNA-1b → hostile v2 → FNA-1c)
+
+FNA-1's negative — *rarity is selectivity, not relevance* — was treated as an engineering
+task, not a stopping point. Three iterations, each ending in a bounded terminal:
+
+**FNA-1b — build a relevance-bearing policy.** `METAPATH_TYPE_YIELD` orders channels by the
+fraction of their edges landing on the **query's declared target type**. Parent-owned
+(heterogeneous information networks / metapath retrieval), and non-oracle: it reads the
+query's target type and the space's own types, never which atom is the answer. Every world
+holds several target-type atoms so type **narrows** and cannot **identify**.
+
+It beat rarity-first on `COMMON_DECISIVE` and `RARE_DECOY` — the two worlds where scarcity
+misleads. But its second registered prediction, that a type-decoy would defeat it, **did not
+resolve**: at budget 64 every non-oracle arm failed and at 128 all succeeded. The study's
+own rule fired and returned `CANNOT_CHECK_TYPE_DECOY_DID_NOT_DISCRIMINATE` rather than
+banking two wins on an untested mechanism.
+
+**Hostile v2 — sharpen the falsifier, not the policy.** Diagnosis: the decisive edge sat
+~67th in insertion order, so naive had no head start to lose. v2 puts the answer on a
+**type-poor** channel, **first** in insertion order, against 60 target-type decoys on a
+channel scoring 1.0. It bites: `METAPATH_TYPE_YIELD` is strictly **worse** than naive at
+budgets 2/4/8/16/32/64. **Being misleadable by exactly the signal it reads is the evidence
+it is not an oracle.** `fna1b.py` and its receipt are untouched as the record that v1 failed.
+
+**FNA-1c — charge the policy for its own preparation.** Both prior studies flagged that the
+metapath score is a full edge scan no arm was charged for — §6's *"explicit retrieval may
+move, not remove, cost."* Charged at one edge-read per expansion (commensurable, no tunable
+conversion factor), using main's own `ExtractionIndex` discipline of build work separated
+from query work:
+
+| world | prep (edges) | expansions saved | break-even |
+|---|---:|---:|---:|
+| `RARE_DECISIVE` | 107 | 66 | **2 queries** |
+| `COMMON_DECISIVE` | 107 | 33 | **4 queries** |
+| `RARE_DECOY` | 147 | 33 | **5 queries** |
+| `TYPE_DECOY` | 147 | **−7** | **never** |
+
+**It never pays on a single query in any world** — the scan costs more than the ordering
+saves. It pays only as an amortised preparation, and the break-even is now a number rather
+than a hope. A single-query payback would have been flagged
+`CANNOT_CHECK_SINGLE_QUERY_PAYBACK_IMPLIES_UNCHARGED_PREPARATION`, and a test asserts it.
+
+**Still uncharged, and named rather than hidden:** score maintenance under revocation and
+structural edit. Main's own rule is that a structurally replaced space needs fresh
+preparation, so a space that changes often re-pays the scan repeatedly and the break-evens
+above are **optimistic**. That is the next term to charge.
+
 ## What this does not establish
 
 No neural arm was run; R3/R6/R7 are absent, so `APPROXIMATE_RETRIEVAL_NOT_SAFE` stays
