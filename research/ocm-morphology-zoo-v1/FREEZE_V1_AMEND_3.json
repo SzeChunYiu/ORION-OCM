@@ -1,0 +1,81 @@
+{
+ "amendment_id": "FREEZE_V1_AMEND_3_MZD7",
+ "amends": "FREEZE_V1_AMEND_2.json",
+ "freeze_v1_sha256": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+ "amend_1_sha256": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+ "amend_2_sha256": "97388119ef35485cf6d50e7cf0c696a0c8e555d1153c6d603e39de3d88745cd0",
+ "created_utc": "2026-09-09T21:20:00Z",
+ "motivation": "MZ-D7 (#221 sec 15 revival): the standing T0 result 'random still leads' is re-tested where QD has theoretical room - evaluation cost dominates search cost.  Tier T2 = one long deterministic lifetime per genome (LIFETIME_ECOLOGY_V2, 12 epochs, escalating difficulty, two revocation waves, RESET control), measured 0.481 ms/genome ~ 5.7x T0.  Archive D (developmental descriptors) is the new diversity axis; the T0 descriptor degeneracy (8/4/18 occupied cells) is broken at T2 (50/83/64).  Retention value is real and one-sided at T2 (9504 positive / 19080 zero / 0 negative of 28584 feasible).",
+ "census_truth_P00C": {
+  "run_id": "zoo-census-p00c",
+  "tier": "T2",
+  "ecology_id": "LifetimeEcologyV2",
+  "census_size": 56160,
+  "evaluated": 56160,
+  "feasible": 28584,
+  "pareto_set_size": 792,
+  "config_digest": "888da78c369d69da34c28c003e9cc1ef15e43b9739d381628ef105d040a93d17",
+  "receipt_head": "67ed92711c0a39df62435672b3155e86af308af830d543bf92fa186e65c0e8b3",
+  "denominators": {
+   "D2d@10_occupied": 50,
+   "D3d@10_occupied": 83,
+   "CVTD_occupied_niches": 64,
+   "CVTD_k_after_dedup": 64,
+   "PARETO_T2": 792,
+   "S3d@10_occupied_T0ref": 8
+  },
+  "frozen_grid_bounds": {
+   "D_dev_2d": [[1.35, 37.75], [3.0, 10.4]],
+   "D_dev_3d": [[1.35, 37.75], [3.0, 10.4], [1.85, 38.85]]
+  },
+  "t2_scalar_refs": {"W2_REF": 484.7, "B2_REF": 152.8},
+  "retention_distribution": {"n": 28584, "positive": 9504, "zero": 19080, "negative": 0, "max": 0.25},
+  "structural_finding": "consolidation_ratio is IDENTICALLY 0 over the frozen V1 census space (its only charging paths - T_family in {recurrent_event_graph, distributed_local_controllers, growing_pruning} and L == consolidation_schema_residual - are absent from the 56160-genome space); the D_dev_3d third axis is therefore primitive_pressure_slope, not consolidation_ratio (P00C v2, 2026-09-09)"
+ },
+ "tier_rules_amend3": {
+  "tier": "T2",
+  "env": "ZOO_TIER=T2 for every arm including P01 (both sides of every comparison evaluated at T2)",
+  "scalar": "dev_score shape unchanged, re-referenced to the T2 census medians (W2_REF=484.7, B2_REF=152.8) so the cost term is ~1 at the feasible median; T0 formula and W_REF/B_REF stay frozen for all T0 scoring",
+  "reset_control": "run_lifetime2(reset=True) inside every T2 evaluation; retention per genome = solved_fraction_continued - solved_fraction_reset (>=0 for every feasible census genome)",
+  "ecology_frozen": "LIFETIME_ECOLOGY_V2 as in evaluation/lifetime2.py at this commit (epochs 12, difficulty_growth 0.15, acquisitions_per_epoch 3, revocation_epochs [6,10], schedule as coded); the T0 battery lifetime.py is untouched"
+ },
+ "arms_amend3": {
+  "budget": 40000,
+  "seeds": [0, 1, 2],
+  "encodings": ["E0_direct"],
+  "arms": [
+   {"arm_id": "P01_random_search_T2", "algorithm": "random_search", "archive": null, "own_axis": "pareto_recovery_T2"},
+   {"arm_id": "P03_map_elites_T2", "algorithm": "map_elites", "archive": "S_structural_3d", "res": 10, "own_axis": "S3d_cell_recovery", "note": "structural-grid control that does not see Archive D: does structural QD transfer to the developmental objective?"},
+   {"arm_id": "P05_map_elites_D2d", "algorithm": "map_elites", "archive": "D_dev_2d", "res": 10, "own_axis": "D2d_cell_recovery"},
+   {"arm_id": "P06_cvt_map_elites_D", "algorithm": "cvt_map_elites", "archive": "D_developmental", "k": 64, "own_axis": "CVTD_niche_recovery"},
+   {"arm_id": "P09_map_elites_D3d", "algorithm": "map_elites", "archive": "D_dev_3d", "res": 10, "own_axis": "D3d_cell_recovery"}
+  ]
+ },
+ "metrics_amend3": [
+  "pareto_recovery_T2 = |archive phenotypes ∩ census P00C T2 pareto (792)| / 792",
+  "D2d_cell_recovery = |archive D_dev_2d@10 cells ∩ census occupied (50)| / 50",
+  "D3d_cell_recovery = |archive D_dev_3d@10 cells ∩ census occupied (83)| / 83",
+  "CVTD_niche_recovery = |nearest census-CVT-D niches of archive phenotypes| / 64",
+  "S3d_cell_recovery = |archive S_structural_3d@10 cells ∩ T0 census occupied (8)| / 8",
+  "best_dev_T2, qd_score_T2 (T2 scalar over the arm's own archive cells), n_elites",
+  "retention_positive_elite_fraction = elites with continued-minus-reset solved_fraction > 1e-9 / n_elites",
+  "frontier_retention_fraction = retention-positive fraction among the arm's top-32 elites by dev_score_T2"
+ ],
+ "scoring_rules_amend3": {
+  "matched_pair_rule_FROZEN": "each QD arm is paired against P01_random_search_T2 on [pareto_recovery_T2, own_axis_recovery, best_dev_T2], seed-means: strictly >= on all three and > on at least one => QD wins the pair; the inverse => P01 wins; otherwise TIE (identical in form to amend-2's frozen rule)",
+  "retention_frontier_rule_FROZEN": "an arm is retention-frontier-positive if frontier_retention_fraction >= 0.5 on every seed",
+  "terminal_rule_FROZEN": [
+   "DEVELOPMENTAL_MORPHOLOGY_ADVANTAGE_SUPPORTED_AT_SCOPE: >= 3 of the 4 QD arms win their P01 pair AND every winning arm is retention-frontier-positive",
+   "DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE: some D-archive arm (P05/P06/P09) has own_axis_recovery >= 0.25 on seed-means AND its best_dev_T2 (seed-mean) >= P01 best_dev_T2 (seed-mean) - 0.01",
+   "QD_NO_ADVANTAGE_OVER_MULTI_OBJECTIVE_PARENT: P01 wins >= 1 pair and no QD arm wins any (the stronger negative: random still leads where evaluation is expensive)",
+   "otherwise MIXED_INTERMEDIATE_NO_TERMINAL"
+  ],
+  "aggregation": "aggregate runs only when all 15 tasks have ok dispositions and verifiable receipts; verdicts are computed mechanically from these rules, never narrated"
+ },
+ "controls": {
+  "t0_untouched": "T0 scoring path, CENSUS_P00/P00B truth and all amend-1/2 denominators unchanged and still reproducible",
+  "p00c_unscored_precedence": "CENSUS_P00C truth (receipt 67ed9271...) was produced and frozen BEFORE any scored T2 run",
+  "no_codec_arms": "amend-3 holds the encoding fixed at E0_direct (amend-2 owns the encoding question); no codec charging applies"
+ },
+ "status": "FROZEN pre-score"
+}

@@ -39,9 +39,47 @@ degeneracy under CENSUS_BOUND_V1, not grid resolution and not search
 failure.  Random still leads Pareto recovery at equal evals (P01 0.3824 vs
 P04 0.1111) and dominates the same-CPU-hour view (95.7 vs 6.8 per cpu-hour).
 
+## Amend-2 (FREEZE_V1_AMEND_2.json): E0-direct vs E1-CGP scored encoding comparison
+
+MZ-D5 encoding fit demonstrated, then scored under its own numbered amendment at
+equal eval budget (40,000/seed, 3 seeds, codec seconds charged inside the E1 arm
+wall time; E0 determinism cross-checked 96/96 against the amend-1 runs).
+Terminal: `MIXED_INTERMEDIATE_NO_TERMINAL` — E1-CGP wins one pair (R01 random arm:
+pareto recovery 0.5116 vs 0.3824) and ties three (MAP-Elites arms flip per
+archive); no encoding dominates at this scope. Scored artifacts:
+`results/AGGREGATE_AMEND2.json`.
+
+## Amend-3 / MZ-D7 (FREEZE_V1_AMEND_3.json): tier-T2 lifetime — terminal reached
+
+P00C exhaustive census at tier T2 (LifetimeEcologyV2): 56,160 genomes, 28,584
+feasible, exact Pareto set 792, receipt head 67ed9271…. Amend-3 campaign
+(LUNARC array 3587080, 15/15 ok, aggregate 3587081; every arm evaluated at T2
+including both sides of each comparison; Archive-D metrics recomputed uniformly
+from genomes with per-elite reset controls):
+
+**Terminal: `DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE`** (frozen
+rule-2 match: some D-archive arm with own-axis recovery >= 0.25 AND best_dev
+>= P01 - 0.01). P05/D2d 1.0, P09/D3d 0.988, P06/CVTD 0.615 own-axis; QD
+best_dev_T2 0.6037 > P01 0.5711; P01 still leads raw pareto recovery
+(0.4604 vs ~0 for cell-elite archives) — all 4 pairs TIE, 0 wins each way.
+Developmental-advantage rule NOT met (0 pair wins; no arm retention-frontier-
+positive — frontier elites skew to zero-retention architectures; every arm
+fails the frozen >= 0.5-every-seed retention bar, best is P03 at 0.313).
+"Random still leads" is not overturned on dominance; the diversity claim is
+what terminalizes. Scored artifacts: `results/AGGREGATE_AMEND3.json`,
+`manifests/CAMPAIGN_AMEND3_MANIFEST.json` (sha-chain V1 -> A1 -> A2 -> A3,
+checksum-gated submission).
+
+Timing erratum: `FREEZE_V1_AMEND_3_TIMING_ERRATUM.json` — the amendment's
+hand-written `created_utc` label (21:20Z) postdates the scored array
+(submitted 21:15:59Z); the sha-chain checksum gate proves the exact frozen
+bytes existed at submission, so freeze-before-score holds; label corrected by
+erratum, frozen file untouched.
+
 ## Status
 
 - MZ-D0/D1/D2/D3/D6 done (census, calibration, production campaign, LUNARC harness; amend-1 re-ranking complete)
+- MZ-D7 done at tier T2 via amend-3 (DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE); amend-2 encoding comparison MIXED_INTERMEDIATE_NO_TERMINAL
 - MZ-D4 gate CLOSED by measurement (`results/MZD4_COST_FIT.json`): evals not binding (whole space = 17.15 s; 0.085 ms/eval), no continuous relaxation, no task generator → P08/P10 stay deferred
 - MZ-D5 encoding fit DEMONSTRATED for E1 CGP (`results/MZD5_ENCODING_FIT.json`): surjective over all 56,160, mutations legal, codec 4.5% of eval, neutral network measured; scored direct-vs-CGP comparison needs its own numbered amendment
-- Later: MZ-D7 lifetime, MZ-D8 islands, MZ-D9 hostile tests
+- Later: MZ-D8 islands, MZ-D9 hostile tests; MZ-D5 scored-encoding question remains MIXED_INTERMEDIATE (amend-2)

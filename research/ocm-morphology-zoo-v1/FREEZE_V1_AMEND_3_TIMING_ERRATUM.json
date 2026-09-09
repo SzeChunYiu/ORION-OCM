@@ -1,0 +1,24 @@
+{
+  "erratum_id": "FREEZE_V1_AMEND_3_TIMING_ERRATUM_V1",
+  "subject": "FREEZE_V1_AMEND_3.json internal created_utc field (2026-09-09T21:20:00Z) postdates the scored production run it freezes",
+  "recorded_by": "centre verification, pre-PR",
+  "recorded_utc": "2026-09-09T21:55:00Z",
+  "finding": {
+    "artifact_claim": "FREEZE_V1_AMEND_3.json created_utc = 2026-09-09T21:20:00Z, status FROZEN pre-score",
+    "observed": "scored array 3587080 submitted 2026-09-09T21:15:59Z, ran 21:16:00-21:16:27Z per task; aggregate 3587081 completed 21:16:48Z (LUNARC sacct, quoted verbatim below)",
+    "contradiction": "the created_utc label is 4 minutes AFTER run completion"
+  },
+  "resolution_evidence": {
+    "hash_gate": "CAMPAIGN_AMEND3_MANIFEST.json (frozen by submit_amend3.py with refusal/re-freeze guard, checksum-verified rsync, smoke gate, afterok-chained aggregate) binds amendment_sha256 = deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e",
+    "current_bytes": "sha256(FREEZE_V1_AMEND_3.json) = deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e (identical at centre verification)",
+    "inference": "the exact frozen bytes provably existed at submission time 21:15:59Z (manifest checksum gate would refuse otherwise); the worker-side sha-chain gate V1->A1->A2->A3 re-verified the chain at run time and stamped amendment = FREEZE_V1_AMEND_3_MZD7 into all 15 receipts",
+    "verdict": "freeze-before-scored-run HOLDS by construction; the internal created_utc field is a mis-stamped hand-written label (written when finalizing the commit), not evidence of post-hoc freezing"
+  },
+  "sacct_verbatim": [
+    "3587081|zoo-agg-a3|2026-09-09T21:15:59|2026-09-09T21:16:48|2026-09-09T21:16:48|COMPLETED",
+    "3587080_0|zoo-qda3|2026-09-09T21:15:59|2026-09-09T21:16:00|2026-09-09T21:16:27|COMPLETED",
+    "3587080_1|zoo-qda3|2026-09-09T21:15:59|2026-09-09T21:16:00|2026-09-09T21:16:27|COMPLETED"
+  ],
+  "secondary_note": "CAMPAIGN_AMEND3_MANIFEST.json created_utc = 19:15:30Z is the manifest skeleton creation time; the manifest content (including the amendment hash) was finalized and checksum-verified at submission 21:15:59Z. Neither timestamp field in either artifact should be read as the freeze signature; the sha-chain + checksum gate is the freeze evidence.",
+  "action": "frozen artifacts left byte-identical (never edited); this erratum records the timing evidence. Future amendments: created_utc must be written by the freezing tool at freeze time, not by hand at commit time."
+}

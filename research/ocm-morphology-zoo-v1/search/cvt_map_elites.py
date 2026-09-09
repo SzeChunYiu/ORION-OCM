@@ -80,7 +80,8 @@ class CVTArchive:
 
 
 def run(budget: int = 4000, seed: int = 0, archive: str = "S_cvtd", k: int = 64,
-        init_fraction: float = 0.2, start_from=None) -> Dict[str, Any]:
+        init_fraction: float = 0.2, start_from=None,
+        sampler=None, mutator=None, crossover_fn=None) -> Dict[str, Any]:
     rng = random.Random(seed)
     t0 = time.time()
     # sample descriptor space to build centroids (deterministic, charged to budget)
@@ -88,7 +89,8 @@ def run(budget: int = 4000, seed: int = 0, archive: str = "S_cvtd", k: int = 64,
     n_sample = min(budget - 1, 500)
     sample_recs = []
     for _ in range(n_sample):
-        g = start_from.clone() if start_from is not None else random_genome(rng)
+        g = start_from.clone() if start_from is not None else (
+            sampler(rng) if sampler else random_genome(rng))
         rec = evaluate_record(g, archive)
         sample_recs.append(rec)
         samples.append(tuple(rec["descriptors"]))
@@ -103,17 +105,20 @@ def run(budget: int = 4000, seed: int = 0, archive: str = "S_cvtd", k: int = 64,
     while n_evals < budget:
         if not batch:
             if not arch.cells:
-                batch = [random_genome(rng)]
+                batch = [sampler(rng) if sampler else random_genome(rng)]
             else:
                 elites = arch.elites()
                 for _ in range(10):
+                    # branch condition MUST stay identical to the pre-amend-2
+                    # loop (crossover suppression bug, see map_elites.py)
                     if rng.random() < 0.5 or len(elites) == 1:
                         g1 = OCMMorphologyGenomeV1.from_json_obj(rng.choice(elites)["genome"])
-                        batch.append(mutate(g1, rng))
+                        batch.append(mutator(g1, rng) if mutator else mutate(g1, rng))
                     else:
                         a = OCMMorphologyGenomeV1.from_json_obj(rng.choice(elites)["genome"])
                         b = OCMMorphologyGenomeV1.from_json_obj(rng.choice(elites)["genome"])
-                        batch.append(crossover(a, b, rng))
+                        batch.append(crossover_fn(a, b, rng) if crossover_fn
+                                     else crossover(a, b, rng))
                     if len(batch) >= 10:
                         break
         g = batch.pop()

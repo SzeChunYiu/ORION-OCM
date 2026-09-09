@@ -1,0 +1,55 @@
+{
+ "amendment_id": "FREEZE_V1_AMEND_2",
+ "amends": "FREEZE_V1.json",
+ "freeze_v1_sha256": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+ "amend_1_sha256": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+ "created_utc": "2026-09-09T22:10:00Z",
+ "motivation": {
+  "problem": "MZ-D5 encoding fit is demonstrated (results/MZD5_ENCODING_FIT.json, sha a3893dec...): E1-CGP is surjective over CENSUS_BOUND_V1, legal by construction, codec incremental cost 0.0038 ms = 4.45% of one eval, and shows wider structural mutation jumps (s3d jump mass 0.0771 vs 0.0507 direct) at equal dev locality. Whether that representational difference changes scored search outcomes is unmeasured.",
+  "lever": "Scored E0-direct vs E1-CGP comparison at identical budget/seeds/archives, via backward-compatible encoding hooks on the search arms (sampler/mutator/crossover_fn; RNG consumption order unchanged when hooks are None).",
+  "scope": "Adds encoding as a matched-pair factor; no denominator changes (all AMEND_1 denominators retained: pareto 387, S3d@10 8, B2d@20 4, CVT 18). This numbered amendment is mandatory before any scored encoding run (freeze discipline)."
+ },
+ "encoding_fit_MZD5": {
+  "result_file": "results/MZD5_ENCODING_FIT.json",
+  "result_sha256": "a3893dec6f59331935e76810485fbb31121fe0b3f8035e8c38ab046d0f45ec22",
+  "codec_incremental_ms": 0.0038,
+  "codec_share_of_eval": 0.0445,
+  "known_asymmetry": "S5 locality measured feasibility-gated; direct mutate samples the FULL schema vocabulary (can leave CENSUS_BOUND_V1), CGP mutate is bound-locked. Scored comparison runs both arms inside the census bound so archive metrics remain comparable; out-of-bound excursions are not credited to either arm."
+ },
+ "hooks_contract": {
+  "files": ["search/random_search.py (sampler)", "search/map_elites.py (sampler, mutator, crossover_fn)", "search/cvt_map_elites.py (sampler, mutator, crossover_fn)", "morphology/cgp_genome.py (cgp_sample_direct, cgp_mutate_direct, cgp_crossover_direct)"],
+  "cgp_arm_semantics": "CGP hooks encode each archived direct-genome elite canonically (identity wires), apply the CGP variation operator in genotype space, decode back to the direct organism, and evaluate through the ordinary T0 pipeline. The archive therefore stays in direct-genome space and every AMEND_1 metric applies unchanged to both encodings.",
+  "codec_charging": "Workers wrap every hook call in perf_counter and accumulate codec_seconds (encode + variation + decode); reported per task as codec_seconds and codec_share = codec_seconds / elapsed_s. The CGP arm is charged this cost in the same-CPU-hour view; the same-eval-count view runs both arms at budget 40000 exactly."
+ },
+ "arms_amend2": {
+  "pairs": [
+   {"pair_id": "R01", "base_arm": "P01_random_search", "call": "random_search.run(budget, seed, sampler=None|cgp_sample_direct)"},
+   {"pair_id": "M03", "base_arm": "P03_map_elites", "config": {"archive": "S_structural_3d", "res": 10}, "call": "map_elites.run(budget, seed, archive='S_structural_3d', res=10, sampler/mutator/crossover_fn None|CGP)"},
+   {"pair_id": "M05", "base_arm": "P05_map_elites_B", "config": {"archive": "B_behavior_2d", "res": 20}, "call": "map_elites.run(budget, seed, archive='B_behavior_2d', res=20, sampler/mutator/crossover_fn None|CGP)"},
+   {"pair_id": "M06", "base_arm": "P06_cvt_map_elites", "config": {"archive": "S_cvtd", "k": 64}, "call": "cvt_map_elites.run(budget, seed, archive='S_cvtd', k=64, sampler/mutator/crossover_fn None|CGP)"}
+  ],
+  "encodings": ["E0_direct", "E1_cgp"],
+  "budget": 40000,
+  "seeds": [0, 1, 2],
+  "task_ids": ["{R01,M03,M05,M06}_{E0,E1}_s{0,1,2}"],
+  "n_tasks": 24
+ },
+ "scoring_rules_amend2": {
+  "metrics_per_task": ["pareto_recovery (exact-Pareto phenotypes retained / 387)", "S3d_cell_recovery (/8)", "B2d20_cell_recovery (/4)", "CVT_census_cell_recovery (/18, nearest exhaustive census centroid)", "best_dev_score", "feasible_found", "elapsed_s", "codec_seconds", "codec_share"],
+  "uniform_recompute": "Identical to AMEND_1: every arm's retained set is re-evaluated and descriptors recomputed from genomes on ALL amended axes regardless of the arm's own archive; P01-family retained set = its final non-dominated feasible population.",
+  "pair_winner_rule_FROZEN": "CGP wins a matched pair iff mean-over-seeds CGP >= direct on ALL of {pareto_recovery, own-archive cell recovery (S3d@10 for M03, B2d@20 for M05, CVT census for M06, pareto_recovery for R01), best_dev_score} AND strictly greater on at least one. Direct wins the pair under the mirrored rule.",
+  "terminal_rule_FROZEN": {
+   "ENCODING_CHOICE_DOMINATES": "CGP wins all 4 matched pairs",
+   "PARENT_ARCHITECTURE_SUFFICIENT": "CGP wins 0 pairs and direct wins >=1 (E0-direct parent encoding is sufficient at scope)",
+   "else": "MIXED - intermediate result, no section-15 terminal from this amendment alone; revival iteration required (next lever: per-arm diagnosis of which metric fails and whether neutral-redundancy drift or jump-width mismatch explains it)"
+  },
+  "tie_note": "Ties on all three criteria count as no winner for that pair."
+ },
+ "smoke": {
+  "budget": 100,
+  "must_exceed_evals": 65,
+  "pytest_first": true,
+  "assertions": ["amendment sha chain verifies", "hook determinism: hooks=None output equals amend-1 replay on a small budget", "cgp hooks keep every sampled genome inside CENSUS_BOUND_V1"]
+ },
+ "status": "FROZEN before any amend-2 scored run"
+}

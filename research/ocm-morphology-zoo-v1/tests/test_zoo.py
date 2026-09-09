@@ -177,3 +177,213 @@ def test_cgp_mutations_stay_legal_and_in_bound():
         extras = [u.unit_type for u in g.U if u.unit_type != "fact_relation"]
         assert len(extras) <= CENSUS_BOUND_V1["max_extra_units"]
         assert set(extras) <= set(CENSUS_BOUND_V1["extra_units"])
+
+
+# --- AMEND-2: encoding hooks + cgp crossover -------------------------------
+
+def test_cgp_crossover_legal_and_decodable():
+    from morphology.cgp_genome import (CGPGenomeV1, cgp_crossover,
+                                       cgp_crossover_direct,
+                                       random_cgp_genome)
+    rng = random.Random(8)
+    for _ in range(200):
+        a, b = random_cgp_genome(rng), random_cgp_genome(rng)
+        c = cgp_crossover(a, b, rng)
+        assert len(c.payload) == 7 and len(c.wires) == 7
+        compile_genome(c.decode())  # fail-closed invariants
+    # direct-genome hook composes with canonical encode
+    ga, gb = random_genome(rng), random_genome(rng)
+    gd = cgp_crossover_direct(ga, gb, rng)
+    compile_genome(gd)
+    assert gd.F_arch in CENSUS_BOUND_V1["F_arch"]
+
+
+def test_hooks_none_preserves_legacy_behaviour():
+    import json as _json
+    from search import map_elites, random_search
+    a = map_elites.run(budget=80, seed=11, archive="S_structural_3d", res=10)
+    b = map_elites.run(budget=80, seed=11, archive="S_structural_3d", res=10,
+                       sampler=None, mutator=None, crossover_fn=None)
+    assert a["evals"] == b["evals"] and a["qd_score"] == b["qd_score"]
+    assert [e["phenotype_digest"] for e in a["archive"]] == \
+        [e["phenotype_digest"] for e in b["archive"]]
+    c = random_search.run(budget=60, seed=4)
+    d = random_search.run(budget=60, seed=4, sampler=None)
+    c.pop("elapsed_s"), d.pop("elapsed_s")  # wall clock is not behaviour
+    assert _json.dumps(c, sort_keys=True) == _json.dumps(d, sort_keys=True)
+
+
+def test_hookless_map_elites_still_uses_crossover():
+    """Regression (2026-09-09): 'or crossover_fn is None' in the variation
+    branch suppressed crossover entirely for hook-less (E0) arms — E0 no
+    longer recomputed its amend-1 twin (caught by the QDA2-vs-QDA1 xcheck).
+    With all hooks None, BOTH legacy operators must fire."""
+    from search import cvt_map_elites, map_elites
+    for mod in (map_elites, cvt_map_elites):
+        calls = {"mut": 0, "cross": 0}
+        _mut, _cross = mod.mutate, mod.crossover
+
+        def _m(g, rng, _f=_mut, _c=calls):
+            _c["mut"] += 1
+            return _f(g, rng)
+
+        def _x(a, b, rng, _f=_cross, _c=calls):
+            _c["cross"] += 1
+            return _f(a, b, rng)
+
+        mod.mutate, mod.crossover = _m, _x
+        try:
+            if mod is map_elites:
+                mod.run(budget=120, seed=11, archive="S_structural_3d", res=10)
+            else:
+                mod.run(budget=120, seed=11)
+        finally:
+            mod.mutate, mod.crossover = _mut, _cross
+        assert calls["mut"] > 0, "mutation branch never fired"
+        assert calls["cross"] > 0, ("crossover suppressed for hook-less run "
+                                    "(amend-2 regression)")
+
+
+def test_cgp_hooks_run_and_stay_in_bound():
+    from morphology.cgp_genome import (cgp_mutate_direct,
+                                       cgp_sample_direct)
+    from morphology.schema import OCMMorphologyGenomeV1
+    from search import map_elites, random_search
+    rng = random.Random(12)
+    for _ in range(50):
+        g = cgp_sample_direct(rng)
+        compile_genome(g)
+        assert g.F_arch in CENSUS_BOUND_V1["F_arch"]
+        m = cgp_mutate_direct(g, rng)
+        compile_genome(m)
+        assert m.T_family in CENSUS_BOUND_V1["T_family"]
+    res = map_elites.run(budget=60, seed=9, archive="S_structural_3d", res=10,
+                         sampler=cgp_sample_direct,
+                         mutator=cgp_mutate_direct)
+    assert res["evals"] == 60
+    for e in res["archive"]:
+        g2 = OCMMorphologyGenomeV1.from_json_obj(e["genome"])
+        assert g2.F_arch in CENSUS_BOUND_V1["F_arch"]
+    r2 = random_search.run(budget=40, seed=9, sampler=cgp_sample_direct)
+    assert r2["evals"] == 40
+
+
+def test_amend2_freeze_chain_and_rule():
+    import hashlib
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    a2 = json.load(open(os.path.join(root, "FREEZE_V1_AMEND_2.json")))
+    v1 = hashlib.sha256(open(os.path.join(root, "FREEZE_V1.json"), "rb").read()).hexdigest()
+    a1 = hashlib.sha256(open(os.path.join(root, "FREEZE_V1_AMEND_1.json"), "rb").read()).hexdigest()
+    assert v1 == a2["freeze_v1_sha256"], "freeze chain broken"
+    assert a1 == a2["amend_1_sha256"], "amend-1 chain broken"
+    assert a2["arms_amend2"]["budget"] == 40000
+    assert a2["arms_amend2"]["seeds"] == [0, 1, 2]
+    assert {p["pair_id"] for p in a2["arms_amend2"]["pairs"]} == {"R01", "M03", "M05", "M06"}
+    assert a2["arms_amend2"]["encodings"] == ["E0_direct", "E1_cgp"]
+    tr = a2["scoring_rules_amend2"]["terminal_rule_FROZEN"]
+    assert "ENCODING_CHOICE_DOMINATES" in tr and "PARENT_ARCHITECTURE_SUFFICIENT" in tr
+
+
+# --- AMEND-3: tier T2 + Archive D (MZ-D7 developmental) --------------------
+
+def test_amend3_freeze_chain_and_census_binding():
+    import hashlib
+    a3 = json.load(open(os.path.join(ROOT, "FREEZE_V1_AMEND_3.json")))
+    v1 = hashlib.sha256(open(os.path.join(ROOT, "FREEZE_V1.json"), "rb").read()).hexdigest()
+    a1 = hashlib.sha256(open(os.path.join(ROOT, "FREEZE_V1_AMEND_1.json"), "rb").read()).hexdigest()
+    a2 = hashlib.sha256(open(os.path.join(ROOT, "FREEZE_V1_AMEND_2.json"), "rb").read()).hexdigest()
+    assert v1 == a3["freeze_v1_sha256"], "freeze chain broken"
+    assert a1 == a3["amend_1_sha256"], "amend-1 chain broken"
+    assert a2 == a3["amend_2_sha256"], "amend-2 chain broken"
+    assert len(a3["arms_amend3"]["arms"]) == 5
+    assert a3["arms_amend3"]["seeds"] == [0, 1, 2]
+    assert a3["arms_amend3"]["budget"] == 40000
+    assert a3["arms_amend3"]["encodings"] == ["E0_direct"]
+    tr = a3["scoring_rules_amend3"]["terminal_rule_FROZEN"]
+    assert any("DEVELOPMENTAL_MORPHOLOGY_ADVANTAGE_SUPPORTED_AT_SCOPE" in s
+               for s in tr)
+    from evaluation.descriptors import DESCRIPTOR_REGISTRY
+    from evaluation.objectives import W2_REF, B2_REF
+    den = a3["census_truth_P00C"]["denominators"]
+    assert (den["PARETO_T2"], den["D2d@10_occupied"], den["D3d@10_occupied"],
+            den["CVTD_occupied_niches"], den["S3d@10_occupied_T0ref"]) == \
+        (792, 50, 83, 64, 8)
+    truth_path = os.path.join(ROOT, "archives", "CENSUS_P00C_TRUTH.json")
+    if not os.path.exists(truth_path):
+        return  # truth not synced to this checkout; smoke asserts it on-host
+    truth = json.load(open(truth_path))["summary"]
+    for view in ("D_dev_2d", "D_dev_3d"):
+        assert tuple(tuple(b) for b in DESCRIPTOR_REGISTRY[view]["bounds"]) == \
+            tuple(tuple(b) for b in truth["frozen_grid_bounds"][view]), view
+    assert (W2_REF, B2_REF) == (truth["t2_scalar_refs"]["W2_REF"],
+                                truth["t2_scalar_refs"]["B2_REF"])
+    assert den["PARETO_T2"] == truth["pareto_set_size"]
+    for k in ("D2d@10_occupied", "D3d@10_occupied", "CVTD_occupied_niches"):
+        assert den[k] == truth["denominators"][k], k
+    b_path = os.path.join(ROOT, "archives", "CENSUS_P00B_TRUTH.json")
+    if os.path.exists(b_path):
+        tb = json.load(open(b_path))["summary"]
+        assert den["S3d@10_occupied_T0ref"] == tb["denominators"]["S3d@10_occupied"]
+
+
+def test_t2_tier_dispatch_and_reset_control():
+    rng = random.Random(17)
+    g = random_genome(rng)
+    r = evaluate_genome(g, tier="T2", use_cache=False)
+    assert r["tier"] == "T2"
+    ev = r["evaluation"]
+    assert ev["tier"] == "T2" and ev["ecology_id"] == "LifetimeEcologyV2"
+    rc = ev["reset_control"]
+    assert rc["ecology_id"] == "LifetimeEcologyV2_reset"
+    # T2 scalar uses the T2 references (W2_REF/B2_REF), never the T0 ones
+    from evaluation.objectives import W2_REF, B2_REF
+    expect = round(ev["solved_fraction"] - 0.5 * (
+        (ev["work_total"] / W2_REF + ev["persistent_bytes"] / B2_REF) / 2), 6)
+    assert dev_score(ev) == expect
+    # continued lifetime solves >= reset control on every T2 genome
+    assert ev["solved_fraction"] >= rc["solved_fraction"] - 1e-9
+
+
+def test_lifetime2_deterministic_and_retention_nonneg():
+    from evaluation.lifetime2 import run_lifetime2
+    rng = random.Random(19)
+    kept = 0
+    for _ in range(30):
+        g = random_genome(rng)
+        out = evaluate_genome(g, tier="T2", use_cache=False)
+        if not out["feasible"]:
+            continue
+        kept += 1
+        org = compile_genome(g)
+        ev, ev2 = run_lifetime2(org), run_lifetime2(org)
+        assert ev == ev2, "lifetime2 not deterministic"
+        rc = out["evaluation"]["reset_control"]
+        ret = out["evaluation"]["solved_fraction"] - rc["solved_fraction"]
+        assert ret >= -1e-9, "negative retention contradicts census truth"
+    assert kept >= 5, "expected several feasible T2 genomes in the sample"
+
+
+def test_developmental_descriptors_vary_over_census_sample():
+    from evaluation.descriptors import D_DIMS, developmental_descriptors
+    rng = random.Random(23)
+    sample = [g for _, g in zip(range(24), enumerate_census())]
+    sample += [random_genome(rng) for _ in range(24)]
+    vals = {d: set() for d in D_DIMS}
+    n_feasible = 0
+    for g in sample:
+        out = evaluate_genome(g, tier="T2", use_cache=False)
+        if not out["feasible"]:
+            continue
+        n_feasible += 1
+        dd = developmental_descriptors(compile_genome(g), out["evaluation"])
+        for d in D_DIMS:
+            vals[d].add(float(dd[d]))
+    assert n_feasible >= 10
+    for d in D_DIMS:
+        if d == "consolidation_ratio":
+            # identically 0 over the frozen census space (P00C finding)
+            assert vals[d] <= {0.0}, vals[d]
+        else:
+            assert len(vals[d]) > 1, "dead descriptor axis: %s" % d
+
