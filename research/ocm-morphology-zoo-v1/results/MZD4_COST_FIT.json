@@ -1,0 +1,60 @@
+{
+ "analysis_id": "MZD4_COST_FIT",
+ "created_utc": "2026-09-09T18:08:59Z",
+ "cost_axis": {
+  "eval_s_per_genome": 8.475586463076373e-05,
+  "eval_ms_per_genome": 0.084756,
+  "eval_reps_s": [
+   8.649e-05,
+   8.392e-05,
+   8.386e-05
+  ],
+  "compile_s_per_genome": 3.897741649998352e-05,
+  "freeze_v1_throughput_pilot_ms": 0.086
+ },
+ "encoding_axis": {
+  "genome": {
+   "census_size": 56160,
+   "bound_cardinalities": {
+    "F_arch": 6,
+    "extra_units": 9,
+    "max_extra_units": 3,
+    "T_family": 3,
+    "Pi_arch": 2,
+    "L": 3,
+    "R": 2,
+    "K": 2
+   },
+   "example_genome_type": "OCMMorphologyGenomeV1",
+   "continuous_fields": [],
+   "note": "all census DOF are categorical; no continuous vector"
+  },
+  "task_ecology_has_generator": false,
+  "poet_requirements": [
+   "task generator",
+   "inner optimizer loop",
+   "paired agent-task population"
+  ],
+  "poet_structural_fit": "NOT_DEMONSTRATED: fixed task ecology, no generator surface"
+ },
+ "breakeven_analysis": {
+  "genome_dof": 10,
+  "cma_update_ops_per_sample": 230,
+  "assumed_python_ops_per_s": 10000000.0,
+  "overhead_s_per_eval": 2.3e-05,
+  "eval_s_where_overhead_is_10pct": 0.00022999999999999998,
+  "our_eval_s": 8.475586463076373e-05,
+  "cost_fit_ratio": 2.713676522586228
+ },
+ "verdicts": {
+  "P10_cma_me": {
+   "cost_fit": "NOT_DEMONSTRATED: (a) the ENTIRE census space (56160 genomes) exhausts in 17.15 s measured (P00B) and a single eval costs 0.0848 ms, so evaluations are not a binding resource \u2014 the regime CMA-MAE is built for (eval-dominated budgets) does not exist here; (b) even in an unrealistically favorable 10-D continuous relaxation the CMA update alone is 27% of eval cost",
+   "encoding_fit": "NOT_DEMONSTRATED: genome DOF are categorical (census 56160 = product of categorical choices); CMA covariance undefined without a continuous relaxation, which no tranche has frozen"
+  },
+  "P08_poet": {
+   "cost_fit": "NOT_DEMONSTRATED: POET multiplies evals by its agent population (K x inner steps per generation); at 0.0848 ms/eval the cheap-eval arms already saturate the archive ceilings, so added machinery cannot amortize",
+   "encoding_fit": "NOT_DEMONSTRATED: fixed TASK_ECOLOGY_V1, no procedural task generator surface"
+  }
+ },
+ "gate_decision": "MZ-D4 remains CLOSED for P08/P10; both fit axes measured NOT_DEMONSTRATED. Re-evaluate only via a numbered freeze amendment that introduces either a continuous relaxation or a task generator."
+}

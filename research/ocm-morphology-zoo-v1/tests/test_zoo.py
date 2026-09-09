@@ -144,3 +144,36 @@ def test_freeze_denominators_match_census_truth():
     assert t["best_dev_score"] == fz["best_dev_score_within_bound"]
     assert t["feasible"] == fz["feasible"] == 14904
     assert len(truth["cells_S"]) == 4 and len(truth["cells_B"]) == 2
+
+
+# --- E1 CGP encoding (MZ-D5 encoding fit) ---------------------------------
+
+def test_cgp_roundtrip_on_sample():
+    from morphology.cgp_genome import CGPGenomeV1
+    rng = random.Random(5)
+    gs = [g for _, g in zip(range(120), enumerate_census())]
+    gs += [random_genome(rng) for _ in range(120)]
+    for g in gs:
+        g2 = CGPGenomeV1.encode(g).decode()
+        assert g2.F_arch == g.F_arch and g2.T_family == g.T_family
+        assert g2.Pi_arch == g.Pi_arch and g2.L == g.L
+        assert g2.R == g.R and g2.K == g.K
+        assert sorted(u.unit_type for u in g2.U) == sorted(
+            u.unit_type for u in g.U)
+
+
+def test_cgp_mutations_stay_legal_and_in_bound():
+    from morphology.cgp_genome import CGPGenomeV1, random_cgp_genome
+    rng = random.Random(6)
+    for _ in range(300):
+        g = random_cgp_genome(rng).mutate(rng).decode()
+        compile_genome(g)  # must pass the fail-closed invariants
+        assert g.F_arch in CENSUS_BOUND_V1["F_arch"]
+        assert g.T_family in CENSUS_BOUND_V1["T_family"]
+        assert g.Pi_arch in CENSUS_BOUND_V1["Pi_arch"]
+        assert g.L in CENSUS_BOUND_V1["L"]
+        assert g.R in CENSUS_BOUND_V1["R"]
+        assert g.K in CENSUS_BOUND_V1["K"]
+        extras = [u.unit_type for u in g.U if u.unit_type != "fact_relation"]
+        assert len(extras) <= CENSUS_BOUND_V1["max_extra_units"]
+        assert set(extras) <= set(CENSUS_BOUND_V1["extra_units"])
