@@ -39,9 +39,14 @@ class TestSourceBoundFailureProtocol(unittest.TestCase):
         )
         self.assertTrue(diag["jump_refused_on_timeout"])
         competing = E.REPO / "research" / "g3-scoped-failure-memory-v1"
-        self.assertFalse(competing.exists())
+        # Present on origin/main, therefore on pull_request merge commits.
+        # Absent on remaining-gates HEAD. Presence is not a scientific result
+        # and this capsule must not create, overwrite, or retune that ecology.
         text = Path(E.__file__).read_text()
         self.assertNotIn("FAILURE_MEMORY_NOT_USEFUL", text)
+        self.assertNotIn("g3-scoped-failure-memory-v1/RESULT.json", text)
+        if competing.is_dir():
+            self.assertFalse((competing / "RESULT.json").is_file())
 
     def test_square_invert_of_one_plus_x_is_real_method_failure_not_timeout(self):
         self.assertEqual(M.normal_form(("inc",)), (Fraction(1), Fraction(1)))

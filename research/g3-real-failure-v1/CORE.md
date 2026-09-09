@@ -47,9 +47,12 @@ recoverable from the ledger, not from a task-id cache.
 | `research/g3-representation-v1/` | v1 `PARENT_SUFFICIENT`; v2 `REPRESENTATION_CHANGE_CAUSALLY_USEFUL` | representation, not source incidents |
 | `research/g3-representation-diagnosis-v1/` | `REPRESENTATION_INSUFFICIENCY_DIAGNOSIS_SUPPORTED_AT_SCOPE` | timeout ≠ JUMP |
 
-A competing ecology `research/g3-scoped-failure-memory-v1` may exist on other
-branches with `FAILURE_MEMORY_NOT_USEFUL`. This capsule must not create or
-overwrite that directory, and must not retune remaining-gates G3.2.
+A competing ecology `research/g3-scoped-failure-memory-v1` exists on `main`
+(no `RESULT.json` there) and is therefore present on pull_request merge
+commits. It is absent from remaining-gates HEAD. This capsule must not
+create, overwrite, or retune that directory, and must not retune
+remaining-gates G3.2. Presence or absence of the sibling is not a
+scientific result.
 
 ## Planted probe
 

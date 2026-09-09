@@ -99,3 +99,25 @@ Corpus-scale N1. UD at corpus. Production meaning-graph node cutoff remains 7
 G5.3 production adoption (economics do not support a switch). `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
 H1 examples remain library capital (not later savings); IO / human burden `CANNOT_CHECK`. Neural/Transformer
 `CANNOT_CHECK_NO_NN_LIBRARY`.
+
+## Owner cross-lane review (not a #165 close)
+
+Owner is reviewing remaining-gates `9999b6e` against main `dff3ac` on
+`research/issue165-integration-qualified-20260909`. Unique-branch PRs
+#209–#213 are duplicates, not extra independent experiments. This branch is
+not force-pushed and is not merged by that review.
+
+Development evidence on that review branch (do not tick #165 from it):
+
+- Changed-source congruence/rewrite successor native-verifies the eight true
+  equations in #203's ten-task allocation (4,245-proof / 100-trusted-assertion
+  library; 41–367-label normal proofs). Indices 2 and 9 have finite-set
+  counterexamples (A = B = empty, C = {0}) and must not be counted as theorems
+  a sound prover should prove. That is not a native proof of negation or a
+  full Metamath model.
+- Ceiling: enabled/disabled/restored currently generate identical proof words
+  and consume none of the historical cohort. Representation/goal-solving
+  bottleneck, not causal cohort reuse or an OCM architecture advantage.
+- Frozen #203 stays unchanged / all-UNKNOWN.
+- G2.2 tiny-parent `REJECT` of compression/Stitch-style stand-ins is not
+  rejection of hash-pinned upstream Stitch 0.1.29.
