@@ -1,0 +1,419 @@
+{
+ "diagnostic_id": "GRAMMAR_ESCAPE_DIAGNOSTIC_V1",
+ "created_utc": "2026-09-09T21:33:06Z",
+ "created_by": "hpc/diagnose_grammar_escape.py (tool-stamped)",
+ "scored": false,
+ "trigger": "amend-5 G01_gate_D3d own-axis 24/83 = 0.289157 exceeded the GATE-CEILING per-cell-max 'ceiling' 21/83 = 0.253012 \u2014 impossible for census-member genomes under deterministic evaluation, so elites escape the enumerated grammar",
+ "root_cause": "morphology/mutations.py mutate(): family draws use the FULL vocabularies (FIELD_FAMILIES/TOPOLOGY_FAMILIES/...), unit additions can use fsm_controller/procedural_memory/local_executive (outside CENSUS_BOUND_V1['extra_units']), and theta mutations perturb a continuous dimension enumerate_census() never varies (all census genomes carry DEFAULT_THETA).  random_genome stays inside the grammar; only mutation/crossover escape it.",
+ "semantics": "GATE-CEILING ceil_* values are census-subset maxima (per-cell max dev over the 28,584 feasible default-theta census genomes), NOT bounds on the searched space; 'recovery vs census' remains coverage against a fixed reference set.  Amend-5 terminal rules reference only own-axis recovery and best_dev bars, never ceilings, so the verdict is unaffected; the ceiling-premise wording of the bar-selection rule is corrected here.",
+ "amend5_totals": {
+  "archives": 12,
+  "elites_total": 649,
+  "escape_total": 637,
+  "escape_fraction": 0.98151
+ },
+ "per_archive_QDA5": {
+  "QDA5_G00_nogate_D2d_s0_archive.json": {
+   "n_elites": 59,
+   "n_escape_census_grammar": 59,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 59,
+    "theta": 39,
+    "units": 6,
+    "T_family": 39,
+    "F_arch": 18,
+    "L": 7
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G00_nogate_D2d_s1_archive.json": {
+   "n_elites": 59,
+   "n_escape_census_grammar": 59,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 59,
+    "theta": 52,
+    "T_family": 46,
+    "K": 8,
+    "units": 5,
+    "F_arch": 18,
+    "L": 7,
+    "max_extra_units": 5
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G00_nogate_D2d_s2_archive.json": {
+   "n_elites": 57,
+   "n_escape_census_grammar": 57,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 52,
+    "F_arch": 18,
+    "T_family": 34,
+    "L": 8,
+    "theta": 23,
+    "units": 5
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G00_nogate_D3d_s0_archive.json": {
+   "n_elites": 126,
+   "n_escape_census_grammar": 122,
+   "escape_fraction": 0.968254,
+   "escape_reasons_counts": {
+    "Pi_arch": 120,
+    "theta": 105,
+    "F_arch": 39,
+    "L": 9,
+    "T_family": 83,
+    "K": 4,
+    "units": 7,
+    "max_extra_units": 2
+   },
+   "best_dev_in_grammar": -0.093589,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G00_nogate_D3d_s1_archive.json": {
+   "n_elites": 119,
+   "n_escape_census_grammar": 116,
+   "escape_fraction": 0.97479,
+   "escape_reasons_counts": {
+    "T_family": 78,
+    "Pi_arch": 113,
+    "units": 6,
+    "theta": 79,
+    "F_arch": 38,
+    "K": 10,
+    "L": 12
+   },
+   "best_dev_in_grammar": -0.027551,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G00_nogate_D3d_s2_archive.json": {
+   "n_elites": 109,
+   "n_escape_census_grammar": 104,
+   "escape_fraction": 0.954128,
+   "escape_reasons_counts": {
+    "Pi_arch": 102,
+    "theta": 79,
+    "F_arch": 42,
+    "T_family": 69,
+    "units": 4,
+    "L": 11,
+    "K": 1,
+    "max_extra_units": 1
+   },
+   "best_dev_in_grammar": -0.027551,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G01_gate_D2d_s0_archive.json": {
+   "n_elites": 16,
+   "n_escape_census_grammar": 16,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 16,
+    "theta": 8,
+    "F_arch": 5,
+    "L": 2,
+    "units": 5
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G01_gate_D2d_s1_archive.json": {
+   "n_elites": 16,
+   "n_escape_census_grammar": 16,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 16,
+    "theta": 10,
+    "units": 5,
+    "F_arch": 5,
+    "L": 2
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G01_gate_D2d_s2_archive.json": {
+   "n_elites": 16,
+   "n_escape_census_grammar": 16,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 16,
+    "F_arch": 5,
+    "theta": 4,
+    "units": 5,
+    "L": 2
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G01_gate_D3d_s0_archive.json": {
+   "n_elites": 24,
+   "n_escape_census_grammar": 24,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 24,
+    "F_arch": 9,
+    "units": 9,
+    "theta": 7,
+    "L": 3,
+    "T_family": 2
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA5_G01_gate_D3d_s1_archive.json": {
+   "n_elites": 24,
+   "n_escape_census_grammar": 24,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 24,
+    "units": 8,
+    "F_arch": 7,
+    "L": 4,
+    "theta": 9,
+    "T_family": 1
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.58829
+  },
+  "QDA5_G01_gate_D3d_s2_archive.json": {
+   "n_elites": 24,
+   "n_escape_census_grammar": 24,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 24,
+    "theta": 23,
+    "F_arch": 9,
+    "units": 8,
+    "L": 4
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  }
+ },
+ "per_archive_QDA3": {
+  "QDA3_P01_random_search_T2_s0_archive.json": {
+   "n_elites": 1211,
+   "n_escape_census_grammar": 0,
+   "escape_fraction": 0.0,
+   "escape_reasons_counts": {},
+   "best_dev_in_grammar": 0.571144,
+   "best_dev_out_of_grammar": null
+  },
+  "QDA3_P01_random_search_T2_s1_archive.json": {
+   "n_elites": 1245,
+   "n_escape_census_grammar": 0,
+   "escape_fraction": 0.0,
+   "escape_reasons_counts": {},
+   "best_dev_in_grammar": 0.571144,
+   "best_dev_out_of_grammar": null
+  },
+  "QDA3_P01_random_search_T2_s2_archive.json": {
+   "n_elites": 1232,
+   "n_escape_census_grammar": 0,
+   "escape_fraction": 0.0,
+   "escape_reasons_counts": {},
+   "best_dev_in_grammar": 0.571144,
+   "best_dev_out_of_grammar": null
+  },
+  "QDA3_P03_map_elites_T2_s0_archive.json": {
+   "n_elites": 12,
+   "n_escape_census_grammar": 12,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "F_arch": 12,
+    "Pi_arch": 12,
+    "L": 4,
+    "theta": 6,
+    "units": 4,
+    "T_family": 2
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P03_map_elites_T2_s1_archive.json": {
+   "n_elites": 12,
+   "n_escape_census_grammar": 12,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "F_arch": 11,
+    "T_family": 4,
+    "Pi_arch": 12,
+    "theta": 11,
+    "L": 4,
+    "units": 1
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.58829
+  },
+  "QDA3_P03_map_elites_T2_s2_archive.json": {
+   "n_elites": 11,
+   "n_escape_census_grammar": 11,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "F_arch": 11,
+    "Pi_arch": 11,
+    "T_family": 5,
+    "theta": 8,
+    "units": 5,
+    "L": 3
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P05_map_elites_D2d_s0_archive.json": {
+   "n_elites": 59,
+   "n_escape_census_grammar": 59,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 59,
+    "theta": 39,
+    "units": 6,
+    "T_family": 39,
+    "F_arch": 18,
+    "L": 7
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P05_map_elites_D2d_s1_archive.json": {
+   "n_elites": 59,
+   "n_escape_census_grammar": 59,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 59,
+    "theta": 52,
+    "T_family": 46,
+    "K": 8,
+    "units": 5,
+    "F_arch": 18,
+    "L": 7,
+    "max_extra_units": 5
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P05_map_elites_D2d_s2_archive.json": {
+   "n_elites": 57,
+   "n_escape_census_grammar": 57,
+   "escape_fraction": 1.0,
+   "escape_reasons_counts": {
+    "Pi_arch": 52,
+    "F_arch": 18,
+    "T_family": 34,
+    "L": 8,
+    "theta": 23,
+    "units": 5
+   },
+   "best_dev_in_grammar": null,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P06_cvt_map_elites_D_s0_archive.json": {
+   "n_elites": 60,
+   "n_escape_census_grammar": 59,
+   "escape_fraction": 0.983333,
+   "escape_reasons_counts": {
+    "F_arch": 13,
+    "Pi_arch": 56,
+    "units": 21,
+    "theta": 26,
+    "T_family": 10,
+    "K": 1,
+    "L": 3
+   },
+   "best_dev_in_grammar": 0.511445,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P06_cvt_map_elites_D_s1_archive.json": {
+   "n_elites": 58,
+   "n_escape_census_grammar": 57,
+   "escape_fraction": 0.982759,
+   "escape_reasons_counts": {
+    "F_arch": 13,
+    "Pi_arch": 55,
+    "units": 10,
+    "theta": 14,
+    "L": 5,
+    "T_family": 7,
+    "K": 1
+   },
+   "best_dev_in_grammar": 0.227219,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P06_cvt_map_elites_D_s2_archive.json": {
+   "n_elites": 56,
+   "n_escape_census_grammar": 55,
+   "escape_fraction": 0.982143,
+   "escape_reasons_counts": {
+    "T_family": 12,
+    "Pi_arch": 51,
+    "theta": 18,
+    "units": 14,
+    "F_arch": 14,
+    "L": 2
+   },
+   "best_dev_in_grammar": 0.482176,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P09_map_elites_D3d_s0_archive.json": {
+   "n_elites": 126,
+   "n_escape_census_grammar": 122,
+   "escape_fraction": 0.968254,
+   "escape_reasons_counts": {
+    "Pi_arch": 120,
+    "theta": 105,
+    "F_arch": 39,
+    "L": 9,
+    "T_family": 83,
+    "K": 4,
+    "units": 7,
+    "max_extra_units": 2
+   },
+   "best_dev_in_grammar": -0.093589,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P09_map_elites_D3d_s1_archive.json": {
+   "n_elites": 119,
+   "n_escape_census_grammar": 116,
+   "escape_fraction": 0.97479,
+   "escape_reasons_counts": {
+    "T_family": 78,
+    "Pi_arch": 113,
+    "units": 6,
+    "theta": 79,
+    "F_arch": 38,
+    "K": 10,
+    "L": 12
+   },
+   "best_dev_in_grammar": -0.027551,
+   "best_dev_out_of_grammar": 0.603719
+  },
+  "QDA3_P09_map_elites_D3d_s2_archive.json": {
+   "n_elites": 109,
+   "n_escape_census_grammar": 104,
+   "escape_fraction": 0.954128,
+   "escape_reasons_counts": {
+    "Pi_arch": 102,
+    "theta": 79,
+    "F_arch": 42,
+    "T_family": 69,
+    "units": 4,
+    "L": 11,
+    "K": 1,
+    "max_extra_units": 1
+   },
+   "best_dev_in_grammar": -0.027551,
+   "best_dev_out_of_grammar": 0.603719
+  }
+ },
+ "input_digests": {
+  "mutations_py": "b4c1959495d1773d",
+  "direct_genome_py": "bd248560068d83ec"
+ }
+}

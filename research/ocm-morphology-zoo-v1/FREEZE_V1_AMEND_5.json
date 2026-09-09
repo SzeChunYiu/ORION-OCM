@@ -1,0 +1,248 @@
+{
+ "amendment_id": "FREEZE_V1_AMEND_5_QUALITY_GATE",
+ "amends": "FREEZE_V1_AMEND_4.json",
+ "freeze_v1_sha256": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+ "amend_1_sha256": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+ "amend_2_sha256": "97388119ef35485cf6d50e7cf0c696a0c8e555d1153c6d603e39de3d88745cd0",
+ "amend_3_sha256": "deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e",
+ "amend_4_sha256": "b51a9959e3cfaa5ba47773111119516c1d6f480f63ecdc898234145e4dff263f",
+ "created_utc": "2026-09-09T21:06:56Z",
+ "created_utc_by": "hpc/freeze_amend5.py at freeze time (tool-stamped)",
+ "supersedes_sha256": null,
+ "refreeze_reason": null,
+ "motivation": "Revival iteration owed by amend-4's own frozen rule 3 (mzd9): MIXED_INTERMEDIATE_NO_TERMINAL with amend3_terminal_status UNDERMINED_QUALITY \u2014 P05/P09 D-archive coverage was junk-borne (seed-mean junk_free_ratio 0.326667 / 0.288597 < 0.5 at the census-median bar).  Lever (#221 diagnose-revive: attribute to ONE stage, apply the matching lever, re-test): the QUALITY stage of archive admission.  A quality gate on admission makes junk-free coverage the archive's own objective, so the amend-3 DIVERSE terminal either stands cleanly at scope with the gate ON, or the claim is honestly revised to quality-conditional.  The gate is the ONE varied dimension: G00 no-gate twins (identical budget/seeds/axis, byte-identical map_elites loop) run in the same array for attribution, and double as in-array determinism xchecks against the frozen QDA3 archives.",
+ "quality_gate_amend5": {
+  "mechanism": "map_elites.run(admission_bar=bar): a FEASIBLE record is admitted to the D-archive only if dev_score >= bar; rejected evaluations remain charged to the budget and counted as feasible-found; try_insert consumes no RNG so admission_bar=None is byte-identical to the pre-amendment loop (G00 arms must reproduce the QDA3 archives exactly \u2014 asserted in the worker)",
+  "admission_bar": 0.224507,
+  "admission_bar_quantile": "q0.5",
+  "bar_selection_rule_FROZEN": "strictest ladder quantile (q in 0.5, 0.4, 0.3, 0.25, 0.2, 0.15, 0.1 over the feasible-census dev distribution) with ceil_D2d_recovery >= 0.25 AND ceil_D3d_recovery >= 0.25",
+  "bar_selection_basis": "strictest ladder quantile with ceil_D2d_recovery >= 0.25 AND ceil_D3d_recovery >= 0.25 over the frozen GATE-CEILING truth (receipt 6ce5ceff38a0de5c): the census-median default q0.5 (== HZD9 quality_bar_T2) was itself the strictest admissible bar, so the coordinator's default is frozen and no relaxation was needed",
+  "ceiling_ladder": {
+   "q0.5": {
+    "bar": 0.224507,
+    "admissible_fraction_feasible": 0.5,
+    "ceil_D2d_cells": 16,
+    "ceil_D2d_recovery": 0.32,
+    "ceil_D3d_cells": 21,
+    "ceil_D3d_recovery": 0.253012,
+    "ceil_CVTD_niches": 50,
+    "ceil_CVTD_recovery": 0.78125
+   },
+   "q0.4": {
+    "bar": 0.189829,
+    "admissible_fraction_feasible": 0.600126,
+    "ceil_D2d_cells": 16,
+    "ceil_D2d_recovery": 0.32,
+    "ceil_D3d_cells": 22,
+    "ceil_D3d_recovery": 0.26506,
+    "ceil_CVTD_niches": 50,
+    "ceil_CVTD_recovery": 0.78125
+   },
+   "q0.3": {
+    "bar": 0.145398,
+    "admissible_fraction_feasible": 0.700147,
+    "ceil_D2d_cells": 16,
+    "ceil_D2d_recovery": 0.32,
+    "ceil_D3d_cells": 23,
+    "ceil_D3d_recovery": 0.277108,
+    "ceil_CVTD_niches": 51,
+    "ceil_CVTD_recovery": 0.796875
+   },
+   "q0.25": {
+    "bar": 0.108424,
+    "admissible_fraction_feasible": 0.75014,
+    "ceil_D2d_cells": 17,
+    "ceil_D2d_recovery": 0.34,
+    "ceil_D3d_cells": 25,
+    "ceil_D3d_recovery": 0.301205,
+    "ceil_CVTD_niches": 52,
+    "ceil_CVTD_recovery": 0.8125
+   },
+   "q0.2": {
+    "bar": -0.050949,
+    "admissible_fraction_feasible": 0.800063,
+    "ceil_D2d_cells": 28,
+    "ceil_D2d_recovery": 0.56,
+    "ceil_D3d_cells": 42,
+    "ceil_D3d_recovery": 0.506024,
+    "ceil_CVTD_niches": 55,
+    "ceil_CVTD_recovery": 0.859375
+   },
+   "q0.15": {
+    "bar": -0.17591,
+    "admissible_fraction_feasible": 0.850056,
+    "ceil_D2d_cells": 36,
+    "ceil_D2d_recovery": 0.72,
+    "ceil_D3d_cells": 55,
+    "ceil_D3d_recovery": 0.662651,
+    "ceil_CVTD_niches": 62,
+    "ceil_CVTD_recovery": 0.96875
+   },
+   "q0.1": {
+    "bar": -0.254402,
+    "admissible_fraction_feasible": 0.900014,
+    "ceil_D2d_cells": 40,
+    "ceil_D2d_recovery": 0.8,
+    "ceil_D3d_cells": 64,
+    "ceil_D3d_recovery": 0.771084,
+    "ceil_CVTD_niches": 62,
+    "ceil_CVTD_recovery": 0.96875
+   }
+  },
+  "chosen_bar_ceilings": {
+   "D2d_cells": 16,
+   "D2d_recovery": 0.32,
+   "D3d_cells": 21,
+   "D3d_recovery": 0.253012,
+   "CVTD_niches": 50,
+   "CVTD_recovery": 0.78125
+  },
+  "census_median_bar_hz9": 0.224507,
+  "precedence": "GATE-CEILING truth produced and this bar chosen BEFORE any amend-5 scored run (QDA5_ statuses asserted absent); the ladder is embedded verbatim so the choice is auditable against the rule"
+ },
+ "census_truth_P00C": {
+  "run_id": "zoo-census-p00c",
+  "tier": "T2",
+  "denominators": {
+   "D2d@10_occupied": 50,
+   "D3d@10_occupied": 83,
+   "CVTD_occupied_niches": 64,
+   "CVTD_k_after_dedup": 64,
+   "PARETO_T2": 792,
+   "S3d@10_occupied_T0ref": 8
+  },
+  "frozen_grid_bounds": {
+   "D_dev_2d": [
+    [
+     1.35,
+     37.75
+    ],
+    [
+     3.0,
+     10.4
+    ]
+   ],
+   "D_dev_3d": [
+    [
+     1.35,
+     37.75
+    ],
+    [
+     3.0,
+     10.4
+    ],
+    [
+     1.85,
+     38.85
+    ]
+   ]
+  },
+  "t2_scalar_refs": {
+   "W2_REF": 484.7,
+   "B2_REF": 152.8
+  }
+ },
+ "census_truth_GATE_CEILING": {
+  "run_id": "zoo-census-gate-ceiling",
+  "tier": "T2",
+  "unscored": true,
+  "receipt_head": "6ce5ceff38a0de5ca7579a1426ce7288e4ede43f61dedeb13e126f5aa74d9e5c",
+  "config_digest": "373f7062b048c0a533337cb50737790075cdf0d70719d81606d0f7ce2637c54e",
+  "feasible": 28584,
+  "denominators": {
+   "D2d@10_occupied": 50,
+   "D3d@10_occupied": 83,
+   "CVTD_occupied_niches": 64,
+   "PARETO_T2": 792
+  },
+  "xcheck_vs_P00C_HZD9": {
+   "pareto_equals_P00C": true,
+   "pareto_size": 792,
+   "cells_D2d_equals_P00C": true,
+   "cells_D3d_equals_P00C": true,
+   "cvtd_occupancy_equals_denominator": true,
+   "feasible_equals_P00C": true,
+   "q0.5_equals_HZD9_quality_bar": true
+  }
+ },
+ "arms_amend5": {
+  "budget": 40000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "res": 10,
+  "arms": [
+   {
+    "arm_id": "G01_gate_D2d",
+    "gated": true,
+    "archive": "D_dev_2d",
+    "own_axis": "D2d_cell_recovery",
+    "nogate_twin": "P05_map_elites_D2d"
+   },
+   {
+    "arm_id": "G00_nogate_D2d",
+    "gated": false,
+    "archive": "D_dev_2d",
+    "own_axis": "D2d_cell_recovery",
+    "nogate_twin": "P05_map_elites_D2d"
+   },
+   {
+    "arm_id": "G01_gate_D3d",
+    "gated": true,
+    "archive": "D_dev_3d",
+    "own_axis": "D3d_cell_recovery",
+    "nogate_twin": "P09_map_elites_D3d"
+   },
+   {
+    "arm_id": "G00_nogate_D3d",
+    "gated": false,
+    "archive": "D_dev_3d",
+    "own_axis": "D3d_cell_recovery",
+    "nogate_twin": "P09_map_elites_D3d"
+   }
+  ],
+  "gated_arms": [
+   "G01_gate_D2d",
+   "G01_gate_D3d"
+  ],
+  "nogate_arms": [
+   "G00_nogate_D2d",
+   "G00_nogate_D3d"
+  ]
+ },
+ "metrics_amend5": [
+  "own_axis_recovery (D2d@10 vs 50 / D3d@10 vs 83 census cells), recomputed uniformly at T2 from the archive records",
+  "junk_free_own_axis_recovery at the frozen admission bar (== own_axis for G01 by construction, asserted)",
+  "junk_free_ratio (== 1.0 for G01, asserted per task)",
+  "pareto_recovery_T2 (vs 792), best_dev_T2, n_elites, min_dev_elite (>= bar for G01, asserted)",
+  "n_admissible_feasible (feasible evals with dev >= bar; charged-budget accounting of what the gate rejected)",
+  "gate_vs_control deltas per axis: seed-mean own_axis_recovery, best_dev_T2, pareto_recovery_T2, n_elites (attribution; reported, never rule-firing)",
+  "G00 determinism xchecks: archive records == frozen QDA3 twin archive; best_dev == frozen QDA3 value; raw own_axis == frozen QDA3 metric"
+ ],
+ "thresholds_amend5": {
+  "own_axis_absolute_bar": 0.25,
+  "best_dev_ref_P01": 0.571144,
+  "best_dev_slack": 0.01,
+  "best_dev_bar": 0.561144,
+  "ceiling_constraint": "ceil_recovery(chosen bar) >= 0.25 on both gated axes (structural reachability, checked at freeze time)"
+ },
+ "scoring_rules_amend5": {
+  "amend3_diverse_rule_verbatim": "DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE: some D-archive arm (P05/P06/P09) has own_axis_recovery >= 0.25 on seed-means AND its best_dev_T2 (seed-mean) >= P01 best_dev_T2 (seed-mean) - 0.01",
+  "terminal_rule_FROZEN_first_match": [
+   "1 DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE (RESTORED_QUALITY_GATED_AT_SCOPE): some GATED arm (G01_gate_D2d / G01_gate_D3d) has seed-mean own_axis_recovery >= 0.25 AND seed-mean best_dev_T2 >= 0.561144 (P01 0.571144 - 0.01, the amend-3 DIVERSE clause verbatim); junk-free holds by construction (every admitted elite >= admission_bar, junk_free_ratio == 1.0 asserted per task)",
+   "2 NO_MEANINGFUL_BEHAVIORAL_DIVERSITY (REVISED_QUALITY_CONDITIONAL): EVERY gated arm seed-mean own_axis_recovery < 0.25 \u2014 under the frozen census-quality bar the D-archive coverage collapses below the scope bar on both axes; the amend-3 diversity terminal is honestly revised: its raw coverage was quality-conditional (junk-borne), not restored by the lever",
+   "3 else MIXED_INTERMEDIATE_NO_TERMINAL (PARTIAL_RESTORATION): some but not all conditions of rule 1 hold (one axis restored, or recovery restored without the best_dev clause)"
+  ],
+  "aggregation": "aggregate_amend5.py runs only when all 12 tasks (4 arms x 3 seeds) have ok dispositions and verifiable receipts, GATE_CEILING truth is present, and every G00 byte-identity xcheck passed; verdicts are computed mechanically from these rules, never narrated"
+ },
+ "controls": {
+  "one_varied_dimension": "admission_bar is the ONLY difference between G01_gate_X and G00_nogate_X (same algorithm, budget 40000, seeds, axis, res); attribution deltas are computed per axis in the aggregate",
+  "g00_byte_identity": "G00 arms must reproduce the frozen amend-3 archives (QDA3_P05_map_elites_D2d_s{0,1,2}, QDA3_P09_map_elites_D3d_s{0,1,2}) record-for-record: in-array determinism audit of the admission_bar=None path against the scored amend-3 layer",
+  "hzd9r_crosscheck": "when the chosen bar == HZD9 quality_bar_T2, G00 junk_free_own_axis_recovery must equal the frozen HZD9R value for the twin arm/seed",
+  "t0_untouched": "T0 scoring path and all amend-1..4 truth unchanged and still reproducible",
+  "encoding_fixed": "E0_direct everywhere; no codec arms"
+ },
+ "status": "FROZEN pre-score"
+}
