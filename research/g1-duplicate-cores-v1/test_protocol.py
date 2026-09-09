@@ -25,11 +25,14 @@ FREEZE = REPO / "research" / "g1-vessel-freeze-v1"
 class TestG1DuplicateCores(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        capsule = HERE / "RESULT.json"
+        cls.frozen_before = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
         with tempfile.TemporaryDirectory() as tmp:
             cls.probe = E.run_shared_core_probe(Path(tmp))
         with tempfile.TemporaryDirectory() as tmp:
             cls.result = E.main(Path(tmp) / "RESULT.json")
-        cls.disk = json.loads((HERE / "RESULT.json").read_text())
+        cls.frozen_after = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
+        cls.disk = json.loads(capsule.read_text(encoding="utf-8"))
 
     def test_live_runtime_is_not_package_export(self):
         self.assertIs(field_bridge.OCMRuntime, live_mod.OCMRuntime)
@@ -112,6 +115,8 @@ class TestG1DuplicateCores(unittest.TestCase):
         self.assertFalse(frozen["production_code_deleted"])
 
     def test_capsule_result_matches_run(self):
+        self.assertIsNotNone(self.frozen_before)
+        self.assertEqual(self.frozen_before, self.frozen_after)
         self.assertEqual(self.disk["schema"], E.SCHEMA)
         self.assertEqual(self.disk["salt"], E.SALT)
         self.assertEqual(self.disk["terminal"], self.result["terminal"])

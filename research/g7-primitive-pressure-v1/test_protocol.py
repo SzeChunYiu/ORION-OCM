@@ -109,9 +109,12 @@ class TestMetricAndDecision(unittest.TestCase):
 class TestLiveStudy(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        capsule = HERE / "RESULT.json"
+        cls.frozen_before = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
         with tempfile.TemporaryDirectory() as tmp:
             cls.result = E.write_outputs(Path(tmp) / "RESULT.json")
-        cls.disk = json.loads((HERE / "RESULT.json").read_text(encoding="utf-8"))
+        cls.frozen_after = capsule.read_text(encoding="utf-8") if capsule.is_file() else None
+        cls.disk = json.loads(capsule.read_text(encoding="utf-8"))
 
     def test_terminal_is_allowed_and_not_programme_wide(self):
         self.assertIn(self.result["terminal"], E.ALLOWED_TERMINALS)
@@ -148,6 +151,8 @@ class TestLiveStudy(unittest.TestCase):
             self.assertGreater(row["reset_work_units"], row["continued_work_units"])
 
     def test_committed_result_matches_live_terminal(self):
+        self.assertIsNotNone(self.frozen_before)
+        self.assertEqual(self.frozen_before, self.frozen_after)
         self.assertEqual(self.disk["schema"], E.SCHEMA)
         self.assertEqual(self.disk["terminal"], self.result["terminal"])
         self.assertEqual(self.disk["p_stack_continued"], self.result["p_stack_continued"])

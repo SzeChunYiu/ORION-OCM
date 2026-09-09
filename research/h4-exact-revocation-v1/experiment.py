@@ -550,9 +550,6 @@ def main(out: Path) -> dict[str, Any]:
     out.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(result, indent=2, sort_keys=True) + "\n"
     out.write_text(text)
-    capsule = Path(__file__).resolve().parent / "RESULT.json"
-    if out.resolve() != capsule.resolve():
-        capsule.write_text(text)
     print(json.dumps({"terminal": result["terminal"], "earned": result["earned"]}, indent=2))
     return result
 

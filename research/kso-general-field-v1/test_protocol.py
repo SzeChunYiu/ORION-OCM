@@ -110,8 +110,11 @@ class TestKsoGeneralField(unittest.TestCase):
         self.assertEqual(impact_cone.__module__, "ocm.kso.revocation")
 
     def test_experiment_earns_gef_boxes_without_programme_close(self):
+        capsule = Path(E.__file__).resolve().parent / "RESULT.json"
+        frozen_before = capsule.read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as tmp:
             result = E.main(Path(tmp) / "RESULT.json")
+        self.assertEqual(frozen_before, capsule.read_text(encoding="utf-8"))
         self.assertEqual(result["schema"], E.SCHEMA)
         self.assertEqual(result["issue"], 165)
         self.assertFalse(result["programme_wide_close"])

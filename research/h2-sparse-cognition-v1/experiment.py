@@ -319,9 +319,6 @@ def main(out: Path | None = None) -> dict[str, Any]:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(result, indent=2, sort_keys=True) + "\n"
     target.write_text(text)
-    capsule = ROOT / "RESULT.json"
-    if target.resolve() != capsule.resolve():
-        capsule.write_text(text)
     print(json.dumps({"terminal": result["terminal"], "earned": result["earned"]}, indent=2))
     return result
 

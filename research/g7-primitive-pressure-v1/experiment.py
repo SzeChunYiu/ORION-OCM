@@ -315,14 +315,12 @@ def run_study() -> dict[str, Any]:
     return result
 
 
-def write_outputs(out: Path | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+def write_outputs(out: Path, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Write RESULT only to ``out``. Tests must pass a tempfile, not the capsule."""
     payload = payload or run_study()
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
-    capsule = HERE / "RESULT.json"
-    capsule.write_text(text, encoding="utf-8")
-    if out is not None and out.resolve() != capsule.resolve():
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(text, encoding="utf-8")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text, encoding="utf-8")
     return payload
 
 

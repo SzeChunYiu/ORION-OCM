@@ -94,6 +94,21 @@ class TestG7LineageProtocol(unittest.TestCase):
             with self.assertRaises(L.IsolationError):
                 L.assert_disjoint_stores(continued, L.LineageStore(continued.root / "nested", "RESET_OCM"))
 
+    def test_continued_persist_rejects_foreign_lineage_id(self):
+        missing = L.empty_bundle()
+        missing["lineage_id"] = ""
+        foreign = L.empty_bundle()
+        foreign["lineage_id"] = "foreign-lineage"
+        with tempfile.TemporaryDirectory() as temp:
+            continued = L.LineageStore(Path(temp) / "continued", "CONTINUED_OCM")
+            reset = L.LineageStore(Path(temp) / "reset", "RESET_OCM")
+            with self.assertRaises(L.IsolationError):
+                continued.persist(missing)
+            with self.assertRaises(L.IsolationError):
+                continued.persist(foreign)
+            reset.persist(foreign)
+            continued.persist(L.empty_bundle())
+
     def test_constitution_mutation_is_refused(self):
         bundle = L.empty_bundle()
         with self.assertRaises(L.ConstitutionMutationError):

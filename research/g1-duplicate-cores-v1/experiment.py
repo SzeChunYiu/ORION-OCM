@@ -641,9 +641,6 @@ def main(out: Path) -> dict[str, Any]:
     text = json.dumps(result, indent=2, sort_keys=True) + "\n"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(text)
-    capsule = HERE / "RESULT.json"
-    if out.resolve() != capsule.resolve():
-        capsule.write_text(text)
     print(
         json.dumps(
             {

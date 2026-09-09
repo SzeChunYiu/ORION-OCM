@@ -1519,8 +1519,6 @@ def run(out: Path | None = None, transitions_dir: Path | None = None):
         earned = 3
     if t3 is not None and terminal == "PHASED_COGNITIVE_DEVELOPMENT":
         earned = 4
-    elif t3 is not None:
-        earned = 4
     result = {
         "schema": "ocm.g7.lineage-d3-result.v3",
         "terminal": terminal,

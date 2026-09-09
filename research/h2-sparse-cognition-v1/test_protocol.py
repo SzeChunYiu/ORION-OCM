@@ -102,8 +102,11 @@ class TestH2SparseCognition(unittest.TestCase):
         self.assertEqual(mutant.k, S.K_TARGETS)
 
     def test_experiment_earns_h2_boxes_without_programme_close(self):
+        capsule = HERE / "RESULT.json"
+        frozen_before = capsule.read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as tmp:
             result = E.main(Path(tmp) / "RESULT.json")
+        self.assertEqual(frozen_before, capsule.read_text(encoding="utf-8"))
         self.assertEqual(result["schema"], E.SCHEMA)
         self.assertEqual(result["issue"], 165)
         self.assertFalse(result["programme_wide_close"])

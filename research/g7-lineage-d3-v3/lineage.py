@@ -284,10 +284,11 @@ class LineageStore:
         return resolved
 
     def persist(self, bundle: dict) -> Path:
-        if bundle.get("lineage_id") != LINEAGE_ID and self.role == "CONTINUED_OCM":
-            # Allow only the registered lineage in the principal arm.
-            if not bundle.get("lineage_id"):
-                raise IsolationError("continued arm requires a lineage id")
+        if self.role == "CONTINUED_OCM" and bundle.get("lineage_id") != LINEAGE_ID:
+            raise IsolationError(
+                "continued arm may persist only lineage %s, got %r"
+                % (LINEAGE_ID, bundle.get("lineage_id"))
+            )
         assert_constitution_frozen(bundle)
         path = self._inside(self.root / BUNDLE_FILE)
         payload = envelope(bundle)

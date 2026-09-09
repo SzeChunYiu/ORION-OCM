@@ -87,6 +87,21 @@ class TestG7LineageProtocol(unittest.TestCase):
                 L.assert_disjoint_stores(continued, L.LineageStore(continued.root / "nested", "RESET_OCM"))
             self.assertIsNotNone(nested)
 
+    def test_continued_persist_rejects_foreign_lineage_id(self):
+        missing = L.empty_bundle()
+        missing["lineage_id"] = ""
+        foreign = L.empty_bundle()
+        foreign["lineage_id"] = "foreign-lineage"
+        with tempfile.TemporaryDirectory() as temp:
+            continued = L.LineageStore(Path(temp) / "continued", "CONTINUED_OCM")
+            reset = L.LineageStore(Path(temp) / "reset", "RESET_OCM")
+            with self.assertRaises(L.IsolationError):
+                continued.persist(missing)
+            with self.assertRaises(L.IsolationError):
+                continued.persist(foreign)
+            reset.persist(foreign)
+            continued.persist(L.empty_bundle())
+
     def test_failure_record_is_degree_scope_not_task_blacklist(self):
         macro = ("square", "inc")
         method = L.method_record(macro, L.ORIGIN_COMPOSITION)

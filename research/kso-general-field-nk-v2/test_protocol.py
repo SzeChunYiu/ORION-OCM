@@ -125,8 +125,11 @@ class TestGefNkIndexes(unittest.TestCase):
         self.assertTrue(copied["ok"])
 
     def test_experiment_earns_nk_boxes_without_programme_close(self):
+        capsule = HERE / "RESULT.json"
+        frozen_before = capsule.read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as tmp:
             result = E.main(Path(tmp) / "RESULT.json")
+        self.assertEqual(frozen_before, capsule.read_text(encoding="utf-8"))
         self.assertEqual(result["schema"], E.SCHEMA)
         self.assertEqual(result["issue"], 165)
         self.assertEqual(result["section"], 8)
