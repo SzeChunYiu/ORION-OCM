@@ -1,0 +1,74 @@
+{
+  "read_id": "GSA5_RATE_READ_V1",
+  "created_utc": "2026-09-09T23:46:21Z",
+  "read_type": "mechanism_attribution",
+  "terminal_unchanged": "MORPHOLOGY_SEARCH_COST_DOMINATES__SWEEP",
+  "question": "Why is GSA5_surrogate at 72150 morphologies/cpu-h when GSA2_hetero (same lane, same budget in GSAB1) is at 354046 (4.91x)?",
+  "data": {
+    "batch": "GSAB1 (post-fix repair batch of the lane-arm sampler wiring defect)",
+    "host_path": "lunarc:~/zoo221/gs",
+    "aggregate": "results/GS_R1_AGGREGATE.json@2026-09-09T23:31:36Z",
+    "manifest": "manifests/GS_R1_BATCH_GSAB1.json",
+    "freeze_sha256": "4dd79f8e8ef61c4701f647733c62878396b26d4311cbbab2a9170b1f8241080e",
+    "job_ids": ["3587721-3587750 (30 tasks, all COMPLETED)"],
+    "code_digest_drift_vs_freeze": false,
+    "aggregate_arm_stats_scope": "GSAB1 seeds only (defective pre-fix GSA_* dispositions retained separately as scored artifacts)"
+  },
+  "one_stage_attribution": "promotion-and-parent-allocation ranking stage (GSA5 rank=surrogate_allocation vs GSA2 rank=novelty)",
+  "decomposition": {
+    "rate_ratio_GSA2_over_GSA5": 4.906,
+    "factor_distinct_yield": {
+      "value": 2.267,
+      "definition": "mean distinct_t2_viable_phenotypes GSA2 / GSA5 per seed (5062.7 / 2233.3)"
+    },
+    "factor_cpu_per_seed": {
+      "value": 2.171,
+      "definition": "mean cpu_seconds GSA5 / GSA2 per seed (111.257 / 51.258)"
+    },
+    "product": 4.92,
+    "note": "product of the two factors equals the rate ratio (rounding)"
+  },
+  "controlled_or_exonerated_stages": {
+    "lane_composition": {
+      "verdict": "controlled",
+      "evidence": "GSAB1 manifest pins GSA5 lane_weights {hetero: 1.0} — identical to GSA2_hetero; same seeded weighted_sampler"
+    },
+    "viability_funnel": {
+      "verdict": "exonerated",
+      "evidence": "T0 viable rate 0.7484 (GSA2) vs 0.7422 (GSA5); T1 and T2 gates pass 1.0000 in BOTH arms; per-seed tier-eval counts identical across arms (e.g. s0 T1=17123, T2=5802 in both) — SH schedule fixes eval counts and they match"
+    },
+    "evaluation_cost_per_genome": {
+      "verdict": "exonerated for the eval tiers",
+      "evidence": "identical tier-eval counts per seed; the +60.0 cpu-s/seed delta is ranking machinery, not real evaluation (per-round cpu 1.75-1.91 s flat across 62 rounds for GSA5 vs ~0.8 s for GSA2)"
+    }
+  },
+  "mechanism": {
+    "distinct_yield_loss": "allocation_score = p_viable * max(0, predicted_t1_score) is a pure function of the ~120-dim grammar one-hot feature vector (surrogate_allocate.genome_feature_vector), so it cannot distinguish genomes sharing a feature vector and systematically re-promotes the incumbent high-scoring cells. The parent-pool refresh (search/successive_halving.py:230-233) sorts by the SAME rank_fn, and 80% of each cohort is mutation/crossover of those parents, making the collapse self-reinforcing. Novelty ranking diversifies both promotions and parents.",
+    "cpu_overhead": "62 fresh EnsembleSurrogate retrains per seed (2 sklearn HistGradientBoosting fits on the round-local 531 T0 / 204 T1 records each) plus ~750 single-row sklearn predicts per round for rank_prepare = ~0.97 s/round = +60 s/seed on top of byte-matched real-eval work."
+  },
+  "proving_numbers": {
+    "t2_survivors_per_seed": 5802,
+    "distinct_fraction": {"GSA2_s0": 0.8746, "GSA5_s0": 0.3595},
+    "top_phenotype_multiplicity_s0": {"GSA2": 17, "GSA5": 138},
+    "survivor_share_in_multiplicity_ge3_s0": {"GSA2": 0.105, "GSA5": 0.659},
+    "duplicates_per_seed_s0": {"GSA2": 727, "GSA5": 3716}
+  },
+  "defects_named": [
+    {
+      "defect_id": "GSA5_HOLDOUT_MAE_NAN",
+      "where": "search/surrogate_allocate.py:_StumpTree.predict (depth guard can return the internal-node float('nan') leaf marker set in _build)",
+      "observed": "holdout_mae_t1 = NaN in 5/6 GSA5 seeds, degenerate 0.0 in s2",
+      "impact": "the ONLY validation statistic of the surrogate was never usable on-host; surrogate ranking quality went unmeasured. Ranking itself unaffected in the sklearn path (stumps are used only for the holdout MAE)."
+    }
+  ],
+  "not_a_defect": [
+    "lane_weights: correctly pinned {hetero: 1.0} for GSA5 in GSAB1 (the earlier sampler-wiring defect, named by worker N, is repaired and retained)",
+    "round-local surrogate training (n_train_t0=531, n_train_t1=204 per round, never cumulative) is a frozen design choice, not wiring; it caps the surrogate at <=729 examples/round and is a plausible revival lever"
+  ],
+  "relation_to_frozen_terminal": "The read explains the GSA5 residual INSIDE MORPHOLOGY_SEARCH_COST_DOMINATES__SWEEP (ranking-machinery cost + allocation-induced redundancy), does not re-litigate it.",
+  "revival_levers_not_executed": [
+    "novelty-gated surrogate allocation (surrogate proposes, novelty disposes) to break duplicate promotion",
+    "batch-row sklearn predicts + cumulative-round training to cut the 2.17x CPU factor",
+    "dedup-by-phenotype_digest at promotion so T2 budget cannot be spent on already-survived phenotypes"
+  ]
+}
