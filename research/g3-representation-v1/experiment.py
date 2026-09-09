@@ -254,6 +254,148 @@ def run(n_train: int = 10, n_test: int = 10, budget: int = 6) -> dict:
             "exact_solved_with_macro": with_macro["EXACT"]["solved"],
         },
         "diagnosis": {t.fingerprint: d for t, d in diagnoses.items()},
+        "redundancy": redundancy_census(budget),
+        "proposition_2": PROPOSITION_2,
+    }
+
+
+PROPOSITION_2 = """Proposition 2 (the exact representation already harvests all sound merging).
+
+Setting: prefix-extending BFS with state merging, where two prefixes sharing an
+abstract state are treated as interchangeable and only the first is extended.
+Every registered representation is a function of the normal form, R = f o nf.
+
+(1) ~E, equality of normal form, is a BISIMULATION for this search. Each token is
+    a polynomial operation, so nf(p) = nf(q) implies nf(p+t) = nf(q+t) for every
+    token t, by induction on the extension. Merging under EXACT therefore loses
+    nothing: it is sound for every task simultaneously, and needs no evidence,
+    no discovery cost and no representation learning.
+
+(2) Because R = f o nf, ~R COARSENS ~E: nf(p) = nf(q) implies R(p) = R(q). So the
+    merges a coarser representation performs are exactly EXACT's merges plus some
+    set of MARGINAL merges, and every marginal merge identifies two prefixes with
+    DIFFERENT normal forms.
+
+(3) The goal test is equality of normal form, so it distinguishes the two sides of
+    every marginal merge. Pruning q because R(q) = R(p) discards q's subtree, and
+    any target reachable ONLY through q is then lost.
+
+    This is a bet, not a certain loss, and the difference is recorded because the
+    first draft of this proposition got it wrong. A marginal merge loses nothing
+    when the discarded subtree is redundant with a surviving one, which happens
+    at shallow budgets where most targets have several routes: at budget 3
+    TRUNCATED_3 performs marginal merges and loses no target at all. What IS
+    provable in both directions is the weaker pair
+
+        lost > 0  =>  marginal merges > 0        (by (1): EXACT loses nothing)
+        marginal merges = 0  =>  lost = 0
+
+    and the losses are then a measured quantity, not a deduced one. At the study
+    budget of 6 they are severe: DEGREE retains 1.4% of discoverable targets,
+    PARITY 3.9%, LEADING 8.4%, TRUNCATED_3 83.0%.
+
+Conclusion: the sound saving available to state abstraction in this search is
+EXACTLY the EXACT redundancy, and it is available for free. A coarser
+representation buys additional pruning only by crossing a boundary the goal test
+can see, and whether that boundary costs it anything is a gamble on route
+redundancy that the census prices rather than assumes.
+REPRESENTATION_PRIOR_DOMINATES is therefore structural in its benefit term -- the
+prior takes all of it -- while the cost term is measured.
+
+A CORRECTION IS RECORDED HERE. An earlier version of the terminal explained the
+negative by asserting that "the coefficient tuple is very nearly a bijection with
+the program prefix, so the exact state space has almost no redundancy for a
+coarser abstraction to merge." That is FALSE, and ``redundancy_census`` measures
+it: at budget 6, 5,460 reachable prefixes collapse to 2,061 distinct normal
+forms, a 62% redundancy with equivalence classes up to size 52. The state space
+is richly redundant. The negative is real but its stated mechanism was wrong --
+the prior does not dominate because there is nothing to merge, it dominates
+because the prior already merges everything that can be soundly merged.
+
+The escape, stated so it can be attacked: (1) fails if a token's effect is not a
+function of the normal form (a search with history-dependent or resource-carrying
+state), and (3) fails if the goal test is coarser than the state -- an acceptance
+predicate rather than an identity. Either breaks the proposition and is the
+condition under which learned abstraction becomes worth its cost.
+"""
+
+
+def redundancy_census(budget: int = 6, tokens=None) -> dict:
+    """How much redundancy exists, and how much of it is soundly harvestable?
+
+    Enumerates every reachable prefix without merging, then reports per
+    representation: how many distinct abstract states it has, how many merges
+    that implies, and -- the number that decides Proposition 2 -- how many of the
+    2,061 distinct normal forms a dedup search under that representation can
+    still DISCOVER. A representation that prunes away the targets is not a
+    cheaper search, it is a different and smaller one.
+    """
+    tokens = tokens or G2.M.PRIMITIVES
+    nodes, frontier = [], [()]
+    for _ in range(budget):
+        nxt = []
+        for prefix in frontier:
+            for token in tokens:
+                nodes.append(prefix + (token,))
+                nxt.append(prefix + (token,))
+        frontier = nxt
+    normal = {c: tuple(G2.M.normal_form(c)) for c in nodes}
+
+    def discoverable(kind):
+        seen, found, frontier = set(), set(), [()]
+        for _ in range(budget):
+            nxt = []
+            for prefix in frontier:
+                for token in tokens:
+                    candidate = prefix + (token,)
+                    nf = normal[candidate]
+                    found.add(nf)
+                    state = abstract(nf, kind)
+                    if state in seen:
+                        continue
+                    seen.add(state)
+                    nxt.append(candidate)
+            frontier = nxt
+        return found
+
+    exact_targets = discoverable("EXACT")
+    per = {}
+    for kind in REPRESENTATIONS:
+        classes = {}
+        for c in nodes:
+            classes.setdefault(abstract(normal[c], kind), []).append(c)
+        found = discoverable(kind)
+        per[kind] = {
+            "distinct_states": len(classes),
+            "merges": len(nodes) - len(classes),
+            "largest_class": max(len(v) for v in classes.values()),
+            "targets_discoverable": len(found),
+            "targets_lost_vs_exact": len(exact_targets - found),
+            "targets_retained_fraction": round(len(found & exact_targets)
+                                               / len(exact_targets), 4),
+        }
+    exact = per["EXACT"]
+    return {
+        "budget": budget,
+        "reachable_prefixes": len(nodes),
+        "distinct_normal_forms": exact["distinct_states"],
+        "exact_redundancy": exact["merges"],
+        "exact_redundancy_fraction": round(exact["merges"] / len(nodes), 4),
+        "per_representation": per,
+        "marginal_merges_beyond_exact": {
+            k: per[k]["merges"] - exact["merges"] for k in REPRESENTATIONS},
+        "reading": (
+            "exact_redundancy is the merging available for free and soundly. "
+            "marginal_merges_beyond_exact is what a coarser representation adds, "
+            "and by Proposition 2 every one of those identifies prefixes with "
+            "different normal forms -- which is why targets_lost_vs_exact is "
+            "positive for exactly the representations that merge more."),
+        "refutes_earlier_claim": (
+            "The earlier terminal said the state space is 'very nearly a "
+            f"bijection' with 'almost no redundancy'. It is not: {exact['merges']:,} "
+            f"of {len(nodes):,} nodes are redundant "
+            f"({100 * exact['merges'] / len(nodes):.0f}%), with classes up to "
+            f"{exact['largest_class']}."),
     }
 
 
@@ -302,12 +444,25 @@ def verdict(doc: dict) -> dict:
             "evidence and saves "
             f"{saved} extensions on the later population against a charged discovery "
             f"cost of {doc['discovery']['charged_construction']}. The prior -- "
-            "searching under the exact representation -- dominates. The mechanism is "
-            "specific and worth stating: in this domain the coefficient tuple is very "
-            "nearly a bijection with the program prefix, so the exact state space has "
-            "almost no redundancy for a coarser abstraction to merge. A representation "
-            "can only pay where equivalent states are actually revisited, and here "
-            "they are not.")
+            "searching under the exact representation -- dominates, and Proposition 2 "
+            "says why: equality of normal form is a bisimulation for this search, so "
+            "the exact representation already merges everything that can be soundly "
+            "merged, for free. Every registered representation is a function of the "
+            "normal form and therefore only COARSENS that equivalence, so each "
+            "marginal merge identifies two prefixes the goal test can tell apart. "
+            "The census confirms both halves: "
+            f"{doc['redundancy']['exact_redundancy']:,} of "
+            f"{doc['redundancy']['reachable_prefixes']:,} nodes are redundant and the "
+            "exact representation harvests all of it, while DEGREE merges nearly "
+            "everything and retains "
+            f"{100 * doc['redundancy']['per_representation']['DEGREE']['targets_retained_fraction']:.0f}% "
+            "of discoverable targets. The selected representation MOD_997 is "
+            "extensionally the identity on this reachable set -- same state count, "
+            "same merges as EXACT -- so its zero saving is not a coincidence. "
+            "This corrects an earlier version of this terminal, which explained the "
+            "same negative by claiming the state space had 'almost no redundancy'. "
+            f"It has {100 * doc['redundancy']['exact_redundancy_fraction']:.0f}% "
+            "redundancy; the prior simply already takes it.")
     else:
         out["terminal"] = "REPRESENTATION_CHANGE_CAUSALLY_USEFUL"
         out["terminal_reason"] = (

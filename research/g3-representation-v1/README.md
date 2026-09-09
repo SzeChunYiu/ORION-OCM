@@ -47,11 +47,49 @@ scale, so it merges nothing and saves nothing. Meanwhile every representation co
 to merge anything destroys solutions outright (`DEGREE` cuts extensions from 19,179 to 280
 and solves 0 of 10).
 
-That gap is the result: **in this domain the coefficient tuple is very nearly a bijection
-with the program prefix, so the exact state space has almost no redundancy for a coarser
-abstraction to merge.** A representation can only pay where equivalent states are actually
-revisited, and here they are not. There is no useful middle between "identical to exact"
-and "unsound".
+### Why — corrected, with the earlier explanation retained
+
+That gap used to be explained like this, and the explanation was **false**:
+
+> in this domain the coefficient tuple is very nearly a bijection with the program prefix,
+> so the exact state space has almost no redundancy for a coarser abstraction to merge
+
+`redundancy_census` measures it and it is not remotely a bijection. At budget 6, **5,460
+reachable prefixes collapse to 2,061 distinct normal forms — 62% redundancy, with
+equivalence classes up to size 52.** The state space is richly redundant. The negative was
+right; its stated mechanism was wrong, and a test had been pinning the wrong phrase.
+
+The real mechanism is **Proposition 2**, and it is stronger:
+
+1. Equality of normal form is a **bisimulation** for this search — every token is a
+   polynomial operation, so `nf(p) = nf(q)` implies `nf(p+t) = nf(q+t)`. Merging under
+   `EXACT` is therefore sound for every task at once, needs no evidence, and costs nothing
+   to discover.
+2. Every registered representation is a function of the normal form, so it can only
+   **coarsen** that equivalence. Its merges are `EXACT`'s merges plus marginal ones, and
+   every marginal merge identifies two prefixes with *different* normal forms.
+3. The goal test is equality of normal form, so it can see across every marginal merge.
+
+| representation | distinct states | merges | marginal vs EXACT | targets retained |
+|---|---:|---:|---:|---:|
+| `EXACT` | 2,061 | 3,399 | 0 | 100.0% |
+| `MOD_997` | 2,061 | 3,399 | 0 | 100.0% |
+| `TRUNCATED_3` | 1,590 | 3,870 | 471 | 83.0% |
+| `LEADING` | 79 | 5,381 | 1,982 | 8.4% |
+| `PARITY` | 24 | 5,436 | 2,037 | 3.9% |
+| `DEGREE` | 7 | 5,453 | 2,054 | **1.4%** |
+
+So the prior does not dominate because there is nothing to merge. **It dominates because
+it already merges everything that can be soundly merged.** All 3,399 available merges are
+harvested for free by the exact representation; a coarser one can only buy more pruning by
+crossing a boundary the goal test can see. There is no useful middle between "identical to
+exact" and "unsound" — and now that is derived rather than observed.
+
+**One over-claim, corrected in the same pass.** The first draft of step 3 said every
+marginal merge loses a target. That is false: a discarded subtree can be redundant with a
+surviving one, and at budget 3 `TRUNCATED_3` merges beyond `EXACT` and loses nothing. What
+holds in both directions is the weaker `lost > 0 ⇒ marginal merges > 0`, with the losses
+measured rather than deduced. The benefit term is structural; the cost term is empirical.
 
 ## G3.4 diagnosis
 

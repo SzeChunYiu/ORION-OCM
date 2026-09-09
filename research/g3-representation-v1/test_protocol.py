@@ -24,6 +24,10 @@ def _load():
 
 E = _load()
 
+#: A real census over a small budget, so the terminal tests are exercised against
+#: measured redundancy rather than a hand-written stub.
+CENSUS = E.redundancy_census(budget=3)
+
 
 class RegisteredLanguage(unittest.TestCase):
     def test_a_misleading_representation_is_included_by_design(self):
@@ -133,10 +137,35 @@ class Vacuity(unittest.TestCase):
                          "reference_solved": ["a"],
                          "fits_training_but_disagrees_later": []},
                "invalidation": {"selected_still_matches_exact": True},
-               "diagnosis": {}}
+               "diagnosis": {}, "redundancy": CENSUS}
         out = E.verdict(doc)
         self.assertEqual(out["terminal"], "REPRESENTATION_PRIOR_DOMINATES")
-        self.assertIn("almost no redundancy", out["terminal_reason"])
+        # CORRECTED, not deleted. This assertion used to pin the phrase "almost no
+        # redundancy", which was the terminal's stated mechanism and was false --
+        # the state space is 62% redundant. The test passed for as long as the
+        # explanation was wrong, which is what makes it worth keeping visible. It
+        # now pins the measured mechanism instead.
+        self.assertIn("bisimulation", out["terminal_reason"])
+        self.assertIn("already merges everything that can be soundly merged",
+                      out["terminal_reason"])
+        # The phrase survives, but only inside the sentence that retracts it.
+        idx = out["terminal_reason"].index("almost no redundancy")
+        self.assertIn("corrects an earlier version",
+                      out["terminal_reason"][:idx])
+
+    def test_prior_dominates_cannot_be_reported_without_a_redundancy_census(self):
+        """The mechanism claim is evidence, so the terminal may not be issued
+        without it. The earlier version asserted a mechanism it had not measured."""
+        doc = {"discovery": {"selected": "MOD_997", "fits_training": ["EXACT", "MOD_997"],
+                             "charged_construction": 60},
+               "later": {"by_representation": {"EXACT": {"extensions": 100, "solved": ["a"]},
+                                               "MOD_997": {"extensions": 100, "solved": ["a"]}},
+                         "reference_solved": ["a"],
+                         "fits_training_but_disagrees_later": []},
+               "invalidation": {"selected_still_matches_exact": True},
+               "diagnosis": {}}
+        with self.assertRaises(KeyError):
+            E.verdict(doc)
 
     def test_the_positive_requires_soundness_and_net_saving(self):
         doc = {"discovery": {"selected": "MOD_997", "fits_training": ["EXACT", "MOD_997"],
@@ -172,6 +201,82 @@ class Charging(unittest.TestCase):
         block = source[source.index("discovery = {"):source.index("# Protected later")]
         self.assertIn("train", block)
         self.assertNotIn("later", block)
+
+
+class Proposition2(unittest.TestCase):
+    """The G3.3 negative is structural, and its earlier explanation was wrong."""
+
+    def test_equality_of_normal_form_is_a_bisimulation(self):
+        """Step (1): if two prefixes agree on normal form, so do all extensions.
+
+        This is what makes EXACT merging sound for every task at once, and it is
+        checked rather than assumed.
+        """
+        import itertools
+        by_nf = {}
+        for depth in (1, 2, 3):
+            for word in itertools.product(E.G2.M.PRIMITIVES, repeat=depth):
+                by_nf.setdefault(tuple(E.G2.M.normal_form(word)), []).append(word)
+        pairs = [v for v in by_nf.values() if len(v) > 1]
+        self.assertTrue(pairs, "no colliding pair found, the test would be vacuous")
+        for group in pairs:
+            p, q = group[0], group[1]
+            for token in E.G2.M.PRIMITIVES:
+                self.assertEqual(E.G2.M.normal_form(p + (token,)),
+                                 E.G2.M.normal_form(q + (token,)))
+
+    def test_every_registered_representation_coarsens_exact(self):
+        """Step (2): R = f o nf, so nf(p) == nf(q) forces R(p) == R(q)."""
+        census = CENSUS
+        for kind in E.REPRESENTATIONS:
+            self.assertLessEqual(census["per_representation"][kind]["distinct_states"],
+                                 census["distinct_normal_forms"],
+                                 f"{kind} distinguishes more than the normal form, "
+                                 "which would break Proposition 2 step (2)")
+
+    def test_marginal_merges_cost_targets_and_zero_marginal_merges_cost_none(self):
+        """Step (3): extra merging is paid for in lost targets, one way or other."""
+        # The provable pair, in both directions, at two budgets. The strong form
+        # -- every marginal merge loses a target -- is FALSE and was in the first
+        # draft: at budget 3 TRUNCATED_3 merges beyond EXACT and loses nothing,
+        # because a discarded subtree can be redundant with a surviving one.
+        for budget in (3, 6):
+            census = CENSUS if budget == 3 else E.redundancy_census(budget=6)
+            for kind, extra in census["marginal_merges_beyond_exact"].items():
+                lost = census["per_representation"][kind]["targets_lost_vs_exact"]
+                if extra == 0:
+                    self.assertEqual(lost, 0, f"{kind} merges no more than EXACT yet "
+                                              "loses targets, which is impossible")
+                if lost > 0:
+                    self.assertGreater(extra, 0, f"{kind} lost targets without "
+                                                 "merging more than EXACT, which "
+                                                 "would falsify step (1)")
+
+    def test_the_strong_form_of_step_three_is_recorded_as_false(self):
+        self.assertIn("This is a bet, not a certain loss", E.PROPOSITION_2)
+        self.assertIn("at budget 3\n    TRUNCATED_3 performs marginal merges and "
+                      "loses no target at all", E.PROPOSITION_2)
+        self.assertEqual(
+            CENSUS["per_representation"]["TRUNCATED_3"]["targets_lost_vs_exact"], 0,
+            "the counterexample the proposition cites must actually hold")
+        self.assertGreater(CENSUS["marginal_merges_beyond_exact"]["TRUNCATED_3"], 0)
+
+    def test_the_state_space_is_richly_redundant_refuting_the_earlier_claim(self):
+        census = E.redundancy_census(budget=6)
+        self.assertGreater(census["exact_redundancy_fraction"], 0.5)
+        self.assertGreater(census["per_representation"]["EXACT"]["largest_class"], 10)
+        self.assertIn("very nearly a bijection", census["refutes_earlier_claim"])
+
+    def test_the_selected_representation_is_the_identity_on_the_reachable_set(self):
+        """MOD_997 saving zero is a tautology here, and the record should say so."""
+        census = E.redundancy_census(budget=6)
+        self.assertEqual(census["per_representation"]["MOD_997"],
+                         census["per_representation"]["EXACT"])
+
+    def test_the_proposition_states_the_conditions_that_would_break_it(self):
+        for phrase in ("BISIMULATION", "COARSENS", "The escape",
+                       "A CORRECTION IS RECORDED HERE"):
+            self.assertIn(phrase, E.PROPOSITION_2)
 
 
 if __name__ == "__main__":

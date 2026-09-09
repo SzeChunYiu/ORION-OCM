@@ -263,6 +263,74 @@
     "fits_training_but_disagrees_later": [],
     "reference_solved": []
   },
+  "proposition_2": "Proposition 2 (the exact representation already harvests all sound merging).\n\nSetting: prefix-extending BFS with state merging, where two prefixes sharing an\nabstract state are treated as interchangeable and only the first is extended.\nEvery registered representation is a function of the normal form, R = f o nf.\n\n(1) ~E, equality of normal form, is a BISIMULATION for this search. Each token is\n    a polynomial operation, so nf(p) = nf(q) implies nf(p+t) = nf(q+t) for every\n    token t, by induction on the extension. Merging under EXACT therefore loses\n    nothing: it is sound for every task simultaneously, and needs no evidence,\n    no discovery cost and no representation learning.\n\n(2) Because R = f o nf, ~R COARSENS ~E: nf(p) = nf(q) implies R(p) = R(q). So the\n    merges a coarser representation performs are exactly EXACT's merges plus some\n    set of MARGINAL merges, and every marginal merge identifies two prefixes with\n    DIFFERENT normal forms.\n\n(3) The goal test is equality of normal form, so it distinguishes the two sides of\n    every marginal merge. Pruning q because R(q) = R(p) discards q's subtree, and\n    any target reachable ONLY through q is then lost.\n\n    This is a bet, not a certain loss, and the difference is recorded because the\n    first draft of this proposition got it wrong. A marginal merge loses nothing\n    when the discarded subtree is redundant with a surviving one, which happens\n    at shallow budgets where most targets have several routes: at budget 3\n    TRUNCATED_3 performs marginal merges and loses no target at all. What IS\n    provable in both directions is the weaker pair\n\n        lost > 0  =>  marginal merges > 0        (by (1): EXACT loses nothing)\n        marginal merges = 0  =>  lost = 0\n\n    and the losses are then a measured quantity, not a deduced one. At the study\n    budget of 6 they are severe: DEGREE retains 1.4% of discoverable targets,\n    PARITY 3.9%, LEADING 8.4%, TRUNCATED_3 83.0%.\n\nConclusion: the sound saving available to state abstraction in this search is\nEXACTLY the EXACT redundancy, and it is available for free. A coarser\nrepresentation buys additional pruning only by crossing a boundary the goal test\ncan see, and whether that boundary costs it anything is a gamble on route\nredundancy that the census prices rather than assumes.\nREPRESENTATION_PRIOR_DOMINATES is therefore structural in its benefit term -- the\nprior takes all of it -- while the cost term is measured.\n\nA CORRECTION IS RECORDED HERE. An earlier version of the terminal explained the\nnegative by asserting that \"the coefficient tuple is very nearly a bijection with\nthe program prefix, so the exact state space has almost no redundancy for a\ncoarser abstraction to merge.\" That is FALSE, and ``redundancy_census`` measures\nit: at budget 6, 5,460 reachable prefixes collapse to 2,061 distinct normal\nforms, a 62% redundancy with equivalence classes up to size 52. The state space\nis richly redundant. The negative is real but its stated mechanism was wrong --\nthe prior does not dominate because there is nothing to merge, it dominates\nbecause the prior already merges everything that can be soundly merged.\n\nThe escape, stated so it can be attacked: (1) fails if a token's effect is not a\nfunction of the normal form (a search with history-dependent or resource-carrying\nstate), and (3) fails if the goal test is coarser than the state -- an acceptance\npredicate rather than an identity. Either breaks the proposition and is the\ncondition under which learned abstraction becomes worth its cost.\n",
+  "redundancy": {
+    "budget": 6,
+    "distinct_normal_forms": 2061,
+    "exact_redundancy": 3399,
+    "exact_redundancy_fraction": 0.6225,
+    "marginal_merges_beyond_exact": {
+      "DEGREE": 2054,
+      "EXACT": 0,
+      "LEADING": 1982,
+      "MOD_997": 0,
+      "PARITY": 2037,
+      "TRUNCATED_3": 471
+    },
+    "per_representation": {
+      "DEGREE": {
+        "distinct_states": 7,
+        "largest_class": 2005,
+        "merges": 5453,
+        "targets_discoverable": 28,
+        "targets_lost_vs_exact": 2033,
+        "targets_retained_fraction": 0.0136
+      },
+      "EXACT": {
+        "distinct_states": 2061,
+        "largest_class": 52,
+        "merges": 3399,
+        "targets_discoverable": 2061,
+        "targets_lost_vs_exact": 0,
+        "targets_retained_fraction": 1.0
+      },
+      "LEADING": {
+        "distinct_states": 79,
+        "largest_class": 560,
+        "merges": 5381,
+        "targets_discoverable": 174,
+        "targets_lost_vs_exact": 1887,
+        "targets_retained_fraction": 0.0844
+      },
+      "MOD_997": {
+        "distinct_states": 2061,
+        "largest_class": 52,
+        "merges": 3399,
+        "targets_discoverable": 2061,
+        "targets_lost_vs_exact": 0,
+        "targets_retained_fraction": 1.0
+      },
+      "PARITY": {
+        "distinct_states": 24,
+        "largest_class": 1056,
+        "merges": 5436,
+        "targets_discoverable": 81,
+        "targets_lost_vs_exact": 1980,
+        "targets_retained_fraction": 0.0393
+      },
+      "TRUNCATED_3": {
+        "distinct_states": 1590,
+        "largest_class": 161,
+        "merges": 3870,
+        "targets_discoverable": 1711,
+        "targets_lost_vs_exact": 350,
+        "targets_retained_fraction": 0.8302
+      }
+    },
+    "reachable_prefixes": 5460,
+    "reading": "exact_redundancy is the merging available for free and soundly. marginal_merges_beyond_exact is what a coarser representation adds, and by Proposition 2 every one of those identifies prefixes with different normal forms -- which is why targets_lost_vs_exact is positive for exactly the representations that merge more.",
+    "refutes_earlier_claim": "The earlier terminal said the state space is 'very nearly a bijection' with 'almost no redundancy'. It is not: 3,399 of 5,460 nodes are redundant (62%), with classes up to 52."
+  },
   "registered_representations": [
     "EXACT",
     "DEGREE",
@@ -289,7 +357,7 @@
     "selected": "MOD_997",
     "selected_sound_later": true,
     "terminal": "REPRESENTATION_PRIOR_DOMINATES",
-    "terminal_reason": "A sound coarser representation (MOD_997) was selected from training evidence and saves 0 extensions on the later population against a charged discovery cost of 60. The prior -- searching under the exact representation -- dominates. The mechanism is specific and worth stating: in this domain the coefficient tuple is very nearly a bijection with the program prefix, so the exact state space has almost no redundancy for a coarser abstraction to merge. A representation can only pay where equivalent states are actually revisited, and here they are not.",
+    "terminal_reason": "A sound coarser representation (MOD_997) was selected from training evidence and saves 0 extensions on the later population against a charged discovery cost of 60. The prior -- searching under the exact representation -- dominates, and Proposition 2 says why: equality of normal form is a bisimulation for this search, so the exact representation already merges everything that can be soundly merged, for free. Every registered representation is a function of the normal form and therefore only COARSENS that equivalence, so each marginal merge identifies two prefixes the goal test can tell apart. The census confirms both halves: 3,399 of 5,460 nodes are redundant and the exact representation harvests all of it, while DEGREE merges nearly everything and retains 1% of discoverable targets. The selected representation MOD_997 is extensionally the identity on this reachable set -- same state count, same merges as EXACT -- so its zero saving is not a coincidence. This corrects an earlier version of this terminal, which explained the same negative by claiming the state space had 'almost no redundancy'. It has 62% redundancy; the prior simply already takes it.",
     "timeout_never_licensed_representation_insufficient": true
   }
 }
