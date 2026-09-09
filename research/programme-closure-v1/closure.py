@@ -126,20 +126,24 @@ GATES = [
         None),
     gate(
         "G3", "G3 exit terminals",
-        ["METHOD_COMPOSITION_SUPPORTED",
-         "CANNOT_CHECK_FAILURE_MEMORY_AND_REPRESENTATION_GROWTH_NOT_RUN"],
-        ["research/g3-independent-composition-v1/README.md"],
+        ["METHOD_COMPOSITION_SUPPORTED", "FAILURE_MEMORY_NOT_USEFUL",
+         "CANNOT_CHECK_REPRESENTATION_GROWTH_AND_INSUFFICIENCY_DIAGNOSIS_NOT_RUN"],
+        ["research/g3-independent-composition-v1/README.md",
+         "research/g3-scoped-failure-memory-v1/G3_2_SCOPED_FAILURE_MEMORY_V1.json"],
         "G3.1 is measured and positive: #193 selected A and B in independent "
         "lanes, and on a 256-task population fixed independently of those "
         "outcomes exactly 3 tasks used both identities, all three meeting the "
         "pre-registered strong witness, with per-method revocation removing "
-        "exactly its own contribution. G3.2 scoped failure learning, G3.3 "
-        "representation improvement and G3.4 insufficiency diagnosis have no "
-        "study, so the gate carries a positive for its first obligation and an "
-        "explicit CANNOT_CHECK for the rest.",
-        "A scoped failure-memory study with TMS/nogood/CEGAR/CBR parents and "
-        "charged failure-storage cost, then representation change and "
-        "insufficiency diagnosis."),
+        "exactly its own contribution. G3.2 is now measured and "
+        "negative under declared prices: scoped failure memory trades 94,208 "
+        "prefix extensions for 216,777 store probes and pays only where a probe "
+        "costs under 0.416 of an extension. Scope itself is separately shown "
+        "load-bearing by a falsifier -- the same store without a budget on its "
+        "entries cuts 68% of search and then solves 0 of 48, unsound rather than "
+        "merely worse. G3.3 representation improvement and G3.4 insufficiency "
+        "diagnosis remain unrun.",
+        "Representation change (G3.3) and insufficiency diagnosis (G3.4), which "
+        "have no study."),
     gate(
         "G4", "G4 exit terminals",
         ["EXACT_META_POLICY_SUFFICIENT", "LEARNED_ROUTER_NOT_NEEDED",
