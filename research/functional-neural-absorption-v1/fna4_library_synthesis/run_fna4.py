@@ -85,6 +85,7 @@ def run_arm(name, learner=None, registry_gran=None, use_cegis=False):
             r["work"] = w.as_dict()  # CEGIS refinement charged into this task's cost
         test_receipts.append(r)
     return {"arm": name, "acquisition_work": acq_work,
+            "acquisition_work_marginal_units": acq_work["learner_steps"],
             "library": [m.as_dict() for m in macros],
             "library_size_final": len(lib),
             "acq_solved": sum(1 for r in acq_receipts if r["solved"]),
@@ -98,7 +99,12 @@ def run_arm(name, learner=None, registry_gran=None, use_cegis=False):
 
 
 def arm_totals(row):
-    return row["acquisition_work"]["total_units"] + row["test_work_total"]
+    """Two accountings, both reported (addendum V1):
+    full     -- deliberate exhaustive experience formation pays its whole search;
+    marginal -- the acquisition solves are the job's cost, paid identically by a
+                non-learning system; consolidation adds only learner/bookkeeping units."""
+    return {"full": row["acquisition_work"]["total_units"] + row["test_work_total"],
+            "marginal": row["acquisition_work_marginal_units"] + row["test_work_total"]}
 
 
 def main():
@@ -141,6 +147,7 @@ def main():
             oracle.append(r)
         results["phases"]["main"] = {
             "arms": arms,
+            "arm_totals": {a["arm"]: arm_totals(a) for a in arms},
             "oracle_teleport_LABELLED_UPPER_BOUND": {
                 "test_work_total": sum(r["work"]["total_units"] for r in oracle),
                 "solved": sum(1 for r in oracle if r["solved"]),
@@ -219,12 +226,16 @@ def main():
                 arm_w += rr["work"]["total_units"]
                 hits += rr["macro_hits"]
             acq_units = by["STITCH"]["acquisition_work"]["total_units"]
+            acq_marg = by["STITCH"]["acquisition_work_marginal_units"]
             sweep["points"].append({
                 "r": r, "constructible": True, "actual_covered": streams and
                 sum(1 for t in tasks if covered_by(macros, t)),
                 "no_library_total": no_w, "stitch_acquisition": acq_units,
+                "stitch_acquisition_marginal": acq_marg,
                 "stitch_with_library_total": arm_w + acq_units,
-                "payback": no_w - (arm_w + acq_units), "macro_hits": hits})
+                "payback_full": no_w - (arm_w + acq_units),
+                "payback_marginal": no_w - (arm_w + acq_marg),
+                "macro_hits": hits})
         results["phases"]["repeat_rate_sweep"] = sweep
         _dump(results)
 

@@ -198,7 +198,7 @@ class TestExperienceSurface(unittest.TestCase):
         # derived one -- state-aware application, impossible under initial-tape semantics
         rng = random.Random(7111)
         t = gen_task(rng, "F3", "SA-1", force={"fmt": "csv", "k": "2"})
-        sk = (("zip", ()), ("scale", ("2",)))
+        sk = (("zip", ("count",)), ("scale", ("2",)))
         m = make_macro(sk, [list(sk)], label="SA")
         self.assertEqual(m.in_types(), ("tokens",))
         r = solve_task(t, macros=[m])
