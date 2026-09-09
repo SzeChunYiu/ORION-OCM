@@ -260,8 +260,10 @@ class TestHostileFQ5(unittest.TestCase):
             ra = arm_a.serve_d2(F_A, twins)
             rb = arm_b.serve_d2(F_B, twins)
             self.assertNotEqual(ra["decision"], rb["decision"])
-            self.assertTrue(ra["correct"])
-            self.assertTrue(rb["correct"])
+            truth_a = [m for m in twins if F_A.atom_view[m].authority.rank("custody") >= 2][0]
+            truth_b = [m for m in twins if F_B.atom_view[m].authority.rank("custody") >= 2][0]
+            self.assertEqual(ra["decision"], truth_a)
+            self.assertEqual(rb["decision"], truth_b)
             self.assertEqual(ra["status"], "NATIVE_IDENTITY")
 
 

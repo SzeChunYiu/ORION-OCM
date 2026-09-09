@@ -195,7 +195,9 @@ def stream_apply(field: KnowledgeSpace, stream: Dict[str, object]):
         seq.append((upd["after_task"], 1, upd))
     for t in stream["tasks"]:
         seq.append((t["idx"], 0, t))
-    seq.sort()
+    # sort on (position, kind) only: tasks before their updates; stable order keeps
+    # admission before revocation within one update block; dicts are never compared.
+    seq.sort(key=lambda x: (x[0], x[1]))
     for _, _, item in seq:
         if item["kind"] == "D1":
             yield ("task", item, ks, frozenset(revoked))
