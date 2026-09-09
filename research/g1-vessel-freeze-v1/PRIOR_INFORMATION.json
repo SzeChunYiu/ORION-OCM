@@ -1,0 +1,132 @@
+{
+  "schema": "ocm.g1-vessel-freeze.prior-information.v1",
+  "rule": "Every retained domain-specific primitive is prior information, not learned competence.",
+  "classes": [
+    {
+      "class": "language_bootstrap",
+      "paths": [
+        "src/ocm/language/bootstrap.py",
+        "src/ocm/language/lexicon.py",
+        "src/ocm/language/microworld.py",
+        "src/ocm/data/"
+      ],
+      "items": [
+        "seed lexemes (DET/AUX/NEG/PREP plus microworld nouns/adjs/verbs)",
+        "productive and exception morphology rules (past-ed, aux-did, aux-was, irregulars)",
+        "microworld entity/property/event inventory"
+      ],
+      "note": "L0 bootstrap audit (#54 / issue 165 L0) is a later gate. This freeze only classifies the current seed as prior."
+    },
+    {
+      "class": "language_authored_methods",
+      "paths": [
+        "src/ocm/language/constructions.py",
+        "src/ocm/language/interpret.py",
+        "src/ocm/language/realize.py",
+        "src/ocm/language/chart.py",
+        "src/ocm/language/acquisition.py",
+        "src/ocm/learning/language/"
+      ],
+      "items": [
+        "construction families and form\u2194meaning pairing procedures",
+        "chart parser / interpretation procedures",
+        "realization templates and invertibility claims",
+        "UD/morphology/lexical acquisition helpers"
+      ]
+    },
+    {
+      "class": "dialogue_authored_methods",
+      "paths": [
+        "src/ocm/dialogue/planner.py",
+        "src/ocm/dialogue/gate.py",
+        "src/ocm/dialogue/clarify.py",
+        "src/ocm/dialogue/reference.py",
+        "src/ocm/dialogue/surface_text.py"
+      ],
+      "items": [
+        "dialogue-act / rhetorical relation inventory",
+        "clarification and reference strategies",
+        "functional-relation list used by the planner",
+        "surface realization constraints"
+      ]
+    },
+    {
+      "class": "math_kernel",
+      "paths": [
+        "src/ocm/science/proof.py",
+        "src/ocm/learning/methods.py"
+      ],
+      "items": [
+        "propositional truth-table kernel (complete for that fragment; >16 vars CANNOT_CHECK)",
+        "lean4 kernel interface registered as CANNOT_CHECK (no toolchain)",
+        "total arithmetic primitives inc/dec/double/square and 8-instruction grammar",
+        "rational-polynomial-coefficients.v1 checker"
+      ]
+    },
+    {
+      "class": "procedural_authored_methods",
+      "paths": [
+        "src/ocm/work/envs.py",
+        "src/ocm/work/methods.py",
+        "src/ocm/work/contracts.py"
+      ],
+      "items": [
+        "abstract roles gather/classify/check_policy/act_smallest/verify/document",
+        "Domain A enterprise-support operators",
+        "Domain B software-operations operators",
+        "Domain C data-analysis operators",
+        "authored skill-induction strategies and routers"
+      ]
+    },
+    {
+      "class": "scientific_authored_methods",
+      "paths": [
+        "src/ocm/science/selection.py",
+        "src/ocm/science/causal.py",
+        "src/ocm/science/analysis.py",
+        "src/ocm/science/finite_identification.py",
+        "src/ocm/science/evidence.py",
+        "src/ocm/science/transfer.py"
+      ],
+      "items": [
+        "discriminating-experiment selection procedures",
+        "causal-oracle world constructors",
+        "science\u2194work role map",
+        "communication-strength marker table"
+      ]
+    },
+    {
+      "class": "knowledge_world_facts",
+      "paths": [
+        "src/ocm/knowledge/world.py"
+      ],
+      "items": [
+        "hand-authored controlled facts and source documents",
+        "knowledge-world relation vocabulary (IS_A, CAPITAL_OF, \u2026)"
+      ]
+    },
+    {
+      "class": "organisation_arm_grammars",
+      "paths": [
+        "src/ocm/organisation/"
+      ],
+      "items": [
+        "flat / hierarchy / community / nested-summary / fibre / learned-partition arms",
+        "authored move grammars for organisation experiments"
+      ],
+      "note": "M8 remains PARENT_SUFFICIENT at evaluated scale (docs/OCM_PROGRAMME_TERMINALS_V1.md)."
+    },
+    {
+      "class": "navigation_and_solve_parameters",
+      "paths": [
+        "src/ocm/runtime/solve.py",
+        "src/ocm/kso/navigation.py"
+      ],
+      "items": [
+        "default SolveConfig (alpha, threshold, budget, surprise model)",
+        "restart-diffusion navigation mechanic (replaceable representational choice)"
+      ],
+      "note": "These are controller priors, charged as prior information, not learned \u03a0."
+    }
+  ]
+}

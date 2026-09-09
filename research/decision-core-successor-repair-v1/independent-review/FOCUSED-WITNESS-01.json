@@ -1,0 +1,39 @@
+{
+  "bisimulation_boundary": {
+    "classification": "Boundary only: bisimulation of given action contracts does not certify an unprovided state-dependent terminal/STOP cost. Include STOP/terminal contract or require block-constant terminal value before using it for finite_meta_dp.",
+    "contract_bisimulation": true,
+    "paid_stop_values": {
+      "s": "1",
+      "t": "2"
+    }
+  },
+  "iterator_defect": {
+    "clean_tuple_regions": {
+      "a": [],
+      "b": [
+        "s"
+      ]
+    },
+    "finding": "decision_regions repeatedly tests membership in a one-shot good_actions[state] iterator; a missing first action exhausts it and loses the actual later action.",
+    "iterator_common_actions": [
+      "b"
+    ],
+    "iterator_contained_actions": [],
+    "iterator_regions": {
+      "a": [],
+      "b": []
+    },
+    "source_lines": [
+      76,
+      82
+    ]
+  },
+  "module_file": "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py",
+  "pid": 1931796,
+  "python": "3.11.14 (main, Feb  3 2026, 22:51:56) [Clang 21.1.4 ]",
+  "schema": "independent.decision-core.focused-witness.v1",
+  "scope": "Only import exact standalone helper plus two bounded pure examples; no original suites, frozen research/native/learner/corpus execution.",
+  "source_sha256_after": "7056ffd5876a16331c63d966ff03cfdf91ed9045aaa09d33a0bd1fdf2189cc91",
+  "source_sha256_before": "7056ffd5876a16331c63d966ff03cfdf91ed9045aaa09d33a0bd1fdf2189cc91",
+  "utc": "2026-09-08T16:37:48.241121+00:00"
+}

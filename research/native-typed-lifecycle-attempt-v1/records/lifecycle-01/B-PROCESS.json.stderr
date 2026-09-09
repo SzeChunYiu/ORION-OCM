@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/run_b.py", line 123, in <module>
+    if __name__=="__main__":C.invocation(main,"B")
+                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_common.py", line 139, in invocation
+    result=main(output)
+           ^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/run_b.py", line 39, in main
+    work={};C.ACTIVE_WORK=work;engine=C.engine();P=C.load("life_payload","life_payload.py")
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_common.py", line 84, in load
+    module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module)
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1032, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1130, in get_data
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/run_b.py", line 37, in audit
+    else:C.require(relative in allowed,"B_FORBIDDEN_READ:"+relative)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/billy/orion-director-work/20260908/native-typed-wff-lifecycle-v1/life_common.py", line 11, in require
+    if not ok:raise ValueError(why)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: B_FORBIDDEN_READ:__pycache__/life_payload.cpython-311.pyc

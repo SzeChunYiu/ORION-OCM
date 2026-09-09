@@ -1,0 +1,98 @@
+{
+  "adversary": "oblivious horizon; cannot observe private threshold draw",
+  "benchmark": "clairvoyant best static exact arm at realized horizon",
+  "coordinates": {
+    "arithmetic_additions": {
+      "dual_support": [
+        {"horizon": 1, "probability": "0.051747475469049641"},
+        {"horizon": 2, "probability": "0.083359017152272702"},
+        {"horizon": 3, "probability": "0.10126163957144832"},
+        {"horizon": 4, "probability": "0.11150110625372209"},
+        {"horizon": 5, "probability": "0.1270165766236655"},
+        {"horizon": 10, "probability": "0.21065030777267549"},
+        {"horizon": 11, "probability": "0.31446387715716639"}
+      ],
+      "dual_value": 1.3252703144953137,
+      "primal_support": [
+        {"probability": "0.13333884019430142", "threshold": 0},
+        {"probability": "0.14199607413992935", "threshold": 1},
+        {"probability": "0.16944619413780393", "threshold": 2},
+        {"probability": "0.20760051512250272", "threshold": 3},
+        {"probability": "0.25658631437272827", "threshold": 4},
+        {"probability": "0.071128468845015502", "threshold": 5},
+        {"probability": "0.01990359318771881", "threshold": 70}
+      ],
+      "primal_value": 1.3252703144953109
+    },
+    "arithmetic_multiplications": {
+      "dual_support": [
+        {"horizon": 1, "probability": "0.025256395762917955"},
+        {"horizon": 2, "probability": "0.043657942624039776"},
+        {"horizon": 3, "probability": "0.056692211068853929"},
+        {"horizon": 4, "probability": "0.06566421270934189"},
+        {"horizon": 5, "probability": "0.071911146414263785"},
+        {"horizon": 6, "probability": "0.07764819251657698"},
+        {"horizon": 7, "probability": "0.091687119405930662"},
+        {"horizon": 15, "probability": "0.54260078982404369"},
+        {"horizon": 16, "probability": "0.024881989674033399"}
+      ],
+      "dual_value": 1.333712604007484,
+      "primal_support": [
+        {"probability": "0.09591486574830041", "threshold": 0},
+        {"probability": "0.092735512194996372", "threshold": 1},
+        {"probability": "0.10175419028843337", "threshold": 2},
+        {"probability": "0.11522341312185147", "threshold": 3},
+        {"probability": "0.13194941821352238", "threshold": 4},
+        {"probability": "0.15188005667406287", "threshold": 5},
+        {"probability": "0.17529530080071171", "threshold": 6},
+        {"probability": "0.098187827561556265", "threshold": 7},
+        {"probability": "0.037059415396565126", "threshold": 128}
+      ],
+      "primal_value": 1.333712604007494
+    },
+    "transitions": {
+      "dual_support": [
+        {"horizon": 1, "probability": "0.10922222992048947"},
+        {"horizon": 2, "probability": "0.16053018701654309"},
+        {"horizon": 3, "probability": "0.19188815712132976"},
+        {"horizon": 11, "probability": "0.53835942594162323"}
+      ],
+      "dual_value": 1.3682160335663893,
+      "primal_support": [
+        {"probability": "0.1931028991000342", "threshold": 0},
+        {"probability": "0.24098900141476418", "threshold": 1},
+        {"probability": "0.32707433227481542", "threshold": 2},
+        {"probability": "0.23883376721038621", "threshold": 3}
+      ],
+      "primal_value": 1.3682160335663702
+    }
+  },
+  "generator": {
+    "library": "scipy.optimize.linprog",
+    "method": "highs",
+    "numpy_version": "2.3.5",
+    "scipy_version": "1.17.0"
+  },
+  "joint_primary_coordinates": {
+    "dual_support": [
+      {"coordinate": "transitions", "horizon": 13, "probability": "0.4929763620088284"},
+      {"coordinate": "arithmetic_multiplications", "horizon": 1, "probability": "0.0444090324832096"},
+      {"coordinate": "arithmetic_multiplications", "horizon": 2, "probability": "0.07744026645816204"},
+      {"coordinate": "arithmetic_multiplications", "horizon": 3, "probability": "0.10233358331435226"},
+      {"coordinate": "arithmetic_multiplications", "horizon": 4, "probability": "0.1238516419812523"},
+      {"coordinate": "arithmetic_multiplications", "horizon": 5, "probability": "0.15898911375419564"}
+    ],
+    "dual_value": 1.5591909992653779,
+    "primal_support": [
+      {"probability": "0.16072131821845118", "threshold": 0},
+      {"probability": "0.1553937822814222", "threshold": 1},
+      {"probability": "0.1705060781748333", "threshold": 2},
+      {"probability": "0.19307600237038125", "threshold": 3},
+      {"probability": "0.2211032071825737", "threshold": 4},
+      {"probability": "0.09919961177234374", "threshold": 5}
+    ],
+    "primal_value": 1.559190999265383
+  },
+  "max_horizon": 142,
+  "schema": "ocm.residual-strategy-regime.r0b.phase2b2.randomized-switch.certificate.v1"
+}

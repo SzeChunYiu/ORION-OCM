@@ -1,0 +1,3364 @@
+{
+  "schema": "ocm.l0-bootstrap-audit.v1",
+  "role": "L0_TIME_ZERO_LANGUAGE_PRIOR_AUDIT",
+  "github_issue": 54,
+  "master_roadmap_issue": 165,
+  "master_box": "L0 \u2014 Language bootstrap audit (#54)",
+  "protected_outcomes_read": false,
+  "n1_claim_authority": false,
+  "l1_locked": true,
+  "question": "What language-specific prior exists before protected N1, and what remains after stripping convenience?",
+  "source_bindings": {
+    "src/ocm/language/bootstrap.py": {
+      "git_blob_sha1": "9c454fac08b3a2fcc439f47e2436abc4ad5b3c2b",
+      "sha256": "c8d3eb5129660b43c35608466c4783fd852397c678fca4ef865157d9b51a8900",
+      "bytes": 3335
+    },
+    "src/ocm/language/lexicon.py": {
+      "git_blob_sha1": "8e5a02ab1c1b06b758ffc474e6b1ba541bb7edf9",
+      "sha256": "6ce467fe8b379163289ca8dec4192a2a38bd78ba1b7b48427ee176368cdacbbc",
+      "bytes": 9357
+    },
+    "src/ocm/language/constructions.py": {
+      "git_blob_sha1": "bfcab87711603c3465f4d18372b10bfc1e5a1bb3",
+      "sha256": "2a0651b5114f368438aeeba91e2df2831b0359072acb44d975c7c7e0cf73ca3b",
+      "bytes": 15706
+    },
+    "src/ocm/language/meaning.py": {
+      "git_blob_sha1": "26e6f7aa267522cf37ab0db7b22b8ad962d0e241",
+      "sha256": "f6e5c6aef27c4e35d2098af6969894e9c5d62dbf1de9d92441340053ab7a2ec4",
+      "bytes": 14906
+    },
+    "src/ocm/language/realize.py": {
+      "git_blob_sha1": "e1beb30b2edda053b3a4dabf6a8bf47dd5ee78d9",
+      "sha256": "1898a800907ccb2cd20a2b19c85eb1117d080be873e9701f408e9a429f9f1101",
+      "bytes": 6541
+    },
+    "src/ocm/language/interpret.py": {
+      "git_blob_sha1": "08f89920ab99d92925058d0cb06f7ad0607df998",
+      "sha256": "9042649f2785745e2caaa80837ebda87a1cac31920ff33d10e0ab46e13ca06d3",
+      "bytes": 7491
+    },
+    "src/ocm/language/chart.py": {
+      "git_blob_sha1": "11d95763e230b3021d929ceefc339a15752351ce",
+      "sha256": "634aa6be59e84082cf27185edfafb7e3d6a7eb213a7c2b59ea38a06b696344b9",
+      "bytes": 16423
+    },
+    "src/ocm/language/session.py": {
+      "git_blob_sha1": "a9f2bd11b2387997a7fdb618f5683b21b0b070ca",
+      "sha256": "ff8789371034668b4493ada611a32aad2c0f2f0b668964024eb4d5cafc28b851",
+      "bytes": 12356
+    },
+    "src/ocm/language/acquisition.py": {
+      "git_blob_sha1": "1046d89f0f267a6c6f058824460e32bef08e89c0",
+      "sha256": "e1f7b17334bc7069d9d4895e34fbf68c9726ff52e9bb892e9d273ce3b7ff099a",
+      "bytes": 5901
+    },
+    "src/ocm/language/microworld.py": {
+      "git_blob_sha1": "35486ada99c8f777b3cc131e2a2f1938a7e14fc4",
+      "sha256": "ed15dd574a99fac96b8f7de6c3cc5b65679c2ec816aa8229b65f9fed6d1f2f03",
+      "bytes": 5705
+    },
+    "src/ocm/language/meaning_tree.py": {
+      "git_blob_sha1": "e47c5cc3c3758f204859f4ea420201b49c706fc6",
+      "sha256": "fad39bc4a6c2cbfe3c0daf8ed8e283f85b70c33a65cb8ad2cf0d106894fae4c7",
+      "bytes": 3436
+    },
+    "src/ocm/language/field_bridge.py": {
+      "git_blob_sha1": "e41f16df002336d531a08477c8578325bae0b73d",
+      "sha256": "b5d4b0c6db1572d4aca173f91db69ae8cda0f1dd7f29b73eb1586fd63b936bac",
+      "bytes": 15718
+    },
+    "src/ocm/dialogue/gate.py": {
+      "git_blob_sha1": "fff25fdbce00f40486b8724e256c8c2c546ee756",
+      "sha256": "8bbd90fba1169f0febe18c9b95f4821cea1759e114b2d1980965d1e957d1be38",
+      "bytes": 9969
+    },
+    "src/ocm/dialogue/planner.py": {
+      "git_blob_sha1": "726d8ee5d877dc802d608153fbfababcc6620c00",
+      "sha256": "fc2e4167dbf6d63636ac0a360acc9d214452a7ae4b1955273436c348baefa27b",
+      "bytes": 12280
+    },
+    "src/ocm/dialogue/reference.py": {
+      "git_blob_sha1": "012972c2baea52104c75c77e46e9a831df6ed863",
+      "sha256": "85988997729375132e1adf9959c344707ab2fdf1920dc8b7dcee99139f6e8605",
+      "bytes": 6070
+    },
+    "src/ocm/dialogue/clarify.py": {
+      "git_blob_sha1": "11646f1a48f34ad2c6f9c2429cbf73f39bb04586",
+      "sha256": "d2a699741a90d66e71a1e4b0260e1ed6a82e088649c251e397222ce804a11de0",
+      "bytes": 4854
+    },
+    "src/ocm/dialogue/surface_text.py": {
+      "git_blob_sha1": "296cf8478e6f0365673aaa86d9ef96b07af6f5e4",
+      "sha256": "960e5b87a2f653e04eb4a1100efaac34d705321742498dbecd8c3efa776b94a1",
+      "bytes": 7855
+    },
+    "src/ocm/dialogue/session.py": {
+      "git_blob_sha1": "47b28cb493b66e93bb7821b07e14d5b97a90cce9",
+      "sha256": "1dcae0751b92ce052f7a667572d5dae533f71f52f4dc15b9a1043bbae9c118f9",
+      "bytes": 18842
+    },
+    "src/ocm/dialogue/microworld.py": {
+      "git_blob_sha1": "6f8f5d56677673665dd612eb1c16dd06c19e75b6",
+      "sha256": "702ce69230268b8e2ebd5d1b078c77f3de9518d71ecf6d3b50cb8e3c56d41e4c",
+      "bytes": 6331
+    }
+  },
+  "items": [
+    {
+      "id": "C1_identity",
+      "class": "constitutional_mechanism",
+      "name": "object identity and typed relations",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/kso",
+      "detail": "KSO atom/edge identity; not a language."
+    },
+    {
+      "id": "C2_evidence",
+      "class": "constitutional_mechanism",
+      "name": "evidence identity and provenance",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/kso",
+      "detail": "Every linguistic object carries evidence ids."
+    },
+    {
+      "id": "C3_warrant_scope_authority",
+      "class": "constitutional_mechanism",
+      "name": "warrant / uncertainty / scope / authority",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/kso",
+      "detail": "Three-valued liveness; speaker vs world_truth axes."
+    },
+    {
+      "id": "C4_revocation",
+      "class": "constitutional_mechanism",
+      "name": "dependency and exact revocation",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/kso",
+      "detail": "Revoking support reopens exactly dependent linguistic objects."
+    },
+    {
+      "id": "C5_unknown_cannot_check",
+      "class": "constitutional_mechanism",
+      "name": "UNKNOWN and CANNOT_CHECK",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "Failure knowledge stays scoped; no silent fallback."
+    },
+    {
+      "id": "C6_ambiguity_retention",
+      "class": "constitutional_mechanism",
+      "name": "ambiguity-preserving select",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "AMBIGUOUS is retained; ranking never collapses the lattice."
+    },
+    {
+      "id": "C7_said_authority",
+      "class": "constitutional_mechanism",
+      "name": "said-records as OBSERVATION",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Speaker-axis rank 1, conversation scope; not world_truth rank 0."
+    },
+    {
+      "id": "C8_commitment_gate",
+      "class": "constitutional_mechanism",
+      "name": "external reverse-read commitment gate G1-G6",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Surface must reverse-read to the planned meaning; renderer has no store handle."
+    },
+    {
+      "id": "C9_meaning_graph_schema",
+      "class": "constitutional_mechanism",
+      "name": "MeaningGraph / MNode / MEdge schemas without English instances",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Replaceable registry vocabulary; empty of lexemes."
+    },
+    {
+      "id": "C10_lexeme_construction_schemas",
+      "class": "constitutional_mechanism",
+      "name": "Lexeme / Sense / MorphRule / Construction / Slot schemas without instances",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/lexicon.py",
+      "detail": "Object types for acquisition; no English fill."
+    },
+    {
+      "id": "C11_version_space",
+      "class": "constitutional_mechanism",
+      "name": "generic finite version-space acquisition",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/acquisition.py",
+      "detail": "Mitchell-style VS; hypothesis class supplied per family as teacher info."
+    },
+    {
+      "id": "C12_generic_parser",
+      "class": "constitutional_mechanism",
+      "name": "generic chart/match parser once grammar is supplied",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/chart.py",
+      "detail": "Earley packed forest + construction matcher; grammar is data."
+    },
+    {
+      "id": "C13_exception_override_law",
+      "class": "constitutional_mechanism",
+      "name": "more-specific live exception wins",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/lexicon.py",
+      "detail": "Inherited L0 morphology override; not the English -ed rule itself."
+    },
+    {
+      "id": "C14_information_value",
+      "class": "constitutional_mechanism",
+      "name": "information-value clarification objective",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/clarify.py",
+      "detail": "Ask iff collapsing ambiguity changes a registered query cell."
+    },
+    {
+      "id": "C15_canonical_bound",
+      "class": "constitutional_mechanism",
+      "name": "exact canonical checking with named bound",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "MAX_EXACT_CANONICAL=7; tree encoding above bound; else CANNOT_CHECK."
+    },
+    {
+      "id": "C16_field_bridge",
+      "class": "constitutional_mechanism",
+      "name": "meaning-field binding without new factual authority",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/field_bridge.py",
+      "detail": "Persistent identity for bounded meanings; admission still through runtime."
+    },
+    {
+      "id": "G1_category_enum",
+      "class": "parser_procedure",
+      "name": "Category tag inventory",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/lexicon.py",
+      "detail": "Finite POS-like tags (N/V/A/D/PRO/P/AUX/CONJ/ADV/WH/NEG/PUNCT). Source calls this registry data, not constitution. English-biased but empty of lexemes. Charged if retained.",
+      "values": [
+        "NOUN",
+        "VERB",
+        "ADJ",
+        "DET",
+        "PRON",
+        "PREP",
+        "AUX",
+        "CONJ",
+        "ADV",
+        "WH",
+        "NEG",
+        "PUNCT"
+      ],
+      "count": 12
+    },
+    {
+      "id": "G2_role_inventory",
+      "class": "semantic_role_mapping",
+      "name": "MeaningGraph ROLE and relation registry",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "PropBank/AMR-style role names plus discourse relations. Replaceable registry; charged if a curriculum family uses them as the semantic target schema.",
+      "roles": [
+        "agent",
+        "patient",
+        "theme",
+        "recipient",
+        "experiencer",
+        "instrument",
+        "location",
+        "source",
+        "goal",
+        "time",
+        "manner",
+        "possessor",
+        "attribute"
+      ],
+      "node_types": [
+        "entity",
+        "event",
+        "state",
+        "property",
+        "quantifier",
+        "question_variable",
+        "proposition",
+        "value"
+      ],
+      "relation_count": 45,
+      "knowledge_relations": [
+        "IS_A",
+        "PART_OF",
+        "USED_FOR",
+        "HAS_PROPERTY",
+        "CONTAINS",
+        "LOCATED_IN",
+        "CAPITAL_OF",
+        "HAS_COUNT",
+        "BEFORE",
+        "AFTER",
+        "BOILS_AT",
+        "FREEZES_AT",
+        "ORBITS",
+        "HAPPENS_IN",
+        "HAPPENS_AT",
+        "EQUALS",
+        "HAPPENED_IN",
+        "SUPERSEDED_BY"
+      ]
+    },
+    {
+      "id": "G3_tokenizer",
+      "class": "parser_procedure",
+      "name": "whitespace/lowercase/punctuation tokenizer",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "Declared corpus adapter: split on whitespace, lower, strip .,!?;:. Not learned competence."
+    },
+    {
+      "id": "G4_gap_categories",
+      "class": "parser_procedure",
+      "name": "out-of-lexicon gap admitted only as N",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/chart.py",
+      "detail": "GAP_CATEGORIES=('N',). Unknown tokens become underspecified entity placeholders, never a self-grant.",
+      "gap_categories": [
+        "N"
+      ]
+    },
+    {
+      "id": "G5_canonical_max",
+      "class": "parser_procedure",
+      "name": "MAX_EXACT_CANONICAL bound",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Exact isomorphism check enumerates vertex orderings only for |V| <= 7; larger non-trees are CANNOT_CHECK.",
+      "max_exact_canonical": 7
+    },
+    {
+      "id": "G6_order_hypothesis_generator",
+      "class": "construction_prior",
+      "name": "finite permutation hypothesis generator",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/acquisition.py",
+      "detail": "order_hypotheses enumerates all slot orders. Language-general search, but the role/slot inventory of a family is teacher information when that family is taught."
+    },
+    {
+      "id": "G7_construction_default_language",
+      "class": "word_order_assumption",
+      "name": "Construction.language default 'en'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "New Construction objects default language='en'. Scope-check refuses silent English-to-SOV relabel. Default must not be treated as learned English."
+    },
+    {
+      "id": "L:microworld:ball|N",
+      "class": "seed_lexeme",
+      "name": "ball",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "ball",
+          "concept": "ball",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:be|AUX",
+      "class": "seed_lexeme",
+      "name": "be",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=AUX",
+      "origin": "microworld",
+      "category": "AUX",
+      "senses": [],
+      "features": []
+    },
+    {
+      "id": "L:microworld:big|A",
+      "class": "seed_lexeme",
+      "name": "big",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=ADJ",
+      "origin": "microworld",
+      "category": "ADJ",
+      "senses": [
+        {
+          "sense_id": "big",
+          "concept": "big",
+          "node_type": "property"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:blue|A",
+      "class": "seed_lexeme",
+      "name": "blue",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=ADJ",
+      "origin": "microworld",
+      "category": "ADJ",
+      "senses": [
+        {
+          "sense_id": "blue",
+          "concept": "blue",
+          "node_type": "property"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:book|N",
+      "class": "seed_lexeme",
+      "name": "book",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "book",
+          "concept": "book",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:box|N",
+      "class": "seed_lexeme",
+      "name": "box",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "box",
+          "concept": "box",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:by|P",
+      "class": "seed_lexeme",
+      "name": "by",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=PREP",
+      "origin": "microworld",
+      "category": "PREP",
+      "senses": [],
+      "features": []
+    },
+    {
+      "id": "L:microworld:cat|N",
+      "class": "seed_lexeme",
+      "name": "cat",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "cat",
+          "concept": "cat",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:cup|N",
+      "class": "seed_lexeme",
+      "name": "cup",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "cup",
+          "concept": "cup",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:dog|N",
+      "class": "seed_lexeme",
+      "name": "dog",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "dog",
+          "concept": "dog",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:door|N",
+      "class": "seed_lexeme",
+      "name": "door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "door",
+          "concept": "door",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:do|AUX",
+      "class": "seed_lexeme",
+      "name": "do",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=AUX",
+      "origin": "microworld",
+      "category": "AUX",
+      "senses": [],
+      "features": []
+    },
+    {
+      "id": "L:microworld:find|V",
+      "class": "seed_lexeme",
+      "name": "find",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "find",
+          "concept": "find",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:girl|N",
+      "class": "seed_lexeme",
+      "name": "girl",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "girl",
+          "concept": "girl",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:hold|V",
+      "class": "seed_lexeme",
+      "name": "hold",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "hold",
+          "concept": "hold",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:key|N",
+      "class": "seed_lexeme",
+      "name": "key",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "key",
+          "concept": "key",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:kick|V",
+      "class": "seed_lexeme",
+      "name": "kick",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "kick",
+          "concept": "kick",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:lift|V",
+      "class": "seed_lexeme",
+      "name": "lift",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "lift",
+          "concept": "lift",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:not|NEG",
+      "class": "seed_lexeme",
+      "name": "not",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NEG",
+      "origin": "microworld",
+      "category": "NEG",
+      "senses": [],
+      "features": []
+    },
+    {
+      "id": "L:microworld:open|V",
+      "class": "seed_lexeme",
+      "name": "open",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "open",
+          "concept": "open",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:push|V",
+      "class": "seed_lexeme",
+      "name": "push",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "push",
+          "concept": "push",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:red|A",
+      "class": "seed_lexeme",
+      "name": "red",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=ADJ",
+      "origin": "microworld",
+      "category": "ADJ",
+      "senses": [
+        {
+          "sense_id": "red",
+          "concept": "red",
+          "node_type": "property"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:robot|N",
+      "class": "seed_lexeme",
+      "name": "robot",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=NOUN",
+      "origin": "microworld",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "robot",
+          "concept": "robot",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:see|V",
+      "class": "seed_lexeme",
+      "name": "see",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=VERB",
+      "origin": "microworld",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "see",
+          "concept": "see",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:small|A",
+      "class": "seed_lexeme",
+      "name": "small",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=ADJ",
+      "origin": "microworld",
+      "category": "ADJ",
+      "senses": [
+        {
+          "sense_id": "small",
+          "concept": "small",
+          "node_type": "property"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:microworld:the|D",
+      "class": "seed_lexeme",
+      "name": "the",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld seed lexeme category=DET",
+      "origin": "microworld",
+      "category": "DET",
+      "senses": [],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:box|N",
+      "class": "seed_lexeme",
+      "name": "box",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=NOUN",
+      "origin": "acquisition_fixture",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "box",
+          "concept": "box",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:cat|N",
+      "class": "seed_lexeme",
+      "name": "cat",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=NOUN",
+      "origin": "acquisition_fixture",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "cat",
+          "concept": "cat",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:door|N",
+      "class": "seed_lexeme",
+      "name": "door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=NOUN",
+      "origin": "acquisition_fixture",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "door",
+          "concept": "door",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:key|N",
+      "class": "seed_lexeme",
+      "name": "key",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=NOUN",
+      "origin": "acquisition_fixture",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "key",
+          "concept": "key",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:open|V",
+      "class": "seed_lexeme",
+      "name": "open",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=VERB",
+      "origin": "acquisition_fixture",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "open",
+          "concept": "open",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:push|V",
+      "class": "seed_lexeme",
+      "name": "push",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=VERB",
+      "origin": "acquisition_fixture",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "push",
+          "concept": "push",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:robot|N",
+      "class": "seed_lexeme",
+      "name": "robot",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=NOUN",
+      "origin": "acquisition_fixture",
+      "category": "NOUN",
+      "senses": [
+        {
+          "sense_id": "robot",
+          "concept": "robot",
+          "node_type": "entity"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "L:acquisition_fixture:see|V",
+      "class": "seed_lexeme",
+      "name": "see",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture seed lexeme category=VERB",
+      "origin": "acquisition_fixture",
+      "category": "VERB",
+      "senses": [
+        {
+          "sense_id": "see",
+          "concept": "see",
+          "node_type": "event"
+        }
+      ],
+      "features": []
+    },
+    {
+      "id": "M:microworld:past-see",
+      "class": "morphology_prior",
+      "name": "past-see",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('tense', 'past')] lemmas=['see']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "see"
+      ]
+    },
+    {
+      "id": "M:microworld:pp-see",
+      "class": "morphology_prior",
+      "name": "pp-see",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('participle', 'past')] lemmas=['see']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "participle",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "see"
+      ]
+    },
+    {
+      "id": "M:microworld:past-hold",
+      "class": "morphology_prior",
+      "name": "past-hold",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('tense', 'past')] lemmas=['hold']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "hold"
+      ]
+    },
+    {
+      "id": "M:microworld:pp-hold",
+      "class": "morphology_prior",
+      "name": "pp-hold",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('participle', 'past')] lemmas=['hold']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "participle",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "hold"
+      ]
+    },
+    {
+      "id": "M:microworld:past-find",
+      "class": "morphology_prior",
+      "name": "past-find",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('tense', 'past')] lemmas=['find']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "find"
+      ]
+    },
+    {
+      "id": "M:microworld:pp-find",
+      "class": "morphology_prior",
+      "name": "pp-find",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION VERB features=[('participle', 'past')] lemmas=['find']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "participle",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "find"
+      ]
+    },
+    {
+      "id": "M:microworld:past-ed",
+      "class": "morphology_prior",
+      "name": "past-ed",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld PRODUCTIVE VERB features=[('tense', 'past')] lemmas=[]",
+      "origin": "microworld",
+      "kind": "PRODUCTIVE",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": []
+    },
+    {
+      "id": "M:microworld:pp-ed",
+      "class": "morphology_prior",
+      "name": "pp-ed",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld PRODUCTIVE VERB features=[('participle', 'past')] lemmas=[]",
+      "origin": "microworld",
+      "kind": "PRODUCTIVE",
+      "category": "VERB",
+      "features": [
+        [
+          "participle",
+          "past"
+        ]
+      ],
+      "lemmas": []
+    },
+    {
+      "id": "M:microworld:aux-did",
+      "class": "morphology_prior",
+      "name": "aux-did",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION AUX features=[('tense', 'past')] lemmas=['do']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "AUX",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "do"
+      ]
+    },
+    {
+      "id": "M:microworld:aux-was",
+      "class": "morphology_prior",
+      "name": "aux-was",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "microworld EXCEPTION AUX features=[('tense', 'past')] lemmas=['be']",
+      "origin": "microworld",
+      "kind": "EXCEPTION",
+      "category": "AUX",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "be"
+      ]
+    },
+    {
+      "id": "M:acquisition_fixture:past-ed",
+      "class": "morphology_prior",
+      "name": "past-ed",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture PRODUCTIVE VERB features=[('tense', 'past')] lemmas=[]",
+      "origin": "acquisition_fixture",
+      "kind": "PRODUCTIVE",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": []
+    },
+    {
+      "id": "M:acquisition_fixture:saw",
+      "class": "morphology_prior",
+      "name": "saw",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "acquisition_fixture EXCEPTION VERB features=[('tense', 'past')] lemmas=['see']",
+      "origin": "acquisition_fixture",
+      "kind": "EXCEPTION",
+      "category": "VERB",
+      "features": [
+        [
+          "tense",
+          "past"
+        ]
+      ],
+      "lemmas": [
+        "see"
+      ]
+    },
+    {
+      "id": "K:en:np",
+      "class": "construction_prior",
+      "name": "en:np",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=noun_phrase language=en order=D A N invertible=False produces=NP",
+      "family": "noun_phrase",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "d",
+          "category": "D",
+          "features": [],
+          "lemma": null,
+          "optional": true,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "a",
+          "category": "A",
+          "features": [],
+          "lemma": null,
+          "optional": true,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "n",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        }
+      ],
+      "surface_order": [
+        "D",
+        "A",
+        "N"
+      ],
+      "invertible": false,
+      "produces": "NP",
+      "head_slot": "n"
+    },
+    {
+      "id": "K:en:transitive",
+      "class": "construction_prior",
+      "name": "en:transitive",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=transitive language=en order=NP V NP invertible=True produces=None",
+      "family": "transitive",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "subj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [
+            "tense"
+          ],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "obj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        }
+      ],
+      "surface_order": [
+        "NP",
+        "V",
+        "NP"
+      ],
+      "invertible": true,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "K:en:intransitive",
+      "class": "construction_prior",
+      "name": "en:intransitive",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=intransitive language=en order=NP V invertible=True produces=None",
+      "family": "intransitive",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "subj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [
+            "tense"
+          ],
+          "forbids": [],
+          "phrase": null
+        }
+      ],
+      "surface_order": [
+        "NP",
+        "V"
+      ],
+      "invertible": true,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "K:en:passive",
+      "class": "construction_prior",
+      "name": "en:passive",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=passive language=en order=NP be V by NP invertible=False produces=None",
+      "family": "passive",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "subj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        },
+        {
+          "name": "aux",
+          "category": "AUX",
+          "features": [],
+          "lemma": "be",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [
+            [
+              "participle",
+              "past"
+            ]
+          ],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "by",
+          "category": "P",
+          "features": [],
+          "lemma": "by",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "agent",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        }
+      ],
+      "surface_order": [
+        "NP",
+        "be",
+        "V",
+        "by",
+        "NP"
+      ],
+      "invertible": false,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "K:en:negation-transitive",
+      "class": "construction_prior",
+      "name": "en:negation-transitive",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=negation language=en order=NP do not V NP invertible=False produces=None",
+      "family": "negation",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "subj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        },
+        {
+          "name": "aux",
+          "category": "AUX",
+          "features": [],
+          "lemma": "do",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "neg",
+          "category": "NEG",
+          "features": [],
+          "lemma": "not",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [
+            "tense",
+            "participle"
+          ],
+          "phrase": null
+        },
+        {
+          "name": "obj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        }
+      ],
+      "surface_order": [
+        "NP",
+        "do",
+        "not",
+        "V",
+        "NP"
+      ],
+      "invertible": false,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "K:en:yesno-transitive",
+      "class": "construction_prior",
+      "name": "en:yesno-transitive",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=yes_no_question language=en order=do NP V NP invertible=False produces=None",
+      "family": "yes_no_question",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "aux",
+          "category": "AUX",
+          "features": [],
+          "lemma": "do",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "subj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [
+            "tense",
+            "participle"
+          ],
+          "phrase": null
+        },
+        {
+          "name": "obj",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": "NP"
+        }
+      ],
+      "surface_order": [
+        "do",
+        "NP",
+        "V",
+        "NP"
+      ],
+      "invertible": false,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "K:en:wh-object",
+      "class": "construction_prior",
+      "name": "en:wh-object",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "family=wh_question language=en order=which N do PRO V invertible=False produces=None",
+      "family": "wh_question",
+      "language": "en",
+      "pattern": [
+        {
+          "name": "wh",
+          "category": "WH",
+          "features": [],
+          "lemma": "which",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "obj_n",
+          "category": "N",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "aux",
+          "category": "AUX",
+          "features": [],
+          "lemma": "do",
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "subj_n",
+          "category": "PRO",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [],
+          "phrase": null
+        },
+        {
+          "name": "verb",
+          "category": "V",
+          "features": [],
+          "lemma": null,
+          "optional": false,
+          "requires": [],
+          "forbids": [
+            "tense",
+            "participle"
+          ],
+          "phrase": null
+        }
+      ],
+      "surface_order": [
+        "which",
+        "N",
+        "do",
+        "PRO",
+        "V"
+      ],
+      "invertible": false,
+      "produces": null,
+      "head_slot": null
+    },
+    {
+      "id": "W:en:np",
+      "class": "word_order_assumption",
+      "name": "English NP = (DET) (ADJ) NOUN",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:np",
+      "family": "noun_phrase"
+    },
+    {
+      "id": "W:en:transitive",
+      "class": "word_order_assumption",
+      "name": "English SVO = NP V[+tense] NP",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:transitive",
+      "family": "transitive"
+    },
+    {
+      "id": "W:en:intransitive",
+      "class": "word_order_assumption",
+      "name": "English SV = NP V[+tense]",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:intransitive",
+      "family": "intransitive"
+    },
+    {
+      "id": "W:en:passive",
+      "class": "word_order_assumption",
+      "name": "English passive = NP be V[pp] by NP (patient-first)",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:passive",
+      "family": "passive"
+    },
+    {
+      "id": "W:en:negation-transitive",
+      "class": "word_order_assumption",
+      "name": "English do-support negation = NP do not V[-tense] NP",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:negation-transitive",
+      "family": "negation"
+    },
+    {
+      "id": "W:en:yesno-transitive",
+      "class": "word_order_assumption",
+      "name": "English yes/no = do NP V[-tense] NP (aux fronting)",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:yesno-transitive",
+      "family": "yes_no_question"
+    },
+    {
+      "id": "W:en:wh-object",
+      "class": "word_order_assumption",
+      "name": "English which-object = which N do PRON V[-tense]",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Authored English linearization; not architecture. Same-code SOV learning is the hostile.",
+      "construction_id": "en:wh-object",
+      "family": "wh_question"
+    },
+    {
+      "id": "W:realize-svo-templates",
+      "class": "word_order_assumption",
+      "name": "realizer hardcodes English active/passive/do-support order",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "realize() emits '{agent} {past} {patient}', '{patient} was {pp} by {agent}', '{agent} did not {verb} {patient}', 'did {agent} {verb} {patient}'."
+    },
+    {
+      "id": "W:microworld-generator-svo",
+      "class": "word_order_assumption",
+      "name": "microworld corpus generator emits English SVO/passive/do-support",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/microworld.py",
+      "detail": "generate() authors English strings from NOUNS/VERBS_PAST/ADJS. Teaching data, not learned competence."
+    },
+    {
+      "id": "R:active-agent-patient",
+      "class": "semantic_role_mapping",
+      "name": "active clause: leftmost NP=ROLE:agent, rightmost NP=ROLE:patient",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:passive-swap",
+      "class": "semantic_role_mapping",
+      "name": "passive: surface subject=ROLE:patient, by-NP=ROLE:agent",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:intransitive-agent",
+      "class": "semantic_role_mapping",
+      "name": "intransitive subject=ROLE:agent",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:tense-from-verb-or-aux",
+      "class": "semantic_role_mapping",
+      "name": "TENSE edge from verb features or aux",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:negates",
+      "class": "semantic_role_mapping",
+      "name": "do-not construction adds NEGATES on the event",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:asks-polarity",
+      "class": "semantic_role_mapping",
+      "name": "yes/no construction adds ASKS polarity question_variable",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:wh-object",
+      "class": "semantic_role_mapping",
+      "name": "which-N is ASKS on the patient node; PRON subject may be underspecified",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:np-modifies",
+      "class": "semantic_role_mapping",
+      "name": "optional ADJ is MODIFIES property on the noun",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:definite-the",
+      "class": "semantic_role_mapping",
+      "name": "optional DET marks entity feature definite=yes",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "R:realize-role-lookup",
+      "class": "semantic_role_mapping",
+      "name": "realizer reads ROLE:agent/patient to linearize",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "Form-to-role correspondence is authored for English seed families. Curriculum families must register their own template as teacher information."
+    },
+    {
+      "id": "P:tokenize",
+      "class": "parser_procedure",
+      "name": "interpret.tokenize",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:lexicon-analyse",
+      "class": "parser_procedure",
+      "name": "Lexicon.analyse lemma plus morphology, exception override",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/lexicon.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:match-constructions",
+      "class": "parser_procedure",
+      "name": "bottom-up phrase table + whole-utterance clause match",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/constructions.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:chart-earley",
+      "class": "parser_procedure",
+      "name": "packed Earley forest with exact derivation counts and evidence ranking",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/chart.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:interpret-pipeline",
+      "class": "parser_procedure",
+      "name": "utterance \u2192 readings \u2192 matches \u2192 select \u2192 said-record",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:select",
+      "class": "parser_procedure",
+      "name": "exactly one LIVE candidate \u21d2 INTERPRETED; else AMBIGUOUS/UNKNOWN",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/interpret.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:gap-readings",
+      "class": "parser_procedure",
+      "name": "optional unknown-token gap as N placeholder",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/chart.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "P:ahu-tree-canonical",
+      "class": "parser_procedure",
+      "name": "polynomial tree canonical form above node bound",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/meaning_tree.py",
+      "detail": "Generic procedure if grammar/lexicon are data. English enters only through seed objects."
+    },
+    {
+      "id": "Z:en-transitive",
+      "class": "realization_template",
+      "name": "{agent} {past} {patient}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English active."
+    },
+    {
+      "id": "Z:en-passive",
+      "class": "realization_template",
+      "name": "{patient} was {pp} by {agent}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English passive; 'was' authored."
+    },
+    {
+      "id": "Z:en-negation",
+      "class": "realization_template",
+      "name": "{agent} did not|didn't {verb} {patient}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English do-support negation plus contraction switch."
+    },
+    {
+      "id": "Z:en-yesno",
+      "class": "realization_template",
+      "name": "did {agent} {verb} {patient}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English aux-fronted yes/no."
+    },
+    {
+      "id": "Z:en-intransitive",
+      "class": "realization_template",
+      "name": "{agent} {past}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English intransitive."
+    },
+    {
+      "id": "Z:en-np-the",
+      "class": "realization_template",
+      "name": "optional determiner 'the ' plus adjective sequence",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "Definiteness realized as English 'the'."
+    },
+    {
+      "id": "Z:capitalize-punct",
+      "class": "realization_template",
+      "name": "capitalize first character and append . or ?",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "English orthographic packaging."
+    },
+    {
+      "id": "Z:world-phrase:BEFORE",
+      "class": "realization_template",
+      "name": "BEFORE \u2192 'is before'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:BOILS_AT",
+      "class": "realization_template",
+      "name": "BOILS_AT \u2192 'boils at'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:CAPITAL_OF",
+      "class": "realization_template",
+      "name": "CAPITAL_OF \u2192 'is the capital of'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:CONTAINS",
+      "class": "realization_template",
+      "name": "CONTAINS \u2192 'contains'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:EQUALS",
+      "class": "realization_template",
+      "name": "EQUALS \u2192 'equals'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:FREEZES_AT",
+      "class": "realization_template",
+      "name": "FREEZES_AT \u2192 'freezes at'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:HAPPENED_IN",
+      "class": "realization_template",
+      "name": "HAPPENED_IN \u2192 'happened in'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:HAPPENS_AT",
+      "class": "realization_template",
+      "name": "HAPPENS_AT \u2192 'happens at'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:HAPPENS_IN",
+      "class": "realization_template",
+      "name": "HAPPENS_IN \u2192 'happens in'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:HAS_COUNT",
+      "class": "realization_template",
+      "name": "HAS_COUNT \u2192 'has count'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:HAS_PROPERTY",
+      "class": "realization_template",
+      "name": "HAS_PROPERTY \u2192 'has property'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:IS_A",
+      "class": "realization_template",
+      "name": "IS_A \u2192 'is a'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:LOCATED_IN",
+      "class": "realization_template",
+      "name": "LOCATED_IN \u2192 'is in'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:ORBITS",
+      "class": "realization_template",
+      "name": "ORBITS \u2192 'orbits'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:PART_OF",
+      "class": "realization_template",
+      "name": "PART_OF \u2192 'is part of'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "Z:world-phrase:USED_FOR",
+      "class": "realization_template",
+      "name": "USED_FOR \u2192 'is used for'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Bounded-world English relation phrase. Historical checker only."
+    },
+    {
+      "id": "D:act:ASSERT",
+      "class": "dialogue_act_rule",
+      "name": "ASSERT",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "ASSERT"
+    },
+    {
+      "id": "D:act:ANSWER",
+      "class": "dialogue_act_rule",
+      "name": "ANSWER",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "ANSWER"
+    },
+    {
+      "id": "D:act:ASK",
+      "class": "dialogue_act_rule",
+      "name": "ASK",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "ASK"
+    },
+    {
+      "id": "D:act:CLARIFY",
+      "class": "dialogue_act_rule",
+      "name": "CLARIFY",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "CLARIFY"
+    },
+    {
+      "id": "D:act:ACKNOWLEDGE",
+      "class": "dialogue_act_rule",
+      "name": "ACKNOWLEDGE",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "ACKNOWLEDGE"
+    },
+    {
+      "id": "D:act:CORRECT",
+      "class": "dialogue_act_rule",
+      "name": "CORRECT",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "CORRECT"
+    },
+    {
+      "id": "D:act:RETRACT",
+      "class": "dialogue_act_rule",
+      "name": "RETRACT",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "RETRACT"
+    },
+    {
+      "id": "D:act:REQUEST",
+      "class": "dialogue_act_rule",
+      "name": "REQUEST",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "REQUEST"
+    },
+    {
+      "id": "D:act:CONFIRM",
+      "class": "dialogue_act_rule",
+      "name": "CONFIRM",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "CONFIRM"
+    },
+    {
+      "id": "D:act:REPORT_UNKNOWN",
+      "class": "dialogue_act_rule",
+      "name": "REPORT_UNKNOWN",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "REPORT_UNKNOWN"
+    },
+    {
+      "id": "D:act:REPORT_UNCERTAIN",
+      "class": "dialogue_act_rule",
+      "name": "REPORT_UNCERTAIN",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/gate.py",
+      "detail": "Fixed interaction taxonomy. Commitment markers may stay constitutional; the inventory is prior structure.",
+      "value": "REPORT_UNCERTAIN"
+    },
+    {
+      "id": "D:reply:RECORDED",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.RECORDED",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:ANSWER",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.ANSWER",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:CLARIFY",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.CLARIFY",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:LEARN",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.LEARN",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:NEEDS_CONTEXT",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.NEEDS_CONTEXT",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:CONTRADICTION",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.CONTRADICTION",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:RETRACTED",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.RETRACTED",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:reply:CANNOT_CHECK",
+      "class": "dialogue_act_rule",
+      "name": "session ReplyKind.CANNOT_CHECK",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/language/session.py",
+      "detail": "Session control states over interpretation verdicts."
+    },
+    {
+      "id": "D:text:recorded",
+      "class": "dialogue_act_rule",
+      "name": "Recorded: {speaker} said \u2026",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:yes-said",
+      "class": "dialogue_act_rule",
+      "name": "Yes \u2014 {speaker} said so ({id}); I have no independent warrant.",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:no-said",
+      "class": "dialogue_act_rule",
+      "name": "No \u2014 {speaker} said it did not ({id}); I have no independent warrant.",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:unknown-contra",
+      "class": "dialogue_act_rule",
+      "name": "Unknown \u2014 contradictory statements are on record: \u2026",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:unknown-none",
+      "class": "dialogue_act_rule",
+      "name": "Unknown \u2014 nothing on record supports or denies it.",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:which",
+      "class": "dialogue_act_rule",
+      "name": "Which did you mean: {options}?",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:still-which",
+      "class": "dialogue_act_rule",
+      "name": "I still cannot tell which; answer with the number.",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:learn",
+      "class": "dialogue_act_rule",
+      "name": "I cannot interpret this yet (\u2026 ). Show me what it means.",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "D:text:needs-context",
+      "class": "dialogue_act_rule",
+      "name": "I need to know what you refer to: \u2026",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "Authored English session wording."
+    },
+    {
+      "id": "N:pronoun:it",
+      "class": "pronoun_reference_rule",
+      "name": "it",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity', 'animate': 'no'}",
+      "features": {
+        "kind": "entity",
+        "animate": "no"
+      }
+    },
+    {
+      "id": "N:pronoun:he",
+      "class": "pronoun_reference_rule",
+      "name": "he",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity', 'animate': 'yes', 'gender': 'm'}",
+      "features": {
+        "kind": "entity",
+        "animate": "yes",
+        "gender": "m"
+      }
+    },
+    {
+      "id": "N:pronoun:she",
+      "class": "pronoun_reference_rule",
+      "name": "she",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity', 'animate': 'yes', 'gender': 'f'}",
+      "features": {
+        "kind": "entity",
+        "animate": "yes",
+        "gender": "f"
+      }
+    },
+    {
+      "id": "N:pronoun:they",
+      "class": "pronoun_reference_rule",
+      "name": "they",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity'}",
+      "features": {
+        "kind": "entity"
+      }
+    },
+    {
+      "id": "N:pronoun:this",
+      "class": "pronoun_reference_rule",
+      "name": "this",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {}",
+      "features": {}
+    },
+    {
+      "id": "N:pronoun:that",
+      "class": "pronoun_reference_rule",
+      "name": "that",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {}",
+      "features": {}
+    },
+    {
+      "id": "N:pronoun:them",
+      "class": "pronoun_reference_rule",
+      "name": "them",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity'}",
+      "features": {
+        "kind": "entity"
+      }
+    },
+    {
+      "id": "N:pronoun:him",
+      "class": "pronoun_reference_rule",
+      "name": "him",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity', 'gender': 'm'}",
+      "features": {
+        "kind": "entity",
+        "gender": "m"
+      }
+    },
+    {
+      "id": "N:pronoun:her",
+      "class": "pronoun_reference_rule",
+      "name": "her",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English pronoun feature map {'kind': 'entity', 'gender': 'f'}",
+      "features": {
+        "kind": "entity",
+        "gender": "f"
+      }
+    },
+    {
+      "id": "N:ordinal:first",
+      "class": "pronoun_reference_rule",
+      "name": "first",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English ordinal index 0",
+      "index": 0
+    },
+    {
+      "id": "N:ordinal:second",
+      "class": "pronoun_reference_rule",
+      "name": "second",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English ordinal index 1",
+      "index": 1
+    },
+    {
+      "id": "N:ordinal:third",
+      "class": "pronoun_reference_rule",
+      "name": "third",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English ordinal index 2",
+      "index": 2
+    },
+    {
+      "id": "N:ordinal:fourth",
+      "class": "pronoun_reference_rule",
+      "name": "fourth",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English ordinal index 3",
+      "index": 3
+    },
+    {
+      "id": "N:ordinal:last",
+      "class": "pronoun_reference_rule",
+      "name": "last",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English ordinal index -1",
+      "index": -1
+    },
+    {
+      "id": "N:det:the",
+      "class": "pronoun_reference_rule",
+      "name": "description-mention determiner 'the'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English definite/deictic mention parser."
+    },
+    {
+      "id": "N:det:this",
+      "class": "pronoun_reference_rule",
+      "name": "description-mention determiner 'this'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English definite/deictic mention parser."
+    },
+    {
+      "id": "N:det:that",
+      "class": "pronoun_reference_rule",
+      "name": "description-mention determiner 'that'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English definite/deictic mention parser."
+    },
+    {
+      "id": "N:det:these",
+      "class": "pronoun_reference_rule",
+      "name": "description-mention determiner 'these'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English definite/deictic mention parser."
+    },
+    {
+      "id": "N:det:those",
+      "class": "pronoun_reference_rule",
+      "name": "description-mention determiner 'those'",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "English definite/deictic mention parser."
+    },
+    {
+      "id": "N:recency-order-only",
+      "class": "pronoun_reference_rule",
+      "name": "recency orders clarification candidates but never resolves",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/reference.py",
+      "detail": "Four-valued resolution; nearest-string mutant is planted and refused."
+    },
+    {
+      "id": "Q:value-policy",
+      "class": "clarification_rule",
+      "name": "information-value ask policy",
+      "classification": "constitutionally_necessary",
+      "language_specific": false,
+      "retained_in_minimal_substrate": true,
+      "source": "src/ocm/dialogue/clarify.py",
+      "detail": "value = expected determined query cells \u2212 cost \u2212 repeat penalty; ask iff max value > 0."
+    },
+    {
+      "id": "Q:did-you-mean",
+      "class": "clarification_rule",
+      "name": "Did you mean {x}?",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/clarify.py",
+      "detail": "English binary question wording."
+    },
+    {
+      "id": "Q:menu",
+      "class": "clarification_rule",
+      "name": "Which did you mean: \u2026",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/clarify.py",
+      "detail": "English menu wording."
+    },
+    {
+      "id": "Q:numeric-reply",
+      "class": "clarification_rule",
+      "name": "clarification resolved by 1-based index or unique string hit",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/session.py",
+      "detail": "English/arabic-numeral interaction convention."
+    },
+    {
+      "id": "E:rhetorical:ANSWER",
+      "class": "explanation_discourse_schema",
+      "name": "ANSWER",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:rhetorical:ELABORATION",
+      "class": "explanation_discourse_schema",
+      "name": "ELABORATION",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:rhetorical:CONTRAST",
+      "class": "explanation_discourse_schema",
+      "name": "CONTRAST",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:rhetorical:LIST",
+      "class": "explanation_discourse_schema",
+      "name": "LIST",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:rhetorical:TEACH_BACK",
+      "class": "explanation_discourse_schema",
+      "name": "TEACH_BACK",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:rhetorical:NONE",
+      "class": "explanation_discourse_schema",
+      "name": "NONE",
+      "classification": "convenience",
+      "language_specific": false,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored rhetorical relation for planning."
+    },
+    {
+      "id": "E:plan-answer",
+      "class": "explanation_discourse_schema",
+      "name": "plan_answer yes/no from world+commitments",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "E:plan-explain",
+      "class": "explanation_discourse_schema",
+      "name": "plan_explain ELABORATION along IS_A/PART_OF/LOCATED_IN/ORBITS",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "E:plan-compare",
+      "class": "explanation_discourse_schema",
+      "name": "plan_compare CONTRAST shared vs differing relations",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "E:plan-summary",
+      "class": "explanation_discourse_schema",
+      "name": "plan_summary LIST of speaker commitments",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "E:plan-teach-back",
+      "class": "explanation_discourse_schema",
+      "name": "plan_teach_back \"'{lexeme}' means {concept}\"",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "E:functional-relations",
+      "class": "explanation_discourse_schema",
+      "name": "FUNCTIONAL_RELATIONS=['BOILS_AT', 'CAPITAL_OF', 'EQUALS', 'FREEZES_AT', 'HAPPENED_IN', 'HAS_COUNT']",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored explanation/discourse procedure. N2 must learn or count as prior."
+    },
+    {
+      "id": "S:register-enum",
+      "class": "style_register_rule",
+      "name": "register \u2208 {neutral, brief, detailed, formal, casual}",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/realize.py",
+      "detail": "Default Style.register='neutral', contractions=False, prefer_passive=False."
+    },
+    {
+      "id": "S:length-by-register",
+      "class": "style_register_rule",
+      "name": "explanation length_target brief=2, neutral=4, detailed=8",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/planner.py",
+      "detail": "Authored register\u2192clause-count map."
+    },
+    {
+      "id": "S:epistemic-prefixes",
+      "class": "style_register_rule",
+      "name": "fixed epistemic marker sentences",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "Prefixes/suffixes: 'I am not sure whether ', 'A source ({source}) says so, but I have not verified it: ', 'Yes. ', citation wrappers."
+    },
+    {
+      "id": "S:moon-sun-earth-the",
+      "class": "style_register_rule",
+      "name": "world_clause prepends 'the' for moon/sun/earth",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/surface_text.py",
+      "detail": "English proper-name article exception."
+    },
+    {
+      "id": "X:meaning:the robot opened the red door",
+      "class": "authored_example_lesson",
+      "name": "the robot opened the red door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:the door was opened by the robot",
+      "class": "authored_example_lesson",
+      "name": "the door was opened by the robot",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:did the robot open the door",
+      "class": "authored_example_lesson",
+      "name": "did the robot open the door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:the robot did not open the door",
+      "class": "authored_example_lesson",
+      "name": "the robot did not open the door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:the robot might open the door tomorrow",
+      "class": "authored_example_lesson",
+      "name": "the robot might open the door tomorrow",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:the robot that mary repaired opened the door",
+      "class": "authored_example_lesson",
+      "name": "the robot that mary repaired opened the door",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:john thinks mary may leave",
+      "class": "authored_example_lesson",
+      "name": "john thinks mary may leave",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:every red box contains at least one key",
+      "class": "authored_example_lesson",
+      "name": "every red box contains at least one key",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:meaning:which door did it open",
+      "class": "authored_example_lesson",
+      "name": "which door did it open",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/meaning.py",
+      "detail": "Hand-built M3 example meaning graph."
+    },
+    {
+      "id": "X:microworld-generator",
+      "class": "authored_example_lesson",
+      "name": "OCM-M3-MICROWORLD-20260905 generator",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/microworld.py",
+      "detail": "Authored generator seed; default n=240; families transitive/transitive_adj/negation/yes_no/passive; nouns=['robot', 'door', 'cat', 'box', 'key', 'girl', 'ball', 'cup', 'dog', 'book']; verbs={'open': 'opened', 'push': 'pushed', 'see': 'saw', 'lift': 'lifted', 'kick': 'kicked', 'hold': 'held', 'find': 'found'}; adjs=['red', 'big', 'small', 'blue']; held-out dog/book/find.",
+      "default_n": 240,
+      "seed": "OCM-M3-MICROWORLD-20260905",
+      "generated_count": 240
+    },
+    {
+      "id": "X:dialogue-generator",
+      "class": "authored_example_lesson",
+      "name": "OCM-M4-DIALOGUE-20260905 generator",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/dialogue/microworld.py",
+      "detail": "Authored scripted dialogues (statement_question, correction, contradiction, pronoun, topic return, retraction, ten speakers). Default n=120.",
+      "default_n": 120,
+      "seed": "OCM-M4-DIALOGUE-20260905",
+      "generated_count": 120
+    },
+    {
+      "id": "X:acquisition-fixture",
+      "class": "authored_example_lesson",
+      "name": "acquisition_lexicon fixture (robot/door/cat/box/key + open/push/see + -ed/saw)",
+      "classification": "convenience",
+      "language_specific": true,
+      "retained_in_minimal_substrate": false,
+      "source": "src/ocm/language/bootstrap.py",
+      "detail": "Copied M3 test fixture so installed runtimes do not depend on the test suite."
+    }
+  ],
+  "counts": {
+    "items_total": 206,
+    "by_class": {
+      "constitutional_mechanism": 16,
+      "parser_procedure": 12,
+      "semantic_role_mapping": 11,
+      "construction_prior": 8,
+      "word_order_assumption": 10,
+      "seed_lexeme": 34,
+      "morphology_prior": 12,
+      "realization_template": 23,
+      "dialogue_act_rule": 28,
+      "pronoun_reference_rule": 20,
+      "clarification_rule": 4,
+      "explanation_discourse_schema": 12,
+      "style_register_rule": 4,
+      "authored_example_lesson": 12
+    },
+    "constitutionally_necessary": 29,
+    "convenience": 177,
+    "language_specific": 149,
+    "retained_in_minimal_substrate": 44,
+    "retained_language_specific_prior": 0,
+    "stripped_language_specific_for_n1": 149
+  },
+  "minimal_substrate": {
+    "object_stores_at_time_zero": {
+      "lexemes": 0,
+      "morph_rules": 0,
+      "constructions": 0,
+      "english_realization_templates": 0,
+      "english_pronouns": 0
+    },
+    "retain": [
+      "C1_identity",
+      "C2_evidence",
+      "C3_warrant_scope_authority",
+      "C4_revocation",
+      "C5_unknown_cannot_check",
+      "C6_ambiguity_retention",
+      "C7_said_authority",
+      "C8_commitment_gate",
+      "C9_meaning_graph_schema",
+      "C10_lexeme_construction_schemas",
+      "C11_version_space",
+      "C12_generic_parser",
+      "C13_exception_override_law",
+      "C14_information_value",
+      "C15_canonical_bound",
+      "C16_field_bridge",
+      "G1_category_enum",
+      "G2_role_inventory",
+      "G3_tokenizer",
+      "G4_gap_categories",
+      "G5_canonical_max",
+      "G6_order_hypothesis_generator",
+      "P:tokenize",
+      "P:lexicon-analyse",
+      "P:match-constructions",
+      "P:chart-earley",
+      "P:interpret-pipeline",
+      "P:select",
+      "P:gap-readings",
+      "P:ahu-tree-canonical",
+      "D:act:ASSERT",
+      "D:act:ASK",
+      "D:act:CLARIFY",
+      "D:act:REPORT_UNKNOWN",
+      "D:reply:RECORDED",
+      "D:reply:ANSWER",
+      "D:reply:CLARIFY",
+      "D:reply:LEARN",
+      "D:reply:NEEDS_CONTEXT",
+      "D:reply:CONTRADICTION",
+      "D:reply:RETRACTED",
+      "D:reply:CANNOT_CHECK",
+      "N:recency-order-only",
+      "Q:value-policy"
+    ],
+    "strip": [
+      "G7_construction_default_language",
+      "L:microworld:ball|N",
+      "L:microworld:be|AUX",
+      "L:microworld:big|A",
+      "L:microworld:blue|A",
+      "L:microworld:book|N",
+      "L:microworld:box|N",
+      "L:microworld:by|P",
+      "L:microworld:cat|N",
+      "L:microworld:cup|N",
+      "L:microworld:dog|N",
+      "L:microworld:door|N",
+      "L:microworld:do|AUX",
+      "L:microworld:find|V",
+      "L:microworld:girl|N",
+      "L:microworld:hold|V",
+      "L:microworld:key|N",
+      "L:microworld:kick|V",
+      "L:microworld:lift|V",
+      "L:microworld:not|NEG",
+      "L:microworld:open|V",
+      "L:microworld:push|V",
+      "L:microworld:red|A",
+      "L:microworld:robot|N",
+      "L:microworld:see|V",
+      "L:microworld:small|A",
+      "L:microworld:the|D",
+      "L:acquisition_fixture:box|N",
+      "L:acquisition_fixture:cat|N",
+      "L:acquisition_fixture:door|N",
+      "L:acquisition_fixture:key|N",
+      "L:acquisition_fixture:open|V",
+      "L:acquisition_fixture:push|V",
+      "L:acquisition_fixture:robot|N",
+      "L:acquisition_fixture:see|V",
+      "M:microworld:past-see",
+      "M:microworld:pp-see",
+      "M:microworld:past-hold",
+      "M:microworld:pp-hold",
+      "M:microworld:past-find",
+      "M:microworld:pp-find",
+      "M:microworld:past-ed",
+      "M:microworld:pp-ed",
+      "M:microworld:aux-did",
+      "M:microworld:aux-was",
+      "M:acquisition_fixture:past-ed",
+      "M:acquisition_fixture:saw",
+      "K:en:np",
+      "K:en:transitive",
+      "K:en:intransitive",
+      "K:en:passive",
+      "K:en:negation-transitive",
+      "K:en:yesno-transitive",
+      "K:en:wh-object",
+      "W:en:np",
+      "W:en:transitive",
+      "W:en:intransitive",
+      "W:en:passive",
+      "W:en:negation-transitive",
+      "W:en:yesno-transitive",
+      "W:en:wh-object",
+      "W:realize-svo-templates",
+      "W:microworld-generator-svo",
+      "R:active-agent-patient",
+      "R:passive-swap",
+      "R:intransitive-agent",
+      "R:tense-from-verb-or-aux",
+      "R:negates",
+      "R:asks-polarity",
+      "R:wh-object",
+      "R:np-modifies",
+      "R:definite-the",
+      "R:realize-role-lookup",
+      "Z:en-transitive",
+      "Z:en-passive",
+      "Z:en-negation",
+      "Z:en-yesno",
+      "Z:en-intransitive",
+      "Z:en-np-the",
+      "Z:capitalize-punct",
+      "Z:world-phrase:BEFORE",
+      "Z:world-phrase:BOILS_AT",
+      "Z:world-phrase:CAPITAL_OF",
+      "Z:world-phrase:CONTAINS",
+      "Z:world-phrase:EQUALS",
+      "Z:world-phrase:FREEZES_AT",
+      "Z:world-phrase:HAPPENED_IN",
+      "Z:world-phrase:HAPPENS_AT",
+      "Z:world-phrase:HAPPENS_IN",
+      "Z:world-phrase:HAS_COUNT",
+      "Z:world-phrase:HAS_PROPERTY",
+      "Z:world-phrase:IS_A",
+      "Z:world-phrase:LOCATED_IN",
+      "Z:world-phrase:ORBITS",
+      "Z:world-phrase:PART_OF",
+      "Z:world-phrase:USED_FOR",
+      "D:text:recorded",
+      "D:text:yes-said",
+      "D:text:no-said",
+      "D:text:unknown-contra",
+      "D:text:unknown-none",
+      "D:text:which",
+      "D:text:still-which",
+      "D:text:learn",
+      "D:text:needs-context",
+      "N:pronoun:it",
+      "N:pronoun:he",
+      "N:pronoun:she",
+      "N:pronoun:they",
+      "N:pronoun:this",
+      "N:pronoun:that",
+      "N:pronoun:them",
+      "N:pronoun:him",
+      "N:pronoun:her",
+      "N:ordinal:first",
+      "N:ordinal:second",
+      "N:ordinal:third",
+      "N:ordinal:fourth",
+      "N:ordinal:last",
+      "N:det:the",
+      "N:det:this",
+      "N:det:that",
+      "N:det:these",
+      "N:det:those",
+      "Q:did-you-mean",
+      "Q:menu",
+      "Q:numeric-reply",
+      "E:plan-answer",
+      "E:plan-explain",
+      "E:plan-compare",
+      "E:plan-summary",
+      "E:plan-teach-back",
+      "E:functional-relations",
+      "S:register-enum",
+      "S:length-by-register",
+      "S:epistemic-prefixes",
+      "S:moon-sun-earth-the",
+      "X:meaning:the robot opened the red door",
+      "X:meaning:the door was opened by the robot",
+      "X:meaning:did the robot open the door",
+      "X:meaning:the robot did not open the door",
+      "X:meaning:the robot might open the door tomorrow",
+      "X:meaning:the robot that mary repaired opened the door",
+      "X:meaning:john thinks mary may leave",
+      "X:meaning:every red box contains at least one key",
+      "X:meaning:which door did it open",
+      "X:microworld-generator",
+      "X:dialogue-generator",
+      "X:acquisition-fixture"
+    ],
+    "note": "Time-zero object stores are empty. Constitutional mechanisms plus charged language-general schemas/adapters remain. English instances, word-order, realizer templates, pronouns, surface phrases, and authored lessons are convenience and must be absent from the N1 mechanism arm. A family's semantic target schema and finite hypothesis class are teacher information when that family is taught, not hidden architecture."
+  },
+  "predecessor": {
+    "path": "research/ocm-n1/LANGUAGE_BOOTSTRAP_MANIFEST_V1.json",
+    "role": "class-level prospective audit; this packet enumerates items"
+  },
+  "nonclaim": "This does not establish English acquisition, unsupervised grammar induction, language meta-learning, or N1 learned understanding."
+}

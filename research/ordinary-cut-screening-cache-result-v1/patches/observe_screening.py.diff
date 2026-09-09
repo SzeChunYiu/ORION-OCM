@@ -1,0 +1,39 @@
+--- historical/observe_screening.py
++++ wiring-01/observe_screening.py
+@@ -20,7 +20,7 @@
+ CONTRACT = HERE / "OBSERVER-CONTRACT.json"
+ PYTHON = Path("/home/billy/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/bin/python3.11")
+ EXPECTED_PYTHON = {"bytes":21334200,"sha256":"edca1fc80dbd58182c849c13707fb6bfb522b0d7049adc408225f7c69b124d3b"}
+-EXPECTED_REQUEST = {'bytes': 12127, 'sha256': '240998a5c5a6b529d9bc561e444661c2563d46478a39e4942bd8a5664abd6cb3'}
++EXPECTED_REQUEST = {'bytes': 13598, 'sha256': '69c544e7ed97ea8af6e581227bfff401a55709e84dafd1bc48d10a9decaa7900'}
+ 
+ 
+ def byte_identity(raw):
+@@ -55,6 +55,7 @@
+     assert gate["observer_contract"] == byte_identity(contract_raw)
+     assert request["gate_path"] == str(GATE)
+     assert request["schema"] == "ordinary.retained-screening-request.v1"
++    assert request["syntax_method"] == "functools.cache.completed-syntax-results.v1"
+     assert request["max_wall_s"] == 60 and request["max_token_states"] == 2000000
+     assert (request["P1_count"], request["proposal_occurrences"], request["syntax_token_limit"], request["syntax_proof_limit"]) == (4323, 76, 512, 4096)
+     assert gate["output"] == str(OUTPUT) and gate["observation"] == str(OBSERVATION)
+@@ -62,7 +63,7 @@
+     assert gate["argv"] == argv and gate["cwd"] == str(ROOT)
+     assert gate["runtime"] == {"path": str(PYTHON), **EXPECTED_PYTHON}
+     assert contract["request"] == {"path": str(REQUEST), **EXPECTED_REQUEST}
+-    assert contract["sources"] == request["sources"] and len(request["sources"]) == 10
++    assert contract["sources"] == request["sources"] and len(request["sources"]) == 11
+     pins = {}
+ 
+     def pin(path, value):
+@@ -87,8 +88,9 @@
+     for key in ("manifest", "wheel"):
+         value = request["runtime"][key]
+         pin(value["path"], value)
+-    assert set(gate["accepted_reviews"]) == {"screening_source", "observer_source"}
++    assert set(gate["accepted_reviews"]) == {"screening_source", "cache_repair", "observer_source"}
+     assert gate["accepted_reviews"]["screening_source"] == request["source_review"]
++    assert gate["accepted_reviews"]["cache_repair"] == request["cache_review"]
+     for value in gate["accepted_reviews"].values():
+         assert set(value) == {"path", "bytes", "sha256"}
+         pin(value["path"], value)

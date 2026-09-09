@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/failure_attempt_v1.json",
+  "title": "FailureAttemptV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "attempt_id",
+    "method_id",
+    "task_id",
+    "scope",
+    "budget",
+    "environment_version",
+    "outcome",
+    "feedback",
+    "failure_kind",
+    "resources",
+    "acquisition_lineage",
+    "correctness",
+    "usefulness",
+    "authorization",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.failure-attempt.v1"},
+    "attempt_id": {"$ref": "common.json#/$defs/nonempty_string"},
+    "method_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "task_id": {"$ref": "common.json#/$defs/unknownable_id"},
+    "scope": {"$ref": "common.json#/$defs/scope_state"},
+    "budget": {"$ref": "common.json#/$defs/unknownable_id"},
+    "environment_version": {"$ref": "common.json#/$defs/unknownable_id"},
+    "outcome": {"$ref": "common.json#/$defs/nonempty_string"},
+    "feedback": {"type": "string"},
+    "failure_kind": {
+      "type": "string",
+      "enum": ["METHOD_FAILURE", "TASK_IMPOSSIBILITY", "AUTHORITY_REFUSAL", "UNKNOWN"]
+    },
+    "resources": {"$ref": "common.json#/$defs/resource_vector"},
+    "acquisition_lineage": {"$ref": "common.json#/$defs/acquisition_lineage"},
+    "correctness": {"$ref": "common.json#/$defs/correctness_evidence"},
+    "usefulness": {"$ref": "common.json#/$defs/usefulness_evidence"},
+    "authorization": {"$ref": "common.json#/$defs/current_authorization_state"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

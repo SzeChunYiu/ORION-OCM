@@ -1,0 +1,102 @@
+test_each_original_comparison_field_remains_authoritative (__main__.TestAffectedParity.test_each_original_comparison_field_remains_authoritative) ... ok
+test_g3_macro_labels_and_order_remain_authoritative (__main__.TestAffectedParity.test_g3_macro_labels_and_order_remain_authoritative) ... ok
+test_guard_does_not_newly_certify_uncompared_flags (__main__.TestAffectedParity.test_guard_does_not_newly_certify_uncompared_flags) ... ok
+test_nonempty_equal_rows_accept_without_mutation (__main__.TestAffectedParity.test_nonempty_equal_rows_accept_without_mutation) ... ok
+test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) ... 
+  test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(0, 1)) ... FAIL
+  test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(1, 0)) ... FAIL
+  test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(0, 1)) ... FAIL
+  test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(1, 0)) ... FAIL
+test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) ... 
+  test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(1, 2)) ... FAIL
+  test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(2, 1)) ... FAIL
+  test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(1, 2)) ... FAIL
+  test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(2, 1)) ... FAIL
+test_two_empty_lists_do_not_establish_parity (__main__.TestAffectedParity.test_two_empty_lists_do_not_establish_parity) ... 
+  test_two_empty_lists_do_not_establish_parity (__main__.TestAffectedParity.test_two_empty_lists_do_not_establish_parity) (helper='g2_rows_equal') ... FAIL
+  test_two_empty_lists_do_not_establish_parity (__main__.TestAffectedParity.test_two_empty_lists_do_not_establish_parity) (helper='g3_rows_equal') ... FAIL
+
+======================================================================
+FAIL: test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(0, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 54, in test_one_empty_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(1, 0))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 54, in test_one_empty_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(0, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 54, in test_one_empty_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_one_empty_rejected_in_both_directions (__main__.TestAffectedParity.test_one_empty_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(1, 0))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 54, in test_one_empty_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(1, 2))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 48, in test_strict_prefix_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g2_rows_equal', lengths=(2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 48, in test_strict_prefix_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(1, 2))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 48, in test_strict_prefix_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_strict_prefix_rejected_in_both_directions (__main__.TestAffectedParity.test_strict_prefix_rejected_in_both_directions) (helper='g3_rows_equal', lengths=(2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 48, in test_strict_prefix_rejected_in_both_directions
+    self.assertFalse(fn(a, b))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_two_empty_lists_do_not_establish_parity (__main__.TestAffectedParity.test_two_empty_lists_do_not_establish_parity) (helper='g2_rows_equal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 59, in test_two_empty_lists_do_not_establish_parity
+    self.assertFalse(fn([], []))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_two_empty_lists_do_not_establish_parity (__main__.TestAffectedParity.test_two_empty_lists_do_not_establish_parity) (helper='g3_rows_equal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/g2-cost-parity-repair-v1/controls/test_parity.py", line 59, in test_two_empty_lists_do_not_establish_parity
+    self.assertFalse(fn([], []))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+FAILED (failures=10)

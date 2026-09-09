@@ -4,6 +4,8 @@ on:
     paths:
       - 'research/math-language-v1/**'
       - 'research/math-language-learning-v1/**'
+      - 'research/native-method-serving-v1/**'
+      - 'research/native-typed-trace-v1/**'
       - 'research/proof-corpus-coverage-v1/resource_*.py'
       - 'research/proof-corpus-coverage-v1/build_profile*.py'
       - 'src/ocm/**'
@@ -14,6 +16,8 @@ on:
     paths:
       - 'research/math-language-v1/**'
       - 'research/math-language-learning-v1/**'
+      - 'research/native-method-serving-v1/**'
+      - 'research/native-typed-trace-v1/**'
       - 'research/proof-corpus-coverage-v1/resource_*.py'
       - 'research/proof-corpus-coverage-v1/build_profile*.py'
       - 'src/ocm/**'
@@ -49,6 +53,76 @@ jobs:
         with:
           name: unary-language-portable-controls
           path: ${{ runner.temp }}/unary-language-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code
+
+  native-portable-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/native-method-serving-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Portable native-serving controls (native calls prohibited)
+        run: |
+          native_output="$RUNNER_TEMP/native-serving-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$native_output"
+          NATIVE_ENGINEERING_RECEIPT="$native_output/receipt.json" \
+          python -B -m pytest -q research/native-method-serving-v1 -m 'not native_actual_input' \
+            --basetemp="$native_output/cases" \
+            --junitxml="$native_output/tests.xml"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-serving-portable-controls
+          path: |
+            ${{ runner.temp }}/native-serving-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+            ${{ runner.temp }}/native-serving-${{ github.run_id }}-${{ github.run_attempt }}/receipt.json
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code
+
+  typed-native-portable-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/native-typed-trace-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - run: python -m pip install pytest==8.3.5
+      - name: Typed structural controls (native imports prohibited)
+        run: |
+          typed_output="$RUNNER_TEMP/typed-native-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$typed_output"
+          TYPED_ENGINEERING_RECEIPT="$typed_output/receipt.json" \
+          python -B -m pytest -c /dev/null -q -p no:cacheprovider research/native-typed-trace-v1 \
+            --basetemp="$typed_output/cases" \
+            --junitxml="$typed_output/tests.xml"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typed-native-portable-controls
+          path: |
+            ${{ runner.temp }}/typed-native-${{ github.run_id }}-${{ github.run_attempt }}/tests.xml
+            ${{ runner.temp }}/typed-native-${{ github.run_id }}-${{ github.run_attempt }}/receipt.json
           if-no-files-found: error
       - name: Source custody
         if: always()

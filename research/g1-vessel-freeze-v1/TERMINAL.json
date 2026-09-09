@@ -1,0 +1,22 @@
+{
+  "schema": "ocm.g1-vessel-freeze.terminal.v1",
+  "terminal": "COMPACT_VESSEL_PARTIAL",
+  "not_issued": [
+    "MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE",
+    "CURRENT_KSO_PARENT_SUFFICIENT",
+    "DOMAIN_CORE_FORK_REQUIRED",
+    "CONTROLLER_GROWTH_DOMINATES",
+    "STATE_SIZE_DOMINATES",
+    "PARENT_SUFFICIENT"
+  ],
+  "why": [
+    "G1.1 freeze and typed-contract confirmation are earned.",
+    "G1.2 subtraction was not run, so minimality is not claimed.",
+    "G1.3 is a source snapshot only.",
+    "Duplicated schemas were classified, not deleted.",
+    "Lifecycle surfaces exist in code; causal experience\u2192reuse is G2 and is not claimed.",
+    "DOMAIN_CORE_FORK_REQUIRED is not issued: domains enter through TypeRegistry / OperatorSpec / OCMRuntime admission.",
+    "CURRENT_KSO_PARENT_SUFFICIENT is reserved for #93 empirical field closure, not this architecture freeze."
+  ],
+  "supporting_field_note": "At architecture scope the live field is one KSO. That is consistent with CURRENT_KSO_ALREADY_GENERAL_ENOUGH as a later #93 candidate, not a G1 terminal here."
+}

@@ -1,0 +1,28 @@
+--- a/research/architecture-net-benefit-v1/THEORY.md
++++ b/research/architecture-net-benefit-v1/THEORY.md
+@@ -82,11 +82,11 @@
+ 
+ ### Corollary: maximum uniform rate
+ 
+-Provided every zero-demand cycle has nonnegative gain, the maximum feasible rate is
++Provided every reachable zero-demand directed cycle has nonnegative gain, the maximum feasible rate is
+ 
+-`inf_{cycles z: sum d(e)>0} sum g_w(e) / sum d(e)`.
++`inf_{reachable directed cycles z: sum d(e)>0} sum g_w(e) / sum d(e)`.
+ 
+-For a finite graph with a positive-progress cycle the infimum is attained on a simple cycle. Decomposing a cycle into simple cycles gives a demand-weighted average over positive-demand components, plus nonnegative zero-demand gain, proving the formula. With unit demand on every edge this is the minimum cycle mean problem [2]. If there are no positive-demand cycles, report no sustained-rate conclusion. The present implementation verifies a supplied rate; it does not claim to implement Karp's optimization algorithm.
++For a finite graph with a reachable positive-progress directed cycle the infimum is attained on a reachable simple directed cycle. Decomposing a reachable directed cycle into simple directed cycles gives a demand-weighted average over positive-demand components, plus nonnegative zero-demand gain, proving the formula. With unit demand on every edge this is the minimum cycle mean problem [2] on the reachable subgraph. If there are no reachable positive-demand directed cycles, report no sustained-rate conclusion. The present implementation verifies a supplied rate; it does not claim to implement Karp's optimization algorithm.
+ 
+ ## 5. Concrete-to-abstract transfer is the critical missing bridge
+ 
+--- a/research/architecture-net-benefit-v1/benefit_certificate.py
++++ b/research/architecture-net-benefit-v1/benefit_certificate.py
+@@ -124,7 +124,7 @@
+ 
+ 
+ def verify(model: Model, cert: Certificate, *, fixed_overhead: object = 0) -> dict:
+-    """O(V+E) arithmetic certificate check after reachability; exact, model-only.
++    """O(V+E*k) arithmetic certificate check after reachability; k coordinates.
+ 
+     Reachability in this simple implementation scans edges iteratively. No
+     complexity claim here includes integer bit complexity or source validation.

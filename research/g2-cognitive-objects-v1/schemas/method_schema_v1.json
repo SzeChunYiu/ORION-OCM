@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orion-ocm.local/schema/g2/method_schema_v1.json",
+  "title": "MethodSchemaV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "method_schema_id",
+    "pattern",
+    "originating_method_ids",
+    "acquisition_lineage",
+    "correctness",
+    "usefulness",
+    "authorization",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"type": "string", "const": "ocm.g2.method-schema.v1"},
+    "method_schema_id": {"$ref": "common.json#/$defs/nonempty_string"},
+    "pattern": {"$ref": "common.json#/$defs/nonempty_string"},
+    "originating_method_ids": {"type": "array", "items": {"$ref": "common.json#/$defs/unknownable_id"}, "uniqueItems": true},
+    "acquisition_lineage": {"$ref": "common.json#/$defs/acquisition_lineage"},
+    "correctness": {"$ref": "common.json#/$defs/correctness_evidence"},
+    "usefulness": {"$ref": "common.json#/$defs/usefulness_evidence"},
+    "authorization": {"$ref": "common.json#/$defs/current_authorization_state"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "actual_export_gate_created": false,
+  "actual_native_execution": false,
+  "ast_popen_call_sites": 1,
+  "closure": [
+    {
+      "control": "Clean child completed; an injected wait OSError killed/reaped the child with failure receipt; injected timeout plus already-exited ProcessLookupError reaped and retained timeout failure.",
+      "evidence": "Exact integer 180-second bound is checked before Popen. finally handles normal child exit races, attempts group termination/reaping, and records failure/unreaped state instead of success.",
+      "finding": "OBS-01",
+      "lines": [
+        43,
+        71,
+        96
+      ],
+      "status": "CLOSED_IN_SUCCESSOR"
+    },
+    {
+      "evidence": "Every review pin collision must equal its required identity before merge. Observer self-source is now an explicit pre/post pin. These are source checks, not claims about an executed conflicting gate.",
+      "finding": "OBS-02",
+      "lines": [
+        57,
+        62
+      ],
+      "status": "CLOSED_IN_SUCCESSOR"
+    },
+    {
+      "evidence": "All direct output entries are inventoried; expected names must equal both full entry names and regular non-symlink file names. Extra directories, symlinks and unexpected entries fail this source expression.",
+      "finding": "OBS-03",
+      "lines": [
+        109,
+        119
+      ],
+      "status": "CLOSED_IN_SUCCESSOR"
+    }
+  ],
+  "conditions": [
+    "Root must invoke the observer without Python optimization because admission checks use assert.",
+    "Actual gate must bind this reviewed source, observer contract, request, exact argv, output and observation paths; no actual gate was created by this review.",
+    "Underlying OS cleanup failure remains an explicit unsuccessful/unreaped result requiring root intervention, not a proved unconditional termination guarantee.",
+    "Synthetic controls replace only path globals with authored fixtures and inject wait/clock/exit-race behavior. They do not execute the real exporter, verifier, release or learner; timeout clock values are not cost measurements."
+  ],
+  "control_child_pids": [
+    2043323,
+    2043324,
+    2043325
+  ],
+  "control_parent_pid": 2043309,
+  "control_receipt": {
+    "bytes": 12325,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-training-trace-export-v1/OBSERVER-PROCESS-CONTROLS-01.json",
+    "sha256": "727b0830c6600c89bd52cf737d416aacfe86ebd0b0330e6dfc5a02a5ad179079"
+  },
+  "historical_review": {
+    "bytes": 3232,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-training-trace-export-v1/OBSERVER-SOURCE-REVIEW-01.json",
+    "sha256": "6d76f418d4ce5bd883059ab1f47c9fdfe4bcce44b458fd08fbd082663bab4123"
+  },
+  "observer_source": {
+    "bytes": 7363,
+    "path": "/home/billy/orion-director-work/20260908/observe_ordinary_export_v1.py",
+    "sha256": "17cd28c890cabfd3f80e32fcd60d4991e7b5142cbb53c19bfb4e5970a9281fee"
+  },
+  "qualified_scope": [
+    "Single Popen call site; atomic observation-directory admission consumes the destination before launch. Custody assumes those directories are retained.",
+    "Exact request, gate, sources, runtime, inputs, child argv/cwd and post-run output/log identities are recorded.",
+    "One independent OS child performs two full-prefix passes, with at most128 additional observation fallback proof checks; at most8574 internal proof-verification calls. Counts may be lower on failure.",
+    "Measured child CPU/RSS/process wall and observer-entry-through-post-hash wall do not include interpreter/import startup, preparation, root review or final receipt serialization. No lifetime-cost claim.",
+    "Success is process/artifact custody only; separate root qualification of native/trace candidates remains required."
+  ],
+  "read_scope": "Full successor source/AST; exactly three authorized synthetic process controls. No actual export/native run or actual request/gate/prefix/output access.",
+  "remaining_blockers": [],
+  "retained_source": {
+    "bytes": 7363,
+    "path": "/home/billy/orion-director-work/20260908/ordinary-training-trace-export-v1/REVIEWED-OBSERVER-SOURCE-02.py",
+    "sha256": "17cd28c890cabfd3f80e32fcd60d4991e7b5142cbb53c19bfb4e5970a9281fee"
+  },
+  "schema": "ordinary.native-export-observer-source-review.v1",
+  "status": "SOURCE_ACCEPTED_WITH_FOCUSED_AUTHORED_PROCESS_CONTROLS"
+}

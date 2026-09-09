@@ -1,0 +1,90 @@
+{
+  "schema": "ocm.l0-bootstrap-ablation.v1",
+  "study_role": "E1_ENGINEERING_CALIBRATION",
+  "protected_claim_authority": false,
+  "historical_seed_probe": {
+    "svo_utterance": "the girl pushed the ball",
+    "svo_verdict": "INTERPRETED",
+    "sov_utterance": "the girl the ball pushed",
+    "sov_verdict": "UNKNOWN_CONSTRUCTION",
+    "sov_bare_utterance": "girl ball push",
+    "sov_bare_verdict": "UNKNOWN_CONSTRUCTION",
+    "historical_bootstrap_accepts_svo": true,
+    "historical_bootstrap_rejects_sov": true,
+    "teacher_events_needed_for_historical_svo": 0
+  },
+  "reduced_bootstrap": {
+    "full_vs_minimal_information_events": {
+      "status": "RAN",
+      "scope": "E1_CALIBRATION_NOT_PROTECTED_N1",
+      "full_bootstrap_english_svo": {
+        "teacher_events": 0,
+        "accepts_svo": true,
+        "rejects_sov": true
+      },
+      "minimal_empty_store_svo": {
+        "information_events": 7,
+        "held_out_composition": true,
+        "learned_hypothesis": "SVO"
+      },
+      "minimal_empty_store_sov": {
+        "information_events": 7,
+        "held_out_composition": true,
+        "learned_hypothesis": "SOV"
+      },
+      "protected_n1_acquisition_curves": {
+        "status": "CANNOT_CHECK",
+        "reason": "CANNOT_CHECK_N1_LOCKED_PROTECTED_CURVES_NOT_RUN"
+      },
+      "note": "Historical bootstrap parses English SVO with zero post-freeze lessons because the seed already contains that competence. The empty-store arm pays counted teacher events and the same code learns SOV. This is not a protected N1 curve."
+    },
+    "construction_family_removal_recovery": {
+      "status": "RAN",
+      "time_zero_constructions": 0,
+      "learned_construction_objects": 7,
+      "all_seven_recovered": true,
+      "all_seven_revocable": true,
+      "teacher_token_lessons": 18,
+      "aligned_family_demonstrations": 7,
+      "semantic_target_schemas_registered": 7,
+      "terminal": "ZERO_CONSTRUCTION_INVENTORY_RECOVERS_SEVEN_FUNCTIONAL_FAMILIES_CALIBRATION",
+      "protected_claim_authority": false,
+      "charged_prior_even_at_empty_store": [
+        "seven registered semantic target schemas",
+        "finite form-order hypothesis classes",
+        "Category inventory",
+        "strongly supervised token lessons"
+      ]
+    },
+    "morphology_removal_recovery": {
+      "status": "RAN",
+      "time_zero_morph_rules": 0,
+      "teacher_paradigm_pairs": 3,
+      "held_out_jump_generalizes": true,
+      "irregular_see_recognized": true,
+      "terminal": "ZERO_MORPHOLOGY_RULES_RECOVER_PRODUCTIVE_PLUS_EXCEPTION_CALIBRATION",
+      "protected_claim_authority": false
+    }
+  },
+  "sov_artificial_hostile": {
+    "status": "RAN",
+    "same_learning_code": true,
+    "svo_hypothesis": "SVO",
+    "sov_hypothesis": "SOV",
+    "svo_held_out": true,
+    "sov_held_out": true,
+    "svo_rejects_sov": true,
+    "sov_rejects_svo": true,
+    "historical_seed_rejects_sov": true,
+    "historical_sov_verdict": "UNKNOWN_CONSTRUCTION",
+    "terminal": "MINIMAL_EMPTY_LANGUAGE_INVENTORY_LEARNS_SVO_AND_SOV_CALIBRATION",
+    "protected_claim_authority": false,
+    "note": "The historical English seed does not accept SOV. The empty-store substrate learns SVO and a conflicting SOV artificial language from counted demonstrations. Word category/concept lessons and the transitive role template remain charged."
+  },
+  "cannot_check": [
+    {
+      "item": "protected N1 full-bootstrap vs minimal-bootstrap acquisition curves",
+      "terminal": "CANNOT_CHECK_N1_LOCKED_PROTECTED_CURVES_NOT_RUN"
+    }
+  ]
+}

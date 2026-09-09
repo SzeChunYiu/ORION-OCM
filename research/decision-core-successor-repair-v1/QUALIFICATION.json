@@ -1,0 +1,99 @@
+{
+  "schema": "ocm.decision-core-successor.repair-qualification.v2",
+  "utc": "2026-09-08T16:48:41.966479+00:00",
+  "revision": "02-good-action-iterator-and-stop-scope",
+  "status": "focused correction qualified; independent delta recheck pending",
+  "source_binding": "SOURCE-BINDINGS.json",
+  "current_source_sha256": "c0705b32136f53843595c6bae9d0e750e682cbe92af9a4d0de3289140f8df10b",
+  "current_regression_sha256": "e52f8cd85dc6d564051814fc223a30ebf52658084a32ddbb74aa489512403dd2",
+  "current_validation": {
+    "receipt": "FOCUSED-03.json",
+    "log": "FOCUSED-03.txt",
+    "tests_run": 2,
+    "passed": 2,
+    "pid": 1942545,
+    "cwd": "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1",
+    "imported_decision_core_file": "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py",
+    "pre_post_source_equal": true,
+    "scope": "only affected tuple/iterator/equivalence regression and original common-action containment control"
+  },
+  "historical_qualification": {
+    "snapshot": "history/01-before-good-action-iterator",
+    "receipt": "history/01-before-good-action-iterator/QUALIFICATION.json",
+    "receipt_sha256": "8d4e974bce2f7a957aef44d51c73eaf9df70e6a98caaae83e3cc1f591b011a00",
+    "source_sha256": "7056ffd5876a16331c63d966ff03cfdf91ed9045aaa09d33a0bd1fdf2189cc91",
+    "regressions_passed": 16,
+    "legacy_controls_passed": 10,
+    "rerun_for_current_revision": false
+  },
+  "regression_file_test_count": 17,
+  "delta_red_receipt": "RED-02.json",
+  "earlier_focused_green_receipts": [
+    "GREEN-02.json",
+    "LEGACY-02.json"
+  ],
+  "patch_check": "PATCH-CHECK-02.json",
+  "preservation_receipt": "HISTORY-01.json",
+  "manifest_ownership": "Owned top-level files and history/ only; ROOT-LIVE-SOURCE-MATCH-01.json and independent-review/ excluded and untouched.",
+  "remaining_scope": [
+    "Exact represented rationals only, not arbitrary-real computation.",
+    "Combined bisimulation/meta-DP use must preserve separate STOP outputs/costs.",
+    "Root must match patch-base blobs at integration.",
+    "Fraction serialization and lifetime arithmetic costs need integration accounting.",
+    "Unchanged selector outcomes, unbounded stopping and the whole PR remain outside qualification."
+  ],
+  "artifacts": [
+    {
+      "path": "decision_core.py",
+      "sha256": "c0705b32136f53843595c6bae9d0e750e682cbe92af9a4d0de3289140f8df10b",
+      "bytes": 12540,
+      "lines": 290
+    },
+    {
+      "path": "test_decision_core_exact_regressions.py",
+      "sha256": "e52f8cd85dc6d564051814fc223a30ebf52658084a32ddbb74aa489512403dd2",
+      "bytes": 8244,
+      "lines": 168
+    },
+    {
+      "path": "MATH-ERRATUM.md",
+      "sha256": "93ace406973f6317890cb164f9ab910754c5673d9157eb9c8d53b2fa595b49a7",
+      "bytes": 3656,
+      "lines": 62
+    },
+    {
+      "path": "CORE.md",
+      "sha256": "097edc3dc11f5aed6292b36edec04daa7a8773f05415d81a7849043c5056571e",
+      "bytes": 2321,
+      "lines": 39
+    },
+    {
+      "path": "REVISION-02.md",
+      "sha256": "3c14ceb1b0d5fddc12918680204126af5433ab31d743ce8424b930e1ef34fe86",
+      "bytes": 2506,
+      "lines": 43
+    },
+    {
+      "path": "integration.patch",
+      "sha256": "0c77ff82e42840d16e731f9a9c6c26310b8c419f6e749f642529c10084ec1137",
+      "bytes": 25220,
+      "lines": 546
+    },
+    {
+      "path": "decision-core.patch",
+      "sha256": "dadc697309caec97d4594a1bd28132473030517d658871481b2bdec339f9dbcf",
+      "bytes": 14799,
+      "lines": 323
+    },
+    {
+      "path": "adaptive-information.patch",
+      "sha256": "d569383235647a352a1297915711c3f22f9b873ed8f1e250931f1e706dfea2d7",
+      "bytes": 1894,
+      "lines": 52
+    }
+  ],
+  "landing_page": "CORE.md",
+  "historical_source_review": "../decision-core-successor-review-v1/CORE.md",
+  "source_branch_status": "isolated corrective patch; changing PR154 source branch remains unapplied",
+  "pre_landing_receipt_preserved": "history/02-before-landing-link/QUALIFICATION.json"
+}

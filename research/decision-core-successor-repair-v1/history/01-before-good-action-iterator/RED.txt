@@ -1,0 +1,213 @@
+test_adaptive_information_erratum_two_world_control (test_decision_core_exact_regressions.ExactCoreTests) ... ok
+test_admissible_action_order_is_irrelevant (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_binary_float_inputs_mean_their_exact_stored_rationals (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_different_action_sets_and_contracts_remain_rejected (test_decision_core_exact_regressions.ExactCoreTests) ... ok
+test_exact_equal_laws_and_split_mass_are_accepted (test_decision_core_exact_regressions.ExactCoreTests) ... ok
+test_finite_zero_cost_loop_stops_at_allowance_zero (test_decision_core_exact_regressions.ExactCoreTests) ... ok
+test_integer_stop_margin_survives_above_binary64_precision (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) ... test_near_equal_laws_do_not_certify_exact_bisimulation (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_numeric_helpers_reject_nonfinite_costs (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_rational_feature_regret_is_exact_with_iterable_inputs (test_decision_core_exact_regressions.ExactCoreTests) ... ERROR
+test_signed_and_inexactly_normalized_kernels_are_rejected (test_decision_core_exact_regressions.ExactCoreTests) ... test_transition_and_action_iterators_survive_two_steps (test_decision_core_exact_regressions.ExactCoreTests) ... FAIL
+test_unknown_successors_are_rejected_even_at_zero_probability (test_decision_core_exact_regressions.ExactCoreTests) ... ERROR
+test_zero_regret_control_and_nonempty_common_optimum (test_decision_core_exact_regressions.ExactCoreTests) ... ok
+
+======================================================================
+ERROR: test_rational_feature_regret_is_exact_with_iterable_inputs (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 71, in test_rational_feature_regret_is_exact_with_iterable_inputs
+    report = D.feature_regret_floor(
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py", line 90, in feature_regret_floor
+    feature_cost, policy = best_feature_expected_cost(
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py", line 83, in best_feature_expected_cost
+    chosen = min(actions, key=lambda action: (values[action], repr(action)))
+ValueError: min() arg is an empty sequence
+
+======================================================================
+ERROR: test_unknown_successors_are_rejected_even_at_zero_probability (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 96, in test_unknown_successors_are_rejected_even_at_zero_probability
+    self.dp(1, 0, ((1, "t"), (0, "outside")))
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 18, in dp
+    return D.finite_meta_dp(
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py", line 155, in finite_meta_dp
+    candidate = float(action_cost[(state, action)]) + sum(
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/decision_core.py", line 156, in <genexpr>
+    prob * previous[next_state] for prob, next_state in outcomes
+KeyError: 'outside'
+
+======================================================================
+FAIL: test_admissible_action_order_is_irrelevant (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 35, in test_admissible_action_order_is_irrelevant
+    self.assertTrue(D.is_contract_bisimulation(*model))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_binary_float_inputs_mean_their_exact_stored_rationals (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 65, in test_binary_float_inputs_mean_their_exact_stored_rationals
+    self.assertIsInstance(values[1]["s"], F)
+AssertionError: 1.0 is not an instance of <class 'fractions.Fraction'>
+
+======================================================================
+FAIL: test_integer_stop_margin_survives_above_binary64_precision (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 46, in test_integer_stop_margin_survives_above_binary64_precision
+    self.assertEqual(policies[1]["s"], "probe")
+AssertionError: None != 'probe'
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 105, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 105, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 105, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad='True')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 109, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad="'1'")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 109, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests) (bad="Decimal('1')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 109, in test_invalid_numeric_inputs_fail_closed
+    self.dp(bad, 0, ((1, "t"),))
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_invalid_numeric_inputs_fail_closed (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 111, in test_invalid_numeric_inputs_fail_closed
+    self.dp(1, -1, ((1, "t"),))
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) (probability='True')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 117, in test_invalid_probability_weight_and_allowance_domains
+    self.dp(1, 0, ((bad, "t"),))
+AssertionError: (<class 'TypeError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) (allowance=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 121, in test_invalid_probability_weight_and_allowance_domains
+    self.dp(1, 0, ((1, "t"),), budget=bad)
+AssertionError: (<class 'TypeError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) (weight=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 125, in test_invalid_probability_weight_and_allowance_domains
+    D.best_feature_expected_cost(("x",), ("a",), {("x", "a"): 1},
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) (weight=Fraction(1, 2))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 125, in test_invalid_probability_weight_and_allowance_domains
+    D.best_feature_expected_cost(("x",), ("a",), {("x", "a"): 1},
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_probability_weight_and_allowance_domains (test_decision_core_exact_regressions.ExactCoreTests) (weight=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 125, in test_invalid_probability_weight_and_allowance_domains
+    D.best_feature_expected_cost(("x",), ("a",), {("x", "a"): 1},
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_near_equal_laws_do_not_certify_exact_bisimulation (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 26, in test_near_equal_laws_do_not_certify_exact_bisimulation
+    self.assertFalse(D.is_contract_bisimulation(*model))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_numeric_helpers_reject_nonfinite_costs (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 137, in test_numeric_helpers_reject_nonfinite_costs
+    call()
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_signed_and_inexactly_normalized_kernels_are_rejected (test_decision_core_exact_regressions.ExactCoreTests) (outcomes=((-1, 's'), (2, 't')))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 90, in test_signed_and_inexactly_normalized_kernels_are_rejected
+    self.dp(3, 1, outcomes)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_signed_and_inexactly_normalized_kernels_are_rejected (test_decision_core_exact_regressions.ExactCoreTests) (outcomes=((Fraction(4398046511103, 4398046511104), 's'),))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 90, in test_signed_and_inexactly_normalized_kernels_are_rejected
+    self.dp(3, 1, outcomes)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_signed_and_inexactly_normalized_kernels_are_rejected (test_decision_core_exact_regressions.ExactCoreTests) (outcomes=((0.1, 's'), (0.9, 't')))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 90, in test_signed_and_inexactly_normalized_kernels_are_rejected
+    self.dp(3, 1, outcomes)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_transition_and_action_iterators_survive_two_steps (test_decision_core_exact_regressions.ExactCoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/billy/orion-director-work/20260908/decision-core-successor-repair-v1/test_decision_core_exact_regressions.py", line 60, in test_transition_and_action_iterators_survive_two_steps
+    self.assertEqual(values[2]["s"], F(1))
+AssertionError: 3.0 != Fraction(1, 1)
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.002s
+
+FAILED (failures=21, errors=2)
