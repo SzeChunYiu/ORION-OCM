@@ -1,0 +1,32 @@
+{
+  "schema": "ocm.fna.fna5-routing-first-refusal.freeze.revival1.v1",
+  "declared_at_utc": "2026-09-09T16:55:00Z",
+  "parent_freeze": "FREEZE_FNA5_V1.json",
+  "trigger": {
+    "v1_scored_terminal": "NO_FUNCTIONAL_PARITY_ROUTING",
+    "v1_receipt": "FNA5_RESULTS_V1.json (receipt_digest present in file)",
+    "directive": "#214 negative-results: a failing arm gets one-stage failure attribution + matching lever + re-test as a NEW file with its own freeze addendum before any negative is accepted"
+  },
+  "failure_attribution_one_stage": {
+    "stage": "information acquisition (feature extraction), not representation",
+    "evidence_from_v1_receipt": [
+      "oracle exec mean 58.36; total budget (1+eps) 61.28 per query",
+      "charged 12-feature extraction ~697/query (A1 overhead; A1 inference is ~8) -- 11x the whole budget, before any operator runs",
+      "even a PERFECT router (oracle agreement, zero inference) paying the full surface cannot pass: 58.36 + 697 >> 61.28",
+      "secondary: declared-only routing exec penalty (A1 exec 71.4 vs oracle 58.4; family agreement 0.518 from declared-vs-realized law offsets) alone also exceeds the budget",
+      "operational (fixable, demonstrated): learned arms miss the 0.98 pass floor (0.82-0.93); A1's declared guard reaches fp=0.996, so the floor does not require learning"
+    ]
+  },
+  "revival_arm": {
+    "name": "A1B_MINIMAL_INFO",
+    "class": "analytic/guarded rule (same as A1) on a MINIMAL information contract",
+    "contract": "24-atom subsampled dispersion (single pass, sqrt/normalize/clamp) + 15-pair subsampled alias; nothing else read; every counted op charged; world physics still evaluates on TRUE dispersion/alias (the arm sees only estimates)",
+    "frozen_constants": {"subsample_atoms": 24, "subsample_pairs": 15, "analytic_margin": 0.06, "eps_margin": 0.05, "pass_floor": 0.98},
+    "additional_measurement": "perfect-router bound: oracle exec mean + mean minimal extraction work + 2 (minimal inference) -- the least total work ANY information-carrying router could achieve at this contract"
+  },
+  "pre_declared_outcome_mapping": [
+    "A1B sufficient (total <= 1.05*oracle AND fp >= 0.98) -> v1 terminal superseded: PARENT_SUFFICIENT_FOR_ROUTING (analytic/guarded rule, minimal contract)",
+    "A1B insufficient AND perfect-router bound > budget -> obstruction PROVEN structural at this scope: the minimum information price of safe routing exceeds the routing residual (decision value ~37.7/query); study terminal stays NO_FUNCTIONAL_PARITY_ROUTING with mechanism ACQUISITION_COST_DOMINATES"
+  ],
+  "authority": "unchanged: #71 LEARNED_ROUTER_NOT_YET_AUTHORIZED, study-only, no deployment, research/fna5-routing-first-refusal-v1/** only"
+}

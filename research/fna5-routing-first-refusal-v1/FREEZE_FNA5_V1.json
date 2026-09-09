@@ -1,0 +1,168 @@
+{
+  "schema": "ocm.fna.fna5-routing-first-refusal.freeze.v1",
+  "frozen_at_utc": "2026-09-09T14:44:01Z",
+  "consolidated_at_utc": "2026-09-09T16:20:00Z",
+  "issue": "SzeChunYiu/ORION-OCM#214",
+  "work_package": "FNA-5",
+  "deliverable": "FNA-D7",
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "salt": "fna5-routing-first-refusal-v1::3f9c217a",
+  "study_schema": "ocm.fna.fna5-routing-first-refusal.v1",
+  "frozen_before_outcome_access": true,
+  "evidence_class": "E1/L1 (one authored task world, one population, one author)",
+  "sha256": {
+    "PROTOCOL.md": "76c187cc975944135126b407c338283d3d852650cff0b14d8f08ae3e79ccc9f7",
+    "fna5_world.py": "b6403ebceba4976ef0e80319a33e6e9cb1b924cef5ab3314ebcd00cbe0c57be9",
+    "fna5_selectors.py": "a7146d211952a1435ad4ba1575831f92f14d6bdbcd532471b24ac11cce0aa4f5",
+    "fna5.py": "e8fc87483f2f605987a2c5a0de42a194e104bb83e61de287177f6e9c9028370c",
+    "test_fna5.py": "21852221da76346c16c33710d6afeba444e8409b539e739b57f11e2accf12c26"
+  },
+  "sha256_note": "digests refreshed at consolidation to the final pre-outcome state; every change since frozen_at is enumerated in freeze_amendments, all pre-outcome (no full-config scored run had occurred at any amendment)",
+  "world_declaration": {
+    "n_queries": 2400,
+    "n_atoms": 240,
+    "families": [
+      "scan",
+      "probe",
+      "window",
+      "deepwindow",
+      "sample"
+    ],
+    "catalogue": [
+      "probe:0",
+      "probe:1",
+      "window:12",
+      "window:28",
+      "window:60",
+      "deepwindow:48",
+      "deepwindow:96",
+      "sample:16",
+      "sample:32",
+      "scan"
+    ],
+    "catalogue_costs": {
+      "probe:0|probe:1": "base 18.0, unit 2.2",
+      "window:12|28|60": "base 10.0, unit 1.4",
+      "deepwindow:48|96": "base 12.0, unit 0.5",
+      "sample:16|32": "base 20.0, unit 2.0",
+      "scan": "base 40.0, unit 1.0"
+    },
+    "declared_centres": {
+      "theta1": 0.35,
+      "theta2": 0.55,
+      "theta3": 0.3,
+      "theta3s": 0.32,
+      "theta4": 0.42,
+      "theta7": 0.65
+    },
+    "realization_draws": "uniform +-0.08/+-0.06/+-0.05/+-0.05/+-0.05/+-0.04 around centres",
+    "query_mix": "per-query Dirichlet(1,1,1,1) type mix over alpha/beta/gamma/delta pools; per-type weight ranges alpha(0.2,0.4) beta(0.2,1.0) gamma(0.2,0.8) delta(0.47,0.53); dispersion normalized by 0.30",
+    "physics_alignment": "execute_instance charges unit_cost-bearing loops exactly as declared_cost_estimate predicts (probe base+unit*(2*(log2 n+3)+min(n,12)); deepwindow base+unit*W*log2(W)/4; scan multiplied by scan_version_mult; task_flag multiplies base by 1.1)",
+    "features": 12,
+    "verify_work": 5
+  },
+  "splits": {
+    "rule": "md5(salt::split::qid) bucket of 10",
+    "DEV": "bucket 0-3 (tuning, CV, bandit stream, nulls)",
+    "EVAL": "bucket 4-7 (protected; frozen by salt before any outcome access)",
+    "DRIFT_EVAL": "bucket 8-9 (scored after the frozen catalogue mutation)"
+  },
+  "arms_ladder": [
+    "A0_ORACLE",
+    "BASELINE_INCUMBENT",
+    "A1_ANALYTIC_GUARDED",
+    "A2_COST_MODEL",
+    "A3A_KNN",
+    "A3B_LOGISTIC",
+    "A4_TREE",
+    "A5_LINUCB",
+    "A6_NEURAL_REF (diagnostic only, never eligible)"
+  ],
+  "frozen_sufficiency": {
+    "eps_margin": 0.05,
+    "pass_floor": 0.98,
+    "rule": "mean_total_work <= (1+eps)*oracle_exec_mean AND first_pass_rate >= pass_floor on protected EVAL"
+  },
+  "frozen_terminal_tree": [
+    "A1 sufficient -> PARENT_SUFFICIENT_FOR_ROUTING (analytic/guarded rule)",
+    "A2 sufficient -> PARENT_SUFFICIENT_FOR_ROUTING (algorithm-selection cost model)",
+    "only A3/A4/A5 sufficient -> NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE",
+    "none sufficient, A6 sufficient -> REPRESENTATION_INSUFFICIENT",
+    "none sufficient -> NO_FUNCTIONAL_PARITY_ROUTING",
+    "harness disagreement -> CANNOT_CHECK_HARNESS_DISAGREES_WITH_NAIVE_SCAN",
+    "sufficiency only without lifecycle amortization -> ACQUISITION_COST_DOMINATES side-flag"
+  ],
+  "drift_declaration": {
+    "mutation": "remove window:60; add sample:48 (anchor drift:0, base 12.0, unit 1.1); scan law x1.6; theta1 re-drawn; theta2 +0.05",
+    "maintenance_window": 240,
+    "charging": "index rebuild bills everyone; learned arms pay label re-acquisition at oracle identify cost; bandit pays only its own online executions; A1 pays zero"
+  },
+  "controls": [
+    "shuffle-equal-n null (stratified label permutation + per-op outcome pools; bandit: context-shuffle within applicability strata, rewards real)",
+    "clean incumbent first-PASS baseline",
+    "oracle labelled, never a result",
+    "A1 non-oracle proof by test",
+    "prior-information byte accounting"
+  ],
+  "authority": {
+    "issue_71": "LEARNED_ROUTER_NOT_YET_AUTHORIZED (unchanged by this study)",
+    "deployment": "none; research capsule only",
+    "files_touched": "research/fna5-routing-first-refusal-v1/** only"
+  },
+  "revival_convention": "a failing arm gets one-stage attribution + lever + re-test as fna5b.py with its own freeze addendum; frozen fna5*.py files are never edited post-freeze",
+  "freeze_amendments": [
+    {
+      "at_utc": "2026-09-09T14:47:00Z",
+      "reason": "test harness KeyError on null_control dict keys (receipt keys are arm names; the _NULL suffix lives in the block's arm field)",
+      "files": [
+        "test_fna5.py"
+      ],
+      "scored_run_state": "no scored full-config run had occurred; amendment is pre-outcome"
+    },
+    {
+      "at_utc": "2026-09-09T14:52:00Z",
+      "reason": "A5 control failure in tiny harness-validation run: (1) frozen-model eval still applied the UCB exploration bonus (argmax-bonus at eval rewards under-exploration; a frozen selector must exploit, theta only); (2) the outcome-pool null was vacuous for the bandit because its reward derives from its own real executions -- replaced with a context-shuffle null (features permuted within applicability strata, rewards real)",
+      "files": [
+        "fna5.py",
+        "fna5_selectors.py"
+      ],
+      "scored_run_state": "still pre-outcome: no full-config scored run had occurred"
+    },
+    {
+      "at_utc": "2026-09-09T15:10:00Z",
+      "reason": "LinUCB context dimension bug (self._init(len(z[0])) gave 12 vs the 13-dim [1]+z context, silently truncating the intercept); bandit reward made failure-blind (failed attempt must also carry the scan fallback it triggers); make_null_records shallow-copy aliasing mutated real dev records' exec_by_id",
+      "files": [
+        "fna5_selectors.py"
+      ],
+      "scored_run_state": "still pre-outcome: no full-config scored run had occurred"
+    },
+    {
+      "at_utc": "2026-09-09T15:40:00Z",
+      "reason": "world balance retune to reach a non-degenerate five-family routing problem (tiny/full harness-validation runs had collapsed it to 1-2 families): dispersion normalized by 0.30 (was 0.25/0.40), theta7 declared centre corrected to 0.65, per-query Dirichlet(1,1,1,1) type mixes replacing mixture-always-all-pools, delta weight range (0.47,0.53), family cost retune (deepwindow unit 0.5, sample base 20 unit 2.0), and execute_instance physics made unit-cost-bearing so realized work matches the declared law exactly (previously sample:16 realized 38 vs declared 52 and deepwindow:48 always lost). Favorable-benchmark self-check each time; this is world CONSTRUCTION, not outcome tuning: no EVAL/DRIFT outcome was read to choose any constant (balance was verified on DEV family marginals of oracle labels only, before any arm was scored on EVAL)",
+      "files": [
+        "fna5_world.py"
+      ],
+      "scored_run_state": "still pre-outcome: no full-config scored run had occurred"
+    },
+    {
+      "at_utc": "2026-09-09T15:55:00Z",
+      "reason": "receipt gains oracle_family_dist_EVAL / oracle_family_dist_DRIFT (family marginals needed to interpret null controls); declared_centres theta7 in this freeze corrected 0.78 -> 0.65 to match the retuned world (the 0.78 entry was stale from before the retune)",
+      "files": [
+        "fna5.py",
+        "FREEZE_FNA5_V1.json"
+      ],
+      "scored_run_state": "still pre-outcome: no full-config scored run had occurred"
+    },
+    {
+      "at_utc": "2026-09-09T16:15:00Z",
+      "reason": "(1) A1 analytic_choice no-branch fallback defect: cheapest() with family=None picked the cheapest ANY-family instance (window:12) which can fail and then pay the scan fallback -- fixed to the cheapest always-PASS exact family (scan/probe), the design intent; EXACT_FAMILIES moved to fna5_world as the single source of truth. (2) null-control test reformulated: arms retain legal declared-cost prior, so the null's floor is the cost-aware marginal policy, not the constant-modal one; the modal-share bound was wrong. Pinned now: no arm's null massively exceeds its real run (leak bound 0.10) AND at least one learned arm beats its null by >= 0.05 (signal exists). PROTOCOL.md control text amended to match.",
+      "files": [
+        "fna5_world.py",
+        "fna5_selectors.py",
+        "test_fna5.py",
+        "PROTOCOL.md"
+      ],
+      "scored_run_state": "still pre-outcome: no full-config scored run had occurred"
+    }
+  ]
+}

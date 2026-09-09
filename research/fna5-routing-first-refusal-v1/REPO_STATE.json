@@ -1,0 +1,43 @@
+{
+  "schema": "ocm.fna.fna5-routing-first-refusal.repo-state.v1",
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "branch": "research/fna5-routing-first-refusal-v1",
+  "worktree": "/Users/billy/Desktop/projects/ORION-OCM/ORION-OCM-wt/fna5-routing",
+  "files_touched": [
+    "research/fna5-routing-first-refusal-v1/PROTOCOL.md",
+    "research/fna5-routing-first-refusal-v1/FREEZE_FNA5_V1.json",
+    "research/fna5-routing-first-refusal-v1/FREEZE_FNA5B_ADDENDUM_V1.json",
+    "research/fna5-routing-first-refusal-v1/fna5_world.py",
+    "research/fna5-routing-first-refusal-v1/fna5_selectors.py",
+    "research/fna5-routing-first-refusal-v1/fna5.py",
+    "research/fna5-routing-first-refusal-v1/fna5b.py",
+    "research/fna5-routing-first-refusal-v1/test_fna5.py",
+    "research/fna5-routing-first-refusal-v1/FNA5_RESULTS_V1.json",
+    "research/fna5-routing-first-refusal-v1/FNA5B_RESULTS_V1.json",
+    "research/fna5-routing-first-refusal-v1/FNA5_RESULTS_V1.md",
+    "research/fna5-routing-first-refusal-v1/README.md",
+    "research/fna5-routing-first-refusal-v1/REPO_STATE.json"
+  ],
+  "disjointness": "only research/fna5-routing-first-refusal-v1/** written; src/ and all other research/ capsules unmodified",
+  "execution": {
+    "host": "billy-laptop (ssh alias billy-laptop; never the Mac mini)",
+    "python": "3.10.19 (conda env a1_bench; satisfies the ocm package's >=3.10 floor; capsule code is 3.8-syntax stdlib-only)",
+    "transfers": "rsync Mac->laptop and back; md5-verified both sides for every code and receipt file",
+    "tests": "16/16 green via PYTHONPATH=../src python3 -m unittest test_fna5 before the scored run"
+  },
+  "receipts": {
+    "FNA5_RESULTS_V1.json": "md5 6917d1fa6d0a8c90f434802115e90abb (identical Mac/laptop)",
+    "FNA5B_RESULTS_V1.json": "md5 08c6c58c95ae45846c1517cd25389d8f (identical Mac/laptop)"
+  },
+  "authority_constraints": {
+    "issue_71": "LEARNED_ROUTER_NOT_YET_AUTHORIZED (unchanged by this study; study-only measurements, nothing deployed)",
+    "deployment": "none",
+    "production_source": "src/ unmodified; capsule hooks ocm.runtime.operator_index.SolveOperatorIndex and ocm.runtime.solve.OperatorSpec read-only",
+    "issue_edits": "none (no issue/PR writes performed by this capsule)"
+  },
+  "outcome": {
+    "terminal": "NO_FUNCTIONAL_PARITY_ROUTING",
+    "first_refusal_arm": null,
+    "revival": "1 pass (fna5b.py): perfect-router bound 182.36 > budget 61.28 -> obstruction structural at this scope, mechanism ACQUISITION_COST_DOMINATES"
+  }
+}

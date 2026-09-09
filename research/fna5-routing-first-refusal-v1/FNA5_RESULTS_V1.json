@@ -1,0 +1,448 @@
+{
+  "schema": "ocm.fna.fna5-routing-first-refusal.v1",
+  "salt": "fna5-routing-first-refusal-v1::3f9c217a",
+  "base_commit": "UNKNOWN",
+  "params": {
+    "n_queries": 2400,
+    "n_atoms": 240,
+    "tiny": false,
+    "maint_window": 240,
+    "eps_margin": 0.05,
+    "pass_floor": 0.98,
+    "splits": "DEV<=3, EVAL 4..7, DRIFT 8..9 of salted md5 bucket"
+  },
+  "realized_world_constants": {
+    "theta1": 0.41758,
+    "theta2": 0.51224,
+    "theta3": 0.27181,
+    "theta3s": 0.35073,
+    "theta4": 0.45258,
+    "theta7": 0.63239
+  },
+  "drift_state": {
+    "theta1": 0.34294,
+    "theta2": 0.56224,
+    "scan_version_mult": 1.6,
+    "index_rebuild_work": 29
+  },
+  "oracle_exec_mean_EVAL": 58.36,
+  "oracle_family_dist_EVAL": {
+    "deepwindow": 473,
+    "probe": 160,
+    "sample": 175,
+    "scan": 5,
+    "window": 110
+  },
+  "oracle_family_dist_DRIFT": {
+    "deepwindow": 176,
+    "probe": 127,
+    "sample": 201,
+    "scan": 2,
+    "window": 9
+  },
+  "oracle_identify_work_total": 1805538,
+  "arms_EVAL": {
+    "BASELINE_INCUMBENT": {
+      "arm": "BASELINE_INCUMBENT",
+      "n": 923,
+      "family_agreement": 0.2189,
+      "op_agreement": 0.2189,
+      "first_pass_rate": 1.0,
+      "fallback_rate": 0.0,
+      "mean_exec_work": 96.11,
+      "mean_overhead_work": 0.0,
+      "build_work": 0,
+      "mean_total_work": 96.11
+    },
+    "A0_ORACLE": {
+      "arm": "A0_ORACLE",
+      "n": 923,
+      "mean_exec_work": 58.36,
+      "family_agreement": 1.0,
+      "op_agreement": 1.0,
+      "first_pass_rate": 1.0,
+      "fallback_rate": 0.0,
+      "mean_overhead_work": 0.0,
+      "build_work": 0,
+      "mean_total_work": 58.36
+    },
+    "A1_ANALYTIC_GUARDED": {
+      "arm": "A1_ANALYTIC_GUARDED",
+      "n": 923,
+      "family_agreement": 0.5179,
+      "op_agreement": 0.5179,
+      "first_pass_rate": 0.9957,
+      "fallback_rate": 0.0043,
+      "mean_exec_work": 71.44,
+      "mean_overhead_work": 697.56,
+      "build_work": 0,
+      "mean_total_work": 768.99
+    },
+    "A2_COST_MODEL": {
+      "arm": "A2_COST_MODEL",
+      "n": 923,
+      "family_agreement": 0.6685,
+      "op_agreement": 0.6219,
+      "first_pass_rate": 0.8992,
+      "fallback_rate": 0.1008,
+      "mean_exec_work": 72.64,
+      "mean_overhead_work": 1002.5,
+      "build_work": 1401999,
+      "mean_total_work": 2594.1
+    },
+    "A3A_KNN": {
+      "arm": "A3A_KNN",
+      "n": 923,
+      "family_agreement": 0.6696,
+      "op_agreement": 0.6522,
+      "first_pass_rate": 0.8202,
+      "fallback_rate": 0.1798,
+      "mean_exec_work": 84.75,
+      "mean_overhead_work": 12260.67,
+      "build_work": 23088,
+      "mean_total_work": 12370.43
+    },
+    "A3B_LOGISTIC": {
+      "arm": "A3B_LOGISTIC",
+      "n": 923,
+      "family_agreement": 0.6804,
+      "op_agreement": 0.6609,
+      "first_pass_rate": 0.8873,
+      "fallback_rate": 0.1127,
+      "mean_exec_work": 79.28,
+      "mean_overhead_work": 824.35,
+      "build_work": 13875888,
+      "mean_total_work": 15937.09
+    },
+    "A4_TREE": {
+      "arm": "A4_TREE",
+      "n": 923,
+      "family_agreement": 0.7346,
+      "op_agreement": 0.7216,
+      "first_pass_rate": 0.9263,
+      "fallback_rate": 0.0737,
+      "mean_exec_work": 71.05,
+      "mean_overhead_work": 704.02,
+      "build_work": 5353511,
+      "mean_total_work": 6575.19
+    },
+    "A5_LINUCB": {
+      "arm": "A5_LINUCB",
+      "n": 923,
+      "family_agreement": 0.6371,
+      "op_agreement": 0.6284,
+      "first_pass_rate": 0.9328,
+      "fallback_rate": 0.0672,
+      "mean_exec_work": 76.6,
+      "mean_overhead_work": 1525.56,
+      "build_work": 2006731,
+      "mean_total_work": 3776.3
+    },
+    "A6_NEURAL_REF": {
+      "arm": "A6_NEURAL_REF",
+      "n": 923,
+      "family_agreement": 0.6121,
+      "op_agreement": 0.5991,
+      "first_pass_rate": 0.831,
+      "fallback_rate": 0.169,
+      "mean_exec_work": 85.73,
+      "mean_overhead_work": 1237.98,
+      "build_work": 94222672,
+      "mean_total_work": 103406.78
+    },
+    "A2_COST_MODEL_DRIFT": {
+      "arm": "A2_COST_MODEL_DRIFT",
+      "n": 515,
+      "family_agreement": 0.666,
+      "op_agreement": 0.5592,
+      "first_pass_rate": 0.9883,
+      "fallback_rate": 0.0117,
+      "mean_exec_work": 74.94,
+      "mean_overhead_work": 1007.64,
+      "build_work": 526643,
+      "mean_total_work": 2105.18
+    },
+    "A3A_KNN_DRIFT": {
+      "arm": "A3A_KNN_DRIFT",
+      "n": 515,
+      "family_agreement": 0.668,
+      "op_agreement": 0.668,
+      "first_pass_rate": 0.8194,
+      "fallback_rate": 0.1806,
+      "mean_exec_work": 99.16,
+      "mean_overhead_work": 3600.6,
+      "build_work": 176557,
+      "mean_total_work": 4042.59
+    },
+    "A3B_LOGISTIC_DRIFT": {
+      "arm": "A3B_LOGISTIC_DRIFT",
+      "n": 515,
+      "family_agreement": 0.7748,
+      "op_agreement": 0.7728,
+      "first_pass_rate": 0.934,
+      "fallback_rate": 0.066,
+      "mean_exec_work": 78.4,
+      "mean_overhead_work": 828.05,
+      "build_work": 3632557,
+      "mean_total_work": 7959.96
+    },
+    "A4_TREE_DRIFT": {
+      "arm": "A4_TREE_DRIFT",
+      "n": 515,
+      "family_agreement": 0.765,
+      "op_agreement": 0.765,
+      "first_pass_rate": 0.9282,
+      "fallback_rate": 0.0718,
+      "mean_exec_work": 78.93,
+      "mean_overhead_work": 708.0,
+      "build_work": 1226338,
+      "mean_total_work": 3168.17
+    },
+    "A5_LINUCB_DRIFT": {
+      "arm": "A5_LINUCB_DRIFT",
+      "n": 515,
+      "family_agreement": 0.4408,
+      "op_agreement": 0.4408,
+      "first_pass_rate": 0.9709,
+      "fallback_rate": 0.0291,
+      "mean_exec_work": 85.57,
+      "mean_overhead_work": 1543.1,
+      "build_work": 507893,
+      "mean_total_work": 2614.88
+    },
+    "BASELINE_INCUMBENT_DRIFT": {
+      "arm": "BASELINE_INCUMBENT_DRIFT",
+      "n": 515,
+      "family_agreement": 0.268,
+      "op_agreement": 0.268,
+      "first_pass_rate": 1.0,
+      "fallback_rate": 0.0,
+      "mean_exec_work": 93.03,
+      "mean_overhead_work": 0.0,
+      "build_work": 0,
+      "mean_total_work": 93.03
+    },
+    "A1_ANALYTIC_GUARDED_DRIFT": {
+      "arm": "A1_ANALYTIC_GUARDED_DRIFT",
+      "n": 515,
+      "family_agreement": 0.6893,
+      "op_agreement": 0.6893,
+      "first_pass_rate": 1.0,
+      "fallback_rate": 0.0,
+      "mean_exec_work": 72.19,
+      "mean_overhead_work": 701.26,
+      "build_work": 0,
+      "mean_total_work": 773.45
+    }
+  },
+  "sufficiency": {
+    "A1_ANALYTIC_GUARDED": {
+      "cost_ok": false,
+      "pass_ok": true,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A2_COST_MODEL": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A3A_KNN": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A3B_LOGISTIC": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A4_TREE": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A5_LINUCB": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    },
+    "A6_NEURAL_REF": {
+      "cost_ok": false,
+      "pass_ok": false,
+      "sufficient": false,
+      "acquisition_dominates_flag": false
+    }
+  },
+  "first_refusal_arm": null,
+  "terminal": "NO_FUNCTIONAL_PARITY_ROUTING",
+  "terminal_parent": "none",
+  "acquisition_dominates_flags": {},
+  "null_control": {
+    "A2_COST_MODEL": {
+      "arm": "A2_COST_MODEL_NULL",
+      "n": 923,
+      "family_agreement": 0.2048,
+      "op_agreement": 0.1603,
+      "first_pass_rate": 0.9155,
+      "fallback_rate": 0.0845,
+      "mean_exec_work": 93.7,
+      "mean_overhead_work": 1002.5,
+      "build_work": 1401999,
+      "mean_total_work": 2615.16
+    },
+    "A3A_KNN": {
+      "arm": "A3A_KNN_NULL",
+      "n": 923,
+      "family_agreement": 0.5125,
+      "op_agreement": 0.5103,
+      "first_pass_rate": 0.5948,
+      "fallback_rate": 0.4052,
+      "mean_exec_work": 114.21,
+      "mean_overhead_work": 12260.17,
+      "build_work": 23088,
+      "mean_total_work": 12399.4
+    },
+    "A3B_LOGISTIC": {
+      "arm": "A3B_LOGISTIC_NULL",
+      "n": 923,
+      "family_agreement": 0.5601,
+      "op_agreement": 0.5601,
+      "first_pass_rate": 0.8559,
+      "fallback_rate": 0.1441,
+      "mean_exec_work": 92.06,
+      "mean_overhead_work": 824.78,
+      "build_work": 13875888,
+      "mean_total_work": 15950.3
+    },
+    "A4_TREE": {
+      "arm": "A4_TREE_NULL",
+      "n": 923,
+      "family_agreement": 0.52,
+      "op_agreement": 0.52,
+      "first_pass_rate": 0.5753,
+      "fallback_rate": 0.4247,
+      "mean_exec_work": 116.01,
+      "mean_overhead_work": 704.01,
+      "build_work": 5232572,
+      "mean_total_work": 6489.11
+    },
+    "A5_LINUCB": {
+      "arm": "A5_LINUCB_NULL",
+      "n": 923,
+      "family_agreement": 0.1798,
+      "op_agreement": 0.1798,
+      "first_pass_rate": 0.9751,
+      "fallback_rate": 0.0249,
+      "mean_exec_work": 93.42,
+      "mean_overhead_work": 1525.56,
+      "build_work": 1942512,
+      "mean_total_work": 3723.54
+    },
+    "A6_NEURAL_REF": {
+      "arm": "A6_NEURAL_REF_NULL",
+      "n": 923,
+      "family_agreement": 0.3716,
+      "op_agreement": 0.3662,
+      "first_pass_rate": 0.7248,
+      "fallback_rate": 0.2752,
+      "mean_exec_work": 105.37,
+      "mean_overhead_work": 1237.98,
+      "build_work": 94222672,
+      "mean_total_work": 103426.42
+    }
+  },
+  "maintenance": {
+    "A2_COST_MODEL": {
+      "refit_work": 355846,
+      "label_acquisition_work": 170797,
+      "seconds": 0.032
+    },
+    "A3A_KNN": {
+      "refit_work": 5760,
+      "label_acquisition_work": 170797,
+      "seconds": 0.001
+    },
+    "A3B_LOGISTIC": {
+      "refit_work": 3461760,
+      "label_acquisition_work": 170797,
+      "seconds": 0.152
+    },
+    "A4_TREE": {
+      "refit_work": 1055541,
+      "label_acquisition_work": 170797,
+      "seconds": 0.11
+    },
+    "A5_LINUCB": {
+      "refit_work": 490006,
+      "label_acquisition_work": 17887,
+      "seconds": 0.04
+    }
+  },
+  "drift_oracle_exec_mean": 64.28,
+  "prior_information_bytes": {
+    "A1_authored_rule_source": 1280,
+    "A2_COST_MODEL": 3179,
+    "A3A_KNN": 19,
+    "A3B_LOGISTIC": 1387,
+    "A4_TREE": 462,
+    "A5_LINUCB": 18274,
+    "A6_NEURAL_REF": 5463
+  },
+  "build_meta": {
+    "A2_COST_MODEL": {
+      "model_bytes": 3179,
+      "exec_spent_build": 0
+    },
+    "A3A_KNN": {
+      "model_bytes": 19,
+      "exec_spent_build": 0
+    },
+    "A3B_LOGISTIC": {
+      "model_bytes": 1387,
+      "exec_spent_build": 0
+    },
+    "A4_TREE": {
+      "model_bytes": 462,
+      "exec_spent_build": 0
+    },
+    "A5_LINUCB": {
+      "model_bytes": 18274,
+      "exec_spent_build": 64219
+    },
+    "A6_NEURAL_REF": {
+      "model_bytes": 5463,
+      "diagnostic_only": true
+    }
+  },
+  "fit_seconds": {
+    "A2_COST_MODEL": 0.126,
+    "A3A_KNN": 0.002,
+    "A3B_LOGISTIC": 0.603,
+    "A4_TREE": 0.526,
+    "A5_LINUCB": 0.159,
+    "A6_NEURAL_REF": 4.871
+  },
+  "drift_seconds": 0.683,
+  "gate_71": "LEARNED_ROUTER_NOT_YET_AUTHORIZED (unchanged; study-only, nothing deployed)",
+  "host": {
+    "python": "3.10.19",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35"
+  },
+  "wall_seconds": 16.12,
+  "cpu_seconds": 16.113,
+  "rss_native_units": 34548,
+  "limitations": [
+    "One authored task world, one population, one author (E1/L1), not E3.",
+    "Exact O(1)-certificate checker: failures are always caught, never delivered.",
+    "Boundary noise makes a Bayes-irreducible gap; eps must absorb it.",
+    "A6 is a 1-hidden-layer diagnostic; it bounds nothing about neural capacity.",
+    "Wall/CPU numbers are descriptive single-host measurements."
+  ],
+  "receipt_digest": "8c38c4631e57750eefdbe30883fbbe3a078f98872e3f457ee793be9a298f8b81"
+}
