@@ -113,3 +113,54 @@ class NoOverclaim(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class Maintenance(unittest.TestCase):
+    """FNA-1d: the term FNA-1c named and did not pay."""
+
+    D1 = json.loads((HERE / "FNA1D_MAINTENANCE_V1.json").read_text())
+
+    def test_the_revocation_variant_agrees_with_the_frozen_harness(self):
+        """bounded_closure_rv exists because experiment.py is frozen; it must not differ."""
+        import fna1d as D
+        ks = B.world("RARE_DECISIVE")
+        for budget in (4, 16, None):
+            a, wa = E.bounded_closure(ks, ["seed"], budget)
+            b, wb = D.bounded_closure_rv(ks, ["seed"], budget, revoked=())
+            self.assertEqual(a, b, budget)
+            self.assertEqual(wa, wb, budget)
+
+    def test_the_revoked_channel_never_carries_the_answer(self):
+        """A first pass revoked the decisive channel and measured unreachability."""
+        for kind, w in self.D1["revocation_regime"].items():
+            self.assertTrue(w["victim_is_not_the_decisive_channel"], kind)
+            self.assertIsNotNone(w["expansions_stale"], kind)
+            self.assertIsNotNone(w["expansions_fresh"], kind)
+
+    def test_revocation_reorders_the_score_because_types_are_untouched(self):
+        self.assertEqual(sorted(self.D1["verdict"]["revocation_changes_the_order_in"]),
+                         sorted(B.WORLDS))
+
+    def test_staleness_costs_nothing_in_every_world_that_has_a_payback(self):
+        v = self.D1["verdict"]
+        self.assertEqual(v["worlds_both_paying_and_hurt_by_staleness"], [])
+        for kind in v["worlds_with_a_payback"]:
+            self.assertEqual(v["stale_score_penalty"][kind], 0, kind)
+
+    def test_a_paying_world_hurt_by_staleness_would_be_no_lifetime_payback(self):
+        """The corrected rule: only a world with a payback to lose can condemn it."""
+        import fna1d as D
+        doc = json.loads(json.dumps(self.D1))
+        doc["revocation_regime"]["RARE_DECISIVE"]["stale_penalty"] = 25
+        self.assertEqual(D.verdict(doc)["terminal"], "NO_LIFETIME_PAYBACK")
+
+    def test_the_critical_edit_rate_is_prep_over_saved(self):
+        s = self.D1["structural_edit_regime"]
+        for kind, w in s.items():
+            if w["critical_queries_per_edit"] is not None:
+                self.assertAlmostEqual(w["critical_queries_per_edit"],
+                                       w["preparation_cost"] / w["expansions_saved"])
+
+    def test_the_world_with_no_saving_has_no_critical_rate(self):
+        self.assertIsNone(
+            self.D1["structural_edit_regime"]["TYPE_DECOY"]["critical_queries_per_edit"])

@@ -140,10 +140,37 @@ saves. It pays only as an amortised preparation, and the break-even is now a num
 than a hope. A single-query payback would have been flagged
 `CANNOT_CHECK_SINGLE_QUERY_PAYBACK_IMPLIES_UNCHARGED_PREPARATION`, and a test asserts it.
 
-**Still uncharged, and named rather than hidden:** score maintenance under revocation and
-structural edit. Main's own rule is that a structurally replaced space needs fresh
-preparation, so a space that changes often re-pays the scan repeatedly and the break-evens
-above are **optimistic**. That is the next term to charge.
+**FNA-1d — charge maintenance, the term FNA-1c named and did not pay.** Main's rule is that
+a structurally replaced space needs fresh preparation, so a changing space re-pays the scan.
+Maintenance splits cleanly, and the split is the result:
+
+**Structural edits bind, tightly.** Over Q queries with N edits the policy pays (N+1) scans,
+so it repays only while `Q·saved > (N+1)·prep` — a **critical edit rate** of one edit per:
+
+| world | critical queries/edit |
+|---|---:|
+| `RARE_DECISIVE` | **1.62** |
+| `COMMON_DECISIVE` | **3.24** |
+| `RARE_DECOY` | **4.45** |
+| `TYPE_DECOY` | never pays |
+
+Edit more often than that and **no horizon pays**, however many queries run. That is a phase
+boundary in a parameter nobody had measured for this mechanism.
+
+**Revocation is free where it matters.** Revocation changes no atom or edge *type*, so a
+type-yield score survives an event that changed what is reachable — it reorders in **all
+four** worlds. But the stale order costs **zero** extra expansions in every world that has a
+payback. It costs 40 only in `TYPE_DECOY`, which never repaid its scan under any conditions;
+there a stale score keeps prioritising a now-dead channel and pays to walk dead edges,
+because looking at an edge is charged before its liveness is checked.
+
+Two of my own measurement defects were found and fixed in this pass: a first run revoked the
+*decisive* channel, so both arms returned "not found" and it measured unreachability rather
+than staleness; and a first verdict returned `NO_LIFETIME_PAYBACK` on any staleness cost at
+all, which would have condemned the mechanism on the one world that never paid anyway.
+
+**Still uncharged:** the cost of *detecting* that an edit occurred. Real spaces are not
+edited at a constant rate.
 
 ## What this does not establish
 
