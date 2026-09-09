@@ -1,0 +1,72 @@
+{
+  "evidence_class": "E0 / L0 (donor survey, no experiment)",
+  "phase": "FNA-4",
+  "retrieval_note": "Parent identities were fixed by #214 section 4 FNA-4 before this lane opened. Claims below are the classical parents' own published claims, marked ABSTRACT-LEVEL where taken from title/abstract as returned by search on 2026-09-09; full texts were NOT read. The FNA-4 lane tests THESE parents, on OCM's own operator-composition substrate, with no neural arm.",
+  "rows": [
+    {
+      "abstract_level_claim": "Anti-unification computes the least general generalization of two terms: their most-specific common pattern, with variables at disagreement positions.",
+      "functional_reading": "library compression core <- anti-unification (Reynolds)",
+      "id": "reynolds1970",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "J. C. Reynolds 1970, Minsky Festschrift: 'Transformational Systems and the Algebraic Structure of Atomic Formulas'",
+      "url": "https://doi.org/10.1093/comjnl/13.1.45-for-plate"
+    },
+    {
+      "abstract_level_claim": "Cited by #214 section 1. Top-down library learning: search for the single abstraction with maximum usefulness (compression achieved), rewrite the corpus with it, repeat. Anti-unification inside; no neural guide required.",
+      "functional_reading": "library learning <- anti-unification + usefulness-driven top-down search (Stitch)",
+      "id": "bowers2023stitch",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "Bowers, Newton, Ragan-Kelley, Cheung, Solar-Lezama, POPL 2023: 'Top-Down Synthesis for Library Learning'",
+      "url": "https://popl23.sigplan.org/details/POPL-2023-popl-research-papers/41/Top-Down-Synthesis-for-Library-Learning"
+    },
+    {
+      "abstract_level_claim": "Equality saturation: represent all rewrites of a term in one e-graph (union-find over e-classes), saturate under a node/rule budget, then extract a minimum-cost program. Cited by #214 section 1.",
+      "functional_reading": "compression rival <- equality saturation / e-graphs (egg)",
+      "id": "willsey2021egg",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "Willsey, Nandi, Wang, Tatlock, Popham 2021: 'egg: Fast and Extensible Equality Saturation'",
+      "url": "https://popl21.sigplan.org/details/POPL-2021-research-papers/23/egg-Fast-and-Extensible-Equality-Saturation"
+    },
+    {
+      "abstract_level_claim": "Macro-operators: reusable action sequences learned from solved problems, traded between search depth and branching factor.",
+      "functional_reading": "composition reuse <- macro-operator learning (Korf 1985, predecessor of library learning in search)",
+      "id": "korf1985macro",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "R. E. Korf 1985, Artificial Intelligence 24: 'Macro-Operators: A Weak Method for Learning'",
+      "url": "https://doi.org/10.1016/0004-3702(85)90060-8"
+    },
+    {
+      "abstract_level_claim": "Chunking: when a goal is achieved, build a production whose conditions are the goal differences that held and whose action is the subgoal result. Cited by #214 section 4 FNA-4 as the cognitive-architecture parent. Exact-difference conditions, no abstraction over arguments.",
+      "functional_reading": "exact-match production learning <- Soar chunking (Laird)",
+      "id": "soar-chunking",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "Soar manual, section 4: 'Procedural Knowledge and Learning' (Laird, Rosenbloom, Newell lineage)",
+      "url": "https://soar.eecs.umich.edu/soar_manual/04_ProceduralKnowledgeLearning/"
+    },
+    {
+      "abstract_level_claim": "Counterexample-guided inductive synthesis: a verifier supplies counterexamples that refine a candidate until it passes; no gradient signal. Cited by #214 section 1 and section 4 FNA-4.",
+      "functional_reading": "operator repair/specialization <- CEGIS (Solar-Lezama)",
+      "id": "cegis",
+      "ownership": "PARENT_OWNS_IT",
+      "title": "Solar-Lezama, CEGIS lecture notes (Synthesis Course 2020, Lecture 10)",
+      "url": "https://people.csail.mit.edu/asolar/SynthesisCourse2020/Lecture10.htm"
+    },
+    {
+      "abstract_level_claim": "DreamCoder's library component grows abstractions from a wake/sleep loop in which a neural guide proposes which fragments to abstract. #214 section 4 FNA-4 explicitly requires the neural guide removed/ablated where possible: the remaining mechanism is anti-unification + utility scoring, i.e. the Stitch parent.",
+      "functional_reading": "DreamCoder minus neural guide == Stitch parent; the neural part is the donor under test, not the parent",
+      "id": "ellis2021dreamcoder",
+      "ownership": "DONOR",
+      "title": "Ellis et al. 2021: 'DreamCoder: Bootstrapping Inductive Program Synthesis with Wake-Sleep Library Learning'",
+      "url": "https://arxiv.org/abs/2006.08381"
+    },
+    {
+      "abstract_level_claim": "OCM's own composition substrate: operators are immutable catalogue entries with typed input atoms, executed backends and checkers; selection goes through an inverted index posting each operator under its rarest required input; candidate warrant is bridge-meet of operator and input warrants (KS-T20); failed joint warrants are nogoods (ATMS parent, MEG-16).",
+      "functional_reading": "substrate <- src/ocm/runtime/solve.py + operator_index.py + kso/warrant.py + kso/nogoods.py (this repository, verified by direct read, not abstract-level)",
+      "id": "ocm-substrate",
+      "ownership": "SUBSTRATE",
+      "title": "OCM main: compose_stage / check_stage / SolveOperatorIndex / WarrantProfile / NogoodSet",
+      "url": "src/ocm/runtime/solve.py"
+    }
+  ],
+  "schema": "ocm.fna.fna4.source_ledger.v1"
+}
