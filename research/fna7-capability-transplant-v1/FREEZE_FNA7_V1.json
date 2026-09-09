@@ -1,0 +1,85 @@
+{
+  "schema": "ocm.fna.fna7-capability-transplant.freeze.v1",
+  "frozen_before_outcome_access": true,
+  "frozen_at": "2026-09-09 (before any pilot execution; first execution 2026-09-09 on billy-laptop)",
+  "base_commit": "ab5310942b01be11776c0eddc4403dc0e0dcb51c",
+  "world_binding": {
+    "world": "research/fna5-routing-first-refusal-v1/fna5_world.py (PR #219, merged at base commit; imported read-only, never modified)",
+    "params": {"n_queries": 2400, "n_atoms": 240, "salt": "fna5-routing-first-refusal-v1::3f9c217a"},
+    "splits": "frozen md5 buckets in fna5_world.split_of: DEV <=3, EVAL 4..7, DRIFT 8..9 (40/40/20 by construction)",
+    "drift_mutation": "replicated exactly from fna5.py apply_drift: remove window:60, add sample:48 on anchor drift:0, theta1 re-drawn, theta2 +0.05, scan_version_mult 1.6, index rebuilt"
+  },
+  "host_harness_H": {
+    "router": "SUPERSEDED by AMENDMENT 1: A2 cost-model router (#219 CostModelArm) fitted on DEV identification records, charged identically to every arm; identical rule for every arm",
+    "per_query_charge": "feature extraction work + router work + exec + verify (+ on failure: classification inference + repair continuation)",
+    "repair_table": {
+      "SELECTOR_METHOD_MISMATCH": "retry cheapest applicable different-family approximation by declared cost estimate; if it also fails, scan",
+      "NOISE_BOUNDARY_UNAVOIDABLE": "scan immediately",
+      "STALE_DECLARED_MODEL": "scan immediately + stale flag",
+      "NO_CLASSIFIER": "scan immediately (portfolio-recovery default; floor, never a result)"
+    },
+    "maintenance_refresh": {
+      "trigger": "arm's stale flags >= 8 within the drift window",
+      "price": "identification work of executing every applicable instance + verify over the first 24 drift-window failures (deterministic precompute; billed once to the triggering arm)",
+      "effect": "SUPERSEDED by AMENDMENT 1: router re-fitted once on those maintenance-window identification records; identical rule for every arm; arms differ only in trigger timing"
+    },
+    "consumption_note": "classes STALE and NOISE share the per-query repair (scan) and differ exactly in refresh timing; SELECTOR differs per-query; both consumption paths are measured"
+  },
+  "responsibility_ground_truth_frozen_order": [
+    "STALE_DECLARED_MODEL iff drift regime AND declared point-prediction (declared centres, neutral u=0.5) says PASS AND realized outcome with true u is FAIL AND binding-clause slack gap > 0.04",
+    "else SELECTOR_METHOD_MISMATCH iff some applicable different-family non-exact instance would PASS under realized laws AND its declared cost estimate < scan's",
+    "else NOISE_BOUNDARY_UNAVOIDABLE"
+  ],
+  "legal_information_surface": [
+    "the 12 world features (log2_n, disp, alias, type_entropy, n_applicable, rarest_postings, min_window_w, mean_w, skew_w, ndup, task_flag, scan_cost_est)",
+    "failed-attempt trace facts: family, param, per-clause slacks under DECLARED centres with neutral noise, declared cost estimate of failed instance, cheapest different-family declared cost, applicability counts, catalogue_version flag (pre/post drift, environment-observable)",
+    "FORBIDDEN: u(q), realized thetas, realized outcomes of unexecuted alternatives, split identity, ground-truth responsibility"
+  ],
+  "arms": {
+    "R1_GUARDED_DECLARED": "Bayes-style rule on declared centres; gamma noise-guard 0.15 on pass-probability bands; zero label acquisition; structurally cannot assert STALE (declared==its estimate, gap identically 0); authored bytes charged",
+    "R2_CALIBRATED_BAYES": "realized constants re-estimated from DEV failure labels (feasible-interval moment estimation); same gamma guard; STALE assertable post-drift via declared-vs-estimated contradiction with gap > 0.04; acquisition charged at in-world identification price",
+    "R3_CART_TREE": "CART, gini, depth <= 3, min-leaf 8, dev-trained on the same charged labels; deterministic seeded tie-breaking",
+    "INCUMBENT_NEURAL_REF": "pure-stdlib seeded MLP, legal surface (standardized) -> 16 tanh -> 3 softmax, SGD lr 0.05, 60 epochs, batch 16, seeded init; same charged labels; stands in for the model-supplied incumbent CLASS at pilot scale (declared limitation; never a frontier-model claim)",
+    "ORACLE_LATENT": "ground-truth classifier (exact latents); ceiling diagnostic, never a result",
+    "NO_CLASSIFIER": "harness default; floor",
+    "SHUFFLE_NULL": "seeded permutation of the strongest replacement arm's EVAL predictions (marginals kept, information destroyed)"
+  },
+  "sufficiency_frozen": {
+    "epsilon_accuracy": 0.03,
+    "epsilon_cost": 0.05,
+    "rule": "arm sufficient iff protected-EVAL failure accuracy >= incumbent accuracy - 0.03 AND mean whole-chain charged cost per failed query (continuation + inference + amortized acquisition and maintenance) <= incumbent x 1.05 AND neural invocations for the capability == 0 (structural)",
+    "terminal_mapping": {
+      "R1 sufficient": "PARENT_SUFFICIENT_FOR_FAILURE_CLASSIFICATION (guarded declared rule)",
+      "R2 sufficient": "PARENT_SUFFICIENT_FOR_FAILURE_CLASSIFICATION (calibrated estimator)",
+      "R3 sufficient": "NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE",
+      "none sufficient, ORACLE_LATENT meets incumbent bar": "NO_FUNCTIONAL_PARITY_FAILURE_CLASSIFICATION (+ACQUISITION_COST_DOMINATES side-flag if the gap closes with uncharged labels; +REPRESENTATION_INSUFFICIENT if even ORACLE cannot meet the bar)",
+      "no legal-surface arm incl. ORACLE reaches incumbent": "NEURAL_DONOR_DOMINATES_AT_SCOPE",
+      "machinery failure": "CANNOT_CHECK_<reason>"
+    },
+    "scope_suffix": "every pilot terminal is scoped: _AT_PILOT_SCOPE_FNA7_V1"
+  },
+  "causal_gate_execution": "the gate runner evaluates all 10 clauses of #214 section 5 with concrete evidence (see results json gate object); clause 6 substitution check = constant-NOISE substitution of the strongest arm's EVAL predictions",
+  "amendments": [
+    {
+      "id": "AMENDMENT_1",
+      "recorded": "2026-09-09, BEFORE any scored pilot execution (only tiny smoke runs had occurred and they produced zero failures on every split; no outcome of the scored run was accessed)",
+      "change": "host router switched from the zero-fit analytic-guarded rule to #219's A2_COST_MODEL (CostModelArm) fitted on DEV identification records; maintenance refresh re-fits the A2 on the frozen 24-failure identification window; classifier label acquisition is reconstructed from the same identification table with a counterfactual failure-restricted price (no execution double-charged)",
+      "rationale": "the analytic router's failure stream is too sparse to exercise the classification capability: #219's published FNA5_RESULTS_V1.json reports A1 fallback_rate 0.0043 on EVAL vs A2_COST_MODEL 0.1008 (parent-published numbers, not outcomes of this pilot); zero failures would make every arm vacuously sufficient",
+      "charging": "router identification+fit price is harness cost common to all arms (reported once in world.harness_router_price, cancels in every arm-vs-arm comparison); refresh price is billed to the triggering arm; classifier label price remains arm-specific (R1 pays zero)"
+    },
+    {
+      "id": "AMENDMENT_2",
+      "recorded": "2026-09-09, AFTER the first scored execution had been inspected (outcome access had occurred); recorded before any re-run and before any terminal was accepted or reported",
+      "change": "mechanical harness-defect fix: each arm now runs on its own freshly built seed-identical world (the drift mutation is applied in-stream by run_harness, so sequential arms on one shared world object contaminated each other's DEV/EVAL streams with compounded drift); SHUFFLE_NULL augmented with majority_class_rate because permuting a constant predictor is a no-op",
+      "justification": "the FREEZE already declares the harness held constant and the router identical across arms; the shared-world defect violated that declaration (EVAL failure counts ranged 93..363 by run order). No threshold, arm, terminal mapping, or ground-truth rule was changed; this amendment enforces the frozen design rather than altering it",
+      "verification": "results carry eval_failure_qid_digest per arm; the held-constant test asserts all arms share one digest"
+    }
+  ],
+  "declared_limitations_before_outcomes": [
+    "one authored world (E1/L1 evidence class, #219 authorship); responsibility classes are that world's physics",
+    "incumbent is a seeded MLP stand-in for the incumbent class, not a frontier model",
+    "three responsibility classes, not the full #208 section-6 taxonomy",
+    "wall/CPU seconds descriptive single-host",
+    "the pilot proves the protocol executable and reports a pilot-scoped terminal; it licenses no deployment and no #208-scale claim"
+  ]
+}

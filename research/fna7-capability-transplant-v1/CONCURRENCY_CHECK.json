@@ -1,0 +1,23 @@
+{
+  "schema": "ocm.fna.fna7-transplant.concurrency-check.v1",
+  "checked_at": "2026-09-09T00:00:00Z",
+  "issue_under_transplant": 208,
+  "method": "gh pr list (open), full branch list via gh api repos/SzeChunYiu/ORION-OCM/branches, grep for 208|g7a|hybrid|capab|transplant|fna7|fna-7",
+  "open_prs_at_check": [
+    {"number": 222, "branch": "research/fna6-working-state-v1", "collision": false},
+    {"number": 213, "branch": "cursor/g5-warrant-adoption-cf8f", "collision": false},
+    {"number": 212, "branch": "cursor/g7-primitive-pressure-cf8f", "collision": false},
+    {"number": 211, "branch": "cursor/h1-examples-charge-cf8f", "collision": false},
+    {"number": 210, "branch": "cursor/l1-continual-adapt-cf8f", "collision": false},
+    {"number": 209, "branch": "cursor/g1-hostile-pi-cf8f", "collision": false},
+    {"number": 206, "branch": "cursor/issue-165-remaining-gates-cf8f", "collision": false},
+    {"number": 204, "branch": "research/goal-only-cold-native-20260909", "collision": false}
+  ],
+  "branches_matching_208_or_transplant": [],
+  "live_208_artifacts_on_main": "none; #208 has no HYBRID_PROTOCOL_V1.md, no capability_source_map.json, no research/ capsule on origin/main (git grep LOCALIZATION_FAILURE|MISSING_REPOSITORY_MODEL|FAILURE_TAXONOMY over origin/main: zero hits)",
+  "verdict": "NO_CONCURRENT_WORK_COLLISION",
+  "notes": [
+    "PR #222 (FNA-6 working-state parents) is OPEN and unmerged; this capsule cites it as a binding parent by branch/PR but depends on nothing in it for code or tests, so a rebase or amendment of #222 cannot break this capsule.",
+    "The #208 capability_source_map.json does not exist yet anywhere; FNA-7 therefore constructs the capability-source transplant protocol directly from the #208 section-9 capability fields (supplier/necessity/cost/failure-mode/replacement/evidence-status) and the #214 section-4 FNA-7 capability list. When #208's own H0-H1 machinery lands, the protocol's CAPABILITY_SOURCE_MAP_BINDING field is where its live map plugs in."
+  ]
+}
