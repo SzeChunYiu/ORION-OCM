@@ -1,0 +1,38 @@
+{
+ "patch_id": "REGISTRY_PATCH_D",
+ "lane": "D (D6 transfer bound, branch hst/d6-transfer-bound)",
+ "amends": "HST_THEOREM_REGISTRY_V1.json (field-fills only; no frozen statement edited)",
+ "theorem_rows": [
+  {
+   "theorem_id": "HST-T09",
+   "field_fills": {
+    "proof_artifact": "bounds/HST_TRANSFER_BOUND_V1.md (Theorem T09-B + OCM specialization S1-S4)",
+    "exact_checker": "bounds/check_bound_v1.py — billy-laptop, python3 3.8.10, exit 0, 29.8s: (a) 330 world-rule checks, complete ordered-sample-space enumeration (K in 2..4, T in 2..4, m in 4..8), three data-dependent rules (ERM/Gibbs-tempered/flat), exact Fraction violation probability <= delta on the grid {1/2,1/5,1/10,1/20,1/100}, negative control fired; (b) counterexample W- exact Fractions; (c) Maurer/Topsoe constant 2*sqrt(m) verified by exact binomial enumeration m=1..40; (d) table + crossovers asserted (m*=5/104/564)",
+    "counterexample_when_assumption_removed": "bounds/NEGATIVE_TRANSFER_COUNTEREXAMPLE_V1.md — remove 'same ecology D': two-task world, learned pure kernel has D_test-risk 1 vs flat 1/2, negative-transfer excess exactly +1/2 (admission-failure doubling); T09-B violation probability exactly 0 on D_train for m=1..5, so bound and counterexample are consistent",
+    "empirical_bridge": "#151 related/unrelated/harmful transfer axis (W- is its formal shadow); #221 zoo: N=28584 census, admission bar 0.224507 as frozen Adm, K=83 D3d cells as kernel family",
+    "claim_ceiling": "Bounds D-distribution generalization of a learned proposal-kernel mixture vs its own empirical risk ONLY; nothing for D' != D (harmful transfer not ruled out, W- witness), nothing for unbounded geometric burden (1/Q(A_tau)), nothing about improvement vs flat prior, nothing under ecology drift, verifier soundness inherited as assumption of C"
+   },
+   "status_fill": "BOUND_DERIVED (mathematics parent-sufficient: McAllester 1999 / Langford-Seeger 2002 / Maurer 2004 / Topsoe 2007, per-step attribution in the artifact; OCM specialization lane-D; VACUOUS AT ZOO SCOPE: eps(12)=0.6242 = 2.78x the 0.224507 bar; first m reaching the bar = 104 tasks, eps<=0.1 at m=564 — honest vacuity range reported, not tuned)",
+   "status_vocabulary_extension": "BOUND_DERIVED_VACUOUS_AT_SCOPE (subclass of BOUND_DERIVED; supported by FREEZE_HST_V1 honesty rule, cf. issue #233 §13)"
+  },
+  {
+   "theorem_id": "HST-T10",
+   "field_fills": {
+    "confidence_bounds": "cross-ref: the [0,1] admission-failure form l(Q,tau)=1-Q(A_tau) used by T09-B is exactly the complement of the finite Ev mass under Q; a Hoeffding confidence interval for an i.i.d.-sampled Ev estimator is the natural companion and is being derived by lane B (T10 estimator) — cite as 'lane B, pending'; lane D's PAC-Bayes form applies directly to the Gibbs-mixture version without waiting"
+   },
+   "status_fill": "no change (OPEN; lane D contributes the cross-reference only)"
+  }
+ ],
+ "not_edited": [
+  "HST_THEOREM_REGISTRY_V1.json",
+  "FREEZE_HST_V1.json",
+  "HST_DEFINITIONS_V1.md"
+ ],
+ "run_record": {
+  "host": "billy-laptop",
+  "command": "ssh billy-laptop 'cd ~/hst-d6/bounds && python3 check_bound_v1.py'",
+  "md5_check_bound_v1.py": "36d72868422ac9efad7958b19a6578f0",
+  "exit_code": 0,
+  "wall_seconds": 29.8
+ }
+}
