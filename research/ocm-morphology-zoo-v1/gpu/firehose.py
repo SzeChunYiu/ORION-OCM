@@ -196,7 +196,10 @@ def status_write(root: str, lane: str, totals: Dict[str, Any]) -> None:
             cur = {"lanes": {}}
     cur.setdefault("lanes", {})[lane] = totals
     cur["updated_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    tmp = path + ".tmp"
+    # pid-suffixed tmp: concurrent shards of one lane share results/ and
+    # would otherwise race on a single tmp name (one replace wins, the
+    # other raises FileNotFoundError)
+    tmp = "%s.tmp.%d" % (path, os.getpid())
     with open(tmp, "w") as f:
         json.dump(cur, f, indent=1, sort_keys=True)
     os.replace(tmp, path)
@@ -418,7 +421,7 @@ def run_firehose(mode: str, root: str, n: int = 1000, seed: int = 2210,
         "spec_id": spec_id,
         "tier_promotions_forwarded": (run_spec or {}).get("tier_promotions"),
         "backend": backend.name,
-        "backend_device": getattr(backend, "device", None),
+        "backend_device": str(getattr(backend, "device", "") or ""),
         "n_attempted": counters["attempted"],
         "n_evaluated": counters["completed"],
         "n_feasible": counters["feasible"],

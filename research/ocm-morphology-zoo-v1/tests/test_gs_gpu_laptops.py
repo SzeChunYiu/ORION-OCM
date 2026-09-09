@@ -250,7 +250,7 @@ class FirehoseSmoke(unittest.TestCase):
         # receipt chain verifies
         from evaluation.receipts import verify_receipt
         rj = json.load(open(os.path.join(
-            self.root, "results", s["run_id"] + ".receipt.json")))
+            self.root, "results", s["run_id"] + ".json.receipt.json")))
         self.assertTrue(verify_receipt(rj))
 
     def test_freeze_sha_gate(self):

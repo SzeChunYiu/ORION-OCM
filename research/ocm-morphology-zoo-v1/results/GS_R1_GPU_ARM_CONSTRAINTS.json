@@ -1,0 +1,35 @@
+{
+ "record": "GS_R1_GPU_ARM_CONSTRAINTS",
+ "status": "FROZEN_DESIGN_CONSTRAINT (worker O lane, coordinator instruction 2026-09-09)",
+ "measured_on": {
+  "host": "billy-laptop (x86_64, Python 3.8.10, numpy 1.24.3)",
+  "sample": "n=120 census-grammar random draws, seed 2210",
+  "artifact": "results/GPU_VECTORIZABLE_FRACTION.json",
+  "cross_check_billy_old_py3_14_4": {
+   "sample": "n=24 seed 2210 (test-embedded run)",
+   "vectorizable_fraction_of_T0": 0.452505,
+   "encode_fraction_of_vectorized_lane": 0.697142,
+   "irreducible_cpu_fraction_of_T0": 0.533388
+  }
+ },
+ "constraints": {
+  "vectorizable_fraction_of_T0": 0.488226,
+  "encode_fraction_of_vectorized_lane": 0.777945,
+  "irreducible_cpu_fraction_of_T0": 0.526401,
+  "implication": "GS-R1 GPU arms are compile-bound streaming lanes: at GPU scale the batched tape collapses toward zero cost, but per-genome encode (morphology.compile.compile_genome, CPU-only, irreducible while #71 forbids learned components inside OCM organisms) becomes ~78% of lane cost. GPU throughput therefore scales with CPU encode parallelism feeding the device, not with kernel efficiency; lane sizing should budget encode cores >= device count."
+ },
+ "fidelity_claim_scope": {
+  "claim": "exact-equality fidelity (not correlation) on the measured sample",
+  "exact_statement": "On the measured sample (n=120 census-grammar draws, seed 2210, billy-laptop py3.8.10) the batched T0 tape reproduced evaluate_genome('T0') with 0 dev_score mismatches and Spearman 1.0 vs the per-organism exact path; numpy-vs-py backend identity max_abs_diff 0.0. The tape transcribes the same frozen arithmetic (elementwise fp64, round only at assembly), so identity is by construction — but the EMPIRICAL claim is scoped to this sample and to the field-sweep + random-sample suites in tests/test_gs_gpu_laptops.py (13/13 green on py3.8.10 and py3.14.4), NOT a proof over all grammatically reachable genomes."
+ },
+ "amend_5_carry_in": {
+  "source": "issue #221 comment 5609221910 (FREEZE_V1_AMEND_5.json sha 3e061cf756dcf7b6, merged via #231)",
+  "admission_bar": "GS arms must declare admission bars PROSPECTIVELY; the amend-5 quality gate carries in: seed-mean own_axis_recovery >= 0.224507 and junk_free_ratio == 1.0 asserted per task",
+  "census_ceiling_semantics": "census maxima are census-SUBSET maxima, not bounds on the mutated space — mutations draw from full vocabularies, so a GS arm must never clamp or normalize against census maxima as if they were space bounds"
+ },
+ "gpu_stack": {
+  "engine": "torch 2.7.1+cu12.9 on NVIDIA A40 (VERIFIED, probe job 3587172 cg05)",
+  "qdax_jax": "BLOCKED on LUNARC (jax absent from modules; pip --user staging exceeds home disk quota)",
+  "see": "REUSE_AUDIT.md"
+ }
+}

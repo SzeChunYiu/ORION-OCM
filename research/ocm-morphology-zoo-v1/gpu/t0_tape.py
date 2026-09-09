@@ -252,16 +252,29 @@ class TorchBackend:
         return self.torch.full((n,), float(x), dtype=self.torch.float64,
                                device=self.device)
 
+    def _promote(self, a, b):
+        # torch (unlike numpy/python) does not implicitly promote mixed
+        # dtypes in elementwise ops; int64 columns mixing with float64
+        # columns (e.g. where(within, floor_int(need), budget)) promote
+        # to float64 — value-exact for this tape's magnitudes
+        if a.dtype != b.dtype:
+            return a.to(self.torch.float64), b.to(self.torch.float64)
+        return a, b
+
     def add(self, a, b):
+        a, b = self._promote(a, b)
         return a + b
 
     def sub(self, a, b):
+        a, b = self._promote(a, b)
         return a - b
 
     def mul(self, a, b):
+        a, b = self._promote(a, b)
         return a * b
 
     def div(self, a, b):
+        a, b = self._promote(a, b)
         return a / b
 
     def le(self, a, b):
@@ -283,10 +296,12 @@ class TorchBackend:
         return ~a.bool()
 
     def where(self, cond, a, b):
+        a, b = self._promote(a, b)
         return self.torch.where(cond.bool(), a, b)
 
     def floor_int(self, a):
-        return a.trunc().to(self.torch.int64)
+        # cast first: CPU torch has no trunc kernel for Bool tensors
+        return a.to(self.torch.float64).trunc().to(self.torch.int64)
 
     def as_float(self, a):
         return a.to(self.torch.float64)
@@ -513,8 +528,14 @@ def run_t0_tape(batch, backend=None):
                                V.where(comp_within, V.floor_int(need2), budget),
                                zero_i))
     expansions = V.add(expansions, exp_add2)
-    comp_s = V.or_(can_rule, V.or_(V.and_(can_plan, comp_within), can_fsm))
-    compose_used = comp_s
+    # CPU elif chain: rule branch | plan-within branch | fsm branch (fsm
+    # only reached when neither rule nor plan)
+    comp_fsm = V.and_(V.and_(V.not_(can_rule), V.not_(can_plan)), can_fsm)
+    comp_s = V.or_(can_rule, V.or_(V.and_(can_plan, comp_within), comp_fsm))
+    # compose_used increments ONLY on the plan/fsm branches (the rule path
+    # solves composition without composing) — lifetime.solve_task
+    compose_used = V.or_(V.and_(V.and_(V.not_(can_rule), can_plan),
+                                comp_within), comp_fsm)
     # probe world 1
     work = _chg(work, disp_w); epoch_acc = _chg(epoch_acc, disp_w)
     reason = _chg(reason, disp_w)
@@ -715,7 +736,9 @@ def run_t0_tape(batch, backend=None):
     solved = V.add(solved, V.floor_int(fv_s_sum))
     solved = V.add(solved, _bool_to_int(probe2_s))
     solved_l = V.to_intlist(solved)
-    total_tasks = 16
+    # E1:2 (ma1+sim) E2:3 (ma2+comp+probe1) E3:4 (closure+res+scoped x2)
+    # E4: 2 twins + int(w8_variants)=3 fv + 1 probe2  ->  15
+    total_tasks = 15
     work_l = V.to_list(work)
     acq_l = V.to_list(acq)
     reason_l = V.to_list(reason)
@@ -729,7 +752,7 @@ def run_t0_tape(batch, backend=None):
     stale_l = [2 * int(bool(x)) for x in V.to_list(r_none)]
     refusals_l = [2 * int(bool(x)) for x in V.to_list(check_ok)]
     reused_l = [int(bool(x)) for x in V.to_list(pers_epi)]
-    compose_l = [int(bool(x)) for x in V.to_list(comp_s)]
+    compose_l = [int(bool(x)) for x in V.to_list(compose_used)]
     ma1_l = [int(bool(x)) for x in V.to_list(ma1_s)]
     ma2_l = [int(bool(x)) for x in V.to_list(ma2_s)]
     comp_l = [int(bool(x)) for x in V.to_list(comp_s)]
@@ -805,3 +828,4 @@ def run_t0_tape(batch, backend=None):
                         batch["meta"][i]["_active_operators"]),
                     "dead_units": list(batch["meta"][i]["_dead_units"]),
                     "n_units": int(n_units[i])})
+    return out
