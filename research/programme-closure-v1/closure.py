@@ -320,8 +320,11 @@ UPPER_LEVEL = {
         "boundary": "E2 synthetic worlds. Not a real task ecology.",
     },
     "principled_impossibility": {
-        "disposition": "CANDIDATE_SUPPORTED_ONE_RESULT_ONE_WITHDRAWN",
+        "disposition": "CANDIDATE_SUPPORTED_THREE_RESULTS_ONE_WITHDRAWN",
         "receipts": ["research/residual-routing-v1/results/RESIDUAL_ROUTING_OPPORTUNITY_V1.json",
+                     "research/residual-routing-v1/results/ADVERSARIAL_BOUND_POSTHOC_V1.json",
+                     "research/g3-scoped-failure-memory-v1/G3_2_SCOPED_FAILURE_MEMORY_V1.json",
+                     "research/g3-representation-v1/G3_REPRESENTATION_V1.json",
                      "research/g2-acquisition-economics-v1/README.md"],
         "basis": (
             "ONE result stands: the compose-stage routing residual is exactly zero "
@@ -336,10 +339,44 @@ UPPER_LEVEL = {
             "acquisition is impossible; it was that the three selectors tried were "
             "inadequate. The withdrawal is the more useful record: a negative of the "
             "form 'no cheap X exists' is only ever 'no cheap X that was tried', and "
-            "this programme should read its own negatives that way."),
+            "this programme should read its own negatives that way. "
+            "TWO FURTHER RESULTS ARE ADMITTED, and they are admitted precisely "
+            "because they are not of the withdrawn form. Neither says 'nothing we "
+            "tried worked'; each is an identity or a structural argument over ALL "
+            "mechanisms of a stated class, and each names the condition that breaks "
+            "it. (a) Proposition 1, G3.2: a nogood that may not mention the goal -- "
+            "a goal-keyed entry being the task-ID blacklist section 165 forbids by "
+            "name -- can only record an over-budget candidate, which costs one "
+            "extension to discover and has no subtree to prune. So net = hits - "
+            "probes - maintenance <= 0 for any population, budget schedule or store "
+            "implementation in that search geometry; the run confirms the identity "
+            "exactly at 94,208 - 98,300 - 4,096 = -8,188. It breaks where a probe "
+            "is strictly cheaper than an expansion, measured at 0.917. (b) "
+            "Proposition 2, G3.3: equality of normal form is a bisimulation for "
+            "prefix search, so the exact representation already harvests every "
+            "soundly available merge for free; any representation that is a "
+            "function of the normal form can only coarsen that equivalence, so its "
+            "marginal merges all cross a boundary the goal test can see. It breaks "
+            "where transitions are not a function of the state, or the goal test is "
+            "coarser than the state. A census refuted the mechanism previously "
+            "claimed for the same negative -- the state space is 62% redundant, not "
+            "'nearly a bijection' -- so this entry replaces a false explanation with "
+            "a proved one rather than adding a new claim on top of it. "
+            "THE SURVIVING ROUTING RESULT IS ALSO STRENGTHENED: a post-hoc "
+            "adversarial bound over the frozen receipt shows the residual is zero "
+            "under EVERY ordering of the recorded admissible sets, not merely the "
+            "observed one, and that routing there is not unprofitable but "
+            "UNDEFINED -- 0 of 96 selection points have both a passing and a "
+            "non-passing admissible candidate."),
         "boundary": (
-            "The surviving result is scope-bounded, not a universal impossibility "
-            "theorem. The withdrawn one is a caution about how such claims are made."),
+            "All three surviving results are scope-bounded, not universal "
+            "impossibility theorems: each holds over a stated class of mechanisms "
+            "in a stated search geometry and each states its own escape condition, "
+            "which is what distinguishes them from the withdrawn claim. The "
+            "withdrawn one remains recorded as a caution about how such claims are "
+            "made. None of the three is evidence FOR the OCM thesis; they bound "
+            "what the mechanisms under test can be worth, which is the direction "
+            "section 12 asks novelty to move."),
     },
     "lifetime_regime": {
         "disposition": "CANNOT_CHECK_NO_REAL_LIFETIME_MEASURED",

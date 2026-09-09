@@ -296,5 +296,50 @@ class UpperLevel(unittest.TestCase):
         self.assertIn("for name, row in UPPER_LEVEL.items():", source)
 
 
+class PrincipledImpossibility(unittest.TestCase):
+    """The upper-level entry section 12 puts the novelty in.
+
+    The ledger's own caution is the admission test: a negative of the form
+    'no cheap X exists' is only ever 'no cheap X that was tried'. A result may
+    be recorded here only if it is NOT of that form -- an identity or structural
+    argument over a stated class of mechanisms, with its escape condition named.
+    """
+
+    def setUp(self):
+        self.entry = C.UPPER_LEVEL["principled_impossibility"]
+
+    def test_three_results_stand_and_one_stays_withdrawn(self):
+        self.assertEqual(self.entry["disposition"],
+                         "CANDIDATE_SUPPORTED_THREE_RESULTS_ONE_WITHDRAWN")
+        self.assertIn("ONE IS WITHDRAWN", self.entry["basis"])
+
+    def test_each_admitted_result_names_the_condition_that_breaks_it(self):
+        basis = self.entry["basis"]
+        for escape in ("It breaks where a probe is strictly cheaper than an "
+                       "expansion",
+                       "It breaks where transitions are not a function of the "
+                       "state"):
+            self.assertIn(escape, basis)
+        self.assertIn("each names the condition that breaks", basis)
+
+    def test_the_admission_test_is_stated_not_merely_passed(self):
+        """Why these two are admitted where the withdrawn claim was not."""
+        self.assertIn("they are admitted precisely because they are not of the "
+                      "withdrawn form", self.entry["basis"])
+        self.assertIn("Neither says 'nothing we tried worked'", self.entry["basis"])
+
+    def test_no_admitted_result_is_claimed_as_evidence_for_the_thesis(self):
+        self.assertIn("None of the three is evidence FOR the OCM thesis",
+                      self.entry["boundary"])
+
+    def test_the_corrected_g33_mechanism_replaces_rather_than_stacks(self):
+        self.assertIn("replaces a false explanation with a proved one rather "
+                      "than adding a new claim on top of it", self.entry["basis"])
+
+    def test_every_receipt_named_exists(self):
+        for rel in self.entry["receipts"]:
+            self.assertTrue((C.REPO / rel).exists(), rel)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
