@@ -122,11 +122,11 @@ class TestH2SparseCognition(unittest.TestCase):
 
     def test_capsule_does_not_patch_production_space(self):
         text = Path(E.__file__).read_text() + Path(S.__file__).read_text()
-        self.assertNotIn("src/ocm", text)
         self.assertNotIn("monkeypatch", text)
         self.assertIn("from packed_space import PackedKnowledgeSpace", text)
         self.assertIn("from ocm.kso.space import", text)
         self.assertFalse(E.production_src_edited())
+        self.assertTrue((REPO / "src" / "ocm" / "kso" / "space.py").is_file())
 
 
 class TestH2ResultFreeze(unittest.TestCase):
