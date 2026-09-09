@@ -1,0 +1,504 @@
+{
+ "certificate_id": "T02_REACH_WITNESS_V1",
+ "checks": {
+  "C1_admissible_primitive": {
+   "image_tuple": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    0
+   ],
+   "legal_operator": true,
+   "primitive": "a1"
+  },
+  "C2_p_notin_closure_O": {
+   "closure_size_O": 40,
+   "fixpoint_verified": true,
+   "p_in_closure_O": false,
+   "p_witness_word": null
+  },
+  "C3_strict_closure_inclusion": {
+   "closure_size_O_plus_p": 80,
+   "strict_inclusion": true
+  },
+  "C4_witness_task": {
+   "example": {
+    "cost_with_p": 4,
+    "cost_without_p": "INF: not in the complete state-BFS closure of O from the start state => unreachable at ANY composition length (finite state space)",
+    "task": "tau06"
+   },
+   "exclusion_method": "complete state-BFS over Z_16 under O (all 16 states enumerated per start; fixpoint = exhaustive) + full transformation-closure fixpoint + parity structure",
+   "parity_structural_check": true,
+   "witness_tasks": [
+    "tau06",
+    "tau07",
+    "tau08",
+    "tau09",
+    "tau10"
+   ]
+  },
+  "C5_reach_B_expansion": {
+   "B": 8,
+   "expansion_tasks": [
+    "tau06",
+    "tau07",
+    "tau08",
+    "tau09",
+    "tau10"
+   ],
+   "reach_O": [
+    "tau01",
+    "tau02",
+    "tau03",
+    "tau04",
+    "tau05"
+   ],
+   "reach_O_plus_p": [
+    "tau01",
+    "tau02",
+    "tau03",
+    "tau04",
+    "tau05",
+    "tau06",
+    "tau07",
+    "tau08",
+    "tau09",
+    "tau10"
+   ],
+   "strict_expansion_at_B": true,
+   "words_enumerated_O": 511,
+   "words_enumerated_O_plus_p": 9841
+  },
+  "C6_hostile_burden": {
+   "honest_note": "mean over ALL 10 tasks: before = INF (5 tasks unsolvable), after = finite: the expansion is strictly beneficial for the full task family while worsening TYPICAL burden on the previously-solvable majority -- exactly the \u00a711 hostile.",
+   "hostile_confirmed_reach_up_burden_worse": true,
+   "mean_over_O_solvable_after": [
+    "27757621/414960",
+    66.89228118372856
+   ],
+   "mean_over_O_solvable_before": [
+    "672923/14300",
+    47.057552447552446
+   ],
+   "mean_over_all_tasks_after": [
+    "2767991923/31039008",
+    89.17784753301395
+   ],
+   "per_task_after": {
+    "tau01": {
+     "expected_first_solution_cost": [
+      "2005/19",
+      105.52631578947368
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "57/1093",
+      0.05215004574565416
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 57
+    },
+    "tau02": {
+     "expected_first_solution_cost": [
+      "2005/48",
+      41.770833333333336
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "144/1093",
+      0.13174748398902103
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 144
+    },
+    "tau03": {
+     "expected_first_solution_cost": [
+      "401/7",
+      57.285714285714285
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "105/1093",
+      0.09606587374199452
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 105
+    },
+    "tau04": {
+     "expected_first_solution_cost": [
+      "2005/38",
+      52.76315789473684
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "114/1093",
+      0.10430009149130832
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 114
+    },
+    "tau05": {
+     "expected_first_solution_cost": [
+      "2005/26",
+      77.11538461538461
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "78/1093",
+      0.07136322049405307
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 78
+    },
+    "tau06": {
+     "expected_first_solution_cost": [
+      "6015/68",
+      88.45588235294117
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "68/1093",
+      0.06221408966148216
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 68
+    },
+    "tau07": {
+     "expected_first_solution_cost": [
+      "6015/76",
+      79.14473684210526
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "76/1093",
+      0.06953339432753888
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 76
+    },
+    "tau08": {
+     "expected_first_solution_cost": [
+      "6015/44",
+      136.70454545454547
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "44/1093",
+      0.04025617566331199
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 44
+    },
+    "tau09": {
+     "expected_first_solution_cost": [
+      "2005/12",
+      167.08333333333334
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "36/1093",
+      0.03293687099725526
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 36
+    },
+    "tau10": {
+     "expected_first_solution_cost": [
+      "1203/14",
+      85.92857142857143
+     ],
+     "mean_proposed_length": [
+      "6015/1093",
+      5.5032021957914
+     ],
+     "p_succ": [
+      "70/1093",
+      0.06404391582799634
+     ],
+     "proposal_words_enumerated": 1093,
+     "solving_words": 70
+    }
+   },
+   "per_task_before": {
+    "tau01": {
+     "expected_first_solution_cost": [
+      "321/4",
+      80.25
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "8/127",
+      0.06299212598425197
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 8
+    },
+    "tau02": {
+     "expected_first_solution_cost": [
+      "321/11",
+      29.181818181818183
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "22/127",
+      0.1732283464566929
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 22
+    },
+    "tau03": {
+     "expected_first_solution_cost": [
+      "214/5",
+      42.8
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "15/127",
+      0.11811023622047244
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 15
+    },
+    "tau04": {
+     "expected_first_solution_cost": [
+      "321/13",
+      24.692307692307693
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "26/127",
+      0.2047244094488189
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 26
+    },
+    "tau05": {
+     "expected_first_solution_cost": [
+      "642/11",
+      58.36363636363637
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "11/127",
+      0.08661417322834646
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 11
+    },
+    "tau06": {
+     "expected_first_solution_cost": [
+      "INF",
+      null
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "0",
+      0.0
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 0
+    },
+    "tau07": {
+     "expected_first_solution_cost": [
+      "INF",
+      null
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "0",
+      0.0
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 0
+    },
+    "tau08": {
+     "expected_first_solution_cost": [
+      "INF",
+      null
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "0",
+      0.0
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 0
+    },
+    "tau09": {
+     "expected_first_solution_cost": [
+      "INF",
+      null
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "0",
+      0.0
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 0
+    },
+    "tau10": {
+     "expected_first_solution_cost": [
+      "INF",
+      null
+     ],
+     "mean_proposed_length": [
+      "642/127",
+      5.05511811023622
+     ],
+     "p_succ": [
+      "0",
+      0.0
+     ],
+     "proposal_words_enumerated": 127,
+     "solving_words": 0
+    }
+   },
+   "proposal": "uniform over all words of length <= 6 over the alphabet (i.i.d. rounds; charged cost = total operator slots proposed until first admissible word)"
+  }
+ },
+ "deterministic": true,
+ "exhaustive_enumeration_flags": {
+  "closure_fixpoint_verified": true,
+  "state_bfs_complete": true,
+  "word_tree_counts": {
+   "O_to_8": 511,
+   "Op_to_8": 9841
+  },
+  "word_trees_complete": true
+ },
+ "runtime_seconds": 0.011,
+ "scope_statement": "P2 finite exact: certified ONLY over universe FW1 (Z_16, 2+1 operators, 10 tasks); complete enumerations counted below; not a statement over other worlds/universal operators.",
+ "theorem_id": "HST-T02",
+ "world": {
+  "admissibility": "Adm(w,tau) iff composed function maps s_tau to g_tau (exact)",
+  "candidate_primitive": {
+   "a1": "x->x+1 mod 16"
+  },
+  "cost_model": "cost(word) = number of operator applications (composition length)",
+  "operator_basis": {
+   "a2": "x->x+2 mod 16",
+   "m2": "x->2x mod 16"
+  },
+  "state_space": "Z_16",
+  "tasks": [
+   {
+    "goal": 6,
+    "start": 1,
+    "task_id": "tau01"
+   },
+   {
+    "goal": 8,
+    "start": 0,
+    "task_id": "tau02"
+   },
+   {
+    "goal": 12,
+    "start": 3,
+    "task_id": "tau03"
+   },
+   {
+    "goal": 0,
+    "start": 13,
+    "task_id": "tau04"
+   },
+   {
+    "goal": 10,
+    "start": 4,
+    "task_id": "tau05"
+   },
+   {
+    "goal": 11,
+    "start": 2,
+    "task_id": "tau06"
+   },
+   {
+    "goal": 7,
+    "start": 0,
+    "task_id": "tau07"
+   },
+   {
+    "goal": 13,
+    "start": 6,
+    "task_id": "tau08"
+   },
+   {
+    "goal": 15,
+    "start": 8,
+    "task_id": "tau09"
+   },
+   {
+    "goal": 5,
+    "start": 12,
+    "task_id": "tau10"
+   }
+  ],
+  "world_id": "FW1"
+ }
+}
