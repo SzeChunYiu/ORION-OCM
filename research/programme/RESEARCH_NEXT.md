@@ -115,6 +115,11 @@ not a learned-method utility result. The [next decision](ORDINARY_GOAL_SEARCH_NE
 uses the existing finite-bank ordinary parent for goal-only search, with a current
 native proof boundary and a prospectively sealed allocation. Another exposed
 supplied-proof pass is not a prerequisite; do not repeat it as new evidence.
+The [accepted bridge source](../ordinary-goal-native-bridge-v1/CORE.md) connects complete
+generated proofs to that native boundary. Its authored controls establish no actual
+cohort admission. The [frozen historical 22](../ordinary-goal-historical-cohort-v1/CORE.md)
+reconcile with their retained training records; qualify their exact scoped transport
+and full joined prefix before using them in the registered goal-only comparison.
 
 ## Test the scientific mechanism
 
