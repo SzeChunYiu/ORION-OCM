@@ -1,0 +1,44 @@
+name: Issue 165 pinned integration qualification
+
+on:
+  push:
+    branches: [research/issue165-integration-qualified-20260909]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: issue165-integration-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pinned-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export immutable research donors without executing their studies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/issue165-pinned
+          for sha in dff3acadb78dfef161d122d00f20ebb30ab8bb51 d6256d4b5abbbe616e96d4273cd7a56b905c9916 39bf850f0b0b873f11c625adc57e61ceff8ccabf; do
+            git cat-file -e "$sha^{commit}"
+            git archive --format=tar.gz "$sha" > "/tmp/issue165-pinned/$sha.tar.gz"
+            git ls-tree -r -z "$sha" > "/tmp/issue165-pinned/$sha.tree"
+            git show -s --format=fuller "$sha" > "/tmp/issue165-pinned/$sha.commit.txt"
+          done
+          git rev-parse HEAD > /tmp/issue165-pinned/controller-commit.txt
+          git diff --exit-code
+          cd /tmp/issue165-pinned
+          sha256sum *.tar.gz *.tree *.commit.txt controller-commit.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-pinned-sources
+          path: /tmp/issue165-pinned/
+          if-no-files-found: error
+          retention-days: 14
