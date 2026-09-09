@@ -44,14 +44,50 @@ On all 44 answering queries the first admissible candidate is the one that
 passes, so no work is spent before the answer. All **40 recoverable verification
 calls** lie *after* it and are taken by stopping at the first pass — an exact
 policy that preserves decision, answer and chosen operator under contract C1 and
-needs no learner. Plausibly an artifact of fixtures supplying the intended
-operator first; a real ecology could place the passing candidate later.
+needs no learner.
 
-**Why the terminal survives that caveat.** Even then, recovering pre-answer work
-requires stopping early, and the runtime does not. Reordering alone still saves
-nothing. A router remains unable to help until an exact early-exit policy exists —
-at which point the exact policy has already taken the *after* work, and the
-residual must be re-measured on the real ecology.
+**Why the terminal survives.** Recovering pre-answer work requires stopping early,
+and the runtime does not. Reordering alone still saves nothing. A router remains
+unable to help until an exact early-exit policy exists — at which point the exact
+policy has already taken the *after* work, and the residual must be re-measured on
+the real ecology.
+
+## Post-hoc correction to finding 2
+
+`adversarial_bound.py`, written **after** scored execution and declared post-hoc,
+answers a caveat this study left open. The receipt attributed the zero residual to
+
+> fixtures supplying the intended operator first … a real ecology could place the
+> passing candidate later
+
+**That diagnosis is wrong, and the rows already said so.** Cross-tabulating
+`|A^E|` against the verdict vector:
+
+| shape | queries | can a router prefer anything? |
+|---|---:|---|
+| at most one admissible candidate | 74 | no — nothing to choose between |
+| multiple admissible, **all** passing | 20 | no — reordering changes `chosen_operator_id`, a C1 violation |
+| multiple admissible, **none** passing | 2 | no — every order costs the whole set |
+| **mixed: some pass, some do not** | **0** | this is the only shape that admits one |
+
+Every answering query with exactly one passing candidate has `|A^E| = 1`. There was
+never an order to get lucky with. Accordingly the **adversarial** bound — the worst
+ordering of the recorded admissible sets, over the 76 queries where reordering is
+answer-safe — is also exactly zero on both coordinates. Not merely the observed
+order: *no* order of this population yields any routing residual.
+
+So the residual is zero because the population contains **no mixed query**, not
+because the fixtures were favourable. This is strictly stronger than the observed-
+order measurement, and it does not claim ecology independence: a different workload
+could produce mixed queries, and then the residual must be re-measured.
+
+**Entry condition this hands #71.** Routing here is not unprofitable, it is
+*undefined*: a selection point with `|A^E| > 1` and a mixed verdict vector is what a
+learner would need in order to be evaluated at all, and there are **0 of 96**. That
+is a checkable precondition, and it replaces a hunch. The frozen receipt is not
+modified; the bound is a separate artifact,
+`results/ADVERSARIAL_BOUND_POSTHOC_V1.json`, so the published commitment stays
+reproducible.
 
 ## Counterfactual identifiability
 

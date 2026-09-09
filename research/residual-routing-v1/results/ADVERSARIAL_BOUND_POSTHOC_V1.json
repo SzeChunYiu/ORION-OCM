@@ -1,0 +1,28 @@
+{
+  "adversarial_routing_residual": {
+    "composition_work": 0,
+    "verification_calls": 0
+  },
+  "analysis_status": "POST_HOC_ON_FROZEN_RECEIPT",
+  "answer_safe_queries": 76,
+  "authority": "Written after scored execution against published rows. Not a pre-registered prediction, changes no terminal, executes nothing.",
+  "corrects": "The receipt attributed the zero residual to fixtures supplying the intended operator first, so that no work fell before the answer. That is not what the rows show. Every answering query with exactly one passing candidate has |A^E| = 1, so no ordering existed to be favourable, and the worst ordering of the recorded admissible sets yields the same zero. The residual is zero because the population contains no mixed query, not because the observed order was lucky.",
+  "derived_from": {
+    "file": "results/RESIDUAL_ROUTING_OPPORTUNITY_V1.json",
+    "note": "The frozen receipt is NOT modified. This is a separate artifact so the published commitment stays reproducible.",
+    "protocol_commitment": "2e1fcf1e94fceac847e62af63db52a543f11d98105f6f7d5d17532a734ab9706",
+    "terminal": "EXACT_POLICY_SUFFICIENT"
+  },
+  "entry_condition_for_71": "A selection point with |A^E| > 1 whose verdict vector is mixed -- at least one PASS and at least one non-PASS. There are 0 of these in 96 selection points. Until such a point exists, routing is not unprofitable, it is undefined, and no learner can be evaluated against it. This is the checkable condition #71 should test for before any further routing work, and it replaces the receipt's speculative 'a deployment ecology could place the passing candidate later'.",
+  "excluded_multiple_passing": 20,
+  "queries": 96,
+  "queries_where_routing_is_definable": 0,
+  "query_shapes": {
+    "at most one admissible candidate": 74,
+    "multiple admissible, all passing": 20,
+    "multiple admissible, none passing": 2
+  },
+  "schema": "ocm.residual-routing-adversarial-bound.posthoc.v1",
+  "what_this_still_does_not_establish": "Ecology independence. A different workload could produce mixed queries and a positive residual. What is now established is that no REORDERING of this population can, which is a strictly stronger statement than the observed-order measurement it replaces.",
+  "worst_case_equals_observed": true
+}
