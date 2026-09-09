@@ -77,6 +77,9 @@ not push this remaining-gates branch.
 | H1 v3 | `research/h1-amortized-lifetime-v3/` | `AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE` |
 | H5 | `research/h5-lifetime-economics-v1/` | `LIFETIME_NET_POSITIVE_AFTER_CHEAP_ACQUISITION` |
 | L1 v4 | `research/l1-linguistic-g2-v4/` | `COMPOSITIONAL_LANGUAGE_LEARNING_ONLY` (morphology/UD/curves at planted scope) |
+| G1 F/O | `research/g1-fo-accumulation-v1/` | `FO_ACCUMULATION_AT_MICRO_SCOPE` (programme still PARTIAL) |
+| G6 parents v3 | `research/g6-intervention-parents-v3/` | `PARENT_SUFFICIENT` (surrogate/ES/G&T; BO still `CANNOT_CHECK`) |
+| §15 after-exec | `research/publication-after-exec-v1/` | `PUBLICATION_AFTER_EXEC_RECEIPTS_PRESENT_WITH_GAPS` (E4/fresh-host still `CANNOT_CHECK`) |
 
 ## Still locked / honest OPEN
 

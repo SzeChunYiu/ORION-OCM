@@ -1639,19 +1639,19 @@ Before protected confirmatory execution:
 
 After execution:
 
-- [ ] retain raw traces;
-- [ ] retain failures;
-- [ ] retain crashes/timeouts;
-- [ ] machine-readable receipts;
-- [ ] raw cost vectors;
-- [ ] immutable figure tables;
-- [ ] exclusions with reasons;
-- [ ] checksum manifest;
+- [x] retain raw traces;
+- [x] retain failures;
+- [x] retain crashes/timeouts;
+- [x] machine-readable receipts;
+- [x] raw cost vectors;
+- [x] immutable figure tables;
+- [x] exclusions with reasons;
+- [x] checksum manifest;
 - [ ] fresh-host rerun;
 - [ ] disjoint replication;
 - [ ] independent scorer/checker;
 - [ ] red-team reviewer simulation;
-- [ ] claim/result correspondence review.
+- [x] claim/result correspondence review.
 
 ---
 
