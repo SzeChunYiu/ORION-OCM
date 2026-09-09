@@ -1,0 +1,63 @@
+name: Issue 165 actual Stitch donor qualification
+
+on:
+  push:
+    branches: [research/issue165-integration-qualified-20260909]
+    paths: [.github/workflows/issue165-stitch-donor.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actual-stitch-donor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Acquire exact upstream distribution bytes and check published hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/issue165-stitch
+          cd /tmp/issue165-stitch
+          curl --fail --location --max-time 90 -o stitch_core-0.1.29-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl https://files.pythonhosted.org/packages/e7/a5/af1b1c59c310ad9b907aa3b3357016f2df74678536054b63c1723984c52b/stitch_core-0.1.29-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+          curl --fail --location --max-time 90 -o stitch_core-0.1.29.tar.gz https://files.pythonhosted.org/packages/87/d9/1973131e7149b8b8c7175a6987f241e73f47f2bee85d21d017f4e8b168c3/stitch_core-0.1.29.tar.gz
+          printf '%s\n' 'a37f1ff040637a52862bdadb86ebcf5a620962027465d7bfdaebced590faa1ec  stitch_core-0.1.29-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl' '307a72bae661e39cd6fa400ac342d858a289ac67116d7eb5237fdae5642fab9e  stitch_core-0.1.29.tar.gz' > UPSTREAM_SHA256SUMS
+          sha256sum --check UPSTREAM_SHA256SUMS
+          python -m pip install --no-index --no-deps ./stitch_core-0.1.29-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+      - name: Execute actual upstream library API, not a surrogate parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import hashlib, importlib.metadata, json, platform, time
+          from pathlib import Path
+          import stitch_core
+          programs = ['(foo (a a a))', '(bar (b b b))']
+          started = time.perf_counter()
+          result = stitch_core.compress(programs, iterations=1, max_arity=3, threads=1, rewrite_check=True)
+          if len(result.abstractions) != 1 or len(result.rewritten) != 2:
+              raise RuntimeError('upstream API control population')
+          root = Path(stitch_core.__file__).parent
+          record = {'scope': 'upstream authored API control only, not OCM scientific evidence',
+                    'package': importlib.metadata.version('stitch-core'), 'python': platform.python_version(),
+                    'programs': programs, 'output': result.json, 'wall_s': time.perf_counter()-started,
+                    'files': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                              for p in root.rglob('*') if p.is_file() and '__pycache__' not in p.parts}}
+          Path('/tmp/issue165-stitch/upstream-control.json').write_text(json.dumps(record, indent=2)+'\n')
+          PY
+          git rev-parse HEAD > /tmp/issue165-stitch/controller-commit.txt
+          cd /tmp/issue165-stitch
+          sha256sum *.whl *.tar.gz upstream-control.json controller-commit.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-actual-stitch-donor
+          path: /tmp/issue165-stitch/
+          if-no-files-found: error
+          retention-days: 14
