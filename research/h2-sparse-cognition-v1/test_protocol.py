@@ -11,11 +11,29 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 G5 = REPO / "research" / "g5-packed-field-v1"
 SRC = REPO / "src"
-for path in (str(SRC), str(G5), str(HERE)):
-    if path not in sys.path:
-        sys.path.insert(0, path)
 
-import experiment as E
+
+def _prefer(path: Path) -> None:
+    p = str(path)
+    while p in sys.path:
+        sys.path.remove(p)
+    sys.path.insert(0, p)
+
+
+# unittest discover already has HERE on sys.path; a naive insert-if-absent
+# lets g5-packed-field-v1/experiment.py shadow this capsule.
+_prefer(SRC)
+_prefer(G5)
+_prefer(HERE)
+
+import importlib.util
+
+_spec = importlib.util.spec_from_file_location(
+    "h2_sparse_cognition_experiment", HERE / "experiment.py"
+)
+E = importlib.util.module_from_spec(_spec)
+sys.modules["h2_sparse_cognition_experiment"] = E
+_spec.loader.exec_module(E)
 import sparse_index as S
 from packed_space import PackedKnowledgeSpace
 

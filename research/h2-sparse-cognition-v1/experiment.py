@@ -18,9 +18,18 @@ ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 G5 = REPO / "research" / "g5-packed-field-v1"
 SRC = REPO / "src"
-for path in (str(SRC), str(G5), str(ROOT)):
-    if path not in sys.path:
-        sys.path.insert(0, path)
+
+
+def _prefer(path: Path) -> None:
+    p = str(path)
+    while p in sys.path:
+        sys.path.remove(p)
+    sys.path.insert(0, p)
+
+
+_prefer(SRC)
+_prefer(G5)
+_prefer(ROOT)
 
 from ocm.kso.space import Atom, Hyperedge, KnowledgeSpace
 from ocm.kso.warrant import WarrantProfile

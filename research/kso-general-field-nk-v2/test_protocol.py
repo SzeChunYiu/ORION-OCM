@@ -11,11 +11,27 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 G5 = REPO / "research" / "g5-packed-field-v1"
 SRC = REPO / "src"
-for path in (str(SRC), str(G5), str(HERE)):
-    if path not in sys.path:
-        sys.path.insert(0, path)
 
-import experiment as E
+
+def _prefer(path: Path) -> None:
+    p = str(path)
+    while p in sys.path:
+        sys.path.remove(p)
+    sys.path.insert(0, p)
+
+
+_prefer(SRC)
+_prefer(G5)
+_prefer(HERE)
+
+import importlib.util
+
+_spec = importlib.util.spec_from_file_location(
+    "kso_general_field_nk_experiment", HERE / "experiment.py"
+)
+E = importlib.util.module_from_spec(_spec)
+sys.modules["kso_general_field_nk_experiment"] = E
+_spec.loader.exec_module(E)
 import indexes as I
 from packed_space import PackedKnowledgeSpace
 from ocm.kso.types import CORE_ATOM_TYPES, DEFAULT_REGISTRY, TypeRegistry
