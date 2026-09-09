@@ -1,0 +1,58 @@
+{
+ "analysis_id": "MZD5_ENCODING_FIT",
+ "created_utc": "2026-09-09T18:12:10Z",
+ "encoding": "E1_cgp (morphology/cgp_genome.py)",
+ "S1_surjectivity": {
+  "census_genomes": 56160,
+  "roundtrip_failures": 0,
+  "pass": true
+ },
+ "S2_legality": {
+  "mutations": 20000,
+  "illegal_decodes": 0,
+  "pass": true
+ },
+ "S3_overhead": {
+  "codec_decode_ms": 0.000868,
+  "encode_ms": 0.002907,
+  "incremental_ms": 0.003774,
+  "full_decode_ms_incl_shared_make": 0.009378,
+  "direct_sample_ms_incl_shared_make": 0.011845,
+  "eval_ms_reference": 0.084756,
+  "incremental_share_of_eval": 0.0445,
+  "pass": true
+ },
+ "S4_neutrality": {
+  "random_genotypes": 20000,
+  "distinct_organisms": 16854,
+  "census_size": 56160,
+  "mean_genotypes_per_hit": 1.1867,
+  "max_hits_one_organism": 5,
+  "pass": true,
+  "note": "uniform genotypes induce a NON-uniform organism distribution; the D5 study must charge CGP arms the same eval budget, not the same genome budget"
+ },
+ "S5_locality": {
+  "direct": {
+   "pairs": 1028,
+   "pairs_skipped_infeasible": 6972,
+   "dev_jump_mean": 0.007018,
+   "dev_jump_median": 0.0,
+   "dev_jump_p90": 0.0285,
+   "s3d_jump_mean": 0.050705,
+   "s3d_jump_median": 0.0,
+   "s3d_jump_p90": 0.0
+  },
+  "cgp": {
+   "pairs": 921,
+   "pairs_skipped_infeasible": 7079,
+   "dev_jump_mean": 0.007617,
+   "dev_jump_median": 0.0,
+   "dev_jump_p90": 0.027,
+   "s3d_jump_mean": 0.07709,
+   "s3d_jump_median": 0.0,
+   "s3d_jump_p90": 0.5
+  },
+  "asymmetry_note": "direct mutate() samples the FULL schema vocabularies (can leave CENSUS_BOUND_V1; out-of-bound discovery is how V1 arms exceeded the census optimum) while E1_cgp decode is bound-locked by construction; the D5 study must report this coverage/reach tradeoff explicitly, and skipped-pair counts above are part of the measurement"
+ },
+ "gate_decision": "ENCODING_FIT_DEMONSTRATED for E1_cgp \u2014 all structural criteria pass; locality measured and DIFFERENT from direct (see S5). The D5 scored comparison (direct vs CGP arms at equal evals) still requires its own numbered freeze amendment before any scored run."
+}

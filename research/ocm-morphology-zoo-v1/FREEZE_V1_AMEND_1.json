@@ -1,0 +1,56 @@
+{
+ "amendment_id": "FREEZE_V1_AMEND_1",
+ "amends": "FREEZE_V1.json",
+ "freeze_v1_sha256": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+ "created_utc": "2026-09-09T20:05:00Z",
+ "motivation": {
+  "problem": "Under FREEZE_V1 axes the grid archives are structurally capped: exhaustive truth occupies 4/100 S_structural_2d@10 cells and 2/100 B_behavior_2d@10 cells, so any MAP-Elites-family archive can retain at most 4 (resp. 2) elites regardless of search quality. Production MZ-D3 confirmed saturation (S/B cell recovery 0.0-1.0 with <=5 elites retained).",
+  "lever": "Finer resolution and/or higher-dimensional descriptor axes: S_structural_3d@10, S_structural_2d@20, B_behavior_2d@20, and CVT-64 over S_DIMS with exhaustive deterministic centroids (replacing the arm's 500-sample centroids with census truth for scoring).",
+  "scope": "Denominators change; therefore this numbered amendment is mandatory before any new scored run (freeze discipline). Budget, seeds, evaluation, objectives, and the Pareto denominator (387) are unchanged from FREEZE_V1."
+ },
+ "census_truth_P00B": {
+  "run_id": "zoo-census-p00b",
+  "receipt_head": "79e8773d5ad44fde79503841eb22eeddf4baf6f07520c43fbd14d9a58c8c8c7b",
+  "config_digest": "9ec607f3d9c7a86e54d678bc9fe1383cea95326f0b675404c813427e2e6375c5",
+  "truth_file": "archives/CENSUS_P00B_TRUTH.json",
+  "controls_reverified": {
+   "S2d@10_occupied": 4,
+   "B2d@10_occupied": 2,
+   "note": "bit-identical re-derivation of FREEZE_V1 denominators; controls MUST equal FREEZE_V1 census_truth_P00 or the amendment is void"
+  },
+  "denominators_amended": {
+   "S3d@10_occupied": 8,
+   "S2d@20_occupied": 4,
+   "B2d@20_occupied": 4,
+   "CVT64_occupied_niches": 18
+  },
+  "dim_value_spread_feasible": {
+   "centralization": 4,
+   "unit_type_entropy": 1,
+   "module_count": 2,
+   "expansions_per_solved": 12,
+   "method_reuse_fraction": 2
+  },
+  "interpretation_note": "Resolution alone does NOT lift the cap: S2d@20 still occupies 4 cells because unit_type_entropy takes exactly 1 distinct value across all 14904 feasible genomes. The amended ceilings are intrinsic descriptor-function degeneracy under CENSUS_BOUND_V1: max 8 distinguishable S cells (3d), 4 B cells, 18 CVT niches (k-means on 14904 exhaustive points collapses k=64 to 18 distinct centroids, all occupied)."
+ },
+ "arm_config_changes": {
+  "P03_map_elites": {"archive": "S_structural_3d", "res": 10},
+  "P05_map_elites_B": {"archive": "B_behavior_2d", "res": 20},
+  "P09_mome": {"archive": "S_structural_3d", "res": 10}
+ },
+ "arms_unchanged": ["P01_random_search", "P02_nsga2", "P04_nslc", "P06_cvt_map_elites", "P11_lexicase"],
+ "production_MZ_D3_amend1": {
+  "budget": 40000,
+  "seeds": [0, 1, 2],
+  "arms_live": ["P01_random_search", "P02_nsga2", "P03_map_elites", "P04_nslc", "P05_map_elites_B", "P06_cvt_map_elites", "P09_mome", "P11_lexicase"],
+  "arms_deferred": ["P07_island", "P08_poet", "P10_cma_me", "P12_meta", "P13_surrogate", "P14_pbt", "P15_cma_mae"]
+ },
+ "scoring_rules_amend1": {
+  "uniform_recompute": "Every arm's retained elites are re-evaluated and their descriptors recomputed from genomes; cell recovery is then measured on ALL amended axes: S3d@10 (denominator 8), B2d@20 (denominator 4), CVT census niches (denominator 18, nearest exhaustive census centroid).",
+  "pareto_recovery": "unchanged: exact-Pareto phenotype set of 387 from FREEZE_V1 census_truth_P00",
+  "comparisons": ["same_eval_count (budget 40000 all arms)", "same_cpu_hour (wall-clock x cores reported per arm)"],
+  "cap_lift_question": "Primary question: does MAP-Elites-family elite retention rise from <=5 toward the amended ceilings (8/4/18)? If S/B/CVT cell counts still saturate at the amended ceilings, the obstruction is proven to be descriptor-function degeneracy (structural under CENSUS_BOUND_V1), not grid resolution and not search failure.",
+  "secondary_question": "Does random search still lead Pareto recovery at equal evals (V1 result 0.3824 vs next-best 0.1111)?"
+ },
+ "status": "FROZEN before any amend-1 scored run"
+}
