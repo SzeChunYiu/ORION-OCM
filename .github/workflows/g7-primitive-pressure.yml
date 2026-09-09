@@ -1,0 +1,100 @@
+name: G7 primitive pressure
+
+on:
+  pull_request:
+    paths:
+      - 'research/g7-primitive-pressure-v1/**'
+      - 'research/g7-lineage-v1/RESULT.json'
+      - 'research/g7-lineage-d2-v2/RESULT.json'
+      - 'research/g7-lineage-d3-v3/RESULT.json'
+      - 'research/g7-lineage-d4-v4/RESULT.json'
+      - 'research/g7-lineage-d5-v5/RESULT.json'
+      - 'research/g7-lineage-d6-v6/RESULT.json'
+      - '.github/workflows/g7-primitive-pressure.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g7-primitive-pressure-v1/**'
+      - '.github/workflows/g7-primitive-pressure.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  primitive-pressure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-primitive-pressure-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g7-primitive-pressure-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g7-primitive-pressure-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Primitive-pressure study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-primitive-pressure-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B research/g7-primitive-pressure-v1/experiment.py --out "$out/RESULT.json" \
+            | tee "$out/console.txt"
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g7-primitive-pressure-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "PRIMITIVE_PRESSURE_DECLINES_AT_SCOPE",
+              "PRIMITIVE_PRESSURE_PERSISTS",
+              "PARENT_SUFFICIENT",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          banned = {
+              "PHASED_COGNITIVE_DEVELOPMENT",
+              "DEVELOPMENTAL_EVOLVABILITY_SUPPORTED",
+              "CAUSAL_METHOD_REUSE_SUPPORTED",
+              "PROGRAMME_CLOSED",
+          }
+          if result["terminal"] in banned:
+              sys.exit("banned terminal %s" % result["terminal"])
+          if result.get("programme_tick"):
+              sys.exit("this capsule must not tick programme-wide close")
+          if result.get("issue_73"):
+              sys.exit("this capsule must not claim #73")
+          if result.get("historical_m11_relabeled"):
+              sys.exit("M11 relabel is not licensed")
+          if result.get("src_edited") or result.get("lineage_rerun") or result.get("ml_trained"):
+              sys.exit("src edit, lineage rerun, or ML is not licensed")
+          if result.get("earned_transitions") != 7:
+              sys.exit("expected seven earned transitions")
+          print(result["terminal"])
+          PY
+          cp research/g7-primitive-pressure-v1/RESULT.json "$out/capsule-RESULT.json"
+      - name: Frozen G7 lineage RESULT files not overwritten
+        run: |
+          git diff --exit-code -- \
+            research/g7-lineage-v1/RESULT.json \
+            research/g7-lineage-d2-v2/RESULT.json \
+            research/g7-lineage-d3-v3/RESULT.json \
+            research/g7-lineage-d4-v4/RESULT.json \
+            research/g7-lineage-d5-v5/RESULT.json \
+            research/g7-lineage-d6-v6/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g7-primitive-pressure
+          path: '${{ runner.temp }}/g7-primitive-pressure-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
