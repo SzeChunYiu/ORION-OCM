@@ -232,6 +232,58 @@ def test_gs_run_refuses_frozen_keys_in_batch_spec():
         shutil.rmtree(tmp)
 
 
+def test_gs_run_lane_samplers_produce_genomes():
+    """R1 defect regression: gs_run's lane wiring once passed the lane
+    sampler FACTORY as the draw, so every cohort element was a function
+    object (AttributeError in compile_genome, silently swallowed by the
+    SH loop — counts full, cpu ~0, ZERO failure-ledger entries).  A
+    correct run over the units lane must charge REAL evaluations: the
+    per-task failure ledger must exist and hold gate-failure entries,
+    and the eval loop must consume real CPU."""
+    tmp = tempfile.mkdtemp(prefix="gslane_test_")
+    try:
+        for d in ("morphology", "evaluation", "search", "hpc"):
+            os.symlink(os.path.join(ROOT, d), os.path.join(tmp, d))
+        for d in ("results", "archives", "manifests/receipts"):
+            os.makedirs(os.path.join(tmp, d))
+        freeze = {
+            "schema": "GRAND_SEARCH_R1_FREEZE_V1",
+            "code_digest": _code_digest(tmp),
+            "arms": {"GSA1_units": {"lane": "units", "rank": "novelty",
+                                    "t0_budget_per_seed": 27, "n0": 9}},
+            "successive_halving": {"eta": 3, "late_bloomer_fraction": 0.15},
+            "novelty_space": {"archive_cap": 16, "archive_floor": 4,
+                              "k_nn": 3},
+            "environment": {"novelty_archive_impl": "builtin",
+                            "surrogate_impl": "builtin"},
+        }
+        json.dump(freeze, open(os.path.join(
+            tmp, "GRAND_SEARCH_R1_FREEZE.json"), "w"))
+        p = subprocess.run(
+            [sys.executable, os.path.join(ROOT, "hpc", "gs_run.py"),
+             tmp, "GSA1_units", "0"],
+            capture_output=True, text=True)
+        assert p.returncode == 0, (p.stdout + p.stderr)[-800:]
+        rid = "GS_R1_GSA1_units_s0"
+        out = json.load(open(os.path.join(tmp, "results", rid + ".json")))
+        assert out["counts"]["T0"] == 27
+        # real evaluations cost CPU; the defective wiring ran 27 raises in
+        # ~1e-4 s
+        assert out["cpu_seconds"] > 0.05, out["cpu_seconds"]
+        # the per-task failure ledger must exist with gate-failure entries
+        # (the defect left NO ledger at all)
+        led = os.path.join(tmp, "results", "FAILURES_%s.jsonl"
+                           % "GSA1_units_s0")
+        assert os.path.exists(led), "failure ledger missing"
+        entries = [json.loads(x) for x in open(led)]
+        gate_fails = [e for e in entries
+                      if str(e.get("stage", "")).startswith("gate:")]
+        assert gate_fails, "no gate-failure entries among %d" % len(entries)
+        assert out["n_failure_entries"] == len(entries)
+    finally:
+        shutil.rmtree(tmp)
+
+
 def _code_digest(root):
     import hashlib
     h = hashlib.sha256()

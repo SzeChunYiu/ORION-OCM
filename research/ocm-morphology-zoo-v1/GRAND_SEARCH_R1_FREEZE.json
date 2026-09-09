@@ -1,0 +1,427 @@
+{
+  "amends": "FREEZE_V1_AMEND_4.json",
+  "ancestor_chain_sha256": {
+    "FREEZE_V1.json": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+    "FREEZE_V1_AMEND_1.json": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+    "FREEZE_V1_AMEND_2.json": "97388119ef35485cf6d50e7cf0c696a0c8e555d1153c6d603e39de3d88745cd0",
+    "FREEZE_V1_AMEND_3.json": "deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e",
+    "FREEZE_V1_AMEND_4.json": "b51a9959e3cfaa5ba47773111119516c1d6f480f63ecdc898234145e4dff263f"
+  },
+  "arms": {
+    "GSA1_units": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "novelty+viability SH",
+      "lane": "units",
+      "n0": 729,
+      "rank": "novelty",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    },
+    "GSA2_hetero": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "novelty+viability SH",
+      "lane": "hetero",
+      "n0": 729,
+      "rank": "novelty",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    },
+    "GSA3_farch": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "novelty+viability SH",
+      "lane": "farch",
+      "n0": 729,
+      "rank": "novelty",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    },
+    "GSA4_obasis": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "novelty+viability SH",
+      "lane": "obasis",
+      "n0": 729,
+      "rank": "novelty",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    },
+    "GSA5_surrogate": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only); surrogate ranks promotions ONLY, never waives a gate",
+      "algorithm": "surrogate-ranked SH",
+      "lane": "hetero",
+      "n0": 729,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    },
+    "GSE_sweep": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only); no SH ladder \u2014 every enumerated candidate faces the gates once",
+      "algorithm": "exhaustive enumeration of GS_BOUND_V1 (sharded, viability only)",
+      "shard_size": 499590,
+      "shards": 288
+    },
+    "GSR_random_control": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "SH, random rank",
+      "lane": "uniform",
+      "n0": 729,
+      "rank": "random",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "t0_budget_per_seed": 45000
+    }
+  },
+  "baselines_acceleration": {
+    "amend3_t2_arms": {
+      "P01_random_search_T2": {
+        "cpu_hours": 0.006757,
+        "evals": 40000.0,
+        "morphologies_per_cpu_hour": 181934.78363178927,
+        "n_elites": 1229.333333
+      },
+      "P03_map_elites_T2": {
+        "cpu_hours": 0.003519,
+        "evals": 40000.0,
+        "morphologies_per_cpu_hour": 3315.3358908780906,
+        "n_elites": 11.666667
+      },
+      "P05_map_elites_D2d": {
+        "cpu_hours": 0.004798,
+        "evals": 40000.0,
+        "morphologies_per_cpu_hour": 12157.843476448521,
+        "n_elites": 58.333333
+      },
+      "P06_cvt_map_elites_D": {
+        "cpu_hours": 0.004636,
+        "evals": 40000.0,
+        "morphologies_per_cpu_hour": 12510.785159620362,
+        "n_elites": 58.0
+      },
+      "P09_map_elites_D3d": {
+        "cpu_hours": 0.005367,
+        "evals": 40000.0,
+        "morphologies_per_cpu_hour": 21986.21203651947,
+        "n_elites": 118.0
+      }
+    },
+    "files": {
+      "AGGREGATE_AMEND2.json": "4e549c9fb5d0d8370afcd2a2a85e84b07a761d318695cee59b48a259ae14138c",
+      "AGGREGATE_AMEND3.json": "624347970cf9e233507b8c817563c1ed86cd915efb4c87796fb89d73e377f645",
+      "AGGREGATE_AMEND4.json": "2c89ed168275fa151c86af7c4d9d5d381c80c84ccd1eb78622cec259d36020e5"
+    },
+    "frozen_baseline": {
+      "arm": "P01_random_search_T2",
+      "definition": "max over amend-3 T2 cells of n_elites/cpu_hours (distinct-elite morphologies per CPU-hour at the matched 40k-eval T2 budget)",
+      "morphologies_per_cpu_hour": 181934.78363178927
+    },
+    "matched_tier": "T2"
+  },
+  "code_digest": "ff689c4300291ffcea6c6fc49323ca7aa13000b7772e02dce69e2da61eebb7b3",
+  "created_utc": "2026-09-09T22:41:23Z",
+  "created_utc_by": "hpc/freeze_gs.py at freeze time (tool-stamped; amend-3 timing-erratum discipline)",
+  "environment": {
+    "env_probe_sha256": "012e0d0bddbb29ab695fcb9fa8845f0fe87e36b5e08d5aee1b7741b77b51d1fb",
+    "impl_semantics": {
+      "ribs": "pyribs ProximityArchive admission (k=15, static novelty_threshold=0.0, capacity=cap, seed pinned); cap-overflow REJECTS instead of evicting the least novel (documented delta vs builtin)",
+      "sklearn": "HistGradientBoosting heads, library defaults, random_state pinned"
+    },
+    "novelty_archive_impl": "ribs",
+    "packages": {
+      "deap": "1.4",
+      "hpbandster": null,
+      "nevergrad": null,
+      "optuna": "5.0.0",
+      "qdax": null,
+      "ribs": "0.12.0",
+      "sklearn": "1.9.0"
+    },
+    "probe_host": "cosmos3.int.lunarc",
+    "probe_python": "3.11.5",
+    "surrogate_impl": "sklearn"
+  },
+  "failure_memory": {
+    "auto_append": "every failed evaluation task (gate failure or crash) appends candidate_id/tier/counterexample/one-stage attribution",
+    "next_round_use": "gate/sampler prior \u2014 never a skip rule (skipping would bias cost comparisons)",
+    "schema": "GS_FAILURE_V1"
+  },
+  "forbidden_terminals": [
+    "AGI",
+    "GENERAL_INTELLIGENCE_PROVEN",
+    "NEW_FORM_OF_INTELLIGENCE_PROVEN",
+    "SUPERIOR_TO_NEURAL_INTELLIGENCE",
+    "OPEN_ENDED_EVOLUTION_SOLVED"
+  ],
+  "freeze_id": "GRAND_SEARCH_R1",
+  "governing_plan": "issue #221 sec 18 (operator directive 2026-09-09)",
+  "heldout_t3": {
+    "draw": {
+      "t3_chain_transfer": {
+        "depth_mult": 0.9477,
+        "hops": 3.8768
+      },
+      "t3_conflict_refusal": {
+        "pairs": 2.903
+      },
+      "t3_doubt_probe": {
+        "contradictions": 2.4563,
+        "probe_yield": 2.12
+      },
+      "t3_interrupted_plan": {
+        "interrupts": 1.6179,
+        "redepth": 5.9948
+      },
+      "t3_novel_variant": {
+        "depth_mult": 1.2634,
+        "variants": 4.5783
+      },
+      "t3_scale_retrieval": {
+        "items_mult": 7.1525,
+        "k": 5.3466
+      }
+    },
+    "evaluated_only_on": "R1 survivors (T2-viable distinct phenotypes across GSA arms)",
+    "families": [
+      "t3_chain_transfer",
+      "t3_doubt_probe",
+      "t3_scale_retrieval",
+      "t3_conflict_refusal",
+      "t3_novel_variant",
+      "t3_interrupted_plan"
+    ],
+    "floor": "CAPABILITY_FLOOR_V1 = 0.5 (unchanged)",
+    "key_sha256": "4d0a1487e442744930436b7dcee4daac9d787dbb5e27745708a4e85d00548780",
+    "t3_key_id": "GSHeldoutT3V1:4d0a1487e4427449"
+  },
+  "metric_acceleration": {
+    "baseline": "frozen_baseline.morphologies_per_cpu_hour (amend-3 T2, matched 40k-eval budget)",
+    "gs": "distinct T2-viable phenotype digests per CPU-hour per GSA arm, all seeds and all failed evals charged"
+  },
+  "novelty_space": {
+    "archive_cap": 4096,
+    "archive_floor": 64,
+    "bounds": [
+      [
+        0.0,
+        32.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0
+      ]
+    ],
+    "dims": [
+      "expansions_per_solved",
+      "method_reuse_fraction",
+      "centralization",
+      "unit_type_entropy"
+    ],
+    "k_nn": 15,
+    "registry": [
+      "B_behavior_2d",
+      "S_structural_2d"
+    ]
+  },
+  "per_survivor_rules": [
+    {
+      "condition": "survivor feasible on held-out T3",
+      "id": "SURVIVOR_T3_GENERALIZATION_HOLD"
+    },
+    {
+      "condition": "otherwise",
+      "id": "SURVIVOR_T3_GENERALIZATION_FAIL"
+    }
+  ],
+  "schema": "GRAND_SEARCH_R1_FREEZE_V1",
+  "search_bound": {
+    "amend5_note": "CENSUS_BOUND_V1 and census-observed maxima are DESCRIPTIVE statistics of the amend-1..4 runs, never bounds on the mutated space: sampling and mutation draw from GS_BOUND_V1's vocabulary (12 unit types vs the census's 9), which is the sole declared bound of this campaign",
+    "bound_id": "GS_BOUND_V1",
+    "note": "O_basis derived from (units, L, K, R) via operators_for \u2014 sampling over operators = sampling their enablers",
+    "size": 143881920,
+    "vocab": {
+      "F_arch": [
+        "approx_projection_vsa",
+        "blackboard_production",
+        "event_sourced_tms",
+        "factorized_field",
+        "flat_typed_relational",
+        "hierarchical_fibred",
+        "hypergraph_metagraph",
+        "kso_reference",
+        "library_procedural",
+        "typed_property_graph"
+      ],
+      "K": [
+        "consolidated_schema_residual",
+        "episodic_store",
+        "persistent_facts",
+        "persistent_facts_index",
+        "procedural_store",
+        "volatile_only"
+      ],
+      "L": [
+        "anti_unification_schema",
+        "consolidation_schema_residual",
+        "exemplar_persistence",
+        "library_learning",
+        "none",
+        "representation_split",
+        "rewrite_egraph_abstraction",
+        "scoped_nogood",
+        "verifier_guided_cegis"
+      ],
+      "Pi_arch": [
+        "adaptive_probe_policy",
+        "blackboard_bidding_agenda",
+        "cost_aware_metapolicy",
+        "distributed_propose_central_commit",
+        "event_driven_local",
+        "exact_global_queue",
+        "hierarchical_executive"
+      ],
+      "R": [
+        "dependency_cone_reopen",
+        "full_rescan",
+        "none"
+      ],
+      "T_family": [
+        "central_blackboard_star",
+        "distributed_local_controllers",
+        "growing_pruning",
+        "hierarchy_tree",
+        "layered_dag",
+        "recurrent_event_graph",
+        "small_world_sparse",
+        "sparse_modular"
+      ],
+      "bound_id": "GS_BOUND_V1",
+      "extra_units": [
+        "abstraction_schema",
+        "assoc_similarity",
+        "constraint_solver",
+        "diagnostic_probe",
+        "episodic_memory",
+        "exact_index",
+        "fsm_controller",
+        "local_executive",
+        "procedural_memory",
+        "production_rule",
+        "rewrite_program",
+        "search_planner"
+      ],
+      "max_extra_units": 5
+    }
+  },
+  "status": "frozen_before_scored_runs",
+  "successive_halving": {
+    "eta": 3,
+    "late_bloomer_fraction": 0.15,
+    "min_promote": 3,
+    "rungs": [
+      "T0",
+      "T1",
+      "T2"
+    ],
+    "tier_defs": {
+      "T0": "evaluation/evaluate.py evaluate_genome tier T0 (V1 exact micro-worlds)",
+      "T1": "evaluation/gs_t1.py evaluate_t1 = run_lifetime2(reset=False), tier-labelled T1 (GS definition; evaluate.py T1 stays NotImplementedError for MZ-D7)",
+      "T2": "evaluation/evaluate.py evaluate_genome tier T2 (developmental lifetime + reset control)"
+    }
+  },
+  "supersedes_sha256": null,
+  "surrogate": {
+    "depth": 2,
+    "k": 7,
+    "n_trees": 24,
+    "role": "ranks promotions ONLY; never an OCM component (#71); predictions never count as earned capability",
+    "subspace": 12,
+    "surrogate_id": "GS_ENSEMBLE_SURROGATE_V2"
+  },
+  "t3_key": "gs-t3-12cc0aa192f4b6b6dc2df4474032bd6ad8b8a624c12b978c56ef085f76c31adf",
+  "terminal_rules_first_match": [
+    {
+      "condition": "zero search-arm tasks completed with evals",
+      "id": "CANNOT_CHECK_NO_SCORED_DISPOSITIONS",
+      "order": 1,
+      "vocab": "CANNOT_CHECK_NO_SCORED_DISPOSITIONS"
+    },
+    {
+      "condition": "GSE sweep fully complete AND its distinct-viable morphologies-per-CPU-hour >= best GSA arm",
+      "id": "MORPHOLOGY_SEARCH_COST_DOMINATES__SWEEP",
+      "order": 2,
+      "vocab": "MORPHOLOGY_SEARCH_COST_DOMINATES"
+    },
+    {
+      "condition": "best GSA arm morphologies-per-CPU-hour > frozen baseline AND >=2 distinct F_arch families among that arm's distinct T2-viable survivors",
+      "id": "ACCELERATION_POSITIVE",
+      "order": 3,
+      "vocab": "DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE"
+    },
+    {
+      "condition": "all completed GSA arms <= frozen baseline",
+      "id": "ACCELERATION_NEGATIVE",
+      "order": 4,
+      "vocab": "MORPHOLOGY_SEARCH_COST_DOMINATES"
+    },
+    {
+      "condition": "GSA5 completed AND GSA5 morphologies-per-CPU-hour < median(GSA1..GSA4 completed)",
+      "id": "SURROGATE_NOT_TRUSTWORTHY",
+      "order": 5,
+      "vocab": "SURROGATE_NOT_TRUSTWORTHY"
+    },
+    {
+      "condition": "otherwise (honest partials; round repeats)",
+      "id": "MIXED_INTERMEDIATE_NO_TERMINAL",
+      "order": 6,
+      "vocab": "CANNOT_CHECK_PARTIAL_DISPOSITIONS"
+    }
+  ],
+  "wall_clock_budget_h": 24
+}

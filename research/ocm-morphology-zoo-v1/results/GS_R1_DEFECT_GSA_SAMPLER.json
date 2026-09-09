@@ -1,0 +1,22 @@
+{
+ "defect_id": "GSA_SAMPLER_FACTORY_WIRING",
+ "evidence": [
+  "GS_R1_GSA1_units_s0: counts T0=45000, cpu_seconds=0.167, n_failure_entries=0, distinct=0, T1=T2=0",
+  "GSR_random_control_s0 (sampler=None -> random_genome): cpu 18.781s, 11441 ledger lines, 33559 viable - same host, same loop",
+  "diagnostic job 3587716 (compute node cn057-class, instrumented gsprobe): first T0 draw traceback AttributeError 'function' object has no attribute 'U' at morphology/compile.py:80 {u.unit_id: u for u in genome.U}",
+  "diagnostic job 3587719 (lane_weights path, weighted_sampler): 54/54 REAL evals, 54 ledger entries, 0 exceptions - the frozen adaptive-batch branch is correct"
+ ],
+ "recorded_utc": "2026-09-10T00:05:00Z",
+ "repair": {
+  "code_fix": "hpc/gs_run.py: _lane_draw = lane_sampler(lane, None); sampler = lambda r: _lane_draw(r) \u2014 committed to zoo/gs-round1 as the queued fix for the NEXT freeze; NOT deployed to the R1 capsule (scored runs exist, supersession forbidden). Regression test test_gs_run_lane_samplers_produce_genomes validated fail-on-defect / pass-on-fix on billy-laptop.",
+  "in_campaign": "GSAB1 adaptive batch (30 tasks: 5 lane arms x seeds 0-5, lane_weights pinning each arm's lane at 1.0, t0_budget=45000/task) through the verified lane_weights branch; decision ledgered in ADAPTIVITY_LEDGER.jsonl BEFORE submission; frozen keys untouched; original defective dispositions retained as scored artifacts",
+  "secondary_observation": "Lane viability on LUNARC py3.11 is ~0% (84/84 units-lane draws infeasible: GATE_CORRECTNESS 54, GATE_CAPABILITY_FLOOR attribution) vs 1.5-16.5% on billy-laptop py3.8 with identical code+digest - a real host-divergence lead, tracked separately from the wiring defect."
+ },
+ "root_cause": {
+  "line": "sampler = (lambda r: lane_sampler(lane, r))",
+  "location": "hpc/gs_run.py line 186 (frozen capsule, freeze 4dd79f8e, code_digest ff689c43)",
+  "mechanism": "lane_sampler(lane, rng) is a FACTORY returning the lane's sampler (function or round-robin instance), not a genome. The lambda passed the factory's RETURN as the cohort draw, so every GSA cohort element was a sampler object. compile_genome raised AttributeError ('function' object has no attribute 'U') at ~3.7us/genome; the SH loop's bare except swallowed all of them silently, and the inner failure-ledger append ALSO raised (g.digest() on a function) so nothing was ledgered."
+ },
+ "schema": "GS_R1_DEFECT_ANNOTATION_V1",
+ "severity": "invalidates GSA1-GSA5 lane-arm scored dispositions (30/36 search tasks); GSR + GSE sweep unaffected"
+}

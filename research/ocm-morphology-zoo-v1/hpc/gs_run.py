@@ -183,7 +183,16 @@ def main() -> None:
     if TASK_SPEC and TASK_SPEC.get("lane_weights"):
         sampler = weighted_sampler(TASK_SPEC["lane_weights"], random.Random(SEED))
     elif lane != "uniform":
-        sampler = (lambda r: lane_sampler(lane, r))
+        # lane_sampler is a FACTORY: it returns the lane's sampler (a
+        # function or round-robin instance), NOT a genome.  The frozen
+        # R1 campaign wrapped the factory itself as the draw, so every
+        # GSA cohort element was a sampler object (AttributeError in
+        # compile_genome, silently swallowed by the SH loop's bare
+        # except — 45000 zero-cost "evals"/arm, no ledger).  Deferred to
+        # the next freeze (scored R1 artifacts exist); R1 lane arms are
+        # repaired additively via the adaptive-batch lane_weights path.
+        _lane_draw = lane_sampler(lane, None)
+        sampler = (lambda r: _lane_draw(r))
     else:
         sampler = None
 

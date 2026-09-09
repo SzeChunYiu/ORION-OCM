@@ -1,0 +1,307 @@
+{
+ "batch_id": "GSAB1",
+ "checkpoint_consumed": "results/GS_R1_AGGREGATE.json@2026-09-10T00:53Z (terminal MIXED_INTERMEDIATE_NO_TERMINAL) + defect diagnosis jobs 3587716/3587719",
+ "rationale": "Repair of lane-arm sampler wiring defect: gs_run.py:186 passed lane_sampler(lane, r) itself as the cohort draw, so every GSA1-5 campaign task evaluated the SAMPLER OBJECT (AttributeError 'function' has no 'U' in compile_genome, 3.7us/eval, 45000/seed, zero ledger) instead of genomes. The lane_weights branch (weighted_sampler) is verified correct end-to-end on a compute node (job 3587719: 54/54 real evals, 54 ledger entries, 0 exceptions). This batch re-runs all five lane arms at the frozen per-seed budget through that correct branch, allocation-only, frozen keys untouched. Original defective dispositions are retained as scored artifacts; this batch is additive.",
+ "tasks": [
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 0,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s0"
+  },
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 1,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s1"
+  },
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 2,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s2"
+  },
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 3,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s3"
+  },
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 4,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s4"
+  },
+  {
+   "base_arm": "GSA1_units",
+   "kind": "search",
+   "lane_weights": {
+    "units": 1.0
+   },
+   "seed": 5,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_units_s5"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 0,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s0"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 1,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s1"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 2,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s2"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 3,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s3"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 4,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s4"
+  },
+  {
+   "base_arm": "GSA2_hetero",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 5,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_hetero_s5"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 0,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s0"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 1,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s1"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 2,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s2"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 3,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s3"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 4,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s4"
+  },
+  {
+   "base_arm": "GSA3_farch",
+   "kind": "search",
+   "lane_weights": {
+    "farch": 1.0
+   },
+   "seed": 5,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_farch_s5"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 0,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s0"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 1,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s1"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 2,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s2"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 3,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s3"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 4,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s4"
+  },
+  {
+   "base_arm": "GSA4_obasis",
+   "kind": "search",
+   "lane_weights": {
+    "obasis": 1.0
+   },
+   "seed": 5,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_obasis_s5"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 0,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s0"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 1,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s1"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 2,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s2"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 3,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s3"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 4,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s4"
+  },
+  {
+   "base_arm": "GSA5_surrogate",
+   "kind": "search",
+   "lane_weights": {
+    "hetero": 1.0
+   },
+   "seed": 5,
+   "t0_budget": 45000,
+   "task_id": "GSAB1_surrogate_s5"
+  }
+ ]
+}
