@@ -26,6 +26,7 @@ torch.use_deterministic_algorithms(True) is requested when available.
 from __future__ import annotations
 
 import math
+import os
 from typing import Any, Dict, List, Sequence, Tuple
 
 SURROGATE_SEED = 2210  # frozen; every member derives its own seed from it
@@ -156,6 +157,10 @@ class TorchMLP:
     def fit(self, X: Sequence[Sequence[float]], y: Sequence[float]) -> None:
         d = len(X[0])
         t = _torch
+        # cuBLAS GEMM determinism on cuda needs this env var set BEFORE the
+        # cublas handle is created, else F.linear raises under
+        # use_deterministic_algorithms (LUNARC A40 probe, job 3587276)
+        os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
         t.manual_seed(self.seed)
         if hasattr(t, "use_deterministic_algorithms"):
             try:
@@ -219,7 +224,10 @@ class SurrogateEnsemble:
         X = [[float(v) for v in row] for row in X]
         y = [float(v) for v in y]
         fitted = []
-        for name, m in self.members.items():
+        # iterate a SNAPSHOT: the handler pops the failed member out of
+        # self.members, which would otherwise raise "dictionary changed
+        # size during iteration" and kill the lane (LUNARC job 3587248)
+        for name, m in list(self.members.items()):
             try:
                 m.fit(X, y)
                 fitted.append(name)

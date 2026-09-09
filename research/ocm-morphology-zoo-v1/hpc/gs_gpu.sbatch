@@ -24,6 +24,13 @@ export PYTHONPATH="$ZOO"
 export ZOO_HOST=lunarc_gpu_a40
 PY=python3
 
+# rotate per-run failure log so every job's FAILURES.jsonl is its own
+# (append-only otherwise; stale lines from a superseded run misattribute)
+if [ -f "$ZOO/results/FAILURES.jsonl" ]; then
+  mv "$ZOO/results/FAILURES.jsonl" \
+     "$ZOO/results/FAILURES.jsonl.job$SLURM_JOB_ID"
+fi
+
 echo "=== [0] recon stamp ==="
 $PY hpc/gs_gpu_recon.py --root "$ZOO"
 
@@ -48,18 +55,24 @@ else
   echo "=== NO FREEZE staged — SMOKE_NOT_SCORED ==="
 fi
 
-echo "=== [2] T0 firehose, random 60000, torch backend, hourly ckpts ==="
+echo "=== [2] T0 firehose, random 60000, torch backend ON THE A40, hourly ckpts ==="
 $PY -m gpu.firehose --root "$ZOO" --mode random --n 60000 --seed 4210 \
-    --backend torch --chunk 8192 --lane gpu_a40 --checkpoint-every 3600 \
-    --tag R1 $FREEZE_ARGS
+    --backend torch --device cuda --chunk 8192 --lane gpu_a40 \
+    --checkpoint-every 3600 --tag R1 $FREEZE_ARGS
 
-echo "=== [3] census closure sweep (56160 legal genomes, full) ==="
+echo "=== [2b] chunk-scaling probe: one 60000-wide batch, cuda vs cpu-torch ==="
+$PY -m gpu.firehose --root "$ZOO" --mode random --n 60000 --seed 4212 \
+    --backend torch --device cuda --chunk 60000 --lane gpu_a40_probe \
+    --checkpoint-every 3600 --tag R1c60k $FREEZE_ARGS
+
+echo "=== [3] census closure sweep (56160 legal genomes, full, cuda) ==="
 $PY -m gpu.firehose --root "$ZOO" --mode census --backend torch \
-    --chunk 4096 --lane gpu_a40 --checkpoint-every 3600 --tag R1 $FREEZE_ARGS
+    --device cuda --chunk 4096 --lane gpu_a40 --checkpoint-every 3600 \
+    --tag R1 $FREEZE_ARGS
 
 echo "=== [4] search-side surrogate fit + calibration ==="
 $PY -m gpu.surrogate_fit --root "$ZOO" --n 4000 --seed 4211 \
-    --archive B_behavior_2d --backend torch
+    --archive B_behavior_2d --backend torch --device cuda
 
 echo "=== done; results in $ZOO/results ==="
 ls -la "$ZOO/results" | tail -40

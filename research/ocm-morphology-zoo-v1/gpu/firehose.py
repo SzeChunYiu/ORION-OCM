@@ -266,7 +266,7 @@ def run_firehose(mode: str, root: str, n: int = 1000, seed: int = 2210,
                  manifest_path: Optional[str] = None,
                  run_spec: Optional[Dict[str, Any]] = None,
                  lane: str = "gpu", checkpoint_every: float = 3600.0,
-                 tag: str = "") -> Dict[str, Any]:
+                 tag: str = "", device: str = "cpu") -> Dict[str, Any]:
     t_start = time.time()
     # --- scoring gate: SMOKE unless a sha-verified freeze exists
     label = SMOKE_LABEL
@@ -317,7 +317,7 @@ def run_firehose(mode: str, root: str, n: int = 1000, seed: int = 2210,
                            os.environ.get("ZOO_HOST", platform.node()),
                            "T0", cfg_digest)
 
-    backend = make_backend(backend_name)
+    backend = make_backend(backend_name, device)
     counters = {"encode_s": 0.0, "tape_s": 0.0, "attempted": 0,
                 "completed": 0, "feasible": 0, "failures": 0}
     phenotypes = set()
@@ -466,6 +466,9 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=2210)
     ap.add_argument("--backend", default="auto",
                     choices=["auto", "py", "numpy", "torch"])
+    ap.add_argument("--device", default="cpu",
+                    help="torch device (e.g. cuda) — without this, "
+                         "--backend torch runs on CPU (job 3587248 defect)")
     ap.add_argument("--chunk", type=int, default=4096)
     ap.add_argument("--freeze", default=None)
     ap.add_argument("--freeze-sha", default=None)
@@ -494,7 +497,7 @@ def main() -> None:
                  freeze_path=args.freeze, freeze_sha=args.freeze_sha,
                  manifest_path=args.manifest, run_spec=run_spec,
                  lane=args.lane, checkpoint_every=args.checkpoint_every,
-                 tag=args.tag)
+                 tag=args.tag, device=args.device)
 
 
 if __name__ == "__main__":

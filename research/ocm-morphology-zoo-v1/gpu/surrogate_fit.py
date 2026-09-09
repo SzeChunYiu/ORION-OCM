@@ -36,13 +36,15 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=4211)
     ap.add_argument("--archive", default="B_behavior_2d")
     ap.add_argument("--backend", default="auto")
+    ap.add_argument("--device", default="cpu")
     ap.add_argument("--holdout", type=float, default=0.2)
     args = ap.parse_args()
 
     t0 = time.time()
     genomes = [g for g in genomes_random(args.n, args.seed) if _ok(g)]
     batch = _encode.encode_batch(genomes)
-    tape = run_t0_tape(batch, make_backend(args.backend))
+    bk = make_backend(args.backend, args.device)
+    tape = run_t0_tape(batch, bk)
     X = descriptor_matrix(batch, tape, args.archive)
     y = [dev_score(rec["evaluation"]) for rec in tape]
     n_h = max(2, int(len(y) * args.holdout))
@@ -56,9 +58,11 @@ def main() -> None:
         "label": "SMOKE_NOT_SCORED",  # search-side ranking aid, never a score
         "archive": args.archive, "n_train": len(ytr), "n_holdout": n_h,
         "seed": args.seed, "members": stamp["members"],
+        "member_failures": stamp.get("member_failures", []),
         "sklearn_version": stamp["sklearn_version"],
         "torch_version": stamp["torch_version"],
-        "backend": make_backend(args.backend).name,
+        "backend": bk.name,
+        "backend_device": str(getattr(bk, "device", "") or ""),
         "calibration_spearman": cal,
         "note": "ranks promotions only; exact reevaluation is ground truth",
         "wall_s": round(time.time() - t0, 3),

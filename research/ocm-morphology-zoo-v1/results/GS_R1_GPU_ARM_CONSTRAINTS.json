@@ -31,5 +31,12 @@
   "engine": "torch 2.7.1+cu12.9 on NVIDIA A40 (VERIFIED, probe job 3587172 cg05)",
   "qdax_jax": "BLOCKED on LUNARC (jax absent from modules; pip --user staging exceeds home disk quota)",
   "see": "REUSE_AUDIT.md"
+ },
+ "confirmed_on_gpu": {
+  "jobs": "3587248 (cpu-torch), 3587251/3587301 (cuda, cg03/cg05)",
+  "encode_bound_on_device": "at n=60000 on the A40 node itself: encode_s 4.4 > tape_s 2.5 (cuda); the lane is CPU-encode-bound exactly as the constraint implies",
+  "chunk_scaling_probe": "chunk 60000 vs 8192 (seed 4212): tape_s 2.545 vs 2.547 — NO gain; A40 fp64 elementwise (1:64 rate) is not launch-bound at these widths, so chunk growth does not buy throughput for this tape",
+  "device_independent_receipts": "random-4210 receipt b7ef5569b8a2e295... and census receipt 145d6f615eb83aa4... IDENTICAL across cpu-torch (cg05) and cuda (cg03) runs; torch-vs-py identity max_abs_diff 0.0 on every run",
+  "surrogate": "4/4 members fit on cuda after CUBLAS_WORKSPACE_CONFIG=:4096:8 fix; ensemble Spearman 0.420567 (search-side ranking only)"
  }
 }

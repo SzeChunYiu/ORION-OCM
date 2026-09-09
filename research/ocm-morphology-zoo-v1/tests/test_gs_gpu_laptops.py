@@ -229,6 +229,29 @@ class SurrogateTests(unittest.TestCase):
         self.assertGreater(spearman_rho([1, 2, 3], [1, 2, 3]), 0.999)
         self.assertLess(spearman_rho([1, 2, 3], [3, 2, 1]), -0.999)
 
+    def test_failing_member_does_not_kill_fit(self):
+        # regression (LUNARC job 3587248): fit() popped the failed member
+        # out of self.members DURING iteration -> "dictionary changed size
+        # during iteration" killed the whole surrogate step
+        class Boom(object):
+            def fit(self, X, y):
+                raise ValueError("boom")
+
+            def predict(self, X):
+                return [0.0] * len(X)
+
+        s = SurrogateEnsemble(seed=5, use_torch=False, use_sklearn=False)
+        s.members["boom"] = Boom()
+        X, y = self._problem(n=60, seed=12)
+        stamp = s.fit(X, y)
+        self.assertEqual(stamp["members"], ["ridge_stdlib"])
+        self.assertTrue(any(m.startswith("boom:")
+                            for m in stamp.get("member_failures", [])))
+        self.assertIn("ridge_stdlib", s.members)
+        self.assertNotIn("boom", s.members)
+        cal = s.calibrate(X, y)
+        self.assertIn("ridge_stdlib", cal)
+
 
 class FirehoseSmoke(unittest.TestCase):
     def setUp(self):
