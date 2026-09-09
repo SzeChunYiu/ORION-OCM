@@ -134,22 +134,23 @@ def main():
     require("METHOD_COMPOSITION_SUPPORTED_AT_SCOPE" in json.dumps(snapshots["193_comments"]), "G3 source missing")
     require("EXACT_POLICY_SUFFICIENT" in snapshots["152"]["body"], "exact-parent source missing")
     before = snapshots["165"]
-    require(before["state"] == "open", "roadmap state changed")
+    require(before["state"] in {"open", "closed"}, "unrecognized issue state")
     after_body = transform(before["body"])
     require(transform(after_body) == after_body, "non-idempotent transformation")
     (out / "issue165-before.md").write_text(before["body"])
     (out / "issue165-after.md").write_text(after_body)
     fresh = request("/issues/165")
-    require((fresh["body"], fresh["updated_at"]) == (before["body"], before["updated_at"]), "concurrent issue edit; refuse overwrite")
+    require((fresh["body"], fresh["updated_at"], fresh["state"], fresh.get("state_reason")) == (before["body"], before["updated_at"], before["state"], before.get("state_reason")), "concurrent issue edit; refuse overwrite")
     if after_body != before["body"]:
         request("/issues/165", {"body": after_body})
     readback = request("/issues/165")
-    require(readback["body"] == after_body and readback["state"] == "open", "issue readback mismatch")
+    require(readback["body"] == after_body and readback["state"] == before["state"] and readback.get("state_reason") == before.get("state_reason"), "issue readback mismatch")
     report = {"terminal": "ISSUE165_SCOPED_EVIDENCE_SYNCHRONIZED", "issue": readback["html_url"],
               "updated_at": readback["updated_at"], "changed": after_body != before["body"],
               "before_sha256": hashlib.sha256(before["body"].encode()).hexdigest(),
               "after_sha256": hashlib.sha256(after_body.encode()).hexdigest(),
-              "restart_os_process_checked": False, "other_issues_closed": False}
+              "restart_os_process_checked": False, "other_issues_closed": False,
+              "issue_state_preserved": readback["state"], "state_reason_preserved": readback.get("state_reason")}
     (out / "SYNC-RESULT.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, sort_keys=True))
 
