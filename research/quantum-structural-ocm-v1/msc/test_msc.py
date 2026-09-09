@@ -301,7 +301,7 @@ class TestRegressionCountingSoundness(unittest.TestCase):
         # x and c1 out must REGROUP the class (two qedges), not merge it into one
         # qedge demanding both {x} and {y} counted before firing.
         atoms = (Atom("x", "claim"), Atom("y", "claim"),
-                 Atom("c1", "fact"), Atom("c2", "fact"))
+                 Atom("c1", "observation"), Atom("c2", "observation"))
         edges = (Hyperedge("e1", ("x",), ("c1",), "SUPPORT"),
                  Hyperedge("e2", ("y",), ("c2",), "SUPPORT"))
         ks = KnowledgeSpace(atoms, edges)
