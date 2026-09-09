@@ -1,0 +1,117 @@
+name: Issue 165 frozen 203 repeat
+on:
+  push:
+    branches: [research/g3-failure-representation-20260909]
+    paths: ['.github/workflows/issue165-frozen203-repeat.yml']
+permissions:
+  contents: read
+jobs:
+  frozen-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 29c0ec40bb377152e24b5e9cd5ad133daae6fa36
+          persist-credentials: false
+      - name: Export exact frozen files without altering source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/frozen203-source"
+          test "$(git rev-parse HEAD)" = 29c0ec40bb377152e24b5e9cd5ad133daae6fa36
+          git archive --format=tar.gz HEAD research/goal-only-lifecycle-v1 .github/workflows/goal-only-lifecycle.yml > "$RUNNER_TEMP/frozen203-source/frozen203.tar.gz"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/frozen203-source/GIT-TREE.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/frozen203-source/COMMIT.txt"
+          sha256sum "$RUNNER_TEMP/frozen203-source/frozen203.tar.gz" > "$RUNNER_TEMP/frozen203-source/SHA256.txt"
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-frozen203-source-${{ github.sha }}
+          path: ${{ runner.temp }}/frozen203-source/
+          retention-days: 30
+          if-no-files-found: error
+  unchanged-repeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 29c0ec40bb377152e24b5e9cd5ad133daae6fa36
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Preserve source and interpreter identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/frozen203-repeat"
+          test "$(git rev-parse HEAD)" = 29c0ec40bb377152e24b5e9cd5ad133daae6fa36
+          git rev-parse HEAD > "$RUNNER_TEMP/frozen203-repeat/COMMIT.txt"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/frozen203-repeat/GIT-TREE.txt"
+          python -VV > "$RUNNER_TEMP/frozen203-repeat/PYTHON.txt"
+          uname -a > "$RUNNER_TEMP/frozen203-repeat/HOST.txt"
+      - name: Run unchanged controls normally and optimized
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m unittest discover -s research/goal-only-lifecycle-v1 -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/frozen203-repeat/tests-normal.txt"
+          python -O -B -m unittest discover -s research/goal-only-lifecycle-v1 -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/frozen203-repeat/tests-optimized.txt"
+      - name: Recover only the four registered library inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, os, zipfile
+          out = Path(os.environ['RUNNER_TEMP']) / 'frozen203-repeat' / 'library'
+          out.mkdir()
+          with zipfile.ZipFile('research/ordinary-goal-cohort-result-v1/RAW.zip') as z:
+              base = z.read('base/PREFIX.mm')
+              suffix = z.read('caller/qualification-01/TRANSPORTED-SUFFIX.mm')
+              files = {'base.mm': base, 'joined.mm': base + b'\n' + suffix,
+                       'manifest.json': z.read('caller/qualification-01/LIBRARY-MANIFEST.json'),
+                       'receipt.json': z.read('caller/qualification-01/native-01/result.json')}
+          expected = 'd826477d6930f8a6dd924016c0f30453dcb97e56093b9ae1dde6c62ba03506dc'
+          if hashlib.sha256(files['joined.mm']).hexdigest() != expected:
+              raise RuntimeError('registered joined prefix identity mismatch')
+          for name, raw in files.items():
+              (out / name).write_bytes(raw)
+          PY
+      - name: Allocate unchanged and verify exposed population identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          D="$RUNNER_TEMP/frozen203-repeat"
+          python -B research/goal-only-lifecycle-v1/allocation.py --manifest "$D/library/manifest.json" --prefix "$D/library/joined.mm" --repo "$GITHUB_WORKSPACE" --out "$D/allocation" | tee "$D/allocation-stdout.txt"
+          echo "11aa5ae4f887dda9606b4f2def3aa3432811977027fd4a52bc709e7ed8d5a92d  $D/allocation/TASKS.json" | sha256sum --check
+      - name: Execute unchanged three-arm lifecycle with the registered hard limit
+        shell: bash
+        run: |
+          set -euo pipefail
+          D="$RUNNER_TEMP/frozen203-repeat"
+          python -B research/goal-only-lifecycle-v1/lifecycle.py --repo "$GITHUB_WORKSPACE" --bundle "$D/library" --tasks "$D/allocation/TASKS.json" --output "$D/run" --hard-wall 150 2>&1 | tee "$D/run-stdout.txt"
+          git diff --exit-code
+      - name: Preserve all completed and failed attempts
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os
+          p = Path(os.environ['RUNNER_TEMP']) / 'frozen203-repeat'
+          if p.exists():
+              files = {f.relative_to(p).as_posix(): {'bytes': f.stat().st_size, 'sha256': hashlib.sha256(f.read_bytes()).hexdigest()}
+                       for f in sorted(p.rglob('*')) if f.is_file()}
+              (p / 'FILES.json').write_text(json.dumps(files, sort_keys=True, indent=2) + '\n')
+              (p / 'SCOPE.txt').write_text('Unchanged post-exposure reproduction of #203 v1, not a new protected allocation, OCM architectural comparison, or independent replication. UNKNOWN is not unprovability.\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: issue165-frozen203-repeat-${{ github.sha }}
+          path: ${{ runner.temp }}/frozen203-repeat/
+          retention-days: 30
+          if-no-files-found: error
