@@ -1,0 +1,372 @@
+{
+ "amendment_id": "FREEZE_V1_AMEND_4_MZD8_MZD9",
+ "amends": "FREEZE_V1_AMEND_3.json",
+ "freeze_v1_sha256": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+ "amend_1_sha256": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+ "amend_2_sha256": "97388119ef35485cf6d50e7cf0c696a0c8e555d1153c6d603e39de3d88745cd0",
+ "amend_3_sha256": "deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e",
+ "created_utc": "2026-09-09T20:26:32Z",
+ "created_utc_by": "hpc/freeze_amend4.py at freeze time (tool-stamped; amend-3 timing-erratum correction applied)",
+ "supersedes_sha256": "293b2ddeafbf39f85fb7574d9276eb095e858979fb64c91f07c5a6dd2db2eb12",
+ "refreeze_reason": "pre-scoring refreeze: earlier A4 embed lacked the two amend-3 denominator keys (PARETO_T2, S3d@10_occupied_T0ref); smoke caught the defect before any scored run",
+ "motivation": "MZ-D8 (P13 islands) + MZ-D9 hostile subset (#221 sec 12).  Islands: 7 prior-locked MAP-Elites subpopulations over the frozen census grammar with ring migration of best elites at a frozen interval vs a no-migration control on IDENTICAL per-island RNG streams.  Hostiles carried by the arms: 'island diversity disappears after migration' (island-class entropy mid vs final) and 'one mature parent architecture reproduces the entire frontier' (frontier birth-island concentration).  MZ-D9 attacks the amend-3 terminal DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE with the three most load-bearing sec-12 checks still unrun: genotype->phenotype collapse, junk-filtered coverage (census-median quality bar), and descriptor-choice-as-architecture-label (cell purity + eta^2).",
+ "census_truth_P00C": {
+  "run_id": "zoo-census-p00c",
+  "tier": "T2",
+  "denominators": {
+   "D2d@10_occupied": 50,
+   "D3d@10_occupied": 83,
+   "CVTD_occupied_niches": 64,
+   "CVTD_k_after_dedup": 64,
+   "PARETO_T2": 792,
+   "S3d@10_occupied_T0ref": 8
+  },
+  "denominators_note": "P00C summary denominators PLUS PARETO_T2 (=pareto_set_size) and S3d@10_occupied_T0ref (P00B reference census) \u2014 the exact set amend-3 froze (asserted equal at freeze time)",
+  "frozen_grid_bounds": {
+   "D_dev_2d": [
+    [
+     1.35,
+     37.75
+    ],
+    [
+     3.0,
+     10.4
+    ]
+   ],
+   "D_dev_3d": [
+    [
+     1.35,
+     37.75
+    ],
+    [
+     3.0,
+     10.4
+    ],
+    [
+     1.85,
+     38.85
+    ]
+   ]
+  },
+  "t2_scalar_refs": {
+   "W2_REF": 484.7,
+   "B2_REF": 152.8
+  }
+ },
+ "census_truth_HZD9": {
+  "run_id": "zoo-census-hzd9",
+  "tier": "T2",
+  "unscored": true,
+  "receipt_head": "67ed92711c0a39df62435672b3155e86af308af830d543bf92fa186e65c0e8b3",
+  "config_digest": "bd21de1124c37e81f0288ea9aa604807baa18de9b819a8c61944b9c0fb1fd6e1",
+  "feasible": 28584,
+  "collapse": {
+   "feasible_genotypes": 28584,
+   "distinct_phenotype_digests": 28584,
+   "distinct_objective_vectors": 5232,
+   "distinct_phenotype_x_D2dcell": 28584,
+   "genotype_to_phenotype_collapse_ratio": 0.0,
+   "genotype_to_objective_vector_collapse_ratio": 0.816961
+  },
+  "quality_bar_T2": 0.224507,
+  "descriptor_purity_D2d_frac_cells_F_arch_ge_0.9": 0.48,
+  "eta_squared_F_arch": {
+   "primitive_pressure_slope": 0.000159,
+   "marginal_acquisition_slope": 0.000152,
+   "persistent_growth_per_capability": 0.386734,
+   "learned_vs_imported": 0.0,
+   "consolidation_ratio": null
+  },
+  "xcheck_vs_P00C": {
+   "pareto_equals_P00C": true,
+   "pareto_size": 792,
+   "cells_D2d_equals_P00C": true,
+   "cells_D3d_equals_P00C": true,
+   "feasible_equals_P00C": true
+  },
+  "precedence": "HZD9 truth produced and frozen BEFORE any amend-4 scored run; pareto/cells/feasible EQUAL CENSUS_P00C truth (asserted in hzd9_census.py)"
+ },
+ "quality_bar_T2": 0.224507,
+ "island_priors_amend4": {
+  "source": "search.island_qd.ISLAND_PRIORS_V1 (verbatim, tool-imported)",
+  "n_islands": 7,
+  "topology": "unidirectional_ring",
+  "migration_interval_rounds": 500,
+  "migration_payload": "each island's current best elite by dev_score, copied to the ring successor, simultaneous (outbound chosen from pre-migration state); migration charged zero evaluation budget",
+  "region_lock": "sampling, mutation and crossover are region-locked (out-of-region offspring re-drawn); migration is the only cross-island mixing channel",
+  "rng_streams": "per-island random.Random(seed*1000003 + island_index); migration consumes no rng, so I01 and I02 differ only through planted migrants and their descendants",
+  "dropped_prior": {
+   "p13_prior": "open-ended operator language",
+   "reason": "O_basis is DERIVED from units/L/K/R (operators_for), not a free genome field \u2014 an open-operator island cannot be expressed faithfully and is not claimed"
+  },
+  "priors": [
+   {
+    "island_id": "I1_symbolic_rule_heavy",
+    "p13_prior": "symbolic/rule-heavy",
+    "F_arch": [
+     "flat_typed_relational",
+     "event_sourced_tms"
+    ],
+    "extras_pool": [
+     "production_rule",
+     "constraint_solver",
+     "exact_index"
+    ],
+    "extras_required": [
+     "production_rule"
+    ],
+    "n_extras": [
+     1,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": null
+   },
+   {
+    "island_id": "I2_programmatic",
+    "p13_prior": "programmatic",
+    "F_arch": null,
+    "extras_pool": [
+     "rewrite_program",
+     "search_planner",
+     "exact_index"
+    ],
+    "extras_required": [
+     "rewrite_program"
+    ],
+    "n_extras": [
+     1,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": null
+   },
+   {
+    "island_id": "I3_factor_graph_heavy",
+    "p13_prior": "factor/graph-heavy",
+    "F_arch": [
+     "hypergraph_metagraph"
+    ],
+    "extras_pool": [
+     "production_rule",
+     "rewrite_program",
+     "search_planner",
+     "exact_index",
+     "assoc_similarity",
+     "constraint_solver",
+     "diagnostic_probe",
+     "abstraction_schema",
+     "episodic_memory"
+    ],
+    "extras_required": [],
+    "n_extras": [
+     0,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": null
+   },
+   {
+    "island_id": "I4_blackboard_production",
+    "p13_prior": "blackboard/production",
+    "F_arch": [
+     "blackboard_production"
+    ],
+    "extras_pool": [
+     "production_rule",
+     "rewrite_program",
+     "search_planner",
+     "exact_index",
+     "assoc_similarity",
+     "constraint_solver",
+     "diagnostic_probe",
+     "abstraction_schema",
+     "episodic_memory"
+    ],
+    "extras_required": [
+     "production_rule"
+    ],
+    "n_extras": [
+     1,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": [
+     "blackboard_bidding_agenda"
+    ],
+    "L": null,
+    "R": null,
+    "K": null
+   },
+   {
+    "island_id": "I5_memory_heavy",
+    "p13_prior": "memory-heavy",
+    "F_arch": null,
+    "extras_pool": [
+     "production_rule",
+     "rewrite_program",
+     "search_planner",
+     "exact_index",
+     "assoc_similarity",
+     "constraint_solver",
+     "diagnostic_probe",
+     "abstraction_schema",
+     "episodic_memory"
+    ],
+    "extras_required": [
+     "episodic_memory"
+    ],
+    "n_extras": [
+     1,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": [
+     "episodic_store"
+    ]
+   },
+   {
+    "island_id": "I6_minimal_tiny",
+    "p13_prior": "minimal/tiny",
+    "F_arch": null,
+    "extras_pool": [],
+    "extras_required": [],
+    "n_extras": [
+     0,
+     0
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": null
+   },
+   {
+    "island_id": "I7_heterogeneous_units",
+    "p13_prior": "heterogeneous units",
+    "F_arch": null,
+    "extras_pool": [
+     "production_rule",
+     "rewrite_program",
+     "search_planner",
+     "exact_index",
+     "assoc_similarity",
+     "constraint_solver",
+     "diagnostic_probe",
+     "abstraction_schema",
+     "episodic_memory"
+    ],
+    "extras_required": [],
+    "n_extras": [
+     3,
+     3
+    ],
+    "T_family": null,
+    "Pi_arch": null,
+    "L": null,
+    "R": null,
+    "K": null
+   }
+  ]
+ },
+ "arms_amend4": {
+  "budget": 40000,
+  "charged_evals": 39998,
+  "per_island_budget": 5714,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "archive": "D_dev_2d",
+  "res": 10,
+  "island_arms": [
+   {
+    "arm_id": "I01_islands_ring_mig",
+    "migration": true,
+    "own_axis": "D2d_cell_recovery_pooled"
+   },
+   {
+    "arm_id": "I02_islands_nomig",
+    "migration": false,
+    "own_axis": "D2d_cell_recovery_pooled"
+   }
+  ],
+  "hzd9_recompute_arms": [
+   "P01_random_search_T2",
+   "P03_map_elites_T2",
+   "P05_map_elites_D2d",
+   "P06_cvt_map_elites_D",
+   "P09_map_elites_D3d"
+  ],
+  "hzd9_own_axis": {
+   "P01_random_search_T2": "pareto_recovery_T2",
+   "P03_map_elites_T2": "S3d_cell_recovery",
+   "P05_map_elites_D2d": "D2d_cell_recovery",
+   "P06_cvt_map_elites_D": "CVTD_niche_recovery",
+   "P09_map_elites_D3d": "D3d_cell_recovery"
+  },
+  "unrestricted_reference": "QDA3 P05_map_elites_D2d (same budget 40000, same seeds, same D_dev_2d@10 axis): DESCRIPTIVE ONLY, no frozen rule \u2014 the islands question is migration, and pooled single-population QD is not its control"
+ },
+ "metrics_amend4": [
+  "D2d_cell_recovery_pooled = |pooled islands' D_dev_2d@10 cells INTERSECT census occupied (50)| / 50 (own axis)",
+  "pareto_recovery_T2_pooled = |pooled phenotypes INTERSECT census P00C T2 pareto (792)| / 792",
+  "best_dev_T2_pooled, n_elites_pooled, CVTD_niche_recovery_pooled",
+  "island_entropy_{mid,final} = normalized entropy of pooled elites' birth-island classes (log2 7)",
+  "diversity_retention_final_over_mid = island_entropy_final / island_entropy_mid",
+  "frontier_birth_concentration = max birth-island fraction of pooled top-32 elites by dev_score_T2",
+  "cross_island_survivor_fraction, n_migrants_planted",
+  "HZD9: raw_own_axis_recovery, junk_free_own_axis_recovery (only elites with dev_score_T2 >= quality_bar_T2), junk_free_ratio",
+  "HZD9: archive_genotype_to_phenotype_collapse_ratio = 1 - distinct phenotypes / distinct genotypes"
+ ],
+ "thresholds_amend4": {
+  "mzd8": {
+   "frontier_birth_concentration_ge": 0.9,
+   "entropy_ratio_final_mig_over_nomig_lt": 0.5,
+   "own_axis_absolute_bar": 0.25
+  },
+  "mzd9": {
+   "census_distinct_phenotype_fraction_lt": 0.1,
+   "archive_collapse_ratio_ge": 0.9,
+   "purity_frac_cells_ge": 0.5,
+   "purity_cell_bar": 0.9,
+   "eta2_max_ge": 0.8,
+   "junk_free_ratio_lt": 0.5
+  }
+ },
+ "scoring_rules_amend4": {
+  "matched_pair_rule_FROZEN": "I01 vs I02 on [D2d_cell_recovery_pooled, pareto_recovery_T2_pooled, best_dev_T2_pooled], seed-means: strictly >= on all three and > on at least one => I01 (migration) wins; the inverse => I02 wins; otherwise TIE (identical in form to amend-2/3)",
+  "mzd8_terminal_rule_FROZEN_first_match": [
+   "1 ONE_ARCHITECTURE_FAMILY_DOMINATES: seed-mean frontier_birth_concentration(I01) >= 0.9 [sec12: one mature parent architecture reproduces the entire frontier]",
+   "2 ONE_ARCHITECTURE_FAMILY_DOMINATES: seed-mean island_entropy_final(I01) < 0.5 * seed-mean island_entropy_final(I02) [sec12: island diversity disappears after migration]",
+   "3 MORPHOLOGY_FAMILY_TRANSFER_SUPPORTED_AT_SCOPE: I01 wins the frozen pair AND seed-mean island_entropy_final(I01) >= 0.5 * seed-mean island_entropy_final(I02) AND seed-mean D2d_cell_recovery_pooled(I01) >= 0.25",
+   "4 else MIXED_INTERMEDIATE_NO_TERMINAL (non-terminal marker; no sec-15 label fires from this amendment alone)"
+  ],
+  "mzd9_terminal_rule_FROZEN_first_match": [
+   "1 NO_MEANINGFUL_BEHAVIORAL_DIVERSITY: census distinct-phenotype fraction < 0.1 OR seed-mean archive genotype-to-phenotype collapse >= 0.9 over the D-grid arms (P05/P09) [sec12: genotype diversity collapses to same phenotype] => amend3_terminal_status = UNDERMINED_DIVERSITY",
+   "2 DESCRIPTOR_CHOICE_DOMINATES: HZD9 D2d frac of occupied cells with F_arch purity >= 0.9 is itself >= 0.5, OR max eta^2(F_arch) over the D_dev_2d axes >= 0.8 [sec12: diversity descriptor merely encodes architecture labels] => amend3_terminal_status = RETAINED_DESCRIPTOR_CONFOUNDED (the terminal stands but its diversity axis is architecture labels)",
+   "3 MIXED_INTERMEDIATE_NO_TERMINAL: any terminal-carrying D arm (P05/P06/P09) has seed-mean junk_free_ratio < 0.5 [sec12: high coverage comes from low-quality junk] => amend3_terminal_status = UNDERMINED_QUALITY (the high-performing clause fails; revival iteration owed)",
+   "4 else DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE (RETAINED under the hostile subset, now with the census-median quality bar recorded)"
+  ],
+  "aggregation": "aggregate_amend4.py runs only when all 6 island tasks and all 15 hzd9-recompute tasks have ok dispositions and verifiable receipts, and HZD9 truth is present; verdicts are computed mechanically from these rules, never narrated"
+ },
+ "controls": {
+  "t0_untouched": "T0 scoring path and all amend-1/2/3 truth unchanged and still reproducible",
+  "hzd9_unscored_precedence": "HZD9 truth (receipt 67ed92711c0a39df) produced and frozen BEFORE any amend-4 scored run; its Pareto/cells/feasible EQUAL frozen P00C truth",
+  "determinism_xchecks": "hzd9_recompute asserts best_dev_T2 and raw own-axis recovery EQUAL the frozen QDA3 values; island runs are seed-deterministic",
+  "encoding_fixed": "E0_direct everywhere (amend-2 owns the encoding question); no codec arms"
+ },
+ "status": "FROZEN pre-score"
+}

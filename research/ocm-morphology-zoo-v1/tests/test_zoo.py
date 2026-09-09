@@ -387,3 +387,136 @@ def test_developmental_descriptors_vary_over_census_sample():
         else:
             assert len(vals[d]) > 1, "dead descriptor axis: %s" % d
 
+
+
+# --- AMEND-4: MZ-D8 islands (P13) + MZ-D9 hostile subset --------------------
+
+def test_island_priors_within_bound_and_sampler_stays_in_region():
+    from search.island_qd import ISLAND_PRIORS_V1, N_ISLANDS, in_region, region_sampler
+    assert N_ISLANDS == 7
+    assert len({p["p13_prior"] for p in ISLAND_PRIORS_V1}) == N_ISLANDS
+    rng = random.Random(5)
+    for p in ISLAND_PRIORS_V1:
+        # prior fields are subsets of the frozen census grammar
+        for fld in ("F_arch", "Pi_arch", "L", "R", "K"):
+            if p[fld] is not None:
+                assert set(p[fld]) <= set(CENSUS_BOUND_V1[fld]), (p["island_id"], fld)
+        assert set(p["extras_pool"]) <= set(CENSUS_BOUND_V1["extra_units"])
+        assert set(p["extras_required"]) <= set(p["extras_pool"])
+        lo, hi = p["n_extras"]
+        assert lo <= hi
+        assert len(p["extras_required"]) <= hi, p["island_id"]
+        # sampler draws always stay in the island region
+        for _ in range(6):
+            g = region_sampler(p, rng)
+            assert in_region(g, p), p["island_id"]
+
+
+def test_region_child_stays_in_region():
+    from search.island_qd import ISLAND_PRIORS_V1, in_region, region_child, region_sampler
+    rng = random.Random(9)
+    for p in ISLAND_PRIORS_V1[:4]:
+        parent = region_sampler(p, rng)
+        parent.provenance = {"origin": "island_init", "birth_island": 3}
+        rec = {"genome": parent.to_json_obj(), "dev_score": 0.0}
+        second = None
+        if rng.random() < 0.5:
+            g2 = region_sampler(p, rng)
+            g2.provenance = {"origin": "island_init", "birth_island": 3}
+            second = {"genome": g2.to_json_obj(), "dev_score": 0.0}
+        child = region_child(rec, p, rng, second_rec=second)
+        assert in_region(child, p), p["island_id"]
+        assert child.provenance.get("birth_island") == 3, \
+            "birth_island provenance must propagate through region children"
+
+
+def test_run_islands_deterministic_and_migration_sensitive():
+    from search.island_qd import run_islands
+
+    def strip(r):
+        return {k: v for k, v in r.items() if k != "archive"}
+
+    a = run_islands(budget=42, seed=0, interval=3, migration=True)
+    b = run_islands(budget=42, seed=0, interval=3, migration=True)
+    assert strip(a) == strip(b), "island run not seed-deterministic"
+    nomig = run_islands(budget=42, seed=0, interval=3, migration=False)
+    assert nomig["n_migration_events"] == nomig["n_migrants_planted"] == 0
+    assert a["n_migration_events"] >= 2 and a["n_migrants_planted"] >= 1
+    # identical per-island RNG streams: the two arms agree up to the first
+    # planted migrant's descendants, and both consume the same eval count
+    assert a["evals"] == nomig["evals"] == 7 * (42 // 7)
+    assert sum(a["island_class_counts_final"]) > 0
+    assert 0.0 <= a["island_entropy_final"] <= 1.0
+    assert 0.0 <= a["island_entropy_mid"] <= 1.0
+
+
+def test_amend4_freeze_chain_and_hz9_binding():
+    import hashlib
+    path = os.path.join(ROOT, "FREEZE_V1_AMEND_4.json")
+    if not os.path.exists(path):
+        return  # not yet frozen in this checkout; smoke asserts it on-host
+    a4 = json.load(open(path))
+    chain = {"FREEZE_V1.json": "freeze_v1_sha256",
+             "FREEZE_V1_AMEND_1.json": "amend_1_sha256",
+             "FREEZE_V1_AMEND_2.json": "amend_2_sha256",
+             "FREEZE_V1_AMEND_3.json": "amend_3_sha256"}
+    for fn, key in chain.items():
+        d = hashlib.sha256(open(os.path.join(ROOT, fn), "rb").read()).hexdigest()
+        assert d == a4[key], fn
+    assert "freeze_amend4.py" in a4["created_utc_by"], \
+        "created_utc must be tool-stamped (amend-3 erratum)"
+    arms = a4["arms_amend4"]
+    assert [a["arm_id"] for a in arms["island_arms"]] == \
+        ["I01_islands_ring_mig", "I02_islands_nomig"]
+    assert {a["migration"] for a in arms["island_arms"]} == {True, False}
+    assert arms["seeds"] == [0, 1, 2] and arms["budget"] == 40000
+    assert len(arms["hzd9_recompute_arms"]) == 5
+    assert set(arms["hzd9_own_axis"]) == set(arms["hzd9_recompute_arms"])
+    from search.island_qd import ISLAND_PRIORS_V1, N_ISLANDS
+    assert a4["island_priors_amend4"]["n_islands"] == N_ISLANDS
+    frozen = a4["island_priors_amend4"]["priors"]
+    assert [f["p13_prior"] for f in frozen] == \
+        [p["p13_prior"] for p in ISLAND_PRIORS_V1]
+    for f, p in zip(frozen, ISLAND_PRIORS_V1):
+        for fld in ("F_arch", "extras_pool", "extras_required", "n_extras"):
+            want = tuple(p[fld]) if p[fld] is not None else None
+            got = tuple(f[fld]) if isinstance(f[fld], list) else f[fld]
+            assert got == want, (f["island_id"], fld)
+    assert a4["thresholds_amend4"]["mzd8"]["frontier_birth_concentration_ge"] == 0.9
+    tr8 = a4["scoring_rules_amend4"]["mzd8_terminal_rule_FROZEN_first_match"]
+    assert any("ONE_ARCHITECTURE_FAMILY_DOMINATES" in s for s in tr8)
+    assert any("MORPHOLOGY_FAMILY_TRANSFER_SUPPORTED_AT_SCOPE" in s for s in tr8)
+    tr9 = a4["scoring_rules_amend4"]["mzd9_terminal_rule_FROZEN_first_match"]
+    assert any("NO_MEANINGFUL_BEHAVIORAL_DIVERSITY" in s for s in tr9)
+    assert any("DESCRIPTOR_CHOICE_DOMINATES" in s for s in tr9)
+    hz_path = os.path.join(ROOT, "archives", "HZD9_TRUTH.json")
+    if os.path.exists(hz_path):
+        hz = json.load(open(hz_path))["summary"]
+        assert a4["quality_bar_T2"] == hz["quality_bar_T2"]
+        for k, v in hz["xcheck_vs_P00C"].items():
+            if isinstance(v, bool):
+                assert v is True, k
+
+
+def test_hz9_truth_shape():
+    from evaluation.descriptors import D_DIMS
+    from search.island_qd import ISLAND_PRIORS_V1
+    path = os.path.join(ROOT, "archives", "HZD9_TRUTH.json")
+    if not os.path.exists(path):
+        return  # census not run in this checkout; smoke asserts it on-host
+    hz = json.load(open(path))
+    s = hz["summary"]
+    assert s["feasible"] == 28584 and s["pareto_set_size"] == 792
+    c = s["collapse"]
+    assert c["feasible_genotypes"] == s["feasible"]
+    assert 0.0 <= c["genotype_to_phenotype_collapse_ratio"] <= 1.0
+    assert c["distinct_phenotype_digests"] <= c["feasible_genotypes"]
+    assert -1.0 <= s["quality_bar_T2"] <= 1.0
+    for view in ("descriptor_purity_D2d", "descriptor_purity_D3d"):
+        pu = s[view]
+        assert pu["n_cells"] in (50, 83), view
+        assert 0.0 <= pu["frac_cells_purity_F_arch_ge_0.9"] <= 1.0
+    assert set(s["eta_squared_F_arch"]) == set(D_DIMS)
+    assert set(hz["island_regions"]) == {p["island_id"] for p in ISLAND_PRIORS_V1}
+    for v in hz["island_regions"].values():
+        assert v["n_genotypes"] >= 1, "empty island region — prior is dead"

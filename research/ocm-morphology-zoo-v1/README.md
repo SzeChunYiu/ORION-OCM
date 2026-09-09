@@ -76,10 +76,79 @@ hand-written `created_utc` label (21:20Z) postdates the scored array
 bytes existed at submission, so freeze-before-score holds; label corrected by
 erratum, frozen file untouched.
 
+## Amend-4 / MZ-D8 + MZ-D9 (FREEZE_V1_AMEND_4.json): P13 islands + hostile subset
+
+`FREEZE_V1_AMEND_4.json` is written by a TOOL (`hpc/freeze_amend4.py`), not by
+hand: created_utc is stamped by the tool at freeze time (the amend-3 timing
+erratum, corrected), the ancestor chain V1->A1->A2->A3 sha-verified before
+writing, and the freeze refuses to run unless `archives/HZD9_TRUTH.json`
+exists with every P00C xcheck true and no scored amend-4 status exists
+(unscored truth -> freeze -> scored runs). One pre-scoring refreeze is
+recorded in the file itself (`supersedes_sha256`): the first A4 embed lacked
+the two amend-3 denominator keys (PARETO_T2, S3d@10_occupied_T0ref); the
+smoke gate caught it before any scored run and the tool refroze with the
+defect recorded, never silently.
+
+**MZ-D8 (P13 islands)** — 7 prior-locked islands over the frozen census
+grammar (symbolic/rule-heavy, programmatic, factor/graph-heavy,
+blackboard/production, memory-heavy, minimal, heterogeneous; the 8th P13
+prior "open-ended operator language" is DROPPED and declared — O_basis is
+derived, not a free genome field). Per-island MAP-Elites GridArchive over
+D_dev_2d@10, region-locked variation, per-island RNG streams
+(`seed*1000003+i`), simultaneous unidirectional ring migration every 500
+rounds (best elite by dev_score, zero eval charge). Arms: I01_islands_ring_mig
+vs I02_islands_nomig, 3 seeds, budget 40,000 (per-island 5,714). Hostiles
+from #221 sec 12 carried as metrics: island-class entropy mid/final ("island
+diversity disappears after migration") and frontier birth-island concentration
+("one mature parent architecture reproduces the entire frontier").
+
+**MZ-D9 (hostile subset)** — fresh unscored HZD9 census over the census
+(28,584 feasible; collapse ratio, D2d cell F_arch purity, eta^2 per D-axis,
+quality bar = census-median dev_score_T2 0.224507, frozen into A4) + uniform
+recompute of the 15 frozen QDA3 archives (junk-free recovery at the quality
+bar, own-axis determinism xchecks against the frozen QDA3 values). The three
+most load-bearing sec-12 hostiles against the amend-3 terminal
+DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE: genotype->phenotype
+collapse, high coverage from low-quality junk, descriptor-choice-as-
+architecture-label. Possible amend-3 terminal statuses: RETAINED,
+RETAINED_DESCRIPTOR_CONFOUNDED, UNDERMINED_DIVERSITY, UNDERMINED_QUALITY.
+
+Verdicts: `results/AGGREGATE_AMEND4.json` (aggregate refuses to run unless
+all 21 statuses are ok and receipts verify; first-match frozen rules, never
+narrated). Scored artifacts: `manifests/CAMPAIGN_AMEND4_MANIFEST.json`.
+
+**MZ-D8 scored (array 3587139, 21/21 ok, aggregate 3587148):
+`MIXED_INTERMEDIATE_NO_TERMINAL`** — BOTH sec-12 island hostiles REFUTED at
+this scope: ring migration did NOT collapse island diversity (final entropy
+ratio mig/nomig 1.038; I01 entropy 0.852 vs mid 0.839) and NO single parent
+architecture reproduced the frontier (frontier birth-island concentration
+0.3125 << 0.9). Matched pair I01 vs I02 TIE (D2d pooled 0.987 vs 0.980;
+pareto 0.0143 vs 0.0147; best_dev equal 0.571144) — migration neither helps
+nor hurts at this budget, so rule 3 (transfer-supported) also fails on the
+pair-win precondition.
+
+**MZ-D9 scored: rule 3 fired — amend-3 terminal status
+`UNDERMINED_QUALITY`** (verdict marker MIXED_INTERMEDIATE_NO_TERMINAL).
+Hostile 1 (genotype->phenotype collapse) REFUTED decisively: the census
+encoding is INJECTIVE over feasible space (28,584 genotypes -> 28,584
+distinct phenotypes, collapse 0.0; archive collapse 0.0 on every arm).
+Hostile 2 (descriptor = architecture label) NOT fired: D2d purity fraction
+0.48 < 0.5, max eta^2(F_arch) 0.387 < 0.8 (closest axis:
+persistent_growth_per_capability). Hostile 3 (high coverage from junk) HIT:
+at the census-median quality bar 0.224507, P05/D2d keeps only 32.7% and
+P09/D3d 28.9% of its own-axis coverage (P06/CVTD 82.2%, P01 random 97.3%,
+P03/S3d 100%) — the amend-3 terminal's coverage claim rests substantially on
+below-median-quality elites; a revival iteration (quality-gated D-archive
+admission) is owed. Descriptive: 28,584 phenotypes map to only 5,232
+distinct objective vectors (0.817 objective-space collapse) — morphological
+diversity exceeds behavioral diversity, a lead for the next tranche.
+
 ## Status
 
 - MZ-D0/D1/D2/D3/D6 done (census, calibration, production campaign, LUNARC harness; amend-1 re-ranking complete)
 - MZ-D7 done at tier T2 via amend-3 (DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE); amend-2 encoding comparison MIXED_INTERMEDIATE_NO_TERMINAL
 - MZ-D4 gate CLOSED by measurement (`results/MZD4_COST_FIT.json`): evals not binding (whole space = 17.15 s; 0.085 ms/eval), no continuous relaxation, no task generator → P08/P10 stay deferred
 - MZ-D5 encoding fit DEMONSTRATED for E1 CGP (`results/MZD5_ENCODING_FIT.json`): surjective over all 56,160, mutations legal, codec 4.5% of eval, neutral network measured; scored direct-vs-CGP comparison needs its own numbered amendment
-- Later: MZ-D8 islands, MZ-D9 hostile tests; MZ-D5 scored-encoding question remains MIXED_INTERMEDIATE (amend-2)
+- MZ-D8 done via amend-4: MIXED_INTERMEDIATE_NO_TERMINAL, both island hostiles refuted (migration entropy-neutral, no frontier monoculture)
+- MZ-D9 done via amend-4: amend-3 terminal UNDERMINED_QUALITY (junk-filtered D2d/D3d coverage 0.33/0.29 at the census-median bar); collapse and descriptor-confound hostiles refuted; quality-gated revival owed
+- MZ-D5 scored-encoding question remains MIXED_INTERMEDIATE (amend-2)
