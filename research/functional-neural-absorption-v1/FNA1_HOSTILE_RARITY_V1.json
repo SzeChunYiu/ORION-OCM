@@ -1,0 +1,198 @@
+{
+  "analysis_status": "DECLARED_POST_FREEZE_HOSTILE",
+  "authority": "Written after reading FNA-1's outcome. Admissible because it can only weaken the finding. experiment.py is unmodified; FREEZE_V1 stands.",
+  "schema": "ocm.fna.fna1-hostile-rarity.v1",
+  "verdict": {
+    "budgets_rarity_worse_adversarial": [
+      "64"
+    ],
+    "budgets_rarity_worse_common": [],
+    "policy_is_world_dependent": true,
+    "rarity_loses_against_a_rare_channel_decoy": true,
+    "rarity_loses_when_a_common_channel_carries_the_answer": false,
+    "rarity_wins_when_rare_channel_carries_the_answer": true,
+    "terminal": "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE",
+    "terminal_reason": "The FNA-1 advantage is REAL but CONDITIONAL, and the condition is now measured rather than assumed. The scope is three-way, not binary, and an earlier draft of this reason stated it binarily and was wrong:\n  RARE_DECISIVE   rarity-first is strictly BETTER at budgets ['16', '32', '4', '8']\n  COMMON_DECISIVE rarity-first is NEUTRAL -- identical to naive at every budget, neither better nor worse. Moving the answer to a common channel REMOVES the advantage; it does not reverse it.\n  ADVERSARIAL     rarity-first is strictly WORSE at budgets ['64'], where a 40-edge rare-channel decoy subtree consumes the budget before the answer is reached.\nSo rarity is a SELECTIVITY heuristic, not a relevance signal: it predicts where FEW edges are, never where the ANSWER is. It pays when scarcity happens to coincide with decisiveness, costs nothing when it does not, and is actively harmful when an adversary puts bulk on a scarce channel. FNA-1's headline must carry that scope, and this hostile is the reason it can."
+  },
+  "worlds": {
+    "ADVERSARIAL": {
+      "channel_counts": {
+        "DEPENDENCE": 50,
+        "EMBEDDING": 40,
+        "SUPPORT": 51
+      },
+      "rarity_order": [
+        "EMBEDDING",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rarity_strictly_WORSE": [
+        "64"
+      ],
+      "rarity_strictly_better": [],
+      "rows": {
+        "128": {
+          "budget_binds": true,
+          "naive_found": true,
+          "naive_reached": 102,
+          "rarity_found": true,
+          "rarity_reached": 102
+        },
+        "16": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 17,
+          "rarity_found": false,
+          "rarity_reached": 17
+        },
+        "32": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 33,
+          "rarity_found": false,
+          "rarity_reached": 33
+        },
+        "4": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 5,
+          "rarity_found": false,
+          "rarity_reached": 5
+        },
+        "64": {
+          "budget_binds": true,
+          "naive_found": true,
+          "naive_reached": 65,
+          "rarity_found": false,
+          "rarity_reached": 65
+        },
+        "8": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 9,
+          "rarity_found": false,
+          "rarity_reached": 9
+        }
+      }
+    },
+    "COMMON_DECISIVE": {
+      "channel_counts": {
+        "DEPENDENCE": 50,
+        "SUPPORT": 51
+      },
+      "rarity_order": [
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rarity_strictly_WORSE": [],
+      "rarity_strictly_better": [],
+      "rows": {
+        "128": {
+          "budget_binds": false,
+          "naive_found": true,
+          "naive_reached": 62,
+          "rarity_found": true,
+          "rarity_reached": 62
+        },
+        "16": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 17,
+          "rarity_found": false,
+          "rarity_reached": 17
+        },
+        "32": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 33,
+          "rarity_found": false,
+          "rarity_reached": 33
+        },
+        "4": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 5,
+          "rarity_found": false,
+          "rarity_reached": 5
+        },
+        "64": {
+          "budget_binds": true,
+          "naive_found": true,
+          "naive_reached": 62,
+          "rarity_found": true,
+          "rarity_reached": 62
+        },
+        "8": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 9,
+          "rarity_found": false,
+          "rarity_reached": 9
+        }
+      }
+    },
+    "RARE_DECISIVE": {
+      "channel_counts": {
+        "DEPENDENCE": 50,
+        "SCALE_CHANGE": 1,
+        "SUPPORT": 50
+      },
+      "rarity_order": [
+        "SCALE_CHANGE",
+        "DEPENDENCE",
+        "SUPPORT"
+      ],
+      "rarity_strictly_WORSE": [],
+      "rarity_strictly_better": [
+        "16",
+        "32",
+        "4",
+        "8"
+      ],
+      "rows": {
+        "128": {
+          "budget_binds": false,
+          "naive_found": true,
+          "naive_reached": 62,
+          "rarity_found": true,
+          "rarity_reached": 62
+        },
+        "16": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 17,
+          "rarity_found": true,
+          "rarity_reached": 17
+        },
+        "32": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 33,
+          "rarity_found": true,
+          "rarity_reached": 33
+        },
+        "4": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 5,
+          "rarity_found": true,
+          "rarity_reached": 5
+        },
+        "64": {
+          "budget_binds": true,
+          "naive_found": true,
+          "naive_reached": 62,
+          "rarity_found": true,
+          "rarity_reached": 62
+        },
+        "8": {
+          "budget_binds": true,
+          "naive_found": false,
+          "naive_reached": 9,
+          "rarity_found": true,
+          "rarity_reached": 9
+        }
+      }
+    }
+  }
+}

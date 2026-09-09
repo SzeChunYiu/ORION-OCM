@@ -1,0 +1,200 @@
+{
+  "cases": [
+    {
+      "case": "no_parent_named",
+      "doc": {
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "the supplied catalogue only; no task labels",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "PARENT_SUFFICIENT_FOR_ATTENTION_RETRIEVAL",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "resource_vector_C": [
+          "index_probes",
+          "postings_examined",
+          "candidate_evaluations",
+          "build_work"
+        ],
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": []
+      },
+      "expect": "NO_PARENT_NAMED"
+    },
+    {
+      "case": "ocm_notation_for_parent_owned_function",
+      "doc": {
+        "candidate_ocm_realization": "a bespoke OCM attention operator",
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "the supplied catalogue only; no task labels",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "PARENT_SUFFICIENT_FOR_ATTENTION_RETRIEVAL",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "resource_vector_C": [
+          "index_probes",
+          "postings_examined",
+          "candidate_evaluations",
+          "build_work"
+        ],
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": [
+          "inverted index with selectivity anchor",
+          "Nadaraya-Watson kernel regression",
+          "associative memory"
+        ]
+      },
+      "expect": "OCM_NOTATION_FOR_A_PARENT_OWNED_FUNCTION"
+    },
+    {
+      "case": "unregistered_terminal",
+      "doc": {
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "the supplied catalogue only; no task labels",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "ATTENTION_WAS_BEATEN",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "resource_vector_C": [
+          "index_probes",
+          "postings_examined",
+          "candidate_evaluations",
+          "build_work"
+        ],
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": [
+          "inverted index with selectivity anchor",
+          "Nadaraya-Watson kernel regression",
+          "associative memory"
+        ]
+      },
+      "expect": "UNREGISTERED_TERMINAL"
+    },
+    {
+      "case": "bare_cannot_check",
+      "doc": {
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "the supplied catalogue only; no task labels",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "CANNOT_CHECK_",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "resource_vector_C": [
+          "index_probes",
+          "postings_examined",
+          "candidate_evaluations",
+          "build_work"
+        ],
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": [
+          "inverted index with selectivity anchor",
+          "Nadaraya-Watson kernel regression",
+          "associative memory"
+        ]
+      },
+      "expect": "UNREGISTERED_TERMINAL"
+    },
+    {
+      "case": "missing_core_term",
+      "doc": {
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "the supplied catalogue only; no task labels",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "PARENT_SUFFICIENT_FOR_ATTENTION_RETRIEVAL",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": [
+          "inverted index with selectivity anchor",
+          "Nadaraya-Watson kernel regression",
+          "associative memory"
+        ]
+      },
+      "expect": "INCOMPLETE_CONTRACT"
+    },
+    {
+      "case": "forbidden_claim",
+      "doc": {
+        "causal_ablation_gate": "remove the index and re-run; identical results at higher work",
+        "evidence_class": "E0 / L0",
+        "exact_authority_boundary": "retrieval proposes candidates; warrant and commit authority stay in compose_stage",
+        "information_surface": "demonstrates TRANSFORMER_REPLACED",
+        "input_contract_I": "a query and a finite keyed collection",
+        "known_failure_modes_F": [
+          "approximate similarity misses a decisive rare item",
+          "index build dominates query savings"
+        ],
+        "learning_update_rule_L": "none in the parent; learned in the donor",
+        "name": "self_attention",
+        "negative_terminal": "PARENT_SUFFICIENT_FOR_ATTENTION_RETRIEVAL",
+        "output_contract_O": "an aggregation over selected entries",
+        "ownership": "PARENT_OWNS_IT",
+        "reopen_condition": "a retrieval task where the exact index cannot enumerate candidates within budget",
+        "resource_vector_C": [
+          "index_probes",
+          "postings_examined",
+          "candidate_evaluations",
+          "build_work"
+        ],
+        "source_identity": "Vaswani 2017 arXiv:1706.03762; kernel reading 2601.22766/2501.12352",
+        "state_transformation_S": "none persistent; per-query selection",
+        "strongest_non_neural_parent": [
+          "inverted index with selectivity anchor",
+          "Nadaraya-Watson kernel regression",
+          "associative memory"
+        ]
+      },
+      "expect": "FORBIDDEN_CLAIM"
+    }
+  ],
+  "schema": "ocm.fna.functional_mechanism_contract.v1.malformed"
+}

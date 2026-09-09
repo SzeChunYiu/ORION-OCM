@@ -1,0 +1,72 @@
+{
+  "cards": [
+    {
+      "function": "self_attention",
+      "note": "runtime/operator_index.py posts each operator under its rarest required input; final warrant stays in compose_stage",
+      "obligation": "query-conditioned content-addressed aggregation",
+      "ownership": "PARENT_OWNS_IT",
+      "parents": [
+        "inverted index with selectivity anchor",
+        "Nadaraya-Watson kernel regression",
+        "associative memory"
+      ],
+      "sources": "2601.22766, 2501.12352, 2505.19488"
+    },
+    {
+      "function": "multi_head",
+      "note": "An exact gated closure has zero estimator variance, so the function multi-head exists to discharge is absent rather than unmet. This is NOT a claim that OCM matches a Transformer.",
+      "obligation": "ensemble variance reduction over decorrelated estimators",
+      "ownership": "NO_OBLIGATION_IN_AN_EXACT_SYSTEM",
+      "parents": [
+        "bagging / estimator ensembles"
+      ],
+      "sources": "2605.20271, 2504.03889, 2602.00861"
+    },
+    {
+      "function": "typed_relation_channels",
+      "note": "Main has a 10-type relation vocabulary but retrieval does not use type as a channel. Mis-attributed to multi-head by #214 section 3.",
+      "obligation": "representing several distinct relation kinds",
+      "ownership": "PARENT_OWNS_IT_BUT_ABSENT_ON_MAIN",
+      "parents": [
+        "heterogeneous information networks",
+        "metapath retrieval",
+        "typed claim networks"
+      ],
+      "sources": "2605.30966, 2510.15552"
+    },
+    {
+      "function": "neural_ranking",
+      "note": "Cross-encoders shown to implement a semantic variant of BM25.",
+      "obligation": "relevance scoring",
+      "ownership": "PARENT_OWNS_IT",
+      "parents": [
+        "BM25"
+      ],
+      "sources": "2502.04645"
+    },
+    {
+      "function": "kv_cache",
+      "note": "ExtractionIndex gives object-bound preparation with build_work charged separately.",
+      "obligation": "reuse of prior context state",
+      "ownership": "PARENT_OWNS_IT",
+      "parents": [
+        "indexed episodic store"
+      ],
+      "sources": "(main)"
+    },
+    {
+      "function": "approximate_proposal",
+      "note": "R3 and R6 do not exist on main, so APPROXIMATE_RETRIEVAL_NOT_SAFE is currently untestable.",
+      "obligation": "approximate similarity for candidate generation",
+      "ownership": "ADAPT_ABSENT_ON_MAIN",
+      "parents": [
+        "HDC/VSA via Nystrom kernel approximation",
+        "kNN-LM external memory"
+      ],
+      "sources": "2608.06860, 1911.00172"
+    }
+  ],
+  "evidence_class": "E0 / L0",
+  "rule": "Do not invent OCM notation for a mechanism a mature parent already supplies (#214 section 2). A card marked PARENT_OWNS_IT means absorb the parent, not build an OCM analogue.",
+  "schema": "ocm.fna.parent_ownership_cards.v1"
+}
