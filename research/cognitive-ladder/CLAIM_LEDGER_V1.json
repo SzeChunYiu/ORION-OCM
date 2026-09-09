@@ -170,6 +170,34 @@
       "limitation": "Four scales spanning N = 17 to 481 is a small range to read a trend from, and the feature language is authored. Noticing the decay and re-indexing cost more than it saved at the largest scale tested.",
       "permitted_wording": "A relevance key adequate at one store size is not adequate at thirty times that size, and the cost of the degradation appears in query work rather than in correctness.",
       "forbidden_wording": "The machine adapts its representation as it learns."
+    },
+    {
+      "claim_id": "C13-DEMAND-RESCUES-PERSISTENCE-NOT-EAGER-ACQUISITION",
+      "claim": "Raising the density of tasks that essentially require earlier structure makes persistence pay, and does not make eager acquisition pay.",
+      "level": "L1",
+      "evidence": "E2",
+      "hypothesis": "If reuse opportunity is the binding constraint on amortization, a density sweep should produce a crossover against the strongest parent somewhere below density one.",
+      "strongest_parent": "a deferred-induction parent: retains the evidence a derivation produced, and defers induction itself until demand is proven. It shares the machine's mechanism and differs only in trigger.",
+      "experiment": "E7, run_rho.py, eleven densities, two discovery costs, six arms",
+      "replication": "none; the density-zero row reproduces the prior negatives, which is an internal consistency check rather than a replication",
+      "result": "Crossovers are real but bounded. Against lazy re-derivation and against memoization the machine wins from density 0.05 upward, and the crossover point rises with discovery cost as predicted. Against the deferred-induction parent there is NO crossover at any density up to the realised maximum of 0.875, at either discovery cost. Density zero reproduced the negatives, so the sweep is valid rather than void.",
+      "limitation": "The density is set by hand and says nothing about the density of any real task ecology. The realised maximum is 0.875 rather than 1.0, because the donor tasks that make structure acquirable can never themselves be essential. The lazy gap saturates at one avoided derivation per family rather than compounding with the horizon. The deferred parent is cheap here only because evidence is perfectly retainable, which will not hold everywhere.",
+      "permitted_wording": "Absent reuse opportunity explains why persisting was worthless, but not why acquiring eagerly was worse than acquiring on demand; the second is a question about acquisition policy rather than about the ecology or the architecture.",
+      "forbidden_wording": "Given enough reuse opportunity, the machine amortizes its structure."
+    },
+    {
+      "claim_id": "C14-BOUNDED-RETENTION-FAVOURS-GENERALIZATION",
+      "claim": "When retention is bounded in bits and priced, and the answer population is compressible enough, an ONLINE machine that keeps generalizations serves a demand stream for less total work than a CLAIRVOYANT machine that keeps instances.",
+      "level": "L1",
+      "evidence": "E2",
+      "hypothesis": "Every prior negative in this programme ran where holding what you derived cost nothing and was never bounded. Under those conditions retaining nothing is optimal and the parents' wins are arithmetic. Bound retention in bits and the choice of WHAT to keep becomes the decision under test, and representation should start to matter.",
+      "strongest_parent": "belady_instance_cache: handed the entire future demand stream and evicting furthest-in-future, which for uniform-size uniform-cost items is Belady's rule and is optimal over every instance policy, offline or online. It has strictly more information than the arm, on purpose, so that a loss cannot be blamed on scheduling.",
+      "experiment": "E10, run_retain.py, three grids, nine arms, protected draw derived from the plan digest",
+      "replication": "none; the extension-size-one row and the free-retention rows reproduce the prior negatives, which is an internal consistency check rather than a replication",
+      "result": "A crossover exists at extension size 16 at every registered budget, and the best observed ratio is 0.379 at extension 32 and 1024 bits. It survives at uniform demand, the hardest setting for any cache. The negative control held: at extension one, where a rule regenerates one answer for four answer-slots, the arm does not beat the clairvoyant. The placebo subtraction is positive wherever the arm wins. The one parent that still beats the arm is the clairvoyant that may also hold rules -- itself a generalizer.",
+      "limitation": "Rules are disjoint, uniform in extension, and induced without error, and derivation reveals rule membership, so induction difficulty is held at zero and a world where the rule must be learned can only be worse for the arm. The stream is stationary. m* was located on a grid stepping 8, 16, 32, so it is bracketed rather than measured, and the horizon prediction P3 is untested rather than confirmed for exactly that reason. Sigma is priced after the fact and no arm is sigma-aware; a sigma-aware arm would beat every arm here at a high price of storage.",
+      "permitted_wording": "In a world where retention is bounded in bits and the answer population is compressible, keeping a generator beat keeping its outputs, and beat it even against an instance-keeper shown the whole future. That is a claim about representation under scarcity, and the compressibility threshold is a property of the world rather than of the machine.",
+      "forbidden_wording": "OCM's persistent structure amortizes. The machine beats the optimal baseline."
     }
   ]
 }

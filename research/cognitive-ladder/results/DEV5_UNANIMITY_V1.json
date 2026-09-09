@@ -1,0 +1,2347 @@
+{
+  "arm_roles": {
+    "ORACLE_GUARD_PARENT": "CEILING",
+    "REPLAY_ONLY_PARENT": "PARENT_NO_GUARDS",
+    "SINGLETON_FULL": "PRIOR_MACHINE_DEV3_DEV4",
+    "UNANIMITY_FULL": "MACHINE",
+    "UNANIMITY_SMALL": "CONTROL_DEFICIENT_LANGUAGE"
+  },
+  "authority": "E2 synthetic. Responds to DEV4_LANGUAGE_EXPANSION_V1 by changing a decision rule that DEV-3 and DEV-4 both took for granted. It withdraws no negative and no positive.",
+  "commitment": {
+    "commitment": "9376c5dd28531dc7e454639b7ae8e88dff5b8a99a079e5862b41ed4eecd038ec",
+    "protected_seed": "eb02aa377573793fa85dccef9d03a26eddadf57105f67d47a0e9a70b290b07b0"
+  },
+  "consult_cost_sweep": {
+    "note": "Deciding unanimity scans the survivors; deciding singleton tests whether there is one. Neither is free and neither was charged in DEV-3 or DEV-4. Both are charged here, identically, and the price is swept up to the price of a real scope check so that a reader can see whether the result needs consultation to be cheap.",
+    "rows": [
+      {
+        "beats_replay": true,
+        "beats_singleton": true,
+        "consult_cost": 0,
+        "replay_work": 35920.375,
+        "singleton_work": 96285.0,
+        "unanimity_work": 24937.75
+      },
+      {
+        "beats_replay": true,
+        "beats_singleton": true,
+        "consult_cost": 1,
+        "replay_work": 35920.375,
+        "singleton_work": 98285.0,
+        "unanimity_work": 26937.75
+      },
+      {
+        "beats_replay": true,
+        "beats_singleton": true,
+        "consult_cost": 5,
+        "replay_work": 35920.375,
+        "singleton_work": 106285.0,
+        "unanimity_work": 34937.75
+      },
+      {
+        "beats_replay": false,
+        "beats_singleton": true,
+        "consult_cost": 25,
+        "replay_work": 35920.375,
+        "singleton_work": 146285.0,
+        "unanimity_work": 74937.75
+      }
+    ]
+  },
+  "novelty": "NONE CLAIMED. Acting on the unanimous part of an uncollapsed version space is Mitchell 1982 and is standard in version-space and abstaining-classifier work. The contribution is noticing that two earlier experiments in this lane had taken the stronger rule for granted, and measuring what that cost them.",
+  "plan": {
+    "capability_gate": "A work figure is quoted only where correctness is 1.0 in every replicate. UNANIMITY_SMALL is expected to fail this at levels 2 and 3 and to have no admissible cost there, exactly as DEV-4's small-language arms did.",
+    "consult_cost_note": "Deciding unanimity scans the survivors; deciding singleton tests whether there is one. Neither is free and neither was charged in DEV-3 or DEV-4. Both are charged here, identically, and the price is swept up to the price of a real scope check so that a reader can see whether the result needs consultation to be cheap.",
+    "consult_cost_sweep": [
+      0,
+      1,
+      5,
+      25
+    ],
+    "contribution_level": "L1",
+    "costs": {
+      "consult": 1,
+      "expand": 15,
+      "guard_bits": 16,
+      "verify": 25
+    },
+    "decisive_causal_question": "SINGLETON_FULL and UNANIMITY_FULL hold the SAME language, see the same streams, run the same budget and differ in one line: when they are willing to act. Any difference between them is caused by the decision rule or by nothing.",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "kill_criterion": "If UNANIMITY_FULL does not beat SINGLETON_FULL, the version space is rarely unanimous about an index it has not decided, the weaker rule is inert, and the dilemma DEV-4 left is real rather than an artifact of the decision rule.",
+    "novelty": "NONE CLAIMED. Acting on the unanimous part of an uncollapsed version space is Mitchell 1982 and is standard in version-space and abstaining-classifier work. The contribution is noticing that two earlier experiments in this lane had taken the stronger rule for granted, and measuring what that cost them.",
+    "predictions_frozen_before_execution": {
+      "U1": "UNANIMITY_FULL holds correctness 1.0 at every level and evidence length. It is sound by construction and a failure here is a harness bug, not a finding.",
+      "U2": "UNANIMITY_FULL beats SINGLETON_FULL on work at every setting, because it acts strictly more often on the same information at the same soundness.",
+      "U3": "UNANIMITY_FULL beats REPLAY_ONLY_PARENT inside DEV-3's analytic budget window, WITHOUT the language gift DEV-3 needed.",
+      "U4": "UNANIMITY_FULL does not beat ORACLE_GUARD_PARENT. If it does, the ceiling is wrong and the run is void.",
+      "U5": "UNANIMITY_SMALL is unsound at levels 2 and 3, showing that unanimity fixes the DECISION RULE and not a deficient language. If it is sound there, the DEV-4 result does not mean what it was taken to mean."
+    },
+    "prior_information_audit": {
+      "ORACLE_GUARD_PARENT": "the true guard for every rule, free. A ceiling",
+      "REPLAY_ONLY_PARENT": "no guards at all",
+      "SINGLETON_FULL": "identical, and acts only on a singleton",
+      "UNANIMITY_FULL": "the full language, which contains every world's truth; no world level, no guard, no exception set",
+      "UNANIMITY_SMALL": "the level-1 language only; unanimity over a space that may not contain the truth, which is the control"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "registered_consult_cost": 1,
+    "responds_to": "results/DEV4_LANGUAGE_EXPANSION_V1.json",
+    "scientific_question": "DEV-3 and DEV-4 both used a guard only when its version space was a SINGLETON. That rule is sufficient for soundness and not necessary. If the arm instead asks, per query, whether every surviving candidate AGREES about this index, does it keep the full language's soundness and gain the small language's speed?",
+    "strongest_parent_attack": "REPLAY_ONLY_PARENT, which beat this lane in DEV-2 and lost to DEV-3's guarded arm only under a declared gift that DEV-4 then showed was a precondition. If unanimity beats it WITHOUT that gift -- holding a language large enough to contain the truth at every level, rather than one hand-fitted to the world -- the DEV-3 result stops depending on the condition DEV-4 found binding.",
+    "study_id": "DEV5_UNANIMITY_V1",
+    "sweep": {
+      "budget_bits": [
+        1024,
+        1536
+      ],
+      "d0_lengths": [
+        200,
+        800,
+        2000
+      ],
+      "d1_length": 1000,
+      "extension": 16,
+      "levels": [
+        1,
+        2,
+        3
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skews": [
+        0.0,
+        1.0
+      ]
+    },
+    "the_argument": "A guard is consulted about one index at a time. Unanimity among survivors determines the answer whichever survivor is the truth, so it is sound for exactly the reason the singleton rule is -- the truth is always among the survivors -- and it fires far more often, because a version space can be unanimous about most indices while undecided about which predicate it is.",
+    "what_this_does_not_establish": "Unanimity is an old idea about version spaces and is not new here. The languages and the world are DEV-4's, so every limitation declared there applies unchanged: three levels of one hand-chosen predicate family, disjoint uniform rules, error-free induction, one stage pair. What changes is a decision rule, and the claim is about that rule and nothing wider."
+  },
+  "predictions": {
+    "U1_unanimity_full_is_sound_everywhere": true,
+    "U2_beats_the_singleton_rule_everywhere": true,
+    "U3_beats_replay_without_the_language_gift": true,
+    "U4_does_not_beat_the_oracle_guard": true,
+    "U5_unanimity_does_not_rescue_a_deficient_language": true
+  },
+  "primary_grid": [
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 83952.125,
+          "d1_work_if_it_were_admissible": 83952.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 406.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106655.875,
+          "d1_work_if_it_were_admissible": 106655.875,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 118177.5,
+          "d1_work_if_it_were_admissible": 118177.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1410.125
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 87386.5,
+          "d1_work_if_it_were_admissible": 87386.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 544.25
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 83955.25,
+          "d1_work_if_it_were_admissible": 83955.25,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 407
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0409087322089823,
+        "REPLAY_ONLY_PARENT": 0.819331330786982,
+        "SINGLETON_FULL": 0.7394512491802585,
+        "UNANIMITY_SMALL": 1.0408699872848928
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 46638.875,
+          "d1_work_if_it_were_admissible": 46638.875,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67377.625,
+          "d1_work_if_it_were_admissible": 67377.625,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 120860.5,
+          "d1_work_if_it_were_admissible": 120860.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1495.75
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 49910.75,
+          "d1_work_if_it_were_admissible": 49910.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 130.875
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 47020.125,
+          "d1_work_if_it_were_admissible": 47020.125,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 15.25
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0701533859896921,
+        "REPLAY_ONLY_PARENT": 0.7407614916673005,
+        "SINGLETON_FULL": 0.4129616375904452,
+        "UNANIMITY_SMALL": 1.0614763359306254
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 25137.75,
+          "d1_work_if_it_were_admissible": 25137.75,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 57638.5,
+          "d1_work_if_it_were_admissible": 57638.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 109860.875,
+          "d1_work_if_it_were_admissible": 109860.875,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1389.125
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 28256.5,
+          "d1_work_if_it_were_admissible": 28256.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 124.75
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 25259.625,
+          "d1_work_if_it_were_admissible": 25259.625,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 4.875
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.1240663941681335,
+        "REPLAY_ONLY_PARENT": 0.4902365606322163,
+        "SINGLETON_FULL": 0.2572025755301876,
+        "UNANIMITY_SMALL": 1.1186428935504782
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26454.5,
+          "d1_work_if_it_were_admissible": 26454.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36737.125,
+          "d1_work_if_it_were_admissible": 36737.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 113933.75,
+          "d1_work_if_it_were_admissible": 113933.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1437
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 28413.875,
+          "d1_work_if_it_were_admissible": 28413.875,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 78.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 26838.875,
+          "d1_work_if_it_were_admissible": 26838.875,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 15.375
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0740658489103934,
+        "REPLAY_ONLY_PARENT": 0.7734376329122108,
+        "SINGLETON_FULL": 0.24938944781506797,
+        "UNANIMITY_SMALL": 1.0586835327486714
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 113875.25,
+          "d1_work_if_it_were_admissible": 113875.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 1326.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106829.125,
+          "d1_work_if_it_were_admissible": 106829.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 129115.5,
+          "d1_work_if_it_were_admissible": 129115.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1818.25
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 113944.0,
+          "d1_work_if_it_were_admissible": 113944.0,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 1329.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 113875.25,
+          "d1_work_if_it_were_admissible": 113875.25,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1326.375
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0006037308370344,
+        "REPLAY_ONLY_PARENT": 1.0666005174150777,
+        "SINGLETON_FULL": 0.8824966793297474,
+        "UNANIMITY_SMALL": 1.0006037308370344
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 105230.5,
+          "d1_work_if_it_were_admissible": 105230.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 1054
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 68243.875,
+          "d1_work_if_it_were_admissible": 68243.875,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 125892.125,
+          "d1_work_if_it_were_admissible": 125892.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1703.75
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 105358.625,
+          "d1_work_if_it_were_admissible": 105358.625,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 1059.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 105230.5,
+          "d1_work_if_it_were_admissible": 105230.5,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1054
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0012175652496187,
+        "REPLAY_ONLY_PARENT": 1.5438546682760907,
+        "SINGLETON_FULL": 0.8368960727289336,
+        "UNANIMITY_SMALL": 1.0012175652496187
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 21720.375,
+          "d1_work_if_it_were_admissible": 21720.375,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 55720.375,
+          "d1_work_if_it_were_admissible": 55720.375,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 102421.625,
+          "d1_work_if_it_were_admissible": 102421.625,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1388
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 21954.75,
+          "d1_work_if_it_were_admissible": 21954.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 9.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 21720.375,
+          "d1_work_if_it_were_admissible": 21720.375,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0107905595552562,
+        "REPLAY_ONLY_PARENT": 0.3940165513961455,
+        "SINGLETON_FULL": 0.2143565872929667,
+        "UNANIMITY_SMALL": 1.0107905595552562
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 22134.375,
+          "d1_work_if_it_were_admissible": 22134.375,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36167.875,
+          "d1_work_if_it_were_admissible": 36167.875,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 114216.75,
+          "d1_work_if_it_were_admissible": 114216.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1392
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 22553.125,
+          "d1_work_if_it_were_admissible": 22553.125,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 16.75
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 22134.375,
+          "d1_work_if_it_were_admissible": 22134.375,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0189185373429337,
+        "REPLAY_ONLY_PARENT": 0.6235678761884683,
+        "SINGLETON_FULL": 0.19745899791405377,
+        "UNANIMITY_SMALL": 1.0189185373429337
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 115636.75,
+          "d1_work_if_it_were_admissible": 115636.75,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 1420.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 105703.0,
+          "d1_work_if_it_were_admissible": 105703.0,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 129872.125,
+          "d1_work_if_it_were_admissible": 129872.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1857.375
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 115636.75,
+          "d1_work_if_it_were_admissible": 115636.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 1420.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 115636.75,
+          "d1_work_if_it_were_admissible": 115636.75,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1420.125
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 1.0939779381852928,
+        "SINGLETON_FULL": 0.8903892963944341,
+        "UNANIMITY_SMALL": 1.0
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 94980.5,
+          "d1_work_if_it_were_admissible": 94980.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 952.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67328.125,
+          "d1_work_if_it_were_admissible": 67328.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 126889.625,
+          "d1_work_if_it_were_admissible": 126889.625,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1696.25
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 95074.25,
+          "d1_work_if_it_were_admissible": 95074.25,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 956.25
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 94980.5,
+          "d1_work_if_it_were_admissible": 94980.5,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 952.5
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.000987044709177,
+        "REPLAY_ONLY_PARENT": 1.4121030401485264,
+        "SINGLETON_FULL": 0.749267325835347,
+        "UNANIMITY_SMALL": 1.000987044709177
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 31026.875,
+          "d1_work_if_it_were_admissible": 31026.875,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 76.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 57081.625,
+          "d1_work_if_it_were_admissible": 57081.625,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 102652.75,
+          "d1_work_if_it_were_admissible": 102652.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1345.75
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 31026.875,
+          "d1_work_if_it_were_admissible": 31026.875,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 76.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 31026.875,
+          "d1_work_if_it_were_admissible": 31026.875,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 76.125
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 0.5435527632578785,
+        "SINGLETON_FULL": 0.3022507921122425,
+        "UNANIMITY_SMALL": 1.0
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 32423.625,
+          "d1_work_if_it_were_admissible": 32423.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 60.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36774.25,
+          "d1_work_if_it_were_admissible": 36774.25,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 107464.125,
+          "d1_work_if_it_were_admissible": 107464.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1553.875
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 32508.0,
+          "d1_work_if_it_were_admissible": 32508.0,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 63.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 32423.625,
+          "d1_work_if_it_were_admissible": 32423.625,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 60.125
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 1,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0026022691787237,
+        "REPLAY_ONLY_PARENT": 0.8839881166849086,
+        "SINGLETON_FULL": 0.30250095089873014,
+        "UNANIMITY_SMALL": 1.0026022691787237
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 33732.5,
+          "d1_work_if_it_were_admissible": 33732.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106420.75,
+          "d1_work_if_it_were_admissible": 106420.75,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 99282.875,
+          "d1_work_if_it_were_admissible": 99282.875,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1690.125
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 35082.5,
+          "d1_work_if_it_were_admissible": 35082.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 54
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 100513.875,
+          "min_correctness": 0.921,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1775.125
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0400207515007782,
+        "REPLAY_ONLY_PARENT": 0.32965845476563543,
+        "SINGLETON_FULL": 0.35335902591459,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 31778.125,
+          "d1_work_if_it_were_admissible": 31778.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67625.125,
+          "d1_work_if_it_were_admissible": 67625.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 100416.75,
+          "d1_work_if_it_were_admissible": 100416.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1639.125
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 33962.5,
+          "d1_work_if_it_were_admissible": 33962.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 87.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 100818.375,
+          "min_correctness": 0.942,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1755
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.068738322352247,
+        "REPLAY_ONLY_PARENT": 0.502217186289859,
+        "SINGLETON_FULL": 0.3382154869581021,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 25529.625,
+          "d1_work_if_it_were_admissible": 25529.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 56252.5,
+          "d1_work_if_it_were_admissible": 56252.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 101588.5,
+          "d1_work_if_it_were_admissible": 101588.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1716.25
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 27126.5,
+          "d1_work_if_it_were_admissible": 27126.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 63.875
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 106161.5,
+          "min_correctness": 0.956,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1847.375
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0625498807757654,
+        "REPLAY_ONLY_PARENT": 0.48222745655748633,
+        "SINGLETON_FULL": 0.2670233343341028,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26810.0,
+          "d1_work_if_it_were_admissible": 26810.0,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 37516.75,
+          "d1_work_if_it_were_admissible": 37516.75,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 101005.875,
+          "d1_work_if_it_were_admissible": 101005.875,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1701.625
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 29056.875,
+          "d1_work_if_it_were_admissible": 29056.875,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 89.875
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 104722.5,
+          "min_correctness": 0.95,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1811.5
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0838073480044759,
+        "REPLAY_ONLY_PARENT": 0.7745040548554979,
+        "SINGLETON_FULL": 0.28767509810691705,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 64768.0,
+          "d1_work_if_it_were_admissible": 64768.0,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 657.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 107027.125,
+          "d1_work_if_it_were_admissible": 107027.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 100023.25,
+          "d1_work_if_it_were_admissible": 100023.25,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1678.5
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 64789.875,
+          "d1_work_if_it_were_admissible": 64789.875,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 658.75
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 110392.375,
+          "d1_work_if_it_were_admissible": 110392.375,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1994.875
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0003377439476284,
+        "REPLAY_ONLY_PARENT": 0.6053593890333876,
+        "SINGLETON_FULL": 0.6477481485554608,
+        "UNANIMITY_SMALL": 0.5869053455911244
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 80057.75,
+          "d1_work_if_it_were_admissible": 80057.75,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 941.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 68664.625,
+          "d1_work_if_it_were_admissible": 68664.625,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 103583.75,
+          "d1_work_if_it_were_admissible": 103583.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1803.75
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 80254.625,
+          "d1_work_if_it_were_admissible": 80254.625,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 949.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 107572.875,
+          "min_correctness": 0.988,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1964.125
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0024591622922203,
+        "REPLAY_ONLY_PARENT": 1.1687914264441115,
+        "SINGLETON_FULL": 0.7747800692676217,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 24005.25,
+          "d1_work_if_it_were_admissible": 24005.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 56153.5,
+          "d1_work_if_it_were_admissible": 56153.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 94353.125,
+          "d1_work_if_it_were_admissible": 94353.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1605.125
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 24033.375,
+          "d1_work_if_it_were_admissible": 24033.375,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 1.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 109298.75,
+          "d1_work_if_it_were_admissible": 109298.75,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0011716187084074,
+        "REPLAY_ONLY_PARENT": 0.4279942479097474,
+        "SINGLETON_FULL": 0.2547173185837777,
+        "UNANIMITY_SMALL": 0.2198870069419824
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 24473.25,
+          "d1_work_if_it_were_admissible": 24473.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 37046.5,
+          "d1_work_if_it_were_admissible": 37046.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 96775.125,
+          "d1_work_if_it_were_admissible": 96775.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1662
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 24685.75,
+          "d1_work_if_it_were_admissible": 24685.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 8.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 109253.75,
+          "min_correctness": 0.987,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1975.25
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.008682949751259,
+        "REPLAY_ONLY_PARENT": 0.6663449988527931,
+        "SINGLETON_FULL": 0.25508362815341235,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 68908.5,
+          "d1_work_if_it_were_admissible": 68908.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 766.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 107113.75,
+          "d1_work_if_it_were_admissible": 107113.75,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 102849.625,
+          "d1_work_if_it_were_admissible": 102849.625,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1756.375
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 68908.5,
+          "d1_work_if_it_were_admissible": 68908.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 766.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 110342.875,
+          "d1_work_if_it_were_admissible": 110342.875,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1995.75
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 0.6433207688088597,
+        "SINGLETON_FULL": 0.6699927199540106,
+        "UNANIMITY_SMALL": 0.6244943318723569
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 87527.5,
+          "d1_work_if_it_were_admissible": 87527.5,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 1231.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 66103.0,
+          "d1_work_if_it_were_admissible": 66103.0,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 104410.375,
+          "d1_work_if_it_were_admissible": 104410.375,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1833.5
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 87530.625,
+          "d1_work_if_it_were_admissible": 87530.625,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 1231.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 108884.5,
+          "d1_work_if_it_were_admissible": 108884.5,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1994
+        }
+      },
+      "beats_replay": false,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.000035703064751,
+        "REPLAY_ONLY_PARENT": 1.3241551064248218,
+        "SINGLETON_FULL": 0.8383326369625624,
+        "UNANIMITY_SMALL": 0.8038850800619004
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 23691.375,
+          "d1_work_if_it_were_admissible": 23691.375,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 55943.125,
+          "d1_work_if_it_were_admissible": 55943.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 93955.875,
+          "d1_work_if_it_were_admissible": 93955.875,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1581
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 23691.375,
+          "d1_work_if_it_were_admissible": 23691.375,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 110086.25,
+          "d1_work_if_it_were_admissible": 110086.25,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 0.423490375269526,
+        "SINGLETON_FULL": 0.2521542692247824,
+        "UNANIMITY_SMALL": 0.21520739420227322
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 23937.75,
+          "d1_work_if_it_were_admissible": 23937.75,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36452.5,
+          "d1_work_if_it_were_admissible": 36452.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 93616.5,
+          "d1_work_if_it_were_admissible": 93616.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1638.75
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 23956.5,
+          "d1_work_if_it_were_admissible": 23956.5,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 0.75
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 108570.0,
+          "min_correctness": 0.992,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1992
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 2,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0007832816367452,
+        "REPLAY_ONLY_PARENT": 0.6571977230642617,
+        "SINGLETON_FULL": 0.25590040217269394,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26953.125,
+          "d1_work_if_it_were_admissible": 26953.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 105505.0,
+          "d1_work_if_it_were_admissible": 105505.0,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97443.0,
+          "d1_work_if_it_were_admissible": 97443.0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1999.875
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 36240.625,
+          "d1_work_if_it_were_admissible": 36240.625,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 371.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 73057.0,
+          "min_correctness": 0.912,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1189
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.3445797101449275,
+        "REPLAY_ONLY_PARENT": 0.34349675370835503,
+        "SINGLETON_FULL": 0.37191614584936833,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26613.125,
+          "d1_work_if_it_were_admissible": 26613.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 66845.5,
+          "d1_work_if_it_were_admissible": 66845.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97242.375,
+          "d1_work_if_it_were_admissible": 97242.375,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1997.875
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 34344.375,
+          "d1_work_if_it_were_admissible": 34344.375,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 309.25
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 76543.5,
+          "min_correctness": 0.946,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1292.5
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.2905051548812851,
+        "REPLAY_ONLY_PARENT": 0.513787390325452,
+        "SINGLETON_FULL": 0.3531832187356592,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26363.25,
+          "d1_work_if_it_were_admissible": 26363.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 57143.5,
+          "d1_work_if_it_were_admissible": 57143.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 95618.75,
+          "d1_work_if_it_were_admissible": 95618.75,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 34416.375,
+          "d1_work_if_it_were_admissible": 34416.375,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 322.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 72633.125,
+          "min_correctness": 0.93,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1223
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.3054678387528094,
+        "REPLAY_ONLY_PARENT": 0.6022797868523979,
+        "SINGLETON_FULL": 0.35993332897575003,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26850.625,
+          "d1_work_if_it_were_admissible": 26850.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 37541.5,
+          "d1_work_if_it_were_admissible": 37541.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97163.5,
+          "d1_work_if_it_were_admissible": 97163.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1997.25
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 34285.0,
+          "d1_work_if_it_were_admissible": 34285.0,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 297.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 77771.375,
+          "min_correctness": 0.939,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1347.25
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 200,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.2768790298177417,
+        "REPLAY_ONLY_PARENT": 0.9132559966969886,
+        "SINGLETON_FULL": 0.3528588410256938,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26366.125,
+          "d1_work_if_it_were_admissible": 26366.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 16
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106693.0,
+          "d1_work_if_it_were_admissible": 106693.0,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97802.625,
+          "d1_work_if_it_were_admissible": 97802.625,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1998.25
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 26753.625,
+          "d1_work_if_it_were_admissible": 26753.625,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 31.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 90623.875,
+          "min_correctness": 0.993,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1714.25
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0146968885264709,
+        "REPLAY_ONLY_PARENT": 0.25075332964674346,
+        "SINGLETON_FULL": 0.2735471057141871,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 30308.625,
+          "d1_work_if_it_were_admissible": 30308.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 58.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67031.125,
+          "d1_work_if_it_were_admissible": 67031.125,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97319.125,
+          "d1_work_if_it_were_admissible": 97319.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1998.5
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 31536.75,
+          "d1_work_if_it_were_admissible": 31536.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 107.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 91513.125,
+          "min_correctness": 0.987,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1780.75
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0405206438761243,
+        "REPLAY_ONLY_PARENT": 0.47047919902880936,
+        "SINGLETON_FULL": 0.32405500974243245,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 25331.625,
+          "d1_work_if_it_were_admissible": 25331.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 55918.375,
+          "d1_work_if_it_were_admissible": 55918.375,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 94921.25,
+          "d1_work_if_it_were_admissible": 94921.25,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 25959.75,
+          "d1_work_if_it_were_admissible": 25959.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 25.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 86208.875,
+          "min_correctness": 0.988,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1661
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0247960799988156,
+        "REPLAY_ONLY_PARENT": 0.4642436408425674,
+        "SINGLETON_FULL": 0.27348723283774706,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 25428.375,
+          "d1_work_if_it_were_admissible": 25428.375,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 35920.375,
+          "d1_work_if_it_were_admissible": 35920.375,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 98285.0,
+          "d1_work_if_it_were_admissible": 98285.0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 26937.75,
+          "d1_work_if_it_were_admissible": 26937.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 60.375
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 87207.375,
+          "min_correctness": 0.976,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1618.5
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 800,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0593579023433468,
+        "REPLAY_ONLY_PARENT": 0.7499295316376847,
+        "SINGLETON_FULL": 0.2740779366129114,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 26805.25,
+          "d1_work_if_it_were_admissible": 26805.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 17.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106061.875,
+          "d1_work_if_it_were_admissible": 106061.875,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 96564.875,
+          "d1_work_if_it_were_admissible": 96564.875,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1998.625
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 26805.25,
+          "d1_work_if_it_were_admissible": 26805.25,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 17.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 88399.25,
+          "d1_work_if_it_were_admissible": 88399.25,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1672
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 0.25273219052557766,
+        "SINGLETON_FULL": 0.2775879945994856,
+        "UNANIMITY_SMALL": 0.303229382602228
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 30754.125,
+          "d1_work_if_it_were_admissible": 30754.125,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 94.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67390.0,
+          "d1_work_if_it_were_admissible": 67390.0,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 95468.125,
+          "d1_work_if_it_were_admissible": 95468.125,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 1997.5
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 30876.0,
+          "d1_work_if_it_were_admissible": 30876.0,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 99.5
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 84937.375,
+          "min_correctness": 0.998,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1581.625
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1024,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0039628830278866,
+        "REPLAY_ONLY_PARENT": 0.45816886778453775,
+        "SINGLETON_FULL": 0.32341684724613584,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 24977.25,
+          "d1_work_if_it_were_admissible": 24977.25,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 56722.75,
+          "d1_work_if_it_were_admissible": 56722.75,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97227.5,
+          "d1_work_if_it_were_admissible": 97227.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 24977.25,
+          "d1_work_if_it_were_admissible": 24977.25,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": 88699.375,
+          "d1_work_if_it_were_admissible": 88699.375,
+          "min_correctness": 1.0,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": true,
+          "verifications": 1658.875
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0,
+        "REPLAY_ONLY_PARENT": 0.4403391937097549,
+        "SINGLETON_FULL": 0.2568949114190944,
+        "UNANIMITY_SMALL": 0.28159443062592043
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "ORACLE_GUARD_PARENT": {
+          "d1_work": 25007.625,
+          "d1_work_if_it_were_admissible": 25007.625,
+          "min_correctness": 1.0,
+          "role": "CEILING",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 35561.5,
+          "d1_work_if_it_were_admissible": 35561.5,
+          "min_correctness": 1.0,
+          "role": "PARENT_NO_GUARDS",
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL": {
+          "d1_work": 97542.5,
+          "d1_work_if_it_were_admissible": 97542.5,
+          "min_correctness": 1.0,
+          "role": "PRIOR_MACHINE_DEV3_DEV4",
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL": {
+          "d1_work": 25085.75,
+          "d1_work_if_it_were_admissible": 25085.75,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "sound_in_every_replicate": true,
+          "verifications": 3.125
+        },
+        "UNANIMITY_SMALL": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 89156.25,
+          "min_correctness": 0.995,
+          "role": "CONTROL_DEFICIENT_LANGUAGE",
+          "sound_in_every_replicate": false,
+          "verifications": 1675.125
+        }
+      },
+      "beats_replay": true,
+      "beats_singleton": true,
+      "budget_bits": 1536,
+      "consult_cost": 1,
+      "d0_length": 2000,
+      "level": 3,
+      "ratio_to": {
+        "ORACLE_GUARD_PARENT": 1.0031240471656144,
+        "REPLAY_ONLY_PARENT": 0.7054187815474601,
+        "SINGLETON_FULL": 0.25717764051567266,
+        "UNANIMITY_SMALL": null
+      },
+      "reps": 8,
+      "skew": 1.0
+    }
+  ],
+  "study_id": "DEV5_UNANIMITY_V1",
+  "terminal": "UNANIMITY_RECOVERS_THE_FULL_LANGUAGE",
+  "terminal_reason": "UNANIMITY_FULL beats SINGLETON_FULL at 36 of 36 settings and by up to 5.06x, holding the SAME language and differing only in when it is willing to act. Mean scope checks fall from 1744 to 316 out of 2000 member demands. Correctness is 1.0 everywhere for both, because both act only on what the surviving candidates determine and the truth is always among them -- the weaker rule gives up no soundness at all, and the stronger rule was costing this lane a factor it never had to pay. It also beats REPLAY_ONLY_PARENT at 30 of 36 settings, WITHOUT the language gift DEV-3 needed: the language here contains the truth at every level because it is large, not because it was fitted to the world, and DEV-4 showed that is the condition that matters. The carry advantage therefore no longer rests on the precondition DEV-4 found binding.",
+  "the_control": {
+    "note": "UNANIMITY_SMALL applies the same decision rule over a language that cannot express level 2 and level 3 truths. If unanimity were a general fix rather than a fix for the decision rule, it would be sound here too.",
+    "unsound_cells": [
+      {
+        "budget_bits": 1024,
+        "d0_length": 200,
+        "level": 2,
+        "min_correctness": 0.921,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 200,
+        "level": 2,
+        "min_correctness": 0.942,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 200,
+        "level": 2,
+        "min_correctness": 0.956,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 200,
+        "level": 2,
+        "min_correctness": 0.95,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 800,
+        "level": 2,
+        "min_correctness": 0.988,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 800,
+        "level": 2,
+        "min_correctness": 0.987,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 2000,
+        "level": 2,
+        "min_correctness": 0.992,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 200,
+        "level": 3,
+        "min_correctness": 0.912,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 200,
+        "level": 3,
+        "min_correctness": 0.946,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 200,
+        "level": 3,
+        "min_correctness": 0.93,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 200,
+        "level": 3,
+        "min_correctness": 0.939,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 800,
+        "level": 3,
+        "min_correctness": 0.993,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 800,
+        "level": 3,
+        "min_correctness": 0.987,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 800,
+        "level": 3,
+        "min_correctness": 0.988,
+        "skew": 0.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 800,
+        "level": 3,
+        "min_correctness": 0.976,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1024,
+        "d0_length": 2000,
+        "level": 3,
+        "min_correctness": 0.998,
+        "skew": 1.0
+      },
+      {
+        "budget_bits": 1536,
+        "d0_length": 2000,
+        "level": 3,
+        "min_correctness": 0.995,
+        "skew": 1.0
+      }
+    ],
+    "verdict": "Unanimity does NOT rescue a deficient language: it is unsound in 17 of 36 cells, exactly where the truth is outside the language. What it fixes is the decision rule, and the language requirement DEV-4 established stands untouched."
+  },
+  "what_this_changes_about_dev3": "DEV-3's carry advantage needed a guard language fitted to the world, and DEV-4 showed that was a precondition rather than a convenience. UNANIMITY_FULL holds a language large enough to contain the truth at every level -- not fitted to any of them -- and still beats the replay parent. The precondition is satisfied by taking a BIG language rather than the RIGHT one, which is available without knowing the world, and the cost of doing so is what the singleton rule was charging and the unanimity rule is not.",
+  "what_this_does_not_establish": "Unanimity is an old idea about version spaces and is not new here. The languages and the world are DEV-4's, so every limitation declared there applies unchanged: three levels of one hand-chosen predicate family, disjoint uniform rules, error-free induction, one stage pair. What changes is a decision rule, and the claim is about that rule and nothing wider."
+}

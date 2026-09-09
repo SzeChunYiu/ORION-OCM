@@ -1,0 +1,531 @@
+{
+  "schema": "orion.developmental-spine.v1",
+  "issue": "SzeChunYiu/ORION-OCM#151",
+  "discharges": [
+    "DEV-D1 transition schema and lineage identity",
+    "DEV-D8 continued/reset/task-specific/strong-parent controls"
+  ],
+  "authority": "This defines a receipt shape and reports coverage. It runs no experiment, produces no evidence and upgrades nothing. Existing pilots remain E1/E2 per #151 section 12.",
+  "stages": [
+    {
+      "stage": "D0",
+      "description": "basic exact interaction"
+    },
+    {
+      "stage": "D1",
+      "description": "composition, failure and scope"
+    },
+    {
+      "stage": "D2",
+      "description": "planning and uncertainty"
+    },
+    {
+      "stage": "D3",
+      "description": "formal mathematics and controlled language"
+    },
+    {
+      "stage": "D4",
+      "description": "coding, tools and scientific investigation"
+    },
+    {
+      "stage": "D5",
+      "description": "metacognition and learning to learn"
+    },
+    {
+      "stage": "D6",
+      "description": "governed self-evolution"
+    }
+  ],
+  "required_arms": {
+    "CONTINUED_OCM": "full earned prior developmental state",
+    "RESET_OCM": "same immutable architecture and current-stage information, no prior competence",
+    "STRONG_ADAPTIVE_PARENT": "strongest faithful parent with matched information, memory, tools and adaptation permissions",
+    "TASK_SPECIFIC_OCM": "built for this stage alone; bounds how much of any gain is generality"
+  },
+  "transition_fields": [
+    "lineage_id",
+    "source_stage",
+    "target_stage",
+    "source_machine_identity",
+    "target_machine_identity",
+    "persistent_state_digest",
+    "prior_information_manifest",
+    "new_information_supplied",
+    "new_methods",
+    "new_schemas",
+    "new_representations",
+    "reused_object_identities",
+    "reuse_execution_witnesses",
+    "new_primitive_operators_admitted",
+    "composition_depth",
+    "acquisition_cost",
+    "query_cost",
+    "verification_cost",
+    "revision_cost",
+    "maintenance_cost",
+    "persistent_bytes",
+    "active_k",
+    "total_N",
+    "retention",
+    "negative_transfer",
+    "harmful_transfer_refusals",
+    "ablation_result",
+    "strongest_parent_result",
+    "terminal",
+    "cheaper_because"
+  ],
+  "field_added_beyond_151": {
+    "cheaper_because": "#151 section 3 states the decisive question is not whether the older machine scores higher but whether prior experience causally made the next competence cheaper. A receipt recording only the score would satisfy the listed fields and still not answer that, so the causal attribution is a required field here."
+  },
+  "evidence_map": {
+    "SCALING_PILOT_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "query_cost",
+        "maintenance_cost",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "carries state across scales without reset, so its k and byte measurements are lineage measurements. It has no reset arm and no acquisition of new competence, so it is stage evidence, not transition evidence."
+    },
+    "SUBSPACE_E1_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "query_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "same lineage discipline; adds the relevance-key degradation measurement."
+    },
+    "REINDEX_E9_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "maintenance_cost",
+        "strongest_parent_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "an engineering fix to one coordinate; contributes maintenance cost only."
+    },
+    "DEPEND_E3_V1.json": {
+      "stage": "D0",
+      "supplies": [
+        "revision_cost",
+        "ablation_result",
+        "terminal"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "revocation across a growing store; supplies revision cost."
+    },
+    "FAILURE_PILOT_V1.json": {
+      "stage": "D1",
+      "supplies": [
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "scope and failure knowledge, which is D1 material, but each world is independent so nothing is carried from D0."
+    },
+    "DIAGNOSIS_E2_V1.json": {
+      "stage": "D2",
+      "supplies": [
+        "verification_cost",
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "probe selection under hidden cause, which is D2 material."
+    },
+    "ESCALATION_INDEPENDENT_E4_V1.json": {
+      "stage": "D2",
+      "supplies": [
+        "terminal",
+        "strongest_parent_result"
+      ],
+      "arms": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "note": "obstruction versus search-more, which is D2 material."
+    },
+    "DEV1_D0_TO_D1_V1.json": {
+      "stage": "D1",
+      "transition": [
+        "D0",
+        "D1"
+      ],
+      "supplies": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "arms": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "note": "the first receipt in the repository written for a TRANSITION rather than a stage: one lineage carries its D0 store across the boundary, a reset arm with the same architecture and the same D1 stream does not, a clairvoyant parent bounds the claim, and a task-specific arm bounds how much of the gain is generality. It counts only for D0 to D1, and its own terminal is CONDITIONAL: the lineage wins at 1024 bits and loses at 256, so this transition is complete in the sense of being MEASURED, not in the sense of being won everywhere. SUPERSEDED ON THE CARRY CLAIM by DEV2_CONTINUAL_PARENTS_V1: a plain experience replay parent, at the same budget on the same streams, beats the lineage at five of six settings and by 1.57x at the loose budget where DEV-1 reported its only positive. The transition is still measured and its four arms still ran; what is withdrawn is the claim that carrying an ABSTRACTED store was the best use of the budget."
+    }
+  },
+  "transitions": [
+    {
+      "source_stage": "D0",
+      "target_stage": "D1",
+      "complete": true,
+      "supporting_receipts": [
+        "DEPEND_E3_V1.json",
+        "DEV1_D0_TO_D1_V1.json",
+        "FAILURE_PILOT_V1.json",
+        "REINDEX_E9_V1.json",
+        "SCALING_PILOT_V1.json",
+        "SUBSPACE_E1_V1.json"
+      ],
+      "arms_present": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "arms_missing": [],
+      "fields_present": [
+        "ablation_result",
+        "acquisition_cost",
+        "active_k",
+        "cheaper_because",
+        "composition_depth",
+        "harmful_transfer_refusals",
+        "lineage_id",
+        "maintenance_cost",
+        "negative_transfer",
+        "new_information_supplied",
+        "new_methods",
+        "new_primitive_operators_admitted",
+        "new_representations",
+        "new_schemas",
+        "persistent_bytes",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "query_cost",
+        "retention",
+        "reuse_execution_witnesses",
+        "reused_object_identities",
+        "revision_cost",
+        "source_machine_identity",
+        "source_stage",
+        "strongest_parent_result",
+        "target_machine_identity",
+        "target_stage",
+        "terminal",
+        "total_N",
+        "verification_cost"
+      ],
+      "fields_missing": [],
+      "blocking_reason": ""
+    },
+    {
+      "source_stage": "D1",
+      "target_stage": "D2",
+      "complete": false,
+      "supporting_receipts": [
+        "DIAGNOSIS_E2_V1.json",
+        "ESCALATION_INDEPENDENT_E4_V1.json",
+        "FAILURE_PILOT_V1.json"
+      ],
+      "arms_present": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [
+        "harmful_transfer_refusals",
+        "negative_transfer",
+        "strongest_parent_result",
+        "terminal",
+        "verification_cost"
+      ],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "ablation_result",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D2",
+      "target_stage": "D3",
+      "complete": false,
+      "supporting_receipts": [
+        "DIAGNOSIS_E2_V1.json",
+        "ESCALATION_INDEPENDENT_E4_V1.json"
+      ],
+      "arms_present": [
+        "STRONG_ADAPTIVE_PARENT"
+      ],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [
+        "strongest_parent_result",
+        "terminal",
+        "verification_cost"
+      ],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D3",
+      "target_stage": "D4",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D4",
+      "target_stage": "D5",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    },
+    {
+      "source_stage": "D5",
+      "target_stage": "D6",
+      "complete": false,
+      "supporting_receipts": [],
+      "arms_present": [],
+      "arms_missing": [
+        "CONTINUED_OCM",
+        "RESET_OCM",
+        "STRONG_ADAPTIVE_PARENT",
+        "TASK_SPECIFIC_OCM"
+      ],
+      "fields_present": [],
+      "fields_missing": [
+        "lineage_id",
+        "source_stage",
+        "target_stage",
+        "source_machine_identity",
+        "target_machine_identity",
+        "persistent_state_digest",
+        "prior_information_manifest",
+        "new_information_supplied",
+        "new_methods",
+        "new_schemas",
+        "new_representations",
+        "reused_object_identities",
+        "reuse_execution_witnesses",
+        "new_primitive_operators_admitted",
+        "composition_depth",
+        "acquisition_cost",
+        "query_cost",
+        "verification_cost",
+        "revision_cost",
+        "maintenance_cost",
+        "persistent_bytes",
+        "active_k",
+        "total_N",
+        "retention",
+        "negative_transfer",
+        "harmful_transfer_refusals",
+        "ablation_result",
+        "strongest_parent_result",
+        "terminal",
+        "cheaper_because"
+      ],
+      "blocking_reason": "no CONTINUED_OCM, RESET_OCM, STRONG_ADAPTIVE_PARENT, TASK_SPECIFIC_OCM arm exists for this transition; without a reset arm a cost difference cannot be distinguished from the later tasks simply being easier"
+    }
+  ],
+  "complete_transitions": 1,
+  "transitions_total": 6,
+  "headline": "1 of 6 developmental transitions are complete. D0 to D1 is measured: DEV1_D0_TO_D1_V1 runs a lineage that carries its D0 store across the boundary, a reset arm with the same architecture and the same D1 stream that does not, a clairvoyant parent, and a task-specific arm. Its verdict is CONDITIONAL, not a win -- the lineage beats reset at 1024 bits and loses at 256 -- and 'complete' here means MEASURED WITH ALL FOUR ARMS AND ALL REQUIRED FIELDS, never 'succeeded'. The remaining five are still blocked on the same two things: no lane has run a CONTINUED arm across those boundaries and no lane has run a RESET arm to compare it with. The existing receipts for them are stage evidence, not transition evidence, and that difference is the whole of #151.",
+  "the_one_complete_transition_lost_to_a_parent": "DEV-2 ran the continual-learning parents DEV-1 never ran. Experience replay -- keep the answers, never abstract -- beats the lineage at the budget where DEV-1 reported its win, and its margin GROWS with D1 length (1.19, 1.40, 1.57 at lengths 250, 1000, 4000), which is the opposite shape from the decaying head start DEV-1 described. The mechanism is priced rather than asserted: a held rule licenses a scope check, so using one costs VERIFY + APPLY where a stored answer costs LOOKUP, and a sweep over the check price flips the sign between 10 and 25 with replay's own work constant throughout. DEV-1's comparison against RESET_OCM stands and answers the question it asked; the carry advantage is PARENT_SUFFICIENT. RECOVERED by DEV3_GUARDED_RULES_V1: a rule that carries its own scope precondition, paying bits from the same budget instead of a per-use check, beats that same replay parent at all twelve settings inside a computable budget window -- above the bits needed for the rules and their guards, below the bits that would let the parent memoize the entire answer space -- by up to 3.6x, at correctness 1.0, and by more under UNIFORM demand than under skewed. The control holds: where exceptions have no structure no guard is learnable, the arm degenerates to the unguarded lineage, and replay wins exactly as it did in DEV-2. So the carry advantage at this transition is real but conditional on a representation with no use tax, and the condition is computable in advance rather than discovered. DEV4_LANGUAGE_EXPANSION_V1 then withdrew DEV-3's declared gift and found it was a PRECONDITION rather than a convenience: a guard language that cannot express the truth still yields singleton version spaces, and an arm cannot tell a false guard from a true one, so it answers wrongly rather than slowly. DEV-3's numbers stand exactly as far as its stated condition holds. Self-expansion of the language is sound only below a level and only once evidence is sufficient, so #151's self-expansion rung remains dependent rather than earned. DEV5_UNANIMITY_V1 then removed the dependency a different way: DEV-3 and DEV-4 had both used a guard only when its version space collapsed to a SINGLETON, which is sufficient for soundness and not necessary. Acting per query wherever all surviving candidates AGREE is sound for the same reason, beats the singleton rule at every setting by up to 5.1x, and beats the replay parent while holding a language large enough to contain every world's truth rather than one fitted to it. So the carry advantage at this transition stands WITHOUT DEV-3's gift -- it needs a big language, which is available without knowing the world, rather than the right one, which is not. DEV6_HONEST_CONSULTATION_PRICE_V1 then audited that number against the accounting standard the cognitive-ladder lane already used and corrected it downward: DEV-5 charged a flat price for consulting a version space whether the arm tested one predicate or scanned 433, and under a charge proportional to the scan the factor falls from 5.1x to 3.4x with the weakest cell nearly a tie. The ordering survives and the magnitude does not, so the carry advantage at this transition is real, independent of DEV-3's gift, and smaller than first reported. X3_PRICE_FREE_V1 then removed the exchange rate altogether, reported raw counts, and found that under the one price this lane had chosen the lineage LOSES to replay at four of six settings -- which put the carry claim itself in doubt. X4_FINAL_ACCOUNTING_V1 resolved that doubt by locating the confound: every arm X3 measured held the full 433-predicate language, because it inherited DEV-6's arms, and DEV-6 had run the SINGLETON rule -- DEV-3's mechanism, correctly priced at 1 -- over THAT language rather than over the small one DEV-3 used. A version space that large rarely collapses, so the rule rarely fires and the arm verifies on nearly every demand; that is a fact about language size, not about guards. Running the same rule, the same charge, the same worlds and the same budgets over BOTH languages, the small-language guarded arm beats replay at four of eight level-1 settings at correctness 1.0, best ratio 0.377, and the full-language arm beats it at none of the eight. X3's numbers stand and are not withdrawn; its reading was too broad and is corrected. What survives every audit this lane has run is therefore ONE conditional carry advantage, and X4 found its condition is a conjunction of two rather than one. DEV-4's language precondition is the first. The second was not predicted: the advantage appears only at the LARGER of the two swept budgets and reverses at the smaller, so a budget able to hold the rules, their guards AND working facts is a precondition too. X4 also refuted its own Z5. At level 3, where the small language is unsound and only the full-language arms are admissible, the UNANIMITY arm beats replay at three of eight settings, and every one of them is at the SMALLER budget under UNIFORM demand, where the replay parent is most starved. The two survivors therefore have opposite budget dependence, which this lane had no theory for. X5_BUDGET_CROSSING_V1 answered half of that and refuted three of its own six registered predictions doing it. Nine budgets rather than two, seven of them out of sample. The unanimity arm at level 3 under uniform demand is a REGIME: one clean crossing, winning at every budget up to 1408 and losing at every budget from 1536 up, because its cost barely moves with the budget while the replay parent's falls by a factor of sixteen. Under skewed demand it never wins at all, so X4's level-3 positive is a uniform-demand result and is restated as one. The guarded arm is NOT a regime in the shape predicted: its margin changes sign three times, and the reason is visible in the counters rather than mysterious. Both cost curves fall with the budget and neither falls at a constant rate -- the arm holds only five or six of its sixteen guards until 1280 bits, so its work is nearly flat there, then the held count rises to 14.25 and 16 and its work drops from 112,182 to 22,029, while the parent improves smoothly throughout and then memoises the entire answer space. A difference of two such curves can cross more than once and does. The consequence is a correction to DEV-3's computed window, and it cuts both ways. DEV-3's UPPER edge, rule_count * extension * FACT_BITS = 2048 bits, was computed from the cost constants before any of these budgets existed and HOLDS out of sample: at 2048 the parent stores all 256 answers and the arm loses at both demand shapes. DEV-3's LOWER edge, 768 bits, is necessary and NOT sufficient: the arm loses at six budgets inside its own window. The measured carry regime, the contiguous run the arm wins at BOTH demand shapes, is [1408, 1536] against a computed window of [768, 2048] -- about a quarter of the width the lane thought it had. X5 also imported the independent review of PR #150 published in PR #153, which shows by counterexample that a calibrated posterior's perplexity does not bound expected guess cost, and tested the analogous claim here: the SAME language produces both signs of the carry advantage, so no function of version-space size predicts the sign, while the margin rebuilt from the priced events alone reproduces the measured work difference to the integer in all thirty-six cells. Size is not the operative quantity in this lane either; the charge is. X6_COMPILED_CONSULTATION_V1 then built the arm that decides between the two stories, which this lane had argued about from three directions and never tested. It compiles the unanimity verdict into a per-rule decision table, so the version space stays at 433 predicates and a consultation costs 1 instead of what it scans. The size story predicts this changes nothing, because the space is still large. The charge story predicts it recovers the advantage. A per-replicate control confirmed first that compilation changed only the price: the compiled arm and DEV-5's naive rule agree on correctness and on every non-deliberation counter in all thirty-six settings, with zero disagreements, so the comparison is between two prices for one rule and not between two rules. All five registered predictions held. The compiled arm beats the replay parent at 21 settings against the naive rule's 8, gaining 13 and LOSING NONE, and it wins at six budgets at level 3 under SKEWED demand -- the exact condition where X5 measured the naive rule losing at all nine -- with a best ratio of 0.512. So the carry advantage no longer requires a language small enough to collapse. It still requires one that CONTAINS the truth, which is soundness and is not negotiable, but the ECONOMY precondition DEV-4 imposed and DEV-5 tried and failed to remove at an honest price is removed here, by pricing rather than by choosing the language. This lane's carry advantage is therefore conditional on a property of the machine -- how much a consultation costs -- rather than on a property of the world it was handed. One prediction of this lane's own was refuted in the process: synthesis.py had predicted, about the native lane, that compiling a whole bank buys nothing and only demand-driven preparation pays. In this analogue eager compilation buys almost everything, 20 settings against demand-driven's 21, because the extension is 16 and the demanded indices already cover about 14 of them. The published prediction is left as published and the refutation is recorded beside it. X7_PRICED_TABLE_V1 then audited X6 by this lane's own accounting, because X6's table was charged 1 per consultation and NOTHING to hold, while DEV-3's guard paid RULE_BITS + GUARD_BITS out of the same budget as the facts and DEV-3's entire result was a window computed from that charge. A cell holds a ternary verdict, so it is charged 2 bits from the same budget; under pressure the arm discards whole tables, least recently consulted first, and pays the scan again. Two controls first. At a price of ZERO the compiled arms reproduce X6's grid cell for cell on X6's own seeds, so the bit machinery changed the price and nothing else. And the naive rule and the replay parent, which hold no table, win exactly 6 of 18 settings at EVERY price. Terminal CARRY_ADVANTAGE_SURVIVES_A_PRICED_TABLE. At the honest 2 bits the demand-driven arm wins 13 of 18, and at level 3 under SKEWED demand it wins 5 of 9 with a best ratio of 0.764 where the naive rule wins none. The advantage survives an accounting consistent with DEV-3's. It also SEPARATES the two compiled arms X6 found nearly indistinguishable: charge for storage and eager compilation collapses from 13 winning settings to 2 while demand-driven falls only from 14 to 13, and the recompilation counts say why -- an eager arm whose table almost fits evicts a neighbour, is evicted in turn, and pays the full compile again, 1,332 times at 8 bits against the demand-driven arm's 556. That is a property of the whole-table discard policy this lane chose and declared, and the counts are published so the difference between a policy and a mechanism is visible rather than argued. One prediction was refuted and it is the informative one. V5 predicted the advantage would die below 8 bits a cell. It does not: it still wins 8 of 18 there, and 8 bits is exactly FACT_BITS, what this lane charges to store one answer. A compiled verdict that costs as much as a cached answer and still beats a parent made entirely of cached answers means the two are not comparable units -- a cell decides an index for a whole rule and licenses an application at APPLY_COST where the parent pays DERIVE_COST, on every demand for that index, while a stored answer serves only itself. It also means X7's highest surviving price is the TOP OF X7'S SWEEP and therefore a lower bound rather than a boundary. The receipt says so in its own field rather than leaving the number to be misread, and X8_TABLE_BREAK_EVEN_V1 continued the same sweep upward at 8, 16, 32, 64 and 128 bits a cell. Its overlap control at 8 reproduced X7 cell for cell, the tableless arms stayed at 6 of 18 at every price, and the response stayed monotone. Two of its six predictions failed and both are worth more than they cost. U5 predicted the end would be refusal rather than churn: refusals do rise, 45 to 422, but discards rise WITH them, 546 to 1,457, because at two and a half cells held a new cell can only be admitted by evicting another table. The end is refusal AND churn. U1 asked for a price at which the compiled arm beats replay at zero settings, which cannot happen and is a defect in the prediction rather than a fact about the arm: as the price rises the arm degrades INTO the rule it compiles -- U4 confirms it, within 1.6 percent at every budget at 128 bits -- and that rule beats replay at 6 of 18 settings on its own at every price. So the floor is 6 and not 0, and the quantity meant was the EXCESS over the rule being compiled: 2 settings at 8 bits, 1 at 16, and 0 from 32 upward. The correctly specified break-even is 32 bits a cell -- FOUR ANSWERS' worth of storage for one compiled verdict. The published terminal stands as the registered criterion produced it and the correction is recorded beside it in x8.CRITERION_CORRECTION rather than substituted for it. This lane's one carry advantage therefore now has all three of its edges located and none of them assumed: DEV-4's soundness precondition on the language, X5's budget window [1408, 1536] bits, and a storage ceiling of 32 bits per compiled verdict.",
+  "complete_does_not_mean_succeeded": "A transition counts as complete when all four DEV-D8 arms ran and every required field has evidence behind it. D0 to D1 qualifies and its own terminal is D0_TO_D1_TRANSITION_CONDITIONAL. Reading this count as a score would be exactly the error #151 section 6 warns about, so the count is reported beside the terminal and never alone.",
+  "what_is_actually_missing": [
+    "Four more machines that acquire competence at one stage and meet the next carrying it. D0 to D1 now has one; D1 to D2 onward have none, and their current receipts either hold one stage's tasks with no acquisition across a boundary or draw their tasks independently so nothing is carried.",
+    "Reset arms for those transitions. Without one, a lower cost at the later stage is equally explained by that stage being easier, which #151 section 6 names as the thing not to claim development from.",
+    "A transition that holds at every store budget. The one that exists does not: at 256 bits the D0 store saturates and the lineage loses, which is a real limit on the claim rather than a gap in the evidence."
+  ],
+  "cheapest_first_transition": "D0 to D1 on the exact game families already built. D0 acquires periodic-rule methods; D1 requires composing two of them, which the SUBNIM family in games.py already supports because neither the one-heap nor the Nim training family contains the combined solution. That is DEV-D10 and it needs no new domain."
+}

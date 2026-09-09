@@ -1,0 +1,1405 @@
+{
+  "authority": "E2 synthetic, and an audit rather than a new claim. It applies one charge rule to every carry-advantage claim this lane has made. It withdraws nothing from DEV-5, DEV-6 or X3; it corrects a reading of X3.",
+  "commitment": {
+    "commitment": "e0af655407205d4f48d4c42751818beacfcbf88a647bc70cd6b3087ae8d4ad0a",
+    "protected_seed": "1b6dab59d8ba24abc7485f431195afb878a6a638b99f3a29de92d518e30abb2e"
+  },
+  "dev3_language_note": "DEV-3's own guard language had 15 predicates (periods 2-5 with phases, plus the empty guard); the level-1 language used here has 6 (periods (2, 3)). They are not identical and the study does not claim they are: what they share is being SMALL enough to collapse, which is the property under test. Using DEV-4's ladder keeps every arm on one world family.",
+  "language_sizes": {
+    "GUARDED_SMALL_LANGUAGE": 6,
+    "SINGLETON_FULL_LANGUAGE": 433,
+    "UNANIMITY_FULL_LANGUAGE": 433
+  },
+  "novelty": "NONE CLAIMED. This is bookkeeping applied evenly. The contribution is noticing that the lane had priced one of its two carry-advantage claims and not the other, and that the unpriced one had been judged by a proxy running the wrong language.",
+  "plan": {
+    "audits": [
+      "results/DEV3_GUARDED_RULES_V1.json",
+      "results/DEV5_UNANIMITY_V1.json"
+    ],
+    "capability_gate": "A work figure is quoted only where correctness is 1.0 in every replicate. GUARDED_SMALL_LANGUAGE is expected to fail this at levels 2 and 3, exactly as DEV-4 measured, and to have no admissible cost there.",
+    "charge_rule": "A consultation costs what it examines: 1 for the singleton test, which inspects whether a set has one element, and len(survivors) for the unanimity scan. This is E6's standard, adopted in DEV-6, and it is applied here to every arm including the one this lane most wants to survive.",
+    "contribution_level": "L1",
+    "decisive_causal_question": "Language size is the only thing that differs between GUARDED_SMALL_LANGUAGE and SINGLETON_FULL_LANGUAGE. Same decision rule, same charge, same worlds, same streams, same budgets. Any difference between them is caused by how many candidates the space holds or by nothing.",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "kill_criterion": "If GUARDED_SMALL_LANGUAGE does not beat replay at level 1 under the honest charge, this lane has NO carry advantage under any representation it has tried. DEV-3 must then be corrected the way DEV-5 was, X3's finding generalises, and the developmental spine's one measured transition loses its positive. That is to be reported in those words.",
+    "novelty": "NONE CLAIMED. This is bookkeeping applied evenly. The contribution is noticing that the lane had priced one of its two carry-advantage claims and not the other, and that the unpriced one had been judged by a proxy running the wrong language.",
+    "predictions_frozen_before_execution": {
+      "Z1": "At level 1, where its language contains the truth, GUARDED_SMALL_LANGUAGE is sound and BEATS REPLAY_ONLY_PARENT under the honest charge. DEV-3's result then stands and X3's negative was a statement about language size, not about guards.",
+      "Z2": "SINGLETON_FULL_LANGUAGE loses to replay at level 1, reproducing DEV-6 and X3, so the difference between it and the small-language arm is the language and nothing else.",
+      "Z3": "GUARDED_SMALL_LANGUAGE is unsound at level 3 and has no admissible work figure there, reproducing DEV-4.",
+      "Z4": "UNANIMITY_FULL_LANGUAGE beats SINGLETON_FULL_LANGUAGE everywhere, reproducing DEV-6, so nothing here withdraws that result.",
+      "Z5": "No arm beats replay at level 3 at matched correctness. If one does, the carry advantage is broader than this lane has ever claimed and that must be reported as a surprise rather than banked."
+    },
+    "prior_information_audit": {
+      "GUARDED_SMALL_LANGUAGE": "the level-1 language only; unsound wherever the truth is outside it, which DEV-4 established and this study re-checks rather than assumes",
+      "REPLAY_ONLY_PARENT": "no guards; sound everywhere; the parent to beat",
+      "SINGLETON_FULL_LANGUAGE": "the full language, sound everywhere, slow to collapse",
+      "UNANIMITY_FULL_LANGUAGE": "the full language with the weaker decision rule"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "resolves": "results/X3_PRICE_FREE_V1.json",
+    "scientific_question": "DEV-6 re-priced this lane's consultation honestly and DEV-3 was never re-priced. Under one charge rule -- a consultation costs what it examines -- does any carry advantage this lane has claimed survive against the replay parent, and on what condition?",
+    "study_id": "X4_FINAL_ACCOUNTING_V1",
+    "sweep": {
+      "budget_bits": [
+        1024,
+        1536
+      ],
+      "d0_length": 800,
+      "d1_lengths": [
+        1000,
+        4000
+      ],
+      "extension": 16,
+      "levels": [
+        1,
+        2,
+        3
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skews": [
+        0.0,
+        1.0
+      ]
+    },
+    "the_confound_being_removed": "DEV-6 charged the singleton rule correctly and ran it over the full 433-predicate language, which is not the language DEV-3 used. A version space that large rarely collapses to a singleton, so the rule rarely fires and the arm verifies on nearly every demand. Attributing that to the guarded MECHANISM rather than to LANGUAGE SIZE would misread DEV-6, and X3 inherited the misreading when it concluded from DEV-6's arms that the carry advantage fails.",
+    "what_this_does_not_establish": "One charge rule, defended but not canonical, exactly as DEV-6 conceded. The worlds are DEV-4's, so every limitation declared there applies unchanged. What this settles is an internal inconsistency in this lane's own accounting, not a fact about routing or about real systems."
+  },
+  "predictions": {
+    "Z1_small_language_beats_replay_at_level_1": false,
+    "Z2_full_language_loses_at_level_1": true,
+    "Z3_small_language_unsound_above_level_1": true,
+    "Z4_unanimity_beats_singleton_on_the_full_language": true,
+    "Z5_nothing_beats_replay_at_level_3": false
+  },
+  "primary_grid": [
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 116324.125,
+          "d1_work_if_it_were_admissible": 116324.125,
+          "deliberation": 620.375,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1372.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106643.5,
+          "d1_work_if_it_were_admissible": 106643.5,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 130841.375,
+          "d1_work_if_it_were_admissible": 130841.375,
+          "deliberation": 620.375,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1860.75
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 123941.75,
+          "d1_work_if_it_were_admissible": 123941.75,
+          "deliberation": 8169.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1375.375
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.090775574695129,
+        "SINGLETON_FULL_LANGUAGE": 1.226904358915452,
+        "UNANIMITY_FULL_LANGUAGE": 1.1622063229357626
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 102979.125,
+          "d1_work_if_it_were_admissible": 102979.125,
+          "deliberation": 968.75,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1021.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67687.0,
+          "d1_work_if_it_were_admissible": 67687.0,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 124555.875,
+          "d1_work_if_it_were_admissible": 124555.875,
+          "deliberation": 968.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1644.25
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 112233.875,
+          "d1_work_if_it_were_admissible": 112233.875,
+          "deliberation": 9917.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1034
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.5214018201427157,
+        "SINGLETON_FULL_LANGUAGE": 1.8401742579815918,
+        "UNANIMITY_FULL_LANGUAGE": 1.6581304386366658
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 21627.0,
+          "d1_work_if_it_were_admissible": 21627.0,
+          "deliberation": 2000,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 57391.0,
+          "d1_work_if_it_were_admissible": 57391.0,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 100658.75,
+          "d1_work_if_it_were_admissible": 100658.75,
+          "deliberation": 1999.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1267.25
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 49049.125,
+          "d1_work_if_it_were_admissible": 49049.125,
+          "deliberation": 29137.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 11.375
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": true,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 0.3768360892822917,
+        "SINGLETON_FULL_LANGUAGE": 1.753911763168441,
+        "UNANIMITY_FULL_LANGUAGE": 0.8546483769232109
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 23097.625,
+          "d1_work_if_it_were_admissible": 23097.625,
+          "deliberation": 1999.75,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36452.5,
+          "d1_work_if_it_were_admissible": 36452.5,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 89885.125,
+          "d1_work_if_it_were_admissible": 89885.125,
+          "deliberation": 1999.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1256.5
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 62874.375,
+          "d1_work_if_it_were_admissible": 62874.375,
+          "deliberation": 41039,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 29.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": true,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 0.6336362389410877,
+        "SINGLETON_FULL_LANGUAGE": 2.4658151018448664,
+        "UNANIMITY_FULL_LANGUAGE": 1.7248302585556545
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 453487.0,
+          "d1_work_if_it_were_admissible": 453487.0,
+          "deliberation": 2970.875,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 5021.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 425237.5,
+          "d1_work_if_it_were_admissible": 425237.5,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 512344.625,
+          "d1_work_if_it_were_admissible": 512344.625,
+          "deliberation": 2970.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 7083.875
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 502840.75,
+          "d1_work_if_it_were_admissible": 502840.75,
+          "deliberation": 51809,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 5041.75
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.0664322878391488,
+        "SINGLETON_FULL_LANGUAGE": 1.2048434698256856,
+        "UNANIMITY_FULL_LANGUAGE": 1.1824939004673858
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 420893.625,
+          "d1_work_if_it_were_admissible": 420893.625,
+          "deliberation": 3732.5,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 4256.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 237904.75,
+          "d1_work_if_it_were_admissible": 237904.75,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 492150.375,
+          "d1_work_if_it_were_admissible": 492150.375,
+          "deliberation": 3846.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6274.375
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 465261.25,
+          "d1_work_if_it_were_admissible": 465261.25,
+          "deliberation": 47365.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 4286
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.769168648377134,
+        "SINGLETON_FULL_LANGUAGE": 2.0686866277365206,
+        "UNANIMITY_FULL_LANGUAGE": 1.955661877284922
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 112785.125,
+          "d1_work_if_it_were_admissible": 112785.125,
+          "deliberation": 7932.75,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 66.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 228326.5,
+          "d1_work_if_it_were_admissible": 228326.5,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 425894.0,
+          "d1_work_if_it_were_admissible": 425894.0,
+          "deliberation": 7932.5,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 4812.375
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 199271.75,
+          "d1_work_if_it_were_admissible": 199271.75,
+          "deliberation": 94063.125,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 81
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": true,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 0.4939642354260237,
+        "SINGLETON_FULL_LANGUAGE": 1.8652850194786852,
+        "UNANIMITY_FULL_LANGUAGE": 0.8727491114697593
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 86322.375,
+          "d1_work_if_it_were_admissible": 86322.375,
+          "deliberation": 8000,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 125428.375,
+          "d1_work_if_it_were_admissible": 125428.375,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 405473.125,
+          "d1_work_if_it_were_admissible": 405473.125,
+          "deliberation": 7998.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 4587.75
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 198741.875,
+          "d1_work_if_it_were_admissible": 198741.875,
+          "deliberation": 118057,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 94.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": true,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 0.688220468454606,
+        "SINGLETON_FULL_LANGUAGE": 3.23270651477387,
+        "UNANIMITY_FULL_LANGUAGE": 1.5845049017018678
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 108994.125,
+          "d1_work_if_it_were_admissible": 108994.125,
+          "deliberation": 1481.375,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1994.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 106173.25,
+          "d1_work_if_it_were_admissible": 106173.25,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 99417.375,
+          "d1_work_if_it_were_admissible": 99417.375,
+          "deliberation": 1451.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1689
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 65594.0,
+          "d1_work_if_it_were_admissible": 65594.0,
+          "deliberation": 4297.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 647.625
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": true,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.0265686036737125,
+        "SINGLETON_FULL_LANGUAGE": 0.936369330316252,
+        "UNANIMITY_FULL_LANGUAGE": 0.6178015648951125
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 107893.375,
+          "deliberation": 1172.75,
+          "language_size": 6,
+          "min_correctness": 0.984,
+          "sound_in_every_replicate": false,
+          "verifications": 1949.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 67167.25,
+          "d1_work_if_it_were_admissible": 67167.25,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 104419.125,
+          "d1_work_if_it_were_admissible": 104419.125,
+          "deliberation": 1173.125,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1805
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 82679.125,
+          "d1_work_if_it_were_admissible": 82679.125,
+          "deliberation": 5590.625,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 828
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.5546136696083284,
+        "UNANIMITY_FULL_LANGUAGE": 1.2309440240593443
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 109940.0,
+          "d1_work_if_it_were_admissible": 109940.0,
+          "deliberation": 2000,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 56574.25,
+          "d1_work_if_it_were_admissible": 56574.25,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 97625.875,
+          "d1_work_if_it_were_admissible": 97625.875,
+          "deliberation": 2000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1661.875
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 28741.625,
+          "d1_work_if_it_were_admissible": 28741.625,
+          "deliberation": 6710.5,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1.125
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.9432869194023783,
+        "SINGLETON_FULL_LANGUAGE": 1.7256238483055453,
+        "UNANIMITY_FULL_LANGUAGE": 0.5080336902389337
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 111555.625,
+          "deliberation": 2000,
+          "language_size": 6,
+          "min_correctness": 0.994,
+          "sound_in_every_replicate": false,
+          "verifications": 1994.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 37615.75,
+          "d1_work_if_it_were_admissible": 37615.75,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 94346.75,
+          "d1_work_if_it_were_admissible": 94346.75,
+          "deliberation": 2000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1583
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 29474.25,
+          "d1_work_if_it_were_admissible": 29474.25,
+          "deliberation": 7007.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 2.508171444142414,
+        "UNANIMITY_FULL_LANGUAGE": 0.783561407123346
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 440931.0,
+          "d1_work_if_it_were_admissible": 440931.0,
+          "deliberation": 5822.875,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 7996
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 425398.375,
+          "d1_work_if_it_were_admissible": 425398.375,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 405818.375,
+          "d1_work_if_it_were_admissible": 405818.375,
+          "deliberation": 5822.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6739.5
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 283292.875,
+          "d1_work_if_it_were_admissible": 283292.875,
+          "deliberation": 18687.5,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 2421.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": true,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.0365131272539534,
+        "SINGLETON_FULL_LANGUAGE": 0.953972555724972,
+        "UNANIMITY_FULL_LANGUAGE": 0.6659472429813583
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 431247.625,
+          "deliberation": 5046.625,
+          "language_size": 6,
+          "min_correctness": 0.992,
+          "sound_in_every_replicate": false,
+          "verifications": 7896.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 239761.0,
+          "d1_work_if_it_were_admissible": 239761.0,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 403971.625,
+          "d1_work_if_it_were_admissible": 403971.625,
+          "deliberation": 4800.125,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6823.75
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 329137.25,
+          "d1_work_if_it_were_admissible": 329137.25,
+          "deliberation": 14698.125,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 3552.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.6848929767560195,
+        "UNANIMITY_FULL_LANGUAGE": 1.3727722607096233
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": 442010.0,
+          "d1_work_if_it_were_admissible": 442010.0,
+          "deliberation": 8000,
+          "language_size": 6,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 8000
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 225406.0,
+          "d1_work_if_it_were_admissible": 225406.0,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 392062.0,
+          "d1_work_if_it_were_admissible": 392062.0,
+          "deliberation": 8000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6393.625
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 112225.0,
+          "d1_work_if_it_were_admissible": 112225.0,
+          "deliberation": 25393.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0.875
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": 1.960950462720602,
+        "SINGLETON_FULL_LANGUAGE": 1.7393592007311252,
+        "UNANIMITY_FULL_LANGUAGE": 0.49787938209275706
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 434171.875,
+          "deliberation": 8000,
+          "language_size": 6,
+          "min_correctness": 0.9745,
+          "sound_in_every_replicate": false,
+          "verifications": 7853.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 127631.125,
+          "d1_work_if_it_were_admissible": 127631.125,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 399335.125,
+          "d1_work_if_it_were_admissible": 399335.125,
+          "deliberation": 8000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 6677.125
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 117690.0,
+          "d1_work_if_it_were_admissible": 117690.0,
+          "deliberation": 29633.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 12.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 3.12882241694571,
+        "UNANIMITY_FULL_LANGUAGE": 0.9221104961661977
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 88017.625,
+          "deliberation": 1984,
+          "language_size": 6,
+          "min_correctness": 0.99,
+          "sound_in_every_replicate": false,
+          "verifications": 1687.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 104317.0,
+          "d1_work_if_it_were_admissible": 104317.0,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 96138.5,
+          "d1_work_if_it_were_admissible": 96138.5,
+          "deliberation": 1984,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1999.125
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 62802.875,
+          "d1_work_if_it_were_admissible": 62802.875,
+          "deliberation": 37665.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 38.625
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": true,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 0.9215995475330003,
+        "UNANIMITY_FULL_LANGUAGE": 0.6020387376937604
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 88106.0,
+          "deliberation": 1998.875,
+          "language_size": 6,
+          "min_correctness": 0.987,
+          "sound_in_every_replicate": false,
+          "verifications": 1666.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 68330.5,
+          "d1_work_if_it_were_admissible": 68330.5,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 98849.375,
+          "d1_work_if_it_were_admissible": 98849.375,
+          "deliberation": 1998.625,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 1998.625
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 63681.25,
+          "d1_work_if_it_were_admissible": 63681.25,
+          "deliberation": 38712.375,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 64.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.446636201988863,
+        "UNANIMITY_FULL_LANGUAGE": 0.9319593739252603
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 88291.75,
+          "deliberation": 2000,
+          "language_size": 6,
+          "min_correctness": 0.987,
+          "sound_in_every_replicate": false,
+          "verifications": 1629.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 56289.625,
+          "d1_work_if_it_were_admissible": 56289.625,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 98307.5,
+          "d1_work_if_it_were_admissible": 98307.5,
+          "deliberation": 2000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 64121.0,
+          "d1_work_if_it_were_admissible": 64121.0,
+          "deliberation": 40534.125,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 24.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.746458605826562,
+        "UNANIMITY_FULL_LANGUAGE": 1.139126437598403
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 90534.625,
+          "deliberation": 2000,
+          "language_size": 6,
+          "min_correctness": 0.982,
+          "sound_in_every_replicate": false,
+          "verifications": 1689.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 36662.875,
+          "d1_work_if_it_were_admissible": 36662.875,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 98960.0,
+          "d1_work_if_it_were_admissible": 98960.0,
+          "deliberation": 2000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 2000
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 60956.625,
+          "d1_work_if_it_were_admissible": 60956.625,
+          "deliberation": 36510.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 47.875
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 2.6991882115082353,
+        "UNANIMITY_FULL_LANGUAGE": 1.6626253396658064
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 363366.375,
+          "deliberation": 7938.125,
+          "language_size": 6,
+          "min_correctness": 0.984,
+          "sound_in_every_replicate": false,
+          "verifications": 6824.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 425027.125,
+          "d1_work_if_it_were_admissible": 425027.125,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 395256.125,
+          "d1_work_if_it_were_admissible": 395256.125,
+          "deliberation": 7937.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 7998.375
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 244998.625,
+          "d1_work_if_it_were_admissible": 244998.625,
+          "deliberation": 135810.875,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 177.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": true,
+        "UNANIMITY_FULL_LANGUAGE": true
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 0.9299550587506621,
+        "UNANIMITY_FULL_LANGUAGE": 0.5764305631081781
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 348534.0,
+          "deliberation": 7998.375,
+          "language_size": 6,
+          "min_correctness": 0.98275,
+          "sound_in_every_replicate": false,
+          "verifications": 6574.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 239971.375,
+          "d1_work_if_it_were_admissible": 239971.375,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 386585.625,
+          "d1_work_if_it_were_admissible": 386585.625,
+          "deliberation": 7998.375,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 7998.375
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 260451.375,
+          "d1_work_if_it_were_admissible": 260451.375,
+          "deliberation": 161358.375,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 201.5
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.6109655787070436,
+        "UNANIMITY_FULL_LANGUAGE": 1.085343512325168
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 342583.75,
+          "deliberation": 8000,
+          "language_size": 6,
+          "min_correctness": 0.99075,
+          "sound_in_every_replicate": false,
+          "verifications": 6493
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 225863.875,
+          "d1_work_if_it_were_admissible": 225863.875,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 380967.5,
+          "d1_work_if_it_were_admissible": 380967.5,
+          "deliberation": 8000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 8000
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 268753.5,
+          "d1_work_if_it_were_admissible": 268753.5,
+          "deliberation": 173495.25,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 97.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 1.686712848612909,
+        "UNANIMITY_FULL_LANGUAGE": 1.1898914777761604
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "GUARDED_SMALL_LANGUAGE": {
+          "d1_work": null,
+          "d1_work_if_it_were_admissible": 329874.875,
+          "deliberation": 8000,
+          "language_size": 6,
+          "min_correctness": 0.97775,
+          "sound_in_every_replicate": false,
+          "verifications": 5928.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "d1_work": 128262.25,
+          "d1_work_if_it_were_admissible": 128262.25,
+          "deliberation": 0,
+          "language_size": null,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 0
+        },
+        "SINGLETON_FULL_LANGUAGE": {
+          "d1_work": 393432.5,
+          "d1_work_if_it_were_admissible": 393432.5,
+          "deliberation": 8000,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 8000
+        },
+        "UNANIMITY_FULL_LANGUAGE": {
+          "d1_work": 256798.0,
+          "d1_work_if_it_were_admissible": 256798.0,
+          "deliberation": 160541.75,
+          "language_size": 433,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "verifications": 165.25
+        }
+      },
+      "beats_replay": {
+        "GUARDED_SMALL_LANGUAGE": false,
+        "SINGLETON_FULL_LANGUAGE": false,
+        "UNANIMITY_FULL_LANGUAGE": false
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_replay": {
+        "GUARDED_SMALL_LANGUAGE": null,
+        "SINGLETON_FULL_LANGUAGE": 3.0674068168927335,
+        "UNANIMITY_FULL_LANGUAGE": 2.002132349931488
+      },
+      "reps": 8,
+      "skew": 1.0
+    }
+  ],
+  "study_id": "X4_FINAL_ACCOUNTING_V1",
+  "terminal": "CARRY_ADVANTAGE_SURVIVES_ON_A_SMALL_SOUND_LANGUAGE",
+  "terminal_reason": "At level 1, where its language contains the truth and it is sound in every replicate, the guarded small-language arm beats the replay parent at 4 of 8 settings, best ratio 0.377, under the same charge rule that cost DEV-5 its factor. DEV-3's carry advantage therefore SURVIVES the honest price, and it survives for a reason DEV-6 could not have shown: its guard is a single collapsed predicate consulted in O(1), so a charge proportional to what a consultation examines charges it 1, and it never scanned anything. The same decision rule over the full 433-predicate language does NOT beat replay at level 1 (ratios 1.20 to 3.23), which isolates the cause: a version space that large rarely collapses, so the rule rarely fires and the arm verifies almost every demand. X3 concluded from DEV-6's full-language arms that the carry advantage fails, and that conclusion was about LANGUAGE SIZE rather than about guards. X3 is corrected here, not withdrawn -- everything it reported about the unanimity lineage stands. The same arm is unsound at 12 settings above level 1 and has no admissible work figure there, reproducing DEV-4: the advantage is conditional on a language that can express the truth, which is the precondition DEV-4 proved binding and this study does not remove.",
+  "what_survives_after_every_audit": "One conditional carry advantage. A rule carrying a guard drawn from a language small enough to collapse beats experience replay at matched correctness, under a consultation charge proportional to what it examines, inside the budget window DEV-3 computed. It requires the language to contain the truth, which DEV-4 proved is a precondition and not a convenience, and it does not extend to large languages, where the same rule rarely fires. Everything else this lane claimed about carry has been either corrected downward or withdrawn.",
+  "what_this_corrects": "X3 concluded that the carry advantage against replay mostly fails the honest price. Every arm it measured held the full 433-predicate language, because it inherited DEV-6's arms, and DEV-6 had run the singleton rule over that language rather than over the small one DEV-3 used. The conclusion was therefore about how many candidates a version space holds, not about whether a guard pays. X3's numbers are correct and its reading of them was too broad; the correction is recorded here and X3's receipt is not withdrawn.",
+  "what_this_does_not_establish": "One charge rule, defended but not canonical, exactly as DEV-6 conceded. The worlds are DEV-4's, so every limitation declared there applies unchanged. What this settles is an internal inconsistency in this lane's own accounting, not a fact about routing or about real systems."
+}

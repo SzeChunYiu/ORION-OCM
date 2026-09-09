@@ -1,0 +1,1071 @@
+{
+  "arm_roles": {
+    "SINGLETON": "PRIOR_RULE_DEV3_DEV4",
+    "UNANIMITY_INCREMENTAL": "MACHINE",
+    "UNANIMITY_NAIVE": "DEV5_ARM_WITH_AN_HONEST_BILL"
+  },
+  "authority": "E2 synthetic, and an AUDIT OF THIS LANE'S OWN RESULT rather than a new claim. It re-prices DEV-5 against the accounting standard E6 already used and reports what changed. DEV-5's receipt is not withdrawn; its magnitude is corrected.",
+  "commitment": {
+    "commitment": "ecf01375bc352766ed3ce746f44352e06c1b1fc212b9114f58bd2922399d2c8b",
+    "protected_seed": "bd9e92a60531b06b4e30bea4d346f5e1fbe7ce485f2ce5a57163fb470033081e"
+  },
+  "correction_to_dev5": {
+    "dev5_reported_ratio_range": [
+      0.19745899791405377,
+      0.8903892963944341
+    ],
+    "honest_price_ratio_range": [
+      0.2923502856247197,
+      0.9704311019045002
+    ],
+    "mean_ratio_by_level": {
+      "1": 0.7140913446485618,
+      "2": 0.5437694942922275,
+      "3": 0.7547832620258421
+    },
+    "note": "DEV-5's ratios were measured with a flat consultation price, which charges a scan of up to 433 predicates the same as a test for whether a set has one element. Under a charge proportional to the scan, the ordering is unchanged and the magnitude is not. The mean ratio by world level shows where the difference lives: the larger the language, the more the flat price was hiding. DEV-5's conclusion -- that the singleton rule was needlessly strong -- stands; its factor of up to 5.1 does not, and any later use of that number should use the range here instead."
+  },
+  "language_size_at_top_level": 433,
+  "novelty": "NONE CLAIMED. Maintaining per-element vote counts under set elimination is ordinary incremental bookkeeping. The contribution is re-pricing a result of ours against another lane's accounting standard and reporting what changed.",
+  "plan": {
+    "audits": "results/DEV5_UNANIMITY_V1.json",
+    "capability_gate": "All three hold the full language, so all three are sound and correctness is 1.0 by construction. Pricing cannot change that, which is why this audit is about cost alone.",
+    "contribution_level": "L1",
+    "costs": {
+      "incremental_maintenance": "extension per eliminated survivor",
+      "incremental_query": 1,
+      "naive_unanimity_consultation": "len(survivors)",
+      "singleton_consultation": 1,
+      "verify": 25
+    },
+    "decisive_causal_question": "Pricing is the only thing that changes. Same worlds, same streams, same budgets, same languages, same decision rules. Any change in the comparison is caused by the bill or by nothing.",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "kill_criterion": "If neither unanimity arm beats SINGLETON under proportional pricing, DEV-5's factor was an artifact of a flat price this lane chose, and the carry advantage it recovered goes back to resting on the language gift DEV-4 showed was binding. That is to be reported in those words and DEV-5's receipt annotated accordingly.",
+    "language_size_at_top_level": "computed in the receipt",
+    "novelty": "NONE CLAIMED. Maintaining per-element vote counts under set elimination is ordinary incremental bookkeeping. The contribution is re-pricing a result of ours against another lane's accounting standard and reporting what changed.",
+    "predictions_frozen_before_execution": {
+      "P1": "UNANIMITY_NAIVE loses most or all of DEV-5's advantage once charged what it scans. Registered in the direction that costs this lane its own result.",
+      "P2": "UNANIMITY_INCREMENTAL keeps a real advantage over SINGLETON, because its per-query cost is O(1) and its maintenance is bounded by the language size rather than by the query count.",
+      "P3": "UNANIMITY_INCREMENTAL loses to SINGLETON at SHORT D1 lengths, where the maintenance is paid and the queries never arrive to amortize it. If it wins everywhere the maintenance is not being charged properly.",
+      "P4": "Correctness stays 1.0 for all three at every setting; a pricing change that moves correctness is a bug.",
+      "P5": "Total deliberation charged to UNANIMITY_NAIVE exceeds that charged to UNANIMITY_INCREMENTAL at every setting where D1 is long, which is the arithmetic reason the incremental arm exists."
+    },
+    "prior_information_audit": {
+      "SINGLETON": "as DEV-5; charged 1 per consultation, which is what the test costs",
+      "UNANIMITY_INCREMENTAL": "the same information, reorganised into per-index vote counts; charged extension per eliminated survivor at maintenance time and 1 per query",
+      "UNANIMITY_NAIVE": "as DEV-5; charged len(survivors), which is what the scan costs"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "prompted_by": "results/X1_UNANIMITY_TRANSFER_V1.json",
+    "scientific_question": "DEV-5 charged a flat price for consulting a version space, whether the arm tested for a singleton or scanned up to 433 predicates for unanimity. E6 charges the same kind of deliberation in proportion to the knowledge consulted. Under E6's accounting standard, does DEV-5's result survive?",
+    "study_id": "DEV6_HONEST_CONSULTATION_PRICE_V1",
+    "sweep": {
+      "budget_bits": [
+        1024,
+        1536
+      ],
+      "d0_length": 800,
+      "d1_lengths": [
+        100,
+        400,
+        1000,
+        4000
+      ],
+      "extension": 16,
+      "levels": [
+        1,
+        2,
+        3
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skews": [
+        1.0
+      ]
+    },
+    "what_this_does_not_establish": "Two pricing schemes, both declared. There is no fact of the matter about what a version-space consultation 'really' costs outside an implementation, and a lane that wanted a particular answer could get it by choosing a scheme. What can be defended is that the charge should scale with the work the operation does, that E6's does and DEV-5's did not, and that the arm proposed to fix it is charged for the bookkeeping it adds.",
+    "why_this_is_an_audit_of_our_own_result": "The flat price was not inherited from anywhere; it was chosen in DEV-5 and it flatters the arm DEV-5 was testing. X1 exposed it by accident, because the other lane's proportional charge is what made the same mechanism lose there. A lane that noticed this and did not re-run would be keeping a number it had reason to doubt."
+  },
+  "predictions": {
+    "P1_naive_loses_most_of_the_advantage": true,
+    "P1_verdict": "PARTIALLY HELD. The advantage erodes and does not disappear: the naive arm still beats the singleton rule everywhere, but its worst ratio rises from DEV-5's 0.890 to 0.970. The erosion is concentrated at the large-language end, which is where DEV-5 quoted its headline.",
+    "P2_incremental_keeps_an_advantage": false,
+    "P2_verdict": "REFUTED, and this lane proposed the arm. Maintaining per-index vote counts costs extension times the language size per rule at seeding and extension per elimination after, which for a 433-predicate language dwarfs the scans it saves. The engineering answer to an expensive scan is not always a cheaper scan, and the only reason that is visible here is that the bookkeeping was charged.",
+    "P3_incremental_loses_at_short_d1": true,
+    "P4_correctness_unchanged": true,
+    "P5_naive_deliberation_exceeds_incremental_at_long_d1": false,
+    "P5_verdict": "REFUTED. The incremental arm's bookkeeping still exceeds the naive arm's scanning even at the longest D1 in the sweep, so it never amortizes within any workload measured here. P5 was the arithmetic reason the incremental arm was proposed, and its failure is why P2 fails too."
+  },
+  "primary_grid": [
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 80.625,
+          "d1_work": 13166.375,
+          "deliberation": 80.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 169.5
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 79.125,
+          "d1_work": 227470.375,
+          "deliberation": 216707.125,
+          "maintenance": 216628,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 112.75
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 1160.5,
+          "d1_work": 11923.75,
+          "deliberation": 1160.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 112.75
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 100,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 17.276613722455878,
+        "UNANIMITY_NAIVE": 0.9056213270547132
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 198.5,
+          "d1_work": 9174.5,
+          "deliberation": 198.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 114.5
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 200,
+          "d1_work": 220668.375,
+          "deliberation": 218244,
+          "maintenance": 218044,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 2.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 1974.875,
+          "d1_work": 4399.25,
+          "deliberation": 1974.875,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 2.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 100,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 24.052359801624068,
+        "UNANIMITY_NAIVE": 0.4795084200773884
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 270,
+          "d1_work": 47309.0,
+          "deliberation": 270,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 682.25
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 270,
+          "d1_work": 258101.625,
+          "deliberation": 216268,
+          "maintenance": 215998,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 527
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 4076.5,
+          "d1_work": 45910.125,
+          "deliberation": 4076.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 527
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 400,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 5.455655900568602,
+        "UNANIMITY_NAIVE": 0.9704311019045002
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 799.375,
+          "d1_work": 43186.125,
+          "deliberation": 799.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 636.25
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 800,
+          "d1_work": 223380.875,
+          "deliberation": 214362,
+          "maintenance": 213562,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 19.75
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 17829.625,
+          "d1_work": 26848.5,
+          "deliberation": 17829.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 19.75
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 400,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 5.172514899171898,
+        "UNANIMITY_NAIVE": 0.6216927311723384
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 678.875,
+          "d1_work": 131176.375,
+          "deliberation": 678.875,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 1850
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 673,
+          "d1_work": 328509.125,
+          "deliberation": 217411,
+          "maintenance": 216738,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 1331.625
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 9601.75,
+          "d1_work": 120699.875,
+          "deliberation": 9601.75,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 1331.625
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.504331477371592,
+        "UNANIMITY_NAIVE": 0.9201342467345969
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 1999.25,
+          "d1_work": 109870.0,
+          "deliberation": 1999.25,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 1403.625
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 2000,
+          "d1_work": 240104.75,
+          "deliberation": 219084,
+          "maintenance": 217084,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 25.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 26899.25,
+          "d1_work": 47920.0,
+          "deliberation": 26899.25,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 25.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.1853531446254664,
+        "UNANIMITY_NAIVE": 0.4361518157822882
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 3845.125,
+          "d1_work": 521587.5,
+          "deliberation": 3845.125,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 7203.375
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 3806.5,
+          "d1_work": 638368.125,
+          "deliberation": 220364.5,
+          "maintenance": 216558,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 4242.25
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 70478.5,
+          "d1_work": 488482.125,
+          "deliberation": 70478.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 4242.25
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 1.2238946006183047,
+        "UNANIMITY_NAIVE": 0.9365295851606873
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 7998.75,
+          "d1_work": 425574.875,
+          "deliberation": 7998.75,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 5281.5
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 8000,
+          "d1_work": 307712.875,
+          "deliberation": 226172,
+          "maintenance": 218172,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 61.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 106844.75,
+          "d1_work": 188385.625,
+          "deliberation": 106844.75,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 61.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 1,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 0.7230522596053163,
+        "UNANIMITY_NAIVE": 0.4426615293019824
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 117.5,
+          "d1_work": 10539.75,
+          "deliberation": 117.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 176.125
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 115,
+          "d1_work": 226912.5,
+          "deliberation": 219979,
+          "maintenance": 219864,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 81.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 895,
+          "d1_work": 7828.5,
+          "deliberation": 895,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 81.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 100,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 21.529210844659502,
+        "UNANIMITY_NAIVE": 0.7427595531203302
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 200,
+          "d1_work": 9028.25,
+          "deliberation": 200,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 153.5
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 200,
+          "d1_work": 222853.75,
+          "deliberation": 220384,
+          "maintenance": 220184,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 1.625
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 847.5,
+          "d1_work": 3317.25,
+          "deliberation": 847.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 1.625
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 100,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 24.684047295987593,
+        "UNANIMITY_NAIVE": 0.3674300113532523
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 485,
+          "d1_work": 41403.0,
+          "deliberation": 485,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 734.75
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 423.875,
+          "d1_work": 250749.5,
+          "deliberation": 221041.875,
+          "maintenance": 220618,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 378.5
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 2082.375,
+          "d1_work": 31790.0,
+          "deliberation": 2082.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 378.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 400,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 6.056312344516098,
+        "UNANIMITY_NAIVE": 0.7678187570948966
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 800,
+          "d1_work": 37633.125,
+          "deliberation": 800,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 643.125
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 800,
+          "d1_work": 230893.125,
+          "deliberation": 221438,
+          "maintenance": 220638,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 6.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 3257.875,
+          "d1_work": 12713.0,
+          "deliberation": 3257.875,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 6.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 400,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 6.135369438493349,
+        "UNANIMITY_NAIVE": 0.3378140933021108
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 1417.875,
+          "d1_work": 102240.25,
+          "deliberation": 1417.875,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 1745
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 1358.5,
+          "d1_work": 288435.625,
+          "deliberation": 222220.5,
+          "maintenance": 220862,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 643.125
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 5434.25,
+          "d1_work": 71649.375,
+          "deliberation": 5434.25,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 643.125
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.8211553179887567,
+        "UNANIMITY_NAIVE": 0.7007942077606422
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 2000,
+          "d1_work": 96625.625,
+          "deliberation": 2000,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 1697.375
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 2000,
+          "d1_work": 245778.5,
+          "deliberation": 222792,
+          "maintenance": 220792,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 13.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 8378.375,
+          "d1_work": 31364.875,
+          "deliberation": 8378.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 13.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.543616147372915,
+        "UNANIMITY_NAIVE": 0.324602040090297
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 4307.5,
+          "d1_work": 424116.625,
+          "deliberation": 4307.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 7308.75
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 4022.75,
+          "d1_work": 556823.25,
+          "deliberation": 224856.75,
+          "maintenance": 220834,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 3991.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 14361.625,
+          "d1_work": 346328.125,
+          "deliberation": 14361.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 3991.375
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 1.312901256818216,
+        "UNANIMITY_NAIVE": 0.8165870059915713
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 8000,
+          "d1_work": 402735.625,
+          "deliberation": 8000,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 6896.125
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 8000,
+          "d1_work": 316877.5,
+          "deliberation": 228764,
+          "maintenance": 220764,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 13.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 29626.375,
+          "d1_work": 117739.875,
+          "deliberation": 29626.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 13.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 2,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 0.7868126888451946,
+        "UNANIMITY_NAIVE": 0.2923502856247197
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 199.25,
+          "d1_work": 9825.5,
+          "deliberation": 199.25,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 199.25
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 200,
+          "d1_work": 214575.125,
+          "deliberation": 211916,
+          "maintenance": 211716,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 7.625
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 5631.625,
+          "d1_work": 8290.75,
+          "deliberation": 5631.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 7.625
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 100,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 21.83859600020355,
+        "UNANIMITY_NAIVE": 0.8437992977456618
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 200,
+          "d1_work": 9635.0,
+          "deliberation": 200,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 200
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 200,
+          "d1_work": 216752.5,
+          "deliberation": 214020,
+          "maintenance": 213820,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 8.625
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 4999.375,
+          "d1_work": 7731.875,
+          "deliberation": 4999.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 8.625
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 100,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 22.496367410482616,
+        "UNANIMITY_NAIVE": 0.8024779449922159
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 784,
+          "d1_work": 39316.625,
+          "deliberation": 784,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 797.75
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 785.625,
+          "d1_work": 227235.5,
+          "deliberation": 215367.625,
+          "maintenance": 214582,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 47.5
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 20184.5,
+          "d1_work": 32052.375,
+          "deliberation": 20184.5,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 47.5
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 400,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 5.779628846575717,
+        "UNANIMITY_NAIVE": 0.8152371929177542
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 800,
+          "d1_work": 39023.75,
+          "deliberation": 800,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 800
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 800,
+          "d1_work": 225756.75,
+          "deliberation": 215570,
+          "maintenance": 214770,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 27
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 18235,
+          "d1_work": 28421.75,
+          "deliberation": 18235,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 27
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 400,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 5.785111630737692,
+        "UNANIMITY_NAIVE": 0.7283192927383965
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 1999.375,
+          "d1_work": 93748.75,
+          "deliberation": 1999.375,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 1999.375
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 2000,
+          "d1_work": 241382.375,
+          "deliberation": 216198,
+          "maintenance": 214198,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 60.25
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 50002.75,
+          "d1_work": 75187.125,
+          "deliberation": 50002.75,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 60.25
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.5747796637288496,
+        "UNANIMITY_NAIVE": 0.802006693422579
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 2000,
+          "d1_work": 97970.0,
+          "deliberation": 2000,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 2000
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 2000,
+          "d1_work": 242244.0,
+          "deliberation": 217122,
+          "maintenance": 215122,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 65
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 47795.625,
+          "d1_work": 72917.625,
+          "deliberation": 47795.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 65
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 1000,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 2.4726344799428395,
+        "UNANIMITY_NAIVE": 0.7442852403797081
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 7998.625,
+          "d1_work": 396708.125,
+          "deliberation": 7998.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 7998.625
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 8000,
+          "d1_work": 321991.625,
+          "deliberation": 224204,
+          "maintenance": 216204,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 179.75
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 156397.625,
+          "d1_work": 254185.25,
+          "deliberation": 156397.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 179.75
+        }
+      },
+      "budget_bits": 1024,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 0.8116587604551835,
+        "UNANIMITY_NAIVE": 0.6407361835606468
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "SINGLETON": {
+          "consultation": 8000,
+          "d1_work": 393252.5,
+          "deliberation": 8000,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "PRIOR_RULE_DEV3_DEV4",
+          "verifications": 8000
+        },
+        "UNANIMITY_INCREMENTAL": {
+          "consultation": 8000,
+          "d1_work": 321234.25,
+          "deliberation": 223392,
+          "maintenance": 215392,
+          "min_correctness": 1.0,
+          "role": "MACHINE",
+          "verifications": 237.375
+        },
+        "UNANIMITY_NAIVE": {
+          "consultation": 162256.625,
+          "d1_work": 260098.875,
+          "deliberation": 162256.625,
+          "maintenance": 0,
+          "min_correctness": 1.0,
+          "role": "DEV5_ARM_WITH_AN_HONEST_BILL",
+          "verifications": 237.375
+        }
+      },
+      "budget_bits": 1536,
+      "d1_length": 4000,
+      "level": 3,
+      "ratio_to_singleton": {
+        "UNANIMITY_INCREMENTAL": 0.8168651184671426,
+        "UNANIMITY_NAIVE": 0.6614042504497747
+      },
+      "reps": 8,
+      "skew": 1.0
+    }
+  ],
+  "study_id": "DEV6_HONEST_CONSULTATION_PRICE_V1",
+  "terminal": "DEV5_SURVIVES_A_SMALLER_RESULT",
+  "terminal_reason": "The result survives the honest bill and the number does not. UNANIMITY_NAIVE still beats SINGLETON at 24 of 24 settings, with the best ratio moving from DEV-5's 0.197 to 0.292 and the worst from 0.890 to 0.970 -- so the headline factor falls from 5.1x to 3.4x and the weakest cell is now nearly a tie. The erosion is not uniform: it is small where the language is small and nearly total where it is large, because a flat price hides exactly the cost that grows with the space being scanned, and DEV-5 measured its headline at the large-language end. UNANIMITY_INCREMENTAL, this module's own proposed fix, is REFUTED: it is worse than SINGLETON at 20 of 24 settings, by up to 24.7x. Maintaining per-index vote counts over a language of this size costs more than scanning it thousands of times, and charging the bookkeeping is the only reason that is visible. Proposing it without charging it would have repeated the mistake this module exists to correct.",
+  "what_this_does_not_establish": "Two pricing schemes, both declared. There is no fact of the matter about what a version-space consultation 'really' costs outside an implementation, and a lane that wanted a particular answer could get it by choosing a scheme. What can be defended is that the charge should scale with the work the operation does, that E6's does and DEV-5's did not, and that the arm proposed to fix it is charged for the bookkeeping it adds.",
+  "why_the_fix_failed": {
+    "mean_maintenance": 217214.33333333334,
+    "mean_naive_consultation": 32052.177083333332,
+    "note": "The incremental arm was this module's own idea and it is the worse arm. Its cost is paid whether or not the queries arrive: seeding is extension times language size per rule, and elimination is extension per predicate removed. Both are bounded by the language rather than by the workload, so a large language makes the bookkeeping unavoidable while the scan it replaces is only paid when a query actually comes."
+  }
+}

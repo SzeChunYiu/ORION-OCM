@@ -1,0 +1,4147 @@
+{
+  "authority": "E2 synthetic. It adds an arm rather than an analysis and withdraws nothing from DEV-3, DEV-4, DEV-5, DEV-6, X3, X4 or X5.",
+  "commitment": {
+    "commitment": "7fbeebfe626eadec25c7e0266582d3188c2a540b527da546c6975d966a63eb2a",
+    "protected_seed": "c63fe8f80ab3bf793375d36631a762dcfc8d0d687aee9f7594bf21fd7585a6eb"
+  },
+  "control_disagreements_total": 0,
+  "language_size": 433,
+  "novelty": "NONE CLAIMED as a technique: a compiled decision table over a version space is ordinary memoisation, and demand-driven compilation is the magic-set idea PR #153's grounding review cites from Souffle. The contribution is using them to decide between two explanations of this lane's own results.",
+  "plan": {
+    "capability_gate": "A work figure is quoted only where correctness is 1.0 in every replicate, for the arm and for the replay parent it is divided by.",
+    "contribution_level": "L2",
+    "doctrine": "PR #150 PARENT_SYNTHESIS_DOCTRINE_V0_2.md",
+    "evidence_class": "E2",
+    "extends": [
+      "results/X4_FINAL_ACCOUNTING_V1.json",
+      "results/X5_BUDGET_CROSSING_V1.json"
+    ],
+    "imports": "PR #153 research/native-grounding-review-v1/DECISION.md",
+    "kill_criterion": "If W5 fails, then making a consultation O(1) does NOT free the carry advantage from the language it is drawn from. DEV-4's precondition is then not removable by pricing, the size story survives its sharpest test, and every carry advantage this lane has is confined to languages small enough to collapse -- which must be reported in those words, with X4's and X5's receipts unchanged.",
+    "novelty": "NONE CLAIMED as a technique: a compiled decision table over a version space is ordinary memoisation, and demand-driven compilation is the magic-set idea PR #153's grounding review cites from Souffle. The contribution is using them to decide between two explanations of this lane's own results.",
+    "predictions_frozen_before_execution": {
+      "W1": "Reuse exists: PRECOMPILED_DEMAND's cache hit rate exceeds 0.5 at some setting, and its deliberation is strictly below UNANIMITY_NAIVE's at every setting. If the hit rate is low everywhere, demand-driven compilation has nothing to amortise over and the mechanism is inert.",
+      "W2": "THE CONTROL. PRECOMPILED_DEMAND and UNANIMITY_NAIVE agree on correctness and on every non-deliberation counter -- derivations, applications, lookups, inductions, verifications -- at every setting. Failure VOIDS the study rather than refuting a prediction.",
+      "W3": "The set of settings where PRECOMPILED_DEMAND beats replay is a STRICT SUPERSET of the set where UNANIMITY_NAIVE does. Cheaper consultation can only widen a regime, never move it, because nothing else changed.",
+      "W4": "PRECOMPILED_EAGER's deliberation exceeds PRECOMPILED_DEMAND's at every setting, and eager beats replay at no setting where demand-driven does not. This is the lane-internal form of the prediction synthesis.py already made about the native lane: compiling the whole bank buys nothing, and making the fixed cost proportional to the demand is what pays.",
+      "W5": "THE DECISIVE ONE. At level 3 under SKEWED demand -- where X5 measured that UNANIMITY_NAIVE beats replay at NONE of the nine budgets -- PRECOMPILED_DEMAND beats replay at at least one budget at correctness 1.0. The size story predicts this cannot happen, because the space is still 433 predicates. The charge story predicts it, because a consultation now costs 1. There is no third account under which it happens."
+    },
+    "prior_information_audit": {
+      "PRECOMPILED_DEMAND": "the same language and the same verdicts, compiled for an index the first time it is demanded and kept until the version space actually shrinks",
+      "PRECOMPILED_EAGER": "the same language and the same verdicts, compiled for every index on every change and charged for the whole scan",
+      "REPLAY_ONLY_PARENT": "no rules, no guards, stores answers; the parent to beat",
+      "UNANIMITY_NAIVE": "the full language; DEV-5's rule at DEV-6's honest price"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "scientific_question": "Every carry advantage this lane has shown needs a small language. Is that because small spaces COLLAPSE, or because small spaces are CHEAP TO CONSULT? Compiling the unanimity verdict into a per-rule table keeps the space at 433 predicates and makes a consultation cost 1, which separates the two for the first time.",
+    "study_id": "X6_COMPILED_CONSULTATION_V1",
+    "sweep": {
+      "budget_bits": [
+        768,
+        896,
+        1024,
+        1152,
+        1280,
+        1408,
+        1536,
+        1792,
+        2048
+      ],
+      "d0_length": 800,
+      "d1_length": 1000,
+      "extension": 16,
+      "levels": [
+        1,
+        3
+      ],
+      "reps": 8,
+      "rule_count": 16,
+      "skews": [
+        0.0,
+        1.0
+      ]
+    },
+    "the_control_that_makes_this_readable": "PRECOMPILED_DEMAND must return the SAME verdict as UNANIMITY_NAIVE at every consultation. Compilation is permitted to change what a consultation costs and nothing else. Every non-deliberation counter and the correctness of both arms must therefore be identical at every setting. If they are not, the compiled arm is a different decision rule wearing the same name and this study is VOID.",
+    "what_is_new_here": "An arm, not an analysis. DEV-6 charged the scan and X5 showed the charge predicts the sign; neither built a mechanism that pays the charge differently. The compiled table is that mechanism, and it is the first thing in this lane that could remove DEV-4's language precondition rather than work around it.",
+    "what_this_does_not_establish": "The compiled table is charged 1 per consultation and its own storage is NOT charged bits, exactly as DEV-3's guard was charged bits and DEV-5's version space was not. That is this lane's existing and imperfect convention, applied unchanged so the comparison is about the charge rule and not about a new one. A study that prices the table in bits is the obvious successor and is not this study. Nothing here concerns routing, learned policy, or any real system."
+  },
+  "predictions": {
+    "W1_reuse_exists_and_lowers_deliberation": true,
+    "W2_compilation_changed_only_cost": true,
+    "W3_compiled_regime_is_a_strict_superset": true,
+    "W4_eager_costs_more_and_wins_nothing_extra": true,
+    "W5_compiled_wins_where_naive_never_did": true
+  },
+  "primary_grid": [
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8626299219337414,
+          "compilations": 5.75,
+          "compiled_cells": 87.25,
+          "consultations": 635.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1338.75,
+            "compositions": 1000,
+            "deliberation": 1480.625,
+            "derivations": 637.375,
+            "inductions": 5.25,
+            "lookups": 23.875,
+            "verifications": 1358.5
+          },
+          "deliberation": 1480.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 117802.0,
+          "work_if_it_were_admissible": 117802.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 5.75,
+          "compiled_cells": 92,
+          "consultations": 635.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1338.75,
+            "compositions": 1000,
+            "deliberation": 1587.875,
+            "derivations": 637.375,
+            "inductions": 5.25,
+            "lookups": 23.875,
+            "verifications": 1358.5
+          },
+          "deliberation": 1587.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 117909.25,
+          "work_if_it_were_admissible": 117909.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 1256.875,
+            "inductions": 0,
+            "lookups": 743.125,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 131430.625,
+          "work_if_it_were_admissible": 131430.625
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 635.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1338.75,
+            "compositions": 1000,
+            "deliberation": 6843.375,
+            "derivations": 637.375,
+            "inductions": 5.25,
+            "lookups": 23.875,
+            "verifications": 1358.5
+          },
+          "deliberation": 6843.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 123164.75,
+          "work_if_it_were_admissible": 123164.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 768,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.8963055604430094,
+        "PRECOMPILED_EAGER": 0.8971215803013948,
+        "UNANIMITY_NAIVE": 0.9371084555064697
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8344954626711543,
+          "compilations": 10,
+          "compiled_cells": 138.75,
+          "consultations": 891.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.5,
+            "compositions": 1000,
+            "deliberation": 2784.5,
+            "derivations": 607.625,
+            "inductions": 8,
+            "lookups": 74.875,
+            "verifications": 1109.375
+          },
+          "deliberation": 2784.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 109851.25,
+          "work_if_it_were_admissible": 109851.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 10,
+          "compiled_cells": 160,
+          "consultations": 891.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.5,
+            "compositions": 1000,
+            "deliberation": 3035.875,
+            "derivations": 607.625,
+            "inductions": 8,
+            "lookups": 74.875,
+            "verifications": 1109.375
+          },
+          "deliberation": 3035.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 110102.625,
+          "work_if_it_were_admissible": 110102.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 785.375,
+            "inductions": 0,
+            "lookups": 1214.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 84752.125,
+          "work_if_it_were_admissible": 84752.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 891.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.5,
+            "compositions": 1000,
+            "deliberation": 9836.625,
+            "derivations": 607.625,
+            "inductions": 8,
+            "lookups": 74.875,
+            "verifications": 1109.375
+          },
+          "deliberation": 9836.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 116903.375,
+          "work_if_it_were_admissible": 116903.375
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 768,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.296147441730812,
+        "PRECOMPILED_EAGER": 1.2991134440581873,
+        "UNANIMITY_NAIVE": 1.3793562698280426
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8732768693370183,
+          "compilations": 5.25,
+          "compiled_cells": 83.125,
+          "consultations": 648.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1308.875,
+            "compositions": 1000,
+            "deliberation": 1819.375,
+            "derivations": 667.875,
+            "inductions": 5.125,
+            "lookups": 23.25,
+            "verifications": 1347.25
+          },
+          "deliberation": 1819.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 120605.125,
+          "work_if_it_were_admissible": 120605.125
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 5.25,
+          "compiled_cells": 84,
+          "consultations": 648.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1308.875,
+            "compositions": 1000,
+            "deliberation": 1906.875,
+            "derivations": 667.875,
+            "inductions": 5.125,
+            "lookups": 23.25,
+            "verifications": 1347.25
+          },
+          "deliberation": 1906.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 120692.625,
+          "work_if_it_were_admissible": 120692.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 1124.25,
+            "inductions": 0,
+            "lookups": 875.75,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 118300.75,
+          "work_if_it_were_admissible": 118300.75
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 648.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1308.875,
+            "compositions": 1000,
+            "deliberation": 9604.375,
+            "derivations": 667.875,
+            "inductions": 5.125,
+            "lookups": 23.25,
+            "verifications": 1347.25
+          },
+          "deliberation": 9604.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 128390.125,
+          "work_if_it_were_admissible": 128390.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 896,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.019478955120741,
+        "PRECOMPILED_EAGER": 1.0202185954019733,
+        "UNANIMITY_NAIVE": 1.085285807570958
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8550682234957133,
+          "compilations": 8.125,
+          "compiled_cells": 117.875,
+          "consultations": 832.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1387.5,
+            "compositions": 1000,
+            "deliberation": 2648.375,
+            "derivations": 511.375,
+            "inductions": 7.25,
+            "lookups": 101.125,
+            "verifications": 1170
+          },
+          "deliberation": 2648.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 102302.0,
+          "work_if_it_were_admissible": 102302.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 8.125,
+          "compiled_cells": 130,
+          "consultations": 832.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1387.5,
+            "compositions": 1000,
+            "deliberation": 2874.875,
+            "derivations": 511.375,
+            "inductions": 7.25,
+            "lookups": 101.125,
+            "verifications": 1170
+          },
+          "deliberation": 2874.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 102528.5,
+          "work_if_it_were_admissible": 102528.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 699.125,
+            "inductions": 0,
+            "lookups": 1300.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 76213.375,
+          "work_if_it_were_admissible": 76213.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 832.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1387.5,
+            "compositions": 1000,
+            "deliberation": 13172.875,
+            "derivations": 511.375,
+            "inductions": 7.25,
+            "lookups": 101.125,
+            "verifications": 1170
+          },
+          "deliberation": 13172.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 112826.5,
+          "work_if_it_were_admissible": 112826.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 896,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.342310322827194,
+        "PRECOMPILED_EAGER": 1.345282242126136,
+        "UNANIMITY_NAIVE": 1.4804028820400619
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8658863850752272,
+          "compilations": 5.25,
+          "compiled_cells": 79.75,
+          "consultations": 596.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1288.125,
+            "compositions": 1000,
+            "deliberation": 877.25,
+            "derivations": 666.875,
+            "inductions": 4.875,
+            "lookups": 45,
+            "verifications": 1397.625
+          },
+          "deliberation": 877.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 120626.625,
+          "work_if_it_were_admissible": 120626.625
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 5.25,
+          "compiled_cells": 84,
+          "consultations": 596.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1288.125,
+            "compositions": 1000,
+            "deliberation": 976.375,
+            "derivations": 666.875,
+            "inductions": 4.875,
+            "lookups": 45,
+            "verifications": 1397.625
+          },
+          "deliberation": 976.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 120725.75,
+          "work_if_it_were_admissible": 120725.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 989.125,
+            "inductions": 0,
+            "lookups": 1010.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 104923.375,
+          "work_if_it_were_admissible": 104923.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 596.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1288.125,
+            "compositions": 1000,
+            "deliberation": 2735.5,
+            "derivations": 666.875,
+            "inductions": 4.875,
+            "lookups": 45,
+            "verifications": 1397.625
+          },
+          "deliberation": 2735.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 122484.875,
+          "work_if_it_were_admissible": 122484.875
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1024,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.1496639809765936,
+        "PRECOMPILED_EAGER": 1.1506087180287519,
+        "UNANIMITY_NAIVE": 1.1673745245041918
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8657221182994507,
+          "compilations": 7.75,
+          "compiled_cells": 105.625,
+          "consultations": 871.625,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1367.875,
+            "compositions": 1000,
+            "deliberation": 3078.25,
+            "derivations": 525.375,
+            "inductions": 6,
+            "lookups": 106.75,
+            "verifications": 1129.625
+          },
+          "deliberation": 3078.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 102881.875,
+          "work_if_it_were_admissible": 102881.875
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 7.75,
+          "compiled_cells": 124,
+          "consultations": 871.625,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1367.875,
+            "compositions": 1000,
+            "deliberation": 3393.625,
+            "derivations": 525.375,
+            "inductions": 6,
+            "lookups": 106.75,
+            "verifications": 1129.625
+          },
+          "deliberation": 3393.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 103197.25,
+          "work_if_it_were_admissible": 103197.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 617.875,
+            "inductions": 0,
+            "lookups": 1382.125,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 68169.625,
+          "work_if_it_were_admissible": 68169.625
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 871.625,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1367.875,
+            "compositions": 1000,
+            "deliberation": 21293.375,
+            "derivations": 525.375,
+            "inductions": 6,
+            "lookups": 106.75,
+            "verifications": 1129.625
+          },
+          "deliberation": 21293.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 121097.0,
+          "work_if_it_were_admissible": 121097.0
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1024,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.5092040626598724,
+        "PRECOMPILED_EAGER": 1.5138303900014118,
+        "UNANIMITY_NAIVE": 1.7764070141210253
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8716950071541554,
+          "compilations": 5.5,
+          "compiled_cells": 88,
+          "consultations": 685.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1328.375,
+            "compositions": 1000,
+            "deliberation": 1837.25,
+            "derivations": 605,
+            "inductions": 4.625,
+            "lookups": 66.625,
+            "verifications": 1309.5
+          },
+          "deliberation": 1837.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 113610.125,
+          "work_if_it_were_admissible": 113610.125
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 5.5,
+          "compiled_cells": 88,
+          "consultations": 685.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1328.375,
+            "compositions": 1000,
+            "deliberation": 1925.25,
+            "derivations": 605,
+            "inductions": 4.625,
+            "lookups": 66.625,
+            "verifications": 1309.5
+          },
+          "deliberation": 1925.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 113698.125,
+          "work_if_it_were_admissible": 113698.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 872.5,
+            "inductions": 0,
+            "lookups": 1127.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 93377.5,
+          "work_if_it_were_admissible": 93377.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 685.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1328.375,
+            "compositions": 1000,
+            "deliberation": 9939.25,
+            "derivations": 605,
+            "inductions": 4.625,
+            "lookups": 66.625,
+            "verifications": 1309.5
+          },
+          "deliberation": 9939.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 121712.125,
+          "work_if_it_were_admissible": 121712.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1152,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.216675591014966,
+        "PRECOMPILED_EAGER": 1.2176180021953897,
+        "UNANIMITY_NAIVE": 1.3034416749216888
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.802733256482933,
+          "compilations": 13.25,
+          "compiled_cells": 175.5,
+          "consultations": 930.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1389.75,
+            "compositions": 1000,
+            "deliberation": 4012.125,
+            "derivations": 543.625,
+            "inductions": 6.25,
+            "lookups": 66.625,
+            "verifications": 1080.625
+          },
+          "deliberation": 4012.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 104604.375,
+          "work_if_it_were_admissible": 104604.375
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 13.25,
+          "compiled_cells": 212,
+          "consultations": 930.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1389.75,
+            "compositions": 1000,
+            "deliberation": 4796.875,
+            "derivations": 543.625,
+            "inductions": 6.25,
+            "lookups": 66.625,
+            "verifications": 1080.625
+          },
+          "deliberation": 4796.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 105389.125,
+          "work_if_it_were_admissible": 105389.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 523.125,
+            "inductions": 0,
+            "lookups": 1476.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 58789.375,
+          "work_if_it_were_admissible": 58789.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 930.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1389.75,
+            "compositions": 1000,
+            "deliberation": 18270.375,
+            "derivations": 543.625,
+            "inductions": 6.25,
+            "lookups": 66.625,
+            "verifications": 1080.625
+          },
+          "deliberation": 18270.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 118862.625,
+          "work_if_it_were_admissible": 118862.625
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1152,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.7793074854087154,
+        "PRECOMPILED_EAGER": 1.7926559858818025,
+        "UNANIMITY_NAIVE": 2.021838555011003
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8679534696776687,
+          "compilations": 11,
+          "compiled_cells": 171.5,
+          "consultations": 1297,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1362.5,
+            "compositions": 1000,
+            "deliberation": 3451.625,
+            "derivations": 387.625,
+            "inductions": 2.25,
+            "lookups": 249.875,
+            "verifications": 704.25
+          },
+          "deliberation": 3451.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 78785.25,
+          "work_if_it_were_admissible": 78785.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 11,
+          "compiled_cells": 176,
+          "consultations": 1297,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1362.5,
+            "compositions": 1000,
+            "deliberation": 3641,
+            "derivations": 387.625,
+            "inductions": 2.25,
+            "lookups": 249.875,
+            "verifications": 704.25
+          },
+          "deliberation": 3641,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 78974.625,
+          "work_if_it_were_admissible": 78974.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 763.5,
+            "inductions": 0,
+            "lookups": 1236.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 82586.5,
+          "work_if_it_were_admissible": 82586.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1297,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1362.5,
+            "compositions": 1000,
+            "deliberation": 18138.625,
+            "derivations": 387.625,
+            "inductions": 2.25,
+            "lookups": 249.875,
+            "verifications": 704.25
+          },
+          "deliberation": 18138.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 93472.25,
+          "work_if_it_were_admissible": 93472.25
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1280,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.9539725015589715,
+        "PRECOMPILED_EAGER": 0.9562655518759119,
+        "UNANIMITY_NAIVE": 1.1318102837630848
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.797848523049166,
+          "compilations": 15.375,
+          "compiled_cells": 216.125,
+          "consultations": 1173.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1309.375,
+            "compositions": 1000,
+            "deliberation": 3667.625,
+            "derivations": 533.375,
+            "inductions": 5,
+            "lookups": 157.25,
+            "verifications": 837.75
+          },
+          "deliberation": 3667.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 96399.875,
+          "work_if_it_were_admissible": 96399.875
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 15.375,
+          "compiled_cells": 246,
+          "consultations": 1173.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1309.375,
+            "compositions": 1000,
+            "deliberation": 4187.125,
+            "derivations": 533.375,
+            "inductions": 5,
+            "lookups": 157.25,
+            "verifications": 837.75
+          },
+          "deliberation": 4187.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 96919.375,
+          "work_if_it_were_admissible": 96919.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 438.125,
+            "inductions": 0,
+            "lookups": 1561.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 50374.375,
+          "work_if_it_were_admissible": 50374.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1173.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1309.375,
+            "compositions": 1000,
+            "deliberation": 14340.5,
+            "derivations": 533.375,
+            "inductions": 5,
+            "lookups": 157.25,
+            "verifications": 837.75
+          },
+          "deliberation": 14340.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 107072.75,
+          "work_if_it_were_admissible": 107072.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1280,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.9136689040806958,
+        "PRECOMPILED_EAGER": 1.9239816871177062,
+        "UNANIMITY_NAIVE": 2.125540019106937
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8674459732587345,
+          "compilations": 13.75,
+          "compiled_cells": 215.25,
+          "consultations": 1639.5,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1289.75,
+            "compositions": 1000,
+            "deliberation": 3643,
+            "derivations": 310.375,
+            "inductions": 3,
+            "lookups": 399.875,
+            "verifications": 360.5
+          },
+          "deliberation": 3643,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 62110.375,
+          "work_if_it_were_admissible": 62110.375
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 13.75,
+          "compiled_cells": 220,
+          "consultations": 1639.5,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1289.75,
+            "compositions": 1000,
+            "deliberation": 3893.5,
+            "derivations": 310.375,
+            "inductions": 3,
+            "lookups": 399.875,
+            "verifications": 360.5
+          },
+          "deliberation": 3893.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 62360.875,
+          "work_if_it_were_admissible": 62360.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 632.75,
+            "inductions": 0,
+            "lookups": 1367.25,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 69642.25,
+          "work_if_it_were_admissible": 69642.25
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1639.5,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1289.75,
+            "compositions": 1000,
+            "deliberation": 16718.875,
+            "derivations": 310.375,
+            "inductions": 3,
+            "lookups": 399.875,
+            "verifications": 360.5
+          },
+          "deliberation": 16718.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 75186.25,
+          "work_if_it_were_admissible": 75186.25
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1408,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.8918490571456263,
+        "PRECOMPILED_EAGER": 0.8954460115806138,
+        "UNANIMITY_NAIVE": 1.079606847854571
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8635925802139037,
+          "compilations": 18.125,
+          "compiled_cells": 262.75,
+          "consultations": 1937,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1334.625,
+            "compositions": 1000,
+            "deliberation": 7602.125,
+            "derivations": 119.25,
+            "inductions": 0.5,
+            "lookups": 546.125,
+            "verifications": 97.5
+          },
+          "deliberation": 7602.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 40877.0,
+          "work_if_it_were_admissible": 40877.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 18.125,
+          "compiled_cells": 290,
+          "consultations": 1937,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1334.625,
+            "compositions": 1000,
+            "deliberation": 8211,
+            "derivations": 119.25,
+            "inductions": 0.5,
+            "lookups": 546.125,
+            "verifications": 97.5
+          },
+          "deliberation": 8211,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 41485.875,
+          "work_if_it_were_admissible": 41485.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 382.25,
+            "inductions": 0,
+            "lookups": 1617.75,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 44842.75,
+          "work_if_it_were_admissible": 44842.75
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1937,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1334.625,
+            "compositions": 1000,
+            "deliberation": 31072.875,
+            "derivations": 119.25,
+            "inductions": 0.5,
+            "lookups": 546.125,
+            "verifications": 97.5
+          },
+          "deliberation": 31072.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 64347.75,
+          "work_if_it_were_admissible": 64347.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1408,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.9115631846842578,
+        "PRECOMPILED_EAGER": 0.9251411878174287,
+        "UNANIMITY_NAIVE": 1.4349644033873925
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8709314408141403,
+          "compilations": 16.125,
+          "compiled_cells": 256,
+          "consultations": 1983.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1319.5,
+            "compositions": 1000,
+            "deliberation": 4622.375,
+            "derivations": 30.875,
+            "inductions": 0.125,
+            "lookups": 649.625,
+            "verifications": 22.875
+          },
+          "deliberation": 4622.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 27131.375,
+          "work_if_it_were_admissible": 27131.375
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.125,
+          "compiled_cells": 258,
+          "consultations": 1983.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1319.5,
+            "compositions": 1000,
+            "deliberation": 4887.375,
+            "derivations": 30.875,
+            "inductions": 0.125,
+            "lookups": 649.625,
+            "verifications": 22.875
+          },
+          "deliberation": 4887.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 27396.375,
+          "work_if_it_were_admissible": 27396.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 501.625,
+            "inductions": 0,
+            "lookups": 1498.375,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 56660.875,
+          "work_if_it_were_admissible": 56660.875
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1983.375,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1319.5,
+            "compositions": 1000,
+            "deliberation": 22566.125,
+            "derivations": 30.875,
+            "inductions": 0.125,
+            "lookups": 649.625,
+            "verifications": 22.875
+          },
+          "deliberation": 22566.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 45075.125,
+          "work_if_it_were_admissible": 45075.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 1536,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.47883791063939624,
+        "PRECOMPILED_EAGER": 0.4835148592392899,
+        "UNANIMITY_NAIVE": 0.795524689655781
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8624289644822412,
+          "compilations": 19.5,
+          "compiled_cells": 275.125,
+          "consultations": 1999.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1343,
+            "compositions": 1000,
+            "deliberation": 5158,
+            "derivations": 27.125,
+            "inductions": 0.125,
+            "lookups": 629.875,
+            "verifications": 15.625
+          },
+          "deliberation": 5158,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 27326.0,
+          "work_if_it_were_admissible": 27326.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19.5,
+          "compiled_cells": 312,
+          "consultations": 1999.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1343,
+            "compositions": 1000,
+            "deliberation": 5653.875,
+            "derivations": 27.125,
+            "inductions": 0.125,
+            "lookups": 629.875,
+            "verifications": 15.625
+          },
+          "deliberation": 5653.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 27821.875,
+          "work_if_it_were_admissible": 27821.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 302.625,
+            "inductions": 0,
+            "lookups": 1697.375,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 36959.875,
+          "work_if_it_were_admissible": 36959.875
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1999.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1343,
+            "compositions": 1000,
+            "deliberation": 27738,
+            "derivations": 27.125,
+            "inductions": 0.125,
+            "lookups": 629.875,
+            "verifications": 15.625
+          },
+          "deliberation": 27738,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 49906.0,
+          "work_if_it_were_admissible": 49906.0
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1536,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.7393423273211828,
+        "PRECOMPILED_EAGER": 0.7527589040817914,
+        "UNANIMITY_NAIVE": 1.3502751294478132
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.86975,
+          "compilations": 16.75,
+          "compiled_cells": 260.5,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.375,
+            "compositions": 1000,
+            "deliberation": 4441.375,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 678.625,
+            "verifications": 3.875
+          },
+          "deliberation": 4441.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 23790.625,
+          "work_if_it_were_admissible": 23790.625
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.75,
+          "compiled_cells": 268,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.375,
+            "compositions": 1000,
+            "deliberation": 4732,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 678.625,
+            "verifications": 3.875
+          },
+          "deliberation": 4732,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 24081.25,
+          "work_if_it_were_admissible": 24081.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 247.625,
+            "inductions": 0,
+            "lookups": 1752.375,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 31514.875,
+          "work_if_it_were_admissible": 31514.875
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1317.375,
+            "compositions": 1000,
+            "deliberation": 20823.25,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 678.625,
+            "verifications": 3.875
+          },
+          "deliberation": 20823.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 40172.5,
+          "work_if_it_were_admissible": 40172.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1792,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.7549014552651724,
+        "PRECOMPILED_EAGER": 0.764123290985606,
+        "UNANIMITY_NAIVE": 1.274715511326001
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8599937374749499,
+          "compilations": 20.25,
+          "compiled_cells": 279.875,
+          "consultations": 1999,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1267.875,
+            "compositions": 1000,
+            "deliberation": 4610.875,
+            "derivations": 17.875,
+            "inductions": 0.25,
+            "lookups": 714.25,
+            "verifications": 14.625
+          },
+          "deliberation": 4610.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 25167.0,
+          "work_if_it_were_admissible": 25167.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 20.25,
+          "compiled_cells": 324,
+          "consultations": 1999,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1267.875,
+            "compositions": 1000,
+            "deliberation": 5201,
+            "derivations": 17.875,
+            "inductions": 0.25,
+            "lookups": 714.25,
+            "verifications": 14.625
+          },
+          "deliberation": 5201,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 25757.125,
+          "work_if_it_were_admissible": 25757.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 136.625,
+            "inductions": 0,
+            "lookups": 1863.375,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 20525.875,
+          "work_if_it_were_admissible": 20525.875
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1999,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1267.875,
+            "compositions": 1000,
+            "deliberation": 17272.25,
+            "derivations": 17.875,
+            "inductions": 0.25,
+            "lookups": 714.25,
+            "verifications": 14.625
+          },
+          "deliberation": 17272.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 37828.375,
+          "work_if_it_were_admissible": 37828.375
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1792,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.2261109453311978,
+        "PRECOMPILED_EAGER": 1.2548612422125731,
+        "UNANIMITY_NAIVE": 1.8429604097267474
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8690625000000001,
+          "compilations": 16.5,
+          "compiled_cells": 261.875,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1272.625,
+            "compositions": 1000,
+            "deliberation": 3919.75,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 723.25,
+            "verifications": 5.125
+          },
+          "deliberation": 3919.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 22909.875,
+          "work_if_it_were_admissible": 22909.875
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.5,
+          "compiled_cells": 264,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1272.625,
+            "compositions": 1000,
+            "deliberation": 4194,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 723.25,
+            "verifications": 5.125
+          },
+          "deliberation": 4194,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 23184.125,
+          "work_if_it_were_admissible": 23184.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 10.5,
+            "inductions": 0,
+            "lookups": 1989.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 8039.5,
+          "work_if_it_were_admissible": 8039.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1272.625,
+            "compositions": 1000,
+            "deliberation": 16514.375,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 723.25,
+            "verifications": 5.125
+          },
+          "deliberation": 16514.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35504.5,
+          "work_if_it_were_admissible": 35504.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 2048,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 2.8496641582187947,
+        "PRECOMPILED_EAGER": 2.8837769761801106,
+        "UNANIMITY_NAIVE": 4.4162572299272345
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8671081706706707,
+          "compilations": 18.5,
+          "compiled_cells": 265.75,
+          "consultations": 1999.75,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1296.125,
+            "compositions": 1000,
+            "deliberation": 6207.5,
+            "derivations": 12.75,
+            "inductions": 0.125,
+            "lookups": 691.125,
+            "verifications": 26.125
+          },
+          "deliberation": 6207.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 26793.0,
+          "work_if_it_were_admissible": 26793.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 18.5,
+          "compiled_cells": 296,
+          "consultations": 1999.75,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1296.125,
+            "compositions": 1000,
+            "deliberation": 6723.75,
+            "derivations": 12.75,
+            "inductions": 0.125,
+            "lookups": 691.125,
+            "verifications": 26.125
+          },
+          "deliberation": 6723.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 27309.25,
+          "work_if_it_were_admissible": 27309.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 43,
+            "inductions": 0,
+            "lookups": 1957,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 11257.0,
+          "work_if_it_were_admissible": 11257.0
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1999.75,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1296.125,
+            "compositions": 1000,
+            "deliberation": 23763.875,
+            "derivations": 12.75,
+            "inductions": 0.125,
+            "lookups": 691.125,
+            "verifications": 26.125
+          },
+          "deliberation": 23763.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 44349.375,
+          "work_if_it_were_admissible": 44349.375
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 2048,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 1,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 2.380119037043617,
+        "PRECOMPILED_EAGER": 2.4259793906014036,
+        "UNANIMITY_NAIVE": 3.9397152882650794
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8632451852666045,
+          "compilations": 5.375,
+          "compiled_cells": 84.375,
+          "consultations": 624.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1759.125,
+            "compositions": 1000,
+            "deliberation": 2077.5,
+            "derivations": 223.75,
+            "inductions": 3.25,
+            "lookups": 17.125,
+            "verifications": 1380.125
+          },
+          "deliberation": 2077.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 81694.0,
+          "work_if_it_were_admissible": 81694.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 5.375,
+          "compiled_cells": 86,
+          "consultations": 624.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1759.125,
+            "compositions": 1000,
+            "deliberation": 2186.25,
+            "derivations": 223.75,
+            "inductions": 3.25,
+            "lookups": 17.125,
+            "verifications": 1380.125
+          },
+          "deliberation": 2186.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 81802.75,
+          "work_if_it_were_admissible": 81802.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 1241.375,
+            "inductions": 0,
+            "lookups": 758.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 129896.125,
+          "work_if_it_were_admissible": 129896.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 624.25,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1759.125,
+            "compositions": 1000,
+            "deliberation": 11556.25,
+            "derivations": 223.75,
+            "inductions": 3.25,
+            "lookups": 17.125,
+            "verifications": 1380.125
+          },
+          "deliberation": 11556.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 91172.75,
+          "work_if_it_were_admissible": 91172.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 768,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.6289179142179954,
+        "PRECOMPILED_EAGER": 0.6297551216404647,
+        "UNANIMITY_NAIVE": 0.7018896830063253
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.7802302017052516,
+          "compilations": 7.75,
+          "compiled_cells": 110.25,
+          "consultations": 519.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1762.875,
+            "compositions": 1000,
+            "deliberation": 4099.5,
+            "derivations": 233,
+            "inductions": 4.25,
+            "lookups": 4.125,
+            "verifications": 1507.625
+          },
+          "deliberation": 4099.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 87893.0,
+          "work_if_it_were_admissible": 87893.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 7.75,
+          "compiled_cells": 124,
+          "consultations": 519.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1762.875,
+            "compositions": 1000,
+            "deliberation": 4671.125,
+            "derivations": 233,
+            "inductions": 4.25,
+            "lookups": 4.125,
+            "verifications": 1507.625
+          },
+          "deliberation": 4671.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 88464.625,
+          "work_if_it_were_admissible": 88464.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 790,
+            "inductions": 0,
+            "lookups": 1210,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 85210.0,
+          "work_if_it_were_admissible": 85210.0
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 519.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1762.875,
+            "compositions": 1000,
+            "deliberation": 16331.75,
+            "derivations": 233,
+            "inductions": 4.25,
+            "lookups": 4.125,
+            "verifications": 1507.625
+          },
+          "deliberation": 16331.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 100125.25,
+          "work_if_it_were_admissible": 100125.25
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 768,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.0314869146813754,
+        "PRECOMPILED_EAGER": 1.038195340922427,
+        "UNANIMITY_NAIVE": 1.1750410749911981
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8703629740833534,
+          "compilations": 12,
+          "compiled_cells": 189.625,
+          "consultations": 1462.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1803.125,
+            "compositions": 1000,
+            "deliberation": 5541.375,
+            "derivations": 111.625,
+            "inductions": 1,
+            "lookups": 85.25,
+            "verifications": 556.375
+          },
+          "deliberation": 5541.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 53769.75,
+          "work_if_it_were_admissible": 53769.75
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 12,
+          "compiled_cells": 192,
+          "consultations": 1462.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1803.125,
+            "compositions": 1000,
+            "deliberation": 5838.125,
+            "derivations": 111.625,
+            "inductions": 1,
+            "lookups": 85.25,
+            "verifications": 556.375
+          },
+          "deliberation": 5838.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 54066.5,
+          "work_if_it_were_admissible": 54066.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 1123.375,
+            "inductions": 0,
+            "lookups": 876.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 118214.125,
+          "work_if_it_were_admissible": 118214.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1462.125,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1803.125,
+            "compositions": 1000,
+            "deliberation": 33285.375,
+            "derivations": 111.625,
+            "inductions": 1,
+            "lookups": 85.25,
+            "verifications": 556.375
+          },
+          "deliberation": 33285.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 81513.75,
+          "work_if_it_were_admissible": 81513.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 896,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.45485046731936646,
+        "PRECOMPILED_EAGER": 0.45736074263545073,
+        "UNANIMITY_NAIVE": 0.6895432335179912
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.7800251828006329,
+          "compilations": 16.125,
+          "compiled_cells": 222.75,
+          "consultations": 1109,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1778,
+            "compositions": 1000,
+            "deliberation": 8586.75,
+            "derivations": 183,
+            "inductions": 2.875,
+            "lookups": 39,
+            "verifications": 947.5
+          },
+          "deliberation": 8586.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 73508.25,
+          "work_if_it_were_admissible": 73508.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.125,
+          "compiled_cells": 258,
+          "consultations": 1109,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1778,
+            "compositions": 1000,
+            "deliberation": 10755,
+            "derivations": 183,
+            "inductions": 2.875,
+            "lookups": 39,
+            "verifications": 947.5
+          },
+          "deliberation": 10755,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 75676.5,
+          "work_if_it_were_admissible": 75676.5
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 702.5,
+            "inductions": 0,
+            "lookups": 1297.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 76547.5,
+          "work_if_it_were_admissible": 76547.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1109,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1778,
+            "compositions": 1000,
+            "deliberation": 31934.5,
+            "derivations": 183,
+            "inductions": 2.875,
+            "lookups": 39,
+            "verifications": 947.5
+          },
+          "deliberation": 31934.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 96856.0,
+          "work_if_it_were_admissible": 96856.0
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 896,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.9602958947059016,
+        "PRECOMPILED_EAGER": 0.9886214442013129,
+        "UNANIMITY_NAIVE": 1.2653058558411443
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8695012450199203,
+          "compilations": 15.875,
+          "compiled_cells": 249.125,
+          "consultations": 1906.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1784.5,
+            "compositions": 1000,
+            "deliberation": 7265.875,
+            "derivations": 22.5,
+            "inductions": 0,
+            "lookups": 193,
+            "verifications": 113.375
+          },
+          "deliberation": 7265.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35388.25,
+          "work_if_it_were_admissible": 35388.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 15.875,
+          "compiled_cells": 254,
+          "consultations": 1906.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1784.5,
+            "compositions": 1000,
+            "deliberation": 7800.875,
+            "derivations": 22.5,
+            "inductions": 0,
+            "lookups": 193,
+            "verifications": 113.375
+          },
+          "deliberation": 7800.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35923.25,
+          "work_if_it_were_admissible": 35923.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 1001.25,
+            "inductions": 0,
+            "lookups": 998.75,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 106123.75,
+          "work_if_it_were_admissible": 106123.75
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 1906.875,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1784.5,
+            "compositions": 1000,
+            "deliberation": 42021.375,
+            "derivations": 22.5,
+            "inductions": 0,
+            "lookups": 193,
+            "verifications": 113.375
+          },
+          "deliberation": 42021.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 70143.75,
+          "work_if_it_were_admissible": 70143.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 1024,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.3334621138058163,
+        "PRECOMPILED_EAGER": 0.3385033981554553,
+        "UNANIMITY_NAIVE": 0.660961848785027
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8590625000000001,
+          "compilations": 20.125,
+          "compiled_cells": 281.875,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1755.875,
+            "compositions": 1000,
+            "deliberation": 9711.875,
+            "derivations": 6.625,
+            "inductions": 0,
+            "lookups": 237.5,
+            "verifications": 54.625
+          },
+          "deliberation": 9711.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 34536.25,
+          "work_if_it_were_admissible": 34536.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 20.125,
+          "compiled_cells": 322,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1755.875,
+            "compositions": 1000,
+            "deliberation": 12296,
+            "derivations": 6.625,
+            "inductions": 0,
+            "lookups": 237.5,
+            "verifications": 54.625
+          },
+          "deliberation": 12296,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 37120.375,
+          "work_if_it_were_admissible": 37120.375
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 610.25,
+            "inductions": 0,
+            "lookups": 1389.75,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 67414.75,
+          "work_if_it_were_admissible": 67414.75
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1755.875,
+            "compositions": 1000,
+            "deliberation": 43536.75,
+            "derivations": 6.625,
+            "inductions": 0,
+            "lookups": 237.5,
+            "verifications": 54.625
+          },
+          "deliberation": 43536.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 68361.125,
+          "work_if_it_were_admissible": 68361.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1024,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.5122951579587554,
+        "PRECOMPILED_EAGER": 0.5506269028662125,
+        "UNANIMITY_NAIVE": 1.0140380999707037
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.868625,
+          "compilations": 16.75,
+          "compiled_cells": 262.75,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1797.875,
+            "compositions": 1000,
+            "deliberation": 7081.25,
+            "derivations": 2,
+            "inductions": 0,
+            "lookups": 200.125,
+            "verifications": 18.75
+          },
+          "deliberation": 7081.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30928.875,
+          "work_if_it_were_admissible": 30928.875
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.75,
+          "compiled_cells": 268,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1797.875,
+            "compositions": 1000,
+            "deliberation": 7548,
+            "derivations": 2,
+            "inductions": 0,
+            "lookups": 200.125,
+            "verifications": 18.75
+          },
+          "deliberation": 7548,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 31395.625,
+          "work_if_it_were_admissible": 31395.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 882.625,
+            "inductions": 0,
+            "lookups": 1117.375,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 94379.875,
+          "work_if_it_were_admissible": 94379.875
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1797.875,
+            "compositions": 1000,
+            "deliberation": 40805.5,
+            "derivations": 2,
+            "inductions": 0,
+            "lookups": 200.125,
+            "verifications": 18.75
+          },
+          "deliberation": 40805.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 64653.125,
+          "work_if_it_were_admissible": 64653.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 1152,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.32770625093538214,
+        "PRECOMPILED_EAGER": 0.33265169083981094,
+        "UNANIMITY_NAIVE": 0.6850308394665706
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.864,
+          "compilations": 19.25,
+          "compiled_cells": 272,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1758.375,
+            "compositions": 1000,
+            "deliberation": 9251.875,
+            "derivations": 5.125,
+            "inductions": 0,
+            "lookups": 236.5,
+            "verifications": 56.5
+          },
+          "deliberation": 9251.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 33997.125,
+          "work_if_it_were_admissible": 33997.125
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19.25,
+          "compiled_cells": 308,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1758.375,
+            "compositions": 1000,
+            "deliberation": 11110,
+            "derivations": 5.125,
+            "inductions": 0,
+            "lookups": 236.5,
+            "verifications": 56.5
+          },
+          "deliberation": 11110,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35855.25,
+          "work_if_it_were_admissible": 35855.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 530.375,
+            "inductions": 0,
+            "lookups": 1469.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 59507.125,
+          "work_if_it_were_admissible": 59507.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1758.375,
+            "compositions": 1000,
+            "deliberation": 43606,
+            "derivations": 5.125,
+            "inductions": 0,
+            "lookups": 236.5,
+            "verifications": 56.5
+          },
+          "deliberation": 43606,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 68351.25,
+          "work_if_it_were_admissible": 68351.25
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1152,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.57131183870839,
+        "PRECOMPILED_EAGER": 0.6025370911466484,
+        "UNANIMITY_NAIVE": 1.148622959015412
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8668750000000001,
+          "compilations": 17.125,
+          "compiled_cells": 266.25,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1789.125,
+            "compositions": 1000,
+            "deliberation": 7411.75,
+            "derivations": 1.125,
+            "inductions": 0,
+            "lookups": 209.75,
+            "verifications": 22.125
+          },
+          "deliberation": 7411.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 31178.375,
+          "work_if_it_were_admissible": 31178.375
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 17.125,
+          "compiled_cells": 274,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1789.125,
+            "compositions": 1000,
+            "deliberation": 7964,
+            "derivations": 1.125,
+            "inductions": 0,
+            "lookups": 209.75,
+            "verifications": 22.125
+          },
+          "deliberation": 7964,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 31730.625,
+          "work_if_it_were_admissible": 31730.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 759.5,
+            "inductions": 0,
+            "lookups": 1240.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 82190.5,
+          "work_if_it_were_admissible": 82190.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1789.125,
+            "compositions": 1000,
+            "deliberation": 41473.125,
+            "derivations": 1.125,
+            "inductions": 0,
+            "lookups": 209.75,
+            "verifications": 22.125
+          },
+          "deliberation": 41473.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 65239.75,
+          "work_if_it_were_admissible": 65239.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 1280,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.3793428072587465,
+        "PRECOMPILED_EAGER": 0.38606195363211077,
+        "UNANIMITY_NAIVE": 0.7937626611348026
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.86475,
+          "compilations": 19,
+          "compiled_cells": 270.5,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1777.25,
+            "compositions": 1000,
+            "deliberation": 8102.875,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 218.625,
+            "verifications": 40.625
+          },
+          "deliberation": 8102.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 32522.125,
+          "work_if_it_were_admissible": 32522.125
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19,
+          "compiled_cells": 304,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1777.25,
+            "compositions": 1000,
+            "deliberation": 9890,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 218.625,
+            "verifications": 40.625
+          },
+          "deliberation": 9890,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 34309.25,
+          "work_if_it_were_admissible": 34309.25
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 453.75,
+            "inductions": 0,
+            "lookups": 1546.25,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 51921.25,
+          "work_if_it_were_admissible": 51921.25
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1777.25,
+            "compositions": 1000,
+            "deliberation": 39119.875,
+            "derivations": 4.125,
+            "inductions": 0,
+            "lookups": 218.625,
+            "verifications": 40.625
+          },
+          "deliberation": 39119.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 63539.125,
+          "work_if_it_were_admissible": 63539.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1280,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.6263740761249007,
+        "PRECOMPILED_EAGER": 0.6607939908996798,
+        "UNANIMITY_NAIVE": 1.2237595396875076
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.86775,
+          "compilations": 17,
+          "compiled_cells": 264.5,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 6840.25,
+            "derivations": 1.5,
+            "inductions": 0,
+            "lookups": 217.25,
+            "verifications": 20
+          },
+          "deliberation": 6840.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30520.0,
+          "work_if_it_were_admissible": 30520.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 17,
+          "compiled_cells": 272,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 7458,
+            "derivations": 1.5,
+            "inductions": 0,
+            "lookups": 217.25,
+            "verifications": 20
+          },
+          "deliberation": 7458,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 31137.75,
+          "work_if_it_were_admissible": 31137.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 629.125,
+            "inductions": 0,
+            "lookups": 1370.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 69283.375,
+          "work_if_it_were_admissible": 69283.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 37081.125,
+            "derivations": 1.5,
+            "inductions": 0,
+            "lookups": 217.25,
+            "verifications": 20
+          },
+          "deliberation": 37081.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 60760.875,
+          "work_if_it_were_admissible": 60760.875
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": true
+      },
+      "budget_bits": 1408,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.44050971824048696,
+        "PRECOMPILED_EAGER": 0.449425998661295,
+        "UNANIMITY_NAIVE": 0.8769906922115154
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8628750000000001,
+          "compilations": 19.25,
+          "compiled_cells": 274.25,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 9420.375,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 214.75,
+            "verifications": 58.375
+          },
+          "deliberation": 9420.375,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 34307.0,
+          "work_if_it_were_admissible": 34307.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19.25,
+          "compiled_cells": 308,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 11138,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 214.75,
+            "verifications": 58.375
+          },
+          "deliberation": 11138,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 36024.625,
+          "work_if_it_were_admissible": 36024.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 374.375,
+            "inductions": 0,
+            "lookups": 1625.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 44063.125,
+          "work_if_it_were_admissible": 44063.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1781.25,
+            "compositions": 1000,
+            "deliberation": 41733.5,
+            "derivations": 4,
+            "inductions": 0,
+            "lookups": 214.75,
+            "verifications": 58.375
+          },
+          "deliberation": 41733.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 66620.125,
+          "work_if_it_were_admissible": 66620.125
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1408,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.7785875377654218,
+        "PRECOMPILED_EAGER": 0.8175685451270195,
+        "UNANIMITY_NAIVE": 1.5119246535510134
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8693125,
+          "compilations": 16.75,
+          "compiled_cells": 261.375,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.75,
+            "compositions": 1000,
+            "deliberation": 6621.125,
+            "derivations": 1.375,
+            "inductions": 0,
+            "lookups": 237.875,
+            "verifications": 28.75
+          },
+          "deliberation": 6621.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30322.75,
+          "work_if_it_were_admissible": 30322.75
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.75,
+          "compiled_cells": 268,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.75,
+            "compositions": 1000,
+            "deliberation": 7068,
+            "derivations": 1.375,
+            "inductions": 0,
+            "lookups": 237.875,
+            "verifications": 28.75
+          },
+          "deliberation": 7068,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30769.625,
+          "work_if_it_were_admissible": 30769.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 510.5,
+            "inductions": 0,
+            "lookups": 1489.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 57539.5,
+          "work_if_it_were_admissible": 57539.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.75,
+            "compositions": 1000,
+            "deliberation": 37655.875,
+            "derivations": 1.375,
+            "inductions": 0,
+            "lookups": 237.875,
+            "verifications": 28.75
+          },
+          "deliberation": 37655.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 61357.5,
+          "work_if_it_were_admissible": 61357.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1536,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.526990154589456,
+        "PRECOMPILED_EAGER": 0.5347565585380478,
+        "UNANIMITY_NAIVE": 1.0663544174002206
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8631875,
+          "compilations": 19.375,
+          "compiled_cells": 273.625,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1799.125,
+            "compositions": 1000,
+            "deliberation": 9302.125,
+            "derivations": 5.625,
+            "inductions": 0,
+            "lookups": 195.25,
+            "verifications": 48.125
+          },
+          "deliberation": 9302.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 34254.25,
+          "work_if_it_were_admissible": 34254.25
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19.375,
+          "compiled_cells": 310,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1799.125,
+            "compositions": 1000,
+            "deliberation": 12202,
+            "derivations": 5.625,
+            "inductions": 0,
+            "lookups": 195.25,
+            "verifications": 48.125
+          },
+          "deliberation": 12202,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 37154.125,
+          "work_if_it_were_admissible": 37154.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 302.375,
+            "inductions": 0,
+            "lookups": 1697.625,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 36935.125,
+          "work_if_it_were_admissible": 36935.125
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1799.125,
+            "compositions": 1000,
+            "deliberation": 46617.625,
+            "derivations": 5.625,
+            "inductions": 0,
+            "lookups": 195.25,
+            "verifications": 48.125
+          },
+          "deliberation": 46617.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 71569.75,
+          "work_if_it_were_admissible": 71569.75
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1536,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.9274166528473912,
+        "PRECOMPILED_EAGER": 1.0059293152520805,
+        "UNANIMITY_NAIVE": 1.9377151153542866
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.87075,
+          "compilations": 16.375,
+          "compiled_cells": 258.5,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1782.5,
+            "compositions": 1000,
+            "deliberation": 6670.125,
+            "derivations": 0.75,
+            "inductions": 0,
+            "lookups": 216.75,
+            "verifications": 18.125
+          },
+          "deliberation": 6670.125,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30240.0,
+          "work_if_it_were_admissible": 30240.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.375,
+          "compiled_cells": 262,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1782.5,
+            "compositions": 1000,
+            "deliberation": 7028,
+            "derivations": 0.75,
+            "inductions": 0,
+            "lookups": 216.75,
+            "verifications": 18.125
+          },
+          "deliberation": 7028,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30597.875,
+          "work_if_it_were_admissible": 30597.875
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 242.25,
+            "inductions": 0,
+            "lookups": 1757.75,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30982.75,
+          "work_if_it_were_admissible": 30982.75
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1782.5,
+            "compositions": 1000,
+            "deliberation": 38004.625,
+            "derivations": 0.75,
+            "inductions": 0,
+            "lookups": 216.75,
+            "verifications": 18.125
+          },
+          "deliberation": 38004.625,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 61574.5,
+          "work_if_it_were_admissible": 61574.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": true,
+        "PRECOMPILED_EAGER": true,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1792,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 0.9760269827565339,
+        "PRECOMPILED_EAGER": 0.9875777650466792,
+        "UNANIMITY_NAIVE": 1.9873800743962367
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8625,
+          "compilations": 19,
+          "compiled_cells": 275,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.25,
+            "compositions": 1000,
+            "deliberation": 8519.25,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 235.125,
+            "verifications": 46.625
+          },
+          "deliberation": 8519.25,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 32985.0,
+          "work_if_it_were_admissible": 32985.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 19,
+          "compiled_cells": 304,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.25,
+            "compositions": 1000,
+            "deliberation": 10696,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 235.125,
+            "verifications": 46.625
+          },
+          "deliberation": 10696,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35161.75,
+          "work_if_it_were_admissible": 35161.75
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 138,
+            "inductions": 0,
+            "lookups": 1862,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 20662.0,
+          "work_if_it_were_admissible": 20662.0
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1760.25,
+            "compositions": 1000,
+            "deliberation": 37309.75,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 235.125,
+            "verifications": 46.625
+          },
+          "deliberation": 37309.75,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 61775.5,
+          "work_if_it_were_admissible": 61775.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 1792,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 1.596408866518246,
+        "PRECOMPILED_EAGER": 1.7017592682218565,
+        "UNANIMITY_NAIVE": 2.989812215661601
+      },
+      "reps": 8,
+      "skew": 1.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.8695,
+          "compilations": 16.5,
+          "compiled_cells": 261,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1787.375,
+            "compositions": 1000,
+            "deliberation": 6940.875,
+            "derivations": 0.625,
+            "inductions": 0,
+            "lookups": 212,
+            "verifications": 12.875
+          },
+          "deliberation": 6940.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30411.0,
+          "work_if_it_were_admissible": 30411.0
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 16.5,
+          "compiled_cells": 264,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1787.375,
+            "compositions": 1000,
+            "deliberation": 7238,
+            "derivations": 0.625,
+            "inductions": 0,
+            "lookups": 212,
+            "verifications": 12.875
+          },
+          "deliberation": 7238,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 30708.125,
+          "work_if_it_were_admissible": 30708.125
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 8.5,
+            "inductions": 0,
+            "lookups": 1991.5,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 7841.5,
+          "work_if_it_were_admissible": 7841.5
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1787.375,
+            "compositions": 1000,
+            "deliberation": 41129.5,
+            "derivations": 0.625,
+            "inductions": 0,
+            "lookups": 212,
+            "verifications": 12.875
+          },
+          "deliberation": 41129.5,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 64599.625,
+          "work_if_it_were_admissible": 64599.625
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 2048,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 3.878212076771026,
+        "PRECOMPILED_EAGER": 3.916103424089779,
+        "UNANIMITY_NAIVE": 8.238171905885354
+      },
+      "reps": 8,
+      "skew": 0.0
+    },
+    {
+      "arms": {
+        "PRECOMPILED_DEMAND": {
+          "cache_hit_rate": 0.862,
+          "compilations": 18.75,
+          "compiled_cells": 276,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1764.75,
+            "compositions": 1000,
+            "deliberation": 8693.875,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 230.625,
+            "verifications": 48
+          },
+          "deliberation": 8693.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 33234.5,
+          "work_if_it_were_admissible": 33234.5
+        },
+        "PRECOMPILED_EAGER": {
+          "cache_hit_rate": 1.0,
+          "compilations": 18.75,
+          "compiled_cells": 300,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1764.75,
+            "compositions": 1000,
+            "deliberation": 10592,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 230.625,
+            "verifications": 48
+          },
+          "deliberation": 10592,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 35132.625,
+          "work_if_it_were_admissible": 35132.625
+        },
+        "REPLAY_ONLY_PARENT": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 0,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 0,
+            "compositions": 1000,
+            "deliberation": 0,
+            "derivations": 44.125,
+            "inductions": 0,
+            "lookups": 1955.875,
+            "verifications": 0
+          },
+          "deliberation": 0,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 11368.375,
+          "work_if_it_were_admissible": 11368.375
+        },
+        "UNANIMITY_NAIVE": {
+          "cache_hit_rate": null,
+          "compilations": 0,
+          "compiled_cells": 0,
+          "consultations": 2000,
+          "counter_identity_residual": 0.0,
+          "counters": {
+            "applications": 1764.75,
+            "compositions": 1000,
+            "deliberation": 32988.875,
+            "derivations": 4.625,
+            "inductions": 0,
+            "lookups": 230.625,
+            "verifications": 48
+          },
+          "deliberation": 32988.875,
+          "min_correctness": 1.0,
+          "sound_in_every_replicate": true,
+          "work": 57529.5,
+          "work_if_it_were_admissible": 57529.5
+        }
+      },
+      "beats_replay": {
+        "PRECOMPILED_DEMAND": false,
+        "PRECOMPILED_EAGER": false,
+        "UNANIMITY_NAIVE": false
+      },
+      "budget_bits": 2048,
+      "compilation_changed_only_cost": true,
+      "control_disagreements": [],
+      "level": 3,
+      "ratio_to_replay": {
+        "PRECOMPILED_DEMAND": 2.9234169351380475,
+        "PRECOMPILED_EAGER": 3.09038231057649,
+        "UNANIMITY_NAIVE": 5.060485777430811
+      },
+      "reps": 8,
+      "skew": 1.0
+    }
+  ],
+  "study_id": "X6_COMPILED_CONSULTATION_V1",
+  "terminal": "CARRY_ADVANTAGE_SURVIVES_ON_A_LARGE_LANGUAGE_WHEN_CONSULTATION_IS_CHEAP",
+  "terminal_reason": "On the full 433-predicate language, with the version space unchanged and only the price of consulting it changed, the compiled arm beats the replay parent at settings where the same rule at the scanning price beats it at none -- including under skewed demand at level 3, where X5 measured the naive rule losing at all nine budgets. Every carry advantage this lane had previously shown required a language small enough to collapse. This one does not. The operative quantity is the COST OF A CONSULTATION and not the SIZE of the space consulted, which is what DEV-6, X5 and the independent review of PR #150 each argued from a different direction and none of them could show.",
+  "the_control": "PRECOMPILED_DEMAND and UNANIMITY_NAIVE were compared per replicate on every counter compilation is not permitted to touch. Disagreements are published in each cell as control_disagreements and any disagreement anywhere voids the study rather than reducing its confidence.",
+  "what_this_does_not_establish": "The compiled table is charged 1 per consultation and its own storage is NOT charged bits, exactly as DEV-3's guard was charged bits and DEV-5's version space was not. That is this lane's existing and imperfect convention, applied unchanged so the comparison is about the charge rule and not about a new one. A study that prices the table in bits is the obvious successor and is not this study. Nothing here concerns routing, learned policy, or any real system.",
+  "winning_settings": {
+    "PRECOMPILED_DEMAND": [
+      [
+        1,
+        768,
+        0.0
+      ],
+      [
+        1,
+        1280,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        1.0
+      ],
+      [
+        1,
+        1536,
+        0.0
+      ],
+      [
+        1,
+        1536,
+        1.0
+      ],
+      [
+        1,
+        1792,
+        0.0
+      ],
+      [
+        3,
+        768,
+        0.0
+      ],
+      [
+        3,
+        896,
+        0.0
+      ],
+      [
+        3,
+        896,
+        1.0
+      ],
+      [
+        3,
+        1024,
+        0.0
+      ],
+      [
+        3,
+        1024,
+        1.0
+      ],
+      [
+        3,
+        1152,
+        0.0
+      ],
+      [
+        3,
+        1152,
+        1.0
+      ],
+      [
+        3,
+        1280,
+        0.0
+      ],
+      [
+        3,
+        1280,
+        1.0
+      ],
+      [
+        3,
+        1408,
+        0.0
+      ],
+      [
+        3,
+        1408,
+        1.0
+      ],
+      [
+        3,
+        1536,
+        0.0
+      ],
+      [
+        3,
+        1536,
+        1.0
+      ],
+      [
+        3,
+        1792,
+        0.0
+      ]
+    ],
+    "PRECOMPILED_EAGER": [
+      [
+        1,
+        768,
+        0.0
+      ],
+      [
+        1,
+        1280,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        1.0
+      ],
+      [
+        1,
+        1536,
+        0.0
+      ],
+      [
+        1,
+        1536,
+        1.0
+      ],
+      [
+        1,
+        1792,
+        0.0
+      ],
+      [
+        3,
+        768,
+        0.0
+      ],
+      [
+        3,
+        896,
+        0.0
+      ],
+      [
+        3,
+        896,
+        1.0
+      ],
+      [
+        3,
+        1024,
+        0.0
+      ],
+      [
+        3,
+        1024,
+        1.0
+      ],
+      [
+        3,
+        1152,
+        0.0
+      ],
+      [
+        3,
+        1152,
+        1.0
+      ],
+      [
+        3,
+        1280,
+        0.0
+      ],
+      [
+        3,
+        1280,
+        1.0
+      ],
+      [
+        3,
+        1408,
+        0.0
+      ],
+      [
+        3,
+        1408,
+        1.0
+      ],
+      [
+        3,
+        1536,
+        0.0
+      ],
+      [
+        3,
+        1792,
+        0.0
+      ]
+    ],
+    "UNANIMITY_NAIVE": [
+      [
+        1,
+        768,
+        0.0
+      ],
+      [
+        1,
+        1536,
+        0.0
+      ],
+      [
+        3,
+        768,
+        0.0
+      ],
+      [
+        3,
+        896,
+        0.0
+      ],
+      [
+        3,
+        1024,
+        0.0
+      ],
+      [
+        3,
+        1152,
+        0.0
+      ],
+      [
+        3,
+        1280,
+        0.0
+      ],
+      [
+        3,
+        1408,
+        0.0
+      ]
+    ],
+    "gained_by_compiling": [
+      [
+        1,
+        1280,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        0.0
+      ],
+      [
+        1,
+        1408,
+        1.0
+      ],
+      [
+        1,
+        1536,
+        1.0
+      ],
+      [
+        1,
+        1792,
+        0.0
+      ],
+      [
+        3,
+        896,
+        1.0
+      ],
+      [
+        3,
+        1024,
+        1.0
+      ],
+      [
+        3,
+        1152,
+        1.0
+      ],
+      [
+        3,
+        1280,
+        1.0
+      ],
+      [
+        3,
+        1408,
+        1.0
+      ],
+      [
+        3,
+        1536,
+        0.0
+      ],
+      [
+        3,
+        1536,
+        1.0
+      ],
+      [
+        3,
+        1792,
+        0.0
+      ]
+    ],
+    "lost_by_compiling": []
+  }
+}

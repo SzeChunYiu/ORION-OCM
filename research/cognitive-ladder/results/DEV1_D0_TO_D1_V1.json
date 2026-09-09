@@ -1,0 +1,981 @@
+{
+  "arm_roles": {
+    "CONTINUED_OCM": "MACHINE",
+    "CONTINUED_OCM_UNVERIFIED": "DIAGNOSTIC_INADMISSIBLE",
+    "RESET_OCM": "CONTROL_DECISIVE",
+    "STRONG_ADAPTIVE_PARENT": "CLAIRVOYANT_PARENT",
+    "TASK_SPECIFIC_OCM": "GENERALITY_BOUND"
+  },
+  "authority": "E2 synthetic. The first D0-to-D1 developmental transition attempted in this programme. It withdraws no negative and reinterprets none.",
+  "commitment": {
+    "commitment": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0",
+    "pilot_seed": "d09f20cef1a6ca13a1b1862b7863dcecd92fb6e28b12b9ed5a0bf8144920eabe",
+    "protected_seed": "d4dde7840e11fecb88d08b529a962801a52f42c82bc776a678265bc5a904ca2e"
+  },
+  "cost_of_the_scope_check": {
+    "note": "CONTINUED_OCM_UNVERIFIED is a DIAGNOSTIC, not a control. It applies held rules without checking scope, so its correctness is below 1.0 and it is INADMISSIBLE for any work comparison. It is reported only to price the check: this is what carrying structure costs when the structure is trusted rather than tested.",
+    "rows": [
+      {
+        "budget_bits": 256,
+        "d1_length": 250,
+        "unverified_correctness": 0.804,
+        "unverified_work": 25555.0,
+        "verified_work": 37905.0
+      },
+      {
+        "budget_bits": 1024,
+        "d1_length": 250,
+        "unverified_correctness": 0.7,
+        "unverified_work": 6250.0,
+        "verified_work": 23418.75
+      },
+      {
+        "budget_bits": 256,
+        "d1_length": 1000,
+        "unverified_correctness": 0.812,
+        "unverified_work": 89723.75,
+        "verified_work": 142410.0
+      },
+      {
+        "budget_bits": 1024,
+        "d1_length": 1000,
+        "unverified_correctness": 0.721,
+        "unverified_work": 25000.0,
+        "verified_work": 91605.0
+      },
+      {
+        "budget_bits": 256,
+        "d1_length": 4000,
+        "unverified_correctness": 0.81625,
+        "unverified_work": 362128.75,
+        "verified_work": 561735.375
+      },
+      {
+        "budget_bits": 1024,
+        "d1_length": 4000,
+        "unverified_correctness": 0.74725,
+        "unverified_work": 100000.0,
+        "verified_work": 384060.0
+      }
+    ]
+  },
+  "lifetime_verdict": {
+    "note": "Three different questions get three different answers and all three are reported, because the first is the one this experiment is about and the other two are the ones a reader will otherwise assume it answered.\n\n(1) DEVELOPMENTAL: given that D0 happened, did carrying its store make D1 cheaper? CONTINUED against RESET. Both pay D0, so the D0 term cancels exactly and the lifetime difference EQUALS the D1 difference. This is the question DEV-D1 asks and the terminal answers it.\n\n(2) AMORTIZATION: would a machine that skipped D0 entirely have been better off? CONTINUED's D0 plus D1 against RESET's D1 alone. The answer is NO everywhere and it is not close: D0 costs far more than the whole D1 saving. Reported here rather than omitted.\n\n(3) WHY (2) IS THE WRONG QUESTION HERE, stated as an argument the reader may reject rather than as a fact: D0's demands are not a training budget the machine could have declined. They are work it was asked to do and had to serve correctly whatever it kept. The choice available to it was not whether to run D0 but what to retain while running it, and (1) is the comparison that isolates that choice. A reader who thinks D0 was optional should read (2) as the headline, and (2) is negative.",
+    "rows": [
+      {
+        "amortization_advantage": -96985.75,
+        "budget_bits": 256,
+        "d0_paid_for_itself": false,
+        "d0_work": 96954.875,
+        "d1_length": 250,
+        "developmental_advantage": -30.875,
+        "lifetime_continued_d0_plus_d1": 134859.875,
+        "no_d0_baseline_d1_alone": 37874.125
+      },
+      {
+        "amortization_advantage": -22691.875,
+        "budget_bits": 1024,
+        "d0_paid_for_itself": false,
+        "d0_work": 26016.875,
+        "d1_length": 250,
+        "developmental_advantage": 3325.0,
+        "lifetime_continued_d0_plus_d1": 49435.625,
+        "no_d0_baseline_d1_alone": 26743.75
+      },
+      {
+        "amortization_advantage": -94526.625,
+        "budget_bits": 256,
+        "d0_paid_for_itself": false,
+        "d0_work": 94429.5,
+        "d1_length": 1000,
+        "developmental_advantage": -97.125,
+        "lifetime_continued_d0_plus_d1": 236839.5,
+        "no_d0_baseline_d1_alone": 142312.875
+      },
+      {
+        "amortization_advantage": -22761.25,
+        "budget_bits": 1024,
+        "d0_paid_for_itself": false,
+        "d0_work": 26149.375,
+        "d1_length": 1000,
+        "developmental_advantage": 3388.125,
+        "lifetime_continued_d0_plus_d1": 117754.375,
+        "no_d0_baseline_d1_alone": 94993.125
+      },
+      {
+        "amortization_advantage": -91151.0,
+        "budget_bits": 256,
+        "d0_paid_for_itself": false,
+        "d0_work": 91095.25,
+        "d1_length": 4000,
+        "developmental_advantage": -55.75,
+        "lifetime_continued_d0_plus_d1": 652830.625,
+        "no_d0_baseline_d1_alone": 561679.625
+      },
+      {
+        "amortization_advantage": -22297.25,
+        "budget_bits": 1024,
+        "d0_paid_for_itself": false,
+        "d0_work": 25674.875,
+        "d1_length": 4000,
+        "developmental_advantage": 3377.625,
+        "lifetime_continued_d0_plus_d1": 409734.875,
+        "no_d0_baseline_d1_alone": 387437.625
+      }
+    ]
+  },
+  "novelty": "NONE CLAIMED. Curriculum and transfer learning own the question of whether earlier training makes later training cheaper; catastrophic forgetting and negative transfer own the risk side. The contribution is the RECEIPT DISCIPLINE -- a reset arm, a clairvoyant parent, a task-specific bound, attributable reuse witnesses, and a registered kill criterion -- applied to a transition that is otherwise ordinary.",
+  "plan": {
+    "capability_gate": "D1 correctness is NOT 1.0 by construction -- an arm that applies a rule to an exception answers wrongly. Work is compared only between arms at matched correctness, and where correctness differs the comparison is reported as INADMISSIBLE rather than as a win. This is the first experiment in the programme where the gate can actually bind on the machine under test.",
+    "constitution": "SzeChunYiu/ORION-OCM#144",
+    "contribution_level": "L1",
+    "costs": {
+      "apply": 10,
+      "compose": 5,
+      "composite_bits": 48,
+      "derive": 100,
+      "exception_rate": 0.1,
+      "fact_bits": 8,
+      "induce": 40,
+      "k_induce": 3,
+      "lookup": 1,
+      "rule_bits": 32,
+      "verify": 25
+    },
+    "decisive_causal_question": "CONTINUED_OCM versus RESET_OCM. The two are the same code, the same budget, the same D1 stream, and the same immutable architecture. They differ in exactly one bit: whether the D0 store crosses the boundary. Any D1 work difference between them is caused by the crossing or by nothing.",
+    "depends_on": "results/RETAIN_E10_V1.json",
+    "evidence_class": "E2",
+    "kill_criterion": "If CONTINUED_OCM does not beat RESET_OCM on D1-only work at matched correctness, there is no D0 to D1 transition here. The spine's first entry is then a REFUSAL, recorded with the same weight as a success would have been.",
+    "novelty": "NONE CLAIMED. Curriculum and transfer learning own the question of whether earlier training makes later training cheaper; catastrophic forgetting and negative transfer own the risk side. The contribution is the RECEIPT DISCIPLINE -- a reset arm, a clairvoyant parent, a task-specific bound, attributable reuse witnesses, and a registered kill criterion -- applied to a transition that is otherwise ordinary.",
+    "predictions_frozen_before_execution": {
+      "Q1": "CONTINUED_OCM beats RESET_OCM on D1-only work at matched correctness.",
+      "Q2": "The advantage is attributable: the reused base rules that fire in D1 are named, and removing them from the carried store removes the advantage.",
+      "Q3": "CONTINUED_OCM does NOT beat STRONG_ADAPTIVE_PARENT, which sees the future. If it does, the parent is implemented wrongly and the run is void.",
+      "Q4": "CONTINUED_OCM's advantage over RESET_OCM SHRINKS as D1 lengthens, because a reset arm re-earns the same rules. Registered in this direction so that a shrinking advantage is a confirmed prediction and not a discovered excuse.",
+      "Q5": "Carrying state carries risk: CONTINUED_OCM's harmful-transfer exposure is at least RESET_OCM's, because it holds more rules to misapply. If it is lower, the exception mechanism is not biting and the run is uninformative."
+    },
+    "prior_information_audit": {
+      "CONTINUED_OCM": "its own D0 store, earned by paying for every derivation in it",
+      "RESET_OCM": "nothing from D0; identical architecture and identical D1 stream",
+      "STRONG_ADAPTIVE_PARENT": "D0 and D1 and the whole future",
+      "TASK_SPECIFIC_OCM": "D1 only, and a representation chosen for D1's composites",
+      "exceptions": "no arm is told which answers are exceptions; every arm may pay VERIFY_COST to find out, and every arm is charged the same for it"
+    },
+    "programme": "SzeChunYiu/ORION-OCM#151",
+    "scaling_relevance": "D1 length and store budget are both swept. The developmental claim is that the D1-only advantage does not vanish as D1 grows, because a reset arm eventually re-earns everything; if the advantage decays to zero the transition is a STARTUP EFFECT and must be reported as one.",
+    "scientific_question": "Does prior D0 competence, carried across a stage boundary under a bounded and priced store, causally make D1 competence cheaper -- at matched correctness, and against a reset arm with the same architecture and the same D1 information?",
+    "strongest_parent_attack": "STRONG_ADAPTIVE_PARENT sees D0 and D1 concatenated and the entire future demand stream, and keeps the mixed instance-and-rule set a clairvoyant would keep. It has strictly more information than the lineage. E10 already established that the arm does NOT beat this parent, and DEV-1 does not expect to either; the parent is here to bound the claim, not to be beaten.",
+    "study_id": "DEV1_D0_TO_D1_V1",
+    "sweep": {
+      "budget_bits": [
+        256,
+        1024
+      ],
+      "d0_length": 2000,
+      "d1_lengths": [
+        250,
+        1000,
+        4000
+      ],
+      "extension": 16,
+      "reps": 8,
+      "rule_count": 16,
+      "sigmas": [
+        0.0,
+        0.001,
+        0.01,
+        0.1
+      ],
+      "skew": 1.0
+    },
+    "what_this_does_not_establish": "One transition, on one synthetic stage pair, with disjoint uniform rules and error-free induction. D1 is authored to require composition, so the fact that composition helps is a property of the authored stage and not a discovery. What is NOT authored is whether carrying the store beats re-earning it, which is the only thing being measured. Nothing here speaks to D1 to D2 or to any later transition, and one completed transition does not make a developmental lineage.",
+    "why_extension_16": "E10 located the compressibility crossover at extension 16 and the D0 economy here is E10's economy unchanged. Running the transition BELOW the crossover would test whether a lineage helps in a world where keeping anything is already a mistake, which is a question with a known answer. This is a choice made for a stated reason and it bounds the result: DEV-1 says nothing about incompressible domains."
+  },
+  "predictions": {
+    "Q1_continued_beats_reset": false,
+    "Q2_advantage_is_attributable": true,
+    "Q3_does_not_beat_clairvoyant_parent": true,
+    "Q4_advantage_shrinks_with_d1_length": true,
+    "Q5_continued_carries_at_least_reset_risk": true
+  },
+  "primary_grid": [
+    {
+      "ablation_no_carried_rules_work": 38281.875,
+      "advantage_removed_by_ablation": 376.875,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 37905.0,
+            "0.001": 37967.993,
+            "0.01": 38534.93,
+            "0.1": 44204.3
+          },
+          "derivations": 187.625,
+          "harmful_transfer_refusals": 36.375,
+          "inductions": 151.25,
+          "negative_transfer_work": 909.375,
+          "reuse_witnesses": 312.375,
+          "reused_object_count": 13.625,
+          "role": "MACHINE",
+          "verifications": 348.75
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 25555.0,
+            "0.001": 25618.949,
+            "0.01": 26194.49,
+            "0.1": 31949.9
+          },
+          "derivations": 148.5,
+          "harmful_transfer_refusals": 0,
+          "inductions": 148.5,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 37874.125,
+            "0.001": 37934.829,
+            "0.01": 38481.165,
+            "0.1": 43944.525
+          },
+          "derivations": 203.125,
+          "harmful_transfer_refusals": 34.5,
+          "inductions": 128.375,
+          "negative_transfer_work": 862.5,
+          "reuse_witnesses": 296.875,
+          "reused_object_count": 15.125,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 329.125
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 20852.5,
+            "0.001": 20916.5,
+            "0.01": 21492.5,
+            "0.1": 27252.5
+          },
+          "derivations": 162.25,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 46573.75,
+            "0.001": 46634.455,
+            "0.01": 47180.8,
+            "0.1": 52644.25
+          },
+          "derivations": 388.625,
+          "harmful_transfer_refusals": 11.125,
+          "inductions": 67.75,
+          "negative_transfer_work": 278.125,
+          "reuse_witnesses": 111.375,
+          "reused_object_count": 16.5,
+          "role": "GENERALITY_BOUND",
+          "verifications": 110
+        }
+      },
+      "budget_bits": 256,
+      "carried_rule_counts": [
+        8,
+        7,
+        8,
+        8,
+        7,
+        8,
+        8,
+        7
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.804,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 96954.875,
+      "d1_length": 250,
+      "d1_only_advantage": -30.875,
+      "d1_only_advantage_fraction": -0.0008152003511632282,
+      "lifetime_continued": 134859.875,
+      "lifetime_reset": 134829.0,
+      "reference_lineage_digests": {
+        "after_d0": "43fe2fce25274a2d8c3226a454d2a0043dcb6e9e4c4cdb7007251138333a1d71",
+        "after_d1": "51c52378f7db52a8b335c78d8020d0da8226e765ec36288b197f4802f09e4c20",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    },
+    {
+      "ablation_no_carried_rules_work": 24943.75,
+      "advantage_removed_by_ablation": 1525.0,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 23418.75,
+            "0.001": 23644.57,
+            "0.01": 25676.95,
+            "0.1": 46000.75
+          },
+          "derivations": 51.875,
+          "harmful_transfer_refusals": 51.875,
+          "inductions": 0,
+          "negative_transfer_work": 1296.875,
+          "reuse_witnesses": 448.125,
+          "reused_object_count": 16,
+          "role": "MACHINE",
+          "verifications": 500
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 6250.0,
+            "0.001": 6428.0,
+            "0.01": 8030.0,
+            "0.1": 24050.0
+          },
+          "derivations": 0,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 26743.75,
+            "0.001": 26905.168,
+            "0.01": 28357.93,
+            "0.1": 42885.55
+          },
+          "derivations": 98.625,
+          "harmful_transfer_refusals": 45.375,
+          "inductions": 16,
+          "negative_transfer_work": 1134.375,
+          "reuse_witnesses": 401.375,
+          "reused_object_count": 21.25,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 441.125
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 5820.25,
+            "0.001": 5998.825,
+            "0.01": 7606.0,
+            "0.1": 23677.75
+          },
+          "derivations": 0.375,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 36838.75,
+            "0.001": 37061.672,
+            "0.01": 39067.97,
+            "0.1": 59130.95
+          },
+          "derivations": 278.375,
+          "harmful_transfer_refusals": 20.875,
+          "inductions": 34.625,
+          "negative_transfer_work": 521.875,
+          "reuse_witnesses": 221.625,
+          "reused_object_count": 51.875,
+          "role": "GENERALITY_BOUND",
+          "verifications": 186.25
+        }
+      },
+      "budget_bits": 1024,
+      "carried_rule_counts": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.7,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 26016.875,
+      "d1_length": 250,
+      "d1_only_advantage": 3325.0,
+      "d1_only_advantage_fraction": 0.1243281140453377,
+      "lifetime_continued": 49435.625,
+      "lifetime_reset": 52760.625,
+      "reference_lineage_digests": {
+        "after_d0": "cae3b5b3d01748b3645b76edb1cb48c4292fa3dd12caa43347f2c0d5703d9fe0",
+        "after_d1": "cd94703040fb6c8115ba655044bbc95b4d73f3d41b0f2e21a0982c0d9c69d68e",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    },
+    {
+      "ablation_no_carried_rules_work": 142741.875,
+      "advantage_removed_by_ablation": 331.875,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 142410.0,
+            "0.001": 142661.28399999999,
+            "0.01": 144922.84,
+            "0.1": 167538.4
+          },
+          "derivations": 663.625,
+          "harmful_transfer_refusals": 151.375,
+          "inductions": 512.25,
+          "negative_transfer_work": 3784.375,
+          "reuse_witnesses": 1336.375,
+          "reused_object_count": 15.625,
+          "role": "MACHINE",
+          "verifications": 1487.75
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 89723.75,
+            "0.001": 89979.735,
+            "0.01": 92283.6,
+            "0.1": 115322.25
+          },
+          "derivations": 497.875,
+          "harmful_transfer_refusals": 0,
+          "inductions": 497.875,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 142312.875,
+            "0.001": 142561.947,
+            "0.01": 144803.595,
+            "0.1": 167220.075
+          },
+          "derivations": 678.25,
+          "harmful_transfer_refusals": 149.125,
+          "inductions": 489.375,
+          "negative_transfer_work": 3728.125,
+          "reuse_witnesses": 1321.75,
+          "reused_object_count": 17.875,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 1468.625
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 79506.25,
+            "0.001": 79762.25,
+            "0.01": 82066.25,
+            "0.1": 105106.25
+          },
+          "derivations": 605.625,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 194683.375,
+            "0.001": 194926.411,
+            "0.01": 197113.735,
+            "0.1": 218986.975
+          },
+          "derivations": 1506.5,
+          "harmful_transfer_refusals": 53.125,
+          "inductions": 523.25,
+          "negative_transfer_work": 1328.125,
+          "reuse_witnesses": 493.5,
+          "reused_object_count": 24.5,
+          "role": "GENERALITY_BOUND",
+          "verifications": 532
+        }
+      },
+      "budget_bits": 256,
+      "carried_rule_counts": [
+        8,
+        8,
+        8,
+        8,
+        7,
+        8,
+        8,
+        8
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.812,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 94429.5,
+      "d1_length": 1000,
+      "d1_only_advantage": -97.125,
+      "d1_only_advantage_fraction": -0.0006824751449930304,
+      "lifetime_continued": 236839.5,
+      "lifetime_reset": 236742.375,
+      "reference_lineage_digests": {
+        "after_d0": "6a34e2cd7f1dbf28e0ab8a118299f813284345fe5e696fc4c5d245867b47c037",
+        "after_d1": "ad0ec6e5c9170cd62ac131e8f1bdfb134ce8054a991306ff97942ef286424a2b",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    },
+    {
+      "ablation_no_carried_rules_work": 93068.0,
+      "advantage_removed_by_ablation": 1463.0,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 91605.0,
+            "0.001": 92591.68400000001,
+            "0.01": 101471.84,
+            "0.1": 190273.40000000002
+          },
+          "derivations": 184.5,
+          "harmful_transfer_refusals": 184.5,
+          "inductions": 0,
+          "negative_transfer_work": 4612.5,
+          "reuse_witnesses": 1815.5,
+          "reused_object_count": 16,
+          "role": "MACHINE",
+          "verifications": 2000
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 25000.0,
+            "0.001": 25707.0,
+            "0.01": 32070.0,
+            "0.1": 95700.0
+          },
+          "derivations": 0,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 94993.125,
+            "0.001": 95905.311,
+            "0.01": 104114.985,
+            "0.1": 186211.725
+          },
+          "derivations": 231.75,
+          "harmful_transfer_refusals": 178.375,
+          "inductions": 16,
+          "negative_transfer_work": 4459.375,
+          "reuse_witnesses": 1768.25,
+          "reused_object_count": 20.75,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 1941.625
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 23376.625,
+            "0.001": 24085.452,
+            "0.01": 30464.895,
+            "0.1": 94259.325
+          },
+          "derivations": 0.375,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 148640.875,
+            "0.001": 149624.332,
+            "0.01": 158475.445,
+            "0.1": 246986.575
+          },
+          "derivations": 970.875,
+          "harmful_transfer_refusals": 95.75,
+          "inductions": 255.25,
+          "negative_transfer_work": 2393.75,
+          "reuse_witnesses": 1029.125,
+          "reused_object_count": 62.5,
+          "role": "GENERALITY_BOUND",
+          "verifications": 1064
+        }
+      },
+      "budget_bits": 1024,
+      "carried_rule_counts": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.721,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 26149.375,
+      "d1_length": 1000,
+      "d1_only_advantage": 3388.125,
+      "d1_only_advantage_fraction": 0.03566705485265381,
+      "lifetime_continued": 117754.375,
+      "lifetime_reset": 121142.5,
+      "reference_lineage_digests": {
+        "after_d0": "3801dc52e3e12f200856edf3d1a879bde823acce27ac33ad63ad9c839d781ceb",
+        "after_d1": "04a10491db2e5008f7f05b5f14aadc7f4993f075f47443ae23d2f8d33238ef6d",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    },
+    {
+      "ablation_no_carried_rules_work": 562063.5,
+      "advantage_removed_by_ablation": 328.125,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 561735.375,
+            "0.001": 562743.393,
+            "0.01": 571815.5549999999,
+            "0.1": 662537.175
+          },
+          "derivations": 2564.5,
+          "harmful_transfer_refusals": 501.625,
+          "inductions": 2062.875,
+          "negative_transfer_work": 12540.625,
+          "reuse_witnesses": 5435.5,
+          "reused_object_count": 16.375,
+          "role": "MACHINE",
+          "verifications": 5936.75
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 362128.75,
+            "0.001": 363152.75,
+            "0.01": 372368.75,
+            "0.1": 464528.75
+          },
+          "derivations": 2016.375,
+          "harmful_transfer_refusals": 0,
+          "inductions": 2016.375,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 561679.625,
+            "0.001": 562685.427,
+            "0.01": 571737.645,
+            "0.1": 662259.825
+          },
+          "derivations": 2579.25,
+          "harmful_transfer_refusals": 499.625,
+          "inductions": 2040.25,
+          "negative_transfer_work": 12490.625,
+          "reuse_witnesses": 5420.75,
+          "reused_object_count": 18.125,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 5918.25
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 316033.75,
+            "0.001": 317057.75,
+            "0.01": 326273.75,
+            "0.1": 418433.75
+          },
+          "derivations": 2400.375,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 797859.5,
+            "0.001": 798824.721,
+            "0.01": 807511.71,
+            "0.1": 894381.6
+          },
+          "derivations": 5961.5,
+          "harmful_transfer_refusals": 175.5,
+          "inductions": 2658.5,
+          "negative_transfer_work": 4387.5,
+          "reuse_witnesses": 2038.5,
+          "reused_object_count": 38.125,
+          "role": "GENERALITY_BOUND",
+          "verifications": 2203.25
+        }
+      },
+      "budget_bits": 256,
+      "carried_rule_counts": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.81625,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 91095.25,
+      "d1_length": 4000,
+      "d1_only_advantage": -55.75,
+      "d1_only_advantage_fraction": -9.925587028370488e-05,
+      "lifetime_continued": 652830.625,
+      "lifetime_reset": 652774.875,
+      "reference_lineage_digests": {
+        "after_d0": "2cf311c51852a382fd73e24dd9fea6a3192461b80abb1b2426f2e2ca492b1e15",
+        "after_d1": "215b2fb6fb1fcc40f9ac8c7ab2c69fc29c624b047385113d6c732392dda09918",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    },
+    {
+      "ablation_no_carried_rules_work": 385523.0,
+      "advantage_removed_by_ablation": 1463.0,
+      "advantage_survives_ablation": true,
+      "arms": {
+        "CONTINUED_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 384060.0,
+            "0.001": 388127.55,
+            "0.01": 424735.5,
+            "0.1": 790815.0
+          },
+          "derivations": 934,
+          "harmful_transfer_refusals": 934,
+          "inductions": 0,
+          "negative_transfer_work": 23350,
+          "reuse_witnesses": 7066,
+          "reused_object_count": 16,
+          "role": "MACHINE",
+          "verifications": 8000
+        },
+        "CONTINUED_OCM_UNVERIFIED": {
+          "d1_total_work_by_sigma": {
+            "0.0": 100000.0,
+            "0.001": 102836.0,
+            "0.01": 128360.0,
+            "0.1": 383600.0
+          },
+          "derivations": 0,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "DIAGNOSTIC_INADMISSIBLE",
+          "verifications": 0
+        },
+        "RESET_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 387437.625,
+            "0.001": 391444.176,
+            "0.01": 427503.135,
+            "0.1": 788092.7250000001
+          },
+          "derivations": 980.875,
+          "harmful_transfer_refusals": 927.75,
+          "inductions": 16,
+          "negative_transfer_work": 23193.75,
+          "reuse_witnesses": 7019.125,
+          "reused_object_count": 20,
+          "role": "CONTROL_DECISIVE",
+          "verifications": 7942.375
+        },
+        "STRONG_ADAPTIVE_PARENT": {
+          "d1_total_work_by_sigma": {
+            "0.0": 91705.375,
+            "0.001": 94573.47,
+            "0.01": 120386.325,
+            "0.1": 378514.875
+          },
+          "derivations": 1.125,
+          "harmful_transfer_refusals": 0,
+          "inductions": 0,
+          "negative_transfer_work": 0,
+          "reuse_witnesses": 0,
+          "reused_object_count": 0,
+          "role": "CLAIRVOYANT_PARENT",
+          "verifications": 0
+        },
+        "TASK_SPECIFIC_OCM": {
+          "d1_total_work_by_sigma": {
+            "0.0": 625865.0,
+            "0.001": 629882.388,
+            "0.01": 666038.88,
+            "0.1": 1027603.8
+          },
+          "derivations": 3920.625,
+          "harmful_transfer_refusals": 610.375,
+          "inductions": 1445.125,
+          "negative_transfer_work": 15259.375,
+          "reuse_witnesses": 4079.375,
+          "reused_object_count": 74.75,
+          "role": "GENERALITY_BOUND",
+          "verifications": 4629.75
+        }
+      },
+      "budget_bits": 1024,
+      "carried_rule_counts": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "correctness": {
+        "CONTINUED_OCM": 1.0,
+        "CONTINUED_OCM_UNVERIFIED": 0.74725,
+        "RESET_OCM": 1.0,
+        "STRONG_ADAPTIVE_PARENT": 1.0,
+        "TASK_SPECIFIC_OCM": 1.0
+      },
+      "d0_work": 25674.875,
+      "d1_length": 4000,
+      "d1_only_advantage": 3377.625,
+      "d1_only_advantage_fraction": 0.008717854906322018,
+      "lifetime_continued": 409734.875,
+      "lifetime_reset": 413112.5,
+      "reference_lineage_digests": {
+        "after_d0": "cd9c678c0b0ec8e77f7f9121d31d3ee1c6e07a75a46185c82bd828bb39a98e3c",
+        "after_d1": "333ea06cfb2e3998e57fcb5d1da73ececfc13ebcbddce22fb458b4cc2e3360fb",
+        "genesis": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0"
+      },
+      "reps": 8
+    }
+  ],
+  "study_id": "DEV1_D0_TO_D1_V1",
+  "terminal": "D0_TO_D1_TRANSITION_CONDITIONAL",
+  "terminal_reason": "CONTINUED_OCM beat RESET_OCM on D1-only work at matched correctness, with the same architecture, the same budget and the same D1 stream, differing only in whether the D0 store crossed the boundary. Removing the carried rules removes the advantage, so it is attributable to identified reused objects rather than to having a store. Largest advantage 0.1243 of RESET's D1 work at D1 length 250 and budget 1024 bits. IT DID NOT HOLD EVERYWHERE, and the condition is the store budget: the lineage wins at [1024] bits and LOSES at [256] bits, at every D1 length. At the tighter budget D0's own rules saturate the store, so the lineage arrives with its budget already spent and pays to evict what it carried before it can acquire what D1 needs. Carrying state is worth something only when there is headroom to keep acquiring; a saturated store is a liability and the loss is small but consistent across every D1 length. Prediction Q1 is therefore FALSE as registered, and the transition is CONDITIONAL rather than earned outright. The advantage DECAYS as D1 lengthens wherever it exists (0.1243, 0.0357, 0.0087 at the winning budget), exactly as Q4 registered: a reset arm re-earns the same rules, so what was carried is a HEAD START and not a permanent gap. Calling it anything else would overstate it. CONTINUED_OCM does not beat the clairvoyant parent and is not claimed to.",
+  "transition_record": {
+    "ablation_result": {
+      "advantage_survives": true,
+      "removed": "the carried induced rules, keeping every carried fact",
+      "work_with_them": 23418.75,
+      "work_without_them": 24943.75
+    },
+    "acquisition_cost": 26016.875,
+    "active_k": 16,
+    "cheaper_because": "The base rules induced in D0 fire in D1 as components of compositions. Each firing is a recorded witness naming the rule, and removing exactly those rules from the carried store -- while keeping every carried fact -- removes the advantage. The D1 saving is therefore caused by reuse of identified D0 objects and not by the lineage merely possessing a store.",
+    "composition_depth": 2,
+    "harmful_transfer_refusals": 51.875,
+    "lineage_id": "ORION-OCM-DEV1",
+    "lineage_identity": {
+      "chain_digest": "b0860b3cc284da9734df87b210a32b97d55c88c62b99727720c7eab91e19c003",
+      "continuous": true,
+      "genesis_digest": "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0",
+      "lineage_id": "ORION-OCM-DEV1",
+      "links": [
+        [
+          "D0",
+          "963d6b542ce724ae7281dac7d51d078576d8caf6edbf7249af960807b31da2c0",
+          "cae3b5b3d01748b3645b76edb1cb48c4292fa3dd12caa43347f2c0d5703d9fe0"
+        ],
+        [
+          "D1",
+          "cae3b5b3d01748b3645b76edb1cb48c4292fa3dd12caa43347f2c0d5703d9fe0",
+          "cd94703040fb6c8115ba655044bbc95b4d73f3d41b0f2e21a0982c0d9c69d68e"
+        ]
+      ],
+      "note": "The chain is genesis (the frozen plan digest) to the store after D0 to the store after D1, taken from replicate 0 of the reference cell. A gap in this chain is a reset whether or not it was intended as one, which is why RESET_OCM does not appear in it."
+    },
+    "maintenance_cost": "storage priced at sigma; see d1_total_work_by_sigma",
+    "negative_transfer": 1296.875,
+    "new_information_supplied": "the D1 stream, and nothing else. No arm is told which answers are exceptions; every arm may pay VERIFY_COST to find out and is charged the same for it.",
+    "new_methods": [
+      "pair composition",
+      "scope verification before application",
+      "refusal and re-derivation on a failed scope check"
+    ],
+    "new_primitive_operators_admitted": [],
+    "new_representations": [
+      "Pair",
+      "known_exceptions"
+    ],
+    "new_schemas": [
+      "composite rule keyed by an unordered pair of base rules (TASK_SPECIFIC_OCM only)"
+    ],
+    "persistent_bytes": 128.0,
+    "persistent_state_digest": "per-rep; see primary_grid[*].carried_digest",
+    "prior_information_manifest": {
+      "CONTINUED_OCM": "its own D0 store, earned by paying for every derivation in it",
+      "RESET_OCM": "nothing from D0; identical architecture and identical D1 stream",
+      "STRONG_ADAPTIVE_PARENT": "D0 and D1 and the whole future",
+      "TASK_SPECIFIC_OCM": "D1 only, and a representation chosen for D1's composites",
+      "exceptions": "no arm is told which answers are exceptions; every arm may pay VERIFY_COST to find out, and every arm is charged the same for it"
+    },
+    "query_cost": 23418.75,
+    "retention": 16,
+    "reuse_execution_witnesses": 448.125,
+    "reused_object_identities": "rule:<r> and fact:<a> ids, recorded per firing",
+    "revision_cost": 1296.875,
+    "source_machine_identity": "dev1_arms.run_d0@963d6b542ce724ae",
+    "source_stage": "D0",
+    "strongest_parent_result": "STRONG_ADAPTIVE_PARENT, which sees D0, D1 and the entire future, is cheaper than CONTINUED_OCM at every setting (5820 against 23419 at the reference cell). No claim is made against it.",
+    "target_machine_identity": "dev1_arms.run_d1@963d6b542ce724ae",
+    "target_stage": "D1",
+    "terminal": "see receipt terminal",
+    "total_N": 256,
+    "verification_cost": 500
+  },
+  "transition_record_missing_fields": [],
+  "what_this_does_not_establish": "One transition, on one synthetic stage pair, with disjoint uniform rules and error-free induction. D1 is authored to require composition, so the fact that composition helps is a property of the authored stage and not a discovery. What is NOT authored is whether carrying the store beats re-earning it, which is the only thing being measured. Nothing here speaks to D1 to D2 or to any later transition, and one completed transition does not make a developmental lineage."
+}
