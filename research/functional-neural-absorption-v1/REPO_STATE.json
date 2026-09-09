@@ -1,0 +1,103 @@
+{
+  "authority_constraints": {
+    "71": "LEARNED_ROUTER_NOT_YET_AUTHORIZED \u2014 no ML/NN/bandit/router implemented or trained",
+    "production_src": "unchanged by this branch",
+    "protected_evaluation": "untouched"
+  },
+  "base": {
+    "matches": true,
+    "origin_main": "dff3acadb78dfef161d122d00f20ebb30ab8bb51",
+    "subject": "dff3aca Research: integrate #165 A\u2013D execution and scoped representation continuation (#207)",
+    "verified_against_brief": "dff3acadb78dfef161d122d00f20ebb30ab8bb51"
+  },
+  "branch_base": "origin/main (NOT any open PR head)",
+  "captured_at_utc": "2026-09-09",
+  "concurrent_read_only": {
+    "203": {
+      "action": "PRESERVE_AS_PROVENANCE, do not retune",
+      "role": "frozen goal-only study"
+    },
+    "206": {
+      "action": "READ_ONLY, do not merge, do not branch from",
+      "advanced_during_this_audit": true,
+      "branch": "cursor/issue-165-remaining-gates-cf8f",
+      "head": "2dcc5c19093369b29a133695aeb6e88f60e677f8",
+      "head_observed_via_api": "2dcc5c19093369b29a133695aeb6e88f60e677f8",
+      "head_observed_via_git_minutes_later": "831d1f081e60fd68ca8d239ce3c66d03d059db1f",
+      "intervening_commit": "831d1f0 research: retarget successor citation hashes after L1 v1 honesty",
+      "moving_target_note": "#206 gained a commit between the API read and the git fetch in this same audit. Any #206 SHA recorded here is an observation timestamp, not a stable pin. Re-fetch before relying on it.",
+      "role": "active #165 remaining-gates coordinator"
+    },
+    "209-213": {
+      "action": "DO_NOT_MERGE_INDEPENDENTLY, do not edit unique paths",
+      "role": "worker capsules owned by #206"
+    }
+  },
+  "disjointness_audit": {
+    "disjoint": true,
+    "method": "git diff --name-only origin/main...origin/cursor/issue-165-remaining-gates-cf8f",
+    "note": "#206 touches 59 research/ subdirectories and zero production sources. This branch touches one new research directory and zero production sources. The two are file-disjoint by construction and by check.",
+    "our_path": "research/functional-neural-absorption-v1/",
+    "pr206_changed_files": 374,
+    "pr206_files_under_our_path": 0,
+    "pr206_files_under_src": 0,
+    "verified_not_asserted": true
+  },
+  "mechanisms_present_on_main": {
+    "ocm/comparators/matched_parent.py": {
+      "purpose": "matched-parent comparator",
+      "sha256": "2c3b551e93faaea23c0faf8eaad8011700d6ca7b573979312e741777177f8730"
+    },
+    "ocm/comparators/semantic_memory.py": {
+      "purpose": "ordinary persistent-record parent comparator (no OCM machinery)",
+      "sha256": "1575f187d12f860bad86a0e21eb0983b34c2adcde25ef6d3fd216706a4d3914b"
+    },
+    "ocm/comparators/semantic_parent.py": {
+      "purpose": "ordinary semantic parent comparator",
+      "sha256": "44cbcb44529ace397cda9e4e3127a07d06c6fe30dd154d7d4973239fa3ecec79"
+    },
+    "ocm/kso/extraction.py": {
+      "purpose": "R0 full/global exact scan + PCST exact-bounded and greedy (prize-collecting Steiner tree parent, Goemans-Williamson family)",
+      "sha256": "eaa2cbf870b880c1cb24d2e2f9b85959d47ba9b49744f40523907664495466eb"
+    },
+    "ocm/kso/extraction_index.py": {
+      "purpose": "index preparation with build_work SEPARATED from query work; 17-field IndexedExtractionWork resource vector",
+      "sha256": "407ef67dfe3e40c8aef4ec66381fe24073d96b244abeef7edcbb117ace03948b"
+    },
+    "ocm/kso/extraction_indexed.py": {
+      "purpose": "R1/R2 exact-index serving; warm sparse-support reaction avoids global liveness preparation",
+      "sha256": "a3f4fd828b9e1190db0cd9601f7c5de82637f8d2231096a2103c5d107c80794d"
+    },
+    "ocm/kso/navigation.py": {
+      "purpose": "exact rational fixed-point navigation (O(n^3))",
+      "sha256": "57acd4e5ec8a803a2573599f09d9318075ade8df4809070a0e6f197df73407cb"
+    },
+    "ocm/kso/navigation_matrix_free.py": {
+      "purpose": "matrix-free navigation variant",
+      "sha256": "c1bf180b85f80fa50f07253baf30e86cdd2e57569555335795c3799a57caa5ff"
+    },
+    "ocm/kso/navigation_sparse.py": {
+      "purpose": "R4-shaped local diffusion: sparse adjacency power iteration, O(|incidences|)/step, exact rational residual bound",
+      "sha256": "a36b3ef555694f7d554329da929f0ff2d3e0441c8c66713a415e508154c5d6d1"
+    },
+    "ocm/kso/revocation.py": {
+      "purpose": "exact revocation / reopening semantics",
+      "sha256": "692587db1f988b8940c4f3e77491d41569c7138d1f48d36a61b1faaf807c5543"
+    },
+    "ocm/kso/warrant.py": {
+      "purpose": "warrant / LIVE-UNKNOWN-DEAD authority; CannotCheck",
+      "sha256": "4708fe7089aa33831b5047e0d91ac9d31496e66c00102a7486a05b53c1cb1406"
+    },
+    "ocm/operators/indexed_registry.py": {
+      "purpose": "indexed operator registry",
+      "sha256": "7a2550b8201d015d2ba68810c7cd3ba9e2e4810240ebfc8effae2bea2e09b554"
+    },
+    "ocm/runtime/operator_index.py": {
+      "purpose": "R1 inverted index over operators, each posted under its RAREST required input (classic IR rarest-term anchor)",
+      "sha256": "884909f1cf0f26a2eff9b8cb34578f0003a40e1d4fb0c8a7473a5a5bc462d499"
+    }
+  },
+  "python_modules_in_src": 176,
+  "schema": "ocm.fna.repo_state.v1",
+  "work_branch": "research/functional-neural-absorption-20260909"
+}
