@@ -1,4 +1,6 @@
 name: Programme evidence sync and unchanged PR203 repeat
+# Controller correction: preserve the master issue's pre-existing closed state.
+# The failed pre-write attempt and frozen experiment source remain unchanged.
 on:
   push:
     branches: [research/programme-execution-20260909]
@@ -22,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13.5'
-      - name: Reconcile scoped evidence, preserve unrelated roadmap and open gates
+      - name: Reconcile scoped evidence, preserve unrelated roadmap and issue state
         env:
           GH_TOKEN: ${{ github.token }}
           EVIDENCE_DIR: ${{ runner.temp }}/roadmap-evidence
