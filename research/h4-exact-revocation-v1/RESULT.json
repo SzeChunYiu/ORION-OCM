@@ -1,0 +1,283 @@
+{
+  "boxes": {
+    "H4/001-source_removal": {
+      "kept_ids": [
+        "alt_skill",
+        "composed_from_alt",
+        "composed_from_unrel",
+        "goal",
+        "unrel_skill"
+      ],
+      "must_keep": [
+        "alt_skill",
+        "composed_from_alt",
+        "composed_from_unrel",
+        "goal",
+        "unrel_skill"
+      ],
+      "must_remove": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "original_space_still_holds_source": true,
+      "removed_atoms": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "removed_compose_edges": [
+        "compose:composed_deep",
+        "compose:composed_from_src",
+        "compose:composed_src_and_unrel"
+      ],
+      "status": "EARNED_AT_SCOPE",
+      "text": "source removal"
+    },
+    "H4/002-warrant_invalidation": {
+      "alt_eval_live": true,
+      "composed_both_eval_dead": true,
+      "composed_both_is_meet": true,
+      "src_eval_dead": true,
+      "src_evidence_retained": true,
+      "status": "EARNED_AT_SCOPE",
+      "strip_all_warrants_is_collateral": true,
+      "text": "warrant invalidation",
+      "warrants_not_rewritten": true
+    },
+    "H4/003-method_invalidation": {
+      "alt_certified_live": true,
+      "run_does_not_refuse_dead_method": true,
+      "src_static_dead": true,
+      "static_mutant_kills_live_trace_branch": true,
+      "status": "EARNED_AT_SCOPE",
+      "text": "method invalidation",
+      "trace_even_src_branch_dead": true,
+      "trace_odd_unrel_branch_live": true,
+      "unrel_static_live": true
+    },
+    "H4/004-cache_invalidation": {
+      "compose_snapshot_mismatch": "EXTRACTION_INDEX_SNAPSHOT_MISMATCH",
+      "fresh_memo_drops_src": true,
+      "identity_snapshot_mismatch": "EXTRACTION_INDEX_SNAPSHOT_MISMATCH",
+      "post_query_excludes_removed": true,
+      "post_query_rechecks_warrants": true,
+      "prune_snapshot_mismatch": "EXTRACTION_INDEX_SNAPSHOT_MISMATCH",
+      "same_space_index_reusable": true,
+      "stale_memo_keeps_src": true,
+      "status": "EARNED_AT_SCOPE",
+      "structural_cache_not_inherited_across_compose": true,
+      "text": "cache invalidation",
+      "work_post_atom_warrant_checks": 6,
+      "work_pre_atom_warrant_checks": 9
+    },
+    "H4/005-composition_reopening": {
+      "compose_disabled": [
+        "compose:composed_deep",
+        "compose:composed_from_src",
+        "compose:composed_src_and_unrel"
+      ],
+      "compose_kept": [
+        "compose:composed_from_alt",
+        "compose:composed_from_unrel"
+      ],
+      "composed_both_reopens_despite_live_unrel_tail": true,
+      "ks_S2_composition": true,
+      "mutant_join_compose_survives_src_revoke": true,
+      "reopen": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "status": "EARNED_AT_SCOPE",
+      "text": "composition reopening"
+    },
+    "H4/006-alternate_support_preservation": {
+      "alt_atom_live": true,
+      "alt_kept_in_pruned_store": true,
+      "alt_method_live": true,
+      "alt_outside_src_composition_cone": true,
+      "both_supports_revoked_kills_alt": true,
+      "dual_revoke_prunes_alt": true,
+      "status": "EARNED_AT_SCOPE",
+      "text": "alternate-support preservation",
+      "unaffected": [
+        "alt_skill",
+        "composed_from_alt",
+        "composed_from_unrel",
+        "goal",
+        "unrel_skill"
+      ]
+    },
+    "H4/007-relearning_restoration": {
+      "empty_revoke_prune_keeps_all": true,
+      "gated_restore_on_original_space": true,
+      "methods_live_after_empty_revoke": true,
+      "pruned_store_lacks_source": true,
+      "recompose_on_pruned_store_rejected": true,
+      "relearned_atoms_live": true,
+      "relearned_warrants_match": true,
+      "status": "EARNED_AT_SCOPE",
+      "text": "relearning/restoration"
+    }
+  },
+  "cannot_check": [],
+  "claim_ceiling": "Planted-oracle H4 exact revocation on methods, caches, and compositions. Distinct from H3 atom-liveness gating: prune removes dead structure, warrant labels are evaluated not rewritten, LearnedProcedure readings gate use, ExtractionIndex refuses replaced snapshots, and a pruned store requires re-admission. Not programme-wide H4 close. Not H3/H5.",
+  "earned": [
+    "H4/001-source_removal",
+    "H4/002-warrant_invalidation",
+    "H4/003-method_invalidation",
+    "H4/004-cache_invalidation",
+    "H4/005-composition_reopening",
+    "H4/006-alternate_support_preservation",
+    "H4/007-relearning_restoration"
+  ],
+  "h3_capsule_untouched": true,
+  "head": "eacb33de890481f739eec69853bcf7e165481655",
+  "issue": 165,
+  "not_issued": [
+    "PROGRAMME_WIDE_H4_CLOSE",
+    "H4_RESIDUAL_OVER_TMS_SKILL_LIBRARY_INDEX",
+    "H3_OVERWRITE",
+    "PROGRAMME_WIDE_H3_CLOSE",
+    "H5_LIFETIME_ECONOMICS",
+    "INDUCED_DEPENDENCY_PRECISION_RECALL",
+    "M11_M12_SCIENTIFIC_INHERITANCE"
+  ],
+  "open": [],
+  "parent": "production ocm.kso prune/warrant/compose/procedures/extraction-index (ATMS labels, JTMS reopening, KAT readings, snapshot-bound indexes)",
+  "parent_sufficient": true,
+  "production_src_edited": false,
+  "programme_wide_close": false,
+  "schema": "ocm.h4.exact-revocation.v1",
+  "terminal": "PARENT_SUFFICIENT_AT_PLANTED_EXACT_REVOCATION_SCOPE",
+  "world": {
+    "atoms": [
+      "goal",
+      "src_skill",
+      "alt_skill",
+      "unrel_skill",
+      "composed_from_src",
+      "composed_deep",
+      "composed_from_alt",
+      "composed_from_unrel",
+      "composed_src_and_unrel"
+    ],
+    "enabled_post": [
+      "compose:composed_from_alt",
+      "compose:composed_from_unrel",
+      "g-alt",
+      "g-src",
+      "g-unrel"
+    ],
+    "enabled_pre": [
+      "compose:composed_deep",
+      "compose:composed_from_alt",
+      "compose:composed_from_src",
+      "compose:composed_from_unrel",
+      "compose:composed_src_and_unrel",
+      "g-alt",
+      "g-src",
+      "g-unrel"
+    ],
+    "methods": {
+      "method_alt": {
+        "name": "method_alt",
+        "reading": "STATIC"
+      },
+      "method_src": {
+        "name": "method_src",
+        "reading": "STATIC"
+      },
+      "method_trace": {
+        "name": "method_trace",
+        "reading": "TRACE"
+      },
+      "method_unrel": {
+        "name": "method_unrel",
+        "reading": "STATIC"
+      }
+    },
+    "post_liveness": {
+      "alt_skill": "LIVE",
+      "composed_deep": "DEAD",
+      "composed_from_alt": "LIVE",
+      "composed_from_src": "DEAD",
+      "composed_from_unrel": "LIVE",
+      "composed_src_and_unrel": "DEAD",
+      "goal": "LIVE",
+      "src_skill": "DEAD",
+      "unrel_skill": "LIVE"
+    },
+    "pre_liveness": {
+      "alt_skill": "LIVE",
+      "composed_deep": "LIVE",
+      "composed_from_alt": "LIVE",
+      "composed_from_src": "LIVE",
+      "composed_from_unrel": "LIVE",
+      "composed_src_and_unrel": "LIVE",
+      "goal": "LIVE",
+      "src_skill": "LIVE",
+      "unrel_skill": "LIVE"
+    },
+    "pruned_ids": [
+      "alt_skill",
+      "composed_from_alt",
+      "composed_from_unrel",
+      "goal",
+      "unrel_skill"
+    ],
+    "removed_atoms": [
+      "composed_deep",
+      "composed_from_src",
+      "composed_src_and_unrel",
+      "src_skill"
+    ],
+    "removed_edges": [
+      "compose:composed_deep",
+      "compose:composed_from_src",
+      "compose:composed_src_and_unrel",
+      "g-src"
+    ],
+    "reopening": {
+      "activation_changed": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "cone": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "liveness_changed": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "recheck": [],
+      "reopen": [
+        "composed_deep",
+        "composed_from_src",
+        "composed_src_and_unrel",
+        "src_skill"
+      ],
+      "unaffected": [
+        "alt_skill",
+        "composed_from_alt",
+        "composed_from_unrel",
+        "goal",
+        "unrel_skill"
+      ]
+    },
+    "revoked": [
+      "ev:src"
+    ]
+  }
+}
