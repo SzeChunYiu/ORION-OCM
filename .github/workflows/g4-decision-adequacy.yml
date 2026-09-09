@@ -40,13 +40,17 @@ jobs:
           out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
               "g4-adequacy-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
           )
-          paths = [
-              "research/g4-decision-adequacy-v1/RESULT.json",
-              "research/g4-horizon-exact-v1/RESULT.json",
+          required = ["research/g4-decision-adequacy-v1/RESULT.json"]
+          donor = [
+              "research/g4-horizon-exact-v1/RESULT.md",
+              "research/g4-horizon-exact-v1/SUMMARY.json",
+              "research/g4-horizon-exact-v1/horizon_exact.py",
           ]
           frozen = {}
-          for rel in paths:
+          for rel in required + donor:
               p = root / rel
+              if not p.is_file():
+                  raise SystemExit("frozen snapshot missing %s" % rel)
               frozen[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
           (out / "frozen-sha256.json").write_text(json.dumps(frozen, indent=2) + "\n")
           PY
