@@ -1,0 +1,45 @@
+{
+  "receipt_id": "A2-R03",
+  "schema": "TheoryTransportV1",
+  "arm": "A2",
+  "atom_id": "G03 (Q_t proposal kernel)",
+  "donor_domain": "Markov chain Monte Carlo: proposal kernels (Metropolis-Hastings)",
+  "donor_source_ids": [
+    "Metropolis-Hastings (Wikipedia overview)",
+    "Robert & Casella arXiv:1504.01896",
+    "Oxford Stats AdvSim notes ch.6",
+    "adaptive/learning-proposal paper (ResearchGate 2579750)"
+  ],
+  "donor_structure": "proposal kernel q(x'|x) plus acceptance rule alpha; detailed balance with target pi; invariant distribution; mixing time governed by proposal spread (acceptance-rate tradeoff); adaptive proposals that learn the target",
+  "target_structure": "Q_t = stochastic proposal kernel over search states feeding the update map U; R5 ladder row: composed proposals as semigroup elements; R6: self-modifying proposal",
+  "mapping": "proposal kernel q->Q_t; acceptance-correction->verifier/acceptance stage of update; invariant target distribution->(missing) HSG has no target measure; adaptive/learning proposal->R6 self-modifying proposal; kernel composition->R5 semigroup",
+  "preserved_relations": [
+    "kernel composition well-defined (Ionescu-Tulcea class)",
+    "acceptance-rate vs proposal-spread tradeoff as an empirical invariant",
+    "adaptive proposals converge only under vanishing adaptation (Roberts-Rosenthal-type condition)"
+  ],
+  "known_broken_relations": [
+    "detailed balance and invariance DO NOT transfer: no target measure on HSG states; mixing-time machinery unusable without one",
+    "Metropolis-Hastings assumes fixed target; HSG objective/ecology drifts (E_t)"
+  ],
+  "unknown_correspondences": [
+    "what replaces 'stationary distribution' as the object the proposal family should track under drifting ecology"
+  ],
+  "assumptions_added": [
+    "none usable at R4 info-geometry without a dominated family; receipt conditions on the atom supplying a reference measure"
+  ],
+  "candidate_theorem": "none stated: the donor's core guarantees (invariance, detailed balance) are conditional on a target measure the atom does not possess; only the acceptance-spread tradeoff survives as an empirical heuristic",
+  "strongest_parent": "Metropolis-Hastings kernel construction (verified standard)",
+  "route": "rejected-at-theorem-level by inspection of assumption mismatch; empirical route possible for acceptance-spread tradeoff",
+  "search_cost": {
+    "chart_queries": 0,
+    "L2": 30,
+    "L3": 40,
+    "map": 15,
+    "synth": 30,
+    "validate": 0,
+    "total": 115
+  },
+  "status": "PARTIAL",
+  "status_self_assessment": "lexical identity on 'proposal kernel' is exact but the theorem-bearing machinery (target measure) is absent in the atom -- textbook surface-match false-friend; PARTIAL"
+}

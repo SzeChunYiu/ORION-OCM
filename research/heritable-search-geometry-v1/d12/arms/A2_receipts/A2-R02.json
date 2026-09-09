@@ -1,0 +1,44 @@
+{
+  "receipt_id": "A2-R02",
+  "schema": "TheoryTransportV1",
+  "arm": "A2",
+  "atom_id": "representation sufficiency (public calibration atom 2)",
+  "donor_domain": "mathematical statistics: sufficiency of experiments (Fisher-Neyman; Blackwell 1951/1953 comparison of experiments)",
+  "donor_source_ids": [
+    "Blackwell 1951 (AMS)",
+    "Blackwell 1953 (Econometrica)",
+    "Goel-DeGroot 1979 (JSTOR 2958675)",
+    "Wikipedia: Blackwell's informativeness theorem; simple-proof note (ScienceDirect S016517652400630X)"
+  ],
+  "donor_structure": "experiment E1 sufficient for E2 iff E2 = garbling of E1 (stochastic transformation); three-way equivalence: sufficiency <=> garbling <=> higher expected utility for every decision problem and prior; minimal sufficient experiment as coarsest sufficient representation",
+  "target_structure": "a representation (state summary) is sufficient for downstream task decisions iff every alternative representation it replaces is recoverable as a garbling (noise-additive coarsening) of it",
+  "mapping": "experiment->representation/summary; signal->representation content; garbling stochastic kernel->information-losing re-encoding; decision problem->HSG task; prior->task distribution",
+  "preserved_relations": [
+    "sufficiency order (partial order on representations)",
+    "value equivalence: sufficient representation weakly dominates for EVERY decision rule and task distribution",
+    "minimal sufficient representation exists as coarsest element"
+  ],
+  "known_broken_relations": [
+    "Blackwell assumes fixed prior set and single-agent expected utility; HSG verifier/constitution may restrict which decisions are admissible (no direct counterpart)"
+  ],
+  "unknown_correspondences": [
+    "composition of sufficiency along the time axis (iterated garbling across t) -- donor covers one-shot comparison"
+  ],
+  "assumptions_added": [
+    "task decisions evaluated under expected loss; representations as Markov kernels from raw state"
+  ],
+  "candidate_theorem": "for any two state representations R1, R2: R1 weakly dominates R2 on every burden-bounded task iff R2 is a garbling of R1; hence representation upgrades that are not garbling-reversals have zero value -- direct instantiation of Blackwell 1953",
+  "strongest_parent": "Blackwell 1951/1953 (sufficiency iff garbling iff value dominance) -- verified via chart retrieval",
+  "route": "proof route: cite Blackwell equivalence; instantiation needs only that HSG task evaluation is an expected-loss family (decision problems in Blackwell's sense)",
+  "search_cost": {
+    "chart_queries": 0,
+    "L2": 30,
+    "L3": 40,
+    "map": 15,
+    "synth": 30,
+    "validate": 50,
+    "total": 165
+  },
+  "status": "SUPPORTED",
+  "status_self_assessment": "parent statement verified against retrieved sources (three-way equivalence, Blackwell 1951/1953); instantiation conditions mild; SUPPORTED"
+}
