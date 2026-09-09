@@ -1,0 +1,42 @@
+{
+  "schema": "ocm.fna.fna5-routing-first-refusal.revival1.v1",
+  "salt": "fna5-routing-first-refusal-v1::3f9c217a",
+  "parent_run": "FNA5_RESULTS_V1.json",
+  "addendum": "FREEZE_FNA5B_ADDENDUM_V1.json",
+  "oracle_exec_mean_EVAL": 58.36,
+  "budget": 61.28,
+  "A1B_EVAL": {
+    "arm": "A1B_MINIMAL_INFO",
+    "n": 923,
+    "family_agreement": 0.4128,
+    "op_agreement": 0.4117,
+    "first_pass_rate": 0.9252,
+    "fallback_rate": 0.0748,
+    "mean_exec_work": 84.93,
+    "mean_overhead_work": 129.96,
+    "build_work": 0,
+    "mean_total_work": 214.88
+  },
+  "A1B_sufficiency": {
+    "cost_ok": false,
+    "pass_ok": false,
+    "sufficient": false,
+    "acquisition_dominates_flag": false
+  },
+  "minimal_feature_work_mean": 122.0,
+  "full_feature_work_mean_v1": 688.98,
+  "perfect_router_bound": {
+    "rule": "oracle exec + minimal extraction + 2 ops inference",
+    "work": 182.36,
+    "exceeds_budget": true
+  },
+  "decision_value_vs_baseline": 37.75,
+  "baseline_mean_total": 96.11,
+  "verdict": "STRUCTURAL_OBSTRUCTION_PROVEN: perfect-router bound 182.36 > budget 61.28; the minimum information price of safe routing exceeds the whole budget (and the routing residual itself: decision value 37.75/query). Study terminal stays NO_FUNCTIONAL_PARITY_ROUTING; mechanism ACQUISITION_COST_DOMINATES.",
+  "gate_71": "LEARNED_ROUTER_NOT_YET_AUTHORIZED (unchanged; study-only, nothing deployed)",
+  "host": {
+    "python": "3.10.19",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35"
+  },
+  "wall_seconds": 0.979
+}
