@@ -1,0 +1,182 @@
+{
+  "cohort": {
+    "bytes": 109228,
+    "sha256": "fe92ed66735a723b59604ecdf2f7e2ff4259c093efe404e1f1f83ec26942790d"
+  },
+  "empty_retained_context_dv": 22,
+  "integration_implication": "For a goal fixed to physical A/B/C class variables, 2 rows instead retain A/B/V. If a consumer rejects the entire resident cohort on any physical-frame mismatch, this cohort triggers that source-level boundary. No consumer run or evaluation performed; all 22 rows are retained unchanged.",
+  "ordered_canonical_contexts": [
+    {
+      "parameters": [
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cC",
+          "type": "class",
+          "variable": "C"
+        },
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        }
+      ],
+      "rows": 4
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cC",
+          "type": "class",
+          "variable": "C"
+        }
+      ],
+      "rows": 8
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cC",
+          "type": "class",
+          "variable": "C"
+        },
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        }
+      ],
+      "rows": 7
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cV",
+          "type": "class",
+          "variable": "V"
+        },
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        }
+      ],
+      "rows": 1
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cV",
+          "type": "class",
+          "variable": "V"
+        },
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        }
+      ],
+      "rows": 1
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cC",
+          "type": "class",
+          "variable": "C"
+        }
+      ],
+      "rows": 1
+    }
+  ],
+  "ordered_hypothesis_count_distribution": {
+    "0": 7,
+    "1": 13,
+    "2": 1,
+    "3": 1
+  },
+  "rows": 22,
+  "schema": "ordinary.goal.historical-frame-profile.v1",
+  "scope": "Aggregate counts from these 22 retained context parameter records; no current native floating-contract lookup or mandatory-order verification. Canonical context order is not asserted to be native mandatory floating order.",
+  "three_class_parameters": 22,
+  "unordered_physical_frames": [
+    {
+      "parameters": [
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cC",
+          "type": "class",
+          "variable": "C"
+        }
+      ],
+      "rows": 20
+    },
+    {
+      "parameters": [
+        {
+          "floating_label": "cA",
+          "type": "class",
+          "variable": "A"
+        },
+        {
+          "floating_label": "cB",
+          "type": "class",
+          "variable": "B"
+        },
+        {
+          "floating_label": "cV",
+          "type": "class",
+          "variable": "V"
+        }
+      ],
+      "rows": 2
+    }
+  ]
+}

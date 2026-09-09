@@ -65,6 +65,10 @@ now checks an exact whole-proof replacement with composite and derived arguments
 Both native calls pass; this authored alias control establishes no learned utility.
 The [next experiment](ORDINARY_GOAL_SEARCH_NEXT.md) reuses the existing ordinary
 prover for goal-only search under a newly bound input and native-checking contract.
+The [goal-only bridge](../ordinary-goal-native-bridge-v1/CORE.md) now has independent
+source acceptance and twelve authored controls across four preserved generations.
+The [historical cohort](../ordinary-goal-historical-cohort-v1/CORE.md) binds all 22
+issued training lemmas. Joined native authority and a goal-only utility result remain pending.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat
