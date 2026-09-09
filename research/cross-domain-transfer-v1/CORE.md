@@ -29,7 +29,7 @@ Role correspondence (not a solution word): `nonlinear_wrap → plait`, `local_sh
 ## Comparisons
 
 - **Reset OCM:** no live procedure; primitive token BFS.
-- **Task-specific OCM:** proper fragments mined from the disjoint distance-4 train stratum, then admitted and restarted.
+- **Task-specific OCM:** proper subprogram fragments mined from the disjoint distance-4 train stratum (same range as production `methods.py`: suffixes included, full programs excluded), then admitted and restarted.
 - **Transfer OCM:** correspondence-instantiated fragment admitted with source-method support, then restarted.
 - **kNN/prototype parent:** nearest distance-4 donor by Hamming on `(start, goal)`; copy its shortest program or fall back to primitive. Neural libraries are absent → `CANNOT_CHECK_NEURAL`.
 - **Unrelated:** transfer a 3-step numeric prefix into color-name enumeration; no shared sequential structure.

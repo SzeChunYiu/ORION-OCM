@@ -339,6 +339,26 @@ def parse(utterance: str, lex: Lexicon, cons: list[Construction], revoked: Itera
     return rec
 
 
+def warrant_payload(wp: WarrantProfile) -> dict:
+    return {
+        "lower": [sorted(w) for w in wp.lower],
+        "upper": [sorted(w) for w in wp.upper],
+    }
+
+
+def warrant_from_payload(data: Mapping[str, Any]) -> WarrantProfile:
+    return WarrantProfile(
+        tuple(frozenset(w) for w in data["lower"]),
+        tuple(frozenset(w) for w in data["upper"]),
+    )
+
+
+def scope_from_payload(data: Mapping[str, Any]) -> Scope:
+    contexts = data["contexts"]
+    epoch = (float(data["epoch"][0]), float(data["epoch"][1]))
+    return Scope(None if contexts is None else frozenset(contexts), epoch)
+
+
 def lexicon_payload(lex: Lexicon) -> list[dict]:
     rows = []
     for key, lexeme in sorted(lex.lexemes.items()):
@@ -348,12 +368,16 @@ def lexicon_payload(lex: Lexicon) -> list[dict]:
                 "lemma": lexeme.lemma,
                 "category": lexeme.category.name,
                 "features": [list(f) for f in lexeme.features],
+                "warrant": warrant_payload(lexeme.warrant),
+                "scope": lexeme.scope.as_dict(),
                 "senses": [
                     {
                         "id": s.sense_id,
                         "concept": s.concept,
                         "node_type": s.node_type,
-                        "evidence": sorted(e for w in s.warrant.lower for e in w),
+                        "selection": [list(p) for p in s.selection],
+                        "warrant": warrant_payload(s.warrant),
+                        "scope": s.scope.as_dict(),
                     }
                     for s in lexeme.senses
                 ],
@@ -362,13 +386,41 @@ def lexicon_payload(lex: Lexicon) -> list[dict]:
     return rows
 
 
+def lexicon_from_payload(rows: list[dict]) -> Lexicon:
+    lex = Lexicon()
+    for row in rows:
+        senses = tuple(
+            Sense(
+                s["id"],
+                s["concept"],
+                s["node_type"],
+                warrant_from_payload(s["warrant"]),
+                selection=tuple(tuple(p) for p in s.get("selection", ())),
+                scope=scope_from_payload(s["scope"]),
+            )
+            for s in row["senses"]
+        )
+        lex.add(
+            Lexeme(
+                row["lemma"],
+                Category[row["category"]],
+                senses,
+                features=tuple(tuple(f) for f in row["features"]),
+                warrant=warrant_from_payload(row["warrant"]),
+                scope=scope_from_payload(row["scope"]),
+            )
+        )
+    return lex
+
+
 def persist(path: Path, evidence: Mapping[str, tuple[str, ...]], lex: Lexicon) -> None:
+    lex_rows = lexicon_payload(lex)
     payload = {
         "schema": "ocm.l1.linguistic-g2.v2.skill",
         "salt": TRAIN_SALT,
         "evidence": {k: list(v) for k, v in evidence.items()},
-        "lexicon": lexicon_payload(lex),
-        "digest": content_hash({"salt": TRAIN_SALT, "ev": evidence}),
+        "lexicon": lex_rows,
+        "digest": content_hash({"salt": TRAIN_SALT, "ev": evidence, "lex": lex_rows}),
     }
     path.write_text(json.dumps(payload, sort_keys=True))
 
@@ -376,9 +428,12 @@ def persist(path: Path, evidence: Mapping[str, tuple[str, ...]], lex: Lexicon) -
 def load(path: Path) -> tuple[dict[str, tuple[str, ...]], Lexicon]:
     payload = json.loads(path.read_text())
     evidence = {k: tuple(v) for k, v in payload["evidence"].items()}
-    if content_hash({"salt": TRAIN_SALT, "ev": evidence}) != payload["digest"]:
+    lex_rows = payload.get("lexicon")
+    if lex_rows is None:
+        raise RuntimeError("persisted lexicon missing")
+    if content_hash({"salt": TRAIN_SALT, "ev": evidence, "lex": lex_rows}) != payload["digest"]:
         raise RuntimeError("linguistic skill identity mismatch")
-    return evidence, teach_lexicon()
+    return evidence, lexicon_from_payload(lex_rows)
 
 
 def v1_result_intact() -> bool:

@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 import experiment as E
-from world import CONSTITUTION, World, HiddenState, make_incidents
+from world import CONSTITUTION, World, HiddenState, independent_truth, make_incidents, stuck_from_seed
 
 
 class TestG6InterventionLab(unittest.TestCase):
@@ -63,6 +63,15 @@ class TestG6InterventionLab(unittest.TestCase):
         })
         for gen in result["generations"]:
             self.assertGreater(gen["n"], 0)
+
+    def test_incident_seed_replays_stuck_modules(self):
+        incidents = make_incidents(0, 8, E.SALT, disjoint_from=set())
+        for incident in incidents:
+            self.assertEqual(stuck_from_seed(incident.hidden.seed), incident.hidden.stuck)
+            self.assertEqual(independent_truth(incident.hidden), incident.hidden.stuck)
+        mismatched = HiddenState(incidents[0].hidden.stuck, incidents[0].hidden.seed + ":drift")
+        with self.assertRaises(AssertionError):
+            independent_truth(mismatched)
 
     def test_identical_replay_is_not_a_new_generation(self):
         a = make_incidents(0, 4, "same", disjoint_from=set())

@@ -16,8 +16,12 @@ import audit
 class TestConstitutionalInvariants(unittest.TestCase):
     def test_audit_passes_all_section_3_boxes(self):
         result = audit.audit()
+        self.assertEqual(result["n_fail_closed"], sum(1 for i in result["invariants"] if i["status"] == "FAIL"))
+        self.assertEqual(result["n_cannot_check"], sum(1 for i in result["invariants"] if i["status"] == "CANNOT_CHECK"))
         self.assertEqual(result["n_cannot_check"], 0)
+        self.assertEqual(result["n_fail_closed"], 0)
         self.assertEqual(result["n_pass"], len(result["invariants"]))
+        self.assertEqual(result["terminal"], "CONSTITUTIONAL_INVARIANTS_PRESERVED_AT_SCOPE")
         ids = {i["id"] for i in result["invariants"]}
         required = {
             "exact_object_identity", "evidence_identity", "provenance", "warrant_uncertainty",
@@ -27,6 +31,7 @@ class TestConstitutionalInvariants(unittest.TestCase):
             "failure_not_impossibility", "external_adoption_authority",
         }
         self.assertEqual(required, ids)
+        self.assertTrue(all(i["status"] == "PASS" for i in result["invariants"]))
 
     def test_budget_failure_is_not_logical_nogood(self):
         ng = NogoodSet.of()

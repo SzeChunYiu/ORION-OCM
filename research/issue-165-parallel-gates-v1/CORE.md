@@ -132,3 +132,21 @@ Development evidence on that review branch (do not tick #165 from it):
   does not select that fragment. G2 cannot license H1 selection equivalence.
   H1 v3 is a separate actual acquisition successor. Keep that ceiling on any
   H5 checkbox.
+
+## Bugbot scientific honesty (this branch)
+
+Protocol defects that over-claimed a named mechanism were corrected without
+salt retunes or production `src/` edits:
+
+- G2 acquisition: `CHEAP_SEARCH_AWARE_…` only when `SEARCH_AWARE` agrees.
+- G5.3 BDD boxes follow n=3 parity (`OPEN_PARITY_FAILED` otherwise).
+- G6 lab seed now matches the hash that produced stuck modules; the reserved
+  scorer re-simulates that seed.
+- L1 v2 restart reloads the persisted lexicon (digest-bound).
+- L1 v1 combo still drops the numeral; frozen recursive boxes are
+  `EARNED_ADJ_NOUN_SUFFIX_NUMERAL_DROPPED`. Issue #165 recursive composition
+  remains OPEN.
+- Cross-domain task-specific miner now includes proper suffixes; chosen
+  fragment remains `(plait, nick)`.
+- §3 audit runs a live check for every PASS; fail/cannot-check counts are
+  derived, not hardcoded.

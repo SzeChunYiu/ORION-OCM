@@ -120,6 +120,18 @@ class TestCrossDomainTransferProtocol(unittest.TestCase):
         self.assertEqual(status["terminal"], "CANNOT_CHECK_NEURAL")
         self.assertEqual(status["modules"], [])
 
+    def test_task_specific_miner_keeps_proper_suffixes(self):
+        chosen, support = E.mine_task_specific_fragment(
+            self.population["train"], self.population["train_programs"]
+        )
+        program = next(p for p in self.population["train_programs"].values() if len(p) >= 4)
+        self.assertIn(program[-2:], support)
+        src = (HERE / "experiment.py").read_text()
+        self.assertIn("range(start + 2, len(program) + 1)", src)
+        self.assertIn("end - start < len(program)", src)
+        self.assertEqual(chosen, ("plait", "nick"))
+        self.assertGreaterEqual(support[chosen], 20)
+
     def test_full_study_terminal_and_protocol_order(self):
         result = E.run()
         required = [

@@ -242,7 +242,8 @@ def mine_task_specific_fragment(train, train_programs):
         fragments = {
             program[start:end]
             for start in range(len(program))
-            for end in range(start + 2, len(program))
+            for end in range(start + 2, len(program) + 1)
+            if end - start < len(program)
         }
         support.update(fragments)
     if not support:

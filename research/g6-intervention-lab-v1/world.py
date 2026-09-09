@@ -93,9 +93,18 @@ class World:
         return clone
 
 
+def stuck_from_seed(seed: str) -> frozenset[int]:
+    return frozenset(
+        i for i in range(N_MODULES) if hashlib.sha256(f"{seed}:{i}".encode()).digest()[0] & 1
+    )
+
+
 def independent_truth(hidden: HiddenState) -> frozenset[int]:
     """Reserved scorer: re-simulate the seed. Learner never receives this."""
-    return frozenset(hidden.stuck)
+    replayed = stuck_from_seed(hidden.seed)
+    if replayed != hidden.stuck:
+        raise AssertionError("incident seed does not reproduce stuck modules")
+    return replayed
 
 
 def make_incidents(generation: int, n: int, salt: str, *, disjoint_from: set[frozenset[int]] | None = None) -> list[Incident]:
@@ -104,11 +113,12 @@ def make_incidents(generation: int, n: int, salt: str, *, disjoint_from: set[fro
     out: list[Incident] = []
     k = 0
     while len(out) < n:
-        stuck = frozenset(i for i in range(N_MODULES) if hashlib.sha256(f"{salt}:{generation}:{k}:{i}".encode()).digest()[0] & 1)
+        seed = f"{salt}:{generation}:{k}"
+        stuck = stuck_from_seed(seed)
         k += 1
         if not stuck or stuck in disjoint_from:
             continue
-        hidden = HiddenState(stuck, f"{salt}:{generation}:{k}")
+        hidden = HiddenState(stuck, seed)
         out.append(Incident(f"g{generation}-i{len(out)}", generation, hidden))
         disjoint_from.add(stuck)
     return out

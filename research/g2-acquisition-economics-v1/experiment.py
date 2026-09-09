@@ -410,7 +410,7 @@ def verdict(doc: dict) -> dict:
             "attempts bought no information. That is a stronger negative about the "
             "PROTOCOL than about acquisition, and #189's frequency negative needs "
             "re-reading in that light.")
-    else:
+    elif "SEARCH_AWARE" in agree:
         agreeing = ", ".join(agree)
         out["terminal"] = "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE"
         out["terminal_reason"] = (
@@ -430,6 +430,17 @@ def verdict(doc: dict) -> dict:
             "The correlation barely moved -- rho +0.518 for compression against "
             "+0.531 here -- while the argmax moved from rank 13 of 16 to rank 1. "
             "Fixing an argmax needs the right TERM, not a better fit.\n\n"
+            "This is a conventional parent mechanism computed conventionally. No "
+            "OCM-specific claim follows.")
+    else:
+        agreeing = ", ".join(agree)
+        out["terminal"] = "CHEAP_NON_SEARCH_AWARE_SELECTOR_AGREES_WITH_TOURNAMENT"
+        out["terminal_reason"] = (
+            f"A zero-search selector ({agreeing}) reading only the training programs "
+            "chooses the macro the utility tournament chose, but SEARCH_AWARE is not "
+            "among the agreeing selectors. The SEARCH_AWARE terminal is reserved for "
+            "that selector; partial agreement by another cheap rule is not the same "
+            "mechanism.\n\n"
             "This is a conventional parent mechanism computed conventionally. No "
             "OCM-specific claim follows.")
     return out

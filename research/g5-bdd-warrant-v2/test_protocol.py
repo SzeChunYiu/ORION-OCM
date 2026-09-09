@@ -123,6 +123,22 @@ class TestBDDWarrantProtocol(unittest.TestCase):
         self.assertIs(wp.liveness((0,)), Liveness.UNKNOWN)
         self.assertIs(bw.liveness((0,)), Liveness.UNKNOWN)
 
+    def test_failed_parity_does_not_earn_g5_3_boxes(self):
+        spec = importlib.util.spec_from_file_location(
+            "g5_bdd_experiment", Path(__file__).resolve().parent / "experiment.py"
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        earned = module.g5_3_boxes(True)
+        failed = module.g5_3_boxes(False)
+        self.assertEqual(earned["G5.3/001"], "EARNED_AT_N3_ROBDD")
+        self.assertEqual(failed["G5.3/001"], "OPEN_PARITY_FAILED")
+        self.assertEqual(failed["G5.3/005"], "OPEN_PARITY_FAILED")
+        self.assertEqual(failed["G5.3/007"], "OPEN_PARITY_FAILED")
+        self.assertEqual(failed["G5.3/006"], "EARNED_OUTPUT_SIZED_CANNOT_CHECK")
+        self.assertEqual(failed["G5.3/008"], "NOT_ADOPTED")
+        self.assertFalse(any(v.startswith("EARNED_AT_N3") for v in failed.values()))
+
     def test_production_warrant_unchanged_and_not_switched(self):
         from ocm.kso import warrant as W
         self.assertTrue(hasattr(W, "WarrantProfile"))

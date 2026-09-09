@@ -24,6 +24,12 @@ class TestL1LinguisticG2(unittest.TestCase):
         self.assertFalse(result["grammar_induction_parent_has_fresh_identity"])
         self.assertEqual(result["checklist"]["g2_causal_reuse_linguistic"], "EARNED_AT_SCOPE")
         self.assertEqual(result["checklist"]["open_weight_lm_reference"], "CANNOT_CHECK_NO_MODEL_WEIGHTS")
+        self.assertTrue(result["numeral_dropped_in_combo"])
+        self.assertEqual(
+            result["checklist"]["recursive_composition"],
+            "EARNED_ADJ_NOUN_SUFFIX_NUMERAL_DROPPED",
+        )
+        self.assertIn("tokens[-2:]", (Path(__file__).resolve().parent / "experiment.py").read_text())
 
     def test_answer_cache_excluded_by_new_surface_strings(self):
         self.assertNotIn("green", E.TRAIN_ADJ)

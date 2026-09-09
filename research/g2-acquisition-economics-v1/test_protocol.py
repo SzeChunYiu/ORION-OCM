@@ -166,13 +166,23 @@ class Terminals(unittest.TestCase):
                          "ANY_CHEAP_RULE_AGREES_SELECTION_IS_NOT_DISCRIMINATING")
         self.assertIn("bought no information", out["terminal_reason"])
 
-    def test_partial_agreement_is_the_positive_and_names_who_agreed(self):
+    def test_partial_agreement_without_search_aware_does_not_claim_search_aware(self):
         doc = self._doc({"FREQUENCY": "b b", "MDL_COMPRESSION": "a a"},
                         {"a a": 100, "b b": -50})
         out = E.verdict(doc)
         self.assertEqual(out["terminal"],
-                         "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE")
+                         "CHEAP_NON_SEARCH_AWARE_SELECTOR_AGREES_WITH_TOURNAMENT")
         self.assertIn("MDL_COMPRESSION", out["terminal_reason"])
+        self.assertNotIn("SEARCH_AWARE", out["selectors_agreeing_with_the_tournament"])
+        self.assertIn("No OCM-specific claim follows", out["terminal_reason"])
+
+    def test_search_aware_partial_agreement_is_the_named_positive(self):
+        doc = self._doc({"FREQUENCY": "b b", "SEARCH_AWARE": "a a"},
+                        {"a a": 100, "b b": -50})
+        out = E.verdict(doc)
+        self.assertEqual(out["terminal"],
+                         "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE")
+        self.assertIn("SEARCH_AWARE", out["terminal_reason"])
         self.assertIn("No OCM-specific claim follows", out["terminal_reason"])
 
     def test_break_even_falls_when_acquisition_becomes_free(self):
@@ -212,6 +222,16 @@ class Custody(unittest.TestCase):
                                  "only the receipt may be written")
 
 
+
+
+    def test_frozen_receipt_names_search_aware_not_a_generic_partial(self):
+        doc = json.loads((HERE / "G2_ACQUISITION_ECONOMICS_V1.json").read_text())
+        verdict = doc["verdict"]
+        self.assertEqual(
+            verdict["terminal"],
+            "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE",
+        )
+        self.assertEqual(verdict["selectors_agreeing_with_the_tournament"], ["SEARCH_AWARE"])
 
 
 class SearchAwareSelector(unittest.TestCase):

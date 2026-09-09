@@ -25,4 +25,5 @@ v1 support DAG on exhaustive n=3 revocation liveness, expand, ⊕, and ⊗?
 ## Not claimed
 
 Production adoption. Lifetime economics. Packed-field G5.2. ZDD / CUDD as
-strongest conventional parent.
+strongest conventional parent. `g5_3_boxes` follow n=3 parity: a failed
+comparison records `OPEN_PARITY_FAILED`, not earned G5.3 labels.

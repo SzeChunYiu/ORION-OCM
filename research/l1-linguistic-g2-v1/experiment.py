@@ -156,6 +156,10 @@ def main(out: Path) -> dict:
     revoke_kills = all(not r["invoked"] for r in revoked)
     reset_fails = all(not r["invoked"] for r in reset)
     combo_ok = combo[0]["invoked"] and not combo_reset[0]["invoked"]
+    numeral_dropped = list(combo[0]["tokens"]) == ["two", "green", "pyramid"]
+    adj_noun_combo = "EARNED_ADJ_NOUN_SUFFIX_NUMERAL_DROPPED" if combo_ok and numeral_dropped else (
+        "EARNED_AT_SCOPE" if combo_ok else "OPEN"
+    )
     # Grammar-induction parent knows ADJ NOUN bigram from train but has zero count on held pair identity.
     parent_has_fresh_identity = any(parent_counts.get(tuple(p), 0) for p in fresh if len(p) == 2)
     ordinary_tied = restart_ok  # ordinary persist == reload
@@ -171,7 +175,7 @@ def main(out: Path) -> dict:
         "acquire_corpus_scale_lexicon": "CANNOT_CHECK_MINIATURE_MICROWORLD",
         "retain_polysemy": "OPEN",
         "induce_constructions": "EARNED_AT_SCOPE",
-        "recursive_composition": "EARNED_AT_SCOPE" if combo_ok else "OPEN",
+        "recursive_composition": adj_noun_combo,
         "meaning_graphs_beyond_bound": "CANNOT_CHECK_MICROWORLD_SMALL",
         "exact_canonicalization": "EARNED_AT_SCOPE",
         "quantifier_scope": "CANNOT_CHECK_NOT_IN_MICROWORLD",
@@ -179,7 +183,7 @@ def main(out: Path) -> dict:
         "typed_entities": "EARNED_AT_SCOPE",
         "ud_alignment": "CANNOT_CHECK_NO_UD_IN_THIS_STUDY",
         "held_out_lexical_fillers": "EARNED_AT_SCOPE",
-        "held_out_construction_combinations": "EARNED_AT_SCOPE" if combo_ok else "OPEN",
+        "held_out_construction_combinations": adj_noun_combo,
         "held_out_construction_families": "CANNOT_CHECK_ONE_FAMILY",
         "artificial_non_english": "CANNOT_CHECK_NOT_RUN_SOV_HERE",
         "acquisition_curves": "CANNOT_CHECK_N_TOO_SMALL",
@@ -199,11 +203,16 @@ def main(out: Path) -> dict:
         "revocation_removes_effect": revoke_kills,
         "reset_has_no_construction": reset_fails,
         "held_out_combination": combo_ok,
+        "numeral_dropped_in_combo": numeral_dropped,
         "grammar_induction_parent_has_fresh_identity": parent_has_fresh_identity,
         "ordinary_persist_tied": ordinary_tied,
         "checklist": checklist,
         "fresh_rows": with_skill,
-        "claim_ceiling": "Intersective Adj-Noun microworld. Not corpus-scale N1 completion.",
+        "claim_ceiling": (
+            "Intersective Adj-Noun microworld. Combo evaluation parses tokens[-2:], so "
+            "'two green pyramid' is scored as Adj-Noun only; recursive_composition is "
+            "not numeral composition. Not corpus-scale N1 completion."
+        ),
     }
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")

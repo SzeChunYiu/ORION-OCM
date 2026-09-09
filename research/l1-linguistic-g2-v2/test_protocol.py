@@ -70,12 +70,61 @@ class TestL1LinguisticG2V2(unittest.TestCase):
         self.assertEqual(cl["artificial_non_english"], "CANNOT_CHECK_NOT_RUN_SOV_HERE")
         self.assertEqual(cl["acquisition_curves"], "CANNOT_CHECK_N_TOO_SMALL")
 
+    def test_load_reconstructs_persisted_lexicon(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "grammar.json"
+            families = E.train_utterances()
+            evidence = E.evidence_for(families)
+            lex = E.teach_lexicon()
+            E.persist(path, evidence, lex)
+            loaded_ev, loaded_lex = E.load(path)
+        self.assertEqual(loaded_ev, evidence)
+        self.assertEqual(set(loaded_lex.lexemes), set(lex.lexemes))
+        held = E.HELD_ANIMATE[0]
+        self.assertTrue(loaded_lex.by_lemma(held))
+
+    def test_load_rejects_lexicon_digest_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "grammar.json"
+            families = E.train_utterances()
+            evidence = E.evidence_for(families)
+            E.persist(path, evidence, E.teach_lexicon())
+            payload = json.loads(path.read_text())
+            payload["lexicon"] = [row for row in payload["lexicon"] if row["lemma"] != E.HELD_ANIMATE[0]]
+            path.write_text(json.dumps(payload, sort_keys=True))
+            with self.assertRaises(RuntimeError):
+                E.load(path)
+
+    def test_restart_uses_loaded_lexicon_not_reteach(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "grammar.json"
+            families = E.train_utterances()
+            evidence = E.evidence_for(families)
+            lex = E.teach_lexicon()
+            E.persist(path, evidence, lex)
+            payload = json.loads(path.read_text())
+            payload["lexicon"] = [row for row in payload["lexicon"] if row["lemma"] != E.HELD_ANIMATE[0]]
+            payload["digest"] = E.content_hash(
+                {"salt": E.TRAIN_SALT, "ev": evidence, "lex": payload["lexicon"]}
+            )
+            path.write_text(json.dumps(payload, sort_keys=True))
+            loaded_ev, loaded_lex = E.load(path)
+            cons = E.make_constructions(loaded_ev)
+            missing = E.parse(E.held_probes()["transitive"], loaded_lex, cons)
+        self.assertFalse(loaded_lex.by_lemma(E.HELD_ANIMATE[0]))
+        self.assertFalse(missing["invoked"])
+
     def test_v1_result_not_overwritten(self):
         data = json.loads(V1_RESULT.read_text())
         self.assertEqual(data["schema"], "ocm.l1.linguistic-g2.v1")
         self.assertEqual(data["terminal"], "COMPOSITIONAL_LANGUAGE_LEARNING_ONLY")
         self.assertEqual(data["checklist"]["negation"], "CANNOT_CHECK_NOT_IN_MICROWORLD")
         self.assertEqual(data["checklist"]["retain_polysemy"], "OPEN")
+        self.assertEqual(
+            data["checklist"]["recursive_composition"],
+            "EARNED_ADJ_NOUN_SUFFIX_NUMERAL_DROPPED",
+        )
+        self.assertTrue(data["numeral_dropped_in_combo"])
 
 
 if __name__ == "__main__":

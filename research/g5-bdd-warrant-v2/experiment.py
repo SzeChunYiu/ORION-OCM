@@ -26,6 +26,25 @@ def legal_intervals(n: int):
                 yield WarrantProfile(lower, upper)
 
 
+def g5_3_boxes(parity: bool) -> dict[str, str]:
+    """G5.3 box labels follow n=3 parity. Output-size CANNOT_CHECK and
+    non-adoption do not depend on the comparison flag."""
+    return {
+        "G5.3/001": "EARNED_AT_N3_ROBDD" if parity else "OPEN_PARITY_FAILED",
+        "G5.3/002": "EARNED_AT_N3_ROBDD" if parity else "OPEN_PARITY_FAILED",
+        "G5.3/003": "EARNED_AT_N3_ROBDD" if parity else "OPEN_PARITY_FAILED",
+        "G5.3/004": "EARNED_AT_N3_ROBDD" if parity else "OPEN_PARITY_FAILED",
+        "G5.3/005": "EARNED_AT_N3_THREE_WAY" if parity else "OPEN_PARITY_FAILED",
+        "G5.3/006": "EARNED_OUTPUT_SIZED_CANNOT_CHECK",
+        "G5.3/007": (
+            "EARNED_DAG_VS_BDD_VS_ANTICHAIN_AT_N3_ZDD_OPEN"
+            if parity
+            else "OPEN_PARITY_FAILED"
+        ),
+        "G5.3/008": "NOT_ADOPTED",
+    }
+
+
 def main(out: Path) -> dict:
     universe = tuple(range(3))
     revocations = powerset(universe)
@@ -99,16 +118,7 @@ def main(out: Path) -> dict:
             "Research ROBDD parent with exact n=3 revocation/expand/join/meet parity "
             "against DAG and antichain. ZDD not implemented. Production warrant.py unchanged."
         ),
-        "g5_3_boxes": {
-            "G5.3/001": "EARNED_AT_N3_ROBDD",
-            "G5.3/002": "EARNED_AT_N3_ROBDD",
-            "G5.3/003": "EARNED_AT_N3_ROBDD",
-            "G5.3/004": "EARNED_AT_N3_ROBDD",
-            "G5.3/005": "EARNED_AT_N3_THREE_WAY",
-            "G5.3/006": "EARNED_OUTPUT_SIZED_CANNOT_CHECK",
-            "G5.3/007": "EARNED_DAG_VS_BDD_VS_ANTICHAIN_AT_N3_ZDD_OPEN",
-            "G5.3/008": "NOT_ADOPTED",
-        },
+        "g5_3_boxes": g5_3_boxes(parity),
     }
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
