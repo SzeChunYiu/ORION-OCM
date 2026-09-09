@@ -1,0 +1,66 @@
+name: Quantum structural donor capsule qualification
+
+on:
+  pull_request:
+    paths:
+      - 'research/quantum-structural-ocm-v1/**'
+      - '.github/workflows/quantum-structural-ocm-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/quantum-structural-ocm-v1/**'
+      - '.github/workflows/quantum-structural-ocm-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  capsule-structure-and-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Capsule structural validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/quantum-structural-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          /usr/bin/git rev-parse HEAD | tee "$out/checkout-sha.txt"
+          # Strict JSON parse with duplicate-key rejection (FQ-6 weld class),
+          # manifest coverage (audit D2 defect class), forbidden-terminal scan.
+          python -B research/quantum-structural-ocm-v1/validate_capsule.py 2>&1 | tee "$out/capsule-validation.txt"
+      - name: Capsule unit controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/quantum-structural-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          # unittest discovery does not recurse into non-package subdirs, so
+          # discover per directory that actually contains test_*.py files.
+          mapfile -t tdirs < <(find research/quantum-structural-ocm-v1 -name '__pycache__' -prune -o -name 'test_*.py' -printf '%h\n' | sort -u)
+          if [ "${#tdirs[@]}" -eq 0 ]; then
+            echo "no test_*.py in capsule yet" | tee "$out/tests-normal.txt"
+          else
+            for d in "${tdirs[@]}"; do
+              echo "== discover in $d"
+              python -B -m unittest discover -s "$d" -p 'test_*.py' -v 2>&1 | tee -a "$out/tests-normal.txt"
+              python -O -B -m unittest discover -s "$d" -p 'test_*.py' -v 2>&1 | tee -a "$out/tests-optimized.txt"
+            done
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quantum-structural-ocm-v1-qualification
+          path: '${{ runner.temp }}/quantum-structural-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
+      - name: Source custody
+        if: always()
+        run: /usr/bin/git diff --exit-code

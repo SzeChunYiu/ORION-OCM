@@ -1,0 +1,147 @@
+{
+  "schema": "ocm.q216.minimum-sufficient-cognition.protocol.v1",
+  "issue": "SzeChunYiu/ORION-OCM#216",
+  "scope": "sections 5-8 execution lane (agent C); donor ledger and classical-parent maps owned by sibling lanes",
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "branch": "research/q216-msc",
+  "frozen_before_first_scored_run": true,
+  "world": {
+    "choice": "src/ocm/kso factorized KnowledgeSpace (#115 current-main exact world)",
+    "why": {
+      "persistent_objects_exact_identity_provenance": "Atom/Hyperedge with WarrantProfile evidence intervals, Authority lattice, Scope, epoch, digest()",
+      "typed_retrieval": "registered 10-type relation vocabulary + ExtractionIndex with build vs query work accounting",
+      "exact_verifier": "gated_closure/fixed_point over exact Fraction warrant homomorphism (KS-T21) + checks self-check suite",
+      "exact_revocation_reopening": "prune, impact_cone (KS-T09), reopening_report (KS-T22 REOPEN/RECHECK/UNAFFECTED)",
+      "tasks_with_ground_truth": "decision = gated-closure membership; ground truth by production code"
+    },
+    "rejected": {
+      "verified-scientific-field-v0": "documentation only, no runnable world",
+      "residual-strategy-regime-v1": "checker-census world, no quotientable persistent field",
+      "machine-epistemics-lifetime-v1": "benchmark harness, no field objects",
+      "native-indexed-deduction-evidence-v1": "parser world, cold compilation dominates, no query-relative persistent field",
+      "functional-neural-absorption-v1 planted world": "already manufactured for a different question; reuse would manufacture a favorable benchmark"
+    },
+    "population": "production ocm.kso.checks.random_space scaled by parameter, salt-seeded",
+    "planted_elements": "two hostile twin-blocks (FQ-5), adversarial to the quotient mechanism, declared planted"
+  },
+  "decisions": {
+    "D1": "SUPPORTED iff t in gated_closure(F_t, [s], R_t); ground truth always production gated_closure",
+    "D2_hostile": "ACT(member) where member is the unique block member with authority coordinate custody>=2, else NO_UNIQUE_MEMBER; requires identity<->authority mapping the quotient discards"
+  },
+  "arms": {
+    "Q0_FULL_SCAN": "examine every atom warrant and every edge, decide by fixpoint over full structure; no index",
+    "Q1_INDEXED": "production ExtractionIndex + production closure over indexed adjacency; strongest-parent arm; snapshot-bound rebuild charged on every structural update",
+    "Q2_QUOTIENT": "partition refinement by (atom_type, warrant signature, quarantined) with s,t singleton-protected; counting-block quotient edges; negatives refuted exactly at quotient level; positives confirmed by minimal concrete witness reopen; build+maintenance+reopen charged",
+    "Q3_SUBSPACE": "exact query region ungated_closure(s) intersect backward-plain(t) via production incident adjacency, induced subfield, production closure; production impact_cone is forward-only and dependency-filtered so it serves the revocation/reopen path instead; parent = program slicing / dependency closure (KS-T09)",
+    "Q4_PROBE": "probe API reveals one atom's outgoing postings per probe; cheap per-channel summary charged; non-oracle rarest-channel-first order (parent-owned selectivity); early stop on SUPPORTED admission (monotonicity); negatives exhaust frontier",
+    "Q4_SHUFFLE_NULL": "mandatory shuffle-equal-n control: identical probe machinery, same per-task probe budget as Q4 consumed, next probe chosen uniformly at random from the live frontier; Q4 adaptive value is registered ONLY on the Q4-vs-null margin; if the null reproduces Q4 the effect is budget selectivity, never an FQ-2 positive",
+    "Q5_COMPOSED": "quotient + cone + adaptive probe; quotient-level negative refutation; first-admission positive stop + one concrete confirmation verifier call"
+  },
+  "quotient_discarded_coordinates": [
+    "within-block member identity",
+    "per-member Authority ranks",
+    "per-member meta and content_ref",
+    "parallel-edge multiplicity detail"
+  ],
+  "quotient_semantics": {
+    "edge_enablement": "tail multiset {B: m} enabled when m distinct members of B counted reached",
+    "sound_direction": "C(s) subseteq C_q counting closure, hence [t] notin C_q implies t not in C(s): exact negative refutation",
+    "positive_path": "quotient admission is over-approximate; one minimal concrete witness confirmation (reopen) is always charged",
+    "count_cap": "per-block reached count capped at block size"
+  },
+  "measurements": [
+    "N_persistent_objects",
+    "k_active_objects",
+    "k_over_N",
+    "objects_touched",
+    "edges_touched",
+    "candidate_count",
+    "false_candidates",
+    "probes",
+    "search_expansions",
+    "verifier_calls",
+    "index_or_quotient_build_work",
+    "update_maintenance_work",
+    "revocation_reopen_work",
+    "persistent_bytes",
+    "active_bytes",
+    "wall_seconds",
+    "cpu_seconds",
+    "lifetime_totals"
+  ],
+  "causal_gate": [
+    "protocol+code sha256 frozen and committed before first scored run",
+    "same stream replayed by every arm",
+    "per-arm mechanism-consumption counters (quotient_refutations_used, quotient_confirmations_used, cone_restrictions_applied, probe_early_stops)",
+    "zero-margin exactness: any decision divergence returns CANNOT_CHECK_<...>_DIVERGED",
+    "build/update/maintenance/reopen fully charged",
+    "ablations Q5_NO_QUOTIENT / Q5_NO_CONE / Q5_NO_PROBE must destroy the registered effect",
+    "Q1 is the strongest-parent comparison arm",
+    "stdlib + production ocm.kso only, no LLM/neural/quantum computation",
+    "post-update decisions re-derived and equal to production ground truth; hostile reopen checked",
+    "external harness judge never charged to arms"
+  ],
+  "hostile_FQ5": {
+    "construction": "F_A and F_B differ only in which member of the same twin block carries custody>=2; isomorphic quotient states, different correct D2 decisions",
+    "required_outcome": "Q2 and Q5 return REPRESENTATION_INSUFFICIENT__MISSING_COORDINATE_FOUND from quotient state alone, then reopen (charged) and answer exactly; Q0/Q1/Q3/Q4 separate the pair natively and pay identity-carrying costs",
+    "reported_per_arm": true,
+    "donor_precedent": "QG-30 bulk coarse-grain (blob 4de0a0a9e980): common bulk signature [2,2,2,2], representatives [0,0,0,0,1,1] vs [0,0,0,0,1,2]; and QG-31 same_spectrum_same_bulk_different_indexed_response (blob 39234e2cfd06491317a86348136bb924200d5704); ledger branch research/q216-donor commit b8a8ff6"
+  },
+  "adaptive_probing_null_rule": {
+    "retracted_donor": "ORION #933/#942 fixed-vs-adaptive ladder (adaptive 3 < conditioned-fixed 4 < universal-fixed 5) is RETRACTED on ORION main (null-reproducible under shuffle); NOT used as motivation",
+    "motivation": "unresolved-obligation structure only: obligation -> choose next observation conditional on outcomes -> stop when further information cannot alter the protected decision",
+    "control": "Q4_SHUFFLE_NULL shuffle-equal-n arm; FQ-2 positives registered only on the Q4-minus-null margin"
+  },
+  "ordering_check_FQ6": "Q5 rerun with naive vs rarity probe order and incremental vs rebuild quotient maintenance; decisions must be identical else ORDERING_DEPENDENCE_REQUIRES_RICHER_STATE",
+  "engineering_levers_pre_registered": {
+    "E1_incremental_quotient_maintenance": "re-refine only blocks incident to changed atoms/edges on update; incremental work charged",
+    "E2_quotient_negative_pruning_before_probing": "folded into Q5 by design",
+    "E3_probe_batching": "reveal a frontier atom's full posting list per probe instead of per edge"
+  },
+  "terminals_allowed": [
+    "QUANTUM_STRUCTURAL_FUNCTION_RECONSTRUCTED_NON_NEURALLY_AT_SCOPE",
+    "MINIMUM_SUFFICIENT_COGNITION_SUPPORTED_AT_REGISTERED_SCOPE",
+    "ADAPTIVE_PROBE_VALUE_SUPPORTED_AT_REGISTERED_SCOPE",
+    "LOCAL_DEFECT_SUBSPACE_VALUE_SUPPORTED_AT_REGISTERED_SCOPE",
+    "RESOURCE_RESPONSIBILITY_DIAGNOSIS_USEFUL_AT_SCOPE",
+    "PARENT_SUFFICIENT_FOR_<function>",
+    "NO_FUNCTIONAL_PARITY_<function>",
+    "REPRESENTATION_INSUFFICIENT__MISSING_COORDINATE_FOUND",
+    "QUOTIENT_MAINTENANCE_DOMINATES",
+    "PROBE_COST_DOMINATES",
+    "STATE_SEARCH_COST_DOMINATES",
+    "NO_LIFETIME_PAYBACK",
+    "ORDERING_DEPENDENCE_REQUIRES_RICHER_STATE",
+    "CANNOT_CHECK_<reason>"
+  ],
+  "terminals_forbidden": [
+    "QUANTUM_OCM",
+    "QUANTUM_COGNITION",
+    "QUANTUM_ADVANTAGE",
+    "TRANSFORMER_REPLACED",
+    "LLM_EQUIVALENT",
+    "AGI",
+    "GENERAL_SUPERIORITY"
+  ],
+  "salts": {
+    "population": "ocm-q216-msc-v1-20260909/pop-01",
+    "stream_tasks": "ocm-q216-msc-v1-20260909/tasks-02",
+    "stream_updates": "ocm-q216-msc-v1-20260909/updates-03",
+    "hostile": "ocm-q216-msc-v1-20260909/hostile-04",
+    "quotient_reference_rebuild": "ocm-q216-msc-v1-20260909/qref-05"
+  },
+  "sizing": {
+    "n_atoms": 480,
+    "n_edges": 1280,
+    "n_d1_tasks": 32,
+    "n_hostile_tasks": 2,
+    "n_updates": 10,
+    "n_ablations": 3
+  },
+  "declared_limitations": [
+    "E1/L1: one production world, one population, one stream, one author",
+    "quotient over-approximates at class level; positives always pay one confirmation",
+    "random production populations may yield few bisimulation twins; reported, not tuned",
+    "no approximate VSA/HDC arm, no neural arm (later #214 tranches)"
+  ]
+}
