@@ -1,0 +1,32 @@
+{
+  "schema": "ocm.fna.fna4.freeze.addendum.v2",
+  "frozen_at_commit": "57a79f8",
+  "statement": "Recorded AFTER run 2 crashed and was preserved as defect run 2, BEFORE the first scored run (run 3). Salts, streams, arms, r_grid, cost model, INCUMBENT_CAP, DOMAIN_CAP, predictions P1-P7 and the dual acquisition accounting are UNCHANGED from FNA4_FREEZE.json + FNA4_FREEZE_ADDENDUM_V1.json. Run 2's partial receipts are preserved verbatim at defect_runs/FNA4_DEFECT_RUN2_PARTIAL.json.gz (sha256 059b4b311cc177741c5ff0df9d5e289a528fb44578fb892a8a2598c226f4dabe) and are never edited.",
+  "defect_3": {
+    "name": "learn_au crashed on the full corpus (TypeError: '<' not supported between instances of 'NoneType' and 'str')",
+    "evidence_in_run2": "FNA4_DEFECT_RUN2_PARTIAL.json.gz: the AU arm's admission sort compared skeletons containing None holes (equal-length skeletons differing at a hole position). Run 1's corpus held 8 chains and never produced such a pair; the 1507-trace collect_all corpus does, immediately.",
+    "attribution": "learner stage (AU admission): the old implementation ranked skeletons with a plain tuple sort that assumed no None values.",
+    "lever": "incremental accumulator -- each pair observation updates obs[skeleton] and per-hole exhibited-value sets directly (no quadratic instance list), skeletons ranked by a None-safe _sk_sort_key; hole domains are the accumulated value sets, exactly what per-instance derivation would produce."
+  },
+  "defect_3_perf": {
+    "name": "the rewritten learn_au constructed a Macro for every admitted candidate before the 6-cap discard",
+    "evidence": "probe on billy-old (frozen corpus, read-only): the candidate materialisation path ran >12 CPU-min without completing (killed, no scored output); candidates with >=2 observations on the 1507-trace corpus are O(10^5), while MAX_LIBRARY=6 admits 6.",
+    "attribution": "learner stage (AU admission): macro construction (warrant meet, sha256, domain materialisation) was executed per candidate instead of per admitted entry.",
+    "lever": "signatures computed once per trace (not per pair); lazy admission materialising only the first MAX_LIBRARY skeletons in exactly _dedupe_macros order (-size, macro_id) -- the admitted SET is identical to materialise-then-cap; probe: learn_au 0.7 s, 1,134,777 charged units (1,134,771 pair comparisons + 6 admissions), 6 macros, byte-identical library across two runs.",
+    "charge_change_declared": "AU learner steps = 1 per pair comparison (unchanged, frozen) + 1 per ADMITTED macro (6), instead of 1 per admitted CANDIDATE. No run ever scored the per-candidate charge; both the old and new charge are recorded here."
+  },
+  "harness_files_sha256_v2": {
+    "fna4.py": "cc5205c1d991544e6aa63afc8f9dc08afc00361c272f5d325060c92639ab3c54",
+    "fna4_solver.py": "f861a48b60f80c4ed525e84a378d02e28169b672d6ddb2b68d86f9bc59d30007",
+    "fna4_learners.py": "d71b4f5c0b46bc110ddee462dd1c8e61f190d4316789f74b8522ac9d5719bc7d",
+    "run_fna4.py": "bba553d1e0956c0123237216ac0a72819ec424ee23ca74b6a6deabc34c59309b",
+    "test_fna4.py": "dacb2bbef97c9bceee28d0ea8ff55719e0b36dae71b09c6e1e02b732a6bf6a82"
+  },
+  "changes_vs_addendum_v1": [
+    "fna4.py: make_macro gained an optional precomputed-domains argument (used by the incremental AU accumulator; default behaviour byte-identical for every other caller)",
+    "fna4_learners.py: learn_au rewritten per defect_3/defect_3_perf levers; _sk_sort_key added",
+    "fna4_solver.py, run_fna4.py, test_fna4.py: unchanged since addendum V1 digests"
+  ],
+  "pre_score_probe_observation": "On the frozen corpus the AU cap admits six 7-node recurring skeletons; the size-first _dedupe order ranks the longest recurring shapes above the 5-node F2 family shape. This is a parent property under the frozen shared cap, recorded before any scored run; it is measured, not tuned away.",
+  "unchanged_from_freeze": ["salts", "streams", "r_grid", "arms", "cost model (one commensurable unit per simulation/checker/posting/learner step)", "INCUMBENT_CAP=1000000 uniform", "DOMAIN_CAP=24", "predictions P1-P7", "revoked evidence ev:fam:filter", "dual acquisition accounting (full and marginal, as pinned in addendum V1)"]
+}
