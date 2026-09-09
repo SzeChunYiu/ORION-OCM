@@ -1,0 +1,175 @@
+[
+  {
+    "theorem_id": "HSG-T55",
+    "title": "Unstructured donor-search lower bound",
+    "proof_class": "P1_ELEMENTARY",
+    "status": "PROVED",
+    "statement_sha256": "ace03e6a00c3e4d1078895f27c3aa5535edd34581161876f8e910ef3e911f303",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART1.md#hsg-t55",
+    "hostile": null,
+    "parents": [],
+    "notes": "Adversary (useful donor placed last) forces n inspections for every deterministic strategy; uniform prior gives (n+1)/2 expected inspections for every order. Limit theorem for the totally unstructured regime; the four escape channels (prior structure, cheap features, reuse, nonzero miss probability) are the falsifiable structure assumptions."
+  },
+  {
+    "theorem_id": "HSG-T56",
+    "title": "Structural-reminding distance: surprisal additivity over Markov retrieval paths",
+    "proof_class": "P1_ELEMENTARY",
+    "status": "PROVED",
+    "statement_sha256": "c41beee19abb9cd77a09ac97eedb48cd71202428b176c3e46109bac75b0248ba",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART1.md#hsg-t56",
+    "hostile": null,
+    "parents": [],
+    "notes": "Additivity of -log over the Markov path product; bridge corollary gives the condition for a cheaper two-hop route. Operational theorem about retrieval probability under a stated kernel; explicitly NOT a claim that human neural distance is literal metric geometry. Residual: history-dependent kernels make edge costs non-constant."
+  },
+  {
+    "theorem_id": "HSG-T57",
+    "title": "Pandora donor search (Weitzman 1979 reservation rule)",
+    "proof_class": "P3_PARENT_RECONSTRUCTION",
+    "status": "PARENT_RECONSTRUCTED",
+    "statement_sha256": "558a704aea7282aeb1144a938fd5148727be26e364e95b1f6e6d29f37f326088",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART1.md#hsg-t57",
+    "hostile": null,
+    "parents": [
+      {
+        "cite": "Weitzman 1979, Optimal Search for the Best Alternative, Econometrica 47(3)",
+        "doi_or_url": "doi:10.2307/1910412",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "Full 7-item assumption list reconstructed; reservation-value order/stop rule stated in standard textbook form. PARENT_STATEMENT_UNVERIFIED_TEXT on the exact reservation functional equation and stopping clause as worded in the source (paywalled). Residual: correlation, joint utility, representation-altering donors, learned priors."
+  },
+  {
+    "theorem_id": "HSG-T58",
+    "title": "Adaptive-submodular donor coverage (Golovin-Krause 2011; Sviridenko 2004)",
+    "proof_class": "P3_PARENT_RECONSTRUCTION",
+    "status": "PARENT_RECONSTRUCTED",
+    "statement_sha256": "44dc9752b3191c430e1eb40c1ae862383f672140117b735bf2c4b20d5579a990",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART1.md#hsg-t58",
+    "hostile": {
+      "instance": "Two donors {A,B}, one target lemma: A supplies a technique, B an invariant, each alone worthless (f=0,0), together sufficient (f({A,B})=1). Marginal of B rises 0->1 after reading A.",
+      "kills": "Adaptive submodularity (increasing marginal) and with it the greedy 1-1/e-style / log-competitive guarantee; parent guarantee invalid in this configuration, requiring joint set-level search or pair-as-item re-registration.",
+      "verdict": "LIFT_CONDITIONAL"
+    },
+    "parents": [
+      {
+        "cite": "Golovin & Krause 2011, Adaptive Submodularity: Theory and Applications in Active Learning and Stochastic Optimization, JAIR 42",
+        "doi_or_url": "doi:10.1613/JAIR.3278",
+        "assumptions_reconstructed": true
+      },
+      {
+        "cite": "Sviridenko 2004, A note on maximizing a submodular set function subject to a knapsack constraint, Operations Research Letters 32(1)",
+        "doi_or_url": "doi:10.1016/S0167-6377(03)00062-2",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "Adaptive monotone + adaptive submodular => adaptive greedy near-optimality over the registered constraint class (budgeted 1-1/e-style; log(1/p*)-competitive min-cost cover); nonadaptive knapsack => 1-1/e via partial enumeration. Both JAIR fetch attempts returned HTTP 404, so parent-side constants carry PARENT_STATEMENT_UNVERIFIED_TEXT."
+  },
+  {
+    "theorem_id": "HSG-T59",
+    "title": "Hierarchical donor search (Bubeck-Munos-Stoltz-Szepesvari 2011 HOO/X-armed)",
+    "proof_class": "P3_PARENT_RECONSTRUCTION",
+    "status": "PARENT_RECONSTRUCTED",
+    "statement_sha256": "f9b0feccab27b9c0a4abfa61074eab00f258820c9e4d0ed8cfcf7d2bc1d15bf4",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t59",
+    "hostile": {
+      "instance": "1-D bandit X=[0,1], dissimilarity l=|x-y|, f=1/2 on [0,1-delta], f(1)=1: the single optimum sits at maximal distance from the broad mediocre shelf; any Lipschitz constant valid across the jump (nu>=1/(2delta)) makes optimism vacuous, any shelf-fit constant makes the bound invalid at x=1. The optimum shares a hidden structural attribute with the target (Higgs-style donor) that l does not measure.",
+      "kills": "The chosen dissimilarity l (and any router/hierarchical tree built on it), i.e. the validity of the local-Lipschitz assumption under l - NOT the existence of remote analogy and not the parent theorem, which conditions on a correct dissimilarity.",
+      "verdict": "LIFT_CONDITIONAL"
+    },
+    "parents": [
+      {
+        "cite": "Bubeck, Munos, Stoltz & Szepesvari 2011, X-Armed Bandits, JMLR 12",
+        "doi_or_url": "jmlr.org/papers/v12/bubeck11a.html",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "Abstract-level claims verified against the JMLR page at freeze time (generic measurable arm space; locally Lipschitz w.r.t. a known dissimilarity; expected regret bounded up to a logarithmic factor by sqrt(n); dimension-independent growth; minimax optimality for metric dissimilarity). Body-level forms (nu/rho parametrization, Assumption 2 on the well-behaved covering tree, near-optimality dimension) carry PARENT_STATEMENT_UNVERIFIED_TEXT. Hostile mandates dissimilarity validation (held-out values vs l-neighbors) before HOO-style routing."
+  },
+  {
+    "theorem_id": "HSG-T60",
+    "title": "Successive-depth allocation (Jamieson-Talwalkar 2016 successive halving)",
+    "proof_class": "P3_PARENT_RECONSTRUCTION",
+    "status": "PARENT_RECONSTRUCTED",
+    "statement_sha256": "fce40777f14582d7eede581031bdd05656e9c4d3e662d5d80d21b7977c5c858d",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t60",
+    "hostile": {
+      "instance": "K=2 donors, one elimination round: donor A has small value epsilon visible at any depth; donor B* has true value 1 but its depth-r estimate is 0 for all r < d* (signal only at full reconstruction depth). Round 1 runs at depth d1 < d*, SH keeps the top 1 arm = A, B* is discarded deterministically for any halving schedule that does not reach d* before elimination.",
+      "kills": "The premise that the best arm is separated the right way at every resource level SH reaches (registered-model applicability of SH to late-blooming donors), not the parent theorem itself.",
+      "verdict": "LIFT_CONDITIONAL"
+    },
+    "parents": [
+      {
+        "cite": "Jamieson & Talwalkar 2016, Non-stochastic Best Arm Identification and Hyperband Applications, ICML PMLR 51",
+        "doi_or_url": "proceedings.mlr.press/v51/jamieson16.html",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "SH allocates geometrically larger reading budgets to survivors; within its registered model (fixed budget, estimates concentrated at allocated depths, best arm separated at those depths) it is near-optimal up to logarithmic factors. Source page not fetched; exact theorem statement carries PARENT_STATEMENT_UNVERIFIED_TEXT. Mitigation registered: frozen exploration / late-bloomer lane (issue #221), reported with its cost."
+  },
+  {
+    "theorem_id": "HSG-T61",
+    "title": "Cross-atom donor amortization: read-once-map-many average cost identity",
+    "proof_class": "P1_ELEMENTARY",
+    "status": "PROVED",
+    "statement_sha256": "7f005ca969d60244994e191b29c05a1fdfe02d89b441a8ab8876dd693693f54c",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t61",
+    "hostile": null,
+    "parents": [],
+    "notes": "Average cost per atom = C_d/m + (1/m)sum(c_i) versus C_d + (1/m)sum(c_i) under per-atom rereading; saving (1-1/m)C_d per atom. Dominance condition: C_d large relative to mapping costs and realized reuse m'>=2 (m'=1 leaves C_d as pure overhead). Load-bearing architecture rule: never reread the same discipline independently per atom; realized m' is measurable via the motif store."
+  },
+  {
+    "theorem_id": "HSG-T62",
+    "title": "Low-rank donor map as conditional compression hypothesis (Candes-Recht 2009; factorization bandits)",
+    "proof_class": "P5_CONDITIONAL",
+    "status": "CONDITIONAL",
+    "statement_sha256": "acc868daa42227b407780bff9e0c0545b046665e3fcffef622c3a7d02940765f",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t62",
+    "hostile": null,
+    "parents": [
+      {
+        "cite": "Candes & Recht 2009, Exact Matrix Completion via Convex Optimization, Foundations of Computational Mathematics 9",
+        "doi_or_url": "doi:10.1007/s10208-009-9045-5",
+        "assumptions_reconstructed": true
+      },
+      {
+        "cite": "factorization bandits (registered model class for parameterized value matrices)",
+        "doi_or_url": "model-class registration, no single canonical citation",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "O(r(|A|+|D|)) parameters vs O(|A||D|) under approximate rank r; recovery of unseen entries needs low rank + incoherence + adequate sampling - NO unconditional recovery claim; status stays CONDITIONAL with a registered measurement protocol (singular-value decay, held-out entry stability, sampling-pattern audit). The 2009 sampling exponent carries PARENT_STATEMENT_UNVERIFIED_TEXT (source not fetched). No arbitrary numeric thresholds: tolerances read off measured curves."
+  },
+  {
+    "theorem_id": "HSG-T63",
+    "title": "Exploration mass necessary for unmodelled remote donors (top-k router limit)",
+    "proof_class": "P1_ELEMENTARY",
+    "status": "PROVED",
+    "statement_sha256": "01bb5a98828ff6e152031e4c9533758b7e94513031ab607eb47f7613b840c882",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t63",
+    "hostile": null,
+    "parents": [],
+    "notes": "Any deterministic top-k router that never inspects outside its predicted set is defeated by an adversary placing the only useful donor outside the realizable inspection set (miss with probability 1; randomized routers get strictly positive miss probability). Fork: coverage theorem under explicit structure assumptions OR nonzero exploration mass over under-modelled/far regions. Explicitly does NOT make uniform random search efficient (T55 rate); use novelty/diversity/uncertainty-guided exploration and report its cost (budget share, out-of-set inspections, exploration-found vs prediction-found useful donors)."
+  },
+  {
+    "theorem_id": "HSG-T64",
+    "title": "Rational metaresearch / VOC stopping (Russell-Wefald 1991; Hay-Russell-Tolpin-Shimony 2012)",
+    "proof_class": "P3_PARENT_RECONSTRUCTION",
+    "status": "PARENT_RECONSTRUCTED",
+    "statement_sha256": "cbf79bb18690aae03c96229b6061ab007bc5c9542e89a126ac398c22e1dc2430",
+    "evidence_artifact": "research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREMS_PART2.md#hsg-t64",
+    "hostile": null,
+    "parents": [
+      {
+        "cite": "Russell & Wefald 1991, principles of metareasoning (Do the Right Thing / Artificial Intelligence 49)",
+        "doi_or_url": "doi:10.1016/0004-3702(91)90015-C",
+        "assumptions_reconstructed": true
+      },
+      {
+        "cite": "Hay, Russell, Tolpin & Shimony 2012, selecting computations under limited resources",
+        "doi_or_url": "arxiv.org/abs/1207.5879",
+        "assumptions_reconstructed": true
+      }
+    ],
+    "notes": "Metalevel VOC = expected downstream decision improvement minus reading/mapping/proof cost; continue while positive, stop/redirect at nonpositive, under the frozen metalevel model. Exact only in Pandora-structured special cases (T57); otherwise an explicit bounded-rational control objective, not a universal theorem. Sources not fetched: parent statements carry PARENT_STATEMENT_UNVERIFIED_TEXT. Mandatory reporting: metalevel model version, realized VOC trajectory, stop-decision conditioning."
+  }
+]
