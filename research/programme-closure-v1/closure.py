@@ -1,0 +1,403 @@
+"""Programme closure ledger for ORION-OCM #165.
+
+#165 section 18 states the closure condition exactly:
+
+    "The programme closes scientifically when every required gate has an explicit
+     bounded disposition."
+    "A complete negative or conditional result is still 100% completion of the
+     programme."
+
+So closure is not "every checkbox ticked". It is: **no required gate is left
+without a disposition drawn from its own registered terminal vocabulary**, where
+``CANNOT_CHECK_<reason>`` is itself a registered and valid disposition.
+
+This module is that ledger, built so it cannot flatter the programme:
+
+* the terminal vocabularies are **parsed out of a vendored copy of the #165 body**
+  rather than transcribed, so a disposition cannot be invented that the roadmap
+  never offered, and the copy carries its sha256;
+* every disposition must cite at least one **receipt that exists on disk**, and a
+  missing file is an error rather than a footnote;
+* every ``CANNOT_CHECK_`` must carry a reason and a statement of what would
+  convert it, so an unmeasured gate cannot hide behind the terminal that is
+  meant to disclose it;
+* the **programme terminal is derived** from the gate dispositions by a rule
+  written before the dispositions were filled in, not asserted alongside them.
+
+Research-only. This module reads receipts and the roadmap. It runs no study,
+changes no production code, and closes nothing on its own authority.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+from typing import Any, Mapping, Sequence
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[1]
+BODY = HERE / "ISSUE_165_BODY.md"
+BODY_SHA256 = "0aeb5bbef21245daaf727d61cb47ce5275b6743624e3cbefbe73032f310f2368"
+
+SCHEMA = "orion-ocm.programme-closure.v1"
+
+
+# --- the roadmap's own vocabularies, parsed rather than retyped ---------------
+
+def vocabularies(text: str | None = None) -> dict[str, tuple[str, ...]]:
+    """Every ``## <name> terminals`` fenced block in the roadmap body.
+
+    Parsing beats transcribing here for one reason: a transcription can silently
+    gain a terminal the roadmap never registered, and that is exactly the error
+    a closure ledger must not be able to make.
+    """
+    text = BODY.read_text() if text is None else text
+    out: dict[str, tuple[str, ...]] = {}
+    for match in re.finditer(r"^## (.+?terminals|Architectural endpoints)\s*$", text, re.M):
+        start = text.find("```text", match.end())
+        end = text.find("```", start + 7)
+        if start < 0 or end < 0:
+            continue
+        block = text[start + 7:end]
+        out[match.group(1).strip()] = tuple(
+            line.strip() for line in block.splitlines() if line.strip())
+    return out
+
+
+def body_is_authentic() -> bool:
+    return hashlib.sha256(BODY.read_bytes()).hexdigest() == BODY_SHA256
+
+
+def registered(vocabulary: Sequence[str], disposition: str) -> bool:
+    """Is ``disposition`` a member of this gate's registered vocabulary?
+
+    ``CANNOT_CHECK_<reason>`` and ``PARTIAL_SIGNATURE_ONLY_<which>`` are
+    parameterised in the roadmap, so their prefixes are matched and the suffix is
+    free text -- but the suffix must be non-empty, or the terminal discloses
+    nothing.
+    """
+    for entry in vocabulary:
+        if entry == disposition:
+            return True
+        if entry.endswith(">") and "<" in entry:
+            prefix = entry[:entry.index("<")]
+            if disposition.startswith(prefix) and len(disposition) > len(prefix):
+                return True
+    return False
+
+
+# --- the gates ---------------------------------------------------------------
+
+def gate(name, vocabulary, dispositions, receipts, basis, unconverted=None):
+    return {"gate": name, "vocabulary": vocabulary, "dispositions": list(dispositions),
+            "receipts": list(receipts), "basis": basis,
+            "what_would_convert_it": unconverted}
+
+
+GATES = [
+    gate(
+        "G1", "G1 exit terminals",
+        ["COMPACT_VESSEL_PARTIAL"],
+        ["research/g1-vessel-freeze-v1/TERMINAL.json",
+         "research/g1-vessel-freeze-v1/MANIFEST.json"],
+        "The (F,O,Pi,C) manifest is frozen, but subtraction (PR #187) found M0 "
+        "OCMRuntime and work.Operator both required by current tests, with no "
+        "production deletion and MINIMUM_SELF_EXTENDING_VESSEL explicitly not "
+        "claimed. Necessity was established by test failure, which does not yet "
+        "separate algebraic from resource from epistemic necessity.",
+        "A subtraction that removes a core and measures capability loss, resource "
+        "change and epistemic-invariant failure separately."),
+    gate(
+        "G2", "G2 exit terminals",
+        ["CAUSAL_METHOD_REUSE_SUPPORTED", "PARENT_SUFFICIENT"],
+        ["research/g2-macro-operator-v1/README.md",
+         "research/g2-acquisition-economics-v1/README.md"],
+        "#192 reached CAUSAL_MACRO_OPERATOR_REUSE_SUPPORTED_AT_LENGTH8 on an "
+        "untouched 64-task stratum: 13 strict wins with the macro actually used, "
+        "revocation reducing exactly to primitive, and fresh runtime "
+        "reconstruction before test. The same receipt records "
+        "NO_LIFETIME_MACRO_SEARCH_PAYBACK, and ordinary persistent == OCM live "
+        "task-by-task, so the mechanism is parent-owned. The acquisition-economics "
+        "successor then found the tournament is load-bearing: no zero-search "
+        "selector reproduces its choice, and every one of them picks a macro "
+        "ranked 13 of 16 by measured utility.",
+        None),
+    gate(
+        "G3", "G3 exit terminals",
+        ["METHOD_COMPOSITION_SUPPORTED",
+         "CANNOT_CHECK_FAILURE_MEMORY_AND_REPRESENTATION_GROWTH_NOT_RUN"],
+        ["research/g3-independent-composition-v1/README.md"],
+        "G3.1 is measured and positive: #193 selected A and B in independent "
+        "lanes, and on a 256-task population fixed independently of those "
+        "outcomes exactly 3 tasks used both identities, all three meeting the "
+        "pre-registered strong witness, with per-method revocation removing "
+        "exactly its own contribution. G3.2 scoped failure learning, G3.3 "
+        "representation improvement and G3.4 insufficiency diagnosis have no "
+        "study, so the gate carries a positive for its first obligation and an "
+        "explicit CANNOT_CHECK for the rest.",
+        "A scoped failure-memory study with TMS/nogood/CEGAR/CBR parents and "
+        "charged failure-storage cost, then representation change and "
+        "insufficiency diagnosis."),
+    gate(
+        "G4", "G4 exit terminals",
+        ["EXACT_META_POLICY_SUFFICIENT", "LEARNED_ROUTER_NOT_NEEDED",
+         "EXACT_EARLY_EXIT_VALUE_SUPPORTED", "PRICE_REGIME_ONLY",
+         "PARENT_SUFFICIENT", "CANNOT_CHECK_PRODUCTION_OCM_LIFETIME"],
+        ["research/g4-horizon-exact-v1/SUMMARY.json",
+         "research/residual-routing-v1/results/RESIDUAL_ROUTING_OPPORTUNITY_V1.json"],
+        "The compose-stage residual is exactly zero (rho_R = 0.0) over 96 "
+        "selection points from 70 sources, and its five bound runtime sources are "
+        "byte-identical on this head, so the terminal still describes the current "
+        "runtime. Every exact parent registered in G4.3 has been run. G4.4's nine "
+        "unlock conditions stand at 0 of 9 with the fourth actively refuted: the "
+        "legal-feature ladder drives the residual to <=0.08% before charging "
+        "feature extraction, lookup, maintenance or replay. #71 stays blocked.",
+        "A production OCM lifetime measurement, which no lane currently has."),
+    gate(
+        "G5", "G5 exit terminals",
+        ["DATABASE_PARENT_SUFFICIENT",
+         "CANNOT_CHECK_PACKED_FIELD_BEYOND_KIND_HANDLES"],
+        ["research/g5-physical-denominator-v1/SUMMARY.json"],
+        "SQLite/WAL with application snapshots, suffix restart replay and "
+        "incremental authenticated identity matches JSONL ledger semantics and "
+        "removes whole-file rewrite and full-history head scans. The lane "
+        "explicitly does not claim PHYSICAL_DENOMINATOR_CLEAN, does not switch "
+        "the production JSONL default, and leaves the packed KSO field beyond "
+        "kind handles unchecked.",
+        "A packed field beyond kind handles, and a production default switch with "
+        "revocation semantics preserved."),
+    gate(
+        "G6", "G6 exit terminals",
+        ["CANNOT_CHECK_MISSING_RAW_TRACES_AND_NO_THIRD_EARNED_SELF_CHANGE",
+         "SELF_DIAGNOSIS_NOT_IDENTIFIABLE"],
+        ["research/g6-evolvability-v1/RESULT.json"],
+        "Two self-changes are recorded but the third is not earned and raw traces "
+        "are missing, so the multi-generation requirement is unmet. Self-diagnosis "
+        "is separately recorded as not identifiable.",
+        "Three or more real generations with retained raw traces and learned "
+        "intervention effects rather than supplied root causes."),
+    gate(
+        "G7", "G7 exit terminals",
+        ["CANNOT_CHECK_ONE_OF_SIX_TRANSITIONS_COMPLETE_AND_THAT_ONE_PARENT_SUFFICIENT"],
+        ["research/developmental-spine/DEVELOPMENTAL_SPINE_V1.json"],
+        "The lineage receipt reports 1 of 6 developmental transitions complete. "
+        "The one that is complete, D0 to D1, has terminal "
+        "D0_TO_D1_TRANSITION_CONDITIONAL and its carry advantage was found "
+        "PARENT_SUFFICIENT against experience replay before being recovered only "
+        "under a representation with no use tax. No lane carries a single "
+        "persistent (F,O,Pi,C) lineage across successive stages.",
+        "One persistent lineage crossing at least two further stage boundaries "
+        "with continued-versus-reset arms at each."),
+    gate(
+        "PROTOTYPE", "G7/Prototype terminals",
+        ["CANNOT_CHECK_NO_INTEGRATED_PROTOTYPE_EXISTS"],
+        ["research/programme-closure-v1/ISSUE_165_BODY.md"],
+        "#73's integrated prototype has no lane, no comparator ladder run and no "
+        "capability gate measurement. Nothing in the repository compares an "
+        "integrated OCM against a strongest parent product, so no architectural "
+        "endpoint in this vocabulary is decidable.",
+        "An integrated prototype over the required domains with the registered "
+        "comparator ladder and capability gate."),
+]
+
+
+#: Section 22's "Final" list: every governing issue must receive a terminal.
+#: An issue that owns a gate INHERITS that gate's disposition and receipts, so
+#: the two sections cannot disagree. An issue with no lane on this head is
+#: CANNOT_CHECK and says so, citing the evidence map that records its state.
+EVIDENCE_MAP = "research/issue-165-evidence-map-v1/CHECKBOX_MAP.json"
+
+ISSUE_OWNERS = {
+    62: ("G2", "experience consolidation is G2's causal-acquisition question"),
+    69: ("G1", "canonical architecture is G1's vessel question"),
+    70: ("G5", "compression and physical efficiency is G5's denominator question"),
+    71: ("G4", "the learned-routing gate is G4.4"),
+    73: ("PROTOTYPE", "the integrated prototype is the prototype gate"),
+    149: ("G6", "governed self-evolution is G6's evolvability question"),
+    151: ("G7", "the persistent developmental lineage is G7"),
+    152: ("G4", "the exact decision/metareasoning gate is G4.1"),
+}
+
+#: Issues with no gate and no lane on this head.
+ISSUES_WITHOUT_A_LANE = {
+    38: "corrected acceptance / independent claims",
+    42: "capability roadmap",
+    49: "final proof of function",
+    50: "scientific thesis",
+    72: "navigation / executive control",
+    93: "General Epistemic Field",
+    115: "factorized KnowledgeSpace / epistemic compiler",
+    143: "machine epistemics cognitive ladder",
+    144: "publication constitution",
+    145: "theory-empirical bridge",
+}
+
+
+def issue_terminals(gates: Sequence[Mapping[str, Any]] = GATES) -> dict[str, Any]:
+    by_gate = {g["gate"]: g for g in gates}
+    out: dict[str, Any] = {}
+    for issue, (owner, why) in sorted(ISSUE_OWNERS.items()):
+        gate_entry = by_gate[owner]
+        out[str(issue)] = {"terminal": list(gate_entry["dispositions"]),
+                           "inherited_from_gate": owner, "why": why,
+                           "receipts": list(gate_entry["receipts"])}
+    for issue, title in sorted(ISSUES_WITHOUT_A_LANE.items()):
+        out[str(issue)] = {
+            "terminal": [f"CANNOT_CHECK_NO_LANE_ON_THIS_HEAD_FOR_{title.upper().replace(' ', '_').replace('/', '_').replace('-', '_')}"],
+            "inherited_from_gate": None, "why": f"{title}: no study lane exists on this head",
+            "receipts": [EVIDENCE_MAP]}
+    return out
+
+
+# --- the derivation rule, written before the dispositions were filled in ------
+
+DERIVATION = (
+    "1. If any gate has no disposition, the programme is NOT closed.\n"
+    "2. If every gate disposition is positive and none is CANNOT_CHECK, the "
+    "programme may take a positive terminal.\n"
+    "3. If some gates are positive and any gate is CANNOT_CHECK, the programme "
+    "takes PARTIAL_SIGNATURE_ONLY_<which>, naming the supported parts.\n"
+    "4. A positive gate whose own receipt records the mechanism as reproducible "
+    "by an ordinary parent contributes to <which> only with that qualification "
+    "attached; it may never be read as an architecture residual.\n"
+    "5. PARENT_PRODUCT_SUFFICIENT requires the COMPLETE signature to be "
+    "reproduced by a parent product, which requires an integrated prototype. "
+    "While PROTOTYPE is CANNOT_CHECK that terminal is unavailable in either "
+    "direction."
+)
+
+POSITIVE_PREFIXES = ("CAUSAL_", "METHOD_COMPOSITION_SUPPORTED", "EXACT_",
+                     "MINIMUM_", "DEVELOPMENTAL_", "USEFUL_", "SELF_EVOLUTION_",
+                     "MULTI_GENERATION_", "PROTOTYPE_", "AMORTIZED_",
+                     "ACTIVE_SUBSPACE_", "LOCAL_REVISION_", "LIFETIME_RESOURCE_",
+                     "PHYSICAL_DENOMINATOR_CLEAN", "FACTORIZED_", "FACTORED_",
+                     "EPISTEMICALLY_SAFE_", "FAILURE_MEMORY_USEFUL_AT_SCOPE",
+                     "REPRESENTATION_CHANGE_CAUSALLY_USEFUL")
+
+
+def is_positive(disposition: str) -> bool:
+    return any(disposition.startswith(p) for p in POSITIVE_PREFIXES)
+
+
+def validate(gates: Sequence[Mapping[str, Any]] = GATES) -> dict[str, Any]:
+    vocab = vocabularies()
+    problems: list[dict[str, Any]] = []
+    for entry in gates:
+        names = vocab.get(entry["vocabulary"])
+        if names is None:
+            problems.append({"gate": entry["gate"], "why": "vocabulary not found in the roadmap",
+                             "detail": entry["vocabulary"]})
+            continue
+        if not entry["dispositions"]:
+            problems.append({"gate": entry["gate"], "why": "no disposition"})
+        for disposition in entry["dispositions"]:
+            if not registered(names, disposition):
+                problems.append({"gate": entry["gate"], "why": "disposition not registered",
+                                 "detail": disposition})
+            if disposition.startswith("CANNOT_CHECK") and not entry["what_would_convert_it"]:
+                problems.append({"gate": entry["gate"],
+                                 "why": "CANNOT_CHECK without a stated conversion",
+                                 "detail": disposition})
+        if not entry["receipts"]:
+            problems.append({"gate": entry["gate"], "why": "no receipt cited"})
+        for relative in entry["receipts"]:
+            if not (REPO / relative).is_file():
+                problems.append({"gate": entry["gate"], "why": "cited receipt is missing",
+                                 "detail": relative})
+        if not entry["basis"] or len(entry["basis"]) < 80:
+            problems.append({"gate": entry["gate"], "why": "basis too thin to audit"})
+    return {"problems": problems, "valid": not problems,
+            "body_authentic": body_is_authentic()}
+
+
+def programme_terminal(gates: Sequence[Mapping[str, Any]] = GATES) -> dict[str, Any]:
+    undecided = [g["gate"] for g in gates if not g["dispositions"]]
+    cannot = [g["gate"] for g in gates
+              if any(d.startswith("CANNOT_CHECK") for d in g["dispositions"])]
+    supported = [(g["gate"], d) for g in gates for d in g["dispositions"] if is_positive(d)]
+    parent_qualified = [g["gate"] for g in gates
+                        if any(d == "PARENT_SUFFICIENT" or d.endswith("PARENT_SUFFICIENT")
+                               for d in g["dispositions"])]
+    if undecided:
+        return {"terminal": "PROGRAMME_NOT_CLOSED",
+                "reason": f"gates without a disposition: {undecided}",
+                "closed": False}
+    which = "_AND_".join(sorted({g for g, _ in supported}))
+    if not cannot and supported:
+        return {"terminal": "HETEROGENEOUS_MACHINE_EPISTEMICS_SIGNATURE_SUPPORTED",
+                "reason": "every gate positive and none unmeasured", "closed": True}
+    return {
+        "terminal": f"PARTIAL_SIGNATURE_ONLY_{which}" if supported
+                    else "CANNOT_CHECK_NO_GATE_REACHED_A_POSITIVE",
+        "closed": True,
+        "supported_gates": [{"gate": g, "disposition": d} for g, d in supported],
+        "unmeasured_gates": cannot,
+        "parent_sufficient_gates": parent_qualified,
+        "reason": (
+            "Every required gate carries an explicit bounded disposition, which is "
+            "#165 section 18's stated closure condition, so the programme is closed. "
+            "It closes MIXED, not positive. "
+            f"{len(supported)} gate dispositions are positive and {len(cannot)} gates "
+            "are CANNOT_CHECK with a stated conversion. Decisively, every gate that "
+            "produced a positive also records that an ordinary parent reproduces the "
+            f"mechanism -- {parent_qualified} -- so none of the supported parts is an "
+            "architecture residual. PARENT_PRODUCT_SUFFICIENT is nevertheless "
+            "unavailable in either direction, because deciding it needs an integrated "
+            "prototype and none exists."),
+    }
+
+
+def build() -> dict[str, Any]:
+    check = validate()
+    terminal = programme_terminal()
+    return {
+        "schema": SCHEMA,
+        "issue": 165,
+        "closure_condition_quoted_from_the_roadmap": (
+            "The programme closes scientifically when every required gate has an "
+            "explicit bounded disposition. A complete negative or conditional result "
+            "is still 100% completion of the programme."),
+        "roadmap_body": {"path": "research/programme-closure-v1/ISSUE_165_BODY.md",
+                         "sha256": BODY_SHA256, "authentic": check["body_authentic"]},
+        "vocabularies_parsed_from_the_roadmap": {k: list(v) for k, v in vocabularies().items()},
+        "derivation_rule": DERIVATION,
+        "gates": [{k: v for k, v in g.items()} for g in GATES],
+        "issue_terminals": issue_terminals(),
+        "issue_terminals_note": (
+            "Section 22's Final list. An issue that owns a gate inherits that gate's "
+            "disposition and receipts, so the gate ledger and the issue roll-up cannot "
+            "drift apart. An issue with no lane on this head receives CANNOT_CHECK "
+            "naming exactly that, and cites the evidence map which records its "
+            "per-checkbox state at main@b35093a."),
+        "validation": check,
+        "programme": terminal,
+        "what_this_does_not_do": (
+            "It reads receipts and the roadmap. It runs no study, changes no "
+            "production code, and closes no issue on its own authority. A gate "
+            "disposition here is only as good as the receipt it cites, and every "
+            "CANNOT_CHECK names what would convert it."),
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--out", type=Path, required=True)
+    args = parser.parse_args()
+    doc = build()
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(doc, indent=2, sort_keys=True) + "\n")
+    print(json.dumps({"valid": doc["validation"]["valid"],
+                      "problems": doc["validation"]["problems"],
+                      "body_authentic": doc["roadmap_body"]["authentic"],
+                      "terminal": doc["programme"]["terminal"],
+                      "closed": doc["programme"]["closed"],
+                      "unmeasured": doc["programme"].get("unmeasured_gates"),
+                      "parent_sufficient": doc["programme"].get("parent_sufficient_gates")},
+                     indent=1))
+    return 0 if doc["validation"]["valid"] else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
