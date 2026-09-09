@@ -1,0 +1,20 @@
+{
+  "witness_id": "W-T03",
+  "theorem_id": "HST-T03",
+  "assumption_removed": "none removed — witness exhibits the theorem's hypotheses minimally (aliasing pair with disjoint correct action sets) and verifies the conclusion over ALL policies",
+  "claim_falsified": "a sufficiently good search over policies can satisfy any contract",
+  "world": {
+    "states": ["s1", "s2"],
+    "phi": {"s1": "z", "s2": "z"},
+    "actions": ["L", "R"],
+    "G": {"s1": ["L"], "s2": ["R"]}
+  },
+  "derivation": {
+    "policies": ["pi_L: z -> L", "pi_R: z -> R"],
+    "pi_L": "correct at s1, fails at s2",
+    "pi_R": "fails at s1, correct at s2",
+    "satisfying_policies": 0,
+    "escape": "a channel splitting the fiber (phi'(s1) != phi'(s2)) restores satisfiability: pi' over phi' with pi'(phi'(s1))=L, pi'(phi'(s2))=R succeeds — the fix is representational, not search"
+  },
+  "self_check": "check_core_v1.py enumerates every policy Z -> A (2 of them) and asserts each fails on at least one aliased state"
+}

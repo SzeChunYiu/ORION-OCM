@@ -1,0 +1,22 @@
+{
+  "witness_id": "W-T01",
+  "theorem_id": "HST-T01",
+  "assumption_removed": "zero mandatory overhead (M = 0) — inheritance now charges M > 0 to every strategy of A_{t+1}, old ones included",
+  "claim_falsified": "inheritance cannot worsen optimal achievable burden / 'memory always helps'",
+  "world": {
+    "task": "tau (fixed)",
+    "A_t": ["a1"],
+    "cost_t": {"a1": 3},
+    "A_{t+1}": ["a1", "a2"],
+    "mandatory_overhead_M": 2,
+    "raw_cost_{t+1}": {"a1": 3, "a2": 5},
+    "charged_cost_{t+1}": {"a1": 5, "a2": 7}
+  },
+  "derivation": {
+    "m_t": "inf over A_t of C_t = 3",
+    "m_{t+1}": "inf over A_{t+1} of charged C = 5",
+    "reversal": "m_{t+1} = 5 > 3 = m_t",
+    "savings_needed": "an a* in A_{t+1} with charged cost < 3, i.e. raw cost < 1; none exists (best raw is 3)"
+  },
+  "self_check": "check_core_v1.py recomputes both infima and asserts m_{t+1} > m_t; also asserts A_t is a subset of A_{t+1} so the reversal is attributable to M alone"
+}

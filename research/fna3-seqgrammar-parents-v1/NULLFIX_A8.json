@@ -1,0 +1,55 @@
+{
+ "declared": "post-run correction (defect found reading V1 results)",
+ "defect": "run_shuffle_null scored stream[n:n+T] which is EMPTY for the UD worlds (fit streams truncated to exactly n); all seven UD null entries in V1 recorded bits_per_symbol = 0.0 and the R5 cases derived from them are invalid",
+ "finished_utc": "2026-09-09T21:42:06Z",
+ "fix": "run_shuffle_null(..., score_stream=protected scored stream); UD nulls recomputed with identical arms/seeds/n",
+ "id": "A8_ud_shuffle_null_empty_window_fix",
+ "nulls": {
+  "W4_UD_CHAR": {
+   "P1": {
+    "positions_scored": 100000,
+    "shuffled_bits": 5.758067081299637,
+    "shuffled_fit_wall_s": 637.3547
+   },
+   "P2": {
+    "positions_scored": 100000,
+    "shuffled_bits": 6.1290416562262635,
+    "shuffled_fit_wall_s": 616.4534
+   },
+   "P3": {
+    "positions_scored": 100000,
+    "shuffled_bits": 4.759896958137837,
+    "shuffled_fit_wall_s": 681.9337
+   },
+   "P7": {
+    "positions_scored": 12500,
+    "shuffled_bits": 13.702248179880357,
+    "shuffled_fit_wall_s": 0.575
+   }
+  },
+  "W5_UD_POS": {
+   "P1": {
+    "positions_scored": 122557,
+    "shuffled_bits": 4.631348340386284,
+    "shuffled_fit_wall_s": 40.5905
+   },
+   "P2": {
+    "positions_scored": 122557,
+    "shuffled_bits": 5.041718302691561,
+    "shuffled_fit_wall_s": 39.3257
+   },
+   "P3": {
+    "positions_scored": 122557,
+    "shuffled_bits": 3.633776350825724,
+    "shuffled_fit_wall_s": 47.7138
+   },
+   "P7": {
+    "positions_scored": 15320,
+    "shuffled_bits": 10.702208195592153,
+    "shuffled_fit_wall_s": 0.1506
+   }
+  }
+ },
+ "started_utc": "2026-09-09T20:58:23Z",
+ "wall_seconds": 2622.7
+}

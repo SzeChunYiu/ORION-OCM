@@ -1,0 +1,25 @@
+{
+  "witness_id": "W-T07",
+  "theorem_id": "HST-T07",
+  "assumption_removed": "none removed — witness satisfies every ratchet hypothesis perfectly and shows the frozen negative list concretely: perfect monotone ratchet, zero transfer",
+  "claim_falsified": "an elitist archive ratcheting to perfect quality implies generalization / capability beyond the benchmark",
+  "world": {
+    "benchmark_tau1": {"questions": ["q1", "q2", "q3"], "answers": ["a", "b", "c"]},
+    "benchmark_tau2": {"questions": ["r1", "r2", "r3"], "answers": ["x", "d", "e"]},
+    "policy_class": "lookup tables: total on tau1 questions, constant default 'd' on tau2 questions",
+    "evaluator": "q(x, tau) = number of tau questions answered correctly",
+    "archive": "elitist, immutable, unlimited capacity, total order = (q1 score, then q2 score) frozen",
+    "generations": [
+      {"gen": 0, "table": {}, "q1": 0, "q2": 1},
+      {"gen": 1, "table": {"q1": "a"}, "q1": 1, "q2": 1},
+      {"gen": 2, "table": {"q1": "a", "q2": "b"}, "q1": 2, "q2": 1},
+      {"gen": 3, "table": {"q1": "a", "q2": "b", "q3": "c"}, "q1": 3, "q2": 1}
+    ]
+  },
+  "derivation": {
+    "ratchet_tau1": "archive best q1 = 0,1,2,3 strictly monotone — a PERFECT ratchet (attains the maximum)",
+    "transfer_tau2": "archive best q2 = 1,1,1,1 constant — zero transfer, exactly chance-level default",
+    "gap": "the tau1-perfect lineage has ZERO information about tau2; the ratchet theorem's hypotheses are all satisfied, so the theorem is silent about tau2 — as its negative list states"
+  },
+  "self_check": "check_core_v1.py replays the archive recursion, asserts strict q1 monotonicity and q2 constancy, and asserts every tau2 answer of every retained table equals the default 'd'"
+}
