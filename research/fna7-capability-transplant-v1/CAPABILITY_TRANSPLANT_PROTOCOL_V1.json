@@ -1,0 +1,102 @@
+{
+  "schema": "ocm.fna.fna7-capability-transplant.protocol.v1",
+  "protocol_name": "CapabilityTransplantProtocolV1",
+  "issues": {"programme": 214, "work_package": "FNA-7", "deliverable": "FNA-D8", "hybrid_bridge": 208},
+  "base_commit": "ab5310942b01be11776c0eddc4403dc0e0dcb51c",
+  "generic_mechanics": {
+    "transplant": "T = (K, A_inc, A_rep, H): capability contract, model-supplied incumbent arm (never degraded), non-neural replacement arm (strongest-parent first refusal), held-constant harness",
+    "single_capability_rule": "exactly one capability swapped per transplant; everything else byte-identical across arms (#214 FNA-7)",
+    "incumbent_arm": "same model/harness as the control arm supplying K in-context; all model calls/tokens/tool calls/preprocessing for K charged; incumbent keeps every nonessential power",
+    "replacement_ladder": ["exact analytic/guarded rule", "conventional estimation/selection parent", "kNN/linear", "tree/rule learner", "contextual bandit", "neural reference: diagnostic only, never adoptable"],
+    "parent_bindings": {
+      "pr_215_fna_atlas": "typed indexes, FNA-1 channel ordering, exact O(1)-certificate checker convention, FunctionalMechanismContractV1",
+      "pr_218_quantum_structural": "minimum-sufficient non-neural donor set for representation-level transplants",
+      "pr_219_fna5_routing": "guard-first routing parents; label-acquisition-price economics (identification work = the honest price of a label)",
+      "pr_222_fna6_working_state_OPEN": "blackboard/Soar/ACT-R working-state parents; cited by branch research/fna6-working-state-v1; no code dependency"
+    },
+    "meters": ["capability_score_protected_eval", "preservation_margin_vs_incumbent", "model_calls_for_K", "model_tokens_for_K", "tool_calls_for_K", "acquisition_price", "index_build_price", "maintenance_price", "inference_work", "fitted_state_bytes", "authored_source_bytes", "whole_chain_cost_per_task", "shuffle_equal_n_null", "no_supplier_floor"],
+    "causal_gate_clauses_214_s5": [
+      "1 donor function defined before outcomes (FREEZE)",
+      "2 candidate receives no extra hidden information (structural no-latent-leak test)",
+      "3 replacement actually consumed at the decisive step (consumption trace + substitution test)",
+      "4 capability non-inferior within frozen margin, or exact loss reported",
+      "5 resource vector complete including acquisition/index/maintenance",
+      "6 removal or substitution destroys the registered effect where causality is claimed",
+      "7 strongest ordinary non-neural parent receives first refusal",
+      "8 no hidden neural computation attributed to the non-neural arm",
+      "9 revision/revocation semantics remain correct (stale advice detected and paid)",
+      "10 protected evaluation disjoint from development/tuning"
+    ],
+    "terminals": ["PARENT_SUFFICIENT_FOR_<capability>", "NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE", "NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE", "NO_FUNCTIONAL_PARITY_<capability>", "NEURAL_DONOR_DOMINATES_AT_SCOPE", "REPRESENTATION_INSUFFICIENT", "STATE_SEARCH_COST_DOMINATES", "ACQUISITION_COST_DOMINATES", "CANNOT_CHECK_<reason>"]
+  },
+  "capability_source_map_binding": {
+    "note": "#208 section-9 capability_source_map.json does not exist yet (CONCURRENCY_CHECK.json). Before any H1-scale transplant runs, the live map must fill these six fields per capability; the pilot fills them at pilot scope in FNA7_PILOT_RESULTS_V1.json.",
+    "fields": ["capability", "current_supplier", "observed_necessity", "observed_cost", "failure_mode", "candidate_explicit_replacement", "replacement_evidence_status"]
+  },
+  "transplants": [
+    {
+      "id": "K1_REPOSITORY_SEMANTIC_RETRIEVAL",
+      "contract": {"input": "task instruction + repository workspace", "output": "artifact set consumed by the edit step", "state": "index over repository artifacts", "decisive_consumer": "the edit/planning step's input artifact set"},
+      "information_surface": "repository files, symbols, dependency edges; never task gold",
+      "incumbent_supplies": "model reads/greps files and picks artifacts in-context",
+      "replacement_parents_first_refusal": ["#215 FNA-1 exact typed index + channel ordering (kso/extraction_indexed.py)", "exact scan baseline", "inverted index / postings", "ANN/kNN projection (FNA-2 bounds)", "neural reference: diagnostic only"],
+      "metrics": ["task-decisive recall", "false candidates", "index build/update/query work", "revocation invalidation", "model calls removed"],
+      "status": "PROTOCOL_ONLY"
+    },
+    {
+      "id": "K2_FAILURE_CLASSIFICATION",
+      "contract": {"input": "failed-attempt trace on the legal surface", "output": "responsibility class from the frozen taxonomy", "state": "none (R1) / estimated law constants (R2) / fitted tree (R3) / trained weights (incumbent)", "decisive_consumer": "frozen repair table + maintenance refresh trigger"},
+      "information_surface": "legal features + failed-attempt trace facts; never latents, never realized outcomes of unexecuted alternatives",
+      "incumbent_supplies": "model reads the trace and assigns responsibility",
+      "replacement_parents_first_refusal": ["guarded rule from declared laws (zero acquisition)", "calibrated estimator (identification-charged labels, #219 economics)", "CART rule learner", "neural reference: incumbent-class stand-in at pilot scale"],
+      "metrics": ["classification accuracy vs ground truth", "per-class precision/recall", "continuation cost after failure", "refresh timing", "acquisition price", "authored vs fitted bytes"],
+      "status": "PILOTED_IN_THIS_CAPSULE",
+      "pilot": "see FREEZE_FNA7_V1.json and FNA7_PILOT_RESULTS_V1.json"
+    },
+    {
+      "id": "K3_PLANNING_OBLIGATION_CONTROL",
+      "contract": {"input": "task state + obligations + budgets", "output": "next obligation + budget allocation", "state": "obligation ledger / working state", "decisive_consumer": "the next action selection of the harness"},
+      "information_surface": "task state, obligation records, cost observations",
+      "incumbent_supplies": "model holds plan and priorities in-context",
+      "replacement_parents_first_refusal": ["#219 analytic-guarded routing (first refusal)", "#222 blackboard/Soar working-state parents (open PR)", "exact policy where decidable", "bandit allocation", "neural reference: diagnostic only"],
+      "metrics": ["obligation completion rate", "critical false completion", "budget waste", "replanning work", "model calls removed"],
+      "status": "PROTOCOL_ONLY"
+    },
+    {
+      "id": "K4_API_INTERFACE_INDUCTION",
+      "contract": {"input": "usage examples / signatures / call sites", "output": "call-shape proposal consumed by the next edit", "state": "induced interface grammar", "decisive_consumer": "the next edit's call-shape proposal"},
+      "information_surface": "code corpus, signatures, docs; never hidden test expectations",
+      "incumbent_supplies": "model recalls/infers interfaces from pretraining",
+      "replacement_parents_first_refusal": ["grammar/adaptor-grammar induction (#214 section 3 in-context row)", "#215 FunctionalMechanismContractV1 contract fitting", "versioned signature cache + exact match", "neural reference: diagnostic only"],
+      "metrics": ["valid-call rate", "signature errors caught", "induction cost", "corpus bytes", "model calls removed"],
+      "status": "PROTOCOL_ONLY"
+    },
+    {
+      "id": "K5_REPAIR_METHOD_REUSE",
+      "contract": {"input": "fresh failure trace + method records", "output": "method record selected and instantiated", "state": "scoped failure memory + verified method records", "decisive_consumer": "the applied repair attempt"},
+      "information_surface": "failure memory, method records, current trace",
+      "incumbent_supplies": "model improvises the repair from context",
+      "replacement_parents_first_refusal": ["case-based reuse over scoped failure memory (g3 capsule convention)", "#219 cost-model selection among methods", "#214 FNA-4 library/anti-unification parents", "neural reference: diagnostic only"],
+      "metrics": ["repair success rate", "repeated-failure rate", "reuse events", "method-acquisition cost", "revocation correctness"],
+      "status": "PROTOCOL_ONLY"
+    },
+    {
+      "id": "K6_CODE_TRANSFORMATION_SYNTHESIS",
+      "contract": {"input": "edit intent + artifact set + constraints", "output": "patch candidate applied to the workspace", "state": "learned transformation library", "decisive_consumer": "the applied patch and its checker outcome"},
+      "information_surface": "artifacts, tests-as-spec, prior verified patches",
+      "incumbent_supplies": "model writes the patch in-context",
+      "replacement_parents_first_refusal": ["#214 FNA-4: anti-unification, rewrite/e-graph abstraction, CEGIS/verifier-guided synthesis, Soar chunking", "template/rewrite library", "neural reference: diagnostic only"],
+      "metrics": ["patch validity", "verify-gate pass rate", "search work", "library growth", "model calls removed"],
+      "status": "PROTOCOL_ONLY"
+    },
+    {
+      "id": "K7_VERIFICATION_INTERPRETATION",
+      "contract": {"input": "checker/test output + task obligations", "output": "accept/reject/continue decision + binding clause attribution", "state": "checker-to-clause map", "decisive_consumer": "the accept/reject/continue decision of the harness"},
+      "information_surface": "checker output, obligation records",
+      "incumbent_supplies": "model reads test output and decides its meaning",
+      "replacement_parents_first_refusal": ["exact O(1) certificates + counterexample-to-clause mapping (#215 FNA-1 checker convention; repo mechanical-proof capsules)", "structured output parsing to obligations", "neural reference: diagnostic only"],
+      "metrics": ["decision correctness", "critical false completions", "interpretation work", "model calls removed"],
+      "status": "PROTOCOL_ONLY"
+    }
+  ]
+}
