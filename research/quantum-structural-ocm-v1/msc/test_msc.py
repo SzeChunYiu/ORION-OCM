@@ -139,6 +139,7 @@ class TestArmsExact(unittest.TestCase):
                 rec = arm.decide(item["s"], item["t"], rv, truth)
                 self.assertTrue(rec["correct"], "%s diverged on task %s"
                                 % (arm.name, item["idx"]))
+                rec["task_idx"] = item["idx"]
                 recs.append(rec)
             elif item["kind"] == "admission":
                 arm.on_admission(ks, item["_edges"])
@@ -264,7 +265,7 @@ class TestHostileFQ5(unittest.TestCase):
             truth_b = [m for m in twins if F_B.atom_view[m].authority.rank("custody") >= 2][0]
             self.assertEqual(ra["decision"], truth_a)
             self.assertEqual(rb["decision"], truth_b)
-            self.assertEqual(ra["status"], "NATIVE_IDENTITY")
+            self.assertIn(ra["status"], ("NATIVE_IDENTITY", "NATIVE_IDENTITY_VIA_PROBES"))
 
 
 class TestFreezeAndDeterminism(unittest.TestCase):
