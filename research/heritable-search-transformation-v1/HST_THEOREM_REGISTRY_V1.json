@@ -1,0 +1,290 @@
+{
+ "note": "Statements frozen. Lanes fill proof_artifact/exact_checker/counterexample/empirical_bridge/claim_ceiling/status via declared amendments only.",
+ "registry_id": "HST_THEOREM_REGISTRY_V1",
+ "row_schema": [
+  "theorem_id",
+  "statement",
+  "formal_objects",
+  "assumptions",
+  "quantifiers",
+  "proof_class",
+  "parent_theorem",
+  "ocm_residual",
+  "proof_artifact",
+  "exact_checker",
+  "counterexample_when_assumption_removed",
+  "empirical_bridge",
+  "claim_ceiling",
+  "status"
+ ],
+ "rows": [
+  {
+   "assumptions": [
+    "A_t subset A_{t+1}",
+    "zero mandatory overhead for the P1 dominance clause",
+    "fixed scalarization frozen before comparison"
+   ],
+   "machine_check_priority": 1,
+   "ocm_residual": "whether real H_t inheritance is actually optional-and-free or carries M>0",
+   "parent_theorem": "superset dominance (trivial order argument); no NFL conflict (fixed tau)",
+   "proof_class": "P1",
+   "secondary": "P2(hostile)",
+   "statement": "If A_t subset A_{t+1} (every old legal strategy available at unchanged cost), then for any fixed scalarized cost functional C, inf_{a in A_{t+1}} C(a,tau) <= inf_{a in A_t} C(a,tau). With mandatory overhead M only the conditional form survives: future savings > acquisition + maintenance + revision.",
+   "status": "OPEN",
+   "theorem_id": "HST-T01",
+   "title": "Optional inheritance monotonicity"
+  },
+  {
+   "assumptions": [
+    "fixed F,C",
+    "explicit bounded cost model for the Reach_B form",
+    "decidable membership of <O> at finite scope or explicit witness instead"
+   ],
+   "machine_check_priority": 2,
+   "ocm_residual": "which real operators are irreducible; finding witnesses in the real grammar",
+   "parent_theorem": "transformation semigroup generator theory (owned by #145)",
+   "proof_class": "P1/P2",
+   "statement": "For fixed F,C: if p notin <O> (transformation closure) and p admissible, then <O> strict-subset <O \u222a {p}>. Bounded version: strict Reach_B expansion requires an explicit witness task/state reachable with p within B but not from O within B.",
+   "status": "OPEN",
+   "theorem_id": "HST-T02",
+   "title": "Reach expansion by irreducible primitive"
+  },
+  {
+   "assumptions": [
+    "contract = correct-action-set semantics",
+    "policy may depend only on phi(s)"
+   ],
+   "machine_check_priority": 3,
+   "ocm_residual": "diagnosing aliasing in the real representation (#152 decision regions)",
+   "parent_theorem": "quotient/aliasing argument (Mealy-machine minimization duality)",
+   "proof_class": "P1",
+   "statement": "If phi(s1)=phi(s2) but the registered contract requires G(s1) \u2229 G(s2) = empty, then no policy measurable w.r.t. phi(s) satisfies the contract on both states. Search cannot repair it: a new channel/distinction/operator is necessary.",
+   "status": "OPEN",
+   "theorem_id": "HST-T03",
+   "title": "Representation insufficiency by indistinguishability"
+  },
+  {
+   "assumptions": [
+    "prefix code / Kraft inequality holds",
+    "allocation exactly proportional to 2^{-L}",
+    "macro adds no hidden construction cost (charged separately in the overhead-corrected corollary)"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "real library construction cost and macro lookup overhead",
+   "parent_theorem": "Levin search / Solomonoff prior mass; Schmidhuber OOPS incremental bias-optimal search",
+   "proof_class": "P1",
+   "statement": "Under prefix-coded Levin-style allocation where candidate p receives share 2^{-L(p)}, an admitted macro changing a target solution encoding from L to L-Delta (verification and construction cost unchanged) multiplies its prior/search share by 2^Delta. Wall-time improvement remains conditional on scheduler/execution/verification costs.",
+   "status": "OPEN",
+   "theorem_id": "HST-T04",
+   "title": "Compression-to-search acceleration under coded search"
+  },
+  {
+   "assumptions": [
+    "frozen scalar cost coordinate",
+    "quantities are expectations under the frozen model"
+   ],
+   "machine_check_priority": 4,
+   "ocm_residual": "H_eff and invalidation dynamics on real ecologies",
+   "parent_theorem": "amortization arithmetic; library-learning cost models (DreamCoder-class)",
+   "proof_class": "P1",
+   "statement": "Macro m replacing composition s is lifecycle-beneficial on the registered scalar cost coordinate iff H_eff * dC_use > C_build + C_maint + E[C_revision]. Arithmetic once quantities frozen; the science is estimating H_eff and transfer scope prospectively.",
+   "status": "OPEN",
+   "theorem_id": "HST-T05",
+   "title": "Macro amortization threshold"
+  },
+  {
+   "assumptions": [
+    "acyclicity",
+    "completeness of declared dependencies for protected outputs"
+   ],
+   "machine_check_priority": 5,
+   "ocm_residual": "whether real provenance graphs are complete; cyclic/TMS boundary",
+   "parent_theorem": "causal DAG intervention locality (Pearl-class d-separation/intervention semantics)",
+   "proof_class": "P1",
+   "statement": "In a complete acyclic dependency DAG whose node values are functions only of declared ancestors, an intervention on S cannot change any node outside Desc(S); exact recomputation outside Desc(S) is unnecessary iff the registered dependency semantics are complete for the protected outputs.",
+   "status": "OPEN",
+   "theorem_id": "HST-T06",
+   "title": "Exact dependency-cone locality"
+  },
+  {
+   "assumptions": [
+    "frozen total order",
+    "immutable archive with unlimited capacity (Pareto variant must state capacity effects)",
+    "fixed evaluator"
+   ],
+   "machine_check_priority": 6,
+   "ocm_residual": "everything beyond the ratchet property",
+   "parent_theorem": "running-maximum monotonicity",
+   "proof_class": "P1",
+   "statement": "For a fixed evaluator and immutable archive retaining the best-so-far admissible object under a frozen total order, archive best quality is monotone non-decreasing. Proves ONLY a ratchet; not open-endedness/complexity growth/generalization/self-improvement efficiency.",
+   "status": "OPEN",
+   "theorem_id": "HST-T07",
+   "title": "Elitist ratchet monotonicity"
+  },
+  {
+   "assumptions": [
+    "Bayesian expected-utility decision maker",
+    "Blackwell dominance (a.s. garbling of E0 from E1)",
+    "free information for the dominance clause"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "identifying only decision-relevant distinctions (#152); probe pricing on real systems",
+   "parent_theorem": "Blackwell 1951/1953 comparison of experiments",
+   "proof_class": "P1",
+   "statement": "If experiment E1 Blackwell-dominates E0, then for every Bayesian expected-utility decision problem the optimal value with E1 is >= that with E0 when information is free. With probe cost, buy information only when expected decision improvement exceeds cost.",
+   "status": "OPEN",
+   "theorem_id": "HST-T08",
+   "title": "Information dominance / decision sufficiency"
+  },
+  {
+   "assumptions": [
+    "task environment distribution",
+    "controlled hypothesis-space/bias family",
+    "sample sizes per parent bound conditions"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "the OCM finite morphology/operator-bias class specialization (lane D)",
+   "parent_theorem": "Baxter JAIR 2000; Maurer-Pontil-Romera-Paredes JMLR 2016; Alquier-Mai-Pontil 2017; PAC-Bayes meta-bounds",
+   "proof_class": "P3",
+   "statement": "Under Baxter/Maurer-class assumptions (related tasks sampled from an environment, controlled hypothesis-space family), bias learned on sufficiently many tasks generalizes to new tasks from the same environment; PAC-Bayes/lifelong regret bounds hold under explicit distributional assumptions. No theorem over arbitrary future domains.",
+   "status": "OPEN",
+   "theorem_id": "HST-T09",
+   "title": "Learned inductive bias can generalize, conditionally"
+  },
+  {
+   "assumptions": [
+    "frozen Adm/Useful predicates",
+    "registered D",
+    "finite candidate space for the P2 form"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "estimating Ev on real lineages; continued-vs-reset kernel comparison (#217/#221)",
+   "parent_theorem": "innovation/evolvability measures in QD literature (useful-novelty rates)",
+   "proof_class": "definition+P2/P3",
+   "statement": "Ev_t(x; U, D) = P_{x prime ~ Q_t(.|x)}[admissible and useful under U]. Exactly enumerable at finite scope; generalization to unseen ecologies needs P3 assumptions. HST claim form: Ev_{t+1} > Ev_t or lower first-useful-change burden, not higher current fitness.",
+   "status": "OPEN",
+   "theorem_id": "HST-T10",
+   "title": "Evolvability as useful-descendant mass"
+  },
+  {
+   "assumptions": [
+    "interface preserves registered external semantics",
+    "all module costs charged",
+    "repeated instantiation"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "whether real development discovers such modules",
+   "parent_theorem": "grammar compression / module acquisition cost models (DreamCoder-class; MDL)",
+   "proof_class": "P1/P2 conditional",
+   "statement": "If a repeatedly instantiated subgraph M behind an interface preserving registered external semantics reduces total description+execution+search cost after charging module definition+interface+maintenance, then promoting M to a higher-level unit is a valid compression/search transformation. Conditional economic criterion only; cannot prove spontaneous emergence of major transitions.",
+   "status": "OPEN",
+   "theorem_id": "HST-T11",
+   "title": "Cognitive major-transition compression criterion"
+  },
+  {
+   "assumptions": [
+    "deterministic closed finite system",
+    "state space fixed"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "operational horizon-scoped OEE vocabulary for #221",
+   "parent_theorem": "pigeonhole; Adams et al. 2017 formal OEE; MODES 2019 metrics",
+   "proof_class": "P5",
+   "statement": "A closed deterministic finite-state system must eventually repeat; literal infinite non-repeating state novelty is impossible for fixed finite closed state space. Open-endedness must be horizon-scoped, relative to recurrence baselines, or the effective space must expand.",
+   "status": "OPEN",
+   "theorem_id": "HST-T12",
+   "title": "Finite-state literal open-endedness limit"
+  },
+  {
+   "assumptions": [
+    "transition law not fully specified/proved"
+   ],
+   "machine_check_priority": 7,
+   "ocm_residual": "#221/#144 claim ceiling binding",
+   "parent_theorem": "prefix-extension/compactness argument",
+   "proof_class": "P5",
+   "statement": "For any finite observed trajectory prefix, absent a fully specified/proved transition law, there exist both a bounded-continuation and a continuing-novelty continuation consistent with the prefix; finite observation cannot prove unbounded open-endedness.",
+   "status": "OPEN",
+   "theorem_id": "HST-T13",
+   "title": "No finite trajectory proves unbounded future novelty"
+  },
+  {
+   "assumptions": [
+    "NFL assumptions exactly: closed-under-permutation problem class, uniform distribution over problems",
+    "non-assumptions must be listed: structured ecologies escape NFL"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "which structured-ecology assumptions OCM can actually register",
+   "parent_theorem": "Wolpert-Macready 1997 NFL",
+   "proof_class": "P5",
+   "statement": "Under NFL conditions (closure over the problem class, uniform averaging), no search/transformation dominates; HST must target conditional bias adaptation + regime-change detection, not a universal best mutation/search algorithm.",
+   "status": "OPEN",
+   "theorem_id": "HST-T14",
+   "title": "No universally best fixed search transformation"
+  },
+  {
+   "assumptions": [
+    "arbitrary program class",
+    "consistent sufficiently expressive axiom system for G\u00f6del part"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "C must expose bounded decidable contracts + protected validation + CANNOT_CHECK",
+   "parent_theorem": "Rice; Turing; G\u00f6del; Schmidhuber G\u00f6del Machines (conditional form)",
+   "proof_class": "P5",
+   "statement": "Rice/halting/G\u00f6del: nontrivial semantic properties of arbitrary programs are undecidable; sufficiently expressive consistent formal systems contain true-unprovable statements. Universal complete proof that arbitrary self-change is beneficial is unavailable. G\u00f6del-Machine optimality is conditional on finding/proving the target theorem.",
+   "status": "OPEN",
+   "theorem_id": "HST-T15",
+   "title": "No complete general semantic self-improvement verifier"
+  },
+  {
+   "assumptions": [
+    "admissible complexity measure (Blum axioms)"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "none for the limit itself; bars final-architecture claims",
+   "parent_theorem": "Blum 1967 speedup theorem",
+   "proof_class": "P5",
+   "statement": "Blum speedup: computable problems exist with no asymptotically optimal program under admissible complexity measures. HST cannot promise convergence to a final globally fastest cognition; supports continuing search-transformation pressure in some families.",
+   "status": "OPEN",
+   "theorem_id": "HST-T16",
+   "title": "No universal fastest solver/self-improver"
+  },
+  {
+   "assumptions": [
+    "writable score register identical to target",
+    "no independent tying constraint"
+   ],
+   "machine_check_priority": 0,
+   "ocm_residual": "whether the real C is independent/complete/robust (formal-by-contract + empirical)",
+   "parent_theorem": "Goodhart-class misalignment folk results; here as constructed toy theorem",
+   "proof_class": "P1 toy + P4 real-world",
+   "statement": "If an optimizer can directly rewrite a scalar score register that is itself the optimization target and no independent constraint ties the score to protected world performance, then a score-maximizing self-change can raise measured objective without improving protected performance. NOT a claim that external C is sufficient for safe self-improvement.",
+   "status": "OPEN",
+   "theorem_id": "HST-T17",
+   "title": "External-evaluator anti-self-certification (toy)"
+  },
+  {
+   "assumptions": [
+    "scalar burden bounded below",
+    "fixed epsilon per generation claim"
+   ],
+   "machine_check_priority": 8,
+   "ocm_residual": "#221 GS stopping/claim language",
+   "parent_theorem": "archimedean/telescoping argument",
+   "proof_class": "P1",
+   "statement": "If scalar burden >= b_min and each generation must improve by >= epsilon > 0, at most (B_0 - b_min)/epsilon such improvements exist. Indefinite fixed-size improvement requires shrinking epsilon, expanding scope/frontier, new dimensions, or regime change; bars defining open-ended self-improvement as fixed-epsilon gains on one frozen finite benchmark.",
+   "status": "OPEN",
+   "theorem_id": "HST-T18",
+   "title": "Fixed-epsilon bounded-burden improvement limit"
+  }
+ ],
+ "schema_version": 1,
+ "status_vocabulary": [
+  "OPEN",
+  "PROVED",
+  "FINITE_CERTIFIED",
+  "BOUND_DERIVED",
+  "BLOCKED_<reason>",
+  "PARENT_SUFFICIENT"
+ ]
+}
