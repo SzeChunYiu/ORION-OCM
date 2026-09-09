@@ -50,11 +50,15 @@ same ecology, without pip-installing DreamCoder, Stitch, or egg:
 | strong conventional parent, same library | SEARCH_AWARE | `square dec square` | **ADOPT** (tournament twin: **ADAPT**) |
 
 Full Stitch / DreamCoder / egg runtimes remain `OPEN` / `CANNOT_CHECK` as
-software; the tiny parents are what earn the compare boxes. `REJECT` here is
-the per-token / one-sleep stand-in on this frozen ecology, not a rejection of
-upstream Stitch 0.1.29. Owner review on
-`research/issue165-integration-qualified-20260909` hash-pins and executes that
-actual package; do not read this microscope as substituting for that donor.
+software on this remaining-gates capsule; the tiny parents are what earn the
+compare boxes. `REJECT` here is the per-token / one-sleep stand-in on this
+frozen ecology, not a rejection of upstream Stitch 0.1.29. Owner review on
+`research/issue165-integration-qualified-20260909` hash-pins that package,
+learned the retained arity-3 lambda, and reports a typed capture-avoiding
+consumer (genuine negative first run: raw function-valued rewriting gives no
+calls on any length-five word; corrected consumer 48 / 0 / 48 under live /
+withdrawal / restoration). Do not read this microscope as substituting for
+that donor, and do not retick G2.2 from it.
 
 Each parent is charged:
 

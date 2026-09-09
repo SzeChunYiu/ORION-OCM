@@ -99,13 +99,22 @@ Corpus-scale N1. UD at corpus. Production meaning-graph node cutoff remains 7
 G5.3 production adoption (economics do not support a switch). `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
 H1 examples remain library capital (not later savings); IO / human burden `CANNOT_CHECK`. Neural/Transformer
 `CANNOT_CHECK_NO_NN_LIBRARY`.
+Historical-cohort reuse remains ZERO on the owner integration branch (not a
+remaining-gates frozen win). Full Stitch consumer is owner-integration
+development, not a remaining-gates frozen G2.2 win. Frozen #203 stays
+all-UNKNOWN. L1 recursive composition remains OPEN.
 
 ## Owner cross-lane review (not a #165 close)
 
-Owner is reviewing remaining-gates `9999b6e` against main `dff3ac` on
-`research/issue165-integration-qualified-20260909`. Unique-branch PRs
-#209–#213 are duplicates, not extra independent experiments. This branch is
-not force-pushed and is not merged by that review.
+Owner reviews on `research/issue165-integration-qualified-20260909` (based on
+main `dff3ac` / #207). Unique-branch PRs #209–#213 are duplicates, not extra
+independent experiments. This remaining-gates branch is not force-pushed and
+is not merged by that review. Do not overwrite that integration branch or
+remaining-gates frozen files.
+
+Inspected coordinator `831d1f0` and **preserves** L1 numeral-drop / H5
+conditional-cost corrections. Earlier pin of remaining-gates `9999b6e` is
+historical; the live inspection is `831d1f0`.
 
 Development evidence on that review branch (do not tick #165 from it):
 
@@ -132,6 +141,31 @@ Development evidence on that review branch (do not tick #165 from it):
   does not select that fragment. G2 cannot license H1 selection equivalence.
   H1 v3 is a separate actual acquisition successor. Keep that ceiling on any
   H5 checkbox.
+- Local executable integration now passes **26 separate-process stages** on
+  the actual #207 C→D restored ledger prefix (150,540 bytes, byte-identical
+  prefix of the 914,689-byte final ledger).
+- Actual Stitch 0.1.29 learned the retained arity-3 lambda. A typed,
+  capture-avoiding consumer qualifies all 1,365 words at seven points.
+- Genuine negative first run: raw upstream function-valued rewriting gives
+  **no calls** on any length-five word. The corrected consumer lifts
+  independently checked closed-subprogram rewrites inside longer functions,
+  without changing corpus, salt, learned definition, or later-task identities.
+- Actual donor calls on the same 32 longer programs × three points:
+  **48 / 0 / 48** under live / real evidence withdrawal / restoration;
+  conventional parent matches. This does not retick G2.2 on remaining-gates.
+- Language acquisition/interpreter and ordinary goal-directed Metamath
+  normalizer through actual OCM dispatch/check/commit: six native batches,
+  each 8 target proofs + the two intentional negative countermodels,
+  unchanged 100 trusted assertions.
+- Historical cohort consumption remains **ZERO**.
+- Normal and `-O` authored controls currently 65 passed; read-only 26-stage
+  reconciliation passed.
+
+These are development mechanism/integration positives, **not**
+utility/lifetime superiority, corpus-language proficiency, three earned G6
+generations, protected replication, #208 H0, or #165 closure. Runnable
+source and CI live on the integration branch; remaining-gates does not copy
+them.
 
 ## Bugbot scientific honesty (this branch)
 
