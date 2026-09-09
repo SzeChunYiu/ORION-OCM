@@ -1,0 +1,27 @@
+{
+  "witness_id": "W-T06",
+  "theorem_id": "HST-T06",
+  "assumption_removed": "completeness of declared dependencies for the protected outputs — one real influence edge is missing from the declared graph",
+  "claim_falsified": "R outside Desc(S) in the declared graph implies R unchanged after an intervention on S",
+  "world": {
+    "nodes": ["S", "X", "R"],
+    "declared_edges": [["X", "R"]],
+    "undeclared_actual_edges": [["S", "R"]],
+    "actual_functions": {
+      "S": "S value is set by the intervention (exogenous target)",
+      "X": "constant 5",
+      "R": "R = X + S  (reads X via the declared edge AND S directly via an undeclared read)"
+    },
+    "intervention": {"set": ["S"], "from": 0, "to": 1},
+    "protected_outputs": ["R"]
+  },
+  "derivation": {
+    "declared_Desc(S)": ["S"],
+    "declared_locality_inference": "R not in Desc(S) -> declared graph licenses skipping recomputation of R; predicted value unchanged",
+    "actual_before": {"S": 0, "X": 5, "R": 5},
+    "actual_after": {"S": 1, "X": 5, "R": 6},
+    "false_locality": "R changed (5 -> 6) exactly where the declared graph promised no change",
+    "why_the_iff_matters": "the declared graph is a valid DAG and its declared edges are individually correct; only COMPLETENESS fails, and the locality inference is unsound without it"
+  },
+  "self_check": "check_core_v1.py recomputes Desc_declared(S), asserts R is outside it, executes the actual functions before/after, and asserts R changed — the declared-graph conclusion is violated by the actual computation"
+}

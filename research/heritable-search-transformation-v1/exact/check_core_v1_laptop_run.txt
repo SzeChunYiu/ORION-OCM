@@ -1,0 +1,48 @@
+# Run log: billy-laptop (python3.8.10), 2026-09-09T22:04:23Z
+# command: ssh billy-laptop 'cd ~/hst-lane-a && python3 exact/check_core_v1.py'
+HST core lane A exact checker -- finite specializations + hostile witness re-derivation
+deterministic, exact enumeration only (no randomness)
+========================================================================
+PASS  T01/enumeration-nonempty :: 2375 (A_t, A_{t+1}, cost) worlds enumerated
+PASS  T01/finite-spec-monotone-M0 :: inf over superset <= inf over subset in all 2375 worlds; 0 reversal worlds under M=0
+PASS  T01/charged-reversal-worlds-exist :: 2015 worlds where charging M=2 to every strategy reverses the conclusion (hostile class non-vacuous)
+PASS  T01/W-T01-superset-intact :: A_t=['a1'] subset of A_{t+1}=['a1', 'a2']
+PASS  T01/W-T01-charging :: charged = raw + M re-derived: {'a1': 5, 'a2': 7}
+PASS  T01/W-T01-reversal :: m_{t+1}=5 > m_t=3 with M=2 (assumption removed, conclusion violated)
+------------------------------------------------------------------------
+PASS  T03/enumeration-nonempty :: 18 aliased-disjoint worlds, 18 injective-nonempty worlds, 4 policies
+PASS  T03/finite-spec-impossibility :: aliasing + disjoint correct sets -> 0/4 policies succeed (18/18 worlds confirm)
+PASS  T03/injective-satisfiable :: injective phi + nonempty G -> some policy succeeds in 18/18 worlds (escape is representational)
+PASS  T03/W-T03-all-policies-fail :: 2/2 policies fail on the aliased pair; 0 succeed
+PASS  T03/W-T03-aliasing :: phi(s1)=z=phi(s2)
+PASS  T03/W-T03-disjoint :: G(s1) cap G(s2) = empty
+------------------------------------------------------------------------
+PASS  T05/finite-spec-identity :: direct lifecycle comparison == identity sign in all 5400 grid points (0 mismatches)
+PASS  T05/W-T05-case_A_never_pays_back-lifecycle :: baseline=30 macro=33 re-derived (json 30/33)
+PASS  T05/W-T05-case_A_never_pays_back-verdict :: harmful by lifecycle (33>30) and by identity (6<9)
+PASS  T05/W-T05-case_B_shorter_code_costlier_run-lifecycle :: baseline=16 macro=31 re-derived (json 16/31)
+PASS  T05/W-T05-case_B_shorter_code_costlier_run-verdict :: harmful by lifecycle (31>16) and by identity (-12<3)
+------------------------------------------------------------------------
+PASS  T06/enumeration-nonempty :: 25 DAGs, 37856 intervention-run pairs enumerated
+PASS  T06/finite-spec-forward-locality :: no node outside Desc(S) ever changed across 37856 runs (0 violations); cone non-vacuously tight in 5328 runs
+PASS  T06/W-T06-declared-acyclic :: declared graph [('X', 'R')] is a DAG (DAG-hood alone licenses nothing)
+PASS  T06/W-T06-R-outside-declared-cone :: declared Desc(S)=['S'], R outside
+PASS  T06/W-T06-false-locality :: R moved 5 -> 6 while declared graph predicted no change (completeness assumption removed, conclusion violated)
+PASS  T06/W-T06-declared-edge-real :: R changes with X at fixed S (5 vs 4): X->R is a true dependency; the graph is correct-but-incomplete, not wrong
+------------------------------------------------------------------------
+PASS  T07/enumeration-nonempty :: 7776 candidate sequences enumerated
+PASS  T07/finite-spec-ratchet :: unlimited immutable archive monotone in all 7776 sequences (0 violations)
+PASS  T07/capacity-policy-voids-ratchet :: capacity-1 keep-most-recent archive NON-monotone in 3552/7776 sequences (retention policy, not elitism, carries the ratchet)
+PASS  T07/W-T07-perfect-ratchet :: archive best q1 strictly ratchets [0, 1, 2, 3] (attains max 3)
+PASS  T07/W-T07-zero-transfer :: archive q2 constant at chance-default 1: [1, 1, 1, 1]
+PASS  T07/W-T07-no-tau2-information :: no table contains any tau2 key: zero information crosses the tau1-perfect ratchet
+------------------------------------------------------------------------
+PASS  T18/finite-spec-bound :: max count == floor((B0-bmin)/eps) in all 34 (B0,bmin,eps) settings (0 mismatches)
+PASS  T18/W-T18-phase1-trace :: greedy epsilon-trace [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+PASS  T18/W-T18-bound-attained :: exactly 10 improvements, bound (B0-bmin)/eps = 10 attained with equality
+PASS  T18/W-T18-phase2-halving :: 40 halving-epsilon improvements all valid (b_min respected)
+PASS  T18/W-T18-phase2-bounded-gain :: total drop = 1099511627775/1099511627776 <= 1 (geometric sum bound); B_40 = 4398046511105/1099511627776 >= b_min
+PASS  T18/W-T18-artifact-not-capability :: unbounded COUNT with bounded total gain 1.000000: the 'open-ended' claim on this trace is an epsilon-protocol artifact
+========================================================================
+RESULT: ALL CHECKS PASSED
+EXIT=0

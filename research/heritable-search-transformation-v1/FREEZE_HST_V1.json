@@ -1,25 +1,70 @@
 {
- "created_by": "centre, HST-D0/D1 (tool-stamped at write time)",
- "created_utc": "2026-09-09T21:50:41Z",
- "definitions_file": "HST_DEFINITIONS_V1.md",
- "forbidden_terminals": [
-  "UNIVERSAL_THEORY_OF_INTELLIGENCE_PROVEN",
-  "OPEN_ENDED_INTELLIGENCE_PROVEN",
-  "RECURSIVE_SELF_IMPROVEMENT_PROVEN_IN_REALITY",
-  "UNIVERSAL_BEST_SEARCH_ALGORITHM",
-  "ALL_USEFUL_SELF_CHANGES_PROVABLE",
-  "AGI"
- ],
- "freeze_id": "FREEZE_HST_V1",
- "frozen_at_commit": "421333c40aabca7113977751ee4af69f88c8564c",
- "proof_classes": {
-  "P1": "FORMAL THEOREM: deductive from explicit axioms/definitions",
-  "P2": "FINITE EXACT: theorem/certificate over a completely enumerated bounded universe",
-  "P3": "PROBABILISTIC/GENERALIZATION BOUND under explicit task distribution",
-  "P4": "EMPIRICAL CAUSAL HYPOTHESIS: prospectively falsifiable, not universally derivable",
-  "P5": "IMPOSSIBILITY/LIMIT: why a stronger universal claim cannot hold"
- },
- "registry_file": "HST_THEOREM_REGISTRY_V1.json",
- "scope": "definitions + theorem registry rows are frozen BEFORE any proof/counterexample/bound artifact is produced; lanes may not edit frozen statements, only fill status/proof_artifact fields via amendments",
- "status": "frozen_before_theorem_artifacts"
+  "created_by": "centre, HST-D0/D1 (tool-stamped at write time)",
+  "created_utc": "2026-09-09T21:50:41Z",
+  "definitions_file": "HST_DEFINITIONS_V1.md",
+  "forbidden_terminals": [
+    "UNIVERSAL_THEORY_OF_INTELLIGENCE_PROVEN",
+    "OPEN_ENDED_INTELLIGENCE_PROVEN",
+    "RECURSIVE_SELF_IMPROVEMENT_PROVEN_IN_REALITY",
+    "UNIVERSAL_BEST_SEARCH_ALGORITHM",
+    "ALL_USEFUL_SELF_CHANGES_PROVABLE",
+    "AGI"
+  ],
+  "freeze_id": "FREEZE_HST_V1",
+  "frozen_at_commit": "421333c40aabca7113977751ee4af69f88c8564c",
+  "proof_classes": {
+    "P1": "FORMAL THEOREM: deductive from explicit axioms/definitions",
+    "P2": "FINITE EXACT: theorem/certificate over a completely enumerated bounded universe",
+    "P3": "PROBABILISTIC/GENERALIZATION BOUND under explicit task distribution",
+    "P4": "EMPIRICAL CAUSAL HYPOTHESIS: prospectively falsifiable, not universally derivable",
+    "P5": "IMPOSSIBILITY/LIMIT: why a stronger universal claim cannot hold"
+  },
+  "registry_file": "HST_THEOREM_REGISTRY_V1.json",
+  "scope": "definitions + theorem registry rows are frozen BEFORE any proof/counterexample/bound artifact is produced; lanes may not edit frozen statements, only fill status/proof_artifact fields via amendments",
+  "status": "AMENDED_1_PROOFS_LANDED",
+  "amendment_chain": [
+    {
+      "amendment_id": "FREEZE_HST_V1_AMEND_1",
+      "utc": "2026-09-10T00:00:00Z",
+      "prior_freeze_sha256": "cd454886d74217db34d094f1968500f70ed44f0ec85f03f37a386c47e2d1f1ed",
+      "changes": "HST_THEOREM_REGISTRY_V1.json statuses filled ONLY from lane patches A/C/D; statements/assumptions/quantifiers/parent_theorem/ocm_residual fields untouched (programmatic semantic compare vs origin/main: zero diffs outside status+evidence). Evidence blocks added with patch origin, proof artifact, exact checker, claim ceiling.",
+      "patches_sha256": {
+        "REGISTRY_PATCH_A.json": "6e85cb5b063eaddb",
+        "REGISTRY_PATCH_C.json": "9860169001aed925",
+        "REGISTRY_PATCH_D.json": "013e6e7cba060741"
+      },
+      "merged_prs": {
+        "A": "#235",
+        "C": "#236",
+        "D": "#237"
+      },
+      "statuses_now": {
+        "PROVED": [
+          "T01",
+          "T03",
+          "T05",
+          "T06",
+          "T07",
+          "T12",
+          "T13",
+          "T14",
+          "T15",
+          "T16",
+          "T17",
+          "T18"
+        ],
+        "BOUND_DERIVED": [
+          "T09"
+        ],
+        "OPEN": [
+          "T02",
+          "T04",
+          "T08",
+          "T10",
+          "T11"
+        ]
+      },
+      "open_owned_by": "lane B (T02/T10/T11 microscopes + T04/T08 PARENT_SUFFICIENT closures)"
+    }
+  ]
 }
