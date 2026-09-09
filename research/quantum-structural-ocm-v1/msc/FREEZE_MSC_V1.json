@@ -2,6 +2,14 @@
  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
  "branch": "research/q216-msc",
  "declared_before_first_scored_run": true,
+ "defect_run_superseded": {
+  "defect_run_results_preserved_as": "msc/MSC_V1_RESULTS_DEFECTRUN_F6FA0B6.json",
+  "finding": "causal gate zero_margin_exactness failed: every quotient-consuming arm false-refuted exactly one true positive (task idx 30, s=v125, t=v258; 31/32), all non-quotient arms 32/32",
+  "first_scored_attempt_commit": "f6fa0b652a99e4deb9e23bb5413e4c354e0ec74d",
+  "fix_commits_regression_tests": "test_dead_head_block_still_admits_live_heads, test_split_regroups_classes_never_merges, test_q2_exact_at_scored_scale",
+  "latent_defect_fixed_same_audit": "_remap_qedges after split_singletons merged a touched class into one qedge with summed multisets (stricter firing than any concrete edge); not triggered on this stream (seed/target blocks were singletons), fixed and regression-tested",
+  "root_cause_attributed": "counting_closure skipped a whole qedge when any HEAD block was dead, while production gated_closure fires the edge and admits the live heads individually (diagnostic flip test: corrected head gating alone flips the task)"
+ },
  "engineering_chain_policy": "Base pass results are frozen by this file and are never edited after the first scored run. Negative OCM-mechanism results are engineered iteratively (attribute one stage -> apply a real mechanism lever, costs still charged -> re-run the SAME frozen tasks -> record the pass under results.engineering_chain with the lever code's sha256) until a positive, or a structural obstruction proof plus the adjacent scoped positive. PARENT_SUFFICIENT is a success terminal. Outcomes, population, tasks, salts and margins are never tuned.",
  "frozen_base_arms": [
   "Q0_FULL_SCAN",
@@ -23,9 +31,9 @@
   "MINIMUM_SUFFICIENT_COGNITION_PROTOCOL_V1.md": "a0acd9c29aa18cebf9dda74847da89b7fa323f0ddac43fa4711fafb318c33653",
   "msc/arms.py": "4b2b81b7d6549be6be15d191fb1e64dc8c7b2dcf19467dff3e8d4dfa9ee71b48",
   "msc/probing.py": "137f8f14d70f97c3f1f30a5998bc73b3ce081733b3a839b91e20288227215ee1",
-  "msc/quotient.py": "ee77beb2acdc10d2f3c9b39324de1eb9d2a4709b749a87871d632c4797a6c405",
+  "msc/quotient.py": "6fd7d09fce77a2f679cb2a160987ca2b394ba3b07c4fbd730c89c88fb81e2bbc",
   "msc/run_msc.py": "d10aaf32ed62e982054a9bda56311982ef4898d40938d2dedf94905ce934c0a1",
-  "msc/test_msc.py": "492f027fda2fe8a136070157a1a95b63acf83097daae625eaf88e531d0abf557",
+  "msc/test_msc.py": "2acb7fa9384bbd248302986e9d5f678fcdad1513d74d9107edcdb0496d3df51f",
   "msc/world.py": "c018960d38197eacab3e97b5588d996b3ca389c3e18749a5b5cb22a647bf7fc7"
  },
  "ground_truth": "production ocm.kso.navigation.gated_closure at stream state, external judge, never charged to arms",

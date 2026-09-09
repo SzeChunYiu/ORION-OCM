@@ -15,7 +15,11 @@ multiset {B: m} is enabled when m distinct members of B are counted reached. Sou
 (used for exact negative refutation): the concrete gated closure maps into the counting
 closure (count(B) >= |reached members of B| by induction, since concrete tails are distinct
 atoms within an edge, block members share one warrant signature hence one liveness, and counts
-are capped at block size), so count([t]) == 0 implies t is NOT reachable. Quotient admission
+are capped at block size), so count([t]) == 0 implies t is NOT reachable. Two gating rules
+mirror production gated_closure exactly: a dead TAIL block blocks firing (a dead tail atom
+can never be reached), but a dead HEAD block does not (production admits heads individually,
+so only live head blocks are credited); and a touched quotient-edge class is regrouped by the
+new partition signature, never merged. Quotient admission
 is an over-approximation: positives are confirmed on the induced subfield of one quotient
 derivation path (a reopen), with a charged full-closure fallback.
 
@@ -175,7 +179,12 @@ class Quotient(object):
         """Recompute quotient edges touching changed blocks from their concrete back-references.
 
         Required for exactness: a qedge multiset must always reflect the partition that
-        produced it, else firing conditions stop corresponding to any concrete edge.
+        produced it, else firing conditions stop corresponding to any concrete edge. A
+        touched class is REGROUPED by the new signature (one qedge per distinct new
+        signature). Merging the class's instances into one qedge with summed multisets
+        would demand several distinct reached blocks at once -- a firing condition
+        stricter than any concrete edge in the class, i.e. an undercount that false-
+        refutes true positives (regression: test_split_regroups_classes_never_merges).
         """
         out: List[QEdge] = []
         emap = ks.edge_view
@@ -184,19 +193,27 @@ class Quotient(object):
             if not (blocks_in & changed_blocks):
                 out.append(q)
                 continue
-            tails: Dict[int, int] = {}
-            heads: Dict[int, int] = {}
-            concrete = []
+            by_key: Dict[tuple, List[str]] = {}
             for eid in q.concrete:
                 e = emap[eid]
-                concrete.append(eid)
+                tails: Dict[int, int] = {}
                 for t in e.tails:
                     tails[part[t]] = tails.get(part[t], 0) + 1
+                heads: Dict[int, int] = {}
                 for h in e.heads:
                     heads[part[h]] = heads.get(part[h], 0) + 1
-            out.append(QEdge(q.qid, q.relation, q.warrant_sig, q.warrant,
-                             tuple(sorted(tails.items())), tuple(sorted(heads.items())),
-                             tuple(concrete)))
+                key = (e.relation_type, warrant_sig(e.warrant),
+                       tuple(sorted(tails.items())), tuple(sorted(heads.items())))
+                by_key.setdefault(key, []).append(eid)
+            for i, key in enumerate(sorted(by_key, key=repr)):
+                eids = by_key[key]
+                if i == 0:
+                    qid = q.qid
+                else:
+                    qid = self._next_qedge
+                    self._next_qedge += 1
+                out.append(QEdge(qid, key[0], key[1], emap[eids[0]].warrant,
+                                 key[2], key[3], tuple(sorted(eids))))
         return out
 
     # -- per-query singleton protection (ephemeral overlay, charged) --------
@@ -227,7 +244,8 @@ class Quotient(object):
             w["member_lookups"] += len(blocks[old]) + 1
         if changed:
             qedges = self._remap_qedges(self.ks, part, changed)
-            w["qedges_remapped"] = sum(1 for a, b in zip(self.qedges, qedges) if a is not b)
+            old_ids = {id(qq) for qq in self.qedges}
+            w["qedges_remapped"] = sum(1 for qq in qedges if id(qq) not in old_ids)
         else:
             qedges = list(self.qedges)
         blocks_t = {b: tuple(sorted(m)) for b, m in blocks.items() if m}
@@ -399,10 +417,14 @@ class QuotientView(object):
                          early_stop: bool = False) -> dict:
         """Counting-block closure. Returns counts, firing trace and per-call metrics.
 
-        Mirrors production gated_closure gating: seeds must be live; edges need a live edge
-        warrant and live incident atoms (block liveness is well-defined because block members
-        share one warrant signature). Soundness: count(B) >= |concrete reached members of B|
-        by induction, hence count([t]) == 0 implies t not reachable (exact negative).
+        Mirrors production gated_closure gating: seeds must be live; an edge fires when its
+        warrant is live and every tail block is live (a dead tail atom can never be reached);
+        heads are admitted INDIVIDUALLY, so a dead head block never blocks the firing -- the
+        concrete edge still admits its live heads (regression:
+        test_dead_head_block_still_admits_live_heads). Block liveness is well-defined
+        because block members share one warrant signature. Soundness: count(B) >= |concrete
+        reached members of B| by induction, hence count([t]) == 0 implies t not reachable
+        (exact negative).
         """
         m = {"quotient_expansions": 0, "quotient_firings": 0,
              "block_warrant_checks": 0, "qedge_warrant_checks": 0, "early_stopped": False}
@@ -428,14 +450,17 @@ class QuotientView(object):
                 m["qedge_warrant_checks"] += 1
                 if not q.warrant.is_live(revoked):
                     continue
-                if any((not live_block.get(b, False)) for b, _ in q.tails) or \
-                   any((not live_block.get(b, False)) for b, _ in q.heads):
+                if any((not live_block.get(b, False)) for b, _ in q.tails):
                     continue
+                if not any(live_block.get(b, False) for b, _ in q.heads):
+                    continue  # no admissible head: firing would admit nothing
                 if any(counts.get(b, 0) < k for b, k in q.tails):
                     continue
                 fired_log.append(q.qid)
                 m["quotient_firings"] += 1
                 for b, k in q.heads:
+                    if not live_block.get(b, False):
+                        continue
                     size = len(self.blocks[b])
                     newc = min(size, counts[b] + k)
                     if newc > counts[b]:

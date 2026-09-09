@@ -27,6 +27,8 @@ for p in (str(HERE), str(REPO / "src")):
         sys.path.insert(0, p)
 
 from ocm.kso.navigation import gated_closure  # noqa: E402
+from ocm.kso.space import Atom, Hyperedge, KnowledgeSpace  # noqa: E402
+from ocm.kso.warrant import WarrantProfile  # noqa: E402
 
 import world  # noqa: E402
 from arms import (Q0FullScan, Q1Indexed, Q2Quotient, Q3Subspace, Q4Probe,  # noqa: E402
@@ -266,6 +268,92 @@ class TestHostileFQ5(unittest.TestCase):
             self.assertEqual(ra["decision"], truth_a)
             self.assertEqual(rb["decision"], truth_b)
             self.assertIn(ra["status"], ("NATIVE_IDENTITY", "NATIVE_IDENTITY_VIA_PROBES"))
+
+
+class TestRegressionCountingSoundness(unittest.TestCase):
+    """Regressions for the counting-soundness defects found after the first scored run
+    (commit f6fa0b6: every quotient-consuming arm false-refuted one true positive,
+    task idx 30 s=v125 t=v258 at 480/1280; caught by the causal-gate zero-margin
+    exactness item). Root cause: the counting closure skipped a whole qedge when any
+    HEAD block was dead, while production gated_closure fires the edge and admits the
+    live heads individually. The remap-after-split merge defect below is the second,
+    latent unsoundness found by inspection in the same audit."""
+
+    def test_dead_head_block_still_admits_live_heads(self):
+        # one edge x -> (h1, h2); h2's block is dead under R, h1's is live.
+        atoms = (Atom("x", "query_seed"),
+                 Atom("h1", "claim"),
+                 Atom("h2", "claim",
+                      WarrantProfile.certified([frozenset(["ev_dead"])])))
+        edges = (Hyperedge("e", ("x",), ("h1", "h2"), "SUPPORT"),)
+        ks = KnowledgeSpace(atoms, edges)
+        rv = frozenset(["ev_dead"])
+        self.assertIn("h1", gated_closure(ks, ["x"], rv))
+        self.assertNotIn("h2", gated_closure(ks, ["x"], rv))
+        q = Quotient(ks)
+        view = q.split_singletons(["x", "h1"])
+        res = view.counting_closure("x", rv, "h1", early_stop=True)
+        self.assertFalse(res["refuted"],
+                         "dead head block killed the whole qedge firing")
+
+    def test_split_regroups_classes_never_merges(self):
+        # x,y bisimilar; e1: x->c1, e2: y->c2 share one quotient-edge class. Splitting
+        # x and c1 out must REGROUP the class (two qedges), not merge it into one
+        # qedge demanding both {x} and {y} counted before firing.
+        atoms = (Atom("x", "claim"), Atom("y", "claim"),
+                 Atom("c1", "fact"), Atom("c2", "fact"))
+        edges = (Hyperedge("e1", ("x",), ("c1",), "SUPPORT"),
+                 Hyperedge("e2", ("y",), ("c2",), "SUPPORT"))
+        ks = KnowledgeSpace(atoms, edges)
+        q0, q1 = Quotient(ks), Quotient(ks)
+        self.assertEqual(q0.partition["x"], q0.partition["y"])
+        self.assertEqual(q0.partition["c1"], q0.partition["c2"])
+        self.assertEqual(len(q0.qedges), 1)  # e1, e2 in one class pre-split
+        view = q0.split_singletons(["x", "c1"])
+        self.assertEqual(len(view.qedges), 2)  # regrouped, not merged
+        res = view.counting_closure("x", frozenset(), "c1", early_stop=True)
+        self.assertIn("c1", gated_closure(ks, ["x"], frozenset()))
+        self.assertFalse(res["refuted"],
+                         "merged split class refuted a true positive")
+        # the true negative on the same view stays exactly refuted:
+        res_neg = view.counting_closure("y", frozenset(), "c1", early_stop=True)
+        self.assertNotIn("c1", gated_closure(ks, ["y"], frozenset()))
+        self.assertTrue(res_neg["refuted"])
+        # E1 maintenance path uses the same regrouping: every maintained qedge's
+        # multiset matches the multisets of its own concrete edges.
+        e3 = Hyperedge("e3", ("c1",), ("x",), "SUPPORT")
+        ks2 = ks.with_edges(e3)
+        q1.incremental_maintain(ks2, [e3])
+        for q in q1.qedges:
+            for eid in q.concrete:
+                e = ks2.edge_view[eid]
+                tl, hd = {}, {}
+                for t in e.tails:
+                    tl[q1.partition[t]] = tl.get(q1.partition[t], 0) + 1
+                for h in e.heads:
+                    hd[q1.partition[h]] = hd.get(q1.partition[h], 0) + 1
+                self.assertEqual(tuple(sorted(tl.items())), q.tails)
+                self.assertEqual(tuple(sorted(hd.items())), q.heads)
+
+    def test_q2_exact_at_scored_scale(self):
+        """The scored configuration itself: Q2 base and E1 replay the frozen stream exactly."""
+        field, meta = world.build_field(n_atoms=480, n_edges=1280, n_evidence=24)
+        stream = world.build_stream(field, n_tasks=32, n_updates=10)
+        for arm in (Q2Quotient(), Q2Quotient(incremental=True)):
+            arm.on_field(field)
+            n = 0
+            for kind, item, ks, rv in world.stream_apply(field, stream):
+                if kind == "task":
+                    truth = world.ground_truth(ks, item["s"], item["t"], rv)
+                    rec = arm.decide(item["s"], item["t"], rv, truth)
+                    self.assertTrue(rec["correct"],
+                                    "%s diverged on task %s" % (arm.name, item["idx"]))
+                    n += 1
+                elif item["kind"] == "admission":
+                    arm.on_admission(ks, item["_edges"])
+                else:
+                    arm.on_revocation(item["evidence"])
+            self.assertEqual(n, 32)
 
 
 class TestFreezeAndDeterminism(unittest.TestCase):
