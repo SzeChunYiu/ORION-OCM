@@ -81,13 +81,15 @@ not push this remaining-gates branch.
 | G6 parents v3 | `research/g6-intervention-parents-v3/` | `PARENT_SUFFICIENT` (surrogate/ES/G&T; BO still `CANNOT_CHECK`) |
 | §15 after-exec | `research/publication-after-exec-v1/` | `PUBLICATION_AFTER_EXEC_RECEIPTS_PRESENT_WITH_GAPS` (E4/fresh-host still `CANNOT_CHECK`) |
 | L1 graphs | `research/l1-meaning-graph-bound-v1/` | `GRAPH_BOUND_EXCEEDED_AT_SCOPE` (historical 7 exceeded; production cutoff unchanged) |
+| G1 hostile Π | `research/g1-hostile-pi-v1/` | `PARENT_SUFFICIENT` (hostile absent from mechanism; programme still PARTIAL) |
 
 ## Still locked / honest OPEN
 
 L2/L3 entire. MATH-2/3 entire. #73 prototype + P7. G4.4 **ML** (do not train;
 toy/microscope preconditions are not a programme unlock). E4 / fresh-host /
 independent authorship. Programme-wide close. Architecture “Π remains small”
-programme-wide still PARTIAL (hostile Π / authored work operators remain).
+programme-wide still PARTIAL (authored work backends remain prior information;
+this hostile-Π microscope is `PARENT_SUFFICIENT`).
 Corpus-scale N1. UD at corpus. Production meaning-graph node cutoff remains 7
 (research AHU measured at 16; `src/` not patched).
 G5.3 production adoption. `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
