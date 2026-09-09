@@ -128,8 +128,23 @@ def _make_ckpt_root(tmp):
     os.makedirs(os.path.join(tmp, "manifests"), exist_ok=True)
     os.makedirs(os.path.join(tmp, "results"), exist_ok=True)
     shutil.copy(os.path.join(ROOT, "GRAND_SEARCH_R1_FREEZE.json"), tmp)
-    shutil.copy(os.path.join(ROOT, "manifests", "GS_R1_TASKS.json"),
-                os.path.join(tmp, "manifests"))
+    msrc = os.path.join(ROOT, "manifests", "GS_R1_TASKS.json")
+    if os.path.exists(msrc):
+        shutil.copy(msrc, os.path.join(tmp, "manifests"))
+    else:
+        # partial campaign states (freeze pulled back, manifest not yet)
+        # must not break the checkpoint test: fabricate a minimal bound one
+        import hashlib
+        fsha = hashlib.sha256(
+            open(os.path.join(tmp, "GRAND_SEARCH_R1_FREEZE.json"),
+                 "rb").read()).hexdigest()
+        json.dump({"manifest_id": "GS_R1_TASKS_V1",
+                   "freeze_sha256": fsha, "stop_ts": 9999999999.0,
+                   "n_tasks": 1,
+                   "tasks": [{"kind": "search", "arm": "GSA1_units",
+                              "seed": 0}]},
+                 open(os.path.join(tmp, "manifests", "GS_R1_TASKS.json"),
+                      "w"))
     fake = {"counts": {"T0": 100, "T1": 30, "T2": 9},
             "viable_counts": {"T0": 9}, "cpu_hours": 0.02,
             "deadline_hit": False, "n_archive": 7,

@@ -18,6 +18,8 @@ from __future__ import annotations
 
 import random
 import time
+
+import numpy
 from typing import Any, Dict, List, Optional, Tuple
 
 from evaluation.descriptors import DESCRIPTOR_REGISTRY, descriptors_for
@@ -157,13 +159,29 @@ class RibsNoveltyArchive:
                 self._by_vec[vec] = key
                 self.records[key] = dict(rec, novelty=0.0)
             return False
-        status, _nov = self.arch.add(
-            solution=vec, objective=0.0, measures=vec)
-        if not bool(status.success):
+        # pyribs 0.12 add() is BATCH-ONLY (1-D arrays are rejected by
+        # validate_batch) and returns a DICT {"status": int array,
+        # "novelty": float array}, not the (AddStatus, value) tuple of
+        # older releases — both shapes probed against the real 0.12.0 on
+        # the scoring host; the laptop probe pins builtin so this path
+        # never runs there.
+        res = self.arch.add(
+            solution=numpy.asarray(vec, dtype=float).reshape(1, -1),
+            objective=numpy.zeros(1),
+            measures=numpy.asarray(vec, dtype=float).reshape(1, -1))
+        if isinstance(res, dict):
+            code = int(numpy.asarray(res["status"]).reshape(-1)[0])
+            nov = float(numpy.asarray(res["novelty"]).reshape(-1)[0])
+        else:  # ribs < 0.12: (AddStatus, value)
+            st, val = res
+            st = numpy.asarray(st).reshape(-1)[0] if hasattr(st, "__len__") else st
+            code = int(getattr(st, "value", st))
+            nov = float(numpy.asarray(val).reshape(-1)[0])
+        if code == 0:  # AddStatus.NOT_ADDED (novelty below threshold)
             return False
         self.vecs.append(vec)
         self._by_vec[vec] = key
-        self.records[key] = dict(rec, novelty=round(float(_nov or 0.0), 6))
+        self.records[key] = dict(rec, novelty=round(nov, 6))
         return True
 
     def pool(self) -> List[Tuple[float, ...]]:

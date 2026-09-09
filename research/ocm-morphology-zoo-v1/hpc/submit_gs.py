@@ -84,6 +84,21 @@ def laptop(cmd: str, check: bool = True):
     return p.stdout.strip()
 
 
+_REMOTE_ABS = None
+
+
+def remote_root() -> str:
+    """Absolute REMOTE_ROOT for rsync paths.  REMOTE_ROOT's $HOME expands
+    REMOTELY inside sh() (relay single-quotes it) but a LOCAL shell would
+    expand it to the Mac's home before rsync runs — so every rsync
+    destination must use this absolute form."""
+    global _REMOTE_ABS
+    if _REMOTE_ABS is None:
+        _REMOTE_ABS = sh('printf %s "$HOME"',
+                         via_relay_lunarc=True) + "/zoo221/gs"
+    return _REMOTE_ABS
+
+
 def gate(msg: str) -> None:
     print("\n=== %s" % msg)
 
@@ -142,14 +157,15 @@ def run_batch() -> None:
     bid = spec["batch_id"]
     gate("batch %s (%d tasks) -> %s" % (bid, len(spec["tasks"]), HOST))
     # ship the full decision record + per-task specs
-    rdir = "%s/manifests/GS_R1_BATCH_%s" % (REMOTE_ROOT, bid)
-    sh("mkdir -p %s" % rdir, via_relay_lunarc=True)
+    sh("mkdir -p %s/manifests/GS_R1_BATCH_%s" % (REMOTE_ROOT, bid),
+       via_relay_lunarc=True)
+    rdir = "%s/manifests/GS_R1_BATCH_%s" % (remote_root(), bid)
     tmp = "/tmp/gs_batch_%d.json" % int(time.time())
     with open(tmp, "w") as fh:
         json.dump(spec, fh, indent=1, sort_keys=True)
     rsync_e = "" if RELAY is None else '-e "ssh %s ssh" ' % RELAY
     r = subprocess.run('rsync -a %s"%s" %s:%s/manifests/GS_R1_BATCH_%s.json'
-                       % (rsync_e, tmp, HOST, REMOTE_ROOT, bid),
+                       % (rsync_e, tmp, HOST, remote_root(), bid),
                        shell=True, capture_output=True, text=True)
     assert r.returncode == 0, "rsync batch record failed: %s" % r.stderr
     now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -282,7 +298,7 @@ def main() -> None:
         "--exclude=manifests/GS_R1_BATCH_*"])
     r = subprocess.run(
         'rsync -a %s%s %s "%s/" %s:%s/'
-        % (rsync_e, filters, "", ROOT.rstrip("/"), HOST, REMOTE_ROOT),
+        % (rsync_e, filters, "", ROOT.rstrip("/"), HOST, remote_root()),
         shell=True, capture_output=True, text=True)
     assert r.returncode == 0, "rsync mac->lunarc failed: %s" % r.stderr[-500:]
 
@@ -311,6 +327,11 @@ def main() -> None:
                  "'rb').read()).hexdigest());print(f['created_utc'])\""
                  % REMOTE_ROOT, via_relay_lunarc=True)
         print(out)
+        # code must still match the frozen digest (pre-score drift = refuse)
+        bind = sh("cd %s && python3 hpc/check_freeze_binding.py %s"
+                  % (REMOTE_ROOT, REMOTE_ROOT), via_relay_lunarc=True)
+        print(bind)
+        assert "FREEZE BINDING OK" in bind, "existing freeze fails binding"
     m = re.search(r"freeze_sha256=([0-9a-f]{64})", out)
     if not m:
         m2 = re.search(r"^([0-9a-f]{64})$", out.strip(), re.M)
@@ -324,34 +345,40 @@ def main() -> None:
     have = sh("test -f %s/manifests/GS_R1_TASKS.json && echo yes || echo no"
               % REMOTE_ROOT, via_relay_lunarc=True)
     if have.strip() == "no":
-        sh("cd %s && python3 - <<'PY'\n"
-           "import hashlib, json, os, time\n"
-           "ROOT=%r\n"
-           "tasks=[]\n"
-           "for arm in %r:\n"
-           "    for s in %r:\n"
-           "        tasks.append({'kind':'search','arm':arm,'seed':s})\n"
-           "for c in range(%d):\n"
-           "    tasks.append({'kind':'sweep','shard':c,'n_shards':%d})\n"
-           "h=hashlib.sha256()\n"
-           "for d in ('morphology','evaluation','search','hpc'):\n"
-           "    for fn in sorted(os.listdir(os.path.join(ROOT,d))):\n"
-           "        if fn.endswith('.py'):\n"
-           "            h.update(open(os.path.join(ROOT,d,fn),'rb').read())\n"
-           "start=time.time()\n"
-           "m={'manifest_id':'GS_R1_TASKS_V1',\n"
-           "   'created_utc':time.strftime('%%Y-%%m-%%dT%%H:%%M:%%SZ',time.gmtime()),\n"
-           "   'created_utc_by':'hpc/submit_gs.py manifest gate',\n"
-           "   'freeze_sha256':hashlib.sha256(open(ROOT+'/GRAND_SEARCH_R1_FREEZE.json','rb').read()).hexdigest(),\n"
-           "   'code_digest':h.hexdigest(),\n"
-           "   'campaign_start_utc':time.strftime('%%Y-%%m-%%dT%%H:%%M:%%SZ',time.gmtime()),\n"
-           "   'stop_ts':start+24*3600,\n"
-           "   'wall_clock_budget_h':24,\n"
-           "   'n_tasks':len(tasks),'tasks':tasks}\n"
-           "json.dump(m,open(ROOT+'/manifests/GS_R1_TASKS.json','w'),indent=1,sort_keys=True)\n"
-           "print('manifest tasks',len(tasks))\n"
-           "PY" % (REMOTE_ROOT, SEARCH_ARMS, SEEDS, N_SWEEP_SHARDS,
-                   N_SWEEP_SHARDS), via_relay_lunarc=True)
+        # built LOCALLY, shipped by rsync — no remote string formatting
+        # (relay quoting never sees a % conversion)
+        import hashlib as _hl
+        tasks = ([{"kind": "search", "arm": arm, "seed": s}
+                  for arm in SEARCH_ARMS for s in SEEDS]
+                 + [{"kind": "sweep", "shard": c, "n_shards": N_SWEEP_SHARDS}
+                    for c in range(N_SWEEP_SHARDS)])
+        h = _hl.sha256()
+        for d in ("morphology", "evaluation", "search", "hpc"):
+            for fn in sorted(os.listdir(os.path.join(ROOT, d))):
+                if fn.endswith(".py"):
+                    h.update(open(os.path.join(ROOT, d, fn), "rb").read())
+        m = {
+            "manifest_id": "GS_R1_TASKS_V1",
+            "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "created_utc_by": "hpc/submit_gs.py manifest gate",
+            "freeze_sha256": fsha,
+            "code_digest": h.hexdigest(),
+            "campaign_start_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ",
+                                                time.gmtime()),
+            "stop_ts": time.time() + 24 * 3600,
+            "wall_clock_budget_h": 24,
+            "n_tasks": len(tasks), "tasks": tasks,
+        }
+        mtmp = "/tmp/gs_manifest_%d.json" % int(time.time())
+        with open(mtmp, "w") as fh:
+            json.dump(m, fh, indent=1, sort_keys=True)
+        r = subprocess.run(
+            'rsync -a %s"%s" %s:%s/manifests/GS_R1_TASKS.json'
+            % (rsync_e, mtmp, HOST, remote_root()),
+            shell=True, capture_output=True, text=True)
+        os.unlink(mtmp)
+        assert r.returncode == 0, "rsync manifest failed: %s" % r.stderr[-400:]
+        print("manifest tasks=%d (built locally, rsynced)" % len(tasks))
     n_tasks = int(sh("python3 -c \"import json;print(json.load(open('%s/"
                      "manifests/GS_R1_TASKS.json'))['n_tasks'])\"" % REMOTE_ROOT,
                      via_relay_lunarc=True))
@@ -367,16 +394,21 @@ def main() -> None:
     for rel in ("GRAND_SEARCH_R1_FREEZE.json", "GS_ENV_PROBE.json",
                 "manifests/GS_R1_TASKS.json"):
         rmd5 = remote_md5("%s/%s" % (REMOTE_ROOT, rel))
+        # hop 1: LUNARC -> Mac (relay transport); hop 2: Mac -> laptop
+        # (direct ssh — a single rsync cannot mix the two transports)
         subprocess.run('rsync -a %s"%s:%s/%s" "%s/%s"'
-                       % (rsync_e, HOST, REMOTE_ROOT, rel,
+                       % (rsync_e, HOST, remote_root(), rel,
                           ROOT.rstrip("/"), rel),
-                       shell=True, capture_output=True, text=True, check=False)
-        subprocess.run('rsync -a %s"%s:%s/%s" "%s:%s/%s"'
-                       % (rsync_e, HOST, REMOTE_ROOT, rel, LAPTOP,
-                          LAPTOP_DIR, rel),
                        shell=True, capture_output=True, text=True, check=False)
         assert local_md5(os.path.join(ROOT, rel)) == rmd5, \
             "md5 mismatch on %s (Mac copy)" % rel
+        laptop("mkdir -p %s" % os.path.dirname(os.path.join(LAPTOP_DIR, rel)))
+        r2 = subprocess.run(["rsync", "-a",
+                             os.path.join(ROOT, rel),
+                             "%s:%s/%s" % (LAPTOP, LAPTOP_DIR, rel)],
+                            capture_output=True, text=True)
+        assert r2.returncode == 0, "rsync %s -> laptop failed: %s" % (
+            rel, r2.stderr[-300:])
         lm = laptop("md5sum %s/%s | awk '{print $1}'"
                     % (LAPTOP_DIR, rel)).split()[0]
         assert lm == rmd5, "md5 mismatch on %s (laptop copy)" % rel
@@ -400,7 +432,7 @@ def main() -> None:
     deadline = time.time() + 900
     smoke_state = ""
     while time.time() < deadline:
-        st = sh("sacct -j %s -n -o State --name= | head -1" % smoke_jid,
+        st = sh("sacct -j %s -n -o State | head -1" % smoke_jid,
                 via_relay_lunarc=True)
         smoke_state = st.strip().split()[0] if st.strip() else ""
         if smoke_state in ("COMPLETED", "FAILED", "CANCELLED", "TIMEOUT",
