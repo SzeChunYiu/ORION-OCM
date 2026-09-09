@@ -37,8 +37,10 @@
         "patch": "A",
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T01 (subset-infimum inequality + Corollary T01-M conditional form with M>0; assumption ledger separates load-bearing M=0/superset/frozen-scalarization from cosmetic fixed-tau)",
         "exact_checker": "exact/check_core_v1.py::section_t01 — enumerates all (A_t subseteq A_{t+1}) pairs x cost tables over a 3-action/5-cost universe: monotone-M0 finite spec holds in all worlds; charging M=2 reversal worlds exist (hostile class non-vacuous); W-T01 replayed with re-derived charging",
-        "claim_ceiling": "P1 per-tau order dominance, no rate, no uniformity over tau, no claim the controller selects the old strategy. Mathematical core PARENT_SUFFICIENT (trivial order argument, no NFL conflict at fixed tau); HST residual = the M-conditional boundary and the 'available at unchanged cost' definitional discipline (definitions section 6)."
-      }
+        "claim_ceiling": "P1 per-tau order dominance, no rate, no uniformity over tau, no claim the controller selects the old strategy. Mathematical core PARENT_SUFFICIENT (trivial order argument, no NFL conflict at fixed tau); HST residual = the M-conditional boundary and the 'available at unchanged cost' definitional discipline (definitions section 6).",
+        "secondary_field_note": "top-level field `secondary` (value \"P2(hostile)\") is a freeze-inherited leftover: byte-identical at the frozen commit 553cadd, absent from row_schema, retained unmodified to preserve frozen bytes; it records that the hostile-side witness is P2 scope (see hostiles/W_T01_mandatory_overhead.json)."
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T01_mandatory_overhead.json — M=0 removed (M=2): A_t subset A_{t+1} intact yet m_{t+1}=5 > 3=m_t"
     },
     {
       "assumptions": [
@@ -92,7 +94,8 @@
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T03 (two-point phi-measurability impossibility, uniform over all policies incl. randomized variant; search-cannot-repair corollary; escape = new channel / richer state / renegotiated contract)",
         "exact_checker": "exact/check_core_v1.py::section_t03 — full enumeration at |S|=|Z|=|A|=2: aliasing+disjoint => 0 policies succeed in ALL worlds; injective phi + nonempty G => some policy succeeds in ALL worlds (repair is representational); W-T03 replayed (2/2 policies fail)",
         "claim_ceiling": "P1 impossibility over a two-point subproblem, uniform over the whole phi-measurable policy class. PARENT_SUFFICIENT core (quotient/aliasing, Mealy minimization duality, Ashby context); HST residual = aliasing pair as a checkable certificate of necessary representation change (#152 bridge). Nothing about which real representations alias or about state distributions (P3/P4)."
-      }
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T03_aliasing.json — minimal aliased pair phi(s1)=phi(s2), G(s1)={L} vs G(s2)={R}: no phi-measurable policy succeeds; witness also exhibits the channel-split repair"
     },
     {
       "assumptions": [
@@ -143,7 +146,8 @@
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T05 (lifecycle subtraction identity iff H_eff*dC_use > C_build+C_maint+E[C_revision]; vector/Pareto corollary: component-wise vector inequality or frozen price vector, mixed signs are trade-offs not theorems)",
         "exact_checker": "exact/check_core_v1.py::section_t05 — exhaustive 6-quantity integer grid: direct lifecycle accounting == identity sign at every grid point; both W-T05 cases (never-pays-back; code-shortening-but-costlier-run) re-derived",
         "claim_ceiling": "Arithmetic identity conditional on frozen quantities — mathematical content trivial by design (stated plainly in the proof). PARENT_SUFFICIENT (amortization arithmetic; DreamCoder-class library cost models); HST residual = invalidation/revision coordinates + useful-reuse-only counting discipline. No claim that H_eff is prospectively estimable (that is the P4 science)."
-      }
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T05_macro_never_pays.json — case A: H_eff*dC_use=6 < 9 costs (lifecycle 33 vs 30); case B: description length 20->5 (T04 share gain 2^15) but per-use cost up 4->7 (lifecycle 31 vs 16): beneficial under pure MDL reading, harmful on execution coordinate"
     },
     {
       "assumptions": [
@@ -163,7 +167,8 @@
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T06 (forward: structural induction on the DAG order — ancestors of any node outside Desc(S) lie outside Desc(S); reverse: explicit construction showing undeclared-read + varied quantity => declared-graph locality inference unsound, hence iff) + explicit boundaries (cyclic/TMS declared boundary; values-not-costs separation)",
         "exact_checker": "exact/check_core_v1.py::section_t06 — enumerates ALL 3-node DAGs x ALL boolean function tables x ALL nonempty intervention sets x forced values: no node outside Desc(S) ever changed (cone non-vacuously tight); W-T06 replayed: declared Desc(S)={S}, R outside, yet actual R moves 5->6; declared edge X->R verified individually real",
         "claim_ceiling": "P1; values not costs; acyclic only. Forward direction PARENT_SUFFICIENT (causal DAG intervention locality, Pearl-class). HST residual = the iff-completeness formulation: 'graph complete for protected outputs' is a PRECONDITION (a property of the actual computation, not decidable from the declared graph; cf. T15), never an inference from DAG-hood."
-      }
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T06_missing_edge_false_locality.json — dependency completeness removed (one real edge S->R missing from a correct acyclic declared graph): false locality, R changes exactly where the graph licenses a skip. THE load-bearing hostile of this batch"
     },
     {
       "assumptions": [
@@ -184,7 +189,8 @@
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T07 (running-maximum monotonicity by cases; explicit negative list; Pareto/capacity corollary: unlimited-capacity fixed-reference hypervolume monotone, finite capacity monotone ONLY relative to the eviction policy's retention guarantee — 'elitist' must mean retains-a-maximizer)",
         "exact_checker": "exact/check_core_v1.py::section_t07 — all length-5 quality/admissibility sequences: unlimited immutable archive monotone in every sequence; capacity-1 keep-most-recent-admissible archive NON-monotone in an enumerated subset (policy voids ratchet); W-T07 replayed: q1 strictly ratchets 0->3, q2 constant at 1, zero tau2 information",
         "claim_ceiling": "P1 ratchet ONLY: not open-endedness (T12/T13), not complexity growth, not generalization, not self-improvement efficiency, no rate. Mathematical core PARENT_SUFFICIENT (running maximum, trivial); HST residual = finite-capacity exact conditions + admissibility-gate discipline."
-      }
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T07_ratchet_no_transfer.json — every ratchet hypothesis satisfied, archive reaches PERFECT benchmark quality, transfer benchmark stays exactly at default-chance forever: perfect ratchet, zero transfer"
     },
     {
       "assumptions": [
@@ -309,7 +315,7 @@
         "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
         "formal_objects_finite": "module MA := (m2,a2) (x->2x+2 mod 16); frozen ledger C_def=3, C_iface=1/2 per call, C_maint=1, C_rev=0 (operator-slot units); net saving per use = 2-1-1/2 = 1/2; reuse suites tau_s=(s,2s+2 mod 16), s=0..h-1, solution exactly the pattern",
         "exact_checker": "exact/run_all_v1.py -> exact/T11_MODULE_PROMOTION_V1.json",
-        "witness": "exact threshold H* = (C_def+C_maint+C_rev)/net = 8 uses; h=7: 21 vs 21.5 reject; h=8: 24 vs 24 boundary (strict criterion rejects); h=9: 27 vs 26.5 promote -- decision flips exactly at the derived threshold",
+        "witness": "exact threshold H* = (C_def+C_maint+C_rev)/net = 8 uses (2-op-slot ledger, net_saving 1/2); h=7: unpromoted 14 vs promoted 14.5 reject; h=8: unpromoted 16 vs promoted 16 boundary (strict criterion rejects); h=9: unpromoted 18 vs promoted 17.5 promote -- decision flips exactly at the derived threshold. Quoted verbatim from exact/T11_MODULE_PROMOTION_V1.json (the pre-AMEND_3 text quoted a 3-op-slot accounting that matches no regime row of the receipt; statuses, threshold, and flip structure were already correct).",
         "interface_preservation": "CHECKED not asserted: promoted program == expanded program as functions on all 16 states of Z_16, per program",
         "at_scope": "universe FW1 with the frozen cost ledger and pattern (m2,a2); arithmetic criterion only",
         "claim_ceiling": "P2 arithmetic at finite scope != general: proves the conditional economic criterion, not that major transitions emerge spontaneously (that remains P4)",
@@ -650,7 +656,8 @@
         "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T18 (telescoping bound N <= (B_0-b_min)/epsilon; five-route escape disjunction — shrinking epsilon / scope expansion / precision frontier / new dimensions / regime change — as definitional hypothesis-exit analysis)",
         "exact_checker": "exact/check_core_v1.py::section_t18 — exhaustive drop-sequence enumeration over (B_0, b_min, epsilon) grid: max improvement count == floor((B0-bmin)/eps) exactly; W-T18 replayed: phase 1 attains bound with equality then forced stop; phase 2 exact-fraction halving-epsilon: 40 valid improvements, total drop <= 1 (protocol artifact, not capability)",
         "claim_ceiling": "P1 improvement-count arithmetic under frozen scalar coordinate and fixed epsilon. Mathematical core PARENT_SUFFICIENT (archimedean/telescoping, trivial); HST residual = the five-route disjunction as claim discipline for #221 GS stopping language: a stopping rule may not be deferred indefinitely by re-labeling saturation as plateau."
-      }
+      },
+      "counterexample_when_assumption_removed": "hostiles/W_T18_fixed_epsilon_saturation.json — bound attained exactly (10 improvements from B_0=10, 11th would need B<=-1<b_min); route-1 restart from B=5 with halving epsilon: unbounded COUNT, total gain bounded by 1"
     }
   ],
   "schema_version": 1,

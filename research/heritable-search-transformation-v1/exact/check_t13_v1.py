@@ -26,6 +26,7 @@ from __future__ import print_function
 
 import itertools
 import json
+import os
 import sys
 
 N = 3
@@ -130,9 +131,12 @@ def main():
     }
     out = json.dumps(result, indent=1, sort_keys=True)
     print(out)
-    with open("exact/check_t13_v1.cert.json", "w") as fh:
+    # location-independent (D8 finding 5): always next to this script
+    cert_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "check_t13_v1.cert.json")
+    with open(cert_path, "w") as fh:
         fh.write(out + "\n")
-    sys.stderr.write("certificate written: exact/check_t13_v1.cert.json\n")
+    sys.stderr.write("certificate written: %s\n" % cert_path)
     return 0 if not failures else 1
 
 

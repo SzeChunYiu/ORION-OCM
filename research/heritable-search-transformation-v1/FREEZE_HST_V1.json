@@ -21,7 +21,7 @@
   },
   "registry_file": "HST_THEOREM_REGISTRY_V1.json",
   "scope": "definitions + theorem registry rows are frozen BEFORE any proof/counterexample/bound artifact is produced; lanes may not edit frozen statements, only fill status/proof_artifact fields via amendments",
-  "status": "AMENDED_2_REGISTRY_COMPLETE",
+  "status": "AMENDED_3_D8_REMEDIATION",
   "amendment_chain": [
     {
       "amendment_id": "FREEZE_HST_V1_AMEND_1",
@@ -85,6 +85,32 @@
         "BOUND_DERIVED": 1
       },
       "registry_sha256_after": "47f9bf4052b666cf271318ff251e3ebd24ce16f17b002253489c41997a208ad9"
+    },
+    {
+      "amendment_id": "FREEZE_HST_V1_AMEND_3",
+      "created_utc": "2026-09-10T00:15:00Z",
+      "prior_freeze_sha256": "52fd913ef2f1a125af8992739febe7d7d36b3cf491556632cedf3d20a046c770",
+      "prior_registry_sha256": "47f9bf4052b666cf271318ff251e3ebd24ce16f17b002253489c41997a208ad9",
+      "fixes_d8_findings": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "patches_sha256_full_length": {
+        "REGISTRY_PATCH_A.json": "6e85cb5b063eaddbd89a0a8ae14d70d475e263fe158a8639cf923e5d5be0cf3c",
+        "REGISTRY_PATCH_C.json": "9860169001aed925a19ad4c9ccecade7ba6000cd2e15f89a0fdf7ef604d9374b",
+        "REGISTRY_PATCH_D.json": "013e6e7cba06074173c879b39eff0fb8fafcea7e5c7b8f1bf2512461bd4e2bfe"
+      },
+      "change_scope": "D8 hostile-review remediation, statuses and statements untouched: (f1) HST-T11 evidence.witness re-quoted verbatim from exact/T11_MODULE_PROMOTION_V1.json (2-op-slot ledger: 14 vs 14.5 / 16 vs 16 / 18 vs 17.5), superseding the 3-op-slot numbers that originated in REGISTRY_PATCH_B.json (patch file itself left frozen); (f2) counterexample_when_assumption_removed restored byte-verbatim from REGISTRY_PATCH_A.json onto HST-T01/T03/T05/T06/T07/T18 (dropped undocumented by AMEND_1); (f3) this amendment records full 64-hex sha256 for AMEND_1 patches whose prefixes are 16-hex; (f4) HST-T01 evidence.secondary_field_note documents the freeze-inherited `secondary` field (field bytes retained); (f5) exact/check_t12_v1.py + check_t13_v1.py derive certificate paths from __file__ (location-independent; behaviour from package root unchanged).",
+      "statuses_now": {
+        "PROVED": 12,
+        "FINITE_CERTIFIED": 3,
+        "PARENT_SUFFICIENT": 2,
+        "BOUND_DERIVED": 1
+      },
+      "registry_sha256_after": "98f24bdacacf2eca186440c267950bdadd46e40b4cb973a422b9161eeb244ee8"
     }
   ]
 }
