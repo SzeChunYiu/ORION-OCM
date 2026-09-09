@@ -1047,7 +1047,7 @@ CANNOT_CHECK_<reason>
 - [x] reset control;
 - [x] grammar-induction parent;
 - [x] persistent grammar/skill parent;
-- [ ] continual adaptation parent;
+- [x] continual adaptation parent;
 - [x] open-weight LM reference;
 - [x] G2 causal reuse receipts for learned linguistic objects.
 

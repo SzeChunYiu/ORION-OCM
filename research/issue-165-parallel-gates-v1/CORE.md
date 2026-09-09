@@ -82,6 +82,8 @@ not push this remaining-gates branch.
 | §15 after-exec | `research/publication-after-exec-v1/` | `PUBLICATION_AFTER_EXEC_RECEIPTS_PRESENT_WITH_GAPS` (E4/fresh-host still `CANNOT_CHECK`) |
 | L1 graphs | `research/l1-meaning-graph-bound-v1/` | `GRAPH_BOUND_EXCEEDED_AT_SCOPE` (historical 7 exceeded; production cutoff unchanged) |
 | G1 hostile Π | `research/g1-hostile-pi-v1/` | `PARENT_SUFFICIENT` (hostile absent from mechanism; programme still PARTIAL) |
+| L1 continual | `research/l1-continual-adapt-v1/` | `PARENT_SUFFICIENT` (continual-adaptation parent at planted two-session scope) |
+| H1 examples | `research/h1-examples-charge-v1/` | `EXAMPLES_ARE_LIBRARY_CAPITAL` (H1/002 and H1/008 not earned) |
 
 ## Still locked / honest OPEN
 
@@ -93,5 +95,5 @@ this hostile-Π microscope is `PARENT_SUFFICIENT`).
 Corpus-scale N1. UD at corpus. Production meaning-graph node cutoff remains 7
 (research AHU measured at 16; `src/` not patched).
 G5.3 production adoption. `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
-H1 examples / IO / human burden `CANNOT_CHECK`. Neural/Transformer
+H1 examples remain library capital (not later savings); IO / human burden `CANNOT_CHECK`. Neural/Transformer
 `CANNOT_CHECK_NO_NN_LIBRARY`.
