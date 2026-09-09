@@ -166,12 +166,14 @@ class Terminals(unittest.TestCase):
                          "ANY_CHEAP_RULE_AGREES_SELECTION_IS_NOT_DISCRIMINATING")
         self.assertIn("bought no information", out["terminal_reason"])
 
-    def test_compression_only_agreement_is_the_positive(self):
+    def test_partial_agreement_is_the_positive_and_names_who_agreed(self):
         doc = self._doc({"FREQUENCY": "b b", "MDL_COMPRESSION": "a a"},
                         {"a a": 100, "b b": -50})
         out = E.verdict(doc)
-        self.assertEqual(out["terminal"], "COMPRESSION_REPRODUCES_THE_TOURNAMENT_CHOICE")
-        self.assertIn("not an OCM-specific result", out["terminal_reason"])
+        self.assertEqual(out["terminal"],
+                         "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE")
+        self.assertIn("MDL_COMPRESSION", out["terminal_reason"])
+        self.assertIn("No OCM-specific claim follows", out["terminal_reason"])
 
     def test_break_even_falls_when_acquisition_becomes_free(self):
         doc = self._doc({"FREQUENCY": "b b", "MDL_COMPRESSION": "a a"},
@@ -208,6 +210,49 @@ class Custody(unittest.TestCase):
             if banned == "write_text":
                 self.assertEqual(source.count("write_text"), 1,
                                  "only the receipt may be written")
+
+
+
+
+class SearchAwareSelector(unittest.TestCase):
+    """The selector that overturned this study's own first negative."""
+
+    def test_the_widening_term_is_countable_without_any_search(self):
+        """A word with m macro tokens and (d-m) primitives expands to m*L+(d-m),
+        so the grammar's width at each depth is a sum of binomial terms. This is
+        the term compression cannot see, and it needs no enumeration."""
+        self.assertEqual(E._words_at_depth(0, 4, None, 7), 1)
+        self.assertEqual(E._words_at_depth(1, 4, None, 7), 4)
+        self.assertEqual(E._words_at_depth(2, 4, None, 7), 16)
+        # With a length-2 macro at depth 2: 1 word of two macros (expands to 4),
+        # 2*4 words of one macro and one primitive, 16 all-primitive.
+        self.assertEqual(E._words_at_depth(2, 4, 2, 7), 1 + 2 * 4 + 16)
+
+    def test_a_short_macro_widens_the_grammar_more_than_a_long_one(self):
+        """The whole mechanism in one assertion: short macros save least per
+        firing and widen most, which is why every compressor picks wrong."""
+        short = E._cumulative(7, 4, 2, 7)
+        long = E._cumulative(7, 4, 3, 7)
+        primitive = E._cumulative(7, 4, None, 7)
+        self.assertGreater(short, long)
+        self.assertGreater(long, primitive)
+
+    def test_the_macro_length_bound_is_respected_in_the_count(self):
+        """A macro longer than the budget can never appear in a valid word."""
+        self.assertEqual(E._words_at_depth(1, 4, 9, 7), 4)
+
+    def test_the_selector_charges_a_scan_and_never_an_enumeration(self):
+        class R:
+            def __init__(self, program):
+                self.program = list(program)
+        rows = ((None, R(["inc", "dec", "inc", "dec"])),)
+        work = {"token_operations": 0, "enumeration_attempts": 0, "unique_checks": 0}
+        E.score_search_aware((("inc", "dec"),), {}, rows, work, budget=7, primitives=4)
+        self.assertGreater(work["token_operations"], 0)
+        self.assertEqual(work["enumeration_attempts"], 0)
+
+    def test_it_is_registered_as_a_selector_like_any_other(self):
+        self.assertIn("SEARCH_AWARE", E.SELECTORS)
 
 
 if __name__ == "__main__":

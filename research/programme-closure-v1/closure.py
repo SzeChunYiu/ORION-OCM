@@ -307,19 +307,26 @@ UPPER_LEVEL = {
         "boundary": "E2 synthetic worlds. Not a real task ecology.",
     },
     "principled_impossibility": {
-        "disposition": "CANDIDATE_SUPPORTED_TWO_INDEPENDENT_RESULTS",
+        "disposition": "CANDIDATE_SUPPORTED_ONE_RESULT_ONE_WITHDRAWN",
         "receipts": ["research/residual-routing-v1/results/RESIDUAL_ROUTING_OPPORTUNITY_V1.json",
                      "research/g2-acquisition-economics-v1/README.md"],
         "basis": (
-            "Two negative results with mechanism rather than mere absence. The "
-            "compose-stage routing residual is exactly zero (rho_R = 0.0) and the "
-            "legal-feature ladder drives it to <=0.08% before charging feature "
-            "extraction, so decision ambiguity is not economically useful routing "
-            "residual. Separately, no zero-search selector reproduces a utility "
-            "tournament's choice: compression reaches rho = +0.518 against measured "
-            "utility yet its argmax ranks 13 of 16, because support is both the "
-            "benefit proxy and the cost driver."),
-        "boundary": "Both are scope-bounded, not universal impossibility theorems.",
+            "ONE result stands: the compose-stage routing residual is exactly zero "
+            "(rho_R = 0.0) and the legal-feature ladder drives it to <=0.08% before "
+            "charging feature extraction, so decision ambiguity is not economically "
+            "useful routing residual. ONE IS WITHDRAWN. This ledger previously cited "
+            "NO_CHEAP_ACQUISITION_AT_THIS_ECOLOGY as a second impossibility result. "
+            "It was not one. A later selector in the same study reproduces the "
+            "tournament's choice at zero enumeration attempts by adding the term "
+            "compression cannot see -- how much a macro token widens the grammar, "
+            "countable in closed form. The earlier finding was not that cheap "
+            "acquisition is impossible; it was that the three selectors tried were "
+            "inadequate. The withdrawal is the more useful record: a negative of the "
+            "form 'no cheap X exists' is only ever 'no cheap X that was tried', and "
+            "this programme should read its own negatives that way."),
+        "boundary": (
+            "The surviving result is scope-bounded, not a universal impossibility "
+            "theorem. The withdrawn one is a caution about how such claims are made."),
     },
     "lifetime_regime": {
         "disposition": "CANNOT_CHECK_NO_REAL_LIFETIME_MEASURED",

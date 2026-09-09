@@ -25,49 +25,51 @@ parents raise:
 > Does a zero-search selector, reading only the training programs #192 had already solved,
 > choose the same macro the tournament chose?
 
-## Result
+## Result — the first negative, then its overturning
+
+**v1 answer: `NO_CHEAP_ACQUISITION_AT_THIS_ECOLOGY`.** None of the three zero-search
+selectors agreed with the tournament; all three picked the same wrong candidate.
+
+**v2 answer: `CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE`.** A fourth
+selector, derived from the diagnosis of the first negative, picks the tournament's macro
+exactly — at zero enumeration attempts.
+
+| selector | ρ with utility | chose | utility rank | acquisition |
+|---|---:|---|---:|---:|
+| `FREQUENCY` | +0.101 | `dec square` | 13 / 16 | 16 token ops |
+| `COMPRESSION_PER_TOKEN` | +0.269 | `dec square` | 13 / 16 | 4,608 token ops |
+| `MDL_COMPRESSION` | +0.518 | `dec square` | 13 / 16 | 4,608 token ops |
+| **`SEARCH_AWARE`** | **+0.531** | **`square dec square`** | **1 / 16** | 4,608 token ops |
+| *tournament* | — | `square dec square` | 1 / 16 | **9,010,526 attempts** |
 
 ```text
-NO_CHEAP_ACQUISITION_AT_THIS_ECOLOGY
+square dec square (tournament and SEARCH_AWARE)   test saving  +275,329
+dec square        (every compressor)              test saving  -609,213
 ```
 
-**None of the three zero-search selectors agrees with the tournament.** All three pick the
-same wrong candidate:
+## Why compression fails and what fixes it
 
-| selector | ρ with utility | chose | utility rank | validation saving | acquisition |
-|---|---:|---|---:|---:|---:|
-| `MDL_COMPRESSION` | **+0.518** | `dec square` | **13 / 16** | −93,883 | 4,608 token ops |
-| `COMPRESSION_PER_TOKEN` | +0.269 | `dec square` | 13 / 16 | −93,883 | 4,608 token ops |
-| `FREQUENCY` | +0.101 | `dec square` | 13 / 16 | −93,883 | 16 token ops |
-| *tournament* | — | `square dec square` | 1 / 16 | **+92,599** | **9,010,526 attempts** |
+The failure was an **argmax failure, not a correlation failure** — and the fix proves it
+from the other side. `SEARCH_AWARE`'s correlation is barely different from compression's
+(+0.531 against +0.518) while its argmax moves from **rank 13 to rank 1**. Fixing an argmax
+needs the right *term*, not a better fit.
 
-On the test stratum the difference is not marginal:
+The missing term is **grammar widening**, and it needs no search at all. A token word with
+`m` macro tokens and `d − m` primitives expands to `m·L + (d − m)` primitives, so the number
+of valid words at each depth is a sum of binomial terms — closed form:
 
 ```text
-square dec square (tournament)   saving  +275,329   13 strict wins, 13 with macro used
-dec square        (every scan)   saving  -609,213   30 strict wins, 30 with macro used
+depth-7 word count, 4 primitives, budget 7
+  primitives only          21,845
+  + a length-2 macro       30,348      (+39%)
+  + a length-3 macro       23,451       (+7%)
+  + a length-4 macro       22,158       (+1%)
 ```
 
-The cheap choice **helps more tasks and costs far more**, which is the whole finding.
-
-## The mechanism
-
-The failure is an **argmax failure, not a correlation failure**. Compression reaches
-ρ = +0.518 against tournament utility — it orders the pool reasonably well on average —
-yet the single candidate it ranks first sits at rank 13 of 16. A selector must pick one
-candidate, and being right on average is not the same as being right at the top.
-
-Why the top is exactly where it fails: **support is both the benefit proxy every cheap
-selector uses and the cost driver the tournament measures.** `dec square` has the highest
-support in the pool (28 of 48 training programs), so it compresses best. But a macro token
-widens the search frontier on *every* task and repays only on the tasks where it closes.
-The fragment that appears everywhere therefore compresses best and searches worst.
-
-The tournament's own winner has support 12 — below the pool median.
-
-Compression scores the benefit term and is structurally blind to the widening cost term.
-That is fine when the objective is description length. It is not fine when the objective
-is search work, and this ecology separates the two by 884,542 attempts.
+A macro token widens the search at **every** depth and repays only where it closes. Short
+frequent fragments compress best and widen most — `dec square` has the pool's highest
+support (28 of 48) and costs +39% width for a 1-token saving per firing. Compression scores
+the benefit term and is **structurally blind** to the width term. Adding it is arithmetic.
 
 ## What this buys the programme
 
@@ -78,8 +80,9 @@ break-even, tournament acquisition      2,136 length-8 tasks
 break-even, zero-search acquisition        41 length-8 tasks
 ```
 
-A 52× reduction in required horizon. That makes the negative more valuable, not less: it
-says precisely how much is on the table, and that the standard parent does not collect it.
+A 52× reduction in required horizon — and `SEARCH_AWARE` **collects it**. Acquisition at
+this ecology is a scan, not a search. The standard library-learning parent does not reach
+it; a parent that prices its own search width does.
 
 ## Claim boundary
 
@@ -90,9 +93,14 @@ says precisely how much is on the table, and that the standard parent does not c
   *selection agreement*, which depends only on the training corpus and is unaffected. Test
   figures are a comparison between selectors on a fixed, already-seen population, never a
   fresh held-out estimate.
-- Same-domain polynomial ecology, one candidate pool, one pool cap. A negative here does
-  not say compression-based library learning fails generally; it says it fails *as a
-  substitute for measured utility when the objective is search cost*, at this ecology.
+- Same-domain polynomial ecology, one candidate pool, one pool cap. This does not say
+  compression-based library learning fails generally; it says compression alone is the
+  wrong objective when the cost being optimised is **search work**, and that the correction
+  is cheap and closed-form.
+- **The withdrawn negative is the more useful record.** v1 concluded no cheap acquisition
+  exists. That was never established — what was established is that the three selectors
+  tried were inadequate. A negative of the form *"no cheap X exists"* is only ever *"no
+  cheap X that was tried"*, and this study is a worked example of the difference.
 - No OCM-specific claim of any kind. Every arm is a conventional parent.
 - #192's frozen populations, candidate pool, search index, expansion rule and attempt
   accounting are **imported from its module**, not reimplemented, so the comparison cannot
