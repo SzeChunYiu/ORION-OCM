@@ -58,14 +58,19 @@ def main() -> int:
     root = Path(__file__).resolve().parent
     failures = []
 
-    # 1. every JSON parses, strictly (duplicate-key rejection).
-    json_files = sorted(root.glob("*.json"))
+    # 1. every JSON in the capsule tree (root + subdirs, e.g. msc/) parses,
+    #    strictly (duplicate-key rejection). Keyed by path relative to the
+    #    capsule root so subdirectory files cannot collide by basename.
+    json_files = sorted(
+        p for p in root.rglob("*.json")
+        if "__pycache__" not in p.parts)
     parsed = {}
     for path in json_files:
+        rel = path.relative_to(root).as_posix()
         try:
-            parsed[path.name] = load_strict(path)
+            parsed[rel] = load_strict(path)
         except (ValueError, DuplicateKeyError) as exc:
-            failures.append("parse/duplicate-key: %s: %s" % (path.name, exc))
+            failures.append("parse/duplicate-key: %s: %s" % (rel, exc))
     if failures:
         for line in failures:
             print("FAIL", line)
@@ -97,12 +102,15 @@ def main() -> int:
     manifest_files = collect_filenames(
         repo_state.get("capsule_file_manifest")
         if isinstance(repo_state, dict) else None)
-    undeclared = [
-        p.name for p in sorted(root.iterdir())
-        if p.is_file() and p.name != "REPO_STATE.json"
-        and p.suffix in {".json", ".md", ".py"}
-        and p.name not in manifest_files
-    ]
+    undeclared = []
+    for p in sorted(root.rglob("*")):
+        if not p.is_file() or "__pycache__" in p.parts:
+            continue
+        rel = p.relative_to(root).as_posix()
+        if rel == "REPO_STATE.json" or p.suffix not in {".json", ".md", ".py"}:
+            continue
+        if rel not in manifest_files and p.name not in manifest_files:
+            undeclared.append(rel)
     if undeclared:
         failures.append(
             "manifest coverage: files present but not in REPO_STATE.json "
@@ -127,7 +135,9 @@ def main() -> int:
             return 4
         return 5
 
-    total_files = sum(1 for _ in root.iterdir())
+    total_files = sum(
+        1 for p in root.rglob("*")
+        if p.is_file() and "__pycache__" not in p.parts)
     print(
         "PASS: %d JSON files strict-parsed, manifest covers all %d capsule "
         "files, no forbidden terminals" % (len(json_files), total_files))

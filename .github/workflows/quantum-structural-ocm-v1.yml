@@ -43,11 +43,17 @@ jobs:
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/quantum-structural-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          if ls research/quantum-structural-ocm-v1/test_*.py >/dev/null 2>&1; then
-            python -B -m unittest discover -s research/quantum-structural-ocm-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-normal.txt"
-            python -O -B -m unittest discover -s research/quantum-structural-ocm-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
-          else
+          # unittest discovery does not recurse into non-package subdirs, so
+          # discover per directory that actually contains test_*.py files.
+          mapfile -t tdirs < <(find research/quantum-structural-ocm-v1 -name '__pycache__' -prune -o -name 'test_*.py' -printf '%h\n' | sort -u)
+          if [ "${#tdirs[@]}" -eq 0 ]; then
             echo "no test_*.py in capsule yet" | tee "$out/tests-normal.txt"
+          else
+            for d in "${tdirs[@]}"; do
+              echo "== discover in $d"
+              python -B -m unittest discover -s "$d" -p 'test_*.py' -v 2>&1 | tee -a "$out/tests-normal.txt"
+              python -O -B -m unittest discover -s "$d" -p 'test_*.py' -v 2>&1 | tee -a "$out/tests-optimized.txt"
+            done
           fi
       - uses: actions/upload-artifact@v4
         if: always()

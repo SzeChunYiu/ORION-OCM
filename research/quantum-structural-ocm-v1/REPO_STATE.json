@@ -27,7 +27,20 @@
       ],
       "agent_C": [
         "MINIMUM_SUFFICIENT_COGNITION_PROTOCOL_V1.md",
-        "MINIMUM_SUFFICIENT_COGNITION_PROTOCOL_V1.json"
+        "MINIMUM_SUFFICIENT_COGNITION_PROTOCOL_V1.json",
+        "msc/FREEZE_MSC_V1.json",
+        "msc/MSC_V1_REPORT.md",
+        "msc/MSC_V1_RESULTS.json",
+        "msc/arms.py",
+        "msc/lever_e4.py",
+        "msc/lever_e5.py",
+        "msc/probing.py",
+        "msc/quotient.py",
+        "msc/run_e4_pass.py",
+        "msc/run_e5_pass.py",
+        "msc/run_msc.py",
+        "msc/test_msc.py",
+        "msc/world.py"
       ],
       "agent_D": [
         "OBSTRUCTION_LAYER_BINDING_V1.json",
@@ -184,11 +197,12 @@
     "research/verified-scientific-field-v0/PARENT_ATLAS_SEED_V0.md": "cognitive-architecture parent federation + 'not candidate novelty claims' list"
   },
   "schema": "ocm.q216.repo_state.v1",
-  "work_branch": "research/q216-parents",
+  "work_branch": "research/quantum-structural-ocm-v1 (integration; merges research/q216-donor b8a8ff6, research/q216-parents, research/q216-audit, research/q216-fq4, research/q216-msc b5d7b7a)",
   "capsule_file_manifest_notes": {
     "agent_A": "deep ORION donor source/result bindings. Issue #216 section 10 lists the first deliverables, not an exhaustive whitelist (audit D2).",
-    "agent_C": "the integrated experiment (files land with the MSC merge).",
+    "agent_C": "Minimum Sufficient Cognition V1: protocol + msc/ experiment subtree, lane branch research/q216-msc @ b5d7b7a (base pass f004ec6, defect fix cef79b8, E4 ab32a25, E5 e228f55, final b5d7b7a); freeze sha256 verified pre-execution, 20/20 tests on laptop billy.",
     "agent_D": "FQ-4 obstruction-witness layer binding table.",
-    "audit": "agent E pre-PR adversarial audit, branch research/q216-audit fc8c1e7: PASS_WITH_DEFECTS, 0 P0/P1, 2 P2 documentation defects fixed at integration."
+    "audit": "agent E pre-PR adversarial audit, branch research/q216-audit fc8c1e7: PASS_WITH_DEFECTS, 0 P0/P1, 2 P2 documentation defects fixed at integration.",
+    "msc_subtree": "validator coverage extended to the full capsule tree at integration: strict duplicate-key parse + manifest coverage now apply to msc/ (9,879-line MSC_V1_RESULTS.json included); CI unittest discovery made per-directory (unittest does not recurse into non-package subdirs)."
   }
 }
