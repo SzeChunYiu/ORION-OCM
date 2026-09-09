@@ -263,9 +263,14 @@ class TestH1RewriteResultFreeze(unittest.TestCase):
         self.assertEqual(data["grammar_width"], 4)
         self.assertEqual(data["serving"], "greedy-leftmost-rewrite-in-4-primitive-grammar")
         self.assertEqual(data["predecessor_v1_terminal"], "NO_AMORTIZED_ACQUISITION_LATER_NOT_CHEAPER")
-        self.assertIn(data["terminal"], data["negative_terminals_frozen"] + [
-            "AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE"
-        ])
+        self.assertEqual(data["terminal"], "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS")
+        self.assertEqual(data["lifetime_terminal"], "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS")
+        self.assertEqual(
+            data["earned"],
+            ["H1/001-new_information", "H1/004-compute", "H1/005-verifier_calls"],
+        )
+        self.assertLess(data["later"]["kt"]["compute"], data["later"]["k0"]["compute"])
+        self.assertFalse(data["lifetime"]["library_pays_back_compute"])
         self.assertIn("not retuned", data["mechanism_comment"])
 
 
