@@ -109,16 +109,18 @@ not force-pushed and is not merged by that review.
 
 Development evidence on that review branch (do not tick #165 from it):
 
-- Changed-source congruence/rewrite successor native-verifies the eight true
-  equations in #203's ten-task allocation (4,245-proof / 100-trusted-assertion
-  library; 41–367-label normal proofs). Indices 2 and 9 have finite-set
-  counterexamples (A = B = empty, C = {0}) and must not be counted as theorems
-  a sound prover should prove. That is not a native proof of negation or a
-  full Metamath model.
-- Ceiling: enabled/disabled/restored currently generate identical proof words
-  and consume none of the historical cohort. Representation/goal-solving
+- Frozen #203 `allocation.py` deliberately selects **8 positive identities and
+  2 negative controls**. The retained scorer labels indices 2 and 9 false.
+  Those are intentional controls, not an allocation defect or newly discovered
+  bad labels. Development recovery is the expected **8 native proofs + 2
+  independently checked countermodels** on all ten exposed controls (finite-set
+  certificates at A = B = empty, C = {0}; not a native proof of negation or a
+  full Metamath model). Generator labels remain withheld from the solving
+  worker. Frozen #203 stays unchanged / all-UNKNOWN.
+- Unresolved: historical-cohort reuse. The proofs use no historical cohort
+  member. Enabled/disabled/restored currently generate identical proof words
+  and the disabled matcher does less work. Representation/goal-solving
   bottleneck, not causal cohort reuse or an OCM architecture advantage.
-- Frozen #203 stays unchanged / all-UNKNOWN.
 - G2.2 tiny-parent `REJECT` of compression/Stitch-style stand-ins is not
   rejection of hash-pinned upstream Stitch 0.1.29. On the H1 v3 16-program
   corpus that binary learned a typed arity-3 lambda, not a fixed unary
