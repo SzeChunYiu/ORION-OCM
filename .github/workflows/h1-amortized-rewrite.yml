@@ -1,0 +1,64 @@
+name: H1 amortized rewrite polynomial microscope
+
+on:
+  pull_request:
+    paths:
+      - 'research/h1-amortized-rewrite-v2/**'
+      - '.github/workflows/h1-amortized-rewrite.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h1-amortized-rewrite-v2/**'
+      - '.github/workflows/h1-amortized-rewrite.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h1-amortized-rewrite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/h1-amortized-rewrite-v2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-rw-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h1-amortized-rewrite-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h1-amortized-rewrite-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: H1 amortized-rewrite study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-rw-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h1-amortized-rewrite-v2/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          if [ -f research/h1-amortized-rewrite-v2/RESULT.json ]; then
+            cp research/h1-amortized-rewrite-v2/RESULT.json "$out/capsule-RESULT.json"
+          fi
+      - name: Do not overwrite H1 v1 acquisition capsule
+        run: |
+          set -euo pipefail
+          if [ -d research/h1-amortized-acquisition-v1 ]; then
+            git diff --exit-code -- research/h1-amortized-acquisition-v1
+          fi
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h1-amortized-rewrite
+          path: '${{ runner.temp }}/h1-rw-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
