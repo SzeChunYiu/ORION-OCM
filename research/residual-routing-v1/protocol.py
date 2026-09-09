@@ -114,6 +114,55 @@ R0_PLAN: Mapping[str, Any] = {
 }
 
 
+#: Fields of ``R0_PLAN["frontier"]`` that describe WHERE the plan was evaluated
+#: rather than WHAT it says. They change with every commit.
+VOLATILE_FRONTIER_FIELDS = ("commit", "branch", "tree_is_clean_for_bound_sources")
+
+
 def commitment() -> str:
+    """The digest as originally published, environment included.
+
+    DEFECT, recorded rather than repaired: this hashes ``frontier.inventory()``,
+    which embeds ``git rev-parse HEAD``. The digest therefore changes on every
+    subsequent commit and can only be reproduced at the exact commit that
+    produced the receipt. A frozen commitment whose whole purpose is later
+    re-verification must not depend on when it is re-verified.
+
+    The function is left exactly as it was so the published digest stays
+    explicable. ``plan_commitment`` is the re-verifiable form, and the check that
+    actually carries scientific weight -- did the bound runtime sources change --
+    is ``bound_sources_match``.
+    """
     body = json.dumps(R0_PLAN, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(body.encode()).hexdigest()
+
+
+def plan_commitment() -> str:
+    """The digest of what the plan SAYS, stable across commits.
+
+    Identical to ``commitment`` except that the volatile environment fields are
+    dropped. The bound-source hashes are KEPT, because a plan evaluated against
+    different runtime files is a different plan.
+    """
+    plan = dict(R0_PLAN)
+    frontier_view = {k: v for k, v in plan["frontier"].items()
+                     if k not in VOLATILE_FRONTIER_FIELDS}
+    plan["frontier"] = frontier_view
+    body = json.dumps(plan, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(body.encode()).hexdigest()
+
+
+def bound_sources_match(receipt: Mapping[str, Any]) -> dict:
+    """Do the files this study made claims about still have the same bytes?
+
+    This is the load-bearing check and it was not being made. The published
+    receipt records a sha256 per bound source; this recomputes them from the
+    working tree and reports any drift by name. If a bound source has changed,
+    every terminal in the receipt is a statement about a runtime that no longer
+    exists, and that must surface as a failure rather than as a stale digest.
+    """
+    stored = receipt["protocol"]["frontier"]["bound_sources"]
+    current = {rel: frontier.sha256(frontier.REPO / rel) for rel in stored}
+    drifted = sorted(rel for rel in stored if stored[rel] != current[rel])
+    return {"checked": sorted(stored), "drifted": drifted,
+            "all_match": not drifted, "current": current}

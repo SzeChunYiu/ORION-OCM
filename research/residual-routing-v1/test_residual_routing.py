@@ -9,6 +9,7 @@ learner, and a terminal that cannot come out positive.
 from __future__ import annotations
 
 import inspect
+import hashlib
 import json
 import pathlib
 
@@ -237,9 +238,41 @@ def test_exactly_one_terminal_is_returned():
 
 # --- the protocol was frozen before the scored run ---------------------------
 
-def test_the_receipt_carries_the_frozen_commitment():
+def test_the_bound_runtime_sources_have_not_drifted():
+    """The check that carries the weight, and it was not being made.
+
+    Every terminal in this receipt is a claim about five exact files. If any of
+    them changes, the terminal describes a runtime that no longer exists. That
+    must fail loudly here rather than be inferred from a stale digest.
+    """
     doc = json.loads(RECEIPT.read_text())
-    assert doc["protocol_commitment"] == protocol.commitment()
+    out = protocol.bound_sources_match(doc)
+    assert out["all_match"], f"bound sources drifted: {out['drifted']}"
+    assert len(out["checked"]) == 5
+
+
+def test_the_frozen_plan_re_verifies_across_commits():
+    """The receipt's plan must still hash to what the module says today.
+
+    Computed on the plan MINUS the volatile environment fields, because the
+    published ``commitment`` embeds ``git rev-parse HEAD`` and therefore cannot
+    be reproduced after any later commit. That defect is recorded in
+    ``protocol.commitment``'s docstring rather than repaired in place, so the
+    published digest stays explicable.
+    """
+    doc = json.loads(RECEIPT.read_text())
+    stored = dict(doc["protocol"])
+    stored["frontier"] = {k: v for k, v in stored["frontier"].items()
+                          if k not in protocol.VOLATILE_FRONTIER_FIELDS}
+    body = json.dumps(stored, sort_keys=True, separators=(",", ":"))
+    assert hashlib.sha256(body.encode()).hexdigest() == protocol.plan_commitment()
+
+
+def test_the_published_commitment_is_kept_even_though_it_cannot_re_verify():
+    doc = json.loads(RECEIPT.read_text())
+    assert doc["protocol_commitment"]
+    assert "commit" in protocol.VOLATILE_FRONTIER_FIELDS
+    assert "DEFECT" in inspect.getdoc(protocol.commitment)
     assert doc["protocol"]["predictions_frozen_before_scored_execution"]
 
 
