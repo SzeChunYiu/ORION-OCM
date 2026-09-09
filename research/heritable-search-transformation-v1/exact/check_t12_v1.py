@@ -22,6 +22,7 @@ from __future__ import print_function
 
 import itertools
 import json
+import os
 import sys
 
 N = 4  # state-space sizes 1..4  (4^4 = 256 maps x 4 initial states; trivial runtime)
@@ -99,7 +100,9 @@ def main():
     }
     out = json.dumps(result, indent=1, sort_keys=True)
     print(out)
-    cert_path = "exact/check_t12_v1.cert.json"
+    # location-independent (D8 finding 5): always next to this script
+    cert_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "check_t12_v1.cert.json")
     with open(cert_path, "w") as fh:
         fh.write(out + "\n")
     sys.stderr.write("certificate written: %s\n" % cert_path)
