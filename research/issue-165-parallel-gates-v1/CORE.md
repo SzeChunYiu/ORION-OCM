@@ -23,7 +23,7 @@ not push this remaining-gates branch.
 | G3.4 | `research/g3-representation-diagnosis-v1/` | `REPRESENTATION_INSUFFICIENCY_DIAGNOSIS_SUPPORTED_AT_SCOPE` |
 | G5.2 | `research/g5-packed-field-v1/` | `FACTORIZED_KNOWLEDGE_SPACE_SUPPORTED` |
 | G5.3 | `research/g5-factored-warrant-v1/` | `FACTORED_WARRANT_VALUE_SUPPORTED` |
-| G5.3 BDD | `research/g5-bdd-warrant-v2/` | `BDD_PARENT_N3_PARITY_SUPPORTED` (ZDD still OPEN) |
+| G5.3 BDD | `research/g5-bdd-warrant-v2/` | `BDD_PARENT_N3_PARITY_SUPPORTED` |
 | G5.4 | `research/g5-consolidation-v1/` | `EPISTEMICALLY_SAFE_COMPRESSION_SUPPORTED` |
 | G2.5 v1 | `research/g2-strong-parents-v1/` | `HARMFUL_TRANSFER_LIMIT` (frozen) |
 | G2.5 v2 | `research/g2-utility-gated-parents-v2/` | `UTILITY_GATED_LIBRARY_BEATS_PRIMITIVE` |
@@ -62,13 +62,29 @@ not push this remaining-gates branch.
 | P1 | `research/p1-causal-reuse-v1/` | `P1_CAUSAL_REUSE_SUPPORTED_AT_POLYNOMIAL_MICROSCOPE` |
 | G1.1.6 | `research/g1-duplicate-cores-v1/` | `SINGLE_CORE_AT_SCOPE` (measurement, not deletion) |
 | G2 acq | `research/g2-acquisition-economics-v1/` | `CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE` |
+| MATH-1 v3 | `research/math-n4-families-v3/` | `MINIATURE_FAMILY_METHOD_TRANSFER_SUPPORTED_AT_HILBERT_SCOPE` |
+
+## Wave 3 capsules
+
+| lane | directory | terminal |
+|---|---|---|
+| G1 Π | `research/g1-pi-small-v1/` | `PI_REMAINS_SMALL_AT_MICRO_SCOPE` (programme still PARTIAL) |
+| G2.2 donors | `research/g2-abstraction-parents-v1/` | `CONVENTIONAL_LIBRARY_PARENTS_SUBORDINATE_TO_SEARCH_AWARE` |
+| G4.4 ident | `research/g2-strategy-identifiability-v1/` | `PARENT_SUFFICIENT_AT_SCOPE` (ML unlock still locked) |
+| G3 incidents | `research/g3-real-failure-v1/` | `PARENT_SUFFICIENT_AT_SCOPE` |
+| G4 non-ML | `research/g4-decision-adequacy-v1/` | `G4_NON_ML_ADEQUACY_SUPPORTED_AT_TOY_SCOPE` |
+| G5.3 ZDD | `research/g5-zdd-warrant-v3/` | `ZDD_PARENT_N3_PARITY_SUPPORTED` (production unchanged) |
+| H1 v3 | `research/h1-amortized-lifetime-v3/` | `AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE` |
+| H5 | `research/h5-lifetime-economics-v1/` | `LIFETIME_NET_POSITIVE_AFTER_CHEAP_ACQUISITION` |
+| L1 v4 | `research/l1-linguistic-g2-v4/` | `COMPOSITIONAL_LANGUAGE_LEARNING_ONLY` (morphology/UD/curves at planted scope) |
 
 ## Still locked / honest OPEN
 
-L2/L3 entire. MATH-2/3 entire. #73 prototype + P7. G4.4 all nine (do not train ML).
-E4 / fresh-host / independent authorship. Programme-wide close.
-Architecture “Π remains small” still PARTIAL until a dedicated measurement lands.
-Corpus-scale N1. UD at corpus. Meaning graphs beyond bound. G5.3 production
-adoption. `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**. H1 full vector
-(library capital still exceeds later saving after rewrite). Neural/Transformer
+L2/L3 entire. MATH-2/3 entire. #73 prototype + P7. G4.4 **ML** (do not train;
+toy/microscope preconditions are not a programme unlock). E4 / fresh-host /
+independent authorship. Programme-wide close. Architecture “Π remains small”
+programme-wide still PARTIAL (hostile Π / authored work operators remain).
+Corpus-scale N1. UD at corpus. Meaning graphs beyond the tree-canonical bound.
+G5.3 production adoption. `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
+H1 examples / IO / human burden `CANNOT_CHECK`. Neural/Transformer
 `CANNOT_CHECK_NO_NN_LIBRARY`.

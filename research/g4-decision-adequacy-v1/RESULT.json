@@ -1,0 +1,2019 @@
+{
+  "boxes": {
+    "G4.4/001-multiple_safe_strategies_remain_after_exact_admissibility": {
+      "g4_4_unlock": false,
+      "note": "Not a remaining non-ML gap for this worker. Price-incomparable parents exist on the toy; unlock still requires all nine.",
+      "status": "NOT_IN_THIS_CAPSULE",
+      "text": "multiple safe strategies remain after exact admissibility"
+    },
+    "G4.4/002-optimal_strategy_changes_across_legal_pre_outcome_states": {
+      "g4_4_unlock": false,
+      "note": "Analytic switches at remaining>4; not claimed as a G4.4 unlock.",
+      "status": "NOT_IN_THIS_CAPSULE",
+      "text": "optimal strategy changes across legal pre-outcome states"
+    },
+    "G4.4/003-counterfactual_value_is_identifiable": {
+      "g4_4_unlock": false,
+      "note": "Known-sequence DP identifies counterfactual cache values; not a remaining axis here.",
+      "status": "NOT_IN_THIS_CAPSULE",
+      "text": "counterfactual value is identifiable"
+    },
+    "G4.4/004-simple_exact_analytic_parents_leave_a_material_residual": {
+      "any_material_residual": false,
+      "cited_from": "research/g4-horizon-exact-v1",
+      "families": [
+        {
+          "analytic_on_dp_pareto": true,
+          "family": "constant",
+          "material_residual": false
+        },
+        {
+          "analytic_on_dp_pareto": true,
+          "family": "unique_then_repeat",
+          "material_residual": false
+        },
+        {
+          "analytic_on_dp_pareto": true,
+          "family": "all_unique_prefix",
+          "material_residual": false
+        },
+        {
+          "analytic_on_dp_pareto": true,
+          "family": "two_item_repeat",
+          "material_residual": false
+        },
+        {
+          "analytic_on_dp_pareto": true,
+          "family": "late_reuse",
+          "material_residual": false
+        }
+      ],
+      "g4_4_unlock": false,
+      "status": "REFUTED_AT_TOY",
+      "text": "simple exact/analytic parents leave a material residual"
+    },
+    "G4.4/005-legal_features_contain_enough_information_for_the_required_d": {
+      "drop_cached_collisions": 21,
+      "drop_necessary_bit_fails": true,
+      "drop_remaining_collisions": 4,
+      "full_succeeds": true,
+      "g4_4_unlock": false,
+      "necessary_bits": [
+        "cached",
+        "remaining"
+      ],
+      "status": "EARNED_AT_TOY_SCOPE",
+      "text": "legal features contain enough information for the required decision"
+    },
+    "G4.4/006-hypothesis_class_is_adequate": {
+      "analytic_h_eff": 7,
+      "dp_contains_analytic": true,
+      "dp_in_class": true,
+      "g4_4_unlock": false,
+      "myopic_h_eff": 0,
+      "myopic_inadequate": true,
+      "status": "EARNED_AT_TOY_SCOPE",
+      "text": "hypothesis class is adequate"
+    },
+    "G4.4/007-lifetime_benefit_remains_positive_after_training_inference_u": {
+      "exact_parent_price_conditional": true,
+      "g4_4_unlock": false,
+      "heff_preserved_under_checkpoint": true,
+      "learner_lifetime_positive": false,
+      "learner_overhead": {
+        "infer": 8,
+        "maintain": 2,
+        "train": 1,
+        "update": 8
+      },
+      "note": "Exact cache vs rent stays Pareto-incomparable after checkpoint. A learner with positive train/infer/update/maintain and zero analytic residual cannot pay back.",
+      "scalarization": false,
+      "status": "MEASURED_EXACT_PARENT_PRICE_CONDITIONAL_LEARNER_NOT_POSITIVE",
+      "text": "lifetime benefit remains positive after training/inference/update/maintenance"
+    },
+    "G4.4/008-lifecycle_semantics_remain_equivalent": {
+      "all_reset_intervals_match_rebuild": true,
+      "checkpoint_preserves_heff": true,
+      "compose_early_exit": "CANNOT_CHECK_NOT_THIS_TOY",
+      "g4_4_unlock": false,
+      "reset_intervals": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "status": "EARNED_AT_TOY_SCOPE",
+      "text": "lifecycle semantics remain equivalent"
+    },
+    "G4.4/009-result_survives_pareto_resource_price_analysis": {
+      "cited_pr154_band": "H=4..8",
+      "does_not_contradict_cited_band": true,
+      "g4_4_unlock": false,
+      "learner_does_not_survive_vs_exact_parent": true,
+      "mixed_rent_vs_buy_incomparable": true,
+      "status": "EARNED_AT_TOY_SCOPE",
+      "text": "result survives Pareto/resource-price analysis",
+      "toy_switch_horizon": 5
+    }
+  },
+  "claim_ceiling": "Toy-scope non-ML adequacy on the imported g4-horizon exact cache. Legal features and the DP class are adequate; myopic 1-step is not. Analytic residual vs DP is the zero vector (cited, recomputed). Reset cache semantics match empty rebuild. Pareto band cited, not contradicted. G4.4 remains 0/9 locked. No ML.",
+  "earned": [
+    "G4.4/005-legal_features_contain_enough_information_for_the_required_d",
+    "G4.4/006-hypothesis_class_is_adequate",
+    "G4.4/008-lifecycle_semantics_remain_equivalent",
+    "G4.4/009-result_survives_pareto_resource_price_analysis"
+  ],
+  "feature_sufficiency": {
+    "drop_cached": {
+      "collisions": [
+        {
+          "actions": [
+            "buy",
+            "hit"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              7
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              2
+            ]
+          ],
+          "n_states": 4
+        },
+        {
+          "actions": [
+            "buy",
+            "hit"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              6
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              3
+            ]
+          ],
+          "n_states": 4
+        },
+        {
+          "actions": [
+            "buy",
+            "hit"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              5
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              4
+            ]
+          ],
+          "n_states": 6
+        },
+        {
+          "actions": [
+            "hit",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              4
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              5
+            ]
+          ],
+          "n_states": 6
+        },
+        {
+          "actions": [
+            "hit",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              3
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              6
+            ]
+          ],
+          "n_states": 6
+        },
+        {
+          "actions": [
+            "hit",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              2
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              7
+            ]
+          ],
+          "n_states": 6
+        },
+        {
+          "actions": [
+            "hit",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              1
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              8
+            ]
+          ],
+          "n_states": 6
+        },
+        {
+          "actions": [
+            "hit",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "remaining",
+              2
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              4
+            ]
+          ],
+          "n_states": 4
+        }
+      ],
+      "drop": [
+        "cached"
+      ],
+      "n_collisions": 21,
+      "n_keys": 32,
+      "n_states": 89,
+      "sufficient": false
+    },
+    "drop_item": {
+      "collisions": [],
+      "drop": [
+        "item"
+      ],
+      "n_collisions": 0,
+      "n_keys": 46,
+      "n_states": 89,
+      "sufficient": true
+    },
+    "drop_necessary_bit_fails": true,
+    "drop_remaining": {
+      "collisions": [
+        {
+          "actions": [
+            "buy",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "cached",
+              false
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              1
+            ]
+          ],
+          "n_states": 8
+        },
+        {
+          "actions": [
+            "buy",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "cached",
+              false
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              2
+            ]
+          ],
+          "n_states": 4
+        },
+        {
+          "actions": [
+            "buy",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "cached",
+              false
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              3
+            ]
+          ],
+          "n_states": 5
+        },
+        {
+          "actions": [
+            "buy",
+            "rent"
+          ],
+          "masked_key": [
+            [
+              "cached",
+              false
+            ],
+            [
+              "item",
+              0
+            ],
+            [
+              "time",
+              4
+            ]
+          ],
+          "n_states": 6
+        }
+      ],
+      "drop": [
+        "remaining"
+      ],
+      "n_collisions": 4,
+      "n_keys": 27,
+      "n_states": 89,
+      "sufficient": false
+    },
+    "drop_time": {
+      "collisions": [],
+      "drop": [
+        "time"
+      ],
+      "n_collisions": 0,
+      "n_keys": 25,
+      "n_states": 89,
+      "sufficient": true
+    },
+    "earned_at_toy": true,
+    "full_legal_set": {
+      "collisions": [],
+      "drop": [],
+      "n_collisions": 0,
+      "n_keys": 53,
+      "n_states": 89,
+      "sufficient": true
+    },
+    "full_succeeds": true,
+    "legal_features": [
+      "cached",
+      "remaining",
+      "item",
+      "time"
+    ],
+    "necessary_bits": [
+      "cached",
+      "remaining"
+    ],
+    "table_implements_analytic": {
+      "matches": true,
+      "n_decisions": 52,
+      "n_mismatches": 0
+    }
+  },
+  "g4_4_4th": "REFUTED",
+  "g4_4_learned_routing": "NOT_UNLOCKED",
+  "g4_4_unlock_score": "0/9",
+  "g4_4_unlocked": false,
+  "gate": "G4 remaining non-ML decision adequacy",
+  "head": "589f06323c32e35ae82fa2b9ea2b3e5627eb1bae",
+  "horizon_citations": {
+    "already_earned_here_not_duplicated": [
+      "G4.2 horizon/reuse/order/drift/reset/revision/checkpoint sweeps",
+      "G4.3 static/analytic/ski-rental/cache-admission/common-action/DP/probe/Pareto",
+      "analytic on exact DP Pareto; selector residual 0",
+      "PRICE_REGIME_ONLY rent vs buy",
+      "G4.4_learned_routing NOT_UNLOCKED"
+    ],
+    "directory": "research/g4-horizon-exact-v1",
+    "g4_2": {
+      "raw_cost_vector": "CHECKED",
+      "sweep_checkpoint_replay": "CHECKED_TOY_AND_CITED_PR154",
+      "sweep_drift": "CHECKED_TOY",
+      "sweep_horizon": "CHECKED_TOY_AND_CITED_PR154",
+      "sweep_query_order": "CHECKED_TOY_AND_CITED_PR154",
+      "sweep_reset_restart": "CHECKED_TOY_AND_CITED_PR154",
+      "sweep_reuse_density": "CHECKED_TOY",
+      "sweep_revision_frequency": "CHECKED_TOY"
+    },
+    "g4_3": {
+      "analytic_threshold": "CHECKED",
+      "cache_admission_parent": "CHECKED",
+      "common_action_stopping": "CHECKED",
+      "cost_aware_probe_policy": "CHECKED",
+      "exact_decision_region": "CHECKED",
+      "exact_finite_state_dp": "CHECKED",
+      "price_regime_pareto": "CHECKED",
+      "rent_vs_buy_ski_rental": "CHECKED",
+      "static_exact_strategy": "CHECKED"
+    },
+    "g4_4_learned_routing": "NOT_UNLOCKED",
+    "schema": "ocm.g4-horizon-exact.v1",
+    "sha256": {
+      "CORE.md": "ee40027d51d033f670bc0ff0ebf9b94290514d87b6f4e8b3d7e4e803aa323abe",
+      "RESULT.md": "b39e3667cd932f310fc602de3af29c84ba84984fa990fb9f70d3ec738c066bef",
+      "SUMMARY.json": "35e58d5ac14c1e733e06d4e5a2b28eb5ac35ff93a53c1f2a16e1c435967e9030",
+      "horizon_exact.py": "a272ae0e668b0ecefe4e6128373209e39417601b5216a344fcb20b431f41a91a",
+      "test_g4_horizon_exact.py": "fdb43fcf12712e56c3d31d195e8329efda5c8bad17b8711db620a6a95806c61a"
+    },
+    "terminals": [
+      "EXACT_META_POLICY_SUFFICIENT",
+      "LEARNED_ROUTER_NOT_NEEDED",
+      "PARENT_SUFFICIENT",
+      "EXACT_EARLY_EXIT_VALUE_SUPPORTED",
+      "PRICE_REGIME_ONLY",
+      "CANNOT_CHECK_UNMERGED_PR154_SEMANTIC_LIFETIME",
+      "CANNOT_CHECK_PRODUCTION_OCM_LIFETIME"
+    ]
+  },
+  "horizon_engine": "research/g4-horizon-exact-v1/horizon_exact.py",
+  "horizon_engine_copied": false,
+  "hypothesis_class": {
+    "adequate_class": "exact_finite_state_dp",
+    "analytic_constant": {
+      "h_eff": 7,
+      "vector": {
+        "act": 0,
+        "build": 8,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 7,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 0,
+        "replay": 0
+      }
+    },
+    "dp_contains_analytic_on_constant": true,
+    "dp_contains_analytic_on_mixed": true,
+    "dp_in_class": true,
+    "dp_pareto_size_constant": 9,
+    "earned_at_toy": true,
+    "mixed_myopic_equals_always_rent": true,
+    "myopic_cannot_represent_required_buy": true,
+    "myopic_constant": {
+      "h_eff": 0,
+      "vector": {
+        "act": 0,
+        "build": 0,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 0,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 24,
+        "replay": 0
+      }
+    },
+    "myopic_first_miss_on_constant_h8": "rent",
+    "myopic_h_eff_strictly_below_dp": true,
+    "myopic_vs_analytic_prices": {
+      "a_strictly_cheaper_coordinates": [
+        "build",
+        "hit"
+      ],
+      "b_strictly_cheaper_coordinates": [
+        "rent"
+      ],
+      "componentwise_a_leq_b": false,
+      "componentwise_b_leq_a": false,
+      "pareto_incomparable": true,
+      "price_witness_prefer_a": {
+        "build": 1
+      },
+      "price_witness_prefer_b": {
+        "rent": 1
+      }
+    },
+    "poor_class": "myopic_1step",
+    "required_first_miss_on_constant_h8": "buy"
+  },
+  "issue": 165,
+  "lifecycle": {
+    "all_reset_intervals_match_rebuild": true,
+    "checkpoint": {
+      "checkpoint_h_eff": 7,
+      "checkpoint_preserves_heff_on_constant": true,
+      "checkpoint_vector": {
+        "act": 0,
+        "build": 8,
+        "checkpoint_read": 2,
+        "checkpoint_write": 2,
+        "hit": 7,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 0,
+        "replay": 2
+      },
+      "cited_from": "research/g4-horizon-exact-v1/CORE.md and lifecycle_sweep",
+      "reset_intervals": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "stable_h_eff": 7
+    },
+    "compose_early_exit_lifecycle": "CANNOT_CHECK_NOT_THIS_TOY",
+    "earned_at_toy": true,
+    "rows": [
+      {
+        "cached_value_after_reset_equals_rebuild": true,
+        "h_eff_match": true,
+        "interval": 1,
+        "rebuild_from_empty": {
+          "chunks": [
+            {
+              "h_eff": 0,
+              "sequence": [
+                0
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                2
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                0
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                2
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                0
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 8,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            }
+          ],
+          "h_eff": 0,
+          "service": {
+            "build": 64,
+            "hit": 0,
+            "rent": 0
+          }
+        },
+        "reset": {
+          "h_eff": 0,
+          "invalidation": 8,
+          "resets": 8,
+          "vector": {
+            "act": 0,
+            "build": 64,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 8,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "service_match": true
+      },
+      {
+        "cached_value_after_reset_equals_rebuild": true,
+        "h_eff_match": true,
+        "interval": 2,
+        "rebuild_from_empty": {
+          "chunks": [
+            {
+              "h_eff": 0,
+              "sequence": [
+                0,
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 16,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                2,
+                0
+              ],
+              "vector": {
+                "act": 0,
+                "build": 16,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                1,
+                2
+              ],
+              "vector": {
+                "act": 0,
+                "build": 16,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 0,
+              "sequence": [
+                0,
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 16,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 0,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            }
+          ],
+          "h_eff": 0,
+          "service": {
+            "build": 64,
+            "hit": 0,
+            "rent": 0
+          }
+        },
+        "reset": {
+          "h_eff": 0,
+          "invalidation": 8,
+          "resets": 4,
+          "vector": {
+            "act": 0,
+            "build": 64,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 8,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "service_match": true
+      },
+      {
+        "cached_value_after_reset_equals_rebuild": true,
+        "h_eff_match": true,
+        "interval": 4,
+        "rebuild_from_empty": {
+          "chunks": [
+            {
+              "h_eff": 1,
+              "sequence": [
+                0,
+                1,
+                2,
+                0
+              ],
+              "vector": {
+                "act": 0,
+                "build": 24,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 1,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            },
+            {
+              "h_eff": 1,
+              "sequence": [
+                1,
+                2,
+                0,
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 24,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 1,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            }
+          ],
+          "h_eff": 2,
+          "service": {
+            "build": 48,
+            "hit": 2,
+            "rent": 0
+          }
+        },
+        "reset": {
+          "h_eff": 2,
+          "invalidation": 6,
+          "resets": 2,
+          "vector": {
+            "act": 0,
+            "build": 48,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 2,
+            "invalidation": 6,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "service_match": true
+      },
+      {
+        "cached_value_after_reset_equals_rebuild": true,
+        "h_eff_match": true,
+        "interval": 8,
+        "rebuild_from_empty": {
+          "chunks": [
+            {
+              "h_eff": 5,
+              "sequence": [
+                0,
+                1,
+                2,
+                0,
+                1,
+                2,
+                0,
+                1
+              ],
+              "vector": {
+                "act": 0,
+                "build": 24,
+                "checkpoint_read": 0,
+                "checkpoint_write": 0,
+                "hit": 5,
+                "invalidation": 0,
+                "probe": 0,
+                "rent": 0,
+                "replay": 0
+              }
+            }
+          ],
+          "h_eff": 5,
+          "service": {
+            "build": 24,
+            "hit": 5,
+            "rent": 0
+          }
+        },
+        "reset": {
+          "h_eff": 5,
+          "invalidation": 3,
+          "resets": 1,
+          "vector": {
+            "act": 0,
+            "build": 24,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 5,
+            "invalidation": 3,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "service_match": true
+      }
+    ],
+    "sequence": [
+      0,
+      1,
+      2,
+      0,
+      1,
+      2,
+      0,
+      1
+    ]
+  },
+  "lifetime": {
+    "always_rent": {
+      "h_eff": 0,
+      "vector": {
+        "act": 0,
+        "build": 0,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 0,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 24,
+        "replay": 0
+      }
+    },
+    "always_rent_after_checkpoint_maintenance": {
+      "h_eff": 0,
+      "vector": {
+        "act": 0,
+        "build": 0,
+        "checkpoint_read": 2,
+        "checkpoint_write": 2,
+        "hit": 0,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 24,
+        "replay": 0
+      }
+    },
+    "analytic_residual_vs_dp_is_zero": true,
+    "coordinates": [
+      "rent",
+      "build",
+      "hit",
+      "probe",
+      "act",
+      "checkpoint_write",
+      "checkpoint_read",
+      "replay",
+      "invalidation"
+    ],
+    "earned_as_g44_unlock": false,
+    "earned_exact_parent_price_conditional": true,
+    "exact_after_checkpoint_maintenance": {
+      "checkpoints": 2,
+      "h_eff": 7,
+      "vector": {
+        "act": 0,
+        "build": 8,
+        "checkpoint_read": 2,
+        "checkpoint_write": 2,
+        "hit": 7,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 0,
+        "replay": 2
+      }
+    },
+    "exact_after_reset_every_1": {
+      "h_eff": 0,
+      "resets": 8,
+      "vector": {
+        "act": 0,
+        "build": 32,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 0,
+        "invalidation": 4,
+        "probe": 0,
+        "rent": 12,
+        "replay": 0
+      }
+    },
+    "exact_analytic": {
+      "h_eff": 7,
+      "vector": {
+        "act": 0,
+        "build": 8,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 7,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 0,
+        "replay": 0
+      }
+    },
+    "exact_parent_not_strictly_dominated_after_maintenance": true,
+    "exact_parent_price_conditional": true,
+    "exact_vs_rent_prices": {
+      "a_strictly_cheaper_coordinates": [
+        "rent"
+      ],
+      "b_strictly_cheaper_coordinates": [
+        "build",
+        "hit"
+      ],
+      "componentwise_a_leq_b": false,
+      "componentwise_b_leq_a": false,
+      "pareto_incomparable": true,
+      "price_witness_prefer_a": {
+        "rent": 1
+      },
+      "price_witness_prefer_b": {
+        "build": 1
+      }
+    },
+    "heff_killed_by_reset_every_1": true,
+    "heff_preserved_under_checkpoint": true,
+    "hypothetical_learner_overhead": {
+      "infer": 8,
+      "maintain": 2,
+      "train": 1,
+      "update": 8
+    },
+    "learner_lifetime_positive_after_train_infer_update_maintain": false,
+    "learner_strictly_adds_cost_with_no_residual_to_amortize": true,
+    "maintained_vs_rent_prices": {
+      "a_strictly_cheaper_coordinates": [
+        "rent"
+      ],
+      "b_strictly_cheaper_coordinates": [
+        "build",
+        "hit",
+        "replay"
+      ],
+      "componentwise_a_leq_b": false,
+      "componentwise_b_leq_a": false,
+      "pareto_incomparable": true,
+      "price_witness_prefer_a": {
+        "rent": 1
+      },
+      "price_witness_prefer_b": {
+        "build": 1
+      }
+    },
+    "scalarization": false
+  },
+  "measured": [
+    "G4.4/007-lifetime_benefit_remains_positive_after_training_inference_u"
+  ],
+  "ml_trained": false,
+  "neural_router": false,
+  "not_issued": [
+    "G4.4",
+    "SMALL_LEARNED_ROUTER_VALUE_SUPPORTED",
+    "STRATEGY_SELECTION_RESIDUAL_CONFIRMED",
+    "LEARNED_ROUTER_NOT_NEEDED",
+    "MINIMUM_SUFFICIENT_COGNITION_SUPPORTED_AT_SCOPE",
+    "NEURAL_ROUTER",
+    "PRODUCTION_OCM_LIFETIME"
+  ],
+  "pareto_band": {
+    "cited_from": "research/g4-horizon-exact-v1/CORE.md",
+    "cited_pr154_band": "H=4..8",
+    "constant_rows": [
+      {
+        "analytic": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 3,
+            "replay": 0
+          }
+        },
+        "analytic_buys": false,
+        "analytic_equals_buy": false,
+        "analytic_equals_rent": true,
+        "buy": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 1,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 3,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 6,
+            "replay": 0
+          }
+        },
+        "analytic_buys": false,
+        "analytic_equals_buy": false,
+        "analytic_equals_rent": true,
+        "buy": {
+          "h_eff": 1,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 1,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 2,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 6,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 9,
+            "replay": 0
+          }
+        },
+        "analytic_buys": false,
+        "analytic_equals_buy": false,
+        "analytic_equals_rent": true,
+        "buy": {
+          "h_eff": 2,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 2,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 3,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 9,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 12,
+            "replay": 0
+          }
+        },
+        "analytic_buys": false,
+        "analytic_equals_buy": false,
+        "analytic_equals_rent": true,
+        "buy": {
+          "h_eff": 3,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 3,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 4,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 12,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 4,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 4,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "analytic_buys": true,
+        "analytic_equals_buy": true,
+        "analytic_equals_rent": false,
+        "buy": {
+          "h_eff": 4,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 4,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 5,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 15,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 5,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 5,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "analytic_buys": true,
+        "analytic_equals_buy": true,
+        "analytic_equals_rent": false,
+        "buy": {
+          "h_eff": 5,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 5,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 6,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 18,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 6,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 6,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "analytic_buys": true,
+        "analytic_equals_buy": true,
+        "analytic_equals_rent": false,
+        "buy": {
+          "h_eff": 6,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 6,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 7,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 21,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      },
+      {
+        "analytic": {
+          "h_eff": 7,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 7,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "analytic_buys": true,
+        "analytic_equals_buy": true,
+        "analytic_equals_rent": false,
+        "buy": {
+          "h_eff": 7,
+          "vector": {
+            "act": 0,
+            "build": 8,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 7,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 0,
+            "replay": 0
+          }
+        },
+        "horizon": 8,
+        "rent": {
+          "h_eff": 0,
+          "vector": {
+            "act": 0,
+            "build": 0,
+            "checkpoint_read": 0,
+            "checkpoint_write": 0,
+            "hit": 0,
+            "invalidation": 0,
+            "probe": 0,
+            "rent": 24,
+            "replay": 0
+          }
+        },
+        "rent_vs_buy_prices": {
+          "a_strictly_cheaper_coordinates": [
+            "build",
+            "hit"
+          ],
+          "b_strictly_cheaper_coordinates": [
+            "rent"
+          ],
+          "componentwise_a_leq_b": false,
+          "componentwise_b_leq_a": false,
+          "pareto_incomparable": true,
+          "price_witness_prefer_a": {
+            "build": 1
+          },
+          "price_witness_prefer_b": {
+            "rent": 1
+          }
+        }
+      }
+    ],
+    "does_not_contradict_cited_band": true,
+    "earned_at_toy": true,
+    "mixed_price_witnesses": {
+      "a_strictly_cheaper_coordinates": [
+        "build",
+        "hit"
+      ],
+      "b_strictly_cheaper_coordinates": [
+        "rent"
+      ],
+      "componentwise_a_leq_b": false,
+      "componentwise_b_leq_a": false,
+      "pareto_incomparable": true,
+      "price_witness_prefer_a": {
+        "build": 1
+      },
+      "price_witness_prefer_b": {
+        "rent": 1
+      }
+    },
+    "mixed_rent_vs_buy_incomparable": true,
+    "pr154_head": "86a5ad1d0387d0ad0a7022d6385284229bc36f6e",
+    "toy_break_even_remaining_strict": 4,
+    "toy_constant_analytic_switch_horizon": 5
+  },
+  "production_src_edited": false,
+  "refuted": [
+    "G4.4/004-simple_exact_analytic_parents_leave_a_material_residual"
+  ],
+  "residual_analytic_vs_dp": {
+    "any_material_residual": false,
+    "cited_from": "research/g4-horizon-exact-v1/horizon_exact.py::residual_after_exact_parents",
+    "families": [
+      {
+        "analytic_h_eff": 7,
+        "analytic_vector": {
+          "act": 0,
+          "build": 8,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 7,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "cited_horizon_residual": {
+          "analytic_on_dp_pareto": true,
+          "best_static_pareto": [
+            "always_rent",
+            "always_buy",
+            "analytic_threshold",
+            "ski_rental",
+            "exact_dp"
+          ],
+          "dp_matches_analytic_h_eff": true,
+          "dp_matches_analytic_vector": true,
+          "dp_pareto_size": 9,
+          "selector_residual_after_analytic": 0
+        },
+        "componentwise_analytic_minus_dp": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "dp_h_eff": 7,
+        "dp_vector": {
+          "act": 0,
+          "build": 8,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 7,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "family": "constant",
+        "material_residual": false,
+        "nonzero_components": {}
+      },
+      {
+        "analytic_h_eff": 0,
+        "analytic_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 24,
+          "replay": 0
+        },
+        "cited_horizon_residual": {
+          "analytic_on_dp_pareto": true,
+          "best_static_pareto": [
+            "always_rent",
+            "always_buy",
+            "analytic_threshold",
+            "ski_rental",
+            "exact_dp"
+          ],
+          "dp_matches_analytic_h_eff": true,
+          "dp_matches_analytic_vector": true,
+          "dp_pareto_size": 15,
+          "selector_residual_after_analytic": 0
+        },
+        "componentwise_analytic_minus_dp": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "dp_h_eff": 0,
+        "dp_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 24,
+          "replay": 0
+        },
+        "family": "unique_then_repeat",
+        "material_residual": false,
+        "nonzero_components": {}
+      },
+      {
+        "analytic_h_eff": 0,
+        "analytic_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 9,
+          "replay": 0
+        },
+        "cited_horizon_residual": {
+          "analytic_on_dp_pareto": true,
+          "best_static_pareto": [
+            "always_rent",
+            "always_buy",
+            "analytic_threshold",
+            "ski_rental",
+            "exact_dp"
+          ],
+          "dp_matches_analytic_h_eff": true,
+          "dp_matches_analytic_vector": true,
+          "dp_pareto_size": 4,
+          "selector_residual_after_analytic": 0
+        },
+        "componentwise_analytic_minus_dp": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "dp_h_eff": 0,
+        "dp_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 9,
+          "replay": 0
+        },
+        "family": "all_unique_prefix",
+        "material_residual": false,
+        "nonzero_components": {}
+      },
+      {
+        "analytic_h_eff": 0,
+        "analytic_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 24,
+          "replay": 0
+        },
+        "cited_horizon_residual": {
+          "analytic_on_dp_pareto": true,
+          "best_static_pareto": [
+            "always_rent",
+            "always_buy",
+            "analytic_threshold",
+            "ski_rental",
+            "exact_dp"
+          ],
+          "dp_matches_analytic_h_eff": true,
+          "dp_matches_analytic_vector": true,
+          "dp_pareto_size": 12,
+          "selector_residual_after_analytic": 0
+        },
+        "componentwise_analytic_minus_dp": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "dp_h_eff": 0,
+        "dp_vector": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 24,
+          "replay": 0
+        },
+        "family": "two_item_repeat",
+        "material_residual": false,
+        "nonzero_components": {}
+      },
+      {
+        "analytic_h_eff": 5,
+        "analytic_vector": {
+          "act": 0,
+          "build": 8,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 5,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 6,
+          "replay": 0
+        },
+        "cited_horizon_residual": {
+          "analytic_on_dp_pareto": true,
+          "best_static_pareto": [
+            "always_rent",
+            "always_buy",
+            "analytic_threshold",
+            "ski_rental",
+            "exact_dp"
+          ],
+          "dp_matches_analytic_h_eff": true,
+          "dp_matches_analytic_vector": true,
+          "dp_pareto_size": 19,
+          "selector_residual_after_analytic": 0
+        },
+        "componentwise_analytic_minus_dp": {
+          "act": 0,
+          "build": 0,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 0,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 0,
+          "replay": 0
+        },
+        "dp_h_eff": 5,
+        "dp_vector": {
+          "act": 0,
+          "build": 8,
+          "checkpoint_read": 0,
+          "checkpoint_write": 0,
+          "hit": 5,
+          "invalidation": 0,
+          "probe": 0,
+          "rent": 6,
+          "replay": 0
+        },
+        "family": "late_reuse",
+        "material_residual": false,
+        "nonzero_components": {}
+      }
+    ],
+    "horizon_terminals_cited": [
+      "EXACT_META_POLICY_SUFFICIENT",
+      "LEARNED_ROUTER_NOT_NEEDED",
+      "PARENT_SUFFICIENT"
+    ],
+    "myopic_constant": {
+      "h_eff": 0,
+      "vector": {
+        "act": 0,
+        "build": 0,
+        "checkpoint_read": 0,
+        "checkpoint_write": 0,
+        "hit": 0,
+        "invalidation": 0,
+        "probe": 0,
+        "rent": 24,
+        "replay": 0
+      }
+    },
+    "myopic_is_not_the_analytic_parent": true,
+    "refuted": true
+  },
+  "salt": "orion-ocm-g4-decision-adequacy-v1",
+  "schema": "ocm.g4.decision-adequacy.v1",
+  "terminal": "G4_NON_ML_ADEQUACY_SUPPORTED_AT_TOY_SCOPE"
+}

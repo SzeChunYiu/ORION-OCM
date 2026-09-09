@@ -251,7 +251,7 @@ without containing the future domain competence itself.
 ### G1.3 Controller-growth hostile
 
 - [x] Measure controller source/branch growth across domain additions.
-- [ ] Demonstrate new competence predominantly appears in learned/imported field/operator state.
+- [x] Demonstrate new competence predominantly appears in learned/imported field/operator state.
 - [x] Add hostile where a domain-specific hard-coded `Π` rule would trivially solve the task.
 - [x] Require that hostile to be absent from the mechanism arm.
 - [x] Count every retained domain-specific rule as prior information.
@@ -327,22 +327,22 @@ current authority
 
 Compare and/or absorb strong donors:
 
-- [ ] Stitch-style library learning;
-- [ ] DreamCoder-class abstraction;
-- [ ] anti-unification;
-- [ ] grammar induction;
-- [ ] e-graph / rewrite-derived abstraction;
-- [ ] program compression;
-- [ ] domain-native method induction;
-- [ ] strong conventional parent with same primitive library.
+- [x] Stitch-style library learning;
+- [x] DreamCoder-class abstraction;
+- [x] anti-unification;
+- [x] grammar induction;
+- [x] e-graph / rewrite-derived abstraction;
+- [x] program compression;
+- [x] domain-native method induction;
+- [x] strong conventional parent with same primitive library.
 
 For every donor:
 
-- [ ] `ADOPT / ADAPT / GENERALIZE / REJECT / OPEN`
-- [ ] origin identity
-- [ ] prior-information charge
-- [ ] integration cost
-- [ ] actual scientific residual after subtraction
+- [x] `ADOPT / ADAPT / GENERALIZE / REJECT / OPEN`
+- [x] origin identity
+- [x] prior-information charge
+- [x] integration cost
+- [x] actual scientific residual after subtraction
 
 ### G2.3 Primitive-alias prevention
 
@@ -663,7 +663,7 @@ Evaluate mature parents first.
 - [x] evidence in upper-only support remains tracked;
 - [x] revocation parity against current antichain oracle;
 - [x] enumeration may be output-sized / bounded `CANNOT_CHECK`;
-- [ ] compare support DAG / BDD / ZDD / strongest conventional parent;
+- [x] compare support DAG / BDD / ZDD / strongest conventional parent;
 - [ ] production adoption only after economics support it.
 
 ## G5.4 Cognitive consolidation
@@ -744,7 +744,7 @@ Current self-evolution work has selected existing alternatives.
 
 Next step must remove supplied decomposition.
 
-- [ ] recover source-bound real failure/probe incidents;
+- [x] recover source-bound real failure/probe incidents;
 - [x] preserve missing data as UNKNOWN;
 - [x] do not supply root-cause labels;
 - [x] collect intervention → effect observations;
@@ -1032,21 +1032,21 @@ CANNOT_CHECK_<reason>
 - [x] induce constructions;
 - [ ] recursive composition;
 - [ ] meaning graphs beyond historical small bound;
-- [ ] exact canonicalization / explicit bound;
+- [x] exact canonicalization / explicit bound;
 - [x] quantifier scope;
 - [x] negation;
 - [x] typed entities;
-- [ ] UD alignment where valid;
+- [x] UD alignment where valid;
 - [x] `CANNOT_CHECK` where mapping is incomplete;
 - [x] held-out lexical fillers;
 - [x] held-out construction combinations;
 - [x] held-out construction families;
 - [x] artificial/non-English structure;
-- [ ] acquisition curves;
+- [x] acquisition curves;
 - [x] correction/revocation;
 - [x] reset control;
 - [x] grammar-induction parent;
-- [ ] persistent grammar/skill parent;
+- [x] persistent grammar/skill parent;
 - [ ] continual adaptation parent;
 - [x] open-weight LM reference;
 - [x] G2 causal reuse receipts for learned linguistic objects.

@@ -1,0 +1,564 @@
+{
+  "all_arms_verify_all_states": true,
+  "box_mapping": [
+    {
+      "at_this_microscope": "CHECK",
+      "checkbox": "multiple safe strategies remain after exact admissibility",
+      "id": "G4.4.1",
+      "programme_tick": false,
+      "witness": "2 complete strategies verify every task"
+    },
+    {
+      "at_this_microscope": "CHECK",
+      "checkbox": "optimal strategy changes across legal pre-outcome states",
+      "id": "G4.4.2",
+      "programme_tick": false,
+      "witness": "MACRO on MATCH (degree 2); PRIMITIVE on MISMATCH (degree 1)"
+    },
+    {
+      "at_this_microscope": "CHECK",
+      "checkbox": "counterfactual value is identifiable",
+      "id": "G4.4.3",
+      "programme_tick": false,
+      "witness": "unused-arm Q is the exact exclusive rollout slot count"
+    },
+    {
+      "at_this_microscope": "FAIL_PARENT_CAPTURES",
+      "checkbox": "simple exact/analytic parents leave a material residual",
+      "id": "G4.4.4",
+      "programme_tick": false,
+      "witness": "greedy always-MACRO residual 15 slots; analytic degree-threshold residual 0 slots. The residual of ignoring degree is a missing legal feature read, not a learner case."
+    },
+    {
+      "at_this_microscope": "CHECK",
+      "checkbox": "legal features contain enough information for the required decision",
+      "id": "G4.4.5",
+      "programme_tick": false,
+      "witness": "registered feature = degree; deficient control constant_term_nonzero aliases"
+    },
+    {
+      "at_this_microscope": "CHECK",
+      "checkbox": "hypothesis class is adequate",
+      "id": "G4.4.6",
+      "programme_tick": false,
+      "witness": "threshold-on-degree recovers DP; constant policies do not"
+    },
+    {
+      "at_this_microscope": "NOT_CLAIMED",
+      "checkbox": "G2.4 fresh-task causal use closed",
+      "id": "G2.4-complete",
+      "programme_tick": false,
+      "witness": "this capsule is identifiability at the polynomial microscope, not G2.4"
+    },
+    {
+      "at_this_microscope": "NOT_UNLOCKED",
+      "checkbox": "#71 learned router authorized",
+      "id": "G4.4-ml-unlock",
+      "programme_tick": false,
+      "witness": "PARENT_SUFFICIENT_AT_SCOPE"
+    }
+  ],
+  "claim_ceiling": "G4.4 identifiability preconditions at this four-task polynomial microscope. Not G2.4-complete. Not a G4.4 ML unlock. PARENT_SUFFICIENT is not programme failure.",
+  "criteria": {
+    "all_arms_verify_all_states": true,
+    "analytic_recovers_dp": true,
+    "constant_class_inadequate": true,
+    "counterfactual_identifiable_exact_backup": true,
+    "legal_degree_regret_floor_zero": true,
+    "legal_degree_unanimous": true,
+    "methods_blob_pinned": true,
+    "ml_not_trained": true,
+    "multiple_safe_strategies": true,
+    "no_sampling": true,
+    "optimal_strategy_changes": true,
+    "threshold_class_adequate": true
+  },
+  "exact_backup": {
+    "match-0": {
+      "admissible": [
+        "PRIMITIVE",
+        "MACRO"
+      ],
+      "counterfactual_identifiable": true,
+      "optimal": "MACRO",
+      "q_slots": {
+        "MACRO": 1,
+        "PRIMITIVE": 9
+      },
+      "unused_counterfactuals": {
+        "PRIMITIVE": {
+          "advantage_of_best": 8,
+          "mechanism": "exact_arm_rollout_slots",
+          "slots": 9
+        }
+      },
+      "value_slots": 1
+    },
+    "match-1": {
+      "admissible": [
+        "PRIMITIVE",
+        "MACRO"
+      ],
+      "counterfactual_identifiable": true,
+      "optimal": "MACRO",
+      "q_slots": {
+        "MACRO": 7,
+        "PRIMITIVE": 34
+      },
+      "unused_counterfactuals": {
+        "PRIMITIVE": {
+          "advantage_of_best": 27,
+          "mechanism": "exact_arm_rollout_slots",
+          "slots": 34
+        }
+      },
+      "value_slots": 7
+    },
+    "mismatch-0": {
+      "admissible": [
+        "PRIMITIVE",
+        "MACRO"
+      ],
+      "counterfactual_identifiable": true,
+      "optimal": "PRIMITIVE",
+      "q_slots": {
+        "MACRO": 22,
+        "PRIMITIVE": 14
+      },
+      "unused_counterfactuals": {
+        "MACRO": {
+          "advantage_of_best": 8,
+          "mechanism": "exact_arm_rollout_slots",
+          "slots": 22
+        }
+      },
+      "value_slots": 14
+    },
+    "mismatch-1": {
+      "admissible": [
+        "PRIMITIVE",
+        "MACRO"
+      ],
+      "counterfactual_identifiable": true,
+      "optimal": "PRIMITIVE",
+      "q_slots": {
+        "MACRO": 19,
+        "PRIMITIVE": 12
+      },
+      "unused_counterfactuals": {
+        "MACRO": {
+          "advantage_of_best": 7,
+          "mechanism": "exact_arm_rollout_slots",
+          "slots": 19
+        }
+      },
+      "value_slots": 12
+    }
+  },
+  "g24_complete": false,
+  "g44_ml_authorized": false,
+  "hypothesis_class": {
+    "constant_class_adequate": false,
+    "constant_matches": {
+      "MACRO": false,
+      "PRIMITIVE": false
+    },
+    "dp_policy": {
+      "match-0": "MACRO",
+      "match-1": "MACRO",
+      "mismatch-0": "PRIMITIVE",
+      "mismatch-1": "PRIMITIVE"
+    },
+    "registered_class": "MACRO iff degree >= t, t in {0,1,2,3}",
+    "threshold_on_degree_adequate": true,
+    "thresholds_that_recover_dp": [
+      2
+    ]
+  },
+  "legal_features": {
+    "deficient_constant_term_nonzero": {
+      "collisions": [
+        {
+          "bucket": "constant_term_nonzero=true",
+          "members": [
+            "match-0",
+            "match-1",
+            "mismatch-0",
+            "mismatch-1"
+          ],
+          "required_actions": [
+            "MACRO",
+            "PRIMITIVE"
+          ]
+        }
+      ],
+      "oracle_slots": 34,
+      "phi_slots": 49,
+      "regret_floor_slots": 15,
+      "unanimous_buckets": false
+    },
+    "registered_degree": {
+      "collisions": [],
+      "oracle_slots": 34,
+      "phi_slots": 34,
+      "regret_floor_slots": 0,
+      "unanimous_buckets": true
+    }
+  },
+  "methods_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3",
+  "ml_trained": false,
+  "no_sampling": true,
+  "parents_cited_not_rewritten": [
+    "research/g4-horizon-exact-v1/",
+    "research/paid-decision-region-correction-v1/",
+    "research/decision-core-successor-repair-v1/",
+    "research/g2-two-decision-search-v1/"
+  ],
+  "q_table": {
+    "match-0": {
+      "MACRO": {
+        "candidates_checked": 1,
+        "program": [
+          "inc",
+          "square"
+        ],
+        "slots": 1,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      },
+      "PRIMITIVE": {
+        "candidates_checked": 9,
+        "program": [
+          "inc",
+          "square"
+        ],
+        "slots": 9,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      }
+    },
+    "match-1": {
+      "MACRO": {
+        "candidates_checked": 7,
+        "program": [
+          "inc",
+          "square",
+          "inc"
+        ],
+        "slots": 7,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      },
+      "PRIMITIVE": {
+        "candidates_checked": 34,
+        "program": [
+          "inc",
+          "square",
+          "inc"
+        ],
+        "slots": 34,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      }
+    },
+    "mismatch-0": {
+      "MACRO": {
+        "candidates_checked": 21,
+        "program": [
+          "double",
+          "inc"
+        ],
+        "slots": 22,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      },
+      "PRIMITIVE": {
+        "candidates_checked": 14,
+        "program": [
+          "double",
+          "inc"
+        ],
+        "slots": 14,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      }
+    },
+    "mismatch-1": {
+      "MACRO": {
+        "candidates_checked": 18,
+        "program": [
+          "dec",
+          "double"
+        ],
+        "slots": 19,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      },
+      "PRIMITIVE": {
+        "candidates_checked": 12,
+        "program": [
+          "dec",
+          "double"
+        ],
+        "slots": 12,
+        "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+        "verified": true
+      }
+    }
+  },
+  "residual_table": {
+    "always_macro": {
+      "mechanism": "state-independent MACRO enumerates (inc,square)-expansions that cannot be degree-1 identities",
+      "residual_slots": 15,
+      "total_slots": 49
+    },
+    "always_primitive": {
+      "mechanism": "state-independent PRIMITIVE pays MATCH-family prefix search the fragment already names",
+      "residual_slots": 35,
+      "total_slots": 69
+    },
+    "analytic_degree_threshold": {
+      "mechanism": "closed-form threshold on legal degree; residual 0 iff it recovers DP",
+      "residual_slots": 0,
+      "total_slots": 34
+    },
+    "exact_dp": {
+      "mechanism": "finite exact backup over the four frozen states",
+      "residual_slots": 0,
+      "total_slots": 34
+    },
+    "oracle_slots": 34
+  },
+  "safe_strategies": {
+    "enumerated_verified_assignments": 16,
+    "n_distinct_all_succeed": 2,
+    "names": [
+      "always_primitive",
+      "always_macro",
+      "analytic_degree_threshold",
+      "exact_dp"
+    ],
+    "policies": {
+      "always_macro": {
+        "all_verified": true,
+        "choices": [
+          {
+            "action": "MACRO",
+            "slots": 1,
+            "state_id": "match-0",
+            "verified": true
+          },
+          {
+            "action": "MACRO",
+            "slots": 7,
+            "state_id": "match-1",
+            "verified": true
+          },
+          {
+            "action": "MACRO",
+            "slots": 22,
+            "state_id": "mismatch-0",
+            "verified": true
+          },
+          {
+            "action": "MACRO",
+            "slots": 19,
+            "state_id": "mismatch-1",
+            "verified": true
+          }
+        ],
+        "total_slots": 49
+      },
+      "always_primitive": {
+        "all_verified": true,
+        "choices": [
+          {
+            "action": "PRIMITIVE",
+            "slots": 9,
+            "state_id": "match-0",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 34,
+            "state_id": "match-1",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 14,
+            "state_id": "mismatch-0",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 12,
+            "state_id": "mismatch-1",
+            "verified": true
+          }
+        ],
+        "total_slots": 69
+      },
+      "analytic_degree_threshold": {
+        "all_verified": true,
+        "choices": [
+          {
+            "action": "MACRO",
+            "slots": 1,
+            "state_id": "match-0",
+            "verified": true
+          },
+          {
+            "action": "MACRO",
+            "slots": 7,
+            "state_id": "match-1",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 14,
+            "state_id": "mismatch-0",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 12,
+            "state_id": "mismatch-1",
+            "verified": true
+          }
+        ],
+        "total_slots": 34
+      },
+      "exact_dp": {
+        "all_verified": true,
+        "choices": [
+          {
+            "action": "MACRO",
+            "slots": 1,
+            "state_id": "match-0",
+            "verified": true
+          },
+          {
+            "action": "MACRO",
+            "slots": 7,
+            "state_id": "match-1",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 14,
+            "state_id": "mismatch-0",
+            "verified": true
+          },
+          {
+            "action": "PRIMITIVE",
+            "slots": 12,
+            "state_id": "mismatch-1",
+            "verified": true
+          }
+        ],
+        "total_slots": 34
+      }
+    }
+  },
+  "schema": "ocm.g2.strategy-identifiability.result.v1",
+  "terminal": "PARENT_SUFFICIENT_AT_SCOPE",
+  "two_decision_episode": {
+    "note": "one MATCH then one MISMATCH; exclusive arms, not mixed methods.solve alternation",
+    "optimal_changes": true,
+    "trajectory": [
+      {
+        "optimal": "MACRO",
+        "state_id": "match-0",
+        "t": 1
+      },
+      {
+        "optimal": "PRIMITIVE",
+        "state_id": "mismatch-0",
+        "t": 2
+      }
+    ]
+  },
+  "world": {
+    "actions": [
+      "PRIMITIVE",
+      "MACRO"
+    ],
+    "analytic_rule": "MACRO iff degree >= 2",
+    "budget": {
+      "max_length": 4,
+      "slots": 1000
+    },
+    "fragment": [
+      "inc",
+      "square"
+    ],
+    "kind": "finite_noiseless_two_action_mdp_over_polynomial_identities",
+    "n_states": 4,
+    "states": [
+      {
+        "coefficients": [
+          "1",
+          "2",
+          "1"
+        ],
+        "constant_term_nonzero": true,
+        "degree": 2,
+        "family": "MATCH",
+        "fingerprint": "bc5331e363ed79b0a951c77088386ef571a3332fbc0cd50e06821c2cc52b88b2",
+        "program": [
+          "inc",
+          "square"
+        ],
+        "state_id": "match-0"
+      },
+      {
+        "coefficients": [
+          "2",
+          "2",
+          "1"
+        ],
+        "constant_term_nonzero": true,
+        "degree": 2,
+        "family": "MATCH",
+        "fingerprint": "034ba9008acfafe3e230eced555147b0fd5293b6a5b5064e396d0f5c448884d3",
+        "program": [
+          "inc",
+          "square",
+          "inc"
+        ],
+        "state_id": "match-1"
+      },
+      {
+        "coefficients": [
+          "1",
+          "2"
+        ],
+        "constant_term_nonzero": true,
+        "degree": 1,
+        "family": "MISMATCH",
+        "fingerprint": "28dba0c55bfed9e36dd75bdc4a52a7999445f68afe6c54c86c5ccc50c2923d07",
+        "program": [
+          "double",
+          "inc"
+        ],
+        "state_id": "mismatch-0"
+      },
+      {
+        "coefficients": [
+          "-2",
+          "2"
+        ],
+        "constant_term_nonzero": true,
+        "degree": 1,
+        "family": "MISMATCH",
+        "fingerprint": "58f2c720f116049d447f70a9b336c76d575d6d7324d2237c847d5100bc16e972",
+        "program": [
+          "dec",
+          "double"
+        ],
+        "state_id": "mismatch-1"
+      }
+    ]
+  }
+}
