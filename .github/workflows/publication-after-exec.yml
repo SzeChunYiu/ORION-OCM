@@ -1,0 +1,77 @@
+name: Publication after-execution receipts
+
+on:
+  pull_request:
+    paths:
+      - 'research/publication-after-exec-v1/**'
+      - 'research/publication-constitution-v1/PROTOCOL.json'
+      - 'research/publication-constitution-v2/**'
+      - 'research/cinv-audit-v1/RESULT.json'
+      - '.github/workflows/publication-after-exec.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/publication-after-exec-v1/**'
+      - '.github/workflows/publication-after-exec.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  publication-after-exec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/publication-after-exec-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/pub-after-exec-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/publication-after-exec-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/publication-after-exec-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Harvest after-execution receipts
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/pub-after-exec-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/publication-after-exec-v1/experiment.py --out "$out/RESULT.json" | tee "$out/console.txt"
+          python -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "pub-after-exec-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          if result["terminal"] != "PUBLICATION_AFTER_EXEC_RECEIPTS_PRESENT_WITH_GAPS":
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result.get("closes_issue_144"):
+              sys.exit("must not close #144")
+          if result["evidence_class"] in {"E4", "E5"}:
+              sys.exit("must not invent E4/E5")
+          cannot = set(result["cannot_check"])
+          for box in ("fresh_host_rerun", "disjoint_replication", "independent_scorer_checker"):
+              if box not in cannot:
+                  sys.exit("%s must remain CANNOT_CHECK" % box)
+          PY
+      - name: Constitution freeze unchanged
+        if: always()
+        run: |
+          git diff --exit-code -- research/publication-constitution-v1
+          git diff --exit-code -- research/publication-constitution-v2
+          git diff --exit-code -- research/cinv-audit-v1/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: publication-after-exec
+          path: '${{ runner.temp }}/pub-after-exec-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
