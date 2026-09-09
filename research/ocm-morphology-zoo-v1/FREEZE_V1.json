@@ -1,0 +1,69 @@
+{
+  "freeze_id": "ZOO221_FREEZE_V1",
+  "created_utc": "2026-09-09T00:00:00Z",
+  "scope": "research/ocm-morphology-zoo-v1 (issue #221 MZ-D2/MZ-D3); frozen BEFORE any MZ-D3 production run",
+  "census_truth_P00": {
+    "source": "archives/CENSUS_P00_TRUTH.json (exhaustive, deterministic; receipt head 79e8773d5ad44fde79503841eb22eeddf4baf6f07520c43fbd14d9a58c8c8c7b)",
+    "census_size": 56160,
+    "feasible": 14904,
+    "pareto_phenotypes": 387,
+    "S_cells_occupied": 4,
+    "B_cells_occupied": 2,
+    "best_dev_score_within_bound": 0.649325,
+    "interpretation_rules": [
+      "CENSUS TRUTH IS BOUND-RELATIVE: genomes outside CENSUS_BOUND_V1 (mutations/crossovers widen the space) may exceed census best_dev; observed calibration max 0.700384.",
+      "best_dev_gap may legitimately be negative; negative gap = arm beat the census bound, never a defect.",
+      "Cell-recovery denominators are the census-OCCUPIED cells (4 S / 2 B), never the full 10x10 grid; grid coverage at this bound is near-degenerate and is reported as a finding, not a bug."
+    ]
+  },
+  "metrics_frozen": {
+    "pareto_recovery": "|arm_archive_phenotype_digests INTERSECT census_pareto_387| / 387",
+    "S_cell_recovery": "|arm S_structural_2d occupied cells INTERSECT census S cells| / 4 (descriptors recomputed from genomes for every arm)",
+    "B_cell_recovery": "same over B_behavior_2d census cells / 2",
+    "best_dev": "max dev_score over arm archive; gap = 0.649325 - best_dev (negative allowed)",
+    "qd_score": "sum of elite dev_scores within arm archive",
+    "unique_phenotypes": "len(distinct phenotype digests among feasible evals)",
+    "comparisons": "same-evaluation-count AND same-CPU-hour both reported (wall_s per arm recorded in every result row)"
+  },
+  "calibration_MZ_D2": {
+    "budget_evals_per_arm_seed": 4000,
+    "seeds": [0, 1, 2],
+    "result": "results/RECOVERY_TEST.json",
+    "arm_means": {
+      "P01_random_search": {"pareto": 0.0672, "S_cell": 1.0, "B_cell": 1.0, "gap": 0.002083},
+      "P02_nsga2": {"pareto": 0.0198, "S_cell": 1.0, "B_cell": 1.0, "gap": -0.045903},
+      "P03_map_elites": {"pareto": 0.0, "S_cell": 1.0, "B_cell": 0.6667, "gap": -0.005531},
+      "P04_nslc": {"pareto": 0.0327, "S_cell": 1.0, "B_cell": 1.0, "gap": -0.023853},
+      "P05_map_elites_B": {"pareto": 0.0, "S_cell": 0.25, "B_cell": 1.0, "gap": -0.015842},
+      "P06_cvt_map_elites": {"pareto": 0.0, "S_cell": 1.0, "B_cell": 0.8333, "gap": -0.045903},
+      "P09_mome": {"pareto": 0.0, "S_cell": 1.0, "B_cell": 0.6667, "gap": -0.005531},
+      "P11_lexicase": {"pareto": 0.0276, "S_cell": 1.0, "B_cell": 1.0, "gap": -0.051059}
+    },
+    "known_defects_of_metrics": [
+      "S/B cell recovery saturates trivially (denominators 4 and 2); it cannot discriminate arms — retained for continuity, never cited as QD evidence alone.",
+      "pareto_recovery rewards exact phenotype matches inside the bound; arms pushing outside the bound trade it off against best_dev. Both are reported together, always."
+    ]
+  },
+  "production_MZ_D3": {
+    "budget_evals_per_arm_seed": 40000,
+    "rationale": "0.71x census size; chosen before any production run from throughput pilot (0.086 ms/eval, worst arm lexicase 7.1 s/4000 evals; projected full campaign < 1 CPU-hour)",
+    "seeds": [0, 1, 2],
+    "arms": ["P01_random_search", "P02_nsga2", "P03_map_elites", "P04_nslc", "P05_map_elites_B", "P06_cvt_map_elites", "P09_mome", "P11_lexicase"],
+    "deferred_arms": ["P07_cma_me", "P08_cma_mae", "P10_surrogate_qd", "P12_islands", "P13_meta", "P14_pbt", "P15_poet"],
+    "amendment_rule": "wider arrays / extra seeds / changed budgets = numbered freeze amendments (FREEZE_V1_AMEND_n.json), reported separately, never overwrite"
+  },
+  "constants": {
+    "dev_score_W_REF_work": 500.0,
+    "dev_score_B_REF_persistent_bytes": 150.0,
+    "CAPABILITY_FLOOR_V1": 0.5,
+    "descriptor_grid_resolution": 10,
+    "cvt_k": 64,
+    "cvt_n_sample": 500
+  },
+  "throughput_pilot": {
+    "host": "billy-laptop",
+    "eval_ms_mean": 0.086,
+    "census_wall_s_56160": 42.8,
+    "calibration_wall_s_total_24_runs": 55.1
+  }
+}

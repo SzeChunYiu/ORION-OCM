@@ -1,0 +1,26 @@
+{
+  "captured_at_utc": "2026-09-09",
+  "own_footprint": {
+    "paths": ["research/ocm-morphology-zoo-v1/**"],
+    "run_roots": {"lunarc": "$HOME/zoo221", "laptop_billy": "~/zoo221-run", "billy_old": "~/zoo221-run"},
+    "job_name_prefix": "zoo-",
+    "branch": "research/ocm-morphology-zoo-v1",
+    "base": "ab5310942b01be11776c0eddc4403dc0e0dcb51c"
+  },
+  "lanes": [
+    {"lane": "217 serial developmental evolution (worker H)", "pr": null, "capsule": "research/parallel-developmental-evolution-v1", "collision": "NONE (disjoint capsule; H owns pdev217-* run roots and job names; we never touch them)", "interaction": "zoo elites may later enter #217 via its external adoption protocol only (#221 sec 13)"},
+    {"lane": "206 remaining gates", "pr": 206, "head": "bdee617f", "collision": "NONE", "interaction": "read-only unless explicit handoff (#221 concurrent boundary)"},
+    {"lane": "g5 warrant adoption", "pr": 213, "collision": "NONE"},
+    {"lane": "g7 primitive pressure", "pr": 212, "collision": "NONE", "interaction": "Archive D descriptor 'primitive-pressure slope' cites this lane's mechanism naming only"},
+    {"lane": "h1 examples charge", "pr": 211, "collision": "NONE"},
+    {"lane": "l1 continual adapt", "pr": 210, "collision": "NONE"},
+    {"lane": "g1 hostile pi", "pr": 209, "collision": "NONE"},
+    {"lane": "goal-only cold native", "pr": 204, "collision": "NONE"},
+    {"lane": "goal-only lifecycle", "pr": 203, "collision": "NONE"},
+    {"lane": "foundations closure", "pr": 196, "collision": "NONE"},
+    {"lane": "foundation lifecycle contract", "pr": 194, "collision": "NONE"},
+    {"lane": "older open research PRs", "pr": ["187","186","185","184","183","132","131","130","129","112"], "collision": "NONE"}
+  ],
+  "method": "gh pr list --state open vs own footprint; every open PR modifies research/ capsules other than ocm-morphology-zoo-v1; verified no PR touches this path",
+  "issue_integration_target": 221
+}

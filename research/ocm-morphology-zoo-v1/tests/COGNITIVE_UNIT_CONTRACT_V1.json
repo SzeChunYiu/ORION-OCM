@@ -1,0 +1,77 @@
+{
+ "contract_id": "CognitiveUnitContractV1",
+ "created_utc": "2026-09-09T17:40:29Z",
+ "rules": [
+  "identity/warrant can only be minted by non-approximate units over non-approximate fields",
+  "approximate units (assoc_similarity, approx_projection_vsa fields) emit proposals WITHOUT warrant",
+  "every unit's prior is charged (bytes) at compile time; no free structure",
+  "all work (acquisition/reasoning/verification/maintenance/revision) is metered and charged"
+ ],
+ "units": {
+  "abstraction_schema": {
+   "approximate": false,
+   "charged_prior": 30,
+   "competence": "compress patterns; generalize to family variants"
+  },
+  "assoc_similarity": {
+   "approximate": true,
+   "charged_prior": 24,
+   "competence": "similarity proposals WITHOUT warrant"
+  },
+  "constraint_solver": {
+   "approximate": false,
+   "charged_prior": 36,
+   "competence": "consistency check; detects scoped failure (nogood)"
+  },
+  "diagnostic_probe": {
+   "approximate": false,
+   "charged_prior": 22,
+   "competence": "adaptive information gathering (decision-sufficient state)"
+  },
+  "episodic_memory": {
+   "approximate": false,
+   "charged_prior": 18,
+   "competence": "store solved-case trajectories for reuse"
+  },
+  "exact_index": {
+   "approximate": false,
+   "charged_prior": 40,
+   "competence": "exact retrieval index; build cost charged, query cost reduced"
+  },
+  "fact_relation": {
+   "approximate": false,
+   "charged_prior": 16,
+   "competence": "hold/derive typed facts"
+  },
+  "fsm_controller": {
+   "approximate": false,
+   "charged_prior": 20,
+   "competence": "ordered multi-step method execution (A then B)"
+  },
+  "local_executive": {
+   "approximate": false,
+   "charged_prior": 26,
+   "competence": "local scheduling; reduces global dispatch overhead"
+  },
+  "procedural_memory": {
+   "approximate": false,
+   "charged_prior": 18,
+   "competence": "store compiled procedures; cheap re-execution"
+  },
+  "production_rule": {
+   "approximate": false,
+   "charged_prior": 24,
+   "competence": "fire rule: premises->conclusion facts"
+  },
+  "rewrite_program": {
+   "approximate": false,
+   "charged_prior": 32,
+   "competence": "convert raw obs to typed features (representation repair)"
+  },
+  "search_planner": {
+   "approximate": false,
+   "charged_prior": 28,
+   "competence": "bounded forward search to goal, charged per expansion"
+  }
+ }
+}
