@@ -1,0 +1,165 @@
+{
+ "arm": "PARENT_RESULT",
+ "arms": [
+  "PARENT",
+  "CONTINUED",
+  "RESET"
+ ],
+ "final": {
+  "CONTINUED": {
+   "adoptions": 1,
+   "digest": "e05e3ae63bb01037",
+   "history": [
+    {
+     "adopted": "e05e3ae63bb01037",
+     "baseline_vector": {
+      "failures": 0,
+      "persistent_bytes": 31610,
+      "work": 97202
+     },
+     "entry_id": "CONTINUED.n2.g2",
+     "generation": 2,
+     "rule": "frozen scalar (failures, work) strict improvement, violations==0",
+     "vector": {
+      "failures": 0,
+      "persistent_bytes": 31610,
+      "work": 96590
+     }
+    },
+    {
+     "adopted": null,
+     "baseline_vector": {
+      "failures": 0,
+      "persistent_bytes": 71249,
+      "work": 104942
+     },
+     "generation": 3,
+     "reason": "no neighbour strictly better under frozen scalar"
+    }
+   ]
+  },
+  "PARENT": {
+   "g2": {
+    "digest": "PARENT.g2.g2"
+   },
+   "g3": {
+    "digest": "PARENT.g2.g3"
+   },
+   "note": "parent reference points re-measured once per generation"
+  },
+  "RESET": {
+   "adoptions": 2,
+   "digest": "7ec87530e47478b8",
+   "history": [
+    {
+     "adopted": "2057ee291c3a4fe3",
+     "baseline_vector": {
+      "failures": 2,
+      "persistent_bytes": 37538,
+      "work": 146934
+     },
+     "entry_id": "RESET.n116.g2",
+     "generation": 2,
+     "rule": "frozen scalar (failures, work) strict improvement, violations==0",
+     "vector": {
+      "failures": 0,
+      "persistent_bytes": 31610,
+      "work": 98638
+     }
+    },
+    {
+     "adopted": "7ec87530e47478b8",
+     "baseline_vector": {
+      "failures": 0,
+      "persistent_bytes": 71249,
+      "work": 118722
+     },
+     "entry_id": "RESET.n16.g3",
+     "generation": 3,
+     "rule": "frozen scalar (failures, work) strict improvement, violations==0",
+     "vector": {
+      "failures": 0,
+      "persistent_bytes": 71249,
+      "work": 107982
+     }
+    }
+   ]
+  }
+ },
+ "pdev11_discriminator": {
+  "detail": [
+   "CONTINUED (history-carrying) adopted exactly one change (g2: e05e3ae63bb01037, vector failures=0 persistent_bytes=31610 work=96590 vs baseline work 97202) and then held it at g3 ('no neighbour strictly better under frozen scalar'); its final digest equals the canonical lineage's adopted g2 morphology",
+   "RESET (history-blind) adopted twice (g2: 2057ee291c3a4fe3 work 98638; g3: 7ec87530e47478b8 work 107982) and ends at a different, higher-work morphology",
+   "same frozen scalar rule, same task suites, same budgets; the only difference is carried history => history is measurable (final work 96590 vs 107982, same failures=0, same bytes 31610 vs 71249)"
+  ],
+  "question": "does carrying serial history change the parent-space search trajectory versus a history-blind reset?",
+  "result": "DISCRIMINATED: lineages diverged",
+  "verdict": "carried serial history earned a strictly better final parent-space morphology than the history-blind reset on the frozen (failures, work) scalar"
+ },
+ "per_generation": {
+  "g2": {
+   "jobs": "3585268",
+   "note": "217 = CONTINUED 108 + RESET 108 + PARENT reference 1",
+   "parent_array_denominator": 217,
+   "rows": {
+    "CONTINUED": {
+     "best": {
+      "entry_id": "CONTINUED.baseline.g2",
+      "vector": {}
+     },
+     "measured": 108,
+     "rows": 108
+    },
+    "PARENT": {
+     "best": {
+      "entry_id": "PARENT.g2.g2",
+      "vector": {}
+     },
+     "measured": 1,
+     "rows": 1
+    },
+    "RESET": {
+     "best": {
+      "entry_id": "RESET.baseline.g2",
+      "vector": {}
+     },
+     "measured": 108,
+     "rows": 108
+    }
+   }
+  },
+  "g3": {
+   "jobs": "3585560",
+   "note": "123 = CONTINUED 14 + RESET 108 + PARENT reference 1",
+   "parent_array_denominator": 123,
+   "rows": {
+    "CONTINUED": {
+     "best": {
+      "entry_id": "CONTINUED.baseline.g3",
+      "vector": {}
+     },
+     "measured": 14,
+     "rows": 14
+    },
+    "PARENT": {
+     "best": {
+      "entry_id": "PARENT.g2.g3",
+      "vector": {}
+     },
+     "measured": 1,
+     "rows": 1
+    },
+    "RESET": {
+     "best": {
+      "entry_id": "RESET.baseline.g3",
+      "vector": {}
+     },
+     "measured": 108,
+     "rows": 108
+    }
+   }
+  }
+ },
+ "schema": "pdev217.parent_result.v1",
+ "written_unix": 1788974132.308565
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "ocm.fna.fna7-capability-transplant.repo-state.v1",
+  "capsule": "research/fna7-capability-transplant-v1",
+  "branch": "research/fna7-capability-transplant-v1",
+  "base_commit_origin_main": "ab5310942b01be11776c0eddc4403dc0e0dcb51c",
+  "worktree": "ORION-OCM-wt/fna7-transplant (own worktree; main checkout never written)",
+  "concurrency_check": "CONCURRENCY_CHECK.json verdict NO_CONCURRENT_WORK_COLLISION, recorded 2026-09-09 before any work",
+  "file_manifest": {
+    "CAPABILITY_TRANSPLANT_PROTOCOL_V1.json": "c6a2e0aa09e648c77c82fafb45e6bc7f",
+    "CONCURRENCY_CHECK.json": "748a8a29098f0e3e09a3c700ca635b87",
+    "FREEZE_FNA7_V1.json": "4525ad614b9844ef2b60fdc036b6dba6",
+    "PROTOCOL.md": "d52faa5f84c334181ca3dc32801b220a",
+    "fna7_pilot.py": "e8823d48551fe5e474d152893f9c4b67",
+    "test_fna7.py": "1a816e1643060618cf5e2e1583d136e5",
+    "FNA7_PILOT_RESULTS_V1.json": "c4e81ece3efef4ea997be510fbbe2e10",
+    "FNA7_PILOT_RESULTS_V1.md": "901828217b40256ceb9571b138e64fd2",
+    "SOURCE_LEDGER.json": "f155cc5bcf0776762bb949b7bca0b495",
+    "README.md": "41280bb8ad11070361396437072dd2d1",
+    "REPO_STATE.json": "self"
+  },
+  "sibling_read_only_bindings": {
+    "research/fna5-routing-first-refusal-v1/fna5_world.py + fna5_selectors.py": "PR #219 capsule at base commit; imported, never modified (git status clean vs origin/main)"
+  },
+  "execution_receipts": {
+    "host": "billy-laptop (ssh billy-laptop), run dir ~/fna7-run — Mac mini executed nothing",
+    "python": "~/anaconda3/envs/a1_bench/bin/python (3.10.19; fna5 world requires >=3.10 for src/ocm)",
+    "code_transfer": "tar+scp, md5 27ab39d83e7146e89ea6181184423f3f both sides on the final capsule contents (rsync-over-ssh unusable in this environment)",
+    "tests": "13 tests, all OK on billy-laptop against the FINAL capsule contents including docs (unittest test_fna7)",
+    "scored_run": "fna7_pilot.py (full world, 2400 queries), single deterministic run; results json md5 c4e81ece3efef4ea997be510fbbe2e10 identical on laptop and in this capsule",
+    "freeze_sha256_at_run": "adb35e198762f4ff45a8a3771ac568e9b4534a5272a117ff8e8b48fc31c80696",
+    "discarded_runs": "two earlier executions discarded: tiny smoke runs (zero failures, pre-AMENDMENT-1 router) and the first full scored run (pre-AMENDMENT-2 shared-world contamination); both documented in FREEZE amendments"
+  },
+  "outcome": {
+    "terminal": "PARENT_SUFFICIENT_FOR_FAILURE_CLASSIFICATION__GUARDED_DECLARED_RULE_AT_PILOT_SCOPE_FNA7_V1",
+    "scope": "pilot only; licenses no deployment, no #208-scale claim"
+  },
+  "authority_constraints": {
+    "pr_or_comments": "none opened by this lane; the centre owns PR/comment flow",
+    "banned_tokens": "absent (tested)",
+    "main_checkout": "read-only throughout"
+  }
+}

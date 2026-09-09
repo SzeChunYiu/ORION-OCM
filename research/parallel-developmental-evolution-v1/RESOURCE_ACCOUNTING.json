@@ -1,0 +1,165 @@
+{
+ "accounting_rules": {
+  "centre_steps": "generate/aggregate/cycle jobs are orchestration; their slurm charge is reported separately from candidate-search compute",
+  "denominators": "registered per wave in manifests/BATCH.json BEFORE array submission; compute inside the denominator is the point; compute outside it is a violation",
+  "metered_resources": [
+   "work (charged_total_work + checker_expansions, summed over every record)",
+   "persistent_bytes (store+index, peaked)"
+  ],
+  "sources": [
+   "sacct -j <jobid> --format=JobID,State,Elapsed,AllocCPUS,TotalCPU,CPUTRaw,MaxRSS",
+   "manifests/submissions.jsonl",
+   "run-root ledgers"
+  ],
+  "unit_of_charge": "one array task = one candidate (or parent entry / verify entry) measured through the frozen meter on the frozen suite"
+ },
+ "campaign": {
+  "declared": "frozen campaign bound (PROTOCOL.json denominators): per generation cycle, 5 waves (wave 1 quota=1 smoke, waves 2-5 quota=12 per arm -> <=784 candidate evaluations per cycle) + verify survivors (cap 40/wave) + one parent array per generation; at most 2 generation cycles (cycle 2 only if cycle 1 adopts); all arrays on the hep partition (cpu-only)",
+  "totals": {
+   "candidate_evaluations_metered": 784,
+   "cpu_hours": 1.083,
+   "cpu_seconds": 3900.4,
+   "failed_then_superseded": [
+    "3585508",
+    "3585511",
+    "3586500"
+   ],
+   "parent_entries_metered": 340,
+   "slurm_task_records": 1168,
+   "task_counts": {
+    "pdev217-aggregate": 18,
+    "pdev217-cycle": 2,
+    "pdev217-eval": 784,
+    "pdev217-generate": 8,
+    "pdev217-parent": 340,
+    "pdev217-selftest": 6,
+    "pdev217-verify": 10
+   },
+   "verify_tasks": 10
+  },
+  "waves": [
+   {
+    "evaluate_denominator": 14,
+    "generation": 2,
+    "jobs": {
+     "aggregate": "3585509",
+     "evaluate": "3585267",
+     "parent": "3585268",
+     "verify": "3585499"
+    },
+    "note": "appended at close-out: the g2w1 driver crashed before its own append (INC-1); job IDs from driver log + sacct",
+    "parent_denominator": 217,
+    "submitted_unix": null,
+    "verify_denominator": 2,
+    "wave": 1
+   },
+   {
+    "evaluate_denominator": 14,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3585699",
+     "evaluate": "3585559",
+     "parent": "3585560",
+     "verify": "3585697"
+    },
+    "parent_denominator": 123,
+    "submitted_unix": 1788972607.2761455,
+    "verify_denominator": 2,
+    "wave": 1
+   },
+   {
+    "evaluate_denominator": 156,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3585867",
+     "evaluate": "3585704",
+     "parent": "",
+     "verify": "3585861"
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788972957.2768073,
+    "verify_denominator": 6,
+    "wave": 2
+   },
+   {
+    "evaluate_denominator": 120,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3585991",
+     "evaluate": "3585870",
+     "parent": "",
+     "verify": ""
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788973290.3403635,
+    "verify_denominator": 0,
+    "wave": 3
+   },
+   {
+    "evaluate_denominator": 120,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3586115",
+     "evaluate": "3585993",
+     "parent": "",
+     "verify": "3586114"
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788973351.4517317,
+    "verify_denominator": 1,
+    "wave": 4
+   },
+   {
+    "evaluate_denominator": 120,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3586238",
+     "evaluate": "3586117",
+     "parent": "",
+     "verify": ""
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788973397.3485358,
+    "verify_denominator": 0,
+    "wave": 5
+   },
+   {
+    "evaluate_denominator": 120,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3586361",
+     "evaluate": "3586240",
+     "parent": "",
+     "verify": ""
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788973443.2611902,
+    "verify_denominator": 0,
+    "wave": 6
+   },
+   {
+    "evaluate_denominator": 120,
+    "generation": 3,
+    "jobs": {
+     "aggregate": "3586484",
+     "evaluate": "3586363",
+     "parent": "",
+     "verify": ""
+    },
+    "parent_denominator": 0,
+    "submitted_unix": 1788973489.1668124,
+    "verify_denominator": 0,
+    "wave": 7
+   }
+  ]
+ },
+ "closing_report_fields": [
+  "total jobs",
+  "array-task count by stage",
+  "CPU-seconds from sacct (CPUTRaw sum)",
+  "metered work units",
+  "incidents with task-level attribution"
+ ],
+ "schema": "pdev217.resource_accounting.v1",
+ "status": "closed 2026-09-09: cycle 1 adopted (g2->g3), cycle 2 exhausted PARENT_SUFFICIENT_BY_REVIVAL_EXHAUSTION"
+}

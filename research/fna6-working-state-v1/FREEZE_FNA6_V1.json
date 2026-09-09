@@ -1,0 +1,86 @@
+{
+  "schema": "ocm.fna6.working-state.freeze.v1",
+  "issue": "SzeChunYiu/ORION-OCM#214",
+  "work_package": "FNA-6 working-state / residual-stream analogue",
+  "branch": "research/fna6-working-state-v1",
+  "base_commit": "86ddd9bcedfb48de804fbb68d599f00ebd8316ba",
+  "base_subject": "Research #216: quantum-structural donor transfer and minimum-sufficient non-neural cognition (#218)",
+  "declared_before_first_scored_run": true,
+  "authority_constraints": {
+    "study_only": "no src/ change; #69 untouched; protected evaluation untouched",
+    "terminals": "issue #214 section 7 vocabulary only; no TRANSFORMER_REPLACED / LLM_EQUIVALENT / GENERAL_SUPERIORITY tokens; the blackboard is not claimed novel"
+  },
+  "world": {
+    "generator": "production ocm.kso.checks.random_space",
+    "sizing": {"n_atoms": 480, "n_edges": 1280, "n_evidence": 24},
+    "ground_truth": "production ocm.kso.navigation.gated_closure at stream state, external judge, never charged to arms",
+    "reuse_note": "same production generator and scale as the #216 MSC world (research/quantum-structural-ocm-v1/msc); own salts; no benchmark authored for this study"
+  },
+  "stream": {
+    "obligations": 2,
+    "serves_per_obligation": 24,
+    "serve_order": "alternating O_A, O_B",
+    "target_polarity": "balanced SUPPORTED / NOT at the stream state where the serve runs",
+    "update_events": 12,
+    "admission_sizes": "3-7 edges among existing atoms, salt-chosen",
+    "revocation_selection": "salt-chosen evidence whose removal flips at least one liveness",
+    "drift": "after serve 23 (midstream): one salt-chosen edge retracted AND one salt-chosen atom warrant replaced by certified-zero",
+    "world_version": "1"
+  },
+  "arms": [
+    "P0_INCUMBENT_ACTIVE_KSO",
+    "P1A_BLACKBOARD_APPEND",
+    "P1B_BLACKBOARD_VERSIONED",
+    "P2_SOAR_WM",
+    "P2_MUTANT_NO_GOAL_BINDING",
+    "P3_ACTR_STRICT_BUFFERS",
+    "P3R_ACTR_REVALIDATE",
+    "P4_FULL_RESCAN",
+    "LOC_RANDOM_NULL"
+  ],
+  "metrics_vocabulary": {
+    "decisions_exact": "serves answered exactly like the oracle, of 48",
+    "interference_events": "wrong answers whose derivation consulted an object resident in the other obligation's working set",
+    "stale_revocation_decisions": "wrong answers following an evidence revocation (stale liveness used)",
+    "merge_failures": "wrong answers following an admission or the catalogue drift (stale structure used)",
+    "build_ops": "one-time preparation operations",
+    "serve_ops": "operations consumed by serves",
+    "merge_ops": "operations consumed applying admissions",
+    "sweep_ops": "operations consumed applying revocations",
+    "drift_ops": "operations consumed applying the catalogue drift",
+    "working_set_peak": "peak concurrent resident objects",
+    "persistent_bytes": "canonical JSON bytes of persistent state at close",
+    "locality_in_cone_fraction": "mean fraction of update-touched objects inside the production impact_cone of the change"
+  },
+  "sufficiency": {
+    "SUFFICIENT": "decisions_exact == 48 AND interference_events == 0 AND stale_revocation_decisions == 0 AND merge_failures == 0",
+    "parent_cost_margin": 2.0,
+    "state_search_dominates_margin": 10.0,
+    "locality_supported": "mean_in_cone_fraction >= 0.90 AND >= 2.0 * null_mean",
+    "overall_terminal_rule": [
+      ">=1 parent arm SUFFICIENT and cost <= 2.0 * cost(P0) -> PARENT_SUFFICIENT_FOR_working_state (parents named)",
+      "else P0 SUFFICIENT -> NON_NEURAL_FUNCTIONAL_RECONSTRUCTION_SUPPORTED_working_state (reconstruction pre-exists on main; study measures parity)",
+      "else -> NO_FUNCTIONAL_PARITY_working_state"
+    ],
+    "per_arm_cost_rule": "SUFFICIENT arm with cost > 10.0 * cost(P0) additionally marked STATE_SEARCH_COST_DOMINATES"
+  },
+  "pre_registered_levers": {
+    "L1_blackboard_versioning": "P1A -> P1B: attribute failure to absent dependency records; add BB1-style version tags + validate-on-read recompute, charged",
+    "L2_actr_retrieval_revalidation": "P3 -> P3R: attribute failure to declarative memory having no revocation semantics; retrieval-time validity check against the current revoked set, charged",
+    "L3_unused_reserved": "buffer capacity is definitional to ACT-R and is NOT a lever; outcomes are never tuned"
+  },
+  "engineering_chain_policy": "Base pass results frozen by this file, never edited after the first scored run. Negative OCM-mechanism results are engineered iteratively (attribute one stage -> apply a pre-registered lever -> re-run the SAME frozen stream -> record under results.engineering_chain with lever commit sha256) until positive or a structural obstruction proof plus the adjacent scoped positive. PARENT_SUFFICIENT is a success terminal. Outcomes, population, stream, salts and thresholds are never tuned.",
+  "mandatory_harness_validation": [
+    "static-world no-alarm: update-free stream, every arm 48/48 exact, zero checker events",
+    "instrumented incumbent closure == production gated_closure on the scored population, else CANNOT_CHECK_HARNESS_DISAGREES",
+    "P2_MUTANT_NO_GOAL_BINDING detected on the scored stream, else recorded MUTANT_NOT_EXPRESSED_ON_STREAM and detector teeth proven by the forced-crosstalk test fixture only"
+  ],
+  "salts": {
+    "population": "ocm-fna6-v1-20260909/pop-01",
+    "seeds": "ocm-fna6-v1-20260909/seeds-02",
+    "targets": "ocm-fna6-v1-20260909/targets-03",
+    "updates": "ocm-fna6-v1-20260909/updates-04",
+    "drift": "ocm-fna6-v1-20260909/drift-05",
+    "locality_null": "ocm-fna6-v1-20260909/locnull-06"
+  }
+}
