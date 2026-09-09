@@ -68,7 +68,9 @@ prover for goal-only search under a newly bound input and native-checking contra
 The [goal-only bridge](../ordinary-goal-native-bridge-v1/CORE.md) now has independent
 source acceptance and twelve authored controls across four preserved generations.
 The [historical cohort](../ordinary-goal-historical-cohort-v1/CORE.md) binds all 22
-issued training lemmas. Joined native authority and a goal-only utility result remain pending.
+issued training lemmas. The [joined-library result](../ordinary-goal-cohort-result-v1/CORE.md)
+now verifies all 4,245 proofs under the unchanged 100 trusted assertions.
+Goal-only use and utility remain pending.
 
 Two candidate contributions remain: certified local execution under revision, and
 revision-aware library learning with measured lifetime benefit. A result must beat

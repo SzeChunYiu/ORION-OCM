@@ -118,8 +118,10 @@ supplied-proof pass is not a prerequisite; do not repeat it as new evidence.
 The [accepted bridge source](../ordinary-goal-native-bridge-v1/CORE.md) connects complete
 generated proofs to that native boundary. Its authored controls establish no actual
 cohort admission. The [frozen historical 22](../ordinary-goal-historical-cohort-v1/CORE.md)
-reconcile with their retained training records; qualify their exact scoped transport
-and full joined prefix before using them in the registered goal-only comparison.
+reconcile with their retained training records. The [joined native result](../ordinary-goal-cohort-result-v1/CORE.md)
+now qualifies their scoped transport, all 4,245 ordered proofs and the unchanged
+100 trusted assertions. Use that exact library artifact in the registered goal-only
+comparison; its validity alone establishes no causal use or benefit.
 
 ## Test the scientific mechanism
 
