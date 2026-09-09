@@ -172,6 +172,40 @@ all, which would have condemned the mechanism on the one world that never paid a
 **Still uncharged:** the cost of *detecting* that an edit occurred. Real spaces are not
 edited at a constant rate.
 
+## FNA-2 — build R3/R6 so a registered terminal is reachable at all
+
+`APPROXIMATE_RETRIEVAL_NOT_SAFE` is a registered #214 terminal that **could not be reached**,
+because main has no approximate mechanism to be unsafe. A registered terminal that cannot be
+tested is a hole in the programme, so R3 (exact kNN) and R6 (VSA/HDC projection) were built
+over one shared structural feature surface. Not ML: a fixed random hypervector per symbol,
+no training set, no objective, no fitted parameter. Exact machinery still decides; the
+projection only proposes.
+
+**Terminal: `APPROXIMATE_RETRIEVAL_NOT_SAFE` — and explicitly *not* a capacity boundary.**
+On a near-twin field, failure rate at k=1 over 40 salts per dimension:
+
+| DIM | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 |
+|---|---|---|---|---|---|---|---|---|---|
+| failure | .475 | .55 | .675 | .775 | .825 | .90 | .825 | .90 | **1.00** |
+
+A capacity effect must *improve* with dimension. This is the opposite: the approximation
+isn't losing the answer to noise more dimensions would suppress — it converges, ever more
+reliably, to an ordering that **differs** from the exact one. Cosine over bundled
+hypervectors and Jaccard over signature sets rank this surface differently, and capacity buys
+fidelity to the projection's ordering, not the exact one.
+
+**Three failed attempts to reach this terminal are retained, because all three were my
+errors rather than findings:**
+
+1. The first worlds gave the decisive atom and its twins **identical** signatures, so exact
+   and approximate agreed by construction.
+2. The first R6 **hashed the whole signature tuple** instead of bundling its symbols, so
+   similarity carried no compositional information and the approximation "lost" identically
+   at every dimension 2→512. That flat profile is the tell — and it would have produced this
+   terminal from a hash masquerading as a VSA.
+3. A third pass used **one salt per dimension** and produced a non-monotone profile that
+   would have been misread as a capacity threshold. Hence 40 salts per dimension.
+
 ## What this does not establish
 
 No neural arm was run; R3/R6/R7 are absent, so `APPROXIMATE_RETRIEVAL_NOT_SAFE` stays
