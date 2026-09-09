@@ -1,0 +1,108 @@
+{
+ "review_id": "D8_HOSTILE_REVIEW_V1",
+ "reviewed_branch_head": "58145bc0cab5e474622a5babec7a3789dc540761",
+ "branch": "hst/d8-hostile-review (from origin/centre/registry-integration-round2)",
+ "reviewer": "fresh-context hostile reviewer (work package D8, issue #233)",
+ "verdict": "PASS_WITH_FINDINGS",
+ "checks": [
+  {
+   "id": "C1",
+   "description": "Evidence artifact existence + content match for all 18 rows; >=8 rows deep-read incl. all 3 FINITE_CERTIFIED receipts (T02/T10/T11) and both PARENT_SUFFICIENT rows (T04/T08)",
+   "result": "PASS",
+   "detail": "All cited paths exist (find/ls over proofs/ bounds/ exact/ hostiles/). All 7 claimed md5s match (check_t12/t13/t17 py + both certs + T17_TAMPER_WITNESS + check_bound_v1.py). All 4 RUN_ALL_V1_MANIFEST sha256s match committed receipts. All cited md anchors exist (PROOFS_CORE #HST-T01/T03/T05/T06/T07/T18; LIMITS #T12-T16; T17_TOY; T09-B; counterexample doc). Deep-read: T01,T02,T03,T04,T05,T06,T07,T08,T09,T10,T11,T12,T13,T17,T18 (15 rows). Hand-verified: T02 Wald identity (642/127)/(8/127)=80.25=321/4 and parity witness tasks tau06-10 (odd goals from even-track closure); T05 lifecycle 30/33 and 16/31; T11 ledger arithmetic promoted=1.5h+4 vs unpromoted=2h; T04 Kraft sums=1 and 2^Delta=32; T08 VoI=1/4<0.3; T12 cert counts 288=1+4+27+256 maps, 1114=1+8+81+1024 states; T13 66=9+57 consistent, +54 inconsistent=120. Two MED findings (T11 witness-number mismatch vs receipt; patch A counterexample field drop)."
+  },
+  {
+   "id": "C2",
+   "description": "SHA-chain integrity of FREEZE_HST_V1 amendment_chain (recompute every checkable link)",
+   "result": "PASS",
+   "detail": "Recomputed with hashlib: registry_sha256_after(AMEND_2)=47f9bf40... == current registry; REGISTRY_PATCH_B full sha256 c80969ac... == current file; AMEND_1 patch prefixes (16-hex) match current A/C/D files. Historical links verified by enumerating every git commit touching the files: sha256(FREEZE@553cadd)=cd454886... == AMEND_1 prior_freeze_sha256; sha256(FREEZE@76ec1cc)=7e383e5e... == AMEND_2 prior_freeze_sha256; sha256(REGISTRY@76ec1cc)=e5e2b814... == AMEND_2 prior_registry_sha256. All 5 historical links FOUND and matching, none marked UNCHECKABLE. Frozen-statements discipline independently verified: statement/assumptions/parent_theorem/ocm_residual/title/proof_class byte-identical between frozen commit 553cadd and head for all 18 rows; only statuses OPEN->closed changed. LOW finding: AMEND_1 hash truncation."
+  },
+  {
+   "id": "C3",
+   "description": "Hostile genuineness: load-bearing vs strawman; no PROVED row with missing/vacuous hostile",
+   "result": "PASS",
+   "detail": "Per-row inventory: T01/T03/T05/T06/T07/T18 each have hostiles/W_T*.json witnesses that check_core_v1.py re-derives (all PASS in committed laptop log and re-run here); T12 hostile H1 (k-bit counter: novelty for any T then cliff, saturation exponential in description length) attacks the #221 false generalization directly; T13 hostile is the constructed two-continuation pairing itself (machine-certified); T14/T15/T16 carry non-vacuous escape enumerations (c.u.p. certificate construction; decidable-contract escapes; fixed-domain/hardware-floor escapes); T17 has the machine-certified tamper witness (dM=+1 dP=0 and dM=+1 dP=-1). Removing any lane-A hostile would revive exactly the claim its row forbids (e.g. W-T06: declared-DAG locality inference fires while R moves 5->6). FINITE_CERTIFIED rows: T02 hostile = reach expands 5/10->10/10 while mean first-solution cost over previously-solvable tasks worsens 47.06->66.89 (exact Wald arithmetic); T10 hostile = max-fitness/lowest-Ev vs zero-fitness/highest-Ev separation (fitness 2 Ev 1/18 vs fitness 0 Ev 6/17); T11 boundary attainment at h=8 exact tie. No PROVED row missing or vacuous."
+  },
+  {
+   "id": "C4",
+   "description": "Claim-ceiling discipline: FINITE_CERTIFIED bounded to world FW1; PARENT_SUFFICIENT rows claim no parent-owned novelty",
+   "result": "PASS",
+   "detail": "All 3 FINITE_CERTIFIED rows (T02/T10/T11) carry BOTH at_scope (naming FW1 exactly) and claim_ceiling with explicit 'P2 finite exact != general' language; receipts repeat scope_statement per certificate. No row asserts generality beyond its ceiling - checked row-by-row against statements+evidence. PARENT_SUFFICIENT rows: T04 'no new mathematics claimed', allocation-ratio exactness separated from wall-time conditionality; T08 'Blackwell owns the dominance theorem; the finite witness only instantiates it'. LITERATURE_LEDGER marks Levin/Schmidhuber/Solomonoff OWNS (T04) and Blackwell OWNS (T08) consistent with the rows. T09 honestly reports VACUOUS AT ZOO SCOPE (eps(12)=0.6242 vs bar 0.224507) rather than laundering it. Forbidden terminals from FREEZE not asserted anywhere in the package."
+  },
+  {
+   "id": "C5",
+   "description": "HST_EMPIRICAL_BRIDGE_V1 consistency: mapped statuses match registry; no overstatement to issues #145/#151/#217/#221",
+   "result": "PASS",
+   "detail": "Programmatic compare: 18/18 bridge row_status values == registry statuses (0 mismatches). Issue coverage 145:4, 151:4, 217:4, 221:6. All hooks are measurement-protocol shaped ('certify o irreducible iff reach contracts strictly' etc.) with the FW1-only status labeled as such and the real-grammar question explicitly delegated to the residual; no hook presents a FW1-finite result as general. registry_ref shas 76ec1cc7 and 895029c6 both resolve to repo objects. T09 hook quotes the same vacuity numbers the bound checker reproduces (0.624/0.2245, m*=104)."
+  },
+  {
+   "id": "C6",
+   "description": "Status vocabulary conformance + amendment census accuracy (recomputed)",
+   "result": "PASS",
+   "detail": "All 18 statuses in the 6-value status_vocabulary (recomputed; 0 violations; census 12 PROVED / 3 FINITE_CERTIFIED / 2 PARENT_SUFFICIENT / 1 BOUND_DERIVED, 0 OPEN). AMEND_2 statuses_now counts match the actual head registry exactly. AMEND_1 statuses_now (12 PROVED + 1 BOUND_DERIVED + 5 OPEN naming T02/T04/T08/T10/T11) matches the actual registry at commit 76ec1cc exactly (set equality per status). T09's 'BOUND_DERIVED_VACUOUS_AT_SCOPE' is a documented subclass inside evidence text; the status field itself remains BOUND_DERIVED (in vocabulary). LOW finding: T01 undefined 'secondary' field."
+  },
+  {
+   "id": "C7",
+   "description": "Reproducibility spot-run of exact/run_all_v1.py (+ all other checkers) with /usr/bin/python3",
+   "result": "PASS",
+   "detail": "All pure stdlib (no deps). Runs on this host (python 3.9.6): run_all_v1.py exit 0 in 0.014s, regenerates all 4 receipts + manifest; check_core_v1.py exit 0 ALL CHECKS PASSED (matches committed laptop log line-for-line on every verdict); check_t12_v1.py exit 0 PASS (288 maps); check_t13_v1.py exit 0 PASS; check_t17_v1.py exit 0 WITNESS_CERTIFIED; bounds/check_bound_v1.py exit 0 ALL CHECKS PASS incl. part (d) reproducing the registry's exact vacuity numbers (eps(12)=0.6242, m*=104, eps<=0.1 at m=564). Determinism verified: regenerated receipts byte-identical to committed except runtime/host stamps (T11 and PARENT_WITNESSES byte-identical with unchanged sha256; T02/T10 differ only in runtime_seconds). Working tree restored to committed bytes afterward (git status clean). LOW finding: t12/t13 cwd-dependent cert paths."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "MED",
+   "check": "C1",
+   "row_or_file": "HST-T11 evidence.witness (HST_THEOREM_REGISTRY_V1.json + REGISTRY_PATCH_B.json)",
+   "claim_reviewed": "T11 witness: 'h=7: 21 vs 21.5 reject; h=8: 24 vs 24 boundary; h=9: 27 vs 26.5 promote'",
+   "evidence_gap": "Quoted totals use 3-op-slots-per-program accounting (3h vs 2.5h+4). The cited receipt exact/T11_MODULE_PROMOTION_V1.json and the checker exact/t11_module_v1.py (line 58: unpromoted = 2 op-slots, frozen suite 'solution exactly the pattern' = (m2,a2)) give 14 vs 14.5 / 16 vs 16 / 18 vs 17.5. Off by exactly +h on both sides. Threshold H*=8, net=1/2, flip at h=9 and boundary tie at h=8 are identical under both accountings, so FINITE_CERTIFIED at FW1 scope is NOT invalidated; the registry misquotes the receipt it cites.",
+   "fix_hint": "AMEND_3 field-fill: re-quote the receipt numbers (14 vs 14.5 / 16 vs 16 / 18 vs 17.5) or extend the frozen suite definition to include the extra operator slot that produces 21/21.5."
+  },
+  {
+   "severity": "MED",
+   "check": "C1",
+   "row_or_file": "HST-T01/T03/T05/T06/T07/T18 (REGISTRY_PATCH_A.json -> registry integration)",
+   "claim_reviewed": "AMEND_1 'Evidence blocks added with patch origin, proof artifact, exact checker, claim ceiling'; row_schema declares counterexample_when_assumption_removed",
+   "evidence_gap": "REGISTRY_PATCH_A fills counterexample_when_assumption_removed for all 6 lane-A rows (pointers to hostiles/W_T*.json), but the integrated registry carries the field for NONE of them (only T12-T17 have it). The drop is undocumented in AMEND_1's change_scope. Content survives in hostiles/ artifacts and inside exact_checker prose, and check_core_v1.py replays every witness, so no status is invalidated.",
+   "fix_hint": "AMEND_3 field-fill restoring the six counterexample pointers verbatim from REGISTRY_PATCH_A.json."
+  },
+  {
+   "severity": "LOW",
+   "check": "C2",
+   "row_or_file": "FREEZE_HST_V1.json amendment_chain[0].patches_sha256",
+   "claim_reviewed": "AMEND_1 patch hashes '6e85cb5b063eaddb' / '9860169001aed925' / '013e6e7cba060741' (16 hex chars each)",
+   "evidence_gap": "Truncated 16-hex prefixes weaken the chain binding vs AMEND_2's full sha256 (collision resistance 2^64 not 2^256). Recomputed values DO match current REGISTRY_PATCH_{A,C,D}.json, so the links verify; this is a format weakness, not a break.",
+   "fix_hint": "Future amendments record full 64-char sha256 for every patches_sha256 entry (as AMEND_2 already does)."
+  },
+  {
+   "severity": "LOW",
+   "check": "C6",
+   "row_or_file": "HST-T01 row field 'secondary' (HST_THEOREM_REGISTRY_V1.json)",
+   "claim_reviewed": "row_schema field list",
+   "evidence_gap": "T01 carries an undefined 'secondary': 'HST-T01 P2(hostile)' field absent from row_schema. It is byte-identical at the frozen commit 553cadd (freeze discipline intact) \u2014 an unexplained leftover in the frozen artifact, not a lane edit.",
+   "fix_hint": "Document or remove the field in the next declared definitions/registry amendment."
+  },
+  {
+   "severity": "LOW",
+   "check": "C7",
+   "row_or_file": "exact/check_t12_v1.py, exact/check_t13_v1.py",
+   "claim_reviewed": "run receipts claim exit 0",
+   "evidence_gap": "Both hardcode output paths 'exact/check_t*_v1.cert.json' relative to cwd, so invoking them from exact/ (the natural location) exits 1 with FileNotFoundError on the cert write; they pass only from the package root. check_t17_v1.py computes paths from __file__ and is location-independent. Theorem content unaffected (exit 0 from package root; cert counts recomputed and consistent).",
+   "fix_hint": "Derive cert paths from __file__ as check_t17_v1.py does."
+  }
+ ],
+ "census_confirmed": true,
+ "census_detail": {
+  "PROVED": 12,
+  "FINITE_CERTIFIED": 3,
+  "PARENT_SUFFICIENT": 2,
+  "BOUND_DERIVED": 1,
+  "OPEN": 0,
+  "total": 18
+ },
+ "no_alarm_cases": [
+  "RUN_ALL_V1_MANIFEST host 'billy'/python 3.8.10 is NOT this Mac mini (which platform-stamps 'BillydeMac-mini.local'/3.9.6), consistent with the lane rule that runners execute off-Mac; provenance is self-reported and internally consistent.",
+  "T09 vocabulary extension documented in evidence, not smuggled into the status field.",
+  "Bridge hooks all protocol-shaped; no FW1 result presented to an issue as general.",
+  "Frozen statements untouched across all three registry states (verified field-by-field, 18/18 rows)."
+ ]
+}
