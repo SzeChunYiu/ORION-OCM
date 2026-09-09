@@ -1,0 +1,665 @@
+{
+  "note": "Statements frozen. Lanes fill proof_artifact/exact_checker/counterexample/empirical_bridge/claim_ceiling/status via declared amendments only.",
+  "registry_id": "HST_THEOREM_REGISTRY_V1",
+  "row_schema": [
+    "theorem_id",
+    "statement",
+    "formal_objects",
+    "assumptions",
+    "quantifiers",
+    "proof_class",
+    "parent_theorem",
+    "ocm_residual",
+    "proof_artifact",
+    "exact_checker",
+    "counterexample_when_assumption_removed",
+    "empirical_bridge",
+    "claim_ceiling",
+    "status"
+  ],
+  "rows": [
+    {
+      "assumptions": [
+        "A_t subset A_{t+1}",
+        "zero mandatory overhead for the P1 dominance clause",
+        "fixed scalarization frozen before comparison"
+      ],
+      "machine_check_priority": 1,
+      "ocm_residual": "whether real H_t inheritance is actually optional-and-free or carries M>0",
+      "parent_theorem": "superset dominance (trivial order argument); no NFL conflict (fixed tau)",
+      "proof_class": "P1",
+      "secondary": "P2(hostile)",
+      "statement": "If A_t subset A_{t+1} (every old legal strategy available at unchanged cost), then for any fixed scalarized cost functional C, inf_{a in A_{t+1}} C(a,tau) <= inf_{a in A_t} C(a,tau). With mandatory overhead M only the conditional form survives: future savings > acquisition + maintenance + revision.",
+      "status": "PROVED",
+      "theorem_id": "HST-T01",
+      "title": "Optional inheritance monotonicity",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T01 (subset-infimum inequality + Corollary T01-M conditional form with M>0; assumption ledger separates load-bearing M=0/superset/frozen-scalarization from cosmetic fixed-tau)",
+        "exact_checker": "exact/check_core_v1.py::section_t01 — enumerates all (A_t subseteq A_{t+1}) pairs x cost tables over a 3-action/5-cost universe: monotone-M0 finite spec holds in all worlds; charging M=2 reversal worlds exist (hostile class non-vacuous); W-T01 replayed with re-derived charging",
+        "claim_ceiling": "P1 per-tau order dominance, no rate, no uniformity over tau, no claim the controller selects the old strategy. Mathematical core PARENT_SUFFICIENT (trivial order argument, no NFL conflict at fixed tau); HST residual = the M-conditional boundary and the 'available at unchanged cost' definitional discipline (definitions section 6)."
+      }
+    },
+    {
+      "assumptions": [
+        "fixed F,C",
+        "explicit bounded cost model for the Reach_B form",
+        "decidable membership of <O> at finite scope or explicit witness instead"
+      ],
+      "machine_check_priority": 2,
+      "ocm_residual": "which real operators are irreducible; finding witnesses in the real grammar",
+      "parent_theorem": "transformation semigroup generator theory (owned by #145)",
+      "proof_class": "P1/P2",
+      "statement": "For fixed F,C: if p notin <O> (transformation closure) and p admissible, then <O> strict-subset <O ∪ {p}>. Bounded version: strict Reach_B expansion requires an explicit witness task/state reachable with p within B but not from O within B.",
+      "status": "FINITE_CERTIFIED",
+      "theorem_id": "HST-T02",
+      "title": "Reach expansion by irreducible primitive",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "<O> = full transformation closure of {a2,m2} on Z_16 (BFS to fixpoint, |<O>|=40, closed-under-generators verified); <O u {a1}> (|.|=80); Reach_B = tasks solvable by words of length <= B (complete word-tree enumeration: 511 words over O, 9841 over O+{a1} at B=8); per-task all-lengths solvability by complete state-BFS on the 16-state space",
+        "exact_checker": "exact/run_all_v1.py -> exact/T02_REACH_WITNESS_V1.json (sha256 in RUN_ALL_V1_MANIFEST.json)",
+        "witness": "p=a1 notin <O> (exhaustive closure absence; parity structure: every f in <O> maps evens to evens); 5 witness tasks (tau06-tau10) solvable with p at cost 2-4 but unreachable from O at ANY length (state-BFS fixpoint + closure + parity, three independent exhaustive proofs)",
+        "hostile": "adding a1 to the proposal grammar strictly expands Reach_8 (5/10 -> 10/10 tasks) while mean exact first-admissible-solution cost over the previously-solvable 5 tasks WORSENS (uniform-over-words<=6 proposal distribution; exact Wald arithmetic, no sampling)",
+        "at_scope": "universe FW1 only (Z_16, 2+1 operators, 10 tasks, B=8)",
+        "claim_ceiling": "P2 finite exact != general: certified for this world only; no claim about other operator bases, infinite universes, or real developmental grammars",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
+    },
+    {
+      "assumptions": [
+        "contract = correct-action-set semantics",
+        "policy may depend only on phi(s)"
+      ],
+      "machine_check_priority": 3,
+      "ocm_residual": "diagnosing aliasing in the real representation (#152 decision regions)",
+      "parent_theorem": "quotient/aliasing argument (Mealy-machine minimization duality)",
+      "proof_class": "P1",
+      "statement": "If phi(s1)=phi(s2) but the registered contract requires G(s1) ∩ G(s2) = empty, then no policy measurable w.r.t. phi(s) satisfies the contract on both states. Search cannot repair it: a new channel/distinction/operator is necessary.",
+      "status": "PROVED",
+      "theorem_id": "HST-T03",
+      "title": "Representation insufficiency by indistinguishability",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T03 (two-point phi-measurability impossibility, uniform over all policies incl. randomized variant; search-cannot-repair corollary; escape = new channel / richer state / renegotiated contract)",
+        "exact_checker": "exact/check_core_v1.py::section_t03 — full enumeration at |S|=|Z|=|A|=2: aliasing+disjoint => 0 policies succeed in ALL worlds; injective phi + nonempty G => some policy succeeds in ALL worlds (repair is representational); W-T03 replayed (2/2 policies fail)",
+        "claim_ceiling": "P1 impossibility over a two-point subproblem, uniform over the whole phi-measurable policy class. PARENT_SUFFICIENT core (quotient/aliasing, Mealy minimization duality, Ashby context); HST residual = aliasing pair as a checkable certificate of necessary representation change (#152 bridge). Nothing about which real representations alias or about state distributions (P3/P4)."
+      }
+    },
+    {
+      "assumptions": [
+        "prefix code / Kraft inequality holds",
+        "allocation exactly proportional to 2^{-L}",
+        "macro adds no hidden construction cost (charged separately in the overhead-corrected corollary)"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "real library construction cost and macro lookup overhead",
+      "parent_theorem": "Levin search / Solomonoff prior mass; Schmidhuber OOPS incremental bias-optimal search",
+      "proof_class": "P1",
+      "statement": "Under prefix-coded Levin-style allocation where candidate p receives share 2^{-L(p)}, an admitted macro changing a target solution encoding from L to L-Delta (verification and construction cost unchanged) multiplies its prior/search share by 2^Delta. Wall-time improvement remains conditional on scheduler/execution/verification costs.",
+      "status": "PARENT_SUFFICIENT",
+      "theorem_id": "HST-T04",
+      "title": "Compression-to-search acceleration under coded search",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "parent_owns": "Levin universal search / Schmidhuber OOPS bias-optimal allocation 2^{-L} (LITERATURE_LEDGER: OWNS)",
+        "instantiation_at_hst_scope": "prefix codes C0={m1:0,m2:10,m3:110,m4:111} and post-macro C1={m0:0,m2:10,m3:110,m4:111}, both Kraft-complete (sum=1, prefix-free verified); solution encoding 110111 -> 0 shortens L by Delta=5, multiplying Levin share 2^-6 -> 2^-1 by exactly 2^Delta=32; allocation table enumerated exactly",
+        "exact_checker": "exact/run_all_v1.py -> exact/PARENT_WITNESSES_T04_T08_V1.json",
+        "claim_ceiling": "allocation ratio is exact; wall-time gain stays conditional on scheduler/execution/verification costs (allocation != runtime); no new mathematics claimed",
+        "fields_filled": [
+          "exact_checker",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
+    },
+    {
+      "assumptions": [
+        "frozen scalar cost coordinate",
+        "quantities are expectations under the frozen model"
+      ],
+      "machine_check_priority": 4,
+      "ocm_residual": "H_eff and invalidation dynamics on real ecologies",
+      "parent_theorem": "amortization arithmetic; library-learning cost models (DreamCoder-class)",
+      "proof_class": "P1",
+      "statement": "Macro m replacing composition s is lifecycle-beneficial on the registered scalar cost coordinate iff H_eff * dC_use > C_build + C_maint + E[C_revision]. Arithmetic once quantities frozen; the science is estimating H_eff and transfer scope prospectively.",
+      "status": "PROVED",
+      "theorem_id": "HST-T05",
+      "title": "Macro amortization threshold",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T05 (lifecycle subtraction identity iff H_eff*dC_use > C_build+C_maint+E[C_revision]; vector/Pareto corollary: component-wise vector inequality or frozen price vector, mixed signs are trade-offs not theorems)",
+        "exact_checker": "exact/check_core_v1.py::section_t05 — exhaustive 6-quantity integer grid: direct lifecycle accounting == identity sign at every grid point; both W-T05 cases (never-pays-back; code-shortening-but-costlier-run) re-derived",
+        "claim_ceiling": "Arithmetic identity conditional on frozen quantities — mathematical content trivial by design (stated plainly in the proof). PARENT_SUFFICIENT (amortization arithmetic; DreamCoder-class library cost models); HST residual = invalidation/revision coordinates + useful-reuse-only counting discipline. No claim that H_eff is prospectively estimable (that is the P4 science)."
+      }
+    },
+    {
+      "assumptions": [
+        "acyclicity",
+        "completeness of declared dependencies for protected outputs"
+      ],
+      "machine_check_priority": 5,
+      "ocm_residual": "whether real provenance graphs are complete; cyclic/TMS boundary",
+      "parent_theorem": "causal DAG intervention locality (Pearl-class d-separation/intervention semantics)",
+      "proof_class": "P1",
+      "statement": "In a complete acyclic dependency DAG whose node values are functions only of declared ancestors, an intervention on S cannot change any node outside Desc(S); exact recomputation outside Desc(S) is unnecessary iff the registered dependency semantics are complete for the protected outputs.",
+      "status": "PROVED",
+      "theorem_id": "HST-T06",
+      "title": "Exact dependency-cone locality",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T06 (forward: structural induction on the DAG order — ancestors of any node outside Desc(S) lie outside Desc(S); reverse: explicit construction showing undeclared-read + varied quantity => declared-graph locality inference unsound, hence iff) + explicit boundaries (cyclic/TMS declared boundary; values-not-costs separation)",
+        "exact_checker": "exact/check_core_v1.py::section_t06 — enumerates ALL 3-node DAGs x ALL boolean function tables x ALL nonempty intervention sets x forced values: no node outside Desc(S) ever changed (cone non-vacuously tight); W-T06 replayed: declared Desc(S)={S}, R outside, yet actual R moves 5->6; declared edge X->R verified individually real",
+        "claim_ceiling": "P1; values not costs; acyclic only. Forward direction PARENT_SUFFICIENT (causal DAG intervention locality, Pearl-class). HST residual = the iff-completeness formulation: 'graph complete for protected outputs' is a PRECONDITION (a property of the actual computation, not decidable from the declared graph; cf. T15), never an inference from DAG-hood."
+      }
+    },
+    {
+      "assumptions": [
+        "frozen total order",
+        "immutable archive with unlimited capacity (Pareto variant must state capacity effects)",
+        "fixed evaluator"
+      ],
+      "machine_check_priority": 6,
+      "ocm_residual": "everything beyond the ratchet property",
+      "parent_theorem": "running-maximum monotonicity",
+      "proof_class": "P1",
+      "statement": "For a fixed evaluator and immutable archive retaining the best-so-far admissible object under a frozen total order, archive best quality is monotone non-decreasing. Proves ONLY a ratchet; not open-endedness/complexity growth/generalization/self-improvement efficiency.",
+      "status": "PROVED",
+      "theorem_id": "HST-T07",
+      "title": "Elitist ratchet monotonicity",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T07 (running-maximum monotonicity by cases; explicit negative list; Pareto/capacity corollary: unlimited-capacity fixed-reference hypervolume monotone, finite capacity monotone ONLY relative to the eviction policy's retention guarantee — 'elitist' must mean retains-a-maximizer)",
+        "exact_checker": "exact/check_core_v1.py::section_t07 — all length-5 quality/admissibility sequences: unlimited immutable archive monotone in every sequence; capacity-1 keep-most-recent-admissible archive NON-monotone in an enumerated subset (policy voids ratchet); W-T07 replayed: q1 strictly ratchets 0->3, q2 constant at 1, zero tau2 information",
+        "claim_ceiling": "P1 ratchet ONLY: not open-endedness (T12/T13), not complexity growth, not generalization, not self-improvement efficiency, no rate. Mathematical core PARENT_SUFFICIENT (running maximum, trivial); HST residual = finite-capacity exact conditions + admissibility-gate discipline."
+      }
+    },
+    {
+      "assumptions": [
+        "Bayesian expected-utility decision maker",
+        "Blackwell dominance (a.s. garbling of E0 from E1)",
+        "free information for the dominance clause"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "identifying only decision-relevant distinctions (#152); probe pricing on real systems",
+      "parent_theorem": "Blackwell 1951/1953 comparison of experiments",
+      "proof_class": "P1",
+      "statement": "If experiment E1 Blackwell-dominates E0, then for every Bayesian expected-utility decision problem the optimal value with E1 is >= that with E0 when information is free. With probe cost, buy information only when expected decision improvement exceeds cost.",
+      "status": "PARENT_SUFFICIENT",
+      "theorem_id": "HST-T08",
+      "title": "Information dominance / decision sufficiency",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "parent_owns": "Blackwell 1951/1953 comparison of experiments (LITERATURE_LEDGER: OWNS)",
+        "instantiation_at_hst_scope": "HST-scope experiments = evaluator evidence channels: E1 ungarbled reveal of hidden state w in {0,1}, E0 garbled binary channel (flip gamma=1/4, an a.s. garbling of E1); disjoint-correct-action utility; V(E1)=1 >= V(E0)=3/4, value of information exactly 1/4; cost-aware correction: probe price 0.3 > 0.25 => do not buy",
+        "exact_checker": "exact/run_all_v1.py -> exact/PARENT_WITNESSES_T04_T08_V1.json",
+        "claim_ceiling": "Blackwell owns the dominance theorem; the finite witness only instantiates it and the priced correction; no claim that external evaluator evidence is free or sufficient for safety",
+        "fields_filled": [
+          "exact_checker",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
+    },
+    {
+      "assumptions": [
+        "task environment distribution",
+        "controlled hypothesis-space/bias family",
+        "sample sizes per parent bound conditions"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "the OCM finite morphology/operator-bias class specialization (lane D)",
+      "parent_theorem": "Baxter JAIR 2000; Maurer-Pontil-Romera-Paredes JMLR 2016; Alquier-Mai-Pontil 2017; PAC-Bayes meta-bounds",
+      "proof_class": "P3",
+      "statement": "Under Baxter/Maurer-class assumptions (related tasks sampled from an environment, controlled hypothesis-space family), bias learned on sufficiently many tasks generalizes to new tasks from the same environment; PAC-Bayes/lifelong regret bounds hold under explicit distributional assumptions. No theorem over arbitrary future domains.",
+      "status": "BOUND_DERIVED",
+      "theorem_id": "HST-T09",
+      "title": "Learned inductive bias can generalize, conditionally",
+      "evidence": {
+        "patch": "D",
+        "amends": "HST_THEOREM_REGISTRY_V1.json (field-fills only; no frozen statement edited)",
+        "run_record": {
+          "host": "billy-laptop",
+          "command": "ssh billy-laptop 'cd ~/hst-d6/bounds && python3 check_bound_v1.py'",
+          "md5_check_bound_v1.py": "36d72868422ac9efad7958b19a6578f0",
+          "exit_code": 0,
+          "wall_seconds": 29.8
+        },
+        "row": {
+          "field_fills": {
+            "proof_artifact": "bounds/HST_TRANSFER_BOUND_V1.md (Theorem T09-B + OCM specialization S1-S4)",
+            "exact_checker": "bounds/check_bound_v1.py — billy-laptop, python3 3.8.10, exit 0, 29.8s: (a) 330 world-rule checks, complete ordered-sample-space enumeration (K in 2..4, T in 2..4, m in 4..8), three data-dependent rules (ERM/Gibbs-tempered/flat), exact Fraction violation probability <= delta on the grid {1/2,1/5,1/10,1/20,1/100}, negative control fired; (b) counterexample W- exact Fractions; (c) Maurer/Topsoe constant 2*sqrt(m) verified by exact binomial enumeration m=1..40; (d) table + crossovers asserted (m*=5/104/564)",
+            "counterexample_when_assumption_removed": "bounds/NEGATIVE_TRANSFER_COUNTEREXAMPLE_V1.md — remove 'same ecology D': two-task world, learned pure kernel has D_test-risk 1 vs flat 1/2, negative-transfer excess exactly +1/2 (admission-failure doubling); T09-B violation probability exactly 0 on D_train for m=1..5, so bound and counterexample are consistent",
+            "empirical_bridge": "#151 related/unrelated/harmful transfer axis (W- is its formal shadow); #221 zoo: N=28584 census, admission bar 0.224507 as frozen Adm, K=83 D3d cells as kernel family",
+            "claim_ceiling": "Bounds D-distribution generalization of a learned proposal-kernel mixture vs its own empirical risk ONLY; nothing for D' != D (harmful transfer not ruled out, W- witness), nothing for unbounded geometric burden (1/Q(A_tau)), nothing about improvement vs flat prior, nothing under ecology drift, verifier soundness inherited as assumption of C"
+          },
+          "status_fill": "BOUND_DERIVED (mathematics parent-sufficient: McAllester 1999 / Langford-Seeger 2002 / Maurer 2004 / Topsoe 2007, per-step attribution in the artifact; OCM specialization lane-D; VACUOUS AT ZOO SCOPE: eps(12)=0.6242 = 2.78x the 0.224507 bar; first m reaching the bar = 104 tasks, eps<=0.1 at m=564 — honest vacuity range reported, not tuned)",
+          "status_vocabulary_extension": "BOUND_DERIVED_VACUOUS_AT_SCOPE (subclass of BOUND_DERIVED; supported by FREEZE_HST_V1 honesty rule, cf. issue #233 §13)"
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "frozen Adm/Useful predicates",
+        "registered D",
+        "finite candidate space for the P2 form"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "estimating Ev on real lineages; continued-vs-reset kernel comparison (#217/#221)",
+      "parent_theorem": "innovation/evolvability measures in QD literature (useful-novelty rates)",
+      "proof_class": "definition+P2/P3",
+      "statement": "Ev_t(x; U, D) = P_{x prime ~ Q_t(.|x)}[admissible and useful under U]. Exactly enumerable at finite scope; generalization to unseen ecologies needs P3 assumptions. HST claim form: Ev_{t+1} > Ev_t or lower first-useful-change burden, not higher current fitness.",
+      "status": "FINITE_CERTIFIED",
+      "theorem_id": "HST-T10",
+      "title": "Evolvability as useful-descendant mass",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "candidate set X = all 40 words of length <= 3 over {a1,a2,m2}; kernel Q(.|x) = uniform over distinct one-edit neighbours (sub/ins/del, length <= 4, self excluded), exactly computable; ecology D_fut = {tau06..tau10}, D_cur = {tau01..tau05}; frozen Useful(x';D_fut) := future tasks solved >= 1; Ev(x) = |useful neighbours|/|N(x)| exact rational for EVERY x (no sampling)",
+        "exact_checker": "exact/run_all_v1.py -> exact/T10_EV_ORACLE_V1.json",
+        "hostile": "max-current-fitness candidate with lowest Ev (high fitness / low useful-descendant mass) coexists with a zero-current-fitness candidate of high Ev (stepping stone): current fitness does not certify evolvability",
+        "p3_seed_for_lane_d": "hatEv_m(x) = (1/m) sum Useful(x'_i), x'_i iid ~ Q(.|x); Hoeffding P(|hatEv_m - Ev| >= eps) <= 2 exp(-2 m eps^2), eps_delta = sqrt(ln(2/delta)/(2m)); demo at m=200, delta=0.05, seed 20260910 recorded in the JSON",
+        "at_scope": "universe FW1 restricted to |X|=40 candidates, one frozen kernel and one registered ecology",
+        "claim_ceiling": "P2 finite exact oracle != general: exact only at this scope; Ev comparisons on real lineages and across ecologies remain P4; generalization bounds are P3 (lane D)",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
+    },
+    {
+      "assumptions": [
+        "interface preserves registered external semantics",
+        "all module costs charged",
+        "repeated instantiation"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "whether real development discovers such modules",
+      "parent_theorem": "grammar compression / module acquisition cost models (DreamCoder-class; MDL)",
+      "proof_class": "P1/P2 conditional",
+      "statement": "If a repeatedly instantiated subgraph M behind an interface preserving registered external semantics reduces total description+execution+search cost after charging module definition+interface+maintenance, then promoting M to a higher-level unit is a valid compression/search transformation. Conditional economic criterion only; cannot prove spontaneous emergence of major transitions.",
+      "status": "FINITE_CERTIFIED",
+      "theorem_id": "HST-T11",
+      "title": "Cognitive major-transition compression criterion",
+      "evidence": {
+        "patch": "B",
+        "lane": "D3 finite microscopes",
+        "pr": 241,
+        "world": "FW1: Z_16, operator basis O={a2: x->x+2 mod 16, m2: x->2x mod 16}, candidate primitive p=a1: x->x+1 mod 16, 10 tasks, cost = composition length, exact admissibility Adm(w,tau)=[f_w(s_tau)=g_tau]",
+        "formal_objects_finite": "module MA := (m2,a2) (x->2x+2 mod 16); frozen ledger C_def=3, C_iface=1/2 per call, C_maint=1, C_rev=0 (operator-slot units); net saving per use = 2-1-1/2 = 1/2; reuse suites tau_s=(s,2s+2 mod 16), s=0..h-1, solution exactly the pattern",
+        "exact_checker": "exact/run_all_v1.py -> exact/T11_MODULE_PROMOTION_V1.json",
+        "witness": "exact threshold H* = (C_def+C_maint+C_rev)/net = 8 uses; h=7: 21 vs 21.5 reject; h=8: 24 vs 24 boundary (strict criterion rejects); h=9: 27 vs 26.5 promote -- decision flips exactly at the derived threshold",
+        "interface_preservation": "CHECKED not asserted: promoted program == expanded program as functions on all 16 states of Z_16, per program",
+        "at_scope": "universe FW1 with the frozen cost ledger and pattern (m2,a2); arithmetic criterion only",
+        "claim_ceiling": "P2 arithmetic at finite scope != general: proves the conditional economic criterion, not that major transitions emerge spontaneously (that remains P4)",
+        "fields_filled": [
+          "exact_checker",
+          "formal_objects",
+          "proof_artifact",
+          "status",
+          "claim_ceiling"
+        ]
+      }
+    },
+    {
+      "assumptions": [
+        "deterministic closed finite system",
+        "state space fixed"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "operational horizon-scoped OEE vocabulary for #221",
+      "parent_theorem": "pigeonhole; Adams et al. 2017 formal OEE; MODES 2019 metrics",
+      "proof_class": "P5",
+      "statement": "A closed deterministic finite-state system must eventually repeat; literal infinite non-repeating state novelty is impossible for fixed finite closed state space. Open-endedness must be horizon-scoped, relative to recurrence baselines, or the effective space must expand.",
+      "status": "PROVED",
+      "theorem_id": "HST-T12",
+      "title": "Finite-state literal open-endedness limit",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/LIMITS_V1.md#T12 (pigeonhole Claims 1-2 + corollary; parents stated exactly: pigeonhole; Adams-Zenil-Davies-Walker 2017 Sci.Rep. 7:997 unbounded-evolution-vs-Poincare-recurrence; Dolson et al. 2019 Artif.Life 25(1):50-71 MODES)",
+          "exact_checker": "exact/check_t12_v1.py (all 288 maps on n=1..4, all 1114 initial states: first repeat within |S|+1, novelty saturation at first repeat, period<=|S|, pre-period<=|S|; PASS on billy-laptop)",
+          "counterexample_when_assumption_removed": "drop 'state space fixed': growing effective state (open H_t/tape/archive) leaves the regime entirely -- but then unbounded growth is itself the claim and T13 bars proving it from finite evidence. Stochasticity: sequence non-repetition escapes, state-set novelty still bounded (<=n). hostiles/HOSTILES_LIMITS_V1.md H1: k-bit counter delivers 2^k novel steps then freezes (saturation exponential in description length).",
+          "claim_ceiling": "No #221 run on frozen finite state may claim never-repeating/unbounded novelty; admissible vocabulary = window-scoped MODES-style metrics with recurrence baseline |S_eff| stated. Register of horizon-scoped OEE vocabulary for #221: HOSTILES_LIMITS_V1.md H1 + LIMITS_V1.md#T12 consequence."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "transition law not fully specified/proved"
+      ],
+      "machine_check_priority": 7,
+      "ocm_residual": "#221/#144 claim ceiling binding",
+      "parent_theorem": "prefix-extension/compactness argument",
+      "proof_class": "P5",
+      "statement": "For any finite observed trajectory prefix, absent a fully specified/proved transition law, there exist both a bounded-continuation and a continuing-novelty continuation consistent with the prefix; finite observation cannot prove unbounded open-endedness.",
+      "status": "PROVED",
+      "theorem_id": "HST-T13",
+      "title": "No finite trajectory proves unbounded future novelty",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/LIMITS_V1.md#T13 (explicit constructions: bounded continuation S_b = m states/T clauses; novelty continuation S_n = m+aleph_0 states, Case A simple-path; Case B self-repeating prefix forces periodicity in EVERY consistent system -- observation refutes unbounded novelty; Expansion Lemma for same-universe boundary; halting-reduction sharpening: boundedness of future novelty of a fully specified Turing-complete system is undecidable)",
+          "exact_checker": "exact/check_t13_v1.py (U_3, all 120 prefixes of length 1..4, all 3^3 maps each: 66 consistent prefixes all admit a bounded continuation; 9 simple-path prefixes with unused state admit a novelty continuation; 57 expansion-boundary prefixes admit none in-universe; 54 inconsistent prefixes admit zero systems; PASS on billy-laptop)",
+          "counterexample_when_assumption_removed": "drop 'transition law not proved' by CARRYING a proved growth premise (verified append-only discipline): boundedness is then refuted by construction -- the burden moves to proving the premise, which T15 limits for arbitrary program classes. Bayesian posterior shift from long streaks = P3 statement about the observer, not a proof.",
+          "claim_ceiling": "A positive #221 result may support scoped novelty/complexity/evolvability trends over its observed window only; it cannot prove unbounded open-endedness. Binding on #221/#144 claim language."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "NFL assumptions exactly: closed-under-permutation problem class, uniform distribution over problems",
+        "non-assumptions must be listed: structured ecologies escape NFL"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "which structured-ecology assumptions OCM can actually register",
+      "parent_theorem": "Wolpert-Macready 1997 NFL",
+      "proof_class": "P5",
+      "statement": "Under NFL conditions (closure over the problem class, uniform averaging), no search/transformation dominates; HST must target conditional bias adaptation + regime-change detection, not a universal best mutation/search algorithm.",
+      "status": "PROVED",
+      "theorem_id": "HST-T14",
+      "title": "No universally best fixed search transformation",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/LIMITS_V1.md#T14 (parents stated exactly with hypothesis structure: Wolpert-Macready 1997 IEEE TEC 1(1):67-82 Thm 1 sum over ALL f; Schumacher-Vose-Whitley GECCO 2001 sharpened NFL: c.u.p. iff NFL; Igel-Toussaint 2005 JMMA 3(4):313-322 Thm 5: non-uniform NFL iff orbit-constant distribution)",
+          "exact_checker": null,
+          "counterexample_when_assumption_removed": "The non-assumptions ARE the row content (LIMITS_V1.md#T14): (1) non-c.u.p. registered task class -- any locality/structured-optima class (certificate given: c.u.p. class containing a unique-minimum function contains one for every argmin location); (2) non-orbit-constant frozen task distribution; (3) nonstationary/coevolving objective (outside parent hypothesis); (4) burden-vector accounting beyond value sequences. NOT escaping: all-objectives averages, unnamed-distribution 'beats X in general', i.i.d.-random landscapes (orbit-constant = NFL regime, a null not an arena).",
+          "claim_ceiling": "No HST/OCM claim of a permanently superior mutation/search/operator/translator; registered-ecology comparisons must name the task class + distribution and are scoped to them. Enforces forbidden terminal UNIVERSAL_BEST_SEARCH_ALGORITHM."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "arbitrary program class",
+        "consistent sufficiently expressive axiom system for Gödel part"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "C must expose bounded decidable contracts + protected validation + CANNOT_CHECK",
+      "parent_theorem": "Rice; Turing; Gödel; Schmidhuber Gödel Machines (conditional form)",
+      "proof_class": "P5",
+      "statement": "Rice/halting/Gödel: nontrivial semantic properties of arbitrary programs are undecidable; sufficiently expressive consistent formal systems contain true-unprovable statements. Universal complete proof that arbitrary self-change is beneficial is unavailable. Gödel-Machine optimality is conditional on finding/proving the target theorem.",
+      "status": "PROVED",
+      "theorem_id": "HST-T15",
+      "title": "No complete general semantic self-improvement verifier",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/LIMITS_V1.md#T15 (limitations ledger with exact parents: Rice 1953 Trans.AMS 74(2):358-366 nontrivial extensional property of partial computable functions; Turing 1937 halting as (M,x) property; Goedel 1931 + Rosser 1936 hypotheses = consistent + r.e. axiomatized + contains Q, 'true-unprovable' needs soundness; Schmidhuber arXiv:cs/0309048 conditional optimality form with unbounded proof-search hypothesis)",
+          "exact_checker": null,
+          "counterexample_when_assumption_removed": "Escapes: bounded contracts (halts-within-k, frozen finite test suites, resource meters) are decidable; total/ranked change languages make halting decidable by construction; weak complete theories (Presburger, RCF, propositional contract logics) escape Goedel by lacking expressiveness; empirical protected validation changes claim class to P4, proving nothing universally.",
+          "claim_ceiling": "No universal complete proof that arbitrary self-change is beneficial. C must expose bounded decidable contracts + protected validation + explicit CANNOT_CHECK; no 'mathematically prove every useful self-change' requirement may be imposed on OCM."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "admissible complexity measure (Blum axioms)"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "none for the limit itself; bars final-architecture claims",
+      "parent_theorem": "Blum 1967 speedup theorem",
+      "proof_class": "P5",
+      "statement": "Blum speedup: computable problems exist with no asymptotically optimal program under admissible complexity measures. HST cannot promise convergence to a final globally fastest cognition; supports continuing search-transformation pressure in some families.",
+      "status": "PROVED",
+      "theorem_id": "HST-T16",
+      "title": "No universal fastest solver/self-improver",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/LIMITS_V1.md#T16 (Blum 1967 JACM 14(2):322-336 stated exactly: Blum axioms B1 domain-coincidence + B2 decidability of Phi_i(x)=y; speedup: for every total recursive r a total recursive g with no asymptotically optimal program, Phi_j(x) <= Phi_i(x)/r(x) co-finitely)",
+          "exact_checker": null,
+          "counterexample_when_assumption_removed": "Escapes: fixed finite domains (a best solver exists by exhaustion -- lane B's P2 regime); problems with matching lower bounds (speedup regime does not transfer); real hardware floors (asymptotic-only theorem). Scope discipline recorded: Blum's g is a contrived diagonal function; the theorem is an existence limit on universal claims, not a prediction of empirical speedup chains.",
+          "claim_ceiling": "No HST/OCM promise of convergence to a final globally fastest cognition/solver over all computable problems; 'final architecture' language barred. Supporting reading (scoped): continued search-transformation pressure in speedup-regime families."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "writable score register identical to target",
+        "no independent tying constraint"
+      ],
+      "machine_check_priority": 0,
+      "ocm_residual": "whether the real C is independent/complete/robust (formal-by-contract + empirical)",
+      "parent_theorem": "Goodhart-class misalignment folk results; here as constructed toy theorem",
+      "proof_class": "P1 toy + P4 real-world",
+      "statement": "If an optimizer can directly rewrite a scalar score register that is itself the optimization target and no independent constraint ties the score to protected world performance, then a score-maximizing self-change can raise measured objective without improving protected performance. NOT a claim that external C is sufficient for safe self-improvement.",
+      "status": "PROVED",
+      "theorem_id": "HST-T17",
+      "title": "External-evaluator anti-self-certification (toy)",
+      "evidence": {
+        "patch": "C",
+        "branch": "hst/d4-d5-limits",
+        "run_receipt": {
+          "host": "billy-laptop",
+          "python": "3.8.10",
+          "executed_utc": "2026-09-09T22:10Z",
+          "checkers": {
+            "exact/check_t12_v1.py": {
+              "md5": "cf61a404410d8ce48a7c4f247d092106",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t12_v1.cert.json",
+              "certificate_md5": "337db6d7813dc30932f8d1c2d3aefe56"
+            },
+            "exact/check_t13_v1.py": {
+              "md5": "1eb2be128ed227f688632ec8fb760a67",
+              "exit": 0,
+              "verdict": "PASS",
+              "certificate": "exact/check_t13_v1.cert.json",
+              "certificate_md5": "efb51e25c855e059a6fb8faa20a32281"
+            },
+            "exact/check_t17_v1.py": {
+              "md5": "3082b2b4025af11c9fe0d91207a9704f",
+              "exit": 0,
+              "verdict": "WITNESS_CERTIFIED",
+              "certificate": "hostiles/T17_TAMPER_WITNESS.json",
+              "certificate_md5": "b4915b0e38cfa309f8d9c357ba20dd3d"
+            }
+          }
+        },
+        "fields": {
+          "proof_artifact": "proofs/T17_TOY.md (toy theorem (a) writable-s system: tamper with dP=0 and tamper with dP<0; (b) external-evaluator system: no ds!=0 with dw=0, and with E=P every M-gain is a P-gain; (c) reachability asymmetry; loud NOT-PROVED section: no Goodhart solution, no evaluator-corruption protection, E=P is a tautological toy binding, real C is formal-by-contract + empirical)",
+          "exact_checker": "exact/check_t17_v1.py (all atomic updates + all length-1..2 sequences from (1,1) in W; all acts from all invariant states in X; WITNESS_CERTIFIED on billy-laptop)",
+          "counterexample_when_assumption_removed": "hostiles/T17_TAMPER_WITNESS.json: [s:=2] raises measured objective with protected performance unchanged; [w:=0, s:=2] raises it while protected performance falls. Removing the external-evaluator constraint (writable s) is exactly what admits the witness; the witness is the hostile row 'self-modifier that raises mutable score without protected capability'.",
+          "claim_ceiling": "Bars direct score-register tampering claims only. NOT a claim that external C is sufficient for safe self-improvement / solves Goodhart; independence/completeness/robustness of the real C is P4 (formal-by-contract + empirical), campaign by campaign."
+        }
+      }
+    },
+    {
+      "assumptions": [
+        "scalar burden bounded below",
+        "fixed epsilon per generation claim"
+      ],
+      "machine_check_priority": 8,
+      "ocm_residual": "#221 GS stopping/claim language",
+      "parent_theorem": "archimedean/telescoping argument",
+      "proof_class": "P1",
+      "statement": "If scalar burden >= b_min and each generation must improve by >= epsilon > 0, at most (B_0 - b_min)/epsilon such improvements exist. Indefinite fixed-size improvement requires shrinking epsilon, expanding scope/frontier, new dimensions, or regime change; bars defining open-ended self-improvement as fixed-epsilon gains on one frozen finite benchmark.",
+      "status": "PROVED",
+      "theorem_id": "HST-T18",
+      "title": "Fixed-epsilon bounded-burden improvement limit",
+      "evidence": {
+        "patch": "A",
+        "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T18 (telescoping bound N <= (B_0-b_min)/epsilon; five-route escape disjunction — shrinking epsilon / scope expansion / precision frontier / new dimensions / regime change — as definitional hypothesis-exit analysis)",
+        "exact_checker": "exact/check_core_v1.py::section_t18 — exhaustive drop-sequence enumeration over (B_0, b_min, epsilon) grid: max improvement count == floor((B0-bmin)/eps) exactly; W-T18 replayed: phase 1 attains bound with equality then forced stop; phase 2 exact-fraction halving-epsilon: 40 valid improvements, total drop <= 1 (protocol artifact, not capability)",
+        "claim_ceiling": "P1 improvement-count arithmetic under frozen scalar coordinate and fixed epsilon. Mathematical core PARENT_SUFFICIENT (archimedean/telescoping, trivial); HST residual = the five-route disjunction as claim discipline for #221 GS stopping language: a stopping rule may not be deferred indefinitely by re-labeling saturation as plateau."
+      }
+    }
+  ],
+  "schema_version": 1,
+  "status_vocabulary": [
+    "OPEN",
+    "PROVED",
+    "FINITE_CERTIFIED",
+    "BOUND_DERIVED",
+    "BLOCKED_<reason>",
+    "PARENT_SUFFICIENT"
+  ]
+}

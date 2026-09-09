@@ -1,0 +1,26 @@
+{
+  "issue": "SzeChunYiu/ORION-OCM#214",
+  "work_package": "FNA-3/D5 non-neural sequence/grammar parent suite",
+  "repo": "/Users/billy/Desktop/projects/ORION-OCM (worktree ORION-OCM-wt/fna3-seqgrammar)",
+  "branch": "research/fna3-seqgrammar-parents-v1",
+  "base_commit": "b801a0324e758b7e040d79e4beeaaab1c8aeb9be",
+  "base_commit_date": "2026-09-09T14:30:18+02:00",
+  "lanes_touched": ["research/fna3-seqgrammar-parents-v1/**"],
+  "file_disjointness": "only the research/fna3-seqgrammar-parents-v1/ directory is added; no other path modified",
+  "execution_host": "billy-laptop (ssh alias billy), Python 3.8.10, stdlib only",
+  "execution_capsule": "~/fna3-run/research/fna3-seqgrammar-parents-v1/",
+  "ud_custody_data": "~/ocm-data/ud-ewt-r2.14 (sha256-gated against the frozen custody manifest; protected test split scored read-only, never trained on)",
+  "freeze": "FREEZE_FNA3_V1.json (frozen before any scored run; amendments A1-A7 all declared pre-run; sha256_before_first_scored_run covers fna3.py and test_fna3.py)",
+  "first_execution_attempts": [
+    "attempt 1: crashed in W1 (P8 short-history IndexError) - no results written",
+    "attempt 2: crashed in W4 (alphabet OOV) after 898 s - no results written",
+    "attempt 3: crashed in verdict assembly (A7 guard) at 7105 s - no results written",
+    "attempt 4: completed; results in FNA3_RESULTS_V1.json"
+  ],
+  "post_run_correction": {
+    "id": "A8",
+    "defect": "UD shuffle-null controls scored an empty window (bits 0.0); fixed in fna3.py (run_shuffle_null score_stream param) and recomputed on billy-laptop (wall 2622.7 s, output NULLFIX_A8.json md5 26626bf3c9eb5474560fb42eadc7ca11)",
+    "results_after_merge": "FNA3_RESULTS_V1.json (59646 bytes, md5 b4ef3fadbd6507484032e3699178f599); R5 recomputed and confirmed",
+    "tests_after_correction": "python3 test_fna3.py -> 23/23 OK on billy-laptop"
+  }
+}

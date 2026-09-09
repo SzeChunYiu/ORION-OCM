@@ -1,0 +1,36 @@
+{
+ "claim": "metric balls neither contain nor track Desc(S)",
+ "case1": {
+  "edges": [
+   "S->A"
+  ],
+  "ball_r2": [
+   "A",
+   "B"
+  ],
+  "cone_affected": [
+   "A"
+  ],
+  "over_recompute": [
+   "B"
+  ]
+ },
+ "case2": {
+  "edges": [
+   "S->A",
+   "S->B"
+  ],
+  "ball_r2": [
+   "B"
+  ],
+  "cone_affected": [
+   "A",
+   "B"
+  ],
+  "under_invalidate": [
+   "A"
+  ]
+ },
+ "structural_reason": "balls symmetric & nested in r; Desc asymmetric",
+ "arithmetic": "exact integer metric"
+}

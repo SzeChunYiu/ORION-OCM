@@ -1,0 +1,27 @@
+{
+  "witness_id": "W-T18",
+  "theorem_id": "HST-T18",
+  "assumption_removed": "none removed — witness attains the bound exactly, then shows each escape route's effect; route 1 (shrinking epsilon) is executed and shown to be a claim artifact",
+  "claim_falsified": "open-ended self-improvement can be defined as fixed-epsilon gains on one frozen finite benchmark, forever",
+  "world": {
+    "burden_coordinate": "frozen scalar B on one frozen finite benchmark family",
+    "B_0": 10, "b_min": 0, "epsilon": 1
+  },
+  "derivation": {
+    "phase_1_fixed_epsilon": {
+      "trace": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+      "improvements": 10,
+      "bound": "(B_0 - b_min)/epsilon = 10 — attained exactly; B_10 = 0 = b_min",
+      "attempted_11th": "requires B_11 <= -1 < b_min: impossible; the lineage saturates by arithmetic, not by lack of search effort"
+    },
+    "phase_2_route_1_shrinking_epsilon": {
+      "setup": "restart from B = 5 with epsilon_g = 2^-k at the k-th post-plateau generation",
+      "trace_prefix": [5, 4.5, 4.25, 4.125, 4.0625],
+      "improvement_count": "unbounded (infinitely many halving steps fit above b_min = 0)",
+      "total_drop": "sum_{k>=1} 2^-k = 1 bounded: B_inf = 4 >= b_min",
+      "verdict": "an 'infinitely many improvements' claim on this trace is an artifact of the epsilon protocol, not of search capability — total capability gain is bounded by 1 burden unit"
+    },
+    "routes_2_to_5": "not executed numerically: each re-freezes the coordinate (scope, precision, dimensions, regime), placing the claim outside the theorem's hypotheses rather than contradicting it"
+  },
+  "self_check": "check_core_v1.py replays phase 1 (asserts exactly 10 improvements then forced stop), and phase 2 (asserts 40 halving generations all valid, total drop within 1e-9 of the 1-unit bound, B stays >= b_min)"
+}

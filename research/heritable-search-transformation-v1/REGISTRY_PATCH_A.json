@@ -1,0 +1,71 @@
+{
+ "patch_id": "REGISTRY_PATCH_A",
+ "lane": "A (D2 core proofs, issue #233)",
+ "base_registry": "HST_THEOREM_REGISTRY_V1.json (frozen; not edited by this patch)",
+ "scope": ["HST-T01", "HST-T03", "HST-T05", "HST-T06", "HST-T07", "HST-T18"],
+ "status_distinction_rule": "status=PROVED comes from the P1 proof in proofs/PROOFS_CORE_V1.md ONLY. exact/check_core_v1.py certifies the FINITE SPECIALIZATION (P2 evidence) and re-derives each hostile witness; a passing checker is never a P1 ground. Parent-sufficiency of the mathematical core is recorded per row in claim_ceiling, not as a blanket status.",
+ "rows": [
+  {
+   "theorem_id": "HST-T01",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T01 (subset-infimum inequality + Corollary T01-M conditional form with M>0; assumption ledger separates load-bearing M=0/superset/frozen-scalarization from cosmetic fixed-tau)",
+   "exact_checker": "exact/check_core_v1.py::section_t01 — enumerates all (A_t subseteq A_{t+1}) pairs x cost tables over a 3-action/5-cost universe: monotone-M0 finite spec holds in all worlds; charging M=2 reversal worlds exist (hostile class non-vacuous); W-T01 replayed with re-derived charging",
+   "counterexample_when_assumption_removed": "hostiles/W_T01_mandatory_overhead.json — M=0 removed (M=2): A_t subset A_{t+1} intact yet m_{t+1}=5 > 3=m_t",
+   "claim_ceiling": "P1 per-tau order dominance, no rate, no uniformity over tau, no claim the controller selects the old strategy. Mathematical core PARENT_SUFFICIENT (trivial order argument, no NFL conflict at fixed tau); HST residual = the M-conditional boundary and the 'available at unchanged cost' definitional discipline (definitions section 6).",
+   "status": "PROVED"
+  },
+  {
+   "theorem_id": "HST-T03",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T03 (two-point phi-measurability impossibility, uniform over all policies incl. randomized variant; search-cannot-repair corollary; escape = new channel / richer state / renegotiated contract)",
+   "exact_checker": "exact/check_core_v1.py::section_t03 — full enumeration at |S|=|Z|=|A|=2: aliasing+disjoint => 0 policies succeed in ALL worlds; injective phi + nonempty G => some policy succeeds in ALL worlds (repair is representational); W-T03 replayed (2/2 policies fail)",
+   "counterexample_when_assumption_removed": "hostiles/W_T03_aliasing.json — minimal aliased pair phi(s1)=phi(s2), G(s1)={L} vs G(s2)={R}: no phi-measurable policy succeeds; witness also exhibits the channel-split repair",
+   "claim_ceiling": "P1 impossibility over a two-point subproblem, uniform over the whole phi-measurable policy class. PARENT_SUFFICIENT core (quotient/aliasing, Mealy minimization duality, Ashby context); HST residual = aliasing pair as a checkable certificate of necessary representation change (#152 bridge). Nothing about which real representations alias or about state distributions (P3/P4).",
+   "status": "PROVED"
+  },
+  {
+   "theorem_id": "HST-T05",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T05 (lifecycle subtraction identity iff H_eff*dC_use > C_build+C_maint+E[C_revision]; vector/Pareto corollary: component-wise vector inequality or frozen price vector, mixed signs are trade-offs not theorems)",
+   "exact_checker": "exact/check_core_v1.py::section_t05 — exhaustive 6-quantity integer grid: direct lifecycle accounting == identity sign at every grid point; both W-T05 cases (never-pays-back; code-shortening-but-costlier-run) re-derived",
+   "counterexample_when_assumption_removed": "hostiles/W_T05_macro_never_pays.json — case A: H_eff*dC_use=6 < 9 costs (lifecycle 33 vs 30); case B: description length 20->5 (T04 share gain 2^15) but per-use cost up 4->7 (lifecycle 31 vs 16): beneficial under pure MDL reading, harmful on execution coordinate",
+   "claim_ceiling": "Arithmetic identity conditional on frozen quantities — mathematical content trivial by design (stated plainly in the proof). PARENT_SUFFICIENT (amortization arithmetic; DreamCoder-class library cost models); HST residual = invalidation/revision coordinates + useful-reuse-only counting discipline. No claim that H_eff is prospectively estimable (that is the P4 science).",
+   "status": "PROVED"
+  },
+  {
+   "theorem_id": "HST-T06",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T06 (forward: structural induction on the DAG order — ancestors of any node outside Desc(S) lie outside Desc(S); reverse: explicit construction showing undeclared-read + varied quantity => declared-graph locality inference unsound, hence iff) + explicit boundaries (cyclic/TMS declared boundary; values-not-costs separation)",
+   "exact_checker": "exact/check_core_v1.py::section_t06 — enumerates ALL 3-node DAGs x ALL boolean function tables x ALL nonempty intervention sets x forced values: no node outside Desc(S) ever changed (cone non-vacuously tight); W-T06 replayed: declared Desc(S)={S}, R outside, yet actual R moves 5->6; declared edge X->R verified individually real",
+   "counterexample_when_assumption_removed": "hostiles/W_T06_missing_edge_false_locality.json — dependency completeness removed (one real edge S->R missing from a correct acyclic declared graph): false locality, R changes exactly where the graph licenses a skip. THE load-bearing hostile of this batch",
+   "claim_ceiling": "P1; values not costs; acyclic only. Forward direction PARENT_SUFFICIENT (causal DAG intervention locality, Pearl-class). HST residual = the iff-completeness formulation: 'graph complete for protected outputs' is a PRECONDITION (a property of the actual computation, not decidable from the declared graph; cf. T15), never an inference from DAG-hood.",
+   "status": "PROVED"
+  },
+  {
+   "theorem_id": "HST-T07",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T07 (running-maximum monotonicity by cases; explicit negative list; Pareto/capacity corollary: unlimited-capacity fixed-reference hypervolume monotone, finite capacity monotone ONLY relative to the eviction policy's retention guarantee — 'elitist' must mean retains-a-maximizer)",
+   "exact_checker": "exact/check_core_v1.py::section_t07 — all length-5 quality/admissibility sequences: unlimited immutable archive monotone in every sequence; capacity-1 keep-most-recent-admissible archive NON-monotone in an enumerated subset (policy voids ratchet); W-T07 replayed: q1 strictly ratchets 0->3, q2 constant at 1, zero tau2 information",
+   "counterexample_when_assumption_removed": "hostiles/W_T07_ratchet_no_transfer.json — every ratchet hypothesis satisfied, archive reaches PERFECT benchmark quality, transfer benchmark stays exactly at default-chance forever: perfect ratchet, zero transfer",
+   "claim_ceiling": "P1 ratchet ONLY: not open-endedness (T12/T13), not complexity growth, not generalization, not self-improvement efficiency, no rate. Mathematical core PARENT_SUFFICIENT (running maximum, trivial); HST residual = finite-capacity exact conditions + admissibility-gate discipline.",
+   "status": "PROVED"
+  },
+  {
+   "theorem_id": "HST-T18",
+   "proof_artifact": "proofs/PROOFS_CORE_V1.md#HST-T18 (telescoping bound N <= (B_0-b_min)/epsilon; five-route escape disjunction — shrinking epsilon / scope expansion / precision frontier / new dimensions / regime change — as definitional hypothesis-exit analysis)",
+   "exact_checker": "exact/check_core_v1.py::section_t18 — exhaustive drop-sequence enumeration over (B_0, b_min, epsilon) grid: max improvement count == floor((B0-bmin)/eps) exactly; W-T18 replayed: phase 1 attains bound with equality then forced stop; phase 2 exact-fraction halving-epsilon: 40 valid improvements, total drop <= 1 (protocol artifact, not capability)",
+   "counterexample_when_assumption_removed": "hostiles/W_T18_fixed_epsilon_saturation.json — bound attained exactly (10 improvements from B_0=10, 11th would need B<=-1<b_min); route-1 restart from B=5 with halving epsilon: unbounded COUNT, total gain bounded by 1",
+   "claim_ceiling": "P1 improvement-count arithmetic under frozen scalar coordinate and fixed epsilon. Mathematical core PARENT_SUFFICIENT (archimedean/telescoping, trivial); HST residual = the five-route disjunction as claim discipline for #221 GS stopping language: a stopping rule may not be deferred indefinitely by re-labeling saturation as plateau.",
+   "status": "PROVED"
+  }
+ ],
+ "hostiles_manifest": [
+  "hostiles/HOSTILES_CORE_V1.md",
+  "hostiles/W_T01_mandatory_overhead.json",
+  "hostiles/W_T03_aliasing.json",
+  "hostiles/W_T05_macro_never_pays.json",
+  "hostiles/W_T06_missing_edge_false_locality.json",
+  "hostiles/W_T07_ratchet_no_transfer.json",
+  "hostiles/W_T18_fixed_epsilon_saturation.json"
+ ],
+ "not_done_by_this_lane": {
+  "bounds/": "untouched (lane D territory)",
+  "other_rows": "T02/T10/T11 (lane B), T12-T16 (lane C), T17 (lane C/D per centre), T08/T09 (centre/D6)",
+  "empirical_bridge": "left to centre (D7)"
+ }
+}

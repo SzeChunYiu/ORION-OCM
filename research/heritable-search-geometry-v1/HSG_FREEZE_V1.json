@@ -1,0 +1,89 @@
+{
+  "capsule": "heritable-search-geometry-v1",
+  "issue": 233,
+  "role": "top-level foundation above #145/#149/#151/#217/#221; HST v1 is its first finite instantiation, not a sibling",
+  "frozen_by": "centre",
+  "frozen_before_ladder_artifacts": true,
+  "status": "AMENDED_1_LADDER_VERDICTS_LANDED",
+  "protocol": {
+    "name": "Atomic Generalization Protocol (AGP)",
+    "steps": [
+      "A1 anchor: name the atom (concept or theorem row), its HST v1 formalization, and its current rung r0",
+      "A2 lift: define the atom at rung r+1 using only the frozen rung definitions of HSG_DEFINITIONS_V1.md; if the lift is meaningless, record NOT_APPLICABLE with a one-line reason (never silently skip)",
+      "A3 assumption removal: take the row's ordered assumption list; remove exactly ONE per pass; ask survive/fail at each pass",
+      "A4 verdict per rung: LIFT_SURVIVES (statement holds verbatim when read at the new rung) | LIFT_CONDITIONAL (holds under a NAMED extra condition, checkable at OCM scope) | LIFT_FAILS (minimal counterexample constructed and machine-witnessed where enumerable)",
+      "A5 parent check: if a parent theorem already owns the lifted statement, the verdict is PARENT_SUFFICIENT with a primary-source citation verified this capsule (marker PARENT_STATEMENT_UNVERIFIED_TEXT otherwise)",
+      "A6 machine witness at finite scope where enumerable; runs on billy-laptop; witness certifies the finite specialization only, never a rung verdict",
+      "A7 no empirical positive is promoted; P4 rows stay P4 at every rung"
+    ],
+    "ladder_rungs": [
+      "R0 point: single fixed object, deterministic maps (HST v1 baseline reading)",
+      "R1 set: the object becomes a space/family; no measure yet (Reach, cones, languages live here)",
+      "R2 distribution: probability measure on the object space (HST's B is already an expectation here)",
+      "R3 kernel: Markov/probability kernel between spaces (HST's Q_t already lives here; U is lifted from R0 to R3)",
+      "R4 geometry/topology: metric + measurable structure on the space; invariants are contraction coefficients, OT costs, information-geometric distances on kernel families",
+      "R5 dynamics: iterated kernels as semigroup elements (#145 closure <O>), orbits, ergodic decomposition, transfer operators",
+      "R6 meta-dynamics: the kernel itself is state — kernel-valued processes; constitution C allowed to vary; self-modeling fixed points",
+      "R7 multilevel/open-system: coupled kernel families across levels with exchange; measures not conserved (task inflow, environment); module boundaries as dependency cones"
+    ],
+    "binding_rules": [
+      "one rung step per lift; no rung may be skipped in a SURVIVES claim chain",
+      "one assumption removed per pass; a conditional verdict must name the restored assumption",
+      "every LIFT_FAILS ships a minimal counterexample in hostiles/",
+      "every PARENT_SUFFICIENT names the parent and the exact owned statement",
+      "HST v1 frozen files are never edited; HSG reads them, it does not revise them"
+    ]
+  },
+  "status_vocabulary": [
+    "OPEN",
+    "LIFT_SURVIVES",
+    "LIFT_CONDITIONAL",
+    "LIFT_FAILS",
+    "PARENT_SUFFICIENT",
+    "NOT_APPLICABLE",
+    "BLOCKED"
+  ],
+  "terminals_forbidden": [
+    "UNIVERSAL_THEORY_OF_INTELLIGENCE_PROVEN",
+    "AGI_ACHIEVEMENT_IMPLIED",
+    "COMPLETE_GEOMETRY_OF_SEARCH",
+    "GEOMETRY_SOLVES_OPEN_ENDEDNESS",
+    "NO_EMPIRICAL_RESIDUAL_REMAINS",
+    "SELF_IMPROVEMENT_WITHOUT_BOUNDS_ESTABLISHED"
+  ],
+  "honesty_preamble": "Most rung lifts will be PARENT_SUFFICIENT: the ladder runs through standard probability, optimal transport, ergodic theory and semigroup mathematics. HSG's claim is the atom table, the survival verdicts at OCM scope, the counterexample constructions, and the issue-hook bridge — not new geometry where a parent owns the statement.",
+  "amendments": [
+    {
+      "amendment_id": "HSG_FREEZE_V1_AMEND_1",
+      "created_utc": "2026-09-10T01:20:00Z",
+      "prior_freeze_sha256": "1889e8bbcee820a5831e1eedb469634171f4dcfb66354ba31e048e9cfa0a1f60",
+      "prior_atom_table_sha256": "0d7ab42d93062a4e8595f8d7c5dfc2fe07015ff508a6a3582e3d9b6a7a73cbb1",
+      "patches_sha256": {
+        "REGISTRY_PATCH_E": "0279a76a748ff303465ff5ae5c5353d1535bd605127d29b90d3f9e9407113d50",
+        "REGISTRY_PATCH_F": "e490845c55476bc1ce6fd3f36934c9df86d3ca45aef48a838c7b878ba6854f67",
+        "REGISTRY_PATCH_G": "f779fcadc1866a9828bb8ac908b64b1246d4402d1ba764d26961cdbb08ce0d37"
+      },
+      "merged_prs": [
+        243,
+        245,
+        244
+      ],
+      "change_scope": "append verdicts{} per (atom, rung); zero (atom,rung) collisions across lanes; original rows untouched",
+      "verdict_census": {
+        "LIFT_CONDITIONAL": 22,
+        "LIFT_SURVIVES": 5,
+        "PARENT_SUFFICIENT": 12,
+        "NOT_APPLICABLE": 7,
+        "LIFT_FAILS": 6
+      },
+      "atom_table_sha256_after": "739cd905631cb720595d618e3e61e7708fcbe665192d7c7cbe7438e4c30fee61",
+      "coverage": {
+        "concepts_with_verdicts": 17,
+        "concept_atoms": 17,
+        "theorem_atoms_with_verdicts": 16,
+        "theorem_atoms": 18
+      }
+    }
+  ],
+  "repo_state_ref": "REPO_STATE.json"
+}

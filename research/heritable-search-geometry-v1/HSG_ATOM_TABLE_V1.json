@@ -1,0 +1,918 @@
+{
+  "table": "HSG atom table V1",
+  "frozen": true,
+  "note": "Statements inherited from HST v1 are frozen there; this table freezes the LADDER QUESTION per atom. Lanes fill verdicts only via REGISTRY_PATCH_{E,F,G}.json.",
+  "concepts": [
+    {
+      "atom": "G01",
+      "object": "Σ_t search state",
+      "hst_ref": "HST §1",
+      "current_rung": "R0",
+      "ladder": "R1 space 𝓢 → R2 μ ∈ 𝒫(𝓢) → R3 kernel state → R4 (𝓢,d) → R5 orbit → R6 kernel process → R7 coupled family",
+      "assumption_removals": [
+        "ii-finiteness",
+        "iii-measurability"
+      ],
+      "parents_hint": {
+        "R4": "Kantorovich OT",
+        "R5": "#145 semigroups"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "kernel state needs coordinate measurability; (iii) relocated not removed; R1/R2 SURVIVES (R1_CONCEPTS.md, R2_CONCEPTS.md)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G02",
+      "object": "L_t language (decidable membership)",
+      "hst_ref": "HST §1",
+      "current_rung": "R1",
+      "ladder": "R2 distribution over languages → R3 language-valued kernel → R4 metric on languages (edit/Levenshtein class) → R7 open vocabulary",
+      "assumption_removals": [
+        "i-decidability",
+        "ii-finiteness"
+      ],
+      "parents_hint": {
+        "R4": "Levenshtein metric (standard)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "random language on Cantor space survives (R2); kernel lift needs oracle-cost membership semantics under undecidability"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G03",
+      "object": "Q_t proposal kernel",
+      "hst_ref": "HST §1",
+      "current_rung": "R3",
+      "ladder": "R4 info-geometry of the kernel family (Chentrov/Fisher) → R5 composed proposals as semigroup elements → R6 self-modifying proposal",
+      "assumption_removals": [
+        "xiii-iid-computable-Q"
+      ],
+      "parents_hint": {
+        "R4": "Chentsov information geometry"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_SURVIVES",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": "Ionescu-Tulcea (kernel composition exists)",
+          "counterexample": null,
+          "note": "Q_t as measurable stochastic kernel; xiii-iid becomes conditional independence"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R4_INFO_GEOMETRY_G03_G17.md",
+          "parent": "Chentsov 1972 (AMS 1982 transl.), verified; Ay-Jost-Le-Schwachhofer extension cited",
+          "owned_statement": "Fisher metric unique up to scale among Markov-morphism-invariant Riemannian metrics on the family; no second natural metric to choose"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "composed proposals as semigroup elements is the G09 R5 row (R5_SEMIGROUP_G09.md); no separate G03 content"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G04",
+      "object": "H_t inherited structure",
+      "hst_ref": "HST §1",
+      "current_rung": "R0",
+      "ladder": "R2 population of H → R4 metric on H (what does 'nearby inheritance' mean) → R7 level object with cone boundaries",
+      "assumption_removals": [
+        "ii-finiteness"
+      ],
+      "parents_hint": {
+        "R7": "Simon near-decomposability"
+      },
+      "verdicts": {
+        "R2": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R2_CONCEPTS.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "inheritance as distribution over infinite H needs measurable selection of parents"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G05",
+      "object": "E_t ecology",
+      "hst_ref": "HST §1",
+      "current_rung": "R2",
+      "ladder": "R6 ecology drift → R7 open system (task inflow/outflow, non-conserved measures)",
+      "assumption_removals": [
+        "vi-fixed-ecology",
+        "ii-finiteness"
+      ],
+      "parents_hint": {
+        "R7": "open Markov processes"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": "Ionescu-Tulcea (kernel composition exists)",
+          "counterexample": null,
+          "note": "R2 task-distribution formalization survives; ecology-valued kernel needs T Polish / evaluation sigma-algebra"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G06",
+      "object": "R_t resource policy",
+      "hst_ref": "HST §1",
+      "current_rung": "R0",
+      "ladder": "R2 randomized policy → R3 kernel policy → R5 adaptive (history-dependent) policy",
+      "assumption_removals": [
+        "iii-measurability"
+      ],
+      "parents_hint": {
+        "R5": "online learning regret (context)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "(iii) load-bearing: non-measurable policy makes expected cost undefined; R2 randomized policy survives"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G07",
+      "object": "V_t verifier (soundness = assumption of C)",
+      "hst_ref": "HST §1",
+      "current_rung": "R0",
+      "ladder": "R3 randomized verification kernel → R7 external channel (verification crosses a system boundary)",
+      "assumption_removals": [
+        "iv-V-soundness"
+      ],
+      "parents_hint": {
+        "R7": "T17 tamper channel closure"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_SURVIVES",
+          "artifact": "ladder/R3_CONCEPTS.md",
+          "parent": "Ionescu-Tulcea (kernel composition exists)",
+          "counterexample": null,
+          "note": "randomized verification kernel; soundness kept as (alpha,beta) error bounds (iv removal is lane G)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G08",
+      "object": "C constitution (fixed across t)",
+      "hst_ref": "HST §1",
+      "current_rung": "R0",
+      "ladder": "R6 time-varying C (governed amendment process) → R7 multi-constellation levels",
+      "assumption_removals": [
+        "v-fixed-C"
+      ],
+      "parents_hint": {
+        "R6": "OOPS/PowerPlay incremental reuse"
+      },
+      "verdicts": {
+        "R2": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_SURVIVES",
+          "artifact": "ladder/R2_CONCEPTS.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "constitutions as Cantor space; R1 set and R2 distribution both free (v removal is lane G)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G09",
+      "object": "U update map",
+      "hst_ref": "HST §2",
+      "current_rung": "R0",
+      "ladder": "R3 THE central lift K_t = U∘Q_t → R4 contraction δ(K_t) → R5 kernel semigroup orbit → R6 kernel-valued process K_{t+1}=𝒦(Σ_t,x_t,e_t) → R7 coupled update family",
+      "assumption_removals": [
+        "iii-measurability"
+      ],
+      "parents_hint": {
+        "R4": "Dobrushin coefficient",
+        "R5": "Perron–Frobenius/Koopman",
+        "R6": "OOPS/PowerPlay"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS_B.md",
+          "parent": "Ionescu-Tulcea (kernel composition exists)",
+          "counterexample": null,
+          "note": "central lift K_t = U o Q_t exists iff factors measurable; (iii) weakened Borel->universal on analytic spaces, not removed"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R4_CONTRACTION_G09.md",
+          "condition": "state-shared transport: U(Σ,x)=T(x) with T fixed; otherwise only the coupling-triangle repair bound (vacuous for deterministic state-dependent U)",
+          "parent": "Dobrushin 1956 (verified): delta(PQ)<=delta(P)delta(Q); max-coupling triangle",
+          "counterexample": "witness_dobrushin_composition.json: delta(K)=1 with delta(Q)=3/4, state-dependent deterministic U"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R5_SEMIGROUP_G09.md",
+          "parent": "Dobrushin 1956 nonstationary products (verified); #145 owns <O> closure (project)",
+          "owned_statement": "sup_t delta(K_t)<1 => all orbits coalesce in TV at geometric rate, order-free; nonhomogeneous form needs only sum(1-delta(K_t))=infinity"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G10",
+      "object": "B burden (expectation)",
+      "hst_ref": "HST §3",
+      "current_rung": "R2",
+      "ladder": "R3 kernel-conditional burden B(Σ,τ) → R4 Lipschitz-in-metric burden (which d?) → R5 burden telescoping along orbits → R7 non-conservation under task inflow",
+      "assumption_removals": [
+        "vii-frozen-price-vector",
+        "vi-fixed-ecology"
+      ],
+      "parents_hint": {
+        "R5": "T18 telescoping (HST-owned at R0)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS_B.md",
+          "parent": "Kolmogorov measure theory (nonnegative measurable integrates in [0,infinity])",
+          "counterexample": null,
+          "note": "R2 expectation survives with finiteness explicit; conditional burden kernel needs S standard Borel"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R4_BURDEN_LIPSCHITZ_G10.md",
+          "counterexample": "hostiles/witnesses/hostile_burden_lipschitz.json (H1: one edit, burden N*p vs p)",
+          "condition_restored": "Lipschitz iff d >= c*d_B (burden pseudometric); admissibility discontinuity is structural"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R5_BURDEN_TELESCOPE_G10.md",
+          "parent": "tower property of conditional expectation (standard)",
+          "owned_statement": "E[B(Sigma_T)] = B(Sigma_0) + sum E[(K_t B - B)(Sigma_t)]; stopped form CONDITIONAL on E[tau*]<infinity"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G11",
+      "object": "Ev evolvability (finite probability)",
+      "hst_ref": "HST §4",
+      "current_rung": "R2",
+      "ladder": "R3 kernel evolvability → R4 metric sensitivity of Ev (cell grid vs Wasserstein archive geometry) → R6 Ev of the kernel-modifying process itself",
+      "assumption_removals": [
+        "xiii-iid-computable-Q"
+      ],
+      "parents_hint": {
+        "R4": "#221 QD archive geometry (empirical parent)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS_B.md",
+          "parent": "Ionescu-Tulcea (kernel composition exists)",
+          "counterexample": null,
+          "note": "P(useful descendant | kernel) needs measurable (or analytic + universal completion) usefulness event"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R4_EV_SENSITIVITY_G11.md",
+          "parent": "Dobrushin coupling (verified); witness_ev_sensitivity.json",
+          "owned_statement": "|Ev_Sigma - Ev_Sigma'| <= TV(Q_Sigma, Q_Sigma')"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "lane-table routes G11 to R4/R6 only; R6 is lane G"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G12",
+      "object": "Reach_B(O) closure",
+      "hst_ref": "HST §6 terminology; #145",
+      "current_rung": "R1",
+      "ladder": "R4 metric reach balls vs closure sets → R5 semigroup orbit structure of ⟨O⟩ on (𝓢,d)",
+      "assumption_removals": [
+        "vii-frozen-price-vector"
+      ],
+      "parents_hint": {
+        "R1": "#145 semigroup closure OWNS",
+        "R5": "ergodic decomposition"
+      },
+      "verdicts": {
+        "R1": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R1_CONCEPTS.md",
+          "parent": "#145 transformation-semigroup closure (statement from lane charter; not re-verified against HST files)",
+          "counterexample": null,
+          "note": "Reach_B(O) is the bounded-burden orbit of the transformation semigroup; R1 adds nothing"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "artifact": "ladder/R5_REACH_G12_AT02.md",
+          "reason": "balls-vs-sets mismatch has no content beyond the H1/H3 mechanisms; folded into the R5 file"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R5_REACH_G12_AT02.md",
+          "counterexample": "hostiles/witnesses/hostile_reach_iff.json (H5: aliasing pseudometric, new state inside d-closure)",
+          "condition_restored": "metric reach expands iff new state outside d-closure of prior reachable set"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G13",
+      "object": "A_t ⊆ A_{t+1}, M overhead (inheritance economics)",
+      "hst_ref": "HST §6; T01/T05",
+      "current_rung": "R0",
+      "ladder": "R2 dominance between strategy distributions (stochastic order) → R7 cross-level charging (level-ℓ M charged to ℓ′ strategies)",
+      "assumption_removals": [
+        "viii-M=0-optional-inheritance"
+      ],
+      "parents_hint": {
+        "R2": "first-order stochastic dominance (standard)"
+      },
+      "verdicts": {
+        "R2": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R2_CONCEPTS_B.md",
+          "parent": "First-order stochastic dominance (standard)",
+          "counterexample": "hostiles/G13_M_overhead_FOSD.md",
+          "note": "net FOSD fails for M > gross gain; rescue = voluntary acceptance when gain >= M (policy property, not growth law)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G14",
+      "object": "dependency cone (T06 locality)",
+      "hst_ref": "T06",
+      "current_rung": "R1",
+      "ladder": "R4 cone vs metric-ball locality mismatch → R7 multi-level cones (cone spans levels?)",
+      "assumption_removals": [
+        "xi-cone-completeness"
+      ],
+      "parents_hint": {
+        "R1": "causal DAG intervention locality OWNS"
+      },
+      "verdicts": {
+        "R1": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R1_CONCEPTS.md",
+          "parent": "causal DAG intervention locality (standard)",
+          "counterexample": "hostiles/G14_cone_completeness.md",
+          "note": "R1 set-locality owned by parent; xi-cone-completeness removal fails (counterexample breaks parent precondition, recorded as sub-finding)"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R4_CONE_VS_BALL_G14_AT06.md",
+          "counterexample": "hostiles/witnesses/hostile_cone_ball.json (H3: over_recompute B and under_invalidate A)",
+          "load_bearing": "cache-skip by metric proximity unsound in both directions; only the cone licence (lane A iff) is sound"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "atom-table routes G14 to R4/R7; R7 is not this lane"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G15",
+      "object": "archive/ratchet (running max)",
+      "hst_ref": "T07",
+      "current_rung": "R0",
+      "ladder": "R4 hypervolume geometry under named archive metric; capacity caveat from HST → R5 ratchet along orbits",
+      "assumption_removals": [
+        "ix-elitism",
+        "x-unlimited-capacity"
+      ],
+      "parents_hint": {
+        "R4": "hypervolume indicator (standard in EMO)"
+      },
+      "verdicts": {
+        "R2": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R2_CONCEPTS_B.md",
+          "parent": "First-order stochastic dominance (standard)",
+          "counterexample": null,
+          "note": "ratchet ordering = restatement of elitist retention (ix/x removal is lane F)"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R4_HYPERVOLUME_G15_AT07.md",
+          "counterexample": "hostiles/witnesses/hostile_hypervolume_capacity.json (H4: capacity 1, HV 4 -> 3/2 while order-ratchet holds)",
+          "parent_sufficient_part": "Zitzler-Thiele 1999 (verified) + measure monotonicity: HV(A u {x}) >= HV(A) at unlimited capacity",
+          "condition_restored": "HV monotone along trajectory iff evictions never remove positive exclusive-contribution points"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_SURVIVES",
+          "artifact": "ladder/R5_RATCHET_G15.md",
+          "statement": "running-max ratchet holds verbatim along every orbit (pathwise, no kernel/metric assumptions)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G16",
+      "object": "module amortization scalars (H_eff, ΔC_use, C_build, C_maint, C_rev)",
+      "hst_ref": "T05",
+      "current_rung": "R0",
+      "ladder": "R5 amortization along use trajectories (random use counts) → R7 amortization across coupled systems (module shared between levels)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "parents_hint": {
+        "R5": "renewal-reward (standard, verify)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS_B.md",
+          "parent": null,
+          "counterexample": null,
+          "note": "R2 random use-counts survive with Jensen low-bias flag; conditional amortization needs S standard Borel"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "scalars carry no R4 geometry; atom-table routes G16 to R5/R7"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R5_AMORTIZATION_AT05_G16.md",
+          "parent": "renewal-reward theorem (verified; Wald for the expectation form)",
+          "owned_statement": "long-run amortized cost per use -> E[cost per cycle]/E[uses per cycle]; T05 threshold = renewal-reward breakeven with H_eff the expected regenerative use count",
+          "condition": "use process regenerative at module boundary; else report stationary use rate (witnessed deviation: 2.0167 vs 4/3)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "G17",
+      "object": "bias/prior family (Q_ρ, Q_0, KL bound)",
+      "hst_ref": "T09-B lane D",
+      "current_rung": "R2/R3",
+      "ladder": "R4 information geometry of the prior family (Fisher metric, KL geometry) → R6 prior as moving object (learned prior evolves)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "parents_hint": {
+        "R4": "Chentsov",
+        "R6": "PAC-Bayes chain rule (Higgs? verify)"
+      },
+      "verdicts": {
+        "R3": {
+          "lane": "E",
+          "pr": 243,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R3_CONCEPTS_B.md",
+          "parent": "Dobrushin 1956 ergodic coefficient / TV contraction PARENT_STATEMENT_UNVERIFIED_TEXT (textbook form used)",
+          "counterexample": null,
+          "note": "prior-as-kernel-parameter needs dominated jointly measurable family (vi removal is lane G)"
+        },
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R4_INFO_GEOMETRY_G03_G17.md",
+          "parent": "Chentsov 1972 (verified); KL = 0.5 d_F^2 + O(d^3) standard",
+          "condition": "crossover m* shrinks iff registered-family sup-KL shrinks (family restriction); metric re-description buys nothing",
+          "lane_D_interface": "T09-B bound inherits this as its complexity term"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "atom-table routes G17 to R4/R6; R6 is lane G"
+        }
+      },
+      "status": "OPEN"
+    }
+  ],
+  "theorems": [
+    {
+      "atom": "A_T01",
+      "hst_ref": "T01 PROVED (lane A)",
+      "ladder_question": "subset-infimum at R2 (stochastic dominance), R4 (approximate sets: does d(A_t,A_{t+1})=0-ish preserve it? NO expected), R7 (2-level strategies)",
+      "assumption_removals": [
+        "viii-M=0",
+        "vii-frozen-scalarization"
+      ],
+      "verdicts": {
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_FAILS",
+          "artifact": "ladder/R4_APPROX_SETS_AT01.md",
+          "counterexample": "hostiles/witnesses/hostile_approx_sets.json (H2: d_H = eps, inf N*p -> p)",
+          "condition_restored": "|inf C(A) - inf C(A')| <= L d_H iff C is L-Lipschitz — fails for program costs per H1; T01's own P1 statement untouched"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T02",
+      "hst_ref": "T02 lane B (pending)",
+      "ladder_question": "reach expansion at R4/R5: does metric reach expand iff set-reach does",
+      "assumption_removals": [
+        "vii-frozen-price-vector"
+      ],
+      "verdicts": {
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "NOT_APPLICABLE",
+          "reason": "R4 content folded into G12 R5 row"
+        },
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R5_REACH_G12_AT02.md",
+          "condition": "metric-reach expansion iff new reachable state outside d-closure (set => metric direction fails: hostile H5); metric => set direction holds trivially"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T03",
+      "hst_ref": "T03 PROVED",
+      "ladder_question": "aliasing impossibility at R2 (distribution over aliased states), R4 (can a metric separate aliased states? yes iff — what does that cost)",
+      "assumption_removals": [
+        "i-decidability"
+      ],
+      "verdicts": {
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "LIFT_CONDITIONAL",
+          "artifact": "ladder/R4_ALIASING_METRIC_AT03.md",
+          "condition": "metric separates aliased states for the contract iff the metric function is admitted to the observation (sigma(phi,d)); price = channel cost",
+          "parent": "T03's own quotient/aliasing parent (Mealy-minimization duality); witness_aliasing_metric.json"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T04",
+      "hst_ref": "T04 (Levin/OOPS owned)",
+      "ladder_question": "coded-search share under kernel proposals at R3; 2^{-Δ} at R6 (self-extending code)",
+      "assumption_removals": [
+        "xiii-computable-Q"
+      ],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "CHARGE: amendment descriptions self-delimiting and billed to the acting lineage's bit budget; changelog included in C_t. Without it self-extension mints share (unconditional lift fails).",
+          "artifact": "ladder/R6_T04.md",
+          "parent": "Levin universal search / Schmidhuber OOPS (2^{-l} coded-search share)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T05",
+      "hst_ref": "T05 PROVED",
+      "ladder_question": "amortization identity with random use counts at R5 (renewal-reward form), R7 shared modules",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "verdicts": {
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R5_AMORTIZATION_AT05_G16.md",
+          "parent": "renewal-reward theorem (verified)",
+          "owned_statement": "T05 identity with random use counts = renewal-reward long-run form; degrades to LIFT_CONDITIONAL under ecology drift (regenerative condition named)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T06",
+      "hst_ref": "T06 PROVED (load-bearing)",
+      "ladder_question": "locality iff cone-completeness at R4 (metric-ball locality vs cone locality mismatch) and R7 (cones spanning levels)",
+      "assumption_removals": [
+        "xi-cone-completeness"
+      ],
+      "verdicts": {
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R4_CONE_VS_BALL_G14_AT06.md",
+          "parent": "Pearl-class causal DAG intervention locality (d-separation/intervention semantics)",
+          "owned_statement": "do(S=s) changes the law only on Desc(S) u {S}; outside invariant",
+          "mismatch_residual": "metric-ball reading FAILS — that verdict is filed on G14 R4 (hostile H3)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T07",
+      "hst_ref": "T07 PROVED",
+      "ladder_question": "ratchet at R4 (hypervolume monotone under which archive metrics?) and R6 (eviction by kernel choice)",
+      "assumption_removals": [
+        "ix-elitism",
+        "x-capacity"
+      ],
+      "verdicts": {
+        "R4": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R4_HYPERVOLUME_G15_AT07.md",
+          "parent": "Zitzler-Thiele 1999 IEEE TEC 3(4) (verified) + measure monotonicity",
+          "owned_statement": "HV monotone under archive inclusion for fixed reference point; capacity caveat machine-witnessed (filed as G15 R4 FAIL)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T08",
+      "hst_ref": "T08 (Blackwell owned)",
+      "ladder_question": "dominance order on kernel FAMILIES vs single kernels at R3/R4; Blackwell at R6 (experiment choice evolves)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "SEL-MEAS: kernel-selection rule measurable in the dominating experiment's sigma-field; then garbling composes and Blackwell order survives. Side-fed selection (e_t beyond Sigma_t) leaks and can invert dominance.",
+          "artifact": "ladder/R6_T08.md",
+          "parent": "Blackwell 1951/1953 (dominance iff garbling)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T09",
+      "hst_ref": "T09-B BOUND_DERIVED_VACUOUS_AT_SCOPE (lane D)",
+      "ladder_question": "prior-family geometry at R4 (KL balls vs Fisher balls — does the vacuity crossover m* shrink under a tighter family?) and R6 (chained/sequential PAC-Bayes)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "CHAIN-BUDGET: finite charged amendment ledger. If each step pays KL(P_k||P_{k-1}) or an eps/2^k union term, m*(L) grows ~linearly in L; m* shrinks iff tracking KL-gain > chain cost. Bound not re-derived.",
+          "artifact": "ladder/r6_others.md#A_T09",
+          "parent": "PAC-Bayes chain bounds (PARENT_STATEMENT_UNVERIFIED_TEXT: exact chained bound form unverified)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T10",
+      "hst_ref": "T10 lane B (pending)",
+      "ladder_question": "Ev estimator at R3 (kernel Ev) and R4 (metric sensitivity of the estimator)",
+      "assumption_removals": [
+        "xiii-iid-Q"
+      ],
+      "verdicts": {},
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T11",
+      "hst_ref": "T11 lane B (pending)",
+      "ladder_question": "module promotion criterion at R5 (promotion under uncertain future use = option value form)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "verdicts": {},
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T12",
+      "hst_ref": "T12 PROVED",
+      "ladder_question": "finite-state recurrence at R5 (what does periodicity become for kernel dynamics: ergodic vs escaping mass) and R6 (state space grows with t)",
+      "assumption_removals": [
+        "xii-finite-state"
+      ],
+      "verdicts": {
+        "R5": {
+          "lane": "F",
+          "pr": 245,
+          "verdict": "PARENT_SUFFICIENT",
+          "artifact": "ladder/R5_ERGODIC_AT12.md",
+          "parent": "finite Markov chain convergence / Perron-Frobenius (standard modern statement, Levin-Peres-Wilson class)",
+          "owned_statement": "finite-state kernel: decomposition into closed irreducible classes; mu P^t -> sum alpha_i pi_i iff aperiodic; Cesaro convergence always; periodicity becomes cyclic classes, recurrence becomes ergodic decomposition + absorption",
+          "witness": "witness_ergodic_decomposition.json (216 kernels, exact Fractions)"
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T13",
+      "hst_ref": "T13 PROVED",
+      "ladder_question": "novelty-prefix discipline at R6 (novelty measured against a self-extending archive = moving target)",
+      "assumption_removals": [
+        "xii-finite-state"
+      ],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "ARCHIVE-GOV: archive growth passes the governed-amendment gate (entries billed, expiry or threshold schedule tau(|A_t|) frozen in C_t); else novelty farming converts the discipline into a self-negotiated one and fixed thresholds are evanescent.",
+          "artifact": "ladder/r6_others.md#A_T13",
+          "parent": "none claimed (novelty-search practice is context only)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T14",
+      "hst_ref": "T14 PROVED (NFL exact)",
+      "ladder_question": "NFL at R3/R4: kernel averaging analogues (does a Dobrushin-contractive kernel family break c.u.p. averaging?) — expected PARENT_SUFFICIENT extensions or FAIL hostiles",
+      "assumption_removals": [
+        "xiii-iid-Q"
+      ],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "PARENT_SUFFICIENT",
+          "owned": "Wolpert-Macready NFL averaging + sharpened form (uniform averaging holds iff instance distribution is c.u.p.): any non-c.u.p. distribution breaks averaging. Dobrushin-contractive (K,f)-aligned families are non-c.u.p. (permutation destroys alignment though delta itself is conjugation-invariant), so separation follows from the parent; no HSG-specific theorem claimed.",
+          "artifact": "ladder/r6_others.md#A_T14",
+          "parent": "Wolpert-Macready 1997 + NFL sharpenings (c.u.p. iff NFL)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T15",
+      "hst_ref": "T15 PROVED",
+      "ladder_question": "semantic undecidability is rung-invariant (T15 bars it at every rung — prove the invariance statement itself)",
+      "assumption_removals": [],
+      "verdicts": {
+        "all": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_SURVIVES",
+          "statement": "Semantic undecidability is invariant under every computable rung-lifting operator L: for any rung r, computable L, nontrivial semantic P, deciding 'L(s) satisfies P' is undecidable (Rice reduction through enc(L(s)); one-shot emulation needs no universality). Governance restricts which undecidable questions are asked, never makes them decidable.",
+          "artifact": "ladder/R6_T15_invariance.md",
+          "parent": "Rice 1951 (Rice-Shapiro); Schmidhuber Goedel machines as context",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T16",
+      "hst_ref": "T16 PROVED",
+      "ladder_question": "Blum speedup under kernel composition at R5 (no asymptotically optimal kernel sequence — parent form? verify)",
+      "assumption_removals": [],
+      "verdicts": {
+        "R6": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "KERNEL-UNIVERSALITY: amendment grammar Turing-complete over kernels; then Blum's witness is realizable as an amendment chain and no asymptotically optimal kernel sequence exists. Restricted families (e.g. Dobrushin-contractive delta <= 1-gamma) leave the transfer unproven.",
+          "artifact": "ladder/r6_others.md#A_T16",
+          "parent": "Blum 1967 speedup theorem (PARENT_STATEMENT_UNVERIFIED_TEXT: exact statement unverified)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T17",
+      "hst_ref": "T17 PROVED (toy)",
+      "ladder_question": "tamper channel at R7 (evaluator crosses a system boundary: which exchange topologies close the channel)",
+      "assumption_removals": [
+        "iv-V-soundness"
+      ],
+      "verdicts": {
+        "R7": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "DIODE-PRECOMMIT: exchange topologies close the tamper channel iff every boundary->evaluator path factors through a constant channel committed before the exchange opens AND no evaluator state crosses outward. Closed: decoupled-evaluator component; pre-committed provenance-stripping diode. Open: two-way exchange at evaluator; post-hoc or performance-indexed interfaces.",
+          "artifact": "ladder/R7_T17.md",
+          "parent": "Baez-Fong 2015 open Markov processes (PARENT_STATEMENT_UNVERIFIED_TEXT; vocabulary only - flux balance constrains amounts, closure is about coupling structure)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    },
+    {
+      "atom": "A_T18",
+      "hst_ref": "T18 PROVED",
+      "ladder_question": "telescoping bound under R7 non-conservation (task inflow: B_0 is not fixed — exact statement of what survives) and R6 (ε chosen by the process itself)",
+      "assumption_removals": [
+        "vi-fixed-ecology"
+      ],
+      "verdicts": {
+        "R7": {
+          "lane": "G",
+          "pr": 244,
+          "verdict": "LIFT_CONDITIONAL",
+          "condition": "FLUX-DRIFT (R7): admission-ledger form Sum_{i in T} b_i <= B_0 + Sum_inflow b_i with positive recurrence iff lambda*E[b] < mu; frozen B_0 bound reappears only at lambda=0. EPS-PRECOMMIT (R6): epsilon fixed in C_t before the evidence it judges; post-hoc epsilon unbounds the telescoping charge from inside (tamper-channel event).",
+          "artifact": "ladder/R7_T18.md",
+          "parent": "Baez-Fong 2015 (PARENT_STATEMENT_UNVERIFIED_TEXT; stationarity-under-flux vocabulary only)",
+          "counterexample": null
+        }
+      },
+      "status": "OPEN"
+    }
+  ]
+}

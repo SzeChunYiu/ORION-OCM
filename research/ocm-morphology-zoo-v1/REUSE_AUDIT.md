@@ -82,3 +82,39 @@ recorded because it changes any future throughput model.
    `novelty_archive_impl` / `surrogate_impl` (no ambient behavior).
 2. Smoke gate exercises the pinned impls on LUNARC before production.
 3. The hand-rolled archive/surrogate survive only as frozen fallbacks.
+
+## 6. Worker O host installability matrix (GPU lane probes, 2026-09-09)
+
+Recorded verbatim from the GPU/laptop lane (#239). Probe divergence with
+section 1, kept honestly, NOT adjudicated here: this matrix observes pyribs
+0.0.2-resolution on billy-laptop where section 1 observed 0.7.1, and "not in
+modules" on LUNARC where section 1's user-site install (login, module Python
+3.11.5) holds 0.12.0. The campaign ground truth is `GS_ENV_PROBE.json` from
+the scoring host (cosmos3, Python 3.11.5, ribs 0.12.0, sklearn 1.9.0), which
+the freeze pins; neither laptop observation ever ran a scored evaluation.
+
+| tool | billy-laptop (py3.8.10, pip 25.0.1) | billy-old (py3.14.4, pip needs --break-system-packages) | LUNARC (module bio-suite-py3.12-torch, py3.12.11) | verdict |
+|---|---|---|---|---|
+| pyribs | resolves to 0.0.2 only (pre-history, useless) | resolves to 0.0.2 only (useless) | not in modules | NOT INSTALLABLE anywhere real — in-repo archive search is the reuse route |
+| qdax (needs jax[cuda12]) | — | — | jax absent from modules; `pip install --user jax[cuda12] qdax` dies on home disk quota (nvidia cu12 wheel set >> quota; no writable project staging path) | BLOCKED on the only GPU host |
+| jax | untested (CPU wheel irrelevant to lane) | untested | ABSENT + pip-staging BLOCKED (quota) | BLOCKED |
+| torch | — | — | 2.7.1+cu12.9 PREINSTALLED, VERIFIED on A40 (job 3587172, cg05, matmul+cuda probe) | the GPU engine |
+| deap | 1.4.3 installs OK | 1.4.4 installs OK | — | installable if an arm needs GA primitives |
+| optuna | NOT resolvable on 3.8 | 5.0.0 installs OK | — | py3.14-only |
+| numpy | 1.24.3 present | 2.5.3 installed this session | 2.2.6 | universal |
+| scikit-learn | — | — | 1.7.0 | surrogate members run on LUNARC |
+| cupy | — | — | 13.4.1 present (import verified on login; device use untested) | spare engine |
+
+## Consequence for GS-R1 arms
+
+1. QD library reuse is IMPOSSIBLE on every host of this campaign
+   (pyribs dead-resolution on laptops, jax/QDax quota-blocked on LUNARC).
+   The frozen arms therefore legitimately use the in-repo `search/`
+   implementations + this lane's torch-backed batched evaluator
+   (`gpu/t0_tape.py`); that is the reuse-compliant choice, not a dodge.
+2. The verified GPU stack is torch 2.7.1+cu12.9 on A40 — the tape uses it
+   as a column-array backend only (elementwise fp64, bit-identical to the
+   CPU path), NOT as a learned component (#71 untouched).
+3. Laptops: billy-laptop = py3.8.10/numpy 1.24.3 (12 workers),
+   billy-old = py3.14.4/numpy 2.5.3 (11 workers). Both pass the full
+   lane test suite (13/13) — compatibility window 3.8.10..3.14.4 held.

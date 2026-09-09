@@ -68,19 +68,28 @@ class GridArchive:
 
 def run(budget: int = 4000, seed: int = 0, init_fraction: float = 0.2,
         archive: str = "S_structural_2d", res: int = 10, start_from=None,
-        sampler=None, mutator=None, crossover_fn=None) -> Dict[str, Any]:
+        sampler=None, mutator=None, crossover_fn=None,
+        admission_bar=None) -> Dict[str, Any]:
     """Standard MAP-Elites loop: random init, then mutation/crossover elites.
 
     Optional encoding hooks (FREEZE_V1_AMEND_2, E1-CGP arms): sampler(rng)
     replaces random_genome, mutator(g, rng) replaces mutate, crossover_fn(a,
     b, rng) replaces crossover.  With all None the loop is byte-identical to
-    the pre-amendment behaviour (RNG consumption order unchanged)."""
+    the pre-amendment behaviour (RNG consumption order unchanged).
+
+    admission_bar (FREEZE_V1_AMEND_5 quality-gate revival, one varied
+    dimension): when set, a feasible record is admitted to the archive only
+    if dev_score >= admission_bar; rejected evaluations are still charged to
+    the budget and counted as feasible-found.  With None (default) the loop
+    is byte-identical to the pre-amendment behaviour — try_insert consumes
+    no RNG, so the gate cannot perturb the control arms."""
     rng = random.Random(seed)
     t0 = time.time()
     arch = GridArchive(archive, res)
     n_init = max(1, int(budget * init_fraction))
     n_evals = 0
     n_feasible = 0
+    n_admissible = 0
     batch = []
     for _ in range(n_init):
         g = start_from.clone() if start_from is not None else (
@@ -112,11 +121,15 @@ def run(budget: int = 4000, seed: int = 0, init_fraction: float = 0.2,
         n_evals += 1
         if rec["feasible"]:
             n_feasible += 1
-        arch.try_insert(rec)
+            if admission_bar is None or rec["dev_score"] >= admission_bar:
+                n_admissible += 1
+        if admission_bar is None or rec["dev_score"] >= admission_bar:
+            arch.try_insert(rec)
     return {
         "algorithm": "P05_map_elites", "seed": seed, "evals": n_evals,
         "archive_name": archive, "resolution": res,
         "elapsed_s": round(time.time() - t0, 3), "feasible_found": n_feasible,
+        "n_admissible_feasible": n_admissible,
         "coverage": round(arch.coverage(), 6), "qd_score": round(arch.qd_score(), 6),
         "n_elites": len(arch.elites()),
         "best_dev_score": max((e["dev_score"] for e in arch.elites()), default=None),
