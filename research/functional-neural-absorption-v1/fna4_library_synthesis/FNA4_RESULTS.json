@@ -1,0 +1,789 @@
+{
+ "ablation": {
+  "no_library_work_half1": 19350,
+  "no_library_work_half2": 346722,
+  "regression_to_no_library_exact": true,
+  "revoked_work_half2": 346722,
+  "with_library_work_half1": 108573
+ },
+ "cegis": {
+  "misfires_combined_vs_stitch": [
+   2286,
+   16813
+  ],
+  "refinements": 2
+ },
+ "defect_runs": [
+  "defect_runs/FNA4_DEFECT_RUN1_RECEIPTS.json.gz",
+  "defect_runs/FNA4_DEFECT_RUN2_PARTIAL.json.gz"
+ ],
+ "determinism": {
+  "identical": true
+ },
+ "harness": {
+  "selection_mirror_ok": true,
+  "smoke_solves": true
+ },
+ "main": {
+  "arms": {
+   "AU_PAIR": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 1199082,
+     "posting_reads": 2446787,
+     "simulations": 8000031,
+     "total_units": 14684038
+    },
+    "acquisition_work_marginal_units": 1199082,
+    "library_families": [
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "merge",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "sort",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "sort",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "merge",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "merge",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "merge",
+      "sort",
+      "agg"
+     ]
+    ],
+    "library_size": 6,
+    "macro_hits_fresh": 0,
+    "misfires_test": 451582,
+    "per_family": {
+     "F1": {
+      "hits": 0,
+      "n": 8,
+      "solved": 8,
+      "work": 258582
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 4291143
+     },
+     "F3": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 26587
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 4576312,
+    "totals": {
+     "full": 19260350,
+     "marginal": 5775394
+    }
+   },
+   "CHUNK": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 65812,
+     "posting_reads": 2446787,
+     "simulations": 8000031,
+     "total_units": 13550768
+    },
+    "acquisition_work_marginal_units": 65812,
+    "library_families": [
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "filter",
+      "zip",
+      "scale",
+      "scale"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "dedupe",
+      "sort",
+      "sort",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "merge",
+      "sort",
+      "dedupe",
+      "sort",
+      "filter",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "sort",
+      "dedupe",
+      "agg",
+      "scale"
+     ],
+     [
+      "parse",
+      "filter",
+      "filter",
+      "dedupe",
+      "agg",
+      "scale",
+      "scale"
+     ],
+     [
+      "parse",
+      "dedupe",
+      "filter",
+      "merge",
+      "agg",
+      "scale",
+      "scale"
+     ]
+    ],
+    "library_size": 6,
+    "macro_hits_fresh": 1,
+    "misfires_test": 28551,
+    "per_family": {
+     "F1": {
+      "hits": 0,
+      "n": 8,
+      "solved": 8,
+      "work": 26194
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 535287
+     },
+     "F3": {
+      "hits": 1,
+      "n": 4,
+      "solved": 4,
+      "work": 2972
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 564453,
+    "totals": {
+     "full": 14115221,
+     "marginal": 630265
+    }
+   },
+   "EGGRAPH": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 80350,
+     "posting_reads": 2446787,
+     "simulations": 8000031,
+     "total_units": 13565306
+    },
+    "acquisition_work_marginal_units": 80350,
+    "library_families": [
+     [
+      "parse",
+      "sort",
+      "sort",
+      "zip",
+      "scale"
+     ],
+     [
+      "parse",
+      "dedupe",
+      "merge",
+      "sort",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "merge",
+      "sort"
+     ],
+     [
+      "merge",
+      "sort",
+      "filter",
+      "dedupe",
+      "agg"
+     ],
+     [
+      "parse",
+      "sort",
+      "sort",
+      "filter",
+      "filter"
+     ],
+     [
+      "parse",
+      "parse",
+      "sort",
+      "merge",
+      "agg"
+     ]
+    ],
+    "library_size": 6,
+    "macro_hits_fresh": 3,
+    "misfires_test": 286120,
+    "per_family": {
+     "F1": {
+      "hits": 2,
+      "n": 8,
+      "solved": 8,
+      "work": 183288
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 4850567
+     },
+     "F3": {
+      "hits": 1,
+      "n": 4,
+      "solved": 4,
+      "work": 16967
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 5050822,
+    "totals": {
+     "full": 18616128,
+     "marginal": 5131172
+    }
+   },
+   "NOGOOD_ONLY_per_batch": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 173186,
+     "posting_reads": 2446787,
+     "simulations": 7837361,
+     "total_units": 13495472
+    },
+    "acquisition_work_marginal_units": 173186,
+    "library_families": [],
+    "library_size": 0,
+    "macro_hits_fresh": 0,
+    "misfires_test": 0,
+    "per_family": {
+     "F1": {
+      "hits": 0,
+      "n": 8,
+      "solved": 8,
+      "work": 19352
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 339939
+     },
+     "F3": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 3356
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 362647,
+    "totals": {
+     "full": 13858119,
+     "marginal": 535833
+    }
+   },
+   "NOGOOD_ONLY_per_op": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 8064336,
+     "posting_reads": 2446787,
+     "simulations": 7837361,
+     "total_units": 21386622
+    },
+    "acquisition_work_marginal_units": 8064336,
+    "library_families": [],
+    "library_size": 0,
+    "macro_hits_fresh": 0,
+    "misfires_test": 0,
+    "per_family": {
+     "F1": {
+      "hits": 0,
+      "n": 8,
+      "solved": 8,
+      "work": 28927
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 528532
+     },
+     "F3": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 4895
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 562354,
+    "totals": {
+     "full": 21948976,
+     "marginal": 8626690
+    }
+   },
+   "NO_LIBRARY": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 64305,
+     "posting_reads": 2446787,
+     "simulations": 8000031,
+     "total_units": 13549261
+    },
+    "acquisition_work_marginal_units": 64305,
+    "library_families": [],
+    "library_size": 0,
+    "macro_hits_fresh": 0,
+    "misfires_test": 7166,
+    "per_family": {
+     "F1": {
+      "hits": 0,
+      "n": 8,
+      "solved": 8,
+      "work": 19350
+     },
+     "F2": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 343367
+     },
+     "F3": {
+      "hits": 0,
+      "n": 4,
+      "solved": 4,
+      "work": 3355
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 366072,
+    "totals": {
+     "full": 13915333,
+     "marginal": 430377
+    }
+   },
+   "STITCH": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 240294343,
+     "posting_reads": 2446787,
+     "simulations": 8000031,
+     "total_units": 253779299
+    },
+    "acquisition_work_marginal_units": 240294343,
+    "library_families": [
+     [
+      "parse",
+      "sort",
+      "filter"
+     ],
+     [
+      "parse",
+      "sort",
+      "merge"
+     ],
+     [
+      "filter",
+      "agg"
+     ],
+     [
+      "sort",
+      "agg"
+     ],
+     [
+      "sort",
+      "sort"
+     ],
+     [
+      "merge",
+      "agg"
+     ]
+    ],
+    "library_size": 6,
+    "macro_hits_fresh": 9,
+    "misfires_test": 16813,
+    "per_family": {
+     "F1": {
+      "hits": 5,
+      "n": 8,
+      "solved": 8,
+      "work": 108573
+     },
+     "F2": {
+      "hits": 3,
+      "n": 4,
+      "solved": 4,
+      "work": 203376
+     },
+     "F3": {
+      "hits": 1,
+      "n": 4,
+      "solved": 4,
+      "work": 15937
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 327886,
+    "totals": {
+     "full": 254107185,
+     "marginal": 240622229
+    }
+   },
+   "STITCH_NOGOOD_CEGIS": {
+    "acq_experience_chains": 1533,
+    "acquisition_work": {
+     "checker_calls": 3038138,
+     "learner_steps": 240403224,
+     "posting_reads": 2446787,
+     "simulations": 7837361,
+     "total_units": 253725510
+    },
+    "acquisition_work_marginal_units": 240403224,
+    "library_families": [
+     [
+      "parse",
+      "sort",
+      "filter"
+     ],
+     [
+      "parse",
+      "sort",
+      "merge"
+     ],
+     [
+      "filter",
+      "agg"
+     ],
+     [
+      "sort",
+      "agg"
+     ],
+     [
+      "sort",
+      "sort"
+     ],
+     [
+      "merge",
+      "agg"
+     ]
+    ],
+    "library_size": 6,
+    "macro_hits_fresh": 9,
+    "misfires_test": 2286,
+    "per_family": {
+     "F1": {
+      "hits": 5,
+      "n": 8,
+      "solved": 8,
+      "work": 96100
+     },
+     "F2": {
+      "hits": 3,
+      "n": 4,
+      "solved": 4,
+      "work": 161167
+     },
+     "F3": {
+      "hits": 1,
+      "n": 4,
+      "solved": 4,
+      "work": 13562
+     }
+    },
+    "test_solved": 16,
+    "test_work_total": 270829,
+    "totals": {
+     "full": 253996339,
+     "marginal": 240674053
+    }
+   }
+  },
+  "critical_f2_share": {
+   "AU_PAIR": {
+    "balanced": "no_share_pays",
+    "f1_only": "no_share_pays"
+   },
+   "CHUNK": {
+    "balanced": "no_share_pays",
+    "f1_only": "no_share_pays"
+   },
+   "EGGRAPH": {
+    "balanced": "no_share_pays",
+    "f1_only": "no_share_pays"
+   },
+   "STITCH": {
+    "balanced": 0.1696,
+    "f1_only": 0.2417
+   },
+   "STITCH_NOGOOD_CEGIS": {
+    "balanced": 0.1176,
+    "f1_only": 0.174
+   },
+   "convention": "x solves d_F2*x = d_nonF2*(1-x); balanced = non-F2 stream is half F1, half F3; f1_only = non-F2 stream is all F1 (worst case)"
+  },
+  "oracle_teleport_LABELLED_UPPER_BOUND": {
+   "macro_hits": 16,
+   "solved": 16,
+   "test_work_total": 162
+  },
+  "per_task_delta_vs_no_library": {
+   "AU_PAIR": {
+    "F1": 29904,
+    "F2": 986944,
+    "F3": 5808
+   },
+   "CHUNK": {
+    "F1": 856,
+    "F2": 47980,
+    "F3": -96
+   },
+   "EGGRAPH": {
+    "F1": 20492,
+    "F2": 1126800,
+    "F3": 3403
+   },
+   "NOGOOD_ONLY_per_batch": {
+    "F1": 0,
+    "F2": -857,
+    "F3": 0
+   },
+   "NOGOOD_ONLY_per_op": {
+    "F1": 1197,
+    "F2": 46291,
+    "F3": 385
+   },
+   "NO_LIBRARY": {
+    "F1": 0,
+    "F2": 0,
+    "F3": 0
+   },
+   "STITCH": {
+    "F1": 11153,
+    "F2": -34998,
+    "F3": 3146
+   },
+   "STITCH_NOGOOD_CEGIS": {
+    "F1": 9594,
+    "F2": -45550,
+    "F3": 2552
+   }
+  }
+ },
+ "nogood_granularity_pair": {
+  "NOGOOD_ONLY_per_batch": {
+   "marginal": 535833,
+   "misfires": 0,
+   "test_work_total": 362647
+  },
+  "NOGOOD_ONLY_per_op": {
+   "marginal": 8626690,
+   "misfires": 0,
+   "test_work_total": 562354
+  }
+ },
+ "p6_revival_sweep": {
+  "acquisition_work_full": {
+   "checker_calls": 3038138,
+   "learner_steps": 64305,
+   "posting_reads": 2446787,
+   "simulations": 8000031,
+   "total_units": 13549261
+  },
+  "declared_in": "FNA4_FREEZE_ADDENDUM_V3.json",
+  "exhibited_chains": 1507,
+  "points": [
+   {
+    "constructible": false,
+    "got_need": [
+     0,
+     0,
+     4,
+     12
+    ],
+    "r": 0.0
+   },
+   {
+    "constructible": false,
+    "got_need": [
+     3,
+     3,
+     3,
+     9
+    ],
+    "r": 0.25
+   },
+   {
+    "constructible": false,
+    "got_need": [
+     6,
+     6,
+     3,
+     6
+    ],
+    "r": 0.5
+   },
+   {
+    "acquisition_marginal_units": 240294343,
+    "break_even_tasks_marginal": null,
+    "constructible": true,
+    "macro_hits": 18,
+    "macro_hits_on_covered": 15,
+    "n": 24,
+    "no_library_total": 1430444,
+    "payback_marginal": -241608055,
+    "r": 0.75,
+    "repeat_covered": 18,
+    "saving": -1313712,
+    "saving_per_task": -54738.0,
+    "with_library_total": 2744156
+   },
+   {
+    "acquisition_marginal_units": 240294343,
+    "break_even_tasks_marginal": null,
+    "constructible": true,
+    "macro_hits": 15,
+    "macro_hits_on_covered": 15,
+    "n": 24,
+    "no_library_total": 2100117,
+    "payback_marginal": -241625714,
+    "r": 1.0,
+    "repeat_covered": 24,
+    "saving": -1331371,
+    "saving_per_task": -55473.791666666664,
+    "with_library_total": 3431488
+   }
+  ],
+  "raw_sha256": "566a26d8901ba107eca74d1a579c50a6aba0e1e7fc1684ad751ebed7eae19b52",
+  "receipts": "receipts/FNA4_SWEEP_R2_RECEIPTS.json",
+  "stitch_learner_units": {
+   "checker_calls": 0,
+   "learner_steps": 240230038,
+   "posting_reads": 0,
+   "simulations": 0,
+   "total_units": 240230038
+  }
+ },
+ "repeat_rate_sweep_frozen_axis": {
+  "points": [
+   {
+    "actual_covered": 0,
+    "constructible": true,
+    "macro_hits": 19,
+    "no_library_total": 1711950,
+    "payback_full": -252837375,
+    "payback_marginal": -239352419,
+    "r": 0.0,
+    "stitch_acquisition": 253779299,
+    "stitch_acquisition_marginal": 240294343,
+    "stitch_with_library_total": 254549325
+   },
+   {
+    "constructible": false,
+    "r": 0.25
+   },
+   {
+    "constructible": false,
+    "r": 0.5
+   },
+   {
+    "constructible": false,
+    "r": 0.75
+   },
+   {
+    "constructible": false,
+    "r": 1.0
+   }
+  ],
+  "r0_economics": {
+   "break_even_tasks_marginal": 6122.6,
+   "saving_on_24_task_stream": 941924
+  },
+  "r_grid": [
+   0.0,
+   0.25,
+   0.5,
+   0.75,
+   1.0
+  ]
+ },
+ "revocation": {
+  "collateral_dead": 0,
+  "cone_exact": true,
+  "f1_capability_lost_by_construction": 2,
+  "revoked_evidence": "ev:fam:filter",
+  "stale_survivors": 0,
+  "survivors_still_hit": 2
+ },
+ "schema": "ocm.fna.fna4.results.v1",
+ "source_receipts": {
+  "run3": "receipts/FNA4_RUN3_RECEIPTS.json.gz (raw json sha256 06a72a5e87d33c6681332a9a06477a06b5b5962768a33e172638023dfe628d5b)",
+  "run3_gz_sha256": "00554270c8b8268554e8e147b88da94061718bed1665b7beb4e40d2927fb419f",
+  "run3_raw_sha256": "06a72a5e87d33c6681332a9a06477a06b5b5962768a33e172638023dfe628d5b"
+ }
+}
