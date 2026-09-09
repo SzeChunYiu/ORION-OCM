@@ -1,0 +1,101 @@
+{
+  "schema": "ocm.fna6.source_ledger.v1",
+  "rows": [
+    {
+      "id": "S1",
+      "used_for": "P1A/P1B blackboard control structure (partitioned panels, KS triggering, agenda scheduler; BB1 control blackboard and version tags)",
+      "citation": "Hayes-Roth, Barbara (1985). A blackboard architecture for control. Artificial Intelligence 26(3), 251-321. doi:10.1016/0004-3702(85)90063-9",
+      "locator": "https://doi.org/10.1016/0004-3702(85)90063-9",
+      "relation": "faithful adaptation (panels + KSAR agenda + append-only hypothesis history; BB1-style world-version control fact for P1B)",
+      "simplifications": [
+        "KS ratings collapsed to a fixed priority ladder (answer > expand) instead of learned ratings",
+        "no opportunistic scheduling heuristics; the agenda is drained to quiescence",
+        "hypothesis indexing reduced to a tail posting index (BB1 had general hypothesis indexing)"
+      ]
+    },
+    {
+      "id": "S2",
+      "used_for": "blackboard precedent line (Hearsay-II panels and KSAR terminology)",
+      "citation": "Erman, L.D., Hayes-Roth, F., Lesser, V.R., Reddy, D.R. (1980). The Hearsay-II speech-understanding system: Integrating knowledge to resolve uncertainty. ACM Computing Surveys 12(2), 213-253.",
+      "locator": "https://doi.org/10.1145/356810.356816",
+      "relation": "terminology and panel structure only; no speech-specific content",
+      "simplifications": ["no acoustic-phonetic levels; two-level generic field/closure panels"]
+    },
+    {
+      "id": "S3",
+      "used_for": "P2 Soar working memory (WMEs, goal scoping, i-support retraction, input-link perception)",
+      "citation": "Soar Manual, section 4: Procedural Knowledge & Learning. University of Michigan.",
+      "locator": "https://soar.eecs.umich.edu/soar_manual/04_ProceduralKnowledgeLearning/",
+      "relation": "faithful adaptation at the working-memory level",
+      "simplifications": [
+        "operator preference resolution and impasses are NOT exercised: the closure is elaboration-level, resolved by support-retraction to quiescence",
+        "chunking/learning not modelled",
+        "input-link perception fires at stream update events only (not per decision cycle)"
+      ]
+    },
+    {
+      "id": "S4",
+      "used_for": "P3/P3R ACT-R module buffers (strict capacity, declarative memory, retrieval requests, buffer swaps)",
+      "citation": "Anderson, J.R., Bothell, D., Byrne, M.D., Douglass, S., Lebiere, C., Qin, Y. (2004). An integrated theory of the mind. Psychological Review 111(4), 1036-1050.",
+      "locator": "https://doi.org/10.1037/0033-295X.111.4.1036",
+      "relation": "faithful adaptation of the buffer/DM core",
+      "simplifications": [
+        "base-level activation approximated by deterministic most-recently-accessed selection",
+        "no subsymbolic utilities, no production compilation",
+        "three buffers only (goal, retrieval, imaginal)"
+      ]
+    },
+    {
+      "id": "S5",
+      "used_for": "P0 incumbent working state (structural adjacency index, per-query liveness, ATMS-style revocation propagation semantics)",
+      "citation": "de Kleer, J. (1986). An assumption-based truth maintenance system. Artificial Intelligence 28(2), 127-224.",
+      "locator": "https://doi.org/10.1016/0004-3702(86)90079-7",
+      "relation": "the incumbent mechanism this study measures against (pre-existing on main)",
+      "simplifications": []
+    },
+    {
+      "id": "S6",
+      "used_for": "revocation/retraction semantics context (TMS lineage of the sweep phase)",
+      "citation": "Doyle, J. (1979). A truth maintenance system. Artificial Intelligence 12(3), 231-272.",
+      "locator": "https://doi.org/10.1016/0004-3702(79)90008-0",
+      "relation": "lineage note only; not implemented as an arm",
+      "simplifications": []
+    },
+    {
+      "id": "S7",
+      "used_for": "update-locality reference definition (impact cone as least dependency-closed superset; self-adjusting computation context)",
+      "citation": "Acar, U.A. (2005). Self-Adjusting Computation. PhD thesis, Carnegie Mellon University, CMU-CS-05-129.",
+      "locator": "https://www.cs.cmu.edu/~umatic/papers/thesis.pdf",
+      "relation": "conceptual reference for change propagation costing; the cone itself is production code (src/ocm/kso/revocation.py impact_cone)",
+      "simplifications": []
+    },
+    {
+      "id": "S8",
+      "used_for": "drift arm rationale (retraction on mismatch between working state and world)",
+      "citation": "VanLehn, K. (1988). Toward a theory of impasse-driven learning. In: Foundation of Knowledge Acquisition, Machine Learning 8. Springer.",
+      "locator": "doi:10.1007/978-1-4615-3552-2_7",
+      "relation": "motivates the mid-stream catalogue drift as an impasse source",
+      "simplifications": []
+    },
+    {
+      "id": "S9",
+      "used_for": "donor reference (the neural residual-stream analogue this lane maps working state onto)",
+      "citation": "Vaswani, A., et al. (2017). Attention Is All You Need. NeurIPS 30.",
+      "locator": "https://arxiv.org/abs/1706.03762",
+      "relation": "analogy anchor only; no transformer component is built or claimed replaced",
+      "simplifications": []
+    }
+  ],
+  "in_repo_sources": [
+    {"path": "src/ocm/kso/navigation.py", "use": "gated_closure: oracle and incumbent mirror semantics"},
+    {"path": "src/ocm/kso/checks.py", "use": "random_space: population generator (unmodified)"},
+    {"path": "src/ocm/kso/revocation.py", "use": "impact_cone: judge-side locality reference"},
+    {"path": "src/ocm/kso/extraction_index.py", "use": "incumbent index semantics mirrored (snapshot-bound, charged rebuild)"},
+    {"path": "src/ocm/kso/space.py", "use": "immutable space algebra (with_edges/without/replace_atom)"}
+  ],
+  "notes": [
+    "no claim is made that the blackboard architecture is novel",
+    "no AGI / LLM_EQUIVALENT / TRANSFORMER_REPLACED / GENERAL_SUPERIORITY claim is made anywhere in this capsule",
+    "every simplification above is a declared reduction of the parent, not an enhancement claimed as the parent's"
+  ]
+}
