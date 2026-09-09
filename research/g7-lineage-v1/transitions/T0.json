@@ -1,0 +1,246 @@
+{
+  "ablation": {
+    "effect_disappears": true,
+    "notes": "serving without the macro reduces exactly to primitive search",
+    "removed": "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+  },
+  "acquisition_cost": {
+    "notes": "train solve + validation tournament",
+    "verifier_calls": 14,
+    "work_units": 2303
+  },
+  "active_k_n": {
+    "N": 14,
+    "k": 5,
+    "ratio": 0.35714285714285715
+  },
+  "actual_execution_witnesses": [
+    {
+      "enumeration_attempts": 120,
+      "invoked_identities": [
+        "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+      ],
+      "program": [
+        "square",
+        "double",
+        "square",
+        "inc"
+      ],
+      "task_id": "47e20b6bbe17b9eb7c02b419d6eaccd7cfc6bf7baaa1abb4f6157a3d9c36f620",
+      "token_word": [
+        "square",
+        "MACRO",
+        "inc"
+      ],
+      "verified": true
+    },
+    {
+      "enumeration_attempts": 40,
+      "invoked_identities": [
+        "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+      ],
+      "program": [
+        "double",
+        "square",
+        "double",
+        "inc"
+      ],
+      "task_id": "78d0ebea73179acff1d582ddaaf122b6ce2d3ee8f72e700d854054ead8b34788",
+      "token_word": [
+        "MACRO",
+        "double",
+        "inc"
+      ],
+      "verified": true
+    },
+    {
+      "enumeration_attempts": 99,
+      "invoked_identities": [
+        "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+      ],
+      "program": [
+        "double",
+        "double",
+        "square",
+        "square"
+      ],
+      "task_id": "bcde3b84146c221f6ee1b5ef410295e0c05bd3027d994d590c51fce862825769",
+      "token_word": [
+        "double",
+        "MACRO",
+        "square"
+      ],
+      "verified": true
+    },
+    {
+      "enumeration_attempts": 123,
+      "invoked_identities": [
+        "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+      ],
+      "program": [
+        "square",
+        "double",
+        "square",
+        "square"
+      ],
+      "task_id": "8094b3be673fa4cfb42e9c315b2e8b04a060dc715dc7a893d5a8f09cfaf564c2",
+      "token_word": [
+        "square",
+        "MACRO",
+        "square"
+      ],
+      "verified": true
+    }
+  ],
+  "chi": {
+    "notes": "post-admission search space in enumeration attempts",
+    "status": "MEASURED",
+    "value": 1463.0
+  },
+  "composition_depth": 1,
+  "imported_donor_identities": [
+    "donor:primitive:inc",
+    "donor:primitive:dec",
+    "donor:primitive:double",
+    "donor:primitive:square"
+  ],
+  "kappa": {
+    "notes": "one admitted method against persisted object count",
+    "status": "MEASURED",
+    "value": 0.07142857142857142
+  },
+  "lineage_id": "orion-ocm-g7-lineage-v1:microscope-d0-d1",
+  "maintenance_cost": {
+    "notes": "no index maintenance beyond the bundle write",
+    "verifier_calls": 0,
+    "work_units": 0
+  },
+  "negative_transfer": {
+    "harmful_tasks": 4,
+    "notes": "macro can increase attempts on some held-out tasks; recorded, not hidden",
+    "observed": true
+  },
+  "new_information_supplied": {
+    "examples": 8,
+    "labels": 0,
+    "training_task_ids": [
+      "3821e8222773170a6685fbbc1148336692825f8cad31006ed71e32e915b6cf14",
+      "ded9b423506562bdce63864fe9ce58412bca14820915f49fbc9cb665f021966e",
+      "c6eb6af115be19fd736c0c44802005d742f16cbc113b31c4e9a2499e17d5d1c4",
+      "427cdba3eb79237d72e007fab141aadce368120fec21dc89cb27c26465c925cb",
+      "c3ecb84f498054a8788fdd6cdf7cfb43b0c218de572313af2aed6508c513f200",
+      "1af8fef3731e4199b3ecc0fde18730b37841935b88c7a2fd85b610cd6f77fac0",
+      "667b8259b846a82e1b2dc8a4d60ff8215917b23f0fc973bccb3e1c8ad4a0022b",
+      "c052a38870870aedacb26f0c5af6b1df1b7b3a3e2644f3635cbc0243664c4353"
+    ]
+  },
+  "new_methods_schemas": [
+    {
+      "identity": "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984",
+      "kind": "method",
+      "origin_category": "LEARNED_COMPOSITION",
+      "payload": {
+        "degree": 2,
+        "fingerprint": "6e107d76be6c3064e549031a4b38facb1eccace3f3561a2209a55dac8e5218d8",
+        "macro": [
+          "double",
+          "square"
+        ]
+      }
+    },
+    {
+      "identity": "schema:8aaa2b41e6440f3d25eff353eb0a8fd74c0d5d723432029fe29d3cbf5f25386e",
+      "kind": "schema",
+      "origin_category": "LEARNED_COMPOSITION",
+      "payload": {
+        "originating_method_ids": [
+          "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984"
+        ],
+        "pattern": "MACRO replaces a contiguous primitive fragment in exact token search"
+      }
+    }
+  ],
+  "omega": {
+    "notes": "no diagnostic probe at D0 acquisition",
+    "status": "CANNOT_CHECK",
+    "value": 0.0
+  },
+  "persistent_bytes": 4330,
+  "persistent_state_digest": "661436a00c2839bd9d0744dcf15f9e75deb1c40679b8d6d0a6340ef34d6326f8",
+  "primitive_operators_added": [],
+  "prior_information_manifest": {
+    "charge": 11,
+    "items": [
+      "four total arithmetic primitives inc/dec/double/square",
+      "coefficient normal-form checker",
+      "exact token-word BFS serving",
+      "registered salts and stratum sizes"
+    ]
+  },
+  "reasoning_cost": {
+    "notes": "exact token-word search on held-out D0 tasks",
+    "verifier_calls": 8,
+    "work_units": 1463
+  },
+  "retention": {
+    "notes": "seed donors and empty failure store retained",
+    "prior_failure_knowledge_retained": true,
+    "prior_methods_retained": true
+  },
+  "reused_method_identities": [],
+  "revision_cost": {
+    "notes": "no revision at T0",
+    "verifier_calls": 0,
+    "work_units": 0
+  },
+  "schema": "ocm.g7.development-transition.v1",
+  "self_change_cost": {
+    "notes": "one method admission",
+    "verifier_calls": 0,
+    "work_units": 1
+  },
+  "source_machine_identity": "511db7c97258b0a9afa8b218e1ddf6f460d7e9966060a3e877f040c00e3579d9",
+  "source_stage": "EMPTY",
+  "strongest_parent_result": {
+    "CONTINUED_OCM": {
+      "arm": "CONTINUED_OCM",
+      "loaded_foreign_store": false,
+      "notes": "T0 acquisition on empty seed; restart before test",
+      "reused_prior_methods": false,
+      "work_units": 3766
+    },
+    "RESET_OCM": {
+      "arm": "RESET_OCM",
+      "loaded_foreign_store": false,
+      "notes": "empty machine equals continued at T0 because there is no prior earned state",
+      "reused_prior_methods": false,
+      "work_units": 4330
+    },
+    "STRONG_ADAPTIVE_PARENT": {
+      "arm": "STRONG_ADAPTIVE_PARENT",
+      "loaded_foreign_store": false,
+      "notes": "ordinary persistent macro library, identical serving grammar",
+      "reused_prior_methods": false,
+      "work_units": 3766
+    },
+    "TASK_SPECIFIC_OCM": {
+      "arm": "TASK_SPECIFIC_OCM",
+      "loaded_foreign_store": false,
+      "notes": "primitive search on the test stratum only; no persistent method",
+      "reused_prior_methods": false,
+      "work_units": 2027
+    },
+    "notes": "T0 has no prior lineage state, so reset matches continued acquisition. Parent ties the mechanism.",
+    "parent_ties_continued_mechanism": true,
+    "reset_costs_more_or_fails_reuse": true,
+    "winner": "TIE_CONTINUED_AND_PARENT"
+  },
+  "target_machine_identity": "661436a00c2839bd9d0744dcf15f9e75deb1c40679b8d6d0a6340ef34d6326f8",
+  "target_stage": "OCM_0",
+  "terminal": "OCM_0_D0_EXACT_MACRO_ACQUIRED",
+  "verification_cost": {
+    "notes": "unique expanded programs checked",
+    "verifier_calls": 8,
+    "work_units": 1316
+  }
+}

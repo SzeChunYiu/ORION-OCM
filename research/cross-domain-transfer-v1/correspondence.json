@@ -1,0 +1,63 @@
+{
+  "schema": "ocm.cross-domain.correspondence.v1",
+  "correspondence_id": "apply-fragment-to-apply-rewrite.v1",
+  "claim_ceiling": "Typed operator correspondence only. This witness maps composition of a learned fragment onto composition of a learned rewrite. It does not list target tasks, start/goal tapes, solution words, or color-name answers.",
+  "source": {
+    "domain": "rational-polynomial-coefficients.v1",
+    "checker": "polynomial-normal-form-identity.v1",
+    "method_operator": "apply-fragment",
+    "method_identity": {
+      "fragment": ["square", "dec", "square"],
+      "typed_roles": ["nonlinear_wrap", "local_shift", "nonlinear_wrap"]
+    },
+    "source_path": "src/ocm/learning/methods.py",
+    "source_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3"
+  },
+  "target": {
+    "domain": "ribbon-rewrite.v1",
+    "checker": "exact-tape-equality.v1",
+    "method_operator": "apply-rewrite",
+    "vocabulary_reminted": true,
+    "validation_semantics": "Exact equality of a finite reminted tape after total rewrite operators. Not polynomial coefficient identity, and not a renamed copy of inc/dec/double/square."
+  },
+  "witness": {
+    "maps": "compose learned fragment -> compose learned rewrite",
+    "operator": "apply-fragment",
+    "serving": "macro-token-in-token-bfs",
+    "role_fillers": {
+      "nonlinear_wrap": "plait",
+      "local_shift": "nick"
+    },
+    "instantiated_schema": ["nonlinear_wrap", "local_shift", "nonlinear_wrap"],
+    "does_not_encode_target_solution": true
+  },
+  "preserved_structure": [
+    "sequential composition of total unary operators",
+    "contiguous fragment admitted as one search token",
+    "exact checker independent of search order"
+  ],
+  "lost_structure": [
+    "rational arithmetic",
+    "polynomial coefficient identity",
+    "degree doubling under square"
+  ],
+  "unrelated_control": {
+    "domain": "color-naming.v1",
+    "checker": "exact-name-table.v1",
+    "shared_structure": false,
+    "note": "Numeric/rewrite sequential macros have no typed composition in the color-name table. Answers are not recorded here."
+  },
+  "cognitive_operations": [
+    "DECOMPOSE",
+    "DISTINGUISH",
+    "CHECK",
+    "REVISE",
+    "SEARCH_MORE",
+    "FORM_SUBGOAL",
+    "CHANGE_REPRESENTATION",
+    "CONSOLIDATE",
+    "GENERALIZE_METHOD",
+    "DETECT_OBSTRUCTION",
+    "ABSTAIN"
+  ]
+}
