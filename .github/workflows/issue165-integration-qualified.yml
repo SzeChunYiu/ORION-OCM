@@ -25,20 +25,38 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/issue165-pinned
-          for sha in dff3acadb78dfef161d122d00f20ebb30ab8bb51 d6256d4b5abbbe616e96d4273cd7a56b905c9916 39bf850f0b0b873f11c625adc57e61ceff8ccabf; do
+          for sha in dff3acadb78dfef161d122d00f20ebb30ab8bb51 d6256d4b5abbbe616e96d4273cd7a56b905c9916 39bf850f0b0b873f11c625adc57e61ceff8ccabf 9999b6e0b5cc3492fe237a7eb323c9b758c1f523; do
+            dest="/tmp/issue165-pinned/$sha"
+            mkdir -p "$dest"
             git cat-file -e "$sha^{commit}"
-            git archive --format=tar.gz "$sha" > "/tmp/issue165-pinned/$sha.tar.gz"
-            git ls-tree -r -z "$sha" > "/tmp/issue165-pinned/$sha.tree"
-            git show -s --format=fuller "$sha" > "/tmp/issue165-pinned/$sha.commit.txt"
+            git archive --format=tar.gz "$sha" > "$dest/source.tar.gz"
+            git ls-tree -r -z "$sha" > "$dest/source.tree"
+            git show -s --format=fuller "$sha" > "$dest/source.commit.txt"
+            git rev-parse HEAD > "$dest/controller-commit.txt"
+            (cd "$dest" && sha256sum source.tar.gz source.tree source.commit.txt controller-commit.txt > SHA256SUMS)
           done
-          git rev-parse HEAD > /tmp/issue165-pinned/controller-commit.txt
           git diff --exit-code
-          cd /tmp/issue165-pinned
-          sha256sum *.tar.gz *.tree *.commit.txt controller-commit.txt > SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: issue165-pinned-sources
-          path: /tmp/issue165-pinned/
+          name: issue165-main-dff3ac
+          path: /tmp/issue165-pinned/dff3acadb78dfef161d122d00f20ebb30ab8bb51/
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-lane206-d6256d
+          path: /tmp/issue165-pinned/d6256d4b5abbbe616e96d4273cd7a56b905c9916/
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-lane204-39bf85
+          path: /tmp/issue165-pinned/39bf850f0b0b873f11c625adc57e61ceff8ccabf/
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue165-lane206-9999b6
+          path: /tmp/issue165-pinned/9999b6e0b5cc3492fe237a7eb323c9b758c1f523/
           if-no-files-found: error
           retention-days: 14
