@@ -1,0 +1,780 @@
+{
+  "atms_still_cheapest": true,
+  "automl_bo": {
+    "grid_search_is_not_bo": true,
+    "invented": false,
+    "missing": [
+      "optuna",
+      "skopt",
+      "bayes_opt",
+      "hyperopt",
+      "ax",
+      "gpytorch",
+      "botorch",
+      "emukit",
+      "dragonfly",
+      "hebo"
+    ],
+    "present": [],
+    "status": "CANNOT_CHECK_NO_BO_LIBRARY",
+    "tried": [
+      "optuna",
+      "skopt",
+      "bayes_opt",
+      "hyperopt",
+      "ax",
+      "gpytorch",
+      "botorch",
+      "emukit",
+      "dragonfly",
+      "hebo"
+    ]
+  },
+  "cannot_check": [
+    "AutoML/BO"
+  ],
+  "cited_v2_bullets": [
+    "system-identification",
+    "learned selector"
+  ],
+  "claim_ceiling": "Bounded synthetic plant remainder parent comparison. Not production M11 self-evolution. v1 laboratory and v2 RESULT.json are frozen. AutoML/BO is CANNOT_CHECK_NO_BO_LIBRARY. 1-parameter \u03b8 grid is not BO. Learned selector is cited from v2, not trained. Human-designed repair is the authored plant, charged as prior. Source-bound real failure/probe recovery is a separate G3 worker.",
+  "compare_against": {
+    "ATMS/change-impact": {
+      "cost": 136,
+      "note": "Cited v2 PARENT_SUFFICIENT; rerun on this split as the standing cheapest parent.",
+      "quality": 1.0,
+      "status": "EARNED",
+      "v2_cost": 118,
+      "v2_status": "EARNED"
+    },
+    "AutoML/BO": {
+      "grid_search_is_not_bo": true,
+      "invented": false,
+      "note": "1-parameter \u03b8 enumeration is an exhaustive integer grid labeled not-BO, not an AutoML/BO parent.",
+      "status": "CANNOT_CHECK_NO_BO_LIBRARY",
+      "tried": [
+        "optuna",
+        "skopt",
+        "bayes_opt",
+        "hyperopt",
+        "ax",
+        "gpytorch",
+        "botorch",
+        "emukit",
+        "dragonfly",
+        "hebo"
+      ]
+    },
+    "evolutionary search": {
+      "cost": 139,
+      "crossover": false,
+      "quality": 1.0,
+      "status": "EARNED",
+      "v2_variant": "permutation GA with OX crossover (cited, not overwritten)",
+      "variant": "random_(1+lambda)_swap_mutation_ES"
+    },
+    "human-designed repair": {
+      "charged_as_prior": true,
+      "cost": 203,
+      "note": "Human-designed repair is the authored plant. Window map charged as prior, not unpaid operational knowledge.",
+      "operational_cost": 131,
+      "prior_cost": 72,
+      "quality": 1.0,
+      "status": "EARNED",
+      "v2_status": "NOT_THIS_CAPSULE",
+      "variant": "authored_plant_xor_windows"
+    },
+    "learned selector": {
+      "cost": 119,
+      "ml_selector_trained": false,
+      "note": "v2 trained a syndrome\u2192module table. This capsule does not train an ML selector.",
+      "quality": 1.0,
+      "status": "CITED_V2_NOT_TRAINED",
+      "v2_status": "EARNED"
+    },
+    "program repair": {
+      "cost": 2169,
+      "quality": 1.0,
+      "status": "EARNED",
+      "v2_variant": "GenProg-style mutate (cited, not overwritten)",
+      "variant": "generate_and_test_finite_power_set"
+    },
+    "structured surrogate": {
+      "cost": 136,
+      "quality": 1.0,
+      "status": "EARNED",
+      "theta": 2,
+      "theta_grid_is_not_bo": true,
+      "v2_variant": "2-factor ANOVA (cited, not overwritten)",
+      "variant": "one_parameter_main_effect_top_k"
+    },
+    "system-identification": {
+      "cost": 122,
+      "note": "v2 GF(2) observation map. This remainder capsule does not rerun system-id.",
+      "quality": 1.0,
+      "status": "CITED_V2",
+      "v2_status": "EARNED"
+    }
+  },
+  "constitution": [
+    "authority",
+    "check",
+    "commit",
+    "meter"
+  ],
+  "disjoint": true,
+  "earned_bullets": [
+    "structured surrogate",
+    "ATMS/change-impact",
+    "evolutionary search",
+    "program repair",
+    "human-designed repair"
+  ],
+  "g61_source_bound_incidents": {
+    "note": "G6.1 recover source-bound real failure/probe incidents is research/g3-real-failure-v1, not this capsule.",
+    "status": "SEPARATE_WORKER"
+  },
+  "heldout_n": 8,
+  "historical_m11_relabeled": false,
+  "ml_selector_trained": false,
+  "models": {
+    "atms_change_impact": {
+      "graph": [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "kind": "atms_change_impact",
+      "n_atoms": 10,
+      "n_edges": 9
+    },
+    "generate_and_test_program_repair": {
+      "by_syndrome": {
+        "[0, 0, 0]": {
+          "[2, 3, 4, 5]": 1,
+          "[2, 3]": 1
+        },
+        "[0, 1, 0]": {
+          "[0, 1, 2, 4, 5]": 1
+        },
+        "[0, 1, 1]": {
+          "[2, 5]": 1
+        },
+        "[1, 0, 0]": {
+          "[0]": 1
+        },
+        "[1, 1, 0]": {
+          "[0, 2, 4, 5]": 1,
+          "[0, 3]": 1,
+          "[1, 2]": 1
+        }
+      },
+      "finite": true,
+      "freq": {
+        "[0, 1, 2, 4, 5]": 1,
+        "[0, 2, 4, 5]": 1,
+        "[0, 3]": 1,
+        "[0]": 1,
+        "[1, 2]": 1,
+        "[2, 3, 4, 5]": 1,
+        "[2, 3]": 1,
+        "[2, 5]": 1
+      },
+      "kind": "generate_and_test_program_repair",
+      "max_size": 6,
+      "n_patches": 64
+    },
+    "human_designed_repair": {
+      "charged_as_prior": true,
+      "kind": "human_designed_authored_plant",
+      "n_parameters_fit": 0,
+      "prior_cost": 72,
+      "source": "research/g6-intervention-lab-v1/world.py",
+      "windows": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ]
+    },
+    "one_parameter_structured_surrogate": {
+      "design": [
+        [
+          0.75,
+          0.25,
+          0.5,
+          0.25,
+          0.25,
+          0.25
+        ],
+        [
+          0.6,
+          0.4,
+          0.8,
+          0.2,
+          0.4,
+          0.6
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "grid": [
+        {
+          "not_bo": true,
+          "theta": 0,
+          "train_cost": 124
+        },
+        {
+          "not_bo": true,
+          "theta": 1,
+          "train_cost": 124
+        },
+        {
+          "not_bo": true,
+          "theta": 2,
+          "train_cost": 120
+        },
+        {
+          "not_bo": true,
+          "theta": 3,
+          "train_cost": 122
+        },
+        {
+          "not_bo": true,
+          "theta": 4,
+          "train_cost": 122
+        },
+        {
+          "not_bo": true,
+          "theta": 5,
+          "train_cost": 121
+        },
+        {
+          "not_bo": true,
+          "theta": 6,
+          "train_cost": 121
+        }
+      ],
+      "kind": "one_parameter_structured_surrogate",
+      "n_parameters": 1,
+      "theta": 2,
+      "theta_fit": "exhaustive integer grid over {0..N}; labeled not-BO / not-AutoML",
+      "train_cost": 120
+    },
+    "random_evolutionary": {
+      "crossover": false,
+      "generations": 10,
+      "history": [
+        {
+          "best_cost": 124,
+          "gen": -1,
+          "kind": "random_init"
+        },
+        {
+          "best_cost": 123,
+          "gen": 0,
+          "lambda": 8
+        },
+        {
+          "best_cost": 123,
+          "gen": 1,
+          "lambda": 8
+        },
+        {
+          "best_cost": 122,
+          "gen": 2,
+          "lambda": 8
+        },
+        {
+          "best_cost": 122,
+          "gen": 3,
+          "lambda": 8
+        },
+        {
+          "best_cost": 122,
+          "gen": 4,
+          "lambda": 8
+        },
+        {
+          "best_cost": 121,
+          "gen": 5,
+          "lambda": 8
+        },
+        {
+          "best_cost": 121,
+          "gen": 6,
+          "lambda": 8
+        },
+        {
+          "best_cost": 121,
+          "gen": 7,
+          "lambda": 8
+        },
+        {
+          "best_cost": 121,
+          "gen": 8,
+          "lambda": 8
+        },
+        {
+          "best_cost": 121,
+          "gen": 9,
+          "lambda": 8
+        }
+      ],
+      "kind": "random_evolutionary",
+      "lambda": 8,
+      "perm": [
+        0,
+        3,
+        2,
+        1,
+        5,
+        4
+      ],
+      "train_cost": 121
+    }
+  },
+  "per_incident": {
+    "atms_change_impact": [
+      {
+        "cost": 12,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 20,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 6,
+        "identified": 1,
+        "n_probes": 2,
+        "quality": 1
+      },
+      {
+        "cost": 22,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 26,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 14,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      }
+    ],
+    "generate_and_test_program_repair": [
+      {
+        "cost": 56,
+        "identified": 1,
+        "n_probes": 24,
+        "quality": 1
+      },
+      {
+        "cost": 396,
+        "identified": 1,
+        "n_probes": 108,
+        "quality": 1
+      },
+      {
+        "cost": 10,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 476,
+        "identified": 1,
+        "n_probes": 128,
+        "quality": 1
+      },
+      {
+        "cost": 145,
+        "identified": 1,
+        "n_probes": 45,
+        "quality": 1
+      },
+      {
+        "cost": 764,
+        "identified": 1,
+        "n_probes": 176,
+        "quality": 1
+      },
+      {
+        "cost": 70,
+        "identified": 1,
+        "n_probes": 30,
+        "quality": 1
+      },
+      {
+        "cost": 252,
+        "identified": 1,
+        "n_probes": 84,
+        "quality": 1
+      }
+    ],
+    "human_designed_repair": [
+      {
+        "cost": 12,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 20,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 6,
+        "identified": 1,
+        "n_probes": 2,
+        "quality": 1
+      },
+      {
+        "cost": 22,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 16,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 26,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 11,
+        "identified": 1,
+        "n_probes": 3,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      }
+    ],
+    "one_parameter_structured_surrogate": [
+      {
+        "cost": 12,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 20,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 6,
+        "identified": 1,
+        "n_probes": 2,
+        "quality": 1
+      },
+      {
+        "cost": 22,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 26,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 14,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      }
+    ],
+    "random_evolutionary": [
+      {
+        "cost": 12,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 20,
+        "identified": 1,
+        "n_probes": 4,
+        "quality": 1
+      },
+      {
+        "cost": 9,
+        "identified": 1,
+        "n_probes": 5,
+        "quality": 1
+      },
+      {
+        "cost": 22,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 26,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 14,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      },
+      {
+        "cost": 18,
+        "identified": 1,
+        "n_probes": 6,
+        "quality": 1
+      }
+    ]
+  },
+  "ranking": [
+    {
+      "chi": 6.0,
+      "cost": 136,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 40,
+      "n_replaced": 24,
+      "omega": 0.22916666666666666,
+      "parent": "atms_change_impact",
+      "quality": 1.0
+    },
+    {
+      "chi": 6.0,
+      "cost": 136,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_parameters": 1,
+      "n_probes": 40,
+      "n_replaced": 24,
+      "omega": 0.22916666666666666,
+      "parent": "one_parameter_structured_surrogate",
+      "quality": 1.0,
+      "theta": 2
+    },
+    {
+      "chi": 6.0,
+      "cost": 139,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 43,
+      "n_replaced": 24,
+      "omega": 0.19166666666666665,
+      "parent": "random_evolutionary",
+      "quality": 1.0
+    },
+    {
+      "chi": 6.0,
+      "cost": 203,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 35,
+      "n_replaced": 24,
+      "omega": 0.2604166666666667,
+      "operational_cost": 131,
+      "parent": "human_designed_repair",
+      "prior_cost": 72,
+      "quality": 1.0
+    },
+    {
+      "chi": 64.0,
+      "cost": 2169,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 601,
+      "n_replaced": 24,
+      "omega": 0.03731840352934103,
+      "parent": "generate_and_test_program_repair",
+      "quality": 1.0
+    }
+  ],
+  "root_cause_labels_supplied": false,
+  "salt": "orion-ocm-g6-intervention-parents-v3",
+  "schema": "ocm.g6.intervention-parents.v3",
+  "scores": {
+    "atms_change_impact": {
+      "chi": 6.0,
+      "cost": 136,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 40,
+      "n_replaced": 24,
+      "omega": 0.22916666666666666,
+      "quality": 1.0
+    },
+    "generate_and_test_program_repair": {
+      "chi": 64.0,
+      "cost": 2169,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 601,
+      "n_replaced": 24,
+      "omega": 0.03731840352934103,
+      "quality": 1.0
+    },
+    "human_designed_repair": {
+      "chi": 6.0,
+      "cost": 203,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 35,
+      "n_replaced": 24,
+      "omega": 0.2604166666666667,
+      "operational_cost": 131,
+      "prior_cost": 72,
+      "quality": 1.0
+    },
+    "one_parameter_structured_surrogate": {
+      "chi": 6.0,
+      "cost": 136,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_parameters": 1,
+      "n_probes": 40,
+      "n_replaced": 24,
+      "omega": 0.22916666666666666,
+      "quality": 1.0,
+      "theta": 2
+    },
+    "random_evolutionary": {
+      "chi": 6.0,
+      "cost": 139,
+      "identified": 1.0,
+      "kappa": 3.0,
+      "n": 8,
+      "n_probes": 43,
+      "n_replaced": 24,
+      "omega": 0.19166666666666665,
+      "quality": 1.0
+    }
+  },
+  "terminal": "PARENT_SUFFICIENT",
+  "train_n": 8,
+  "v1_frozen": {
+    "dir": "research/g6-intervention-lab-v1",
+    "not_overwritten": true,
+    "untouched": true
+  },
+  "v2_frozen": {
+    "cited": {
+      "atms_cost": 118,
+      "atms_quality": 1.0,
+      "bo": "CANNOT_CHECK_NO_BO_LIBRARY",
+      "cannot_check": [
+        "AutoML/BO"
+      ],
+      "earned_bullets": [
+        "system-identification",
+        "structured surrogate",
+        "ATMS/change-impact",
+        "evolutionary search",
+        "program repair",
+        "learned selector"
+      ],
+      "human_designed": "NOT_THIS_CAPSULE",
+      "learned_selector_cost": 119,
+      "learned_selector_quality": 1.0,
+      "not_overwritten": true,
+      "schema": "ocm.g6.intervention-parents.v2",
+      "system_id_cost": 122,
+      "system_id_quality": 1.0,
+      "terminal": "PARENT_SUFFICIENT",
+      "winner": "atms_change_impact"
+    },
+    "dir": "research/g6-intervention-parents-v2",
+    "not_overwritten": true,
+    "untouched": true
+  },
+  "winner": "atms_change_impact"
+}

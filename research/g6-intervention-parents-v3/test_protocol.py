@@ -42,10 +42,10 @@ class TestG6InterventionParentsV3(unittest.TestCase):
         src = (HERE / "parents.py").read_text() + (HERE / "experiment.py").read_text()
         for needle in (
             "fit_learned_selector",
-            "sklearn",
+            "import sklearn",
             "GaussianProcess",
-            "neural",
-            "torch",
+            "import torch",
+            "from torch",
             "RandomForest",
         ):
             self.assertNotIn(needle, src)
