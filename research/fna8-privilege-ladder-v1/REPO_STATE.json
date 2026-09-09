@@ -1,0 +1,56 @@
+{
+  "schema": "ocm.fna.fna8-privilege-ladder.repo-state.v1",
+  "base_commit": "ab5310942b01be11776c0eddc4403dc0e0dcb51c",
+  "branch": "research/fna8-privilege-ladder-v1",
+  "worktree": "/Users/billy/Desktop/projects/ORION-OCM-wt/fna8-privilege (main checkout read-only)",
+  "files_touched": [
+    "research/fna8-privilege-ladder-v1/PROTOCOL.md",
+    "research/fna8-privilege-ladder-v1/FREEZE_FNA8_V1.json",
+    "research/fna8-privilege-ladder-v1/fna8_world.py",
+    "research/fna8-privilege-ladder-v1/fna8_model.py",
+    "research/fna8-privilege-ladder-v1/fna8_ledger.py",
+    "research/fna8-privilege-ladder-v1/fna8.py",
+    "research/fna8-privilege-ladder-v1/test_fna8.py",
+    "research/fna8-privilege-ladder-v1/consolidate.py",
+    "research/fna8-privilege-ladder-v1/FNA8_R6_FULL.json",
+    "research/fna8-privilege-ladder-v1/FNA8_R1_CODEX_INTERFACE_REFUSED.json",
+    "research/fna8-privilege-ladder-v1/FNA8_R2_CODEX_INTERFACE_REFUSED.json",
+    "research/fna8-privilege-ladder-v1/FNA8_RESULTS_V1.json",
+    "research/fna8-privilege-ladder-v1/FNA8_RESULTS_V1.md",
+    "research/fna8-privilege-ladder-v1/SOURCE_LEDGER.json",
+    "research/fna8-privilege-ladder-v1/README.md",
+    "research/fna8-privilege-ladder-v1/REPO_STATE.json"
+  ],
+  "disjointness": "only research/fna8-privilege-ladder-v1/** written; src/ and all sibling research/ capsules (incl. worker L's fna7 worktree) unmodified",
+  "execution": {
+    "host": "billy-laptop (ssh alias billy-laptop; never the Mac mini; run dir ~/fna8-run)",
+    "python": "3.10.19 (conda env a1_bench)",
+    "transfers": "tar+scp+md5 both sides for capsule and receipts (openrsync on the Mac is incompatible with the laptop's rsync 3.1.3, protocol errors rc=11)",
+    "tests": "23/23 green via python -m unittest test_fna8 on billy-laptop (19 pre-freeze battery + 4 amendment-1 InterfaceRefusalTests); freeze digests verified live in the same run"
+  },
+  "freeze": {
+    "frozen_at_utc": "2026-09-09T17:54:18Z",
+    "frozen_before_outcome_access": true,
+    "amendments": 1,
+    "amendment_1_scope": "interface-failure classifier (fna8.py _interface_refused + R1/R2 CANNOT_CHECK branches) + 4 tests; triggered by the 2026-09-09 scored-window interface refusal; world/margins/arms/protocol untouched; old->new digests recorded"
+  },
+  "receipts": {
+    "FNA8_R6_FULL.json": "md5 95ec60ce8bfa7b88cbaddd689ea86bf8 (identical Mac/laptop; scored)",
+    "FNA8_R1_CODEX_INTERFACE_REFUSED.json": "md5 c9f7f63b98c9a565a79c423d14fe5a34 (identical Mac/laptop; evidence, never scored as capability)",
+    "FNA8_R2_CODEX_INTERFACE_REFUSED.json": "md5 faf87ac39b968c181693a79678229a64 (identical Mac/laptop; evidence, never scored as capability)",
+    "FNA8_RESULTS_V1.json": "md5 14504687944abfbe4aa812be947b9fef (identical Mac/laptop)"
+  },
+  "authority_constraints": {
+    "issue_214_fna8_activation": "rungs 3-5 remain gated (RUNG_PENDING_ACTIVATION_GATE); nothing self-activates",
+    "deployment": "none",
+    "production_source": "src/ unmodified; capsule hooks ocm.runtime.solve.OperatorSpec and ocm.runtime.operator_index.SolveOperatorIndex read-only, no shared file edited",
+    "issue_edits": "none (no issue/PR writes performed by this capsule; centre does that)",
+    "model_outputs": "none fabricated; the refused interface produced zero usable turns and every refusal is a charged control failure in the kept receipts"
+  },
+  "outcome": {
+    "R6": "PARENT_SUFFICIENT_FOR_obligation_control (guarded analytic parent 1.0 at 22,600 lifetime work vs incumbent 1.0 at 28,236)",
+    "R1": "CANNOT_CHECK_NO_MODEL_ACCESS (interface refused during scored window; instrument verified live same day, re-execution path in freeze amendment 1)",
+    "R2": "CANNOT_CHECK_NO_MODEL_ACCESS (same signature)",
+    "R3-R5": "RUNG_PENDING_ACTIVATION_GATE"
+  }
+}
