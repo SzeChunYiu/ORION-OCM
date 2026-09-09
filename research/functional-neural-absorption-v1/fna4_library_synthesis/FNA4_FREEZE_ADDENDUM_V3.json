@@ -1,0 +1,24 @@
+{
+  "schema": "ocm.fna.fna4.freeze.addendum.v3",
+  "frozen_at_commit": "c966ac2a72326e6919b3e7f4df61bd3ce601109c",
+  "statement": "Recorded AFTER scored run 3 completed clean (receipts/FNA4_RUN3_RECEIPTS.json, raw sha256 06a72a5e87d33c6681332a9a06477a06b5b5962768a33e172638023dfe628d5b, preserved verbatim) and BEFORE the P6 revival re-test. Run 3 is a SCORED run and is never edited. Nothing in the frozen arms, salts, streams, cost model or run 3 harness changes. This addendum declares ONE revival iteration, demanded by the discipline before any negative is filed, for a measurement that run 3 proved unmeasurable by construction.",
+  "unmeasurable_p6": {
+    "name": "critical repeat rate r* non-constructible at every r > 0",
+    "evidence_in_run3": "repeat_rate_sweep: r=0.0 constructible (payback_marginal -239,352,419; payback_full -252,837,375); r=0.25/0.5/0.75/1.0 all constructible=false. The frozen stream builder defines a covered task as one a macro solves SINGLE-HANDEDLY (some macro assignment reproduces the goal from the initial atoms). The learned STITCH library is fragment-shaped (longest admitted pattern 3 nodes: parse+sort+filter, parse+sort+merge; plus 2-node fragments), so task-level coverage is EMPTY everywhere -- rejection sampling can never find a covered draw, and every r>0 stream is unbuildable.",
+    "attribution": "stream-construction stage: the repeat axis (task-level single-macro coverage) does not match the reuse mechanism run 3 measured (fragment macros firing as charged sub-compositions inside longer solves: 19 macro hits on the r=0 stream alone, saving 941,924 units of 1,711,950).",
+    "lever": "re-define the repeat axis at the composition level, the axis a library actually sees: a stream task is repeat-covered iff some chain the incumbent RAN during acquisition (a checker-passing chain in the collect_all corpus) reproduces that task's goal on its own payload (run_chain(c, task.initial) == task.goal) -- the world where fresh tasks repeat previously-executed compositions at rate r. Same r_grid, same stream length, disjoint sweep salt (SALT_SWEEP + 2000*ri), same solver, same charges, same dual acquisition accounting. No arm, learner, cap or cost model changes; run 3's numbers stand untouched."
+  },
+  "revival_artifact": {
+    "script": "run_fna4_sweep_r2.py",
+    "outputs": "receipts/FNA4_SWEEP_R2_RECEIPTS.json",
+    "script_sha256": "033c6f742cc9cec34e4ed7d2eb131ef9c3ffadee612a15692a0a791d29d3e72c",
+    "declared_before_running": true,
+    "interpretation_locked_pre_run": [
+      "saving_per_task(r) and break-even horizon N*(r) = stitch_acquisition_marginal / saving_per_task(r) are reported at every constructible r",
+      "if saving_per_task(r) is flat in r, the library pays by family-structure reuse, not parameter repeat -- the family mix, not the repeat rate, is the binding boundary, and the critical family mix computed from run 3's frozen per-family deltas is the P6 answer",
+      "if some r0 has saving_per_task <= 0, NO_LIFETIME_PAYBACK holds below r0 on every horizon and r* = r0"
+    ],
+    "critical_family_mix_from_run3_frozen_numbers": "per-task deltas vs NO_LIBRARY (test stream): STITCH F1 +11153 / F2 -34998 / F3 +3146 -> critical F2 share 17.0% on a balanced non-F2 stream (half F1, half F3), 24.2% on an all-F1 stream; STITCH_NOGOOD_CEGIS +9594 / -45550 / +2552 -> 11.8% balanced, 17.4% all-F1. CHUNK/AU/EG: no share pays (harmful at every mix). Below the critical share no horizon pays; above it the horizon is N* ~ 6.1k tasks at r=0, monotonically shrinking in r."
+  },
+  "unchanged_from_freeze": ["salts (except the disjoint revival sweep salt declared above)", "streams", "arms", "cost model", "INCUMBENT_CAP=1000000 uniform", "DOMAIN_CAP=24", "predictions P1-P7", "revoked evidence ev:fam:filter", "dual acquisition accounting", "all run 3 harness digests in addendum V2"]
+}
