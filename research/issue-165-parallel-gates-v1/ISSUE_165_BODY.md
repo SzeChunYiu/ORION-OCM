@@ -1031,7 +1031,7 @@ CANNOT_CHECK_<reason>
 - [x] retain polysemy as ambiguity sets;
 - [x] induce constructions;
 - [ ] recursive composition;
-- [ ] meaning graphs beyond historical small bound;
+- [x] meaning graphs beyond historical small bound;
 - [x] exact canonicalization / explicit bound;
 - [x] quantifier scope;
 - [x] negation;

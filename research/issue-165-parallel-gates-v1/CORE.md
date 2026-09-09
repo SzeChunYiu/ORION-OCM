@@ -80,6 +80,7 @@ not push this remaining-gates branch.
 | G1 F/O | `research/g1-fo-accumulation-v1/` | `FO_ACCUMULATION_AT_MICRO_SCOPE` (programme still PARTIAL) |
 | G6 parents v3 | `research/g6-intervention-parents-v3/` | `PARENT_SUFFICIENT` (surrogate/ES/G&T; BO still `CANNOT_CHECK`) |
 | §15 after-exec | `research/publication-after-exec-v1/` | `PUBLICATION_AFTER_EXEC_RECEIPTS_PRESENT_WITH_GAPS` (E4/fresh-host still `CANNOT_CHECK`) |
+| L1 graphs | `research/l1-meaning-graph-bound-v1/` | `GRAPH_BOUND_EXCEEDED_AT_SCOPE` (historical 7 exceeded; production cutoff unchanged) |
 
 ## Still locked / honest OPEN
 
@@ -87,7 +88,8 @@ L2/L3 entire. MATH-2/3 entire. #73 prototype + P7. G4.4 **ML** (do not train;
 toy/microscope preconditions are not a programme unlock). E4 / fresh-host /
 independent authorship. Programme-wide close. Architecture “Π remains small”
 programme-wide still PARTIAL (hostile Π / authored work operators remain).
-Corpus-scale N1. UD at corpus. Meaning graphs beyond the tree-canonical bound.
+Corpus-scale N1. UD at corpus. Production meaning-graph node cutoff remains 7
+(research AHU measured at 16; `src/` not patched).
 G5.3 production adoption. `PHYSICAL_DENOMINATOR_CLEAN`. G1.1.6 **deletion**.
 H1 examples / IO / human burden `CANNOT_CHECK`. Neural/Transformer
 `CANNOT_CHECK_NO_NN_LIBRARY`.
