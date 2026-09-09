@@ -1,0 +1,107 @@
+{
+ "review_id": "D6_HOSTILE_REVIEW_V1",
+ "reviewed_at_utc": "2026-09-10T00:00:00Z",
+ "reviewer": "fresh-context hostile reviewer (issue #233, work package HSG-D6')",
+ "reviewed_branch": "hsg/d6-hostile-review",
+ "reviewed_branch_head": "5d3cfb285ebf8988ca4b999f7e301dd17755e471",
+ "capsule": "research/heritable-search-geometry-v1",
+ "verdict": "PASS_WITH_FINDINGS",
+ "verdict_rationale": "All seven checks pass; no HIGH findings. The folded atom table, freeze sha-chain, fold mechanics, parent attributions and open-rows honesty all survive hostile re-verification, including an independent re-execution of the exact checker (11/11 PASS, run log byte-identical, 10/11 witnesses byte-identical, 1 differing by one ULP-level float digit in the checker's own flagged-transcendental check). Five findings are evidence-hygiene and coverage-surfacing defects; none changes a verdict.",
+ "checks": [
+  {
+   "id": "C1",
+   "description": "Verdict-artifact existence and match: every verdict row's artifact exists and supports its verdict; >=10 primary artifacts deep-read incl. lane F H3 hostiles and lane G CHARGE rows",
+   "result": "PASS",
+   "detail": "All 54 cited artifact paths exist (52 verdict rows' artifact/counterexample fields + patch/freeze references). 30+ primary artifacts deep-read; every verdict's statement cross-checked against its artifact. All 6 LIFT_FAILS counterexamples are real, minimal and machine-witnessed: hostile_burden_lipschitz (ratio 4=N-1), hostile_cone_ball (over=[B], under=[A]), hostile_hypervolume_capacity (HV 4->3/2, scores 6<6.5), hostile_reach_iff (diameters 1=1, s2 in d-closure), hostile_approx_sets (inf 5->1 at d_H=1e-3), G13_M_overhead_FOSD. Checker script read line-by-line and RE-EXECUTED in this review: exit 0, SUMMARY pass=11, stdout byte-identical to exact/run_v1.log, 10/11 witness JSONs byte-identical to hostiles/witnesses/, witness_info_geometry.json differs only at one 15th-significant digit (0.9963220665139403 vs ...343) in the check the checker itself flags 'float (transcendental object)'. Defects found are hygiene-only (findings H1-prose, contraction stale numbers, amortization note) and do not affect any verdict."
+  },
+  {
+   "id": "C2",
+   "description": "SHA-chain: recompute all AMEND_1 sha256s; historical states via git blobs; unrecoverable -> UNCHECKABLE_HISTORICAL",
+   "result": "PASS",
+   "detail": "All 7 shas recomputed and match: prior_freeze_sha256 1889e8bb...a1f60, prior_atom_table_sha256 0d7ab42d...cbb1, REGISTRY_PATCH_E 0279a76a...3d50, F e490845c...54f67, G f779fcad...0d37, atom_table_sha256_after 739cd905...ee61 (live file), plus census recompute (see C5). Historical recovery: git blob extraction (subprocess cat-file, avoiding the rtk pipe-corruption failure mode) verified the prior atom table (11856B) and prior freeze (3894B) byte-exact at all 8 pre-integration commits 44c5ce65/fa390d3f/1d7d8b88/9f3b4822/70cd4557/2f313d93/b13d8864/52a448f4. Nothing UNCHECKABLE_HISTORICAL."
+  },
+  {
+   "id": "C3",
+   "description": "Condition genuineness: LIFT_CONDITIONAL conditions load-bearing vs hedge/vacuous; LIFT_FAILS rows need real counterexamples",
+   "result": "PASS",
+   "detail": "All 22 LIFT_CONDITIONAL conditions inspected. Each names a condition checkable at OCM scope WITH an identified failure mode when it is dropped: G09/R4 state-shared transport (witness falsifies state-dependent U unconditionally: delta(K)=1 with delta(Q)=3/4, delta(K_shared)=3/4<=3/4); A_T02/R5 d-closure (H5 witness); G17/R4 family-restriction vs metric re-description (witness: sup-KL 0.4946 vs 0.0201; J/(I*delta^2)->1); A_T04 CHARGE (self-extension mints share otherwise); A_T08 SEL-MEAS (side-fed selection leaks); A_T09 CHAIN-BUDGET; A_T13 ARCHIVE-GOV; A_T16 KERNEL-UNIVERSALITY (restricted families leave transfer unproven - honestly scoped); A_T17 DIODE-PRECOMMIT; A_T18 FLUX-DRIFT + EPS-PRECOMMIT (ill-posedness, not mere weakening, is identified). Lane E R1-R3 conditions are measurability/standard-Borel restorations tied to specific assumption-removal passes. No vacuous or hedge condition found; every restored assumption is named per binding rule."
+  },
+  {
+   "id": "C4",
+   "description": "Parent discipline: 12 PARENT_SUFFICIENT rows cite parents that genuinely own the statement; ledger markers consistent",
+   "result": "PASS",
+   "detail": "12 PARENT_SUFFICIENT rows each name parent + exact owned statement: Chentsov 1972/AMS 1982 (G03/R4), Dobrushin 1956 (G09/R5, G11/R4), tower property (G10/R5), renewal-reward (A_T05, G16/R5), Pearl DAG locality (A_T06), Zitzler-Thiele 1999 (A_T07), finite-chain Perron-Frobenius (A_T12), Wolpert-Macready NFL c.u.p. (A_T14 - explicitly disclaims any HSG-specific theorem), #145 closure (G12/R1), DAG locality (G14/R1 - with the xi-removal sub-failure honestly recorded). PARENT_STATEMENT_UNVERIFIED_TEXT correctly used where primary text not verified: PAC-Bayes chain (A_T09), Blum 1967 (A_T16), Baez-Fong (A_T17, A_T18, vocabulary-only disclaimed), Dobrushin ergodic-coefficient textbook form (G17/R3). Reviewer externally confirmed the Ay-Jost-Le-Schwaachhofer extension citation: arXiv:1207.6736 = 'Information geometry and sufficient statistics', PTRF 162 (2015), Fisher-metric uniqueness up to multiplicative constant. One LOW marker-adherence gap (A_T12, finding recorded)."
+  },
+  {
+   "id": "C5",
+   "description": "Fold integrity: re-apply patches E/F/G to the pre-fold atom table; byte-verbatim comparison; census recompute; expect 22/12/7/6/5",
+   "result": "PASS",
+   "detail": "Reconstructed the fold from pre-fold commit 44c5ce65 (HSG_ATOM_TABLE_V1.json, sha 0d7ab42d...): expected (atom,rung) rows 52, actual 52; lane collisions 0; in-patches-but-not-folded 0; folded-but-not-in-patches 0; row-content mismatches 0 (patch payload + lane/pr bookkeeping exactly reproduce every folded row). Non-verdict payload (table/frozen/note/atom metadata minus verdicts{}) identical pre vs folded. Recomputed census: LIFT_CONDITIONAL 22, PARENT_SUFFICIENT 12, NOT_APPLICABLE 7, LIFT_FAILS 6, LIFT_SURVIVES 5 - matches AMEND_1 verdict_census exactly. census_confirmed = true."
+  },
+  {
+   "id": "C6",
+   "description": "NOT_APPLICABLE honesty: 7 N/A rows genuine routing/folding vs dodge",
+   "result": "PASS",
+   "detail": "All 7 N/A rows carry genuine reasons whose targets exist and hold the content: G03/R5 -> G09/R5 row (exists, PARENT_SUFFICIENT); G11/R5, G17/R5, G14/R5 -> lane routing (see finding: targets currently rowless, but no content is hidden - the hostile cases for these atoms live at their assigned rungs); G12/R4 and A_T02/R4 -> folded into R5_REACH_G12_AT02.md (verified: the file carries exactly this content, and the hard half is filed as G12/R5 LIFT_FAILS with witness H5); G16/R4 -> scalars carry no R4 geometry (true at scope). No N/A row avoids a hostile case: where a hostile exists it is filed as FAIL/CONDITIONAL at the target. One MED coverage-surfacing finding recorded (routing defers to lanes/rungs that currently have zero rows)."
+  },
+  {
+   "id": "C7",
+   "description": "Open-rows honesty: A_T10/A_T11 open; no full-closure claim anywhere",
+   "result": "PASS",
+   "detail": "A_T10 and A_T11: verdicts{} empty, status OPEN, hst_ref 'lane B (pending)' - exactly as an open row should be. Searched capsule-wide (grep + find by basename across md/json) for closure language and the freeze's 6 forbidden terminals: none present, no-absence case asserted with control patterns matching. AMEND_1 coverage honestly records theorem_atoms_with_verdicts 16 < theorem_atoms 18. README/REPO_STATE describe the ladder as in-progress (D4'/D5' lanes pending). No row, artifact or ledger claims the geometry is complete."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "MED",
+   "check": "C1",
+   "atom_or_file": "research/heritable-search-geometry-v1/hostiles/GEOMETRY_HOSTILES_V1.md:32 and ladder/R4_CONE_VS_BALL_G14_AT06.md:26",
+   "claim_reviewed": "hostile H3 (G14/R4 LIFT_FAILS) mirror-case construction",
+   "evidence_gap": "The two prose descriptions of the mirror (under-invalidation) case diverge from the machine witness AND from each other. GEOMETRY_HOSTILES_V1.md says 'edge set {S->B}, d(S,A)=3: every ball radius r<3 misses affected B' - but with only edge S->B, B is the affected node at d(S,B)=2, which no ball of radius >=2 misses; naming d(S,A)=3 is irrelevant. R4_CONE_VS_BALL_G14_AT06.md says 'add edge S->B and remove S->A ... misses the affected node A' - with S->A removed, A is not affected at all. The actual witness (checker C4, hostile_cone_ball.json, atom row 'under_invalidate A') is correct and coherent: BOTH edges kept, d(S,A) stretched to 3, r=2, ball={B}, A affected-and-missed. Verdict is unaffected (it cites the witness), but a reader reconciling the prose would construct a non-working example.",
+   "fix_hint": "Rewrite both mirror-case sentences to the witness construction: keep S->A and S->B, set d(S,A)=3>r, r=2; ball={B} misses affected A."
+  },
+  {
+   "severity": "MED",
+   "check": "C6",
+   "atom_or_file": "research/heritable-search-geometry-v1/HSG_FREEZE_V1.json (AMEND_1 coverage) + REGISTRY_PATCH_G.json",
+   "claim_reviewed": "coverage claim 'concepts_with_verdicts 17/17, theorems 16/18'",
+   "evidence_gap": "Per-atom coverage is literally true but per-RUNG coverage is surfaced nowhere, and three N/A reasons defer to lanes/rungs that currently hold zero rows ('R6 is lane G', 'R7 is not this lane' - patch G contains 9 theorem rows and NO concept rows). Unassigned (atom,rung) cells after the fold: G05/R6+R7, G07/R7, G08/R6+R7, G11/R6, G13/R7, G14/R7, G16/R7, G17/R6; plus the un-rowed ladder_question halves A_T01/R2, A_T03/R2, A_T04/R3, A_T05/R7, A_T06/R7, A_T07/R6, A_T08/R3-R4, A_T14/R3-R4, A_T16/R5, and open A_T10/A_T11. Mitigated: all such atoms stay OPEN and no closure is claimed, but the deferral wording implies another lane owns these cells when none currently does.",
+   "fix_hint": "Add a per-(atom,rung) coverage matrix to the freeze amendment; reword N/A routing reasons to 'OPEN pending lane G/D4-prime concept rows' where the target lane has not landed."
+  },
+  {
+   "severity": "LOW",
+   "check": "C1",
+   "atom_or_file": "research/heritable-search-geometry-v1/ladder/R4_CONTRACTION_G09.md:49-50",
+   "claim_reviewed": "G09/R4 machine-witness numbers",
+   "evidence_gap": "The 'Machine witness' section retains stale first-run numbers - 'state-shared transport example (delta(K) = 1/2 <= delta(Q) = 1/2); state-dependent falsification (delta(K) = 1 > 1/2 = delta(Q))' - contradicting the same file's line 9 (delta_TV(Q_t) = 3/4), the atom-table counterexample string ('delta(K)=1 with delta(Q)=3/4') and the final witness (delta(Q)=3/4, delta(K shared)=3/4, delta(K state-dep)=1). Values are conservative (1/2 < 3/4) so no claim is inflated; run_v1.log carries the corrected numbers.",
+   "fix_hint": "Update the two parentheticals to delta = 3/4."
+  },
+  {
+   "severity": "LOW",
+   "check": "C4",
+   "atom_or_file": "research/heritable-search-geometry-v1/HSG_ATOM_TABLE_V1.json (A_T12/R5 row)",
+   "claim_reviewed": "PARENT_SUFFICIENT marker discipline (protocol step A5)",
+   "evidence_gap": "A_T12/R5 cites 'finite Markov chain convergence / Perron-Frobenius (standard modern statement, Levin-Peres-Wilson class)' with NEITHER '(verified)' NOR PARENT_STATEMENT_UNVERIFIED_TEXT. A5 requires a primary-source citation verified this capsule, or the unverified marker. The ledger's warning marker on line 19 attaches to 'Koopman 1931', not to Perron-Frobenius/LPW, so the row falls between the two allowed states. Statement itself is standard and witness-backed (216 kernels, exact Cesaro verification).",
+   "fix_hint": "Either verify the LPW statement text and add '(verified)', or append PARENT_STATEMENT_UNVERIFIED_TEXT to the parent string."
+  },
+  {
+   "severity": "LOW",
+   "check": "C1",
+   "atom_or_file": "research/heritable-search-geometry-v1/ladder/R5_AMORTIZATION_AT05_G16.md:50-52",
+   "claim_reviewed": "G16/R5 verdict label",
+   "evidence_gap": "The artifact's registry note says 'G16 R5 = same row (scalar alphabet lives in T05's identity; no separate content - NOT_APPLICABLE as an independent row, reason recorded)', but REGISTRY_PATCH_F and the folded table record G16/R5 as its own PARENT_SUFFICIENT row (renewal-reward parent, regenerative condition, witnessed non-regenerative deviation 2.0167 vs 4/3). Substance is identical - the row IS the T05 identity read for G16 - but the artifact proposes N/A where the fold landed PARENT_SUFFICIENT, so artifact note and landed registry disagree on the label.",
+   "fix_hint": "Rewrite the note to 'G16 R5 = same content as A_T05 R5, landed as its own PARENT_SUFFICIENT row for per-atom coverage'."
+  }
+ ],
+ "census_confirmed": true,
+ "reproduction": {
+  "checker": "exact/geometry_dynamics_check_v1.py re-executed by reviewer at review time",
+  "exit_code": 0,
+  "summary_line": "SUMMARY pass=11 fail_or_unchecked=0",
+  "stdout_vs_run_v1.log": "byte-identical",
+  "witnesses_byte_identical": 10,
+  "witnesses_float_jitter": 1,
+  "float_jitter_detail": "witness_info_geometry.json J_over_Idelta2_ratios[0] differs at the 15th significant digit (0.9963220665139403 vs 0.9963220665139343); the checker flags this check 'float (transcendental object)'"
+ },
+ "method_notes": "git operations via /usr/bin/git with subprocess cat-file (rtk proxy corrupts pipes/exit codes); absence claims checked with grep control patterns plus find-by-basename; every finding verified against artifact text with line numbers; no-dodge case asserted for each clean check (e.g. checker re-execution for C1/C3, blob-byte equality for C2, full fold re-application for C5)."
+}
