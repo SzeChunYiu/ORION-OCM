@@ -1,0 +1,41 @@
+{
+  "receipt_id": "A5-G17-PACBAYES-CHAIN",
+  "schema": "TheoryTransportV1",
+  "atom_id": "G17 bias/prior family (Q_rho, Q_0, KL bound)",
+  "donor_domain": "PAC-Bayesian learning theory",
+  "donor_source_ids": [
+    "Rivasplata et al. (2020), PAC-Bayes Analysis Beyond the Usual Bounds, arXiv:2006.13057, NeurIPS 2020 (basic inequality for stochastic KERNELS; data-dependent priors via chain decomposition)",
+    "Online PAC-Bayes Learning (NeurIPS 2022) - sequential per-step bounds",
+    "A general framework for the practical disintegration of PAC-Bayes bounds, Machine Learning 2023 (chain-rule disintegrated bounds, Theorem 2)",
+    "context: Alquier 2021 survey (arXiv:2110.11216)"
+  ],
+  "donor_structure": "Basic PAC-Bayes inequality lifted to stochastic kernels K(.|D): bounds hold for posteriors that are data-indexed kernels, from which chain forms derive - a sequence of posteriors P_1..P_L with P_k indexed by past data pays a chain cost sum_k KL(P_k || P_{k-1}) (or a union eps/2^k budget), giving sequential bounds that stay valid under prior movement.",
+  "target_structure": "G17 R6 row: prior as a moving object - the learned prior/bias family evolves across amendments. Question (from atom table, lane G pr244, PARENT_STATEMENT_UNVERIFIED_TEXT): does the vacuity crossover m* of the T09-B bound shrink under prior-family restriction, and what does chaining amendments cost?",
+  "mapping": "amendment step k <-> data step k; moving prior P_k (post-amendment family member) <-> data-indexed posterior kernel; registered-family sup-KL <-> chain KL term; number of amendments L <-> chain length; crossover m*(L) <-> smallest sample/use count at which the bound beats vacuity under chain cost.",
+  "preserved_relations": [
+    "sequential validity: the chained bound holds at every step without post-hoc correction - mirrors CHAIN-BUDGET condition (finite charged amendment ledger)",
+    "chain cost is additive and each step pays only its increment KL(P_k||P_{k-1}) - locally small moves can still accumulate linearly in L",
+    "kernel form (Rivasplata 2020) covers the prior-as-kernel-parameter reading of G17 R3 without extra machinery"
+  ],
+  "known_broken_relations": [
+    "no free restart: re-registering the family mid-chain cannot erase accumulated KL - the amendment ledger is append-only, consistent with HSG governance but stronger than the table's eps/2^k union alternative (union budget is exponentially cheaper for LONG chains, a real design fork)",
+    "PAC-Bayes bounds govern expected loss under the prior mixture, not per-hypothesis guarantees - transporting to Q_rho proposal kernels mixes over the family, so pointwise claims about a single bias setting do NOT transport"
+  ],
+  "unknown_correspondences": [
+    "exact growth rate of m*(L): linear in chain cost is the prediction; the disintegrated MLJ-2023 forms may sharpen constants - unverified at this depth (would need L4)",
+    "interaction with Dobrushin-contractive proposal kernels (G09): does contraction discount the chain KL? Open, no parent"
+  ],
+  "assumptions_added": [
+    "dominated prior family with jointly measurable densities (matches G17 R3 LIFT_CONDITIONAL condition)",
+    "bounded loss (kl inversion constants)",
+    "each amendment's description charged to the ledger BEFORE the evidence it judges (EPS-PRECOMMIT mirror; else tamper-channel event per A_T17/T18)"
+  ],
+  "candidate_theorem": "Prior-movement bound (prediction, PROPOSAL): for an HSG prior family restricted to a registered subfamily and L governed amendments, the T09-B crossover obeys m*(L) <= m*(0) + c * sum_k sup-KL(P_k||P_{k-1}) (union-form alternative: m*(L) <= m*(0) + c' * log-sum-exp of eps/2^k); family restriction shrinks m* iff the per-step sup-KL gain exceeds the per-step chain cost. This makes the table's UNVERIFIED CHAIN-BUDGET condition precise and cites verified parents for both cost forms.",
+  "strongest_parent": "Rivasplata et al. 2020 stochastic-kernel PAC-Bayes inequality (verified at L2)",
+  "route": "proof route: finite/analytical - start from the kernel inequality, telescope the KL terms, apply kl-inversion; the m* comparison is then algebra. No counterexample constructed yet.",
+  "mapping_cost": {"L0": 1, "L1": 3, "L2": 10, "L3": 40, "map": 15, "synth": 30, "validate": 0, "total": 99},
+  "status": "PROPOSAL",
+  "self_assessment_note": "parents verified; the transported crossover statement is a prediction, not proven here - validate (50) was spent on the P2 receipt instead; flagged as the L4-worthy follow-up by the Round-3 ladder stop",
+  "arm": "A5 successive-depth halving",
+  "written_utc": "2026-09-10T00:55:00Z"
+}
