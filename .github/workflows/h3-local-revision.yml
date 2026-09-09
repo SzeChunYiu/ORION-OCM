@@ -1,0 +1,56 @@
+name: H3 local revision planted oracle
+
+on:
+  pull_request:
+    paths:
+      - 'research/h3-local-revision-v1/**'
+      - '.github/workflows/h3-local-revision.yml'
+      - 'src/ocm/kso/warrant.py'
+      - 'src/ocm/kso/revocation.py'
+      - 'src/ocm/kso/admission.py'
+      - 'src/ocm/kso/space.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h3-local-revision-v1/**'
+      - '.github/workflows/h3-local-revision.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h3-local-revision:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/h3-local-revision-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h3-rev-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h3-local-revision-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h3-local-revision-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Planted H3 local-revision study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h3-rev-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h3-local-revision-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          cp research/h3-local-revision-v1/RESULT.json "$out/capsule-RESULT.json"
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h3-local-revision
+          path: '${{ runner.temp }}/h3-rev-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
