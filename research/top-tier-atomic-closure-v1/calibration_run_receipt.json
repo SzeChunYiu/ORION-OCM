@@ -1,0 +1,73 @@
+{
+  "arm_observation_counts": {
+    "LEARNED_BASIS": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "ORDINARY_ADAPTIVE_PARENT": [
+      11,
+      11,
+      11,
+      11,
+      11
+    ],
+    "RESET": [
+      8,
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "checker_validation": {
+    "determinism": "two independent run_calibration() calls produced byte-identical JSON reports",
+    "fail_probe": "injected defect (learned-basis budget R shadowed to D) fired 9/12 tests FAIL, exit 1; restored file passes 12/12, exit 0",
+    "independence": "imports are stdlib-only (hashlib/json/random/sys + sibling calibration_reference); no src/ocm import anywhere"
+  },
+  "controls": {
+    "all_controls_passed": true,
+    "negative_control_insufficient_history_is_not_no_headroom": "PASS",
+    "negative_control_no_op_cannot_earn_3_observation_success": "PASS",
+    "positive_control_learned_3_vs_reset_8": "PASS"
+  },
+  "deterministic_across_runs": true,
+  "economic_claim_authorized": false,
+  "files": {
+    "calibration_reference.py": {
+      "bytes": 31859,
+      "sha256": "0add0ea3149a11e8598c4dedbdea36ce12bf76439f33c9b25adac2fad12fdeef"
+    },
+    "calibration_selftest.py": {
+      "bytes": 18153,
+      "sha256": "ce33f54668ae5138885d814cb3346b2ed330878ad62b9a9ec3f0eff26891d2b6"
+    }
+  },
+  "ocm_specific_claim_authorized": false,
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+  "provenance": "Reimplemented from STEERING_MEMO 2026-09-10 section 4 spec; the memo's calibration_reference.py file was not delivered.",
+  "python_version": "3.13.12",
+  "role": "assay validation only: validates the DEV-CAL-2 readout pipeline before binding to OCM; NOT an OCM result, confers no claim; never imported by src/ocm or any production path",
+  "run_utc": "2026-09-10T17:15:47Z",
+  "schema": "OCM_CALIBRATION_REFERENCE_RUN_RECEIPT_V1",
+  "seed": 20260910,
+  "selftest_exit_code": 0,
+  "selftest_output": [
+    "PASS test_canonicalization_representative_independent_state",
+    "PASS test_new_evidence_dependence",
+    "PASS test_counterfactual_history_invariance",
+    "PASS test_actual_observation_counts_learned_3_parent_11_reset_8",
+    "PASS test_parent_parity_same_outcome_strictly_higher_cost",
+    "PASS test_insufficient_history_distinct_from_any_no_headroom_verdict",
+    "PASS test_malformed_observations_rejected_never_leakage_proof",
+    "PASS test_persistence_serialization_roundtrip",
+    "PASS test_wrong_structure_refusal_then_paid_ambient_recovery",
+    "PASS test_all_targets_verified_on_all_256_inputs",
+    "PASS test_identification_lower_bounds_r_and_d",
+    "PASS test_positive_and_negative_controls_adjudicate",
+    "12/12 tests passed"
+  ],
+  "tests_passed": "12/12"
+}
