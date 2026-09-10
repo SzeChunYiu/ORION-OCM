@@ -102,6 +102,20 @@ entry; dev bound to the frozen M1 mined-fragment fingerprint
 (`70d8cad4ce2189e…`); ladder 1000,4000,16000,64000,200000; 8 targets + obligations.
 Artifacts land in `scored_v1/` with sha256-verified transfer.
 
+## Scored run v1 — EXECUTED (2026-09-10, laptop billy @ 82efa496)
+
+Terminal **AMORTISATION_DOMINATED** (frozen precedence).  Missing link:
+APPLICABILITY (APPL_ORACLE +2.902 material, 36/40 vs RESET 12/40); SEARCH
+INTEGRATION secondary (+2.263); RETRIEVAL TIMING null in isolation (+0.000,
+exactly RESET).  STRONG_ADAPTIVE_PARENT recovers +2.794 of the +2.902 with zero
+oracle knowledge (within the 20% margin = PARENT_EQUIVALENT shape, outranked by
+the amortisation terminal).  No arm's recovery survives the 14.4M-slot dev
+charge (corrected-divisor lifetime means ≈ −361).  Three instrumentation
+disclosures M1B-DISC-1/2/3 (none affects the terminal) + negatives→invariants
+checkers: `m1b_invariants.py` (6 invariants, tamper-validated).  Full results:
+`scored_v1/M1B_SCORED_RESULTS_V1.md`; provenance `scored_v1/RUN_MANIFEST_V1.json`;
+checker report `scored_v1/INVARIANTS_REPORT_V1.json`.
+
 ## Claim ceiling
 
 Attribution at this scope ONLY.  Calibration-oracle arms are never headline
