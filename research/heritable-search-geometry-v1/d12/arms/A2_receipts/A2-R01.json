@@ -1,0 +1,45 @@
+{
+  "receipt_id": "A2-R01",
+  "schema": "TheoryTransportV1",
+  "arm": "A2",
+  "atom_id": "optimizer neutral sets (public calibration atom 1)",
+  "donor_domain": "evolutionary computation / fitness-landscape theory (neutral networks; Kimura neutral theory as biological parent)",
+  "donor_source_ids": [
+    "Schuster et al. RNA neutral networks (Scholarpedia: Neutral networks)",
+    "GECCO 2007 Redundancy and Neutrality in Evolutionary Search (NK landscapes)",
+    "SFI 98-10-089 Neutrality in Fitness Landscapes (Kimura link)"
+  ],
+  "donor_structure": "neutral network = connected component of equal-fitness genotypes under single-point mutation in sequence space; degree of neutrality; percolation of neutral networks enabling drift-escape from local optima",
+  "target_structure": "optimizer neutral set = level set of the search objective over states connected under the optimizer's move/neighborhood operator, on which the optimizer receives no gradient in objective value",
+  "mapping": "genotype->search state; fitness->objective value; single-point mutation->neighborhood/move operator of optimizer; neutral network->neutral set (connected level set); population drift along network->optimizer plateau walk",
+  "preserved_relations": [
+    "connectedness of the equal-value region under the move operator",
+    "escape from local optima via traversal along the neutral region (percolation-dependent)",
+    "degree of neutrality as measurable scalar"
+  ],
+  "known_broken_relations": [
+    "no population semantics in a single optimizer trajectory (drift argument uses population diversity)",
+    "fitness landscape assumes fixed landscape; HSG objectives change across t (broken, flagged)"
+  ],
+  "unknown_correspondences": [
+    "whether neutral-set percolation thresholds transfer from sequence spaces (Hamming cubes) to HSG state spaces under burden-bounded moves"
+  ],
+  "assumptions_added": [
+    "objective fixed during the neutral-set analysis (single-episode freeze)",
+    "move operator induces a connected graph on the state space"
+  ],
+  "candidate_theorem": "a plateau walk on a percolating neutral set reaches states outside any epsilon-ball of the origin with probability 1 under unbiased moves, in time O(diameter) -- donor percolation phenomenology restated in atom vocabulary",
+  "strongest_parent": "neutral-network percolation phenomenology (EC/fitness-landscape literature; Kimura 1968 neutral theory as context)",
+  "route": "empirical/finite (percolation statistics measurable on instance landscapes); no proof attempted in this arm",
+  "search_cost": {
+    "chart_queries": 0,
+    "L2": 30,
+    "L3": 40,
+    "map": 15,
+    "synth": 30,
+    "validate": 0,
+    "total": 115
+  },
+  "status": "PROPOSAL",
+  "status_self_assessment": "surface-strong transport but donor supplies phenomenology, not a theorem; single-chart arm did not test percolation transfer; PROPOSAL"
+}

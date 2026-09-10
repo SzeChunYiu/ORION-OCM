@@ -1,0 +1,45 @@
+{
+  "receipt_id": "A2-R04",
+  "schema": "TheoryTransportV1",
+  "arm": "A2",
+  "atom_id": "G17 (bias/prior family Q_rho, Q_0, KL bound)",
+  "donor_domain": "statistical learning theory: PAC-Bayes prior/posterior KL bounds",
+  "donor_source_ids": [
+    "McAllester 1999 (classic bound, via survey)",
+    "Alquier 2021 arXiv:2110.11216 (user-friendly intro)",
+    "Dziugaite et al. 2021 (PMLR v130, KL role)",
+    "MIT IFT-6085 lecture 8"
+  ],
+  "donor_structure": "with high probability over the sample: risk of posterior Q bounded by empirical risk of Q + sqrt((KL(Q||P)+log(2sqrt(n)/delta))/(2n)); prior P data-independent, posterior Q data-dependent; tighter prior-family -> smaller KL -> tighter bound",
+  "target_structure": "G17 prior family (Q_rho, Q_0) with KL bound governing the crossover m* at which the bias/prior family stops paying; T09-B lane-D vacuity crossover",
+  "mapping": "prior P->Q_0 (registered/neutral prior); posterior Q->Q_rho (biased family member); KL(Q||P)->complexity term charging the biased family; sample size n->evidence count m; bound tightness->crossover location m*",
+  "preserved_relations": [
+    "KL complexity penalty as the price of departing from the neutral prior",
+    "data-independence of the prior is load-bearing (leakage otherwise)",
+    "bound monotone decreasing in n / increasing in KL"
+  ],
+  "known_broken_relations": [
+    "PAC-Bayes bounds control expected risk of randomized predictors on iid samples; HSG crossover m* is about net benefit including burden B, not risk alone -- the bound transfers as one additive term only",
+    "iid sampling assumption vs HSG sequential evidence (chained bounds needed -- matches A_T09 R6 CHAIN-BUDGET condition)"
+  ],
+  "unknown_correspondences": [
+    "whether family restriction (registered families) shrinking sup-KL is re-derivable inside PAC-Bayes or needs the HSG-side condition (per ladder R4 verdict: family restriction, metric re-description buys nothing)"
+  ],
+  "assumptions_added": [
+    "loss bounded; evidence treated as m draws; chained/sequential regime needs the CHAIN-BUDGET amendment already filed at A_T09 R6"
+  ],
+  "candidate_theorem": "crossover m* of the biased family shrinks iff sup over family of KL(Q_rho||Q_0) shrinks -- KL term of the PAC-Bayes form is the entire mover; consistent with atom-table R4 verdict",
+  "strongest_parent": "McAllester PAC-Bayes bound (standard form, verified via survey sources)",
+  "route": "proof route: PAC-Bayes arithmetic plus HSG burden accounting; crossover claim is an HSG-side lemma, not a donor theorem",
+  "search_cost": {
+    "chart_queries": 0,
+    "L2": 30,
+    "L3": 40,
+    "map": 15,
+    "synth": 30,
+    "validate": 0,
+    "total": 115
+  },
+  "status": "PARTIAL",
+  "status_self_assessment": "strong surface match and correct complexity-term transport, but the crossover theorem is HSG-side; donor supplies the penalty term only; PARTIAL"
+}
