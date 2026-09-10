@@ -1,10 +1,20 @@
 <!--
-MERGE NOTE FOR EB-F0-A. This file is an APPEND-ONLY appendix contributed by lane EB-F0-P.
-If your capsule table lands first, resolve by placing it ABOVE the heading below and keeping
-this section verbatim. Nothing here edits, restates or supersedes any row of your table.
+EB-F0-P primary-source verification appendix. Companion to PARENT_LEDGER.md, NOT a replacement.
+
+WHY THIS IS A SEPARATE FILE. This content was commissioned as an extension of PARENT_LEDGER.md.
+It is delivered at a separate, unclaimed path instead, because PARENT_LEDGER.md is authored by
+lane EB-F0-A and its sha256 is hashed into that lane's FREEZE_V1.json manifest. Appending to it
+would change that hash and break the freeze-chain verification, and all three sibling biosphere
+branches independently add the same path, so an append would also guarantee an add/add conflict.
+Leaving PARENT_LEDGER.md untouched is what lets EB-F0-A's freeze land cleanly.
+
+TO WIRE THIS IN, EB-F0-A: add one pointer line to PARENT_LEDGER.md and re-run make_freeze.py so
+the manifest records the new hash, or carry the pointer as a FREEZE_V1 amendment. Suggested line:
+  Primary-source verification for all fifteen BIO-T rows: see
+  PARENT_LEDGER_PRIMARY_SOURCE_APPENDIX_V1.md and BIO_PARENT_MATRIX_V1.json in this directory.
 -->
 
-## Primary-source verification appendix (EB-F0-P)
+# Primary-source verification appendix (EB-F0-P)
 
 Issue #296 section 14 requires that established results be reconstructed faithfully and
 subtracted before ORION claims novelty about biospheres, evolution, culture or collective
@@ -43,7 +53,7 @@ closes as a success rather than as work.
 | BIO-T2 | Pigeonhole (deterministic); Levin-Peres-Wilmer (finite chains) | eventual periodicity; pi(x)=1/E_x(tau_x+) | `PARENT_RECONSTRUCTED` |
 | BIO-T3 | Enhanced POET, arXiv:2003.08536v2 (anchor B05) | novelty exhausts when the encoding does | `PARENT_RECONSTRUCTED` |
 | BIO-T4 | Rogers, *Am. Anthropol.* 90(4):819-831, 1988 | social learning does not raise mean fitness | `PARENT_RECONSTRUCTED` |
-| BIO-T5 | Data processing inequality (Polyanskiy-Wu Thm 7.16) | I(U;Y) <= I(U;X) for U->X->Y | `PARENT_RECONSTRUCTED` |
+| BIO-T5 | Data processing inequality (Polyanskiy-Wu Thm 3.7c) | I(X;Z) <= I(X;Y) for X->Y->Z | `PARENT_RECONSTRUCTED` |
 | BIO-T6 | Minton, AAAI-88 p.566 (anchor A10; RV-8) | Utility = (AvrSavings x ApplicFreq) - AvrMatchCost | **`PARENT_PARTIAL_GAP_NAMED`** |
 | BIO-T7 | Blount, Borland & Lenski, *PNAS* 105(23):7899-7906, 2008 | potentiation must precede actualization | `PARENT_RECONSTRUCTED` |
 | BIO-T8 | Bahrami et al., *Science* 329(5995):1081-1085, 2010 | two heads worse than the better one | `PARENT_RECONSTRUCTED` |
@@ -106,6 +116,16 @@ because a fabrication here would propagate into published claims.
 | Taylor et al. 2016, *Artificial Life* 22(3):408-423; Banzhaf et al. 2016, *Theory Biosci.* 135:131-161 | BIO-T3 | two institutional repositories returned HTML error pages; the arXiv identifier tried for Banzhaf resolved to an unrelated paper and was discarded. Named as context only. |
 | Steiner 1972, *Group Process and Productivity*; Diehl & Stroebe 1987, *JPSP* 53(3):497-509 | BIO-T8 | no open text located for the book; the article sits behind an APA paywall with no author-hosted copy found. Named as context only. |
 | Blackwell 1953; Cover & Thomas Thm 2.8.1; Kaufman et al. 2012 *TKDD* 6(4) | BIO-T4, T5, T15 | not fetched. Each is named as the canonical reference for a statement that is separately verified from another fetched source. |
+
+### How to read the grading on BIO-T9 and BIO-T11
+
+Both rows carry `verification_status: CANNOT_VERIFY_SOURCE` next to a verified quote. That pairing
+is deliberate and the two facts are graded in separate fields. `verification_status` grades the
+**owning parent's own text**, which was not reached: Price 1970/1972 for BIO-T9, Kac 1947 for
+BIO-T11. `quoted_line_verification` grades the **text actually quoted**, which was fetched and
+re-read this lane: Frank 2012 for BIO-T9, Aldous-Fill corroborated by Levin-Peres-Wilmer for
+BIO-T11. A consumer summarising either row from `verification_status` alone would mislabel it, so
+`unreached_source_role` spells the distinction out in the row itself.
 
 ### Two corrections this pass produced
 

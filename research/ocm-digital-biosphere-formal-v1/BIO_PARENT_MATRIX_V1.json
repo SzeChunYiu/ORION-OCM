@@ -27,6 +27,10 @@
    "THIS_LANE_FETCH_AND_GREP": "fetched to a local file by this lane, converted to text, located by pattern with a control that had to match, and re-read in isolation to confirm function words survived the display path.",
    "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT": "cited by anchor to PARENT_FIRST_REFUSAL_V1.json where the centre lane already re-fetched and matched the quote byte-exactly. Deliberately not re-fetched.",
    "PRIOR_LANE_ANCHOR_SCAN_LANE_ONLY": "cited by anchor where the prior scanning lane reached the text but the centre re-fetch was blocked."
+  },
+  "quoted_line_verification": {
+   "CONFIRMED_SUBSTANTIVE": "the text ACTUALLY QUOTED in this row was fetched and verified this lane (or via a prior-lane byte-exact anchor). Every row carries this value.",
+   "note": "This field exists because verification_status grades the OWNING PARENT's own text. For BIO-T9 and BIO-T11 the originals were not reached while the quoted restatement was, so the two fields differ. A consumer joining on verification_status alone would mislabel those two rows."
   }
  },
  "method_note": "Quotes were extracted to files and re-read rather than read from command output, because the session's display path was observed to strip function words from some command output while leaving other output intact. Every quoted line in this file was re-read in isolation and confirmed to carry normal English function words. One candidate quote was discarded at this stage: a sentence in Imai et al. beginning 'These bounds always contain zero' whose completion was not contiguous in the two-column extraction. One attribution error was caught and corrected: the line 'It turned out to be the mathematical equivalent of a tautology' is Frank 2012 QUOTING Nowak and Highfield, critics he goes on to answer, and is recorded as theirs, not as Frank's own assessment.",
@@ -48,7 +52,11 @@
    "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT": 2
   },
   "published_negatives_attached": 11,
-  "rows_with_a_named_gap": 1
+  "rows_with_a_named_gap": 1,
+  "quoted_line_verification": {
+   "CONFIRMED_SUBSTANTIVE": 15
+  },
+  "rows_whose_owning_parent_original_was_not_reached": 2
  },
  "parent_matrix": [
   {
@@ -82,7 +90,9 @@
     "BIO-T15",
     "EB-F0-A ledger rows P-PEARL and P-HST-T17"
    ],
-   "notes": "The mathematics is entirely Pearl's. What #296 adds is a checkable engineering precondition on the kernel factorization plus an out-of-write-set constitution. That is protocol, not a theorem, and must not be reported as one."
+   "notes": "The mathematics is entirely Pearl's. What #296 adds is a checkable engineering precondition on the kernel factorization plus an out-of-write-set constitution. That is protocol, not a theorem, and must not be reported as one.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T2",
@@ -106,7 +116,9 @@
     "BIO-T3",
     "EB-F0-A ledger row P-HST-T12"
    ],
-   "notes": "ATTRIBUTION CORRECTION, recorded deliberately. The task brief and ordinary shorthand name this row 'Poincare recurrence'. Poincare recurrence is a different theorem with a different assumption set: it needs a measure-preserving transformation on a finite-measure space, and it concludes that almost every point returns to any neighbourhood of itself, not that the orbit is eventually periodic. On a finite set the pigeonhole argument needs no measure theory and yields the STRONGER conclusion. Citing Poincare here would overstate the machinery and understate the result. Poincare is adjacent, not the owner."
+   "notes": "ATTRIBUTION CORRECTION, recorded deliberately. The task brief and ordinary shorthand name this row 'Poincare recurrence'. Poincare recurrence is a different theorem with a different assumption set: it needs a measure-preserving transformation on a finite-measure space, and it concludes that almost every point returns to any neighbourhood of itself, not that the orbit is eventually periodic. On a finite set the pigeonhole argument needs no measure theory and yields the STRONGER conclusion. Citing Poincare here would overstate the machinery and understate the result. Poincare is adjacent, not the owner.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T3",
@@ -139,7 +151,9 @@
     "BIO-T2",
     "EB-F0-A ledger rows P-OEE and P-HST-T13"
    ],
-   "notes": "NEAR-DUPLICATE OF BIO-T2, stated rather than papered over. Both are ceilings on reachable novelty; they differ only in which constraint binds first. T2 binds on finiteness of the state space, T3 binds on the support of the generator inside a state space that may be much larger. They should not be presented as two independent results."
+   "notes": "NEAR-DUPLICATE OF BIO-T2, stated rather than papered over. Both are ceilings on reachable novelty; they differ only in which constraint binds first. T2 binds on finiteness of the state space, T3 binds on the support of the generator inside a state space that may be much larger. They should not be presented as two independent results.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T4",
@@ -181,17 +195,19 @@
     "BIO-T6",
     "EB-F0-A ledger row P-HST-T01"
    ],
-   "notes": "This row is the one that resolves BIO-T5's 'useful' qualifier. An information bound does not become a capability bound for free; the conversion needs a bounded-agent parent, and Rogers plus the two skill-library negatives supply it."
+   "notes": "This row is the one that resolves BIO-T5's 'useful' qualifier. An information bound does not become a capability bound for free; the conversion needs a bounded-agent parent, and Rogers plus the two skill-library negatives supply it.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T5",
    "bio_row_title": "Cultural channel capacity / data-processing bound",
    "issue_296_statement": "useful socially acquired information cannot exceed information transmitted through registered channel absent side information.",
    "owning_parent": "The data processing inequality. Bluntly: this row is the DPI.",
-   "primary_source": "Yury Polyanskiy, Yihong Wu. 'Information Theory: From Coding to Learning.' Cambridge University Press. Author-hosted preprint fetched this lane: https://people.lids.mit.edu/yp/homepage/data/itbook-export.pdf (build stamp in the fetched file: 'CUP/HE2-design August 16, 2024'). Canonical textbook citation for the mutual-information form is Cover and Thomas, 'Elements of Information Theory', Theorem 2.8.1, NOT fetched.",
-   "quoted_line": "Theorem 7.16 (Data processing) For U → X → Y, we have If (U; Y) ≤ If (U; X).",
-   "quote_provenance": "Fetched PDF, Theorem 7.16, stated for f-information. Theorem 7.4 in the same book carries the channel form. Re-read in isolation with function words intact. The mutual-information statement I(U;Y) <= I(U;X) is the f = KL specialization; this is stated here explicitly rather than quietly substituted.",
-   "faithful_reconstruction": "If U, X, Y form a Markov chain U -> X -> Y, meaning Y is conditionally independent of U given X, then I(U;Y) <= I(U;X). Applied to #296 section 4: let U be the source organism's private state, X the object actually transmitted through a registered channel, and Y the recipient's post-transfer state. If no side channel exists, so that the Markov condition genuinely holds, the recipient's information about U is bounded by what crossed X. No processing on the receiving side can manufacture information about U that the channel did not carry.",
+   "primary_source": "Yury Polyanskiy, Yihong Wu. 'Information Theory: From Coding to Learning.' Cambridge University Press, Theorem 3.7(c). Author-hosted preprint fetched this lane: https://people.lids.mit.edu/yp/homepage/data/itbook-export.pdf (build stamp in the fetched file: 'CUP/HE2-design August 16, 2024'). Canonical textbook citation for the same statement is Cover and Thomas, 'Elements of Information Theory', Theorem 2.8.1, NOT fetched.",
+   "quoted_line": "(c) (DPI for mutual information) If X → Y → Z, then I(X; Z) ≤ I(X; Y) , (3.12) with equality iff X → Z → Y.",
+   "quote_provenance": "Fetched PDF, Theorem 3.7(c), page 52 of the fetched build. This is the plain mutual-information statement, quoted directly, so no step from an f-divergence form is required. Theorem 7.16 in the same book states the f-information form and Theorem 7.4 the channel form; both were located in the same pass and neither is relied on here. Re-read in isolation with function words intact.",
+   "faithful_reconstruction": "If X, Y, Z form a Markov chain X -> Y -> Z, meaning Z is conditionally independent of X given Y, then I(X;Z) <= I(X;Y), with equality exactly when X -> Z -> Y also holds. Applied to #296 section 4: let X be the source organism's private state, Y the object actually transmitted through a registered channel, and Z the recipient's post-transfer state. If no side channel exists, so that the Markov condition genuinely holds, the recipient's information about X is bounded by what crossed Y. No processing on the receiving side can manufacture information about X that the channel did not carry. The equality condition is the useful part in practice: it is met only when the transmitted object is a sufficient statistic, which a lossy cultural artifact generally is not.",
    "parent_assumptions": "The Markov condition is the whole content. It fails the moment an unregistered side channel exists, including shared environment, shared initialization, or a common ancestor's state that both parties retain. The inequality bounds MUTUAL INFORMATION, not utility.",
    "gap_named": null,
    "subtraction_verdict": "PARENT_RECONSTRUCTED",
@@ -205,7 +221,9 @@
     "#296 section 4",
     "EB-F0-A ledger rows P-DPI and P-CAP"
    ],
-   "notes": "CROSS-ROW DEPENDENCY, not a gap. #296 writes 'useful socially acquired information'. The DPI bounds mutual information and says nothing about usefulness; a recipient can acquire information and be made worse off, which is BIO-T4's territory, not a new theorem here. The honest decomposition is: DPI owns the information ceiling, Rogers and the skill-library negatives own the step from information to capability. EB-F0-A's ledger points both P-DPI and P-CAP at this row; the capacity parent adds the coding-theorem converse but does not close the usefulness step either."
+   "notes": "CROSS-ROW DEPENDENCY, not a gap. #296 writes 'useful socially acquired information'. The DPI bounds mutual information and says nothing about usefulness; a recipient can acquire information and be made worse off, which is BIO-T4's territory, not a new theorem here. The honest decomposition is: the DPI owns the information ceiling, Rogers' paradox and the two skill-library negatives own the step from information to capability. EB-F0-A's ledger points both P-DPI and P-CAP at this row; the capacity parent adds the coding-theorem converse but does not close the usefulness step either.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T6",
@@ -248,7 +266,9 @@
     "BIO-T13",
     "EB-F0-A ledger row P-HST-T01"
    ],
-   "notes": "THE ONLY PARTIAL GAP IN THIS MATRIX, and it is deliberately stated conservatively. The gap is a measured regime boundary, not a theorem, and RV-8 already records that the lifetime repayment claim is PROJECTED (a 380x extrapolation beyond the measured stream) rather than observed. Reporting #165's H1 as an unqualified capital negative is, per RV-8's own earned-terminal rule, a defect. This row is also the pattern the task brief asked to look for elsewhere: an independent rediscovery in a different substrate, recognized after the fact. No second instance of that pattern was found among the other fourteen rows."
+   "notes": "THE ONLY PARTIAL GAP IN THIS MATRIX, and it is deliberately stated conservatively. The gap is a measured regime boundary, not a theorem, and RV-8 already records that the lifetime repayment claim is PROJECTED (a 380x extrapolation beyond the measured stream) rather than observed. Reporting #165's H1 as an unqualified capital negative is, per RV-8's own earned-terminal rule, a defect. This row is also the pattern the task brief asked to look for elsewhere: an independent rediscovery in a different substrate, recognized after the fact. No second instance of that pattern was found among the other fourteen rows.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T7",
@@ -271,7 +291,9 @@
     "#296 section 2 kernel factorization",
     "BIO-T11"
    ],
-   "notes": "The purely formal half, that stochastic kernels need not commute, is elementary and carries no citation here. The substantive content of the row is WHICH orders are accessible, and that is what Blount et al. measured."
+   "notes": "The purely formal half, that stochastic kernels need not commute, is elementary and carries no citation here. The substantive content of the row is WHICH orders are accessible, and that is what Blount et al. measured.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T8",
@@ -294,7 +316,9 @@
     "#296 section 10 collective/individual advantage must be outcome-neutral",
     "#296 section 5 no privileged unit of intelligence"
    ],
-   "notes": "The parent supplies something #296 section 10 asks for and does not yet have: an identified residual. Because the signal-sharing control never predicts harm, the measured harm is attributable to the communication channel. Any biosphere claim of collective advantage should carry the same control, not merely a matched-resource comparison."
+   "notes": "The parent supplies something #296 section 10 asks for and does not yet have: an identified residual. Because the signal-sharing control never predicts harm, the measured harm is attributable to the communication channel. Any biosphere claim of collective advantage should carry the same control, not merely a matched-resource comparison.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T9",
@@ -327,7 +351,9 @@
     "BIO-T14",
     "EB-F0-A ledger rows P-PRICE and P-ML-PRICE, and the HSG receipt d12/arms/A3_receipts/R07_G13_price_equation.json"
    ],
-   "notes": "EB-F0-A's ledger already records that HSG owns Price-as-identity via an existing receipt. This row adds the primary-source grading that ledger's own header requires, and records that the originals were not reached."
+   "notes": "EB-F0-A's ledger already records that HSG owns Price-as-identity via an existing receipt. This row adds the primary-source grading that ledger's own header requires, and records that the originals were not reached.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": "OWNING PARENT ORIGINAL not reached. Price 1970 and Price 1972 were not fetched; the quoted line is Frank 2012's verified restatement, fetched this lane. Read verification_status as a statement about the ORIGINALS and quoted_line_verification as a statement about the text actually quoted. They are deliberately graded separately and must not be collapsed."
   },
   {
    "bio_row_id": "BIO-T10",
@@ -352,7 +378,9 @@
     "#296 section 4 CANNOT_TRANSLATE / CANNOT_VERIFY returns",
     "EB-F0-A ledger row P-93"
    ],
-   "notes": "The two halves must not be collapsed. Institution theory gives preservation of satisfaction along a signature morphism; it does not give reflection, and the row's second clause is a reflection claim. #296's partial transfer operator returning CANNOT_TRANSLATE or CANNOT_VERIFY is an engineering contract on top of both, not a theorem."
+   "notes": "The two halves must not be collapsed. Institution theory gives preservation of satisfaction along a signature morphism; it does not give reflection, and the row's second clause is a reflection claim. #296's partial transfer operator returning CANNOT_TRANSLATE or CANNOT_VERIFY is an engineering contract on top of both, not a theorem.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T11",
@@ -377,7 +405,9 @@
     "BIO-T7",
     "EB-F0-A ledger row P-HST-T10"
    ],
-   "notes": "The assumption that does the real damage in a biosphere setting is stationarity of the start, not irreducibility. Any reported relation between evolvability mass and a hitting time must state the start distribution or be treated as unsupported."
+   "notes": "The assumption that does the real damage in a biosphere setting is stationarity of the start, not irreducibility. Any reported relation between evolvability mass and a hitting time must state the start distribution or be treated as unsupported.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": "OWNING PARENT ORIGINAL not reached. Kac 1947 was blocked by a bot interstitial; the quoted line is Aldous and Fill's statement of Kac's formula, fetched this lane, corroborated by Levin-Peres-Wilmer. Read verification_status as a statement about the ORIGINAL and quoted_line_verification as a statement about the text actually quoted."
   },
   {
    "bio_row_id": "BIO-T12",
@@ -410,7 +440,9 @@
     "BIO-T1",
     "EB-F0-A ledger row P-PEARL"
    ],
-   "notes": "#296's CONTINUED(H) versus RESET versus matched-parent design with exact inherited-object knockouts is the experimental apparatus that SUPPLIES the identifying variation the parent says observation cannot. That is study design, not new mathematics, and should be reported that way."
+   "notes": "#296's CONTINUED(H) versus RESET versus matched-parent design with exact inherited-object knockouts is the experimental apparatus that SUPPLIES the identifying variation the parent says observation cannot. That is study design, not new mathematics, and should be reported that way.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T13",
@@ -451,7 +483,9 @@
     "BIO-T6",
     "BIO-T4"
    ],
-   "notes": "This row is fully owned and the parent states it more strictly than #296 does. Criterion (iii), that the learned behaviour must CAUSE an improvement, is a causal claim and therefore inherits BIO-T12's identification burden."
+   "notes": "This row is fully owned and the parent states it more strictly than #296 does. Criterion (iii), that the learned behaviour must CAUSE an improvement, is a causal claim and therefore inherits BIO-T12's identification burden.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T14",
@@ -475,7 +509,9 @@
     "#296 section 6 do not claim a new individual from a graph community",
     "BIO-T9"
    ],
-   "notes": "The parent states this row more strongly than #296 does, and it does so about a method far more principled than graph community detection. Any biosphere ecotype or species claim inherits this ceiling directly: finer resolution produces more clusters, and cluster count is not a discovery."
+   "notes": "The parent states this row more strongly than #296 does, and it does so about a method far more principled than graph community detection. Any biosphere ecotype or species claim inherits this ceiling directly: finer resolution produces more clusters, and cluster count is not a discovery.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   },
   {
    "bio_row_id": "BIO-T15",
@@ -508,7 +544,11 @@
     "#296 section 9 evidence bridge",
     "BIO-T1"
    ],
-   "notes": "BIO-T1 and BIO-T15 are the same condition read in two directions. T1 is the prospective structural precondition on the write graph; T15 is the retrospective consequence when it is violated. Both are owned: T1 by Pearl's intervention semantics, T15 by adaptive data analysis."
+   "notes": "BIO-T1 and BIO-T15 are the same condition read in two directions. T1 is the prospective structural precondition on the write graph; T15 is the retrospective consequence when it is violated. Both are owned: T1 by Pearl's intervention semantics, T15 by adaptive data analysis.",
+   "quoted_line_verification": "CONFIRMED_SUBSTANTIVE",
+   "unreached_source_role": null
   }
- ]
+ ],
+ "join_note": "EB-F0-A's THEOREM_REGISTRY_V1.json keys on theorem_id BIO-T1..BIO-T15, which matches bio_row_id here one-to-one; its parent_ownership field is free text, so it consumes owning_parent. Two rows, BIO-T9 and BIO-T11, carry verification_status=CANNOT_VERIFY_SOURCE for the owning parent's ORIGINAL while their published quote is verified; see quoted_line_verification and unreached_source_role before summarising either row as unverified.",
+ "file_placement_note": "The prose companion to this file is PARENT_LEDGER_PRIMARY_SOURCE_APPENDIX_V1.md in this directory, NOT PARENT_LEDGER.md. PARENT_LEDGER.md is authored by lane EB-F0-A and its sha256 is hashed into that lane's FREEZE_V1.json manifest, so appending to it would break their freeze-chain verification. This lane therefore contributes a separate, unclaimed path and leaves PARENT_LEDGER.md untouched."
 }
