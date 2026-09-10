@@ -73,6 +73,7 @@ T3 gate actually reads. See [COMPOSITION.md](COMPOSITION.md).
 
 - `results/RVA_A1_ATTRIBUTION.json` — exact cross-tab, single-bit predictor.
 - `results/RVA_A2_DRAW_INVARIANCE.json` — draw invariance + per-arm composition.
+- [ITERATIONS.md](ITERATIONS.md) — the full chain, including the steps that failed.
 - `hpc/rva_attrib.py`, `hpc/rva_drawinv.py`, `hpc/rva_timing.py` — offline
   reductions, run on LUNARC `lu48` (`-A lu2026-2-51`).
 
