@@ -19,13 +19,16 @@ TEST -> MEMO LINE MAP
        Two different histories spanning the SAME S give identical downstream
         acquisition (same cost, same success): the readout measures structure,
         not history tokens.
-  4  test_actual_observation_counts_learned_3_parent_11_reset_8
-       "the learner chooses r=3 ... RESET uses 8" + "3+8 observations" —
-        assert from oracle counters the learner REALLY used 3, not 8.
-  5  test_parent_parity_same_outcome_strictly_higher_cost
+  4  test_actual_observation_counts_learned_3_parent_3_reset_8
+       "the learner chooses r=3 ... RESET uses 8" — assert from oracle
+        counters the learner REALLY used 3 not 8, the equally adaptive
+        ordinary parent also used exactly 3 (memo: "each use 3"), and RESET
+        used 8. (The 3+8 paid fallback belongs to the wrong-structure case.)
+  5  test_parent_parity_same_outcome_same_observation_count
        "an equally adaptive ordinary parent each use 3 fresh observations" —
-        parent attains the same verified outcome (parity) only after paying
-        the ambient fallback; its bare 3-observation attempt cannot verify.
+        the classical parent derives the SAME structural prior from the SAME
+        history and achieves PARITY in outcome AND observation count (3==3);
+        parity is reported, never as learner failure.
   6  test_insufficient_history_distinct_from_any_no_headroom_verdict
        "rank-deficient history -> INSUFFICIENT_HISTORY state, distinct from
         any no-headroom verdict".
@@ -156,19 +159,23 @@ def test_counterfactual_history_invariance():
 
 
 # 4
-def test_actual_observation_counts_learned_3_parent_11_reset_8():
+def test_actual_observation_counts_learned_3_parent_3_reset_8():
     report = cr.run_calibration(cr.DEFAULT_SEED)
     arms = report["arms"]
     assert arms["LEARNED_BASIS"]["oracle_actual_counts"] == [cr.R] * cr.N_CHECKED_TARGETS
-    assert arms["RESET"]["oracle_actual_counts"] == [cr.D] * cr.N_CHECKED_TARGETS
     assert arms["ORDINARY_ADAPTIVE_PARENT"]["oracle_actual_counts"] == \
-        [cr.R + cr.D] * cr.N_CHECKED_TARGETS
+        [cr.R] * cr.N_CHECKED_TARGETS
+    assert arms["RESET"]["oracle_actual_counts"] == [cr.D] * cr.N_CHECKED_TARGETS
     # The learner REALLY used 3 not 8: counts come from the oracle, and a
     # second, counter-instrumented run must reproduce them exactly.
     report2 = cr.run_calibration(cr.DEFAULT_SEED)
     assert report2["arms"]["LEARNED_BASIS"]["oracle_actual_counts"] == \
         [cr.R] * cr.N_CHECKED_TARGETS
-    # A 3-observation solve is arithmetically impossible in the ambient basis.
+    assert report2["arms"]["ORDINARY_ADAPTIVE_PARENT"]["oracle_actual_counts"] == \
+        [cr.R] * cr.N_CHECKED_TARGETS
+    # A 3-observation solve is arithmetically impossible in the ambient basis
+    # (that is RESET's 8 and the wrong-structure arm's paid fallback, not the
+    # parent's route: the parent derives the structural prior itself).
     xs = [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0],
           [0, 0, 1, 0, 0, 0, 0, 0]]
     _, rank = cr.solve_gf2(xs, [0, 0, 0], cr.D)
@@ -176,29 +183,35 @@ def test_actual_observation_counts_learned_3_parent_11_reset_8():
 
 
 # 5
-def test_parent_parity_same_outcome_strictly_higher_cost():
+def test_parent_parity_same_outcome_same_observation_count():
+    world, history, state = _dev_state(cr.DEFAULT_SEED)
+    # The classical parent runs the same structural-learning algorithm on the
+    # same history, outside OCM bookkeeping, and derives the same span.
+    parent_rows, pstate = cr.learn_prior_rows(history)
+    assert pstate == cr.STATE_SOLVED
+    assert not isinstance(parent_rows, cr.LearnedState)
+    assert cr.canonical_basis(parent_rows)[3] == state.digest
+    # Outcome AND observation-count parity per target, from oracle counters.
+    for t in range(cr.N_CHECKED_TARGETS):
+        o_l = cr.ParityOracle(world["targets"])
+        o_p = cr.ParityOracle(world["targets"])
+        r_l = cr.acquire_learned_basis(o_l, t, state, random.Random(100 + t))
+        r_p = cr.acquire_ordinary_adaptive_parent(
+            o_p, t, random.Random(100 + t), history)
+        assert r_l["state"] == r_p["state"] == cr.STATE_SOLVED
+        assert o_p.observation_counts[t] == o_l.observation_counts[t] == cr.R
+        assert r_p["verified_all_256"] is True
+        assert r_p["count_parity_with_learner"] is True
+        assert r_p["coefficient"] == world["targets"][t]
     report = cr.run_calibration(cr.DEFAULT_SEED)
     lb = report["arms"]["LEARNED_BASIS"]
     pa = report["arms"]["ORDINARY_ADAPTIVE_PARENT"]
-    # Parity: same verified outcome on every checked target.
     assert pa["all_solved"] and lb["all_solved"]
-    assert pa["verified_all_256"] == lb["verified_all_256"]
-    # The parent's bare 3-observation attempt cannot verify an 8-bit target.
-    assert all(t == cr.R + cr.D for t in pa["total_observations"])
-    # Constructive: the parent's 3-observation hypothesis is inconsistent with
-    # at least one of the 256 inputs (it is not the true coefficient).
-    world = cr.build_world(cr.DEFAULT_SEED)
-    o = cr.ParityOracle(world["targets"])
-    rng = random.Random(1)
-    xs = []
-    while len(xs) < cr.R:
-        x = [rng.randint(0, 1) for _ in range(cr.D)]
-        if x not in xs and cr.rank_of(xs + [x], cr.D) == len(xs) + 1:
-            xs.append(x)
-    ys = [o.observe(0, x) for x in xs]
-    a_hat, rank = cr.solve_gf2(xs, ys, cr.D)
-    assert rank < cr.D
-    assert o.exhaustive_matches(0, a_hat) < cr.N_INPUTS
+    assert pa["oracle_actual_counts"] == lb["oracle_actual_counts"]
+    assert all(pa["count_parity_with_learner"])
+    assert report["controls"]["parent_parity_classical_parent_3_equals_learner_3"] == "PASS"
+    # Parity is reported, never as learner failure:
+    assert "parent" not in json.dumps(report["no_op_control"])
 
 
 # 6
@@ -301,7 +314,10 @@ def test_all_targets_verified_on_all_256_inputs():
         assert learned["state"] == cr.STATE_SOLVED
         assert o.exhaustive_matches(t, learned["coefficient"]) == cr.N_INPUTS
         assert learned["coefficient"] == world["targets"][t]
-        parent = cr.acquire_ordinary_adaptive_parent(o, t, random.Random(200 + t))
+        history = cr.developmental_observations(
+            world, random.Random(cr.DEFAULT_SEED))
+        parent = cr.acquire_ordinary_adaptive_parent(
+            o, t, random.Random(200 + t), history)
         assert parent["state"] == cr.STATE_SOLVED
         assert o.exhaustive_matches(t, parent["coefficient"]) == cr.N_INPUTS
         reset = cr.acquire_ambient(o, t, random.Random(300 + t))
@@ -358,6 +374,7 @@ def test_positive_and_negative_controls_adjudicate():
     report = cr.run_calibration(cr.DEFAULT_SEED)
     c = report["controls"]
     assert c["positive_control_learned_3_vs_reset_8"] == "PASS"
+    assert c["parent_parity_classical_parent_3_equals_learner_3"] == "PASS"
     assert c["negative_control_no_op_cannot_earn_3_observation_success"] == "PASS"
     assert c["negative_control_insufficient_history_is_not_no_headroom"] == "PASS"
     assert c["all_controls_passed"] is True
@@ -390,8 +407,8 @@ TESTS = [
     test_canonicalization_representative_independent_state,
     test_new_evidence_dependence,
     test_counterfactual_history_invariance,
-    test_actual_observation_counts_learned_3_parent_11_reset_8,
-    test_parent_parity_same_outcome_strictly_higher_cost,
+    test_actual_observation_counts_learned_3_parent_3_reset_8,
+    test_parent_parity_same_outcome_same_observation_count,
     test_insufficient_history_distinct_from_any_no_headroom_verdict,
     test_malformed_observations_rejected_never_leakage_proof,
     test_persistence_serialization_roundtrip,
