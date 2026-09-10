@@ -1,0 +1,52 @@
+{
+ "schema": "OCM_P1_IPC_GENERATOR_PARAMS",
+ "version": "V1",
+ "freeze": "P1_PIPELINE_FREEZE_V1.json",
+ "recorded_utc": "2026-09-10",
+ "frozen_seed": "P1-FAMILIES-V1-2026-09-10",
+ "discipline": {
+  "instance_generation": "public generator semantics re-implemented faithfully at the generator's OWN default parameters with the frozen seed; NO rejection sampling, NO difficulty filtering, NO oracle-informed selection; the stream is taken as authored; parse failures are the only exclusions and are retained with reasons",
+  "member_stream": "each member draws its randomness from a deterministic per-family RNG stream seeded by (frozen_seed, family_id); re-running the emitter reproduces the family table byte-identically"
+ },
+ "domains": {
+  "blocksworld-ipc2": {
+   "provenance": "IPC-2 (2000) Blocks World random-tower construction: blocks shuffled, dealt into a frozen number of towers; initial and goal states are two independent such deals. Structured by hand from the published generator semantics, not verbatim code.",
+   "domain_file": "blocksworld-ipc2.pddl",
+   "default_parameters": {
+    "member_sizes_n": [4, 6, 8, 10, 12],
+    "towers_t": [2, 3, 3, 4, 4],
+    "deal": "round-robin: shuffled block list dealt into t towers, tower j receiving shuffled blocks j, j+t, j+2t, ...",
+    "initial_state": "first independent deal",
+    "goal_state": "second independent deal (no re-roll if it equals the initial state; no solvability or distance filtering)"
+   }
+  },
+  "gripper-ipc1": {
+   "provenance": "IPC-1 (1998) Gripper generator: n balls at rooma, robot at rooma, both grippers free, goal every ball at roomb. Structured by hand from the published generator semantics, not verbatim code.",
+   "domain_file": "gripper-ipc1.pddl",
+   "default_parameters": {
+    "member_sizes_n": [4, 6, 8, 10],
+    "locations": ["rooma", "roomb"],
+    "grippers": ["left", "right"],
+    "initial_state": "at-robby rooma; at every ball rooma; free left; free right",
+    "goal_state": "at every ball roomb"
+   }
+  },
+  "logistics-ipc1": {
+   "provenance": "IPC-1/IPC-2 Logistics generator: cities each with one airport and one extra location, one truck per city parked at its city airport, one airplane at the first city's airport, packages with seeded origin/destination pairs. Structured by hand from the published generator semantics, not verbatim code.",
+   "domain_file": "logistics-ipc1.pddl",
+   "default_parameters": {
+    "members": [
+     {"cities": 2, "packages": 2},
+     {"cities": 3, "packages": 3},
+     {"cities": 3, "packages": 5},
+     {"cities": 4, "packages": 6}
+    ],
+    "per_city": {"airports": 1, "extra_locations": 1, "trucks": 1},
+    "airplanes": 1,
+    "truck_start": "its city airport",
+    "airplane_start": "first city's airport",
+    "package_od": "origin and destination drawn from the seeded family RNG over all locations; a destination equal to the origin is kept (no re-roll)"
+   }
+  }
+ }
+}

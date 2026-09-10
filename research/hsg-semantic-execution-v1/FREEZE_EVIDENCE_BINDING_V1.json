@@ -14,6 +14,19 @@
    },
    "recorded_by": "task #54 follow-up (DEV-CAL-1 verdict propagation)",
    "recorded_utc": "2026-09-10"
+  },
+  {
+   "cause": "Issue #165 s16 / P1_PIPELINE_FREEZE_V1.json built the independent-authorship pipeline in research/independent-authorship-gate-v1: three transcribed IPC STRIPS domains (ipc_domains/: blocksworld IPC-2, gripper IPC-1, logistics IPC-1, per-file provenance headers), the independent plan validator p1_validator.py (stdlib-only, zero src/ocm imports), the family emitter p1_families.py, and the emitted P1_FAMILY_TABLE_V1.json (3 families, 13 members, deterministic under the frozen seed; p1_selftest.py four hostiles + no-alarm green, distinct exit codes). This amendment supersedes ON RECORD the E3_PROTOCOL_FREEZE_V1 P1 status line 'authorship pipeline not yet built' WITHOUT editing that frozen file, and binds the pipeline shas so any later modification requires a further amendment per this freeze's rule. Keys are paths relative to this freeze's directory because verify_freeze_chain.py resolves manifest keys against its own directory. Nothing recorded in this directory is superseded (prior_manifest_sha256_observed empty by construction).",
+   "id": "AM-2-P1-PIPELINE",
+   "manifest_sha256": {
+    "../independent-authorship-gate-v1/P1_FAMILY_TABLE_V1.json": "4758a12b290382214c3940f44537d534f289f3a03864b116bce08f148681cc32",
+    "../independent-authorship-gate-v1/P1_PIPELINE_FREEZE_V1.json": "1d18bddbf2eaae69b976192a420127c4703b3ee006920f3434e66f42b35dc0c9",
+    "../independent-authorship-gate-v1/p1_families.py": "9ff8ea034f2ab575ab10299bb116b67424078e7a96255afe15e7ee6bf155a3f2",
+    "../independent-authorship-gate-v1/p1_validator.py": "95a55ec4925b9221862b10bf9aa994509129eb8cefa932dbb982395084ebe28d"
+   },
+   "prior_manifest_sha256_observed": {},
+   "recorded_by": "P1 authorship pipeline build (issue #165, P1_PIPELINE_FREEZE_V1.json)",
+   "recorded_utc": "2026-09-10"
   }
  ],
  "cause": "D28 F1 (MEDIUM): no freeze manifest named any exact/results/*.json, so post-landing edits to landed results were invisible to the chain (two real disclosed instances: 905a7200, 97b38de2). F9 showed the same hole for emitters (an oracle default flip would have been chain-enforced had emitters been hash-bound). This freeze binds every evidence artifact, receipt, and emitter of the lane as of creation.",

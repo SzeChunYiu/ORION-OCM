@@ -5,7 +5,7 @@ A checker that has never been shown to FIRE is not a checker. This asserts all
 four directions on the REAL tree, including the no-alarm case, and fails if any
 direction is wrong. Exit 0 = the checker behaves; exit 1 = the checker is broken.
 """
-import os, shutil, subprocess, sys, tempfile
+import json, os, shutil, subprocess, sys, tempfile
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 CHECKER = "verify_freeze_chain.py"
@@ -17,9 +17,40 @@ def run(tree):
 
 
 def stage(root, name):
-    dst = os.path.join(root, name)
+    """Stage the freeze directory AND any sibling directory its amendments
+    name (AM-2-P1-PIPELINE binds ../independent-authorship-gate-v1/*, since
+    verify_freeze_chain.py resolves manifest keys against this directory).
+    Without the sibling, every staged case would false-alarm on FILE MISSING.
+    """
+    layout = os.path.join(root, name)
+    os.makedirs(layout)
+    dst = os.path.join(layout, os.path.basename(DIR))
     shutil.copytree(DIR, dst)
+    for key in _cross_directory_targets():
+        shutil.copytree(os.path.normpath(os.path.join(DIR, key)),
+                        os.path.normpath(os.path.join(dst, key)))
     return dst
+
+
+def _cross_directory_targets():
+    """../<dir>/... manifest keys recorded by any amendment or freeze here."""
+    targets = set()
+    for fname in sorted(os.listdir(DIR)):
+        if not (fname.startswith("FREEZE") and fname.endswith(".json")):
+            continue
+        try:
+            doc = json.load(open(os.path.join(DIR, fname)))
+        except ValueError:
+            continue
+        docs = [doc] + [a for a in doc.get("amendments", []) if isinstance(a, dict)]
+        for d in docs:
+            man = d.get("manifest_sha256")
+            if not isinstance(man, dict):
+                continue
+            for key in man:
+                if isinstance(key, str) and key.startswith("../"):
+                    targets.add("/".join(key.split("/")[:2]))
+    return sorted(targets)
 
 
 def main():
