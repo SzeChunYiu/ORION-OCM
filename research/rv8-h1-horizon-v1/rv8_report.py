@@ -119,13 +119,20 @@ def main(out):
             "--" if hi is None else "{:.4f}".format(hi)))
 
     w("\n## Shuffle-equal-n null\n")
-    w("| learned arm | null | composition | mix | learned saving/task | "
-      "null saving/task (mean) | learned exceeds every null |")
-    w("|---|---|---|---|---|---|---|")
+    w("Both columns are computed on the SAME prefix, `n compared` — the shorter of the "
+      "two cells. Two null cells at mix 1.0 project past the 7-day ceiling, so their "
+      "prefix is shorter than the learned arm's full horizon. The learned arm's "
+      "saving/task here is therefore recomputed on that prefix and is NOT the "
+      "full-horizon figure in the surface table above.\n")
+    w("| learned arm | null | composition | mix | n compared | learned saving/task "
+      "(on n compared) | null saving/task (mean, on n compared) | learned exceeds "
+      "every null |")
+    w("|---|---|---|---|---|---|---|---|")
     for n in sorted(a["null"], key=lambda x: (x["learned_arm"], x["composition"],
                                               x["mix"])):
-        w("| {} | {} | {} | {} | {} | {} | {} |".format(
+        w("| {} | {} | {} | {} | {} | {} | {} | {} |".format(
             n["learned_arm"], n["null_arm"], n["composition"], n["mix"],
+            f(n["n_compared"]),
             f(n["learned_saving_per_task"]), f(n["null_saving_per_task_mean"]),
             n["learned_exceeds_every_null"]))
 
