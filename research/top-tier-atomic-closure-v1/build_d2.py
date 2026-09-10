@@ -12,8 +12,15 @@ from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
 ATOMS = json.loads((BASE / "ATOM_REGISTRY_V1.json").read_text())
-OV = {**json.loads((BASE / "d2_overrides_a.json").read_text()),
-      **json.loads((BASE / "d2_overrides_b.json").read_text())}
+OV = {}
+for _fname in ("d2_overrides_a.json", "d2_overrides_b.json", "d2_overrides_c.json"):
+    for _aid, _o in json.loads((BASE / _fname).read_text()).items():
+        _cur = OV.setdefault(_aid, {})
+        _cur["R"] = {**_cur.get("R", {}), **_o.get("R", {})}  # coordinate-wise; later files refine, never clobber
+        if _o.get("cls"):
+            _cur["cls"] = _o["cls"]
+        if _o.get("note"):
+            _cur["note"] = (_cur.get("note", "") + " | " + _o["note"]).strip(" |")
 
 LOAD_BEARING = {
     "THEOREM": ["T", "P", "R", "A"],

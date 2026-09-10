@@ -1,0 +1,852 @@
+{
+ "schema": "TTAC_AUTONOMY_AUDIT",
+ "version": "V1",
+ "d_step": "TTAC-D10",
+ "blocker": "B3-AUTONOMY-AUDIT",
+ "owner_issue": 277,
+ "built_utc": "2026-09-10",
+ "matrix_ref": "READINESS_MATRIX_V1.json",
+ "dag_ref": "BLOCKER_DAG_V1.json",
+ "audit_question": "for every atom with an A gap: does the full causal chain (atom -> parent registry row -> issuing patch -> terminal backing artifact) resolve to externally visible warrants, with no free-floating self-adoption step?",
+ "fail_closed_rule": "a missing file, anchor, patch scope, or unbacked status holds the atom at A=1 with the missing link named; absence of evidence of a problem grants nothing",
+ "ledger_scope_note": "EXTERNAL_COGNITIVE_INPUT_LEDGER (D5) is prospective 2026-09-10+; historical chains are recorded as pre-D5 LIMITS, not as audit passage; full ledger coverage is the A>=3 bar",
+ "receipts": [
+  {
+   "atom_id": "ATOM-HST-01",
+   "chain_class": "HST",
+   "theorem_id": "HST-T01",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T01"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T01', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-02",
+   "chain_class": "HST",
+   "theorem_id": "HST-T02",
+   "registry_status": "FINITE_CERTIFIED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T02"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_B (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=FINITE_CERTIFIED backed by ['proofs/PROOFS_CORE_V1.md#HST-T02', 'exact/run_all_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-03",
+   "chain_class": "HST",
+   "theorem_id": "HST-T03",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T03"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T03', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-05",
+   "chain_class": "HST",
+   "theorem_id": "HST-T05",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T05"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T05', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-06",
+   "chain_class": "HST",
+   "theorem_id": "HST-T06",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T06"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T06', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-07",
+   "chain_class": "HST",
+   "theorem_id": "HST-T07",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T07"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T07', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-10",
+   "chain_class": "HST",
+   "theorem_id": "HST-T10",
+   "registry_status": "FINITE_CERTIFIED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T10"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_B/REGISTRY_PATCH_D (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=FINITE_CERTIFIED backed by ['proofs/PROOFS_CORE_V1.md#HST-T10', 'exact/run_all_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-11",
+   "chain_class": "HST",
+   "theorem_id": "HST-T11",
+   "registry_status": "FINITE_CERTIFIED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T11"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_B (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=FINITE_CERTIFIED backed by ['proofs/PROOFS_CORE_V1.md#HST-T11', 'exact/run_all_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-12",
+   "chain_class": "HST",
+   "theorem_id": "HST-T12",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T12"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T12', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-13",
+   "chain_class": "HST",
+   "theorem_id": "HST-T13",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T13"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T13', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-14",
+   "chain_class": "HST",
+   "theorem_id": "HST-T14",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T14"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T14', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-15",
+   "chain_class": "HST",
+   "theorem_id": "HST-T15",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T15"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T15', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-16",
+   "chain_class": "HST",
+   "theorem_id": "HST-T16",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T16"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T16', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-17",
+   "chain_class": "HST",
+   "theorem_id": "HST-T17",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T17"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_C (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T17', 'exact/check_t12_v1.py', 'exact/check_t17_v1.py', 'exact/check_t13_v1.py', 'run_receipt on billy-laptop recorded in registry evidence']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HST-18",
+   "chain_class": "HST",
+   "theorem_id": "HST-T18",
+   "registry_status": "PROVED",
+   "links": [
+    {
+     "check": "parent_registry_row",
+     "pass": true,
+     "evidence": "HST_THEOREM_REGISTRY_V1.json row HST-T18"
+    },
+    {
+     "check": "issuing_patch_warrant",
+     "pass": true,
+     "evidence": "scope of REGISTRY_PATCH_REGISTRY_PATCH_A/REGISTRY_PATCH_A (lane bound to operator issue #233)"
+    },
+    {
+     "check": "terminal_backed_by_artifact",
+     "pass": true,
+     "evidence": "status=PROVED backed by ['proofs/PROOFS_CORE_V1.md#HST-T18', 'exact/check_core_v1.py']"
+    },
+    {
+     "check": "freeze_instrument",
+     "pass": true,
+     "evidence": "FREEZE_HST_V1.json status=AMENDED_3_D8_REMEDIATION"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; D5 ledger is prospective and does not cover this chain retroactively; prospective coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-HSG-04",
+   "chain_class": "GEOMETRY",
+   "links": [
+    {
+     "check": "freeze_artifact_exists",
+     "pass": true,
+     "evidence": "HSG_V3_FREEZE.json=OK; D10_SPARSE_DONOR_SEARCH/D10_THEOREM_ROWS_V1.json=OK"
+    },
+    {
+     "check": "amendment_provenance",
+     "pass": true,
+     "evidence": "HSG_V3_FREEZE status AMENDED_2_PARENT_VERIFICATION (parent verification recorded as amendment with cause)"
+    },
+    {
+     "check": "parent_verification_artifact",
+     "pass": true,
+     "evidence": "PARENT_VERIFICATION_T55_T64_V1.json"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-01",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T65,T67,T74"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-02",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T66"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-04",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json,D18_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T71,T94; D18_RESULTS.json:CONFIRMATORY_FIXED"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-05",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T75,T76"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-06",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json,D20_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T78,T79; D20_RESULTS.json:T79"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-08",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json,D21_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T86,T87; D21_RESULTS.json:CANNOT_CHECK,CANNOT_CHECK_INCOMPLETE_WALK"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-SEM-10",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D17_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D17_RESULTS.json:T85"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  },
+  {
+   "atom_id": "ATOM-PRV-01",
+   "chain_class": "SEM",
+   "links": [
+    {
+     "check": "results_artifact_exists",
+     "pass": true,
+     "evidence": "exact/results/D19_RESULTS.json"
+    },
+    {
+     "check": "atom_claim_present_in_artifact",
+     "pass": true,
+     "evidence": "D19_RESULTS.json:CANNOT_CHECK_NEGATION_PRESENT,CONFIRMATORY_FIXED"
+    },
+    {
+     "check": "lane_warrant",
+     "pass": true,
+     "evidence": "hsg-semantic-execution-v1 capsule bound to operator issues #233/#277; entry points deterministic (exact/run_all.py docstring, fixed seeds)"
+    }
+   ],
+   "verdict": "A2_GRANTED",
+   "missing_links": [],
+   "limits": [
+    "pre-D5 historical chain; prospective ledger coverage active for future runs"
+   ],
+   "gap": {
+    "have": 1,
+    "need": 2
+   }
+  }
+ ],
+ "census": {
+  "audited": 24,
+  "a2_granted": 24,
+  "held_at_a1": 0,
+  "by_chain_class": {
+   "HST": 15,
+   "GEOMETRY": 1,
+   "SEM": 8
+  },
+  "held_reasons": {}
+ },
+ "non_final": "EXPLICITLY_NON_FINAL"
+}
