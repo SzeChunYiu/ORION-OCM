@@ -1,0 +1,61 @@
+{
+  "batch": "C",
+  "rows": [
+    {
+      "id": "P19",
+      "verdict": "CONFIRMED_VERBATIM",
+      "verified_citation": "Kaelbling, L.P., Littman, M.L., Cassandra, A.R., 'Planning and acting in partially observable stochastic domains', Artificial Intelligence 101(1-2):99-134, May 1998, DOI 10.1016/S0004-3702(98)00023-X. Crossref metadata exact (authors, title, journal, volume, issue, pages, year); Elsevier PII matches DOI.",
+      "statement_match": "Primary full text (MIT author copy, identical pagination): belief states 'comprise a sufficient statistic for the past history and initial belief state of the agent: given the agent's current belief state (properly computed), no additional data about its past actions or observations' would help - 'the process over belief states is Markov'; 'Because the belief state is a sufficient statistic, the optimal policy is the solution of a continuous-space belief MDP'; solved 'using value iteration to construct, at each iteration, the optimal n-step discounted value function over belief space'. Both registry uses (sufficient statistic for optimal control; value iteration over belief space) appear near-verbatim, assumptions included (properly computed belief, discounted infinite-horizon setting).",
+      "drift_notes": "None material. Registry citation complete and exact.",
+      "primary_url": "https://doi.org/10.1016/S0004-3702(98)00023-X"
+    },
+    {
+      "id": "P20",
+      "verdict": "CONFIRMED_VERBATIM",
+      "verified_citation": "Sutton, R.S., Precup, D., Singh, S., 'Between MDPs and semi-MDPs: A framework for temporal abstraction in reinforcement learning', Artificial Intelligence 112(1-2):181-211, August 1999, DOI 10.1016/S0004-3702(99)00052-1. Crossref metadata exact; PII S0004-3702(99)00052-1 consistent with DOI.",
+      "statement_match": "Abstract verbatim: 'We extend the usual notion of action in this framework to include options - closed-loop policies for taking action over a period of time'; 'options may be used interchangeably with primitive actions in planning methods such as dynamic programming and in learning methods such as Q-learning'; 'Formally, a set of options defined over an MDP constitutes a semi-Markov decision process (SMDP), and the theory of SMDPs provides the foundation for the theory of options.' Body defines SMDP option models (per state, predict termination-state distribution and duration), matching the registry use 'closed-loop options as temporally abstract actions (SMDP option models)'.",
+      "drift_notes": "None material.",
+      "primary_url": "https://doi.org/10.1016/S0004-3702(99)00052-1"
+    },
+    {
+      "id": "P21",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "Erol, K. (Kutluhan), Hendler, J., Nau, D.S., 'Complexity results for HTN planning', Annals of Mathematics and Artificial Intelligence 18(1):69-93, March 1996, DOI 10.1007/BF02136175 (Crossref). Registry 'AMAI 18, 1996' matches; issue/pages/DOI were absent from the registry row (incomplete, not wrong).",
+      "statement_match": "From the primary full text (author copy, identical theorem numbering): Theorem 1 'PLAN EXISTENCE is strictly semi-decidable, even if P is restricted to be propositional, to have at most two tasks in any task network, and to have only totally ordered methods'; Theorem 2: undecidable even for some fixed domains; Theorem 4: totally-ordered HTN planning is EXPSPACE-hard and in DOUBLE-EXPTIME (propositional case PSPACE-hard and in EXPTIME); Theorem 5: regular HTN EXPSPACE-complete; Theorem 8: NP-complete under primitive-restriction; Theorem 9: no computable function translates arbitrary HTN to STRIPS (where planning is decidable), and STRIPS representations can be 'exponentially (or in some cases, even infinitely!) larger than in HTN planning'. Registry use 'can be worse/exponential/undecidable under formulations vs flat' is a fair paraphrase of these proven results.",
+      "drift_notes": "'Exponential' is loose shorthand for the precise EXPSPACE-hard / double-exponential-time bounds; the undecidability claim (strict semi-decidability of general HTN PLAN EXISTENCE) is exact. Recommend adding issue/pages/DOI to the row.",
+      "primary_url": "https://doi.org/10.1007/BF02136175"
+    },
+    {
+      "id": "P22",
+      "verdict": "PARTIAL",
+      "verified_citation": "Kamp, H., Reyle, U., 'From Discourse to Logic: Introduction to Modeltheoretic Semantics of Natural Language, Formal Logic and Discourse Representation Theory', Kluwer Academic Publishers (Springer), 1993, Studies in Linguistics and Philosophy vol. 42, ISBN 978-0-7923-1028-0, DOI 10.1007/978-94-017-1616-1 - CONFIRMED via Springer. Groenendijk, J., Stokhof, M., 'Dynamic predicate logic', Linguistics and Philosophy 14(1):39-100, February 1991, DOI 10.1007/BF00628304 (Crossref) - the registry's 'JPL 20(1) 1991' is WRONG on both journal and volume.",
+      "statement_match": "Mechanism confirmed from the authors' own primary-adjacent text (Groenendijk & Stokhof, 'Two Theories of Dynamic Semantics', stokhof.org): 'the interpretation of a sentence with respect to a model M is given by a recursive definition of the result of updating an information state with the sentence. The meaning of a sentence ... can then be identified with the update function associated with the sentence'; and for DPL: 'The set of indices is the set G of assignments of values to variables' (formulas denote relations between assignments, i.e., context update as state transformation). The Kamp-Reyle book (Springer page confirmed) builds DRT discourse representation structures carrying referents and conditions across sentences. The 1991 L&P original itself is paywalled; its mechanism was verified via the authors' own exegesis plus the confirmed book.",
+      "drift_notes": "Venue drift on the G&S half: 'Dynamic predicate logic' is Linguistics and Philosophy 14(1):39-100 (1991), not Journal of Philosophical Logic 20(1). The Kamp-Reyle half of the citation is exact. Mechanism (context update / referents / commitments as state transformations) substantively supported.",
+      "primary_url": "https://doi.org/10.1007/BF00628304"
+    },
+    {
+      "id": "P23",
+      "verdict": "WORDING_IMPRECISE",
+      "verified_citation": "Shannon, C.E., 'Coding theorems for a discrete source with a fidelity criterion', IRE National Convention Record, Part 4, pp. 142-163, 1959 (reprinted in Proceedings of the IEEE 81(11), 1993; IEEE Xplore doc 5311476). Title and year confirmed via the IEEE-indexed abstract ('In this paper a study is made of the problem of coding a discrete source of information, given a fidelity criterion or distortion measure...') and the Xplore record. Cover & Thomas, 'Elements of Information Theory' (Wiley): primary publisher page unreachable (Wiley 403, Google Books 404) - this sub-item CANNOT_CHECK, not contradicted.",
+      "statement_match": "R(D) mechanism confirmed from Gray, 'Source Coding Theory' (author-hosted Stanford PDF, expositing Shannon's framework): 'the rate-distortion function is defined by R(D) = min I(Q), Q in Qv' where Qv is the collection of conditional pmf's 'which satisfy the average distortion constraint'; 'a family of distortion measures {dn; n = 1, 2, ...} ... is called a fidelity criterion in information theory'. I.e., minimum mutual information subject to an expected-distortion constraint, defined relative to the source law plus a fidelity criterion - matching the registry use 'R(D) minimum rate under expected distortion; source law + distortion contract'.",
+      "drift_notes": "'Bell Labs paper' is imprecise venue wording: Bell Labs is Shannon's affiliation, not the publication venue (IRE National Convention Record, Part 4, 1959). The Cover-Thomas half of the citation could not be primary-verified this session (Wiley 403; Google Books 404) - recommend a later recheck; it is standard and not in doubt bibliographically.",
+      "primary_url": "https://ieeexplore.ieee.org/document/5311476"
+    },
+    {
+      "id": "P24",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "Howard, S.R., Ramdas, A., McAuliffe, J., Sekhon, J., 'Time-uniform, nonparametric, nonasymptotic confidence sequences', Annals of Statistics 49(2):1055-1080, April 2021, DOI 10.1214/20-AOS1991, Institute of Mathematical Statistics. Crossref, Project Euclid landing page, and the published PDF masthead all match exactly.",
+      "statement_match": "Published PDF: the definition of a confidence sequence is shown 'equivalent to requiring [coverage] for all stopping times tau, or even for all random times, not necessarily stopping times' (Lemma, App. C.4) - exactly the registry use 'time-uniform coverage => valid at data-dependent stopping times'; 'our work can be viewed as constructing safe confidence intervals (and thus safe tests) using nonparametric test supermartingales'; companion paper 'Time-uniform Chernoff bounds via nonnegative supermartingales' cited. Abstract: 'A confidence sequence is a sequence of confidence intervals that is uniformly valid over an unbounded time horizon.'",
+      "drift_notes": "Terminology drift: the strings 'e-process' and 'e-value' have 0 occurrences in this 2021 paper (they belong to the successor literature, e.g., Ramdas et al. on game-theoretic statistics / e-processes); 'anytime' appears once, citing Johari et al. The paper's own terms are 'time-uniform', 'always-valid', 'test supermartingales'. The registry parenthetical '(anytime-valid; e-processes/nonnegative supermartingales)' correctly captures the supermartingale machinery but attributes e-process terminology to a paper that does not use it.",
+      "primary_url": "https://doi.org/10.1214/20-AOS1991"
+    },
+    {
+      "id": "P25",
+      "verdict": "PARTIAL",
+      "verified_citation": "Blackwell, D., 'Comparison of Experiments', Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability, University of California Press, 1951, pp. 93-102 (Project Euclid, open access) - NOT Annals of Mathematical Statistics 22(1). Blackwell, D., 'Equivalent Comparisons of Experiments', Annals of Mathematical Statistics 24(2):265-272, June 1953, DOI 10.1214/aoms/1177729032 - NOT Econometrica. Authors, titles, and years are correct; BOTH venue attributions in the registry are wrong.",
+      "statement_match": "Verbatim transcription of the 1951 primary scan (p. 93, 'COMPARISON OF EXPERIMENTS', DAVID BLACKWELL, Howard University): 'one experiment alpha is more informative than a second experiment beta, alpha >= beta [sqsuperset], if, for every possible risk function, any risk attainable with beta is also attainable with alpha. If alpha is a sufficient statistic for a procedure equivalent to beta, alpha > beta, it is shown that alpha >= beta. In the case of dichotomies, the converse is proved.' Formalized via attainable loss vectors: alpha more informative than beta iff for every action set A, R(alpha, A) contains R(beta, A) componentwise. 1953 abstract: 'a method given by the author [1] for comparing two experiments is equivalent ... A class of weaker comparisons - comparison in k-decision problems - is introduced, in three equivalent forms.' Registry use 'sufficiency/garbling order => decision-relevant informativeness comparison' is substantively the proven content (sufficiency direction proven in general, converse for dichotomies; stochastic-transformation/garbling formulation attributed to Bohnenblust-Shapley-Sherman, ref [2]).",
+      "drift_notes": "Both venues wrong in the registry: 1951 paper is in the Berkeley Symposium proceedings (UC Press), not AoMS 22(1); 1953 paper is AoMS 24(2):265-272, not Econometrica. 'Garbling' is successor terminology - the 1951 primary phrases the order as sufficiency / 'sufficient for' plus attainable-risk comparison. Mechanism attribution itself is correct.",
+      "primary_url": "https://projecteuclid.org/euclid.bsmsp/1200500222"
+    }
+  ]
+}
