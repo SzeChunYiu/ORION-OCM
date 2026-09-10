@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+# !!! DO NOT RUN THIS SCRIPT AGAINST THE LIVE ARTIFACT !!!
+# It produced IN_FLIGHT_COORDINATE_MAP_V1.json at V1 plus amendments A1-A2.
+# Amendments A3 and A4 were applied surgically to the JSON and are NOT here.
+# Running this would silently DESTROY them -- the same read-modify-write hazard
+# that nearly deleted four rows of issue #165 via a stale hardcoded literal.
+# To amend: edit the JSON directly, append to `amendments`, retain prior text.
+# If this generator is ever needed again, rebuild it FROM the JSON first and
+# commit the drift as a verbatim diff.
 import json, collections
 
 OUT = "research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json"

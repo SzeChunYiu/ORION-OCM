@@ -438,5 +438,11 @@
   "disposition": "OPEN GAP, recorded rather than silently carried. Two things follow. (1) D1 needs a completeness pass specifically for DEVELOPMENTAL_LINEAGE and for any other class with zero members, asking what claim the programme makes that the class was created to hold. (2) Registering such an atom will make G, E, C>=4, A>=4 and R>=4 load-bearing for the first time, which is a materially harder profile than anything currently scored -- so the registry's apparent health partly reflects which claims were enumerated.",
   "relation_to_ebf0": "Issue #296 EB-F0 is the machinery for exactly this class: sec 9's frozen continued-vs-reset evidence bridge with an inherited-object knockout is the C evidence, sec 5's coarse-graining across ecologies is G, the ecological worlds are E, and sec 3's protected-assay noninterference is A. EB-F0 does not by itself close the registry gap; the atom still has to be enumerated and bound.",
   "not_a_defect_in_D2_or_D3": "Both artifacts are correct given their inputs. This is an enumeration gap upstream of them, which is why it is recorded here in the coverage map rather than as a correction to either."
+ },
+ "GENERATOR_IS_NO_LONGER_AUTHORITATIVE": {
+  "warning": "build_d6_map.py produced V1 and amendments A1-A2. Amendments A3 and A4 were applied SURGICALLY to this JSON and are NOT in the generator. Running build_d6_map.py would silently DESTROY A3 and A4.",
+  "why_this_matters": "This is the same hazard that nearly destroyed four rows of issue #165: a generator holding a hardcoded copy of content that has since drifted is a read-modify-write whose read happened whenever someone last edited the literal. Running it discards the drift.",
+  "how_to_amend": "Edit this JSON directly, appending to `amendments` and retaining prior text verbatim. Do not regenerate. If the generator is ever needed again, first rebuild it FROM this file and commit the drift as a verbatim diff.",
+  "recorded_utc": "2026-09-10"
  }
 }
