@@ -50,17 +50,39 @@ lanes = [
    "The semiring engine is the shared substrate for D19-D22. Extend it; do not reimplement.",
    "PR #275, commit 84b127a7"),
 
- L("D19", 233, "provenance + revocation worlds", "IN_FLIGHT", "OW4", ["T", "M"],
+ L("D19", 233, "provenance + revocation worlds", "MERGED", "OW4", ["T", "M"],
    "exact agreement of accepted/reopened obligations (primary); touched-state and lifecycle burden (secondary)",
-   "Owned by an active lane on host laptop billy, branch hsg/d19-d20-labs. Do not start a second provenance lane.",
-   "dispatched 2026-09-10; prior attempt died holding uncommitted work and left NO recoverable artifact "
-   "(the host copy at ~/orion-hsgv4 was byte-identical to main)"),
+   "LANDED. Do not re-run; extend. OW4/OW4N generators and the A1/A2/A3 arms are frozen.",
+   "PR #282, commit 78259460; results at exact/results/D19_RESULTS.json",
+   "verdict EXACT_AGREEMENT on the positive control (OW4, 8 worlds, zero blockers, 50 revocation subsets "
+   "exhausted: 50/50 accepted and 50/50 reopened). On the negative-dependency population (OW4N, 46 subsets) "
+   "the terminal is CANNOT_CHECK_NEGATION_PRESENT (40/46 accepted, 31/46 reopened) because positive-only "
+   "N[X] launders the blocker - a legitimate CANNOT_CHECK naming a missing instrument, not a resource "
+   "shortage. evidence_class CONFIRMATORY_FIXED; claim ceiling P2 finite certificate, never universal. "
+   "Lifecycle burden is nearly a wash: substitution 598 ops vs recomputation 640, a 7 percent margin with "
+   "no-op revocations charged in full. Incidental scope caveat on the frozen T72 oracle: it revokes over "
+   "the world's leaves field, a superset of true sources, so 11 of its revocation targets are no-ops and "
+   "6 true sources are never revoked; D19 reports the count and makes no claim that T72 is wrong. Both "
+   "hostiles flipped and both clean controls stayed silent. Prior attempt at this lane died holding "
+   "uncommitted work and left no recoverable artifact (host copy verified byte-identical to main)."),
 
- L("D20", 233, "abstraction/refinement/CEGAR worlds", "IN_FLIGHT", "OW5", ["M", "C", "S"],
+ L("D20", 233, "abstraction/refinement/CEGAR worlds", "MERGED", "OW5", ["M", "C", "S"],
    "refinement count, n-k exact ceiling, states distinguished, search saved/added, verification cost, false abstraction certificates",
-   "Owned by the same active lane (laptop billy, hsg/d19-d20-labs). Do not start a second CEGAR lane.",
-   "dispatched 2026-09-10",
-   "'false abstraction certificates' is a construct-validity endpoint, not a performance one — it is the M contribution."),
+   "LANDED. Do not re-run; extend. The n grid [8,12,16,20,24] and the 30 worlds are frozen.",
+   "PR #283, commit 7a6427e9; results at exact/results/D20_RESULTS.json",
+   "primary endpoint CEILING_HELD: refinement count <= n-k on 30 worlds at every n, zero violations, zero "
+   "conclusive-verdict mismatches against direct search. THE SUBSTANTIVE RESULT IS THE NEGATIVE: terminal "
+   "PARENT_SUFFICIENT - adaptive refinement does not beat direct concrete search anywhere in the frozen n "
+   "grid; direct concrete search already owns the function at this scale. One-stage attribution: abstraction "
+   "CONSTRUCTION, not abstract SEARCH - every CEGAR round rebuilds from the full concrete transition "
+   "relation, so one round already costs a full concrete sweep and a 4x smaller abstract state space cannot "
+   "repay a build that is linear in the concrete edge count. evidence_class CONFIRMATORY_FIXED for the "
+   "ceiling and EXPLORATORY_ADAPTIVE for refinement-cost regions (never headline). All three hostiles "
+   "flipped, all three clean controls silent. Recorded supersession S1: the frozen H-D20b instantiation had "
+   "an empty drop-candidate set on 7 of 15 concretely-UNSAFE worlds, making them structurally immune to the "
+   "plant; re-instantiated exhaustively, affected arms re-run, frozen result retained, no world, seed, grid, "
+   "endpoint or clean control altered. 'false abstraction certificates' is a construct-validity endpoint, "
+   "not a performance one - it is the M contribution."),
 
  L("D21", 233, "reduction + equality-saturation worlds", "IN_FLIGHT", "OW6", ["P", "S"],
    "direct solve vs one-shot rewrite vs ordered rewriting vs Knuth-Bendix vs equality saturation vs learned reduction library; "
@@ -205,6 +227,24 @@ doc = {
   "consequence_for_D3": ("The blocker DAG should treat R, E and A as structurally unowned, and D27 (causal knockout) "
                          "and D26 (operator transfer) as the two unstarted lanes with the largest downstream unlock. "
                          "D3 selects the critical path; this map only reports what is and is not currently owned."),
+  "amendments": [
+    {"id": "A1", "utc": "2026-09-10",
+     "cause": "D19 and D20 landed on main after this map was first built; their rows are refreshed from IN_FLIGHT to MERGED and their terminals recorded from the merged result files, not from PR bodies.",
+     "rows_changed": ["D19", "D20"],
+     "readiness_values_assigned": "none - this map still assigns no readiness values; scoring remains D2",
+     "coverage_note": "in-flight coverage necessarily falls as lanes land; the structural gaps R, A and E are unchanged, since neither landing targets them"},
+    {"id": "A2", "utc": "2026-09-10",
+     "cause": "governance finding added after verifying the freeze chain against main",
+     "finding_added": "freeze_chain_enforcement"}
+  ],
+  "freeze_chain_enforcement": {
+    "verified_utc": "2026-09-10",
+    "state_on_main": "INTACT - 7 of 7 recorded files match when each is resolved through the newest recorded amendment (2 via the D19/D20 amendment S1, 5 via prior_manifest as untouched); zero unrecorded drift",
+    "finding": "ZERO of the 53 workflows in .github/workflows references the hsg lane, the freeze builder or the exact suite. The freeze chain is DISCIPLINE-ENFORCED, NOT GATE-ENFORCED.",
+    "why_it_matters": "A frozen artifact can come to assert something false with nothing to catch it. Live instance: FREEZE_D19_D20_V1.json records prior_manifest_sha256_observed for EXPERIMENT_REGISTRY_V1.json and HOSTILE_REGISTRY_V1.json plus prior_unamended_files_still_match_v1_0=true; the pending D21/D22 amendment V1.2 modifies both files, which would falsify that assertion silently. The owning lane was asked to record the supersession from its own side before merging, rather than editing another lane's landed freeze artifact.",
+    "verification_method_caveat": "Comparing the TOP-LEVEL manifest_sha256 against the live tree reports FALSE drift on any file carrying a legitimate recorded amendment. Resolve each file through the newest amendment naming it, fall back to the original manifest, and assert separately that unamended files still match. This false positive was hit and fixed once by the D19/D20 lane's own builder and once by an ad-hoc check here - recorded because the checker was wrong before it was right.",
+    "disposition": "OPEN defect, recorded rather than silently dropped: an integrity mechanism with no enforcement gate. Candidate D4 hostile family - 'a freeze assertion becomes false and no gate notices'."
+  },
   "non_final": True
 }
 
