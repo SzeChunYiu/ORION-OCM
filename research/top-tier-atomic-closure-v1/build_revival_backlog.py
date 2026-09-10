@@ -101,12 +101,21 @@ rows = [
    "checker-bearing (522090/616698) while GS-R2 survivors are 15.6% (15668/100693), a 5.44x depletion with "
    "disjoint intervals -> RANKING_OWNS_DEPLETION. The T2 gate is not the culprit; it FAVOURS checker-bearing "
    "organisms by 27.7x (P(viable|can_check) 0.6590 against 0.0652). The search's own ranking and promotion "
-   "manufactured the depletion. Recovery achieved 2.21x the absolute hold count at 4.7% of the compute.",
+   "manufactured the depletion. Recovery: arm L1 (no rank function, no promotion selection, no parent pool) "
+   "returns 34,628 distinct T3-holding phenotypes against the whole GS-R2 campaign's 15,668 - 2.21x the absolute "
+   "hold count - for 0.0237 CPU-hours against 1.1137, i.e. 2.13% of the campaign's compute, a 47x reduction and "
+   "104x per CPU-hour. NOTE the merged artifact and PR #293 title state 4.7% for that share; 0.0237/1.1137 = 2.13%, "
+   "and the artifact's own internally-consistent 104x per-CPU-hour figure confirms 2.13%. The 47x reduction was "
+   "transposed into a percentage. The error UNDERSTATES the result. Correction requested from the owning lane.",
    "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate "
    "(2233.3, 72,150), plus a shuffle-equal-n null",
-   "CLOSED_DEFECT_RECLASSIFIED_AND_RECOVERED", "LUNARC, PR #293",
+   "CLOSED_DEFECT_RECLASSIFIED_AND_RECOVERED", "LUNARC, PR #293, commit bebe864c",
    "The reclassification is the result. A defect found in the instrument outranks any finding the instrument "
-   "appeared to produce.",
+   "appeared to produce. PARENT_SUFFICIENT does NOT apply here: L1 beats both frozen parents on the two metrics "
+   "they were frozen on - 6891.3 distinct T2-viable per seed against GSA2_hetero's 5062.7, and 1,743,228 "
+   "morphologies per CPU-hour against its 354,046, a 4.92x margin. Shuffle-equal-n null: L1's n predicts 6,423.9 "
+   "holds under the R2 pooled rate (sd 73.65) against 34,628 observed, z = 382.95, and L1 admits MORE candidates "
+   "than any arm while holding at a higher rate, so this is not selectivity.",
    3,
    "RECLASSIFIED as a MEASUREMENT-VALIDITY DEFECT, not a scientific finding - the exact sec 3 hostile family in "
    "which a metric reports one quantity while measuring another. Two corroborating facts. (1) The held-out key "

@@ -99,8 +99,18 @@ survivors against ALL's 1,773.
 The obstruction is operational, not structural. The unranked viable pool is 84.7% checker-bearing against
 the survivor set's 15.6%, a 5.44× depletion with disjoint intervals, while the T2 gate *favours*
 checker-bearing organisms by 27.7×. The search's own ranking manufactured the depletion, and deleting it
-recovered 2.21× the absolute hold count at 4.7% of the compute. **The 84.4% figure must never again be
-quoted as a generalization result.**
+recovered **2.21× the absolute hold count for 2.13% of the compute** — 34,628 distinct T3-holding phenotypes
+against the whole campaign's 15,668, for 0.0237 CPU-hours against 1.1137. That is a 47× compute reduction
+and 104× per CPU-hour. And `PARENT_SUFFICIENT` does **not** apply: the unranked arm beats both frozen parents
+on the two metrics they were frozen on, 6,891.3 distinct per seed against 5,062.7 and 1,743,228 morphologies
+per CPU-hour against 354,046. The shuffle-equal-n null gives z = 382.95, and the arm admits *more* candidates
+than any other while holding at a higher rate, so it is not selectivity.
+
+> The merged artifact and PR #293's title state 4.7% for the compute share. 0.0237/1.1137 = 2.13%, and the
+> artifact's own 104× per-CPU-hour figure is only consistent with 2.13% — the 47× reduction was transposed
+> into a percentage. The error understates the result. A correction has been requested from the owning lane.
+
+**The 84.4% figure must never again be quoted as a generalization result.**
 
 **RV-1 is revivable precisely because of how well D20 attributed its own failure.** "Every CEGAR round
 rebuilds the abstraction from the full concrete transition relation" names an *implementation property,
