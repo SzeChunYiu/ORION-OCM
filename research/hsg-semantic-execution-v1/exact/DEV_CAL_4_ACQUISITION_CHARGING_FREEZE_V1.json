@@ -30,8 +30,17 @@
   "outcome_blindness": "the derivation reads ONLY the sealed shard rows (event/task/arm/world/seed/status fields); no recovery readout, tier, threshold, p-value, recorded MCO grid entry, or any other analysis output may enter the derivation; selecting N to favour an outcome is forbidden and void",
   "guards": "empty min-set (no world with U(w)>=1) -> CANNOT_CHECK_N_DERIVATION_NO_USED_WORLDS; N_FROZEN < 1 -> CANNOT_CHECK_N_DERIVATION_DEGENERATE; ties impossible (integer min over a nonempty finite set); the derivation must be recomputed and recorded verbatim in the analysis receipt with per-world U(w) counts",
   "computed_after_freeze_registration": true,
-  "n_frozen": null,
-  "n_derivation": null
+  "n_frozen": 30,
+  "n_derivation": {
+   "computed_utc": "2026-09-10T22:40:00Z",
+   "run_host": "billy (laptop, python 3.8.10)",
+   "rule_commited_before_computation": "pre-registration commit cb4d1e74 (rule-only freeze, n_frozen=null) pushed BEFORE the count was taken",
+   "input_bytes_verified": "the four sealed shard sha256 at derivation time equal the DEV-CAL-3 receipt input bindings exactly (83b5b8a9..., 8be6a3fe..., d8431a53..., d29b2cb6...)",
+   "measurement": "3960 total rows, 0 non-OK; 3600 OK use-rows (the remaining 360 = RESET rows, never uses); 120 worlds, every world with U(w)=30 (uniform: the U distribution is {'30': 120}); no zero-use worlds, no empty min-set, guards not triggered",
+   "result": "N_FROZEN = min U(w) = 30",
+   "interpretation": "the measured break-even horizon of every world is its full observed use lifetime (30 uses: ORACLE s0-2, SHUFFLED s0-2, 8 KO arms x 3 seeds); amortising raw over 30 uses charges every world's acquisition cost exactly once with the widest possible spread — the most conservative registered amortisation (every arm, including every recovering tier, pays its raw/30 share; no world's acquisition is written off)",
+   "grid_relation": "N_FROZEN=30 is NOT in the recorded DEV-CAL-3 sensitivity grid {5,10,25}; therefore the frozen-N readout is recomputed fresh and every field differing from the recorded N=10 block is explained field-by-field (expected class: acquisition redistribution only), while the N=10 machinery control enforces exact equality on the recorded numbers"
+  }
  },
 
  "controls": {
