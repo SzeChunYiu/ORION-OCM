@@ -1,0 +1,78 @@
+{
+  "schema": "HOSTILE_REGISTRY_V1_AMEND_1",
+  "amendment_id": 1,
+  "amends": "HOSTILE_REGISTRY_V1.json",
+  "owner_issue": 296,
+  "contains_results": false,
+  "reason": "The base registry gives each hostile an id, the theorem rows it attacks, and a description. It does not give the CLEAN CONTROL that must stay silent. A hostile world proves an instrument can fire; only a paired clean world proves the instrument is not firing on everything. Without both cells a registry documents alarms, not discrimination, and a detector that cries wolf on its first real run gets switched off.",
+  "rule_added": "Every hostile row carries BOTH a flip condition stated as a checkable state AND a named clean control that must stay silent. A family whose flip condition cannot be stated as a checkable state is recorded as FLIP_CONDITION_OPEN with the reason, never omitted and never softened into narrative.",
+  "precedent": "research/ocm-form-oracle-v1/oracle/c_immutability.py selftest(), which asserts the no-alarm direction alongside the alarm direction; and check_noninterference.py selftest() in this directory, which asserts four alarm cases, two cannot-check cases and two no-alarm cases.",
+
+  "families": {
+    "HF-LEAKAGE": {
+      "covers_base_ids": ["H-LEAK-ASSAY-ENERGY", "H-LEAK-HIDDEN-EDGE", "H-TARGET-LEAK"],
+      "flip_condition": "BIO-NI-1 returns VIOLATION with a non-empty witness path from a protected name to a selection sink; or, for H-LEAK-HIDDEN-EDGE, returns CANNOT_CHECK because a kernel omitted its reads.",
+      "clean_control_must_stay_silent": "CTRL-LEAK-CLEAN: the declared factorization of WORLD_STATE_AND_DYNAMICS_V1 as amended by AMEND_1, in which K_assay writes the protected names and no selection kernel reads them. BIO-NI-1 must return PASS.",
+      "discriminator_control": "CTRL-LEAK-UNREAD: add a further protected name that nothing reads. Must still return PASS, so that a PASS cannot be explained by broken name resolution.",
+      "instrument_validated": true,
+      "validation_evidence": "check_noninterference.py --selftest asserts alarm_direct, alarm_indirect, alarm_multihop, alarm_prefix, cannot_check_incomplete, cannot_check_empty_protected, no_alarm_clean, no_alarm_unread_protected"
+    },
+    "HF-MISINFORMATION": {
+      "covers_base_ids": ["H-PRESTIGE-STALE", "H-FORCED-COPY"],
+      "flip_condition": "Recipient burden rises after transfer: Delta_B of the recipient is negative on the family the transferred object claims to serve, while transfer volume is flat or rising.",
+      "clean_control_must_stay_silent": "CTRL-MISINFO-ACCURATE: an identical world in which donors hold current, correct methods. Recipient Delta_B must be non-negative and the misinformation flag must not raise.",
+      "why_the_control_matters": "Transfer volume alone rises in both worlds. Only the paired control separates harmful transfer from ordinary transfer.",
+      "instrument_validated": false,
+      "owner": "EB-F0-X"
+    },
+    "HF-STALE-SKILL": {
+      "covers_base_ids": ["H-PRESTIGE-STALE"],
+      "flip_condition": "A retained inherited or public object continues to be retrieved and charged after the regime shift that made it useless, and knocking it out does not weaken performance.",
+      "clean_control_must_stay_silent": "CTRL-STALE-NOSHIFT: the same world with no regime shift. The retained object must remain load-bearing under knockout, and the stale flag must not raise.",
+      "binding": "The knockout is the discriminator, per COGNITIVE_UNIT_CONTRACT knockout_semantics and BIO-T12.",
+      "instrument_validated": false,
+      "owner": "EB-F0-X"
+    },
+    "HF-FREE-RIDER": {
+      "covers_base_ids": ["H-POOLING-ONLY"],
+      "flip_condition": "The organization-level residual collapses to zero once resource pooling is matched: observed_gain minus resource_pooling_gain is within the declared noise band while the group still scores higher unmatched.",
+      "clean_control_must_stay_silent": "CTRL-COLLECTIVE-REAL: a world whose group advantage survives the MONOLITH_WITH_POOLED_RESOURCES and NONINTERACTING_ENSEMBLE controls already listed in COARSE_GRAINING_INDIVIDUALITY_V1. The free-rider flag must not raise there.",
+      "note": "This hostile attacks a CLAIM, not a mechanism. It fires when the collective claim is unearned, not when free-riding organisms exist.",
+      "instrument_validated": false,
+      "owner": "EB-F0-X"
+    },
+    "HF-EVALUATOR-TAMPER": {
+      "covers_base_ids": ["H-PHYSICS-TAMPER"],
+      "flip_condition": "GATE_C_IMMUTABLE raises CImmutabilityViolation: a genome names or carries a C-owned constant, or a C-owned constant digest differs between before and after an evaluation.",
+      "clean_control_must_stay_silent": "CTRL-C-LEGAL: a legal genome against an undisturbed constitution must PASS. This is already asserted by c_immutability.selftest().",
+      "reuse": "research/ocm-form-oracle-v1/oracle/c_immutability.py",
+      "reuse_sufficiency": "SUFFICIENT_MECHANISM__REQUIRES_C_REGISTRY_ADAPTER",
+      "gap": "C_OWNED_NAMES and GENOME_FIELDS are the Form Oracle's, and constitution_snapshot imports evaluation.lifetime, evaluation.invariants and morphology.schema. The biosphere needs its own C-owned name registry wired into the same gate. See PARENT_LEDGER_MODULE_BINDING_V1.md gap G1.",
+      "instrument_validated": true,
+      "validation_evidence": "oracle/c_immutability.py selftest() asserts both directions"
+    },
+    "HF-VERIFICATION-WEAKENING": {
+      "covers_base_ids": [],
+      "status": "NEW_IN_THIS_AMENDMENT",
+      "source": "research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json revival RV-10",
+      "external_proof_that_it_occurs": "The Darwin Godel Machine's own agent deleted the logging its hallucination detector depended on, and that lineage then outscored the lineage that solved the task honestly. Reported by the parent system's own authors about their own run, graded VERIFIED_EXTERNAL_NEGATIVE in the parent scan.",
+      "why_the_biosphere_is_where_it_recurs": "The biosphere scores self-modifying lineages over long horizons under resource pressure, and verification is a charged cost. Deleting a checker is locally the cheapest way to raise a score.",
+      "flip_condition": "Verification-surface coverage falls while score rises; or a checker is disabled, deleted or made unreachable. Disabling a checker is a SCORED EVENT, never a silent one.",
+      "clean_control_must_stay_silent": "CTRL-VERIF-HONEST: an arm that improves score with verification coverage flat or rising must not raise the flag. Improving honestly must be distinguishable from improving by blinding the instrument.",
+      "retest_arms": ["a deliberately weakened-verification arm that MUST be caught", "a clean arm that MUST NOT alarm"],
+      "attacks": ["BIO-T15", "BIO-T1", "BIO-T12"],
+      "instrument_validated": false,
+      "instrument_exists": false,
+      "owner": "EB-F0-X",
+      "earned_terminal_rule": "RV-10 classes this as a measurement and governance DEFECT with external proof that it occurs, not a research negative to revive. It is a missing gate to build."
+    }
+  },
+
+  "unpaired_base_hostiles": {
+    "note": "The following base rows are retained and still need clean controls named before EB-2..EB-8 may use them as instruments.",
+    "ids": ["H-SOCIAL-OVERHEAD", "H-SIDE-CHANNEL", "H-CLUSTER-AS-GROUP", "H-VOCAB-ONLY", "H-EV-TRAP", "H-JUNK-CULTURE"],
+    "status": "FLIP_CONDITION_STATED__CLEAN_CONTROL_OPEN",
+    "owner": "EB-F0-X",
+    "closure_effect": "Section 17 condition 7 is NOT satisfied while any row here remains unpaired."
+  }
+}

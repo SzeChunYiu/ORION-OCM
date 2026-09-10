@@ -1,0 +1,44 @@
+{
+  "schema": "THEOREM_REGISTRY_V1_AMEND_1",
+  "amendment_id": 1,
+  "amends": "THEOREM_REGISTRY_V1.json",
+  "owner_issue": 296,
+  "contains_results": false,
+  "reason": "Section 13 requires every row to receive AGP/RGC treatment: assumptions, weakenings, smallest counterexamples, minimal sufficient conditions, parent ownership and claim ceiling. All fifteen rows carry statement, assumptions, parent_ownership, claim_ceiling, proof_class, ocm_residual and agp_rungs. Three carry an EMPTY assumption_removals list, so the weakening and smallest-counterexample half of the treatment is absent for them. This was found by field-auditing all fifteen rows rather than by sampling one.",
+  "audit_method": "programmatic field coverage over THEOREM_REGISTRY_V1.theorems; every row checked, not a sample",
+
+  "rows_with_empty_weakenings": {
+    "BIO-T7": {
+      "statement_asserts": "Smallest counterexamples exist; commutation requires stated sufficient conditions.",
+      "defect": "The statement asserts that smallest counterexamples exist, and the row records none. A row that claims a counterexample it does not carry is weaker than a row that records the gap.",
+      "required_before_closure": ["at least one smallest counterexample to commutation", "the sufficient conditions under which the operations do commute"],
+      "owner": "EB-F0-P for the parent-ownership half, EB-F0-X for the machine-checked counterexample"
+    },
+    "BIO-T13": {
+      "statement_asserts": "Byte or copy-count growth can diverge from useful retained capability.",
+      "defect": "No weakening recorded, so the conditions under which byte growth DOES track useful capability are unstated. Without them the row cannot discriminate: it forbids one inference without saying when the inference is safe.",
+      "required_before_closure": ["conditions under which stored-byte growth does track useful retained capability", "the smallest world where the two diverge"],
+      "owner": "EB-F0-X",
+      "paired_hostile": "H-JUNK-CULTURE, whose clean control is still open per HOSTILE_REGISTRY_V1_AMEND_1"
+    },
+    "BIO-T14": {
+      "statement_asserts": "Cluster labels do not by themselves imply reproductive or ecological individuality.",
+      "defect": "No weakening recorded, so the invariants that WOULD license a strong species claim are named as required but never enumerated.",
+      "required_before_closure": ["the invariants required for a strong species claim", "the smallest world where clustering and reproductive individuality disagree"],
+      "owner": "EB-F0-P",
+      "paired_hostile": "H-CLUSTER-AS-GROUP, whose clean control is still open"
+    }
+  },
+
+  "closure_correction": {
+    "condition": "section 17 condition 6 — theorem registry parent ownership plus assumptions plus falsifiers",
+    "previously_recorded": "SATISFIED",
+    "corrected_to": "OPEN__3_OF_15_ROWS_LACK_WEAKENINGS",
+    "why_the_correction_matters": "A freeze that reports a condition satisfied when three rows lack the falsifying half is a freeze whose own self-assessment cannot be trusted. Recording the gap is cheaper than discovering it after #292 has consumed the registry as a gate.",
+    "rows_fully_treated": 12,
+    "rows_partially_treated": 3
+  },
+
+  "no_row_is_removed": "All fifteen rows stand. This amendment records what three of them do not yet carry; it does not weaken or restate any statement.",
+  "unaffected_rows": ["BIO-T1", "BIO-T2", "BIO-T3", "BIO-T4", "BIO-T5", "BIO-T6", "BIO-T8", "BIO-T9", "BIO-T10", "BIO-T11", "BIO-T12", "BIO-T15"]
+}
