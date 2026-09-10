@@ -375,7 +375,32 @@
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_VERIFIED_REPO_RECEIPT",
       "search_terms_tried": [],
-      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE"
+      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE",
+      "faithful_run_specification": {
+        "purpose": "This row is the strongest PARENT_MAY_BE_SUFFICIENT in the matrix and is blocked at P<=2 solely because FNA-6 is an ADAPTED_RUN. This block states what would lift it to P=3 and what would falsify it. Design only; execution belongs to a compute lane (FNA-6 itself ran on billy-old).",
+        "matched_information": [
+          "The parent arm must receive the SAME admission/update/revocation event stream as the incumbent - FNA-6's frozen stream carries 48 serves, 6 admissions, 13 updates, 6 revocations, 1 drift event and 28 admission edges - and must not be given the goal binding as a free input. FNA-6 already proves this condition has teeth: its P2_MUTANT_NO_GOAL_BINDING probe drops to 35/48, so the binding is load-bearing and cannot be silently supplied.",
+          "No arm may see the protected evaluation set before serving, and the evidence universe (24 items in FNA-6's world_meta) must be identical across arms.",
+          "Per A03's rule, the parent must not be run at DEGRADED information relative to the incumbent either: a faithful Soar must be allowed its own working-memory management, not a crippled subset chosen by us."
+        ],
+        "matched_resources": [
+          "Cost must be charged on ONE whole-lifecycle counter covering build, drift, merge, serve and sweep, as FNA-6 does. The parent's advantage is a redistribution, not a saving: P2_SOAR_WM spends 3040 build and 17958 sweep against the incumbent's 1760 and 6, and buys serve down from 141998 to 1712. A faithful run that charges serve but not sweep would manufacture the result.",
+          "Persistent bytes and working-set peak reported for both arms (FNA-6: 3026 vs 18995 bytes; working_set_peak 372 for both).",
+          "Same host and interpreter for all arms in a single scored run, as FNA-6 did."
+        ],
+        "matched_checker_access": [
+          "Identical exact checker for both arms, outside either arm's write set, with the static no-alarm control asserted - FNA-6 reports checker_events 0 at 48/48 for every arm, which is the no-alarm case that proves the checker is not firing spuriously.",
+          "Incumbent closure must be shown to agree with production, and a full-rescan arm must agree with both, before any arm's number is admitted. FNA-6 asserts all three."
+        ],
+        "what_would_reach_P3": "A faithful Soar (the real system, not a reimplementation of its mechanism inside our harness) executed on the FNA-6 frozen world at the matched conditions above, scoring 48/48 exact with zero interference, zero merge failures and zero stale-revocation decisions, at whole-lifecycle cost not worse than the incumbent - and then SUBTRACTED, meaning the ORION-OCM working-state machinery is shown to add nothing beyond it. Per READINESS_SCHEMA_V1 that is the E3-class prospective study the P coordinate requires; it lifts P from 2 to 3, not to 4.",
+        "what_would_falsify_parent_sufficiency": [
+          "The faithful parent fails any of the exactness gates the adapted arm passed - below 48/48, or any interference event, merge failure or stale-revocation decision above zero. FNA-6's own failing arms show these gates discriminate: P1A records 3 interference events and P3 records a merge failure, and both fall to 45/48.",
+          "The faithful parent passes only because a mechanism we supplied is doing the work. The existing mutant probe is the instrument: if the faithful parent also collapses toward 35/48 without goal binding, the binding is ours and not the parent's.",
+          "Whole-lifecycle cost exceeds the incumbent once sweep is charged, which would make it a TRADEOFF_FRONTIER_ONLY row rather than PARENT_SUFFICIENT.",
+          "The result fails to survive a disjoint replication on a new stream and seed, which would cap R below 4 and leave the terminal at registered scope only."
+        ],
+        "scope_ceiling_if_it_succeeds": "PARENT_SUFFICIENT for working state at the FNA-6 registered scope only - 48 serves on one frozen world with a 24-item evidence universe. It would license no programme-wide working-state claim, and per the success-terminal rule ORION-OCM must then stop engineering this function rather than seeking to beat the parent."
+      }
     },
     {
       "parent_id": "A14",
@@ -435,7 +460,7 @@
       "generalized_atom": "A SHARED NEGATIVE WITH #165's H1, NOT A CONTEST. ORION-OCM records H1 as a CAPITAL NEGATIVE (LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS); DreamCoder independently reports acquisition cost at the scale of a CPU-year per library. Two systems with different substrates find the same stage dominating, which is evidence that the cost sits in the abstraction stage itself rather than in either implementation. Hostile test: no amortization claim on either side is admissible unless the FULL lifecycle cost vector charges acquisition, rejected-candidate work, index construction and maintenance - the S coordinate's explicit requirement. A claim scored only on post-acquisition solve rate is unfalsifiable with respect to H1.",
       "run_status": "NOT_RUN",
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
-      "verdict_reasoning": "Neither system has run the matched lifetime comparison, so the function 'library acquisition that pays for itself over a lifetime' is unclosed on both sides. This row explicitly does NOT claim that ORION-OCM beats DreamCoder, nor that DreamCoder solves what H1 could not.",
+      "verdict_reasoning": "The LIFETIME question is genuinely still open and the verdict stands, but the reasoning must now cite our own evidence rather than assert nothing has been run. FNA-4 ran a matched multi-arm comparison at a registered scope and confirmed the per-task inequality; what it did NOT observe is repayment of acquisition, which it places at a ~6,123-task break-even horizon against a 16-task measured stream - a 380x extrapolation. So 'library acquisition that pays for itself over a lifetime' remains unclosed on both sides, for the specific reason that the horizon has not been run, not because no comparison exists. This row still makes no claim that ORION-OCM beats this parent.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
@@ -584,10 +609,10 @@
       "faithful_vs_adapted": "FAITHFUL: the same benchmark corpora, compressivity as the library-quality metric, wall-clock AND peak memory reported on both sides. ADAPTED: drop the faster abstractor into a wake-sleep loop in place of the original compression step and measure whether end-to-end solve rate is preserved - the parent measures library quality, NOT downstream synthesis success, so that remains an open subtraction.",
       "matched_conditions": "Identical program corpora and initial DSL; compressivity computed identically; peak memory and wall-clock on both sides; if end-to-end claims are made, an identical downstream enumeration budget so that a faster abstractor is not silently also given more search.",
       "published_negative_results": "THIRD-PARTY negative about B01, clearly labelled as such: the authors report that DreamCoder-style deductive refactoring faces daunting memory and search requirements as the corpus scales, and measure a replacement at three to four orders of magnitude faster with two orders of magnitude less memory at comparable or better library quality. Their own stated limitation is that adapting their upper bound to version spaces or e-graphs is challenging.",
-      "generalized_atom": "A CONCRETE REVIVAL LEVER FOR #165's H1 CAPITAL NEGATIVE, WHICH IS THE HIGHEST-VALUE ENGINEERING LEAD IN THIS SCAN. Independent evidence localises the library-learning cost to the ABSTRACTION/COMPRESSION stage rather than to the neural or search components. Under the one-stage attribution discipline, that names the stage H1's failure should be attributed to, and it names the lever: replace the abstraction operator before concluding that amortization is structurally impossible. H1 must not be filed as terminal until this lever has been tried, per the diagnose-then-revive rule.",
+      "generalized_atom": "SUPERSEDED BY OUR OWN RECEIPT - RETAINED WITH THE CORRECTION VISIBLE. This row originally read the localisation as naming H1's failing stage and concluded 'H1 must not be filed as terminal until this lever has been tried'. Checking against research/functional-neural-absorption-v1/fna4_library_synthesis/ at origin/main shows BOTH halves were wrong. (1) The lever had already been tried: FNA-4 ran a STITCH arm and its terminal is PARENT_SUFFICIENT_FOR_EXPERIENCE_CONSOLIDATION_AT_REGISTERED_SCOPE, 270,829 < 366,072 units (-26.0%) with every cost charged. (2) The abstraction-cost attribution is refuted by that same receipt: the STITCH arm carries the HIGHEST marginal acquisition of any arm (240,294,343 units against the incumbent's 64,305) and still pays, so acquisition cost does not discriminate the paying arm. What discriminates is the ADMISSION RULE - utility-gated pays, recurrence-gated is harmful at +1149% (Reynolds lgg) and +1279% (e-graph saturation). The transferable lesson is the meta-one: a lever named from the parent literature by analogy was wrong about our own substrate in both its stage and its status, and one lookup at our own receipts settled it. See RV-8 in REVIVAL_BACKLOG_V1.json for the corrected attribution.",
       "run_status": "NOT_RUN",
-      "first_refusal_verdict": "ORION_DELTA_PLAUSIBLE",
-      "verdict_reasoning": "The parent owns a faster abstraction operator but explicitly does NOT measure downstream synthesis success, so the lifetime question H1 asks is left open by it. That gap is where an ORION-OCM lifetime-economics measurement is genuinely additive.",
+      "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
+      "verdict_reasoning": "Upgraded on evidence. FNA-4's terminal is PARENT_SUFFICIENT: a classical stdlib-only non-neural arm built on this parent's admission discipline owns experience consolidation at the registered scope, with no ORION-OCM-specific attribution available for it. That is a success terminal, not a gap. P remains capped at 2 because FNA-4 is an ADAPTED_RUN on our substrate, not a faithful run of the published system.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
