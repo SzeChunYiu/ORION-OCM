@@ -1,0 +1,73 @@
+{
+ "schema": "OCM_P1_AUTHORSHIP_PIPELINE_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "bound_to": ["#151 FE-DEV-AMORT-1", "E3_PROTOCOL_FREEZE_V1 clause P1-world-authorship", "MEASUREMENT_VALIDITY_V1 H-MV-05"],
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_FAMILY_EMISSION",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "problem": "E3 promotion is blocked by P1-world-authorship: 'task/world families independently authored outside the mechanism's taxonomy; truth labels independently recovered, never generator intent'. A control-verified scan (2026-09-10) found NO existing stock satisfies P1 as-written: every internal stock shares the OCM taxonomy or the mechanism's own checker as truth; every external stock has zero OCM-side coverage, inventory-only use, or no oracle. This freeze builds the missing pipeline. It grants NO E3 execution rights (see E3_PROTOCOL_FREEZE_V1 promotion_rule).",
+
+ "policy_bindings": {
+  "policy_file": "research/independent-authorship-gate-v1/POLICY.md (issue #165 s16)",
+  "admissible_truth_row_used": "Transition/kernel/checker decision <- frozen independent oracle or kernel; forbidden: planter family, authored method id, scenario layer, author-intended method",
+  "e3_row_respected": "'E3+ confirmatory item <- Independently authored world/task family; forbidden: any internally generated extra world that shares the mechanism taxonomy' AND 'More internally generated worlds do not substitute for independent authorship' -- therefore every family source below is EXTERNAL authorship; the pipeline never generates worlds itself",
+  "me_x1_failure_modes_banned": [
+   "rejection-sampling instances until an oracle matches a desired label (ME-X1: 17 POSITIVE family matches were rejection-sampled artifacts, classified negative)",
+   "planter filtering on oracle invariants (taxonomy leak via the generator)",
+   "author-planted method ids used as labels"
+  ]
+ },
+
+ "family_sources_frozen_order": {
+  "S1_IPC_STRIPS": {
+   "authorship": "International Planning Competition (IPC) public PDDL domains and their public instance generators, authored by the external planning community; transcribed into the repo with per-file provenance (domain name, IPC year, canonical public source reference). The taxonomy (PDDL types/actions/effects) is external to and disjoint from the OCM typed-operator DAG taxonomy by construction; the transcription records prove it.",
+   "why_primary": "family structure is real and graded (same domain, growing instance size) which is what FE-DEV-AMORT-1's related-task-family acquisition-cost design needs; plan validation is EXACT; D25's planned STRIPS substrate aligns; no data custody outside the repo beyond the transcription itself",
+   "families": "the transcribed IPC domain set (target >= 3 materially different domains at freeze time; final list frozen in the family table emitted by the build)",
+   "instance_generation": "public generator semantics re-implemented faithfully at the generator's OWN default parameters with a frozen seed; NO rejection sampling, NO difficulty filtering, NO oracle-informed selection; the stream is taken as authored; parse failures are the only exclusions and are retained with reasons"
+  },
+  "S2_BLIMP_UD": {
+   "authorship": "BLiMP (Warstadt et al. 2020) 67 phenomena x 1000 minimal pairs and Universal Dependencies English EWT; externally authored and externally labelled; custody via existing ~/ocm-data sha manifests on billy-old (harness src/ocm/evaluation/m7_blimp_ud.py)",
+   "status": "EXTERNAL_EVAL_STOCK: M7_BLIMP_UD_V1.json measured OCM-side coverage 0.0 on all 6 phenomena; retained as a truth-source-conforming stock for capability-gate diagnostics; NOT the primary E3 family source until OCM engagement is nonzero",
+   "truth": "external corpus labels under custody sha; the pipeline verifies custody and re-derives nothing (no kernel exists for grammaticality; labels are the external authors', never ours)"
+  },
+  "S3_FLT_LEAN": {
+   "authorship": "FLT corpus (pinned commit aa2d8b3, 29,511 pairs; research/proof-corpus-v1) authored externally; truth by Lean 4.33.1/Mathlib kernel checking (research/mechanical-proof-v1) = the strongest admissible source",
+   "status": "DEFERRED_INVENTORY: retained as the kernel-truth stock for a future E3 extension; not emitted as families by this freeze (cost of kernel checking per family member is outside this build's scope)"
+  }
+ },
+
+ "independent_truth": {
+  "S1_checker": "a plan validator implemented to the public PDDL STRIPS semantics (types, preconditions, delete/add effects, goal test) as a SEPARATE frozen module: it imports nothing from the mechanism (src/ocm), nothing from the family emitters, and validates a candidate plan against the domain theory + instance facts only. It is the 'frozen independent oracle' of the policy table. Validator sha is frozen in the family table.",
+  "label_recovery_rule": "truth labels are RECOVERED by the validator (plan accepted/rejected; goal reached), never read from any generator intent field; generator-intent fields (intended plan length, generator notes) are audit-only and retained",
+  "fail_closed": "any family member whose truth cannot be recovered (unparseable domain/instance, validator CANNOT_CHECK) is retained with status CANNOT_CHECK and excluded from scoring; no fallback to intent",
+  "hostile_validation_required_before_use": [
+   "planted-invalid plans (precondition violation, wrong delete effect, goal not reached) MUST be rejected by the validator",
+   "planted-valid plans MUST be accepted",
+   "a tampered domain (one changed precondition) MUST change at least one previously-valid plan's verdict -- proves the validator actually reads the domain theory",
+   "no-alarm case asserted: the clean family set produces zero CANNOT_CHECK and zero rejected-valid"
+  ]
+ },
+
+ "pipeline_components_to_build": [
+  "ipc_domains/: transcribed PDDL domain + generator-parameter files with per-file provenance headers (S1)",
+  "p1_families.py: emits the FROZEN family table (family id, domain provenance, member digests, validator sha, custody/audit fields) from S1 only; deterministic under the frozen seed",
+  "p1_validator.py: the independent STRIPS plan validator (separate module, no mechanism imports)",
+  "p1_selftest.py: runs the four hostile cases above + the no-alarm case; distinct exit codes per failure class; sub-second on toy data (legal on any host); real family emission runs on laptop billy / billy-old / LUNARC only, never Mac mini",
+  "SECTION16.md status-box update: 'Use independently authored world/task families for E3+' OPEN -> BUILT_PENDING_E3_USE, citing the family table"
+ ],
+
+ "receipts_and_binding": [
+  "family table emitted with per-member digests; sha256 of every pipeline file recorded",
+  "freeze-chain amendment (FREEZE_EVIDENCE_BINDING_V1.json amendments list) records P1_PIPELINE_FREEZE_V1.json + p1_validator.py + p1_families.py shas, superseding on record the E3_PROTOCOL_FREEZE_V1 P1 status line 'authorship pipeline not yet built' WITHOUT editing that frozen file",
+  "13-family receipt coverage rule applies to any new receipt file (RECEIPT_COVERAGE_V1.json rule_for_new_studies, explicit cannot_check markers)"
+ ],
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any E3/E4/E5 run: promotion still requires every FLAGSHIP_EXPERIMENT_V1 entry gate SATISFIED plus this pipeline built (E3_PROTOCOL_FREEZE_V1 promotion_rule)",
+  "any internal world generation as a substitute for S1/S2/S3 authorship",
+  "any rejection sampling, difficulty filtering, or oracle-informed selection in family emission",
+  "editing the OCM mechanism, its taxonomy, or any frozen protocol file to make families easier",
+  "presenting artifact-explained positives as independent-authorship evidence (they are negative findings per POLICY.md)"
+ ]
+}
