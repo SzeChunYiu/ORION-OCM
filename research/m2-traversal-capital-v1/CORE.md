@@ -10,13 +10,14 @@ The `KNOWN_STRUCTURE_ORACLE` calibration arm does **not** measure transferable
 structural headroom. At the M1 acquisition scope its entire advantage is a
 **constant 21 845-slot offset**, recoverable with zero history and zero features.
 
-## The three findings
+## The four findings
 
 | # | terminal | where |
 |---|---|---|
 | M2-N1 | `ORACLE_ADVANTAGE_IS_A_CONSTANT_OFFSET` | [RESULT.md](RESULT.md#m2-n1) |
 | M2-N2 | `STRUCTURE_PREDICTABLE_WITHOUT_HISTORY` | [RESULT.md](RESULT.md#m2-n2) |
 | M2-N3 | `HEADROOM_NOT_SURFACE_IDENTIFIABLE` | [RESULT.md](RESULT.md#m2-n3) |
+| M2-N4 | `BASELINE_ENUMERATION_ORDER_IS_MISCALIBRATED` | [RESULT.md](RESULT.md#m2-n4) |
 
 ## Why this is checkable
 

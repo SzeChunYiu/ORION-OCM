@@ -97,14 +97,45 @@ upper bound does no better. Most predictors score *below* the plain baseline, be
 a wrong hard-prune deletes the answer from the space entirely — the value function is
 a cliff, not a gradient (`FS1` prune loses 17 of 144 targets outright).
 
-`min_primitive_length` is the length of the *shortest* program for a normal form — a
-grammar-relative Kolmogorov quantity. It is not a function of degree, support,
-coefficient class or magnitude, so no amount of history makes it predictable.
+`min_primitive_length` is the length of the *shortest* program for a normal form. It
+is of course determined **by** the normal form; what the probes measure is that it is
+**not identifiable from the frozen semantic coordinates, nor from four richer explicit
+coordinate families** — including the population-optimal (free-fit) rule over 1 056
+cells. Motivating intuition, not the claim: shortest-program length is a
+grammar-relative Kolmogorov quantity, and such quantities are generically not
+recoverable from coarse surface statistics.
 
-**Therefore `KNOWN_STRUCTURE_ORACLE` is not an abstraction oracle.** It leaks an
-answer-adjacent fact that cannot be obtained except by doing the search. Using it as
-the headroom calibration systematically **overstates** transferable headroom, and any
-future "developmental" positive measured against it would be uninterpretable.
+**Therefore `KNOWN_STRUCTURE_ORACLE` does not behave as an abstraction oracle at this
+scope.** What it supplies is an answer-adjacent fact that none of the tested
+coordinate families recovers. Using it as the headroom calibration therefore
+**overstates** transferable headroom, and any future "developmental" positive measured
+against it would be uninterpretable.
+
+<a id="m2-n4"></a>
+## M2-N4 `BASELINE_ENUMERATION_ORDER_IS_MISCALIBRATED` (deliverable, not just diagnosis)
+
+`methods.solve` enumerates ascending in length while **68.1 % of the reachable ecology
+(13 846 / 20 321 normal forms) sits at the maximum length 8**. The baseline therefore
+pays a large fixed toll before reaching where most answers live. This is a free,
+history-free property of the search order, and naming it is what turns M2-N1 from an
+observation into a closed defect.
+
+The correction is **not** blanket `DESC`, and the asymmetry is the interesting part:
+
+| scope | ASC baseline ladder | `DESC` ladder |
+|---|---|---|
+| acquisition targets (n=8) | 12 | **15** |
+| protected (n=144) | **339** | 219 |
+| full ecology (n=20 321) | **41 122** | 37 960 |
+
+`DESC` wins on the 8-target slice and loses badly on that slice's own parent
+distribution. So the M1 protected slice is **unrepresentative of the ecology it is
+drawn from** — 7/8 at max length against a 68 % base rate — and any arm tuned on it
+inherits that skew. The defensible form of the fix is order-by-predicted-density over
+the length distribution, not a fixed direction.
+
+No change is made to `src/ocm/` here. This is registered as a measured finding for the
+successor freeze; the runtime selection policy is untouched (#71 respected).
 
 ## What this does and does not say
 
