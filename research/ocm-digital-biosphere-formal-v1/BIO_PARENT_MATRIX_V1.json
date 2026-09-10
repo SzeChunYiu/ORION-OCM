@@ -56,7 +56,9 @@
   "quoted_line_verification": {
    "CONFIRMED_SUBSTANTIVE": 15
   },
-  "rows_whose_owning_parent_original_was_not_reached": 2
+  "rows_whose_owning_parent_original_was_not_reached": 2,
+  "bibliographic_records_checked": 13,
+  "bibliographic_discrepancies_found": 0
  },
  "parent_matrix": [
   {
@@ -550,5 +552,27 @@
   }
  ],
  "join_note": "EB-F0-A's THEOREM_REGISTRY_V1.json keys on theorem_id BIO-T1..BIO-T15, which matches bio_row_id here one-to-one; its parent_ownership field is free text, so it consumes owning_parent. Two rows, BIO-T9 and BIO-T11, carry verification_status=CANNOT_VERIFY_SOURCE for the owning parent's ORIGINAL while their published quote is verified; see quoted_line_verification and unreached_source_role before summarising either row as unverified.",
- "file_placement_note": "The prose companion to this file is PARENT_LEDGER_PRIMARY_SOURCE_APPENDIX_V1.md in this directory, NOT PARENT_LEDGER.md. PARENT_LEDGER.md is authored by lane EB-F0-A and its sha256 is hashed into that lane's FREEZE_V1.json manifest, so appending to it would break their freeze-chain verification. This lane therefore contributes a separate, unclaimed path and leaves PARENT_LEDGER.md untouched."
+ "file_placement_note": "The prose companion to this file is PARENT_LEDGER_PRIMARY_SOURCE_APPENDIX_V1.md in this directory, NOT PARENT_LEDGER.md. PARENT_LEDGER.md is authored by lane EB-F0-A and its sha256 is hashed into that lane's FREEZE_V1.json manifest, so appending to it would break their freeze-chain verification. This lane therefore contributes a separate, unclaimed path and leaves PARENT_LEDGER.md untouched.",
+ "bibliographic_verification": {
+  "method": "Volume, issue, page range, year and author order for every citation asserted in this file were checked independently of the full-text fetch. Ten were confirmed against the CrossRef REST API by DOI. Three page ranges that CrossRef did not carry were confirmed from the front matter of the fetched PDF itself.",
+  "result": "13 of 13 checked. Zero discrepancies found. No citation detail in this file rests on recollection.",
+  "crossref_confirmed": [
+   "Rogers, American Anthropologist 90(4):819-831, 1988, DOI 10.1525/aa.1988.90.4.02a00030",
+   "Bahrami et al., Science 329(5995):1081-1085, 2010, DOI 10.1126/science.1185718",
+   "Sukumaran & Knowles, PNAS 114(7):1607-1612, 2017, DOI 10.1073/pnas.1607921114",
+   "Mesoudi & Thornton, Proc. R. Soc. B 285(1880):20180712, 2018, DOI 10.1098/rspb.2018.0712",
+   "Blount, Borland & Lenski, PNAS 105(23):7899-7906, 2008, DOI 10.1073/pnas.0803151105",
+   "Frank, J. Evol. Biol. 25(6):1002-1019, 2012, DOI 10.1111/j.1420-9101.2012.02498.x",
+   "Minton, Artificial Intelligence 42(2-3):363-391, 1990, DOI 10.1016/0004-3702(90)90059-9",
+   "Tambe, Newell & Rosenbloom, Machine Learning 5(3):299-348, 1990, DOI 10.1007/BF00117107",
+   "Imai, Keele & Yamamoto, Statistical Science 25(1), 2010, DOI 10.1214/10-STS321 (page range not carried by CrossRef; see front_matter_confirmed)",
+   "Pearl, Statistics Surveys 3, 2009, DOI 10.1214/09-SS057 (page range not carried by CrossRef; see front_matter_confirmed)"
+  ],
+  "front_matter_confirmed": [
+   "Imai/Keele/Yamamoto: fetched PDF front matter reads 'Statistical Science 2010, Vol. 25, No. 1, 51-71'.",
+   "Pearl: fetched PDF front matter reads 'Statistics Surveys Vol. 3 (2009) 96-146'.",
+   "Sogaard/Ruder/Vulic: fetched PDF footer reads 'pages 778-788 Melbourne, Australia, July 15 - 20, 2018'."
+  ],
+  "not_checked": "Citations for sources that were never reached are NOT included above and remain graded SOURCE_UNVERIFIED or CANNOT_VERIFY_SOURCE in their rows. A bibliographic record confirms that a work exists as described; it does NOT confirm that any quoted line appears in it. Only the fetch-and-reread pass does that."
+ }
 }

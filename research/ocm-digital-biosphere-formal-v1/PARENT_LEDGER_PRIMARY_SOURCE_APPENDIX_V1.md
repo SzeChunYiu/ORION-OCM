@@ -101,6 +101,18 @@ negative is in the JSON under `published_negatives[].extension_for_EB_F0_X`.
 - **SkillFlow on library growth degrading performance without retrieval** — attacks BIO-T13. BIO-T13 jointly with BIO-T4 and BIO-T6: an unbounded store is not merely useless but actively harmful once retrieval cannot keep the candidate set precise.
 - **Darwin Godel Machine, the authors' own objective-hacking incident** — attacks BIO-T15. BIO-T15 in its sharpest form.
 
+### Bibliographic verification
+
+Separately from the full-text fetch, the volume, issue, page range, year and author order of
+every citation asserted here were checked independently: ten against the CrossRef API by DOI,
+and three page ranges CrossRef does not carry against the front matter of the fetched PDF
+itself. **Thirteen of thirteen confirmed, zero discrepancies.** No citation detail in these two
+files rests on recollection.
+
+A bibliographic record confirms that a work exists as described. It does not confirm that a
+quoted line appears in it; only the fetch-and-reread pass does that, and the two checks are
+recorded separately in `BIO_PARENT_MATRIX_V1.json` under `bibliographic_verification`.
+
 ### Sources that could not be verified
 
 Recorded so the absence is auditable. Nothing below is quoted, and no number or wording is
