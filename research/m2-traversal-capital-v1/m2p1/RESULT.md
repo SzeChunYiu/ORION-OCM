@@ -58,6 +58,69 @@ protected targets (189/395 successes, mean `B` 17 882.9 both). Stored answers ar
 exactly **zero** on new targets, because G2 guarantees their normal forms are disjoint.
 What transfers is the *search prior*, not the solutions.
 
+## Scored arms on 79 new targets — structure, not volume
+
+Two worlds have completed all six arms. Every protected target is externally verified
+by an independent checker process, and every arm ran after a real OS-process restart
+(`pid_changed` asserted).
+
+| arm | world 1002 ladder / mean `B` | world 1008 ladder / mean `B` |
+|---|---|---|
+| `ORACLE_FAMILY` (true motifs, calibration) | 329 / 2 776 | 282 / 3 432 |
+| `ORDINARY_ADAPTIVE_PARENT` (mined library, no gate) | **260 / 8 170** | **257 / 6 643** |
+| best **history-free** surface ordering | 190 | 188 |
+| `RESET` = `LIBRARY_ONLY` = `CONTINUED` | 186 / 24 342 | 188 / 20 360 |
+| `SHUFFLED_HISTORY` (random library, matched profile) | **149 / 43 042** | **157 / 32 395** |
+
+Three things follow.
+
+**The benefit is structure, not volume.** `SHUFFLED_HISTORY` carries a library of the
+same fragment count and length profile, with random content — and it is *worse than no
+library at all* (43 042 vs 24 342). A library only helps if it is the library history
+actually mined. That pairing — shuffled below `RESET`, mined far above it — is the
+causal claim.
+
+**It is not the M2-N1 artifact.** The G4 gate compares against the best history-free
+surface ordering (`ASC` / `DESC` / `CONST8-first`), which is exactly the constant-offset
+trick that manufactured M1's illusory headroom. The mined library beats it decisively
+(260 vs 190; 257 vs 188): `PASS_COUNTERFACTUAL`.
+
+**`CONTINUED` is identical to `RESET` to the slot.** Under refusal it serves no
+generator, so all three no-library arms coincide exactly — the same signature as M1's
+four byte-identical arms, and here we know precisely why.
+
+### A defect in this study's own checker, found and repaired
+
+G4 was originally wired to `CONTINUED`. Under refusal that arm serves nothing, so the
+gate compared a *null* arm against the surface baseline and emitted
+`FAIL_SURFACE_ORDERING_EXPLAINS_ADVANTAGE` — reporting that surface ordering explained
+an advantage that did not exist in that arm at all. That is the #323 §HC-4 failure
+class in this lane's own instrument: a locally correct-looking check disconnected from
+the proposition it protects.
+
+Repaired: G4 now emits `CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM` whenever
+`admission=false`, and a separately labelled counterfactual gate evaluates the no-gate
+parent. `CANNOT_CHECK` is kept distinct from both PASS and FAIL. The two completed
+worlds were re-scored under the repaired checker; the terminal did not change.
+
+## Cost completeness (#323 HDI-14) — the prior works and does not yet pay
+
+Acquisition is charged in full, in the same currency as the benefit:
+
+| | world 1002 | world 1008 |
+|---|---|---|
+| acquisition (developmental solving + validation), slots | 5 026 590 | 3 452 344 |
+| saved per protected target, slots | 16 172 | 13 717 |
+| total saved over 79 targets | 1 326 137 | 1 001 305 |
+| **net** | **−3 700 453** | **−2 451 040** |
+| break-even horizon, targets | **311** | **252** |
+
+The transfer is real and large per target, but the developmental investment needs
+roughly **250–310** future targets to repay itself and only 79 are available at this
+scope. So at this horizon the mechanism is **not** economically positive. This is
+recorded as a limitation of the scope, not explained away — and it converges
+independently on the `AMORTISATION_DOMINATED` terminal reached by the DEV-CAL-2 lane.
+
 <a id="m2-p1c"></a>
 ## M2-P1c development depth is a dose-response — and it is **not** monotone
 

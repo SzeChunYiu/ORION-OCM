@@ -79,8 +79,26 @@ def main() -> int:
     lib, shuf = total("LIBRARY_ONLY"), total("SHUFFLED_HISTORY")
     orac, parent = total("ORACLE_FAMILY"), total("ORDINARY_ADAPTIVE_PARENT")
 
-    g4 = ("PASS" if (cont is not None and cont > best_surface) else
-          "FAIL_SURFACE_ORDERING_EXPLAINS_ADVANTAGE" if cont is not None else "CANNOT_CHECK")
+    # G4 asks whether a HISTORY-DERIVED advantage is explained by a history-free
+    # surface ordering.  Under refusal CONTINUED serves no generator, so there is no
+    # deployed history arm to test and the honest verdict is CANNOT_CHECK, never FAIL:
+    # a gate wired to a null arm would report "surface ordering explains the advantage"
+    # when in fact there is no advantage in that arm to explain.
+    if not dev["admission"]:
+        g4 = "CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM"
+    elif cont is None:
+        g4 = "CANNOT_CHECK_NO_CONTINUED_ARM"
+    elif cont > best_surface:
+        g4 = "PASS"
+    else:
+        g4 = "FAIL_SURFACE_ORDERING_EXPLAINS_ADVANTAGE"
+
+    # Counterfactual G4: the no-gate parent carries the same mined library, so it shows
+    # what the history-derived advantage WOULD be measured against the best history-free
+    # surface ordering.  Labelled a counterfactual; never a claim that OCM deployed it.
+    g4_cf = ("CANNOT_CHECK_NO_PARENT_ARM" if parent is None else
+             "PASS_COUNTERFACTUAL" if parent > best_surface else
+             "FAIL_COUNTERFACTUAL_SURFACE_ORDERING_EXPLAINS_ADVANTAGE")
 
     defects = [a_ for a_, r in arms.items() if not r["process"]["pid_changed"]]
     if defects:
@@ -91,6 +109,8 @@ def main() -> int:
         terminal = "NO_FAMILY_HEADROOM"
     elif g4.startswith("FAIL"):
         terminal = "FAMILY_PREDICTABLE_WITHOUT_HISTORY"
+    elif g4_cf.startswith("FAIL"):
+        terminal = "FAMILY_PREDICTABLE_WITHOUT_HISTORY__COUNTERFACTUAL"
     elif (cont is not None and reset is not None and lib is not None and shuf is not None
           and cont > reset and cont > lib and cont > shuf and g4 == "PASS"):
         terminal = "HISTORY_INDUCED_SEARCH_PRIOR"
@@ -138,6 +158,8 @@ def main() -> int:
         "terminal": terminal,
         "dev_phase": {k: v for k, v in dev.items() if k not in ("training_task_ids",)},
         "entry_gates": dict(eco["entry_gates"], G4_surface_predictor_null=g4,
+                            G4_counterfactual_parent_vs_surface=g4_cf,
+                            G4_parent_ladder=parent,
                             G4_best_surface_ladder=best_surface),
         "surface_orderings_history_free": surface,
         "arms": {a_: {k: v for k, v in r.items() if k != "rows"} for a_, r in arms.items()},
