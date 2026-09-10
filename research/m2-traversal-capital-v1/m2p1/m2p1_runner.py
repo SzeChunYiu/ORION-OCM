@@ -20,7 +20,7 @@ from pathlib import Path
 
 LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
-ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "SHUFFLED_HISTORY",
+ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "SHUFFLED_HISTORY",
         "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
@@ -82,8 +82,28 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
     method = M.learn_generator(training)
     held = [task_of(M, r, 10_000 + i) for i, r in enumerate(eco["streams"]["validation"])]
     report = M.validate_generator(method, held, budget)
+    # Proposed expected-utility admission, computed from the SAME registered
+    # validate_generator rows -- no extra search, no new information.
+    _d = [r["baseline"]["slots"] - r["candidate"]["slots"] for r in report["held_out"]]
+    _ratios = [r["candidate"]["slots"] / r["baseline"]["slots"]
+               for r in report["held_out"] if r["baseline"]["slots"]]
+    _mean = statistics.fmean(_d) if _d else 0.0
+    _worst = max(_ratios) if _ratios else 0.0
+    _sd = statistics.pstdev(_d) if len(_d) > 1 else 0.0
+    _se = (_sd / (len(_d) ** 0.5)) if _d else 0.0
+    _lo = _mean - 1.96 * _se
+    eu = {"policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+          "mean_delta": round(_mean, 1), "ci95_low": round(_lo, 1),
+          "worst_ratio": round(_worst, 4), "rho_max": 2.0,
+          "all_verified": all(r["both_verified"] for r in report["held_out"]),
+          "admitted": bool(_lo > 0 and _worst <= 2.0 + 1e-9 and bool(method.fragments)
+                           and all(r["both_verified"] for r in report["held_out"])),
+          "reason": ("ci95_low<=0" if _lo <= 0 else
+                     "worst_ratio>rho_max" if _worst > 2.0 + 1e-9 else
+                     "no fragments" if not method.fragments else "admitted")}
+
     state = {
-        "schema": "M2P1_DEV_STATE", "train_solved": len(training),
+        "schema": "M2P1_DEV_STATE", "eu_admission": eu, "train_solved": len(training),
         "train_unsolved": unsolved, "fragments_mined": len(method.fragments),
         "fragments": [list(f) for f in method.fragments],
         "admission": bool(report["accepted"]), "terminal": report["terminal"],
@@ -123,12 +143,43 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
+    if arm == "CONTINUED_EU":
+        # PROPOSED SUCCESSOR ADMISSION POLICY -- not the registered rule, and reported
+        # only under that label. src/ocm/learning/methods.py is NOT modified.
+        #
+        # The registered rule admits on universal non-inferiority. Obligation P1 is
+        # discharged empirically (410 measurements, 5 adversarial libraries, max ratio
+        # exactly 2.0, zero violations, zero correctness violations): the interleaved
+        # solver bounds deployment regret at rho_max = 2 and can never make a target
+        # unsolvable or incorrect. So the downside the universal rule guards against does
+        # not exist in this integration mode, and the admissible quantifier is EXPECTED
+        # utility with the bound asserted:
+        #
+        #     admit iff  mean(baseline - candidate) > 0 over held-out
+        #           and  max(candidate/baseline) <= rho_max
+        #
+        # verify_solution and the independent checker are untouched; every reported
+        # success is still externally verified.
+        eu = dev.get("eu_admission")
+        if not eu or not eu.get("admitted"):
+            return M.GeneratorMethod(), ("EU policy refused: %s" %
+                                         (eu.get("reason") if eu else "no eu record"))
+        return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), \
+            ("admitted under the PROPOSED expected-utility policy "
+             "(mean dB=%.1f, worst ratio=%.3f <= 2); registered rule said %s"
+             % (eu["mean_delta"], eu["worst_ratio"], dev["admission"]))
     if arm == "ORDINARY_ADAPTIVE_PARENT":
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), \
             "same mined fragments served WITHOUT the admission gate"
     if arm == "SHUFFLED_HISTORY":
         import random
-        rng = random.Random(int(eco["frozen_seed"]) + 7)
+        # Seeds are ecology-authored and need not be integers: a foreign ecology may
+        # carry a string seed (the M1 lane uses "orion-ocm-m1-semantic-partition-v1").
+        # Derive a stable integer without assuming the author's type.
+        _s = eco.get("frozen_seed", 0)
+        _seed = (int(_s) if isinstance(_s, int) or (isinstance(_s, str) and _s.lstrip("-").isdigit())
+                 else int(hashlib.sha256(str(_s).encode()).hexdigest()[:8], 16))
+        rng = random.Random(_seed + 7)
         pool = [p for L in (2, 3) for p in __import__("itertools").product(M.PRIMITIVES, repeat=L)]
         # The control must destroy STRUCTURE while preserving count and length profile.
         # It must therefore EXCLUDE the true hidden motifs: over a small grammar a
