@@ -208,6 +208,28 @@ ECONOMY_FRONTIER_PROTOCOLS_V1.json:
 Each converts a filed negative into the boundary case of a measured law — global recovery by
 mechanic/definition change, all costs charged, no outcome tuning.
 
+### 5.1 DEV-CAL-1 HAS RUN (verdict recorded)
+
+Terminal fired: **TRANSFERABLE_HEADROOM_OCM_MISSES** (PR #328, commit cc3af86d,
+DEVCAL1_RESULTS.json). The critical cell B (surface_different x latent_same) shows the
+oracle-history arm reducing acquisition burden **+97.0% [96.5, 97.4]** vs RESET (n=90
+world-seed pairs, bootstrap CI, draw-invariant, shuffle null p=0.79) — the benchmark DOES
+carry structural, non-surface transferable headroom. Controls behaved in both directions
+(A +97.3% fired; C −32.1% and D −24.5% silent), so the assay is valid. OCM_CONTINUED was
+OMITTED_WITH_REASON (no natural typed-operator OCM history exists for the reminted matrix;
+fabricating one is forbidden by the purity rules) — the failing stage is therefore the
+representational world/operator interface, upstream of learning dynamics. Fully-charged
+variant in B: −14.7% (amortisation open at a 2-world economy).
+
+What this does NOT close: the oracle is a ceiling, not a learner; no OCM history achieved
+any of the reduction; amortisation structure is unmeasured beyond the 2-world economy. Both
+#323 conditions for authorising architecture work are met ONLY through the protocol's own
+terminal rule — proceed to carrier attribution knockouts. **DEV-CAL-2 is prospectively
+frozen** in DEV_CAL_2_KNOCKOUT_PROTOCOL_FREEZE_V1.json: single-component interface grants
+(representation / retrieval keying / transport map / charging model) as data on the same
+frozen world matrix; readout = recovery_share of the oracle's B reduction; terminal
+CARRIER_IDENTIFIED_TIER_k authorises work on exactly the named component and nothing else.
+
 ## 6. Defect classes -> class-level protections (recursive hardening)
 
 Every defect found becomes an invariant, not a local fix — ledgered machine-visibly in
