@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G07X",
+  "arm": "A4",
+  "channel": "explored (epsilon-share foray: mechanism design is outside every motif seed set; G07's iv-V-soundness removal is adversarial alignment, unmodelled by the routed M03/M07 candidates)",
+  "atom_id": "G07 V_t verifier (R7: verification crosses a system boundary; iv-V-soundness removal)",
+  "donor_domain": "game theory / economics (mechanism design, contract theory)",
+  "donor_source_ids": "revelation principle (Myerson 1979 / standard mechanism-design form); Myerson-Satterthwaite 1982 (impossibility, context); Hurwicz-Maskin-Myerson 2007 Nobel-class framework (survey form)",
+  "donor_structure": "Mechanism design: agents hold private types and report strategically; a mechanism is incentive-compatible (truthful) if reporting the true type is optimal for every agent under every type profile; revelation principle: any equilibrium outcome of any mechanism is replicable by a truthful direct mechanism. Screening/verification models price the cost of checking reports.",
+  "target_structure": "verifier soundness without assumption iv: V_t faces inputs from an adversarial (not honest) producer - prover/verifier boundary crossing; R7_T17 asks which exchange topologies close the tamper channel; the soundness question is whether verification remains reliable when the verified party acts strategically.",
+  "mapping": "agent with private type -> prover submitting candidate outputs; report -> submitted artifact; incentive compatibility -> soundness against strategic submission (verification kernel implementable); revelation principle -> WLOG restrict to direct verification interfaces; screening/verification cost -> verifier budget (alpha,beta error spend); tamper channel -> manipulation of the reporting interface (side-payments/state leaks = collusion channel).",
+  "preserved_relations": [
+    "soundness as implementability: (alpha,beta) bounds hold for EVERY prover strategy iff the verification mechanism is dominant-strategy implementable - adversarial quantification is exactly the game-theoretic dominance order",
+    "revelation-principle reduction: analyzing direct verification (prover states the artifact) loses no generality for equilibrium behaviour - licenses the R7_T17 diode abstraction",
+    "impossibility boundary: no budget-balanced, individually-rational, fully-verifying mechanism exists in general (Myerson-Satterthwaite class) - a structural cap on tamper-channel closure"
+  ],
+  "known_broken_relations": [
+    "mechanism design assumes utility-maximizing agents with quasilinear payoffs; HSG producers are algorithms/lineages without a utility function unless the constitution defines one - the transfer needs an explicit payoff model as an ADDED assumption",
+    "donor theory is static/single-shot; the tamper channel is a dynamic recurring interface (repeated-game extensions are weaker/conditional)",
+    "randomized verification (lane-E (alpha,beta) form) is a mixed mechanism: dominant-strategy implementability of randomized direct mechanisms is standard, but the HSG verifier also consumes resources (burden) - no donor theorem prices it"
+  ],
+  "unknown_correspondences": [
+    "which R7_T17 topologies correspond to collusive vs non-collusive mechanism classes (diode-precommit as commitment device) - mapping sketched, not proved",
+    "cost of dominant-strategy verification vs Bayesian-Nash verification for finite verifier budgets: unowned"
+  ],
+  "assumptions_added": [
+    "explicit prover payoff model defined in C_t (what the prover gains from passing verification)",
+    "verification interface is a direct mechanism (revelation principle)"
+  ],
+  "candidate_theorem": "Verifier soundness survives iv-removal iff the verification kernel is dominant-strategy implementable against the constitution-defined prover payoff; randomized (alpha,beta) verification attains this at strictly lower burden per query (screening trade-off), and no topology closes the channel entirely without a commitment device (diode = pre-committed mechanism).",
+  "strongest_parent": "revelation principle + Myerson-Satterthwaite impossibility (standard forms)",
+  "route": "exploration foray: L0 + L1 + L2 + map + synth (59 units); NO validation spend - epsilon share cap (100) does not accommodate validate=50 alongside the other frozen forays; self-assessed accordingly",
+  "mapping_search_cost": {"L0": 1, "L1": 3, "L2": 10, "map": 15, "synth": 30, "total": 59},
+  "status": "PROPOSAL",
+  "status_rationale": "structural mapping is strong (surface-remote, structurally close - the exact remote-donor profile) but unvalidated within the exploration share; the added-payoff-model assumption and the topology-correspondence sketch make PROPOSAL the honest status pending a validation spend."
+}

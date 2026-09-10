@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-P3",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "P3 local-to-global consistency",
+  "donor_domain": "algebraic topology (sheaf theory); constraint satisfaction; applied probability",
+  "donor_source_ids": "sheaf theory gluing (Bredon/Godement textbook form); CSP consistency theory (Dechter 2003 survey form); Markov chain lumpability (Kemeny-Snell 1960)",
+  "donor_structure": "Sheaf gluing: local sections on an open cover that agree on all pairwise overlaps glue to a unique global section (exactness of the section/restriction complex). CSP: k-consistency hierarchy - pairwise (arc) consistency does not imply global satisfiability; higher-order consistency needed. Lumpability: a Markov chain projects to a quotient chain iff transition rates are consistent across each block (block-level congruence).",
+  "target_structure": "local-to-global consistency of the search state: locally consistent fragments (per-context state updates, per-module views, per-task constraints) vs existence of one globally coherent state; when do local checks certify a global object.",
+  "mapping": "open cover -> family of contexts/modules/tasks; local section -> per-context state fragment; overlap agreement -> pairwise compatibility of fragments on shared variables; global section -> globally coherent search state; Cech/exactness stage -> k-consistency level; lumping congruence -> quotient-state consistency under state aggregation.",
+  "preserved_relations": [
+    "gluing iff agreement-on-overlaps (sheaf case): exactness gives a clean iff at the sheaf level",
+    "hierarchy gap: pairwise compatibility is strictly weaker than global existence in discrete settings (CSP higher-order counterexamples carry over verbatim)",
+    "projection consistency: quotient/aggregated state is a valid state process iff the dynamics are block-congruent (lumpability condition transfers)"
+  ],
+  "known_broken_relations": [
+    "sheaf exactness fails in general for non-sheaf-like (aspherical) constraint systems - the HSG state space has no a priori topology making restriction maps exact",
+    "finite consistency checks cannot certify global consistency in general (CSP intractability barrier): no finite k suffices uniformly",
+    "dynamic locality (G14 cone) is NOT overlap locality: consistency of fragments is about agreement, the cone is about causal reach - the two can disagree (separate atom)"
+  ],
+  "unknown_correspondences": [
+    "whether HSG constitutions can be equipped with a topology in which state fragments form an actual sheaf (versus only a pseudo-functor/gluing-on-the-nose) is unexamined",
+    "cost of k-th order consistency checks vs burden charge - no donor-owned economics"
+  ],
+  "assumptions_added": [
+    "fragments are specified on overlapping context families with explicit intersection data",
+    "consistency is exact (no approximate gluing / epsilon-consistency considered here)"
+  ],
+  "candidate_theorem": "Local fragments glue to a global state iff the consistency complex is exact at the overlap stage; in discrete/algorithmic settings pairwise consistency does not suffice (CSP-type counterexamples), and quotient-state consistency holds iff the transition kernel is block-congruent (lumpability).",
+  "strongest_parent": "sheaf gluing exactness (textbook standard) + CSP k-consistency hierarchy (standard) + Kemeny-Snell lumpability (standard)",
+  "route": "L2 structural read; validation by checking all three donor families instantiate the same 'local agreement vs global existence' pattern with matching failure modes",
+  "mapping_search_cost": {"L0": 3, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 108},
+  "status": "SUPPORTED",
+  "status_rationale": "three independent disciplines carry the same iff-condition with standard parent forms; no counterexample to the unified statement found; the 'no uniform finite k' barrier is inherited from CSP and recorded as a broken relation, not a defect of the mapping."
+}

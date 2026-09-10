@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G11",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "G11 Ev evolvability (R3/R4: kernel evolvability, metric sensitivity of Ev)",
+  "donor_domain": "quantitative genetics / evolutionary theory",
+  "donor_source_ids": "Price 1970 (Price equation; selection/transmission decomposition); selection-mutation balance (standard population-genetics form)",
+  "donor_structure": "Price identity: change in mean trait = Cov(w_i, z_i)/w-bar + E(w_i * delta z_i)/w-bar - an exact bookkeeping decomposition into a selection term (covariance of fitness with trait) and a transmission term (fidelity of inheritance); the second term is where mutation/recombination noise enters; identity is exact, interpretation is where the theory lives.",
+  "target_structure": "Ev = P(useful descendant | state, kernel): kernel evolvability. R3 needs Ev well-defined for kernels; R4 asks its metric sensitivity - how much Ev moves when the state/kernel moves (ladder already holds |Ev_Sigma - Ev_Sigma'| <= TV(Q_Sigma, Q_Sigma') as lane-F PARENT_SUFFICIENT via Dobrushin coupling).",
+  "mapping": "fitness w -> usefulness indicator of descendant; trait z -> any state functional; selection covariance -> proposal-selection alignment (kernel mass on useful variants); transmission term -> kernel fidelity (noise/mutation in realizing the selected variant); delta z -> burden delta of the realized descendant.",
+  "preserved_relations": [
+    "exact decomposition: expected change in Ev-relevant mass = alignment term + fidelity term, an identity-level transfer (no assumptions needed)",
+    "the transmission term is the honest location of kernel noise - matches the Dobrushin-coupling sensitivity bound: TV distance IS the transmission-fidelity budget",
+    "selection-mutation balance: steady-state useful-variant mass balances selection pull against mutation push - the equilibrium reading of Ev"
+  ],
+  "known_broken_relations": [
+    "Price equation is bookkeeping, not dynamics: it does not predict trajectories without a model of w and the transmission map (known criticism class in the donor literature itself)",
+    "biological fitness is exogenous; HSG usefulness is governed/verifier-dependent (G07) - the selection term is constitution-mediated, breaking direct interpretive transfer",
+    "Price covariance requires a population at each t; a single HSG lineage is a sample of size 1 - the identity applies to the ensemble/measure view only (R2/R3 measures, not individual orbits)"
+  ],
+  "unknown_correspondences": [
+    "whether the fidelity term admits a Dobrushin-style contraction bound across composed kernels (R5 interface) - natural next question, unowned",
+    "evolvability of the kernel-modifying process itself (G11's R6 row, lane G) has no Price-analogue parent"
+  ],
+  "assumptions_added": [
+    "usefulness event measurable (lane-E analytic+universal completion condition)",
+    "ensemble view: Ev evaluated on the state measure, not a single trajectory"
+  ],
+  "candidate_theorem": "Kernel evolvability decomposes exactly as Ev-change = selection-alignment covariance + transmission-fidelity term; the metric sensitivity of Ev is bounded by the transmission term's TV mass (consolidating the Dobrushin bound as the fidelity budget).",
+  "strongest_parent": "Price 1970 (identity; standard) + Dobrushin coupling (already verified in ladder for G11 R4)",
+  "route": "L0 x2 + L2 of Price-equation structure + map/synth/validate; validation: identity parent-owned and exact; the fidelity-budget consolidation with the existing Dobrushin bound is the residual contribution - checked for consistency, no counterexample",
+  "mapping_search_cost": {"L0": 2, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 107},
+  "status": "PARTIAL",
+  "status_rationale": "the Price identity is parent-owned and transfers as bookkeeping; the genuinely new content (fidelity-budget reading unifying with the Dobrushin sensitivity bound) is interpretive and flagged as residual, not proven as a new theorem - PARTIAL is the honest status."
+}

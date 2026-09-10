@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G01",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "G01 Sigma_t search state (R4: what does 'nearby state' mean)",
+  "donor_domain": "optimal transport / metric geometry",
+  "donor_source_ids": "Kantorovich 1942; duality and metric properties of W_p (Villani 2009 survey form, already in HSG ledger as R4 OWNS for this atom's parents_hint)",
+  "donor_structure": "Kantorovich/Wasserstein: W_c(mu, nu) = inf over couplings pi of E_pi[c(x,y)]; W_c is a metric on probability measures whenever c is a metric on the base space; duality gives a certificate (dual potentials) for optimality.",
+  "target_structure": "a metric d on the HSG search state Sigma_t sufficient for R4 (metric geometry of search states: nearby states should mean 'cheap to reach / similar in behaviour').",
+  "mapping": "base space -> elementary state transformations (edits/amendments); ground cost c -> burden of an elementary transformation; state distribution mu -> distribution over reachable states (or deterministic state as Dirac); search-state distance -> W_1 over transformation-cost structure; coupling -> joint plan moving one state to another.",
+  "preserved_relations": [
+    "metric axioms: W_1 is a genuine metric iff ground cost is (directly inherited)",
+    "dual certificate: optimal transport plans carry potentials = 'witness of cheapest move' - reusable as reachability certificate (ties to G12 reach)",
+    "metrization of 'nearby': convergence in W_1 = weak convergence + convergence of ground-cost moments - a principled notion of state proximity"
+  ],
+  "known_broken_relations": [
+    "computability: for program-like states the ground cost (minimal edit burden between states) is only semicomputable in general (Rice-type obstruction via T15); the metric exists mathematically but is not uniformly computable - breaks the use of d for cache/licence decisions (G14 hostile H3 analog)",
+    "behavioural metric mismatch: W_1 over edit cost measures syntactic proximity; two syntactically distant states can be behaviourally identical (neutral sets, P1) - d is not a behavioural metric without quotienting by the garbling order (P2)",
+    "burden-plateau discontinuity inherits G10's LIFT_FAILS: burden is not Lipschitz in any cheap metric (hostile_burden_lipschitz.json H1)"
+  ],
+  "unknown_correspondences": [
+    "whether an admissible restricted ground-cost family (amendment grammar-restricted edits) restores computability is open - the natural candidate for an HSG residual theorem",
+    "interaction of W_1 with kernel contraction (Dobrushin delta) unmeasured"
+  ],
+  "assumptions_added": [
+    "elementary transformation set and its burden costs fixed by the constitution (vii)",
+    "states embedded in a space where the ground cost is defined (measurable edit space)"
+  ],
+  "candidate_theorem": "A search-state metric exists at R4 iff the elementary-transformation ground cost is itself a metric; admissibility (burden-Lipschitz, computable) fails in general and is restored only under grammar-restricted edit families.",
+  "strongest_parent": "Kantorovich 1942 / Villani survey (metric property of W_c under metric ground cost; standard, ledger-verified for this atom)",
+  "route": "L0 shortlist + L1 survey + L2 duality read + map/synth/validate; validation via counterexample attempt on computability and burden-Lipschitz (both succeed as obstructions -> conditional form)",
+  "mapping_search_cost": {"L0": 2, "L1": 3, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 110},
+  "status": "PARTIAL",
+  "status_rationale": "parent owns the metric construction; the HSG-specific admissibility (computability, burden-Lipschitz) is obstructed in general - receipt delivers the conditional statement plus the named restricted-family escape, which is the genuinely new content."
+}

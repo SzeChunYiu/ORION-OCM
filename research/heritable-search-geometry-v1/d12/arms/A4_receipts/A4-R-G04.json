@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G04",
+  "arm": "A4",
+  "channel": "routed (amortized: donor abstraction M02/neutral-sets shared with P1, m=2)",
+  "atom_id": "G04 H_t inherited structure (R4: what does 'nearby inheritance' mean)",
+  "donor_domain": "molecular evolution / fitness-landscape genetics",
+  "donor_source_ids": "Maynard Smith 1970 (natural selection and the concept of a protein space); RNA genotype-phenotype map literature (Schuster et al. 1994 class; van Nimwegen et al. 1999 class) - survey-level L2",
+  "donor_structure": "Neutral networks: the set of genotypes folding to one phenotype forms connected components under point mutations; mutational robustness = average node degree; a population drifts along the component; network topology (connectivity, degree distribution) predicts evolvability and accessibility of adjacent phenotypes.",
+  "target_structure": "metric on H (inherited structure / inheritance channel) under which 'nearby inheritance' is meaningful: two inheritance records are near if one can be obtained from the other by burden-neutral elementary inheritance events; R4 needs this for archive/novelty decisions over H.",
+  "mapping": "genotype -> inheritance record (strategy/module/constitution fragment); point mutation -> elementary inheritance event (copy, edit, drop); phenotype -> realized function/behaviour; neutral network component -> burden-neutral inheritance class; mutational robustness -> inheritance robustness (number of neutral variants of an H); phenotype adjacency -> reachable innovation step.",
+  "preserved_relations": [
+    "connectivity of neutral classes: neutral inheritance sets are connected under elementary events (under the analogue conditions that hold in GP maps)",
+    "robustness-evolvability correlation: high neutrality grants access to more distinct neighbours (innovation through drift on the component)",
+    "metric reading: edit distance on H restricted to a neutral class stays at 0 burden change - 'nearby inheritance' = short path in the event graph"
+  ],
+  "known_broken_relations": [
+    "GP-map results are empirical/enumerated (RNA lattices), not theorems - connectivity is observed for specific map families, not proven in general (epistasis can disconnect neutral sets; recorded by the A4 exploration cross-check E5)",
+    "biological genotypes have a fixed alphabet and local mutations; HSG inheritance events include arbitrary module insertions - event-graph locality is coarser",
+    "phenotype in GP maps is objective (minimum free energy); HSG 'behaviour' is verifier-dependent (G07), so adjacency of innovations inherits the verifier's error profile"
+  ],
+  "unknown_correspondences": [
+    "whether HSG inheritance classes empirically show neutral-network connectivity (an enumerable experiment on a frozen constitution) - unmeasured",
+    "degree distribution / robustness profile of H neutral classes: no data"
+  ],
+  "assumptions_added": [
+    "elementary inheritance events and their neutrality predicate frozen by C_t",
+    "'behaviour' fixed by one verifier configuration (no ecology drift during the comparison)"
+  ],
+  "candidate_theorem": "A nearby-inheritance metric is admissible iff burden-neutral inheritance classes are connected under elementary events; expected innovation access is monotone in inheritance robustness (neutral-degree), the GP-map robustness-evolvability pattern.",
+  "strongest_parent": "Maynard Smith 1970 protein-space concept + RNA neutral-network literature (empirical parent class, no single theorem)",
+  "route": "amortized M02 read from P1 (cost 10 shared over m=2 atoms) + L2 of the GP-map literature + map/synth/validate; validation against E5 exploration cross-check (epistasis disconnects plateaus - consistent with the conditional form)",
+  "mapping_search_cost": {"L0": 1, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 106, "amortization_note": "donor abstraction shared with P1 (m=2): per-atom donor-read cost 10/2 = 5 vs 10 fresh - HSG-T61 accounting realized in-log"},
+  "status": "SUPPORTED",
+  "status_rationale": "structural mapping standard and well-evidenced empirically in the donor domain; transfer to HSG is an adaptation (flagged: empirical parent, coarser locality, verifier-dependent phenotype) - supported at the structural level with the connectivity condition made explicit, not parent-owned as a theorem."
+}

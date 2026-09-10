@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-P2",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "P2 representation sufficiency",
+  "donor_domain": "statistics / decision theory; concurrency theory; information theory",
+  "donor_source_ids": "Blackwell 1951 (Comparison of experiments); Blackwell 1953 (Equivalent comparisons of experiments); Larsen-Skou 1991 (bisimulation, context); Tishby-Pereira-Bialek 1999 (information bottleneck, context)",
+  "donor_structure": "Blackwell order: experiment E dominates F iff F is a garbling of E (F's signal = E's signal passed through a stochastic kernel); then E is at least as valuable as F for EVERY decision problem and loss. Probabilistic bisimulation: states indistinguishable by all probabilistic observations iff related by a largest bisimulation (kernel-observational equivalence). Information bottleneck: minimal sufficient statistics as rate-distortion trade-off.",
+  "target_structure": "representation sufficiency: when does one internal representation of the search state suffice for every downstream query of the process (decision, control, prediction) - i.e., a summary that loses nothing relevant.",
+  "mapping": "experiment/signal -> state representation; garbling kernel -> lossy summarization map; decision problem -> downstream HSG consumer (proposal kernel, verifier, burden estimate); dominance -> 'representation rho suffices over rho' iff rho' factors as rho followed by a kernel.",
+  "preserved_relations": [
+    "order independence: sufficiency order holds for every downstream loss (Blackwell's central invariance)",
+    "post-processing never helps: applying any stochastic post-map to a sufficient representation cannot increase decision value (data-processing inequality shared by all three donor families)",
+    "lumpability/bisimulation instance: quotienting by an observation-kernel equivalence preserves behaviour exactly when the kernel is a congruence for the dynamics"
+  ],
+  "known_broken_relations": [
+    "Blackwell order is partial (incomparable experiments exist) - sufficiency is not a total ranking of representations",
+    "computational cost of maintaining the full sufficient statistic is not part of the donor theory (HSG burden must be charged separately); 'sufficient but unaffordable' representations exist",
+    "under distribution shift (ecology drift, vi removal) a once-sufficient representation can cease to be sufficient; donor theory is fixed-prior"
+  ],
+  "unknown_correspondences": [
+    "relative sufficiency under bounded computation (sufficiency vs. burden trade-off surface) has no donor-owned theorem",
+    "whether HSG verifier soundness can be re-read as sufficiency of the verification channel is untested"
+  ],
+  "assumptions_added": [
+    "downstream consumers are decision problems measurable w.r.t. the representation sigma-algebra",
+    "fixed task distribution (ecology) during the comparison"
+  ],
+  "candidate_theorem": "Representation rho dominates rho' for all downstream consumers iff rho' = K o rho for some stochastic kernel K (garbling); minimal sufficient representation exists and is unique up to isomorphism under fixed ecology.",
+  "strongest_parent": "Blackwell 1951/1953 (dominance iff garbling; verified standard form, already in HSG ledger as R3 OWNS)",
+  "route": "L2 read of Blackwell order; cross-validated against bisimulation (kernel congruence) and IB (rate-distortion) - all three instantiate the same post-processing order",
+  "mapping_search_cost": {"L0": 3, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 108},
+  "status": "SUPPORTED",
+  "status_rationale": "parent theorem standard and directly instantiates; two independent donor families (bisimulation, IB) corroborate the same order; no counterexample found within the fixed-ecology scope. Ecology-drift caveat recorded as assumption, not defect."
+}

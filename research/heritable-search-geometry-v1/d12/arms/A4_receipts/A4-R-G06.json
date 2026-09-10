@@ -1,0 +1,35 @@
+{
+  "receipt_id": "A4-R-G06",
+  "arm": "A4",
+  "channel": "routed",
+  "atom_id": "G06 R_t resource policy (R5: adaptive history-dependent policy)",
+  "donor_domain": "online learning / sequential decision theory",
+  "donor_source_ids": "Lai-Robbins 1985 (asymptotically efficient adaptive allocation); Auer-Cesa-Bianchi-Fischer 2002 (UCB, finite-time regret); comparator-regret framework (Cesa-Bianchi-Lugosi 2006 class) - standard forms",
+  "donor_structure": "Regret framework: an adaptive (history-dependent) policy's cumulative loss is compared to the best fixed policy chosen in hindsight; sublinear regret (o(T)) means adaptivity asymptotically pays nothing for not knowing the best frozen policy; log T (Lai-Robbins) and sqrt(T) (nonparametric) rates are parent theorems.",
+  "target_structure": "R5 adaptive resource policy: policy mapping full observed history to a resource allocation, vs R2 randomized (frozen-distribution) policy; the ladder question is what adaptivity is worth and when the R5 class strictly dominates.",
+  "mapping": "arm/fixed policy -> frozen randomized resource policy (R2 comparator); adaptive allocation rule -> history-dependent R_t; cumulative loss -> cumulative burden; horizon T -> search campaign; regret -> burden excess of not having known the optimal frozen policy in advance.",
+  "preserved_relations": [
+    "strict domination with sublinear regret: adaptive policy eventually outperforms every fixed policy mis-specified to the regime, while losing only o(T) against the best one - exactly the R5 > R2 separation the atom asks for",
+    "logarithmic frontier (Lai-Robbins): under parametric families the price of adaptivity is O(log T) - a quantitative value-of-adaptivity bound",
+    "measurability is the gate: regret is well-defined only when policies are measurable in the observation sigma-field - matching the lane-E finding that (iii) is load-bearing for R2->R3"
+  ],
+  "known_broken_relations": [
+    "adversarial regimes: no policy achieves sublinear regret against unrestricted adversarial task sequences (minimax lower bounds); adaptivity's advantage is regime-relative, not absolute",
+    "donor theory prices comparisons against FIXED policies only; comparisons against other adaptive policies (tracking/switching) need extra machinery",
+    "burden is endogenous in HSG (policy changes the ecology it acts on - reflexive), while donor bandits assume an exogenous environment"
+  ],
+  "unknown_correspondences": [
+    "regret under governed (constitution-constrained) policy classes: no parent theorem",
+    "reflexive burden feedback (policy shapes task distribution) sits between stochastic and adversarial bandit models - unowned gap, candidate HSG residual"
+  ],
+  "assumptions_added": [
+    "task stream within a regime is stochastic (stationary within regime, drifting across regimes per vi)",
+    "measurable policy class (iii retained)"
+  ],
+  "candidate_theorem": "The R5 adaptive policy class strictly dominates the R2 frozen class on every regime with sublinear regret (O(log T) under parametric task families, O(sqrt T) generally), and no policy dominates uniformly across adversarial regimes; adaptivity is worth exactly the regret gap.",
+  "strongest_parent": "Lai-Robbins 1985 + Auer et al. 2002 + Cesa-Bianchi-Lugosi comparator framework (standard, directly instantiating)",
+  "route": "L0 x2 + L2 of regret-rate theorems + map/synth/validate; validation: parent statements standard, HSG instantiation direct, reflexive-burden gap honestly marked unowned",
+  "mapping_search_cost": {"L0": 2, "L2": 10, "map": 15, "synth": 30, "validate": 50, "total": 107},
+  "status": "SUPPORTED",
+  "status_rationale": "parents are standard theorems that instantiate without modification; the R2->R5 separation claim follows directly; the reflexivity gap is recorded as an open correspondence rather than smuggled in as if owned."
+}
