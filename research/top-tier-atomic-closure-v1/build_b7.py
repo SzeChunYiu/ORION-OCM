@@ -77,7 +77,7 @@ def main():
         "DEFECT (identity-weld, lane orion-qg): committed QG34_ADAPTIVE_PROBE_TREE_RESULTS.json (sha256 7731425f...) contains an object with duplicate JSON keys (issue/schema/source_result_digest/terminal); not parse-stable; canonical values exist only via the correction receipt; replay emits the clean full machine output with result_digest 7c48f505... equal to the correction-receipt canonical source_result_digest",
         "DEFECT (frozen-artifact drift, lane msc): MSC_V1_RESULTS.json engineering_chain grew 0->2 via post-freeze E4/E5 appends by later lane runs; a frozen result file mutates across commits",
         "DEFECT (layer mismatch, lane orion-qg): MAX_R4EB0_HELDOUT_QG32_RESULTS.json committed as CommittedResult.v1 wrapper around the raw adjudicator output, so the raw entry point can never be byte-compared directly; all 18 shared authority/adjudication fields byte-equal on replay incl adjudication=BORNE_OUT_UPPER_BOUND_ONLY",
-        "DEFECT (uncommitted artifact, lane orion-qg): qg34_build_primitives.py hardcodes /private/tmp/claude-501/.../scratchpad/qg34/primitives.json -- machine-specific absolute path, artifact uncommitted; class: hardcoded-path receipt binding",
+        "DEFECT (uncommitted artifact, lane orion-qg): qg34_build_primitives.py hardcodes /private/tmp/claude-501/.../scratchpad/qg34/primitives.json -- machine-specific absolute path, artifact uncommitted; class: hardcoded-path receipt binding",  # RH-14-EVIDENCE: quoted defect path (recorded evidence, not a live path); resolved OUT_OF_REPO_CUSTODY in REPLAY_RECEIPTS_V1.json
     ]
 
     for aid in ATOMS:
