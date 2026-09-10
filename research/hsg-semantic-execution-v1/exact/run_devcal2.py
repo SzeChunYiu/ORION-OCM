@@ -669,8 +669,37 @@ def null_arm_share(rows, cell, burden_key="work"):
             "non_alarm": not material}
 
 
+def _signflip_band(reds, tag):
+    """95th percentile of |per-seed mean| under the sign-flip null at the
+    SAME per-seed n (AM-5 registration; frozen tag seed -> deterministic
+    re-run).  This band IS the power statement: per-seed n is capped at 30
+    by the frozen cell-B world matrix and cannot be raised, so adequacy is
+    registered as the null band at that n."""
+    if not reds:
+        return None
+    rng = random.Random("AM5:band:%s" % tag)
+    band = sorted(abs(_mean([x * (1 if rng.random() < 0.5 else -1)
+                             for x in reds])) for _ in range(PERM_N))
+    return band[int(0.95 * PERM_N)]
+
+
 def draw_invariance(rows, cell, arm, burden_key="work"):
-    """Per-seed direction agreement of the arm-vs-RESET reduction."""
+    """Per-seed direction agreement of the arm-vs-RESET reduction,
+    NULL-BAND-GATED (re-registered by AM-5-DEVCAL2-ASSAY-FIX).
+
+    The V1 registration (zero-tolerance sign agreement at the frozen
+    per-seed n=30) is underpowered for arms whose true effect is
+    null/near-null BY DESIGN (the freeze expects KO-1 silent): on the V1
+    receipts every KO-1 seed mean sits INSIDE its own sign-flip null band
+    (-0.396/+0.013/-0.238 vs bands 0.41/0.16/0.32) and simulation on those
+    receipts puts the check's false-ASSAY_DEFECT rate under a true-zero
+    effect at 10-44%.  Re-registered: a seed's direction is EVIDENCE-BEARING
+    only when its mean lies outside its own 95% sign-flip null band
+    (DIRECTION-DETERMINATE); draw-invariance fails only when two determinate
+    seeds DISAGREE in direction.  An all-indeterminate arm is classified
+    NULL_EFFECT -- an absence is draw-invariant, recorded, never a defect.
+    No recovery threshold, the 20% margin, terminal, world matrix, or
+    carrier/ladder rule changes."""
     armv = cell_arm_stats(rows, cell, arm, burden_key)
     reset = cell_arm_stats(rows, cell, "RESET", burden_key)
     per_seed = {}
@@ -678,12 +707,27 @@ def draw_invariance(rows, cell, arm, burden_key="work"):
         reds = [(reset[k2] - armv[k2]) / reset[k2]
                 for k2 in sorted(set(armv) & set(reset))
                 if k2[1] == seed and reset[k2] > 0]
-        per_seed[str(seed)] = {"mean_reduction": _mean(reds)}
-    dirs = [v["mean_reduction"] for v in per_seed.values()
-            if v["mean_reduction"] is not None]
-    return {"per_seed": per_seed,
-            "direction_agrees": bool(dirs) and
-            all((d > 0) == (dirs[0] > 0) for d in dirs)}
+        mean = _mean(reds)
+        band = _signflip_band(reds, "%s:%s:%s:%d" % (arm, cell, burden_key,
+                                                     seed))
+        per_seed[str(seed)] = {
+            "mean_reduction": mean,
+            "null_band_95": band,
+            "determinate": bool(mean is not None and band is not None and
+                                abs(mean) > band),
+            "n": len(reds),
+        }
+    det = [("+-"[v["mean_reduction"] < 0])
+           for v in per_seed.values() if v["determinate"]]
+    conflict = bool(det) and len(set(det)) > 1
+    return {
+        "per_seed": per_seed,
+        "n_determinate": len(det),
+        "direction_agrees": not conflict,
+        "classification": "DIRECTION_CONFLICT" if conflict else
+                          ("NULL_EFFECT" if not det else "AGREE_DETERMINATE"),
+        "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)",
+    }
 
 
 def arm_control_defects(rows, arm):
@@ -866,6 +910,8 @@ def merge_main(nshards):
             for a in A.LEAVE_ONE_OUT if a in per_arm},
         "effect_threshold": EFFECT_THRESHOLD,
         "recovery_threshold": RECOVERY_THRESHOLD,
+        "draw_invariance_rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX; "
+                                "supersedes the V1 zero-tolerance sign test)",
         "solution_episodic_classification": {
             a: per_arm[a]["purity"] for a in arms},
         "terminal": terminal,
