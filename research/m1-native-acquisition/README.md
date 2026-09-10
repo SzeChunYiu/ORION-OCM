@@ -1,6 +1,7 @@
 # M1 native-acquisition machinery (build lane)
 
-Status: **machinery built; NO scored run executed here.** Governing design:
+Status: **scored run V1 EXECUTED on laptop billy 2026-09-10 — terminal NO_NATIVE_EFFECT
+(clean assay; see `scored_v1/M1_SCORED_RESULTS_V1.json`).** Governing design:
 `research/top-tier-atomic-closure-v1/M1_NATIVE_ACQUISITION_PROTOCOL_FREEZE_V1.json`
 (read from the in-flight `m1-native-acquisition-freeze` branch at build time; not
 committed into this PR). The registered learner `src/ocm/learning/methods.py` is
@@ -19,12 +20,37 @@ no learned router (#71 respected).
 
 | gate | status |
 |---|---|
-| (a) DEV_CAL_V2_PROTOCOL_FREEZE_V1 merged | OPEN — not on origin/main at build time; terminal precedence + instrumentation (sealed logs, failure retention, refusal-rate, p_not_applicable, INSUFFICIENT_HISTORY) implemented from the M1 freeze text |
-| (b) calibration fixture (`calibration_reference.py`, 12 tests + controls) | OPEN — file not on origin/main at build time |
-| (c) this machinery passes its hostile selftest | HELD — selftest PASS locally (quick mode 0.56 s; `--full` 1.8 s) |
-| (d) frozen semantic partitions emitted with member digests | MACHINERY READY — full emission (grammar length 8, frozen seed) runs on laptop billy: `python3 m1_partitions.py --out M1_PARTITIONS_V1.json`; only toy emissions ran on the Mac |
+| (a) DEV_CAL_V2_PROTOCOL_FREEZE_V1 merged | CLOSED — merged (PR #337), on origin/main at run HEAD 86dd3701 |
+| (b) calibration fixture (`calibration_reference.py`, 12 tests + controls) | CLOSED — merged (PR #340); parent-parity correction in flight as PR #342 at run time (noted, not depended on) |
+| (c) this machinery passes its hostile selftest | CLOSED — re-run on the run host pre-run: quick exit 0 in 1.11 s; `--full` exit 0 in 2.72 s, all hostiles fired |
+| (d) frozen semantic partitions emitted with member digests | CLOSED — full emission (grammar length 8, frozen seed) on laptop billy: 18 partitions, 144 x 4 streams, 0 shared normal forms, `M1_PARTITIONS_V1.json` sha256 a5b0cbc1814042a7b4ddcfbc8658e63c4b352fade22cfdcd91c1968bea13921e |
 
-A scored run on laptop billy requires ALL of (a)-(d).
+A scored run on laptop billy requires ALL of (a)-(d). All four closed before the run.
+
+## Scored run V1 (2026-09-10, laptop billy)
+
+`scored_v1/` holds the complete run package (scp'd from the run host, sha256-verified
+both sides; `HOST_RECEIPT.json` carries the phase timestamps, python 3.11.14, git
+HEAD, artifact manifest and the raw log; `M1_SCORED_RESULTS_V1.json` is the distilled
+verdict). Parameters: dev slots 200000; ladder 1000/4000/16000/64000/200000; 8
+protected acquisition targets + 136 obligations per arm.
+
+- **Terminal: NO_NATIVE_EFFECT** under the frozen precedence — clean assay (no
+  leakage, no assay defect, zero censoring, all seals verified, real OS-process
+  restarts with pid evidence on every arm, external CHECKER_C verdicts on every
+  verified row).
+- The registered learner REFUSED generator deployment at dev time
+  (`validate_generator` no-slowdown rule; consistent with #189/#191). NOT relaxed
+  in-run: CONTINUED therefore served no generator (refusal_rate 1.0) and equals
+  RESET on all 40 common target@budget rows (mean B 26396 both).
+- ORDINARY_ADAPTIVE_PARENT serving the same 16 fragments WITHOUT the admission
+  gate is a net negative (mean B 30207, 11/40): the no-slowdown refusal was correct
+  in the registered sense. KNOWN_STRUCTURE_ORACLE (calibration only): 18/40 at
+  mean B 18762 — headroom above baseline exists but was not captured natively.
+- Obligations: 136/136 externally verified per arm at the top rung.
+- Claim discipline: mechanism scope only; NO economics, NO OCM-residual, NO
+  open-endedness. The successor distinguishing immutable correctness from
+  average-efficiency non-inferiority is a NEW registration, not an in-run change.
 
 ## Arms (exactly what each receives)
 
