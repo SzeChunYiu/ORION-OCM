@@ -1,0 +1,68 @@
+{
+ "schema": "OCM_DEV_CAL_3_CHARGING_ATTRIBUTION_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "execution_spine": 165,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_EXECUTION",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "trigger": "DEV-CAL-2 V2 terminal AMORTISATION_DOMINATED (PR #345 merged 5d10d910): KO-2 carries the oracle transfer at 1.0000 [1.0,1.0] determinate 3/3 on compute-matched work, but NO tier recovers on total_burden_incl_acquisition (secondary shuffle-null alarm p=0.0); the DEV-CAL-2 freeze authorises work on the amortisation structure ONLY, carrier = charging model",
+
+ "central_question": "which component of the current charging model makes acquisition costs non-amortising: failed-attempt charging, verification charging, development-stream (mining) charging, full-charge-per-use accounting, or absence of salvage/depreciation?",
+
+ "method": {
+  "kind": "ANALYTICAL_RECOMPUTATION_OVER_SEALED_RECEIPTS",
+  "no_new_protected_run": "no new worlds, seeds, arms-at-runtime, or scored execution; the sealed V2 event/cost ledgers are the sole input, bound by exact path: research/hsg-semantic-execution-v1/exact/results/DEV_CAL_2_SCORED_RESULTS_V1.json + _V2.json, research/hsg-semantic-execution-v1/exact/receipts/DEVCAL2_receipts_shard{1..4}_V2.jsonl (+ V1 shards byte-identical-preserved, DEVCAL2_HOST_RECEIPT_billy_V2.json); sha256 of every input recorded in the analysis receipt before recomputation",
+  "legitimacy": "the DEV-CAL-2 freeze authorises amortisation-structure work; recomputing burden under alternative charge semantics on sealed ledgers is analysis of authorised structure, not a new assay; all recomputations must reproduce the AS_IS control numbers exactly before any alternative is reported",
+  "leakage_rule": "alternative charge semantics are applied POST HOC to recorded events only; no event, order, or outcome may be re-simulated, re-ordered, or dropped"
+ },
+
+ "charge_semantics_arms": {
+  "AS_IS": "control: the V2 charging model exactly; must reproduce every V2 primary/secondary number within exact equality (any mismatch = ASSAY_DEFECT, the analysis halts)",
+  "NO_FAILURE_CHARGE": "failed enumeration/verification attempts charged at zero (they still occur, still count for behaviour metrics, cost zero)",
+  "NO_VERIFICATION_CHARGE": "external CHECKER_C calls charged at zero",
+  "NO_MINING_CHARGE": "development-stream costs (fragment mining, dev-task solving) excluded from target burden",
+  "MARGINAL_COST_ONLY": "each retrieval/use charges its marginal cost; acquisition cost retires at a registered amortisation threshold (frozen: first N=10 uses, sensitivity reported at N in {5,10,25})",
+  "SALVAGE_MODEL": "failed traces credited their measured information value at the empirical reuse rate recorded in the ledgers"
+ },
+
+ "endpoint_and_stats": {
+  "primary": "under each charge semantics, the tier-recovery and total_burden_incl_acquisition readouts recomputed for every DEV-CAL-2 tier/LOO cell; attribution = which single component's reform flips the secondary readout to recovery while leaving the KO-2 primary transfer intact",
+  "stats": "paired per-cell recomputation intervals, lineage/ecology clustering, Holm over the five alternative arms, 20% registered margin, NULL_BAND_GATED direction tests (AM-5 standing); the AS_IS control is exact-equality gated, not interval tested",
+  "claim_rule": "attribution is per-component; a component whose reform does NOT flip the readout is EXONERATED and lands as a standing invariant"
+ },
+
+ "terminals": {
+  "precedence": "ASSAY_DEFECT > RECEIPT_BINDING_DEFECT > CHARGE_CARRIER_{FAILURES|VERIFICATION|MINING|FULL_CHARGE|NO_SALVAGE|MULTIPLE|NONE} > CANNOT_CHECK_<reason>",
+  "meaning": "CHARGE_CARRIER_k names the ledger component that kills amortisation at this scope ONLY; NONE means the non-amortisation is structural in the acquisition pipeline rather than the ledger and routes the revival back to the M1B mechanism-attribution lane; every terminal authorises at most a PROSPECTIVE REGISTRATION for a redesigned charging model (economics = M3 territory, explicitly not claimable here)"
+ },
+
+ "forbidden": [
+  "any new scored/protected run, world, seed, or runtime arm",
+  "editing sealed V1/V2 receipts or their bindings (analysis outputs land under new names, never overwrite)",
+  "designing or deploying a new charging model inside this lane (that is a separate prospective registration)",
+  "claiming economics, OCM-residual, or open-endedness",
+  "using an oracle-transplant number as a headline comparator"
+ ],
+
+ "negatives_to_invariants": [
+  "every exonerated component lands as a class-level invariant (e.g. VERIFICATION_NOT_CARRIER: verification share of total burden on this ecology recorded with its bound) in the same PR as the result",
+  "ASSAY_DEFECT and CANNOT_CHECK preserved honestly; never massaged"
+ ],
+
+ "entry_gates": [
+  "PR #345 merged (holds: 5d10d910)",
+  "this freeze merged before any recomputation is reported",
+  "the recomputation script passes a hostile selftest including an AS_IS-mismatch hostile (planted drift must alarm) and a no-alarm control, on the run host"
+ ],
+
+ "hosts": {
+  "recompute_and_rollup": "laptop billy (compute off-Mac rule; receipts fetched sha256-verified)",
+  "never": "Mac mini (sub-second selftests only)"
+ },
+
+ "explicitly_not_authorized": [
+  "reporting any alternative-semantics number before the AS_IS control reproduces V2 exactly",
+  "treating a recomputed number as a NEW terminal of DEV-CAL-2 (DEV-CAL-2's verdict stands; this lane attributes its carrier)"
+ ]
+}
