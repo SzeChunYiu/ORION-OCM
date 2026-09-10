@@ -11,7 +11,13 @@
 # D27 lineage campaign: continued vs reset vs single-object knockout, plus the
 # B_future_cognition signature against unrelated and harmful controls.
 set -u
-BASE="$HOME/zoo221/formoracle"
+# Stage from SCRATCH, not $HOME. Home carries a per-user quota that df cannot
+# see -- it reported 134T free on the same filesystem while a write failed with
+# "Disk quota exceeded" -- and lfs quota and quota are both unavailable, so the
+# only reliable probe is actually writing a file. An earlier campaign lost 94
+# array tasks to Errno 122 mid-write. Scratch is 564T free.
+BASE="${FO_BASE:-/projects/hep/fs12/scratch/scyiu-formoracle}"
+[ -d "$BASE" ] || BASE="$HOME/zoo221/formoracle"
 export PYTHONPATH="$BASE/zoo:$BASE/fo:$BASE"
 cd "$BASE" || exit 1
 mkdir -p fo/results
