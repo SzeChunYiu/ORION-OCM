@@ -1,0 +1,17 @@
+{
+  "schema": "ocm.rv8.h1-horizon.freeze.addendum.v3",
+  "statement": "Recorded BEFORE any scored cell ran. The cell array had not been submitted and no cell file existed. Only the two validation gates had produced output, and neither imports rv8_analyse.py.",
+  "amends": "RV8_FREEZE.json frozen_files_sha256.rv8_analyse.py, as already amended by addenda V1 and V2",
+  "defect_found_pre_execution": {
+    "name": "the mix-1.0 internal check asserted the wrong invariant",
+    "evidence": "addendum V1 added a check asserting that at mix 1.0 the 'balanced' and 'f1_only' cells hold IDENTICAL per-task units, on the reasoning that the non-F2 remainder is empty so both compositions yield the same stream. The family SEQUENCE is indeed identical, but composition is part of the per-task seed in stream_task(), so the two cells draw DIFFERENT tasks. The check as written would have reported false on every arm and been read as a determinism failure.",
+    "attribution": "analysis check stage: the invariant was derived from the family allocator alone and ignored the task seed.",
+    "lever": "replace it with the invariant that actually holds -- family sequences identical -- plus the genuinely informative one: the two cells are INDEPENDENT REPLICATES of the same distribution at mix 1.0, so their saving/task estimates must agree within their CIs. A disagreement there is a variance warning, not a determinism failure. Reported as mix1_replicate_check.",
+    "side_benefit": "at mix 1.0 the design therefore carries 10 independent stream draws per arm rather than 5"
+  },
+  "semantic_changes_to_frozen_endpoints": "NONE. No arm, axis, cost term, stream, statistic or endpoint changes; this is an internal consistency check only.",
+  "note_on_this_being_caught_before_execution": "This is the third defect found in the analysis before any scored cell existed. Each was found by checking a claim rather than assuming it, and each is recorded here rather than silently corrected.",
+  "rv8_analyse_py_sha256_superseded": "d005034d001f18ebae025d9dac239a91717dfadb2ca00e769967b7d768686731",
+  "rv8_analyse_py_sha256_current": "bdb06c39364d48b1fb5460b9613ebf74345cb77d692278cf3af77a540c800129",
+  "unchanged_from_base_freeze": ["target claim", "axes", "arms", "reduced-horizon rule", "cost model", "stream construction", "hard gates and their terminals", "endpoints", "registered predictions R1-R6", "legitimate outcomes", "forbidden claims", "declared limitations", "rv8_horizon.py digest 3309688e60a60aa524e3a374d04c5566f70d0df1e466000cd8c2dbf455eb29e3"]
+}

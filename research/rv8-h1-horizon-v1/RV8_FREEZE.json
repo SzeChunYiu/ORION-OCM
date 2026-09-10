@@ -1,0 +1,148 @@
+{
+  "schema": "ocm.rv8.h1-horizon.freeze.v1",
+  "statement": "Everything below was recorded BEFORE any scored cell ran and BEFORE any gate output was read. The scored array must be executed against exactly these digests; any drift is a defect run, preserved and reported, never edited. This commit contains NO result file. A post-freeze change to any axis, arm, cost term, stream construction or endpoint requires a recorded supersession with cause and a re-run.",
+  "target_claim": "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS",
+  "status_before_this_study": "PROJECTED, NOT OBSERVED (break-even ~6,123 tasks extrapolated from a 16-task per-task inequality; a 380x extrapolation)",
+  "evidence_class": "E1 / L1, inherited unchanged from FNA-4",
+  "parent_study": "research/functional-neural-absorption-v1/fna4_library_synthesis",
+  "parent_terminal_not_reopened": "PARENT_SUFFICIENT_FOR_EXPERIENCE_CONSOLIDATION_AT_REGISTERED_SCOPE",
+
+  "frozen_files_sha256": {
+    "RV8_PROTOCOL.md": "9a7fb4c9bc7c9ff0ca5e09b106a8d27e1dc4185cef47b56c585a54d241ebf7af",
+    "rv8_horizon.py": "3309688e60a60aa524e3a374d04c5566f70d0df1e466000cd8c2dbf455eb29e3",
+    "rv8_analyse.py": "125b40effde721b71e139db9dda787935dba916917f526e358f624eeb1b77833",
+    "probe_cost.py": "91d657702f720c5da617bd5ea24f117eb16689c3b3b38ee4987f378842af96e6",
+    "README.md": "3f0dff4d9393efe3894b24b181dc777629935224fc96af855634af16c182ce66"
+  },
+
+  "imported_harness_sha256": {
+    "note": "IMPORTED, not copied and not modified. These are byte-identical to FNA4_FREEZE_ADDENDUM_V2.harness_files_sha256_v2, i.e. the exact harness that produced FNA-4 scored run 3 and the ~6,123 projection.",
+    "fna4.py": "cc5205c1d991544e6aa63afc8f9dc08afc00361c272f5d325060c92639ab3c54",
+    "fna4_solver.py": "f861a48b60f80c4ed525e84a378d02e28169b672d6ddb2b68d86f9bc59d30007",
+    "fna4_learners.py": "d71b4f5c0b46bc110ddee462dd1c8e61f190d4316789f74b8522ac9d5719bc7d",
+    "run_fna4.py": "bba553d1e0956c0123237216ac0a72819ec424ee23ca74b6a6deabc34c59309b"
+  },
+
+  "salts": {
+    "SALT_RV8": 810001,
+    "disjoint_from": ["SALT_ACQ 620001", "SALT_TEST 630001", "SALT_SWEEP 640001", "SALT_DETERMINISM 650001", "revival sweep SALT_SWEEP+2000"],
+    "null_library_seed_prefix": "RV8-NULL|<null_seed>",
+    "cost_probe_seed_prefix": "COSTPROBE|<key>|<family> (sizing only, never scored)",
+    "analysis_bootstrap_seed": 815001
+  },
+
+  "axes": {
+    "horizon_ladder": [16, 64, 256, 1024, 4096, 16384, 32768, 65536, 131072],
+    "N_FULL": 131072,
+    "N_REDUCED": 4096,
+    "N_FULL_sizing_before_any_scored_cell": {
+      "source_a_fna4_frozen_deltas": {"saving_per_task_m050_balanced": 11922, "implied_N_star": 17257},
+      "source_b_unscored_timing_probe_salt_999001": {"saving_per_task_m050_balanced": 1184, "implied_N_star": 203000},
+      "decision": "131072 contains source (a) with ~7.6x margin and reaches well into source (b). If no crossing appears by 131072 the answer is 'no crossover within the horizon reached', stated with that horizon and never extrapolated further."
+    },
+    "mix_grid_F2_share": [0.0, 0.05, 0.10, 0.12, 0.15, 0.17, 0.20, 0.25, 0.35, 0.50, 0.75, 1.0],
+    "mix_grid_rationale": "spans below, through and past the claimed critical band (STITCH_NOGOOD_CEGIS balanced 0.1176 to STITCH balanced 0.1696) and past the all-F1 edges (0.1740, 0.2417)",
+    "compositions": ["balanced (F1:F3 = 1:1)", "f1_only (all F1, FNA-4's worst case)"],
+    "stream_seeds": [0, 1, 2, 3, 4],
+    "null_seeds": [0, 1, 2],
+    "cells_total": 984
+  },
+
+  "arms": {
+    "NO_LIBRARY": "incumbent baseline, full horizon",
+    "STITCH": "utility-gated admission, full horizon",
+    "STITCH_NOGOOD_CEGIS": "utility-gated + nogoods + CEGIS; holds PARENT_SUFFICIENT; full horizon",
+    "NOGOOD_ONLY_per_batch": "failed-experience only, no library, full horizon",
+    "CHUNK": "exact-match caching, reduced horizon",
+    "AU_PAIR": "recurrence-gated (Reynolds lgg), reduced horizon",
+    "EGGRAPH": "recurrence-gated (e-graph saturation), reduced horizon",
+    "SHUFFLE_NULL": "shuffle-equal-n null of STITCH, full horizon",
+    "SHUFFLE_NULL_NC": "shuffle-equal-n null of STITCH_NOGOOD_CEGIS, full horizon"
+  },
+
+  "reduced_horizon_rule": {
+    "rule": "An arm runs the reduced horizon iff FNA-4's frozen per-family deltas make its saving/task negative at EVERY point of the mix grid under BOTH compositions, so no horizon can cross. Recomputed and asserted in preflight(), never asserted by hand.",
+    "max_saving_per_task_over_grid": {"CHUNK": -380, "AU_PAIR": -17856, "EGGRAPH": -11947},
+    "independent_agreement": "unscored timing probe (salt 999001): AU_PAIR 15x, EGGRAPH 12x, CHUNK 1.7x the incumbent's F2 cost",
+    "pre_registered_escalation": "if any reduced arm's measured saving/task CI includes zero at any grid point, that arm is escalated to the full horizon in a NEW frozen study, never by extending this grid"
+  },
+
+  "cost_model": "UNCHANGED from FNA-4: one commensurable integer unit per backend simulation, checker call, posting read or learner step; macro bodies charge one simulation per internal step; hole-domain enumeration, misfire probes, rejected candidates and CEGIS refinements all charged; INCUMBENT_CAP=1000000 and DOMAIN_CAP=24 uniform across every arm (parent parity). A burden number that drops a term is a defect, not an improvement.",
+
+  "stream_construction": {
+    "family_allocation": "prefix-preserving deficit allocator; realised family shares match targets to within one task at EVERY prefix length; ties break by the frozen order F2, F1, F3",
+    "declared_difference_from_fna4": "FNA-4 draws a stream from one shared random.Random; this study seeds a fresh random.Random per position from (SALT_RV8, mix_idx, composition, seed, pos). Same gen_task over the same parameter spaces, so the marginal draw distribution is identical, but any worker can regenerate any prefix independently -- which is what makes a 131,072-task ladder parallelisable and prefix-reproducible.",
+    "no_forced_parameters": "FNA-4's sweep builder fills its uncovered quota from _f1_param_space() in PRODUCT ORDER, so at r=0 its twelve F1 tasks are near-identical draws from one corner of a 648-tuple space. These are natural draws. The difference is measured by the replication gate, not assumed."
+  },
+
+  "hard_gates": {
+    "selection_mirror": "production SolveOperatorIndex counts must equal brute force, else CANNOT_CHECK_SELECTION_MIRROR_DISAGREES_WITH_PRODUCTION_INDEX",
+    "acquisition_reproduction": {
+      "terminal_on_failure": "CANNOT_CHECK_ACQUISITION_DRIFT",
+      "expected": {
+        "NO_LIBRARY": {"total_units": 13549261, "learner_steps": 64305},
+        "CHUNK": {"total_units": 13550768, "learner_steps": 65812},
+        "AU_PAIR": {"total_units": 14684038, "learner_steps": 1199082},
+        "EGGRAPH": {"total_units": 13565306, "learner_steps": 80350},
+        "STITCH": {"total_units": 253779299, "learner_steps": 240294343},
+        "NOGOOD_ONLY_per_batch": {"total_units": 13495472, "learner_steps": 173186},
+        "STITCH_NOGOOD_CEGIS": {"total_units": 253725510, "learner_steps": 240403224}
+      }
+    },
+    "frozen_receipt_replication": {
+      "terminal_on_failure": "CANNOT_CHECK_FROZEN_SWEEP_REPLICATION_DRIFT",
+      "expected_sweep_r0": {"no_library_total": 1711950, "with_library_test_work": 770026, "saving": 941924, "macro_hits": 19, "break_even_tasks_marginal": 6122.6}
+    }
+  },
+
+  "endpoints": [
+    "present cost: acquisition in BOTH FNA-4 accountings (full and marginal)",
+    "future reuse: cumulative PAIRED saving vs NO_LIBRARY on the same task at the same position, reported SEPARATELY from present cost and never netted before both are shown",
+    "crossover N*: smallest N with cumulative saving >= acquisition, both accountings, with a 95% CI on mean saving/task inverted to a CI on N*; reported as '> N_max, none observed' when no crossing occurs, never extrapolated",
+    "critical mix: zero-crossing of saving/task in the mix, with a CI; below it no horizon pays, so N* has a vertical asymptote and the surface carries two different quantities on its two halves",
+    "windowed saving/task in 8 disjoint windows, to separate a stationary crossover from a decaying transient (registry saturation, CEGIS domain shrinkage)",
+    "capped tasks per arm per cell as a first-class endpoint, plus a pre-registered sensitivity pass recomputing every endpoint excluding them",
+    "shuffle-equal-n null at every grid point"
+  ],
+
+  "registered_predictions": {
+    "R1": "the frozen sweep replication reproduces exactly, and the natural-draw stream at the same mix and length gives a materially SMALLER saving/task than 39,246.8",
+    "R2": "STITCH and STITCH_NOGOOD_CEGIS have positive saving/task only above a critical mix, and the measured critical mix has a CI wide enough to make the 11.8-17.0% band a point estimate from 16 draws rather than a boundary",
+    "R3": "the measured N* at m=0.50 exceeds the projected 6,123",
+    "R4": "CHUNK, AU_PAIR and EGGRAPH have negative saving/task at every grid point; no horizon crosses",
+    "R5": "SHUFFLE_NULL has negative saving/task everywhere; the learned library's saving is not reproduced by a shape-matched random one",
+    "R6": "capped tasks are rare at low mix and non-negligible at m >= 0.5; excluding them moves saving/task UP for the library arms"
+  },
+
+  "legitimate_outcomes": [
+    "crossover OBSERVED near ~6,123 -> projection confirmed, H1 becomes an observed negative with a measured boundary",
+    "crossover observed ELSEWHERE -> the projection was wrong; report by how much and why",
+    "NO crossover within the tested horizon -> acquisition never repays in this regime, a stronger negative than the projected one, stated with the horizon actually reached"
+  ],
+
+  "forbidden": [
+    "moving the mix, reshaping the stream or extending the grid after seeing results in order to reach a crossing",
+    "TRANSFORMER_REPLACED, LLM_EQUIVALENT, NEURAL_SUPERIOR, NEURAL_NECESSARY, GENERAL_SUPERIORITY, AGI",
+    "manufacturing an ORION-OCM-specific attribution where a classical parent owns the function"
+  ],
+
+  "execution": {
+    "host": "LUNARC cosmos3.int.lunarc, partition lu48, account lu2026-2-51, Python 3.11.5",
+    "network": "NONE from LUNARC to any external service; code staged in by scp with md5 verified on arrival, results pulled back",
+    "recorded_deviation_nuc": {
+      "instructed_partition": "nuc",
+      "observed_rejection_verbatim": "sbatch: error: Your project is not allowed to run on the nuc partition.\nsbatch: error: Batch job submission failed: Invalid account or account/partition combination specified",
+      "note": "scontrol show partition nuc reports AllowAccounts=ALL, so this is a submit-plugin rule rather than a partition ACL",
+      "substitute": "lu48 (186 nodes, 8928 cores, 7-day limit); hep avoided because it is saturated with the operator's unrelated jobs; sibling lanes form-oracle and rv-a-generalization untouched"
+    },
+    "resilience": "cells dump progressively every 4096 tasks, so a timed-out or crashed cell still yields a usable, honestly-labelled prefix (complete=false); defect runs preserved, never edited"
+  },
+
+  "declared_limitations": [
+    "planted worlds, one author: E1/L1, not E3",
+    "inherited from FNA-4: small catalogue, shallow families relative to program-synthesis benchmarks; claim scope is a mechanism class on this substrate, not a benchmark result",
+    "INCUMBENT_CAP truncates the deep cost tail and is kept for parent parity; the truncation biases the baseline DOWN and understates the library's saving, which is why capped tasks are a first-class endpoint with a sensitivity pass",
+    "the mix axis has three families, so 'same-family share' is F2 share and nothing broader",
+    "human prior enters only through the frozen family generators, identically for every arm including NO_LIBRARY"
+  ]
+}
