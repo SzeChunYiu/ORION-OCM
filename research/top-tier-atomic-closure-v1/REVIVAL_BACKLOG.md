@@ -28,7 +28,7 @@ by a genuine mechanic change, re-tested against the strongest parent, with every
 | RV-3 | substitution beats recomputation by only 7% (D19) | world scale — single solve dominates | scaling curve on LUNARC | queued |
 | RV-4 | T72 oracle: 11 no-op targets, 6 sources never revoked (D19) | oracle targeting defect | re-target to true sources | dispatched |
 | RV-5 | e-graph amortised ratio 0.418 (D21) | rule set has no optimum-quality headroom | rule family where order matters | queued |
-| RV-6 | **84.4% of survivors fail T3 generalization** (GS-R2) | **not yet attributed** | determined by attribution | dispatched |
+| RV-6 | 84.4% "fail T3 generalization" (GS-R2) | **the endpoint was not measuring generalization** | delete the ranking | **closed, defect reclassified** |
 | RV-7 | GSA2 unbeaten on throughput (GS-R2) | cost side — dedup pays 2× cpu | canonical-form dedup | queued |
 | RV-8 | library acquisition exceeds later savings (#165 H1) | not re-attributed this window | after strongest-parent comparison | queued |
 | RV-9 | freeze chain has no CI gate (D6 A2) | no enforcement gate exists | amendment-aware verification workflow | queued |
@@ -79,13 +79,28 @@ attacks the persistent-lineage claim directly.
 
 ## Two entries deserve emphasis
 
-**RV-6 is the flagship and it is deliberately unattributed.** 85,025 of 100,693 distinct survivors fail
-T3 generalization. Four candidate stages — descriptor overfit, gate leakage, selection pressure, genuine
-non-generalizing morphology — must be discriminated *by evidence* before any lever is applied. Applying a
-lever first would be exactly the diffuse-effort defect the doctrine forbids. Explicitly forbidden here:
-moving a threshold, re-drawing the held-out T3 key, re-splitting after seeing results, or loosening a gate.
-A lever that raises the hold *rate* by admitting fewer candidates has improved selectivity, not
-generalization, so every claim needs rate, absolute count and a shuffle-equal-n null together.
+**RV-6 turned out to be a measurement defect, not a finding.** The largest retained negative in the
+repository was never a scientific result. `SURVIVOR_T3_GENERALIZATION_*` is a hard-gate read and an **exact
+deterministic function of one genome bit** — `NOT can_check` ⟺ `FAIL`, across 100,693 of 100,693 survivors,
+zero false positives, zero false negatives. So "84.4% fail T3 generalization" means, without exception,
+"84.4% carry no consistency checker."
+
+The cause is a predicate asymmetry, verified from source. T2's `scoped_failure` and T3's
+`t3_conflict_refusal` both accept `can_check OR F_arch == hierarchical_fibred`. T3's `t3_doubt_probe`
+accepts `can_check` **only**, with no fibred route, so a checker-free organism passes T2 and is
+*structurally* unable to pass that one T3 family.
+
+Two things corroborate it. The held-out key carries no information: over 18 derived sub-keys every survivor
+is either 0/18 or 18/18 feasible and **zero** fall in between, and an empirical-risk estimate cannot be
+perfectly bimodal over 18 independent draws. And our own lever package gamed it — `GSA6_DP` and `GSA6_ALL`
+have identical distinct-yield at 5802.0 per seed, yet DP alone returns 6,768 checker-bearing exclusive
+survivors against ALL's 1,773.
+
+The obstruction is operational, not structural. The unranked viable pool is 84.7% checker-bearing against
+the survivor set's 15.6%, a 5.44× depletion with disjoint intervals, while the T2 gate *favours*
+checker-bearing organisms by 27.7×. The search's own ranking manufactured the depletion, and deleting it
+recovered 2.21× the absolute hold count at 4.7% of the compute. **The 84.4% figure must never again be
+quoted as a generalization result.**
 
 **RV-1 is revivable precisely because of how well D20 attributed its own failure.** "Every CEGAR round
 rebuilds the abstraction from the full concrete transition relation" names an *implementation property,

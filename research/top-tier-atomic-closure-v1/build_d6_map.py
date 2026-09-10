@@ -215,9 +215,12 @@ doc = {
      "therefore the highest-value unstarted lane."),
     ("G (generalization) is targeted in flight only by D22 (logic transport). The operator-contract transfer "
      "test that general-operator claims need is D26, unstarted."),
-    ("G is further undercut by a landed result, not only by missing lanes: GS-R2 records 85,025 of 100,693 "
-     "distinct survivors FAILING T3 generalization (84.4%). Generalization is not merely unmeasured in the "
-     "morphology area; where it HAS been measured it is largely negative, and that negative is retained."),
+    ("SUPERSEDED BY AMENDMENT A3 - do not cite the earlier form. This map previously recorded that where G had "
+     "been measured in the morphology area it was largely negative, on the strength of GS-R2's 84.4% T3 failure. "
+     "That endpoint was NOT measuring generalization: SURVIVOR_T3_GENERALIZATION_* is an exact deterministic "
+     "function of one genome bit (NOT can_check <=> FAIL, 100693/100693, zero FP, zero FN). G in the morphology "
+     "area is therefore UNMEASURED, not measured-and-negative, which is a materially different and weaker "
+     "position."),
     ("Landed studies carrying evidence_class EXPLORATORY_ADAPTIVE (GS-R2) cap at readiness 2 permanently under "
      "the frozen ladder. D2 must not score them at 3 on the strength of their sample size or receipt count."),
     ("P (strongest-parent subtraction) has real in-flight coverage via D21 (its arms ARE the parents) and "
@@ -235,7 +238,13 @@ doc = {
      "coverage_note": "in-flight coverage necessarily falls as lanes land; the structural gaps R, A and E are unchanged, since neither landing targets them"},
     {"id": "A2", "utc": "2026-09-10",
      "cause": "governance finding added after verifying the freeze chain against main",
-     "finding_added": "freeze_chain_enforcement"}
+     "finding_added": "freeze_chain_enforcement"},
+    {"id": "A3", "utc": "2026-09-10",
+     "cause": "PR #293 established that GS-R2's T3 endpoint was not measuring generalization at all, which falsifies a finding this map recorded under A2.",
+     "finding_superseded": "the claim that G had been measured in the morphology area and was largely negative",
+     "corrected_position": "G in the morphology area is UNMEASURED. The 84.4% figure is an exact function of the can_check genome bit and must never again be cited as a generalization result.",
+     "why_it_matters_for_D3": "a coordinate that is unmeasured and one that is measured-and-negative demand different next experiments; the blocker DAG must treat morphology G as unowned rather than as a settled negative.",
+     "readiness_values_assigned": "none - scoring remains D2"}
   ],
   "freeze_chain_enforcement": {
     "verified_utc": "2026-09-10",

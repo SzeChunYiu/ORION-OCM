@@ -85,16 +85,38 @@ rows = [
    "Per-world spread is informative and must not be averaged away: OW6-00 shows 2.22 (e-graph wins) while OW6-01 shows 0.27. A conditional positive is INTERMEDIATE, not terminal - the doctrine requires extending the working regime or fixing the failing one."),
 
  R("RV-6",
-   "GS-R2: 85,025 of 100,693 distinct T2-viable survivors FAIL T3 generalization - 84.4%.",
-   "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json t3_summary",
-   "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
-   "NONE - attribution is the first deliverable, and applying a lever before attributing would be the diffuse-effort defect the doctrine forbids",
-   "DETERMINED BY ATTRIBUTION. Explicitly forbidden: moving a threshold, re-drawing the T3 key, re-splitting after seeing results, or loosening a gate to raise the hold rate.",
-   "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate (2233.3, 72,150), plus a shuffle-equal-n null",
-   "DISPATCHED", "LUNARC nuc partition (96/96 nodes idle, 7-day limit) - the flagship compute study",
-   "An honest 'the 84.4% is real, and here is the mechanism' is a valid and valuable outcome. A proven-structural obstruction plus the adjacent scoped positive is also a success.",
-   1,
-   "Largest retained negative in the repository. Every claimed improvement needs hold RATE, absolute hold COUNT, and the shuffle null together - a lever that raises the rate by admitting fewer candidates has improved selectivity, not generalization."),
+   "GS-R2 recorded 85,025 of 100,693 distinct T2-viable survivors as FAILING T3 generalization (84.4%). "
+   "RECLASSIFIED: that endpoint was never measuring generalization.",
+   "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json t3_summary; reclassified by PR #293",
+   "THE ENDPOINT WAS NOT MEASURING GENERALIZATION. SURVIVOR_T3_GENERALIZATION_* is a hard-gate read of "
+   "evaluate_t3()['feasible'], and it is an EXACT deterministic function of one genome bit: NOT can_check <=> FAIL, "
+   "100693/100693, zero false positives and zero false negatives. So '84.4% fail T3 generalization' means, without "
+   "exception, '84.4% carry no consistency checker'. ONE-STAGE CAUSE: the T2/T3 correctness-predicate asymmetry. "
+   "T2 scoped_failure and T3 t3_conflict_refusal both accept (can_check OR F_arch == hierarchical_fibred); T3 "
+   "t3_doubt_probe accepts can_check ONLY, with no fibred route. A checker-free organism can pass T2 and is "
+   "STRUCTURALLY unable to pass that one T3 family.",
+   "HIGH - a machine-checked identity over all 100693 survivors, plus the predicate asymmetry verified from source "
+   "at lifetime2.py:141 and t3_ecology.py:134/178 by an independent centre review",
+   "DELETE THE RANKING. The obstruction is OPERATIONAL, not structural: the unranked viable pool is 84.7% "
+   "checker-bearing (522090/616698) while GS-R2 survivors are 15.6% (15668/100693), a 5.44x depletion with "
+   "disjoint intervals -> RANKING_OWNS_DEPLETION. The T2 gate is not the culprit; it FAVOURS checker-bearing "
+   "organisms by 27.7x (P(viable|can_check) 0.6590 against 0.0652). The search's own ranking and promotion "
+   "manufactured the depletion. Recovery achieved 2.21x the absolute hold count at 4.7% of the compute.",
+   "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate "
+   "(2233.3, 72,150), plus a shuffle-equal-n null",
+   "CLOSED_DEFECT_RECLASSIFIED_AND_RECOVERED", "LUNARC, PR #293",
+   "The reclassification is the result. A defect found in the instrument outranks any finding the instrument "
+   "appeared to produce.",
+   3,
+   "RECLASSIFIED as a MEASUREMENT-VALIDITY DEFECT, not a scientific finding - the exact sec 3 hostile family in "
+   "which a metric reports one quantity while measuring another. Two corroborating facts. (1) The held-out key "
+   "carries NO INFORMATION: over 18 deterministically derived sub-keys every survivor is either 0/18 or 18/18 "
+   "feasible and ZERO fall in between, and an empirical-risk estimate cannot be perfectly bimodal over 18 "
+   "independent draws, so the endpoint is a degenerate estimator rather than a transfer-risk estimate. (2) OUR OWN "
+   "LEVER PACKAGE GAMED IT: GSA6_DP and GSA6_ALL have IDENTICAL distinct-yield at 5802.0 per seed, yet DP alone "
+   "returns 6768 checker-bearing exclusive survivors against ALL's 1773 - the package bought its headline yield by "
+   "rejecting the route that carried checkers. The 84.4% figure must never again be quoted as a generalization "
+   "result, and every morphology-search atom must lead with this reclassification."),
 
  R("RV-7",
    "GS-R2: the frozen parent GSA2_hetero is unbeaten on throughput (354,046 vs GSA6_DP 190,527 morphologies/cpu-hour).",
