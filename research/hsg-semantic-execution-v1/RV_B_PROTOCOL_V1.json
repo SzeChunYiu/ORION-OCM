@@ -1,0 +1,99 @@
+{
+ "protocol": "HSG_V4_SEMANTIC_EXECUTION_RV_B_REVIVAL_PROTOCOL",
+ "version": "V1",
+ "status": "FROZEN_BEFORE_ANY_RESULT_GENERATING_CODE_WAS_RUN",
+ "purpose": "Revival lane RV-B. Two negatives from the merged D19/D20 tranche are taken as leads: the D20 PARENT_SUFFICIENT verdict, and the targeting defect the D19 census measured in the frozen T72 oracle. Diagnose, attribute to ONE stage, apply the matching lever, re-test against the strongest parent, iterate until positive or the obstruction is PROVEN structural.",
+ "additive_rule": "Additive. No frozen world, seed, n grid, endpoint, hostile or clean control from D19_D20_PROTOCOL_V1.json is modified. Prior freezes are re-verified, never rewritten. The ONE exception is a deliberate, declared source fix to exact/oracles_d17.py under RV-B2(ii), whose before/after effect on the D17 tranche is reported in full.",
+ "parents": ["D19_D20_PROTOCOL_V1.json", "FREEZE_D19_D20_V1.json (amendment S1)", "FREEZE_V1.json"],
+ "issue": "SzeChunYiu/ORION-OCM#233, revival lane RV-B",
+ "seeds": {
+  "global_seed": 20260910,
+  "new_key_prefixes": ["RVBQ"],
+  "rule": "RVBQ is the ONLY new exact.worlds._rng key prefix. Verified unused against the live key space (OW1..OW7, OW4N, OW5S, T75, T81, 777) before freezing.",
+  "determinism": "sorted iteration; integer op counters only; no float in any decision predicate."
+ },
+
+ "RV_B1": {
+  "name": "engineer the D20 PARENT_SUFFICIENT verdict",
+  "prior_result": "D20 (merged 7a6427e): adaptive refinement lost to direct concrete search on 30/30 worlds, 10.011x overall, ratio worsening 3.36 -> 13.53 across n.",
+  "prior_attribution": "abstraction CONSTRUCTION, not abstract SEARCH: every CEGAR round rebuilt the abstraction from the full concrete transition relation.",
+  "lever": "INCREMENTAL REFINEMENT. Keep the abstraction across rounds and split only the block the counterexample distinguishes, recomputing only the abstract edges incident to that block. A concrete predecessor index is built ONCE and charged once.",
+  "worlds": "the SAME frozen 30 OW5S worlds, the SAME frozen n grid [8,12,16,20,24], the SAME partitions. Nothing about the worlds changes.",
+
+  "arms": [
+   {"id": "A_direct", "definition": "concrete BFS per query. The strongest parent. Unchanged from D20."},
+   {"id": "A_cegar_rebuild", "definition": "D20's arm, re-run unchanged as the baseline the lever must beat."},
+   {"id": "A_cegar_incremental", "definition": "the lever. Setup charged: one full abstraction build plus one concrete predecessor index. Per round charged: only the abstract edges incident to the split block, recomputed from the concrete successors of that block's states and the concrete predecessors of its states."}
+  ],
+
+  "equivalence_guard": "At EVERY refinement round the incrementally maintained abstraction must be IDENTICAL, as a set of block-content-keyed edges, to a from-scratch rebuild of the same partition. Asserted on every round of every world. A mismatch is a defect in the lever and exits with its own code, never a finding. The guard runs in a separate pass so its cost never enters the measured op totals.",
+
+  "preserved_endpoints": [
+   "the n-k ceiling must still hold on 30/30 worlds; exceeding it is a BUG IN THE LEVER, not a discovery",
+   "every conclusive arm verdict must still equal the exhaustive concrete verdict",
+   "the three D20 clean controls must still stay silent"
+  ],
+
+  "single_query_lower_bound": {
+   "claim": "No sound may-abstraction can beat direct concrete search on a SINGLE reachability query, however cheap its refinement.",
+   "argument": "Soundness of the existential abstraction requires that whenever some s in B has a successor in B', the abstract edge B -> B' exists. Omitting one such edge makes the abstraction an UNDER-approximation, which is exactly the H-D20b defect already shown to produce false abstraction certificates. A sound build must therefore examine every concrete transition: setup is Omega(|E|). Direct BFS is O(|V| + |E|) and may terminate early on an UNSAFE verdict. Hence abstraction setup alone is asymptotically at least the whole parent computation, and no reduction in per-round cost can change the single-query verdict.",
+   "empirical_companion": "report build_ops vs direct_ops PER WORLD and the count of worlds (out of 30) where the one-time build alone already meets or exceeds the entire direct search. The aggregate alone could hide worlds where it does not hold.",
+   "pre_committed_consequence": "If the lower bound holds, RV-B1a terminates as PARENT_SUFFICIENT EARNED AT A DEEPER LEVEL: direct search wins even against incremental refinement, so the D20 loss is NOT a construction artifact. This is a SUCCESS terminal. It is recorded here BEFORE the run so it cannot be rationalised afterwards."
+  },
+
+  "RV_B1c_amortisation": {
+   "name": "multi-query amortisation -- the honest route to an earned positive",
+   "rationale": "The lower bound forbids a single-query win but says nothing about a query SEQUENCE. An abstraction is built once and reused; direct search must re-run in full for every query.",
+   "query_grid_preregistered": [1, 2, 4, 8, 16],
+   "bad_set_rule": "query 0 is each world's ORIGINAL frozen Bad set. Query q >= 1 draws a fresh Bad set of the same size max(1, n // 8) via _rng('RVBQ', world_id, q). Frozen here, before any run.",
+   "arms": [
+    {"id": "A_direct_multi", "definition": "full concrete BFS per query, no credit for any earlier query"},
+    {"id": "A_incremental_multi", "definition": "abstraction and predecessor index built ONCE; the partition PERSISTS across queries, so refinements paid for by an earlier query benefit later ones"}
+   ],
+   "cost_asymmetry_declared": "The abstraction is charged its FULL lifecycle across the whole sequence: initial build, predecessor index, and every refinement from every earlier query. Direct search re-runs per query and receives no credit for prior work. That asymmetry IS the reuse claim and is stated rather than left for a reader to discover.",
+   "bounded_amortisation": "Total refinements across ALL queries stay <= n - k, because the partition only ever gets finer. Asserted, not merely observed. This bounds the amortisation claim and is what makes it a theorem rather than a trend.",
+   "primary_endpoint": "the smallest Q in the frozen grid at which A_incremental_multi total ops <= A_direct_multi total ops (the CROSSOVER).",
+   "falsifier": "If no crossover exists within the frozen grid, report the extrapolated crossover WITH its uncertainty and do NOT extend the grid mid-study. A grid extension is a new frozen study."
+  },
+
+  "negatives_are_first_class": "If incremental refinement still loses at every Q, that is the result. PARENT_SUFFICIENT is a SUCCESS terminal and direct search keeps the function. No outcome is tuned positive; the lever is a mechanic change only."
+ },
+
+ "RV_B2": {
+  "name": "close the T72 oracle targeting defect",
+  "premise_correction": "The assignment asks to re-target D19's revocation to true sources. D19 ALREADY does so: exact/d19.py revokes over w['sources'] (true sources) at both its comparison loop and its missing-edge arm, and w['legacy_leaves'] appears only inside the census function, which measures the legacy oracle's targeting and drives no endpoint. Re-targeting D19 would therefore be a no-op producing a fabricated 'no change' finding. The defect is in the FROZEN T72 ORACLE, exact/oracles_d17.py, which revokes over w['leaves']. RV-B2 does the two pieces of work that actually answer the question.",
+
+  "RV_B2i_dual_targeting": {
+   "definition": "recompute EVERY D19 endpoint twice on the same 8 OW4 control worlds and 8 OW4N worlds: once over the legacy `leaves` target set and once over the true `sources` target set. Same arms, same exhaustive subset enumeration, same code path.",
+   "endpoints_compared": [
+    "positive-control accepted-set agreement (50/50 under true sources)",
+    "positive-control reopened-set agreement (50/50 under true sources)",
+    "OW4N accepted-set agreement (40/46) and reopened-set agreement (31/46)",
+    "alternate-support rescue count (40)",
+    "lifecycle burden ratio A2/A1 (1.07 under true sources: 598 vs 640 ops)"
+   ],
+   "note_on_subset_counts": "The two target sets differ per world, so the number of exhausted revocation subsets differs (2^|leaves| vs 2^|sources|) and both arms' op totals necessarily move. The QUESTION is whether the RATIO and the agreement fractions move.",
+   "pre_committed_decision_rule": "Let s = ratio - 1 be the measured saving of substitution over recomputation; s = 0.07 under true-source targeting. The 7% margin is declared TARGETING-SENSITIVE if the legacy-targeting saving falls outside [0.035, 0.14] (a factor of two either way) OR changes sign. If it falls inside that band, the margin is declared TARGETING-ROBUST and 7% may be quoted without qualifier. This rule is frozen BEFORE the number is seen."
+  },
+
+  "RV_B2ii_oracle_fix": {
+   "definition": "repair exact/oracles_d17.py t72() to revoke over true sources (nodes with no incoming hyperedge) instead of w['leaves'].",
+   "implementation_note": "ow4_worlds() dicts carry a `leaves` key but NO `sources` key, so t72() must COMPUTE the source set itself rather than assume the field exists.",
+   "endpoints": [
+    "D17 tranche must still report 14/14 proved_local and all hostile flips OK",
+    "T72's own check count is EXPECTED to change (different target set); the PASS/FAIL must NOT",
+    "report the before/after check counts and any change to T72's hostile flips"
+   ],
+   "falsifier": "if the D17 tranche stops reporting 14/14, the fix is wrong and is reverted rather than accepted."
+  },
+
+  "no_change_is_a_result": "A demonstration that corrected targeting changes NO endpoint is a genuine and useful negative, and is reported as such rather than buried."
+ },
+
+ "admissibility": {
+  "rule": "This protocol is committed and pushed in a commit containing NO result file. Any post-freeze change is a recorded supersession with cause and a re-run of the affected arms.",
+  "reporting_rule": "No number is reported until the clean control or equivalence guard for that arm has been run and confirmed silent. 'Could not check' keeps a distinct exit code from 'checked and fine'.",
+  "locked_gates": "N2 / N4 / N5 remain LOCKED. Nothing here unlocks them.",
+  "claim_ceiling": "P2 finite certificate over frozen tiny worlds, exhaustively enumerated, plus one asymptotic lower-bound argument that is explicitly labelled as an argument and not a machine-checked certificate."
+ }
+}
