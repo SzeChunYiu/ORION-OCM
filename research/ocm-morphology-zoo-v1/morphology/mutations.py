@@ -11,7 +11,8 @@ from typing import List, Optional, Tuple
 from morphology.schema import (FIELD_FAMILIES, LEARNING_FAMILIES, MEMORY_FAMILIES,
                                REVISION_FAMILIES, TOPOLOGY_FAMILIES, EXECUTIVE_FAMILIES,
                                UNIT_TYPES, OCMMorphologyGenomeV1, UnitSpec)
-from morphology.direct_genome import CENSUS_BOUND_V1, DEFAULT_THETA, _make, operators_for
+from morphology.direct_genome import DEFAULT_THETA, _make, operators_for
+from morphology.gs_bound import GS_BOUND_V1
 
 THETA_BOUNDS = {
     "queue_budget": (8.0, 64.0),
@@ -29,8 +30,11 @@ def mutate(g: OCMMorphologyGenomeV1, rng: random.Random,
     if rng.random() < p_struct:
         kind = rng.choice(["unit", "field", "topology", "exec", "learn", "rev", "mem"])
         if kind == "unit":
-            types = list(CENSUS_BOUND_V1["extra_units"]) + ["fsm_controller",
-                                                            "procedural_memory", "local_executive"]
+            # amend-5: the mutated space is GS_BOUND_V1 — census maxima are
+            # descriptive, never bounds.  (The old census-9 + hardcoded-3
+            # union was the same set; this derives it from the declared
+            # bound so a bound extension can never leave mutation behind.)
+            types = list(GS_BOUND_V1["extra_units"])
             cur = [u.unit_type for u in h.U if u.unit_type != "fact_relation"]
             if cur and rng.random() < 0.5:
                 cur.remove(rng.choice(cur))          # delete a unit

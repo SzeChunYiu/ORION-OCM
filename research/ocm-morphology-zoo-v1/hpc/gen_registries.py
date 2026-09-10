@@ -14,7 +14,13 @@ import os
 import sys
 import time
 
-ROOT = sys.argv[1]
+# ROOT resolution must not depend on sys.argv: pytest rewrites argv (node
+# ids), and test_zoo.py imports this module to regenerate in place.  The
+# capsule root is the parent of this file's directory; argv[1] overrides
+# ONLY on explicit script invocation.
+ROOT = (os.path.abspath(sys.argv[1])
+        if __name__ == "__main__" and len(sys.argv) > 1
+        else os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
 
 from morphology.schema import (EXECUTIVE_FAMILIES, FIELD_FAMILIES,  # noqa: E402
