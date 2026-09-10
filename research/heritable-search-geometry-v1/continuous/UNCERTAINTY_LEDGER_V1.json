@@ -8,10 +8,21 @@
   {
    "id": "cross_partition_probe_share",
    "quantity": "P(retrieval reaches a donor in a non-adjacent partition) per unit probe share",
-   "current": 0.05,
-   "status": "IN_FLIGHT",
-   "evidence": "D12 constant 7, guessed; A6 P1 (blind H3) measures it",
-   "next_experiment": "D15 A6 arm (PR pending)"
+   "current": 0.5,
+   "status": "MEASURED",
+   "evidence": {
+    "arm": "A6 P1_blind (PR #273 e5dcfb28)",
+    "crossindex_L2_probes": 2,
+    "accepts": 1,
+    "accept": "A6-R2 metabolic regulation economics (M03, non-adjacent)",
+    "channel_economics_per_accept": {
+     "crossindex": 105,
+     "eps": 59,
+     "routed": "0 accepts in 125 units"
+    },
+    "caveats": "single arm, n=2 probes; H3-route exclusivity falsified (MECHANISM_FINDING_D15b); metric itself uncontaminated (metabolic donor not in exposed A4 tokens)"
+   },
+   "next_experiment": "replication arm with scrubbed architecture extract (FINDING_DEFECT_D15a fix) + fresh hidden pair"
   },
   {
    "id": "eps_sensitivity_curve",
