@@ -22,11 +22,50 @@
    "attribution_confidence": "HIGH - stated by the lane from its own instrumented cost split, not inferred",
    "lever": "INCREMENTAL REFINEMENT: keep the previous abstraction and split only the blocks the counterexample distinguishes, so per-round build cost is O(touched blocks + incident edges) instead of O(full concrete edge relation). The attribution names an IMPLEMENTATION property, not a law - rebuilding from scratch each round is a choice, which is exactly what makes this negative revivable.",
    "retest_against": "direct concrete search, same frozen 30 worlds and same frozen n grid, full lifecycle charged including initial build and rejected candidates",
-   "status": "DISPATCHED",
+   "status": "CLOSED_EARNED_TERMINAL",
    "placement": "laptop billy (lane RV-B1)",
    "earned_terminal_rule": "If incremental refinement STILL loses, PARENT_SUFFICIENT is EARNED at a deeper level and is filed as a SUCCESS terminal with the stronger statement, not tuned. Never engineer past a parent that genuinely owns the function.",
-   "chain_iteration": 1,
-   "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study."
+   "chain_iteration": 2,
+   "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study.",
+   "outcome": "PARENT_SUFFICIENT_EARNED_AT_A_DEEPER_LEVEL (success terminal)",
+   "executed_as": "lane RV-B1, PR #291, merge f403bde",
+   "result_anchor": "research/hsg-semantic-execution-v1/exact/results/RV_B1_RESULTS.json",
+   "lever_effect": "incremental refinement cut ops to 0.840 of the rebuild arm, removing 16.0% of the construction overhead the attribution named. Equivalence guard 95 checks 0 failures; ceiling held 30/30; refinement counts identical to rebuild on all 30 worlds.",
+   "cost_ratio_curve_across_grid": {
+    "n_grid": [
+     8,
+     12,
+     16,
+     20,
+     24
+    ],
+    "rebuild_over_direct": [
+     3.355,
+     6.297,
+     10.769,
+     12.493,
+     13.532
+    ],
+    "incremental_over_direct": [
+     4.316,
+     6.099,
+     9.471,
+     10.101,
+     10.007
+    ],
+    "lever_gain_vs_rebuild": [
+     -0.286,
+     0.031,
+     0.121,
+     0.191,
+     0.26
+    ],
+    "reading": "the lever FLATTENS the curve: rebuild grows x4.033 across the grid, incremental only x2.319. Incremental has plateaued (10.101 -> 10.007) while rebuild is still climbing (12.493 -> 13.532). At the smallest n the lever is WORSE than rebuild (-28.6%): the predecessor index is a fixed setup surcharge too few refinement rounds cannot amortise. The curve never crosses 1.0."
+   },
+   "deeper_attribution": "MEASURED decomposition at the largest n: setup 31.0%, abstract search 24.8%, per-round incremental build 19.9%, counterexample validation 13.2%, verification 11.1%. The largest term is the one the lever cannot touch. The irreducible setup ALONE costs 1.267x the entire direct search and meets or exceeds it on 21 of 30 worlds, so it is a floor sitting above 1.0.",
+   "crossing_condition": "crossing 1.0 would require the sound abstraction build to be sublinear in the concrete edge relation. Soundness forbids it: omitting any may-transition is the H-D20b under-approximation already shown to yield false abstraction certificates. Unreachable, not merely unmet, for a single reachability query.",
+   "amortisation_probe": "a pre-registered multi-query arm (Q grid 1,2,4,8,16) found NO crossover: ratio falls 8.412 -> 2.493 monotonically and stops. Refinement drives the partition toward discrete (final blocks 81.2% of states, 6 of 30 fully discrete), and after refinement stops the marginal cost per query is 12.966 for the abstraction against 11.738 for direct. Amortisation self-defeats.",
+   "grid_not_extended": "the frozen n grid is reported unchanged; extending it would be a new frozen study."
   },
   {
    "revival_id": "RV-2",
@@ -64,11 +103,18 @@
    "attribution_confidence": "HIGH - counted exactly by the lane against its own explicit evidence_variable_definition",
    "lever": "RE-TARGET revocation to true sources (nodes with no incoming hyperedge) and re-run every D19 endpoint.",
    "retest_against": "the prior D19 result itself - does ANY endpoint move: the 50/50 positive-control agreement, the 40/46 and 31/46 OW4N figures, the alternate-support rescue count, or the 598-vs-640 margin?",
-   "status": "DISPATCHED",
+   "status": "CLOSED_QUESTION_ANSWERED",
    "placement": "laptop billy (lane RV-B2)",
    "earned_terminal_rule": "A no-change result is a genuinely useful negative and must be reported as one. The specific question to rule in or out: a 7% lifecycle margin is thin enough that a targeting artifact could account for it.",
-   "chain_iteration": 1,
-   "notes": "D19 correctly reported the count and made NO claim that T72 is wrong - T72 is a statement about provenance variables. This revival tests the instrument, not the theorem."
+   "chain_iteration": 2,
+   "notes": "D19 correctly reported the count and made NO claim that T72 is wrong - T72 is a statement about provenance variables. This revival tests the instrument, not the theorem.",
+   "outcome": "TARGETING_SENSITIVE - the 7% lifecycle margin does NOT survive the targeting change",
+   "executed_as": "lane RV-B2, PR #294, merge 905a720",
+   "result_anchor": "research/hsg-semantic-execution-v1/exact/results/RV_B2_RESULTS.json",
+   "premise_correction": "the dispatched lever asked to re-target D19 to true sources. D19 ALREADY revoked over true sources (exact/d19.py, both the comparison loop and the missing-edge arm); legacy_leaves was read only by the census, which drives no endpoint. Running the lever literally would have been a no-op producing a fabricated no-change result. The defect was in the frozen T72 ORACLE, which is what was repaired.",
+   "margin_answer": "saving 0.0702 under true sources against 0.2487 under legacy targeting - three and a half times larger and far outside the band [0.035, 0.14] frozen before the number was seen. Legacy targeting INFLATES substitution's apparent advantage, because each structurally trivial target still forces a full recomputation on the A2 side while costing the substitution arm almost nothing. The corrected 7% is both the honest figure and the smaller one, so D19 erred conservatively.",
+   "what_did_not_move": "every agreement endpoint is exact under BOTH target sets (50/50 and 74/74 on the control) and the control alternate-support rescue count is 40 either way. Targeting moves the COST endpoint only, never correctness. That is the useful negative.",
+   "oracle_repaired": "exact/oracles_d17.py t72() now revokes true sources, computed inside the oracle since ow4_worlds() carries no sources field. 140 node checks over 23 targets became 113 over 18; pass and hostile flips unchanged; D17 still 14/14 with all flips OK; D18 untouched at agreement 1.0 over 360 checks."
   },
   {
    "revival_id": "RV-5",
@@ -158,7 +204,9 @@
  "counts": {
   "total": 10,
   "by_status": {
-   "DISPATCHED": 3,
+   "CLOSED_EARNED_TERMINAL": 1,
+   "CLOSED_QUESTION_ANSWERED": 1,
+   "DISPATCHED": 1,
    "QUEUED": 6,
    "REVIVAL_ALREADY_EXECUTED_AT_REGISTERED_SCOPE - #165 RECONCILIATION OUTSTANDING": 1
   },
@@ -169,6 +217,10 @@
   },
   "unattributed_requiring_diagnosis_first": [
    "RV-6"
+  ],
+  "closed_by_lane_rv_b": [
+   "RV-1",
+   "RV-4"
   ]
  },
  "lunarc_allocation": {
