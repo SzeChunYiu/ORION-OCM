@@ -1,0 +1,169 @@
+{
+ "schema": "OCM_M2P2_REPLICATION_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "replication_of": "PR #356 (merged 31841311): m2p1 terminal HISTORY_INDUCED_SEARCH_PRIOR on the self-authored hidden-family ecology",
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_AUTHOR_SESSION_AND_ANY_SCORED_RUN",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "problem": "The m2p1 claim ceiling leaves exactly one item unmet: replication on an ecology authored by someone else. This freeze registers that replication as a three-stage, freeze-first protocol: (1) this design freeze, (2) independent authorship + entry gates, (3) the scored arm set on the authored worlds. Nothing in m2p1/ is edited; src/ocm is untouched; admission is never loosened; no threshold or tau is tuned.",
+
+ "bound_to": {
+  "git_head_at_freeze": "3184131163ac487d8f757a197486484d18c737cd",
+  "frozen_files": {
+   "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md":
+     "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
+   "research/m2-traversal-capital-v1/m2p2/m2p2_taxa.py":
+     "8779dd0ebd4b356e0b59e76fd68e8bfbc386153d04e22c22833aaabc52da8a50"
+  },
+  "imported_unmodified_from_m2p1": [
+   "src/ocm/learning/methods.py (registered units: learn_generator, validate_generator, solve, verify_solution, GeneratorMethod, SearchBudget, PolynomialTask)",
+   "research/m2-traversal-capital-v1/m2p1/m2p1_runner.py (arm mechanics, checker C, restart discipline, hardened SHUFFLED_HISTORY construction)",
+   "research/m2-traversal-capital-v1/m2p1/m2p1_ecology.py + m2p1_ecology_e3.py (compilation rule: canonical program, decomposability DP, per-length stream quotas)",
+   "research/m2-traversal-capital-v1/m2p1/m2p1_dose.py (depth ladder)",
+   "research/m2-traversal-capital-v1/m2p1/m2p1_ledger3.py (three-ledger amortisation)",
+   "research/m2-traversal-capital-v1/m2p1/m2p1_summarize.py (per-world terminal precedence)",
+   "research/m2-traversal-capital-v1/m2_probe_v3_feature_sufficiency.py (free-fit vs dev-fit feature families FS0..FS5)"
+  ],
+  "authorship_protocol_parent": "research/independent-authorship-gate-v1/P1E3_AUTHORSHIP_FREEZE_V1.json (fresh-session author-unit route; this freeze reuses its structure, isolation-by-instruction discipline, hostile framing and controls, adapted to the hidden-chunk substrate)"
+ },
+
+ "neutral_author_spec": {
+  "file": "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md",
+  "sha256": "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
+  "frozen_before_authoring": true,
+  "vocabulary_rule": "written ONLY in terms of alphabet (four public operations add1/sub1/dbl/sqr), string lengths (builders of 0..8 operations), hidden recurring chunks (4..8 per world, each 2..3 operations), and generation constraints (canonical-builder membership, three-part split with per-length quotas and fraction bands, determinism). It contains NO reference to OCM, learn_generator, fragment ranking or fragment libraries, admission or its rule, arm names, the m2p1 designs E1..E8, or any m2p1 result or number. The substrate semantics it publishes (the four operations, the fixed public enumeration order, canonical-builder membership) are the public arithmetic of the registered grammar stated in neutral vocabulary, exactly as the P1-E3 spec published closure semantics.",
+  "interface_bridge": "the compiler maps the spec's public operation order add1<sub1<dbl<sqr positionally onto the registered grammar order (inc, dec, double, square). The map is a bijection on symbols that preserves the enumeration order, so canonical builders, membership and decomposability are identical under the registered machinery. The map is recorded in every compile receipt."
+ },
+
+ "author_unit": {
+  "definition": "a FRESH model session (nested agent, general-purpose, no inherited conversation context) given ONLY the frozen neutral spec m2p2_author_spec.md (passed verbatim in the spawn prompt) plus instructions to write into a scratch studio directory outside this repository",
+  "must_not_receive": [
+   "any path into or name of this repository",
+   "the OCM mechanism, its modules, or any src/ocm code",
+   "the mechanism taxonomy (ATOM_REGISTRY_V1.json atom names; IDENT/PROV/DEP/TRANS/EVAL/ATLAS/AUTH tokens; ResidualKind names; ME-X1 family names; OCM module names)",
+   "the m2p1 lane vocabulary (arm names, terminal names, hidden-motif/ecology phrasing, schema markers, emitter filenames)",
+   "any m2p1 world, motif set, or result number",
+   "the recovery pipeline, the compiler, the arms, or that anything will be learned from, fitted to, or scored on the authored worlds"
+  ],
+  "isolation_procedure": "spec passed in the prompt only; studio directory outside the repo; authored artifacts copied into the repo verbatim with per-file sha256 and a provenance manifest (spawn timestamp, spec sha256, isolation note); never edited by this lane after the session ends",
+  "isolation_is_by_instruction_not_enforcement": true,
+  "mechanical_guarantee": "the taxonomy-disjointness hostile m2p2_taxa.py (frozen by this PR) scans every authored artifact byte for the 219 frozen tokens (P1-E3 tiers T1..T5 imported unmodified + lane tiers T6/T7); any overlap alarms and voids the package (terminal AUTHORSHIP_CONTAMINATED)",
+  "floors": {
+   "worlds_min": 6,
+   "distinct_shapes_min": 2,
+   "shape_definition": "a world's shape is (chunk count, chunk-length multiset, minimum builder length, part fractions); two worlds are same-shaped iff all four agree",
+   "distinctness_rule": "no two worlds may share an identical chunk set; worlds that differ only by chunk choice are distinct but do not count toward the distinct-shape floor",
+   "counts_toward_floor_only_if": "the world passes the compiler's hard bounds and the compiled world is viable (see entry_gates viability); non-viable worlds are retained and reported as CANNOT_CHECK_world, never dropped silently"
+  },
+  "determinism": "emit_worlds.py is run twice in a sandboxed subprocess; the two worlds.jsonl outputs must be byte-identical (sha256 equal). Non-determinism fails the whole package (ASSAY_DEFECT class, recorded), it is not repaired.",
+  "intent": "author intent fields are audit-only: recorded verbatim in every receipt, stripped before any truth computation — the compiler, gates and arms read ONLY the frozen interface keys (world_id, chunks, min_builder_length, part_fractions); surface and intent fields are never opened by the pipeline",
+  "authored_code_execution": "sandboxed subprocess, scratch cwd, wall-clock timeout, stdout/stderr captured; line-by-line review before first execution for network/file-write/system access; an emitter that attempts any of these is rejected with reason and the package becomes CANNOT_CHECK (never patched)",
+  "human_gate_label": "HUMAN_GATE_BYPASSED__MODEL_PROXY — the ideal is an independent human author; the strongest available legitimate proxy is a fresh model session with no context inheritance and no repo access, mechanically certified only for taxonomy disjointness. The author unit shares this lane's model family and host; independence = session/context/spec-only isolation. Never marked externally obtained."
+ },
+
+ "entry_gates": {
+  "order": "compile (structural gates + viability) -> dev traversal + mining by the registered learner -> surface-derivability blocking gate -> scored arms",
+  "compilation": "for each authored world: enumerate all builders of length 0..8 in the registered order (equivalently the spec's public order), compute each builder's polynomial via the registered normal_form, take first-in-enumeration as the canonical builder, and take as members exactly those polynomials whose canonical builder (a) decomposes end-to-end into the world's chunks (the m2p1 decomposability DP, imported) and (b) has length >= the world's min_builder_length; split members into initial/tuning/future streams by per-length-class quotas in the world's part_fractions, hashed ordering exactly as m2p1_ecology.py",
+  "structural_gates": {
+   "G1_length_parity": "max deviation of any stream's canonical-length distribution from any other's, computed exactly as m2p1; PASS iff <= 0.12 (the bound registered for compiled shapes in m2p1_ecology_e3.py)",
+   "G2_disjoint_normal_forms": "zero normal forms shared between any two streams (by construction; asserted, alarm on violation)",
+   "G3_decomposability": "every member's canonical builder decomposes into the world's chunks (by construction; asserted via the DP, alarm on violation)"
+  },
+  "viability_floor_per_world": {
+   "members_min": 90,
+   "initial_min": 15,
+   "tuning_min": 6,
+   "future_min": 20,
+   "on_failure": "the world is CANNOT_CHECK_world with its measured counts, retained and reported; the assay requires >= 4 viable worlds, else the study terminal is CANNOT_CHECK_TOO_FEW_VIABLE_WORLDS"
+  },
+  "surface_derivability_gate": {
+   "id": "G-SURF",
+   "blocking": true,
+   "per_world": true,
+   "provenance": "the #349 blocking intent (HIDDEN_FAMILY_DESIGN.md: block worlds whose family is derivable from the surface alone), implemented with the m2_probe_v3_feature_sufficiency.py machinery (FS0..FS5 families, _dev/_free dual fits, ORDER-mode ladder on budgets 1000,4000,16000,64000,200000)",
+   "calibration_note": "the #349 LETTER ('free-fit ~= chance while dev-fit >> chance') was calibrated on the M1 semantic-class population and does NOT transfer to hidden-family worlds — on m2p1's own recorded positives (E5, E6: both HISTORY_INDUCED_SEARCH_PRIOR with scored-G4 PASS) the dev fit gains ZERO ladder points, because the developmental signal lives in fragment structure, which no explicit feature cell expresses. Absence of FS-expressible dev signal therefore does not mean 'no recoverable signal'. The gate was recalibrated BEFORE the author session against both directions of ground truth; see M2P2_GSURF_CALIBRATION.md (all calibration runs are pre-author instrument validations on m2p1 public artifacts and synthetic worlds — no scored run, no authored package)",
+   "procedure": "on each viable world: CHANCE = the best zero-history ordering (FS0 constant fit, ascending, descending); FREE = the best history-free ordering (chance family + FS1..FS5 free fits); ORACLE = the true-length ordering (ceiling of any length-class ordering); all scored by ladder successes on the world's future stream. The _dev fits are computed and reported as evidence; they do not gate",
+   "pass_rule_frozen": "G-SURF fires SURFACE_DERIVABLE on a world iff (FREE - CHANCE) >= 0.5 * (ORACLE - CHANCE) — a grammar-only rule captures at least half the oracle ordering headroom, the regime in which the scored CONTINUED-vs-surface comparison would be uninterpretable; otherwise the world PASSES and proceeds to the scored arms, where the decisive surface test is the scored-stage G4 exactly as m2p1 (CONTINUED vs the best history-free surface ordering, paired)",
+   "calibration_evidence": {
+    "m2p1_E5_recorded_positive": "capture 0.00 -> PASS",
+    "m2p1_E6_recorded_positive": "capture ~0.02 -> PASS (the original #349-letter rule FALSELY fired here: free_gain 4 > threshold 2)",
+    "synthetic_sparse_worlds_VAL_A_H": "captures 0.03..0.42 -> all PASS; no authorable firing world found in calibration (max 42%), so the majority line is retained as a guard against pathological authorings, not an expected branch"
+   },
+   "fail_mapping": {
+    "world_fires": "that world is SURFACE_DERIVABLE_world: retained, reported per-world, excluded from the scored family",
+    "all_viable_worlds_fire": "study terminal SURFACE_DERIVABLE — the scored arms never run",
+    "gate_does_not_fire": "PASS — the world proceeds; the decisive surface test is the scored-stage G4"
+   }
+  }
+ },
+
+ "arm_set": {
+   "registered_units": "imported unmodified from src/ocm/learning/methods.py at the frozen git head; the runner imports them, never copies them; bound by methods.py sha256 in every receipt",
+   "lifecycle": "exactly the m2p1 lifecycle: dev phase (solve the initial stream at slots=200000, max_length=8; learn_generator on checked solutions; validate_generator on the tuning stream) -> checkpoint -> REAL OS-process restart (pid_changed asserted, SAME_PROCESS_FAKE_RESTART alarm) -> scored acquisition on the future stream",
+   "budget_ladder": [1000, 4000, 16000, 64000, 200000],
+   "arms": {
+    "CONTINUED": "the admitted generator is served; under refusal no generator is served and the refusal is first-class (identical to RESET by mechanism, never by fiat)",
+    "RESET": "no generator; the anchor",
+    "LIBRARY_ONLY": "solved objects only, no generator — stored answers are worthless because G2 guarantees disjoint normal forms; must be byte-identical to RESET on every world if no generator is served",
+    "SHUFFLED_HISTORY": "hardened exactly as m2p1_runner.arm_method: random fragments matching the mined count and length profile with the true chunks EXCLUDED, so the control cannot rediscover the treatment by chance",
+    "BEST_HISTORY_FREE_SURFACE": "the best of the history-free surface orderings (ASC/DESC/constant-first) evaluated per world as in m2p1 G4; this is the M2-N1 constant-offset guard",
+    "ORACLE_FAMILY": "the true chunk set; CALIBRATION ONLY, labelled as such everywhere",
+    "ORDINARY_ADAPTIVE_PARENT": "the same mined library served WITHOUT the admission gate; reported as the no-gate counterfactual parent, never as deployment"
+   },
+   "external_verification": "every successful acquisition is confirmed by checker C (independent OS process, own pid, recomputed normal form) exactly as m2p1_runner.checker_C; a disagreement is ASSAY_DEFECT",
+   "dose_response": "per viable world, the m2p1_dose depth ladder on frozen prefixes of the solved initial stream at depths 8,16,32,64,128 (skipped beyond solved count), scored by the registered validate_generator on the tuning stream, with the shuffled control at full depth and the oracle calibration"
+ },
+
+ "admission_law_check": {
+   "claim": "recovered == all chunks  <=>  admitted (m2p1 ADMISSION_LAW.md; 10 in-family + 2 out-of-sample confirmations, no exceptions)",
+   "procedure": "per viable world, after the dev phase, count how many of the world's true chunks appear in the mined fragment library (set membership on chunk sequences) and record the chunk ranks in the library's support-count ordering; compare against validate_generator's admission decision",
+   "reporting": "a per-world table (chunks recovered / admitted) and a law verdict: HOLDS / VIOLATED / CANNOT_CHECK_<reason>. A violation on an authored world is a finding about the law's boundary, reported as such — the law is a prediction inherited from m2p1, not a gate this study may tune"
+ },
+
+ "statistics": {
+   "per_world_primary": "paired comparison of per-target B_slots between CONTINUED and RESET on the same future targets, one-sided (CONTINUED cheaper), tested by the shuffle-equal-n null discipline: within each target pair the arm labels are exchangeable, so the null distribution is generated by shuffling labels within pairs (exact enumeration up to n=20, else 100000 Monte Carlo shuffles at the world's frozen seed)",
+   "multiplicity": "Holm-Bonferroni across the family of viable worlds, family-wise alpha 0.05; a world is significant iff its Holm-adjusted p < 0.05",
+   "per_world_terminal": "the m2p1_summarize precedence, imported unchanged: ASSAY_DEFECT > (refusal: PARENT_SUFFICIENT__LEARNER_REFUSED_DEPLOYMENT with G4 CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM) > NO_FAMILY_HEADROOM > FAMILY_PREDICTABLE_WITHOUT_HISTORY > HISTORY_INDUCED_SEARCH_PRIOR (cont > reset AND cont > lib AND cont > shuf AND G4 PASS) > FAMILY_HEADROOM_OCM_MISSES > NO_NATIVE_EFFECT",
+   "secondary_descriptives": "ladder totals per arm, mean B per arm, CONTINUED-vs-surface margin, SHUFFLED-vs-RESET ordering (structure-not-volume), LIBRARY_ONLY-vs-RESET byte-identity assertion"
+ },
+
+ "terminals_pre_registered": {
+   "precedence": "ASSAY_DEFECT > AUTHORSHIP_CONTAMINATED > SURFACE_DERIVABLE > CANNOT_CHECK_TOO_FEW_VIABLE_WORLDS / CANNOT_CHECK_NO_ADMITTING_WORLD / CANNOT_CHECK_<reason> > HISTORY_INDUCED_SEARCH_PRIOR_REPLICATED / NOT_REPLICATED",
+   "HISTORY_INDUCED_SEARCH_PRIOR_REPLICATED": "at least one viable world admits the mined generator, EVERY admitting world reaches the per-world m2p1 positive terminal (CONTINUED > RESET, > LIBRARY_ONLY, > SHUFFLED_HISTORY, G4 PASS vs the best history-free surface), at least one admitting world is Holm-significant on the paired CONTINUED-RESET test, SHUFFLED_HISTORY < RESET in every admitting world, and the admission law HOLDS on every viable world",
+   "NOT_REPLICATED": "at least one viable world admits, but some admitting world fails the positive-terminal pattern, the Holm requirement, or the shuffled-below-reset requirement; or the admission law is VIOLATED on any viable world",
+   "SURFACE_DERIVABLE": "every viable world fired the G-SURF entry gate (a grammar-only ordering captured at least half the oracle headroom); scored arms never run; per-world numbers reported",
+   "AUTHORSHIP_CONTAMINATED": "any taxonomy-disjointness alarm on any authored artifact, or any post-hoc revision of the neutral spec or this freeze after the author session began",
+   "ASSAY_DEFECT": "pid_changed false anywhere, checker C disagreement, dev-state tamper, non-deterministic authored emit, or any pipeline alarm class raised",
+   "CANNOT_CHECK_NO_ADMITTING_WORLD": "zero viable worlds admit (the positive terminal is not measurable on this authoring; the refusal record and the admission-law check are still reported in full)",
+   "CANNOT_CHECK_<reason>": "distinct from PASS and FAIL everywhere; the reason is stated, never smoothed"
+ },
+
+ "secondary_arm_E8_amortisation_horizon": {
+   "provenance": "m2p1 AMORTISATION.md: the E8 decisive-horizon test (marginal ledger break-even 29.8 and incremental 3.4 against 63 available future targets; net positive on two of three ledgers)",
+   "eligibility_frozen": "among viable admitting worlds, every world whose future stream has >= 63 targets",
+   "procedure": "the m2p1_ledger3 three-ledger computation imported unmodified (conservative: developmental solving + full validation; marginal: full validation only; incremental: the duplicate search inside validation only), benefit column identical across ledgers (RESET - CONTINUED mean B over the future stream)",
+   "outcomes": "E8_HORIZON_REPLICATED (at least one eligible world pays on the marginal or incremental ledger) / E8_HORIZON_NOT_POSITIVE (eligible worlds exist and none pays on any ledger) / CANNOT_CHECK_E8_NO_ELIGIBLE_WORLD",
+   "standing": "secondary; it can never flip the primary terminal and is reported beside it"
+ },
+
+ "claim_ceiling": {
+   "text": "independent-authorship replication of history-induced search-prior transfer, by a fresh-session model-proxy author on a taxonomy-disjoint hidden-chunk collection, with the registered learner driven unmodified and the registered admission rule never relaxed",
+   "not_claimed": [
+    "general developmental intelligence, open-endedness, or any population speedup",
+    "human authorship — the author unit is a model proxy, labelled HUMAN_GATE_BYPASSED__MODEL_PROXY everywhere",
+    "any change to #323's status: #323 (and #277/#165) remain open regardless of outcome; this study references them and never closes them"
+   ]
+ },
+
+ "forbidden": [
+  "any post-hoc revision of the neutral spec, the freeze, the token list, the gates, the arm set, the terminals or the statistics after the author session begins — a deviation is recorded as AUTHORSHIP_CONTAMINATED, never amended",
+  "editing any m2p1/ artifact (they are the replication target of record, bound at the frozen git head)",
+  "touching src/ocm (registered units are imported as-is; methods.py sha256 is asserted in every receipt)",
+  "loosening, retuning or reasoning around the admission rule, any threshold, any tau (#323 section 11)",
+  "editing authored artifacts after the author session (any fix re-runs through the author unit or becomes CANNOT_CHECK)",
+  "using author intent or surface fields as inputs to compilation, gating, fitting or scoring",
+  "running scored execution on the Mac mini (execution belongs to laptop billy / LUNARC offline; the Mac is git/gh only)"
+ ]
+}
