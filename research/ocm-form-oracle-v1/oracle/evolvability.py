@@ -73,9 +73,33 @@ def _t0_ok(cand: Any) -> Tuple[bool, Dict[str, Any]]:
     return bool(r.get("feasible")), r
 
 
+def _t2_capability(cand: Any, ledger: Any):
+    """T2 capability of a candidate, charged. None if it is not T2-feasible."""
+    from evaluation.evaluate import evaluate_genome
+    try:
+        r = evaluate_genome(cand, tier="T2")
+    except Exception:  # noqa: BLE001
+        ledger.charge_crash("T2_governed")
+        return None
+    ledger.charge_eval("T2_governed", r.get("evaluation"))
+    if not r.get("feasible"):
+        return None
+    return float(r["evaluation"].get("solved_fraction", 0.0))
+
+
 def governed_step(g: Any, rng: random.Random, base_cap: float,
                   ledger: Any) -> Tuple[Any, Dict[str, Any]]:
     """One governed step. Returns (accepted_or_original, step_record).
+
+    The no-regression test compares LIKE WITH LIKE: base_cap is the current
+    family's T2 capability, so a candidate is scored at T2 too. Comparing a
+    candidate's T0 solved_fraction against a T2 baseline compares a 15-task
+    screen with an 88-task developmental battery; measured on 92 T2-feasible
+    forms, T0 capability was below T2 capability in 92 of 92 cases, so such a
+    test is not a no-regression gate at all.
+
+    T0 remains a cheap PRE-FILTER: a candidate that fails the frozen hard gates
+    at T0 is rejected before paying for T2. Both evaluations are charged.
 
     Every proposal is charged to `ledger` whether or not it is accepted.
     """
@@ -88,12 +112,15 @@ def governed_step(g: Any, rng: random.Random, base_cap: float,
         ledger.charge_eval("T0_governed", r.get("evaluation") if r else None)
         if not ok:
             continue
-        cap = float(r["evaluation"].get("solved_fraction", 0.0))
+        cap = _t2_capability(cand, ledger)
+        if cap is None:
+            continue
         if cap + 1e-12 >= base_cap - TAU:
             return cand, {"accepted": True, "proposals": proposals,
-                          "accepted_capability": round(cap, 6)}
+                          "accepted_capability": round(cap, 6),
+                          "capability_tier": "T2"}
     return g, {"accepted": False, "proposals": proposals,
-               "accepted_capability": None}
+               "accepted_capability": None, "capability_tier": "T2"}
 
 
 def evolvability(genome: Any, base_capability: float, seed: int,

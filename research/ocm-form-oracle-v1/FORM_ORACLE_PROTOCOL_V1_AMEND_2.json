@@ -1,0 +1,81 @@
+{
+ "amendment_id": "FORM_ORACLE_PROTOCOL_V1_AMEND_2",
+ "cause": {
+  "defect_1": "survivor records from search/successive_halving.py carry the T0 evaluation at the top level (total_tasks 15, ecology_id None) and the T2 evaluation in a 't2' sub-record (total_tasks 88, ecology_id LifetimeEcologyV2); run_form_oracle read the top level, so objective 1 and objective 2 scored the 15-task screen and reported it as the frozen 12-epoch developmental battery",
+  "defect_1_evidence": {
+   "T0_ge_T2_count": "0 of 92",
+   "measured_T0": {
+    "mean": 0.5116,
+    "n": 92,
+    "range": [
+     0.266667,
+     0.866667
+    ]
+   },
+   "measured_T2": {
+    "mean": 0.8037,
+    "n": 92,
+    "range": [
+     0.659091,
+     1.0
+    ]
+   },
+   "reported_capability_range": [
+    0.533333,
+    0.866667
+   ]
+  },
+  "defect_2": "evolvability.governed_step scored proposals at T0 and compared them against a base capability the protocol defines at T2; combined with defect 1 the gate accepted the first proposal every time",
+  "defect_2_evidence": {
+   "delta_cap_fof_zero": "1078 of 1108",
+   "falsified_alternative_explanation": {
+    "hypothesis": "the future family FOF1 is saturated",
+    "result": "forms with headroom > 0.4 showed delta_nonzero in 0.0% of 16 cases; Pearson(headroom, |delta_cap|) = 0.003",
+    "test": "condition delta on pre-step headroom",
+    "verdict": "FALSIFIED"
+   },
+   "n_accepted_distribution": {
+    "3": 1108
+   }
+  }
+ },
+ "change": [
+  "objectives, burden and the behaviour signature read rec['t2']['evaluation'] and rec['t2']['gates']",
+  "governed_step scores candidates at T2 and compares T2 with T2; T0 is retained as a charged pre-filter on the frozen hard gates",
+  "survivors lacking a t2 sub-record are counted, not dropped"
+ ],
+ "code_digest_drift": {
+  "changed": {
+   "oracle/evolvability.py": {
+    "current": "a5990b35c1a62fe2de204b9b2984103f8bd9d2e9b69396784a88eebe97004047",
+    "frozen": "763ad04d4413c6b3850619c529c868e0df90dddb5b082b070eb036d828002a5f"
+   },
+   "oracle/objectives4.py": {
+    "current": "5549e212102fef52f9572b59f6929f4c6254f89bc7a249996473a5566187faf6",
+    "frozen": "67391798ab4adf19ca538955bcee76f5aeb0aecaaf2262f6b4a445b5e5474e03"
+   },
+   "oracle/run_form_oracle.py": {
+    "current": "6100790566580a7f604d8871129e912eaea35b2a550e73f03774e8951370371b",
+    "frozen": "097c508a0c73aad3ad197c8d701d388b998817d9df6d90ad8b9ec40642020e8a"
+   }
+  }
+ },
+ "created_utc": "2026-09-10T10:14:42Z",
+ "rerun_required": true,
+ "severity": "INVALIDATES_A_SCORED_RESULT",
+ "superseded_results": [
+  "fo/results/FO_FO_*.json from SLURM array 3588685",
+  "fo/results/FO_ARMS_AGGREGATE.json built from them"
+ ],
+ "supersedes_amendment": "FORM_ORACLE_PROTOCOL_V1_AMEND_1",
+ "supersedes_digest": "3c956d336793b04c98c8dce19af2137e7365c3ef971bd70aefaeed889ecbf833",
+ "timing": "AFTER_A_SCORED_RUN",
+ "unaffected_results": {
+  "FO_D26_TRANSFER.json": "touches no zoo evaluator",
+  "FO_D27_*.json": "calls evaluation.lifetime2.run_lifetime2 directly, which is T2 by construction"
+ },
+ "unchanged": [
+  "objective 1 was ALWAYS defined as T2 solved_fraction; the definition did not move, the read did",
+  "every estimator formula, admission rule, hard gate, rung, seed, null and falsifier"
+ ]
+}

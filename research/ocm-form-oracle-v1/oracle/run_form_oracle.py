@@ -119,13 +119,28 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
     # and stricter count; reporting only the behaviour count beside a parent's
     # phenotype count would compare two different things.
     distinct_phenotypes = {r.get("phenotype_digest") for r in survivors
-                           if r.get("phenotype_digest")}
+                           if r.get("phenotype_digest")
+                           and isinstance(r.get("t2"), dict)}
 
     # ---- behavioural dedup on the T2 survivors (cost measured separately)
+    #
+    # A survivor record's TOP-LEVEL "evaluation" is its T0 evaluation
+    # (total_tasks 15, ecology_id None). The T2 result lives in the "t2"
+    # sub-record (total_tasks 88, ecology_id LifetimeEcologyV2). Objective 1 is
+    # frozen as T2 solved_fraction, so every objective, the burden components
+    # and the behaviour signature must read rec["t2"], not rec. Reading the top
+    # level scores the cheap 15-task screen and calls it the 12-epoch
+    # developmental battery.
     kept: List[Dict[str, Any]] = []
+    n_no_t2 = 0
     for rec in survivors:
-        ev = (rec.get("evaluation") or {})
-        gates = (rec.get("gates") or {})
+        t2rec = rec.get("t2")
+        if not isinstance(t2rec, dict) or not isinstance(
+                t2rec.get("evaluation"), dict):
+            n_no_t2 += 1
+            continue
+        ev = t2rec["evaluation"]
+        gates = (t2rec.get("gates") or {})
         s, is_new = sig.admit(ev, gates)
         rec["behaviour_signature"] = s
         if (not dedup) or is_new:
@@ -142,7 +157,8 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
     records: List[Dict[str, Any]] = []
     c_violations: List[Dict[str, Any]] = []
     for i, rec in enumerate(kept):
-        ev = (rec.get("evaluation") or {})
+        ev = rec["t2"]["evaluation"]          # T2, per the frozen objective
+        t2gates = (rec["t2"].get("gates") or {})
         g = _genome_of(rec)
         out: Dict[str, Any] = {
             "arm": arm, "seed": seed, "lane": lane,
@@ -155,6 +171,9 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
             "burden_components": BU.burden_components(ev),
             "index_built": bool(ev.get("index_built", False)),
             "active_kN": ev.get("active_kN"),
+            "tier_of_objectives": "T2",
+            "t2_feasible": bool(rec["t2"].get("feasible")),
+            "t2_total_tasks": ev.get("total_tasks"),
             "t3_gen": OB.CANNOT_CHECK,
             "evolvability": OB.CANNOT_CHECK,
         }
@@ -211,6 +230,7 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
         "arm": arm, "seed": seed, "lane": lane, "dedup": dedup,
         "t0_budget": t0_budget,
         "n_survivors_pre_dedup": len(survivors),
+        "n_survivors_without_t2": n_no_t2,
         "n_retained": len(kept),
         "n_records": len(records),
         # The share actually used inside every record's burden. Search rungs
