@@ -99,16 +99,28 @@ def mix_order():
     return out
 
 
+#: Class order within a mix: the arms that can cross, then the cheap reduced arms that
+#: settle CHUNK / AU_PAIR / EGGRAPH at 4,096 tasks, then the nulls.
+#:
+#: The nulls are 6,492 of the study's ~10,819 core-hours and they answer exactly one
+#: question: is a positive saving selectivity rather than payback? A shape-matched
+#: random library cannot fail to reproduce a saving that does not exist, so at any mix
+#: where the learned arm LOSES the null has nothing to rule out. Running them last
+#: keeps that decision available and costs nothing if the learned arms do win. Whatever
+#: is or is not reached is reported as such -- the arm is not dropped from the design.
+CLASS_RANK = {"full": 0, "reduced": 1, "null": 2}
+
+
 def ordered_cells():
-    """Mix ends alternating; within a mix, the arms that can cross before the ones that
-    cannot, and the nulls with them."""
+    """Mix ends alternating; within a mix, by CLASS_RANK."""
     rank = dict((m, r) for r, m in enumerate(mix_order()))
     cells = list(enumerate(H.cell_inventory()))
 
     def key(item):
         i, c = item
-        cls = 0 if c["arm"] in H.FULL_ARMS else (1 if c["arm"] in H.NULL_ARMS else 2)
-        return (rank[c["mix_idx"]], cls, i)
+        cls = cell_class(c)
+        # nulls go behind the ENTIRE non-null grid, not merely behind their own mix
+        return (1 if cls == "null" else 0, rank[c["mix_idx"]], CLASS_RANK[cls], i)
     return [i for i, _c in sorted(cells, key=key)]
 
 
