@@ -76,7 +76,7 @@ def achievable_premise_sets(inst, cap=4096):
 # ------------------------------------------------------------------- tests --
 def t_sat(com, max_witnesses=3):
     """Satisfaction condition, exhaustively over every (target model, sentence)."""
-    checked, bad = 0, []
+    checked, n_bad, bad = 0, 0, []
     for mp in com.target_models:
         bm = com.beta(mp)
         for phi in com.src.sentences:
@@ -84,13 +84,16 @@ def t_sat(com, max_witnesses=3):
             lhs = com.tgt.sat(mp, com.alpha(phi))
             rhs = com.src.sat(bm, phi)
             if lhs != rhs:
+                n_bad += 1                       # true count, never capped
                 if len(bad) < max_witnesses:
                     bad.append({"target_model": com.tgt.describe(mp),
                                 "beta_model": com.src.describe(bm),
                                 "sentence": com.src.show(phi),
                                 "target_sat_alpha_phi": lhs, "source_sat_phi": rhs})
-    return {"n_pairs_checked": checked, "n_violations": len(bad),
-            "holds": not bad, "witnesses": bad, "coverage": "EXHAUSTIVE"}
+    return {"n_pairs_checked": checked, "n_violations": n_bad,
+            "holds": n_bad == 0, "witnesses_shown": bad,
+            "n_witnesses_shown": len(bad), "witness_display_cap": max_witnesses,
+            "coverage": "EXHAUSTIVE"}
 
 def t_exp(com):
     """Model-expansiveness: is beta surjective onto Mod(I)?"""
@@ -117,6 +120,7 @@ def t_pres_refl(com, premise_sets, max_witnesses=3):
                                   if com.tgt.sat(mp, a))
     allt = frozenset(range(len(com.target_models)))
     n, pres_bad, refl_bad = 0, [], []
+    n_pres_bad, n_refl_bad = 0, 0
     for gamma, pmods in premise_sets:
         g_models = allt
         for g in gamma:
@@ -125,17 +129,26 @@ def t_pres_refl(com, premise_sets, max_witnesses=3):
             n += 1
             src_ent = _entails_src(com.src, pmods, phi)
             tgt_ent = g_models <= tgt_mask[phi]
-            if src_ent and not tgt_ent and len(pres_bad) < max_witnesses:
-                pres_bad.append({"gamma": [com.src.show(g) for g in gamma],
-                                 "phi": com.src.show(phi)})
-            if tgt_ent and not src_ent and len(refl_bad) < max_witnesses:
-                cm = [com.src.describe(m) for m in pmods if not com.src.sat(m, phi)]
-                refl_bad.append({"gamma": [com.src.show(g) for g in gamma],
-                                 "phi": com.src.show(phi),
-                                 "source_counter_models": cm[:3]})
+            if src_ent and not tgt_ent:
+                n_pres_bad += 1                  # true count, never capped
+                if len(pres_bad) < max_witnesses:
+                    pres_bad.append({"gamma": [com.src.show(g) for g in gamma],
+                                     "phi": com.src.show(phi)})
+            if tgt_ent and not src_ent:
+                n_refl_bad += 1                  # true count, never capped
+                if len(refl_bad) < max_witnesses:
+                    cm = [com.src.describe(m) for m in pmods if not com.src.sat(m, phi)]
+                    refl_bad.append({"gamma": [com.src.show(g) for g in gamma],
+                                     "phi": com.src.show(phi),
+                                     "source_counter_models": cm[:3]})
     return {"n_pairs_checked": n,
-            "preservation_holds": not pres_bad, "preservation_witnesses": pres_bad,
-            "reflection_holds": not refl_bad, "reflection_witnesses": refl_bad,
+            "preservation_holds": n_pres_bad == 0,
+            "n_preservation_violations": n_pres_bad,
+            "preservation_witnesses_shown": pres_bad,
+            "reflection_holds": n_refl_bad == 0,
+            "n_reflection_violations": n_refl_bad,
+            "reflection_witnesses_shown": refl_bad,
+            "witness_display_cap": max_witnesses,
             "coverage": "EXHAUSTIVE over achievable premise sets"}
 
 def run_comorphism(com):
@@ -457,11 +470,45 @@ def l4_arms():
                            "T-PRES": True, "T-REFL": False}),
     ]
 
+def preregistered_witness_check(worlds):
+    """Check the EXACT witness the protocol named, not merely 'some violation'.
+
+    Protocol section 2.3 registered, before running, that HOSTILE-SAT must fail at
+    target model (p1=0, q1=1, e) on the sentence q. A capped witness list can hide
+    that specific pair behind other violations, so it is searched for by name.
+    """
+    rows = []
+    for w in worlds:
+        src = _prop_inst("L1", L1_ATOMS, [tuple(m) for m in w["imodels"]])
+        tgt = _prop_inst("J1", J1_ATOMS, [tuple(m) for m in w["jmodels"]])
+        want = frozenset(m for m in src.models if m[1] == 1)          # Mod(q)
+        q_sent = next((phi for phi in src.sentences if src.mod(phi) == want), None)
+        if q_sent is None:
+            rows.append({"world": w["id"], "status": "CANNOT_CHECK: no sentence for q"})
+            continue
+        hits = []
+        for mp in tgt.models:
+            if mp[0] != 0 or mp[1] != 1:
+                continue
+            lhs = tgt.sat(mp, subst(q_sent, ALPHA_FROZEN))
+            rhs = src.sat(_beta_drop(mp), q_sent)
+            if lhs != rhs:
+                hits.append({"target_model": "".join(str(b) for b in mp),
+                             "beta_model": "".join(str(b) for b in _beta_drop(mp)),
+                             "target_sat_alpha_q": lhs, "source_sat_q": rhs})
+        rows.append({"world": w["id"], "sentence": pshow(q_sent),
+                     "registered_witness_found": bool(hits), "hits": hits})
+    return {"rows": rows,
+            "all_worlds_show_registered_witness":
+                all(r.get("registered_witness_found") for r in rows),
+            "registered_as": "HOSTILE-SAT fails at (p1=0, q1=1, e) on phi = q"}
+
 # ----------------------------------------------------------------- driver ---
 def run_d22():
     t0w, t0c = time.time(), time.process_time()
     ow7 = W.ow7_worlds()
     surj = ow7_surjectivity_note(ow7)
+    prereg = preregistered_witness_check(ow7)
 
     results = []
     for w in ow7:
@@ -503,6 +550,12 @@ def run_d22():
         "F4_hostile_image_fired": all((not r["observed"]["T-EXP"])
                                       and (not r["observed"]["T-REFL"])
                                       for r in img_host) and bool(img_host),
+        "F4_registered_sat_witness_found_on_every_world":
+            prereg["all_worlds_show_registered_witness"],
+        "F4_total_sat_violations_hostile_sat":
+            sum(r["t_sat"]["n_violations"] for r in sat_host),
+        "F4_total_reflection_violations_hostile_image":
+            sum(r["t_pres_refl"]["n_reflection_violations"] for r in img_host),
         "F4_both_hostiles_fired": (bool(sat_host) and bool(img_host)
                                    and all(not r["observed"]["T-SAT"] for r in sat_host)
                                    and all((not r["observed"]["T-EXP"])
@@ -526,7 +579,7 @@ def run_d22():
                          "L3": "equational, one binary op on {0,1}, 16 algebras",
                          "L4": "FO finite-model, one binary relation on |U|=2, "
                                "16 structures, 64 quantified sentences"},
-           "ow7_surjectivity": surj,
+           "ow7_surjectivity": surj, "preregistered_witness": prereg,
            "comorphisms": results, "summary": summary,
            "certificate_ceiling": "P2 finite certificate over enumerated models; "
                                   "never a universal proof",

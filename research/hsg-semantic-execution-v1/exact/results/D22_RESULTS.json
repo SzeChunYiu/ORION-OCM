@@ -4,7 +4,7 @@
   {
    "alarms": [],
    "comorphism": "L1-CLEAN",
-   "cpu_s": 0.0019,
+   "cpu_s": 0.0016,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -36,17 +36,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 112,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-00"
@@ -57,7 +62,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-SAT",
-   "cpu_s": 0.0018,
+   "cpu_s": 0.0016,
    "expectation_met": true,
    "expected": {
     "T-SAT": false
@@ -86,10 +91,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -115,14 +122,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": false,
     "n_pairs_checked": 112,
-    "n_violations": 3,
-    "witnesses": [
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
      {
       "beta_model": "01",
       "sentence": "(~p&~q)",
@@ -155,7 +165,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
-   "cpu_s": 0.0017,
+   "cpu_s": 0.0024,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -189,10 +199,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -218,14 +230,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 112,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-00"
@@ -236,233 +251,6 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-restricted",
-   "cpu_s": 0.0016,
-   "expectation_met": true,
-   "expected": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 2,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 4,
-   "observed": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 2,
-    "missing_source_models": [
-     "00",
-     "01"
-    ],
-    "source_models": 4,
-    "surjective": false
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": false,
-    "reflection_witnesses": [
-     {
-      "gamma": [],
-      "phi": "((p&~q)|(p&q))",
-      "source_counter_models": [
-       "01",
-       "00"
-      ]
-     },
-     {
-      "gamma": [],
-      "phi": "(((~p&~q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [],
-      "phi": "(((~p&q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "00"
-      ]
-     }
-    ]
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": true,
-    "n_pairs_checked": 64,
-    "n_violations": 0,
-    "witnesses": []
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-00"
-  },
-  {
-   "alarms": [],
-   "comorphism": "L1-CLEAN",
-   "cpu_s": 0.0017,
-   "expectation_met": true,
-   "expected": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": true,
-    "T-SAT": true
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 0,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 7,
-   "observed": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": true,
-    "T-SAT": true
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 4,
-    "missing_source_models": [],
-    "source_models": 4,
-    "surjective": true
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": true,
-    "reflection_witnesses": []
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": true,
-    "n_pairs_checked": 112,
-    "n_violations": 0,
-    "witnesses": []
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-01"
-  },
-  {
-   "alarms": [
-    "T-SAT",
-    "T-REFL"
-   ],
-   "comorphism": "L1-HOSTILE-SAT",
-   "cpu_s": 0.0018,
-   "expectation_met": true,
-   "expected": {
-    "T-SAT": false
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 2,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 7,
-   "observed": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": false
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 4,
-    "missing_source_models": [],
-    "source_models": 4,
-    "surjective": true
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": false,
-    "reflection_witnesses": [
-     {
-      "gamma": [],
-      "phi": "(((~p&~q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "F",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "(~p&~q)",
-      "source_counter_models": [
-       "01"
-      ]
-     }
-    ]
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": false,
-    "n_pairs_checked": 112,
-    "n_violations": 3,
-    "witnesses": [
-     {
-      "beta_model": "01",
-      "sentence": "(~p&~q)",
-      "source_sat_phi": false,
-      "target_model": "010",
-      "target_sat_alpha_phi": true
-     },
-     {
-      "beta_model": "01",
-      "sentence": "(~p&q)",
-      "source_sat_phi": true,
-      "target_model": "010",
-      "target_sat_alpha_phi": false
-     },
-     {
-      "beta_model": "01",
-      "sentence": "((~p&~q)|(p&~q))",
-      "source_sat_phi": false,
-      "target_model": "010",
-      "target_sat_alpha_phi": true
-     }
-    ]
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-01"
-  },
-  {
-   "alarms": [
-    "T-EXP",
-    "T-REFL"
-   ],
-   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
    "cpu_s": 0.0023,
    "expectation_met": true,
    "expected": {
@@ -476,7 +264,7 @@
    "n_alarms": 2,
    "n_source_models": 4,
    "n_source_sentences": 16,
-   "n_target_models": 7,
+   "n_target_models": 4,
    "observed": {
     "T-EXP": false,
     "T-PRES": true,
@@ -487,8 +275,9 @@
    "source": "L1-prop{p,q}",
    "t_exp": {
     "coverage": "EXHAUSTIVE",
-    "image_size": 3,
+    "image_size": 2,
     "missing_source_models": [
+     "00",
      "01"
     ],
     "source_models": 4,
@@ -497,10 +286,145 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-00"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": true,
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": false,
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -526,14 +450,125 @@
        "01"
       ]
      }
+    ],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
     ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.002,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": false,
+    "reflection_witnesses_shown": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 112,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-01"
@@ -544,7 +579,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-restricted",
-   "cpu_s": 0.002,
+   "cpu_s": 0.0017,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -579,10 +614,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "((p&~q)|(p&q))",
@@ -605,14 +642,17 @@
        "00"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 64,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-01"
@@ -652,17 +692,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 128,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-02"
@@ -702,10 +747,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -731,14 +778,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": false,
     "n_pairs_checked": 128,
-    "n_violations": 3,
-    "witnesses": [
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
      {
       "beta_model": "01",
       "sentence": "(~p&~q)",
@@ -771,7 +821,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
-   "cpu_s": 0.0018,
+   "cpu_s": 0.002,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -805,10 +855,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -834,17 +886,348 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 128,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-02"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": false,
+    "reflection_witnesses_shown": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-02"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": true,
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": false,
+    "reflection_witnesses_shown": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
+    "preservation_holds": true,
+    "preservation_witnesses_shown": [],
+    "reflection_holds": false,
+    "reflection_witnesses_shown": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ],
+    "witness_display_cap": 3
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
   },
   {
    "alarms": [
@@ -887,10 +1270,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "((p&~q)|(p&q))",
@@ -913,22 +1298,25 @@
        "00"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 64,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
-   "world": "OW7-02"
+   "world": "OW7-03"
   },
   {
    "alarms": [],
    "comorphism": "L1-CLEAN",
-   "cpu_s": 0.0018,
+   "cpu_s": 0.0021,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -960,325 +1348,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 112,
     "n_violations": 0,
-    "witnesses": []
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-03"
-  },
-  {
-   "alarms": [
-    "T-SAT",
-    "T-REFL"
-   ],
-   "comorphism": "L1-HOSTILE-SAT",
-   "cpu_s": 0.0018,
-   "expectation_met": true,
-   "expected": {
-    "T-SAT": false
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 2,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 7,
-   "observed": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": false
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 4,
-    "missing_source_models": [],
-    "source_models": 4,
-    "surjective": true
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": false,
-    "reflection_witnesses": [
-     {
-      "gamma": [],
-      "phi": "(((~p&~q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "F",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "(~p&~q)",
-      "source_counter_models": [
-       "01"
-      ]
-     }
-    ]
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": false,
-    "n_pairs_checked": 112,
-    "n_violations": 3,
-    "witnesses": [
-     {
-      "beta_model": "01",
-      "sentence": "(~p&~q)",
-      "source_sat_phi": false,
-      "target_model": "010",
-      "target_sat_alpha_phi": true
-     },
-     {
-      "beta_model": "01",
-      "sentence": "(~p&q)",
-      "source_sat_phi": true,
-      "target_model": "010",
-      "target_sat_alpha_phi": false
-     },
-     {
-      "beta_model": "01",
-      "sentence": "((~p&~q)|(p&~q))",
-      "source_sat_phi": false,
-      "target_model": "010",
-      "target_sat_alpha_phi": true
-     }
-    ]
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-03"
-  },
-  {
-   "alarms": [
-    "T-EXP",
-    "T-REFL"
-   ],
-   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
-   "cpu_s": 0.0017,
-   "expectation_met": true,
-   "expected": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 2,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 7,
-   "observed": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 3,
-    "missing_source_models": [
-     "01"
-    ],
-    "source_models": 4,
-    "surjective": false
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": false,
-    "reflection_witnesses": [
-     {
-      "gamma": [],
-      "phi": "(((~p&~q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "F",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [
-       "(~p&q)"
-      ],
-      "phi": "(~p&~q)",
-      "source_counter_models": [
-       "01"
-      ]
-     }
-    ]
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": true,
-    "n_pairs_checked": 112,
-    "n_violations": 0,
-    "witnesses": []
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-03"
-  },
-  {
-   "alarms": [
-    "T-EXP",
-    "T-REFL"
-   ],
-   "comorphism": "L1-HOSTILE-IMAGE-restricted",
-   "cpu_s": 0.0026,
-   "expectation_met": true,
-   "expected": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 2,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 4,
-   "observed": {
-    "T-EXP": false,
-    "T-PRES": true,
-    "T-REFL": false,
-    "T-SAT": true
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 2,
-    "missing_source_models": [
-     "00",
-     "01"
-    ],
-    "source_models": 4,
-    "surjective": false
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": false,
-    "reflection_witnesses": [
-     {
-      "gamma": [],
-      "phi": "((p&~q)|(p&q))",
-      "source_counter_models": [
-       "01",
-       "00"
-      ]
-     },
-     {
-      "gamma": [],
-      "phi": "(((~p&~q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "01"
-      ]
-     },
-     {
-      "gamma": [],
-      "phi": "(((~p&q)|(p&~q))|(p&q))",
-      "source_counter_models": [
-       "00"
-      ]
-     }
-    ]
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": true,
-    "n_pairs_checked": 64,
-    "n_violations": 0,
-    "witnesses": []
-   },
-   "target": "J1-prop{p',q',e}",
-   "world": "OW7-03"
-  },
-  {
-   "alarms": [],
-   "comorphism": "L1-CLEAN",
-   "cpu_s": 0.0019,
-   "expectation_met": true,
-   "expected": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": true,
-    "T-SAT": true
-   },
-   "fragment": "L1",
-   "n_achievable_premise_sets": 16,
-   "n_alarms": 0,
-   "n_source_models": 4,
-   "n_source_sentences": 16,
-   "n_target_models": 7,
-   "observed": {
-    "T-EXP": true,
-    "T-PRES": true,
-    "T-REFL": true,
-    "T-SAT": true
-   },
-   "premise_enumeration_complete": true,
-   "source": "L1-prop{p,q}",
-   "t_exp": {
-    "coverage": "EXHAUSTIVE",
-    "image_size": 4,
-    "missing_source_models": [],
-    "source_models": 4,
-    "surjective": true
-   },
-   "t_pres_refl": {
-    "coverage": "EXHAUSTIVE over achievable premise sets",
-    "n_pairs_checked": 256,
-    "preservation_holds": true,
-    "preservation_witnesses": [],
-    "reflection_holds": true,
-    "reflection_witnesses": []
-   },
-   "t_sat": {
-    "coverage": "EXHAUSTIVE",
-    "holds": true,
-    "n_pairs_checked": 112,
-    "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-04"
@@ -1318,10 +1403,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -1347,14 +1434,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": false,
     "n_pairs_checked": 112,
-    "n_violations": 3,
-    "witnesses": [
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
      {
       "beta_model": "01",
       "sentence": "(~p&~q)",
@@ -1387,7 +1477,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
-   "cpu_s": 0.0019,
+   "cpu_s": 0.0016,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -1421,10 +1511,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -1450,14 +1542,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 112,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-04"
@@ -1468,7 +1563,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-restricted",
-   "cpu_s": 0.0019,
+   "cpu_s": 0.0015,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -1503,10 +1598,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "((p&~q)|(p&q))",
@@ -1529,14 +1626,17 @@
        "00"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 64,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-04"
@@ -1544,7 +1644,7 @@
   {
    "alarms": [],
    "comorphism": "L1-CLEAN",
-   "cpu_s": 0.0022,
+   "cpu_s": 0.0017,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -1576,17 +1676,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 128,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-05"
@@ -1597,7 +1702,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-SAT",
-   "cpu_s": 0.0021,
+   "cpu_s": 0.0018,
    "expectation_met": true,
    "expected": {
     "T-SAT": false
@@ -1626,10 +1731,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -1655,14 +1762,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": false,
     "n_pairs_checked": 128,
-    "n_violations": 3,
-    "witnesses": [
+    "n_violations": 16,
+    "n_witnesses_shown": 3,
+    "witness_display_cap": 3,
+    "witnesses_shown": [
      {
       "beta_model": "01",
       "sentence": "(~p&~q)",
@@ -1695,7 +1805,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
-   "cpu_s": 0.0021,
+   "cpu_s": 0.0017,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -1729,10 +1839,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 27,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "(((~p&~q)|(p&~q))|(p&q))",
@@ -1758,14 +1870,17 @@
        "01"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 128,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-05"
@@ -1776,7 +1891,7 @@
     "T-REFL"
    ],
    "comorphism": "L1-HOSTILE-IMAGE-restricted",
-   "cpu_s": 0.0019,
+   "cpu_s": 0.0015,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -1811,10 +1926,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 256,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 63,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "((p&~q)|(p&q))",
@@ -1837,14 +1954,17 @@
        "00"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 64,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "J1-prop{p',q',e}",
    "world": "OW7-05"
@@ -1852,7 +1972,7 @@
   {
    "alarms": [],
    "comorphism": "L2-CLEAN",
-   "cpu_s": 0.0119,
+   "cpu_s": 0.0093,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -1884,17 +2004,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 1281,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 336,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L2x-Horn{p,q,r,s}",
    "world": "L2-derived"
@@ -1905,7 +2030,7 @@
     "T-REFL"
    ],
    "comorphism": "L2-HOSTILE-IMAGE",
-   "cpu_s": 0.0126,
+   "cpu_s": 0.009,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -1942,10 +2067,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 1281,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 216,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "p",
@@ -1971,14 +2098,17 @@
        "011"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 168,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L2x-Horn{p,q,r,s}",
    "world": "L2-derived"
@@ -1986,7 +2116,7 @@
   {
    "alarms": [],
    "comorphism": "L3-CLEAN",
-   "cpu_s": 0.0083,
+   "cpu_s": 0.0066,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -2018,17 +2148,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 180,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 480,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L3x-equational + constant",
    "world": "L3-derived"
@@ -2039,7 +2174,7 @@
     "T-REFL"
    ],
    "comorphism": "L3-HOSTILE-IMAGE",
-   "cpu_s": 0.0068,
+   "cpu_s": 0.0057,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -2080,10 +2215,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 180,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 29,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "f(x,y) = f(y,x)",
@@ -2112,14 +2249,17 @@
        "f=0011"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 240,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L3x-equational + constant",
    "world": "L3-derived"
@@ -2127,7 +2267,7 @@
   {
    "alarms": [],
    "comorphism": "L4-CLEAN",
-   "cpu_s": 0.2321,
+   "cpu_s": 0.2285,
    "expectation_met": true,
    "expected": {
     "T-EXP": true,
@@ -2159,17 +2299,22 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 5136,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 0,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": true,
-    "reflection_witnesses": []
+    "reflection_witnesses_shown": [],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 12288,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L4x-FO(R and S)",
    "world": "L4-derived"
@@ -2180,7 +2325,7 @@
     "T-REFL"
    ],
    "comorphism": "L4-HOSTILE-IMAGE",
-   "cpu_s": 0.1984,
+   "cpu_s": 0.1673,
    "expectation_met": true,
    "expected": {
     "T-EXP": false,
@@ -2225,10 +2370,12 @@
    "t_pres_refl": {
     "coverage": "EXHAUSTIVE over achievable premise sets",
     "n_pairs_checked": 5136,
+    "n_preservation_violations": 0,
+    "n_reflection_violations": 2046,
     "preservation_holds": true,
-    "preservation_witnesses": [],
+    "preservation_witnesses_shown": [],
     "reflection_holds": false,
-    "reflection_witnesses": [
+    "reflection_witnesses_shown": [
      {
       "gamma": [],
       "phi": "forallx.forally.R(x,x)",
@@ -2256,20 +2403,23 @@
        "R=0101"
       ]
      }
-    ]
+    ],
+    "witness_display_cap": 3
    },
    "t_sat": {
     "coverage": "EXHAUSTIVE",
     "holds": true,
     "n_pairs_checked": 3072,
     "n_violations": 0,
-    "witnesses": []
+    "n_witnesses_shown": 0,
+    "witness_display_cap": 3,
+    "witnesses_shown": []
    },
    "target": "L4x-FO(R and S)",
    "world": "L4-derived"
   }
  ],
- "cpu_s": 0.521,
+ "cpu_s": 0.479,
  "evidence_class": "CONFIRMATORY_FIXED",
  "experiment": "D22",
  "fragments": {
@@ -2327,6 +2477,126 @@
    }
   ]
  },
+ "preregistered_witness": {
+  "all_worlds_show_registered_witness": true,
+  "registered_as": "HOSTILE-SAT fails at (p1=0, q1=1, e) on phi = q",
+  "rows": [
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-00"
+   },
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-01"
+   },
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-02"
+   },
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-03"
+   },
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-04"
+   },
+   {
+    "hits": [
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "010",
+      "target_sat_alpha_q": false
+     },
+     {
+      "beta_model": "01",
+      "source_sat_q": true,
+      "target_model": "011",
+      "target_sat_alpha_q": false
+     }
+    ],
+    "registered_witness_found": true,
+    "sentence": "((~p&q)|(p&q))",
+    "world": "OW7-05"
+   }
+  ]
+ },
  "protocol": "D21_D22_PROTOCOL_V1.md",
  "summary": {
   "F1_all_premise_enumerations_complete": true,
@@ -2337,6 +2607,9 @@
   "F4_both_hostiles_fired": true,
   "F4_hostile_image_fired": true,
   "F4_hostile_sat_fired": true,
+  "F4_registered_sat_witness_found_on_every_world": true,
+  "F4_total_reflection_violations_hostile_image": 2831,
+  "F4_total_sat_violations_hostile_sat": 96,
   "F5_clean_alarms": 0,
   "F5_clean_arms": 9,
   "n4_lock": "LOCKED: no Lean, no SMT, no solver; z3-solver/python-sat/pysmt install on this host and were deliberately not used",
@@ -2346,6 +2619,6 @@
   "ow7_drop_reduct_surjective_on_all_worlds": true,
   "ow7_pre_registered_claim_verified": true
  },
- "wall_s": 0.522,
+ "wall_s": 0.479,
  "worlds": "OW7 (frozen, SEED 20260910) + derived L2/L3/L4 fragments"
 }
