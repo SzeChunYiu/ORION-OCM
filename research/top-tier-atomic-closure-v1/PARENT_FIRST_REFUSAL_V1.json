@@ -112,10 +112,10 @@
       "corrections_found": [
         "B01: the ar5iv render breaks the figure reference as 'Fig. 6 A', not 'Fig. 6A'. Quote restated to the render's exact bytes; substance unchanged.",
         "B11: the quoted line was stitched across a clause that had not been verified contiguously, and was labelled ABSTRACT although it is in the paper BODY. Reduced to the contiguous fragment actually verified; the rest is paraphrased, not quoted.",
-        "A09: centre re-fetch of the Springer PDF returned a 3038-byte paywall stub and every alternate route failed. Citation independently CrossRef-confirmed (Machine Learning 5:299-348, 1990); the quote rests on the scanning lane's fetch and the row is labelled SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED. It is the ONLY row in the matrix in that state.",
+        "A09: centre re-fetch of the Springer PDF returned a 3038-byte BOT-CHALLENGE interstitial (not a paywall) and every alternate route the centre lane tried failed; a sibling lane reported reaching the full PDF from a different path. Citation independently CrossRef-confirmed (Machine Learning 5:299-348, 1990); the quote rests on the scanning lane's fetch and the row is labelled SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED. It is the ONLY row in the matrix in that state.",
         "A13/A14/B12/C13: these four rows originally cited figures taken from prior-lane REPORTS rather than from the receipts. All figures were re-read by the centre lane directly out of the receipt JSON at origin/main, and the rows were relabelled CENTRE_VERIFIED_REPO_RECEIPT because they assert no external quote."
       ],
-      "residual_risk": "One row (A09) carries a quote the centre lane could not independently re-fetch. Three rows (A15, B13, C12) are graded SOURCE_UNVERIFIED and quote nothing. Everything else has been byte-matched against a primary source or against an ORION-OCM receipt at origin/main by this lane."
+      "residual_risk": "One row (A09, Tambe et al. 1990) carries a quote the centre lane could not independently re-fetch, because Springer served a bot-challenge interstitial rather than the PDF. Its citation is CrossRef-confirmed and a sibling lane reported reaching the full text, so this is a retrievable obstruction rather than a dead source - a retry from another network path should close it. Three rows (A15, B13, C12) are graded SOURCE_UNVERIFIED and quote nothing. Everything else has been byte-matched against a primary source or against an ORION-OCM receipt at origin/main by this lane."
     }
   },
   "parent_matrix": [
@@ -279,7 +279,7 @@
       "parent_id": "A09",
       "parent_name": "Soar chunking - the expensive-chunks utility problem",
       "family": "symbolic-cognitive",
-      "primary_source": "Milind Tambe, Allen Newell, Paul S. Rosenbloom. 'The problem of expensive chunks and its solution by restricting expressiveness.' Machine Learning 5:299-348, 1990, doi:10.1007/BF00117107. Title, container, volume 5, pages 299-348 and year 1990 INDEPENDENTLY CONFIRMED by the centre lane via the CrossRef API. Full text fetched by the scanning lane at https://link.springer.com/content/pdf/10.1007/BF00117107.pdf; centre re-fetch of that URL returned a 3038-byte paywall stub, so the quote is not centre-re-verified.",
+      "primary_source": "Milind Tambe, Allen Newell, Paul S. Rosenbloom. 'The problem of expensive chunks and its solution by restricting expressiveness.' Machine Learning 5:299-348, 1990, doi:10.1007/BF00117107. Title, container, volume 5, pages 299-348 and year 1990 INDEPENDENTLY CONFIRMED by the centre lane via the CrossRef API. Full text fetched by the scanning lane at https://link.springer.com/content/pdf/10.1007/BF00117107.pdf; centre re-fetch of that URL returned a 3038-byte bot-challenge interstitial rather than the PDF, so the quote is not centre-re-verified; the citation itself is CrossRef-confirmed by the centre lane.",
       "quoted_line": "[ABSTRACT, per the scanning lane's fetch] 'However, despite the reduction in number of steps, sometimes there may be a severe degradation in the total run time. This problem arises due to expensive chunks, i.e., chunks that require a large amount of effort in accessing them from the knowledge base. They pose a major problem for Soar, since in their presence, no guarantees can be given about Soar's performance.' [authors' own scope hedge] 'The four expensive-chunks tasks in Table 1 were the only ones found that exhibit expensive chunks, out of several dozen tasks in the history of the Soar project'",
       "function_claimed": "H2_SPARSE_RELEVANT_COGNITION; H5_LIFETIME_ECONOMIC_REGIME; METHOD_ACQUISITION_COMPOSITION_FAILURE_LEARNING",
       "faithful_vs_adapted": "FAITHFUL: 1990-era Soar with chunking on and off across the named task set, reporting total match time and time per action rather than action counts. Modern Soar has a different matcher, so absolute timings will not transfer; the qualitative match-cost blowup is the transferable object. ADAPTED: measure any skill-acquisition or caching mechanism on WALL-CLOCK cost per decision, not on steps saved.",
@@ -292,12 +292,13 @@
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED",
       "search_terms_tried": [
-        "centre re-fetch https://link.springer.com/content/pdf/10.1007/BF00117107.pdf -> HTTP 200 but 3038 bytes, paywall stub, not a PDF",
+        "centre re-fetch https://link.springer.com/content/pdf/10.1007/BF00117107.pdf -> HTTP 200 but only 3038 bytes; the body is NOT a PDF and NOT a paywall notice, it is a bot-challenge interstitial (Content-Security-Policy page served from a /_fs-ch-<token>/ asset path). Retried with a browser User-Agent and a cookie jar: identical 3038-byte challenge.",
         "https://www.cs.cmu.edu/afs/cs/project/soar/public/Papers/expensive-chunks.pdf -> HTTP 404",
         "https://citeseerx.ist.psu.edu/document?doi=10.1007/BF00117107 -> HTTP 404",
         "WebFetch https://link.springer.com/article/10.1007/BF00117107 -> HTTP 303 to idp.springer.com authorize (cookie-gated)",
         "Semantic Scholar graph API DOI:10.1007/BF00117107 -> no record returned",
-        "https://api.crossref.org/works/10.1007/BF00117107 -> HTTP 200, citation confirmed exactly"
+        "https://api.crossref.org/works/10.1007/BF00117107 -> HTTP 200, citation confirmed exactly (Machine Learning, vol 5, pp 299-348, 1990)",
+        "REACHABLE FROM SOME PATHS: a sibling scanning lane in this same session reported the identical URL returning the full 3,131,354-byte 50-page PDF via plain curl -sL, redirecting through a ?error=cookies_not_supported query that still served real bytes. The centre lane could not reproduce that from this host. Because the obstruction is a bot challenge rather than an entitlement wall, a retry from a different network path or client is likely to succeed and would close this row."
       ],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
