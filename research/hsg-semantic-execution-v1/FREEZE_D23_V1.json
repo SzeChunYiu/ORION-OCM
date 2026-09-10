@@ -1,0 +1,38 @@
+{
+ "freeze": "HSG_V4_SEMANTIC_EXECUTION_D23_FREEZE_V1",
+ "created_utc": "2026-09-10T13:43:06Z",
+ "branch": "hsg/v4-d23-d28",
+ "base_branch_origin_main": "a70c2f7a",
+ "head_at_freeze": "a70c2f7a",
+ "head_at_freeze_note": "parent of the commit that lands this freeze; the protocol and this freeze file are committed together in a commit that contains NO result file (D19/D20 convention)",
+ "issue": "SzeChunYiu/ORION-OCM#233 (D23 lane: language semantic round-trip laboratory, pre-registration; N2 LOCKED - synthetic only)",
+ "manifest_sha256": {
+  "D23_PROTOCOL_V1.json": "a5d4a3c1362aca1a0b8d4b732fe634f2a3cb913d6cd69f65f4460921494c5e7a"
+ },
+ "prior_freeze": "FREEZE_V1.json",
+ "prior_manifest_version_verified": "V1.6-D21-SATURATION-BUDGETS-AND-CONTAMINATION-DIVERGENCE",
+ "prior_freezes_verified": [
+  "FREEZE_V1.json (base manifest through amendment V1.6)",
+  "FREEZE_D19_D20_V1.json (through supersession S1)",
+  "FREEZE_RV_B_V1.json (through amendment R1-REBASE)"
+ ],
+ "prior_manifest_sha256_observed": {
+  "DEFINITIONS.md": "3e215e556291c6a756c7501848a489197f390cec9cabf8f8238aee3efb3b8d46",
+  "THEOREM_REGISTRY_V1.json": "02fb2c537648d4dbfdf502d2821725b5a495398607d577665e0674eab5bd30a3",
+  "PARENT_LEDGER.md": "b4841ec3224ab30d9532dc9e87e00b8ad5ce74fced437c426fb109b79a83d8f3",
+  "EXPERIMENT_REGISTRY_V1.json": "8520faffcc84bb94dfbbb6b516487d1b1e4875416e0a4b7dedd0c555844f4684",
+  "HOSTILE_REGISTRY_V1.json": "1d1a9f92203d4d964975587be9334200ceccb648ee28374a52d58ff064fa0f92"
+ },
+ "prior_files_note": "The five core files are named with their CURRENT authoritative hashes (newest recorded amendments V1.1/V1.2 where applicable), because this lane asserts only that IT did not touch them; cross-file supersession stays governed by the recorded amendment chain.",
+ "result_files_present_at_freeze": [],
+ "admissibility": "Frozen and pushed in a commit containing no result file. D23 results are generated only after that commit exists on the remote. Any later protocol change requires an explicit supersession record with cause and a re-run of affected arms. This freeze follows the standalone-lane pattern of FREEZE_D19_D20_V1.json; no amendment to FREEZE_V1.json is made or needed.",
+ "locked_gates": "N2 / N4 / N5 remain LOCKED per FREEZE_V1.json. D23 is legal ONLY in synthetic/frozen form under the N2 lock; the N2-unlock reuse contract is frozen inside D23_PROTOCOL_V1.json.",
+ "claim_ceiling": "P2 finite certificate over a fully enumerated frozen synthetic corpus (10 base + 30 paraphrase + 7 costume + 4 ambiguous + 2 context-split tuples, 4 clarification questions). Not a universal claim, not a fluency measurement.",
+ "seed": null,
+ "seed_note": "rng_draws = 0: the corpus is fully enumerated inline in the protocol; no random numbers are drawn anywhere in the D23 tranche. Key prefix OW3L reserved-unused in the exact.worlds._rng key space.",
+ "worlds_frozen": {
+  "OW2": "synthetic instantiation: 4 ambiguous tuples with declared safe-action sets (T68), 4 clarification questions, 2 context-split pairs (T69)",
+  "OW3": "synthetic instantiation: 10 faithful base + 30 paraphrase + 7 costume round-trip tuples (T66/T67, H-D23a)"
+ },
+ "tool": "built by build_freeze_d23.py from the working tree (hashes computed, not transcribed)"
+}

@@ -1,0 +1,1360 @@
+{
+ "protocol": "HSG_V4_SEMANTIC_EXECUTION_D23_PROTOCOL",
+ "version": "V1",
+ "status": "FROZEN_BEFORE_ANY_RESULT_GENERATING_CODE_WAS_RUN",
+ "additive_rule": "This protocol is ADDITIVE. It does not modify DEFINITIONS.md, THEOREM_REGISTRY_V1.json, PARENT_LEDGER.md, EXPERIMENT_REGISTRY_V1.json or HOSTILE_REGISTRY_V1.json, whose authoritative sha256 are re-verified against the newest recorded amendment chain in FREEZE_D23_V1.json. Prior frozen evidence is append-only. Standalone-lane pattern per D19/D20: no amendment to FREEZE_V1.json is required or made.",
+ "source_rows": "EXPERIMENT_REGISTRY_V1.json row D23 (worlds OW2, OW3; deliverable synthetic/frozen semantic tuples with protected coordinates referent/negation/quantity/scope/modality/uncertainty/speech-act; primary endpoint I/R/J coverage, protected round-trip error, ambiguity-set size, clarification value, abstention, B_exec vector, N2 LOCKED synthetic only); HOSTILE_REGISTRY_V1.json row H-D23a and row H-T66a (language-layer instantiation); THEOREM_REGISTRY_V1.json rows T66, T67, T68, T69; DEFINITIONS.md sections 1, 2, 4, 5 (reverse-read atom: coverage, false-negative and false-positive coordinates), 7, 10",
+ "issue": "SzeChunYiu/ORION-OCM#233 (D23 lane; protocol pre-registration)",
+ "n2_lock_compliance": {
+  "lock_verbatim": "N2 (language protected outcomes): LOCKED. D23 uses synthetic/frozen semantic tuples only. (DEFINITIONS.md section 10, FREEZE_V1.json scope locks)",
+  "synthetic_only": "Every tuple below is machine-generated from the frozen coordinate tables in this file. No natural corpus, no learned model, no human or model fluency evaluation enters the D23 tranche.",
+  "no_fluency_seen": "The metric contract is frozen BEFORE any fluent realization exists in this programme. This is the entire point of pre-registering D23 now: the metric is chosen before the thing it measures can bias the choice.",
+  "n2_unlock_reuse_contract": "When N2 unlocks, the SAME contract is reused on the real learned realization: swap ONLY the reader realization (J from the learned model replaces the frozen reader tables); the protected coordinates, the tuple corpus, the arms, the endpoints, the metrics, the hostiles and the verdict vocabulary are UNCHANGED. Any NEW metric or coordinate requires an explicit frozen amendment recorded BEFORE the first learned run. Renaming or quietly re-weighting a metric after observing fluency is the exact defect class this pre-registration exists to make impossible."
+ },
+ "worlds": {
+  "OW2_instantiation": {
+   "role": "ambiguity + safe-action sets (T68) and clarification/VOI micro-worlds, synthetic form",
+   "items": [
+    "AMB1",
+    "AMB2",
+    "AMB3",
+    "AMB4",
+    "q_referent",
+    "q_quantity",
+    "q_warrant",
+    "q_scope",
+    "CTX1",
+    "CTX2"
+   ]
+  },
+  "OW3_instantiation": {
+   "role": "round-trip semantics with controlled coverage gaps (T66/T67), synthetic form",
+   "items": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B1-P1",
+    "B1-P2",
+    "B1-P3",
+    "B2-P1",
+    "B2-P2",
+    "B2-P3",
+    "B3-P1",
+    "B3-P2",
+    "B3-P3",
+    "B4-P1",
+    "B4-P2",
+    "B4-P3",
+    "B5-P1",
+    "B5-P2",
+    "B5-P3",
+    "B6-P1",
+    "B6-P2",
+    "B6-P3",
+    "B7-P1",
+    "B7-P2",
+    "B7-P3",
+    "B8-P1",
+    "B8-P2",
+    "B8-P3",
+    "B9-P1",
+    "B9-P2",
+    "B9-P3",
+    "B10-P1",
+    "B10-P2",
+    "B10-P3",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7"
+   ]
+  }
+ },
+ "protected_coordinates": {
+  "rule": "Exactly the seven coordinates named by the frozen EXPERIMENT_REGISTRY D23 row: referent/negation/quantity/scope/modality/uncertainty(warrant)/speech-act. No coordinate is added, renamed, merged or dropped by this protocol.",
+  "domains": {
+   "referent": [
+    "alpha",
+    "beta"
+   ],
+   "negation": [
+    "pos",
+    "neg"
+   ],
+   "quantity": [
+    "one",
+    "two",
+    "three"
+   ],
+   "scope": [
+    "tight",
+    "wide"
+   ],
+   "modality": [
+    "indicative",
+    "necessity"
+   ],
+   "warrant": [
+    "full",
+    "hedged"
+   ],
+   "speech_act": [
+    "assert",
+    "query"
+   ]
+  },
+  "surface_grammar": "surface := 7 whitespace-separated tokens, one per coordinate, in the frozen order speech_act modality negation quantity referent scope warrant. Base word table and one synonym table are frozen below. Paraphrase styles change the WORD and (for P2/P3) the token ORDER; token order is NOT a protected coordinate, so reordering is legal paraphrase. A costume surface is a paraphrase whose token for exactly one coordinate is the OTHER value's synonym word.",
+  "word_tables_frozen": {
+   "base": {
+    "referent": {
+     "alpha": "alpha",
+     "beta": "beta"
+    },
+    "negation": {
+     "pos": "plus",
+     "neg": "minus"
+    },
+    "quantity": {
+     "one": "one",
+     "two": "two",
+     "three": "three"
+    },
+    "scope": {
+     "tight": "narrow",
+     "wide": "broad"
+    },
+    "modality": {
+     "indicative": "plain",
+     "necessity": "must"
+    },
+    "warrant": {
+     "full": "sure",
+     "hedged": "maybe"
+    },
+    "speech_act": {
+     "assert": "state",
+     "query": "ask"
+    }
+   },
+   "synonym": {
+    "speech_act": {
+     "state": "report",
+     "ask": "request"
+    },
+    "modality": {
+     "plain": "simply",
+     "must": "necessarily"
+    },
+    "negation": {
+     "plus": "with",
+     "minus": "without"
+    },
+    "quantity": {
+     "one": "single",
+     "two": "double",
+     "three": "triple"
+    },
+    "referent": {
+     "alpha": "A",
+     "beta": "B"
+    },
+    "scope": {
+     "narrow": "local",
+     "broad": "global"
+    },
+    "warrant": {
+     "sure": "confident",
+     "maybe": "tentative"
+    }
+   },
+   "order": [
+    "speech_act",
+    "modality",
+    "negation",
+    "quantity",
+    "referent",
+    "scope",
+    "warrant"
+   ],
+   "paraphrase_permutation_P2_P3": [
+    3,
+    4,
+    2,
+    5,
+    0,
+    1,
+    6
+   ]
+  }
+ },
+ "corpus": {
+  "rule": "The corpus is fully enumerated INLINE below and frozen here. No sampling, no RNG draws, no held-out generation. Corpus size: 10 base + 30 paraphrase + 7 costume + 4 ambiguous + 2 context-split + 4 clarification questions.",
+  "faithful_base": [
+   {
+    "id": "B1",
+    "surface": "state plain plus one alpha narrow sure",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B2",
+    "surface": "state plain minus two beta broad sure",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B3",
+    "surface": "ask plain plus three alpha broad maybe",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B4",
+    "surface": "state must plus two beta narrow maybe",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B5",
+    "surface": "ask must minus one alpha broad sure",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B6",
+    "surface": "state plain plus three beta broad sure",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B7",
+    "surface": "ask plain minus two alpha narrow maybe",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B8",
+    "surface": "state must minus three beta narrow sure",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B9",
+    "surface": "ask must plus one beta narrow maybe",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "faithful_base"
+   },
+   {
+    "id": "B10",
+    "surface": "state plain plus two alpha broad maybe",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "faithful_base"
+   }
+  ],
+  "paraphrases": [
+   {
+    "id": "B1-P1",
+    "base": "B1",
+    "surface": "report simply with single A local confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B1-P2",
+    "base": "B1",
+    "surface": "single A with local report simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B1-P3",
+    "base": "B1",
+    "surface": "single A with local state simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B2-P1",
+    "base": "B2",
+    "surface": "report simply without double B global confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B2-P2",
+    "base": "B2",
+    "surface": "double B without global report simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B2-P3",
+    "base": "B2",
+    "surface": "double B without global state simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B3-P1",
+    "base": "B3",
+    "surface": "request simply with triple A global tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B3-P2",
+    "base": "B3",
+    "surface": "triple A with global request simply tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B3-P3",
+    "base": "B3",
+    "surface": "triple A with global ask simply tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B4-P1",
+    "base": "B4",
+    "surface": "report necessarily with double B local tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B4-P2",
+    "base": "B4",
+    "surface": "double B with local report necessarily tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B4-P3",
+    "base": "B4",
+    "surface": "double B with local state necessarily tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B5-P1",
+    "base": "B5",
+    "surface": "request necessarily without single A global confident",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B5-P2",
+    "base": "B5",
+    "surface": "single A without global request necessarily confident",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B5-P3",
+    "base": "B5",
+    "surface": "single A without global ask necessarily confident",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B6-P1",
+    "base": "B6",
+    "surface": "report simply with triple B global confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B6-P2",
+    "base": "B6",
+    "surface": "triple B with global report simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B6-P3",
+    "base": "B6",
+    "surface": "triple B with global state simply confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B7-P1",
+    "base": "B7",
+    "surface": "request simply without double A local tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B7-P2",
+    "base": "B7",
+    "surface": "double A without local request simply tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B7-P3",
+    "base": "B7",
+    "surface": "double A without local ask simply tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B8-P1",
+    "base": "B8",
+    "surface": "report necessarily without triple B local confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B8-P2",
+    "base": "B8",
+    "surface": "triple B without local report necessarily confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B8-P3",
+    "base": "B8",
+    "surface": "triple B without local state necessarily confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "neg",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B9-P1",
+    "base": "B9",
+    "surface": "request necessarily with single B local tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B9-P2",
+    "base": "B9",
+    "surface": "single B with local request necessarily tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B9-P3",
+    "base": "B9",
+    "surface": "single B with local ask necessarily tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B10-P1",
+    "base": "B10",
+    "surface": "report simply with double A global tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B10-P2",
+    "base": "B10",
+    "surface": "double A with global report simply tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   },
+   {
+    "id": "B10-P3",
+    "base": "B10",
+    "surface": "double A with global state simply tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "paraphrase_same_protected_coordinates"
+   }
+  ],
+  "costumes": [
+   {
+    "id": "C1",
+    "base": "B1",
+    "flipped_coordinate": "referent",
+    "base_value": "alpha",
+    "costume_value": "beta",
+    "surface": "report simply with single B local confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "beta",
+     "scope": "tight",
+     "warrant": "full"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C2",
+    "base": "B2",
+    "flipped_coordinate": "negation",
+    "base_value": "neg",
+    "costume_value": "pos",
+    "surface": "report simply with double B global confident",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C3",
+    "base": "B3",
+    "flipped_coordinate": "quantity",
+    "base_value": "three",
+    "costume_value": "one",
+    "surface": "request simply with single A global tentative",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C4",
+    "base": "B4",
+    "flipped_coordinate": "scope",
+    "base_value": "tight",
+    "costume_value": "wide",
+    "surface": "report necessarily with double B global tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "necessity",
+     "negation": "pos",
+     "quantity": "two",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C5",
+    "base": "B5",
+    "flipped_coordinate": "modality",
+    "base_value": "necessity",
+    "costume_value": "indicative",
+    "surface": "request simply without single A global confident",
+    "ground": {
+     "speech_act": "query",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "one",
+     "referent": "alpha",
+     "scope": "wide",
+     "warrant": "full"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C6",
+    "base": "B6",
+    "flipped_coordinate": "warrant",
+    "base_value": "full",
+    "costume_value": "hedged",
+    "surface": "report simply with triple B global tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "pos",
+     "quantity": "three",
+     "referent": "beta",
+     "scope": "wide",
+     "warrant": "hedged"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   },
+   {
+    "id": "C7",
+    "base": "B7",
+    "flipped_coordinate": "speech_act",
+    "base_value": "query",
+    "costume_value": "assert",
+    "surface": "report simply without double A local tentative",
+    "ground": {
+     "speech_act": "assert",
+     "modality": "indicative",
+     "negation": "neg",
+     "quantity": "two",
+     "referent": "alpha",
+     "scope": "tight",
+     "warrant": "hedged"
+    },
+    "kind": "costume_flips_exactly_one_protected_coordinate",
+    "hostile": "H-D23a"
+   }
+  ],
+  "ambiguous": [
+   {
+    "id": "AMB1",
+    "surface": "state plain plus one A-or-B narrow sure",
+    "ambiguous_coordinate": "referent",
+    "readings": [
+     {
+      "reading_id": "AMB1r1",
+      "record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_SHIP",
+       "COMMIT_HOLD",
+       "CLARIFY",
+       "ABSTAIN"
+      ]
+     },
+     {
+      "reading_id": "AMB1r2",
+      "record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "beta",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_HOLD",
+       "CLARIFY",
+       "ABSTAIN"
+      ]
+     }
+    ],
+    "t68_branch": "NONEMPTY_INTERSECTION",
+    "intersection": [
+     "COMMIT_HOLD",
+     "CLARIFY",
+     "ABSTAIN"
+    ],
+    "deterministic_safe_commit": "COMMIT_HOLD"
+   },
+   {
+    "id": "AMB2",
+    "surface": "state plain minus single-or-double A narrow sure",
+    "ambiguous_coordinate": "quantity",
+    "readings": [
+     {
+      "reading_id": "AMB2r1",
+      "record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "neg",
+       "quantity": "one",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_SHIP"
+      ]
+     },
+     {
+      "reading_id": "AMB2r2",
+      "record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "neg",
+       "quantity": "two",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_HOLD"
+      ]
+     }
+    ],
+    "t68_branch": "EMPTY_INTERSECTION",
+    "intersection": [],
+    "deterministic_safe_commit": null,
+    "required_terminal": "CLARIFY or ABSTAIN; any COMMIT here is UNSAFE_COMMIT"
+   },
+   {
+    "id": "AMB3",
+    "surface": "ask plain plus double A narrow confident-or-tentative",
+    "ambiguous_coordinate": "warrant",
+    "readings": [
+     {
+      "reading_id": "AMB3r1",
+      "record": {
+       "speech_act": "query",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "two",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_SHIP",
+       "COMMIT_HOLD",
+       "CLARIFY",
+       "ABSTAIN"
+      ]
+     },
+     {
+      "reading_id": "AMB3r2",
+      "record": {
+       "speech_act": "query",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "two",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "hedged"
+      },
+      "safe_actions": [
+       "COMMIT_HOLD",
+       "CLARIFY",
+       "ABSTAIN"
+      ]
+     }
+    ],
+    "t68_branch": "NONEMPTY_INTERSECTION",
+    "intersection": [
+     "COMMIT_HOLD",
+     "CLARIFY",
+     "ABSTAIN"
+    ],
+    "deterministic_safe_commit": "COMMIT_HOLD"
+   },
+   {
+    "id": "AMB4",
+    "surface": "state necessarily with single A local-or-global sure",
+    "ambiguous_coordinate": "scope",
+    "readings": [
+     {
+      "reading_id": "AMB4r1",
+      "record": {
+       "speech_act": "assert",
+       "modality": "necessity",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "COMMIT_SHIP"
+      ]
+     },
+     {
+      "reading_id": "AMB4r2",
+      "record": {
+       "speech_act": "assert",
+       "modality": "necessity",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "alpha",
+       "scope": "wide",
+       "warrant": "full"
+      },
+      "safe_actions": [
+       "ABSTAIN"
+      ]
+     }
+    ],
+    "t68_branch": "EMPTY_INTERSECTION",
+    "intersection": [],
+    "deterministic_safe_commit": null,
+    "required_terminal": "CLARIFY or ABSTAIN; any COMMIT here is UNSAFE_COMMIT"
+   }
+  ],
+  "context_split": [
+   {
+    "id": "CTX1",
+    "surface": "state plain plus one alpha narrow sure",
+    "base": "B1",
+    "contexts": [
+     {
+      "context_id": "c1",
+      "role": "shipping slot naming",
+      "required_record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "alpha",
+       "scope": "tight",
+       "warrant": "full"
+      }
+     },
+     {
+      "context_id": "c2",
+      "role": "inventory slot naming (same token, other slot)",
+      "required_record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "pos",
+       "quantity": "one",
+       "referent": "beta",
+       "scope": "tight",
+       "warrant": "full"
+      }
+     }
+    ],
+    "disjoint_on": [
+     "referent"
+    ],
+    "t69_witness": "referent requirement is disjoint across c1/c2; no context-free deterministic reading satisfies both"
+   },
+   {
+    "id": "CTX2",
+    "surface": "state plain minus two beta broad sure",
+    "base": "B2",
+    "contexts": [
+     {
+      "context_id": "c1",
+      "role": "audit ledger (declarative entry)",
+      "required_record": {
+       "speech_act": "assert",
+       "modality": "indicative",
+       "negation": "neg",
+       "quantity": "two",
+       "referent": "beta",
+       "scope": "wide",
+       "warrant": "full"
+      }
+     },
+     {
+      "context_id": "c2",
+      "role": "interrogation transcript (recorded demand)",
+      "required_record": {
+       "speech_act": "query",
+       "modality": "indicative",
+       "negation": "neg",
+       "quantity": "two",
+       "referent": "beta",
+       "scope": "wide",
+       "warrant": "full"
+      }
+     }
+    ],
+    "disjoint_on": [
+     "speech_act"
+    ],
+    "t69_witness": "speech_act requirement is disjoint across c1/c2; no context-free deterministic reading satisfies both"
+   }
+  ],
+  "clarification_questions": [
+   {
+    "id": "q_referent",
+    "targets_coordinate": "referent",
+    "question": "which referent, alpha or beta?",
+    "applies_to": [
+     "AMB1"
+    ],
+    "eliminates_on_ground_answer": {
+     "AMB1": 1
+    }
+   },
+   {
+    "id": "q_quantity",
+    "targets_coordinate": "quantity",
+    "question": "which quantity, one or two?",
+    "applies_to": [
+     "AMB2"
+    ],
+    "eliminates_on_ground_answer": {
+     "AMB2": 1
+    }
+   },
+   {
+    "id": "q_warrant",
+    "targets_coordinate": "warrant",
+    "question": "which warrant, full or hedged?",
+    "applies_to": [
+     "AMB3"
+    ],
+    "eliminates_on_ground_answer": {
+     "AMB3": 1
+    }
+   },
+   {
+    "id": "q_scope",
+    "targets_coordinate": "scope",
+    "question": "which scope, tight or wide?",
+    "applies_to": [
+     "AMB2",
+     "AMB4"
+    ],
+    "eliminates_on_ground_answer": {
+     "AMB2": 0,
+     "AMB4": 1
+    },
+    "zero_value_case_retained": "q_scope on AMB2 eliminates 0 readings (both readings share scope); retained as a measured zero-value question, NOT deleted"
+   }
+  ]
+ },
+ "reader_tables": {
+  "rule": "The system under test in the D23 tranche is the I/R/J READER MACHINERY, realized as frozen lookup tables (synthetic per the N2 lock). J_full has complete coverage by construction; J_omitted drops exactly one reading from each declared-ambiguous surface (the reading with the lexicographically FIRST reading_id) and is the H-T66a language-layer plant.",
+  "J_full": "maps every base/paraphrase/costume surface to its ground record as a singleton reading set; every ambiguous surface to its full declared reading set; every context-split surface, read context-free, to the union of its two context-required records (a 2-element set).",
+  "J_omitted": "identical to J_full except each AMB surface loses its lexicographically-first declared reading. The omitted reading IS an actual interpretation (H-T66a), so any commit made through J_omitted on an AMB surface violates the T66 coverage assumption A(y) subset J(y).",
+  "empty_J_arm": "each AMB surface is additionally presented to a reader variant returning the EMPTY reading set (H-T66b, language layer): the only legal terminal is refusal/abstention; any commit is UNSAFE_COMMIT."
+ },
+ "arms": [
+  {
+   "id": "A1_roundtrip_clean",
+   "role": "CLEAN CONTROL (zero-refusal population)",
+   "definition": "read all 40 faithful surfaces (10 base + 30 paraphrase) with J_full; apply the T66 gate; expect coverage 1.0, protected round-trip error 0 on all 7 coordinates, zero refusals, zero flags.",
+   "clean_control_rule": "Any false alarm (flag, refusal or error) on A1 VOIDS the whole tranche; the detector is defect, not the corpus."
+  },
+  {
+   "id": "A2_omitted_reading",
+   "role": "H-T66a language-layer hostile",
+   "definition": "read the 4 AMB surfaces with J_omitted under the T66 gate (gate must be applied to the DECLARED reading set, not merely to the reader's own J).",
+   "expected_to_flip": "REFUSED_COVERAGE_GAP on every AMB surface where the omitted reading is actual (all 4 by construction).",
+   "falsifier": "zero refusals = the plant is inert or the gate reads only its own J; report HOSTILE_DID_NOT_FLIP, do NOT tune the corpus.",
+   "clean_control": "the same 4 surfaces read with J_full must produce zero coverage refusals."
+  },
+  {
+   "id": "A3_costume",
+   "role": "H-D23a hostile (costume output: fluent paraphrase flipping one protected coordinate)",
+   "definition": "read the 7 costume surfaces with J_full and report, per surface, the SET of coordinates on which the committed reading's protected values differ from the base record.",
+   "expected_to_flip": "7 of 7 costumes flagged ROUND_TRIP_ERROR_DETECTED, each with exactly the named flipped_coordinate in its violated set; zero silent accepts.",
+   "falsifier": "any costume accepted silently = detector defect (report, never tune); fewer than 7 flags = HOSTILE_DID_NOT_FLIP with the missing instance named.",
+   "clean_control": "the corresponding 7 unflipped paraphrases (same bases, style para1, no flip) must produce zero flags."
+  },
+  {
+   "id": "A4_ambiguity_t68",
+   "role": "T68 ambiguity-safe action criterion",
+   "definition": "for each AMB item compute the intersection of the declared safe-action sets over ALL declared readings; commit deterministically only if the intersection is nonempty (choosing an action from the intersection); else CLARIFY or ABSTAIN.",
+   "expected": "AMB1, AMB3 (NONEMPTY): COMMIT_OK with the frozen deterministic_safe_commit. AMB2, AMB4 (EMPTY): CLARIFY_CORRECT or ABSTAIN_CORRECT.",
+   "falsifier": "any COMMIT on an empty-intersection item is UNSAFE_COMMIT, recorded as a defect; a nonempty-intersection item that still abstains is over-refusal, reported as a negative (not tuned away).",
+   "clean_control": "unambiguous base items with G = all four actions must commit COMMIT_SHIP-equivalently without clarification (zero over-refusals)."
+  },
+  {
+   "id": "A5_context_split_t69",
+   "role": "T69 context-free interpretation impossibility",
+   "definition": "for each CTX pair, check whether any single context-free reading satisfies BOTH contexts' required records on all protected coordinates.",
+   "expected": "2 of 2 pairs: CONTEXT_CONFLICT_DETECTED (witness = the disjoint_on coordinate).",
+   "witness_rule": "The disjointness witness is frozen HERE before running (d21_d22 witness discipline): CTX1 disjoint on referent, CTX2 disjoint on speech_act. If some context-free reading satisfies both contexts, the world design failed (LANE FAILS), not the detector; report it, never reshape the corpus.",
+   "clean_control": "each context ALONE must be satisfiable by its own required record (no unsatisfiable context)."
+  },
+  {
+   "id": "A6_clarification_voi",
+   "role": "clarification value micro-worlds",
+   "definition": "for each frozen question q and each applicable AMB item, compute the number of declared readings eliminated by the ground-truth answer (exact int; no probabilities).",
+   "expected": "values match the frozen eliminates_on_ground_answer table exactly, including the zero-value case q_scope on AMB2 = 0.",
+   "falsifier": "a nonzero reported value for q_scope-on-AMB2, or a zero for any 1-entry, is a defect. The zero-value question is RETAINED in the corpus (negative retention), never deleted for looking bad."
+  }
+ ],
+ "endpoints": [
+  {
+   "id": "E1",
+   "name": "I/R/J coverage (not accuracy)",
+   "definition": "coverage_I = |{s : I(s) as a SET equals the declared reading set of s}| / |corpus|; coverage_J likewise over reverse-read. Set equality, NOT accuracy-of-top-reading: a reader that returns the right top reading plus a wrong extra reading has coverage_J = 1 but is measurably over-generating (see E3). Superset readings COUNT as covered only for the reverse-read direction and are counted separately.",
+   "falsifier": "coverage below 1.0 on the faithful corpus with J_full is a reader defect; coverage reported without the over-generation count is an incomplete receipt."
+  },
+  {
+   "id": "E2",
+   "name": "protected round-trip error",
+   "definition": "for each committed reading omega of surface s: violated(s) = {c in the 7 coordinates : omega(c) != ground(s)(c)}. protected_round_trip_error = the multiset {violated(s)} over all committed surfaces, reported per coordinate. Any nonempty violated(s) that was NOT flagged is a silent semantic error (worst defect class in this tranche).",
+   "falsifier": "A3 must produce exactly the 7 frozen single-coordinate violations, each flagged."
+  },
+  {
+   "id": "E3",
+   "name": "ambiguity-set size",
+   "definition": "|J(s)| per surface, reported for every s; over-generation (strict superset of declared readings) is COUNTED and reported, never silently tolerated; under-generation is a coverage failure under E1."
+  },
+  {
+   "id": "E4",
+   "name": "clarification value",
+   "definition": "eliminations(q, s) = |{declared readings of s eliminated by the ground answer to q}|, exact integer; reported for every (q, s) pair in the frozen applicability table, zeros included."
+  },
+  {
+   "id": "E5",
+   "name": "abstention correctness",
+   "definition": "on empty-J surfaces (H-T66b language layer): the reader must terminate ABSTAIN_CORRECT / REFUSED_COVERAGE_GAP. Endpoint = number of commits on empty-J surfaces, which must be exactly 0. 'Could not check' keeps its own terminal and is never reported as checked-and-fine."
+  },
+  {
+   "id": "E6",
+   "name": "B_exec vector",
+   "definition": "per-arm stage vector, disjoint integer counts: interpretation_ops (token-to-coordinate parses), ambiguity_ops (set builds/unions/intersections incl. safe-action intersections), realization_ops (canonical record/string builds), reverse_read_ops (surface-to-record lookups), verification_calls (T66 gate evaluations), clarification_ops (questions asked), rejected_attempts (reads that ended in a flag or refusal). Recorded as a VECTOR, never scalarized (DEFINITIONS section 4). All counts integer; no float in any decision predicate."
+  },
+  {
+   "id": "E7",
+   "name": "raw operation counts only",
+   "definition": "latency enters the receipt as raw integer operation counts; wall-clock may be attached as metadata but NEVER feeds a verdict predicate."
+  }
+ ],
+ "metrics_contract_note": "These seven endpoints ARE the D23 metric contract. They are chosen at a moment when only synthetic tuples exist, per the frozen D23 row: reuse the same contract on the real learned realization later rather than inventing a new metric after seeing fluency.",
+ "verdict_vocabulary": [
+  "COMMIT_OK",
+  "REFUSED_COVERAGE_GAP",
+  "ROUND_TRIP_ERROR_DETECTED",
+  "UNSAFE_COMMIT",
+  "CLARIFY_CORRECT",
+  "ABSTAIN_CORRECT",
+  "CONTEXT_CONFLICT_DETECTED",
+  "OVER_REFUSAL",
+  "OVER_GENERATION",
+  "HOSTILE_DID_NOT_FLIP",
+  "CONTROL_FALSE_ALARM",
+  "CANNOT_CHECK"
+ ],
+ "negatives_are_first_class": "If a reader variant refuses so much it commits nowhere (over-refusal), or over-generates readings everywhere, that IS the result for that variant and is reported with its one-stage attribution. If ALL costume surfaces pass undetected, that is a detector negative, retained and escalated, never buried. PARENT_SUFFICIENT (e.g. the frozen J_full tables already own the function at this scope, so no further machinery is warranted) is a SUCCESS terminal.",
+ "seeds": {
+  "rng_draws": 0,
+  "rule": "the corpus is fully enumerated inline; the D23 tranche draws NO random numbers at all. New key prefix OW3L is RESERVED in the exact.worlds._rng key space for any future D23 sampling extension; no existing prefix (OW1..OW7, OW4N, OW5S, T75, T81, 777, RVBQ) is reused or redefined. Reserving the prefix here prevents a later lane from silently minting it.",
+  "determinism": "sorted iteration over every corpus id; set operations on frozen hashable records; no float in any decision predicate; all arithmetic is int / set equality."
+ },
+ "placement": "CPU branchy-exact, trivially small: laptop billy or billy-old. NOT run on the Mac (operator compute-custody rule). LUNARC unnecessary at this corpus size.",
+ "exactness_licence": "P2 finite certificate over a fully enumerated frozen synthetic corpus. NOT a universal claim about language, NOT a fluency measurement, NOT evidence about any learned reader until the N2-unlock reuse contract is executed.",
+ "admissibility": {
+  "rule": "A result produced before this protocol was frozen is not admissible. This protocol is committed and pushed in a commit that contains NO result file. Results for D23 are generated only after that commit exists on the remote. Any post-freeze protocol change must be recorded as an explicit supersession with cause, and the affected arms re-run.",
+  "reporting_rule": "No D23 number is reported until the A1 clean control has run and is silent. A hostile that flips without its matching clean control is not evidence in this tranche.",
+  "locked_gates": "N2 / N4 / N5 remain LOCKED per FREEZE_V1.json. Nothing in this protocol unlocks them.",
+  "claim_ceiling": "P2 synthetic corpus; the EXPLICITLY_NON_FINAL framework stance applies."
+ }
+}
