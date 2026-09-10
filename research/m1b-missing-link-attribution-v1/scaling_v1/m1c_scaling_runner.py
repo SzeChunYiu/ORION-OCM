@@ -45,7 +45,7 @@ FREEZE_PATH = HERE / "M1C_SCALING_FREEZE_V1.json"
 FREEZE = json.loads(FREEZE_PATH.read_text(encoding="utf-8"))
 FREEZE_SHA256 = hashlib.sha256(FREEZE_PATH.read_bytes()).hexdigest()
 RUNGS = tuple(FREEZE["design"]["ladder"]["rungs"])
-SERVE_BUDGET = int(str(FREEZE["design"]["serving_unit"]).split("budget ")[1].split(" ")[0])
+SERVE_BUDGET = int(str(FREEZE["design"]["serving_unit"]).split("budget ")[1].split(" ")[0].replace(",", ""))
 DEV_COST_FROZEN = int(FREEZE["design"]["dev_charge_ledger_entry"].split("number ")[1].split(" ")[0].replace(",", ""))
 DEV_FINGERPRINT = B1.FROZEN_M1_DEV_FINGERPRINT
 GATE_ARM = "STRONG_ADAPTIVE_PARENT"
