@@ -132,17 +132,35 @@
   },
   {
    "revival_id": "RV-6",
-   "negative": "GS-R2: 85,025 of 100,693 distinct T2-viable survivors FAIL T3 generalization - 84.4%.",
-   "source_anchor": "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json t3_summary",
-   "one_stage_attribution": "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
-   "attribution_confidence": "NONE - attribution is the first deliverable, and applying a lever before attributing would be the diffuse-effort defect the doctrine forbids",
-   "lever": "DETERMINED BY ATTRIBUTION. Explicitly forbidden: moving a threshold, re-drawing the T3 key, re-splitting after seeing results, or loosening a gate to raise the hold rate.",
+   "negative": "GS-R2 recorded 85,025 of 100,693 distinct T2-viable survivors as FAILING T3 generalization (84.4%). RECLASSIFIED: that endpoint was never measuring generalization.",
+   "source_anchor": "PR #279, commit b434c55c; reclassified and recovered by PR #293, commit bebe864c",
+   "one_stage_attribution": "GATE LEAKAGE in its strong form: the T2/T3 correctness-predicate asymmetry. SURVIVOR_T3_GENERALIZATION_* is a hard-gate read of evaluate_t3()['feasible'] and is an EXACT deterministic function of one genome bit -- NOT can_check <=> FAIL, 100693/100693, zero false positives, zero false negatives. T2 scoped_failure (lifetime2.py:141) and T3 t3_conflict_refusal (t3_ecology.py:178) accept (can_check OR F_arch == hierarchical_fibred); T3 t3_doubt_probe (t3_ecology.py:134) accepts can_check ONLY, with no fibred route. All 85,025 failures are hierarchical_fibred; the checker-free non-fibred cell is empty.",
+   "attribution_confidence": "HIGH - machine-checked identity over all 100693 survivors; predicate asymmetry verified from source at the cited lines by an independent centre review. Genuine non-generalization is ruled out by DRAW INVARIANCE: over 18 independently key-derived sub-keys, failures are 0/18 feasible and holds 18/18 with ZERO survivors in between, and an empirical-risk estimate cannot be perfectly bimodal. Selection pressure is real but SECONDARY -- the frozen-parent replication arm, running no revival lever, is already 82.5% failing.",
+   "lever": "DELETE THE RANKING. Sampling and all three ladder rungs were exonerated first: the T2 gate FAVOURS checker-bearing organisms by 27.7x, and unranked draws give 0.8398 checker-bearing at every rung. The ranking does not pay for itself -- allocation_score costs 8.04 T0-evaluation units per candidate against about 4.8 saved by eta=3 halving. Arm L1 removes it: same ladder, lane, seeds and t0_budget, no rank function, no promotion selection, no parent pool.",
    "retest_against": "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate (2233.3, 72,150), plus a shuffle-equal-n null",
-   "status": "DISPATCHED",
-   "placement": "LUNARC nuc partition (96/96 nodes idle, 7-day limit) - the flagship compute study",
-   "earned_terminal_rule": "An honest 'the 84.4% is real, and here is the mechanism' is a valid and valuable outcome. A proven-structural obstruction plus the adjacent scoped positive is also a success.",
-   "chain_iteration": 1,
-   "notes": "Largest retained negative in the repository. Every claimed improvement needs hold RATE, absolute hold COUNT, and the shuffle null together - a lever that raises the rate by admitting fewer candidates has improved selectivity, not generalization."
+   "status": "CLOSED_DEFECT_RECLASSIFIED_AND_RECOVERED",
+   "placement": "LUNARC, PR #293 commit bebe864c",
+   "earned_terminal_rule": "PARENT_SUFFICIENT does NOT apply: L1 beats both frozen parents on the two metrics they were frozen on -- 6891.3 distinct T2-viable per seed against GSA2_hetero's 5062.7, and 1,743,228 morphologies per CPU-hour against its 354,046 (4.92x). No parent owns this function.",
+   "chain_iteration": 3,
+   "notes": "RECLASSIFIED as a MEASUREMENT-VALIDITY DEFECT, not a scientific finding -- the exact sec 3 hostile family in which a metric reports one quantity while measuring another. The held-out key carries NO information (see draw invariance above). And OUR OWN LEVER PACKAGE GAMED IT: GSA6_DP and GSA6_ALL report IDENTICAL distinct-yield at 5802.0 per seed, yet DP alone returns 6768 checker-bearing exclusive survivors against ALL's 1773 -- the package bought its headline yield by rejecting the route that carried checkers. That is the clearest in-house evidence that optimising a headline yield can discard the property actually wanted. The 84.4% figure must never again be quoted as a generalization result.",
+   "result": {
+    "distinct_t3_hold_L1": 34628,
+    "distinct_t3_hold_GS_R2_pooled": 15668,
+    "hold_count_ratio": 2.21,
+    "cpu_hours_L1": 0.0237,
+    "cpu_hours_GS_R2_pooled": 1.1137,
+    "compute_share_pct": 2.13,
+    "compute_reduction_x": 47.0,
+    "holds_per_cpu_hour_ratio": 104,
+    "shuffle_equal_n_null": "L1's n predicts 6423.9 holds under the R2 pooled rate, sd 73.65; observed 34628, z = 382.95",
+    "not_selectivity": "L1 admits MORE candidates than any arm (41284 distinct viable) while holding at a higher rate (0.8388)",
+    "ARITHMETIC_DEFECT_IN_SOURCE": "PR #293's title, its merge commit message and RESULT.md state 4.7% for the compute share. 0.0237/1.1137 = 2.13%. The artifact's own 104x per-CPU-hour figure is only consistent with 2.13% (2.21/0.0213 = 103.9), and 1.1137/0.0237 = 47.0 -- the compute REDUCTION was transposed into a percentage. The error UNDERSTATES the result. Correction requested from the owning lane; recorded here so the wrong figure does not propagate."
+   },
+   "superseded": {
+    "prior_status": "DISPATCHED",
+    "prior_attribution": "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
+    "why": "PR #293 attributed and recovered it; the prior entry recorded it as unattributed and dispatched."
+   }
   },
   {
    "revival_id": "RV-7",
@@ -235,5 +253,16 @@
   ],
   "hard_prohibition": "NEVER make a network connection from LUNARC to any external service. Pure offline compute only: stage in via git/scp, compute, bring results back."
  },
- "non_final": true
+ "non_final": true,
+ "amendments": [
+  {
+   "id": "RV6-RECLASS",
+   "utc": "2026-09-10",
+   "cause": "PR #293 established the endpoint was not measuring generalization and recovered it by deleting the ranking.",
+   "rows_changed": [
+    "RV-6"
+   ],
+   "prior_values_retained": "in RV-6.superseded"
+  }
+ ]
 }
