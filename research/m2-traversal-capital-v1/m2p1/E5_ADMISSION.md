@@ -51,3 +51,58 @@ is a single positive, not a replicated one. The claim ceiling from
 The amortisation question is also still open and is tracked separately: a 93.1 %
 per-target saving shortens the break-even horizon substantially, but the ledger must be
 recomputed on E5 before any economic claim is made.
+
+## Scored arms on 21 new externally verified targets
+
+`CONTINUED` now serves a real admitted generator, so the G4 surface-ordering null is
+checkable for the first time in this programme.
+
+| arm / ordering | ladder | mean `B` |
+|---|---|---|
+| `ORACLE_FAMILY` (calibration) | 97 | 810.2 |
+| **`CONTINUED`** (history admitted and deployed) | **67** | **6 834.6** |
+| `ORDINARY_ADAPTIVE_PARENT` | 67 | 6 834.6 |
+| best **history-free** surface ordering (`CONST8`/`DESC`) | 65 | 22 892.6 |
+| `RESET` = `LIBRARY_ONLY` | 37 | 41 117.8 |
+| `SHUFFLED_HISTORY` (hardened control) | 27 | 77 754.1 |
+
+```text
+TERMINAL: HISTORY_INDUCED_SEARCH_PRIOR
+G1 PASS (parity 0.0) · G2 PASS (0 shared) · G3 PASS · G4 PASS
+```
+
+All 21 targets externally verified in every arm; `shared_normal_forms_with_history = 0`.
+
+`CONTINUED` uses **83.4 %** less work than `RESET`, **91.2 %** less than `SHUFFLED_HISTORY`,
+and **70.1 %** less than the best history-free surface ordering.
+
+### The ladder margin is thin, and the work metric is what carries the claim
+
+`CONTINUED` beats the best history-free surface ordering by only **2 ladder points**
+(67 vs 65). That thinness is not noise — it is **M2-N1 resurfacing inside our own
+positive**. E5 targets are *all* canonical length 8, which is exactly the condition
+that makes a constant "guess 8" predictor strong: `CONST8_first` and `DESC` both reach
+65 by skipping the 21 845 shorter programs, for free, with no history.
+
+The ladder counts successes at five coarse budget rungs and is close to saturation
+here, so it cannot separate the arms well. **Mean `B` is the finer measure and it
+separates them decisively: 6 834.6 vs 22 892.6, a 70.1 % reduction.** The claim rests
+on the work metric, and the ladder margin is reported as thin rather than presented as
+the evidence.
+
+A future E-variant should restore length diversity in the target stream so the constant
+baseline is weak, as M2-N4 requires. That is registered as the next decisive experiment,
+not quietly deferred.
+
+## Amortisation on E5 — improved, still negative
+
+| | E1 (world 1002) | **E5** |
+|---|---|---|
+| saved slots per target | 16 172 | **34 283** |
+| break-even horizon, targets | 311 | **126** |
+| targets available at this scope | 79 | 21 |
+
+E5 more than doubles the per-target saving and roughly halves the break-even horizon,
+but 126 required against 21 available means the ledger is **still net negative**
+(−3 585 969 slots). The mechanism transfers and is now deployable; it does not yet pay
+for itself at any horizon this ecology can supply. Reported as an open negative.
