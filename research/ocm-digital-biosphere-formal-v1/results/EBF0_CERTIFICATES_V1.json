@@ -1,0 +1,329 @@
+{
+ "code_digest": "ef3e84f572128294df9e0502e0244f4d9a2407124c339af913be0ad57d72edcc",
+ "freeze_sha256": "f8631e35ba54e858ea30a369ed9aad30373c28938ebb8af7042360d00fd81b67",
+ "gate": {
+  "instruments_can_fail": true,
+  "long_earths": "PERMITTED_AFTER_THIS_GATE_ONLY_FOR_SCALING_NOT_TO_REDEFINE_MATH",
+  "missing": [],
+  "note": "GATE_HOLDS is bounded-scope: exact micro-Earths + reconstructed parents. It does not score long Earths or decide L*.",
+  "parent_fail": [],
+  "schema": "EBF0_GATE_V1",
+  "status": "GATE_HOLDS",
+  "theorem_fail": []
+ },
+ "hostiles": {
+  "instruments_can_fail": true,
+  "missing_required": [],
+  "n_hostile_or_counterexample": 8,
+  "n_rows": 19,
+  "required_hostiles": [
+   "H-CLUSTER-AS-GROUP",
+   "H-EV-TRAP",
+   "H-FORCED-COPY",
+   "H-JUNK-CULTURE",
+   "H-LEAK-ASSAY-ENERGY",
+   "H-VOCAB-ONLY"
+  ],
+  "seen_hostiles": [
+   "H-CLUSTER-AS-GROUP",
+   "H-EV-TRAP",
+   "H-FORCED-COPY",
+   "H-JUNK-CULTURE",
+   "H-LEAK-ASSAY-ENERGY",
+   "H-SOCIAL-OVERHEAD",
+   "H-TARGET-LEAK",
+   "H-VOCAB-ONLY"
+  ]
+ },
+ "parents": [
+  {
+   "detail": {
+    "cov": -0.9,
+    "delta": -0.6083333333333334,
+    "ok": true,
+    "rhs": -0.6083333333333334,
+    "trans": 0.2916666666666667
+   },
+   "parent": "P-PRICE",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "detail": {
+    "between": -0.4,
+    "between_plus_within": -0.9,
+    "delta_selection": -0.9,
+    "exact_arithmetic": true,
+    "ok_decomp": true,
+    "ok_total_is_delta": true,
+    "total_cov": -0.9,
+    "within_sum": -0.5
+   },
+   "note": "Decomposition ok_decomp is a finite-sample convention check; identity used is Cov(\u03c9,z)=\u0394z\u0304 when \u0394z=0.",
+   "parent": "P-ML-PRICE",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "abs_err": 0.010336507936507922,
+   "closed_form": 0.5079365079365079,
+   "mc_estimate": 0.4976,
+   "note": "MC is a consistency receipt, not a proof.",
+   "parent": "P-MORAN",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "parent": "P-RM",
+   "status": "PARENT_RECONSTRUCTED",
+   "x_next": [
+    0.6113207547169811,
+    0.38867924528301884
+   ]
+  },
+  {
+   "detail": {
+    "I_xy": 0.18579339741767864,
+    "I_xz": 0.028480464782113968,
+    "ok": true
+   },
+   "parent": "P-DPI",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "detail": {
+    "max_first_repeat": 9,
+    "n_states": 8,
+    "unbounded_nonrepeating_impossible": true
+   },
+   "parent": "P-HST-T12",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "E_tau": 4.0,
+   "note": "Holds only for i.i.d. Bernoulli; BIO-T11 counterexample otherwise.",
+   "parent": "P-HST-T10-geo",
+   "status": "PARENT_RECONSTRUCTED"
+  },
+  {
+   "beneficial": true,
+   "example": "H_eff=5, dC=3, build+maint=12 -> 15>12",
+   "parent": "P-HST-T05",
+   "status": "PARENT_RECONSTRUCTED"
+  }
+ ],
+ "schema": "EBF0_CERTIFICATES_V1",
+ "theorems": [
+  {
+   "graph": [
+    [
+     "P",
+     "resource"
+    ],
+    [
+     "energy",
+     "birth"
+    ],
+    [
+     "resource",
+     "energy"
+    ]
+   ],
+   "leak": false,
+   "status": "HOLD",
+   "theorem_id": "BIO-T1",
+   "world": "MW1"
+  },
+  {
+   "hostile": "H-LEAK-ASSAY-ENERGY",
+   "leak": true,
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T1",
+   "world": "MW1"
+  },
+  {
+   "claim_ceiling": "horizon-scoped novelty only",
+   "max_first_repeat": 1297,
+   "n_states": 1296,
+   "status": "PARENT_RECONSTRUCTED",
+   "theorem_id": "BIO-T2",
+   "unbounded_nonrepeating_impossible": true,
+   "world": "MW1"
+  },
+  {
+   "note": "Genome 5 is not in support.",
+   "status": "HOLD",
+   "support": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "theorem_id": "BIO-T3",
+   "unreachable_outside": true,
+   "world": "MW4"
+  },
+  {
+   "forced_methods": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "hostile": "H-FORCED-COPY",
+   "note": "Extra options harm when transfer is forced.",
+   "optional_methods": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "stale_forced_copy": true,
+   "status": "HOLD",
+   "theorem_id": "BIO-T4",
+   "world": "MW2"
+  },
+  {
+   "hostile": "H-FORCED-COPY",
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T4",
+   "world": "MW2"
+  },
+  {
+   "I_xy": 0.09487759197468826,
+   "I_xz": 0.03343556538147241,
+   "ok": true,
+   "status": "PARENT_RECONSTRUCTED",
+   "theorem_id": "BIO-T5",
+   "world": "MW8"
+  },
+  {
+   "beneficial_example": true,
+   "hostile": "H-SOCIAL-OVERHEAD",
+   "overhead_hostile": true,
+   "status": "HOLD",
+   "theorem_id": "BIO-T6",
+   "world": "MW6"
+  },
+  {
+   "commutes": false,
+   "energy_01": [
+    4,
+    4
+   ],
+   "energy_10": [
+    4,
+    4
+   ],
+   "resource_01": 10,
+   "resource_10": 11,
+   "status": "COUNTEREXAMPLE",
+   "theorem_id": "BIO-T7",
+   "world": "MW5"
+  },
+  {
+   "group_energy": 8,
+   "mono_energy": 8,
+   "note": "If observed_gain assigned entirely to pooling, residual is 0. No L* declared.",
+   "residual_after_attributing_all_to_pooling": 0.0,
+   "status": "HOLD",
+   "theorem_id": "BIO-T8",
+   "world": "MW3"
+  },
+  {
+   "fake_partition_also_an_identity": true,
+   "identity": {
+    "cov": 0.0,
+    "delta": 0.0,
+    "ok": true,
+    "rhs": 0.0,
+    "trans": 0.0
+   },
+   "multilevel": {
+    "between": 0.0,
+    "between_plus_within": 0.0,
+    "delta_selection": 0.0,
+    "exact_arithmetic": true,
+    "ok_decomp": true,
+    "ok_total_is_delta": true,
+    "total_cov": 0.0,
+    "within_sum": 0.0
+   },
+   "note": "Any partition yields an identity. That does not mint individuality.",
+   "status": "PARENT_RECONSTRUCTED",
+   "theorem_id": "BIO-T9",
+   "world": "MW3"
+  },
+  {
+   "copied_token": 8,
+   "hostile": "H-VOCAB-ONLY",
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T10",
+   "useful": 0,
+   "world": "MW8"
+  },
+  {
+   "deterministic_hitting_from_0_to_3": 3,
+   "hostile": "H-EV-TRAP",
+   "iid_E_tau": 4.0,
+   "iid_p": 0.25,
+   "local_Ev_from_0_to_U3": 0.3333333333333333,
+   "note": "Local one-step Ev=0 but hitting time is 3. Do not invert Ev.",
+   "status": "COUNTEREXAMPLE",
+   "theorem_id": "BIO-T11",
+   "world": "MW4"
+  },
+  {
+   "delta_B": 2.0,
+   "hostile": "H-TARGET-LEAK",
+   "knockout_washes_gain": true,
+   "leak_invalidates": true,
+   "status": "HOLD",
+   "theorem_id": "BIO-T12",
+   "world": "MW1"
+  },
+  {
+   "hostile": "H-JUNK-CULTURE",
+   "library_bytes": 6,
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T13",
+   "useful_carriers": 0,
+   "world": "MW6"
+  },
+  {
+   "hostile": "H-CLUSTER-AS-GROUP",
+   "kmeans_labels": [
+    0,
+    1,
+    0,
+    1,
+    0,
+    1
+   ],
+   "note": "Labels exist; individuality does not.",
+   "reproductive_isolation": false,
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T14",
+   "world": "MW7"
+  },
+  {
+   "hostile": "H-LEAK-ASSAY-ENERGY",
+   "parent_row": "BIO-T1 leak",
+   "status": "HOSTILE_DETECTED",
+   "theorem_id": "BIO-T15",
+   "world": "MW1"
+  },
+  {
+   "diffs": [
+    "K_social"
+   ],
+   "n_diffs": 1,
+   "ok": true,
+   "status": "HOLD",
+   "theorem_id": "KERNEL-ABLATION"
+  },
+  {
+   "frozen_winner_L_star": false,
+   "status": "HOLD",
+   "theorem_id": "NO-L-STAR"
+  }
+ ],
+ "ts": "2026-09-10T13:35:02Z"
+}

@@ -4,6 +4,8 @@ Python 3.8, stdlib only. Finite exact identities + small-N Moran check.
 """
 from __future__ import annotations
 
+from fractions import Fraction
+
 import math
 import random
 
@@ -47,40 +49,71 @@ def price_identity(w, z, z_next):
     }
 
 
+def _F(x):
+    """Exact rational view of a numeric input. Deterministic across hosts."""
+    return Fraction(x) if not isinstance(x, Fraction) else x
+
+
+def _mean_exact(xs):
+    xs = [_F(x) for x in xs]
+    return sum(xs) / Fraction(len(xs)) if xs else Fraction(0)
+
+
+def _cov_pop_exact(a, b):
+    n = len(a)
+    if not n:
+        return Fraction(0)
+    a = [_F(x) for x in a]
+    b = [_F(x) for x in b]
+    ma, mb = _mean_exact(a), _mean_exact(b)
+    return sum((a[i] - ma) * (b[i] - mb) for i in range(n)) / Fraction(n)
+
+
 def multilevel_price(groups, z, w):
-    """Nested Price: Δz̄ = Cov_g(Ω_g, z̄_g) + E_g[Cov_i(ω,z)] + trans0
+    """Nested Price: delta zbar = Cov_g(Omega_g, zbar_g) + E_g[Cov_i(omega,z)] + trans0
     with no transmission (z_next=z) the trans term is 0 and
-    Δz̄ = between + within.
+    delta zbar = between + within.
 
     groups[i] = group id of individual i. Fitness absolute w.
+
+    Computed in EXACT RATIONAL ARITHMETIC. BIO-T9 asks for an exact finite
+    identity, and an identity checked with a float tolerance is not one. Exact
+    Fractions also make the emitted certificate reproducible across hosts:
+    float accumulation order differs by platform, and the earlier float version
+    produced -0.4 on one host against -0.4000000000000002 on another, changing
+    the certificate sha256 while the values were equal to within epsilon. A
+    certificate whose hash depends on the host cannot anchor replication.
     """
     n = len(z)
-    wbar = _mean(w)
-    omega = [wi / wbar for wi in w]
-    # no transmission: z' = z, so Δz̄ = Cov(ω, z)
-    total_cov = _cov_pop(omega, z)
+    wbar = _mean_exact(w)
+    omega = [_F(wi) / wbar for wi in w]
+    # no transmission: z' = z, so delta zbar = Cov(omega, z)
+    total_cov = _cov_pop_exact(omega, z)
     gids = sorted(set(groups))
-    W_of = [0.0] * n
-    zbar_of = [0.0] * n
+    W_of = [Fraction(0)] * n
+    zbar_of = [Fraction(0)] * n
     for g in gids:
         idx = [i for i in range(n) if groups[i] == g]
-        Wg = _mean([omega[i] for i in idx])
-        zg = _mean([z[i] for i in idx])
+        Wg = _mean_exact([omega[i] for i in idx])
+        zg = _mean_exact([z[i] for i in idx])
         for i in idx:
             W_of[i] = Wg
             zbar_of[i] = zg
-    between = _cov_pop(W_of, zbar_of)
+    between = _cov_pop_exact(W_of, zbar_of)
     within_dev_w = [omega[i] - W_of[i] for i in range(n)]
-    within_dev_z = [z[i] - zbar_of[i] for i in range(n)]
-    within = _cov_pop(within_dev_w, within_dev_z)
+    within_dev_z = [_F(z[i]) - zbar_of[i] for i in range(n)]
+    within = _cov_pop_exact(within_dev_w, within_dev_z)
+    exact_identity = (total_cov == between + within)
     return {
-        "delta_selection": total_cov,
-        "total_cov": total_cov,
-        "between": between,
-        "within_sum": within,
-        "between_plus_within": between + within,
+        "delta_selection": float(total_cov),
+        "total_cov": float(total_cov),
+        "between": float(between),
+        "within_sum": float(within),
+        "between_plus_within": float(between + within),
         "ok_total_is_delta": True,
-        "ok_decomp": abs(total_cov - (between + within)) < 1e-12,
+        # exact equality over Fractions, not a 1e-12 tolerance
+        "ok_decomp": exact_identity,
+        "exact_arithmetic": True,
     }
 
 

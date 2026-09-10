@@ -1,5 +1,24 @@
 {
  "agp": "research/heritable-search-geometry-v1/HSG_FREEZE_V1.json",
+ "amendments": [
+  {
+   "authorised_files": [
+    "parents.py"
+   ],
+   "cause": "BIO-T9 requires an EXACT finite Price identity. multilevel_price() computed it in floats and checked it with a 1e-12 tolerance, which is not an exact identity. The float version was also host-dependent: a re-run on a disjoint host reproduced every theorem row and the gate byte-identically but emitted between=-0.4000000000000002 against the frozen -0.4, changing the certificate sha256 while the values were equal to within epsilon. A certificate whose hash depends on the host cannot anchor replication, which is what B1-IND-REPLAY in the TTAC blocker DAG needs. parents.py now computes the decomposition in exact rational arithmetic and checks the identity with exact equality.",
+   "id": "S1",
+   "new_code_digest": "ef3e84f572128294df9e0502e0244f4d9a2407124c339af913be0ad57d72edcc",
+   "new_parents_py_sha256": "80f4ec211a49e59718256350030175af49cd23665b35784b5cf2788e097f437e",
+   "note": "Arithmetic exactness only. No world, contract, endpoint, hostile, theorem row, seed or claim ceiling is altered. Every prior certificate section except the P-ML-PRICE parent row was already byte-identical across hosts.",
+   "original_manifest_preserved": "code_files_sha256_v1 below",
+   "prior_code_digest": "77b0ab4f0e61171147be2cc0703512eb88f18b3a77107eb423db91883a7cbe78",
+   "prior_parents_py_sha256": "c50a53d23b6618eae9b287394b12b570c980e6a0c0e8225a49d99ef12e03f2a3",
+   "results_must_be_regenerated": true,
+   "theorem_rows_touched": false,
+   "utc": "2026-09-10T13:34:52Z",
+   "worlds_contracts_endpoints_hostiles_touched": false
+  }
+ ],
  "assay_feeds_reproduction_primary": false,
  "biosphere_proves_language_math_science": false,
  "branch": "biosphere/eb-f0-formal",
@@ -9,8 +28,29 @@
   "no universal best inheritance or social mode",
   "language/math/science only via frozen continued-vs-reset + knockout"
  ],
- "code_digest": "77b0ab4f0e61171147be2cc0703512eb88f18b3a77107eb423db91883a7cbe78",
+ "code_digest": "ef3e84f572128294df9e0502e0244f4d9a2407124c339af913be0ad57d72edcc",
  "code_files_sha256": {
+  "ASSAY_TRANSFER_CONTRACT_V1.json": "dae61d9e6f5e95099833d8748f359df321a8b53c396b073e7cf9d4ee0e275d21",
+  "COARSE_GRAINING_INDIVIDUALITY_V1.json": "b972a24e125fca8ba6b0ecb6d8c1fb0c848d1c61845154de32d1bc626d1b6835",
+  "COGNITIVE_UNIT_CONTRACT_V1.json": "73a26e6b3b53d36f205b086256f9bff3afaf44461229769a27d6a48231fbfba5",
+  "DEFINITIONS.md": "ec01952c38dad130e39dbe431eeb9e1ad69bfd475ad3fd7b702d800aac674933",
+  "DUPLICATION_GUARD_V1.json": "b7cec923c3e96408623c7f780bd538197378cad7f93ced48cb9ad244e68f3ab4",
+  "EXACT_WORLD_REGISTRY_V1.json": "47adb1b20f83529e2bbc5cebb480f9c0e550bb2dbc3d0e0ecebde9aea1afffc7",
+  "HOSTILE_REGISTRY_V1.json": "ddbbae87484b98eedd1f373688e2ed94eb358b9911b9327a0a47d1e511af9498",
+  "INHERITANCE_SOCIAL_CHANNELS_V1.json": "0c7ec4f22d9ba9ef8e89c6cfa46c0021a0e8b1a4dc5c40652a82820daa102c48",
+  "PARENT_LEDGER.md": "ad4bb5feb76bed661015a6a9066082ea80e7f042dc89e1165eb008acfc0e9e22",
+  "THEOREM_REGISTRY_V1.json": "25fa57246ba6f72368fd93c6fddc4cc783c77b76c57ac2142482ac32db008ca7",
+  "WORLD_STATE_AND_DYNAMICS_V1.json": "904d08dbaa60d70f644615bf95c88700de83c9088c2fa0e710b41313c4461f2e",
+  "freeze_ebf0.py": "8dc292c4b25e61c34b68c037f7b16c1d59d12da43b44d2fcb040bcdb37e1ade3",
+  "hostiles.py": "4f0a701ce7b8247d502ad6bb31bb85a6c3d3acf41f52d7e83b64d46f09422b3a",
+  "kernels.py": "020805877251b16f8e185768a7d86184bb62567c7866da98193a0421c78abac9",
+  "lib.py": "98a1ae18c34f3b38b916bec65f90b469e6693bb16d9706dacfbb28115689466d",
+  "micro_earth.py": "139befc39646799ea668faff4287fb61ddc588757955cf87103eaebd4e058087",
+  "parents.py": "80f4ec211a49e59718256350030175af49cd23665b35784b5cf2788e097f437e",
+  "run_ebf0.py": "eda5b76f971eb598a6b9712565b4a70e3b93640567610ba3c6aaefdd56430cb4",
+  "theorems.py": "fb58a8c290517e59b31854d837ef2fba0fd26b68c83a682f43ef07f517ddbd49"
+ },
+ "code_files_sha256_v1": {
   "ASSAY_TRANSFER_CONTRACT_V1.json": "dae61d9e6f5e95099833d8748f359df321a8b53c396b073e7cf9d4ee0e275d21",
   "COARSE_GRAINING_INDIVIDUALITY_V1.json": "b972a24e125fca8ba6b0ecb6d8c1fb0c848d1c61845154de32d1bc626d1b6835",
   "COGNITIVE_UNIT_CONTRACT_V1.json": "73a26e6b3b53d36f205b086256f9bff3afaf44461229769a27d6a48231fbfba5",
