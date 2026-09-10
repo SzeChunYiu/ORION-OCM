@@ -1,0 +1,1291 @@
+{
+ "registry": "TTAC_ATOM_REGISTRY",
+ "version": "V1",
+ "d_step": "TTAC-D1",
+ "owner_issue": 277,
+ "built_utc": "2026-09-10",
+ "bound_at_sha": "078dac97444d915286255d1dc57d9c76c83e8bb4",
+ "schema_ref": "research/top-tier-atomic-closure-v1/READINESS_SCHEMA_V1.json",
+ "taxonomy_ref": "research/top-tier-atomic-closure-v1/TAXONOMY_FREEZE_V1.md",
+ "in_flight_map_ref": "research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json",
+ "autonomy_ledger_ref": "research/top-tier-atomic-closure-v1/EXTERNAL_COGNITIVE_INPUT_LEDGER.jsonl",
+ "parent_first_refusal_ref": "research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+ "revival_backlog_ref": "research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json",
+ "sibling_artifact_rule": "TTAC-D5 (autonomy ledger), D6 (in-flight coordinate map), D8 (parent first refusal) and the revival backlog landed on main while this registry was being written. Rows that touch them CITE them; this artifact does not restate or duplicate their content, and every negative already carrying a revival row names that row so no second revival is opened for it.",
+ "purpose": "#277 sec 2 D1: enumerate every load-bearing scientific atom and bind each to its owner issue, exact claim, assumptions, current evidence, claim ceiling and next decisive experiment.",
+ "does_not_score_readiness": "This artifact assigns NO readiness vector R(a). Scoring is TTAC-D2. Fusing enumeration with scoring is a defect; if a row's evidence looks strong or weak, that observation belongs in D2, not here.",
+ "granularity_rule": "One atom per distinct (claim_ceiling, next_decisive_experiment) pair. Two registry rows or theorem rows collapse into one atom only when BOTH coincide; they stay separate when either differs. This is why the 18 HST theorem rows yield 19 atoms while the 12 parent-class HSG v4 rows collapse into 3.",
+ "terminal_issuance_rule": "A frozen-vocabulary terminal is issued ONLY where the repository itself already issued an equivalent verdict. Otherwise the terminal is OPEN and the lane-local verdict string is quoted verbatim inside current_evidence. Lane-local vocabularies (BOUND_DERIVED, LIFT_CONDITIONAL, PROVED_LOCAL, DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE, ...) are NOT promoted into the frozen 7. In particular no EXPLORATORY_ADAPTIVE result receives EMPIRICALLY_SUPPORTED_AT_SCOPE, because the frozen ladder caps adaptive-exploratory evidence at 2 permanently.",
+ "parent_sufficient_rule": "PARENT_SUFFICIENT is a SUCCESS terminal, never a failure. It is issued where a strongest parent genuinely owns the function and the repository said so. It appears on 15 atoms here, across nine independent lanes, and that convergence is a result, not a gap.",
+ "cannot_check_rule": "CANNOT_CHECK_<reason> is issued only where a missing INSTRUMENT is named, never for a resource shortage or an absent result. Where a repository terminal mixes the two (e.g. g6's CANNOT_CHECK_MISSING_RAW_TRACES_AND_NO_THIRD_EARNED_SELF_CHANGE), only the instrument half is treated as a legitimate reason and the atom is recorded OPEN with the split noted.",
+ "evidence_binding_rule": "current_evidence cites issue numbers, PR numbers and repository paths that exist at bound_at_sha, verified in one batch with /usr/bin/git ls-tree. Where a claim could not be bound, the row says UNBOUND and states the exact search scope used. An empty glob is never treated as evidence of absence; absence claims used basename find plus ls-tree grep with a control pattern proven to match.",
+ "negatives_rule": "Every negative, retraction and corrigendum is retained and leads its row. The retracted fixed-versus-adaptive ladder (#933/#942, null-reproducible under shuffle) leads ATOM-PAR-03; the g2 macro payback negative leads ATOM-MAQ-02; the 84.4 percent GS-R2 generalization failure leads ATOM-MOR-02.",
+ "locks_respected": "N2 language, N4 formal proof and N5 adoption stay LOCKED exactly as in #233 FREEZE_V1. Prior evidence (HST/HSG v1-v3, D12-D15) is append-only and is cited, never reinterpreted. In-flight #233 D17-D28 and #221 continuous jobs are referenced through IN_FLIGHT_COORDINATE_MAP_V1.json (TTAC-D6) and are neither duplicated nor restarted.",
+ "evidence_binding_verification": {
+  "method": "Every repository path cited in any atom row was extracted by regex and checked in ONE batch against /usr/bin/git ls-tree -r --name-only origin/main at bound_at_sha, with a control pattern proven to match first (READINESS_SCHEMA_V1.json present in a 9988-file listing).",
+  "distinct_paths_cited": 178,
+  "paths_that_resolve_at_bound_at_sha": 174,
+  "deliberate_non_resolving_tokens": 4,
+  "deliberate_non_resolving_detail": [
+   {
+    "token": "research/epistemic-structure-discovery-20260908",
+    "atom": "ATOM-SEV-02",
+    "why": "This is a remote BRANCH name, not a path. Verified present by /usr/bin/git ls-remote --heads origin, head f0cc17cf145d19f065a3c6c1f3f06a74768656df."
+   },
+   {
+    "token": "research/lifetime-advantage-20260908",
+    "atom": "ATOM-SEV-02",
+    "why": "Remote BRANCH name, not a path. Verified present by /usr/bin/git ls-remote --heads origin, head dcbbd5432af42393eea4add2300c137e1649f7ba."
+   },
+   {
+    "token": "research/self-evolution-v1/results/run-v1/cycle-",
+    "atom": "ATOM-SEV-02",
+    "why": "Extractor truncation of cycle-{0,1,2}.json. The row asserts these exist ONLY in history, and that assertion was verified: research/self-evolution-v1/ holds 120 files at commit d793f3f8403fc2e2b74a9aeef16ccdb0aa5b88c0 and 0 files at origin/main."
+   },
+   {
+    "token": "research/top-tier-atomic-closure-v1/REPLICATION_MATRIX_V1.json",
+    "atom": "ATOM-REP-02",
+    "why": "Cited as ABSENT, not as evidence. Search scope recorded in the row: ls-tree origin/main piped to grep -iE REPLICATION_MATRIX returns nothing against a control matching research/ with 8860 paths."
+   }
+  ],
+  "corrections_made_by_this_check": "Six HST hostile-witness filenames were cited in truncated form (W_T01.json ... W_T18.json) and were corrected to the real names on origin/main (W_T01_mandatory_overhead.json, W_T03_aliasing.json, W_T05_macro_never_pays.json, W_T06_missing_edge_false_locality.json, W_T07_ratchet_no_transfer.json, W_T18_fixed_epsilon_saturation.json). One driver path was corrected from tools/replicate_lane.sh to research/parallel-developmental-evolution-v1/tools/replicate_lane.sh. These were caught by the batch check, not by inspection, which is why the check is recorded here."
+ },
+ "quote_fidelity_verification": {
+  "why": "Most quoted strings in this registry were gathered through a display channel that DROPS WORDS mid-sentence rather than truncating. Checking that a cited file exists does NOT check that it contains the string a row calls verbatim. This artifact's whole purpose is evidence binding, so the quotes were tested rather than trusted.",
+  "method": "Every span introduced by the word 'verbatim' was extracted and tested for byte-exact containment in the files (and cited capsule directories) of its own row, computed in-process with only booleans and counts crossing the display channel. Technique follows the verification_protocol of PARENT_FIRST_REFUSAL_V1.json.",
+  "spans_tested": 215,
+  "byte_exact": 150,
+  "exact_after_stripping_markdown_emphasis": 25,
+  "downgraded_from_verbatim_to_reported_as": 40,
+  "convention": "A span still labelled 'verbatim' is byte-exact in a cited file, allowing only stripped markdown emphasis characters (backtick, asterisk, underscore, hash) and whitespace/Unicode normalization. A span labelled 'reported as' is content-faithful but NOT byte-verified against a cited file: either it lost function words in transit, or it is issue text rather than file text. Nothing was invented and no evidence was removed; only the strength of the quoting claim was reduced to what could be demonstrated.",
+  "residual": "The 40 downgraded spans are the honest residual of this artifact. Re-reading each from its source with a byte-exact tool and restoring the 'verbatim' label is a cheap, bounded follow-up; until then no downstream text should reproduce them as exact quotations."
+ },
+ "areas": {
+  "HST": "HST / HSG / search geometry (theorem core)",
+  "HSG": "HSG geometry ladder, atlas and donor search",
+  "SEM": "semantic / obligation execution",
+  "GEF": "General Epistemic Field + representation / refinement",
+  "OPA": "operator algebra / primitive pressure",
+  "MAQ": "method acquisition / composition / failure learning",
+  "PRV": "provenance / revocation / local revision",
+  "SPX": "sparse execution k/N",
+  "MOR": "morphology / evolvability / open-ended search",
+  "LNG": "language understanding / realization / dialogue",
+  "PRF": "proof / mathematical problem solving",
+  "COD": "coding / scientific investigation",
+  "DEV": "developmental lineage",
+  "SEV": "governed self-evolution",
+  "LIF": "lifetime economics + physical scaling",
+  "PAR": "strongest-parent comparison",
+  "REP": "replication / reproducibility / governance"
+ },
+ "census": {
+  "atoms": 78,
+  "by_class": {
+   "EMPIRICAL_REGULARITY": 18,
+   "ENGINEERING_MECHANISM": 9,
+   "GOVERNANCE_META": 10,
+   "SELF_EVOLUTION": 3,
+   "THEOREM": 38
+  },
+  "by_terminal": {
+   "FINITE_CERTIFIED": 11,
+   "OPEN": 31,
+   "PARENT_SUFFICIENT": 15,
+   "PROVED": 13,
+   "REFUTED_WITH_COUNTEREXAMPLE": 5,
+   "TRADEOFF_FRONTIER_ONLY": 3
+  },
+  "by_area": {
+   "COD": 1,
+   "DEV": 2,
+   "GEF": 3,
+   "HSG": 5,
+   "HST": 19,
+   "LIF": 3,
+   "LNG": 2,
+   "MAQ": 5,
+   "MOR": 3,
+   "OPA": 3,
+   "PAR": 3,
+   "PRF": 3,
+   "PRV": 3,
+   "REP": 6,
+   "SEM": 13,
+   "SEV": 3,
+   "SPX": 1
+  },
+  "by_owner_issue": {
+   "38": 1,
+   "45": 1,
+   "46": 3,
+   "47": 1,
+   "50": 1,
+   "52": 1,
+   "62": 1,
+   "93": 4,
+   "144": 3,
+   "145": 2,
+   "149": 3,
+   "152": 1,
+   "165": 7,
+   "214": 1,
+   "216": 1,
+   "217": 2,
+   "221": 3,
+   "233": 39,
+   "277": 3
+  },
+  "areas_required_by_issue_277_sec2": 16,
+  "areas_covered": 17,
+  "atoms_with_an_explicit_unbound_claim": 5,
+  "unbound_atom_ids": [
+   "ATOM-OPA-02",
+   "ATOM-REP-02",
+   "ATOM-REP-03",
+   "ATOM-SEV-03",
+   "ATOM-SPX-01"
+  ]
+ },
+ "atoms": [
+  {
+   "atom_id": "ATOM-HST-01",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If development adds inherited structure while leaving every previously legal strategy available at zero mandatory overhead (A_t subset-eq A_{t+1}), then the optimal achievable burden under any fixed scalarized cost functional cannot worsen.",
+   "assumptions": [
+    "old strategy set remains legal",
+    "zero mandatory overhead on the old strategies",
+    "a single fixed scalarized cost functional",
+    "optimum is over the legal set, not over what the implemented controller actually selects"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T01 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T01', exact checker 'exact/check_core_v1.py::section_t01' (finite specialization only). Hostile witness research/heritable-search-transformation-v1/hostiles/W_T01_mandatory_overhead.json. Filled by REGISTRY_PATCH_A.json whose status_distinction_rule states verbatim that a passing checker is never P1 ground. Freeze research/heritable-search-transformation-v1/FREEZE_HST_V1.json at commit 421333c40aabca7113977751ee4af69f88c8564c, status AMENDED_3_D8_REMEDIATION. NEGATIVE RETAINED: the same issue #233 text records the cost correction that only 'future savings > acquisition + maintenance + revision' survives with mandatory maintenance cost M, and research/heritable-search-geometry-v1 records G13/R2 LIFT_FAILS killing net first-order stochastic dominance of inheritance at M>0 (see ATOM-HSG-03).",
+   "claim_ceiling": "A dominance statement about the optimum over a legal strategy set under zero mandatory overhead. It is NOT evidence that inherited state is free, that the implemented controller will choose the old strategy, or that memory always helps. Any claim at positive maintenance cost is governed by the conditional inequality only.",
+   "next_decisive_experiment": "Measure the mandatory-overhead term M on a real OCM lineage and test the conditional inequality future_savings > acquisition + maintenance + revision prospectively; #233 lane D27 (developmental semantic execution, NOT_STARTED per IN_FLIGHT_COORDINATE_MAP_V1.json) is the registered home.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-02",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "For fixed F and C, if an admissible candidate operator p is not in the transformation closure <O>, then <O> is a strict subset of <O union {p}>; for bounded resource reach, strict expansion additionally requires an explicit witness task reachable with p within budget B but not from O within B.",
+   "assumptions": [
+    "finite universe FW1 = Z_16",
+    "operator basis O = {a2: x -> x+2 mod 16, m2: x -> 2x mod 16}",
+    "candidate primitive p = a1: x -> x+1 mod 16",
+    "10 frozen tasks",
+    "cost = composition length",
+    "exact admissibility Adm(w,tau) = [f_w(s_tau) = g_tau]"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T02 status verbatim 'FINITE_CERTIFIED', proof_class P1/P2, no proof_artifact key on the row, exact checker research/heritable-search-transformation-v1/exact/t02_reach_v1.py producing research/heritable-search-transformation-v1/exact/T02_REACH_WITNESS_V1.json. Certificate values: closure_size_O 40, p_in_closure_O false, closure_size_O_plus_p 80, strict_inclusion true, fixpoint_verified true. scope_statement verbatim: 'P2 finite exact: certified ONLY over universe FW1 (Z_16, 2+1 operators, 10 tasks); complete enumerations counted below; not a statement over other worlds/universal operators.' HONEST NEGATIVE INSIDE THE CERTIFICATE: check C6 honest_note records that the expansion worsens TYPICAL burden while being strictly beneficial for the full task family. Manifest research/heritable-search-transformation-v1/exact/RUN_ALL_V1_MANIFEST.json (all_assertions_passed true, deterministic true, host billy, total_runtime_seconds 0.023).",
+   "claim_ceiling": "Finite exact certificate over universe FW1 only. Finite certificates never lift to universal claims. The certificate itself records that reach expansion can worsen typical search burden, so no 'more operators are better' claim is licensed.",
+   "next_decisive_experiment": "Instantiate the bounded-reach version on a second, structurally different universe (non-cyclic, non-abelian) and re-run the same exact enumeration, to test whether strict expansion with typical-burden worsening is an artifact of Z_16.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-HST-03",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If a representation map phi sends two world states s1, s2 to the same internal state while the registered contract requires disjoint correct action sets G(s1) intersect G(s2) = empty, then no policy depending only on phi(s) can satisfy the contract on both states; therefore search alone cannot repair every failure and a new distinction is sometimes mathematically necessary.",
+   "assumptions": [
+    "the aliasing phi(s1) = phi(s2) is exact, not approximate",
+    "the contract genuinely requires disjoint action sets",
+    "the policy is a function of phi(s) alone with no side channel"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T03 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T03', exact checker 'exact/check_core_v1.py::section_t03'. Hostile witness research/heritable-search-transformation-v1/hostiles/W_T03_aliasing.json. Independently instantiated at the semantic layer as T69 context-free interpretation impossibility in research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json. Empirically corroborated by research/fna3-seqgrammar-parents-v1/FNA3_RESULTS_V1.md worlds W2 and W3 terminal verbatim 'REPRESENTATION_INSUFFICIENT'.",
+   "claim_ceiling": "Exact aliasing implies contract violation. It does NOT bound how often aliasing occurs in any real representation, nor does it say which new distinction to add. Approximate (Hausdorff-close) versions are explicitly refuted: see ATOM-HSG-02.",
+   "next_decisive_experiment": "Run a prospective representation-insufficiency diagnosis on a real OCM failure corpus: for each failure, decide by exact enumeration whether it is search-repairable or aliasing-blocked, and check whether the diagnosis predicts which failures survive additional search budget.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-04",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Under a prefix-coded Levin-style search allocation where candidate p receives search share proportional to 2^-L(p), an admitted macro that shortens a target solution encoding from L to L-Delta without increasing verification or hidden construction cost multiplies that target's search allocation by exactly 2^Delta.",
+   "assumptions": [
+    "prefix-coded allocation",
+    "no increase in verification cost",
+    "no hidden construction cost",
+    "the allocation ratio is not a wall-time claim"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T04 status verbatim 'PARENT_SUFFICIENT', proof_class P1, no proof_artifact key, witness research/heritable-search-transformation-v1/exact/PARENT_WITNESSES_T04_T08_V1.json whose status_class is verbatim 'PARENT_SUFFICIENT (Levin/OOPS; Blackwell own the theorems)'. Witness values: ratio_equals_2^Delta true, share_ratio 32, conditionality verbatim 'allocation ratio is exact; wall-time gain remains conditional on scheduler/execution/verification costs'. Parents Levin universal search and Schmidhuber OOPS are named in issue #233 section 1.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): Levin/OOPS own the coding-to-allocation result. OCM claims nothing new here. The allocation ratio is exact; wall-time improvement is NOT claimed and is conditional on scheduler, execution and verification cost.",
+   "next_decisive_experiment": "None for the theorem: the parent owns it and PARENT_SUFFICIENT is a success terminal. The residual is the empirical question of whether OCM's admitted macros actually shorten encodings without raising verification cost, which is ATOM-MAQ-02's economics question, currently negative.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-HST-05",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "For a macro m replacing composition s, macro acquisition is lifecycle-beneficial on the registered scalar cost coordinate if and only if H_eff * Delta_C_use > C_build + C_maint + C_revision_expected.",
+   "assumptions": [
+    "a single registered scalar cost coordinate",
+    "H_eff (useful reuse count before invalidation/reset) is known or frozen",
+    "all four quantities are measured on the same accounting"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T05 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T05', exact checker 'exact/check_core_v1.py::section_t05'. Hostile witness research/heritable-search-transformation-v1/hostiles/W_T05_macro_never_pays.json. THE ARITHMETIC IS PROVED, THE INPUTS ARE NEGATIVE IN THIS REPO: research/g2-macro-source-reconciliation-v1 reports verbatim 'NO_LIFETIME_MACRO_SEARCH_PAYBACK_AT_64_LENGTH8_TESTS' with 12,520,017 selected-path ranks against 3,610,299 primitive test work and harmful_tasks 51 versus macro_strict_wins 13. research/g2-utility-tournament-v1/README.md records the prospectively frozen #189 outcome reported as 'UTILITY_GATE_REJECTS_METHOD: inherited inc -> square fragment helped only 2/32 validation tasks and harmed 30/32'.",
+   "claim_ceiling": "The inequality is arithmetic once the four quantities are frozen. It licenses NO claim that macros pay back; the difficult scientific content is estimating H_eff and transfer scope prospectively, and every measured instance in this repo is currently on the losing side of the inequality.",
+   "next_decisive_experiment": "Prospectively freeze an H_eff estimator before acquisition on a fresh task family, then measure whether the estimator predicts the sign of the realised inequality; #165 lane G2.4 / #62 registered in research/g2-macro-operator-v1/README.md is the registered home and its result is not in-tree (PR #192 CI artifact).",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-06",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "In a complete dependency DAG whose node values are functions only of declared ancestors, an intervention or revocation on set S cannot change any node outside the descendant closure Desc(S); therefore exact recomputation outside Desc(S) is unnecessary if and only if the registered dependency semantics are complete for the protected outputs.",
+   "assumptions": [
+    "acyclic dependency graph",
+    "node values depend only on declared ancestors",
+    "dependency capture is COMPLETE for the protected outputs (the load-bearing assumption)"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T06 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T06', exact checker 'exact/check_core_v1.py::section_t06'. Hostile witness research/heritable-search-transformation-v1/hostiles/W_T06_missing_edge_false_locality.json. The completeness assumption is empirically attacked and the attack SUCCEEDS: research/hsg-semantic-execution-v1/exact/results/D19_RESULTS.json hostile H-T72a plants 'one hyperedge deleted from the RECORDED provenance hypergraph while ground truth keeps it', flipped true, 105 trials, 9 witnesses, clean_control_witnesses 0 and clean_control_silent true. Geometry counterpart G14/R4 is REFUTED (see ATOM-HSG-02); research/heritable-search-geometry-v1/HSG_SURVIVAL_V1.json downstream_hooks.issue_145 entry 6 records verbatim that set-locality is parent-owned and xi-cone-completeness removal fails.",
+   "claim_ceiling": "Locality holds only under COMPLETE dependency capture. Locality can never be inferred from an incomplete graph, and the missing-edge hostile is demonstrated to fire on real worlds. Any revocation-exactness claim must state whether negative dependence is represented (see ATOM-PRV-02).",
+   "next_decisive_experiment": "Audit the production dependency graph in src/ for completeness against a full-recomputation oracle on a frozen workload; there is currently no Desc() cone operator implemented in src/ (searched /usr/bin/git grep -l -e 'Desc(' origin/main -- research/ src/, one hit, in research/heritable-search-geometry-v1/HSG_ATOM_TABLE_V1.json only).",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-07",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "For a fixed evaluator and an immutable archive that always retains the best-so-far admissible object under a frozen total order, archive best quality is monotone non-decreasing.",
+   "assumptions": [
+    "fixed evaluator",
+    "frozen total order or utility",
+    "immutable archive with unbounded retention of the best-so-far element"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T07 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T07', exact checker 'exact/check_core_v1.py::section_t07'. Hostile witness research/heritable-search-transformation-v1/hostiles/W_T07_ratchet_no_transfer.json. THE PARETO/BOUNDED-CAPACITY VARIANT IS REFUTED: research/heritable-search-geometry-v1 records G15/R4 verdict verbatim 'LIFT_FAILS' with what_died_or_bounded verbatim 'hypervolume monotonicity under bounded archive capacity' and witness research/heritable-search-geometry-v1/hostiles/witnesses/hostile_hypervolume_capacity.json (H4: capacity 1, HV 4 -> 3/2 while order-ratchet holds).",
+   "claim_ceiling": "Proves a ratchet property on a scalar total order with unbounded best-so-far retention ONLY. It does not prove open-endedness, complexity growth, generalization or self-improvement efficiency, and it does NOT extend to hypervolume under bounded archive capacity, where an explicit counterexample exists.",
+   "next_decisive_experiment": "None for the scalar statement (proved). For the archive claim that matters operationally, measure hypervolume trajectory under the actual bounded archive capacity used by the morphology zoo and check whether the H4 collapse pattern occurs at production capacity.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-08",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If experiment E1 Blackwell-dominates E0 then for every Bayesian expected-utility decision problem the optimal value under E1 is at least that under E0 when information is free; with costly probes, information should be bought only when expected decision improvement exceeds its price.",
+   "assumptions": [
+    "Blackwell garbling relation between the experiments",
+    "Bayesian expected-utility decision problem",
+    "the cost-aware correction requires an explicit probe price"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T08 status verbatim 'PARENT_SUFFICIENT', proof_class P1, witness research/heritable-search-transformation-v1/exact/PARENT_WITNESSES_T04_T08_V1.json with blackwell_relation verbatim 'E0 is an a.s. garbling of E1 => E1 dominates E0', V_E0 3/4, V_E1 1, value_of_information 1/4, cost_correction_probe_price 3/10 and buy_information false. Independently transported and marked SUPPORTED at research/heritable-search-geometry-v1/d12/arms/A5_receipts/P2_blackwell_representation_sufficiency.json with self_assessment_note verbatim that the mapping is a renaming, so SUPPORTED rather than PROPOSAL, residual risk concentrated in the Borel-extension measurability caveat.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): Blackwell 1951/1953 owns the theorem. The OCM residual is choosing which distinctions a protected decision region actually requires, not the sufficiency mathematics. Free-information dominance never licenses a claim that acquiring information is worthwhile: the worked instance says buy_information false.",
+   "next_decisive_experiment": "None for the theorem. The residual is ATOM-GEF-03: whether OCM's representation ordering is actually a garbling order in practice, which requires exhibiting the garbling kernel between two real OCM representations.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-HST-09",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "A PAC-Bayes style bound on future-task burden for a finite HST bias class, specialized to OCM, constrains transfer within the registered ecology.",
+   "assumptions": [
+    "a registered task distribution D",
+    "the finite HST bias class of the artifact",
+    "tasks drawn from the SAME ecology D; nothing is claimed for D' != D"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T09 status verbatim 'BOUND_DERIVED'; status_fill verbatim 'BOUND_DERIVED (mathematics parent-sufficient: McAllester 1999 / Langford-Seeger 2002 / Maurer 2004 / Topsoe 2007, per-step attribution in the artifact; OCM specialization lane-D; VACUOUS AT ZOO SCOPE: eps(12)=0.6242 = 2.78x the 0.224507 bar; first m reaching the bar = 104 tasks, eps<=0.1 at m=564 - honest vacuity range reported, not tuned)'. Artifact research/heritable-search-transformation-v1/bounds/HST_TRANSFER_BOUND_V1.md, checker research/heritable-search-transformation-v1/bounds/check_bound_v1.py, filled by REGISTRY_PATCH_D.json with run_record exit_code 0, wall_seconds 29.8, host billy-laptop. The artifact declares the subclass verbatim 'BOUND_DERIVED_VACUOUS_AT_SCOPE'. TERMINAL NOT ISSUED: 'BOUND_DERIVED' has no equivalent in the frozen 7-terminal vocabulary and the bound is vacuous at the only scale the repo has run, so this atom stays OPEN.",
+   "claim_ceiling": "The mathematics is parent-owned and the derivation is sound, but at the only measured scale (m=12, the zoo T2 ecology / amend-5 array) the guarantee is eps=0.6242 against a 0.224507 quality bar, i.e. 2.78x the bar and NEAR-VACUOUS. No transfer claim may cite this bound at current scale. Out-of-ecology transfer is not merely unbounded, it is refuted: see ATOM-HST-19.",
+   "next_decisive_experiment": "Run a registered ecology with m >= 104 frozen tasks (the first m at which the bound reaches the quality bar per the artifact) and check whether measured transfer stays inside the then-non-vacuous bound.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-HST-10",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Evolvability defined as useful-descendant mass, Ev_t(x;U) = P over x' ~ Q_t(.|x) that x' is admissible and useful under U, is an exactly computable local quantity at finite scope.",
+   "assumptions": [
+    "universe FW1 restricted to words of length <= 3 over {a1,a2,m2}",
+    "|X| = 40 candidates",
+    "a fully enumerated proposal neighbourhood",
+    "generalization beyond the enumerated ecology needs P3 assumptions"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T10 status verbatim 'FINITE_CERTIFIED', certificate research/heritable-search-transformation-v1/exact/T10_EV_ORACLE_V1.json with oracle_not_estimate true and scope_statement verbatim 'P2 finite exact over universe FW1 restricted to words of length <= 3 over {a1,a2,m2}: |X| = 40 candidates, every Ev value is an exact rational over a fully enumerated neighbourhood; NOT an estimate; says nothing about other ecologies/kernels'. Empirical bridge routes T10 to issue #217 per research/heritable-search-transformation-v1/HST_EMPIRICAL_BRIDGE_V1.json.",
+   "claim_ceiling": "Exact oracle on a 40-candidate enumerated neighbourhood of FW1. It is a definition plus a finite computation, NOT evidence that evolvability rises in any OCM lineage. The claim Ev_{t+1} > Ev_t is untested.",
+   "next_decisive_experiment": "Compute the exact Ev oracle at two successive generations of the #217 / #151 lineage on a frozen ecology and test Ev_{t+1} > Ev_t prospectively, with the continued-versus-reset proposal-kernel comparison the registry lists as an open sub-item.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-HST-11",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If replacing each expanded occurrence of a repeatedly instantiated module M by a single macro reference lowers total description, execution and search cost after charging module definition, interface and maintenance, then promoting M to a higher-level unit is a valid compression and search transformation.",
+   "assumptions": [
+    "the module preserves registered external semantics behind its interface",
+    "module definition, interface and maintenance costs are all charged",
+    "the promotion threshold is evaluated on one frozen accounting"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T11 status verbatim 'FINITE_CERTIFIED', certificate research/heritable-search-transformation-v1/exact/T11_MODULE_PROMOTION_V1.json, checker research/heritable-search-transformation-v1/exact/t11_module_v1.py. DEFECT FOUND AND FIXED, RECORDED HERE BECAUSE IT IS A BINDING LESSON: research/heritable-search-transformation-v1/D8_HOSTILE_REVIEW_V1.json finding 1 (severity MED) states the registry MISQUOTED the receipt it cites, using a 3-op-slot accounting (h=7: 21 vs 21.5; h=8: 24 vs 24; h=9: 27 vs 26.5) where the receipt gives 14 vs 14.5 / 16 vs 16 / 18 vs 17.5, off by exactly +h on both sides; the review records that the threshold H*=8 and the h=9 flip are IDENTICAL under both accountings so FINITE_CERTIFIED at FW1 scope is NOT invalidated. Fixed by FREEZE_HST_V1 amendment AMEND_3 finding f1.",
+   "claim_ceiling": "Finite certificate over FW1 with a frozen cost accounting. It gives a conditional economic criterion for abstraction; it cannot prove that spontaneous evolution will discover major transitions. Note that the promotion threshold is accounting-sensitive, as the D8 misquote showed.",
+   "next_decisive_experiment": "Run the module-promotion threshold on the #145-routed transition-event census named in HST_EMPIRICAL_BRIDGE_V1.json and check whether promotions predicted by the threshold actually reduce measured lifecycle cost.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-HST-12",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "A closed deterministic finite-state system must eventually repeat, so literal infinite non-repeating state novelty cannot be established for a fixed finite closed state space.",
+   "assumptions": [
+    "deterministic transition law",
+    "closed system",
+    "finite state space"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T12 status verbatim 'PROVED', proof_class P5, proof artifact 'proofs/LIMITS_V1.md#T12', exact checker research/heritable-search-transformation-v1/exact/check_t12_v1.py; REGISTRY_PATCH_C.json run_receipt records check_t12_v1.py exit 0 PASS on python 3.8.10 at 2026-09-09T22:10Z. D8 finding 5 (LOW) records that check_t12_v1.py and check_t13_v1.py hardcode a cwd-relative cert path and exit 1 when invoked from exact/; fixed by AMEND_3 f5. Consequence enforced downstream: research/ocm-morphology-zoo-v1/REPO_STATE.json lists 'OPEN_ENDED_EVOLUTION_SOLVED' among forbidden terminals.",
+   "claim_ceiling": "An impossibility result about literal state novelty in a closed finite system. It forces open-endedness to be defined operationally over a horizon relative to recurrence baselines, or the effective state/rule/task space to genuinely expand. It says nothing about whether any particular OCM run is near recurrence.",
+   "next_decisive_experiment": "None for the theorem. The operational residual is registering a horizon-scoped open-endedness vocabulary for #221 in place of any binary declaration, which the zoo already enforces via its forbidden-terminal list.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-13",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "For any finite observed trajectory prefix, absent a fully specified and proved transition law, there exists at least one bounded continuation and at least one continuing-novelty continuation consistent with that prefix; therefore finitely many observed generations cannot by themselves prove unbounded open-ended evolution.",
+   "assumptions": [
+    "the transition law is not fully specified and proved",
+    "the observation is a finite prefix"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T13 status verbatim 'PROVED', proof_class P5, proof artifact 'proofs/LIMITS_V1.md#T13', exact checker research/heritable-search-transformation-v1/exact/check_t13_v1.py, REGISTRY_PATCH_C.json run_receipt check_t13_v1.py exit 0 PASS.",
+   "claim_ceiling": "Bounds what any finite #221 run can support: scoped novelty, complexity or evolvability trends only, never infinite open-endedness. It does not weaken any scoped positive.",
+   "next_decisive_experiment": "None for the theorem. The binding residual is that every #221 headline sentence must carry its horizon; verify this holds for the GS-R1/GS-R2 terminals (see ATOM-MOR-02).",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-14",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "No Free Lunch rules out universal superiority of any fixed search transformation over unrestricted or appropriately closed problem classes, so the only defensible higher-level target is conditional bias adaptation fitted to a structured ecology together with regime-change and harmful-transfer detection.",
+   "assumptions": [
+    "the NFL closure conditions on the problem class actually hold",
+    "performance is measured over the closed class, not a structured subfamily"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T14 status verbatim 'PROVED', proof_class P5, proof artifact 'proofs/LIMITS_V1.md#T14'; exact_checker is explicitly null on this row (no checker exists in-tree and none is claimed). Parent Wolpert and Macready IEEE TEC 1(1) 1997 DOI 10.1109/4235.585893 is named in issue #233 section 1. Enforced downstream: research/heritable-search-transformation-v1/FREEZE_HST_V1.json forbidden_terminals includes 'UNIVERSAL_BEST_SEARCH_ALGORITHM'.",
+   "claim_ceiling": "An impossibility over the closed class. It does NOT forbid conditional superiority on a structured ecology, and it is not evidence about any particular comparison. Proof class P5 with no exact checker: the row rests on the parent argument.",
+   "next_decisive_experiment": "None for the theorem. Its operational consequence, that OCM must detect regime change and harmful transfer rather than seek a universal optimizer, is tested by ATOM-HST-19 (negative transfer) and is currently negative.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-15",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Rice, halting and Goedel results imply there is no universal complete proof that arbitrary self-change is beneficial; Goedel-machine optimality is conditional on finding the relevant target theorem under the encoded axioms, so useful but unprovable self-changes may be missed.",
+   "assumptions": [
+    "nontrivial semantic properties of arbitrary programs",
+    "a sufficiently expressive formal system",
+    "the Goedel-machine result is conditional, not unconditional"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T15 status verbatim 'PROVED', proof_class P5, proof artifact 'proofs/LIMITS_V1.md#T15'; exact_checker explicitly null. Parents Rice/halting/Goedel and Schmidhuber Goedel Machines arXiv cs/0309048 named in issue #233 section 1. Enforced downstream: FREEZE_HST_V1.json forbidden_terminals includes 'ALL_USEFUL_SELF_CHANGES_PROVABLE'. Operationally honoured by research/hsg-semantic-execution-v1/exact/results/D19_RESULTS.json which returns a distinct refusal terminal CANNOT_CHECK_NEGATION_PRESENT rather than certifying, with protocol clause verbatim \"'Could not check' is never reported as 'checked and fine'.\"",
+   "claim_ceiling": "An undecidability limit. It mandates that C expose bounded decidable contracts where possible, empirical protected validation elsewhere, and explicit CANNOT_CHECK. It is not an argument that self-improvement is impossible, only that a universal verifier is.",
+   "next_decisive_experiment": "None for the theorem. The governance residual is a formal limitations ledger enumerating which OCM self-change contracts are decidable; the #277 D4 measurement-validity suite is the nearest registered owner and is not yet built.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-16",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Blum's speedup theorem shows there are computable problems for which no single asymptotically optimal program exists under admissible complexity measures, so no convergence to a final globally fastest cognition can be promised for all computable problems.",
+   "assumptions": [
+    "admissible complexity measure in Blum's sense",
+    "the claim is about all computable problems, not a structured family"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T16 status verbatim 'PROVED', proof_class P5, proof artifact 'proofs/LIMITS_V1.md#T16'; exact_checker explicitly null. Parent Blum speedup theorem named in issue #233 section 1. Routed by research/heritable-search-transformation-v1/HST_EMPIRICAL_BRIDGE_V1.json to issue #145 as an adversary-suite rule for architecture claims.",
+   "claim_ceiling": "Forbids any final-architecture claim over all computable problems. It positively supports continuing search-transformation pressure within problem families. It is not evidence about OCM's current speed against any parent.",
+   "next_decisive_experiment": "None for the theorem. The bridge residual is instantiating the adversary-suite rule so that no #145 architecture claim is stated without its problem family.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-17",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If an optimizer can directly rewrite a scalar score register that is itself the optimization target, and no independent constraint ties that score to protected world performance, then a score-maximizing self-change can raise the measured objective without improving protected performance.",
+   "assumptions": [
+    "the score register is directly writable by the optimizer",
+    "no independent constraint links score to protected performance",
+    "the theorem is a toy structural construction (P1); real-world sufficiency of C is P4"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T17 status verbatim 'PROVED', proof_class 'P1 toy + P4 real-world', proof artifact research/heritable-search-transformation-v1/proofs/T17_TOY.md, checker research/heritable-search-transformation-v1/exact/check_t17_v1.py with verdict verbatim 'WITNESS_CERTIFIED', witness research/heritable-search-transformation-v1/hostiles/T17_TAMPER_WITNESS.json. REGISTRY_PATCH_C.json run_receipt records check_t17_v1.py exit 0 WITNESS_CERTIFIED. Registered hostile still unbuilt: research/hsg-semantic-execution-v1/HOSTILE_REGISTRY_V1.json holds forward-declared lane hostiles with no landed artifacts.",
+   "claim_ceiling": "A minimal structural counterexample only. It does NOT claim that an external C is mathematically sufficient for safe self-improvement, and it does not solve Goodhart or alignment. Whether the actual chosen C is independent, complete and robust is empirical and unmeasured.",
+   "next_decisive_experiment": "Plant an evaluator-tampering candidate inside a live #217 or #221 adoption lane and check whether the real constitutional boundary rejects it; the tampering hostile is registered but no artifact has landed.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-18",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If a scalar burden is bounded below by b_min and each claimed generation must improve it by at least a fixed epsilon > 0, then at most (B_0 - b_min)/epsilon such improvements can occur; indefinite fixed-size improvement therefore requires shrinking effect size, expanding scope, expanding the capability frontier, new representational dimensions, or a changed resource regime.",
+   "assumptions": [
+    "scalar burden bounded below",
+    "a fixed epsilon improvement per generation",
+    "a fixed finite task family"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/HST_THEOREM_REGISTRY_V1.json row HST-T18 status verbatim 'PROVED', proof_class P1, proof artifact 'proofs/PROOFS_CORE_V1.md#HST-T18', exact checker 'exact/check_core_v1.py::section_t18', hostile witness research/heritable-search-transformation-v1/hostiles/W_T18_fixed_epsilon_saturation.json. Routed to issue #221 by research/heritable-search-transformation-v1/HST_EMPIRICAL_BRIDGE_V1.json for GS stopping and claim language. Directly relevant to ATOM-SEV-01, where the observed lineage stalled at g0 -> g1 -> g2 -> g2.",
+   "claim_ceiling": "Prevents defining open-ended self-improvement as a fixed epsilon gain on one frozen finite benchmark forever. It does not predict when a given lineage will saturate, and it is not an explanation of any observed saturation.",
+   "next_decisive_experiment": "For the observed #149 saturation at generation 2, distinguish the T18 exhaustion mechanism (burden floor reached) from a search or diagnosis failure, by measuring the remaining headroom B_current - b_min on the frozen family before the next cycle.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HST-19",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Bias learned under one registered ecology can be strictly worse than a flat prior on a different ecology, up to the full loss range; no PAC-Bayes or Baxter-family statement constrains out-of-ecology transfer.",
+   "assumptions": [
+    "the counterexample removes exactly the 'same ecology D' assumption of the T09 bound",
+    "two-task world, learned pure kernel versus flat prior"
+   ],
+   "current_evidence": "research/heritable-search-transformation-v1/bounds/NEGATIVE_TRANSFER_COUNTEREXAMPLE_V1.md, cited by the HST registry verbatim as: \"remove 'same ecology D': two-task world, learned pure kernel has D_test-risk 1 vs flat 1/2, negative-transfer excess exactly +1/2 (admission-failure doubling); T09-B violation probability exactly 0 on D_train for m=1..5, so bound and counterexample are consistent\". The artifact's section 4 licenses exactly the claim above. Corroborated at scale by the landed morphology result: research/ocm-morphology-zoo-v1/results/GS_R2_AGGREGATE.json t3_summary records SURVIVOR_T3_GENERALIZATION_FAIL 85025 against SURVIVOR_T3_GENERALIZATION_HOLD 15668 of 100693 distinct survivors, i.e. 84.4 percent generalization failure.",
+   "claim_ceiling": "An explicit counterexample killing 'experience always improves future search' out of ecology. It does not quantify how often negative transfer occurs in OCM, only that it is unbounded in principle and, at the one scale measured, is the majority outcome.",
+   "next_decisive_experiment": "None to establish the counterexample. The forward question is a harmful-transfer DETECTOR: register a regime-change test on a fresh ecology and measure its false-negative rate against the known-negative GS-R2 survivors.",
+   "terminal": "REFUTED_WITH_COUNTEREXAMPLE"
+  },
+  {
+   "atom_id": "ATOM-HSG-01",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Lifting the HST atoms onto metric-geometric structure (rungs R1-R7: sets, concepts, measures, metrics, dynamics, computability, ecology) yields mostly parent-owned or conditional results, not new geometry.",
+   "assumptions": [
+    "the rung ladder R1-R7 as frozen in HSG_FREEZE_V1",
+    "verdict vocabulary OPEN | LIFT_SURVIVES | LIFT_CONDITIONAL | LIFT_FAILS | PARENT_SUFFICIENT | NOT_APPLICABLE | BLOCKED",
+    "the ladder is assessed per (atom, rung) cell"
+   ],
+   "current_evidence": "research/heritable-search-geometry-v1/HSG_SURVIVAL_V1.json census, cross-confirmed by research/heritable-search-geometry-v1/HSG_COVERAGE_MATRIX_V1.json census_check with match true: LIFT_SURVIVES 5, LIFT_CONDITIONAL 22, LIFT_FAILS 6, PARENT_SUFFICIENT 12, NOT_APPLICABLE 7, total_verdict_rows 52. research/heritable-search-geometry-v1/HSG_FREEZE_V1.json honesty_preamble states verbatim that most rung lifts are PARENT_SUFFICIENT because the ladder runs through standard probability, optimal transport, ergodic theory and semigroup mathematics, and that HSG's own claim is the atom table, the survival verdicts at OCM scope, the counterexample constructions and the issue-hook bridge, not new geometry. Machine witness research/heritable-search-geometry-v1/exact/geometry_dynamics_check_v1.py, log tail reported as 'SUMMARY pass=11 fail_or_unchecked=0', exit 0. Coverage gap retained: HSG_COVERAGE_MATRIX_V1.json totals record open_pending_cells 21, open_atoms ['A_T10','A_T11'], unrouted_cells 173.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the geometric restatement: standard probability, optimal transport, ergodic theory and semigroup mathematics own the lifts. HSG's residual is the verdict table and the counterexamples, not new mathematics. 22 of 52 cells are only CONDITIONAL and 173 cells are unrouted, so the ladder is not a completed object.",
+   "next_decisive_experiment": "Route the 173 unrouted cells and close the 21 open pending cells for A_T10 and A_T11; until then no ladder-completeness statement is available.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-HSG-02",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Metric proximity in the search-geometry does NOT transfer burden, reach or locality guarantees: subset-infimum preservation under Hausdorff-close sets, burden Lipschitz continuity, metric-reach to set-reach equivalence, and metric-ball cache locality all fail.",
+   "assumptions": [
+    "each failure is witnessed on an explicit finite construction",
+    "the negated statements are the metric (R4/R5) lifts, not the underlying set-level results, which remain parent-owned"
+   ],
+   "current_evidence": "Four LIFT_FAILS rows in research/heritable-search-geometry-v1/HSG_SURVIVAL_V1.json negatives_ledger, each with an in-tree witness. A_T01/R4, artifact research/heritable-search-geometry-v1/ladder/R4_APPROX_SETS_AT01.md, witness research/heritable-search-geometry-v1/hostiles/witnesses/hostile_approx_sets.json (H2: d_H = eps, inf N*p -> p), what_died_or_bounded verbatim 'subset-infimum preservation under approximate (Hausdorff-close) sets'. G10/R4, artifact ladder/R4_BURDEN_LIPSCHITZ_G10.md, witness hostiles/witnesses/hostile_burden_lipschitz.json (H1: one edit, burden N*p vs p), verbatim 'burden Lipschitz continuity under metric proximity (B: R2->R4 central lift) is not free'. G12/R5, artifact ladder/R5_REACH_G12_AT02.md, witness hostiles/witnesses/hostile_reach_iff.json (H5: aliasing pseudometric, new state inside d-closure), verbatim 'metric-reach <=> set-reach equivalence'. G14/R4, artifact ladder/R4_CONE_VS_BALL_G14_AT06.md, witness hostiles/witnesses/hostile_cone_ball.json (H3: over_recompute B and under_invalidate A), verbatim 'metric-ball cache locality - cache-skip by metric proximity, both directions (HOSTILE H3)'.",
+   "claim_ceiling": "Four explicit counterexamples. They forbid any OCM shortcut that infers burden, reach or cache-invalidation scope from metric closeness. They do NOT refute the set-level parents (Blackwell sufficiency, dependency-cone locality), which stay PARENT_SUFFICIENT.",
+   "next_decisive_experiment": "None to establish the refutation. The forward residual is auditing production code for any implicit metric-proximity shortcut in cache invalidation; the G14/R4 under-invalidation direction is the dangerous one because it silently keeps stale state.",
+   "terminal": "REFUTED_WITH_COUNTEREXAMPLE"
+  },
+  {
+   "atom_id": "ATOM-HSG-03",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Inheritance does NOT first-order stochastically dominate non-inheritance once maintenance overhead M is strictly positive.",
+   "assumptions": [
+    "M > 0 mandatory overhead",
+    "first-order stochastic dominance over the burden distribution, not a mean comparison"
+   ],
+   "current_evidence": "research/heritable-search-geometry-v1 records G13/R2 verdict verbatim 'LIFT_FAILS' with what_died_or_bounded verbatim 'net first-order stochastic dominance of inheritance at M>0 overhead'; artifact research/heritable-search-geometry-v1/ladder/R2_CONCEPTS_B.md, counterexample research/heritable-search-geometry-v1/hostiles/G13_M_overhead_FOSD.md. This is the geometric twin of the cost correction attached to HST-T01 in issue #233 section 5 ('No unconditional memory always helps theorem'), and it is the atom that most directly gates the programme's developmental thesis.",
+   "claim_ceiling": "At positive maintenance overhead the inheritance advantage is not distributional dominance; only the conditional inequality future savings > acquisition + maintenance + revision survives. Any 'the machine benefits from what it inherited' sentence must carry the measured M term or it exceeds the ceiling.",
+   "next_decisive_experiment": "Measure M for a real OCM lineage (index, storage, revision and rejected-candidate work) and report the burden distribution with and without inheritance, testing dominance rather than a mean difference; #233 lane D27 is the registered home and is NOT_STARTED.",
+   "terminal": "REFUTED_WITH_COUNTEREXAMPLE"
+  },
+  {
+   "atom_id": "ATOM-HSG-04",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Exhaustive atlas-by-domain deep reading is formally rejected as a default donor-search strategy: a lower bound plus an amortization argument make sparse donor search the correct default over the A <-> M <-> D factorization.",
+   "assumptions": [
+    "the atlas factorization Area <-> Mechanism <-> Domain as frozen in HSG v3",
+    "the registered reading-cost model"
+   ],
+   "current_evidence": "research/heritable-search-geometry-v1/HSG_V3_FREEZE.json, freeze_id HSG_V3_ATLAS_DONOR_SEARCH, status AMENDED_2_PARENT_VERIFICATION, factorization field verbatim 'A <-> M <-> D. Exhaustive A x D deep reading is FORMALLY REJECTED as default (HSG-T55 lower bound + HSG-T61 amortization).' Theorem rows (identical in HSG_V3_FREEZE.json and research/heritable-search-geometry-v1/D10_SPARSE_DONOR_SEARCH/D10_THEOREM_ROWS_V1.json): HSG-T55 PROVED P1_ELEMENTARY, HSG-T56 PROVED, HSG-T61 PROVED, HSG-T63 PROVED, HSG-T57/T58/T59/T60/T64 PARENT_RECONSTRUCTED P3_PARENT_RECONSTRUCTION, HSG-T62 CONDITIONAL P5_CONDITIONAL. GAP RECORDED: no exact_checker field exists on any of these ten rows and no exact checker for HSG-T55..T64 exists in-tree. Parent verification research/heritable-search-geometry-v1/PARENT_VERIFICATION_T55_T64_V1.json census total 5, CONFIRMED 2, PARTIAL 2, WORDING_IMPRECISE 1 (T57 CONFIRMED, T58 PARTIAL, T60 WORDING_IMPRECISE, T62 CONFIRMED, T64 PARTIAL).",
+   "claim_ceiling": "PROVED for the lower bound and amortization statements under the registered reading-cost model. Four of ten rows are parent reconstructions and one is conditional; two of the five externally-backed claims verified only PARTIAL and one WORDING_IMPRECISE. No machine-replayable checker exists for any row, so this tranche rests on prose proofs.",
+   "next_decisive_experiment": "Write an exact checker for HSG-T55 and HSG-T61 over a frozen finite atlas and machine-replay them, which is the only way this tranche reaches the same evidential standard as the HST core.",
+   "terminal": "PROVED"
+  },
+  {
+   "atom_id": "ATOM-HSG-05",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 233,
+   "exact_claim": "The cross-domain donor-search instrument reliably recalls a planted true donor and rejects a planted false-analogy anti-donor under a pre-registered commitment scheme.",
+   "assumptions": [
+    "planted hidden pairs committed by sha256(salt || FULL_PREIMAGE) before the run",
+    "the planted objects sit inside the reachable retrieval surface",
+    "arm A6 protocol frozen before reveal"
+   ],
+   "current_evidence": "NEGATIVES FIRST. research/heritable-search-geometry-v1/d12/D12_SCORING_V1.json hidden_pair_outcomes verbatim: H1_recall_arms 0 of H1_recall_total 5 with reading 'partition-limited miss: universal across architectures incl. the exhaustive oracle whose 8-discipline partition excludes biochemistry; token sweep live (control token present in all logs)'; H2_false_analogies 0, H2_approaches 0, reading 'anti-donor unreached, not passed; next freeze must plant the costume inside the reachable retrieval surface'. Recorded defect: D12_SCORING_V1.json validation_reserve_basis verbatim \"A1 hard-stop left R4-validation unpurchased -> PROPOSAL instead of SUPPORTED\". REVIVAL: research/heritable-search-geometry-v1/d15/HSG_D15_REVIVAL_FREEZE.json repairs the D12 existence-only commitment with sha256(salt || FULL_PREIMAGE) for BOTH pairs, salt ocm-hsg-d15-2026-09-10, no_theorem_status_changes true; research/heritable-search-geometry-v1/d15/scoring/D15_SCORING_V1.json headline verbatim 'D15 revival chain POSITIVE on all three D12 negatives (H1 repaired, H4 anti-donor correctly rejected, A1-R4 promoted), with H3 hit recorded under explicit contamination caveat; cross-partition probing' (arm A6, PR #273, PR #274). Receipt census across 29 D12/D15 receipts: SUPPORTED 14, PARTIAL 8, PROPOSAL 6.",
+   "claim_ceiling": "A single revived instrument run on one authored world with an explicit contamination caveat on the H3 hit. It licenses a measurement-validity statement about the donor-search instrument at that scope, NOT a claim that OCM finds useful cross-domain donors. Terminal not issued because the repo issued no frozen-vocabulary terminal and the contamination caveat is unresolved.",
+   "next_decisive_experiment": "Re-run the D15 commitment scheme on a world authored by someone who did not design the retrieval surface, to separate instrument sensitivity from author-side reachability; that is the E4/E5 obligation and it has no owner (see ATOM-REP-02).",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SEM-01",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Soundness composes over obligation derivations: if every leaf is valid and every rule is sound then the derivation root is valid (T65); protected-semantic preservation composes relationally (T67); sound problem reductions compose (T74); valid-counterexample pruning never removes a truly satisfying hypothesis (T80).",
+   "assumptions": [
+    "finite derivation, sound rules, valid leaves",
+    "for T74, forward map and reconstruction satisfying V_B(f(x),y) = 1 implies V_A(x, g(x,y)) = 1",
+    "for T80, the counterexample must be externally valid or the theorem disappears"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json records verdict verbatim 'PROVED_LOCAL' for T65, T67, T74 and T80, each with certificate verbatim 'P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof'; run summary proved_local 14, property_failed 0, cannot_check 0, hostile_flip_failures 0, worlds 'WORLDS_V1 (OW1..OW7 frozen, seed 20260910)', evidence_class CONFIRMATORY_FIXED. Hostiles fired, e.g. H-T65a verbatim 'one unsound rule flips conclusion validity', flipped true, detail 'unsound worlds violating: 8/10; corrupted-edge worlds: 9'. BINDING DEFECT (see ATOM-SEM-09): research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json still carries status verbatim 'OPEN' on all 30 rows T65-T94; no amendment writes D17 back. Checkers in-tree: research/hsg-semantic-execution-v1/exact/oracles_d17.py, exact/engine.py, exact/worlds.py, exact/run_all.py, receipts exact/receipts/D17_receipts.jsonl.",
+   "claim_ceiling": "P2 finite certificates over frozen tiny worlds OW1-OW7 with exhaustive enumeration. Not universal proofs. The frozen registry has NOT been updated to reflect them, so no citation may report these rows as closed in the registry.",
+   "next_decisive_experiment": "Land an append-only registry amendment binding D17_RESULTS.json to rows T65/T67/T74/T80, then scale the same oracles to a world family large enough that exhaustive enumeration is no longer possible and compare against sampled checking.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-02",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Protected reverse-read safety holds only conditionally on semantic coverage: if the actual interpretation set A(y) is contained in the registered reverse-reader set J(y), and every omega in J(y) satisfies P(omega) = P(omega*), then every actual interpretation preserves the protected projection.",
+   "assumptions": [
+    "the coverage assumption A(y) subset-eq J(y) is the load-bearing one",
+    "J(y) nonempty",
+    "P is the frozen protected projection"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json row T66 title verbatim 'Protected reverse-read safety, conditional on coverage', proof_class P1, status verbatim 'OPEN'. research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T66 verdict verbatim 'PROVED_LOCAL' with hostiles populated. The hostile is the point: issue #233 records verbatim that omitting one actual interpretation from J lets the gate approve an output whose omitted reading changes negation, scope or referent, so reverse-read accuracy without a coverage claim is not a semantic safety theorem. Enforced in the freeze: research/hsg-semantic-execution-v1/FREEZE_V1.json forbids verbatim 'no accuracy claim without coverage for reverse-read/ambiguity rows (T66/T68/T69)'.",
+   "claim_ceiling": "Conditional on coverage, certified only on frozen tiny worlds. NO reverse-read accuracy number may be reported as a safety result without a coverage claim. This atom gates every future N2 language-realization safety sentence.",
+   "next_decisive_experiment": "#233 lane D23 (language semantic round-trip laboratory) measuring I/R/J coverage, protected round-trip error, ambiguity-set size, clarification value and abstention on frozen synthetic tuples. D23 is REGISTERED ONLY with no artifacts and is capped by the N2 lock to synthetic tuples.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-03",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "One deterministic commitment safe for every live interpretation exists if and only if the intersection over live semantic states of their safe action sets is nonempty (T68); and if one surface form under two contexts requires disjoint protected interpretations, no context-free deterministic interpreter can satisfy both (T69).",
+   "assumptions": [
+    "a finite set of live interpretations with declared safe action sets",
+    "the corollary status depends on parents HSG-T29 and HSG-T27"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json rows T68 and T69, status verbatim 'OPEN', classed as corollaries of HSG-T29 and HSG-T27. DANGLING PARENT REFERENCE, RECORDED AS A DEFECT: HSG-T27 and HSG-T29 are cited as parents of T68/T69/T87 but have no defining artifact anywhere in the repo. Search scope: HSG-T01..HSG-T54 do not exist under those identifiers; the HSG v1 layer uses atom ids A_T01..A_T18 and concept ids G01..G17, and the only HSG-T rows that exist are HSG-T55..T64 in research/heritable-search-geometry-v1/HSG_V3_FREEZE.json. T68 and T69 are also NOT in the D17 tranche, so no certificate exists for them: research/hsg-semantic-execution-v1/FREEZE_V1.json d17_tranche is verbatim ['T65','T66','T67','T71','T72','T74','T75','T76','T78','T79','T80','T81','T85','T86'].",
+   "claim_ceiling": "Statements are registered and their mathematics is elementary, but their declared parents are unresolvable in this repository and no certificate has been run. Nothing may be cited from these rows until the parent reference is repaired or the corollary is re-derived from an existing artifact.",
+   "next_decisive_experiment": "Repair the parent binding: either land the HSG-T27/T29 statements as artifacts, or re-class T68/T69 as NEW_PROOF and add them to a D17-style exact tranche over the OW2 ambiguity world, which is frozen but unused.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SEM-04",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "One retained derivation object can be re-evaluated in a different algebra exactly when a semiring homomorphism exists, h(eval_K(E)) = eval_K'(h(E)) (T71); and this does NOT generalize, because classical Boolean preservation results do not uniformly lift to arbitrary semirings (T94).",
+   "assumptions": [
+    "E built only from semiring +, *, constants and leaf annotations",
+    "h preserves 0, 1, + and *",
+    "acyclic evaluation; cyclic cases need complete or closed-semiring assumptions (T70)"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T71 verdict verbatim 'PROVED_LOCAL'. research/hsg-semantic-execution-v1/exact/results/D18_RESULTS.json records the shared engine: evaluator_agreement_vs_brute_force 1.0 over n_checks 360, packed_vs_resolve_node_visit_ratio 2.3, cyclic_worlds_all_refused true with cyclic_worlds_reported 2; evidence_class_cross_check CONFIRMATORY_FIXED and evidence_class_reuse_regions verbatim 'EXPLORATORY_ADAPTIVE (never headline)'. The limit T94 cites Brinke-Dawar-Gradel-Pago ICALP 2026 DOI 10.4230/LIPIcs.ICALP.2026.172; issue #233 states verbatim that 'change the semiring, keep every theorem' is explicitly forbidden. Registry status for T70, T71 and T94 remains verbatim 'OPEN'.",
+   "claim_ceiling": "Certified over the frozen OW1 obligation-hypergraph world set only (D17 tranche and the D18 shared engine); finite certificates never lift to universal claims. Homomorphic re-evaluation is exact where the algebraic map exists and the world is acyclic; the engine refused all cyclic worlds rather than silently reusing the acyclic licence. The reuse-economics region (when packed reuse beats re-solving) is EXPLORATORY_ADAPTIVE and is permanently capped at readiness 2, so the 2.3x node-visit ratio may never be a headline.",
+   "next_decisive_experiment": "Instantiate a semiring where a Boolean preservation result is known to fail and confirm the engine refuses rather than transports, converting T94 from a cited limit into an executed guard.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-05",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Stagewise minimization of a semantic-execution pipeline is globally optimal only under Cartesian factorization with additively separable cost (T75); expectation decomposes coordinatewise by linearity regardless (T76), and the accounting identity does NOT license the optimization.",
+   "assumptions": [
+    "T75 requires Z = product of Z_i and C(z) = sum of c_i(z_i)",
+    "T76 requires only integrability, not independence"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T75 and T76 verdict verbatim 'PROVED_LOCAL'. Issue #233 supplies the smallest witness verbatim: interpretation A costs 0 then forces downstream cost M, interpretation B costs 1 then downstream 0, so greedy chooses A (M) while global chooses B (1). Stated OCM consequence reported as: 'optimize/compare complete B_exec, not parser speed, proof-search speed or realization speed in isolation.' Registry status for both rows remains verbatim 'OPEN'.",
+   "claim_ceiling": "Certified over the frozen OW1-OW7 world set (D17 WORLDS_V1, seed 20260910) by exhaustive enumeration; not a universal proof. Within that scope this is a programme-wide constraint, not a local result: any OCM claim of the form 'stage X got faster' is inadmissible as evidence about total burden unless separability is demonstrated. It does not say OCM's pipeline is non-separable, only that separability must be shown before stage-local optimization counts.",
+   "next_decisive_experiment": "Test separability empirically on a real OCM pipeline by measuring whether the stage-local optimum coincides with the globally measured B_exec optimum on a frozen task family; no such test is registered in any lane.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-06",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "A finite strict-refinement process on n concrete states starting from k blocks admits at most n - k strict refinements (T78), and CEGAR under a finite universe with strict refinement per spurious counterexample terminates within that ceiling (T79).",
+   "assumptions": [
+    "finite concrete universe",
+    "every refinement step only splits blocks and strictly increases block count",
+    "terminating checker"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T78 and T79 verdict verbatim 'PROVED_LOCAL', with registered hostiles H-T78a 'refinement step that merges two blocks while splitting others', H-T79a 'refinement that does not strictly increase block count on a spurious counterexample' and H-T79b 'invalid counterexample (verifier bug) driving pruning'. LANDED CONFIRMATION AND A NEGATIVE: research/hsg-semantic-execution-v1/exact/results/D20_RESULTS.json verdict verbatim 'CEILING_HELD', primary_endpoint claim reported as 'refinement count <= n - k on every world every n' with ceiling_held_everywhere true, ceiling_violations empty, 30 worlds over frozen n grid [8,12,16,20,24]; claim_ceiling verbatim 'P2 finite certificate over frozen tiny worlds; concrete BFS is exhaustive ground truth at every n in the pre-registered grid; not a universal proof.'; evidence_class verbatim 'CONFIRMATORY_FIXED (ceiling) + EXPLORATORY_ADAPTIVE (refinement cost regions, never headline)'. Registry status for both rows remains verbatim 'OPEN'.",
+   "claim_ceiling": "The n-k ceiling is exact on 30 frozen worlds across the pre-registered n grid. It is a termination bound only: it does not claim the discrete representation is cheap or useful, and the accompanying cost finding is negative (see ATOM-SEM-07).",
+   "next_decisive_experiment": "None for the ceiling. The open question is whether the ceiling stays tight at a scale where concrete BFS ground truth is no longer computable, which requires a sampled-oracle validation study.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-07",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 233,
+   "exact_claim": "Adaptive abstraction refinement (CEGAR) reduces total search cost relative to direct concrete search.",
+   "assumptions": [
+    "cost is measured over the whole loop including abstraction construction",
+    "the pre-registered n grid [8,12,16,20,24] and 30 frozen worlds"
+   ],
+   "current_evidence": "REFUTED AT SCOPE by research/hsg-semantic-execution-v1/exact/results/D20_RESULTS.json negative_finding, verbatim: statement 'Adaptive refinement does not beat direct concrete search anywhere in pre-registered n grid [8,12,16,20,24]; direct concrete search already owns function scale.', verdict 'PARENT_SUFFICIENT', one_stage_attribution 'Abstraction construction, not abstract search. Every CEGAR round rebuilds abstraction FULL concrete transition relation, so one round already costs full concrete sweep; 4x smaller abstract state space cannot repay build that linear in concrete edge count.', not_engineered_around 'The n grid frozen before first run reported unchanged. worlds not reshaped after seeing results.', does_not_affect_primary 'The registry primary endpoint for D20 is n-k ceiling, an exactness claim holds regardless of search savings.' Freeze research/hsg-semantic-execution-v1/FREEZE_D19_D20_V1.json with amendment S1 recording that 7 of 15 concretely-UNSAFE worlds were structurally immune to the D20 hostile plant and the arm was re-run.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): direct concrete search owns the function at this scale. The failure is attributed to ONE stage, abstraction construction, with an explicit mechanism (rebuild cost linear in concrete edge count). No CEGAR benefit may be claimed at or below n=24 on these worlds.",
+   "next_decisive_experiment": "The stage attribution names its own revival lever: an incremental abstraction that does not rebuild from the full concrete transition relation each round. Re-run the same frozen grid with incremental refinement and test whether the crossover appears within n <= 24, or prove the rebuild cost is structural. REGISTERED AND ALREADY MOVING: research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json row RV-1, chain_iteration 1, status verbatim 'DISPATCHED', attribution_confidence verbatim 'HIGH - stated by the lane from its own instrumented cost split, not inferred'. Do not open a second revival for this negative.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-SEM-08",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "If every admitted rewrite preserves registered semantics and e-class merges preserve congruence, every expression in an e-class stays semantically equivalent to the seed, so extraction of any member preserves semantics (T86); and current semantic equivalence is strictly weaker than developmental equivalence (T87).",
+   "assumptions": [
+    "every admitted rewrite is sound; one unsound rewrite contaminates the guarantee",
+    "congruence-preserving merges",
+    "T87 is a corollary of HSG-T27, whose defining artifact is absent (see ATOM-SEM-03)"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T86 verdict verbatim 'PROVED_LOCAL'. LANDED LAB: research/hsg-semantic-execution-v1/exact/results/D21_RESULTS.json, certificate_ceiling reported as 'P2 finite certificate over frozen tiny worlds; not universal proof', evidence_class 'CONFIRMATORY_FIXED + EXPLORATORY_ADAPTIVE'. Contamination detection is perfect where possible: E1_hostile_detection_rate 1.0 over 5 contaminable worlds, E1_missed_detections empty, E1_not_contaminable_worlds ['OW6-01','OW6-04','OW6-05','OW6-06','OW6-08'] recorded rather than hidden; no-alarm control clean, E2_clean_false_alarms 0 over E2_clean_scans 40; E3_arms_producing_non_equivalent_terms 0. NEGATIVE ON THE ECONOMICS: E4_library_verdict verbatim 'PARENT_SUFFICIENT', with the learned-library holdout over OW6-05..OW6-09 showing library_hits 2 and per-world delta 0, and E3b_amortised_application_ratio 0.418 with shared-e-graph cheaper in only one world OW6-00; the protocol records cost_split_rule reported as 'acquisition reuse reported separately never netted into one figure'. Registry status for T86 and T87 remains verbatim 'OPEN'.",
+   "claim_ceiling": "Semantic protection is exact and its detector has a clean no-alarm control, at OW6 tiny-world scope. The learned rewrite library is PARENT_SUFFICIENT with zero measured holdout benefit, so no library-learning advantage may be claimed. Semantic equivalence must not be used to quotient objects for developmental search (T87), and T87's own parent is unresolvable.",
+   "next_decisive_experiment": "Test T87 directly: take two D21-certified semantically equivalent terms, measure their downstream reusable-lemma yield on a fresh task family, and check whether quotienting them destroys developmental value. SEPARATELY REGISTERED for the amortisation negative: research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json row RV-5, status QUEUED, chain_iteration 2 - meaning one revival pass has already been attempted and this is the second, which is the correct discipline for a negative that survives its first lever.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-09",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 233,
+   "exact_claim": "The frozen HSG v4 theorem registry accurately reflects the evidence that has landed for its rows.",
+   "assumptions": [
+    "the registry is the citable object",
+    "amendments are the only legal way to fill status"
+   ],
+   "current_evidence": "REFUTED BY INSPECTION. research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json carries status verbatim 'OPEN' on ALL 30 rows T65-T94 without exception; its row key union is assumptions, d17, hostiles, id, novelty_class, parents, proof_class, statement, status, title, with NO proof_artifact, exact_checker, claim_ceiling or evidence field on any row. Meanwhile research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json records PROVED_LOCAL for 14 of those rows, D18/D19/D20/D21 results have also landed, and research/hsg-semantic-execution-v1/FREEZE_V1.json amendments contains a single entry V1.1 covering only PARENT_LEDGER.md verdicts, not theorem statuses. Search scope for the missing amendment: enumerated all 19 files of research/hsg-semantic-execution-v1/ via /usr/bin/git ls-tree -r --name-only origin/main; no patch or amendment file writing D17 statuses back exists. Compare the sibling capsule, which does bind: research/heritable-search-transformation-v1 uses REGISTRY_PATCH_A/B/C/D plus a three-entry amendment_chain in FREEZE_HST_V1.json.",
+   "claim_ceiling": "This is a binding defect, not a scientific negative. Its consequence is concrete: any downstream reader citing THEOREM_REGISTRY_V1.json alone would report 30 OPEN rows and miss five landed result files, while any reader citing only the results would overstate the frozen registry. Until an amendment lands, T65-T94 must be cited as registered-OPEN with a landed-but-unbound certificate.",
+   "next_decisive_experiment": "Land an append-only REGISTRY_PATCH for the HSG v4 capsule binding D17/D18/D19/D20/D21 results to their rows with per-row proof_artifact, exact_checker and claim_ceiling fields, mirroring the HST capsule's patch discipline.",
+   "terminal": "REFUTED_WITH_COUNTEREXAMPLE"
+  },
+  {
+   "atom_id": "ATOM-SEM-10",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Consequence transports through an institution comorphism: source entailment implies translated target entailment, and reflection back to all source models additionally requires the model reduct to be model-expansive or surjective.",
+   "assumptions": [
+    "the institution satisfaction condition M' |= alpha(phi) iff beta(M') |= phi",
+    "model coverage is load-bearing for reflection"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json gives T85 verdict verbatim 'PROVED_LOCAL'. Issue #233 supplies the hostile verbatim: a target logic whose reduct image covers only source models where p is true can entail translated p even though the source logic does not, so model coverage is load-bearing. Parent Goguen-Burstall institution theory JACM 1992 DOI 10.1145/147508.147524 is verified in research/hsg-semantic-execution-v1/PARENT_LEDGER.md, whose verdict census is verbatim CONFIRMED_SUBSTANTIVE 12, CONFIRMED_VERBATIM 6, PARTIAL 5, WORDING_IMPRECISE 2 across P01-P25. Registry status for T84 and T85 remains verbatim 'OPEN'. #233 marks this the correct parent for N4/N5 heterogeneous mathematics, with Lean a backend rather than the definition of mathematics.",
+   "claim_ceiling": "Certified on frozen tiny worlds only. The reflection direction is conditional on model coverage, which is exactly what fails in the registered hostile. This is the mathematical basis for any future cross-logic transport claim and licenses none today.",
+   "next_decisive_experiment": "#233 lane D22 (heterogeneous-logic transport) over propositional, Horn, small equational and small first-order finite-model fragments with exhaustive model enumeration and the incomplete-model-image hostile. D22 is IN_FLIGHT per research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json and no artifact has landed on main.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-SEM-11",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "The semantic-execution layer's calculi are parent-owned: abstract interpretation soundness (T77), weakest-precondition and Hoare composition (T82), proof-carrying adoption (T83), protected-semantic rate-distortion (T88), belief-state sufficiency (T89), temporal abstraction via options (T90), and discourse as state transformation (T92). The OCM residual is typed integration, provenance and resource accounting, not the calculi.",
+   "assumptions": [
+    "each parent's own assumptions must hold before instantiation",
+    "T88 needs a source law and distortion contract and is not a universal token or runtime bound",
+    "T89 is not a claim that natural-language meaning is a POMDP"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json classes T70, T73, T77, T82, T83, T84, T88, T89, T90, T91, T92, T93 and T94 as proof_class P5 ('parent theorem reconstruction with exact assumptions'), all with status verbatim 'OPEN'. Parents verified against primary sources in research/hsg-semantic-execution-v1/PARENT_LEDGER.md and research/hsg-semantic-execution-v1/parent_verification/BATCH_A.json, BATCH_B.json, BATCH_C.json, 25 rows P01-P25, census CONFIRMED_SUBSTANTIVE 12, CONFIRMED_VERBATIM 6, PARTIAL 5, WORDING_IMPRECISE 2; non-clean rows are P03, P05, P06, P13, P22, P23, P25. Issue #233 states reported as 'No HSG novelty may consist of renaming one of these parents.' CEILING NOTE from research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json lane D16b: source verification confirms what a parent CLAIMED; a faithful parent RUN at matched information, resources and checker access is required before P reaches 3, so this does NOT lift P for any atom.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the calculi themselves. Seven of 25 parent rows verified only PARTIAL or WORDING_IMPRECISE and are recorded as such. Critically, no parent has been RUN as a competitor; verification of a source is not a parent-subtraction experiment.",
+   "next_decisive_experiment": "Run at least one of these parents as a faithful competitor arm at matched information, resources and checker access on a registered OCM task family, which is the only route to a parent-subtraction claim (see ATOM-PAR-01).",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-SEM-12",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Hierarchy is not a universal speedup: HTN and hierarchical formulations can change complexity dramatically and can be worse or undecidable under some formulations, so every 'decomposition helps' claim needs its registered task and representation assumptions plus measured lifecycle cost.",
+   "assumptions": [
+    "Erol-Hendler-Nau HTN complexity results and their formulation dependence",
+    "combined with the HSG No Free Lunch limit"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json row T91, proof_class P5, status verbatim 'OPEN'; parent Erol-Hendler-Nau AMAI 18 1996 named in issue #233 with the verbatim note 'hierarchy is not a universal complexity win'. Registered test home research/hsg-semantic-execution-v1/EXPERIMENT_REGISTRY_V1.json lane D25 'general problem-solving laboratory', evidence_class CONFIRMATORY_FIXED, with registered hostile H-D25a verbatim 'hierarchy-negative region (HTN worse than flat)' in research/hsg-semantic-execution-v1/HOSTILE_REGISTRY_V1.json. D25 is NOT_STARTED per IN_FLIGHT_COORDINATE_MAP_V1.json and is under the N5 lock, recorded in research/hsg-semantic-execution-v1/FREEZE_V1.json as reported as 'N5_adoption: LOCKED (D25/D26 laboratories; #217 owns adoption)'. INDEPENDENT CORROBORATION at a different layer: research/hsg-semantic-execution-v1/exact/results/D20_RESULTS.json shows the analogous abstraction-does-not-pay result (see ATOM-SEM-07).",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the limit itself. No OCM decomposition or hierarchy benefit is currently measured anywhere; the phase-diagram experiment that would locate hierarchy-positive and hierarchy-negative regions has not started.",
+   "next_decisive_experiment": "Run D25 matched finite worlds across flat STRIPS, verified reductions, HTN decomposition, POMDP belief-state planning and options/macros, and map the phase diagram with the hierarchy-negative region explicitly retained.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-SEM-13",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Anytime-valid confidence sequences give time-uniform coverage at data-dependent stopping times, which is the correct inferential instrument for a continuously monitored HPC factory; exploratory adaptive searches do not become confirmatory by accumulating compute.",
+   "assumptions": [
+    "the registered confidence sequence's stated assumptions hold",
+    "for streams of many confirmatory hypotheses, family error control must be pre-registered"
+   ],
+   "current_evidence": "research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json row T93, proof_class P5, status verbatim 'OPEN'; parent Howard-Ramdas-McAuliffe-Sekhon Annals of Statistics 2021 DOI 10.1214/20-AOS1991 named in issue #233. THE RULE IS ENFORCED IN PRACTICE: research/top-tier-atomic-closure-v1/READINESS_SCHEMA_V1.json evidence_binding rule states verbatim 'adaptive-exploratory caps at 2 permanently'; research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json findings record verbatim that landed studies carrying evidence_class EXPLORATORY_ADAPTIVE (GS-R2) cap at readiness 2 permanently and that D2 must not score 3 on strength, sample size or receipt count. Concrete instances already labelled: research/ocm-morphology-zoo-v1/results/GS_R2_AGGREGATE.json evidence_class EXPLORATORY_ADAPTIVE; D18 reuse regions and D20 refinement cost regions both carry EXPLORATORY_ADAPTIVE with the phrase 'never headline'.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the statistical instrument. The governance consequence is already binding and is the single most load-bearing constraint on the #221 continuous factory: no amount of accumulated adaptive compute converts an exploratory result into a confirmatory one.",
+   "next_decisive_experiment": "Register a confidence sequence with a declared error-control family for one #221 continuous lane and demonstrate a confirmatory reading at a data-dependent stop, which no lane currently does.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-GEF-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 93,
+   "exact_claim": "One physical persistent epistemic field factorizes language, proof, planning and scientific investigation, so that M_t = (F_t, O_t, Pi_t, C) needs no fifth architecture component and no per-domain cognitive core.",
+   "assumptions": [
+    "the canonical architecture M_t = (F_t, O_t, Pi_t, C)",
+    "the field is semantics over the existing components, not a fifth subsystem",
+    "the test is L1 representation-binding versus L2 materialized KSO subspace, not L0 versus L3"
+   ],
+   "current_evidence": "NOT ESTABLISHED, stated by the owning capsule itself. research/verified-scientific-field-v0/FIELD_INTEGRATION_GAP_AUDIT_V0.md records the verdict verbatim 'ONE_PHYSICAL_PERSISTENT_FIELD = NOT_ESTABLISHED' and prescribes verbatim 'Test L1 vs L2, not L0 -> L3 by ideology'. research/verified-scientific-field-v0/GENERAL_EPISTEMIC_FIELD_CONTRACT_V1.md carries status verbatim 'canonical research contract candidate for #93; non-constitutional until adopted' and the instruction verbatim 'Do not add a fifth architecture component.' research/verified-scientific-field-v0/README.md line 3 verbatim: 'Historical directory name only: verified-scientific-field-v0 was the first framing. The canonical object is now General Epistemic Field per issue #93.' Independent tally: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section under heading '# 8. General Epistemic Field closure (#93)' has 13 rows, ALL PARTIAL, NONE CHECK, with repeated reasons verbatim 'Language uses KSO warrants; GEF terminal not earned.' and 'CURRENT_KSO_ALREADY_GENERAL_ENOUGH is a possible terminal, not an earned one.' Release gate research/verified-scientific-field-v0/RESEARCH_DIRECTOR_RELEASE_GATE_V0.md has three unchecked items blocking novelty or paper promotion (primary-source reconstruction, parent federation instantiation, three post-addition parent searches). Protocol research/verified-scientific-field-v0/EXPERIMENT_PROTOCOL_V0.md registers GEF-E0..GEF-E10 including GEF-E8 lifetime k << N; none has a committed result.",
+   "claim_ceiling": "No general-epistemic-field claim is earned. The strongest admissible statement is that a one-field factorization is a registered research contract with a named falsifier (L1 vs L2) and zero executed experiments. 'CURRENT_KSO_ALREADY_GENERAL_ENOUGH' is a possible terminal, not an earned one.",
+   "next_decisive_experiment": "Execute GEF-E0..GEF-E10 from research/verified-scientific-field-v0/EXPERIMENT_PROTOCOL_V0.md starting with the registered L1-versus-L2 discrimination, which is the falsifier the capsule itself names.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-GEF-02",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 93,
+   "exact_claim": "The field programme's terminal vocabulary structurally prevents a novelty or general-intelligence claim from being issued by the field gate.",
+   "assumptions": [
+    "the gate's vocabulary is binding on downstream claims",
+    "the gate is applied before any promotion"
+   ],
+   "current_evidence": "research/verified-scientific-field-v0/PARENT_KILL_GATE_V0.md, owner declared verbatim 'Owner: #93', terminal vocabulary PARENT_PRODUCT_SUFFICIENT, CURRENT_KSO_CONCEPTUAL_REFACTOR_ONLY, ME_AUTHORITY_RESIDUAL_CANDIDATE, NO_ARCHITECTURE_RESIDUAL and CANNOT_CHECK_<reason>, with the explicit prohibition verbatim 'No NOVEL, AGI, POST_TRANSFORMER, or LLM_REPLACED terminal is allowed from this gate.' research/verified-scientific-field-v0/README.md states verbatim 'PARENT_PRODUCT_SUFFICIENT is a successful scientific terminal.' Reservation recorded across capsules: research/g1-vessel-freeze-v1/TERMINAL.json states verbatim 'CURRENT_KSO_PARENT_SUFFICIENT is reserved for #93 empirical field closure, not this architecture freeze.' The corresponding audit artifact for the gate exists; no gate execution receipt does.",
+   "claim_ceiling": "The audit artifact exists and is well formed, which is what a GOVERNANCE_META atom closes on. It has not been EXECUTED against a candidate, so it constrains vocabulary rather than demonstrating that the constraint bound anything.",
+   "next_decisive_experiment": "Run the parent kill gate against the strongest current KSO candidate and record the issued terminal, converting the gate from a vocabulary constraint into an executed audit artifact.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-GEF-03",
+   "class": "THEOREM",
+   "owner_issue": 93,
+   "exact_claim": "Representations ordered by garbling (r1 >= r2 iff there is a kernel M with r2 = M.r1) have the property that r2 suffices for every governed task iff r1 does, and if the order is strict some task loses value; this is the correct formal notion of representation sufficiency for the field.",
+   "assumptions": [
+    "Blackwell garbling order",
+    "governed tasks are Bayesian decision problems",
+    "the Borel case needs a standard measurability extension"
+   ],
+   "current_evidence": "research/heritable-search-geometry-v1/d12/arms/A5_receipts/P2_blackwell_representation_sufficiency.json, receipt_id A5-P2-BLACKWELL, schema TheoryTransportV1, atom_id 'P2 representation sufficiency', status verbatim 'SUPPORTED', strongest_parent verbatim 'Blackwell 1951/1953 garbling-sufficiency-value equivalence (verified at L2 and re-checked at validate)', route verbatim 'proof route: direct - the parent theorem IS the transported statement modulo renaming; finite case immediate, Borel case by standard extension', self_assessment_note verbatim 'parent verified against multiple independent sources; mapping is a renaming, so SUPPORTED rather than PROPOSAL; residual risk concentrated in the Borel-extension measurability caveat'. Second independent transport at research/heritable-search-geometry-v1/d12/arms/A3_receipts/R02_P2_blackwell_sufficiency.json, atom_id P2_representation_sufficiency, status SUPPORTED, strongest_parent verbatim 'Blackwell 1951/1953 (ledger row R3, class OWNS)'. Exact worked instance in research/heritable-search-transformation-v1/exact/PARENT_WITNESSES_T04_T08_V1.json (V_E0 3/4, V_E1 1, value_of_information 1/4, buy_information false).",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): the transported statement IS Blackwell's theorem modulo renaming, by the transporting receipt's own assessment. No OCM novelty. Residual risk is the Borel-extension measurability caveat. This licenses a definition of representation sufficiency, not any measurement of OCM's representations.",
+   "next_decisive_experiment": "None for the theorem. The empirical residual is whether OCM's successive representations actually stand in a garbling order, which requires exhibiting the kernel M between two real OCM representations on a frozen decision family.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-OPA-01",
+   "class": "THEOREM",
+   "owner_issue": 145,
+   "exact_claim": "The operator-closure algebra of OCM (the structure of <O> and bounded reach Reach_B) is owned by issue #145's transformation-semigroup mathematics; the search-geometry layer adds only metric questions on top of it.",
+   "assumptions": [
+    "transformation semigroup / partial-transformation monoid generator theory",
+    "the boundary between closure algebra and metric structure is the declared scope split"
+   ],
+   "current_evidence": "research/heritable-search-geometry-v1/HSG_SURVIVAL_V1.json downstream_hooks.issue_145 entry 2 verbatim: 'Closure algebra is #145's own: Reach_B(O) R1 adds nothing; sup_t delta(K_t)<1 orbit coalescence is Dobrushin's nonstationary parent with #145 owning <O> closure.', citing verdicts [['G12','R1','PARENT_SUFFICIENT'],['G09','R5','PARENT_SUFFICIENT']]. Entry 4 verbatim: 'Finite-state kernel dynamics (periodicity/recurrence) is Perron-Frobenius parent-owned; machine witness 216 kernels with exact Fractions.', citing [['A_T12','R5','PARENT_SUFFICIENT']]. Scope boundary stated verbatim at research/heritable-search-geometry-v1/HSG_DEFINITIONS_V1.md: 'structure of <O> on (S, d). #145 owns the closure algebra; HSG asks the metric questions.' Machine witness research/heritable-search-geometry-v1/exact/geometry_dynamics_check_v1.py, C7_ergodic_decomposition PASS over 216 kernels with worst Cesaro-stationarity gap 0.001250. Exact closure certificate in research/heritable-search-transformation-v1/exact/T02_REACH_WITNESS_V1.json (see ATOM-HST-02). SCOPE FINDING: there is no dedicated #145 capsule under research/ on origin/main; #145 appears as routed hooks and boundary statements inside the HSG and HST capsules (control-verified: /usr/bin/git grep -rl -- '#145' research/ returns 28 files against a control of 34 for '#233').",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the closure algebra: Dobrushin, Perron-Frobenius and transformation-semigroup theory own it. OCM has one exact closure certificate on one 16-element universe. Nothing licenses a claim that OCM's operator algebra is novel or that its reach grows usefully.",
+   "next_decisive_experiment": "The closure census with exact removal routed to #145 by research/heritable-search-transformation-v1/HST_EMPIRICAL_BRIDGE_V1.json: enumerate the production operator basis, remove each operator, and measure which registered contracts leave the bounded reach.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-OPA-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 145,
+   "exact_claim": "Primitive pressure (the rate at which genuinely new primitives must be added to keep solving new tasks) declines or becomes phased as the machine develops.",
+   "assumptions": [
+    "primitive pressure is measurable as work per new capability per epoch",
+    "the task ecology is held fixed or its expansion is charged"
+   ],
+   "current_evidence": "UNBOUND AS A MEASUREMENT. This is one of the claims issue #233 section 6 explicitly lists as NOT a universal theorem, reported as 'primitive pressure tends to zero'. Search scope for any measurement: control-verified content search across research/ and docs/ finds 'primitive pressure' as a named quantity in only three substantive files, none of them a result: docs/spec/MACHINE_EPISTEMICS_EVOLVABILITY_THEORY_V0_2.md defines it as 'P_t new primitive pressure' and states the hypothesis reported as 'primitive pressure down or becomes phased'; research/evolvability-source-review-v1/MACHINE_EPISTEMICS_EVOLVABILITY_THEORY_V0_2.md mirrors it; research/ocm-morphology-zoo-v1/evaluation/descriptors.py carries the comment verbatim '# work per NEW capability per epoch (primitive-pressure slope proxy)'. That is spec vocabulary plus one descriptor implementation. UNBOUND: no theorem, no freeze, no certificate and no committed measurement of primitive pressure exists at origin/main.",
+   "claim_ceiling": "No primitive-pressure claim of any kind is admissible. One descriptor proxy is implemented in the morphology zoo; it has never been reported as a result. The hypothesis is registered in spec prose only.",
+   "next_decisive_experiment": "Report the existing descriptors.py primitive-pressure slope proxy as a first-class endpoint over the already-committed zoo epochs, which is the cheapest route from spec vocabulary to an E1/E2 measurement, then register a prospective test of whether the slope declines on a fresh ecology.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-OPA-03",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 165,
+   "exact_claim": "Exact operator selection scales acceptably as the operator basis grows, without a learned router.",
+   "assumptions": [
+    "paired alternating single-process development run",
+    "descriptive timing only",
+    "host exclusivity was not established"
+   ],
+   "current_evidence": "research/ocm-prototype/results/operator-selection-scaling-20260906/RESULT.json, schema verbatim 'ocm.operator-selection-study.v1', terminal verbatim 'EXACT_OPERATOR_SELECTION_SCALING_SUPPORTED', whole_machine_terminal verbatim 'NOT_MEASURED', measurement_conditions verbatim 'Paired alternating single-process development run; host exclusivity not established; timing descriptive.' Implementation research/operator_selection_scaling.py. CONSISTENT WITH THE ROUTER DISPOSITION: research/issue-165-p0-disposition-v1 records issue_71 terminal verbatim 'LEARNED_ROUTER_NOT_YET_AUTHORIZED' and P0.6 disposition DONE with residual_bound verbatim 'none confirmed after exact parents; cited PR154 unfair-oracle upper bound <8% before selector cost, F2 regret floor <0.08%', qualified verbatim 'Not yet a programme-wide LEARNED_ROUTER_NOT_NEEDED because donor PRs are unmerged and R0C population is too small.'",
+   "claim_ceiling": "A descriptive timing result on a component, with whole_machine_terminal explicitly NOT_MEASURED and host exclusivity not established. It supports the operational decision not to train a router; it does NOT support a scaling claim about the machine, and the lane-local SUPPORTED terminal has no frozen-vocabulary equivalent at this measurement quality.",
+   "next_decisive_experiment": "Re-run the paired comparison with established host exclusivity and a whole-machine endpoint, so the selection result can be attributed to the component rather than to the measurement conditions.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MAQ-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 165,
+   "exact_claim": "The machine acquires a method from experience and causally reuses it on a held-out task (issue #165 gate G2.4, CAUSAL_METHOD_REUSE_SUPPORTED).",
+   "assumptions": [
+    "acquisition must be endogenous, not supplied",
+    "reuse must be on a genuinely held-out task",
+    "an ablation removing the acquired method must change the outcome"
+   ],
+   "current_evidence": "NEGATIVE ACROSS EVERY EXECUTED LANE. research/g2-causal-lemma-reuse-v1 terminal verbatim 'NATIVE_ORDINARY_LEMMAS_ADMITTED_NO_HELD_OUT_INVOCATION' with causal_method_reuse_supported false, g2_4 'NOT_YET', held_out_alpha_matches_first_5000 0. research/g2-heldout-lemma-screen-v1 (binds #165, #179) terminal verbatim 'NO_NEW_ABSTRACTION' with lemma_consumed_on_fresh_task false, native_calls 0, g2_4_achieved false, ablation_matches_reset true, and the instruction verbatim 'Do not check #165 G2.4 from this capsule.' research/g2-two-decision-search-v1 (binds #179) terminal verbatim 'GETSTEPS_ZERO_LABEL_SPINE_ONLY' with n_getsteps_proper 0, save_value 0, lemma_used_in_search empty. research/math-language-learning-v1 (binds #142) ASSAY-RESULT.md verbatim: 'All four episodes report NO_METHOD_ACQUIRED. This is zero successful causal-learning episodes; it does not mean the four episodes failed to execute. The method library remained empty in both adaptive arms.' Its revival attempt CLAUSE-REVIVAL-RESULT.md concludes verbatim 'Keep the donor off. The treatment repairs one representation grouping failure but provides no development benefit.' research/math-n4-disposition-v1 (binds #165 MATH-1, owner #46) states verbatim 'N4 cannot close. Required positive CAUSAL_PROOF_METHOD_REUSE_SUPPORTED is not established. No valid negative (PARENT_SUFFICIENT, PRIMITIVE_ALIAS, NO_NEW_ABSTRACTION, NO_CAUSAL_REUSE) is available: the registered ordinary-cut audit stopped at syntax before parent matching.'",
+   "claim_ceiling": "Zero acquisition events across four independent executed lanes. No method-acquisition claim of any kind is admissible. Note the important asymmetry recorded by math-n4-disposition-v1: the programme cannot currently issue a valid NEGATIVE either, because the audit stopped before parent matching, so this is not yet a clean refutation, it is an unresolved gate.",
+   "next_decisive_experiment": "Complete the ordinary-cut audit past syntax to parent matching so that one of the four registered negatives (PARENT_SUFFICIENT, PRIMITIVE_ALIAS, NO_NEW_ABSTRACTION, NO_CAUSAL_REUSE) becomes issuable; a clean negative closes this atom honestly, while the current state closes nothing.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MAQ-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 62,
+   "exact_claim": "Acquiring and serving a learned macro or lemma pays back its full lifecycle cost over a registered horizon of test tasks.",
+   "assumptions": [
+    "complete cost accounting including acquisition, selection, index, serving and rejected candidates",
+    "a frozen horizon (64 test tasks) declared before the run",
+    "the parent is an equally equipped ordinary persistent implementation"
+   ],
+   "current_evidence": "REFUTED AT SCOPE, with an explicit mechanism. research/g2-macro-source-reconciliation-v1 records the published cost terminal verbatim 'NO_LIFETIME_MACRO_SEARCH_PAYBACK_AT_64_LENGTH8_TESTS', with 12,520,017 selected-path ranks against 3,610,299 primitive test work, harmful_tasks 51 versus macro_strict_wins 13, and the flags revoked_equal_primitive true, ordinary_equal_ocm true, registered_lifetime_payback false. Its verdict on the positive finding is verbatim: 'PR192 supplies a bounded causal-use witness for a conventional learned macro. The equally equipped ordinary persistent parent achieves the same result.' Prior instances: research/g2-utility-tournament-v1/README.md records the prospectively frozen #189 outcome reported as 'UTILITY_GATE_REJECTS_METHOD: inherited inc -> square fragment helped only 2/32 validation tasks and harmed 30/32', and research/g2-macro-operator-v1/README.md records reported as '#191: exact utility selection among top 16 training-derived fixed fragments still selected no method; every candidate lost aggregate validation search work.' The one positive terminal CAUSAL_MACRO_OPERATOR_REUSE_SUPPORTED_AT_LENGTH8 is NOT in-tree: research/g2-macro-operator-v1 contains only README.md, experiment.py and test_protocol.py, and the outcome lives in PR #192 and its CI artifact. PROGRAMME-LEVEL TWIN OF THIS NEGATIVE: the #165 H1 negative LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS, i.e. library acquisition cost is not repaid by later savings, is carried as row RV-8 in research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json with status verbatim 'ATTRIBUTED_LEVER_IDENTIFIED', the only row at that status among ten. WORDING ERRATUM RETAINED: research/g2-cost-parity-repair-v1 records G2-COST-WORDING-01 correcting the pruning claim, reported as 'Complete token words are generated in token-depth order and expanded... not... full physical cost accounting', with rank sums 'not a serving-time speedup.'",
+   "claim_ceiling": "At the registered 64-task length-8 horizon the macro loses by roughly 3.5x on selected-path ranks and harms 51 tasks while strictly winning 13, and the ordinary persistent parent matches the one positive witness. No reuse-economics benefit may be claimed. Rank savings may never be reported as serving-time speedup.",
+   "next_decisive_experiment": "The failure attributes to ONE stage, selection-and-serving cost rather than acquisition, so the revival lever is a cheaper serving path: re-run the frozen 64-task horizon with the macro index served at parent-equal cost and test whether the sign of HST-T05's inequality flips. If it does not, the honest terminal is PARENT_SUFFICIENT.",
+   "terminal": "TRADEOFF_FRONTIER_ONLY"
+  },
+  {
+   "atom_id": "ATOM-MAQ-03",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 165,
+   "exact_claim": "Two independently acquired methods compose to solve a task neither solves alone, giving a causal composition advantage over the strongest parent.",
+   "assumptions": [
+    "the two methods must be independently acquired and distinct",
+    "a fresh composition demand must exist",
+    "parent parity must be checkable"
+   ],
+   "current_evidence": "NO RESULT EXISTS. research/g3-independent-composition-v1 (binds #143, #165, #189, #191, #192, #62) contains only README.md, experiment.py and test_protocol.py; verified by /usr/bin/git ls-tree -r --name-only origin/main research/g3-independent-composition-v1/. Its pre-registered negatives are verbatim NO_INDEPENDENT_METHOD_PAIR, NO_DISTINCT_METHOD_PAIR, NO_FRESH_COMPOSITION_DEMAND, NO_CAUSAL_COMPOSITION_ADVANTAGE, CANNOT_CHECK_COMPOSITION_PARENT_PARITY and CANNOT_CHECK_LOCAL_REVOCATION; claim ceiling verbatim 'Claim ceiling: bounded causal composition of independently acquired exact methods in one polynomial domain.' The upstream precondition is already refuted: ATOM-MAQ-01 records zero acquisition events, so no independent method pair can exist yet. Blocked-by relation for D3: ATOM-MAQ-01 -> ATOM-MAQ-03.",
+   "claim_ceiling": "A prospectively frozen protocol with no executed result, whose input precondition (two acquired methods) is currently empty. Nothing is claimed and nothing can be until acquisition produces at least two distinct methods.",
+   "next_decisive_experiment": "Blocked. Composition cannot be tested until ATOM-MAQ-01 yields at least two independently acquired distinct methods; running the protocol now can only return NO_INDEPENDENT_METHOD_PAIR, which is uninformative about composition.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MAQ-04",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 165,
+   "exact_claim": "Scoped failure-point memory (remembering where and why a search failed) is useful at registered scope beyond ordinary checked memoization.",
+   "assumptions": [
+    "ordinary checked memoization and counterexample reuse are the parent",
+    "usefulness is measured at a declared scope, not asserted"
+   ],
+   "current_evidence": "NO RESULT EXISTS; the parent is pre-declared sufficient. research/g3-scoped-failure-memory-v1 (binds #165, #192, #193, #205) contains PROTOCOL.md and REPRESENTATION_PROTOCOL.md plus scripts, no RESULT; verified by /usr/bin/git ls-tree -r --name-only origin/main research/g3-scoped-failure-memory-v1/. Registered terminal vocabulary is verbatim FAILURE_POINT_MEMORY_USEFUL_AT_SCOPE, FAILURE_MEMORY_NOT_USEFUL_AT_SCOPE and CANNOT_CHECK_REFINEMENT_OR_LIFECYCLE, and the protocol states verbatim 'Ordinary parity is explicitly PARENT_SUFFICIENT_FOR_FAILURE_POINT_MECHANISM.' Claim ceiling reported as: 'This is ordinary checked memoization / counterexample reuse, not a novel OCM algorithm, general failure learning, or a complete G3.2 gate.' and 'No weaker-parent victory becomes architectural superiority.' The underlying mathematics is parent-owned and certified elsewhere: T80 sound counterexample pruning is PROVED_LOCAL in research/hsg-semantic-execution-v1/exact/results/D17_RESULTS.json (see ATOM-SEM-01).",
+   "claim_ceiling": "The mechanism is declared ordinary memoization with the parent pre-declared sufficient. Even a positive result would only be FAILURE_POINT_MEMORY_USEFUL_AT_SCOPE, never architectural superiority. No result exists.",
+   "next_decisive_experiment": "Execute the frozen protocol against the ordinary-memoization parent at matched cost, and accept PARENT_SUFFICIENT_FOR_FAILURE_POINT_MECHANISM as a success terminal if the parent matches.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MAQ-05",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 152,
+   "exact_claim": "The OCM architecture delivers a net benefit over an equally equipped ordinary parent kernel on the measured decision workload.",
+   "assumptions": [
+    "equally equipped parent",
+    "complete cost accounting including query and total search slots",
+    "research-only measurement, not production"
+   ],
+   "current_evidence": "NOT ESTABLISHED, repeatedly and by the owning capsules. research/architecture-net-benefit-v1 (binds #152, #154) states verbatim 'Current terminal: ARCHITECTURE_NET_BENEFIT_NOT_ESTABLISHED.' and its run checkpoint embeds the native JSON terminal verbatim 'NATIVE_KERNEL_PARENT_EQUIVALENT__ARCHITECTURE_BENEFIT_UNESTABLISHED'. research/architecture-benefit-own-state-v1 (binds #152, #14) states verbatim 'Overall status remains ARCHITECTURE_NET_BENEFIT_NOT_ESTABLISHED.' with executable terminal verbatim 'NATIVE_COMPONENT_ATTRIBUTION_CONTROL_COMPLETE', and its measured rows record both learned arms using 1.6363x query slots and 1.6526x total search slots of primitive search, with the native OCM path at 1.5174x the ordinary median wall; all 9 measured rows are committed in native-pilot-rows.csv from CI run 34263462162. Corrigendum retained: research/architecture-net-benefit-corrigendum-v1 is a WORDING correction only, stating verbatim 'this note adds no theorem, execution or architecture-benefit result' and 'This corrigendum does not requalify historical controls, native runs or empirical claims.' It scopes the maximum-rate corollary to the REACHABLE subgraph (adding the refusal clause 'If no reachable positive-demand directed cycle exists, report no sustained-rate conclusion.') and corrects the cost bound to O(V+E*k) for variable resource dimension k; its patch optional/documentation.patch is UNAPPLIED.",
+   "claim_ceiling": "The parent is equivalent or better on every measured coordinate: OCM costs about 1.5x to 1.65x the ordinary path. No architecture-benefit claim is admissible, and the mathematical certificate underneath it now carries a reachability scope restriction whose documentation patch has not been applied.",
+   "next_decisive_experiment": "Attribute the 1.5x-1.65x overhead to one stage and test the matching lever; and apply the corrigendum patch so the theory text and the certificate agree before any future benefit claim cites them.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-PRV-01",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "For a positive derivation provenance polynomial, revoking evidence variable x_j by substitution x_j := 0 removes exactly the monomials whose support contains x_j and leaves all others unchanged, so alternative supports survive exactly when at least one surviving monomial remains; substitution therefore equals full recomputation on positive worlds.",
+   "assumptions": [
+    "positive / monotone provenance",
+    "COMPLETE dependency capture",
+    "no negation anywhere in the world"
+   ],
+   "current_evidence": "CERTIFIED EXACTLY. research/hsg-semantic-execution-v1/exact/results/D19_RESULTS.json verdict verbatim 'EXACT_AGREEMENT', evidence_class verbatim 'CONFIRMATORY_FIXED', claim_ceiling reported as 'P2 finite certificate over frozen tiny worlds, revocation subsets exhausted; not universal proof.' positive_control verbatim: population 'OW4 (8 worlds, zero blockers)', exact true, accepted_set_agreement '50/50', reopened_set_agreement '50/50', revocation_subsets_exhausted 50, alt_support_rescues 40, nodes_with_multi_support 16, a1_lifecycle_ops 598, a2_lifecycle_ops 640, substitution_vs_recomputation_op_ratio 1.07. The revocation grid is reported as 'EXHAUSTIVE: every subset S of the source set, |S| = 0 .. |sources|.' Freeze research/hsg-semantic-execution-v1/FREEZE_D19_D20_V1.json with result_files_present_at_freeze [] and admissibility clause reported as 'Frozen pushed in commit containing no result file. Results D19 D20 generated only after commit exists on remote.' COMPLETENESS HOSTILE FIRES: H-T72a plants 'one hyperedge deleted from the RECORDED provenance hypergraph while ground truth keeps it', flipped true, 105 trials, 9 witnesses, clean_control_trials 18 with clean_control_witnesses 0 and clean_control_silent true. Legacy census: legacy_targets_that_are_noops 11, legacy_targets_that_are_true_sources 12, true_sources_legacy_never_revokes 6.",
+   "claim_ceiling": "Certified over the frozen OW4 world set only (8 positive worlds, zero blockers), with all 50 revocation subsets exhausted; the negation-carrying OW4N population is explicitly outside this certificate (see ATOM-PRV-02). Exact on those positive/monotone worlds under complete dependency capture. NO economic claim: substitution costs 1.07x recomputation ops, so recomputation is not beaten at this scale, and the protocol pre-registers that as an acceptable SUCCESS outcome verbatim 'PARENT_SUFFICIENT (recomputation already owns the function at this scale) is a SUCCESS terminal, not a failure to engineer around.' Certification is void if dependency capture is incomplete, which the hostile demonstrates.",
+   "next_decisive_experiment": "Scale to a world size where recomputation is genuinely expensive and re-measure substitution_vs_recomputation_op_ratio; if the ratio does not cross 1.0 there, the honest terminal for the mechanism is PARENT_SUFFICIENT rather than an efficiency claim. REGISTERED: research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json row RV-3 (status QUEUED) carries the 7 percent lifecycle-burden margin, and row RV-4 (status DISPATCHED) carries the separate census defect that the frozen T72 oracle revokes over the world's leaves field, a strict superset of true sources. Do not open a second revival for either.",
+   "terminal": "FINITE_CERTIFIED"
+  },
+  {
+   "atom_id": "ATOM-PRV-02",
+   "class": "THEOREM",
+   "owner_issue": 233,
+   "exact_claim": "Positive-semiring provenance does NOT extend to negation: on worlds containing negative dependencies, substitution-based revocation is not equal to recomputation, and the boundary is measurable rather than merely asserted.",
+   "assumptions": [
+    "worlds carrying at least one blocker (negative dependency)",
+    "the same exhaustive revocation grid as the positive control"
+   ],
+   "current_evidence": "THE BOUNDARY IS MEASURED. research/hsg-semantic-execution-v1/exact/results/D19_RESULTS.json negation_population verbatim: population 'OW4N (8 worlds, >=1 blocker each)', terminal 'CANNOT_CHECK_NEGATION_PRESENT', accepted_set_agreement '40/46', reopened_set_agreement '31/46', revocation_subsets_exhausted 46, note verbatim 'positive-only N[X] is NOT certified on this population; the disagreement IS the T73 boundary made empirical'. Refusal machinery: arm A3_negation_detector is described verbatim as 'scan every edge for a nonempty blocker list before certifying A1. If any blocker is present the run returns the distinct terminal CANNOT_CHECK_NEGATION_PRESENT and refuses to certify substitution as exact. Could not check is never reported as checked and fine.' Hostile H-D19b flipped true, detector_fired_on_ow4n 8 of 8 ow4n_worlds, ow4n_worlds_disagreeing 5, clean_control_detector_fired 0 and clean_control_worlds_disagreeing 0. Registry row T73 'Negation/provenance scope boundary' status remains verbatim 'OPEN' in research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json; parent Gradel-Tannen arXiv 2412.07986 named in issue #233.",
+   "claim_ceiling": "The exactness claim of ATOM-PRV-01 is bounded to negation-free worlds, and the boundary location is now empirical (5 of 8 blocker worlds disagree). No revocation-exactness claim may omit whether negative dependence is represented. The machine refuses rather than launders, which is the correct behaviour and is itself the evidence.",
+   "next_decisive_experiment": "Reconstruct the Gradel-Tannen dual-indeterminate / quotient-semiring approach and re-run the same exhaustive OW4N grid to test whether a negation-aware provenance algebra restores exact agreement; that converts CANNOT_CHECK_NEGATION_PRESENT into a certified boundary or a certified extension. REGISTERED: research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json row RV-2, chain_iteration 1, status QUEUED. Do not open a second revival for this negative.",
+   "terminal": "REFUTED_WITH_COUNTEREXAMPLE"
+  },
+  {
+   "atom_id": "ATOM-PRV-03",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 38,
+   "exact_claim": "The production runtime performs local revision (interval and revocation parity) correctly under development contract checks.",
+   "assumptions": [
+    "development-contract checks only; protected outcomes are not accessed",
+    "no scientific adoption is implied"
+   ],
+   "current_evidence": "research/evaluation-continuation-v1 (binds #38) VALIDATION_V1.json status verbatim 'DEVELOPMENT_CONTRACT_CHECKS_PASS' with protected_outcomes_accessed false and scientific_adoption false; the receipt covers 23 unit tests and 1,344 runtime interval/revocation parity checks, and lists six unresolved items. Boundary stated verbatim: 'It does not execute a protected study, register a study retrospectively, or restore historical M11/M12 conclusions.' Related reopening recorded at research/theory-runtime-integration-v1/REPLAY_V1.json authority block verbatim: M11 'HISTORICAL_ADOPTION_CELLS_REOPENED', M12 'PROTECTED_REEVALUATION_REQUIRED', independent_semantic_parity 'NOT_ESTABLISHED', novelty 'NOT_ESTABLISHED', runtime_adoption 'NOT_GRANTED', scientific_validation 'NOT_ESTABLISHED'; and VALIDATION_V1.json validation reported as 'LOCAL_ENGINEERING_ONLY' with scientific_promotion 'NOT_GRANTED'.",
+   "claim_ceiling": "Engineering-only. 1,344 parity checks pass under a development contract with protected outcomes untouched. Scientific promotion is explicitly NOT_GRANTED and six items are unresolved. This supports a reliability statement about the revision mechanism, not a discovery.",
+   "next_decisive_experiment": "Run the revision parity check against a protected study with an independent scorer, which is the only route from LOCAL_ENGINEERING_ONLY to a scoped empirical terminal; the M12 protected re-evaluation is already flagged as required.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SPX-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 93,
+   "exact_claim": "The machine executes on a small active fraction k of its total persistent state N (k << N), so lifetime cost scales with the active set rather than with accumulated state.",
+   "assumptions": [
+    "k is the active or touched set during one episode",
+    "N is the total persistent state",
+    "both are measured on the same accounting with a declared denominator"
+   ],
+   "current_evidence": "UNBOUND. No measured k/N result exists at origin/main. Search scope and controls: filename sweep /usr/bin/git ls-tree -r --name-only origin/main piped to /usr/bin/grep -iE 'active_k|k_over_n' returns zero, against a control of the identical shape matching 'RESULT' with 3981 hits; content sweeps /usr/bin/git grep -l -iE 'k *<< *N|k out of N|k-of-N|k/N of' and 'active_k|k_over_n|k_of_n|sparse_execution' over research/ and src/ return no measurement, against a control matching 'exact_agreement' with 8 files. The apparent active_k hits are a false positive: every one is the substring ACTIVE_K inside the arm name P0_INCUMBENT_ACTIVE_KSO in research/fna6-working-state-v1/. NEAREST PRIMITIVES, both the wrong shape: research/hsg-semantic-execution-v1/exact/d19.py accumulates touched_tot as a symmetric-difference size summed over every revocation subset, so it exceeds N by construction (world OW4-03 reports nodes 7 with touched_state_total 31), and the protocol calls it a SECONDARY endpoint reported as 'touched state: number of nodes whose acceptance status changed under S'; research/fna6-working-state-v1/RESULTS_FNA6_V1.md reports peak working set 372 and in-cone locality 1.0 against a null of 0.9159, which is occupancy and locality with NO declared N denominator. The claim is registered but unexecuted as GEF-E8 'lifetime k << N' in research/verified-scientific-field-v0/EXPERIMENT_PROTOCOL_V0.md.",
+   "claim_ceiling": "No sparse-execution claim of any kind is admissible. The programme has an instrument gap, not a negative result: nothing in the repository measures an active fraction against a total-state denominator.",
+   "next_decisive_experiment": "Build the missing instrument: declare N as the persistent state size, instrument one episode to record the distinct active set k, and report k/N over a frozen task family. GEF-E8 in research/verified-scientific-field-v0/EXPERIMENT_PROTOCOL_V0.md is the registered home. This is a cheap, laptop-scale measurement blocking a load-bearing programme claim.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MOR-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 221,
+   "exact_claim": "Quality-diversity search over the OCM morphology space finds diverse high-performing morphologies at the registered scope.",
+   "assumptions": [
+    "the frozen rule ladder decides the terminal, not post-hoc reading",
+    "scope is the amend-5 array and its gated arms",
+    "O_basis is derived, not a free genome field"
+   ],
+   "current_evidence": "MIXED, AND THE POSITIVE IS EXPLORATORY_ADAPTIVE. research/ocm-morphology-zoo-v1/README.md records the amendment sequence verbatim: amend-2 'Terminal: MIXED_INTERMEDIATE_NO_TERMINAL - E1-CGP wins one pair ... no encoding dominates at this scope'; amend-3/MZ-D7 'Terminal: DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE' together with the retained negative reported as 'Developmental-advantage rule NOT met (0 pair wins; no arm retention-frontier-positive... best is P03 at 0.313). Random still leads is not overturned on dominance; the diversity claim is what terminalizes.'; amend-4/MZ-D8 'MZ-D8 scored ... MIXED_INTERMEDIATE_NO_TERMINAL - BOTH sec-12 island hostiles REFUTED at this scope'; amend-4/MZ-D9 'MZ-D9 scored: rule 3 fired - amend-3 terminal status UNDERMINED_QUALITY (verdict marker MIXED_INTERMEDIATE_NO_TERMINAL).'; amend-5 'rule 1 fired on BOTH gated arms - DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE / RESTORED_QUALITY_GATED_AT_SCOPE.' Results are committed in-tree (results/AGGREGATE_AMEND1..5.json, census truths, receipts, manifests, freezes AMEND_1..5 plus FREEZE_V1_AMEND_3_TIMING_ERRATUM). LUNARC arrays named in README: 3586932, 3587080, 3587139, 3587176, 3587372, 3587721-3587750. CEILING: research/ocm-morphology-zoo-v1/REPO_STATE.json terminals field verbatim 'only issue #221 sec 15 vocabulary; forbidden: AGI, GENERAL_INTELLIGENCE_PROVEN, NEW_FORM_OF_INTELLIGENCE_PROVEN, SUPERIOR_TO_NEURAL_INTELLIGENCE, OPEN_ENDED_EVOLUTION_SOLVED'; zoo_scope verbatim 'research archive only; zoo elites never self-adopt into the canonical lineage (issue #221 sec 13); adoption only via #217 external protocol'.",
+   "claim_ceiling": "A diversity claim at one scope whose own amendment chain records the terminal being UNDERMINED_QUALITY once and restored only under a quality gate, with the developmental-advantage rule explicitly NOT met and random still leading on dominance. The evidence class caps the readiness permanently at exploratory. EMPIRICALLY_SUPPORTED_AT_SCOPE is NOT issuable: that terminal needs M3/C3/R4/S2 and adaptive-exploratory results cap at 2 forever under the frozen ladder.",
+   "next_decisive_experiment": "Freeze a fresh confirmatory study on a new seed and world family with the amend-5 quality gate fixed in advance, so that a diversity result can be prospectively confirmed rather than adaptively discovered; discovery cannot be promoted in place.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-MOR-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 221,
+   "exact_claim": "Morphologies found by the grand search generalize beyond the search ecology.",
+   "assumptions": [
+    "T3 generalization is the pre-registered holdout test",
+    "survivors are counted distinctly"
+   ],
+   "current_evidence": "LARGELY NEGATIVE, AND THE NEGATIVE IS RETAINED. research/ocm-morphology-zoo-v1/results/GS_R2_AGGREGATE.json records t3_summary verbatim SURVIVOR_T3_GENERALIZATION_FAIL 85025 against SURVIVOR_T3_GENERALIZATION_HOLD 15668 over n_distinct_survivors 100693, i.e. 84.4 percent of distinct survivors fail generalization. Its terminal_rule_id is verbatim 'LEVER_PACKAGE_BEATS_SURROGATE_PARENT_ONLY' with terminal_vocab verbatim 'MORPHOLOGY_SEARCH_COST_DOMINATES', evidence_class verbatim 'EXPLORATORY_ADAPTIVE', code_digest_drift_vs_freeze false, and the frozen rule ladder ['CANNOT_CHECK_NO_SCORED_DISPOSITIONS','LEVER_PACKAGE_BEATS_PARENTS','LEVER_PACKAGE_BEATS_SURROGATE_PARENT_ONLY','LEVER_PACKAGE_NO_GAIN','MIXED_INTERMEDIATE_NO_TERMINAL']. Grand Search R1 terminal verbatim 'MORPHOLOGY_SEARCH_COST_DOMINATES__SWEEP' per research/ocm-morphology-zoo-v1/results/GSA5_RATE_READ_V1.json terminal_unchanged. This finding is independently flagged in research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json, whose findings state verbatim that generalization is not merely unmeasured in the morphology area and that where it HAS been measured it is largely negative, negative retained. Retained defects: research/ocm-morphology-zoo-v1/results/GS_R1_DEFECT_GSA_SAMPLER.json and the GSA5_HOLDOUT_MAE_NAN defect (holdout MAE NaN in 5 of 6 GSA5 seeds, degenerate 0.0 in s2); supersession records in GS_R1_FREEZE_SUPERSESSION.jsonl and GS_R2_FREEZE_SUPERSESSION.jsonl, both pre-score code fixes committed before any scored run.",
+   "claim_ceiling": "The lever package beats only a surrogate parent, search cost dominates, and 84.4 percent of survivors fail the generalization holdout. No cross-ecology morphology claim is admissible; the honest reading is that generalization is the measured failure, not the untested unknown. Exploratory-adaptive evidence class caps this permanently at readiness 2.",
+   "next_decisive_experiment": "Attribute the 84.4 percent failure to one stage (search objective, descriptor space, or holdout construction) and test the matching lever; the negative-transfer counterexample of ATOM-HST-19 predicts objective-ecology mismatch, which is checkable by re-scoring the same survivors against a holdout drawn from the search ecology. REGISTERED: research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json row RV-6, status verbatim 'DISPATCHED', and it is the ONLY row that artifact lists under unattributed_requiring_diagnosis_first, i.e. its one-stage attribution is not yet established. Diagnosis precedes the lever here; do not apply a lever before the stage is named.",
+   "terminal": "TRADEOFF_FRONTIER_ONLY"
+  },
+  {
+   "atom_id": "ATOM-MOR-03",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 221,
+   "exact_claim": "The morphology-zoo campaign machinery (freeze, checkpoint, adaptivity control, receipts, supersession) reliably prevents post-hoc terminal selection and code drift.",
+   "assumptions": [
+    "freeze-before-run discipline",
+    "code digest binding checked before scoring",
+    "supersessions recorded with cause"
+   ],
+   "current_evidence": "AUDIT ARTIFACTS EXIST AND RECORD THEIR OWN FAILURES. research/ocm-morphology-zoo-v1/results/GS_R2_AGGREGATE.json records code_digest_drift_vs_freeze false. research/ocm-morphology-zoo-v1/GS_R2_FREEZE_SUPERSESSION.jsonl row 1 reason verbatim: 'pre-score code fix after freeze 589e57ea: laptop determinism-probe path doubled ... and env-probe re-run post-freeze rewrote GS_ENV_PROBE.json breaking the freeze-pinned env_probe_sha256 binding; freeze arm lever flags moved to FLAT arm-config keys (novelty_gate/dedup_promotion/surrogate_cumulative) exactly as hpc/gs_run.py arm_cfg.get reads them - a nested revival_levers dict would have silently run every lever OFF. All committed to gs/r2-job-b before any scored run; zero GS_R2_ artifacts verified immediately before supersession (scored_gs2=0 on cosmos3).' research/ocm-morphology-zoo-v1/GS_R1_FREEZE_SUPERSESSION.jsonl row 2 records a pyribs 0.12.0 batch-only add() contract fix found by LUNARC smoke 3587372, with a new pre-score drift-refusal gate hpc/check_freeze_binding.py gate-5. research/ocm-morphology-zoo-v1/FREEZE_V1_AMEND_3_TIMING_ERRATUM.json corrects a hand-written created_utc label (21:20Z) that postdated the scored array (submitted 21:15:59Z), with the frozen file left untouched. UNVERIFIED HERE: GS_R1_FREEZE_SUPERSESSION.jsonl row 1 reason and GS_R2_AGGREGATE.json t3_verdicts per-arm detail were captured in sliced form during the sweep and are NOT quoted; they must be re-fetched before citation.",
+   "claim_ceiling": "The governance machinery demonstrably caught a silent lever-disabling bug, a broken env-probe binding, a library contract change and a timing-label error BEFORE scoring, and recorded each with cause. That is a strong audit-artifact result at GOVERNANCE scope. It is not evidence about any scientific claim the campaign produced.",
+   "next_decisive_experiment": "None for the mechanism; the residual is that two strings in this atom's evidence base were captured sliced and must be re-read from the files before any downstream citation.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-LNG-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 52,
+   "exact_claim": "The machine learns language understanding rather than executing a supplied fixed-template grammar (issue milestone N1, extended by N2 learned realization).",
+   "assumptions": [
+    "N2 is LOCKED and only synthetic tuples are legal",
+    "a fixed-template realizer is the incumbent, not the claim"
+   ],
+   "current_evidence": "N1 IS NEGATIVE AND N2 IS LOCKED. docs/self-application/OCM_SELF_APPLICATION_LEDGER_V2.md entry S41 is marked NEGATIVE and ends verbatim 'until adopted, N1's terminal stays NEGATIVE and N2 stays locked'. research/ocm-n1/results/phase-g-attachment-historical-20260906/N1_PHASE_G_ATTACHMENT_NOTE.md states verbatim 'N1 stays NEGATIVE at its stated scope; N2 stays locked.' What exists instead is a supplied contract: research/math-language-v1/QUALIFICATION.md states verbatim 'The eleven Python sources released in PR139 had 110 passing authored controls, with no failures, errors or skips, in the retained metadata qualification. This is a supplied semantic contract, conventional symbolic solver, controlled-language parser and independent verifier. It is not an OCM runtime or learner result.' and its README adds reported as 'It does not learn methods, persist an OCM library, prove transfer, or use FLT imports.' The open question is named explicitly at research/ocm-n1/LANGUAGE_BOOTSTRAP_MANIFEST_V1.json verbatim 'fixed-template realizer versus learned realization in N2'. Substrate registered: research/l0-bootstrap-audit-v1 terminal verbatim 'MINIMAL_LANGUAGE_SUBSTRATE_REGISTERED' with INVENTORY.json of 206 items, but with the ceiling verbatim 'Protected N1 full-versus-minimal acquisition curves remain CANNOT_CHECK_N1_LOCKED_PROTECTED_CURVES_NOT_RUN.' and 'L1 is locked. No N1 learned-understanding claim is made.' Roadmap tally: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section L2 '# L2 - N2 learned realization/discourse (#44)' is 20 of 20 BLOCKED; section L3 '# L3 - N3 provenance-bound open-domain dialogue (#45)' is 15 rows, 14 BLOCKED and 1 CANNOT_CHECK with reason verbatim 'Locked on N2 and no LM reference arm.'",
+   "claim_ceiling": "No language-learning claim exists. N1 is a recorded NEGATIVE, N2 and its 20 roadmap rows are BLOCKED, and the only executable realizer in the repository is a fixed-template one covered by authored controls. The locks are inherited and must not be disturbed.",
+   "next_decisive_experiment": "#233 lane D23 (language semantic round-trip laboratory) on frozen synthetic semantic tuples with protected coordinates, measuring I/R/J coverage, protected round-trip error, ambiguity-set size, clarification value, abstention and the B_exec vector. It is legal under the N2 lock in synthetic form only, is REGISTERED ONLY with no artifacts, and its results must be defined before N2 unlocks so the metric is not chosen after seeing fluency.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-LNG-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 45,
+   "exact_claim": "The machine sustains provenance-bound open-domain dialogue, maintaining context, referents and commitments across turns with the speaker-commitment versus world-truth distinction preserved.",
+   "assumptions": [
+    "dialogue is a state transformation, not repeated stateless sentence parsing (T92 parent DRT / dynamic semantics)",
+    "N3 sits behind the N2 lock"
+   ],
+   "current_evidence": "NO DIALOGUE EVIDENCE EXISTS IN ANY RESEARCH CAPSULE. The only bound dialogue terminal in the repository is programme-level: docs/OCM_PROGRAMME_TERMINALS_V1.md row M4 'dialogue workspace' issue #6, terminal verbatim 'M4_DIALOGUE_COGNITIVE_LOOP_GREEN', receipt docs/provenance/M4_RECEIPT_V1.json. Search scope: an independent sweep of 38 language, proof and native research directories found no dialogue evidence in any of them. Source module src/ocm/dialogue/field_binding.py exists with a snapshot copy under research/proof-runtime-v1/records/commissioning-20260907/raw/source-snapshot/. Roadmap state: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section L3 is 14 of 15 BLOCKED with the remaining row CANNOT_CHECK. Parent registered but not instantiated: research/hsg-semantic-execution-v1/THEOREM_REGISTRY_V1.json row T92 status verbatim 'OPEN', proof_class P5, parents Kamp-Reyle DRT and Groenendijk-Stokhof dynamic predicate logic.",
+   "claim_ceiling": "No dialogue claim beyond an engineering loop receipt at M4. The scientific rows are blocked behind N2 and there is no measured discourse-state result of any kind. This area is genuinely thin and the thinness is structural (a lock), not an oversight.",
+   "next_decisive_experiment": "Blocked by ATOM-LNG-01. Before N2 unlocks, the legal preparatory step is instantiating T92's context-update contract on synthetic multi-turn tuples inside D23, so the commitment-versus-truth distinction has a checker before any real dialogue is measured.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-PRF-01",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 46,
+   "exact_claim": "The proof apparatus (environment boundary, mechanical proposer, runtime lifecycle, native checking) is reliably exposed and commissioned.",
+   "assumptions": [
+    "commissioning qualifies apparatus, not cognition",
+    "authored fixtures, not learned behaviour"
+   ],
+   "current_evidence": "COMMISSIONED, AND EACH CAPSULE DISCLAIMS COGNITION. research/proof-environment-v1/RESULT.md verbatim: 'The registered isolated commissioning passed 47 of 47 controls. This qualifies an authored-fixture environment boundary for later mechanical proof reconstruction.' with final seal verbatim 'CONTROLS_PASSED with evidence_complete=true'. research/mechanical-proof-v1/RESULT.md verbatim: 'MECHANICAL_PROPOSER_COMMISSIONING_PASS: all 14 assigned controls passed in one native invocation. This qualifies the finite, exposed symbolic application apparatus. Its scientific classification is PARENT_SUFFICIENT.' research/proof-runtime-v1/QUALIFICATION.md verbatim: 'The first source-frozen integration run completed PROOF_RUNTIME_LIFECYCLE_COMMISSIONING_PASS: 24 of 24 registered stages. This is exposed F0 apparatus, not useful learned cognition or FLT reconstruction.' research/ordinary-training-native-export-v1/CORE.md reported as: 'Fresh proof checking completed for all 4,223 theorems in the fixed Metamath prefix. ... This establishes training input readiness; useful acquired methods remain untested.' research/ordinary-goal-cohort-result-v1/CORE.md reported as: 'One fresh native pass verified the complete ordered 4,223-proof base plus all 22 historical cohort proofs... It establishes no goal solving, causal learned-method use, utility, speedup or novelty.' research/proof-replay-v1 (binds #38) README verbatim: 'The required CI job produces a fresh receipt. Missing Lean is CANNOT_CHECK; historical receipts cannot substitute for executing the kernel.'",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal) for the apparatus: conventional symbolic machinery owns it, and every capsule says so in its own words. Reliability is not discovery. Nothing here supports a proof-solving, speedup or novelty claim, and 4,223 verified theorems are training input readiness, not capability.",
+   "next_decisive_experiment": "None for the apparatus. The scientific residual is ATOM-PRF-02 and is blocked by the N4 lock.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-PRF-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 46,
+   "exact_claim": "The machine acquires a proof method and causally reuses it on held-out theorems (issue #165 gate MATH-1, CAUSAL_PROOF_METHOD_REUSE_SUPPORTED).",
+   "assumptions": [
+    "N4 formal proof is LOCKED; only legal fixtures and synthetic finite theorem worlds are permitted",
+    "a valid negative requires the ordinary-cut audit to reach parent matching"
+   ],
+   "current_evidence": "NEITHER THE POSITIVE NOR A VALID NEGATIVE IS AVAILABLE. research/math-n4-disposition-v1/CORE.md (binds #165 MATH-1, owner #46) states verbatim: 'N4 cannot close. Required positive CAUSAL_PROOF_METHOD_REUSE_SUPPORTED is not established. No valid negative (PARENT_SUFFICIENT, PRIMITIVE_ALIAS, NO_NEW_ABSTRACTION, NO_CAUSAL_REUSE) is available: the registered ordinary-cut audit stopped at syntax before parent matching.' Screening state: research/ordinary-cut-screening-result-v1/CORE.md reported as 'Four of 76 proposal occurrences have complete ordinary-alias screens; 72 remain unresolved. ... There are no complete negatives or new native admissions.'; research/ordinary-cut-screening-cache-result-v1/CORE.md verbatim 'A conventional exact syntax cache allowed the fixed training screen to finish: 44 alias rows, 32 negatives within the registered domain, zero UNKNOWN.'; research/ordinary-cut-cross-lane-review-v1/CORE.md qualifies that verbatim 'The 44 alias/32 negative statuses are faithfully recorded. The complete-negative interpretation is unqualified by this depth-truncated recursive syntax recognizer; no particular retained negative is shown false.' research/ordinary-cut-syntax-revival-v1 (binds #164) terminal verbatim 'SYNTAX_ADMISSION_REPAIRED_MATCHING_REACHED' with the boundary verbatim 'This is not a learned method, novelty claim, or CAUSAL_METHOD_REUSE_SUPPORTED. G2.3 is mixed in the one-step screening domain; G2.4 remains unopened.' research/native-typed-consumer-revival-v1/CORE.md reported as 'TYPED_INTERFACE_QUALIFIED_ALIAS_ONLY; independently accepted after 123 retained-data checks. ... The typed witness is an ordinary theorem alias; eligible learned methods remain empty.' Failure retained: research/native-typed-lifecycle-attempt-v1/RESULT.md verbatim 'Overall result: LIFECYCLE_FAILED. A completed training through persistence; the fresh consumer stopped on an import-audit defect before reconstruction or native checking.' Lock recorded at research/hsg-semantic-execution-v1/FREEZE_V1.json reported as 'N4_formal_proof: LOCKED (D22 finite-exhaustive first; D24 legal fixtures only)'. Roadmap tally: CHECKBOX_MAP.json section MATH-1 has 2 CHECK of 21; section MATH-2 '# MATH-2 - N5 exact problem solving (#47)' is 12 of 12 BLOCKED.",
+   "claim_ceiling": "The gate is OPEN in the strict sense that neither direction can be issued. 72 of 76 proposal occurrences are unresolved, the completed 32 negatives are qualified as unverified by a depth-truncated recognizer, and every typed witness so far is an ordinary alias. This is the clearest instance in the programme of an atom that cannot even close negatively.",
+   "next_decisive_experiment": "Extend the ordinary-cut audit past syntax to parent matching on the 72 unresolved occurrences, using a recognizer that is not depth-truncated, so one of the four registered negatives becomes issuable. This is the single highest-value unblocking action in the proof area and does not require N4 to unlock.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-PRF-03",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 46,
+   "exact_claim": "Indexed weighted deduction and mechanical chunking give a measured end-to-end improvement in native proof serving.",
+   "assumptions": [
+    "measurement is against the layered reference implementation",
+    "cost must be end-to-end, not per-stage (see ATOM-SEM-05)"
+   ],
+   "current_evidence": "MIXED, EXPLICITLY NOT AN END-TO-END SPEEDUP. research/native-indexed-deduction-evidence-v1/HANDOFF.md reported as: 'Indexed weighted deduction - completed, mixed cost result ... It is not an unconditional replacement for the layered reference, and it does not establish an end-to-end speedup.' research/native-learning-evidence-v1/HANDOFF.md verbatim: 'This qualifies the conventional mechanical chunking apparatus. It does not establish OCM-specific novelty or superiority, general autonomous discovery, language transfer, a corpus result, or a publication-ready scientific claim.' research/native-serving-evidence-v1/CORE.md reported as: 'The fixed eight-call native comparison is complete and independently reviewed. OCM uses the acquired method in the successful proof through actual dispatch, native checking and durable commitment. ... OCM adds measured overhead; no speed, scaling, lifetime or novelty claim follows.' Its SUMMARY.json carries terminal reported as 'CANNOT_CHECK' at two rows. research/ordinary-hole-native-result-v1/CORE.md reported as: 'One supplied ordinary-alias proof replacement passed both fresh native checks. ... Learned-method eligibility stayed empty. ... it establishes no discovery, search benefit, minimality, speedup or lifetime benefit.'",
+   "claim_ceiling": "OCM adds measured overhead in the one complete eight-call comparison. The indexed deduction result is mixed by its own statement. No speed, scaling, lifetime or novelty claim is admissible, and stage-local improvements are inadmissible as burden evidence under ATOM-SEM-05.",
+   "next_decisive_experiment": "Measure the complete B_exec vector (interpretation through commit, including rejected attempts, index and maintenance) for the eight-call comparison rather than per-stage costs, which is the only accounting under which an end-to-end claim could be made.",
+   "terminal": "TRADEOFF_FRONTIER_ONLY"
+  },
+  {
+   "atom_id": "ATOM-COD-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 47,
+   "exact_claim": "The same semantic-execution substrate solves coding and scientific-investigation problems, not only proof and planning.",
+   "assumptions": [
+    "the same abstract operator contract must transfer, not merely the operator name",
+    "N5 adoption is LOCKED and #217 owns adoption"
+   ],
+   "current_evidence": "THIS AREA IS GENUINELY THIN; THE THINNESS IS REPORTED, NOT PAPERED OVER. No dedicated coding or scientific-investigation research capsule exists: an independent sweep of 38 language, proof and native directories found no anchor for this area. The nearest programme-level terminal is docs/OCM_PROGRAMME_TERMINALS_V1.md row M10, issue #12, terminal verbatim 'M10_MIXED_CLAIM_BY_CLAIM', report docs/M10_SCIENCE_REPORT.md. The registered future home is research/hsg-semantic-execution-v1/EXPERIMENT_REGISTRY_V1.json lane D25 'general problem-solving laboratory' and lane D26 'cross-domain operator-transfer test', both evidence_class CONFIRMATORY_FIXED, both NOT_STARTED per research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json, both under the N5 lock recorded verbatim as 'N5_adoption: LOCKED (D25/D26 laboratories; #217 owns adoption)'. Roadmap tally: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section MATH-2 '# MATH-2 - N5 exact problem solving (#47)' is 12 of 12 BLOCKED. D26's own framing in issue #233 is the operative standard reported as: 'A general operator claim requires transfer of its invariant contract, not merely reuse of its name.'",
+   "claim_ceiling": "No coding or scientific-investigation capability claim exists at any scope. One mixed programme-level terminal and two unstarted laboratories. Any domain-generality sentence in a manuscript currently rests on zero evidence in this area.",
+   "next_decisive_experiment": "#233 lane D26: instantiate the SAME abstract operator contract (DISTINGUISH, REFINE, REDUCE, VERIFY) in at least three materially different domains and test transfer of the invariant contract. D26 targets the G coordinate, which research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json records as covered in flight only by D22 logic transport, making D26 the named gap for any general-operator claim.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-DEV-01",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 217,
+   "exact_claim": "A persistent developmental lineage improves across cycles: an adopted development change makes the machine measurably better on the registered vector than its incumbent.",
+   "assumptions": [
+    "the comparison vector is failures, persistent_bytes and work",
+    "adoption is decided by a frozen rule, not post-hoc",
+    "the parent is an AutoML-class construction"
+   ],
+   "current_evidence": "ONE ADOPTION, THEN REVIVAL EXHAUSTION. research/parallel-developmental-evolution-v1/README.md (owner #217, references #149 and #151) records cycle 1 (g2) terminal verbatim 'DEVELOPMENT_CHANGE_ADOPTED' with winner g2.w1.repair.4 and vector failures=0 persistent_bytes=31610 work=96590 against incumbent 0 / 31610 / 97202, freeze identity e56a24cddecc56a127ec22097eb70d765a23cdfd4822021f213c8a8ff7333ac5; cycle 2 (g3) terminal verbatim 'PARENT_SUFFICIENT_BY_REVIVAL_EXHAUSTION' recorded as SUCCESS. research/parallel-developmental-evolution-v1/results/LINEAGE_FINAL.json records verbatim parent_ceiling 'g2 (AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION)' and programme_terminal 'PARENT_SUFFICIENT_BY_REVIVAL_EXHAUSTION', state generation 3, adoptions 1. Resources: 1168 slurm records, 784 candidate evaluations, 3900 CPU-seconds; ledgers results/CANDIDATE_LEDGER_REBUILT.jsonl (784/784) and results/ADVERSE_AND_CANNOT_CHECK.jsonl (10 ADVERSE_RECORDED, 0 CANNOT_CHECK). Vocabulary declared in advance at research/parallel-developmental-evolution-v1/EXPECTED_TERMINALS.json verbatim 'PARENT_SUFFICIENT variants are first-class SUCCESS, not failures'. NOTE ON THE ADOPTION MARGIN: the adopted winner improves work from 97202 to 96590, about 0.63 percent, with failures and persistent_bytes identical.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): the AutoML-class parent owns the function by construction, and revival was exhausted honestly rather than tuned. One adoption with a sub-one-percent work margin on a single coordinate is not a developmental-advantage result. CLASS NOTE: this row is deliberately NOT classed DEVELOPMENTAL_LINEAGE. The frozen taxonomy defines that class as a causal claim about one persistent lineage ACROSS task ecologies; this evidence is cycle-to-cycle inside a single ecology, so it is an EMPIRICAL_REGULARITY. The consequence is that NO atom in this registry carries the DEVELOPMENTAL_LINEAGE class, which is an accurate statement of the programme's position rather than an omission: the across-ecologies causal claim has not been made by any lane. Were it made, closure would additionally need C4 causal knockout, G3 cross-domain transfer, S3 lifetime economics, R4 disjoint replication, A4 clean-room and E3 ecological validity, none of which this capsule addresses.",
+   "next_decisive_experiment": "The decisive test for this class is the causal knockout of #277 section 7: remove the exact inherited object claimed to cause the gain and show the advantage weakens or disappears. #233 lane D27 (developmental semantic execution) is the registered home and is NOT_STARTED; research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json names D27 the highest-value unstarted lane precisely because C >= 4 belongs to it.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-DEV-02",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 217,
+   "exact_claim": "The developmental-lineage result reproduces on a disjoint host with identical measured vectors.",
+   "assumptions": [
+    "cross-host replication with the same frozen code and pre-registration",
+    "wall time and RSS excluded by construction"
+   ],
+   "current_evidence": "research/parallel-developmental-evolution-v1/results/CROSS_HOST_REPLICATES.json records verdict verbatim 'ALL_REPRODUCED' with total_compared 170 and total_vector_exactly_reproduced 170, amendment AMENDMENT-3, hosts billy and billy-laptop-old, driver research/parallel-developmental-evolution-v1/tools/replicate_lane.sh plus four replicate_claim_*.json files. Programme-level twin: docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V5.json verdict verbatim 'MATCH' with first_difference None and the note verbatim 'same frozen code and pre-registration, fresh environment on a second host; wall time and RSS are excluded from the comparison by construction', driver tools/m12_replication.py. CEILING RECORDED BY THE FROZEN SCHEMA: research/top-tier-atomic-closure-v1/READINESS_SCHEMA_V1.json binds R=4 to E4 disjoint replication with new seeds, families, order or host, and states verbatim that internal replay never exceeds 2. A second host with the SAME frozen code, seeds and families is a re-execution, not a disjoint replication. Independent confirmation of the gap: research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json findings state reported as 'R (replication) is targeted by NO lane that is in flight or legal now ... E4 disjoint replication has no owner.' CAVEAT: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json records the M11/M12 historical science as reopened under terminal 'M11_ENGINEERING_REVALIDATION__HISTORICAL_ADOPTION_CELLS_REOPENED'.",
+   "claim_ceiling": "170 of 170 vectors reproduce exactly on a second host, which is a genuine and complete determinism audit. It is NOT E4 disjoint replication: seeds, families and order were not varied, so under the frozen ladder this evidence cannot lift R above 2. The audit artifact is complete for what it audits, which is what closes a GOVERNANCE_META atom.",
+   "next_decisive_experiment": "Run the same protocol with new seeds, a new task family and a different execution order on a third host, which is the minimum change that converts re-execution into E4. No lane currently owns this.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SEV-01",
+   "class": "SELF_EVOLUTION",
+   "owner_issue": 149,
+   "exact_claim": "Governed self-evolution sustains multi-generation improvement: the machine earns three or more nontrivial self-changes and future self-change becomes cheaper (B_self,t+1 < B_self,t).",
+   "assumptions": [
+    "a nontrivial earned transition means an adopted self-change, not a probe",
+    "all proposal, search, shadow and adoption cost is charged",
+    "the parent is AutoML-class by construction"
+   ],
+   "current_evidence": "NEGATIVE, RETAINED, AND ITS COST IS RECORDED. The #149 run-v1 receipts are vendored byte-identically in-tree at research/parallel-developmental-evolution-v1/execution/vendor/pinned/run_v1_summary.json, whose verbatim fields are terminal 'NO_MULTI_GENERATION_IMPROVEMENT', parent_terminal 'AUTOML_PARENT_SUFFICIENT_BY_CONSTRUCTION', further_parent_trajectories 'NOT_RUN', protected_execution 'NOT_RUN', invention 'NOT_ESTABLISHED_EXISTING_LIBRARY_SELECTION', evidence_class 'E2/L0; actual-source development continuations, no independent domains', actual_adopted_generations 2, attempted_cycles 3, per-cycle terminals DEVELOPMENT_CHANGE_ADOPTED / DEVELOPMENT_CHANGE_ADOPTED / SELF_DIAGNOSIS_NOT_IDENTIFIABLE, and resources measured_work_all_probes_shadow_and_fresh 686855. The vendor manifest research/parallel-developmental-evolution-v1/execution/vendor/VENDOR_MANIFEST.json describes it verbatim as a 'Byte-identical vendor of the #149 self-evolution donor runtime, host adapter, blinded incident sources and canonical run-v1 receipts (not on origin/main; per-file blob+sha256 provenance).' The source README at commit d793f3f8403fc2e2b74a9aeef16ccdb0aa5b88c0 states reported as 'The machine earned two development adoptions. The required third generation was not achieved.' and that the first pilot spent 686,855 counted work units including rejected probes and 'did not repay that cost'. In-tree analytic lane research/g6-evolvability-v1/CORE.md carries terminal verbatim 'CANNOT_CHECK_MISSING_RAW_TRACES_AND_NO_THIRD_EARNED_SELF_CHANGE' and records 'Pinned self-evolution cycles at d793f3f remain g0 -> g1 -> g2 -> g2.'; its RESULT.json gives claim_ceiling reported as 'E2/L0 inventory and unlabeled-diagnosis check; no evolvability residual' with developmental_evolvability_supported false; CHECKLIST.md item G6.3 records 'at least three nontrivial earned transitions | not checked (negative)'. Roadmap: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json G6.3 citation reported as 'Issue #149/#151 require >=3 nontrivial earned transitions; current g0->g1->g2->g2 insufficient.', and C22.final rows 016 (#149 self-evolution terminal) and 017 (#151 developmental-lineage terminal) are both OPEN.",
+   "claim_ceiling": "Two adoptions, no third, 686,855 counted work units unrepaid, evidence class E2/L0 on actual-source continuations with no independent domains, and the parent sufficient by construction. NO self-evolution claim is admissible. Note the terminal-splitting rule: 'missing raw traces' is a legitimate missing instrument, but 'no third earned self-change' is an absent RESULT, not a missing instrument, so only the instrument half licenses a CANNOT_CHECK reading.",
+   "next_decisive_experiment": "Recover or regenerate the raw traces (the instrument half of the g6 terminal) so the two adopted transitions can be causally attributed, then run a fourth cycle on an INDEPENDENT domain rather than actual-source continuations, since the recorded evidence class names the absence of independent domains as the binding limitation.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SEV-02",
+   "class": "SELF_EVOLUTION",
+   "owner_issue": 149,
+   "exact_claim": "The machine diagnoses its own failures well enough to propose a targeted self-change (SYSTEM_SELF_DIAGNOSIS as a distinct capability from search over supplied candidates).",
+   "assumptions": [
+    "diagnosis must be identifiable from unlabeled incidents",
+    "proposal must not be selection from an existing library"
+   ],
+   "current_evidence": "NOT IDENTIFIABLE, AND INVENTION EXPLICITLY NOT ESTABLISHED. The third #149 cycle terminal is verbatim 'SELF_DIAGNOSIS_NOT_IDENTIFIABLE' (research/parallel-developmental-evolution-v1/execution/vendor/pinned/run_v1_summary.json per-cycle terminals), and the same receipt records invention verbatim 'NOT_ESTABLISHED_EXISTING_LIBRARY_SELECTION', i.e. what occurred was selection from an existing library rather than invention. research/g6-evolvability-v1 records the unlabeled-diagnosis check: historical unlabeled n=18, all UNKNOWN; its INVENTORY.md records 'Catalogue: 10 C1 existing_alternative candidates; 8 probes/cycle. No third earned change.'; its TRIAD.md records kappa, Omega and chi all CANNOT_CHECK with |R|=10 and 8 evaluations per cycle; its PARENTS.md lists the required #149 / G6.1 / P4 parents as all NOT_RUN. Binding: research/g6-evolvability-v1/RESULT.json binds cycle0/1/2 to research/self-evolution-v1/results/run-v1/cycle-{0,1,2}.json with present_in_head_tree false and recorded sha256s; those files exist only in git history at commit d793f3f8403fc2e2b74a9aeef16ccdb0aa5b88c0, reachable from the remote branches research/epistemic-structure-discovery-20260908 (head f0cc17cf145d19f065a3c6c1f3f06a74768656df) and research/lifetime-advantage-20260908 (head dcbbd5432af42393eea4add2300c137e1649f7ba). VERIFIED CENSUS at bound_at_sha: that path holds 120 files at d793f3f and 0 at origin/main. RECOVERABILITY FINDING: 27 files exist under the run-v1 external_raw_traces subtree at d793f3f, so trace material is reachable in history; whether those files are the same traces the g6 terminal names as missing is NOT verified here and must be checked before the g6 CANNOT_CHECK is treated as resolvable.",
+   "claim_ceiling": "Self-diagnosis is not identifiable at the measured scope, the proposal step was library selection rather than invention, and all three evolvability statistics are CANNOT_CHECK with the required parents NOT_RUN. No self-diagnosis or self-proposal claim is admissible. The primary evidence is reachable only in git history, not in the working tree.",
+   "next_decisive_experiment": "Restore the three cycle receipts into a tracked path (they are bound by sha256 and reachable at d793f3f), then run the unlabeled-diagnosis identifiability test on a fresh incident set with the P4 parents actually run rather than NOT_RUN.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-SEV-03",
+   "class": "SELF_EVOLUTION",
+   "owner_issue": 149,
+   "exact_claim": "Self-evolved changes are adopted only through an external constitutional boundary that the evolving system cannot itself satisfy.",
+   "assumptions": [
+    "the evaluator must be independent of the optimizer",
+    "adoption authority is external to the lineage"
+   ],
+   "current_evidence": "THE SEPARATION IS ARCHITECTURALLY ASSERTED AND PARTIALLY AUDITED. research/ocm-morphology-zoo-v1/REPO_STATE.json zoo_scope states verbatim 'research archive only; zoo elites never self-adopt into the canonical lineage (issue #221 sec 13); adoption only via #217 external protocol'. research/parallel-developmental-evolution-v1/CLAIM_DISPOSITION.md records both human gates as HUMAN_GATE_BYPASSED__MODEL_PROXY, which is disclosed rather than presented as externally obtained. The supporting theory is ATOM-HST-17 (evaluator anti-self-certification, PROVED as a toy theorem with witness WITNESS_CERTIFIED). NEGATIVE GOVERNANCE RESULT ON THE AUTONOMY SIDE: research/top-tier-atomic-closure-v1/EXTERNAL_COGNITIVE_INPUT_LEDGER.jsonl LEDGER_VERDICT finding states verbatim 'In the audited window, ZERO recorded external cognitive inputs changed the OCM's own F, O or Pi. Every entry changed research infrastructure around the system, or (ECI-0010) an evaluation instrument. The programme's goal, its epistemic grading machinery (#277) and its parent set were all externally specified.' with audited_entries 11 and entries_that_changed_F_O_or_Pi 0. UNBOUND: no clean-room artifact exists anywhere in the repository; search scope /usr/bin/git ls-tree -r --name-only origin/main piped to /usr/bin/grep -iE 'clean.?room' returns zero against a control matching 'ledger' with 111 paths.",
+   "claim_ceiling": "The boundary is declared and the human gates are honestly labelled as model proxies, but the A coordinate is GATED rather than raised: the frozen rule is that autonomy unaudited means no self-development or self-evolution claim, and SELF_EVOLUTION closure needs A >= 4, which is clean-room. No clean-room artifact exists. Therefore no sentence asserting the machine's own self-development may be written at all, independent of any performance number.",
+   "next_decisive_experiment": "Produce a clean-room artifact: a self-change generated and adopted with the full causal chain covered by the ledger and no upstream HUMAN_* or AI_THEORY_INPUT entry supplying the same content. The ledger itself names this as what would lift it, verbatim: 'a recorded SYSTEM_SELF_DISCOVERY / SYSTEM_SELF_DIAGNOSIS / SYSTEM_SELF_PROPOSAL entry whose target is a change to F/O/Pi, produced without a corresponding upstream HUMAN_* or AI_THEORY_INPUT entry supplying the same content, bound to a prospectively frozen protocol.'",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-LIF-01",
+   "class": "ENGINEERING_MECHANISM",
+   "owner_issue": 165,
+   "exact_claim": "The append-only physical ledger is an appropriate persistence substrate for OCM's lifetime state, relative to a conventional database parent.",
+   "assumptions": [
+    "semantic parity between the two substrates must hold",
+    "amplification is measured as bytes written against bytes stored",
+    "the comparison is at the registered N grid"
+   ],
+   "current_evidence": "PARENT WINS DECISIVELY, AND THE NUMBERS ARE COMMITTED. research/g5-physical-denominator-v1 (SUMMARY.json issue 165, lane 'P2 / G5.1') terminal verbatim 'DATABASE_PARENT_SUFFICIENT'. Measured: 14 parity and restart tests passed in 0.34 s; at N=2048 the JSONL path wrote 529,399,134 bytes against 517,972 stored, an amplification of roughly 1022x; JSONL head read 14.3 ms against a SQLite parent at about 66 microseconds; JSONL total wall grew 143x for a 32x increase in N. Supporting artifacts wal_ledger.py, results/scaling_raw.json, results/scaling_summary.json, results/pytest_receipt.json, test_semantic_parity.py, test_restart_and_queries.py. Retained boundaries: packed KSO field beyond kind handles is CANNOT_CHECK, the alternative hypothesis INDEX_MAINTENANCE_DOMINATES was REJECTED, and production src/ocm/store/ledger.py was left unchanged.",
+   "claim_ceiling": "PARENT_SUFFICIENT (success terminal): a conventional database owns the persistence function, by three orders of magnitude on write amplification and two on read latency. No lifetime-storage advantage may be claimed for the append-only ledger. The finding is scoped to the measured N grid and the packed-field case is explicitly CANNOT_CHECK.",
+   "next_decisive_experiment": "None for the comparison; the parent owns it. The operational residual is whether production should migrate, which is an engineering decision the capsule deliberately did not take (production ledger unchanged).",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-LIF-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 50,
+   "exact_claim": "Lifetime verified-search burden falls across a machine's lifetime on registered task families, after charging the complete cost vector including maintenance, index and rejected-candidate work.",
+   "assumptions": [
+    "a prospectively frozen price or utility vector; B is a vector, not a scalar, unless frozen otherwise",
+    "protected N1/N3/N5 outcomes are locked",
+    "fresh matched lifetimes must be run"
+   ],
+   "current_evidence": "NOT RUN; SYNTHETIC CALIBRATION ONLY. research/machine-epistemics-lifetime-v1 (README owner verbatim 'ORION-OCM issue #50. Parent roadmap: #42. Corrected evaluation gate: #38. Language-first steering: #52.') records the synthetic pilot terminal verbatim 'PARTIAL_SIGNATURE_ONLY_SYNTHETIC_METERS_CALIBRATED' and the confirmatory terminal verbatim 'CANNOT_CHECK_N3_N5_LOCKED_AND_FRESH_MATCHED_LIFETIMES_NOT_RUN'; its V1 local authoring replay after reviewer hardening is 12/12 tests GREEN, and ME_SYNTHETIC_CALIBRATION_V1.json records three isolated mechanisms each PARENT_SUFFICIENT. Its argument ledger ME_PAPER_ARGUMENT_LEDGER_V1.md carries terminal verbatim 'CANNOT_CHECK_N1_N2_LEARNED_SPEAKER_STUDY_NOT_RUN' with scope verbatim 'programme/design only: #52/#53/#54/#55; N1/N2 protected evidence not yet run'. Instruments exist: lifetime_metrics.py, calibration.py, ME_LIFETIME_RECEIPT_SCHEMA_V1.json, ME_COMPARATOR_MANIFEST_V1.md, ME_CONFIRMATORY_PREREGISTRATION_V0.md. A second lifetime lane is frozen with NO committed result: research/g2-length-scaling-v1 contains only README.md, experiment.py and test_protocol.py (verified by /usr/bin/git ls-tree -r --name-only origin/main research/g2-length-scaling-v1/), status verbatim 'prospectively frozen development study for #165 G2.4 / #62' with frozen populations of 32 length-5 validation and 64 length-6 test identities and 200000 slots, and its terminal vocabulary includes both LIFETIME_SEARCH_SLOTS_PAYBACK_AT_64_TEST_TASKS and NO_LIFETIME_SEARCH_SLOTS_PAYBACK_AT_64_TEST_TASKS; execution is CI-only via .github/workflows/g2-length-scaling.yml, so results land in GitHub Actions artifacts rather than the tree. Roadmap tally: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section LIFE.scale '## Scale axis' is 15 of 15 BLOCKED. The one measured lifetime economics instance elsewhere is negative (ATOM-MAQ-02).",
+   "claim_ceiling": "The meters are calibrated on synthetic signatures and each isolated mechanism is PARENT_SUFFICIENT; no fresh matched lifetime has been run and the confirmatory terminal is an explicit CANNOT_CHECK naming N3/N5 locks plus unrun lifetimes. No lifetime-burden claim is admissible. Note that the missing-instrument test is only partly satisfied here: the locks are structural, but 'fresh matched lifetimes not run' is an absent result rather than a missing instrument.",
+   "next_decisive_experiment": "Run the frozen fresh-matched-lifetime comparison from ME_CONFIRMATORY_PREREGISTRATION_V0.md on task families that are legal under the current locks, and commit the g2-length-scaling result JSON into the tree rather than leaving it in CI artifacts, so the payback terminal becomes citable.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-LIF-03",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 165,
+   "exact_claim": "The machine's own state does not dominate its lifetime cost: controller growth and persistent state size stay sublinear in accumulated experience.",
+   "assumptions": [
+    "nloc is used as the size proxy for the vessel components",
+    "the freeze is an architecture snapshot, not a growth trajectory"
+   ],
+   "current_evidence": "PARTIAL, WITH THE DOMINANCE HYPOTHESES EXPLICITLY NOT ISSUED. research/g1-vessel-freeze-v1/TERMINAL.json terminal verbatim 'COMPACT_VESSEL_PARTIAL', with the not_issued list including verbatim MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE, CURRENT_KSO_PARENT_SUFFICIENT, DOMAIN_CORE_FORK_REQUIRED, CONTROLLER_GROWTH_DOMINATES, STATE_SIZE_DOMINATES and PARENT_SUFFICIENT. Measured G1.3 nloc counts: F 5287, PRIOR 5046, Pi 3588, HARNESS 4551, O 1392, C 1094. It binds issue #165 sections 2 and 20 via SOURCE_FREEZE.json and carries the #93 reservation note verbatim 'CURRENT_KSO_PARENT_SUFFICIENT is reserved for #93 empirical field closure, not this architecture freeze.' Related committed measurement: research/fna6-working-state-v1/RESULTS_FNA6_V1.md reports peak working set 372 and in-cone locality 1.0 against a null of 0.9159, with terminal verbatim 'PARENT_SUFFICIENT_FOR_working_state'. Roadmap tally: CHECKBOX_MAP.json section G1.2 has 2 CHECK of 8.",
+   "claim_ceiling": "A one-time size snapshot with both dominance hypotheses explicitly NOT issued in either direction. It supports no growth-trajectory statement, because a freeze measures a point, not a slope. Note the HARNESS at 4551 nloc is comparable to F at 5287, which is a fact about the measured object worth carrying into any compactness claim.",
+   "next_decisive_experiment": "Measure the same six nloc coordinates plus persistent bytes at two or more lineage generations to obtain a slope rather than a point, which is the minimum needed to issue or refute CONTROLLER_GROWTH_DOMINATES and STATE_SIZE_DOMINATES.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-PAR-01",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 277,
+   "exact_claim": "The strongest parents have been given first refusal: each has been run faithfully at matched information, resources and checker access, and the OCM residual is what remains after subtracting them.",
+   "assumptions": [
+    "faithful parent RUN, not parent source verification",
+    "matched information, resources and checker access",
+    "the subtraction must be recorded per atom"
+   ],
+   "current_evidence": "THE ARTIFACT NOW EXISTS AND ITS OWN CENSUS REFUTES THE CLAIM. research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json (schema TTAC_PARENT_FIRST_REFUSAL, V1, TTAC-D8, owner 277, base_branch verbatim 'origin/main @ b434c55c') carries 41 parent rows across three families (A continual/dynamic/symbolic/meta 15, B program synthesis/open-ended/skills 13, C self-improving/automated-science/evaluation 13). Its counts are decisive for this atom: by_run_status verbatim NOT_RUN 37 and ADAPTED_RUN 4, so FAITHFUL_RUN is ZERO. Its own vocabulary sets the ceiling verbatim: NOT_RUN 'parent read about only; contributes P=1', ADAPTED_RUN 'an adapted challenger implementing the parent's mechanism was executed inside an ORION-OCM harness; NOT faithful; caps at P=2', FAITHFUL_RUN 'parent executed faithfully at matched information/resources/checker access and subtracted; only this can reach P=3'. First-refusal verdicts: PARENT_MAY_BE_SUFFICIENT 20, UNDECIDABLE_WITHOUT_RUN 11, ORION_DELTA_PLAUSIBLE 10. Source verification quality: CONFIRMED_SUBSTANTIVE 38, CANNOT_VERIFY_SOURCE 3, with usable_published_negatives 33. Separately, parent SOURCE verification for the theory layer exists and is a different thing that says so: research/hsg-semantic-execution-v1/PARENT_LEDGER.md with parent_verification/BATCH_A.json, BATCH_B.json and BATCH_C.json covering 25 rows P01-P25, census verbatim CONFIRMED_SUBSTANTIVE 12, CONFIRMED_VERBATIM 6, PARTIAL 5, WORDING_IMPRECISE 2; and research/heritable-search-geometry-v1/PARENT_VERIFICATION_T55_T64_V1.json census total 5, CONFIRMED 2, PARTIAL 2, WORDING_IMPRECISE 1. THE CEILING IS STATED BY THE PROGRAMME ITSELF: research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json lane D16b notes verbatim 'IMPORTANT CEILING: source verification confirms what a parent CLAIMED. The frozen schema requires a faithful parent RUN at matched information/resources/checker access before P can reach 3. D16b therefore does NOT lift P to 3 for any atom. NOT_RUN stays 1.' and its findings add verbatim that D16b verified parent SOURCES, not parent RUNS. Where parents HAVE been run as arms, the outcome is consistently parent-favourable, which is a success: FNA-6 PARENT_SUFFICIENT_FOR_working_state, FNA-7 PARENT_SUFFICIENT_FOR_FAILURE_CLASSIFICATION__GUARDED_DECLARED_RULE_AT_PILOT_SCOPE_FNA7_V1, FNA-8 R6 PARENT_SUFFICIENT_FOR_obligation_control, FNA-3 W1 PARENT_SUFFICIENT_FOR_NEXT_SYMBOL_PREDICTION, D20 PARENT_SUFFICIENT, D21 E4_library_verdict PARENT_SUFFICIENT, g5 DATABASE_PARENT_SUFFICIENT, mechanical-proof-v1 PARENT_SUFFICIENT, parallel-developmental-evolution g3 PARENT_SUFFICIENT_BY_REVIVAL_EXHAUSTION. Quantum donor atlas census at research/quantum-structural-ocm-v1/QUANTUM_STRUCTURAL_DONOR_ATLAS_V1.md verbatim 'Counts: PARENT_SUFFICIENT 6, PARENT_SUFFICIENT__NO_EARNED_DONOR_RESULT 1, ALREADY_CLASSICAL_IN_FAMILY 1, RESIDUAL_FOR_OCM 0.'",
+   "claim_ceiling": "The matrix now exists and is complete for 41 parents, but ZERO have been run faithfully at matched information, resources and checker access: 37 NOT_RUN cap at P=1 and 4 ADAPTED_RUN cap at P=2 by the artifact's own vocabulary. Therefore no architecture-specific attribution is licensed for any atom in this registry. Where parents have been run ad hoc, the result is PARENT_SUFFICIENT in nine independent lanes and RESIDUAL_FOR_OCM is 0 in the donor atlas; that convergence is a scientifically meaningful SUCCESS pattern and should be reported as such, not as a gap.",
+   "next_decisive_experiment": "Convert at least one NOT_RUN row into a FAITHFUL_RUN: execute the parent at matched information, resources and checker access and subtract it. The 20 rows verdicted PARENT_MAY_BE_SUFFICIENT are the highest-value targets, because confirming one closes an atom on a success terminal. Until one faithful run lands, P is capped at 1 for 37 parents and 2 for 4, programme-wide.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-PAR-02",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 214,
+   "exact_claim": "A non-neural OCM has a functional advantage over neural parents on registered cognitive functions (routing, working state, failure classification, obligation control, next-symbol prediction).",
+   "assumptions": [
+    "evidence class E1/L1: one authored world, one population, one author",
+    "terminals drawn from issue #214 section 7 only",
+    "a model interface must actually be reachable to test the neural arm"
+   ],
+   "current_evidence": "PARENTS WIN OR THE COMPARISON CANNOT BE MADE. research/functional-neural-absorption-v1 (binds #214) records FNA-1 terminal verbatim 'NON_NEURAL_RESOURCE_ADVANTAGE_AT_REGISTERED_SCOPE', but with the ceiling stated verbatim 'One planted world, one author, one population: E1 / L1, not E3.' and 'Nothing here licenses TRANSFORMER_REPLACED, LLM_EQUIVALENT or any general-capability claim' and, critically, 'No neural arm was run; R3/R6/R7 are absent, so APPROXIMATE_RETRIEVAL_NOT_SAFE stays untestable.' FNA-1b terminal verbatim 'CANNOT_CHECK_TYPE_DECOY_DID_NOT_DISCRIMINATE'; FNA-2 'APPROXIMATE_RETRIEVAL_NOT_SAFE'. research/fna5-routing-first-refusal-v1 terminal verbatim 'NO_FUNCTIONAL_PARITY_ROUTING (no arm sufficient). First-refusal arm: none. Mechanism (revival pass 1, proven structural at this scope): ACQUISITION_COST_DOMINATES'. research/fna6-working-state-v1 terminal verbatim 'PARENT_SUFFICIENT_FOR_working_state'. research/fna7-capability-transplant-v1 terminal verbatim 'PARENT_SUFFICIENT_FOR_FAILURE_CLASSIFICATION__GUARDED_DECLARED_RULE_AT_PILOT_SCOPE_FNA7_V1' described verbatim as '(first-class SUCCESS...)', with the honest caveat that R1 is a constant predictor sitting exactly on the majority-class null at 0.84946. research/fna8-privilege-ladder-v1 records R6 'PARENT_SUFFICIENT_FOR_obligation_control', R1 and R2 'CANNOT_CHECK_NO_MODEL_ACCESS', R3-R5 'RUNG_PENDING_ACTIVATION_GATE'; its FREEZE_FNA8_V1.json amendment 1 (2026-09-09T18:55:00Z, stage_attribution verbatim 'model-interface stage (not model capability, not harness)') added the CANNOT_CHECK branch after the R1/R2 receipts were written and retains them verbatim with md5s, so the consolidated CANNOT_CHECK value is authoritative and the earlier receipt value NON_NEURAL_NONINFERIOR_AT_REGISTERED_SCOPE is a pre-amendment artifact. research/fna3-seqgrammar-parents-v1 records W1 'PARENT_SUFFICIENT_FOR_NEXT_SYMBOL_PREDICTION', W2 and W3 'REPRESENTATION_INSUFFICIENT', W4 and W5 'CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS', P4 spectral 'CANNOT_CHECK_NO_STDLIB_SVD', with defect NULLFIX_A8.json recording verbatim that run_shuffle_null scored an EMPTY slice so all seven UD null entries recorded bits_per_symbol 0.0 and the derived R5 cases are invalid.",
+   "claim_ceiling": "The one advantage terminal is E1/L1 on a single authored world with NO neural arm actually run. Every case where a parent was genuinely run returned PARENT_SUFFICIENT. Two rungs are CANNOT_CHECK_NO_MODEL_ACCESS, a legitimate missing instrument (the model surface refused every call), attributed to the interface stage rather than to capability. No comparative claim against neural systems is admissible in either direction.",
+   "next_decisive_experiment": "Restore model-surface access and execute the FNA-8 R1/R2 rungs, which are the only registered arms that would produce a genuine neural comparison; the refusal receipts are retained so the re-run is directly comparable.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-PAR-03",
+   "class": "EMPIRICAL_REGULARITY",
+   "owner_issue": 216,
+   "exact_claim": "Structural donor search over a distant field (quantum information) yields a transferable residual for OCM after honest parent subtraction.",
+   "assumptions": [
+    "each donor function is compared against its strongest classical parent",
+    "a retraction leads, not trails, when a headline was withdrawn"
+   ],
+   "current_evidence": "LEAD WITH THE RETRACTION. research/quantum-structural-ocm-v1/ORION_QUANTUM_SOURCE_LEDGER.md records for FQ-2 verbatim 'CLOSED+merged, headline retracted': the adaptive-3 < conditioned-fixed-4 < universal-fixed-5 ladder from #933/#942 is RETRACTED and null-reproducible under shuffle. Only after that: research/quantum-structural-ocm-v1/QUANTUM_STRUCTURAL_DONOR_ATLAS_V1.md census verbatim 'Counts: PARENT_SUFFICIENT 6, PARENT_SUFFICIENT__NO_EARNED_DONOR_RESULT 1, ALREADY_CLASSICAL_IN_FAMILY 1, RESIDUAL_FOR_OCM 0.' Each FQ verdict carries an executable reopen-falsifier; FQ-2's is 'state-aware policy beats charged parent AND survives shuffle-equal-n null'. Audit research/quantum-structural-ocm-v1/CAPSULE_AUDIT_V1.md overall verbatim 'PASS_WITH_DEFECTS. Zero P0/P1. Two P2 defects, both documentation-level.' Frozen MSC execution research/quantum-structural-ocm-v1/msc/MSC_V1_REPORT.md: 32/32 exact on every arm, Q4_PROBE 284.3 objects against parent Q1 767.9, but the quotient standalone LOSES at 2.03x worse objects and 4.05x worse edges; msc/test_msc.py 20/20 pass. E4/E5 runners exist at msc/run_e4_pass.py and msc/run_e5_pass.py. Related unbinding recorded honestly in the donor source ledger lane: a cited path QG39_POST_NULL_RESIDUAL_RESULTS.json was found to be a phantom after searching ls-tree main plus log --all plus basename grep, and the numbers were re-bound to the retraction document.",
+   "claim_ceiling": "RESIDUAL_FOR_OCM is 0 and the one headline that suggested otherwise is retracted and null-reproducible under shuffle. The correct reading is that the donor search worked as designed and returned a clean negative on transfer, with six parent-sufficient functions. Any citation of the fixed-versus-adaptive ladder must lead with the retraction.",
+   "next_decisive_experiment": "None to establish the negative. The registered reopen-falsifiers are the honest route back: FQ-2 reopens only if a state-aware policy beats the charged parent AND survives the shuffle-equal-n null, which is exactly the test that produced the retraction.",
+   "terminal": "PARENT_SUFFICIENT"
+  },
+  {
+   "atom_id": "ATOM-REP-01",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 277,
+   "exact_claim": "Every scientifically meaningful external cognitive intervention is auditable, so that internally generated cognition can be separated from externally supplied cognition.",
+   "assumptions": [
+    "the ledger is prospective from opening; historical entries are reconstructed only where evidence exists",
+    "the audited window is bounded and stated"
+   ],
+   "current_evidence": "THE LEDGER EXISTS AND ITS VERDICT IS NEGATIVE, WHICH IS RETAINED AS A RESULT. research/top-tier-atomic-closure-v1/EXTERNAL_COGNITIVE_INPUT_LEDGER.jsonl, schema TTAC_EXTERNAL_COGNITIVE_INPUT_LEDGER V1, owner_issue 277, d_step TTAC-D5, opened_utc 2026-09-10, mode reported as 'PROSPECTIVE_FROM_OPEN; historical entries reconstructed ONLY ...'; 12 entries ECI-0001..ECI-0012 with source_class distribution HUMAN_THEORY_INPUT 3, HUMAN_DONOR_HINT 2, AI_THEORY_INPUT 2, HUMAN_DEBUG 1, AUTOMATED_SEARCH_RESULT 1, AI_DEBUG 1, EXTERNAL_CHECKER_RESULT 1, UNKNOWN 1 (ECI-0012 the placeholder for the un-audited historical period). LEDGER_VERDICT records audited_entries 11 and entries_that_changed_F_O_or_Pi 0, with finding verbatim 'In the audited window, ZERO recorded external cognitive inputs changed the OCM's own F, O or Pi. Every entry changed research infrastructure around the system, or (ECI-0010) an evaluation instrument. The programme's goal, its epistemic grading machinery (#277) and its parent set were all externally specified.', consequence_for_A_coordinate verbatim \"Per the frozen rule 'autonomy unaudited => no self-development/self-evolution claim', and because the audited window contains no system-originated change to F/O/Pi, the A coordinate for DEVELOPMENTAL_LINEAGE and SELF_EVOLUTION atoms CANNOT be lifted by this ledger. A remains gated. This is a negative governance result and is retained as such.\", and claim_ceiling verbatim 'This ledger supports statements about the RESEARCH PROGRAMME's autonomy only. It does not measure, and must not be cited to support, any claim about the OCM's self-development.' Audited window per research/top-tier-atomic-closure-v1/D5_LEDGER_NOTES.md: 2026-09-09T12:28:15Z to 2026-09-10T10:20:00Z; everything earlier is unaudited. Independent authorship instrument: research/independent-authorship-gate-v1 (binds #165 section 16) reports fail-closed policy in force with 50/50 recovered, 0 CANNOT_CHECK and 32 of 50 planted families disagreeing, and states verbatim 'The 17 POSITIVE agreements are not independent authorship.' and 'E3+ still needs independently authored families.'",
+   "claim_ceiling": "The audit artifact is complete for a 22-hour window, which is what closes a GOVERNANCE_META atom; but its finding is that zero external inputs touched F, O or Pi, so it can only gate the A coordinate, never raise it. Everything before 2026-09-09T12:28:15Z is unaudited and represented by a single UNKNOWN placeholder entry. No self-development sentence may be written anywhere in the programme on this evidence.",
+   "next_decisive_experiment": "Extend the ledger prospectively and, in parallel, produce the clean-room artifact the ledger names as the only thing that would lift A (see ATOM-SEV-03). Reconstruct historical entries only where evidence exists; the honest alternative is leaving them UNKNOWN.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-REP-02",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 144,
+   "exact_claim": "Programme claims are supported by disjoint replication (E4) and independent reproduction (E5) with an independent scorer or second implementation.",
+   "assumptions": [
+    "E4 means new seeds, families, order or host; E5 means an independent scorer or second implementation",
+    "internal replay never exceeds readiness 2 under the frozen ladder"
+   ],
+   "current_evidence": "NO OWNER, AND THE PROGRAMME SAYS SO. research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json records coordinate_coverage_in_flight_or_legal_now with R at 0, A at 0 and C at 0, and uncovered_by_any_in_flight_lane ['C','R','A'] (C joined the uncovered set when D19 and D20 merged). Its finding on R reads verbatim 'R (replication) is targeted by NO lane that is in flight or legal now. D28 is the only lane naming it and it has not started. Under the frozen ladder internal replay never exceeds 2, so every atom resting on in-repo replay is capped at R=2 today. E4 disjoint replication has no owner.' UNBOUND ARTIFACTS: research/top-tier-atomic-closure-v1/REPLICATION_MATRIX_V1.json (TTAC-D9) and the E3->E4->E5 execution receipts (TTAC-D10) are absent; search scope /usr/bin/git ls-tree -r --name-only origin/main piped to /usr/bin/grep -iE 'REPLICATION_MATRIX' returns nothing against a control matching 'research/' with 8860 paths. WHAT EXISTS IS RE-EXECUTION, NOT REPLICATION: research/parallel-developmental-evolution-v1/results/CROSS_HOST_REPLICATES.json ALL_REPRODUCED 170/170 and docs/provenance/M12_PAIRED_REPLICATION_RECEIPT_V5.json verdict MATCH (driver tools/m12_replication.py) both use the same frozen code and pre-registration on a second host (see ATOM-DEV-02); research/migration-completion-v1/REPLAY_V1.json status verbatim 'ENGINEERING_REPLAY_PASS' with scientific_adoption false and historical_result_rewritten false. E4/E5 runners exist in exactly one lane, research/quantum-structural-ocm-v1/msc/run_e4_pass.py and run_e5_pass.py. Roadmap tally: research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section P8 '## P8 - confirmatory replication / programme closure' is 8 of 8 BLOCKED and section POF '# 17. Final proof-of-function (#49)' is 7 of 7 BLOCKED.",
+   "claim_ceiling": "The replication ceiling for the entire programme is readiness 2 today. Every result in this registry that rests on in-repo replay is capped there regardless of its internal quality. No E4 or E5 claim exists anywhere and no lane owns the obligation.",
+   "next_decisive_experiment": "Assign an owner to E4 and execute the cheapest instance: re-run one landed confirmatory study (D19 or D20 are the best candidates, being exhaustive and fast) with new seeds, a new world family and a different order on a different host, then record it in a REPLICATION_MATRIX_V1.json. #277 section 8 requires E4/E5 to be designed now rather than after a positive result.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-REP-03",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 144,
+   "exact_claim": "The publication constitution's evidence obligations (protected splits, frozen negative terminals, leakage and shortcut audit, fresh-host rerun, disjoint replication, independent scorer, red-team review, claim/result correspondence) are satisfied.",
+   "assumptions": [
+    "#144 owns the claim boundary between proof classes P1-P4",
+    "each obligation is a separate checkable box"
+   ],
+   "current_evidence": "ZERO OF 34 SATISFIED. research/issue-165-evidence-map-v1/CHECKBOX_MAP.json section PUB, heading verbatim '# 15. Publication constitution (#144)', has 34 boxes, ALL 34 OPEN, with zero CHECK and zero PARTIAL. Named open boxes include verbatim PUB/007-protected_splits_frozen 'protected splits frozen;', PUB/015-negative_terminals_frozen 'negative terminals frozen;', PUB/019-benchmark_leakage_shortcut_audit 'benchmark leakage/shortcut audit;', PUB/030-fresh_host_rerun 'fresh-host rerun;', PUB/031-disjoint_replication 'disjoint replication;', PUB/032-independent_scorer_checker 'independent scorer/checker;', PUB/033-red_team_reviewer_simulation 'red-team reviewer simulation;', PUB/034-claim_result_correspondence_review 'claim/result correspondence review.' The map's own status vocabulary defines OPEN verbatim as 'not done'. Whole-map tally, reconciled against the file's own counts field: PARTIAL 180, CHECK 29, OPEN 211, BLOCKED 198, IN_PR 33, CANNOT_CHECK 11, total 662 boxes across 69 sections. STALENESS CAVEAT: the map is pinned at head b35093a26e51ccf4829aa1218957827d95db8923, which is neither this registry's binding sha nor current origin/main, so its counts are a snapshot. UNBOUND: no dedicated #144 publication-constitution capsule exists under research/; search scope /usr/bin/git ls-tree -r --name-only origin/main piped to /usr/bin/grep -iE 'publication|constitution|144' returns 37 paths, none of which is such a capsule (hits are src/ocm/constitution/, docs/provenance/publication_20260905/ and per-capsule PUBLICATION-SHA256SUMS files), and /usr/bin/git grep -l -- '#144' over research/ and docs/ returns 13 files, all citing #144 as a parent, none owning it.",
+   "claim_ceiling": "The publication constitution is entirely unsatisfied and has no owning capsule. This is the single widest gap in the programme's evidence machinery and it gates every manuscript-level claim, independent of any individual atom's strength. Nothing may be described as publication-ready.",
+   "next_decisive_experiment": "Create the owning capsule and close the cheapest boxes first: freeze the negative terminals (this registry already enumerates them) and run the claim/result correspondence review against these atom rows. Both are laptop-scale and unblock the audit chain; the replication boxes are blocked on ATOM-REP-02.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-REP-04",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 165,
+   "exact_claim": "The #165 master roadmap's open P0 items have been dispositioned with evidence on the branch of record.",
+   "assumptions": [
+    "a disposition is only DONE if its evidence is merged, not on an open PR",
+    "the router question is decided by exact parents, not by training one"
+   ],
+   "current_evidence": "MOSTLY ON UNMERGED BRANCHES. research/issue-165-p0-disposition-v1/CHECKLIST.json counts verbatim DONE 5, IN_PR 30, OPEN 0, CANNOT_CHECK 1, checkable_now 5; issue_71_terminal verbatim 'LEARNED_ROUTER_NOT_YET_AUTHORIZED'; TERMINAL.json records issue_152_status reported as 'OPEN_PENDING_UNMERGED_EXACT_PARENT_PRS'. Per item: P0.3 rent-vs-buy DONE reported as 'Linear cache-admission is ADOPT and 2-competitive here. Nonlinear lifetime curves are ADAPT... Do not wait on ML.'; P0.6 DONE with the qualification verbatim 'Not yet a programme-wide LEARNED_ROUTER_NOT_NEEDED because donor PRs are unmerged and R0C population is too small.'; P0.2 IN_PR with terminal verbatim 'LIFECYCLE_EQUIVALENCE_NOT_ESTABLISHED' and the note verbatim 'PR154 rejects unrestricted first-PASS suffix elision. Answer-prefix equivalence is not lifecycle equivalence. Retain incumbent.'; P0.1, P0.4 and P0.5 IN_PR on unmerged PRs 154/158/161/163. G4 gate state: G4.4.1-3 unlock_holds true, G4.4.4-9 unlock_holds false with unlock requiring ALL, G4.4.4 annotated verbatim 'This is the failing unlock gate. Do not train.', G4.4.6 CANNOT_CHECK with terminal verbatim 'HYPOTHESIS_CLASS_ADEQUACY_NOT_ESTABLISHED' and note verbatim 'DEV-4 hostile: deficient languages can become confidently wrong. Fail closed. Not an ML unlock.', G4.4.7 IN_PR verbatim 'PR161/163 architecture-benefit terminals remain ARCHITECTURE_NET_BENEFIT_NOT_ESTABLISHED.' The file's not_claimed list is verbatim ['LEARNED_ROUTER_NOT_NEEDED','STRATEGY_SELECTION_RESIDUAL_CONFIRMED','EXACT_EARLY_EXIT_VALUE_SUPPORTED']. Consistent lane terminal: research/residual-strategy-regime-v1 terminal verbatim 'LEARNED_ROUTER_NOT_AUTHORIZED_R0B_PHASE1' with scope verbatim 'E2/exposed research calibration' and the standing rule verbatim 'If the cost-free oracle residual is already too small, the correct terminal is parent sufficiency, not \"try a larger model.\"'",
+   "claim_ceiling": "Five of 36 items are decided on the branch of record; 30 rest on four unmerged PRs and one is CANNOT_CHECK with a fail-closed hostile. The router decision is a conservative NOT_YET_AUTHORIZED that its own author declines to promote to NOT_NEEDED. No #165 P0 closure claim is admissible.",
+   "next_decisive_experiment": "Merge or explicitly close PRs 154, 158, 161 and 163 so the 30 IN_PR dispositions become citable on the branch of record; until then the roadmap's P0 state cannot be read from main at all.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-REP-05",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 277,
+   "exact_claim": "In-flight #233 D17-D28 lanes and #221 continuous jobs are mapped onto readiness coordinates so they are counted rather than duplicated or restarted.",
+   "assumptions": [
+    "a lane maps to the coordinates its PRIMARY endpoint can move, not every coordinate it touches",
+    "the map assigns no readiness values; assignment is D2"
+   ],
+   "current_evidence": "THE ARTIFACT EXISTS AND IS COMPLETE FOR ITS PURPOSE. research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json (TTAC-D6, owner 277) maps 23 lanes. Statuses at this registry's bound_at_sha: #233 D12 LANDED_AND_SCORED (M), D13 MERGED (T,G), D15 MERGED (M,C), D16 MERGED (T,P), D16b MERGED (P), D17 MERGED (T), D18 MERGED (T,M), D19 MERGED (T,M), D20 MERGED (M,C,S), D21 IN_FLIGHT (P,S), D22 IN_FLIGHT (T,G), D23 PARTIALLY_LEGAL_N2_LOCKED (M,E), D24 PARTIALLY_LEGAL_N4_LOCKED (T,P), D25 NOT_STARTED (G,S), D26 NOT_STARTED (G), D27 NOT_STARTED (C,P,S), D28 NOT_STARTED (A,R); plus #221 CONT-CORE, CONT-SCHED, CONT-CAL, GSA6 and GS-R2 all MERGED, and TTAC-D5 MERGED. Every lane carries a duplication_guard, e.g. D18 verbatim 'The semiring engine is the shared substrate for D19-D22. Extend it; do not reimplement.' and D17 verbatim 'Reuse exact/engine.py, worlds.py, oracles_d17.py, run_all.py. Do not fork a second exact engine.' Its rule is verbatim 'A lane is mapped to the coordinates its PRIMARY ENDPOINT can move, not to every coordinate it touches incidentally.' and its purpose states reported as 'This artifact assigns NO readiness values - assignment is D2.' Its computed coverage at this bound_at_sha is coordinate_coverage_in_flight_or_legal_now {T:2, P:2, M:1, C:0, G:1, S:1, R:0, A:0, E:1} with uncovered_by_any_in_flight_lane ['C','R','A']. THREE coordinates are now uncovered, not two: C joined R and A when D19 and D20 merged. INTERNAL DIVERGENCE RECORDED, NOT SMOOTHED OVER: the map's findings prose still reads 'C (causal evidence) is targeted in flight only by D20, and only for abstraction/refinement', which was written while D20 was in flight and now lags the map's own computed coverage of C=0. The computed field is the one this registry treats as current; the prose is stale by exactly one lane transition. Its findings also identify D27 as the highest-value unstarted lane because C >= 4 belongs to it. NOTE FOR D2 AND D3: this registry (TTAC-D1) references that map and does not duplicate it; the lane-to-coordinate mapping is authoritative there, not here.",
+   "claim_ceiling": "The map is complete for the 23 lanes it enumerates and correctly assigns no readiness values. Its computed coverage is the load-bearing content: C, R and A are covered by no lane in flight or legal now, and E is gated on the N2 unlock. Its findings prose lags that computation by one lane transition and must not be cited in preference to the computed field.",
+   "next_decisive_experiment": "None for the map, beyond refreshing its findings prose to match its own computed coverage. The coverage dictates the programme's next actions: start D27, which is now the ONLY mapped lane targeting C at all, assign an owner to E4 replication, and produce the clean-room artifact for A.",
+   "terminal": "OPEN"
+  },
+  {
+   "atom_id": "ATOM-REP-06",
+   "class": "GOVERNANCE_META",
+   "owner_issue": 144,
+   "exact_claim": "Custody, byte-identity and source-provenance discipline is enforced across capsules, so that vendored and migrated artifacts cannot silently rewrite historical results.",
+   "assumptions": [
+    "custody establishes provenance, not authenticity or scientific adoption",
+    "refusal on drift is the correct behaviour"
+   ],
+   "current_evidence": "ENFORCED, INCLUDING BY REFUSAL. research/migration-completion-v1/REPLAY_V1.json status verbatim 'ENGINEERING_REPLAY_PASS' with scientific_adoption false, historical_result_rewritten false and tests_passed 35, and the ceiling reported as 'byte identities establish custody under a trusted reviewed repository, not issuer authenticity, semantic proof or scientific adoption' plus 'It does not establish general algebra learning, a new proof kernel, frontier mathematics or restoration of M11/M12 scientific claims.' A live refusal is recorded at docs/provenance/ledger_target_binding_20260906/historical-binding-refusal.json with status verbatim 'CURRENT_TARGET_UPDATE_REFUSED_BY_HISTORICAL_CUSTODY' and reason verbatim 'immutable predecessor evidence changed: docs/provenance/VENDORED_SOURCE_MANIFEST_V1.json'. research/parallel-developmental-evolution-v1/execution/vendor/VENDOR_MANIFEST.json records per-file blob and sha256 provenance for the #149 runtime that is not on origin/main. research/theory-runtime-integration-v1/REOPENED_BY_RUNTIME_CHANGE_20260906.md records that the four M1-M4 rows are REOPENED for the current runtime while their historical replay against commit 09f8c952 stands unchanged, with the explicit statement verbatim 'No scientific authority changes'. research/ocm-morphology-zoo-v1 supersession records (see ATOM-MOR-03) show the same discipline applied pre-score.",
+   "claim_ceiling": "The custody machinery works and has demonstrably refused a binding update rather than silently accepting drift, which is the strongest available evidence for a GOVERNANCE_META atom of this kind. It establishes provenance only: not issuer authenticity, not semantic correctness, and not scientific adoption.",
+   "next_decisive_experiment": "None for the mechanism. The residual is coverage: extend custody binding to the #149 self-evolution receipts, which are currently reachable only in git history at d793f3f and are bound by sha256 from research/g6-evolvability-v1/RESULT.json with present_in_head_tree false.",
+   "terminal": "OPEN"
+  }
+ ],
+ "non_final": "EXPLICITLY_NON_FINAL. Supersede by append-only amendment with cause; defending a row against stronger evidence, a counterexample or parent mathematics is a defect. Amendments must not retroactively raise any readiness value, which this artifact does not carry."
+}
