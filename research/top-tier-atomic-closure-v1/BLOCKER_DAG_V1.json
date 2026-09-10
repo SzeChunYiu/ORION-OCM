@@ -1,0 +1,293 @@
+{
+ "schema": "TTAC_BLOCKER_DAG",
+ "version": "V1",
+ "d_step": "TTAC-D3",
+ "owner_issue": 277,
+ "built_utc": "2026-09-10",
+ "matrix_ref": "READINESS_MATRIX_V1.json",
+ "claims_ref": "DECISIVE_CLAIM_REGISTRY_V1.json",
+ "nodes": [
+  {
+   "blocker_id": "B1-IND-REPLAY",
+   "action": "Independent replay of every exact theorem checker on a disjoint host (billy-old/laptop via ssh, never Mac) with frozen inputs and recorded sha; each replay emits an E4-class receipt",
+   "cost_class": "M",
+   "cost_weight": 2.0,
+   "uncertainty_reduction": 0.9,
+   "requires": [
+    "B2-PARENT-BIND"
+   ],
+   "risk": "low: checkers exist and passed internally; replay is mechanical",
+   "closes_atoms": [
+    "ATOM-HSG-04",
+    "ATOM-HST-01",
+    "ATOM-HST-03",
+    "ATOM-HST-05",
+    "ATOM-HST-06",
+    "ATOM-HST-07",
+    "ATOM-HST-12",
+    "ATOM-HST-13",
+    "ATOM-HST-17",
+    "ATOM-HST-18"
+   ],
+   "closes_claims": [
+    "DC-01",
+    "DC-15"
+   ],
+   "atoms_closed": 10,
+   "claims_touched": 2,
+   "priority_score": 5.4,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  },
+  {
+   "blocker_id": "B2-PARENT-BIND",
+   "action": "Bind every historical atom's parent artifact with sha + evidence class per READINESS_SCHEMA (evidence >=3 requires sha+class); fills P1->3 without new experiments",
+   "cost_class": "S",
+   "cost_weight": 1.0,
+   "uncertainty_reduction": 0.5,
+   "requires": [],
+   "risk": "low: archival binding, no reruns",
+   "closes_atoms": [
+    "ATOM-HST-01",
+    "ATOM-HST-02",
+    "ATOM-HST-03",
+    "ATOM-HST-05",
+    "ATOM-HST-06",
+    "ATOM-HST-07",
+    "ATOM-HST-10",
+    "ATOM-HST-11",
+    "ATOM-HST-12",
+    "ATOM-HST-13",
+    "ATOM-HST-15",
+    "ATOM-HST-17",
+    "ATOM-HST-18",
+    "ATOM-PRV-01",
+    "ATOM-SEM-01",
+    "ATOM-SEM-02",
+    "ATOM-SEM-04",
+    "ATOM-SEM-05",
+    "ATOM-SEM-06",
+    "ATOM-SEM-08",
+    "ATOM-SEM-10"
+   ],
+   "closes_claims": [
+    "DC-01",
+    "DC-04",
+    "DC-05",
+    "DC-15"
+   ],
+   "atoms_closed": 21,
+   "claims_touched": 4,
+   "priority_score": 12.5,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  },
+  {
+   "blocker_id": "B3-AUTONOMY-AUDIT",
+   "action": "Prospective autonomy audit applied to historical evidence chains: for each atom, record whether any admission/self-adoption step lacked external authority; emits A-audit receipts per chain (A1->2). D5 ledger already covers the prospective half",
+   "cost_class": "M",
+   "cost_weight": 2.0,
+   "uncertainty_reduction": 0.8,
+   "requires": [],
+   "risk": "medium: chains live across capsules; audit is scripted but must fail closed on missing provenance",
+   "closes_atoms": [
+    "ATOM-HSG-04",
+    "ATOM-HST-01",
+    "ATOM-HST-02",
+    "ATOM-HST-03",
+    "ATOM-HST-05",
+    "ATOM-HST-06",
+    "ATOM-HST-07",
+    "ATOM-HST-10",
+    "ATOM-HST-11",
+    "ATOM-HST-12",
+    "ATOM-HST-13",
+    "ATOM-HST-14",
+    "ATOM-HST-15",
+    "ATOM-HST-16",
+    "ATOM-HST-17",
+    "ATOM-HST-18",
+    "ATOM-PRV-01",
+    "ATOM-SEM-01",
+    "ATOM-SEM-02",
+    "ATOM-SEM-04",
+    "ATOM-SEM-05",
+    "ATOM-SEM-06",
+    "ATOM-SEM-08",
+    "ATOM-SEM-10"
+   ],
+   "closes_claims": [
+    "DC-01",
+    "DC-04",
+    "DC-05",
+    "DC-15"
+   ],
+   "atoms_closed": 24,
+   "claims_touched": 4,
+   "priority_score": 11.2,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  },
+  {
+   "blocker_id": "B4-NULL-CHECKER",
+   "action": "Author exact checkers for LIMITS_V1 theorems with checker=null (HST-14/15/16), or prove checker impossibility and register the structural CANNOT_CHECK terminal with that proof",
+   "cost_class": "M",
+   "cost_weight": 2.0,
+   "uncertainty_reduction": 0.6,
+   "requires": [],
+   "risk": "high: parents are Rice/halting/Goedel/Blum-flavored; the honest likely terminal is structural CANNOT_CHECK, which is itself a publishable disposition",
+   "closes_atoms": [
+    "ATOM-HST-14",
+    "ATOM-HST-15",
+    "ATOM-HST-16"
+   ],
+   "closes_claims": [
+    "DC-15"
+   ],
+   "atoms_closed": 3,
+   "claims_touched": 1,
+   "priority_score": 1.2,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  },
+  {
+   "blocker_id": "B5-PARENT-DEEPEN",
+   "action": "Deepen parent-sufficiency verification from witness-verified (P4) to independent-check depth (P5): run the parent artifacts through the same frozen replay discipline as B1",
+   "cost_class": "M",
+   "cost_weight": 2.0,
+   "uncertainty_reduction": 0.6,
+   "requires": [
+    "B1-IND-REPLAY"
+   ],
+   "risk": "low-moderate: witness artifacts exist; deepening is replay plus boundary proofs",
+   "closes_atoms": [
+    "ATOM-GEF-03",
+    "ATOM-HSG-01",
+    "ATOM-HST-04",
+    "ATOM-HST-08",
+    "ATOM-OPA-01",
+    "ATOM-SEM-11",
+    "ATOM-SEM-12",
+    "ATOM-SEM-13"
+   ],
+   "closes_claims": [
+    "DC-02",
+    "DC-08",
+    "DC-15"
+   ],
+   "atoms_closed": 8,
+   "claims_touched": 3,
+   "priority_score": 3.3,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  },
+  {
+   "blocker_id": "B6-PROFILE-FINAL",
+   "action": "Governance decision finalizing the EMPIRICAL_REGULARITY/PARENT_SUFFICIENT closure profile (currently P4,M2 by analogy, flagged non-final): either add P to the class load-bearing set or revise the profile; then rescore DEV-01/PAR-02/PAR-03",
+   "cost_class": "S",
+   "cost_weight": 1.0,
+   "uncertainty_reduction": 0.4,
+   "requires": [],
+   "risk": "low: decision + rescoring; must be recorded as an amendment with cause",
+   "closes_atoms": [
+    "ATOM-DEV-01",
+    "ATOM-PAR-02",
+    "ATOM-PAR-03"
+   ],
+   "closes_claims": [
+    "DC-10",
+    "DC-15"
+   ],
+   "atoms_closed": 3,
+   "claims_touched": 2,
+   "priority_score": 2.0,
+   "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
+  }
+ ],
+ "edges": [
+  {
+   "from": "B2-PARENT-BIND",
+   "to": "B1-IND-REPLAY",
+   "type": "prerequisite"
+  },
+  {
+   "from": "B1-IND-REPLAY",
+   "to": "B5-PARENT-DEEPEN",
+   "type": "prerequisite"
+  }
+ ],
+ "critical_path": [
+  {
+   "rank": 1,
+   "blocker_id": "B2-PARENT-BIND",
+   "rationale": "Bind every historical atom's parent artifact with sha + evidence class per READINESS_SCHEM"
+  },
+  {
+   "rank": 2,
+   "blocker_id": "B3-AUTONOMY-AUDIT",
+   "rationale": "Prospective autonomy audit applied to historical evidence chains: for each atom, record wh"
+  },
+  {
+   "rank": 3,
+   "blocker_id": "B1-IND-REPLAY",
+   "rationale": "Independent replay of every exact theorem checker on a disjoint host (billy-old/laptop via"
+  },
+  {
+   "rank": 4,
+   "blocker_id": "B5-PARENT-DEEPEN",
+   "rationale": "Deepen parent-sufficiency verification from witness-verified (P4) to independent-check dep"
+  },
+  {
+   "rank": 5,
+   "blocker_id": "B6-PROFILE-FINAL",
+   "rationale": "Governance decision finalizing the EMPIRICAL_REGULARITY/PARENT_SUFFICIENT closure profile "
+  },
+  {
+   "rank": 6,
+   "blocker_id": "B4-NULL-CHECKER",
+   "rationale": "Author exact checkers for LIMITS_V1 theorems with checker=null (HST-14/15/16), or prove ch"
+  }
+ ],
+ "in_flight_conflict_check": {
+  "source": "IN_FLIGHT_COORDINATE_MAP_V1.json",
+  "coordinate_coverage_in_flight_or_legal_now": {
+   "T": 2,
+   "P": 2,
+   "M": 1,
+   "C": 0,
+   "G": 1,
+   "S": 1,
+   "R": 0,
+   "A": 0,
+   "E": 1
+  },
+  "reading": "R and A coverage are 0 in flight, so B1-IND-REPLAY and B3-AUTONOMY-AUDIT claim unowned coordinates; no frozen or in-flight lane is duplicated by this DAG"
+ },
+ "census": {
+  "blockers": 6,
+  "edges": 2,
+  "gap_atoms_total": 82,
+  "by_priority": [
+   [
+    "B2-PARENT-BIND",
+    12.5
+   ],
+   [
+    "B3-AUTONOMY-AUDIT",
+    11.2
+   ],
+   [
+    "B1-IND-REPLAY",
+    5.4
+   ],
+   [
+    "B5-PARENT-DEEPEN",
+    3.3
+   ],
+   [
+    "B6-PROFILE-FINAL",
+    2.0
+   ],
+   [
+    "B4-NULL-CHECKER",
+    1.2
+   ]
+  ]
+ },
+ "non_final": "EXPLICITLY_NON_FINAL"
+}
