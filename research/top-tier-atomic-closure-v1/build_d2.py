@@ -13,7 +13,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent
 ATOMS = json.loads((BASE / "ATOM_REGISTRY_V1.json").read_text())
 OV = {}
-for _fname in ("d2_overrides_a.json", "d2_overrides_b.json", "d2_overrides_c.json"):
+for _fname in ("d2_overrides_a.json", "d2_overrides_b.json", "d2_overrides_c.json", "d2_overrides_d.json"):
     for _aid, _o in json.loads((BASE / _fname).read_text()).items():
         _cur = OV.setdefault(_aid, {})
         _cur["R"] = {**_cur.get("R", {}), **_o.get("R", {})}  # coordinate-wise; later files refine, never clobber
@@ -64,13 +64,17 @@ for a in ATOMS["atoms"]:
     o = OV.get(a["atom_id"], {})
     vec, refs = {}, {}
     for c in "TPMCGRSRAE" if False else ["T", "P", "M", "C", "G", "S", "R", "A", "E"]:
-        if c not in LOAD_BEARING[cls]:
+        # B6-PROFILE-FINAL (D10): P is load-bearing for every PARENT_SUFFICIENT terminal
+        # regardless of class -- the claim IS a parent-subtraction claim; a scheme that
+        # does not score P for such atoms cannot see its own weakest evidence.
+        lbset = set(LOAD_BEARING[cls]) | ({"P"} if term == "PARENT_SUFFICIENT" else set())
+        if c not in lbset:
             vec[c] = None
             continue
         vec[c] = o.get("R", {}).get(c, 1)
         if vec[c] >= 2:
             refs[c] = ref_for(a, o.get("cls", "E2"))
-    lb = {c: vec[c] for c in LOAD_BEARING[cls]}
+    lb = {c: vec[c] for c in lbset}
     prof_key = (cls, term) if (cls, term) in PROFILES else None
     gap = None
     if prof_key:
@@ -94,7 +98,7 @@ matrix = {
     "scoring_policy": {
         "defaults": "unspecified applicable coordinate = 1 (SPECIFIED); non-load-bearing = null (never blocks); internal replay caps R at 2; adaptive-exploratory caps at 2 permanently",
         "profile_gap_rule": "gap_vs_closure_profile lists coordinates below the closure-profile minimum for the atom's (class, terminal); it is the D3 blocker-DAG seed",
-        "empirical_parent_sufficient_note": "EMPIRICAL_REGULARITY/PARENT_SUFFICIENT profile (P4,M2) is by analogy to the ENGINEERING profile; flagged non-final",
+        "empirical_parent_sufficient_note": "FINAL per B6-PROFILE-FINAL (D10, amendment with cause): EMPIRICAL_REGULARITY/PARENT_SUFFICIENT profile (P4,M2). P4 = parent artifacts disjointly verified (E4-class empirical-parent bar; P5 reserved for formally verifiable parents per THEOREM/PARENT_SUFFICIENT). M2 = measurement at exploratory grade with hostiles registered. Was by-analogy/non-final; finalized because for a parent-sufficiency claim P is load-bearing by the meaning of the claim itself",
         "amendments": "value decreases via amendment with cause; increases require sha+class per schema",
     },
     "rows": rows,
