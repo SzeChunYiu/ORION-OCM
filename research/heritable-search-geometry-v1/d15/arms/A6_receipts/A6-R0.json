@@ -1,0 +1,46 @@
+{
+  "receipt_id": "A6-R0",
+  "schema": "TheoryTransportV1",
+  "arm": "A6",
+  "phase": "P0_trace",
+  "atom_id": "A_T05_amortization_shared_modules_R7",
+  "donor_domain": "biochemical kinetics / metabolic organization (Michaelis-Menten saturation economics; substrate channeling vs diffusion)",
+  "donor_source_ids": [
+    "D13 MECHANISM_CROSSINDEX_V1.md rows M01 (saturation/nonlinear capacity limit -> enzyme kinetics), M02 (channeling/localization of flow -> metabolic organization), M03 (threshold economics -> metabolic enzyme investment)",
+    "D12_SCORING_V1.md custody reveal H1 (public since #265): donor discipline biochemical kinetics / metabolic organization"
+  ],
+  "donor_structure": "(a) Saturation: enzyme turnover rate v = Vmax[S]/(Km+[S]); marginal value of additional catalytic capacity decreases hyperbolically in substrate and vanishes at saturation, so capacity investment is governed by the saturation knee. (b) Channeling: direct enzyme-to-enzyme metabolite transfer (dedicated lane, built once) trades against free diffusion (per-use transport cost, no build cost); the trade is decided by flux intensity and locality. (c) Enzyme investment: cells regulate enzyme levels against anticipated flux; over-investment past the saturation point buys nothing.",
+  "target_structure": "A_T05 at R7: amortization identity with shared modules (2-level). Ladder already owns the R5 renewal-reward form (PARENT_SUFFICIENT, verified). The R7 two-level clause (module shared between levels, cross-level charging) is unclaimed.",
+  "mapping": [
+    "saturation knee (marginal per-use value -> 0) <-> diminishing per-use saving of a module at high use intensity H_eff",
+    "Vmax <-> maximum service rate of one module instance",
+    "Km (half-saturation constant) <-> use intensity at which per-use marginal saving halves",
+    "channeling build cost (dedicated lane) <-> C_build of a shared module",
+    "diffusion per-use cost <-> per-use charge of unshared/inline execution",
+    "enzyme-level regulation against anticipated flux <-> promotion decision (ties to A_T11, see A6-R1/A6-R2)"
+  ],
+  "preserved_relations": [
+    "build-vs-per-use threshold sits at the saturating operating point, strictly beyond linear breakeven when marginal value decreases in use intensity",
+    "two-level sharing charges the build once against the SUM of level fluxes, each evaluated at its own saturation point"
+  ],
+  "known_broken_relations": [
+    "metabolic concentrations are continuous and regulated homeostatically; HSG use counts are discrete random variables (Jensen gap flagged, not resolved here)",
+    "cells have no veto on enzyme expression once induced; HSG promotion is governed (licence structure)"
+  ],
+  "unknown_correspondences": [
+    "quantitative analogue of Km for program modules (use-intensity half-saturation of per-use savings) — unmeasured"
+  ],
+  "assumptions_added": [
+    "per-use marginal saving of a module is non-increasing in cumulative use intensity (saturation shape)"
+  ],
+  "candidate_theorem": "A_T05 amortization identity at R7 (shared modules) holds with the per-use value term evaluated at the saturated operating point: amortized cost per use -> E[cost per cycle]/E[uses] with per-use saving read off the Michaelis-Menten-form marginal curve; the renewal-reward (R5) form is the Km->infinity limit; promotion thresholds computed at linear breakeven are strictly premature at high use intensity.",
+  "strongest_parent": "Michaelis-Menten saturation kinetics + metabolic channeling economics (structure; via D13 cross-index rows M01/M02/M03)",
+  "proof_route": "analytic: renewal-reward identity with saturating per-use saving s(u) = s_max*u/(Km+u); breakeven in H_eff shifts outward by the saturation factor; recover linear case at Km->infinity",
+  "costs": {"B_donor": 60, "B_map": 15, "B_synth": 30, "B_validate": 50, "total": 155, "price_model": "HSG_D15_REVIVAL_FREEZE"},
+  "validation": {
+    "method": "analytic check against the ladder-owned renewal-reward parent (R5_AMORTIZATION_AT05_G16.md, verified) plus limit recovery",
+    "results": "linear parent recovered exactly at Km->infinity; saturating reading strictly generalizes at finite Km (threshold ratio 1 -> (Km+H*)/H* > 1); no counterexample class found",
+    "verdict": "candidate-theorem clauses consistent with the verified parent; SUPPORTED at the structural level"
+  },
+  "status": "SUPPORTED"
+}
