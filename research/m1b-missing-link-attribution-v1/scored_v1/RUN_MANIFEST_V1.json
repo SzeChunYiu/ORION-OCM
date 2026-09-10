@@ -1,0 +1,74 @@
+{
+  "schema": "OCM_M1B_SCORED_RUN_MANIFEST",
+  "schema_version": 1,
+  "run_id": "M1B_SCORED_V1",
+  "protocol": "research/top-tier-atomic-closure-v1/M1B_MISSING_LINK_ATTRIBUTION_FREEZE_V1.json (PR #346, merge 6a608150)",
+  "machinery_pr": 350,
+  "machinery_merge_commit": "82efa4962aa504044d55f488149d63300226acb7",
+  "run_host": {
+    "hostname": "billy",
+    "role": "laptop billy (designated scored-run host; never Mac mini)",
+    "clone_path": "/home/billy/orion-ocm-m1b2",
+    "clone_commit": "82efa4962aa504044d55f488149d63300226acb7",
+    "clone_commit_matches_machinery_merge": true,
+    "python": "cpython-3.11.14-linux-x86_64-gnu (uv)",
+    "driver": "/home/billy/orion-ocm-m1b2/drive_m1b_v1.sh",
+    "driver_sha256": "475d5791cf1a2a9c2dca1e5aa6ee09133a5d9d22f584921b950099fcc29923bb",
+    "driver_log_sha256": "711f1be0530d73b93a8247f09df4c695657fc7092e4c1cebebdb1f2bf3ae5778"
+  },
+  "entry_gates_at_launch": {
+    "pr_345_merged": true,
+    "pr_346_freeze_merged": true,
+    "pr_350_machinery_merged": true,
+    "full_selftest_on_run_host_exit_zero": true,
+    "machinery_live_sha256_matches_merge": "4d54f32d34e6321968c16affd77a940b28b955e60fa01337af686252eda4014f"
+  },
+  "worlds": {
+    "partitions_file": "M1_PARTITIONS_V1.json (M1, byte-identical reuse)",
+    "partitions_sha256": "a5b0cbc1814042a7b4ddcfbc8658e63c4b352fade22cfdcd91c1968bea13921e",
+    "protected_set_sha256_prefix": "62f199960eecfb0822bc724be9877cef9aa0fa87695917ead50ab4b1d98b236a",
+    "frozen_worlds_verified_in_run": "FROZEN_WORLDS_OK (verified at every phase entry)",
+    "dev_fingerprint_gate": "passed (mined fragments reproduce 70d8cad4ce2189eebf878eeaa1dc597cb20dbf68d157712b6983505543ed72bc)"
+  },
+  "ladder": {"slots_ladder": [1000, 4000, 16000, 64000, 200000], "dev_slots": 200000,
+             "targets": 8, "obligations": 32, "acquisition_rows_per_arm": 40,
+             "arms": 10},
+  "timing": {"started_utc": "2026-09-10T21:19:10Z", "finished_utc": "2026-09-10T22:12:34Z",
+             "wall_minutes": 53},
+  "artifact_transfer": {
+    "method": "rsync over ssh (never binary pipes) + sha256 manifest verified on BOTH sides",
+    "files": 43,
+    "laptop_manifest_matches_mac_copy": true,
+    "repo_copy_matches_manifest": "REPO_COPY_VERIFIED_43_FILES"
+  },
+  "instrumentation_disclosures": [
+    {
+      "id": "M1B-DISC-1",
+      "class": "observation_horizon_overcount",
+      "where": "m1b_runner.observe_native_retrieval (informational retrieval trace for registered-path arms STRONG_ADAPTIVE_PARENT, APPL_ORACLE)",
+      "what": "the static-parity observation traces the FULL budget horizon even when the solve verified earlier, so retrieval_events / retrieval_cost_slots for those two arms are UPPER BOUNDS, not realised costs (e.g. STRONG_ADAPTIVE_PARENT reports 1,140,000 retrieval cost slots against 120,661 acquisition slots)",
+      "affects": "HDI-14 families retrieval_events/retrieval_cost_slots for the two observation-path arms and the informational retrieval precision/recall columns ONLY",
+      "does_not_affect": "B_slots, successes, paired tables, recovery shares, lifetime recovery, terminal - all frozen metrics read result.slots, never the observation trace",
+      "disposition": "disclosed here; NOT silently repaired (machinery kept byte-identical to the run); codified as invariant checker observation_horizon_consistency in m1b_invariants.py (this PR), which alarms on retrieval_cost_slots > acquisition_slots for any arm in FUTURE runs"
+    },
+    {
+      "id": "M1B-DISC-2",
+      "class": "typed_failure_asymmetry",
+      "where": "classify_failure for registered-path arms (M.solve branches)",
+      "what": "M.solve returns no rejected-candidate count, so non-verified rows on M.solve-path arms type as budget_censored while mirror-path arms with identical behaviour type as verification_reject; the histogram is coarser (two labels, one behaviour) for RESET/CONTINUED/APPL_KO/KNOWN_STRUCTURE_ORACLE rows",
+      "affects": "typed_failures histogram granularity for M.solve-path arms ONLY",
+      "does_not_affect": "any frozen metric or the terminal",
+      "disposition": "disclosed; invariant checker typed_failure_cross_path_consistency added in m1b_invariants.py for future runs"
+    },
+    {
+      "id": "M1B-DISC-3",
+      "class": "amortisation_divisor_defect",
+      "where": "m1b_runner.phase_summarize lifetime_recovery construction",
+      "what": "the dev-enumeration charge was divided by attempts//distinct_targets (40//8 = 5, the rung count per target) instead of the distinct-target count (8); recorded dev_charge_per_target is 2,885,426 instead of the correct 1,803,391",
+      "affects": "recovery_share_lifetime_charged means in summary.json only (as-shipped approx -580; corrected divisor approx -361 for every arm)",
+      "does_not_affect": "the terminal: under the CORRECT divisor every arm's lifetime recovery remains deeply non-material (means approx -361, CI upper bounds approx -150, all far below the 0.20 margin), so AMORTISATION_DOMINATED stands unchanged; no frozen acquisition-side metric reads this field",
+      "disposition": "disclosed here; machinery NOT modified post-run (byte-identical to what executed); corrected lifetime means quoted in M1B_SCORED_RESULTS_V1.md; invariant checker amortisation_divisor_consistency in m1b_invariants.py (this PR) FAILs any future run whose recorded charge does not equal dev_enumeration_slots / distinct targets, with only this exact disclosed shape excused on this run"
+    }
+  ],
+  "claim_ceiling": "Attribution of M1's NO_NATIVE_EFFECT to applicability / retrieval timing / search integration at THIS assay scope ONLY: frozen worlds, frozen registered learner bound as-is, ten arms, declared info advantages. Calibration-oracle arms are never headline comparators. No economics claim, no OCM-residual claim, no open-endedness claim, and no claim about any unfrozen family is supported by this machinery or any run it produces."
+}
