@@ -56,9 +56,9 @@
     },
     "verified_by": {
       "CENTRE_REFETCH_BYTE_EXACT": "re-fetched by the centre lane and the quote matched byte-exactly after whitespace/dash normalization",
-      "SCAN_LANE_TRIPWIRE": "verified by the scanning lane with a byte-exact containment tripwire; not independently re-fetched by the centre",
       "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED": "scanning lane reached the text; centre re-fetch blocked (paywall/stub). Bibliographic record independently confirmed via CrossRef.",
-      "CENTRE_VERIFIED_REPO_RECEIPT": "no external quote is asserted; the row's figures and terminals were read by the centre lane directly out of the cited ORION-OCM receipt JSON at origin/main via /usr/bin/git show, not from a prior lane's report"
+      "CENTRE_VERIFIED_REPO_RECEIPT": "no external quote is asserted; the row's figures and terminals were read by the centre lane directly out of the cited ORION-OCM receipt JSON at origin/main via /usr/bin/git show, not from a prior lane's report",
+      "CENTRE_CONFIRMED_UNREACHABLE": "the centre lane independently attempted the primary text and confirmed it could not be reached; the bibliographic record was confirmed via CrossRef or NCBI E-utilities where possible. Nothing is quoted."
     },
     "orion_gaming_families": {
       "source": "#277 section 3, verbatim shorthand",
@@ -102,15 +102,20 @@
     "rule": "A quoted line entered this file only if it was seen in a tool result during this session. No quote, number, page, venue or identifier was written from recall.",
     "known_environment_hazard": "The display filter in this environment silently deletes function words from large tool outputs and sometimes truncates them, with or without a '[N items compressed to M]' marker. Text read through that channel is NOT safe to quote. All quotes were verified through a byte-exact containment test computed in-process, whose boolean result survives the filter.",
     "centre_spot_check": {
-      "method": "curl to file, strip markup in-process, NFKD-normalize, collapse whitespace, normalize quote/dash characters, then test substring containment and print only PASS/FAIL",
-      "rows_re_fetched_by_centre": 19,
-      "quote_segments_tested": 26,
+      "method": "curl to file, in-process markup strip for HTML or pdftotext for PDF, NFKD-normalize, normalize quote/dash/nbsp characters, collapse whitespace, then substring-containment test printing only PASS or FAIL, so the boolean survives the display filter",
+      "rows_re_fetched_and_byte_matched_by_centre": 34,
+      "rows_verified_against_repo_receipt_json_at_origin_main": 4,
+      "rows_centre_confirmed_unreachable": 2,
+      "rows_resting_on_scanning_lane_only": 1,
+      "quote_segments_tested_by_centre": 47,
       "fabrications_found": 0,
       "corrections_found": [
         "B01: the ar5iv render breaks the figure reference as 'Fig. 6 A', not 'Fig. 6A'. Quote restated to the render's exact bytes; substance unchanged.",
-        "B11: the quoted line is in the paper BODY, not the abstract. Section label corrected; quote byte-exact in the full HTML text.",
-        "A09: centre re-fetch of the Springer PDF returned a 3038-byte paywall stub. Citation independently CrossRef-confirmed; quote rests on the scanning lane's fetch and is labelled accordingly."
-      ]
+        "B11: the quoted line was stitched across a clause that had not been verified contiguously, and was labelled ABSTRACT although it is in the paper BODY. Reduced to the contiguous fragment actually verified; the rest is paraphrased, not quoted.",
+        "A09: centre re-fetch of the Springer PDF returned a 3038-byte paywall stub and every alternate route failed. Citation independently CrossRef-confirmed (Machine Learning 5:299-348, 1990); the quote rests on the scanning lane's fetch and the row is labelled SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED. It is the ONLY row in the matrix in that state.",
+        "A13/A14/B12/C13: these four rows originally cited figures taken from prior-lane REPORTS rather than from the receipts. All figures were re-read by the centre lane directly out of the receipt JSON at origin/main, and the rows were relabelled CENTRE_VERIFIED_REPO_RECEIPT because they assert no external quote."
+      ],
+      "residual_risk": "One row (A09) carries a quote the centre lane could not independently re-fetch. Three rows (A15, B13, C12) are graded SOURCE_UNVERIFIED and quote nothing. Everything else has been byte-matched against a primary source or against an ORION-OCM receipt at origin/main by this lane."
     }
   },
   "parent_matrix": [
@@ -167,7 +172,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "This row's value is methodological rather than competitive: it constrains how any P coordinate in this programme may be raised, and it does not itself claim a function ORION-OCM wants.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -224,7 +229,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "Methodological constraint on the R coordinate rather than a competing claim on an ORION-OCM function.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -262,7 +267,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'how to account for external human cognition inside a never-ending learner's reported capability', NELL's per-predicate-per-month accounting plausibly already owns it. ORION-OCM's EXTERNAL_COGNITIVE_INPUT_LEDGER should adopt this accounting shape and cite it, rather than invent a private one. Success terminal candidate and a direct input to TTAC-D5.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [
         "https://www.cs.cmu.edu/~tom/pubs/NELL_CACM_2018.pdf (HTTP 404)",
         "https://dl.acm.org/doi/pdf/10.1145/3191513 (HTTP 403)",
@@ -311,7 +316,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'the correct accounting identity for whether acquired knowledge pays', this parent plausibly owns it. ORION-OCM should adopt the utility-problem accounting as the definition of H1's success criterion and cite Minton, rather than treat LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS as a new phenomenon.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -330,7 +335,7 @@
       "first_refusal_verdict": "ORION_DELTA_PLAUSIBLE",
       "verdict_reasoning": "The diagnosis is owned by the parent, but the remedy shape - excision keyed to provenance and warrant liveness rather than to a use counter - is where an ORION-OCM organ (H4 exact revocation) could differ. Unshown; #165 caps H4 at planted scope.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -349,7 +354,7 @@
       "first_refusal_verdict": "ORION_DELTA_PLAUSIBLE",
       "verdict_reasoning": "The parent states its own boundary: it selects among supplied strategies. Discovering the set is a genuinely different function and a candidate ORION-OCM delta organ - but it is unshown, and the comparison is only fair if the discovery cost is charged.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -406,7 +411,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "No primary text, therefore no verdict is licensed.",
       "verification_status": "CANNOT_VERIFY_SOURCE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_CONFIRMED_UNREACHABLE",
       "search_terms_tried": [
         "WebSearch: Anderson 2004 'An integrated theory of the mind' Psychological Review ACT-R pdf act-r.psy.cmu.edu",
         "http://act-r.psy.cmu.edu/wordpress/wp-content/uploads/2012/12/526FSQ.pdf (HTTP 404)",
@@ -451,7 +456,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'a formal criterion for admitting a self-invented task without forgetting', PowerPlay plausibly already owns it: the validity check (new task solved AND all prior tasks still solved) is a complete, published, adoptable rule. ORION-OCM should adopt and cite it for #149's proposal admission rather than re-derive one.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -470,7 +475,7 @@
       "first_refusal_verdict": "ORION_DELTA_PLAUSIBLE",
       "verdict_reasoning": "ORION-OCM's lineage is governed rather than open-ended - #151 and #149 place authority outside the generator - so directability is a genuine architectural difference. But that is a difference in KIND, not a demonstrated advantage, and it costs exactly the open-ended reach POET is claiming.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -527,7 +532,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "Not re-runnable outside a large industrial lab, so this is citable evidence and a portable protocol rather than a baseline that can be subtracted.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -584,7 +589,7 @@
       "first_refusal_verdict": "ORION_DELTA_PLAUSIBLE",
       "verdict_reasoning": "The parent owns a faster abstraction operator but explicitly does NOT measure downstream synthesis success, so the lifetime question H1 asks is left open by it. That gap is where an ORION-OCM lifetime-economics measurement is genuinely additive.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -660,7 +665,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "No identified primary source for the intended parent, therefore no verdict is licensed.",
       "verification_status": "CANNOT_VERIFY_SOURCE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [
         "WebSearch: 'LEGION' skill library lifelong learning agent program synthesis paper",
         "Resolved only to Nature Machine Intelligence doi:10.1038/s42256-025-00983-2, a robotics lifelong-RL framework, which is not a family-B parent"
@@ -739,7 +744,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'establish the theoretical limit of proof-gated self-improvement', this parent owns it and the result is a theorem-shaped bound, not something a run could overturn. Engineering past it is not available; absorbing it as a scope statement is.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -834,7 +839,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'establish that string-matching decontamination is insufficient', this parent owns it. ORION-OCM's protected worlds and seeds are the right response; the parent supplies the reason they are necessary.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -853,7 +858,7 @@
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "For the function 'diagnose why retrospective discovery evaluations are unsound', this parent owns it. The programme should adopt the blinding requirement and cite it; there is nothing here to engineer past.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
@@ -872,7 +877,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "Source strength is insufficient to support any verdict. Retained as a lead with its weakness stated in the row itself.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
       "search_terms_tried": [],
       "external_negative_grade": "SOURCE_TOO_WEAK_TO_USE"
     },
@@ -891,7 +896,7 @@
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "No primary text, therefore no verdict is licensed.",
       "verification_status": "CANNOT_VERIFY_SOURCE",
-      "verified_by": "SCAN_LANE_TRIPWIRE",
+      "verified_by": "CENTRE_CONFIRMED_UNREACHABLE",
       "search_terms_tried": [
         "https://muse.jhu.edu/article/405280 (HTTP 200, 2230 bytes - paywall stub, no article text)",
         "https://pubmed.ncbi.nlm.nih.gov/3797213/ (HTTP 203 - bot-filtered, no abstract text)",
@@ -952,6 +957,12 @@
       "C"
     ],
     "families_pending": [],
-    "assertion": "counts recomputed programmatically from parent_matrix at commit time. verification_status counts SOURCE REACHABILITY; external_negative_grade counts USABILITY AS EVIDENCE and is the field D2/D3 must consume. No FAITHFUL_RUN row exists because nothing was executed in this lane."
+    "assertion": "counts recomputed programmatically from parent_matrix at commit time. verification_status counts SOURCE REACHABILITY; external_negative_grade counts USABILITY AS EVIDENCE and is the field D2/D3 must consume. No FAITHFUL_RUN row exists because nothing was executed in this lane.",
+    "by_verified_by": {
+      "CENTRE_REFETCH_BYTE_EXACT": 34,
+      "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED": 1,
+      "CENTRE_VERIFIED_REPO_RECEIPT": 4,
+      "CENTRE_CONFIRMED_UNREACHABLE": 2
+    }
   }
 }
