@@ -1,0 +1,584 @@
+{
+ "behavioural_dedup": {
+  "cost_reported_separately": true,
+  "explicitly_excluded": [
+   "unit types",
+   "topology",
+   "field family",
+   "genotype digest",
+   "phenotype digest"
+  ],
+  "parent_lever_reference": "GS-R2 GSA6_DP carried the distinct-yield recovery at ~2x cpu-seconds per seed (190526.55 vs GSA2_hetero 354046.0 morphologies/cpu-hour)",
+  "quantisation": 1000,
+  "schema": "FOBehaviourSigV1",
+  "signature": "sha256 over (per-family solved/total profile, quantised B_behavior_2d dims, boolean gate vector)"
+ },
+ "code_digests": {
+  "oracle/__init__.py": "a96d2cd5705d7a54926c0b4c4b78644abb131daa8d617ebd4234934fb5fede0b",
+  "oracle/behaviour_sig.py": "7e5d8e70a781c640c9cc42e603e603c33cb53bc6155ef60e449e400f5650ed29",
+  "oracle/burden.py": "3c593702da74a7f1ca7d0548c29409a5beb061425eef809f3e7d88f42f6a0330",
+  "oracle/c_immutability.py": "91e5a14fa06380ff39e305fb7bf092875d02f343921839cd084dfaf75f591ba5",
+  "oracle/d26_adapters.py": "e92bba6022ae2b9c681599c87910b7f3d0262041da928c10d927fbcf2c0216ca",
+  "oracle/d26_operators.py": "8a88779e0df14f8d119a52c7fbbedae0058f956191de3d0e18d7e4b4e495b614",
+  "oracle/d27_lineage.py": "e15b44b677049958a7d61e129120eadf66c785fc40d4100b6609a21564d55ae4",
+  "oracle/evolvability.py": "763ad04d4413c6b3850619c529c868e0df90dddb5b082b070eb036d828002a5f",
+  "oracle/future_family.py": "ce59a2f82d4e6f46820e38ca3cbf9cdc955dd4e1281670f0623c5be196cab256",
+  "oracle/objectives4.py": "67391798ab4adf19ca538955bcee76f5aeb0aecaaf2262f6b4a445b5e5474e03",
+  "oracle/run_form_oracle.py": "097c508a0c73aad3ad197c8d701d388b998817d9df6d90ad8b9ec40642020e8a"
+ },
+ "compute": {
+  "account": "lu2026-2-51",
+  "cluster": "LUNARC cosmos3",
+  "network_policy": "NO outbound network from the cluster at any time; code and dependencies staged by rsync, results returned by rsync",
+  "no_sympy": "sympy is absent on the compute nodes and installing it would need a prohibited network call, so D_ALG equality uses the lab's exact evaluation-vector oracle under an ENFORCED degree<=20 gate, which is sound and complete for these worlds",
+  "nuc_blocked": "sinfo shows nuc 96/96 idle and the association lists lu2026-2-51|nuc, but submission is refused with 'Your project is not allowed to run on the nuc partition'; lu48 verified working",
+  "partition": "lu48"
+ },
+ "constitution_gate": {
+  "c_digest_at_freeze": {
+   "CAPABILITY_FLOOR_V1": "d2cbad71ff333de6",
+   "COST_MODEL_V1": "30a4f4ba6de7f3b9",
+   "EXEC_MULT": "3d42c8b60ea53b19",
+   "FIELD_MULT": "e122009bbb37b7de",
+   "REVOCATION_REQUIRED": "b5bea41b6c623f7c",
+   "TOPOLOGY_MULT": "602d167424b47e27",
+   "_all": "876293c3f8bf4e787b9bd59f0869df47891a62a8a69920edf9dedb40e9dbfc20",
+   "charged_priors": "54d457e6fc6d7303"
+  },
+  "c_owned_names": [
+   "COST_MODEL_V1",
+   "FIELD_MULT",
+   "TOPOLOGY_MULT",
+   "EXEC_MULT",
+   "CAPABILITY_FLOOR_V1",
+   "REVOCATION_REQUIRED",
+   "charged_prior"
+  ],
+  "enforcement": "EXECUTED (raises CImmutabilityViolation); never logged",
+  "gate_id": "GATE_C_IMMUTABLE",
+  "genome_fields": [
+   "F_arch",
+   "U",
+   "T",
+   "O_basis",
+   "Pi_arch",
+   "L",
+   "R",
+   "K",
+   "theta"
+  ],
+  "reportable_result_if_violated": "a legal configuration able to alter C is a bug in the space and is itself a reportable result",
+  "selftest": {
+   "alarm_on_c_naming_genome": true,
+   "alarm_on_tampered_constitution": true,
+   "constitution_restored": true,
+   "no_alarm_pass": true,
+   "schema": "GateCImmutableSelftestV1",
+   "status": "OK"
+  }
+ },
+ "contains_results": false,
+ "created_utc": "2026-09-10T09:53:18Z",
+ "d26": {
+  "claim_rule": "a general-operator claim requires the contract to hold in ALL three domains; fewer is labelled SCOPED_n_OF_3, never rounded up",
+  "contract": {
+   "DISTINGUISH": {
+    "D1": "|H'| < |H| or (obs is None and no-distinguisher certificate)",
+    "D2": "the true hypothesis is never eliminated"
+   },
+   "REDUCE": {
+    "Q1": "back(solve(p')) solves p whenever solve(p') succeeds",
+    "Q2": "p unsolvable implies p' unsolvable"
+   },
+   "REFINE": {
+    "R1": "the counterexample is not admitted by the refined abstraction",
+    "R2": "nothing truly equivalent is separated (sound over-approximation)"
+   },
+   "VERIFY": {
+    "V1": "never ACCEPT a false claim",
+    "V2": "REJECT carries a checkable witness"
+   }
+  },
+  "domains": [
+   "D_SEM",
+   "D_ABS",
+   "D_ALG"
+  ],
+  "negative_transfer_retained": true,
+  "operators": [
+   "DISTINGUISH",
+   "REFINE",
+   "REDUCE",
+   "VERIFY"
+  ],
+  "scope_deviation": "OW9 (cross-domain same-hypergraph) does not exist on main; exact/worlds.py implements OW1..OW7 only (enumerated with a matching control). D26 tests transfer across INDEPENDENT domains, a weaker claim than OW9 would support."
+ },
+ "d27": {
+  "arms": [
+   "CONTINUED_OCM",
+   "RESET_OCM",
+   "KNOCKOUT_methods",
+   "KNOCKOUT_schemas",
+   "KNOCKOUT_facts",
+   "KNOCKOUT_index_built"
+  ],
+  "attribution": "attribution(obj) = 1 - residual(obj)/advantage, where advantage = CONTINUED - RESET and residual(obj) = KNOCKOUT_obj - RESET",
+  "b_future_cognition": "charged WORK on the future battery, byte rent excluded (including it would make the signature unfalsifiable in one direction); the bytes-inclusive figure is reported too",
+  "carrier_rule": "a carrier is named only when an advantage exists; otherwise carrier_status = NO_ADVANTAGE_TO_ATTRIBUTE",
+  "decisive_rule": "a correlated pre/post comparison does NOT substitute for the knockout and does not reach C=3",
+  "inherited_objects": [
+   "methods",
+   "schemas",
+   "facts",
+   "index_built"
+  ],
+  "knockout": "delete exactly ONE inherited object at every epoch boundary, leaving the others inheriting; the frozen evaluator is patched at Sim.end_epoch, never forked",
+  "signature": "B_future_cognition(t+1) < B_future_cognition(t) on prospectively frozen RELATED tasks at matched capability, WITHOUT equivalent gains on unrelated or harmful controls",
+  "store_constant_guard": "an organism whose inherited store never changes across epochs yields CANNOT_CHECK_STORE_CONSTANT_ACROSS_EPOCHS, never a false negative"
+ },
+ "environment": {
+  "node": "cn057",
+  "platform": "Linux-5.14.0-687.24.1.el9_8.x86_64-x86_64-with-glibc2.34",
+  "python": "3.11.5"
+ },
+ "falsifiers": {
+  "F1": "evolvability indistinguishable from its shuffle-equal-n null within capability bins -> the objective carries no signal; report it, do not rescue it",
+  "F2": "Spearman(capability, evolvability) >= 0.95 within bins -> evolvability is redundant with capability and is reported as redundant",
+  "F3": "B_steps == 0 -> evolvability undefined, CANNOT_CHECK_ZERO_BURDEN, never coerced to 0 or infinity",
+  "F4": "a D26 obligation that is never exercised yields CANNOT_CHECK_NO_OBLIGATION_EXERCISED, never a pass",
+  "F5": "if no knockout weakens the CONTINUED advantage, the attribution to inherited objects is FALSIFIED and reported as such",
+  "F6": "if a parent owns a region of the front, that region is reported PARENT_SUFFICIENT and not engineered past"
+ },
+ "fidelity": {
+  "eta": 3,
+  "late_bloomer_insurance_fraction": 0.15,
+  "min_promote": 3,
+  "promotion_rule": "n0 -> n0/eta -> n0/eta^2 with a frozen late-bloomer insurance fraction; failures are ledgered and charged as attempted",
+  "reused_from": "search/successive_halving.py (frozen, unmodified)",
+  "rung_evaluators": {
+   "T0": "evaluation.evaluate.evaluate_genome(tier=T0)",
+   "T1": "evaluation.gs_t1.evaluate_t1",
+   "T2": "evaluation.evaluate.evaluate_genome(tier=T2)"
+  },
+  "rungs": [
+   "T0",
+   "T1",
+   "T2"
+  ]
+ },
+ "future_families": {
+  "CTRLH_HARMFUL": "FOFutureFamilyV1:5992c3e92970e64e",
+  "CTRLU_UNRELATED": "FOFutureFamilyV1:c8e5f3e8d13e70de",
+  "FOF1_RELATED": "FOFutureFamilyV1:4b80bbdc4c2b66e1",
+  "correlation_disclosure": "FOF1 and the held-out T3 share the t3_draw generator; t3_gen and evolvability are therefore not independent. Declared pre-run; realised correlation reported.",
+  "disjointness_gate": "assert_disjoint_from_t3 (EXECUTED)",
+  "draws": {
+   "CTRLH": {
+    "t3_chain_transfer": {
+     "depth_mult": 0.9701,
+     "hops": 3.6116
+    },
+    "t3_conflict_refusal": {
+     "pairs": 1.2183
+    },
+    "t3_doubt_probe": {
+     "contradictions": 1.0948,
+     "probe_yield": 2.3205
+    },
+    "t3_interrupted_plan": {
+     "interrupts": 2.3879,
+     "redepth": 6.2665
+    },
+    "t3_novel_variant": {
+     "depth_mult": 1.1785,
+     "variants": 4.6029
+    },
+    "t3_scale_retrieval": {
+     "items_mult": 5.5349,
+     "k": 6.3903
+    }
+   },
+   "CTRLU": {
+    "t3_chain_transfer": {
+     "depth_mult": 1.5548,
+     "hops": 3.3224
+    },
+    "t3_conflict_refusal": {
+     "pairs": 1.5632
+    },
+    "t3_doubt_probe": {
+     "contradictions": 2.9287,
+     "probe_yield": 2.3767
+    },
+    "t3_interrupted_plan": {
+     "interrupts": 1.1773,
+     "redepth": 4.5231
+    },
+    "t3_novel_variant": {
+     "depth_mult": 1.0115,
+     "variants": 2.0336
+    },
+    "t3_scale_retrieval": {
+     "items_mult": 4.1389,
+     "k": 6.0454
+    }
+   },
+   "FOF1": {
+    "t3_chain_transfer": {
+     "depth_mult": 1.0011,
+     "hops": 3.2612
+    },
+    "t3_conflict_refusal": {
+     "pairs": 1.7731
+    },
+    "t3_doubt_probe": {
+     "contradictions": 1.522,
+     "probe_yield": 2.1002
+    },
+    "t3_interrupted_plan": {
+     "interrupts": 2.93,
+     "redepth": 6.6949
+    },
+    "t3_novel_variant": {
+     "depth_mult": 1.7386,
+     "variants": 2.1413
+    },
+    "t3_scale_retrieval": {
+     "items_mult": 6.4609,
+     "k": 6.2572
+    }
+   }
+  },
+  "generator": "evaluation.t3_ecology.t3_draw",
+  "heldout_t3_key_id": "GSHeldoutT3V1:4d0a1487e4427449",
+  "protocol_salt": "OCM_FORM_ORACLE_V1|2026-09-10|prospective_future_families",
+  "rationale": "the T3 key is frozen and must not be re-drawn, so FOF1/CTRLU/CTRLH are minted from NEW keys through the SAME deterministic generator before any run"
+ },
+ "governing_issues": [
+  "#277 sec 7",
+  "#233 D26",
+  "#233 D27",
+  "#221"
+ ],
+ "known_boundaries_consumed_not_rederived": {
+  "D20 (7a6427e9)": "CEGAR never beats direct concrete search on the frozen n grid [8,12,16,20,24]; attribution is abstraction CONSTRUCTION, not search",
+  "D21 (7b23ef04)": "shared e-graph amortised ratio 0.418 aggregate, per-world spread 0.27 (OW6-01) to 2.22 (OW6-00, e-graph wins); the spread IS the boundary and must not be averaged away",
+  "GS-R2 (b434c55c)": "85025 of 100693 distinct survivors fail T3 generalization (84.44%)"
+ },
+ "null": {
+  "holds_fixed": "n per arm per bin, and capability (via the bin)",
+  "n_perm": 1000,
+  "rationale": "selectivity is not edge",
+  "test": "shuffle-equal-n permutation within capability bins"
+ },
+ "objectives": {
+  "1_capability": {
+   "ecology": "LifetimeEcologyV2 (12 epochs, 8 frozen families)",
+   "estimator": "evaluation.lifetime2.run_lifetime2 solved_fraction at T2",
+   "floor": 0.5
+  },
+  "2_burden": {
+   "B2_REF": 152.8,
+   "B_REF": 150.0,
+   "W2_REF": 484.7,
+   "W_REF": 500.0,
+   "components": [
+    "B_acquire",
+    "B_exec",
+    "B_verify",
+    "B_revise",
+    "B_self",
+    "B_maintain",
+    "B_bytes"
+   ],
+   "crash_charge": "running mean charged work at that rung; a crash can never be cheaper than an evaluation",
+   "estimator": "oracle.burden.b_full",
+   "formula": "B_full = work_charged + LAMBDA_BYTES*persistent_bytes + B_reject_share",
+   "index_cost": "index_build_work is charged into acquisition_work by the frozen evaluator; index_built is reported so this is auditable",
+   "known_zero_this_tranche": [
+    "B_self (self_change_work is 0.0 for static organisms)"
+   ],
+   "lambda_bytes": 3.1721204188481673,
+   "lambda_bytes_derivation": "W2_REF/B2_REF, both frozen pre-score",
+   "measurement_reported_separately": true,
+   "memoisation": "evaluate_genome caches on (phenotype_digest, tier); a cache hit saves wall clock, not charged work. Every attempt is charged.",
+   "reject_share": "search work charged over EVERY candidate evaluated at a search rung -- feasible, infeasible, gate-failed and crashed -- divided by the retained archive size",
+   "search_rungs": [
+    "T0",
+    "T1",
+    "T2"
+   ]
+  },
+  "3_t3_generalization": {
+   "estimator": "evaluation.t3_ecology.evaluate_t3 solved_fraction",
+   "held_out": true,
+   "key_id": "GSHeldoutT3V1:4d0a1487e4427449",
+   "not_redrawn": true,
+   "not_used_for": [
+    "admission",
+    "promotion",
+    "any design choice"
+   ]
+  },
+  "4_evolvability": {
+   "definition": "[cap_FOF1(x after k governed steps) - cap_FOF1(x)] / B_steps",
+   "estimator": "oracle.evolvability.evolvability",
+   "future_family": "FOF1, prospectively frozen (see below)",
+   "governed_step": "propose <= P_MAX mutations; accept the FIRST that compiles legally, passes every frozen hard gate at T0, and does not regress current-family capability by more than TAU. Unaccepted proposals are still charged.",
+   "k_steps": 3,
+   "matched_capability": {
+    "bin_edges": [
+     [
+      0.5,
+      0.55
+     ],
+     [
+      0.55,
+      0.6
+     ],
+     [
+      0.6,
+      0.65
+     ],
+     [
+      0.65,
+      0.7
+     ],
+     [
+      0.7,
+      0.75
+     ],
+     [
+      0.75,
+      0.8
+     ],
+     [
+      0.8,
+      0.85
+     ],
+     [
+      0.85,
+      0.9
+     ],
+     [
+      0.9,
+      0.95
+     ],
+     [
+      0.95,
+      1.0
+     ]
+    ],
+    "bin_hi": 1.0,
+    "bin_lo": 0.5,
+    "bin_width": 0.05,
+    "comparison": "within bin only",
+    "method": "stratification, not regression"
+   },
+   "proposals_per_step_max": 8,
+   "regression_tolerance_tau": 0.0,
+   "subsample": {
+    "n": 64,
+    "rule": "seeded RANDOM subsample of T2 survivors, never top-N: top-N would select on capability and bias the estimator it feeds"
+   },
+   "undefined_code": "CANNOT_CHECK_ZERO_BURDEN"
+  },
+  "report_time": {
+   "maximize": [
+    true,
+    false,
+    true,
+    true
+   ],
+   "names": [
+    "capability",
+    "burden",
+    "t3_gen",
+    "evolvability"
+   ],
+   "note": "post-hoc only; the Pareto front is the deliverable"
+  },
+  "search_time": {
+   "maximize": [
+    true,
+    false,
+    true
+   ],
+   "names": [
+    "capability",
+    "burden",
+    "evolvability"
+   ],
+   "note": "T3 is EXCLUDED from admission. If held-out generalization entered the selection rule it would no longer be held out."
+  }
+ },
+ "parents": {
+  "frozen_zoo_parents": {
+   "GSA2_hetero": {
+    "cpu_seconds_per_seed": 51.258,
+    "distinct_t2_viable_per_seed": 5062.7,
+    "morphologies_per_cpu_hour": 354046.0
+   },
+   "GSA5_surrogate": {
+    "cpu_seconds_per_seed": 111.257,
+    "distinct_t2_viable_per_seed": 2233.3,
+    "morphologies_per_cpu_hour": 72150.0
+   },
+   "source": "results/GS_R2_AGGREGATE.json on main (b434c55c)"
+  },
+  "lineage_arms": [
+   "CONTINUED_OCM",
+   "RESET_OCM",
+   "KNOCKOUT_methods",
+   "KNOCKOUT_schemas",
+   "KNOCKOUT_facts",
+   "KNOCKOUT_index_built",
+   "TASK_SPECIFIC_OCM",
+   "STRONG_PERSISTENT_NON_NEURAL_PARENT",
+   "STRONG_ADAPTIVE_APPROXIMATE_PARENT"
+  ],
+  "parent_sufficient_is_a_success_terminal": true,
+  "scope_deviation": "#277 sec 7 names STRONG_ADAPTIVE_NEURAL_PARENT. No learned neural parent exists in this stack; the closest legal form is the approximate/VSA family, run and reported as STRONG_ADAPTIVE_APPROXIMATE_PARENT. Calling it neural would be fabrication.",
+  "throughput_denominator": "distinct T2-viable survivors per cpu-hour, matching the parents'"
+ },
+ "protocol_id": "FORM_ORACLE_PROTOCOL_V1",
+ "reuse_audit": {
+  "rejected_reuse": {
+   "BOHB/HpBandSter": "quota-blocked and architecturally hostile (nameserver+daemon topology vs frozen sbatch arrays); the frozen ~70-line SH loop binds OUR tier evaluators and is retained -- recorded in REUSE_AUDIT.md",
+   "pyribs/QDax emitters": "would replace the frozen arm algorithms; MOMEArchive's design is reused, its dominance relation cannot be",
+   "sympy": "prohibited network call from the cluster"
+  },
+  "reused_unmodified": [
+   "search/successive_halving.py (multi-fidelity rungs)",
+   "search/mome.py (per-niche Pareto archive design)",
+   "search/novelty_viability.py (behaviour-keyed archive design)",
+   "morphology/gs_bound.py (legality-bounded sampling)",
+   "evaluation/lifetime.py, lifetime2.py (charging + T2 battery)",
+   "evaluation/t3_ecology.py (key-parameterised family generator)",
+   "evaluation/invariants.py (frozen hard gates)",
+   "exact/worlds.py, worlds_d19d20.py, d20.py, d21_reduction_equality.py, egraph.py (D26 domains)"
+  ],
+  "self_built_residual_and_why": {
+   "oracle/behaviour_sig.py": "upstream dedup keys on phenotype structure; behavioural dedup needs a solved-profile signature",
+   "oracle/burden.py": "no upstream charges rejected-candidate work, and no upstream handles the T3 battery's work_total-only shape",
+   "oracle/c_immutability.py": "structural exclusion of C exists but is not asserted as an executed gate anywhere",
+   "oracle/d26_adapters.py, d26_operators.py": "the abstract operator contract and its drivers do not exist; the domain primitives are all reused",
+   "oracle/d27_lineage.py": "continued/reset exists upstream; the single-object knockout and B_future_cognition do not",
+   "oracle/evolvability.py": "no upstream implementation exists",
+   "oracle/future_family.py": "a prospectively frozen future split had to be minted",
+   "oracle/objectives4.py": "evaluation/objectives.dominates is hardwired to the 10-name OBJECTIVE_REGISTRY_V1 tuple and cannot express a 4-vector containing an aggregate burden and evolvability"
+  }
+ },
+ "seeds": {
+  "arm_seeds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "determinism_claim": "every estimator is a deterministic function of (genome, key, seed); verified by a smoke run before the array launch",
+  "evolvability_seed_rule": "seed*1000 + record_index",
+  "null_seed": 20260910
+ },
+ "space": {
+  "bound": {
+   "F_arch": [
+    "approx_projection_vsa",
+    "blackboard_production",
+    "event_sourced_tms",
+    "factorized_field",
+    "flat_typed_relational",
+    "hierarchical_fibred",
+    "hypergraph_metagraph",
+    "kso_reference",
+    "library_procedural",
+    "typed_property_graph"
+   ],
+   "K": [
+    "consolidated_schema_residual",
+    "episodic_store",
+    "persistent_facts",
+    "persistent_facts_index",
+    "procedural_store",
+    "volatile_only"
+   ],
+   "L": [
+    "anti_unification_schema",
+    "consolidation_schema_residual",
+    "exemplar_persistence",
+    "library_learning",
+    "none",
+    "representation_split",
+    "rewrite_egraph_abstraction",
+    "scoped_nogood",
+    "verifier_guided_cegis"
+   ],
+   "Pi_arch": [
+    "adaptive_probe_policy",
+    "blackboard_bidding_agenda",
+    "cost_aware_metapolicy",
+    "distributed_propose_central_commit",
+    "event_driven_local",
+    "exact_global_queue",
+    "hierarchical_executive"
+   ],
+   "R": [
+    "dependency_cone_reopen",
+    "full_rescan",
+    "none"
+   ],
+   "T_family": [
+    "central_blackboard_star",
+    "distributed_local_controllers",
+    "growing_pruning",
+    "hierarchy_tree",
+    "layered_dag",
+    "recurrent_event_graph",
+    "small_world_sparse",
+    "sparse_modular"
+   ],
+   "bound_id": "GS_BOUND_V1",
+   "extra_units": [
+    "abstraction_schema",
+    "assoc_similarity",
+    "constraint_solver",
+    "diagnostic_probe",
+    "episodic_memory",
+    "exact_index",
+    "fsm_controller",
+    "local_executive",
+    "procedural_memory",
+    "production_rule",
+    "rewrite_program",
+    "search_planner"
+   ],
+   "max_extra_units": 5
+  },
+  "closed_form_size": 143881920,
+  "constitution": "C is NOT part of G (morphology/schema.py:3)",
+  "genome": "G = (F_arch, U, T, O_basis, Pi_arch, L, R, K, theta)",
+  "legality_predicate": "membership in GS_BOUND_V1 vocabulary AND successful compile_genome AND the frozen compile-time invariant set; identical to the filter the census enumeration applies",
+  "sampling_lanes": [
+   "gs_uniform",
+   "lane_units",
+   "lane_hetero",
+   "lane_fields",
+   "lane_ops"
+  ],
+  "searched": [
+   "F (F_arch)",
+   "O (O_basis + extra_units)",
+   "Pi (Pi_arch, L, R, K, T_family, theta)"
+  ]
+ },
+ "study": "OCM Form Oracle over legal (F,O,Pi) under fixed C",
+ "supersession_rule": "any post-freeze change to this protocol requires a recorded supersession with cause and a re-run"
+}
