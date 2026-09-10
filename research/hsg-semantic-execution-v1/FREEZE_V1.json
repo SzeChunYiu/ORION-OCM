@@ -1,0 +1,48 @@
+{
+ "freeze": "HSG_V4_SEMANTIC_EXECUTION_FREEZE_V1",
+ "created_utc": "2026-09-10T06:34:42Z",
+ "tool": "python3 freeze builder (this script)",
+ "source_amendment": "SzeChunYiu/ORION-OCM#233 HSG v4 amendment; #93 v4 bridge comment",
+ "base_branch": "origin/main @ b309e704c362a4a75800ee093c722f6dbb2c901b",
+ "branch": "hsg/v4-d16-freeze",
+ "manifest_sha256": {
+  "DEFINITIONS.md": "3e215e556291c6a756c7501848a489197f390cec9cabf8f8238aee3efb3b8d46",
+  "THEOREM_REGISTRY_V1.json": "8c626671f127b84f3cb184b44a059e73691c306ffd2690edf0d2aa2c8cfda66b",
+  "PARENT_LEDGER.md": "cb0b2cc62026039554c004ebbdb303148d63cca859ecbcde6c7bafffd62e517f",
+  "EXPERIMENT_REGISTRY_V1.json": "edab6404342703532b08cb929064976e082754be442d91e27031f57450759ed4",
+  "HOSTILE_REGISTRY_V1.json": "3168f4a35e6a320bbe24692d23e49e50334cff4e9d6bacea92fa24ec39e7c015"
+ },
+ "census": {
+  "theorem_rows": 30,
+  "d17_machine_check_rows": 14,
+  "parents_pending_verification": 25,
+  "worlds": 10,
+  "experiments_D17_to_D28": 12,
+  "hostiles": 27,
+  "novelty_census": {
+   "NEW_PROOF": 12,
+   "COROLLARY": 4,
+   "PARENT": 12,
+   "PARENT_RECONSTRUCTION_PLUS_PROOF": 1,
+   "mixed_parent_new": 1
+  }
+ },
+ "rule": "FREEZE exists BEFORE any result-generating code; statuses OPEN until evidence lands; append-only amendments afterwards",
+ "forbidden_overclaims": [
+  "no P2 finite certificate may be re-labeled universal P1 proof",
+  "no accuracy claim without coverage for reverse-read/ambiguity rows (T66/T68/T69)",
+  "no Boolean-to-arbitrary-semiring theorem lift (T94)",
+  "no revocation-exactness claim without stating negative-dependence representation (T72/T73)",
+  "no hierarchy/decomposition speedup claim without full lifecycle cost + negative regions (T91/T75)",
+  "no adaptive exploratory result reported as confirmatory (T93)",
+  "no rename of any PARENT_LEDGER row as HSG novelty",
+  "no unconditional scalarization of B_exec"
+ ],
+ "locks": {
+  "N2_language": "LOCKED (D23 synthetic only)",
+  "N4_formal_proof": "LOCKED (D22 finite-exhaustive first; D24 legal fixtures only)",
+  "N5_adoption": "LOCKED (D25/D26 laboratories; #217 owns adoption)",
+  "prior_evidence": "append-only, never reinterpreted (HST/HSG v1-v3, D12-D15)"
+ },
+ "non_finality": "EXPLICITLY_NON_FINAL: stronger mathematics, counterexamples, or empirical evidence supersede via append-only/RGC; defending this layer is a defect"
+}
