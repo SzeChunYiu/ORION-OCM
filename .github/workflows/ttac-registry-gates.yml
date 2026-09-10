@@ -25,10 +25,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Census derivation (RH-01: census is derived, never hand-copied)
+      - name: "Census derivation (RH-01: census is derived, never hand-copied)"
         run: python3 research/top-tier-atomic-closure-v1/derive_census.py
 
-      - name: Rebuild registry chain (RH-02: generator drift fails closed)
+      - name: "Rebuild registry chain (RH-02: generator drift fails closed)"
         run: |
           cd research/top-tier-atomic-closure-v1
           python3 build_d2.py
@@ -45,7 +45,7 @@ jobs:
       - name: Post-rebuild census re-check
         run: python3 research/top-tier-atomic-closure-v1/derive_census.py
 
-      - name: Duplicate-key JSON ban (RH-07: parse-stable artifacts)
+      - name: "Duplicate-key JSON ban (RH-07: parse-stable artifacts)"
         run: |
           python3 - <<'EOF'
           import json, sys
