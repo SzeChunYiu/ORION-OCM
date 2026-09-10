@@ -1,0 +1,52 @@
+{
+  "receipt_id": "A6-R2",
+  "schema": "TheoryTransportV1",
+  "arm": "A6",
+  "phase": "P1_blind",
+  "atom_id": "A_T11_module_promotion_R5",
+  "donor_domain": "metabolic regulation economics (inducible enzyme expression, catabolite repression, induction lag) — reached ONLY via the D13 cross-index M03 probe into the biochemical-kinetics partition",
+  "donor_source_ids": [
+    "D13 MECHANISM_CROSSINDEX_V1.md row M03 (threshold economics: metabolic enzyme investment listed as canonical instance)",
+    "regulation-optimality literature (L3 read): cost of needless enzyme synthesis vs cost of missing substrate; optimal regulation as threshold policy on anticipated flux; predictive regulation and its forecast cost"
+  ],
+  "donor_structure": "A cell deciding whether to synthesize an enzyme faces: irreversible synthesis cost (amino acids, energy, burden), uncertain future substrate availability, and a threshold regulation policy (induction only when the substrate signal clears a margin above synthesis breakeven). Comparative statics from regulation-optimality analysis: optimal induction strictness INCREASES with environmental volatility; catabolite repression implements global gating across parallel options; induction lag is the price of responsiveness. Predictive (anticipatory) regulation commits before evidence and pays a forecast cost."
+  ,
+  "target_structure": "A_T11 at R5 (same target as A6-R1): module promotion under uncertain future use, vi-fixed-ecology removed. This receipt supplies the INDEPENDENT second-partition derivation of the promotion gate.",
+  "mapping": [
+    "inducer signal (substrate presence evidence) <-> anticipated-use evidence statistic",
+    "enzyme synthesis cost <-> C_build (+C_maint carry)",
+    "needless-enzyme cost (protein burden when substrate never arrives) <-> false-promotion cost",
+    "missing-substrate cost (growth shortfall while uninduced) <-> missed-promotion opportunity cost",
+    "optimal induction margin above breakeven <-> promotion threshold h* > renewal-reward breakeven",
+    "catabolite repression (global gate across substrates) <-> constitution-level licence gating of promotions",
+    "predictive regulation <-> pre-evidence promotion (transfers only with an evidence-gated forecast channel)"
+  ],
+  "preserved_relations": [
+    "two-sided error economics: the gate is a genuine trade-off between false-promotion and missed-promotion costs, with an interior optimal strictness",
+    "volatility comparative static: stricter gate under more volatile environments (matches A6-R1 uncertainty-driven wedge)",
+    "global gating above local decisions: repression layer sits above induction decisions, mirroring governance-above-promotion"
+  ],
+  "known_broken_relations": [
+    "biological regulation is selection-shaped over evolutionary time (the policy itself optimized by an outer process); HSG promotion is governed within the run by C_t - the governance clause is ADDED, not imported (adaptation flag)",
+    "cells have no deliberative stopping rule; regulation is mechanistic - only the optimization structure (not the mechanism) transfers",
+    "metabolic signals are chemical concentrations with homeostatic buffering; HSG evidence is discrete event counts"
+  ],
+  "unknown_correspondences": [
+    "quantitative analogue of induction lag for governed promotion (licence latency) and its optimal size",
+    "multi-module coupled induction (operon structure) <-> joint promotion of coupled modules (G16 R7 adjacency)"
+  ],
+  "assumptions_added": [
+    "false-promotion and missed-promotion costs are scalar-measurable per promotion event",
+    "the governance layer can observe the same anticipated-use statistic the promoter observes (no information asymmetry)"
+  ],
+  "candidate_theorem": "The R5 promotion gate is a conservative threshold policy on the anticipated-use statistic: promote iff the statistic clears a margin above synthesis-breakeven, with strictness increasing in use-process volatility (regulation-optimality comparative static); pre-evidence (predictive) promotion is admissible only when the forecast channel is itself evidence-gated, else it is costume.",
+  "strongest_parent": "metabolic regulation optimality (induction-threshold economics; catabolite-repression gating) — cross-partition donor, structural",
+  "proof_route": "two-cost bandit-style analytic check: expected total cost of threshold policy t under volatility sigma; show argmin t strictly above breakeven threshold and increasing in sigma; mirror of A6-R1 two-state witness",
+  "costs": {"B_donor": 60, "B_map": 15, "B_synth": 30, "B_validate": 50, "total": 155, "price_model": "HSG_D15_REVIVAL_FREEZE", "channel_note": "L2 probe (10) + L3 deep (40) inside crossindex/inspection budgets; map/synth/validate in general share"},
+  "validation": {
+    "method": "cross-donor convergence with A6-R1 (independent partition deriving threshold-above-breakeven with same volatility comparative static); consistency with cache-tiering discrete instance; structural-reason audit of the adaptation flag",
+    "results": "both donors agree on form; governance clause preserved as target-side addition; no counterexample class found",
+    "verdict": "SUPPORTED at structural level with adaptation flag (selection-shaped policy -> governed policy)"
+  },
+  "status": "SUPPORTED"
+}
