@@ -157,6 +157,12 @@ def evolvability(genome: Any, base_capability: float, seed: int,
         "fof_key": key,
         "k_steps": K_STEPS,
         "n_accepted": n_accepted,
+        # Discriminating signal. If every step accepts its FIRST proposal the
+        # gate is not gating, and a zero delta is attributable to the mutation
+        # operator being near-neutral on the future family rather than to
+        # governance or to a saturated family.
+        "proposals_per_step": [s["proposals"] for s in steps],
+        "total_proposals": sum(s["proposals"] for s in steps),
         "steps": steps,
         "cap_fof_before": round(cap0, 6),
         "cap_fof_after": round(capk, 6),
@@ -258,11 +264,19 @@ def redundancy_check(records: List[Dict[str, Any]]) -> Dict[str, Any]:
                                    "n": len(pairs)}
             continue
         rho = _spearman([p[0] for p in pairs], [p[1] for p in pairs])
+        if rho is None:
+            # Zero variance in one series (typically evolvability all-equal).
+            # "could not check" is NOT "checked and not redundant": reporting
+            # redundant=False here would read as a passed test.
+            out["bins"][str(b)] = {"status": "CANNOT_CHECK_ZERO_VARIANCE",
+                                   "n": len(pairs),
+                                   "spearman_cap_vs_evolvability": None,
+                                   "redundant": None}
+            continue
         out["bins"][str(b)] = {
             "status": "OK", "n": len(pairs),
-            "spearman_cap_vs_evolvability": (round(rho, 6)
-                                             if rho is not None else None),
-            "redundant": (rho is not None and abs(rho) >= 0.95),
+            "spearman_cap_vs_evolvability": round(rho, 6),
+            "redundant": abs(rho) >= 0.95,
         }
     return out
 

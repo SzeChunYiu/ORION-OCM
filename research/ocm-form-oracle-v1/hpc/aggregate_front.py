@@ -139,6 +139,38 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
                            seed=20260910, n_perm=1000)
     redundancy = EV.redundancy_check(all_records)
 
+    # The discriminating diagnostic for any evolvability null: if the gate
+    # accepts the first proposal every time it is not gating, and the null is
+    # attributable to the MUTATION OPERATOR being near-neutral on the future
+    # family -- a single-stage attribution, not "evolvability does not exist".
+    det = [r["evolvability_detail"] for r in all_records
+           if isinstance(r.get("evolvability_detail"), dict)]
+    gate_diag: Dict[str, Any] = {"n_measured": len(det)}
+    if det:
+        gate_diag.update({
+            "n_accepted_distribution": dict(collections.Counter(
+                d.get("n_accepted") for d in det)),
+            "total_proposals_distribution": dict(collections.Counter(
+                d.get("total_proposals") for d in det)),
+            "delta_cap_fof_zero": sum(1 for d in det
+                                      if abs(d.get("delta_cap_fof", 0.0)) < 1e-9),
+            "delta_cap_fof_positive": sum(1 for d in det
+                                          if d.get("delta_cap_fof", 0.0) > 1e-9),
+            "delta_cap_fof_negative": sum(1 for d in det
+                                          if d.get("delta_cap_fof", 0.0) < -1e-9),
+            "mean_cap_fof_before": round(statistics.fmean(
+                [d["cap_fof_before"] for d in det
+                 if _num(d.get("cap_fof_before"))]), 6),
+        })
+        always_first = all(d.get("total_proposals") == 3 for d in det
+                           if d.get("total_proposals") is not None)
+        allzero = gate_diag["delta_cap_fof_zero"] == len(det)
+        gate_diag["gate_is_gating"] = not always_first
+        gate_diag["attribution"] = (
+            "MUTATION_OPERATOR_NEUTRAL_ON_FUTURE_FAMILY"
+            if (always_first and allzero) else
+            ("GOVERNANCE_SELECTIVE" if not always_first else "MIXED"))
+
     # ---- dedup lever: yield against price
     dedup = {}
     for r in runs:
@@ -220,12 +252,19 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
         equal_n["status"] = "CANNOT_CHECK_INSUFFICIENT_RECORDS"
 
     # ---- why records could not be checked
+    # A record outside the evolvability subsample is a different thing from a
+    # record where evolvability was attempted and came out undefined. Collapsing
+    # both into one CANNOT_CHECK bucket makes the front's coverage illegible.
     reasons = collections.Counter()
     for r in all_records:
         if not _num(r.get("evolvability")):
-            reasons["evolvability:" + str(
-                (r.get("evolvability_detail") or {}).get("status")
-                or r.get("evolvability"))] += 1
+            det = r.get("evolvability_detail")
+            if det is None and "evolvability_error" not in r:
+                reasons["evolvability:NOT_SAMPLED"] += 1
+            elif "evolvability_error" in r:
+                reasons["evolvability:EXCEPTION"] += 1
+            else:
+                reasons["evolvability:" + str(det.get("status"))] += 1
         if not _num(r.get("t3_gen")):
             reasons["t3:missing"] += 1
 
@@ -251,6 +290,7 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
                                   "verdict": parent_verdict},
         "falsifier_F1_shuffle_null": null,
         "falsifier_F2_redundancy": redundancy,
+        "evolvability_gate_diagnostic": gate_diag,
         "dedup_lever": dedup,
         "burden": {
             "mean_reject_share_per_retained": (round(statistics.fmean(reject), 4)
