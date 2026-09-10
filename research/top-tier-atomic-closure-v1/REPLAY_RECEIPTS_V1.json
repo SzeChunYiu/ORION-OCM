@@ -4,7 +4,8 @@
  "d_step": "TTAC-D10",
  "blockers": [
   "B1-IND-REPLAY",
-  "B2-PARENT-BIND"
+  "B2-PARENT-BIND",
+  "B7-EMPIRICAL-PARENT-VERIFY"
  ],
  "owner_issue": 277,
  "built_utc": "2026-09-10",
@@ -13,7 +14,8 @@
   "receipts/d10/hst_replay_billy-laptop.jsonl",
   "receipts/d10/hst_replay_billy-old.jsonl",
   "receipts/d10/sem_replay_billy-laptop.jsonl",
-  "receipts/d10/sem_replay_billy-old.jsonl"
+  "receipts/d10/sem_replay_billy-old.jsonl",
+  "receipts/d10/b7_parent_verify_billy-old.jsonl"
  ],
  "hosts": {
   "matched": "billy-laptop",
@@ -323,5 +325,59 @@
    "GEOMETRY": 1
   }
  },
- "non_final": "EXPLICITLY_NON_FINAL"
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "b7_empirical_parent_verify": {
+  "grant_rule": "every row exit 0 AND machine-parsable diff lists within the frozen allowed field set AND at least one byte-identical or metric-identical-modulo-allowed committed-artifact row -> P 2->4 (E4-class empirical-parent bar); anything else grants nothing",
+  "receipt_sha256": "2e0f2f9121d56c96e0e4320a1520cee5ea1df055a471bb3031cd657bd591c096",
+  "binding_shas": {
+   "ATOM-DEV-01": "700f805564a19e00800838cd9dd2eed7ea1476d4",
+   "ATOM-PAR-02": "8df40d7097a822a8d1469c240bc4c23a05e54d92",
+   "ATOM-PAR-03": "f004ec625efde7e83436e1985d75523c2651d88a / 10884483d78d8143b66533c025a99f98d383be29"
+  },
+  "bindings": [
+   {
+    "atom_id": "ATOM-DEV-01",
+    "lane": "parallel-developmental-evolution-v1",
+    "parent_binding_sha": "700f805564a19e00800838cd9dd2eed7ea1476d4",
+    "rows": 16,
+    "all_exit_0": true,
+    "verdict": "VERIFIED_EXCEPT_TIMING_FIELDS",
+    "grants": {
+     "P": 4
+    }
+   },
+   {
+    "atom_id": "ATOM-PAR-02",
+    "lane": "functional-neural-absorption-v1",
+    "parent_binding_sha": "8df40d7097a822a8d1469c240bc4c23a05e54d92",
+    "rows": 3,
+    "all_exit_0": true,
+    "verdict": "VERIFIED_BYTE_IDENTICAL",
+    "grants": {
+     "P": 4
+    }
+   },
+   {
+    "atom_id": "ATOM-PAR-03",
+    "lane": "quantum-structural-ocm-v1 + orion-qg FQ-2",
+    "parent_binding_sha": "f004ec625efde7e83436e1985d75523c2651d88a / 10884483d78d8143b66533c025a99f98d383be29",
+    "rows": 6,
+    "all_exit_0": true,
+    "verdict": "VERIFIED_EXCEPT_TIMING_FIELDS (MSC base pass) + METRIC_MATCH (QG null-model / probe-tree / adjudicator; schema defects recorded, metrics reproduce)",
+    "grants": {
+     "P": 4
+    }
+   }
+  ],
+  "defects_recorded": [
+   "DEFECT (identity-weld, lane orion-qg): committed QG34_ADAPTIVE_PROBE_TREE_RESULTS.json (sha256 7731425f...) contains an object with duplicate JSON keys (issue/schema/source_result_digest/terminal); not parse-stable; canonical values exist only via the correction receipt; replay emits the clean full machine output with result_digest 7c48f505... equal to the correction-receipt canonical source_result_digest",
+   "DEFECT (frozen-artifact drift, lane msc): MSC_V1_RESULTS.json engineering_chain grew 0->2 via post-freeze E4/E5 appends by later lane runs; a frozen result file mutates across commits",
+   "DEFECT (layer mismatch, lane orion-qg): MAX_R4EB0_HELDOUT_QG32_RESULTS.json committed as CommittedResult.v1 wrapper around the raw adjudicator output, so the raw entry point can never be byte-compared directly; all 18 shared authority/adjudication fields byte-equal on replay incl adjudication=BORNE_OUT_UPPER_BOUND_ONLY",
+   "DEFECT (uncommitted artifact, lane orion-qg): qg34_build_primitives.py hardcodes /private/tmp/claude-501/.../scratchpad/qg34/primitives.json -- machine-specific absolute path, artifact uncommitted; class: hardcoded-path receipt binding"
+  ],
+  "caveats": [
+   "DEV-01 independence is process-level (fresh clone/worktree/frozen salt), not host-level: pdev lane's own replicate ran on billy-laptop-old, the same machine as this replay",
+   "PAR-03 carries the four recorded parent-chain defects above; the grant rests on metric identity, not on those artifacts being schema-clean"
+  ]
+ }
 }
