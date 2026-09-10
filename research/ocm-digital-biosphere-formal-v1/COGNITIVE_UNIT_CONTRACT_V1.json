@@ -1,0 +1,54 @@
+{
+  "schema": "ocm.biosphere.cognitive_unit_contract/1",
+  "artifact_id": "COGNITIVE_UNIT_CONTRACT_V1",
+  "owner_issue": 296,
+  "contains_results": false,
+  "outcome_neutrality_notice": "This contract fixes what a cognitive unit MAY be and how it is measured. It does not assert which unit is the correct unit of intelligence. See COARSE_GRAINING_INDIVIDUALITY_V1.",
+
+  "organism_state": {
+    "expression": "x_i(t) = (g_i, m_i, r_i, s_i, a_i)",
+    "components": {
+      "g_i": {"role": "genome / architectural specification", "heritable_via": "I_gen", "may_never_name_or_carry": "any C-owned constant", "gate": "GATE_C_IMMUTABLE"},
+      "m_i": {"role": "within-lifetime cognitive state / acquired methods", "heritable_via": "I_epi or I_C only where permitted"},
+      "r_i": {"role": "resource holdings and accounting", "sole_legal_input_to_birth_death": true},
+      "s_i": {"role": "sensory/actuator interface state"},
+      "a_i": {"role": "protected assay state", "PROTECTED": true, "must_not_be_ancestor_of": ["birth/death decisions", "resource-transition decisions"], "checked_by": "BIO-NI-1"}
+    },
+    "boundedness": "Every component is bounded; unbounded organism state is not a legal configuration and yields CANNOT_CHECK on the recurrence ceiling BIO-T2."
+  },
+
+  "protected_state_separation": {
+    "rule": "a_i is written only by assay machinery and read only by observer-side reporting.",
+    "structural_exclusion_is_necessary_not_sufficient": "Mirrors oracle/c_immutability.py: name-level exclusion must be paired with a live check. Here the live check is the ancestor closure BIO-NI-1, not a digest comparison.",
+    "why_a_digest_is_insufficient_here": "A digest detects that protected state CHANGED. It does not detect that protected state was READ by a selection-relevant kernel. Leakage into selection is a read-path property, so it needs the write/read graph."
+  },
+
+  "unit_candidacy": {
+    "statement": "An organism/cell index i is a bookkeeping index, not a claim that the individual is the unit of intelligence.",
+    "forbidden_inference": "i exists therefore the individual is the cognitive unit",
+    "see": "COARSE_GRAINING_INDIVIDUALITY_V1.phi_L"
+  },
+
+  "burden_vector": {
+    "clause": "sections 9 and 8",
+    "components": ["B_acquire", "B_exec", "B_verify", "B_revise", "B_self", "information", "bytes", "maintenance", "human_external_input"],
+    "reuse": {"module": "research/ocm-form-oracle-v1/oracle/burden.py", "provides": ["B_own decomposition", "lambda_bytes byte rent", "RejectLedger non-netting cost ledger", "b_full"], "sufficiency": "SUFFICIENT_FOR_B_acquire_exec_verify_revise_self_bytes", "gap": "no `maintenance` and no `human_external_input` bucket; see PARENT_LEDGER.md gap G2"},
+    "non_netting_rule": "The ledger only ever grows. Failed, infeasible, gate-failed and crashed evaluations are all charged. Nothing is netted off."
+  },
+
+  "resource_matching": {
+    "clause": "sections 10 and 9",
+    "matched_axes": ["total_compute", "memory", "sensory_information", "action_opportunities", "external_knowledge"],
+    "rule": "Any comparison across organization classes is void unless all five axes are matched or the mismatch is declared and carried into the claim ceiling.",
+    "decomposition": "observed_gain = resource_pooling_gain + communication_organization_residual + specialization_composition_residual - coordination_maintenance_cost",
+    "identifiability": "Only the residual terms may support an organization-level claim. See BIO-T8."
+  },
+
+  "knockout_semantics": {
+    "clause": "sections 9 and 4",
+    "rule": "Causal attribution requires deletion of the exact inherited object or channel claimed to cause the gain, holding everything else fixed, and requires the advantage to weaken or disappear.",
+    "explicitly_insufficient": "a correlated pre/post comparison, or post-evolution superiority alone",
+    "reuse": {"module": "research/ocm-form-oracle-v1/oracle/d27_lineage.py", "provides": ["_knockout field-wipe with guaranteed restore", "run_arm CONTINUED/RESET arms", "knockout_attribution", "signature_with_controls related-must-improve / control-must-not"], "sufficiency": "SUFFICIENT_MECHANISM", "gap": "knocks out inherited STORE FIELDS; a social/cultural CHANNEL knockout (I_h, I_o, I_pub) has no equivalent. See PARENT_LEDGER.md gap G3"},
+    "external_warning": "ANIL showed a signature mechanism can be inert while the system still performs. This is why knockout, not pre/post comparison, is the decisive test. Source: REVIVAL_BACKLOG_V1 RV-10 notes."
+  }
+}
