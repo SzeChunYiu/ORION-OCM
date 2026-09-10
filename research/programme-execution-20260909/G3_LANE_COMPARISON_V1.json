@@ -87,6 +87,16 @@
     "where": "research/g3-real-failure-v1/RESULT.json on cursor/issue-165-remaining-gates-cf8f",
     "what": "criteria.competing_scoped_failure_memory_absent is recorded as true, making the absence of another lane's directory a RESULT CRITERION",
     "why_it_is_a_defect": "presence or absence of a sibling directory is not a scientific criterion; it makes the receipt depend on repository layout. The capsule's own corrected test comment already says presence is not a scientific result, so the RESULT.json contradicts it.",
-    "fix": "drop or rename the field before this receipt is cited anywhere; it is independent of the test fix and survives it"
+    "fix": "drop or rename the field before this receipt is cited anywhere; it is independent of the test fix and survives it",
+    "status": "FIXED_IN_THIS_SESSION",
+    "fix_applied": {
+      "commit": "b1bce7bd407a5b6c61c4db5172f4e88950fe1bf3",
+      "branch": "cursor/issue-165-remaining-gates-cf8f (PR #206)",
+      "change": "criteria.competing_scoped_failure_memory_absent replaced by criteria.competing_scoped_failure_memory_v1_has_no_result_json",
+      "why_that_name": "it is the property the corrected test actually asserts - non-interference rather than absence - and it holds in BOTH trees: vacuously on the branch head where the directory is absent, and on the merge commit where the directory is present with PROTOCOL.md, REPRESENTATION_PROTOCOL.md and code but no RESULT.json (verified with a control: RESULT.json 0 hits, PROTOCOL.md 2 hits)",
+      "severity_found_on_review": "worse than layout-dependent. The old field was recorded true and becomes FALSE on the pull_request merge tree, so merging as-is would have landed a receipt asserting a criterion satisfied when it is not satisfied in the merged tree - a known defect degrading on the very action about to be taken",
+      "left_untouched": "frozen_predecessors.competing_g3_scoped_failure_memory_v1_present_on_this_head, which is a factual record of branch state and legitimate",
+      "minimality_verified": "exactly one line changed; all other top-level keys and all other criteria byte-identical; criteria count unchanged at 24; git diff --name-only reports one file"
+    }
   }
 }
