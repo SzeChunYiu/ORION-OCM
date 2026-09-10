@@ -117,10 +117,11 @@ pool, survivors phenotype-deduped across seeds exactly as the R2 aggregate does:
 L1's n, 34628 observed, z = 382.95. Not selectivity — L1 admits *more*
 candidates than any arm and holds at a higher rate.
 
-Against the frozen parents on their own metrics, L1 gives 6880.7 distinct
+Against the frozen parents on their own metrics, L1 gives 6891.3 distinct
 T2-viable per seed against `GSA2_hetero`'s 5062.7 (1.36×) and 1743228
-morphologies per CPU-hour against 354046 (4.92×). `PARENT_SUFFICIENT` does not
-apply: no parent owns this function.
+morphologies per CPU-hour against 354046 (4.92×), both computed the way the R2
+aggregate computes them. `PARENT_SUFFICIENT` does not apply: no parent owns this
+function.
 
 Why the ranking is not paying for itself: the surrogate `allocation_score` costs
 8.04 T0-evaluation units per candidate, while η = 3 halving saves about 4.8
