@@ -48,17 +48,42 @@ def halving_counts(n0: int, eta: int = GS_ETA,
 def promote(viable: List[Dict[str, Any]], promote_n: int,
             rank_fn: Callable[[Dict[str, Any]], float],
             insurance_fraction: float = GS_LATE_BLOOMER_FRACTION,
-            rng: Optional[random.Random] = None) -> Dict[str, Any]:
+            rng: Optional[random.Random] = None,
+            dedup: bool = False,
+            exclude_digests: Optional[set] = None) -> Dict[str, Any]:
     """Rank-based promotion + frozen late-bloomer insurance.
 
     Returns {"ranked": [...], "insurance": [...]} — both promoted.  `ranked`
     is the top promote_n by rank_fn (higher = better).  `insurance` is
     ceil(insurance_fraction*promote_n) further candidates taken by rank
     among the REMAINDER (novelty-biased when rank_fn is novelty; random
-    tie-shuffle otherwise)."""
+    tie-shuffle otherwise).
+
+    GSA6 dedup_promotion lever (dedup=True): collapse `viable` to distinct
+    phenotype_digests BEFORE ranking (first occurrence after the frozen
+    tie-shuffle wins) so duplicate phenotypes cannot crowd the promotion
+    slots — the GSA5 rate-read attributed the 2.267x distinct-yield
+    collapse to rank keys that score duplicate genomes identically.
+    exclude_digests is the cross-round seen-set (digests already sent to
+    the next tier in earlier rounds); those records are skipped entirely.
+    The tie-shuffle happens before any filtering so the rng stream is
+    identical with or without the flags."""
     rng = rng or random.Random(0)
     rest = list(viable)
     rng.shuffle(rest)  # deterministic tie order
+    if dedup:
+        uniq: List[Dict[str, Any]] = []
+        local: set = set()
+        for r in rest:
+            d = r.get("phenotype_digest")
+            if d in local:
+                continue
+            local.add(d)
+            uniq.append(r)
+        rest = uniq
+    if exclude_digests:
+        rest = [r for r in rest
+                if r.get("phenotype_digest") not in exclude_digests]
     ordered = sorted(rest, key=lambda r: -float(rank_fn(r)))
     n_rank = max(1, min(promote_n, len(ordered)))
     ranked = ordered[:n_rank]
@@ -111,7 +136,8 @@ def run_successive_halving(
         wall_deadline: Optional[float] = None,
         rank_prepare: Optional[Callable[[List[Dict[str, Any]]], None]] = None,
         on_round_end: Optional[Callable[..., None]] = None,
-        on_progress: Optional[Callable[[Dict[str, Any]], None]] = None
+        on_progress: Optional[Callable[[Dict[str, Any]], None]] = None,
+        dedup_promotion: bool = False
         ) -> Dict[str, Any]:
     """Rounds of T0 sampling -> eta-halving promotions to T1 -> T2.
 
@@ -125,6 +151,11 @@ def run_successive_halving(
     (novelty vs archive+cohort pool; surrogate allocation scores).
     on_round_end(round_id, t0_records, t1_records, t2_records) is called at
     the end of each round (surrogate retraining on completed evals only).
+
+    dedup_promotion=True (GSA6 lever, default OFF = current behavior)
+    dedupes promotion candidates by phenotype_digest at BOTH promotion
+    sites (T0->T1 and T1->T2) and skips digests already promoted to T2 in
+    earlier rounds (cross-round seen-set seeded from `survivors`).
     """
     from morphology.direct_genome import random_genome
     from morphology.mutations import crossover, mutate
@@ -141,6 +172,9 @@ def run_successive_halving(
     counts = {t: 0 for t in GS_RUNGS}
     viable_counts = {t: 0 for t in GS_RUNGS}
     survivors: List[Dict[str, Any]] = []
+    # GSA6 dedup_promotion: cross-round seen-set, seeded from survivors
+    seen_digests = {r["phenotype_digest"] for r in survivors
+                    if "phenotype_digest" in r}
     failures_t1_t2 = 0
     t_start = time.time()
     rounds = 0
@@ -185,7 +219,10 @@ def run_successive_halving(
         if rank_prepare is not None and viable:
             rank_prepare(viable)
         n_t1 = max(GS_MIN_PROMOTE, this_n0 // eta)
-        sel = promote(viable, n_t1, rank_fn, insurance_fraction, rng)
+        sel = promote(viable, n_t1, rank_fn, insurance_fraction, rng,
+                      dedup=dedup_promotion,
+                      exclude_digests=seen_digests if dedup_promotion
+                      else None)
         t1_pool = sel["ranked"] + sel["insurance"]
         t1_viable: List[Dict[str, Any]] = []
         t1_records: List[Dict[str, Any]] = []
@@ -209,7 +246,10 @@ def run_successive_halving(
         if rank_prepare is not None and t1_viable:
             rank_prepare(t1_viable)
         n_t2 = max(GS_MIN_PROMOTE, n_t1 // eta)
-        sel2 = promote(t1_viable, n_t2, rank_fn, insurance_fraction, rng)
+        sel2 = promote(t1_viable, n_t2, rank_fn, insurance_fraction, rng,
+                       dedup=dedup_promotion,
+                       exclude_digests=seen_digests if dedup_promotion
+                       else None)
         t2_pool = sel2["ranked"] + sel2["insurance"]
         for rec in t2_pool:
             try:
@@ -226,6 +266,8 @@ def run_successive_halving(
             if r2["feasible"]:
                 viable_counts["T2"] += 1
                 survivors.append(rec3)
+                if dedup_promotion:
+                    seen_digests.add(rec3["phenotype_digest"])
         # ---- parent pool refresh (novelty arms keep the archive's best)
         if viable:
             keep = max(2, pop_size // 3)
@@ -246,6 +288,7 @@ def run_successive_halving(
     return {
         "algorithm": "GS_successive_halving", "eta": eta,
         "insurance_fraction": insurance_fraction,
+        "dedup_promotion": dedup_promotion,
         "rounds": rounds, "counts": counts, "viable_counts": viable_counts,
         "t1_t2_eval_failures": failures_t1_t2,
         "survivors": survivors,

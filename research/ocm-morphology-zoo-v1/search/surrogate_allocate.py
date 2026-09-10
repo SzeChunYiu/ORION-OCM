@@ -131,11 +131,15 @@ class _StumpTree:
         while len(self.leaf_value) < 4 * node + 4:
             self.leaf_value.append(0.0)
         self.rules.append((fi, thr, node, 1))
-        self.leaf_value[node] = float("nan")  # internal marker
-        self._build(2 * node + 1, LX, Ly, depth + 1)
+        left = self._build(2 * node + 1, LX, Ly, depth + 1)
         self.rules[-1] = (fi, thr, node, 2)
-        self._build(2 * node + 2, RX, Ry, depth + 1)
-        return 0.0
+        right = self._build(2 * node + 2, RX, Ry, depth + 1)
+        # Internal nodes carry the subtree-leaf mean, NEVER a NaN marker:
+        # predict()'s depth guard can stop on an internal node and must not
+        # emit NaN (GSA5_HOLDOUT_MAE_NAN fix — the old marker poisoned the
+        # holdout MAE on 5/6 seeds).
+        self.leaf_value[node] = 0.5 * (left + right)
+        return self.leaf_value[node]
 
     def _flat(self) -> None:
         # collapse rules into a dict for prediction
@@ -201,20 +205,32 @@ class EnsembleSurrogate:
         y = [float(s) for _, s in pairs]
         rng = random.Random(self.seed + 1)
         if len(X) >= 16:
-            # honest holdout MAE when there is enough data
+            # honest holdout MAE when there is enough data — computed with
+            # the SAME impl that ranks promotions (GSA5_HOLDOUT_MAE_NAN fix:
+            # the old path scored builtin stumps even when impl="sklearn",
+            # and the depth-guard NaN marker leaked into the MAE on 5/6
+            # seeds).  sklearn holdout = fresh head fit on the train split.
             if len(X) >= 64:
                 h = rng.sample(range(len(X)), len(X) // 4)
                 hset = set(h)
                 trX = [X[i] for i in range(len(X)) if i not in hset]
                 trY = [y[i] for i in range(len(X)) if i not in hset]
-                hold_trees = [
-                    _StumpTree(self._subspace(rng), rng).fit(
-                        *_bootstrap(trX, trY, rng))
-                    for _ in range(GS_SUR_TREES)]
-                errs = [abs(self._tree_vote(hold_trees, X[i]) - y[i])
-                        for i in h]
-                self.stats["holdout_mae_t1"] = round(
-                    sum(errs) / len(errs), 6)
+                if self.impl == "sklearn":
+                    _, hold_reg = _sklearn_heads(self.seed)
+                    hold_reg.fit(trX, trY)
+                    pred = [float(p) for p in
+                            hold_reg.predict([X[i] for i in h])]
+                else:
+                    hold_trees = [
+                        _StumpTree(self._subspace(rng), rng).fit(
+                            *_bootstrap(trX, trY, rng))
+                        for _ in range(GS_SUR_TREES)]
+                    pred = [self._tree_vote(hold_trees, X[i]) for i in h]
+                errs = [abs(p - y[i]) for p, i in zip(pred, h)]
+                mae = sum(errs) / len(errs)
+                assert math.isfinite(mae), \
+                    "holdout MAE not finite: %r" % mae
+                self.stats["holdout_mae_t1"] = round(mae, 6)
             if self.impl == "sklearn":
                 _, self.reg = _sklearn_heads(self.seed)
                 self.reg.fit(X, y)
@@ -249,7 +265,12 @@ class EnsembleSurrogate:
         return sum(t.predict(x) for t in trees) / len(trees)
 
     def p_viable(self, g) -> float:
-        x = genome_feature_vector(g)
+        return self._p_viable_x(genome_feature_vector(g))
+
+    def predicted_t1_score(self, g) -> float:
+        return self._score_x(genome_feature_vector(g))
+
+    def _p_viable_x(self, x: Sequence[float]) -> float:
         if self.impl == "sklearn" and self.clf is not None and \
                 hasattr(self.clf, "classes_"):
             return float(min(1.0, max(0.0, self.clf.predict_proba([x])[0][1])))
@@ -259,8 +280,7 @@ class EnsembleSurrogate:
             return 0.5 * (min(1.0, max(0.0, pk)) + min(1.0, max(0.0, pt)))
         return min(1.0, max(0.0, pk))
 
-    def predicted_t1_score(self, g) -> float:
-        x = genome_feature_vector(g)
+    def _score_x(self, x: Sequence[float]) -> float:
         if self.impl == "sklearn" and self.reg is not None and \
                 hasattr(self.reg, "n_iter_"):
             return float(self.reg.predict([x])[0])
@@ -272,7 +292,25 @@ class EnsembleSurrogate:
     def allocation_score(self, g) -> float:
         """Promotion rank key: expected value of the T1 score among
         predicted-viable candidates (P(viable) x predicted score)."""
-        return self.p_viable(g) * max(0.0, self.predicted_t1_score(g))
+        x = genome_feature_vector(g)
+        return self._p_viable_x(x) * max(0.0, self._score_x(x))
+
+    def allocation_scores(self, genomes: Sequence[Any]) -> List[float]:
+        """Batched allocation_score (GSA6 surrogate_cumulative lever):
+        one feature pass and ONE predict call per sklearn head instead of
+        two per-row sklearn calls per candidate.  HistGradientBoosting
+        predictions are row-independent, so values equal allocation_score
+        per row; until BOTH heads are fitted the per-row builtin path is
+        used (matching allocation_score's fallbacks exactly)."""
+        X = [genome_feature_vector(g) for g in genomes]
+        if self.impl == "sklearn" and self.clf is not None and \
+                hasattr(self.clf, "classes_") and self.reg is not None and \
+                hasattr(self.reg, "n_iter_"):
+            pv = self.clf.predict_proba(X)
+            ps = self.reg.predict(X)
+            return [min(1.0, max(0.0, float(a[1]))) * max(0.0, float(b))
+                    for a, b in zip(pv, ps)]
+        return [self._p_viable_x(x) * max(0.0, self._score_x(x)) for x in X]
 
 
 def rank_promotions(candidates: Sequence[Any], surrogate: EnsembleSurrogate,

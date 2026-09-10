@@ -5,7 +5,8 @@ Arms (frozen in GRAND_SEARCH_R1_FREEZE.json):
   GSA1_units/GSA2_hetero/GSA3_farch/GSA4_obasis — novelty+viability
       successive halving (viability gate, novelty driver, SH promotions)
   GSA5_surrogate — successive halving with ensemble-surrogate allocation
-      ranking (surrogate retrained each round on completed evals ONLY)
+      ranking (surrogate retrained each round on completed evals ONLY;
+      GSA6: surrogate_cumulative flag carries ONE ensemble across rounds)
   GSR_random_control — successive halving, random rank (control)
 
 Every sampled genome is evaluated and charged (no ledger-based skips);
@@ -40,10 +41,14 @@ if TASK_SPEC is not None:
     SEED = int(TASK_SPEC.get("seed", SEED))
 _RUN_ID_BASE = (TASK_SPEC["task_id"] if TASK_SPEC else "%s_s%d" % (ARM, SEED))
 RUN_ID = "GS_R1_%s" % _RUN_ID_BASE
+# GSA6 novelty_gate lever: eps floor so a fully-duplicate cohort (nov=0)
+# still yields finite, orderable gated rank keys.
+GS_NOVELTY_GATE_EPS = 1e-9
 os.environ["ZOO_FAILURES_JSONL"] = os.path.join(
     ROOT, "results", "FAILURES_%s.jsonl" % _RUN_ID_BASE)
 
 import hashlib  # noqa: E402
+import math  # noqa: E402
 
 
 def sha256_file(p: str) -> str:
@@ -110,13 +115,19 @@ def main() -> None:
         assert TASK_SPEC.get("freeze_sha256") in (None, fsha), \
             "batch spec not bound to this freeze"
         arm_cfg.update({k: TASK_SPEC[k] for k in
-                        ("lane", "rank", "t0_budget_per_seed", "n0")
+                        ("lane", "rank", "t0_budget_per_seed", "n0",
+                         "dedup_promotion", "novelty_gate",
+                         "surrogate_cumulative")
                         if k in TASK_SPEC})
     t0_budget = int(TASK_SPEC["t0_budget"]) if TASK_SPEC and \
         "t0_budget" in TASK_SPEC else int(arm_cfg["t0_budget_per_seed"])
     n0 = int(arm_cfg["n0"])
     lane = arm_cfg["lane"]
     rank_kind = arm_cfg["rank"]
+    # GSA6 revival levers (allocation-only, default OFF = frozen behavior)
+    dedup_promotion = bool(arm_cfg.get("dedup_promotion", False))
+    novelty_gate = bool(arm_cfg.get("novelty_gate", False))
+    surrogate_cumulative = bool(arm_cfg.get("surrogate_cumulative", False))
 
     deadline = None
     if os.environ.get("GS_STOP_TS"):
@@ -149,18 +160,58 @@ def main() -> None:
         holder = {"sur": surrogate}  # rank_prepare must see the RETRAINED head
 
         def rank_prepare(viable):
-            for rec in viable:
-                rec["_s"] = holder["sur"].allocation_score(genome_of(rec))
+            if surrogate_cumulative:
+                # GSA6 lever 4: one batched predict per sklearn head
+                scores = holder["sur"].allocation_scores(
+                    [genome_of(r) for r in viable])
+                for rec, s in zip(viable, scores):
+                    rec["_s"] = s
+            else:
+                for rec in viable:
+                    rec["_s"] = holder["sur"].allocation_score(genome_of(rec))
+            if novelty_gate:
+                # GSA6 lever 1 — "surrogate proposes, novelty disposes":
+                # gate the surrogate allocation score by the SAME
+                # archive-based novelty the novelty arms use (their
+                # rank_prepare above).  Gate form s/(nov+eps) is the
+                # simplest defensible multiplicative gate — a duplicate
+                # cohort member gets nov~0 and collapses toward ~0 rank no
+                # matter how the surrogate scores it, while a novel
+                # candidate keeps its surrogate rank.  consider() also
+                # grows this arm's archive, and the gated rank_fn
+                # automatically diversifies the SH parent-pool refresh
+                # (which sorts by the same rank_fn).
+                vecs = []
+                for rec in viable:
+                    rec["_vec"] = novelty_vector_of(rec)
+                    vecs.append(rec["_vec"])
+                pool = rng_archive.pool() + vecs
+                for rec in viable:
+                    rec["_nov"] = novelty_score(
+                        rec["_vec"], pool, freeze["novelty_space"]["k_nn"])
+                    rng_archive.consider(rec, rec["_vec"])
 
         def on_round_end(_round, t0_records, t1_records, _t2_records):
-            # retrain on COMPLETED evals only (T0 outcomes; T1 dev scores)
-            sur = EnsembleSurrogate(seed=SEED, impl=env["surrogate_impl"])
+            # retrain on COMPLETED evals only (T0 outcomes; T1 dev scores).
+            # surrogate_cumulative (GSA6 lever 4) carries ONE ensemble
+            # across rounds instead of a fresh one per round: train_t0
+            # APPENDS to the feature store, train_t1 refits on every T1
+            # pair accumulated so far (monotone training-set growth).
+            if surrogate_cumulative:
+                sur = holder["sur"]
+            else:
+                sur = EnsembleSurrogate(seed=SEED, impl=env["surrogate_impl"])
             sur.train_t0(t0_records)
-            pairs = [(genome_of(r), dev_score(r["t1"]["evaluation"]))
-                     for r in t1_records if r.get("t1")]
+            round_pairs = [(genome_of(r), dev_score(r["t1"]["evaluation"]))
+                           for r in t1_records if r.get("t1")]
+            t1_pairs_all.extend(round_pairs)
+            pairs = t1_pairs_all if surrogate_cumulative else round_pairs
             if pairs:
                 sur.train_t1(pairs)
             stats.update(sur.stats)
+            _mae = stats.get("holdout_mae_t1")
+            assert _mae is None or math.isfinite(_mae), \
+                "GSA5_HOLDOUT_MAE_NAN: surrogate holdout MAE not finite"
             stats["n_retrains"] = stats.get("n_retrains", 0) + 1
             sur_state.append({"n_train_t0": sur.stats["n_train_t0"],
                               "n_train_t1": sur.stats["n_train_t1"]})
@@ -168,7 +219,12 @@ def main() -> None:
 
         stats = {}
         sur_state = []
-        rank_fn = lambda r: r.get("_s", 0.0)  # noqa: E731
+        t1_pairs_all: list = []  # cumulative T1 training pairs (lever 4)
+        if novelty_gate:
+            rank_fn = lambda r: r.get("_s", 0.0) / (  # noqa: E731
+                r.get("_nov", 0.0) + GS_NOVELTY_GATE_EPS)
+        else:
+            rank_fn = lambda r: r.get("_s", 0.0)  # noqa: E731
     else:  # random control
         rank_prepare = None
         import random as _r
@@ -215,7 +271,7 @@ def main() -> None:
         insurance_fraction=freeze["successive_halving"]["late_bloomer_fraction"],
         n0=n0, wall_deadline=deadline,
         rank_prepare=rank_prepare, on_round_end=on_round_end,
-        on_progress=on_progress)
+        on_progress=on_progress, dedup_promotion=dedup_promotion)
     cpu_s = time.process_time() - t_cpu
     wall_s = time.time() - t_wall
 
@@ -238,6 +294,9 @@ def main() -> None:
         "run_id": RUN_ID, "arm": ARM, "seed": SEED, "lane": lane,
         "rank": rank_kind, "algorithm": res["algorithm"],
         "eta": res["eta"], "insurance_fraction": res["insurance_fraction"],
+        "revival_levers": {"dedup_promotion": dedup_promotion,
+                           "novelty_gate": novelty_gate,
+                           "surrogate_cumulative": surrogate_cumulative},
         "rounds": res["rounds"], "counts": res["counts"],
         "viable_counts": res["viable_counts"],
         "t1_t2_eval_failures": res["t1_t2_eval_failures"],
