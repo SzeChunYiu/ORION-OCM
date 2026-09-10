@@ -74,7 +74,11 @@ def one_run(tmp: str, tag: str) -> str:
         open(os.path.join(rdir, FREEZE_NAME), "rb").read()).hexdigest()
     with open(spec_path, "w") as fh:
         json.dump(SPEC, fh, sort_keys=True)
-    env = dict(os.environ, GS_RUN_PREFIX="GS_R2_", GS_FREEZE_NAME=FREEZE_NAME)
+    # drop GS_FREEZE_SHA: the temp-copy freeze sha differs from the
+    # sbatch-exported one (builtin-impl switch rewrites the temp freeze);
+    # the spec carries the temp freeze's OWN sha for binding
+    env = {k: v for k, v in os.environ.items() if k != "GS_FREEZE_SHA"}
+    env.update(GS_RUN_PREFIX="GS_R2_", GS_FREEZE_NAME=FREEZE_NAME)
     p = subprocess.run(
         [sys.executable, os.path.join(rdir, "hpc", "gs_run.py"),
          rdir, "GSA6_ALL", str(SPEC["seed"]), spec_path],

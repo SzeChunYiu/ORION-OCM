@@ -1,0 +1,515 @@
+{
+  "ancestor_chain_sha256": {
+    "FREEZE_V1.json": "f322a3d26ec23ebf6bb80a8de7f8d3f83a6dcd4405ffc3ac1911b8851ab89334",
+    "FREEZE_V1_AMEND_1.json": "1622a74d33e442c68f624c8228517d34593808a57c032aa9fe8d3d70534fcba1",
+    "FREEZE_V1_AMEND_2.json": "97388119ef35485cf6d50e7cf0c696a0c8e555d1153c6d603e39de3d88745cd0",
+    "FREEZE_V1_AMEND_3.json": "deeb7a750bb52b0482d2f5e3b51e05d5093deadc1f645534df3adde8f0e6827e",
+    "FREEZE_V1_AMEND_4.json": "b51a9959e3cfaa5ba47773111119516c1d6f480f63ecdc898234145e4dff263f",
+    "GRAND_SEARCH_R1_FREEZE.json": "4dd79f8e8ef61c4701f647733c62878396b26d4311cbbab2a9170b1f8241080e"
+  },
+  "arms": {
+    "GSA5P_fixed": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "surrogate-ranked SH + GSA6 revival levers",
+      "dedup_promotion": false,
+      "lane": "hetero",
+      "lever_note": "parent replication on fixed code (GSA5_HOLDOUT_MAE_NAN fix always-on): re-measures the parent rate + a usable holdout_mae_t1 on THIS code digest",
+      "n0": 729,
+      "novelty_gate": false,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "surrogate_cumulative": false,
+      "t0_budget_per_seed": 45000
+    },
+    "GSA6_ALL": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "surrogate-ranked SH + GSA6 revival levers",
+      "dedup_promotion": true,
+      "lane": "hetero",
+      "lever_note": "full package: novelty gate: rank key s/(nov+1e-9), archive-admitted novelty; dedup: promotions collapse to distinct phenotype_digests, cross-round seen-set excludes already-promoted digests; cumulative surrogate: ONE EnsembleSurrogate carried across rounds, monotone training growth, batched allocation_scores",
+      "n0": 729,
+      "novelty_gate": true,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "surrogate_cumulative": true,
+      "t0_budget_per_seed": 45000
+    },
+    "GSA6_DP": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "surrogate-ranked SH + GSA6 revival levers",
+      "dedup_promotion": true,
+      "lane": "hetero",
+      "lever_note": "dedup: promotions collapse to distinct phenotype_digests, cross-round seen-set excludes already-promoted digests",
+      "n0": 729,
+      "novelty_gate": false,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "surrogate_cumulative": false,
+      "t0_budget_per_seed": 45000
+    },
+    "GSA6_NG": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "surrogate-ranked SH + GSA6 revival levers",
+      "dedup_promotion": false,
+      "lane": "hetero",
+      "lever_note": "novelty gate: rank key s/(nov+1e-9), archive-admitted novelty",
+      "n0": 729,
+      "novelty_gate": true,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "surrogate_cumulative": false,
+      "t0_budget_per_seed": 45000
+    },
+    "GSA6_SC": {
+      "admission_bar": "viability_gate == True (hard gates GATE_CORRECTNESS, GATE_INVARIANTS, GATE_PROTECTED_ISOLATION, GATE_REVOCATION_FIDELITY, GATE_CAPABILITY_FLOOR solved_fraction >= 0.5) at the arm's tier ladder; identical across all arms \u2014 lane/rank choice never relaxes it, and GS-R1h batch tasks inherit it unaltered (allocation-only)",
+      "algorithm": "surrogate-ranked SH + GSA6 revival levers",
+      "dedup_promotion": false,
+      "lane": "hetero",
+      "lever_note": "cumulative surrogate: ONE EnsembleSurrogate carried across rounds, monotone training growth, batched allocation_scores",
+      "n0": 729,
+      "novelty_gate": false,
+      "rank": "surrogate_allocation",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "surrogate_cumulative": true,
+      "t0_budget_per_seed": 45000
+    }
+  },
+  "code_digest": "a7d373ee13424cd96a890ae84d01b889ce5865fc01a32ad0ebe73b85496f7d40",
+  "code_files_sha256": {
+    "evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evaluation/descriptors.py": "7426d312096ec46e936529a2b91f89f8a20d93dd88ee21527d34abc28b99e6f9",
+    "evaluation/evaluate.py": "cfbe345ad45ac10d9c84f393c32f0d8d76c8f48d0cb9deddd9a56a2d170b3e3d",
+    "evaluation/gs_t1.py": "2c3bacce1b04837e9d6561326afefd7b0619a44944970ae69290726dde41249a",
+    "evaluation/invariants.py": "a3255158fd595be688966ff2f385b742f38048cbbf68a09e3c20aded3d52105a",
+    "evaluation/lifetime.py": "81fcdd894f8f289f43f7d4e4d7a8705430a13d257424ad1fe120692f9f36fa73",
+    "evaluation/lifetime2.py": "c84c51fb4c36ce5f6b7815f9e13b8423a39c234b08e6fb6a717fe750382a7fed",
+    "evaluation/objectives.py": "a39a71465da77d61f21396f8787bd9deb0974ca8b0673dfa9708d43c1f77c485",
+    "evaluation/receipts.py": "c44a1be84f00718792231f2e1289ead837c1fc2b14884e424aee7c78bbf4f527",
+    "evaluation/t3_ecology.py": "2043f04e8f523554058832684808a97cc6ca81db94f59a400a67f4851eaf4b4c",
+    "evaluation/t3_ecology_m104.py": "c355887c8ef11b820aa19c6b3bca12180b0f6363bdee1fc81b21181afdc90574",
+    "hpc/aggregate.py": "ca5b759a43276c80bd03b1aeef693cc9ab908bcec1cc481dfb5097001b0e8741",
+    "hpc/aggregate_amend1.py": "53325339f40a8c6403bb7d24efd91d5be251cf965e4921adf01c6acbe6ef0453",
+    "hpc/aggregate_amend2.py": "20bedae54c4a0e2b325d8d6fa9735c9a0c26f33225eee3c8db17367b78926e3f",
+    "hpc/aggregate_amend3.py": "9da149f1e75c7ce98de6f4b661d77f3b151e2b14445e619a03f935f45c423892",
+    "hpc/aggregate_amend4.py": "77ba547490839f81aca4f21788a6c4815b5f1a5b92f3cd954c17e7ae718fdab4",
+    "hpc/aggregate_amend5.py": "e1afa81dd75f4b28b79b6a2c019ee3d36756883e280959281f608634f8aea77f",
+    "hpc/aggregate_gs.py": "84f22267bd94dce95ba793c3b98a4b637491927f10ec6677cb79ccf99e1b812c",
+    "hpc/aggregate_gs_r2.py": "90efed427d69dcb972af8b701b9bf5746d2d776680583dd8f22c8e6594707f98",
+    "hpc/census_p00.py": "7e37c6430ff8c7dcd48739608c88f98c836ae579eec3ce79982d9f806a64c6bd",
+    "hpc/census_p00b.py": "fbff9db3ee1425327154d9ecec105b49cae47592b357d2540463d50b659a5321",
+    "hpc/census_p00c.py": "60d664218255a89126798bdca88bc8f3a427ca5c0ec19fd50b4465ed5345bd45",
+    "hpc/check_freeze_binding.py": "30ce5f959fe8a7dd81791dec615074a47a7b20b8743318206ec7dada563704a2",
+    "hpc/checkpoint_gs.py": "3b043a8ffb39958b6588da7749a7c901a26f66819e007a9841d298e60f04c143",
+    "hpc/determinism_probe_r2.py": "210a0fc9007c88741674e2bb04c5e82b685a724d3b6f101f4210ab330a888b3e",
+    "hpc/diagnose_grammar_escape.py": "196411b63fe10955f835fe43835961039aac23d68e31903240f1c193c3b9880a",
+    "hpc/env_probe.py": "fa49581018c4ec179f5f3103c4320b8ad228479d42e5b5de3f00762ea0530658",
+    "hpc/evaluate_manifest.py": "158e8e68769d80de87d41b04e4322bc49449db0cb31159f9f0a847378c6d2bbe",
+    "hpc/freeze_amend4.py": "019f9dd5f1a3aa945cf5c32467cb42279147ae02534a4de2dc4537ad109954aa",
+    "hpc/freeze_amend5.py": "a373be6935257dac2aa30cb1c10ba478e10f2b19d84388eb4ec384a67321f6b3",
+    "hpc/freeze_gs.py": "1f3e06cb9e319b97d37fef47812d045c6f0a84715b2a3085c0cf20986b82e9dc",
+    "hpc/freeze_gs_r2.py": "7387a90802f38e2b681377a4ce3d9af7cf082d9714ae61fd841526b7a5eb7cab",
+    "hpc/gate_ceiling.py": "a65911550cb23e850ba2dd72487a14bc597c890c7d5465168ae8a4ee69b136ff",
+    "hpc/gen_registries.py": "ec4b29f55b79a46db0a3ee1f210a081ef80f019e46d20f84f107303519cb1ef9",
+    "hpc/gs_gpu_recon.py": "c5c0fd34d3cd3943103830709cc56dd0850f52b73edc753f140d94e3a53630ab",
+    "hpc/gs_run.py": "431086a1b43a2543c1a24059c1270fd2610e8cbf6fd6a1f92a8e9be47f45a889",
+    "hpc/gs_sweep.py": "a7f2dbdebfdc4fb09666fa5a9def19c92bf0f8a61125413c7a5819d137a282bd",
+    "hpc/hzd9_census.py": "7fe110a3340e9ced1b875ec7208df0616f88f02ffd0e0e7ffe84592a90d839ef",
+    "hpc/hzd9_recompute.py": "2b596fd9fac1ab8b36ee2c40980e9e3d5c60370aef9820bd39a6665d68f370e3",
+    "hpc/laptop_runner.py": "668cfaeaa5828110b602684c1303656337217b6fad5acd211b54dd0b05949e67",
+    "hpc/measure_vectorizable.py": "346202d98b535f2be5f98b7238ae7f437991ea3950aa0d1e9b30dc32d1c01cbe",
+    "hpc/mzd4_cost_fit.py": "804b4b50fb26890dbbd5e9aa19614be83a29f4c7b71c0b137c6098f46f56eec9",
+    "hpc/mzd5_encoding_fit.py": "3df049d7d45323f31a79dcf4cf55ff27f9106dcecd32f037746d9f47e096e5cb",
+    "hpc/qd_run.py": "91527e8bdf7d4bc33a5ccef402d50a0310db93eac230430d51523bc00b5388bd",
+    "hpc/qd_run_amend1.py": "579a3aed5e7d506e4c7bf97048e91c56eac3cb1e07cfbfd4ef4c4ca2c8356205",
+    "hpc/qd_run_amend2.py": "6fe14e276cbb38fd2fb9e30f986dadec3151016f6a8edec9ac25468cdccbb25a",
+    "hpc/qd_run_amend3.py": "283896e5666c744d1f770368cb82702c98bcdc81992f3ea63a824eb177a26c55",
+    "hpc/qd_run_amend4.py": "255749df0318ca712b860bd70f8413352add249466845a9e119b9c776119bb98",
+    "hpc/qd_run_amend5.py": "ce73b42789703b6706a90f105557f5d4cc8b031d228d2d21370371f60f03d5e7",
+    "hpc/recovery_test.py": "149e79278863db2c11eec2af3e2244413904c4e78a1d051541da786aa2287ade",
+    "hpc/smoke_local.py": "95ddebaee2243acb5563ecc4599b252b292b9355067f09c916399e56471deca1",
+    "hpc/smoke_search.py": "2b4b06f05b716dc54eae99de5926d6ea51f18451f56b380c1ecdcfba76921d5a",
+    "hpc/submit_amend1.py": "9f6e3f439aa6f6595998daef7f11c7d074765146c05b7d7395a09e0243e9d0bc",
+    "hpc/submit_amend2.py": "29d463f2b0ee0ee847dff7449a694cc4d6754e2fc4891f423ee71f1c3e5afb70",
+    "hpc/submit_amend3.py": "07303d89dd320b167c1231fdf63b6b1323abf59a8cbed66b05076bbe5f59008e",
+    "hpc/submit_amend4.py": "4a17ee20b0ad66247032a688978e5f53dd8e53584a41cc04d650dbf9dc10bb08",
+    "hpc/submit_amend5.py": "a0cc7469d5034af15caa5cbffc4328371161ea1d6937da2dd615923b79e9f0be",
+    "hpc/submit_campaign.py": "0bbd814aa91f1ab371f361881a2dcab37a79cf99a114efeb416d505a8f2ecc81",
+    "hpc/submit_gs.py": "84744d85114776fdb647bef44b7fba184d0c7647786e1f686af27746fcd0cf82",
+    "hpc/submit_gs_r2.py": "264a6a9808416e5d827d3d6ad5fb1141f9b2140fd3adec97844abe68dc9d01e1",
+    "morphology/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "morphology/canonicalize.py": "c3a092a2f471d333e7195898772c52e5f3270646fe6beb00eba4ab38d9a4d3aa",
+    "morphology/cgp_genome.py": "629c5f3530122c4d67f7e8203228ebea2662f13c6b91a0c3afa518997b37b7c3",
+    "morphology/compile.py": "e3a626bd4e663d9946cdd114706f667b547238f9958272c6844f77891244e0a7",
+    "morphology/direct_genome.py": "bd248560068d83ecfe87ce47e6359436ba390e70b830350233a8588c6ec094e5",
+    "morphology/graph_grammar.py": "6bfbf64413e8f80380793e7e4939ec0482fa87c0b85f4127cd7aa0e0f13b379b",
+    "morphology/gs_bound.py": "4567c58f917151fb696d7ba35b820a2d9730e5f22bf11e2964930c362686697f",
+    "morphology/mutations.py": "a12514b9782c7fc881c08f39475b7cbf0a1a056cf2935aba37fb3e5b04b7cd6f",
+    "morphology/schema.py": "59d3f9d22f3199b6feacc09a470d3099f8b74550f114e4e0bff611c6afacd12d",
+    "morphology/typed_program_genome.py": "82516ac9264107244730ae37984588808601b2ba4c551689f922b233397c9795",
+    "search/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "search/cma_mae.py": "477fdfd7e0ba7d1ce0648e8062400f34b641e4731a17b42053a27e7cdd446f85",
+    "search/cma_me.py": "8888b76e0c453c7b4714f9daaf19d6f4591d9091a1270d29e64f67e20bb094bb",
+    "search/cvt_map_elites.py": "a2c6d4ebf72f678c7da4607d13d5da8ef7333e2ab22500a230a46da4e6115218",
+    "search/failure_memory.py": "1780c42141360667860e0a9864325c1ceedde3e70b958a6b76fda48f6d27b034",
+    "search/island_qd.py": "864beaf7a8dd2b69ca53f21360969145d358e30fef33268e36e8fc342768ad6e",
+    "search/lexicase.py": "f480151bff47efa9d4832d9f7a6781408e6f0ea20fdaf96ca02ac1a0bb2da206",
+    "search/map_elites.py": "e3713c3f24324e28d68fe0b0928b9debe9a3398cd3ed6ff004edad0e7d285bda",
+    "search/metaevolution.py": "d5540336eb80cbdd164697909d08a19f90816a89d93b1245798eba64186f45d3",
+    "search/mome.py": "44e3d6c138a1e0e2929077161b905f71604fda6498e1f02b07368bfb1d5d2cb5",
+    "search/novelty.py": "8d15d423df16146a805b8b68e9c978367a1c5f315fb71f7a03615e49603cf579",
+    "search/novelty_viability.py": "06acb60827fe7955650d3f3b7519ca19b9e2837be152ad4e14d8be08e18b1c81",
+    "search/nsga.py": "8c809262cfb0e34b5595c8a5108a85485b24076f1b8181d3999dbd0012a447fb",
+    "search/nslc.py": "d311318f890f4584ade59bafeeac3b8fc8fd7e9fb845e6582211757429f6959b",
+    "search/pbt_inner.py": "65f73b68a98d3bfe93a21b10a6a03fb7a796a3a8af162cb7deb227457fe6425d",
+    "search/poet.py": "ad57170e873351cd1a9f059e04e1bba7892a2c6a76b46500dc14d59e489ae39f",
+    "search/random_search.py": "4194a16091365521ab1f0ff9fa18cbb683978c5972550eb758510fcba40180cc",
+    "search/successive_halving.py": "28b466115b6e97e55d60a3ccb58efab044b840c8d109ee4d07740b19540692e9",
+    "search/surrogate_allocate.py": "f5768f22591de0f1003fc0b895f96d7868e89e31586f53b620a87a5d75e34756",
+    "search/surrogate_qd.py": "e19d75383e2e2ff598fbcb096712fc352dff262e820e24323fce1d2f3c1ae342"
+  },
+  "cpu_placement": {
+    "determinism_replicates": "laptop billy (py3.8, builtin impl probe) never enters selection",
+    "priority": [
+      [
+        "nuc",
+        "lu2026-2-51"
+      ],
+      [
+        "lu48",
+        "lu2026-2-51"
+      ],
+      [
+        "hep",
+        "hep2023-1-3"
+      ]
+    ],
+    "tasks_per_node_cores": 1,
+    "time_limit_per_task": "02:00:00"
+  },
+  "created_utc": "2026-09-10T07:14:28Z",
+  "created_utc_by": "hpc/freeze_gs_r2.py at freeze time",
+  "decision_ledger_rule": "NO sbatch without its decision line durably appended to ADAPTIVITY_LEDGER.jsonl FIRST (GS-R1h discipline); the initial array's decision line cites this freeze sha256",
+  "environment": {
+    "env_probe_sha256": "3ba87db40a8de4a73fc6120bcaa33b92113a4fcc938d8f6bdaa6f4ebec0e3760",
+    "novelty_archive_impl": "ribs",
+    "packages": {
+      "deap": "1.4",
+      "hpbandster": null,
+      "nevergrad": null,
+      "optuna": "5.0.0",
+      "qdax": null,
+      "ribs": "0.12.0",
+      "sklearn": "1.9.0"
+    },
+    "probe_host": "cosmos3.int.lunarc",
+    "probe_python": "3.11.5",
+    "surrogate_impl": "sklearn"
+  },
+  "evidence_class": "EXPLORATORY_ADAPTIVE",
+  "evidence_class_rule": "every R2 outcome is decision support for the NEXT allocation decision; no R2 rule is a programme terminal (sec-15 vocabulary only via inherited R1 rules; R2-specific ids are lever verdicts)",
+  "failure_memory": {
+    "auto_append": "every failed evaluation task (gate failure or crash) appends candidate_id/tier/counterexample/one-stage attribution",
+    "next_round_use": "gate/sampler prior \u2014 never a skip rule (skipping would bias cost comparisons)",
+    "schema": "GS_FAILURE_V1"
+  },
+  "forbidden_terminals": [
+    "AGI",
+    "GENERAL_INTELLIGENCE_PROVEN",
+    "NEW_FORM_OF_INTELLIGENCE_PROVEN",
+    "SUPERIOR_TO_NEURAL_INTELLIGENCE",
+    "OPEN_ENDED_EVOLUTION_SOLVED"
+  ],
+  "freeze_id": "GRAND_SEARCH_R2",
+  "governing_plan": "issue #221 sec 18 GS-R2 (bottleneck-table design: GSA5_RATE_READ_V1 implications 1-3) + HSG UNCERTAINTY_LEDGER_V1 local_evolvability_levers + GSA6 JOB B dispatcher directive 2026-09-10",
+  "heldout_t3": {
+    "draw": {
+      "t3_chain_transfer": {
+        "depth_mult": 0.9477,
+        "hops": 3.8768
+      },
+      "t3_conflict_refusal": {
+        "pairs": 2.903
+      },
+      "t3_doubt_probe": {
+        "contradictions": 2.4563,
+        "probe_yield": 2.12
+      },
+      "t3_interrupted_plan": {
+        "interrupts": 1.6179,
+        "redepth": 5.9948
+      },
+      "t3_novel_variant": {
+        "depth_mult": 1.2634,
+        "variants": 4.5783
+      },
+      "t3_scale_retrieval": {
+        "items_mult": 7.1525,
+        "k": 5.3466
+      }
+    },
+    "evaluated_only_on": "R2 survivors (distinct T2-viable phenotypes across R2 arms)",
+    "families": [
+      "t3_chain_transfer",
+      "t3_doubt_probe",
+      "t3_scale_retrieval",
+      "t3_conflict_refusal",
+      "t3_novel_variant",
+      "t3_interrupted_plan"
+    ],
+    "floor": "CAPABILITY_FLOOR_V1 = 0.5 (unchanged)",
+    "key_sha256": "4d0a1487e442744930436b7dcee4daac9d787dbb5e27745708a4e85d00548780",
+    "m104_extension": {
+      "bound_ref": "HST_TRANSFER_BOUND_V1: eps(104)=0.22393 <= admission bar 0.224507 \u2014 first m where the PAC-Bayes transfer slack meets the zoo's own predicate; subkeys are key|tag|i derivations of the SAME frozen R1 key (no new randomness)",
+      "crossover_m": 104,
+      "m_total_min": 108,
+      "module": "evaluation/t3_ecology_m104.py",
+      "n_calls": 18,
+      "tasks_per_call": 6
+    },
+    "replication": "R1 T3 key reused VERBATIM \u2014 same battery, evaluated on R2 survivors (replication of the R1 endpoint on fixed-surrogate code)",
+    "t3_key_id": "GSHeldoutT3V1:4d0a1487e4427449"
+  },
+  "novelty_gate_rank_key": "s/(nov+1e-9)",
+  "novelty_space": {
+    "archive_cap": 4096,
+    "archive_floor": 64,
+    "bounds": [
+      [
+        0.0,
+        32.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0
+      ]
+    ],
+    "dims": [
+      "expansions_per_solved",
+      "method_reuse_fraction",
+      "centralization",
+      "unit_type_entropy"
+    ],
+    "k_nn": 15,
+    "registry": [
+      "B_behavior_2d",
+      "S_structural_2d"
+    ]
+  },
+  "parents": {
+    "GSA2_hetero": {
+      "cpu_seconds_per_seed": 51.258,
+      "distinct_t2_viable_per_seed": 5062.7,
+      "morphologies_per_cpu_hour": 354046.0
+    },
+    "GSA5_surrogate": {
+      "cpu_seconds_per_seed": 111.257,
+      "distinct_t2_viable_per_seed": 2233.3,
+      "morphologies_per_cpu_hour": 72150.0
+    },
+    "factors": {
+      "cpu_per_seed": 2.171,
+      "distinct_yield": 2.267
+    },
+    "note": "GSAB1 seeds 0-5, lane hetero, n0=729, t0 45000 \u2014 R2 arms match this allocation exactly so lever deltas are one-stage attributable",
+    "r1_freeze_sha256_of_parents": "4dd79f8e8ef61c4701f647733c62878396b26d4311cbbab2a9170b1f8241080e",
+    "source": "results/GSA5_RATE_READ_V1.json",
+    "source_sha256": "08a063da719ef6709866933b2386bcef3aab51b66020acc544949719e243b672"
+  },
+  "per_survivor_rules": [
+    {
+      "condition": "survivor feasible on held-out T3",
+      "id": "SURVIVOR_T3_GENERALIZATION_HOLD"
+    },
+    {
+      "condition": "otherwise",
+      "id": "SURVIVOR_T3_GENERALIZATION_FAIL"
+    }
+  ],
+  "r1_freeze_superseded": false,
+  "schema": "GRAND_SEARCH_R2_FREEZE_V1",
+  "search_bound": {
+    "amend5_note": "CENSUS_BOUND_V1 and census-observed maxima are DESCRIPTIVE statistics of the amend-1..4 runs, never bounds on the mutated space: sampling and mutation draw from GS_BOUND_V1's vocabulary (12 unit types vs the census's 9), which is the sole declared bound of this campaign",
+    "bound_id": "GS_BOUND_V1",
+    "note": "O_basis derived from (units, L, K, R) via operators_for \u2014 sampling over operators = sampling their enablers",
+    "size": 143881920,
+    "vocab": {
+      "F_arch": [
+        "approx_projection_vsa",
+        "blackboard_production",
+        "event_sourced_tms",
+        "factorized_field",
+        "flat_typed_relational",
+        "hierarchical_fibred",
+        "hypergraph_metagraph",
+        "kso_reference",
+        "library_procedural",
+        "typed_property_graph"
+      ],
+      "K": [
+        "consolidated_schema_residual",
+        "episodic_store",
+        "persistent_facts",
+        "persistent_facts_index",
+        "procedural_store",
+        "volatile_only"
+      ],
+      "L": [
+        "anti_unification_schema",
+        "consolidation_schema_residual",
+        "exemplar_persistence",
+        "library_learning",
+        "none",
+        "representation_split",
+        "rewrite_egraph_abstraction",
+        "scoped_nogood",
+        "verifier_guided_cegis"
+      ],
+      "Pi_arch": [
+        "adaptive_probe_policy",
+        "blackboard_bidding_agenda",
+        "cost_aware_metapolicy",
+        "distributed_propose_central_commit",
+        "event_driven_local",
+        "exact_global_queue",
+        "hierarchical_executive"
+      ],
+      "R": [
+        "dependency_cone_reopen",
+        "full_rescan",
+        "none"
+      ],
+      "T_family": [
+        "central_blackboard_star",
+        "distributed_local_controllers",
+        "growing_pruning",
+        "hierarchy_tree",
+        "layered_dag",
+        "recurrent_event_graph",
+        "small_world_sparse",
+        "sparse_modular"
+      ],
+      "bound_id": "GS_BOUND_V1",
+      "extra_units": [
+        "abstraction_schema",
+        "assoc_similarity",
+        "constraint_solver",
+        "diagnostic_probe",
+        "episodic_memory",
+        "exact_index",
+        "fsm_controller",
+        "local_executive",
+        "procedural_memory",
+        "production_rule",
+        "rewrite_program",
+        "search_planner"
+      ],
+      "max_extra_units": 5
+    }
+  },
+  "status": "frozen_before_scored_runs",
+  "successive_halving": {
+    "eta": 3,
+    "late_bloomer_fraction": 0.15,
+    "min_promote": 3,
+    "rungs": [
+      "T0",
+      "T1",
+      "T2"
+    ],
+    "tier_defs": {
+      "T0": "evaluation/evaluate.py evaluate_genome tier T0 (V1 exact micro-worlds)",
+      "T1": "evaluation/gs_t1.py evaluate_t1 = run_lifetime2(reset=False), tier-labelled T1 (GS definition; evaluate.py T1 stays NotImplementedError for MZ-D7)",
+      "T2": "evaluation/evaluate.py evaluate_genome tier T2 (developmental lifetime + reset control)"
+    }
+  },
+  "surrogate": {
+    "depth": 2,
+    "holdout_mae_fix": "GSA5_HOLDOUT_MAE_NAN fix (PR #270) is ALWAYS ON in R2; gs_run asserts holdout_mae_t1 finite when present",
+    "k": 7,
+    "n_trees": 24,
+    "role": "ranks promotions ONLY; never an OCM component (#71); predictions never count as earned capability",
+    "subspace": 12,
+    "surrogate_id": "GS_ENSEMBLE_SURROGATE_V2"
+  },
+  "surrogate_fixed_read": {
+    "endpoint": "holdout_mae_t1 finite in EVERY completed surrogate-ranked run (GSA5_RATE_READ defect GSA5_HOLDOUT_MAE_NAN: was NaN 5/6 seeds, 0.0 1/6); distribution recorded per arm",
+    "not_a_terminal": true
+  },
+  "t3_key": "gs-t3-12cc0aa192f4b6b6dc2df4474032bd6ad8b8a624c12b978c56ef085f76c31adf",
+  "terminal_rules_first_match": [
+    {
+      "condition": "zero R2 search-arm tasks completed with evals",
+      "id": "CANNOT_CHECK_NO_SCORED_DISPOSITIONS",
+      "order": 1,
+      "vocab": "CANNOT_CHECK_NO_SCORED_DISPOSITIONS"
+    },
+    {
+      "condition": "GSA6_ALL morphologies-per-CPU-hour > max(GSA2 parent 354046, GSA5 parent 72150, GSA5P_fixed replication) AND GSA6_ALL distinct-per-seed > GSA2 parent 5062.7",
+      "id": "LEVER_PACKAGE_BEATS_PARENTS",
+      "order": 2,
+      "vocab": "DIVERSE_HIGH_PERFORMING_MORPHOLOGIES_FOUND_AT_SCOPE"
+    },
+    {
+      "condition": "GSA6_ALL mph > max(GSA5 parent 72150, GSA5P_fixed) but NOT above GSA2 parent",
+      "id": "LEVER_PACKAGE_BEATS_SURROGATE_PARENT_ONLY",
+      "order": 3,
+      "vocab": "MORPHOLOGY_SEARCH_COST_DOMINATES"
+    },
+    {
+      "condition": "GSA6_ALL mph <= max(GSA5 parent 72150, GSA5P_fixed)",
+      "id": "LEVER_PACKAGE_NO_GAIN",
+      "order": 4,
+      "vocab": "MORPHOLOGY_SEARCH_COST_DOMINATES"
+    },
+    {
+      "condition": "otherwise (honest partials; single-lever attribution table still written; round repeats)",
+      "id": "MIXED_INTERMEDIATE_NO_TERMINAL",
+      "order": 5,
+      "vocab": "CANNOT_CHECK_PARTIAL_DISPOSITIONS"
+    }
+  ],
+  "wall_clock_budget_h": 2
+}
