@@ -127,6 +127,22 @@ def search_vector(rec: Dict[str, Any]) -> Any:
     return CANNOT_CHECK
 
 
+# Supplementary reporting view. Evolvability is computed on a subsample, so a
+# 4-objective front covers only that subsample. This 3-objective view covers
+# EVERY retained record, so nothing is dropped from the map. It adds a report,
+# it does not redefine an objective or change the admission rule.
+COVERAGE_OBJECTIVES: Tuple[str, ...] = ("capability", "burden", "t3_gen")
+COVERAGE_MAXIMIZE: Tuple[bool, ...] = (True, False, True)
+
+
+def coverage_vector(rec: Dict[str, Any]) -> Any:
+    """(capability, burden, t3_gen) or CANNOT_CHECK."""
+    vals = [rec.get("capability"), rec.get("burden"), rec.get("t3_gen")]
+    if all(_is_number(v) for v in vals):
+        return [float(v) for v in vals]
+    return CANNOT_CHECK
+
+
 def report_vector(rec: Dict[str, Any]) -> Any:
     """(capability, burden, t3_gen, evolvability) or CANNOT_CHECK."""
     vals = [rec.get("capability"), rec.get("burden"), rec.get("t3_gen"),

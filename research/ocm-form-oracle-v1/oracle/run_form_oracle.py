@@ -31,8 +31,11 @@ from oracle import objectives4 as OB
 from oracle.c_immutability import (CImmutabilityViolation, check_c_immutable,
                                    constitution_snapshot)
 
-# Frozen sampling lanes, reused from the zoo's legality-bounded sampler.
-LANES = ("gs_uniform", "lane_units", "lane_hetero", "lane_fields", "lane_ops")
+# Sampling lanes, reused from the zoo's legality-bounded sampler. The names are
+# the KEYS of morphology.gs_bound.LANES ("units", "hetero", "farch", "obasis"),
+# not the names of the functions behind them -- lane_sampler indexes that dict
+# and raises KeyError on a function name.
+LANES = ("gs_uniform", "units", "hetero", "farch", "obasis")
 
 # Evolvability is (1+K_STEPS) future evaluations plus up to K_STEPS*P_MAX T0
 # proposals per survivor, so it is computed on a SEEDED RANDOM SUBSAMPLE of T2
@@ -101,12 +104,22 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
     c_before = constitution_snapshot()
 
     sampler = _sampler(lane)
+    t_search0 = time.time()
     with _charging_proxy(ledger):
         sh = run_successive_halving(t0_budget=t0_budget, seed=seed,
                                     sampler=sampler)
+    search_elapsed = time.time() - t_search0
 
     survivors: List[Dict[str, Any]] = list(sh.get("t2_survivors")
                                            or sh.get("survivors") or [])
+
+    # Distinct T2-viable PHENOTYPES: the parents' own unit. GS-R2 reports
+    # distinct_t2_viable_phenotypes and morphologies_per_cpu_hour on that
+    # quantity, so it is counted here too. Distinct BEHAVIOURS is a different
+    # and stricter count; reporting only the behaviour count beside a parent's
+    # phenotype count would compare two different things.
+    distinct_phenotypes = {r.get("phenotype_digest") for r in survivors
+                           if r.get("phenotype_digest")}
 
     # ---- behavioural dedup on the T2 survivors (cost measured separately)
     kept: List[Dict[str, Any]] = []
@@ -179,6 +192,7 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
 
         out["search_objectives"] = OB.search_vector(out)
         out["report_objectives"] = OB.report_vector(out)
+        out["coverage_objectives"] = OB.coverage_vector(out)
         records.append(out)
 
     crash_settle = ledger.settle()
@@ -186,9 +200,12 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
                                      OB.SEARCH_MAXIMIZE)
     front_report = OB.pareto_front_k(records, "report_objectives",
                                      OB.REPORT_MAXIMIZE)
+    front_coverage = OB.pareto_front_k(records, "coverage_objectives",
+                                       OB.COVERAGE_MAXIMIZE)
 
     elapsed = time.time() - t_start
     cpu_h = elapsed / 3600.0
+    search_cpu_h = search_elapsed / 3600.0
     return {
         "study": "FORM_ORACLE_V1",
         "arm": arm, "seed": seed, "lane": lane, "dedup": dedup,
@@ -207,6 +224,9 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
         "front_report": front_report,
         "front_search_members": [records[i] for i in front_search["front_indices"]],
         "front_report_members": [records[i] for i in front_report["front_indices"]],
+        "front_coverage": front_coverage,
+        "front_coverage_members": [records[i]
+                                   for i in front_coverage["front_indices"]],
         "c_immutability": {
             "n_violations": len(c_violations),
             "violations": c_violations[:20],
@@ -220,11 +240,23 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
         # seed at 51.258 cpu-s/seed -> 354,046). Matching that definition is the
         # only way this number can be put beside a parent's. Attempts/cpu-hour
         # is a different quantity and is reported under its own name.
-        "morphologies_per_cpu_hour": (round(len(kept) / cpu_h, 2)
-                                      if cpu_h > 0 else None),
+        # PARENT-COMPARABLE. GS-R2's morphologies_per_cpu_hour counts distinct
+        # T2-viable PHENOTYPES over SEARCH cpu-hours. The Form Oracle also pays
+        # for T3 and evolvability measurement, which the parents never paid, so
+        # measurement time is excluded from this denominator and reported apart.
+        "search_elapsed_s": round(search_elapsed, 3),
+        "search_cpu_hours": round(search_cpu_h, 8),
+        "distinct_t2_viable_phenotypes": len(distinct_phenotypes),
+        "morphologies_per_cpu_hour": (
+            round(len(distinct_phenotypes) / search_cpu_h, 2)
+            if search_cpu_h > 0 else None),
+        # Stricter unit: distinct BEHAVIOURS, not phenotypes. Not comparable to
+        # a parent figure and labelled so it cannot be mistaken for one.
+        "distinct_behaviours_per_cpu_hour_NOT_PARENT_COMPARABLE": (
+            round(len(kept) / search_cpu_h, 2) if search_cpu_h > 0 else None),
         "attempts_per_cpu_hour": (round(ledger.n_attempts / cpu_h, 2)
                                   if cpu_h > 0 else None),
-        "distinct_t2_viable": len(kept),
+        "distinct_t2_viable_behaviours": len(kept),
         "memoisation_caveat": (
             "evaluate_genome memoises on (phenotype_digest, tier); a repeated "
             "phenotype costs ~0 wall clock but is charged its full modelled "
