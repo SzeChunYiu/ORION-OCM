@@ -63,3 +63,41 @@ This also explains E6's length-6 ecology admitting at all, and it is what makes 
 answer to the thin-margin limitation recorded in [E5_ADMISSION.md](E5_ADMISSION.md): on
 length-6 targets a constant "guess 8" ordering prunes to the wrong length and finds
 **nothing**, so the surface baseline is weak by construction rather than by luck.
+
+## Prospective confirmation on a fresh ecology (E7)
+
+The law was fitted on ten E5 worlds. E7 tests it **prospectively**, on a differently
+shaped ecology built for a different purpose (a long future horizon: 25 developmental
+tasks against 43 future targets).
+
+```text
+E7:  5 / 7 motifs recovered  ->  admit = False
+```
+
+Incomplete recovery, refusal — as the law requires. Held-out result: 5/10 strictly
+better, `never_worse=False`, work reduction **−0.5 %** (no effect). Motif ranks 2, 3, 5,
+8, 14: the five recovered motifs *were* ranked early, so ranking was not the failure —
+**coverage** was.
+
+This is the law's first out-of-sample test and it holds.
+
+## The constraint E7 exposes
+
+E7 was built to close the amortisation negative by lengthening the horizon. It failed
+for a reason that is structural rather than incidental:
+
+> The developmental data needed to **recover** the structure competes with the future
+> horizon over which the recovered structure **pays**.
+
+Splitting a fixed-size ecology toward more future targets starves the developmental
+phase, and below the recovery threshold the prior is not admitted at all — so the
+horizon it would have paid over becomes irrelevant.
+
+| ecology | train | future targets | recovery | admitted | marginal break-even |
+|---|---|---|---|---|---|
+| E5 | 35 | 21 | 6/6 | ✓ | 23.2 (horizon 10 % short) |
+| E7 | 25 | 43 | **5/7** | ✗ | — (no prior to amortise) |
+
+Resolving it requires a **larger ecology**, not a different split — enough members that
+both the developmental phase and the future horizon can be large at once. That is E8:
+147 members, 66 developmental tasks, 63 future targets.
