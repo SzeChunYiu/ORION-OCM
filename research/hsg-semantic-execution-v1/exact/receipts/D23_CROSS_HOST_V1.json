@@ -1,0 +1,68 @@
+{
+ "byte_repro_rule": "json.dump(indent=1, sort_keys=True, default=repr); identity_sha256 computed over results doc minus identity_sha256/wall_s/cpu_s/host",
+ "exit_code_semantics": {
+  "0": "RUN_COMPLETED_ALL_FROZEN_EXPECTATIONS_MET",
+  "1": "RUN_COMPLETED_WITH_RECORDED_EXPECTATION_FAILURES",
+  "3": "CANNOT_CHECK (reader-construction self-check failed)"
+ },
+ "freeze": "FREEZE_D23_V1.json",
+ "freeze_commit_squash_on_main": "3f9a76c339b1097a4cbf8423952025efd39d2018",
+ "freeze_sha256": "d2796244c94fe67f2ea70941ab6cbdb7b2fba67c29e47964e4a7e0ac38aa41f0",
+ "head_sha_both_hosts": "3f9a76c339b1097a4cbf8423952025efd39d2018",
+ "hosts": [
+  {
+   "exit_code": 0,
+   "head_sha": "3f9a76c339b1097a4cbf8423952025efd39d2018",
+   "host_receipt_file": "exact/receipts/D23_HOST_RECEIPT_billy.json",
+   "host_receipt_sha256": "fc037d0f3e4cbd4745aa4cdbb4baef9de8679623970ae052f017a2a090698b91",
+   "hostname": "billy",
+   "python": "3.8.10",
+   "receipts_sha256": "ddd50f72d363b2131a9a19b4db2b6ba83413750387d0b44bfe7847459e58fbbd",
+   "results_raw_sha256": "7da24ac779a11af711abc56450a6e264a221dc8a7564ad6500ce285c08102146",
+   "role": "laptop",
+   "stdout_sha256": "8e64681a01bdcbc2d2d54d85ceff73ccca263ceb215dcd9b2e53b90707b911c7"
+  },
+  {
+   "exit_code": 0,
+   "head_sha": "3f9a76c339b1097a4cbf8423952025efd39d2018",
+   "host_receipt_file": "exact/receipts/D23_HOST_RECEIPT_billy-laptop-old.json",
+   "host_receipt_sha256": "b24ec32c7a08700f5caa6008e6387979876b1038275e0fd9f3da44bc283cd3fe",
+   "hostname": "billy-laptop-old",
+   "python": "3.14.4",
+   "receipts_sha256": "ddd50f72d363b2131a9a19b4db2b6ba83413750387d0b44bfe7847459e58fbbd",
+   "results_raw_sha256": "86540ddf27b3f3d85085cf99a2ca58ddd8f28bd5101753c564ec61b362072f9b",
+   "role": "old laptop",
+   "stdout_sha256": "8e64681a01bdcbc2d2d54d85ceff73ccca263ceb215dcd9b2e53b90707b911c7"
+  }
+ ],
+ "identity_sha256": "049ea8684c45ea15bced644457493002d31b63d6d0140c9620a22712b46067e2",
+ "identity_verification": {
+  "fields_actually_differing_across_hosts": [
+   "cpu_s",
+   "wall_s",
+   "host"
+  ],
+  "fields_excluded_from_identity": [
+   "identity_sha256",
+   "wall_s",
+   "cpu_s",
+   "host"
+  ],
+  "note": "raw D23_RESULTS.json file sha256 differs across hosts ONLY via the excluded fields (wall_s/cpu_s host timings + host block); the canonical committed copy is the billy-laptop execution's",
+  "python_versions": {
+   "billy": "3.8.10",
+   "billy-laptop-old": "3.14.4"
+  },
+  "receipts_jsonl_byte_identical": true,
+  "recomputed_equals_embedded_both_hosts": true,
+  "stdout_byte_identical": true,
+  "stripped_canonical_identical_across_hosts": true
+ },
+ "issue": "SzeChunYiu/ORION-OCM#233 (D23 lane, post-freeze execution)",
+ "mac_mini_role": "assembly only (git/gh); both executions ran off-Mac",
+ "protocol": "D23_PROTOCOL_V1.json",
+ "protocol_sha256": "a5d4a3c1362aca1a0b8d4b732fe634f2a3cb913d6cd69f65f4460921494c5e7a",
+ "record": "D23 cross-host execution identity receipt (coordinator-required provenance)",
+ "rng_draws": 0,
+ "stdout_verbatim_identical_both_hosts": "D23 A1_roundtrip_clean       COMMIT_OK\nD23 A2_omitted_reading       REFUSED_COVERAGE_GAP\nD23 A3_costume               ROUND_TRIP_ERROR_DETECTED\nD23 A4_ambiguity_t68         COMMIT_OK\nD23 A5_context_split_t69     CONTEXT_CONFLICT_DETECTED\nD23 A6_clarification_voi     CLARIFY_CORRECT\nD23 OVERALL ALL_FROZEN_EXPECTATIONS_MET\nD23 identity_sha256 049ea8684c45ea15bced644457493002d31b63d6d0140c9620a22712b46067e2\nD23 RESULTS /home/billy/orion-d23-arms/research/hsg-semantic-execution-v1/exact/results/D23_RESULTS.json\n"
+}
