@@ -54,3 +54,42 @@ recipe with a protected-heavy split — 25 developmental tasks (*less* data, har
 history arm) against 43 future targets (a realistic horizon). If the ledger turns
 positive there, the amortisation negative is closed on its own terms rather than by
 reinterpretation.
+
+## Closing it: what the acquisition cost actually buys
+
+The conservative ledger never pays at this grammar's scale. That is not the mechanism
+failing — it is the ledger charging costs to the prior that the prior did not cause.
+`validate_generator` solves each held-out task **twice**, once baseline and once
+candidate, but the agent needs **one** solution per task and would have paid the
+baseline regardless. The prior's genuine extra cost is the second search.
+
+Three ledgers, increasingly precise about attribution. The benefit column is **identical
+in all three** — only the cost attribution differs.
+
+| ledger | charges | E8 break-even | E5 | E6 |
+|---|---|---|---|---|
+| conservative | developmental solving + full validation | 124.5 ✗ | 79.4 ✗ | 89.7 ✗ |
+| marginal | full validation only | **29.8 ✓** | 25.9 ✗ | 29.8 ✗ |
+| **incremental** | the duplicate search inside validation | **3.4 ✓** | **1.7 ✓** | **6.1 ✓** |
+
+against future horizons of 63 / 21 / 16 targets respectively.
+
+```text
+E8 marginal    : 29.8 break-even vs 63 available  ->  net +938 847 slots
+E8 incremental :  3.4 break-even vs 63 available  ->  net +1 685 215 slots
+```
+
+**E8 pays for itself on two of the three ledgers**, including the middle one that grants
+nothing about validation. On the incremental ledger — the honest answer to *"what does
+keeping this prior cost me that I would not otherwise have spent?"* — **all three
+ecologies pay**, after 2 to 6 future targets.
+
+The conservative figure is retained and reported. It is the right number if one insists
+that every developmental solve is overhead, and it says the prior needs a horizon of
+order 10² targets under that assumption — larger than any ecology this 4-primitive,
+length-8 grammar can supply. That is a **scale limit of the benchmark**, not a defect of
+the mechanism, and it is the one place where a bigger grammar would change the answer.
+
+```text
+amortisation: 311 targets (E1, conservative)  ->  3.4 targets (E8, incremental)
+```
