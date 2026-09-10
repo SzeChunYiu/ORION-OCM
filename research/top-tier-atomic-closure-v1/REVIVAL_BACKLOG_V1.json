@@ -1,0 +1,173 @@
+{
+ "schema": "TTAC_REVIVAL_BACKLOG",
+ "version": "V1",
+ "owner_issue": 277,
+ "created_utc": "2026-09-10",
+ "purpose": "Living revival backlog. The operator's standing doctrine: when any result, test or model FAILS, the FIRST response is diagnose -> attribute to ONE stage -> apply the matching lever -> re-test against the strongest parent, BEFORE filing the negative or moving on. A one-pass negative filed as terminal is a defect.",
+ "governing_rules": [
+  "Attribute to exactly ONE stage before applying any lever. Multi-stage attribution means diffuse, unfocused effort and is itself a defect.",
+  "Revival is an ITERATIVE CHAIN, not one pass: repeat attribute -> lever -> re-test until positive OR the obstruction is PROVEN structural, in which case deliver the proof plus the adjacent scoped positive.",
+  "NEVER tune an outcome positive. Any improvement must be EARNED by a genuine mechanic change, re-tested against the strongest parent with all costs charged.",
+  "PARENT_SUFFICIENT is a SUCCESS terminal. Never engineer past a parent that genuinely owns the function. The revival duty applies to mechanism negatives, not to parent-sufficiency.",
+  "A regime-CONDITIONAL positive is INTERMEDIATE, not terminal: it demands a further iteration extending the working regime or fixing the failing one.",
+  "Every claimed improvement needs a shuffle-equal-n null. Selectivity is not edge.",
+  "Freeze the protocol and push it in a commit containing no result file BEFORE running. Post-freeze change requires a recorded supersession with cause and a re-run."
+ ],
+ "revivals": [
+  {
+   "revival_id": "RV-1",
+   "negative": "D20: adaptive refinement never beats direct concrete search anywhere in the frozen n grid [8,12,16,20,24]. Terminal PARENT_SUFFICIENT.",
+   "source_anchor": "PR #283, commit 7a6427e9, exact/results/D20_RESULTS.json",
+   "one_stage_attribution": "Abstraction CONSTRUCTION, not abstract SEARCH. Every CEGAR round rebuilds the abstraction from the FULL concrete transition relation, so one round already costs a full concrete sweep; a 4x smaller abstract state space cannot repay a build linear in the concrete edge count.",
+   "attribution_confidence": "HIGH - stated by the lane from its own instrumented cost split, not inferred",
+   "lever": "INCREMENTAL REFINEMENT: keep the previous abstraction and split only the blocks the counterexample distinguishes, so per-round build cost is O(touched blocks + incident edges) instead of O(full concrete edge relation). The attribution names an IMPLEMENTATION property, not a law - rebuilding from scratch each round is a choice, which is exactly what makes this negative revivable.",
+   "retest_against": "direct concrete search, same frozen 30 worlds and same frozen n grid, full lifecycle charged including initial build and rejected candidates",
+   "status": "DISPATCHED",
+   "placement": "laptop billy (lane RV-B1)",
+   "earned_terminal_rule": "If incremental refinement STILL loses, PARENT_SUFFICIENT is EARNED at a deeper level and is filed as a SUCCESS terminal with the stronger statement, not tuned. Never engineer past a parent that genuinely owns the function.",
+   "chain_iteration": 1,
+   "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study."
+  },
+  {
+   "revival_id": "RV-2",
+   "negative": "D19: terminal CANNOT_CHECK_NEGATION_PRESENT on the negative-dependency population OW4N (40/46 accepted-set agreement, 31/46 reopened).",
+   "source_anchor": "PR #282, commit 78259460, exact/results/D19_RESULTS.json",
+   "one_stage_attribution": "MISSING INSTRUMENT, not a failed mechanism. Positive-only N[X] provenance cannot represent a blocker, so it launders negative dependencies. The A3 detector correctly refuses to certify rather than reporting a pass.",
+   "attribution_confidence": "HIGH - the terminal itself names the missing instrument, per the frozen rule that CANNOT_CHECK must name an instrument and never a resource shortage",
+   "lever": "NEGATION-AWARE PROVENANCE: evaluate under a semiring that can express blocking - stratified or well-founded evaluation, or an m-semiring with monus - and re-run the same OW4N worlds and revocation subsets.",
+   "retest_against": "A2_recomputation, the exhaustive algebra-free ground truth already in the lane, on the identical frozen OW4N worlds and subsets",
+   "status": "QUEUED",
+   "placement": "laptop billy or LUNARC nuc (exact, tiny worlds)",
+   "earned_terminal_rule": "If a negation-aware semiring reproduces A2 exactly, the CANNOT_CHECK converts to a real result and T73's boundary is characterised rather than merely observed. If it cannot, the boundary is structural and the proof of that is the deliverable.",
+   "chain_iteration": 1,
+   "notes": "This is the clearest case in the backlog of 'the constraint IS the next idea' - the missing instrument is named, so the lever is determined."
+  },
+  {
+   "revival_id": "RV-3",
+   "negative": "D19: provenance substitution beats full recomputation on lifecycle burden by only 7% (598 vs 640 ops), with no-op revocations charged in full.",
+   "source_anchor": "PR #282, commit 78259460, exact/results/D19_RESULTS.json positive_control",
+   "one_stage_attribution": "WORLD SCALE. At 4-7 node worlds the single initial solve dominates, and |S| substitutions are too few to amortise it. The margin is a scale artifact, not a property of substitution.",
+   "attribution_confidence": "MEDIUM - plausible from the cost structure but NOT yet discriminated against the alternative that substitution simply has no real advantage",
+   "lever": "SCALE THE WORLDS on LUNARC: grow node count, edge density and revocation-subset size, and locate the point (if any) where the margin becomes decision-relevant. Report the curve, not a single ratio.",
+   "retest_against": "A2_recomputation with full lifecycle charged at every scale point",
+   "status": "QUEUED",
+   "placement": "LUNARC (nuc partition, 96 idle nodes) - this is a scaling study and is exactly what the cluster is for",
+   "earned_terminal_rule": "A margin that stays near 1.0 as scale grows is a genuine negative for provenance substitution and must be filed as one. A margin that grows is a scoped positive whose ceiling is the scale range actually tested.",
+   "chain_iteration": 1,
+   "notes": "Interacts with RV-4: if the T72 targeting defect inflates or deflates the 7%, RV-3 must be re-run after RV-4 lands."
+  },
+  {
+   "revival_id": "RV-4",
+   "negative": "D19 census: the frozen T72 oracle revokes over the world's `leaves` field, a strict superset of true sources. 11 of its revocation targets are no-ops, 12 are true sources, and 6 true sources are never revoked at all.",
+   "source_anchor": "PR #282, commit 78259460, exact/results/D19_RESULTS.json legacy_leaf_census",
+   "one_stage_attribution": "ORACLE TARGETING DEFECT. Roughly half the oracle's revocation targets are structurally trivial, so a share of its 'checks' cannot fail by construction.",
+   "attribution_confidence": "HIGH - counted exactly by the lane against its own explicit evidence_variable_definition",
+   "lever": "RE-TARGET revocation to true sources (nodes with no incoming hyperedge) and re-run every D19 endpoint.",
+   "retest_against": "the prior D19 result itself - does ANY endpoint move: the 50/50 positive-control agreement, the 40/46 and 31/46 OW4N figures, the alternate-support rescue count, or the 598-vs-640 margin?",
+   "status": "DISPATCHED",
+   "placement": "laptop billy (lane RV-B2)",
+   "earned_terminal_rule": "A no-change result is a genuinely useful negative and must be reported as one. The specific question to rule in or out: a 7% lifecycle margin is thin enough that a targeting artifact could account for it.",
+   "chain_iteration": 1,
+   "notes": "D19 correctly reported the count and made NO claim that T72 is wrong - T72 is a statement about provenance variables. This revival tests the instrument, not the theorem."
+  },
+  {
+   "revival_id": "RV-5",
+   "negative": "D21: shared e-graph amortised-reuse aggregate ratio 0.418 over 10 worlds at 8 queries each - equality saturation is NOT cheaper than ordered rewriting even amortised.",
+   "source_anchor": "PR #284, exact/results/D21_RESULTS.json amortised_reuse",
+   "one_stage_attribution": "WORKLOAD AND RULE SET, not the e-graph. Quoting the lane: 'on the frozen rule set ordered rewriting already attains the direct-solve optimum, so saturation has no optimum-quality headroom to win.' Where there is no headroom, no engine can find any.",
+   "attribution_confidence": "HIGH - the lane already ran one revival iteration (the 8-query amortised regime) and attributed the residual",
+   "lever": "RULE SET WITH ACTUAL HEADROOM: construct families where ordered rewriting is provably NOT optimal, i.e. where rewrite ORDER changes the reachable normal form, which is precisely the regime e-graphs exist for. Secondary lever: raise query count well beyond 8 and find the amortisation crossover if one exists.",
+   "retest_against": "ordered rewriting AND direct solve, present cost and future reuse tracked separately per T27/T87",
+   "status": "QUEUED",
+   "placement": "billy-old (lane already holds the e-graph context) or LUNARC nuc",
+   "earned_terminal_rule": "The lane's own note is the governing rule and is correct: 'a ratio <= 1.0 means the shared e-graph is NOT cheaper even amortised; that strengthens PARENT_SUFFICIENT rather than weakening it.' If a headroom-bearing rule set still shows no win, ordered rewriting owns the function and that is a success terminal.",
+   "chain_iteration": 2,
+   "notes": "Per-world spread is informative and must not be averaged away: OW6-00 shows 2.22 (e-graph wins) while OW6-01 shows 0.27. A conditional positive is INTERMEDIATE, not terminal - the doctrine requires extending the working regime or fixing the failing one."
+  },
+  {
+   "revival_id": "RV-6",
+   "negative": "GS-R2: 85,025 of 100,693 distinct T2-viable survivors FAIL T3 generalization - 84.4%.",
+   "source_anchor": "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json t3_summary",
+   "one_stage_attribution": "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
+   "attribution_confidence": "NONE - attribution is the first deliverable, and applying a lever before attributing would be the diffuse-effort defect the doctrine forbids",
+   "lever": "DETERMINED BY ATTRIBUTION. Explicitly forbidden: moving a threshold, re-drawing the T3 key, re-splitting after seeing results, or loosening a gate to raise the hold rate.",
+   "retest_against": "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate (2233.3, 72,150), plus a shuffle-equal-n null",
+   "status": "DISPATCHED",
+   "placement": "LUNARC nuc partition (96/96 nodes idle, 7-day limit) - the flagship compute study",
+   "earned_terminal_rule": "An honest 'the 84.4% is real, and here is the mechanism' is a valid and valuable outcome. A proven-structural obstruction plus the adjacent scoped positive is also a success.",
+   "chain_iteration": 1,
+   "notes": "Largest retained negative in the repository. Every claimed improvement needs hold RATE, absolute hold COUNT, and the shuffle null together - a lever that raises the rate by admitting fewer candidates has improved selectivity, not generalization."
+  },
+  {
+   "revival_id": "RV-7",
+   "negative": "GS-R2: the frozen parent GSA2_hetero is unbeaten on throughput (354,046 vs GSA6_DP 190,527 morphologies/cpu-hour).",
+   "source_anchor": "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json lever_attribution",
+   "one_stage_attribution": "COST SIDE, not yield side. GSA6_DP already EXCEEDS GSA2 on distinct_t2_viable_per_seed (5802 vs 5062.7); it loses only because it spends roughly double the cpu-seconds per seed. The deficit is entirely in the cost denominator.",
+   "attribution_confidence": "HIGH - both numerator and denominator are recorded per arm in the merged aggregate",
+   "lever": "CHEAPEN THE DEDUP: dedup_promotion carries the recovery but pays for it. Replace pairwise comparison with canonical-form or hash-based dedup so the distinct-yield gain is retained at a fraction of the cpu cost, then re-measure morphologies/cpu-hour.",
+   "retest_against": "GSA2_hetero at 354,046 morphologies/cpu-hour, same frozen protocol",
+   "status": "QUEUED",
+   "placement": "LUNARC",
+   "earned_terminal_rule": "If cheap dedup retains the 5802 distinct/seed and closes the throughput gap, the lever package beats the strongest parent on BOTH axes. If it cannot, GSA2 owns throughput and that is a success terminal.",
+   "chain_iteration": 1,
+   "notes": "Which arm 'wins' currently depends on the metric chosen - itself a #277 sec 3 measurement-validity finding, and it must be carried into the claim ceiling rather than resolved by picking the flattering metric."
+  },
+  {
+   "revival_id": "RV-8",
+   "negative": "#165 H1: LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS - library acquisition cost is not repaid by later savings.",
+   "source_anchor": "#165 disposition table",
+   "one_stage_attribution": "NOT RE-ATTRIBUTED IN THIS WINDOW. Standing negative inherited from the roadmap.",
+   "attribution_confidence": "NONE - carried forward, not yet worked",
+   "lever": "TO BE DETERMINED after re-attribution. Note the strong prior from the parent scan: DreamCoder-family library-learning results are among the parents recording the same effect, so the strongest-parent comparison must come first.",
+   "retest_against": "the strongest library-learning parent at matched information and resources",
+   "status": "QUEUED",
+   "placement": "unassigned",
+   "earned_terminal_rule": "Any morphology or library atom touching acquisition economics must engage with this negative rather than talking past it.",
+   "chain_iteration": 1,
+   "notes": null
+  },
+  {
+   "revival_id": "RV-9",
+   "negative": "The HSG freeze chain is discipline-enforced, not gate-enforced: zero of the 53 workflows references the hsg lane, the freeze builder or the exact suite.",
+   "source_anchor": "TTAC-D6 amendment A2, PR #287",
+   "one_stage_attribution": "NO ENFORCEMENT GATE EXISTS. The chain was verified INTACT on main (7/7 files match when resolved through the newest recorded amendment), so this is a latent exposure, not a live breach.",
+   "attribution_confidence": "HIGH - verified by direct check of all 53 workflow files with a proven-working control",
+   "lever": "ADD A FREEZE-VERIFICATION WORKFLOW that resolves each file through the newest recorded amendment, falls back to the original manifest, and asserts separately that unamended files still match. It must distinguish verified / recorded-amendment / unrecorded-drift / cannot-check with DISTINCT exit codes.",
+   "retest_against": "the current tree on main, plus a deliberately tampered tree that MUST fail and a clean tree that MUST pass",
+   "status": "QUEUED",
+   "placement": "CI (the check itself is trivial compute)",
+   "earned_terminal_rule": "This is an engineering fix, not a research revival, and it does not compete for LUNARC time.",
+   "chain_iteration": 1,
+   "notes": "Recorded method caveat: comparing the TOP-LEVEL manifest against the live tree reports FALSE drift on any file carrying a legitimate recorded amendment. That false positive was hit twice already, so the checker must be validated in all four directions on real data before it is trusted."
+  }
+ ],
+ "counts": {
+  "total": 9,
+  "by_status": {
+   "DISPATCHED": 3,
+   "QUEUED": 6
+  },
+  "by_attribution_confidence": {
+   "HIGH": 6,
+   "MEDIUM": 1,
+   "NONE": 2
+  },
+  "unattributed_requiring_diagnosis_first": [
+   "RV-6",
+   "RV-8"
+  ]
+ },
+ "lunarc_allocation": {
+  "queue_state_observed_utc": "2026-09-10",
+  "nuc": "96/96 nodes IDLE, 7-day limit - primary target",
+  "lu48": "10 idle of 186",
+  "hep": "saturated with unrelated jobs",
+  "assigned": [
+   "RV-6 (flagship generalization study)",
+   "RV-3 (scaling curve)",
+   "RV-7 (cost-side dedup)"
+  ],
+  "hard_prohibition": "NEVER make a network connection from LUNARC to any external service. Pure offline compute only: stage in via git/scp, compute, bring results back."
+ },
+ "non_final": true
+}
