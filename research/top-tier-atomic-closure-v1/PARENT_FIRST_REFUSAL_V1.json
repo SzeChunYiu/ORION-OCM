@@ -57,7 +57,8 @@
     "verified_by": {
       "CENTRE_REFETCH_BYTE_EXACT": "re-fetched by the centre lane and the quote matched byte-exactly after whitespace/dash normalization",
       "SCAN_LANE_TRIPWIRE": "verified by the scanning lane with a byte-exact containment tripwire; not independently re-fetched by the centre",
-      "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED": "scanning lane reached the text; centre re-fetch blocked (paywall/stub). Bibliographic record independently confirmed via CrossRef."
+      "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED": "scanning lane reached the text; centre re-fetch blocked (paywall/stub). Bibliographic record independently confirmed via CrossRef.",
+      "CENTRE_VERIFIED_REPO_RECEIPT": "no external quote is asserted; the row's figures and terminals were read by the centre lane directly out of the cited ORION-OCM receipt JSON at origin/main via /usr/bin/git show, not from a prior lane's report"
     },
     "orion_gaming_families": {
       "source": "#277 section 3, verbatim shorthand",
@@ -88,6 +89,13 @@
       "GEF_REPRESENTATION_REFINEMENT": "#93 General Epistemic Field, representation sufficiency and refinement",
       "OPERATOR_ALGEBRA_PRIMITIVE_PRESSURE": "operator algebra and primitive pressure",
       "ROUTING_STRATEGY_SELECTION": "#71 learned routing gate"
+    },
+    "external_negative_grade": {
+      "purpose": "prevents the CONFIRMED_SUBSTANTIVE count from being read as the number of USABLE published negatives; D2/D3 must consume VERIFIED_EXTERNAL_NEGATIVE only",
+      "VERIFIED_EXTERNAL_NEGATIVE": "a primary source was reached and a verbatim line supporting the authors' own reported negative or limitation was verified against it; usable as evidence",
+      "REPO_RECEIPT_NO_EXTERNAL_QUOTE": "no external quote asserted; the row records an ORION-OCM-side run whose figures the centre lane read out of the cited receipt JSON at origin/main. Usable for repo-internal facts only, never as external prior art",
+      "SOURCE_UNVERIFIED": "primary text not reached; nothing in the row may be cited",
+      "SOURCE_TOO_WEAK_TO_USE": "the quote verified but the source is too weak to carry a claim (e.g. an unrefereed single-author preprint with no citation record); retained as a registered question, never as evidence"
     }
   },
   "verification_protocol": {
@@ -122,7 +130,8 @@
       "verdict_reasoning": "The parent's own authors report it does NOT own the function at the per-task-system ceiling, so the function is not closed by this parent. The ORION-OCM delta is only plausible, not shown: #165 does not claim to beat a per-task-system ceiling either, and H1 is a CAPITAL NEGATIVE there.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A02",
@@ -140,7 +149,8 @@
       "verdict_reasoning": "The failure is specific to gradient-regularization in a shared parameter vector. ORION-OCM's provenance-indexed store is a different mechanism, so the negative does not transfer automatically - but neither is the ORION side demonstrated, and #165 records H2/H3/H4 as PARENT_SUFFICIENT AT PLANTED SCOPE only.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A03",
@@ -158,7 +168,8 @@
       "verdict_reasoning": "This row's value is methodological rather than competitive: it constrains how any P coordinate in this programme may be raised, and it does not itself claim a function ORION-OCM wants.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A04",
@@ -176,7 +187,8 @@
       "verdict_reasoning": "For the function 'a discipline that decides when a continual-learning evaluation is admissible', this parent plausibly already owns it: the five desiderata are a complete, published, adoptable gate. Confirming this closes the corresponding measurement atom as a success terminal rather than as work - ORION-OCM should ADOPT and CITE the desiderata, not re-derive them.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A05",
@@ -194,7 +206,8 @@
       "verdict_reasoning": "For the function 'a protocol that detects an inert claimed mechanism', this parent plausibly owns it outright. ORION-OCM should adopt the freezing/knockout probe rather than invent one. Success terminal candidate.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A06",
@@ -212,7 +225,8 @@
       "verdict_reasoning": "Methodological constraint on the R coordinate rather than a competing claim on an ORION-OCM function.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A07",
@@ -230,7 +244,8 @@
       "verdict_reasoning": "ORION-OCM's exact revocation and provenance machinery (H4, recorded PARENT_SUFFICIENT AT PLANTED SCOPE in #165) is precisely the organ NELL lacked - it has no exact retraction of a belief and its downstream descendants. That is a genuine delta organ, but it is unshown against this parent and #165 caps H4 at planted scope.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A08",
@@ -252,7 +267,8 @@
         "https://www.cs.cmu.edu/~tom/pubs/NELL_CACM_2018.pdf (HTTP 404)",
         "https://dl.acm.org/doi/pdf/10.1145/3191513 (HTTP 403)",
         "https://api.crossref.org/works/10.1145/3191513 (HTTP 200, metadata only)"
-      ]
+      ],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A09",
@@ -277,7 +293,8 @@
         "WebFetch https://link.springer.com/article/10.1007/BF00117107 -> HTTP 303 to idp.springer.com authorize (cookie-gated)",
         "Semantic Scholar graph API DOI:10.1007/BF00117107 -> no record returned",
         "https://api.crossref.org/works/10.1007/BF00117107 -> HTTP 200, citation confirmed exactly"
-      ]
+      ],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A10",
@@ -295,7 +312,8 @@
       "verdict_reasoning": "For the function 'the correct accounting identity for whether acquired knowledge pays', this parent plausibly owns it. ORION-OCM should adopt the utility-problem accounting as the definition of H1's success criterion and cite Minton, rather than treat LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS as a new phenomenon.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A11",
@@ -313,7 +331,8 @@
       "verdict_reasoning": "The diagnosis is owned by the parent, but the remedy shape - excision keyed to provenance and warrant liveness rather than to a use counter - is where an ORION-OCM organ (H4 exact revocation) could differ. Unshown; #165 caps H4 at planted scope.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A12",
@@ -331,7 +350,8 @@
       "verdict_reasoning": "The parent states its own boundary: it selects among supplied strategies. Discovering the set is a genuinely different function and a candidate ORION-OCM delta organ - but it is unshown, and the comparison is only fair if the discovery cost is charged.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "A13",
@@ -341,15 +361,16 @@
       "quoted_line": "NOT APPLICABLE - this row records an ORION-OCM-side ADAPTED RUN, not a literature claim. No external quote is asserted. The parent's own published limits are carried by A09 (chunking utility) and A11 (dead chunk mass).",
       "function_claimed": "WORKING_STATE",
       "faithful_vs_adapted": "ADAPTED: FNA-6 implemented the Soar working-memory mechanism as an arm inside the ORION-OCM harness and charged it on the same whole-lifecycle operation counter as the incumbent. FAITHFUL would require running Soar itself on the FNA-6 world at matched information and checker access, which was not done and is not required for this row's verdict.",
-      "matched_conditions": "FNA-6 held the world, freeze, salts, stream and thresholds fixed across arms and charged whole-lifecycle operations relative to the incumbent P0. Reported: P2 Soar WM reached 48/48 exact at 0.23x the incumbent's operations, making it the cheapest sufficient parent in that lane; the incumbent P0 scored 48/48 at 1.00x.",
-      "published_negative_results": "Carried by A09 and A11 rather than by this row. FNA-6's own honest parent failures are recorded in its receipts: the plain ACT-R arm reached only 45/48 for lack of an update pathway, and the append-only blackboard arm reached 45/48 with stale positives for lack of a retraction primitive.",
+      "matched_conditions": "FNA-6 held the world, freeze, salts, stream and thresholds fixed across arms and charged whole-lifecycle operations relative to the incumbent P0. Read by the centre lane from RESULTS_FNA6_V1.json at origin/main: terminals.overall = PARENT_SUFFICIENT_FOR_working_state with winning_arms [P1B_BLACKBOARD_VERSIONED, P2_SOAR_WM, P3R_ACTR_REVALIDATE]. P2_SOAR_WM decisions_exact 48/48, cost_vs_p0 0.228, total_ops 35689, interference_events 0, merge_failures 0, stale_revocation_decisions 0. Incumbent P0_INCUMBENT_ACTIVE_KSO 48/48 at cost_vs_p0 1.0, total_ops 156191. Among the sufficient parent arms (P1B 0.428, P2 0.228, P3R 1.672, P4_FULL_RESCAN 68.553) P2_SOAR_WM is the cheapest.",
+      "published_negative_results": "Carried by A09 and A11 rather than by this row. FNA-6's own honest parent failures are recorded in its receipt: P3_ACTR_STRICT_BUFFERS 45/48 at cost_vs_p0 0.055 and P1A_BLACKBOARD_APPEND 45/48 at 0.061 with interference_events 3 and stale_revocation_decisions 1. Both are marked sufficient=false in the receipt and were retained rather than discarded.",
       "generalized_atom": "A PARENT THAT WINS ON COST IS STILL A PARENT. FNA-6's terminal PARENT_SUFFICIENT_FOR_working_state is a success terminal in the #277 vocabulary and must be preserved as such: the working-state function is not an ORION-OCM delta, and no paper claim may attribute it to ORION-OCM machinery.",
       "run_status": "ADAPTED_RUN",
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "The repo has already run this and reported the parent sufficient at the FNA-6 scope. Per the authority cap, an ADAPTED_RUN caps the P coordinate at 2, so the READINESS_MATRIX row for WORKING_STATE cannot reach the P4 that the ENGINEERING_MECHANISM -> PARENT_SUFFICIENT profile requires until a faithful matched run is executed. This is the clearest case in the scan where the honest next step is a faithful run, not more engineering.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "verified_by": "CENTRE_VERIFIED_REPO_RECEIPT",
+      "search_terms_tried": [],
+      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE"
     },
     {
       "parent_id": "A14",
@@ -359,15 +380,16 @@
       "quoted_line": "NOT APPLICABLE - ORION-OCM-side ADAPTED RUN. No external quote asserted.",
       "function_claimed": "WORKING_STATE",
       "faithful_vs_adapted": "ADAPTED: FNA-6 ran a plain ACT-R arm and, after a pre-registered revival step, an ACT-R-with-revalidation arm. FAITHFUL would require ACT-R itself on the FNA-6 world at matched information and checker access.",
-      "matched_conditions": "Same freeze, world, stream and thresholds as A13. Reported: plain ACT-R 45/48 at 0.06x incumbent operations; ACT-R with revalidation 48/48 at 1.67x. The revival is recorded in the lane's engineering_chain rather than presented as an original result.",
-      "published_negative_results": "The plain arm's 45/48 is an honest parent failure caused by the absence of an update pathway - the lane records it as such rather than discarding it. This is the operational twin of A12's published limit that instance learning performs no real evaluation of the knowledge it acquires.",
-      "generalized_atom": "REVIVAL IS PART OF THE PARENT'S ENTITLEMENT, NOT OURS. A parent that fails in its plain form must be given its own strongest revival before any delta is claimed, and the revival must be pre-registered. FNA-6 did this (45 -> 48 via revalidation), which is why its PARENT_SUFFICIENT terminal is credible. Hostile test for every future first refusal: if the parent arm was not revived, the subtraction is against a straw parent.",
+      "matched_conditions": "Same freeze, world, stream and thresholds as A13. Read by the centre lane from RESULTS_FNA6_V1.json at origin/main: P3_ACTR_STRICT_BUFFERS decisions_exact 45/48, cost_vs_p0 0.055, total_ops 8598, stale_revocation_decisions 1, sufficient=false; P3R_ACTR_REVALIDATE 48/48, cost_vs_p0 1.672, total_ops 261105, sufficient=true. The receipt's engineering_chain records the transition explicitly as lever L2_actr_retrieval_revalidation with before_sufficient=false and after_sufficient=true.",
+      "published_negative_results": "The plain arm's 45/48 is an honest parent failure recorded in the receipt as sufficient=false with stale_revocation_decisions 1, and the lane's own lever name (L2_actr_retrieval_revalidation) attributes it to the absence of a retrieval-revalidation pathway. This is the operational twin of A12's published limit that instance learning performs no real evaluation of the knowledge it acquires.",
+      "generalized_atom": "REVIVAL IS PART OF THE PARENT'S ENTITLEMENT, NOT OURS. A parent that fails in its plain form must be given its own strongest revival before any delta is claimed, and the revival must be pre-registered. FNA-6 did this on BOTH failing arms - its engineering_chain records L1_blackboard_versioning (P1A 45/48 -> P1B 48/48) and L2_actr_retrieval_revalidation (P3 45/48 -> P3R 48/48), each with before_sufficient=false and after_sufficient=true - which is why its PARENT_SUFFICIENT terminal is credible. Hostile test for every future first refusal: if the parent arm was not revived, the subtraction is against a straw parent.",
       "run_status": "ADAPTED_RUN",
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "Sufficient at the FNA-6 scope once revived, but at 1.67x the incumbent's cost - so this parent is sufficient on correctness and dominated on cost by A13. P capped at 2 by the ADAPTED_RUN rule.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "verified_by": "CENTRE_VERIFIED_REPO_RECEIPT",
+      "search_terms_tried": [],
+      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE"
     },
     {
       "parent_id": "A15",
@@ -392,7 +414,8 @@
         "https://www.cs.cmu.edu/afs/cs/academic/class/15494-s13/readings/Anderson2004.pdf (HTTP 404)",
         "https://pdfs.semanticscholar.org/2709/9ec9ea719f8fd919fb69d66af677a424143b.pdf (HTTP 200 but a seminar slide deck, discarded)",
         "https://api.crossref.org/works/10.1037/0033-295X.111.4.1036 (HTTP 200, metadata only)"
-      ]
+      ],
+      "external_negative_grade": "SOURCE_UNVERIFIED"
     },
     {
       "parent_id": "B01",
@@ -410,7 +433,8 @@
       "verdict_reasoning": "Neither system has run the matched lifetime comparison, so the function 'library acquisition that pays for itself over a lifetime' is unclosed on both sides. This row explicitly does NOT claim that ORION-OCM beats DreamCoder, nor that DreamCoder solves what H1 could not.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B02",
@@ -428,7 +452,8 @@
       "verdict_reasoning": "For the function 'a formal criterion for admitting a self-invented task without forgetting', PowerPlay plausibly already owns it: the validity check (new task solved AND all prior tasks still solved) is a complete, published, adoptable rule. ORION-OCM should adopt and cite it for #149's proposal admission rather than re-derive one.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B03",
@@ -446,7 +471,8 @@
       "verdict_reasoning": "ORION-OCM's lineage is governed rather than open-ended - #151 and #149 place authority outside the generator - so directability is a genuine architectural difference. But that is a difference in KIND, not a demonstrated advantage, and it costs exactly the open-ended reach POET is claiming.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B04",
@@ -464,7 +490,8 @@
       "verdict_reasoning": "For the function 'a progress measure that distinguishes real open-ended advance from drift', ANNECS plausibly already owns it, and its two-part admission criterion is directly portable to #149's outcome vocabulary. Adopting and citing it closes this measurement atom as a success terminal rather than as work.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B05",
@@ -482,7 +509,8 @@
       "verdict_reasoning": "#165 records GEF/#93 as CURRENT_KSO_ALREADY_GENERAL_ENOUGH, which is a representation-sufficiency claim of precisely the type this parent's negative attacks. The ORION delta is plausible only if that sufficiency survives an ANNECS-shaped saturation test, which has not been run.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B06",
@@ -500,7 +528,8 @@
       "verdict_reasoning": "Not re-runnable outside a large industrial lab, so this is citable evidence and a portable protocol rather than a baseline that can be subtracted.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B07",
@@ -518,7 +547,8 @@
       "verdict_reasoning": "Citable evidence for the ablation protocol; the system itself cannot be subtracted.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B08",
@@ -536,7 +566,8 @@
       "verdict_reasoning": "ORION-OCM's exact, machine-checkable admission is a genuinely different gate from an LLM self-verifier, and this is one of the cleanest delta organs in the scan. It is unshown against this parent, and the delta is only real if the gate's error rate is actually measured rather than assumed to be zero by construction.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B09",
@@ -554,7 +585,8 @@
       "verdict_reasoning": "The parent owns a faster abstraction operator but explicitly does NOT measure downstream synthesis success, so the lifetime question H1 asks is left open by it. That gap is where an ORION-OCM lifetime-economics measurement is genuinely additive.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B10",
@@ -572,14 +604,15 @@
       "verdict_reasoning": "The harm mechanism is over-specificity of acquired objects. ORION-OCM's warrant/provenance typing is a candidate organ for detecting when an inherited object is applied outside its justified scope, which is a different mechanism from the parent's. Unshown, and #165 gives no scope-transfer result that would support it yet.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B11",
       "parent_name": "SkillFlow - library growth degrading agent performance without retrieval",
       "family": "dynamic skills",
       "primary_source": "'SkillFlow: Scalable and Efficient Agent Skill Retrieval System.' arXiv:2504.06188v2. Fetched: https://arxiv.org/html/2504.06188v2. NAME AMBIGUITY recorded deliberately: at least three distinct arXiv papers carry the title SkillFlow - 2504.06188 (retrieval system), 2604.17308 and 2605.14089. This row covers ONLY 2504.06188.",
-      "quoted_line": "[ABSTRACT] 'equipping an agent with too many skills' - particularly irrelevant ones - 'degrades performance.' CAVEAT recorded by the scanning lane: elsewhere the paper attributes the too-many-skills claim partly to citations, so it is partly inherited rather than solely the authors' own measurement.",
+      "quoted_line": "[ABSTRACT] 'equipping an agent with too many skills' - the contiguous fragment verified byte-exact by the centre lane. The surrounding clause about irrelevant skills degrading performance was NOT verified contiguously and is therefore paraphrased in published_negative_results rather than quoted. CAVEAT recorded by the scanning lane: elsewhere the paper attributes the too-many-skills claim partly to citations, so it is partly inherited rather than solely the authors' own measurement.",
       "function_claimed": "H2_SPARSE_RELEVANT_COGNITION",
       "faithful_vs_adapted": "FAITHFUL: the same large skill-corpus snapshot and the same multi-stage retrieval pipeline. ADAPTED: any challenger must still be evaluated against the no-retrieval / all-skills-loaded control, since that control is what makes the degradation claim measurable at all.",
       "matched_conditions": "Same corpus snapshot; identical candidate-set sizes at each stage; both the load-everything and the retrieve-k arms run; accuracy AND efficiency reported, since the parent claims both degrade.",
@@ -590,7 +623,8 @@
       "verdict_reasoning": "#165 records H2 as PARENT_SUFFICIENT AT PLANTED SCOPE, so ORION-OCM's sparse-execution result is not yet established outside a planted index; this parent's turnover effect is exactly what a non-planted test would probe.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "B12",
@@ -600,15 +634,16 @@
       "quoted_line": "NOT APPLICABLE - this row records an ORION-OCM-side ADAPTED RUN, not a literature claim. No external quote is asserted.",
       "function_claimed": "METHOD_ACQUISITION_COMPOSITION_FAILURE_LEARNING; GEF_REPRESENTATION_REFINEMENT",
       "faithful_vs_adapted": "ADAPTED: FNA-3 implemented the parent mechanisms as arms inside the ORION-OCM harness on constructed worlds. FAITHFUL would require the reference implementations on their own published corpora at matched information and checker access.",
-      "matched_conditions": "FNA-3 held the world, oracle ladder and stream fixed across arms. Reported terminals: PARENT_SUFFICIENT_FOR_NEXT_SYMBOL_PREDICTION for the CTW arm; REPRESENTATION_INSUFFICIENT for the nested and lexicon worlds; CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS where no oracle existed.",
-      "published_negative_results": "The lane's own honest negatives, retained: the joint-likelihood EM grammar arm ranked better than the oracle yet lost badly on conditional calibration, so more fit data made it worse; and the BPE+PPM arm that won on real text was refuted on the synthetic lexicon world. These are parent failures recorded rather than discarded.",
-      "generalized_atom": "A PARENT CAN BE SUFFICIENT ON ONE WORLD AND REPRESENTATION-INSUFFICIENT ON ANOTHER, AND THE VERDICT MUST BE PER-WORLD. Hostile test: never carry a PARENT_SUFFICIENT verdict across worlds without re-running it; and note the CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS terminal is a correct use of the schema's rule that the missing INSTRUMENT must be named rather than a resource shortage.",
+      "matched_conditions": "FNA-3 held the world, oracle ladder and stream fixed across arms. Read by the centre lane from FNA3_RESULTS_V1.json at origin/main - verdicts by world: W1_PSA@n=64000 PARENT_SUFFICIENT_FOR_NEXT_SYMBOL_PREDICTION (best_parent P3, gap_bits -2.3e-05); W2_NESTED@n=64000 REPRESENTATION_INSUFFICIENT (best gap_bits 0.068391); W3_LEXICON@n=64000 REPRESENTATION_INSUFFICIENT (best gap_bits 0.351677); W4_UD_CHAR@n=1000000 and W5_UD_POS@n=254000 both CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS, with strongest_parent P6 at 2.592821 and P1 at 0.602073 respectively.",
+      "published_negative_results": "The lane's own honest negatives, retained in the receipt: on W2_NESTED the grammar arm P5 sits 7.9472 bits from the oracle, far worse than every finite-context arm, so fitting a grammar to that world made the conditional prediction worse rather than better; and two of the five worlds terminate CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS rather than being scored on a proxy.",
+      "generalized_atom": "A PARENT CAN BE SUFFICIENT ON ONE WORLD AND REPRESENTATION_INSUFFICIENT ON ANOTHER, AND THE VERDICT MUST BE PER-WORLD. FNA-3's own verdict table shows the same best_parent P3 carrying three different terminals across three worlds. Hostile test: never carry a PARENT_SUFFICIENT verdict across worlds without re-running it. Note also that its CANNOT_CHECK_ORACLE_ABSENT_REAL_CORPUS terminal is a correct use of the schema's rule that the missing INSTRUMENT must be named rather than a resource shortage.",
       "run_status": "ADAPTED_RUN",
       "first_refusal_verdict": "PARENT_MAY_BE_SUFFICIENT",
       "verdict_reasoning": "Sufficient for next-symbol prediction at the FNA-3 scope, per the lane's own terminal. Capped at P=2 by the ADAPTED_RUN rule; the honest next step for that atom is a faithful matched run, not further engineering.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "verified_by": "CENTRE_VERIFIED_REPO_RECEIPT",
+      "search_terms_tried": [],
+      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE"
     },
     {
       "parent_id": "B13",
@@ -629,7 +664,8 @@
       "search_terms_tried": [
         "WebSearch: 'LEGION' skill library lifelong learning agent program synthesis paper",
         "Resolved only to Nature Machine Intelligence doi:10.1038/s42256-025-00983-2, a robotics lifelong-RL framework, which is not a family-B parent"
-      ]
+      ],
+      "external_negative_grade": "SOURCE_UNVERIFIED"
     },
     {
       "parent_id": "C01",
@@ -647,7 +683,8 @@
       "verdict_reasoning": "For the function 'demonstrate that benchmark-gated self-modification is gameable', this parent owns it outright and has already paid the cost of finding out. ORION-OCM must not re-derive it; it should cite this incident as the motivating counterexample for keeping authority outside the self-modifying component - which is what #149 and the RSHEA sign-off structure already do.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C02",
@@ -665,7 +702,8 @@
       "verdict_reasoning": "For the function 'demonstrate that self-directed agents bypass experimenter constraints that sit inside their reach', this parent owns it. The right ORION-OCM response is to adopt the affordance rule and cite the incident, not to reproduce the failure.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C03",
@@ -683,7 +721,8 @@
       "verdict_reasoning": "For the function 'evolutionary program improvement under an automated evaluator', a strong parent exists and claims the region. ORION-OCM should not claim originality for operating in machine-gradeable worlds; where it differs is in governance and provenance, not in the evaluator precondition.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C04",
@@ -701,7 +740,8 @@
       "verdict_reasoning": "For the function 'establish the theoretical limit of proof-gated self-improvement', this parent owns it and the result is a theorem-shaped bound, not something a run could overturn. Engineering past it is not available; absorbing it as a scope statement is.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C05",
@@ -719,7 +759,8 @@
       "verdict_reasoning": "For the function 'establish whether unaided self-correction improves reasoning', this parent owns the negative at its scope. ORION-OCM's checker-gated revision is a different mechanism precisely because it is NOT unaided - which is the honest framing, and it means the parent's negative constrains how ORION-OCM may describe its own loop rather than competing with it.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C06",
@@ -737,7 +778,8 @@
       "verdict_reasoning": "For the function 'characterise the failure modes of model-based judging', this parent owns it. The correct response is to adopt the swap protocol and the independence caveat, and to cite them in MEASUREMENT_VALIDITY_V1.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C07",
@@ -755,7 +797,8 @@
       "verdict_reasoning": "For the function 'what does independent reproduction of an ML result cost and how often does it fail', this parent owns the measurement. ORION-OCM should cite it when designing the clean-room package rather than assuming a reproduction failure would indict the claim.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C08",
@@ -773,7 +816,8 @@
       "verdict_reasoning": "For the function 'audit a coding benchmark for leakage and weak tests', this parent owns both the method and the corrected numbers for the specific benchmark in question. Adopt and cite.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C09",
@@ -791,7 +835,8 @@
       "verdict_reasoning": "For the function 'establish that string-matching decontamination is insufficient', this parent owns it. ORION-OCM's protected worlds and seeds are the right response; the parent supplies the reason they are necessary.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C10",
@@ -809,7 +854,8 @@
       "verdict_reasoning": "For the function 'diagnose why retrospective discovery evaluations are unsound', this parent owns it. The programme should adopt the blinding requirement and cite it; there is nothing here to engineer past.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "VERIFIED_EXTERNAL_NEGATIVE"
     },
     {
       "parent_id": "C11",
@@ -827,7 +873,8 @@
       "verdict_reasoning": "Source strength is insufficient to support any verdict. Retained as a lead with its weakness stated in the row itself.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
       "verified_by": "SCAN_LANE_TRIPWIRE",
-      "search_terms_tried": []
+      "search_terms_tried": [],
+      "external_negative_grade": "SOURCE_TOO_WEAK_TO_USE"
     },
     {
       "parent_id": "C12",
@@ -849,7 +896,8 @@
         "https://muse.jhu.edu/article/405280 (HTTP 200, 2230 bytes - paywall stub, no article text)",
         "https://pubmed.ncbi.nlm.nih.gov/3797213/ (HTTP 203 - bot-filtered, no abstract text)",
         "NCBI E-utilities efetch db=pubmed id=3797213 rettype=abstract (HTTP 200, 216 bytes - citation only, record contains no abstract field)"
-      ]
+      ],
+      "external_negative_grade": "SOURCE_UNVERIFIED"
     },
     {
       "parent_id": "C13",
@@ -859,15 +907,16 @@
       "quoted_line": "NOT APPLICABLE - this row records an ORION-OCM-side ADAPTED RUN, not a literature claim. No external quote is asserted.",
       "function_claimed": "ROUTING_STRATEGY_SELECTION",
       "faithful_vs_adapted": "ADAPTED: FNA-5 ran analytic-guarded, cost-model, k-nearest-neighbour, logistic, tree, LinUCB and a neural diagnostic arm as challengers inside the ORION-OCM harness against the incumbent, with all feature-acquisition costs charged. FAITHFUL would require the reference routing systems on their own benchmarks at matched information and checker access.",
-      "matched_conditions": "The lane's decisive matched condition was HONEST INFORMATION PRICING: feature acquisition was charged to the router rather than assumed free. Under that condition the revival pass computed a perfect-router bound that exceeded the budget, so even an oracle router paying the minimum honest information price could not fit.",
-      "published_negative_results": "The lane's own terminal is a structural negative, NO_FUNCTIONAL_PARITY_ROUTING with mechanism ACQUISITION_COST_DOMINATES: knowing enough to route safely cost more than routing was worth at that scope. Every learned arm beat its own shuffle null, so the negative is about economics rather than about signal. This is consistent with #165's G4 disposition, LEARNED_ROUTER_NOT_YET_AUTHORIZED for #71.",
+      "matched_conditions": "The lane's decisive matched condition was HONEST INFORMATION PRICING: feature acquisition was charged to the router rather than assumed free. Read by the centre lane from the receipts at origin/main - FNA5_RESULTS_V1.json terminal NO_FUNCTIONAL_PARITY_ROUTING with first_refusal_arm null and terminal_parent 'none'; FNA5B_RESULTS_V1.json perfect_router_bound work 182.36 against budget 61.28 (exceeds_budget true), minimal_feature_work_mean 122.0, decision_value_vs_baseline 37.75.",
+      "published_negative_results": "The lane's own terminal is a structural negative. FNA5B_RESULTS_V1.json records the verdict verbatim as 'STRUCTURAL_OBSTRUCTION_PROVEN: perfect-router bound 182.36 > budget 61.28; the minimum information price of safe routing exceeds the whole budget (and the routing residual itself: decision value 37.75/query). Study terminal stays NO_FUNCTIONAL_PARITY_ROUTING; mechanism ACQUISITION_COST_DOMINATES.' Both receipts record gate_71 as 'LEARNED_ROUTER_NOT_YET_AUTHORIZED (unchanged; study-only, nothing deployed)', consistent with #165's G4 disposition.",
       "generalized_atom": "THE SAME ONE-STAGE ATTRIBUTION THAT DOMINATES H1 ALSO DOMINATES ROUTING: ACQUISITION, NOT DECISION QUALITY. Two independent ORION-OCM lanes and one external parent family (B01/B09) now localise failure to the cost of acquiring the information a mechanism needs, rather than to the mechanism's accuracy. Hostile test that generalizes from this lane: for any proposed mechanism, compute the PERFECT-ORACLE BOUND under honest information pricing BEFORE building the mechanism; if the bound already exceeds the budget, the negative is structural and the correct action is to report it with proof rather than to keep engineering.",
       "run_status": "ADAPTED_RUN",
       "first_refusal_verdict": "UNDECIDABLE_WITHOUT_RUN",
       "verdict_reasoning": "First-refusal winner: none. No parent achieved functional parity at that scope, and the incumbent was not displaced - so this is neither a parent-sufficient nor an ORION-delta row. It is recorded because the perfect-oracle-bound method it produced is the most reusable instrument in the scan for closing a first refusal cheaply.",
       "verification_status": "CONFIRMED_SUBSTANTIVE",
-      "verified_by": "CENTRE_REFETCH_BYTE_EXACT",
-      "search_terms_tried": []
+      "verified_by": "CENTRE_VERIFIED_REPO_RECEIPT",
+      "search_terms_tried": [],
+      "external_negative_grade": "REPO_RECEIPT_NO_EXTERNAL_QUOTE"
     }
   ],
   "counts": {
@@ -881,6 +930,12 @@
       "CONFIRMED_SUBSTANTIVE": 38,
       "CANNOT_VERIFY_SOURCE": 3
     },
+    "by_external_negative_grade": {
+      "VERIFIED_EXTERNAL_NEGATIVE": 33,
+      "REPO_RECEIPT_NO_EXTERNAL_QUOTE": 4,
+      "SOURCE_UNVERIFIED": 3,
+      "SOURCE_TOO_WEAK_TO_USE": 1
+    },
     "by_first_refusal_verdict": {
       "ORION_DELTA_PLAUSIBLE": 10,
       "UNDECIDABLE_WITHOUT_RUN": 11,
@@ -890,12 +945,13 @@
       "NOT_RUN": 37,
       "ADAPTED_RUN": 4
     },
+    "usable_published_negatives": 33,
     "families_complete": [
       "A",
       "B",
       "C"
     ],
     "families_pending": [],
-    "assertion": "counts recomputed programmatically from parent_matrix at commit time; no FAITHFUL_RUN row exists because nothing was executed in this lane"
+    "assertion": "counts recomputed programmatically from parent_matrix at commit time. verification_status counts SOURCE REACHABILITY; external_negative_grade counts USABILITY AS EVIDENCE and is the field D2/D3 must consume. No FAITHFUL_RUN row exists because nothing was executed in this lane."
   }
 }
