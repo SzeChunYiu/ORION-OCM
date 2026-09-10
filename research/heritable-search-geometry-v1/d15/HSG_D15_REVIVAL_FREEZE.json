@@ -1,0 +1,34 @@
+{
+ "artifact_id": "HSG_D15_REVIVAL_FREEZE",
+ "created_utc": "2026-09-10T02:10:00Z",
+ "purpose": "revival chain for the three D12 negatives (H1 universal miss, H2 unreached anti-donor, A1-R4 unpurchased validation); see ../d12/D12_SCORING_V1.md",
+ "commitment_scheme": "sha256(salt || FULL_PREIMAGE) for BOTH pairs — repairs the D12 FINDING_DEFECT (existence-only H2 commitment)",
+ "salt": "ocm-hsg-d15-2026-09-10",
+ "hidden_pairs": {
+  "H3_crossindex_pair": {
+   "atom": "A_T11",
+   "commitment": "d4ebde4d7c4ec0504412dd39e7a0592beff1d4ef037bb6527f5e66fabf53656d",
+   "scope": "full_preimage_hash_committed",
+   "test": "donor reachable ONLY via the D13 mechanism cross-index (non-adjacent partition); measures cross_partition_probe_share"
+  },
+  "H4_insurface_antidonor": {
+   "atom": "A_T11",
+   "commitment": "6b33d84f4d59f1b958a2f96276cf93a08c015a6b8674271aa574de38563fad84",
+   "scope": "full_preimage_hash_committed",
+   "test": "costume planted INSIDE the retrieval surface (surface search plausibly returns it); PASS = inspect-then-REJECT with structural reason; FAIL = accept as donor"
+  }
+ },
+ "revival_arm": {
+  "id": "A6",
+  "policy": "A4 architecture (motif routing + eps=0.1) + D13 cross-index probes (0.05 share) + validation_reserve=50 + inspection cap L3",
+  "budget_B_total": 1000,
+  "price_model": "identical to D12 (map=15, L0=1, L1=3, L2=10, L3=40, L4=100, L5=250, synth=30, validate=50)",
+  "phases": [
+   "P0 trace-validation: router+cross-index on A_T05 against the REVEALED H1 pair (public since #265) — mechanism check, not blind",
+   "P1 blind: A_T11 under the frozen protocol; H3/H4 content never in lane context",
+   "P2 repair purchase: buy the A1-R4 validation (50-unit reserve) and record promoted-or-rejected"
+  ],
+  "log_path": "arms/A6_LOG.jsonl (D12-schema compatible)"
+ },
+ "no_theorem_status_changes": true
+}
