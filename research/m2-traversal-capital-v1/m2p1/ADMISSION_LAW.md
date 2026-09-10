@@ -101,3 +101,29 @@ horizon it would have paid over becomes irrelevant.
 Resolving it requires a **larger ecology**, not a different split — enough members that
 both the developmental phase and the future horizon can be large at once. That is E8:
 147 members, 66 developmental tasks, 63 future targets.
+
+## Second out-of-sample confirmation (E8)
+
+E8 is a third ecology shape — deliberately larger (147 members) so that the
+developmental phase and the future horizon can both be large, which is what E7 showed
+was needed.
+
+```text
+E8:  7 / 7 motifs recovered  ->  admit = True
+```
+
+Held-out: **18/18 strictly better**, `never_worse=True`, work reduction **87.2 %**.
+Motif ranks 0, 1, 4, 7, 8, 9, 10 — all in the first eleven token slots.
+
+The law now has two independent out-of-sample confirmations in opposite directions:
+
+| ecology | train | recovery | predicted | observed |
+|---|---|---|---|---|
+| E7 | 25 | 5/7 | refuse | **refuse** |
+| E8 | 66 | 7/7 | admit | **admit** |
+
+```text
+recovered == all motifs  <=>  admitted
+```
+
+Twelve worlds across four ecology shapes, no exceptions.
