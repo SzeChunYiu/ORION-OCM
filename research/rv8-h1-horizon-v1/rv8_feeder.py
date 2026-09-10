@@ -37,7 +37,21 @@ PARTITION = "lu48"
 MY_CAP = 240              # of the association's 300; the rest is left for the sibling lane
 CHUNK = 40                # array tasks per sbatch call
 POLL_SEC = 120
-HOURS = 48
+
+#: --time per cost class, sized from probe_cost.py's measured worst-cell projection
+#: (RV8_COSTPROBE.json) with margin. Measured worst cell, hours:
+#:   full     NOGOOD_ONLY_per_batch 37.8, NO_LIBRARY 32.9, STITCH 28.4, CEGIS 2.5
+#:   null     SHUFFLE_NULL#1 217.8, #2 172.3, NC#0 139.2  -- two exceed lu48's 7-day
+#:            ceiling, so those cells will run as far as they get and be compared with
+#:            their learned counterpart on the prefix BOTH reached. Shortening the
+#:            null's horizon instead would make it non-comparable at the horizon where
+#:            the crossover claim is made.
+#:   reduced  EGGRAPH 6.9, AU_PAIR 5.8, CHUNK 1.2
+HOURS = {"full": 96, "null": 167, "reduced": 24}
+
+#: A cell that times out is retried once; after that its recorded prefix stands. Without
+#: this a cell too long for the ceiling would be resubmitted forever.
+MAX_ATTEMPTS = 2
 
 
 def my_jobs():
@@ -58,6 +72,12 @@ def cell_done(out, idx):
             return bool(json.load(fh).get("complete"))
     except Exception:
         return False
+
+
+def cell_class(c):
+    if c["arm"] in H.NULL_ARMS:
+        return "null"
+    return "reduced" if c["arm"] in H.REDUCED_ARMS else "full"
 
 
 def ordered_cells():
@@ -82,8 +102,10 @@ def main(out, once=False):
 
     say("feeder start, %d cells, cap %d" % (len(order), MY_CAP))
     inflight = set()
+    attempts = {}
     while True:
-        todo = [i for i in order if i not in inflight and not cell_done(out, i)]
+        todo = [i for i in order if i not in inflight and not cell_done(out, i)
+                and attempts.get(i, 0) < MAX_ATTEMPTS]
         if not todo:
             say("all cells complete or in flight; exiting")
             return 0
@@ -99,15 +121,20 @@ def main(out, once=False):
                 return 0
             time.sleep(POLL_SEC)
             continue
-        batch = todo[:min(CHUNK, room)]
+        inv = H.cell_inventory()
+        cls = cell_class(inv[todo[0]])
+        batch = [i for i in todo if cell_class(inv[i]) == cls][:min(CHUNK, room)]
         arr = ",".join(str(i) for i in batch)
         cmd = ["sbatch", "-A", ACCOUNT, "-p", PARTITION, "-n", "1", "-c", "1",
-               "--mem-per-cpu=4000", "-t", "%d:00:00" % HOURS,
+               "--mem-per-cpu=4000", "-t", "%d:00:00" % HOURS[cls],
                "-J", "rv8cell", "--array=" + arr + "%%%d" % CHUNK, BODY]
         r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode == 0:
             inflight.update(batch)
-            say("submitted %d cells: %s" % (len(batch), r.stdout.strip()))
+            for i in batch:
+                attempts[i] = attempts.get(i, 0) + 1
+            say("submitted %d %s cells (-t %dh): %s" % (len(batch), cls, HOURS[cls],
+                                                        r.stdout.strip()))
         else:
             say("submit failed (%s); backing off" % r.stderr.strip()[:200])
             time.sleep(POLL_SEC)
