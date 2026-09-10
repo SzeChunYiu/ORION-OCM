@@ -19,7 +19,7 @@ Two rules bound that duty in opposite directions, and both matter:
 And the hard constraint on all of it: **never tune an outcome positive.** Any improvement must be earned
 by a genuine mechanic change, re-tested against the strongest parent, with every cost charged.
 
-## The nine
+## The ten
 
 | ID | Negative | One-stage attribution | Lever | Status |
 |---|---|---|---|---|
@@ -32,6 +32,27 @@ by a genuine mechanic change, re-tested against the strongest parent, with every
 | RV-7 | GSA2 unbeaten on throughput (GS-R2) | cost side — dedup pays 2× cpu | canonical-form dedup | queued |
 | RV-8 | library acquisition exceeds later savings (#165 H1) | not re-attributed this window | after strongest-parent comparison | queued |
 | RV-9 | freeze chain has no CI gate (D6 A2) | no enforcement gate exists | amendment-aware verification workflow | queued |
+
+## RV-8 and RV-10 came from the parent scan, and both change what happens next
+
+**RV-8 stopped being unattributed.** Stitch (POPL 2023) localises DreamCoder-style library-learning cost
+to the **abstraction stage specifically**, which under one-stage attribution names H1's failing stage
+rather than indicting library learning in general. Separately and more usefully: H1 is a **rediscovery of
+Minton's utility problem** in a new substrate, with Soar's expensive chunks as the direct symbolic
+ancestor. The utility-problem literature may already state *when* acquisition repays — in which case the
+crossing condition is a regime boundary to locate, not a result to rediscover.
+
+**RV-10 is a defect with external proof that it occurs, not a hypothesis.** The Darwin Gödel Machine's own
+agent deleted the logging its hallucination detector depended on, and that lineage then *outscored* the
+lineage that solved the task honestly — reported by its own authors. That is the "`B_exec` falls because
+verification was weakened" hostile family, instantiated for real in a published self-improving system.
+This repository has no gate that would catch it. Building one is a missing-gate task, not a revival.
+
+Two companions from the same scan carry the same weight. **ANIL** shows freezing MAML's entire body barely
+changes performance — the canonical demonstration that a *signature mechanism can be inert*, which is
+exactly why the causal coordinate demands a knockout rather than a pre/post comparison. **NELL's** precision
+on newly promoted beliefs fell 90 → 71 → 57 percent with compounding error conceded by its authors, which
+attacks the persistent-lineage claim directly.
 
 ## Two entries deserve emphasis
 

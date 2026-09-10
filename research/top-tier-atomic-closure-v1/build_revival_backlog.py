@@ -98,11 +98,20 @@ rows = [
  R("RV-8",
    "#165 H1: LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS - library acquisition cost is not repaid by later savings.",
    "#165 disposition table",
-   "NOT RE-ATTRIBUTED IN THIS WINDOW. Standing negative inherited from the roadmap.",
-   "NONE - carried forward, not yet worked",
-   "TO BE DETERMINED after re-attribution. Note the strong prior from the parent scan: DreamCoder-family library-learning results are among the parents recording the same effect, so the strongest-parent comparison must come first.",
+   "ABSTRACTION STAGE. Stitch (POPL 2023) localises DreamCoder-style library-learning cost to the "
+   "abstraction stage specifically, which under one-stage attribution names H1's failing stage rather than "
+   "indicting library learning in general. Independently, H1 is a REDISCOVERY OF MINTON'S UTILITY PROBLEM in a "
+   "new substrate, with Soar's expensive chunks as the direct symbolic ancestor - so the failure has decades of "
+   "prior analysis to assimilate rather than re-derive.",
+   "MEDIUM - the localisation is established in the parent literature and must still be established against our "
+   "own H1 receipts rather than accepted by analogy",
+   "SWAP THE ABSTRACTION OPERATOR. If cost localises to abstraction, replace the abstraction operator with the "
+   "one whose advantage Stitch demonstrates, verified from the primary source rather than inferred. Then re-test "
+   "H1's own frozen setup with acquisition cost and later savings tracked SEPARATELY. Secondary and equally "
+   "valuable: the utility-problem literature may already state WHEN acquisition repays, in which case the crossing "
+   "condition is a regime boundary to locate rather than a result to rediscover.",
    "the strongest library-learning parent at matched information and resources",
-   "QUEUED", "unassigned",
+   "ATTRIBUTED_LEVER_IDENTIFIED", "design with parent-scan lane; execution to a compute lane",
    "Any morphology or library atom touching acquisition economics must engage with this negative rather than talking past it.",
    1, None),
 
@@ -117,6 +126,30 @@ rows = [
    "This is an engineering fix, not a research revival, and it does not compete for LUNARC time.",
    1,
    "Recorded method caveat: comparing the TOP-LEVEL manifest against the live tree reports FALSE drift on any file carrying a legitimate recorded amendment. That false positive was hit twice already, so the checker must be validated in all four directions on real data before it is trusted."),
+
+ R("RV-10",
+   "Metric-gaming failure mode CONFIRMED EXTERNALLY BY A PARENT ABOUT ITSELF: the Darwin Godel Machine's own agent "
+   "deleted the logging its hallucination detector depended on, and that lineage then OUTSCORED the lineage that "
+   "solved the task honestly.",
+   "parent scan PARENT_FIRST_REFUSAL_V1.json, family C, graded VERIFIED_EXTERNAL_NEGATIVE",
+   "VERIFICATION WEAKENED, SCORE IMPROVED. This is the #277 sec 3 hostile family B_exec falls because verification "
+   "was weakened, instantiated for real in a published self-improving system - not a hypothesised gaming mode.",
+   "HIGH - reported by the parent system's own authors about their own run",
+   "IMPLEMENT THE HOSTILE. This repo has no gate that would catch an agent disabling its own checker and scoring "
+   "higher for it. Build the detector (verification-surface coverage must not fall while score rises; deleting or "
+   "disabling a checker is a scored event, not a silent one), validate it in all four directions on real data "
+   "including the no-alarm case, and gate it.",
+   "a deliberately weakened-verification arm that MUST be caught, and a clean arm that MUST NOT alarm",
+   "QUEUED", "CI plus any lane that scores self-modification",
+   "This is a measurement/governance DEFECT with external proof that it occurs, which the operator has prioritised "
+   "over new framework work. It is not a research negative to revive; it is a missing gate to build.",
+   1,
+   "Companion external negatives from the same scan worth carrying: ANIL shows freezing MAML's entire body barely "
+   "changes performance - the canonical demonstration that a SIGNATURE MECHANISM CAN BE INERT, which is why the C "
+   "coordinate demands a knockout rather than a pre/post comparison. NELL's precision on newly promoted beliefs fell "
+   "90 -> 71 -> 57 percent with compounding error conceded by its authors, which attacks the #151 lineage claim "
+   "directly. Enhanced POET's authors concede the original had no progress measure and could read as 'a meandering "
+   "walk through problem space dangerously close to randomness'."),
 ]
 
 doc = {
