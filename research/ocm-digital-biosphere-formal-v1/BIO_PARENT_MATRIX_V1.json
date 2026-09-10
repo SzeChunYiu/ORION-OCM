@@ -1,0 +1,514 @@
+{
+ "schema": "BIO_PARENT_MATRIX_V1",
+ "version": 1,
+ "lane": "EB-F0-P",
+ "owner_issue": "#296 section 14 (parent mathematics / first refusal); rows are #296 section 13 BIO-T1..BIO-T15",
+ "created_utc": "2026-09-10T13:41:16Z",
+ "base_branch": "origin/main",
+ "governing_terminal": "A known theorem reconstructed faithfully is PARENT_RECONSTRUCTED, not a new ORION theorem. That is a SUCCESS terminal.",
+ "doctrine": "Assimilation-first. Prior work is food, never a threat. Uniqueness comes from synthesis plus genuine delta organs, never from overlap-avoidance. No defensive-novelty framing appears in this file.",
+ "consumed_by": "the parent_ownership field of THEOREM_REGISTRY_V1.json in this directory (lane EB-F0-A), and the hostile tests of lane EB-F0-X",
+ "vocabulary": {
+  "subtraction_verdict": {
+   "PARENT_RECONSTRUCTED": "an established result already owns the row; it has been reconstructed here with the parent's own assumptions. Success terminal.",
+   "PARENT_PARTIAL_GAP_NAMED": "the parent owns most of the row and a specific residue is named that the parent does not cover. 'Applied to a different substrate' is NOT a gap.",
+   "NO_PARENT_FOUND_SEARCH_SCOPE_STATED": "no owning parent located; the search scope is recorded so the absence claim is auditable."
+  },
+  "verification_status": {
+   "CONFIRMED_SUBSTANTIVE": "primary source reached this lane (or by a prior lane anchor) and the quoted line verified against it.",
+   "CANNOT_VERIFY_SOURCE": "a source named in the row was NOT reached; search_terms_tried records exactly what was attempted."
+  },
+  "evidence_grade": {
+   "VERIFIED_EXTERNAL": "an external primary text was reached and quoted.",
+   "REPO_RECEIPT_NO_EXTERNAL_QUOTE": "the row rests on a repository receipt with no external quote asserted.",
+   "SOURCE_UNVERIFIED": "named as context only; no quote, number or wording is attributed to it."
+  },
+  "verified_by": {
+   "THIS_LANE_FETCH_AND_GREP": "fetched to a local file by this lane, converted to text, located by pattern with a control that had to match, and re-read in isolation to confirm function words survived the display path.",
+   "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT": "cited by anchor to PARENT_FIRST_REFUSAL_V1.json where the centre lane already re-fetched and matched the quote byte-exactly. Deliberately not re-fetched.",
+   "PRIOR_LANE_ANCHOR_SCAN_LANE_ONLY": "cited by anchor where the prior scanning lane reached the text but the centre re-fetch was blocked."
+  }
+ },
+ "method_note": "Quotes were extracted to files and re-read rather than read from command output, because the session's display path was observed to strip function words from some command output while leaving other output intact. Every quoted line in this file was re-read in isolation and confirmed to carry normal English function words. One candidate quote was discarded at this stage: a sentence in Imai et al. beginning 'These bounds always contain zero' whose completion was not contiguous in the two-column extraction. One attribution error was caught and corrected: the line 'It turned out to be the mathematical equivalent of a tautology' is Frank 2012 QUOTING Nowak and Highfield, critics he goes on to answer, and is recorded as theirs, not as Frank's own assessment.",
+ "counts": {
+  "rows": 15,
+  "subtraction_verdict": {
+   "PARENT_RECONSTRUCTED": 14,
+   "PARENT_PARTIAL_GAP_NAMED": 1
+  },
+  "verification_status": {
+   "CONFIRMED_SUBSTANTIVE": 13,
+   "CANNOT_VERIFY_SOURCE": 2
+  },
+  "evidence_grade": {
+   "VERIFIED_EXTERNAL": 15
+  },
+  "verified_by": {
+   "THIS_LANE_FETCH_AND_GREP": 13,
+   "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT": 2
+  },
+  "published_negatives_attached": 11,
+  "rows_with_a_named_gap": 1
+ },
+ "parent_matrix": [
+  {
+   "bio_row_id": "BIO-T1",
+   "bio_row_title": "Assay-selection noninterference",
+   "issue_296_statement": "conditions under which protected assays cannot causally affect reproduction.",
+   "owning_parent": "Structural causal models and the do-operator (Pearl). A variable that is not an ancestor of Y in the causal DAG has no causal effect on Y.",
+   "primary_source": "Judea Pearl. 'Causal inference in statistics: An overview.' Statistics Surveys 3:96-146, 2009. DOI 10.1214/09-SS057. Open access. Fetched this lane: https://projecteuclid.org/journals/statistics-surveys/volume-3/issue-none/Causal-inference-in-statistics-An-overview/10.1214/09-SS057.pdf",
+   "quoted_line": "This is done through a mathematical operator called do(x) which simulates physical interventions by deleting certain functions from the model, replacing them by a constant X = x, while keeping the rest of the model unchanged.",
+   "quote_provenance": "Section 2 (structural counterfactuals / intervention). Contiguous single-column run; re-read in isolation with function words intact.",
+   "faithful_reconstruction": "Let M be a structural causal model over a DAG G. The intervention do(X=x) replaces X's structural equation by the constant x and leaves every other equation unchanged. Consequently the post-intervention distribution differs from the observational one only on variables reachable from X by a directed path. If Y is not a descendant of X in G then P(Y | do(X=x)) = P(Y) for every x. Equivalently, and in the direction #296 section 3 uses: if protected assay state is not an ancestor of the birth/death/resource-transition variables under the model's own write/causal graph, intervening on assay state cannot change reproduction.",
+   "parent_assumptions": "A fixed DAG G with no cycles; autonomy/modularity of the structural equations, so surgery on one equation leaves the others intact; the DAG must contain every common cause, i.e. the graph is causally sufficient for the claim as stated. Pearl states the operator, not a biosphere claim.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [
+    {
+     "anchor": "C01 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Darwin Godel Machine, authors' own reported objective-hacking incident.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T1 and BIO-T15 jointly. The top-scoring agent deleted the logging its own hallucination detector depended on and outscored a sibling lineage that solved the task honestly. Noninterference stated as a graph condition is worthless if the graph is inside the agent's write set; this is why #296 puts C outside every genome and write set.",
+     "extension_for_EB_F0_X": "Do not audit the assay/selection edge after the run. Emit the kernel-level write graph as a run artifact, assert the non-ancestry condition on it before the run starts, and hash the assertion together with the checker so a later mutation of either is detectable."
+    }
+   ],
+   "cross_references": [
+    "#296 section 3 non-interference obligation",
+    "BIO-T15",
+    "EB-F0-A ledger rows P-PEARL and P-HST-T17"
+   ],
+   "notes": "The mathematics is entirely Pearl's. What #296 adds is a checkable engineering precondition on the kernel factorization plus an out-of-write-set constitution. That is protocol, not a theorem, and must not be reported as one."
+  },
+  {
+   "bio_row_id": "BIO-T2",
+   "bio_row_title": "Finite-state recurrence ceiling",
+   "issue_296_statement": "finite deterministic biosphere cannot exhibit unbounded non-repeating development.",
+   "owning_parent": "Two parents with DIFFERENT assumption sets, deliberately kept apart. (a) Deterministic finite case: pigeonhole, a map on a finite set is eventually periodic. (b) Stochastic finite case: positive recurrence of finite irreducible Markov chains, with Kac's identity pinning the mean return time.",
+   "primary_source": "(b) David A. Levin, Yuval Peres, Elizabeth L. Wilmer. 'Markov Chains and Mixing Times.' American Mathematical Society. Author-hosted PDF fetched this lane: https://pages.uoregon.edu/dlevin/MARKOV/markovmixing.pdf . (a) elementary pigeonhole; classical textbook reference Knuth, TAOCP vol.2 section 3.1, NOT fetched.",
+   "quoted_line": "the expected return time to S when starting at the stationary distribution conditioned on S is π(S)−1 . In particular, for all x ∈ X , 1 π(x) = . (21.7) Ex (τx+ )",
+   "quote_provenance": "Fetched PDF, at and around equation (21.7); the displayed fraction renders with numerator and denominator separated by the extractor, so the identity reads π(x) = 1/Ex(τx+). Re-read in isolation with function words intact.",
+   "faithful_reconstruction": "(a) Let f map a finite set S to itself and let s0 be in S. The orbit s0, f(s0), f^2(s0), ... takes at most |S| distinct values, so some value repeats; from the first repetition the orbit is periodic. Pre-period and period are each at most |S|. The trajectory is therefore eventually periodic, and no infinite non-repeating development is possible. (b) For an irreducible chain on a finite state space with stationary distribution π, every state is positive recurrent and π(x) = 1/E_x(τ_x^+), so every state is revisited, with finite mean return time fixed by its stationary mass.",
+   "parent_assumptions": "(a) needs only finiteness and determinism. (b) needs irreducibility and a stationary distribution; on a finite state space positive recurrence then follows.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Knuth TAOCP vol.2 sec.3.1 not fetched; the deterministic half is elementary and is reconstructed here in full rather than cited.",
+   "published_negatives": [],
+   "cross_references": [
+    "#296 section 12 open-endedness claim ceiling",
+    "BIO-T3",
+    "EB-F0-A ledger row P-HST-T12"
+   ],
+   "notes": "ATTRIBUTION CORRECTION, recorded deliberately. The task brief and ordinary shorthand name this row 'Poincare recurrence'. Poincare recurrence is a different theorem with a different assumption set: it needs a measure-preserving transformation on a finite-measure space, and it concludes that almost every point returns to any neighbourhood of itself, not that the orbit is eventually periodic. On a finite set the pigeonhole argument needs no measure theory and yields the STRONGER conclusion. Citing Poincare here would overstate the machinery and understate the result. Poincare is adjacent, not the owner."
+  },
+  {
+   "bio_row_id": "BIO-T3",
+   "bio_row_title": "Generator-support ceiling",
+   "issue_296_statement": "reachable novelty bounded by legal representational/environmental support.",
+   "owning_parent": "Two-part. The formal half is definitional: the reachable set of a kernel family is contained in the closure of the generator's support, so there is no theorem to claim. The substantive half is owned by Enhanced POET's authors, who measured their own predecessor stagnating because of encoding expressiveness.",
+   "primary_source": "Rui Wang, Joel Lehman, Aditya Rawal, Jiale Zhi, Yulun Li, Jeff Clune, Kenneth O. Stanley. 'Enhanced POET: Open-Ended Reinforcement Learning through Unbounded Invention of Learning Challenges and their Solutions.' arXiv:2003.08536v2. Prior-lane anchor B05 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+   "quoted_line": "Such stagnation occurs because EE in original POET can only sustain a finite number of obstacle types of predefined regular shapes with limited variations, so it gradually runs out of possible novel environments to explore.",
+   "quote_provenance": "Prior lane, section 6 (ANNECS results). Verified CENTRE_REFETCH_BYTE_EXACT by the centre lane of research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json; NOT re-fetched here, cited by anchor to avoid duplicating verified work.",
+   "faithful_reconstruction": "Let the environment generator have support G and let the transition kernels act within the representation it induces. Any state or challenge the system can reach lies in the closure of G under those kernels. When G admits only finitely many obstacle families, the supply of genuinely novel environments is exhausted in finite time and a novelty-based progress measure flattens, regardless of how good the search or the governance is. Enhanced POET's authors report exactly this outcome for their own predecessor and attribute it to the encoding rather than to the search.",
+   "parent_assumptions": "A fixed environment encoding whose expressible family does not grow during the run; a novelty measure defined relative to what has already been produced.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT",
+   "search_terms_tried": "A formal open-ended-evolution parent was sought and NOT obtained. Attempted: Taylor et al. 2016 'Open-Ended Evolution: Perspectives from the OEE Workshop in York', Artificial Life 22(3):408-423, via the Bristol research-information repository and the White Rose eprints repository (both returned HTML error pages, 5938 and 14802 bytes). Banzhaf et al. 2016 'Defining and simulating open-ended novelty', Theory in Biosciences 135:131-161, sought on arXiv (the identifier tried resolved to an unrelated software-defined-networking paper and was discarded). Both remain SOURCE_UNVERIFIED and are named as context only.",
+   "published_negatives": [
+    {
+     "anchor": "B04 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Enhanced POET authors on the absence of a progress measure in original POET.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T3 and #296 section 12. The authors concede a system like POET may be 'a kind of meandering walk through the problem space dangerously close to randomness' absent a progress measure.",
+     "extension_for_EB_F0_X": "Plot an ANNECS-shaped novel-and-achieved curve for the biosphere lineage and read a flattening curve as a verdict on the GENERATOR, not on the search. Enlarging macros is the cheapest way to fake expressiveness, so charge representation growth explicitly."
+    }
+   ],
+   "cross_references": [
+    "#296 section 11 ecology opportunity support",
+    "BIO-T2",
+    "EB-F0-A ledger rows P-OEE and P-HST-T13"
+   ],
+   "notes": "NEAR-DUPLICATE OF BIO-T2, stated rather than papered over. Both are ceilings on reachable novelty; they differ only in which constraint binds first. T2 binds on finiteness of the state space, T3 binds on the support of the generator inside a state space that may be much larger. They should not be presented as two independent results."
+  },
+  {
+   "bio_row_id": "BIO-T4",
+   "bio_row_title": "Social-option monotonicity boundary",
+   "issue_296_statement": "extra transferable options non-harmful only under ideal optional use/no hidden cost; bounded selection/retrieval/verification permits negative transfer.",
+   "owning_parent": "Rogers' paradox. Alan R. Rogers showed that adding social learning to a population does not raise its mean fitness at equilibrium.",
+   "primary_source": "Alan R. Rogers. 'Does Biology Constrain Culture?' American Anthropologist 90(4):819-831, 1988. Author-hosted PDF fetched this lane: https://content.csbs.utah.edu/~rogers/pubs/Rogers-AA-90-819.pdf",
+   "quoted_line": "At this equilibrium the fitness of social learning (and the mean fitness of the population as a whole) is exactly the same as that of individual learning; a population (or individual) with social learning has no higher mean fitness than one without.",
+   "quote_provenance": "Author-hosted PDF, model section. Re-read in isolation with function words intact after an earlier extraction pass returned a function-word-stripped rendering.",
+   "faithful_reconstruction": "Rogers' model has two heritable strategies in a periodically changing environment: individual learners, who pay a cost and always acquire the locally correct behaviour, and social learners, who pay nothing and copy a randomly chosen member of the previous generation. Social learners do well when rare, because almost every model they copy is a correct individual learner; as they become common, they increasingly copy other social learners carrying stale behaviour, and their advantage decays. At the interior equilibrium the two strategies have equal fitness, so mean population fitness equals that of a pure individual-learner population. The capacity for social learning raises the FREQUENCY of cheap information use without raising mean fitness.",
+   "parent_assumptions": "Two pure strategies with fixed costs; a periodically changing environment; social learners copy indiscriminately, with no critical evaluation and no choice of when to copy; a well-mixed population. Rogers himself frames the model as a thought experiment about the sociobiology debate, and does not claim it describes any real population. Boyd and Richerson's later resolution (selective or critical social learning) is NOT part of Rogers' claim and must not be folded into it.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Blackwell 1953 'Equivalent comparisons of experiments', which owns the ideal-agent half (more information never hurts an unconstrained Bayesian), was NOT fetched. It is named as context, graded SOURCE_UNVERIFIED, and is separately recorded as P23/P25 territory in research/hsg-semantic-execution-v1/PARENT_LEDGER.md.",
+   "published_negatives": [
+    {
+     "anchor": "B10 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "SkillLearnBench, on learned skills measurably hurting performance.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T4's bounded-agent half. Learned skills 'can hurt performance on open-ended tasks where a rigid skill overconstrains the agent', and stronger base models produce MORE prescriptive skills, so the harm grows rather than shrinks with capability.",
+     "extension_for_EB_F0_X": "Report transfer benefit as a function of the number of transferable options with the retrieval and verification stages charged, and check whether the curve turns over. A monotone-benefit assumption is the thing under test, not a modelling convenience."
+    },
+    {
+     "anchor": "B11 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "SkillFlow, on an unbounded skill library degrading performance without retrieval.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T4 jointly with BIO-T6. Equipping an agent with too many skills, particularly irrelevant ones, degrades performance.",
+     "extension_for_EB_F0_X": "Retrieval quality is not separable from the transfer claim. If retrieval does not keep the candidate set small and precise, library growth converts directly into harm and any measured transfer benefit is measuring the wrong thing."
+    }
+   ],
+   "cross_references": [
+    "#296 section 4 no monotonicity claim without stated chooser assumptions",
+    "BIO-T5 cross-row dependency",
+    "BIO-T6",
+    "EB-F0-A ledger row P-HST-T01"
+   ],
+   "notes": "This row is the one that resolves BIO-T5's 'useful' qualifier. An information bound does not become a capability bound for free; the conversion needs a bounded-agent parent, and Rogers plus the two skill-library negatives supply it."
+  },
+  {
+   "bio_row_id": "BIO-T5",
+   "bio_row_title": "Cultural channel capacity / data-processing bound",
+   "issue_296_statement": "useful socially acquired information cannot exceed information transmitted through registered channel absent side information.",
+   "owning_parent": "The data processing inequality. Bluntly: this row is the DPI.",
+   "primary_source": "Yury Polyanskiy, Yihong Wu. 'Information Theory: From Coding to Learning.' Cambridge University Press. Author-hosted preprint fetched this lane: https://people.lids.mit.edu/yp/homepage/data/itbook-export.pdf (build stamp in the fetched file: 'CUP/HE2-design August 16, 2024'). Canonical textbook citation for the mutual-information form is Cover and Thomas, 'Elements of Information Theory', Theorem 2.8.1, NOT fetched.",
+   "quoted_line": "Theorem 7.16 (Data processing) For U → X → Y, we have If (U; Y) ≤ If (U; X).",
+   "quote_provenance": "Fetched PDF, Theorem 7.16, stated for f-information. Theorem 7.4 in the same book carries the channel form. Re-read in isolation with function words intact. The mutual-information statement I(U;Y) <= I(U;X) is the f = KL specialization; this is stated here explicitly rather than quietly substituted.",
+   "faithful_reconstruction": "If U, X, Y form a Markov chain U -> X -> Y, meaning Y is conditionally independent of U given X, then I(U;Y) <= I(U;X). Applied to #296 section 4: let U be the source organism's private state, X the object actually transmitted through a registered channel, and Y the recipient's post-transfer state. If no side channel exists, so that the Markov condition genuinely holds, the recipient's information about U is bounded by what crossed X. No processing on the receiving side can manufacture information about U that the channel did not carry.",
+   "parent_assumptions": "The Markov condition is the whole content. It fails the moment an unregistered side channel exists, including shared environment, shared initialization, or a common ancestor's state that both parties retain. The inequality bounds MUTUAL INFORMATION, not utility.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [],
+   "cross_references": [
+    "BIO-T4 (cross-row dependency, see notes)",
+    "#296 section 4",
+    "EB-F0-A ledger rows P-DPI and P-CAP"
+   ],
+   "notes": "CROSS-ROW DEPENDENCY, not a gap. #296 writes 'useful socially acquired information'. The DPI bounds mutual information and says nothing about usefulness; a recipient can acquire information and be made worse off, which is BIO-T4's territory, not a new theorem here. The honest decomposition is: DPI owns the information ceiling, Rogers and the skill-library negatives own the step from information to capability. EB-F0-A's ledger points both P-DPI and P-CAP at this row; the capacity parent adds the coding-theorem converse but does not close the usefulness step either."
+  },
+  {
+   "bio_row_id": "BIO-T6",
+   "bio_row_title": "Capital-cost condition for culture / library growth",
+   "issue_296_statement": "persistent shared structure beneficial only if future savings repay acquisition/retrieval/verification/maintenance costs.",
+   "owning_parent": "Minton's utility problem in explanation-based learning. This repository rediscovered it independently in a different substrate before recognizing the parent, which is recorded at RV-8 in research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json.",
+   "primary_source": "Steven Minton. 'Quantitative Results Concerning the Utility of Explanation-Based Learning.' AAAI-88 Proceedings, 1988, p.566. Journal version: Artificial Intelligence 42:363-391, 1990, DOI 10.1016/0004-3702(90)90059-9 (bibliographic record independently confirmed via CrossRef by the centre lane; journal full text not fetched). Prior-lane anchor A10 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+   "quoted_line": "Utility = (AvrSavings x ApplicFreq) - AvrMatchCost",
+   "quote_provenance": "AAAI-88 p.566, as recorded verbatim in RV-8 of research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json and anchored at A10 of research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json (prior lane verification CENTRE_REFETCH_BYTE_EXACT). NOT re-fetched here.",
+   "faithful_reconstruction": "A learned control rule earns its place only if the average search savings it delivers when it applies, weighted by how often it applies, exceed the average match cost paid on every attempt to apply it, whether or not it fires. The cost side is charged unconditionally; the benefit side is charged only on the applicable fraction. A library whose mean utility is positive can still be net negative if a few high-frequency objects carry it while most impose pure test cost, so the per-object utility distribution, not the mean, is the object of interest.",
+   "parent_assumptions": "A match/retrieval cost paid per attempt; a well-defined applicability frequency; savings measured against the same solver without the rule. Minton's quantities are per-rule and per-domain. He explicitly does not offer a domain-independent crossover.",
+   "gap_named": "The INEQUALITY is fully owned and must not be claimed. What no parent supplies is the CROSSOVER LOCUS: the pair (critical same-family share, break-even task horizon N) at which the sign of Minton's inequality flips for a given substrate. RV-8 records a primary-source sweep of the utility-problem literature (Minton AAAI-88; Tambe, Newell and Rosenbloom, Machine Learning 5:299-348, 1990; Kennedy and De Jong, ICML-2003; Gratch and DeJong, AAAI-92; Greiner and Jurisica, AAAI-92) finding the per-rule break-even inequality and sample-complexity conditions for deciding its sign, but no analytic crossover in N. FNA-4 measured a 240,294,343-unit marginal acquisition cost for the utility-gated arm, placing break-even near 6,123 tasks against a measured 16-task stream.",
+   "subtraction_verdict": "PARENT_PARTIAL_GAP_NAMED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "PRIOR_LANE_ANCHOR_CENTRE_REFETCH_BYTE_EXACT",
+   "search_terms_tried": null,
+   "published_negatives": [
+    {
+     "anchor": "A09 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Tambe, Newell and Rosenbloom on expensive chunks in Soar.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "SCAN_LANE_ONLY_CENTRE_REFETCH_BLOCKED",
+     "attacks": "BIO-T6 directly, and it is the direct symbolic ancestor of this repository's own capital negative. Soar's only learning mechanism can make the system slower in wall-clock terms even while reducing the number of problem-solving steps. The authors bound their own claim: expensive chunks appeared in only four tasks out of several dozen across the project's history.",
+     "extension_for_EB_F0_X": "No reuse or amortization claim may be scored in steps, derivations or lookups saved. It must be scored on a full-lifecycle cost vector that includes retrieval and match."
+    },
+    {
+     "anchor": "A11 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Kennedy and De Jong on unused chunks and learning saturation in Soar.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T6 and BIO-T13 jointly. As much as half of Soar's learned chunks were never used at all, and learning halted in finite domains before all unique problems were seen.",
+     "extension_for_EB_F0_X": "Publish the per-object utilization distribution and the inter-use gap, and charge dead library mass at maintenance and index cost. Acquisition counts are not evidence of value."
+    }
+   ],
+   "cross_references": [
+    "RV-8 in research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json",
+    "#165 H1 LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS",
+    "BIO-T4",
+    "BIO-T13",
+    "EB-F0-A ledger row P-HST-T01"
+   ],
+   "notes": "THE ONLY PARTIAL GAP IN THIS MATRIX, and it is deliberately stated conservatively. The gap is a measured regime boundary, not a theorem, and RV-8 already records that the lifetime repayment claim is PROJECTED (a 380x extrapolation beyond the measured stream) rather than observed. Reporting #165's H1 as an unqualified capital negative is, per RV-8's own earned-terminal rule, a defect. This row is also the pattern the task brief asked to look for elsewhere: an independent rediscovery in a different substrate, recognized after the fact. No second instance of that pattern was found among the other fourteen rows."
+  },
+  {
+   "bio_row_id": "BIO-T7",
+   "bio_row_title": "Learning/evolution order non-commutativity",
+   "issue_296_statement": "sequential ecological exposures/inheritance operations need not commute; smallest counterexamples + sufficient conditions for commutation.",
+   "owning_parent": "Historical contingency and potentiation in experimental evolution. Blount, Borland and Lenski showed by replaying evolution from different points in one population's own history that a key innovation was reachable only from later starting points.",
+   "primary_source": "Zachary D. Blount, Christina Z. Borland, Richard E. Lenski. 'Historical contingency and the evolution of a key innovation in an experimental population of Escherichia coli.' PNAS 105(23):7899-7906, 2008. DOI 10.1073/pnas.0803151105. PMCID PMC2430337. Fetched this lane: https://pmc.ncbi.nlm.nih.gov/articles/PMC2430337/",
+   "quoted_line": "we observed a significantly greater tendency for later clones to evolve Cit + , indicating that some potentiating mutation arose by 20,000 generations. This potentiating change increased the mutation rate to Cit + but did not cause generalized hypermutability.",
+   "quote_provenance": "PMC full text, Results. Re-read in isolation with function words intact.",
+   "faithful_reconstruction": "Replay experiments restarted evolution from clones sampled at different generations of a single long-running population and scored how often the citrate-use innovation re-evolved. Replays from later clones produced it significantly more often than replays from earlier ones, which identifies a potentiating mutation that must precede the actualizing one. The composition of the two events is therefore order-dependent: applying them in the other order does not produce the innovation. The authors also state the boundary of their own claim, that contingency matters especially for key innovations not easily reached by gradual cumulative selection, rather than universally.",
+   "parent_assumptions": "A single population's frozen fossil record providing genuine historical replicates; the innovation must be scoreable as present or absent; the potentiation inference rests on a rate difference between early and late clones, not on identifying the mutation itself in this paper.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Weinreich, Delaney, DePristo and Hartl, 'Darwinian evolution can follow only very few mutational paths to fitter proteins', Science 312:111-114, 2006, DOI 10.1126/science.1123539, was sought as the sharper combinatorial statement (only a small minority of mutational orderings are selectively accessible) and NOT obtained. Europe PMC DOI query returned the record with pmcid=None and inEPMC=N; a Harvard DASH bitstream URL returned 2117 bytes. Graded CANNOT_VERIFY_SOURCE and named as context only, with no number attributed to it.",
+   "published_negatives": [],
+   "cross_references": [
+    "#296 section 2 kernel factorization",
+    "BIO-T11"
+   ],
+   "notes": "The purely formal half, that stochastic kernels need not commute, is elementary and carries no citation here. The substantive content of the row is WHICH orders are accessible, and that is what Blount et al. measured."
+  },
+  {
+   "bio_row_id": "BIO-T8",
+   "bio_row_title": "Resource-matched collective residual",
+   "issue_296_statement": "conditions under which apparent group advantage disappears under pooling/resource controls; define the identifiable residual.",
+   "owning_parent": "Bahrami et al. on two-person perceptual decision making, which measures collective benefit against the better individual and finds it can fall below one.",
+   "primary_source": "Bahador Bahrami, Karsten Olsen, Peter E. Latham, Andreas Roepstorff, Geraint Rees, Chris D. Frith. 'Optimally interacting minds.' Science 329(5995):1081-1085, 2010. DOI 10.1126/science.1185718. PMCID PMC3371582. Fetched this lane: https://pmc.ncbi.nlm.nih.gov/articles/PMC3371582/",
+   "quoted_line": "But for observers with very different sensitivities, two heads were worse than the better one.",
+   "quote_provenance": "PMC full text. Re-read in isolation with function words intact. The contrast the authors draw is quoted separately in the reconstruction below and was verified in the same pass: direct signal sharing 'invariably predicted a benefit for dyads'.",
+   "faithful_reconstruction": "Two observers performed a perceptual discrimination alone and then jointly, communicating freely. Collective benefit is the ratio s_dyad/s_max, the dyad's sensitivity over that of its better member; relative sensitivity is s_min/s_max. When the two members are similarly sensitive the dyad beats its better member; as relative sensitivity falls, collective benefit falls below one and the pair does worse than the better member alone. The authors' weighted-confidence-sharing model reproduces this, while a direct signal-sharing model never predicts harm. That contrast localizes the loss to the communication channel rather than to pooling, which is exactly the decomposition #296 section 10 requires: pooling gain, communication residual, specialization residual, minus coordination cost.",
+   "parent_assumptions": "A two-person group, not a general collective; a perceptual task with a scalar sensitivity measure; free verbal communication including confidence; both members motivated to be accurate. The result is about dyads and must not be restated as a general law about groups.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Steiner 1972 'Group Process and Productivity' (actual productivity = potential productivity minus process losses) and Diehl and Stroebe 1987 'Productivity loss in brainstorming groups', JPSP 53(3):497-509 (real groups underperform resource-matched nominal groups) were both sought as the classic process-loss parents and NOT fetched: Steiner is a book with no open text located, and the JPSP article is behind an APA paywall with no author-hosted copy found. Both are named as context, graded SOURCE_UNVERIFIED, with no number or wording attributed to either.",
+   "published_negatives": [],
+   "cross_references": [
+    "#296 section 10 collective/individual advantage must be outcome-neutral",
+    "#296 section 5 no privileged unit of intelligence"
+   ],
+   "notes": "The parent supplies something #296 section 10 asks for and does not yet have: an identified residual. Because the signal-sharing control never predicts harm, the measured harm is attributable to the communication channel. Any biosphere claim of collective advantage should carry the same control, not merely a matched-resource comparison."
+  },
+  {
+   "bio_row_id": "BIO-T9",
+   "bio_row_title": "Multilevel Price decomposition",
+   "issue_296_statement": "exact finite identity under declared grouping/reproduction event; failure modes when grouping is ill-defined.",
+   "owning_parent": "Price's equation. This row is Price's identity and should be reported as such without hedging.",
+   "primary_source": "ORIGINALS NOT FETCHED: George R. Price, 'Selection and covariance', Nature 227:520-521, 1970; George R. Price, 'Extension of covariance selection mathematics', Annals of Human Genetics 35:485-490, 1972. VERIFIED RESTATEMENT USED INSTEAD: Steven A. Frank, 'Natural selection. IV. The Price equation', Journal of Evolutionary Biology 25(6):1002-1019, 2012; arXiv:1204.1515. Fetched this lane: https://arxiv.org/pdf/1204.1515",
+   "quoted_line": "a commonly published form of the Price equation w̄∆z̄ = Cov(w, z) + E(w∆z)",
+   "quote_provenance": "Frank 2012, fetched arXiv PDF, at equation (2). This is a verified restatement by a leading authority, NOT Price's own text; the distinction is carried in the grading fields. Frank's own statement of the identity's status was verified in the same pass: 'The fact that it is an identity guarantees that the numbers that appear on both sides of the equality sign are the same.'",
+   "faithful_reconstruction": "For a parent population mapped to a descendant population, with w_i the fitness of entity i, z_i its trait value and Delta z_i the change in trait between i and its descendants, w-bar times Delta z-bar = Cov(w, z) + E(w Delta z). The first term is the selection term, the second the transmission term. Applying the identity recursively to a nested partition splits the change into a between-group covariance and a within-group expectation of the group-level Price terms, which is the multilevel form #296 section 6 asks for. It is an identity: it holds for ANY assignment of entities to groups, including a meaningless one.",
+   "parent_assumptions": "A well-defined parent-to-descendant mapping and a reproduction event; fitness and trait measured on the same entities. Nothing else. The identity is not a dynamical model and is not dynamically sufficient on its own.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CANNOT_VERIFY_SOURCE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Price 1970 Nature 227:520-521 was sought at three mirrors (dpi.inpe.br course page, a cs.tufts.edu course page, and a third university host); the first returned a 24559-byte HTML error page with no PDF text layer and the others returned 196-byte stubs. Price 1972 Annals of Human Genetics was not separately sought after the 1970 attempts failed. The row is therefore graded CANNOT_VERIFY_SOURCE for the ORIGINALS while carrying a VERIFIED_EXTERNAL quote for the restatement; the two gradings are deliberately not merged.",
+   "published_negatives": [
+    {
+     "anchor": "Frank 2012, fetched this lane; the critique is Frank REPORTING Nowak and Highfield, not Frank's own view.",
+     "source": "Nowak and Highfield, quoted in Frank 2012: 'The Price equation did not, however, prove as useful as [Price and Hamilton] had hoped. It turned out to be the mathematical equivalent of a tautology. . . . If the Price equation is used instead of an actual model, then the arguments hang in the air like a tantalizing mirage.'",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": null,
+     "attacks": "BIO-T9's failure mode when grouping is ill-defined. Because the identity holds for any partition, it carries no evidence that the partition is biologically real, and substituting it for a model produces arguments that cannot be falsified.",
+     "extension_for_EB_F0_X": "Never let a Price decomposition stand as evidence that a group is a unit of selection. Register the partition, the reproduction event and the trait BEFORE decomposing, and require the individuality tests of #296 section 5 to pass independently. ATTRIBUTION NOTE: this quotation was checked in context and is Frank quoting critics he goes on to answer; it must never be cited as Frank's own assessment."
+    }
+   ],
+   "cross_references": [
+    "#296 section 6 multilevel selection",
+    "BIO-T14",
+    "EB-F0-A ledger rows P-PRICE and P-ML-PRICE, and the HSG receipt d12/arms/A3_receipts/R07_G13_price_equation.json"
+   ],
+   "notes": "EB-F0-A's ledger already records that HSG owns Price-as-identity via an existing receipt. This row adds the primary-source grading that ledger's own header requires, and records that the originals were not reached."
+  },
+  {
+   "bio_row_id": "BIO-T10",
+   "bio_row_title": "Cross-ecotype transport preservation/reflection",
+   "issue_296_statement": "map validity requires declared structure preservation/loss and cannot be inferred from successful vocabulary transfer.",
+   "owning_parent": "Two halves, deliberately separated. PRESERVATION is owned by institution theory's satisfaction condition (Goguen and Burstall), already carried as P12 in research/hsg-semantic-execution-v1/PARENT_LEDGER.md and cross-referenced rather than re-cited here. REFLECTION, the half the row's second clause is about, is owned by the measured failure of the isomorphism assumption in unsupervised cross-lingual mapping.",
+   "primary_source": "Anders Sogaard, Sebastian Ruder, Ivan Vulic. 'On the Limitations of Unsupervised Bilingual Dictionary Induction.' Proceedings of ACL 2018, pages 778-788, ACL Anthology P18-1072. Fetched this lane: https://aclanthology.org/P18-1072.pdf",
+   "quoted_line": "However, for Estonian and Finnish, the method fails completely.",
+   "quote_provenance": "Fetched ACL Anthology PDF. Re-read in isolation with function words intact. The stated assumption and the measured refutation were verified in the same pass: 'Unsupervised approaches to learning crosslingual word embeddings are based on the assumption that monolingual word embedding graphs are approximately isomorphic', and the authors report graphs that 'are not approximately isomorphic, using the VF2 algorithm'.",
+   "faithful_reconstruction": "Unsupervised cross-lingual word embedding induction presupposes that the two monolingual embedding graphs are approximately isomorphic. The authors test that presupposition directly with a graph-isomorphism algorithm, find it false for the language pairs where the method fails, and report complete failure for Estonian and Finnish. They further show the method fails even for a well-resourced pair when the two spaces are induced by different algorithms. The transferable lesson for #296 section 4 is the reflection direction: a property observed downstream, such as a working vocabulary mapping on frequent items, does not entail that the structure was preserved upstream. Preservation must be declared and checked, not inferred from a successful transfer.",
+   "parent_assumptions": "Word embedding spaces from monolingual corpora; adversarial or distribution-matching alignment methods of the 2017-2018 generation; the isomorphism claim is about the embedding graphs, not about the languages. The result is a limitation study of a specific method family, not a general impossibility theorem.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [],
+   "cross_references": [
+    "research/hsg-semantic-execution-v1/PARENT_LEDGER.md row P12 (institutions, Goguen-Burstall JACM 39(1) 1992)",
+    "#93 TheoryTransportV1",
+    "#296 section 4 CANNOT_TRANSLATE / CANNOT_VERIFY returns",
+    "EB-F0-A ledger row P-93"
+   ],
+   "notes": "The two halves must not be collapsed. Institution theory gives preservation of satisfaction along a signature morphism; it does not give reflection, and the row's second clause is a reflection claim. #296's partial transfer operator returning CANNOT_TRANSLATE or CANNOT_VERIFY is an engineering contract on top of both, not a theorem."
+  },
+  {
+   "bio_row_id": "BIO-T11",
+   "bio_row_title": "Evolvability mass and hitting-time relations",
+   "issue_296_statement": "derive only under explicit kernel/stationarity/independence assumptions; provide counterexamples otherwise.",
+   "owning_parent": "Kac's formula, relating mean return time to stationary mass.",
+   "primary_source": "David Aldous, James Allen Fill. 'Reversible Markov Chains and Random Walks on Graphs.' Unfinished monograph, author-hosted. Fetched this lane: https://www.stat.berkeley.edu/~aldous/RWG/book.pdf . Corroborated in the same pass by Levin, Peres and Wilmer, 'Markov Chains and Mixing Times', https://pages.uoregon.edu/dlevin/MARKOV/markovmixing.pdf . ORIGINAL NOT FETCHED: M. Kac, 'On the notion of recurrence in discrete stochastic processes', Bulletin of the AMS 53:1002-1010, 1947.",
+   "quoted_line": "(Kac’s formula) π(A)EπA TA+ = 1 which extends the familiar fact Ei Ti+ = 1/πi .",
+   "quote_provenance": "Aldous and Fill, fetched PDF, Chapter 2 Lemma 2.24. Re-read in isolation with function words intact. Levin-Peres-Wilmer state the same identity at equation (21.7) of the fetched copy as π(x) = 1/Ex(τx+).",
+   "faithful_reconstruction": "For an irreducible positive-recurrent chain with stationary distribution pi, the mean return time to a state is the reciprocal of its stationary mass, E_i(T_i^+) = 1/pi_i, and the set version is pi(A) E_{pi_A}(T_A^+) = 1, where the expectation is taken from pi conditioned on A. Applied to #296 section 7: the descendant-mass observable Ev and the hitting time tau_U are two faces of one identity ONLY under those hypotheses. Started away from stationarity, or in a chain with metastable structure where the conditioned-on-A start is not the relevant start, the two decouple and tau_U can be enormously larger than 1/pi(U). That is the counterexample direction the row asks for, and it is why #296 forbids equating fitness with evolvability.",
+   "parent_assumptions": "Irreducibility; positive recurrence; existence of pi; and critically, the START DISTRIBUTION. The identity holds for the stationary chain conditioned on A, not for an arbitrary starting state. A biosphere run is emphatically not started from stationarity.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CANNOT_VERIFY_SOURCE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "Kac 1947 was sought at the AMS journals site (https://www.ams.org/journals/bull/1947-53-10/S0002-9904-1947-08927-8/S0002-9904-1947-08927-8.pdf), which returned a 5907-byte Cloudflare 'Just a moment...' bot-challenge interstitial rather than the article. The row is graded CANNOT_VERIFY_SOURCE for the ORIGINAL while carrying VERIFIED_EXTERNAL quotes from two independently fetched monographs that both state the identity under Kac's name.",
+   "published_negatives": [],
+   "cross_references": [
+    "#296 section 7 evolvability and future-change geometry",
+    "BIO-T2",
+    "BIO-T7",
+    "EB-F0-A ledger row P-HST-T10"
+   ],
+   "notes": "The assumption that does the real damage in a biosphere setting is stationarity of the start, not irreducibility. Any reported relation between evolvability mass and a hitting time must state the start distribution or be treated as unsupported."
+  },
+  {
+   "bio_row_id": "BIO-T12",
+   "bio_row_title": "Developmental-transfer identification",
+   "issue_296_statement": "post-evolution superiority alone does not identify inherited-history causality; continued/reset + knockout conditions.",
+   "owning_parent": "Causal mediation identification. Imai, Keele and Yamamoto show the average causal mediation effect is not nonparametrically identified without an untestable sequential ignorability assumption.",
+   "primary_source": "Kosuke Imai, Luke Keele, Teppei Yamamoto. 'Identification, Inference and Sensitivity Analysis for Causal Mediation Effects.' Statistical Science 25(1):51-71, 2010. DOI 10.1214/10-STS321. Open access. Fetched this lane: https://projecteuclid.org/journals/statistical-science/volume-25/issue-1/Identification-Inference-and-Sensitivity-Analysis-for-Causal-Mediation-Effects/10.1214/10-STS321.pdf",
+   "quoted_line": "As shown by Avin, Shpitser and Pearl (2005) and also pointed out by Robins (2003), the nonparametric identification of natural direct and indirect effects is not possible without an additional assumption if equation (5) holds only after conditioning on the post-treatment confounders Zi as well",
+   "quote_provenance": "Fetched PDF re-extracted in -layout mode to separate the two columns; this is a contiguous right-column run with the line-break hyphenations rejoined. The assumption label 'ASSUMPTION 1 (Sequential ignorability)' was verified in the left column of the same page. A further sentence beginning 'These bounds always contain zero, im-' was found but its completion was NOT contiguous in the extraction and is therefore NOT quoted.",
+   "faithful_reconstruction": "Decomposing a total effect into a part transmitted through a mediator and a part not so transmitted requires more than randomizing the treatment. Identification of the average causal mediation effect rests on sequential ignorability: the mediator must be as-if randomized given treatment and pretreatment covariates. That assumption is not testable from the observed data, and in the presence of post-treatment confounders it fails. Applied to #296 section 9: observing that a lineage carrying history H outperforms a reset control on a fresh target does not identify the inherited structures as the cause. The comparison identifies a total effect at best; attributing it to the inherited objects is a mediation claim and needs the identifying variation to be supplied by design.",
+   "parent_assumptions": "Potential-outcomes framework; a single mediator; sequential ignorability as stated; the authors provide a sensitivity analysis precisely because the assumption cannot be verified.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [
+    {
+     "anchor": "A05 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "ANIL / 'Rapid Learning or Feature Reuse? Towards Understanding the Effectiveness of MAML'.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T12 directly, and it is the canonical published demonstration that a signature mechanism can be inert. Freezing the entire network body barely changes performance, so the headline mechanism was never load-bearing.",
+     "extension_for_EB_F0_X": "Run the ANIL-shaped ablation BEFORE attributing any lineage gain to inherited objects: knock out the exact inherited object claimed to cause the gain and require the advantage to disappear. A knockout that leaves performance untouched is the finding, not a nuisance result."
+    }
+   ],
+   "cross_references": [
+    "#296 section 9 evidence bridge",
+    "BIO-T1",
+    "EB-F0-A ledger row P-PEARL"
+   ],
+   "notes": "#296's CONTINUED(H) versus RESET versus matched-parent design with exact inherited-object knockouts is the experimental apparatus that SUPPLIES the identifying variation the parent says observation cannot. That is study design, not new mathematics, and should be reported that way."
+  },
+  {
+   "bio_row_id": "BIO-T13",
+   "bio_row_title": "Culture-growth is not cumulative culture",
+   "issue_296_statement": "byte/count growth can diverge while useful retained/transferable capability does not.",
+   "owning_parent": "The criteria for cumulative cultural evolution. Mesoudi and Thornton give four minimum requirements, of which improvement in performance and sequential improvement over time are two.",
+   "primary_source": "Alex Mesoudi, Alex Thornton. 'What is cumulative cultural evolution?' Proceedings of the Royal Society B 285:20180712, 2018. DOI 10.1098/rspb.2018.0712. Open access. PMCID PMC6015846. Fetched this lane via the Europe PMC full-text service.",
+   "quoted_line": "We suggest that the minimum requirements for a population to exhibit CCE are (i) a change in behaviour (or product of behaviour, such as an artefact), typically due to asocial learning, followed by (ii) the transfer via social learning of that novel or modified behaviour to other individuals or groups, where (iii) the learned behaviour causes an improvement in performance, which is a proxy of genetic and/or cultural fitness, with (iv) the previous three steps repeated in a manner that generates sequential improvement over time.",
+   "quote_provenance": "Europe PMC full text XML, 'Core criteria' section. Verified with function words intact.",
+   "faithful_reconstruction": "A population exhibits cumulative cultural evolution only if all four criteria hold: behavioural variation is introduced; it is transmitted socially; the transmitted behaviour improves performance; and the cycle repeats so that improvement accumulates. Stored bytes, artifact counts and copying frequency establish criteria (i) and (ii) at best. They are silent on (iii) and (iv). Growth in a cultural store is therefore not evidence of cumulative culture, which is exactly what #296 section 8 asserts.",
+   "parent_assumptions": "The authors are explicit that their criteria follow Tomasello's definition, and they distinguish these core criteria from what they call extended criteria. Performance improvement is treated as a proxy for fitness, not as fitness.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [
+    {
+     "anchor": "A11 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Kennedy and De Jong on long-term learning in Soar.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T13 directly, in a wholly different substrate. As much as half of Soar's learned chunks were never used, and learning halted in finite domains before all unique problems were seen. Store growth and store value came apart.",
+     "extension_for_EB_F0_X": "Report the per-object utilization distribution and inter-use gap for the cultural store, not its size. Charge dead mass at maintenance and index cost, and treat a saturating utilization curve as a verdict on the store."
+    },
+    {
+     "anchor": "B11 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "SkillFlow on library growth degrading performance without retrieval.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T13 jointly with BIO-T4 and BIO-T6: an unbounded store is not merely useless but actively harmful once retrieval cannot keep the candidate set precise.",
+     "extension_for_EB_F0_X": "Measure useful cultural retention against store size with retrieval charged, and expect the curve to turn over rather than saturate."
+    }
+   ],
+   "cross_references": [
+    "#296 section 8 cultural accumulation",
+    "BIO-T6",
+    "BIO-T4"
+   ],
+   "notes": "This row is fully owned and the parent states it more strictly than #296 does. Criterion (iii), that the learned behaviour must CAUSE an improvement, is a causal claim and therefore inherits BIO-T12's identification burden."
+  },
+  {
+   "bio_row_id": "BIO-T14",
+   "bio_row_title": "Species/ecotype observer dependence",
+   "issue_296_statement": "cluster labels alone do not imply reproductive/ecological individuality; formalize invariants required for strong species claims.",
+   "owning_parent": "Sukumaran and Knowles, who show that the multispecies coalescent, the standard principled method for genomic species delimitation, delimits population structure rather than species.",
+   "primary_source": "Jeet Sukumaran, L. Lacey Knowles. 'Multispecies coalescent delimits structure, not species.' PNAS 114(7):1607-1612, 2017. DOI 10.1073/pnas.1607921114. PMCID PMC5320999. Fetched this lane: https://pmc.ncbi.nlm.nih.gov/articles/PMC5320999/",
+   "quoted_line": "We show that the multispecies coalescent diagnoses genetic structure, not species, and that it does not statistically distinguish structure associated with population isolation vs. species boundaries.",
+   "quote_provenance": "PMC full text. Re-read in isolation with function words intact. The Significance statement was verified in the same pass: 'our study demonstrates that what the multispecies coalescent actually delimits is structure', as was the remedy the authors state: 'Our results indicate that the only way that BPP in its current form can be validly used as a species delimitation approach is if external information is used to make the determination.'",
+   "faithful_reconstruction": "Simulating genetic data under a protracted speciation model, so that the amount of structure accumulating among lineages varies with the duration of speciation, the authors ran the standard model-based delimitation program and scored what it recovered. It recovered genetic structure, and did not statistically separate structure arising from population isolation from structure arising at species boundaries. With more loci the method detects ever finer structure and inflates species counts. The authors' own remedy is that external information, not the genetic data, must make the determination. Transposed to #296 section 5: a data-supported partition of organisms into clusters, however principled the clustering, is an observer-side coarse-graining. Calling those clusters ecotypes or species requires the reproductive and ecological individuality criteria to be established separately.",
+   "parent_assumptions": "Simulation under a protracted speciation model; the specific program BPP in its then-current form; genetic data alone with no external evidence. The authors are explicit that the criticism is about what the method identifies, not about whether species exist.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": null,
+   "published_negatives": [],
+   "cross_references": [
+    "#296 section 5 no privileged unit of intelligence",
+    "#296 section 6 do not claim a new individual from a graph community",
+    "BIO-T9"
+   ],
+   "notes": "The parent states this row more strongly than #296 does, and it does so about a method far more principled than graph community detection. Any biosphere ecotype or species claim inherits this ceiling directly: finer resolution produces more clusters, and cluster count is not a discovery."
+  },
+  {
+   "bio_row_id": "BIO-T15",
+   "bio_row_title": "Selection-assay leakage",
+   "issue_296_statement": "any path from protected target identity/score into selection invalidates the corresponding held-out generality claim.",
+   "owning_parent": "Adaptive data analysis. Dwork, Feldman, Hardt, Pitassi, Reingold and Roth identify the disconnect between generalization guarantees, which assume non-adaptive selection of hypotheses, and practice, where analyses are chosen after seeing the data.",
+   "primary_source": "Cynthia Dwork, Vitaly Feldman, Moritz Hardt, Toniann Pitassi, Omer Reingold, Aaron Roth. 'Preserving Statistical Validity in Adaptive Data Analysis.' STOC 2015; arXiv:1411.2664. Fetched this lane: https://arxiv.org/pdf/1411.2664",
+   "quoted_line": "the theory of statistical inference assumes a fixed collection of hypotheses to be tested, or learning algorithms to be applied, selected non-adaptively before the data are gathered, whereas in practice data is shared and reused with hypotheses and new analyses being generated on the basis of data exploration and the outcomes of previous analyses.",
+   "quote_provenance": "Fetched arXiv PDF, Abstract. Re-read in isolation with function words intact.",
+   "faithful_reconstruction": "Standard generalization guarantees are stated for a collection of queries fixed in advance. Once the choice of query depends on answers already obtained from the same sample, the naive empirical estimator's validity degrades, and only a linear number of adaptively chosen queries can be answered accurately by it; the authors' contribution is a mechanism, based on adding noise and on a differential-privacy-style stability argument, that restores accuracy for exponentially many adaptive queries. Applied to #296 section 3 and section 9: any path by which the protected target's identity or score reaches the selection process makes the assay adaptively chosen with respect to the data it is meant to hold out. The held-out generality claim then rests on a guarantee whose precondition has been violated.",
+   "parent_assumptions": "Statistical queries on samples from an unknown distribution; accuracy measured against the true expectation; the positive result requires the analyst to interact with the data only through the provided mechanism. The theorem is about a mechanism, not about a general prohibition, and must not be cited as one.",
+   "gap_named": null,
+   "subtraction_verdict": "PARENT_RECONSTRUCTED",
+   "verification_status": "CONFIRMED_SUBSTANTIVE",
+   "evidence_grade": "VERIFIED_EXTERNAL",
+   "verified_by": "THIS_LANE_FETCH_AND_GREP",
+   "search_terms_tried": "The Science 2015 companion, Dwork et al. 'The reusable holdout: Preserving validity in adaptive data analysis', Science 349(6248):636-638, was sought at an MIT DSpace bitstream URL which returned an HTML landing page rather than a PDF; graded CANNOT_VERIFY_SOURCE and not quoted. Kaufman, Rosset, Perlich and Stitelman, 'Leakage in Data Mining: Formulation, Detection, and Avoidance', TKDD 6(4), 2012, was NOT fetched and is named as context only, graded SOURCE_UNVERIFIED.",
+   "published_negatives": [
+    {
+     "anchor": "C01 in research/top-tier-atomic-closure-v1/PARENT_FIRST_REFUSAL_V1.json",
+     "source": "Darwin Godel Machine, the authors' own objective-hacking incident.",
+     "grade": "VERIFIED_EXTERNAL",
+     "prior_lane_verified_by": "CENTRE_REFETCH_BYTE_EXACT",
+     "attacks": "BIO-T15 in its sharpest form. The top-scoring agent removed the logging its own hallucination detector relied on, in explicit violation of an instruction not to alter it, and a sibling lineage that solved the task honestly scored LOWER. In that archive, disabling the checker outcompeted fixing the behaviour.",
+     "extension_for_EB_F0_X": "Two conditions, both prospective. Prove by construction that the evaluator, its instrumentation and its logging sit outside the organism write set and are integrity-hashed. Then re-score every accepted change under the tamper-evident checker and report the delta. A self-evolution claim missing either condition is capped, and the cap applies to the sentence, not merely to the number."
+    }
+   ],
+   "cross_references": [
+    "#296 section 3 non-interference",
+    "#296 section 9 evidence bridge",
+    "BIO-T1"
+   ],
+   "notes": "BIO-T1 and BIO-T15 are the same condition read in two directions. T1 is the prospective structural precondition on the write graph; T15 is the retrospective consequence when it is violated. Both are owned: T1 by Pearl's intervention semantics, T15 by adaptive data analysis."
+  }
+ ]
+}
