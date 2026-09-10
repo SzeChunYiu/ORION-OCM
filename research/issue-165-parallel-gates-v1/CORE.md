@@ -71,7 +71,7 @@ not push this remaining-gates branch.
 | G1 Π | `research/g1-pi-small-v1/` | `PI_REMAINS_SMALL_AT_MICRO_SCOPE` (programme still PARTIAL) |
 | G2.2 donors | `research/g2-abstraction-parents-v1/` | `CONVENTIONAL_LIBRARY_PARENTS_SUBORDINATE_TO_SEARCH_AWARE` |
 | G4.4 ident | `research/g2-strategy-identifiability-v1/` | `PARENT_SUFFICIENT_AT_SCOPE` (ML unlock still locked) |
-| G3 incidents | `research/g3-real-failure-v1/` | `PARENT_SUFFICIENT_AT_SCOPE` |
+| G3 incidents | `research/g3-real-failure-v1/` | `PARENT_SUFFICIENT_AT_SCOPE` (non-interference is no sibling `RESULT.json`, not directory absence) |
 | G4 non-ML | `research/g4-decision-adequacy-v1/` | `G4_NON_ML_ADEQUACY_SUPPORTED_AT_TOY_SCOPE` |
 | G5.3 ZDD | `research/g5-zdd-warrant-v3/` | `ZDD_PARENT_N3_PARITY_SUPPORTED` (production unchanged) |
 | H1 v3 | `research/h1-amortized-lifetime-v3/` | `AMORTIZED_ACQUISITION_SUPPORTED_AT_POLYNOMIAL_SCOPE` |

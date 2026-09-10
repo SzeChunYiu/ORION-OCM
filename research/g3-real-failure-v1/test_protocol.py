@@ -42,11 +42,13 @@ class TestSourceBoundFailureProtocol(unittest.TestCase):
         # Present on origin/main, therefore on pull_request merge commits.
         # Absent on remaining-gates HEAD. Presence is not a scientific result
         # and this capsule must not create, overwrite, or retune that ecology.
+        # The result-gating criterion is "no RESULT.json", which holds
+        # vacuously when the directory is absent and by inspection when it
+        # is present with protocol files only.
         text = Path(E.__file__).read_text()
         self.assertNotIn("FAILURE_MEMORY_NOT_USEFUL", text)
-        self.assertNotIn("g3-scoped-failure-memory-v1/RESULT.json", text)
-        if competing.is_dir():
-            self.assertFalse((competing / "RESULT.json").is_file())
+        self.assertNotIn("competing_scoped_failure_memory_absent", text)
+        self.assertFalse((competing / "RESULT.json").is_file())
 
     def test_square_invert_of_one_plus_x_is_real_method_failure_not_timeout(self):
         self.assertEqual(M.normal_form(("inc",)), (Fraction(1), Fraction(1)))
@@ -165,6 +167,10 @@ class TestSourceBoundFailureProtocol(unittest.TestCase):
             result["boxes"]["G3/recover-source-bound-real-failure-probe-incidents"]["key"],
             "source+evidence_id",
         )
+        self.assertNotIn("competing_scoped_failure_memory_absent", result["criteria"])
+        self.assertTrue(
+            result["criteria"]["competing_scoped_failure_memory_v1_has_no_result_json"]
+        )
 
     def test_capsule_does_not_patch_production_src(self):
         text = Path(E.__file__).read_text()
@@ -184,6 +190,12 @@ class TestWrittenResultFreeze(unittest.TestCase):
         self.assertFalse(data["programme_wide_g3_close"])
         self.assertTrue(data["jump_refused_on_timeout"])
         self.assertNotEqual(data["os_process"]["pid"], data["process"]["pid"])
+        self.assertNotIn("competing_scoped_failure_memory_absent", data["criteria"])
+        self.assertTrue(
+            data["criteria"]["competing_scoped_failure_memory_v1_has_no_result_json"]
+        )
+        live = E.run()
+        self.assertEqual(set(live["criteria"]), set(data["criteria"]))
 
 
 if __name__ == "__main__":

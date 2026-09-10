@@ -52,7 +52,10 @@ A competing ecology `research/g3-scoped-failure-memory-v1` exists on `main`
 commits. It is absent from remaining-gates HEAD. This capsule must not
 create, overwrite, or retune that directory, and must not retune
 remaining-gates G3.2. Presence or absence of the sibling is not a
-scientific result.
+scientific result. The result-gating criterion is
+`competing_scoped_failure_memory_v1_has_no_result_json`, which holds in
+both trees; directory absence is recorded only as a factual
+`frozen_predecessors` flag for this head.
 
 ## Planted probe
 

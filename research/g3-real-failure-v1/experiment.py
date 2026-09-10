@@ -590,8 +590,14 @@ def decide_terminal(
             frozen["g3_representation_diagnosis_v1"]["terminal"]
             == "REPRESENTATION_INSUFFICIENCY_DIAGNOSIS_SUPPORTED_AT_SCOPE"
         ),
-        "competing_scoped_failure_memory_absent": (
-            frozen["competing_g3_scoped_failure_memory_v1_present_on_this_head"] is False
+        # Non-interference, not layout. The sibling directory exists on
+        # origin/main (and therefore on the pull_request merge tree) with
+        # protocol files but no RESULT.json. Absence of that directory is
+        # true only on this remaining-gates head and must not gate the
+        # receipt. Presence without a RESULT.json is the property that
+        # holds in both trees.
+        "competing_scoped_failure_memory_v1_has_no_result_json": not (
+            (REPO / "research" / "g3-scoped-failure-memory-v1" / "RESULT.json").is_file()
         ),
         "in_process_reconstruction_not_the_witness": reconstruction["sufficient_for_os_restart"] is False,
         "programme_wide_g3_close": False,
