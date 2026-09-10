@@ -4,7 +4,7 @@
  "d_step": "TTAC-D6",
  "owner_issue": 277,
  "built_utc": "2026-09-10",
- "purpose": "#277 sec 9 D6: map current #233 D17-D28 and #221 continuous jobs onto readiness coordinates so they are counted, not duplicated. This artifact assigns NO readiness values \u2014 assignment is D2.",
+ "purpose": "#277 sec 9 D6: map current #233 D17-D28 and #221 continuous jobs onto readiness coordinates so they are counted, not duplicated. This artifact assigns NO readiness values — assignment is D2.",
  "rule": "A lane is mapped to the coordinates its PRIMARY ENDPOINT can move, not to every coordinate it touches incidentally.",
  "lanes": [
   {
@@ -166,7 +166,7 @@
     "G"
    ],
    "primary_endpoint": "satisfaction conditions, consequence preservation, model-expansiveness, hostile incomplete model images",
-   "duplication_guard": "Owned by the same active lane (billy-old, hsg/d21-d22-labs). Lean/SMT adapters stay OUT \u2014 N4 is locked.",
+   "duplication_guard": "Owned by the same active lane (billy-old, hsg/d21-d22-labs). Lean/SMT adapters stay OUT — N4 is locked.",
    "evidence_anchor": "dispatched 2026-09-10",
    "notes": null
   },
@@ -181,7 +181,7 @@
     "E"
    ],
    "primary_endpoint": "I/R/J coverage, protected round-trip error, ambiguity-set size, clarification value, abstention, latency, B_exec",
-   "duplication_guard": "Synthetic/frozen semantic tuples are legal NOW. Protected N2 outcomes are LOCKED \u2014 do not touch them.",
+   "duplication_guard": "Synthetic/frozen semantic tuples are legal NOW. Protected N2 outcomes are LOCKED — do not touch them.",
    "evidence_anchor": "#233 FREEZE_V1 locks N2",
    "notes": "The metric contract must be fixed BEFORE N2 unlocks. Inventing a metric after seeing fluency is the exact gaming failure #277 sec 3 targets."
   },
@@ -212,7 +212,7 @@
    ],
    "primary_endpoint": "search phase diagrams across flat STRIPS / verified reductions / HTN / POMDP belief-state / options-macros, after complete cost",
    "duplication_guard": "Not started. Hierarchy-NEGATIVE regions must be retained explicitly when it runs.",
-   "evidence_anchor": "#233 comment 'D25 \u2014 general problem-solving laboratory'",
+   "evidence_anchor": "#233 comment 'D25 — general problem-solving laboratory'",
    "notes": null
   },
   {
@@ -226,7 +226,7 @@
    ],
    "primary_endpoint": "transfer of the invariant contract for DISTINGUISH / REFINE / REDUCE / VERIFY across >=3 materially different domains",
    "duplication_guard": "Not started. G is its sole target - D22 and D25 touch G alongside other coordinates, but this is the only lane devoted to it.",
-   "evidence_anchor": "#233 comment 'D26 \u2014 cross-domain operator-transfer test'",
+   "evidence_anchor": "#233 comment 'D26 — cross-domain operator-transfer test'",
    "notes": "Load-bearing: a general operator claim requires transfer of the invariant CONTRACT, not reuse of the name. Every 'general operator' atom is gated on this lane."
   },
   {
@@ -242,7 +242,7 @@
    ],
    "primary_endpoint": "CONTINUED vs RESET vs strongest persistent parent: B_exec, first-useful-solution hitting time, new information required, counterexamples required, verification calls, active k / total N",
    "duplication_guard": "Not started. This is the direct bridge from semantic competence to the developmental thesis.",
-   "evidence_anchor": "#233 comment 'D27 \u2014 developmental semantic execution'",
+   "evidence_anchor": "#233 comment 'D27 — developmental semantic execution'",
    "notes": "Highest-value uncovered lane: it is the causal knockout for DEVELOPMENTAL_LINEAGE atoms, whose closure profile demands C>=4. Nothing else in flight can raise C for those atoms."
   },
   {
@@ -257,7 +257,7 @@
    ],
    "primary_endpoint": "independent replay of theorem proofs/certificates, parent claims, freeze chain, negative results, coverage, cross-issue hooks",
    "duplication_guard": "Not started. Must run AFTER D19-D27, and no locked milestone criterion may be changed retroactively.",
-   "evidence_anchor": "#233 comment 'D28 \u2014 fresh-context hostile/claims review'",
+   "evidence_anchor": "#233 comment 'D28 — fresh-context hostile/claims review'",
    "notes": null
   },
   {
@@ -381,7 +381,7 @@
   "A (autonomy) is targeted only by TTAC-D5 and by D28, which has not started. D5's verdict is negative, so A is gated rather than raised. DEVELOPMENTAL_LINEAGE closure needs A>=4 (clean-room); nothing in flight can reach it.",
   "C (causal evidence) is targeted in flight only by D20, and only for abstraction/refinement. The causal knockout that DEVELOPMENTAL_LINEAGE atoms need (C>=4) belongs to D27, which has not started. D27 is therefore the highest-value unstarted lane.",
   "G (generalization) is targeted in flight only by D22 (logic transport). The operator-contract transfer test that general-operator claims need is D26, unstarted.",
-  "G is further undercut by a landed result, not only by missing lanes: GS-R2 records 85,025 of 100,693 distinct survivors FAILING T3 generalization (84.4%). Generalization is not merely unmeasured in the morphology area; where it HAS been measured it is largely negative, and that negative is retained.",
+  "SUPERSEDED BY AMENDMENT A3 -- do not cite the earlier form, retained verbatim in amendment A3. This map previously recorded that where G had been measured in the morphology area it was largely negative, on the strength of GS-R2's 84.4% T3 failure. PR #293 (bebe864c) established that endpoint was NOT measuring generalization: SURVIVOR_T3_GENERALIZATION_* is an exact deterministic function of one genome bit (NOT can_check <=> FAIL, 100693/100693, zero FP, zero FN), so it measured checker absence. G in the morphology area is UNMEASURED, not measured-and-negative -- a materially different and weaker position, and one that demands a different next experiment.",
   "Landed studies carrying evidence_class EXPLORATORY_ADAPTIVE (GS-R2) cap at readiness 2 permanently under the frozen ladder. D2 must not score them at 3 on the strength of their sample size or receipt count.",
   "P (strongest-parent subtraction) has real in-flight coverage via D21 (its arms ARE the parents) and landed coverage via GS-R2. But D16b verified parent SOURCES, not parent RUNS: under the frozen rule NOT_RUN stays 1, so P is far weaker across the registry than the 25/25 verification suggests."
  ],
@@ -403,6 +403,21 @@
    "utc": "2026-09-10",
    "cause": "governance finding added after verifying the freeze chain against main",
    "finding_added": "freeze_chain_enforcement"
+  },
+  {
+   "id": "A3",
+   "utc": "2026-09-10",
+   "cause": "PR #293 established that GS-R2's T3 endpoint was not measuring generalization, falsifying a finding recorded under A2.",
+   "finding_superseded_index": 5,
+   "prior_text": "G is further undercut by a landed result, not only by missing lanes: GS-R2 records 85,025 of 100,693 distinct survivors FAILING T3 generalization (84.4%). Generalization is not merely unmeasured in the morphology area; where it HAS been measured it is largely negative, and that negative is retained.",
+   "corrected_position": "G in the morphology area is UNMEASURED. The 84.4% figure must never be cited as a generalization result.",
+   "readiness_values_assigned": "none - scoring remains D2"
+  },
+  {
+   "id": "A4",
+   "utc": "2026-09-10",
+   "cause": "Cross-cut of the D1 registry against the D2 matrix and the frozen closure profiles, performed as a critical-unowned-gap audit.",
+   "finding_added": "absent_atom_class_gap"
   }
  ],
  "freeze_chain_enforcement": {
@@ -413,5 +428,15 @@
   "verification_method_caveat": "Comparing the TOP-LEVEL manifest_sha256 against the live tree reports FALSE drift on any file carrying a legitimate recorded amendment. Resolve each file through the newest amendment naming it, fall back to the original manifest, and assert separately that unamended files still match. This false positive was hit and fixed once by the D19/D20 lane's own builder and once by an ad-hoc check here - recorded because the checker was wrong before it was right.",
   "disposition": "OPEN defect, recorded rather than silently dropped: an integrity mechanism with no enforcement gate. Candidate D4 hostile family - 'a freeze assertion becomes false and no gate notices'."
  },
- "non_final": true
+ "non_final": true,
+ "absent_atom_class_gap": {
+  "verified_utc": "2026-09-10",
+  "observation": "G and E are null for ALL 78 atoms in READINESS_MATRIX_V1. Under the frozen scoring policy (non-load-bearing = null, never blocks) that is not an unmeasured gap -- it is a consequence of class membership.",
+  "root_cause": "DEVELOPMENTAL_LINEAGE / EMPIRICALLY_SUPPORTED_AT_SCOPE is the ONLY closure profile in READINESS_SCHEMA_V1 that requires G (>=3) or E (>=3), and ATOM_REGISTRY_V1 contains ZERO atoms of that class. Class census: THEOREM 38, EMPIRICAL_REGULARITY 18, GOVERNANCE_META 10, ENGINEERING_MECHANISM 9, SELF_EVOLUTION 3, DEVELOPMENTAL_LINEAGE 0.",
+  "why_it_is_critical": "DEVELOPMENTAL_LINEAGE is the class of the programme's own central claim -- one persistent OCM becoming progressively better at creating its own future cognition, recorded as an externally supplied optimization target in EXTERNAL_COGNITIVE_INPUT_LEDGER entry ECI-0003. That claim currently has NO REGISTERED ATOM. It is not scored, not gated and not blocked; it is absent.",
+  "structural_lesson": "An absent atom is invisible to every downstream instrument. D2 scores atoms that exist; D3's blocker DAG is seeded from gap_vs_closure_profile, which computes gaps for atoms that exist. A claim with no atom therefore produces no gap, no blocker and no critical-path entry. The closure machinery can only be as complete as its enumeration, and nothing in the machinery detects its own under-enumeration.",
+  "disposition": "OPEN GAP, recorded rather than silently carried. Two things follow. (1) D1 needs a completeness pass specifically for DEVELOPMENTAL_LINEAGE and for any other class with zero members, asking what claim the programme makes that the class was created to hold. (2) Registering such an atom will make G, E, C>=4, A>=4 and R>=4 load-bearing for the first time, which is a materially harder profile than anything currently scored -- so the registry's apparent health partly reflects which claims were enumerated.",
+  "relation_to_ebf0": "Issue #296 EB-F0 is the machinery for exactly this class: sec 9's frozen continued-vs-reset evidence bridge with an inherited-object knockout is the C evidence, sec 5's coarse-graining across ecologies is G, the ecological worlds are E, and sec 3's protected-assay noninterference is A. EB-F0 does not by itself close the registry gap; the atom still has to be enumerated and bound.",
+  "not_a_defect_in_D2_or_D3": "Both artifacts are correct given their inputs. This is an enumeration gap upstream of them, which is why it is recorded here in the coverage map rather than as a correction to either."
+ }
 }
