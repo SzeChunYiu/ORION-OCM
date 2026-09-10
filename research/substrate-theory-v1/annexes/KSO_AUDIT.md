@@ -1,0 +1,105 @@
+# KSO Audit: implementation vs the cognitive unit u = <Z, I, phi, beta, Psi, V, W, C, L, P>
+
+Audited ref: origin/main = 2d95bccdeeae09298433f9824e170f0ce5df3b9e (read-only; git show / git grep only).
+All paths `src/ocm/...` unless noted. Line numbers from the audited blob.
+
+## 1. Inventory (files + roles)
+
+| File | Role |
+|---|---|
+| `kso/space.py` | THE KSO object model. `Atom` (L35-67): atom_id, atom_type, warrant, authority, scope, epoch, quarantined, content_ref, meta. `Hyperedge` (L70-130): tails/heads, relation_type, weight, head_weights, warrant, authority, scope, executable_ref (phi_h), meta. `KnowledgeSpace` (L133-320). |
+| `kso/warrant.py` | W field. `WarrantProfile` (L104-198): antichain interval lower/upper; three-valued Liveness LIVE/DEAD/UNKNOWN; semiring join/meet; exhaustive calibration (`all_profiles`, Dedekind numbers). |
+| `kso/types.py` | Type registry (CORE_ATOM_TYPES L29; relation kinds L25); `Authority` product lattice (L112-152; meet composition; `internal_authority` strips the commit coordinate, L168-173); `Scope` = context tags + validity epoch interval (L179-217; `covers` L207-210). |
+| `kso/admission.py` | Admission transaction + veto. `admit` (L82-140), `compose` (L158-190), `GovernedSpace` + genome KS-S1..S7 (L216-340), 8 CertificateKind channels (L28-36). |
+| `kso/firing.py` | Petri conjunctive enabling: `enabling_verdict` (L32-58) = edge+tails LIVE AND scope.covers(context) AND activation >= threshold; ENABLED/DISABLED/UNKNOWN. |
+| `kso/navigation.py` | Spreading activation (exact-rational restart fixed point); `NavigationBudget(steps,restarts,depth)` (L407-420); `NavigationOutcome`, `ObstructionWitness`, `gap_channel_hook` (L400-538); surprise vector (L293-301). |
+| `kso/surprise.py` | Registered surprise models UNIFORM/PROPAGATED (L36-62): the forward model that prizes atoms for extraction. |
+| `kso/extraction.py`, `extraction_index(ed).py` | Reacting-subgraph extraction; exact-bounded + greedy PCST (prizes = surprise). |
+| `kso/resources.py` | C field: 11-coordinate non-compensatory `ResourceVector` (L12-24); `Meter` charges every mutation (L68-83, KS-S7). |
+| `kso/revocation.py` | Revocation, prune-equivalence, `impact_cone`, `reopening_report` (REOPEN/RECHECK/UNAFFECTED). |
+| `kso/jump.py` | Developmental escalation: JumpLevel 0-8, 12 TriggerKinds (incl. RESOURCE_EXHAUSTION), obstruction certificate gating. |
+| `kso/nogoods.py`, `kso/obligations.py` | Conflict pairs; theorem/obligation registry with PASS/FAIL/CANNOT_CHECK rows. |
+| `runtime/solve.py` | THE executor: 10-stage loop TASK..COMMITMENT (L43-53); `Status` PASS/FAIL/CANNOT_CHECK/PROPOSAL (L36); `Decision` ANSWER/ACT/LEARN/CLARIFY/UNKNOWN/JUMP_PROPOSAL/CANNOT_CHECK (L56); commitment gate (L520-542). |
+| `runtime/ocm_runtime.py` | `OCMRuntime`: the single writer. 24 `EventType` ledger classes, CAS expectation (log head, kso hash, registry revision, evidence epoch), crash-atomic replay, callback guards, external-action boundary (L539-549). |
+| `runtime/state.py`, `trace.py`, `transition.py`, `residuals.py` | Reconstructible state; epoch bookkeeping; vendored ORION transition validator; `ResidualKind`/`Responsibility` taxonomy (residuals L8-46; consumed only by transition.py L25). |
+| `learning/methods.py` | Registered learnable unit: `learn_generator` (L191-210) / `validate_generator` (L213-229) / `solve` (L156-188) as the bounded synthesis domain; `admit_solution`/`admit_generator`/`load_generator` (L232-298) persist + re-load fragments as KSO atoms with SUPPORT edges. |
+| `learning/learner.py` | VersionSpaceLearner; `UpdateProposal` kinds OBJECT/BEHAVIOUR/QUARANTINE; statuses incl. GAP_AMBIGUOUS/GAP_INSUFFICIENT (L54-197). |
+| `operators/registry.py` | `OperatorSpec` (L50-73): preconditions, expected_effects, checker, known_failures, lineage, resource_model, warrant/authority/scope; MEG-02 statistical rule (score outside the lattice, L9-21); `Candidate.score` (L125); `applicable()` fixed-order (L206-219). |
+| `selfmodel/model.py` | Self-model fibre K_self: `Component` with fingerprint/limitations/lineage; `FailureRecord` with ablations; `Layer` D0-D8 (L59-69); records admitted as scoped evidence, authority never raises object level (L136-138). |
+| `selfmodel/diagnose.py` | Diagnosis as ablation-weighted layer distribution + `ObstructionCertificate` for D3+ escalation. |
+| `lifetime/phases.py`, `machine.py`, `streams.py` | Developmental phases A-G on one persistent arm; sequential vs interleaved lifetime streams; identity chain continuity. |
+| `store/event.py`, `ledger.py`, `evidence.py`, `registry.py` | Event chain (EventType list L33-58); crash-atomic LedgerStore; evidence registry with derived_from/contradicts/supersedes. |
+| `science/*` | Causal SCM worlds (eval-side oracle), evidence/proof/selection/lifecycle = M10 science eval harness, not the runtime loop. |
+| `orion_v2/component_value.py` | Offline Pareto component-value / pair-interaction assessment from ablation arms (V, offline only). |
+| `work/contracts.py`, `methods.py` | Second operator model for M12 lifetime: `Operator` with callable preconditions, `terminates`, `cost`, expected_effects; `StepOutcome` failure classes (L73-80); budget gate at work/methods.py:59. |
+
+## 2. Field-by-field classification
+
+Legend: AFFECTS = EXISTS-AFFECTS-BEHAVIOR; META = EXISTS-METADATA-ONLY; ABSENT.
+
+| Field | Status | Evidence (file:line) | Consumers |
+|---|---|---|---|
+| **Z** representation/context | AFFECTS (representation *selection* is a stub) | The space itself is Z: typed hypergraph `kso/space.py:35-130`; context tags via `Scope.contexts` types.py:183; abstraction quotient `kso/abstraction.py`. Solve stage REPRESENTATION is hardcoded: runtime/solve.py:600 `"representation": "typed_hypergraph_v1"`. | Navigation matrix built from structure (navigation.py:53-146); firing scope check (firing.py:51-53); commitment scope refusal (solve.py:534-541). No alternative representation is ever selected — Z is singular and fixed. |
+| **I** applicability/initiation | AFFECTS, but resolved structurally at solve time; not a stored learned predicate | Applicability = input containment + liveness: solve.py:382-384 `set(op.input_atoms) <= g.atoms` + `op.warrant.is_live`; `OperatorRegistry.applicable` adds preconditions then sorts by (id,version) — fixed order (registry.py:206-219); firing = scope.covers + activation >= threshold (firing.py:32-58). | fire_stage (solve.py:353-360), compose_stage (363-416), OperatorRegistry/indexed_registry. NOTE: nothing stores "this unit applies in context X" beyond Scope tags; the M12 work layer has callable `preconditions` (work/contracts.py:54) but that is a parallel model, not the KSO. |
+| **phi** transformation/policy | AFFECTS | `Hyperedge.executable_ref` (space.py:81); `OperatorSpec.backend`+`checker` (registry.py:56,63; solve.py:332-350); backends executed only inside `compose_stage` guard (solve.py:386-413); work-layer backend (contracts.py:55-58). | compose_stage simulate; check_stage verify; `admission.compose` executable_ref passthrough (admission.py:169-190). Host-supplied implementations, never deserialised (ocm_runtime.py:165-171). |
+| **beta** termination/fallback | AFFECTS (loop-level, not per-unit) | `NavigationBudget` steps/restarts/depth (navigation.py:407-420) -> GAP outcomes with `gap_channel_hook` ACQUIRE_WARRANT / MORE_BUDGET / ACQUISITION_CHANNELS (navigation.py:478-538); solve `decide` fallback ladder CLARIFY/LEARN/UNKNOWN/JUMP_PROPOSAL (solve.py:481-511); CANNOT_CHECK absorbing (solve.py:484-487, 610-612); commitment refusal codes (solve.py:526-541); work `Operator.terminates` (contracts.py:58); SearchBudget slots (methods.py:88-97). | navigate/decide/commitment gate; no per-unit termination predicate on atoms/edges (firing has no stop condition — enabling is instantaneous). |
+| **Psi** predictive effect model | META (declared effects unread); the in-loop forward model is surprise, not effects | `OperatorSpec.expected_effects` (registry.py:59) is serialised into the manifest (ocm_runtime.py:599) and mirrored in work contracts (contracts.py:60) — NO code reads it to predict or verify; the only forward model in the loop is the surprise/background distribution (surprise.py:47-62; navigation.py:293-301) which predicts *reaction salience*, not effects; actual effects are recorded post-hoc in ActionReceipts. | Manifest writer only. Surprise model -> extraction prizes (solve.py:227-257). |
+| **V** conditional future value | ABSENT at runtime (offline assessment only) | `decide` picks `passed[0]` — first passing candidate in fixed order (solve.py:498-502); no score, cost or value ranks candidates; `Candidate.score` exists "outside the lattice, ranking only" (registry.py:125) but no score is computed in the solve loop; `orion_v2/component_value.py` (L201+, L384+) computes Pareto component value from frozen ablation arms — evaluation harness only. | None in solve/selection. The only ranking consumer is dialogue clarification ordering (language/interpret.py:141). |
+| **W** warrant/provenance | AFFECTS (the strongest field) | `WarrantProfile` lower/upper antichains (warrant.py:104-198) on every atom and edge; evidence registry with derived_from/contradicts/supersedes (store/evidence.py; ocm_runtime.py:254-267); `provenance.py`; lineage on operators/skills. | Liveness drives everything: firing (firing.py:46-49), navigation gating (navigation.py:47-51), admission S1 (admission.py:229-236), composition law (admission.py:179-182), check downgrade (solve.py:452-453), commitment refusal (solve.py:530-531), reopening cone (revocation.py). |
+| **C** capital + marginal cost | AFFECTS for accounting/budgets; META for predictive cost | `ResourceVector` 11 coordinates + `Meter` on every mutation (resources.py:12-83; KS-S7 admission.py:317-319); every StageResult/event carries `resource_delta` (solve.py:74; ocm_runtime.py:135); NavigationBudget caps; work-layer cost gate `cost + op.cost > budget_steps` (work/methods.py:59-64); ActionIntent charges `resource_estimate` (ocm_runtime.py:568). BUT `OperatorSpec.resource_model` (registry.py:66) is serialised (ocm_runtime.py:599) and never used to plan or prune. | Meter -> genome S7; budgets -> navigation/search termination; NO cost-based selection, ordering or admission throttling exists. |
+| **L** lifecycle/plasticity | AFFECTS | quarantined flag (space.py:43; admission path admission.py:68,105,124); revoke/reinstate/reopen + impact cone (revocation.py; ocm_runtime.py:272-296); SKILL_PROMOTED/SKILL_QUARANTINED events; nogoods (nogoods.py); `Scope.epoch` validity interval refuses time-undeclared commitment (solve.py:536-539); lifetime phases A-G + streams (lifetime/*); version-space plasticity tracked as hypothesis-set consistency (learner.py:142-159). | Admission, firing, commitment, replay reducer, lifetime evals. |
+| **P** causal support/history | AFFECTS for support (warrant + SUPPORT edges); META for effect history | SUPPORT relation kind (types.py:25); learned methods admitted with SUPPORT edges from training proofs (methods.py:248-251, 280-282); `derived_from` makes records die with their premises (ocm_runtime.py:262-266); store/dependency_history.py. Effect history: FailureRecord + AblationEvidence (selfmodel/model.py:72-96) and diagnose (diagnose.py:39-53) — recorded and used in *evaluation/diagnosis* lanes, not in solve-time selection. science/causal.py SCM is an eval oracle only. | SUPPORT edges join the warrant meet -> liveness -> all W consumers; failure history -> diagnose -> govern/proposals (offline). |
+
+Counts: **AFFECTS 8** (Z, I, phi, beta, W, C, L, P — three with caveats), **META 1** (Psi; C and P each have one metadata-only sub-part), **ABSENT 1** (V).
+
+## 3. Placement recommendation
+
+Applicability/utility/deployment-liveness should be **split three ways**, not made one first-class KSO field:
+
+1. **Hard applicability stays a typed contract on the unit (already present, keep):** structural input containment + liveness + Scope covers, resolved at solve time by the exact index (solve.py:382-384; operator_index.py). Rationale: it is decidable and exact; storing a *learned* applicability predicate as a field would let a statistical estimate act like a warrant — exactly the laundering MEG-02 forbids (registry.py:9-21, mutant at 178-182).
+2. **Utility/value (V) belongs in a separate developmental-control layer, outside the KSO lattice** — the codebase already has the right pattern twice: `Candidate.score` outside the lattice (registry.py:125) and CoverageCertificate as a scoped, revocable, EXPERIMENTATION-channel statement (registry.py:76-113) plus the selfmodel fibre. Today V is not just missing, its insertion point is a stub: `decide` commits `passed[0]` in fixed order (solve.py:498-502) and `applicable` sorts by id (registry.py:219). A value model may order/prune the catalogue; it must never flip liveness or authority.
+3. **Deployment-liveness already has the correct home: revocation/reinstatement over evidence + Scope.epoch** (revocation.py; solve.py:536-541). What is missing is not a field but an *automatic* deployment signal — revocation is currently host-initiated; nothing feeds observed deployment outcomes (ActionReceipts, selfmodel FailureRecords) back into revocation/reinstatement automatically.
+
+In short: applicability = contract on the unit; utility = developmental-control layer (score/coverage channel, never warrant); deployment-liveness = existing revocation/epoch machinery, wired to receipts.
+
+## 4. Failure-taxonomy audit
+
+Where failures are classified today:
+
+- **Admission (semantic invalidity / inapplicability):** TypedRejection codes — DUPLICATE_ATOM, SCOPE_EMPTY, WARRANTING_CHANNEL_WITHOUT_WARRANT, ISOLATED_ATOM_REJECTED, EDGE_NOT_INCIDENT_TO_NEW_ATOM, UNREGISTERED_(ATOM|RELATION)_TYPE, COMPOSITION_WARRANT_MISMATCH, UNREACHABLE_BY_NAVIGATION, UNKNOWN_ATOM (admission.py:95-138). Recorded: failed OBJECT_ADMITTED event with `rejection` code, or OBJECT_QUARANTINED for isolation (ocm_runtime.py:371).
+- **Solve loop (per stage):** Status PASS/FAIL/CANNOT_CHECK/PROPOSAL + reason — EMPTY_QUESTION, NON_ATOMIC_INPUT, UNBOUND_SEED (binding/representation failure); GAP:{reason} with gap_channel_hook = ACQUISITION_CHANNELS / ACQUIRE_WARRANT / MORE_BUDGET / ACQUIRE_WARRANT_OR_STRUCTURE (inapplicability vs missing warrant vs resource vs structure); OBSTRUCTION / NONIDENTIFIABILITY; NO_WARRANTED_REACTION; NO_APPLICABLE_OPERATOR; REACTION_WITHOUT_OPERATOR (-> LEARN); BACKEND_OUTPUT_NOT_DATA / BACKEND_CALLBACK_FAILED / BACKEND_RUNTIME_STATE_CHANGED / CHECKER_RUNTIME_STATE_CHANGED (execution/verifier); REFUSED:* commitment codes (solve.py:150-542). Recorded: StageResult in trace + NAVIGATION/EXTRACTION/CANDIDATE_COMPOSED/CHECKER_RESULT events (ocm_runtime.py:436-441).
+- **Ledger receipt classes:** 24 EventTypes (store/event.py:33-58) with EventStatus PASS/FAIL/CANNOT_CHECK/PROPOSAL; OBJECT_REOPENED with cause=revocation|contradiction; SKILL_QUARANTINED with UpdateStatus (FAIL/CONTRADICTION/GAP_AMBIGUOUS/GAP_INSUFFICIENT, learner.py:189-195); ACTION_RECEIPT status EXECUTED/FAILED/REFUSED/UNKNOWN/CANNOT_CHECK + refusal_code (e.g. EFFECTOR_FAILED) and pending-intent reconciliation (ocm_runtime.py:484-537).
+- **Diagnostic layers D0-D8** (selfmodel/model.py:59-69) — routing (D1), operator (D2), representation (D3), learning policy (D6)... consumed by diagnose + obstruction certificates for escalation.
+- **ResidualKind / Responsibility** (runtime/residuals.py:8-46): an 11x11 taxonomy (MISSING_EVIDENCE, CONTRADICTION, CONTEXT_GAP, REPRESENTATION_FAILURE, SEARCH_COVERAGE_FAILURE, DECOMPOSITION_FAILURE, INTERFACE_FAILURE, MEASUREMENT_FAILURE, EVALUATOR_FAILURE, METHOD_GAP, UNCLASSIFIED) — **dead in the runtime**: its only importer is the vendored transition validator (transition.py:25). Nothing in solve/learn produces a Residual.
+- **Work layer StepOutcome** (work/contracts.py:73-80): PRECONDITION_FAILED, BACKEND_FAILED, CHECK_FAILED, FORBIDDEN, UNAUTHORIZED, CANNOT_CHECK.
+- **Resource exhaustion:** exists only as budget exhaustion reasons (BUDGET_EXHAUSTED methods.py:187; navigation budget outcomes; JumpTrigger RESOURCE_EXHAUSTION jump.py:29) — no priced cost class.
+
+What is missing:
+1. **No inapplicability receipt.** Operators filtered out in compose_stage (input set not contained, dead warrant) vanish silently (`continue`, solve.py:382-384); only the fire payload's `disabled` list (solve.py:360) and NO_APPLICABLE_OPERATOR remain. One cannot audit "why was operator X never tried on task T".
+2. **No economic-harm class.** ActionReceipt FAILED != harm priced; no failure class carries a cost/severity vector at admission or commitment time (severity exists only in FailureRecord, eval lane).
+3. **ResidualKind taxonomy is unwired** — no StageResult -> Residual bridge, so the richest taxonomy never reaches the ledger.
+4. **No automatic StageResult -> Layer diagnosis**: D0-D8 mapping requires manually constructed FailureRecords.
+5. Verifier rejection vs semantic invalidity are distinguishable (CHECK FAIL vs admission TypedRejection) but land in different stores (event payload vs exception), with no join key beyond object ids.
+
+## 5. Candidate missing fields (concepts with no slot in u)
+
+1. **Authority** — the product lattice with the commit coordinate (types.py:112-173) is first-class and behavior-affecting (commitment gate solve.py:532-533; internal_authority MEG-04; boundary authority re-check ocm_runtime.py:580-590) yet has no field in u. W covers provenance, not permission.
+2. **Admission-time structural completeness** — the veto's connectivity checks (`semantically_connected` KS-T08, `ungated_closure`, `positive_activation_support`, admission.py:124-138) are properties of the *space accepting the unit*, not of the unit; no u-field and no separate named concept captures "library completeness at admission".
+3. **Restart/checkpoint machinery** — NavigationBudget restarts, runtime callback checkpoints (`_solve_callback_checkpoint` ocm_runtime.py:401-404), crash-atomic ledger + REPLAY_REQUIRED guard, solve epochs (field/evidence/registry). Pure operational control; unrepresented in u.
+4. **Interleave/integration mode** — sequential vs interleaved lifetime streams (lifetime/streams.py, evaluation/m9_transfer_eval.py:1) and cross-region transport (organisation/interface.py:93) exist as organisational concepts only; no per-unit field.
+5. **Coverage/statistical guarantee** — CoverageCertificate delta/assumption (registry.py:76-113) is a typed lifecycle object distinct from both W (warrant) and V (value).
+6. **Activation state and thresholds** — alpha/threshold/activation mass (SolveConfig solve.py:110-118) configure I's firing but live as config, not unit state.
+7. **Surprise-model identity** — UNIFORM/PROPAGATED (surprise.py:36-39) selects the forward model globally; not per-unit.
+8. **Genome/obligation predicates** — KS-S1..S7 and the obligation registry (obligations.py) are system-level invariants, deliberately not unit fields (noted for completeness).
+9. **Self-model fibre K_self** — components/failures/benchmarks scoped `self` with self_model authority only (model.py:98-133); a distinct cognitive object that u has no slot for.
+
+## 6. Complexity notes (where search is exponential / unbounded today)
+
+- **Admission is quadratic per event, cubic cumulative:** `navigation_work = len(new.ids)**2` (admission.py:139) plus `ungated_closure` + `positive_activation_support` per admit — O(n^2) per admission, O(n^3) over a growth sequence. Historical constant `EXACT_ADMISSION_MAX_ATOMS = 200` (admission.py:41) is retained but unused.
+- **Genome S3 enumerates powersets of the evidence universe** (admission.py:256-279), capped only by `sample=64`.
+- **Grammar search is 4^L:** `_primitive_programs`/`_guided_programs` enumerate the full product (methods.py:142-153); slots cap work (default 1000) but the grammar itself grows exponentially with max_length<=8; duplicate fragments re-occupy slots.
+- **Exact PCST is subset enumeration** bounded by `exact_extraction_max_atoms = 12` (solve.py:116, 248) — 2^12 candidate subsets in the worst case, `candidates_considered` recorded.
+- **Exact rational fixed points:** Gaussian elimination over Fractions per fixed point (navigation.py:206-228), 4 fixed points per solve + one navigate per target (solve.py:176-211); numerator/denominator bit-growth is unbounded in principle (coefficient budget enforced only in PolynomialTask, methods.py:78).
+- **Warrant meets multiply antichains** (warrant.py:52-56): profile sizes can grow combinatorially; only `warrant_size` accounting (space.py:317-320) observes it.
+- **Calibration is Dedekind-number exhaustive:** `all_profiles(n)` iterates 2^(2^n) masks; `check_semiring` is |profiles|^3 (warrant.py:213-240) — fine at n=3, forbidden beyond n~4.
+- **S3/hostile checks aside, the runtime loops are budgeted** (NavigationBudget, SearchBudget, budget_steps) — the *unbounded* axes are exact-rational arithmetic growth and admission's quadratic navigation work, not search depth.
