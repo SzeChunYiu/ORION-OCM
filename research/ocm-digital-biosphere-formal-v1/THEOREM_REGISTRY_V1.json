@@ -1,0 +1,210 @@
+{
+  "schema": "BIOSPHERE_THEOREM_REGISTRY_V1",
+  "owner_issue": 296,
+  "agp": "research/heritable-search-geometry-v1/HSG_FREEZE_V1.json",
+  "rgc": "append-only amendment; defending this layer against stronger math is a defect",
+  "no_L_star_theorem": true,
+  "theorems": [
+    {
+      "theorem_id": "BIO-T1",
+      "statement": "If the write/causal graph of a primary run has no directed path from protected assay nodes to birth/death/resource-transition decision nodes, then assay values cannot causally affect reproduction.",
+      "proof_class": "P1",
+      "parent_ownership": "Pearl d-separation / descendant-locality; HST-T06 cone locality; HST-T17 score-register toy",
+      "ocm_residual": "biosphere obligation that primary P instantiates that graph",
+      "assumptions": ["graph complete for protected outputs", "no hidden side channel", "ASSAY_SELECTED_CONTROL not enabled"],
+      "assumption_removals": [
+        {"remove": "graph complete", "verdict": "LIFT_FAILS", "witness": "H-LEAK-HIDDEN-EDGE"},
+        {"remove": "no hidden side channel", "verdict": "LIFT_FAILS", "witness": "H-LEAK-ASSAY-ENERGY"},
+        {"remove": "ASSAY_SELECTED_CONTROL not enabled", "verdict": "LIFT_CONDITIONAL", "note": "control arm is allowed to leak by declaration"}
+      ],
+      "claim_ceiling": "Noninterference of the registered graph, not that C is empirically ungameable.",
+      "agp_rungs": {
+        "R0": "LIFT_SURVIVES",
+        "R3": "LIFT_SURVIVES",
+        "R6": "LIFT_CONDITIONAL extra: C fixed"
+      }
+    },
+    {
+      "theorem_id": "BIO-T2",
+      "statement": "A closed deterministic finite-state biosphere eventually recurs. Unbounded non-repeating development is impossible at this scope.",
+      "proof_class": "P5",
+      "parent_ownership": "HST-T12; pigeonhole principle",
+      "ocm_residual": "claim-ceiling vocabulary for #292 EB-8",
+      "assumptions": ["finite state space", "deterministic P", "closed (no exogenous injection of new symbols)"],
+      "assumption_removals": [
+        {"remove": "deterministic P", "verdict": "LIFT_CONDITIONAL", "note": "stochastic finite still has recurrent classes; not unbounded novelty"},
+        {"remove": "finite state space", "verdict": "NOT_APPLICABLE", "note": "unbounded tape is a different object"},
+        {"remove": "closed", "verdict": "LIFT_CONDITIONAL", "note": "exogenous generator growth is an assumption of the claim"}
+      ],
+      "claim_ceiling": "Horizon-scoped novelty only. Forbidden terminal: OPEN_ENDED.",
+      "agp_rungs": {"R0": "PARENT_SUFFICIENT", "R5": "PARENT_SUFFICIENT"}
+    },
+    {
+      "theorem_id": "BIO-T3",
+      "statement": "Reachable novelty is bounded by legal representational/environmental support of the generator/VM.",
+      "proof_class": "P1",
+      "parent_ownership": "HST-T02 reach; HST-T03 aliasing",
+      "ocm_residual": "register generator support on every evolvability claim",
+      "assumptions": ["legal ops closed", "observation map phi fixed"],
+      "assumption_removals": [
+        {"remove": "legal ops closed", "verdict": "LIFT_CONDITIONAL", "note": "primitive pressure may expand O only if P permits"}
+      ],
+      "claim_ceiling": "Cannot discover opportunities the world cannot express.",
+      "agp_rungs": {"R1": "PARENT_SUFFICIENT"}
+    },
+    {
+      "theorem_id": "BIO-T4",
+      "statement": "Extra transferable options are net-nonharmful only under ideal optional use and no hidden cost. Bounded selection/retrieval/verification permits negative transfer.",
+      "proof_class": "P1",
+      "parent_ownership": "HST-T01; HSG G13 M-overhead FOSD hostile",
+      "ocm_residual": "social-option specialization of the overhead hostile",
+      "assumptions": ["optional acceptance", "M=0", "no prestige bias"],
+      "assumption_removals": [
+        {"remove": "M=0", "verdict": "LIFT_FAILS", "witness": "H-SOCIAL-OVERHEAD"},
+        {"remove": "optional acceptance", "verdict": "LIFT_FAILS", "witness": "H-FORCED-COPY"},
+        {"remove": "no prestige bias", "verdict": "LIFT_FAILS", "witness": "H-PRESTIGE-STALE"}
+      ],
+      "claim_ceiling": "No 'culture always helps' theorem.",
+      "agp_rungs": {"R0": "PARENT_SUFFICIENT", "R2": "LIFT_FAILS when M>0"}
+    },
+    {
+      "theorem_id": "BIO-T5",
+      "statement": "Useful socially acquired information about a source cannot exceed mutual information through the registered channel, absent side information (data-processing / capacity).",
+      "proof_class": "P1",
+      "parent_ownership": "Shannon DPI; noisy-channel coding theorem",
+      "ocm_residual": "instantiate on I_h/I_pub byte channels in micro-Earths",
+      "assumptions": ["Markov X-channel-Z", "no side information", "channel registered"],
+      "assumption_removals": [
+        {"remove": "no side information", "verdict": "LIFT_CONDITIONAL", "note": "shared ecology can supply side information"},
+        {"remove": "Markov X-channel-Z", "verdict": "LIFT_FAILS", "witness": "H-SIDE-CHANNEL"}
+      ],
+      "claim_ceiling": "Bound on information, not on ecological usefulness.",
+      "agp_rungs": {"R2": "PARENT_SUFFICIENT"}
+    },
+    {
+      "theorem_id": "BIO-T6",
+      "statement": "Persistent shared structure is lifecycle-beneficial iff future savings repay acquisition+retrieval+verification+maintenance (capital-cost).",
+      "proof_class": "P1",
+      "parent_ownership": "HST-T05 macro amortization",
+      "ocm_residual": "library/culture as macro m",
+      "assumptions": ["quantities frozen", "H_eff estimated on registered horizon"],
+      "assumption_removals": [
+        {"remove": "horizon registered", "verdict": "LIFT_FAILS", "note": "unbounded H_eff is not observed"}
+      ],
+      "claim_ceiling": "Arithmetic identity once costs frozen; discovery of H_eff is empirical.",
+      "agp_rungs": {"R0": "PARENT_SUFFICIENT", "R5": "PARENT_SUFFICIENT renewal-reward"}
+    },
+    {
+      "theorem_id": "BIO-T7",
+      "statement": "Sequential ecological exposures and inheritance operations need not commute. Smallest counterexamples exist; commutation requires stated sufficient conditions.",
+      "proof_class": "P2",
+      "parent_ownership": "non-commuting operators; semigroup #145",
+      "ocm_residual": "explicit 2-exposure micro-Earth",
+      "assumptions": ["none for the negative; for commutation: linear/reversible kernels"],
+      "assumption_removals": [],
+      "claim_ceiling": "Order is a confound. Curriculum claims need frozen orderings plus permutations.",
+      "agp_rungs": {"R5": "LIFT_SURVIVES as semigroup noncommutativity"}
+    },
+    {
+      "theorem_id": "BIO-T8",
+      "statement": "An apparent group advantage that disappears after pooling/resource-matched controls is not an organizational residual.",
+      "proof_class": "P1",
+      "parent_ownership": "resource accounting; #292 §9",
+      "ocm_residual": "decomposition identity for matched envelopes",
+      "assumptions": ["matched total compute/memory/senses/actions", "controls implemented"],
+      "assumption_removals": [
+        {"remove": "matched totals", "verdict": "LIFT_FAILS", "witness": "H-POOLING-ONLY"}
+      ],
+      "claim_ceiling": "Defines residual; does not predict its sign. No privileged L.",
+      "agp_rungs": {"R0": "LIFT_SURVIVES"}
+    },
+    {
+      "theorem_id": "BIO-T9",
+      "statement": "Under a declared grouping, reproduction event and trait, the finite Price identity holds exactly. Ill-defined grouping is a failure mode, not a group-selection proof.",
+      "proof_class": "P1",
+      "parent_ownership": "Price 1970/1972 (PARENT_RECONSTRUCTED)",
+      "ocm_residual": "require registered partition before MLS claims",
+      "assumptions": ["partition declared", "fitness and trait assigned to units", "same accounting both sides"],
+      "assumption_removals": [
+        {"remove": "partition declared", "verdict": "LIFT_FAILS", "witness": "H-CLUSTER-AS-GROUP"}
+      ],
+      "claim_ceiling": "Identity, not a law that groups are units of selection.",
+      "agp_rungs": {"R2": "PARENT_SUFFICIENT", "R7": "PARENT_SUFFICIENT multilevel form"}
+    },
+    {
+      "theorem_id": "BIO-T10",
+      "statement": "Cross-ecotype map validity requires declared structure preservation/loss and cannot be inferred from successful vocabulary transfer.",
+      "proof_class": "P1",
+      "parent_ownership": "#93 TheoryTransportV1; HSG A3 receipts",
+      "ocm_residual": "CANNOT_TRANSLATE as first-class social outcome",
+      "assumptions": ["mapping registered", "preservation claims explicit"],
+      "assumption_removals": [
+        {"remove": "mapping registered", "verdict": "LIFT_FAILS", "witness": "H-VOCAB-ONLY"}
+      ],
+      "claim_ceiling": "Transport of structure, never of C-authority.",
+      "agp_rungs": {"R1": "PARENT_SUFFICIENT"}
+    },
+    {
+      "theorem_id": "BIO-T11",
+      "statement": "E[τ_U]=1/Ev only under i.i.d. independent trials with constant success probability Ev. Otherwise Ev and hitting time can diverge.",
+      "proof_class": "P1",
+      "parent_ownership": "geometric waiting time; HST-T10",
+      "ocm_residual": "report both; absorbing-trap counterexample",
+      "assumptions": ["i.i.d. Bernoulli descendants", "U absorbing or trial-independent", "stationarity"],
+      "assumption_removals": [
+        {"remove": "i.i.d.", "verdict": "LIFT_FAILS", "witness": "H-EV-TRAP"},
+        {"remove": "stationarity", "verdict": "LIFT_FAILS", "witness": "H-EV-TRAP"}
+      ],
+      "claim_ceiling": "Do not infer hitting time from Ev without kernel assumptions.",
+      "agp_rungs": {"R2": "LIFT_CONDITIONAL", "R3": "LIFT_FAILS without stationarity"}
+    },
+    {
+      "theorem_id": "BIO-T12",
+      "statement": "Post-evolution superiority on T does not identify inherited-history causality. Identification requires CONTINUED vs RESET at matched resources plus knockout of the claimed inherited object/channel.",
+      "proof_class": "P4_identification_design",
+      "parent_ownership": "Pearl mediation; #277 flagship knockout; #151 continued-vs-reset",
+      "ocm_residual": "mandatory evidence chain for language/math/science bridge",
+      "assumptions": ["no target leakage during evolution", "matched capability", "knockout well-defined"],
+      "assumption_removals": [
+        {"remove": "no target leakage", "verdict": "LIFT_FAILS", "witness": "H-TARGET-LEAK"}
+      ],
+      "claim_ceiling": "Design theorem. Does not claim transfer will occur.",
+      "agp_rungs": {"R0": "LIFT_SURVIVES as identification, not as a positive"}
+    },
+    {
+      "theorem_id": "BIO-T13",
+      "statement": "Growth of stored cultural bytes or copy-count can diverge from useful retained/transferable capability.",
+      "proof_class": "P2",
+      "parent_ownership": "junk-novelty hostile; MODES vs function",
+      "ocm_residual": "exact 4-organism library that grows junk",
+      "assumptions": ["usefulness is a registered U, not byte count"],
+      "assumption_removals": [],
+      "claim_ceiling": "Byte growth ≠ cumulative culture.",
+      "agp_rungs": {"R0": "LIFT_SURVIVES"}
+    },
+    {
+      "theorem_id": "BIO-T14",
+      "statement": "Cluster labels on genomes/behaviour are observer-dependent and do not by themselves imply reproductive or ecological individuality.",
+      "proof_class": "P1",
+      "parent_ownership": "species concepts in asexual pops; #292 phylotype/ecotype/morphotype/reprotype",
+      "ocm_residual": "k-means hostile on a freely mixing pop",
+      "assumptions": ["none for the negative"],
+      "assumption_removals": [],
+      "claim_ceiling": "Strong species claims need registered criterion, not a clustering screenshot.",
+      "agp_rungs": {"R1": "LIFT_SURVIVES"}
+    },
+    {
+      "theorem_id": "BIO-T15",
+      "statement": "Any path from protected target identity/score into selection invalidates the corresponding held-out generality claim for that run.",
+      "proof_class": "P1",
+      "parent_ownership": "HST-T17; #144 evidence constitution",
+      "ocm_residual": "same graph obligation as BIO-T1 specialized to target T",
+      "assumptions": ["target T was declared held-out"],
+      "assumption_removals": [
+        {"remove": "held-out declaration", "verdict": "LIFT_CONDITIONAL", "note": "ASSAY_SELECTED_CONTROL is a different claim"}
+      ],
+      "claim_ceiling": "Invalidates generality for that run; does not prove cheating in other runs.",
+      "agp_rungs": {"R0": "LIFT_SURVIVES"}
+    }
+  ]
+}
