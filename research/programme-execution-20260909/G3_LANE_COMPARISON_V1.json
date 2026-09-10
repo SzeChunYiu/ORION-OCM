@@ -1,0 +1,92 @@
+{
+  "schema": "G3_LANE_COMPARISON_AND_BLOCKED_EVIDENCE_DIAGNOSIS",
+  "version": "V1",
+  "created_utc": "2026-09-10",
+  "owner_issue": 165,
+  "why_this_exists": "#165's G2.4 row cites research/g2-process-restart-v1/ OS_PROCESS_RESTART_HELD_OUT_SOLVE_SUPPORTED, which is not on main, and the 'machine process restarts' checkbox is ticked against it. sync_165.py's guard correctly refuses to run in that state. This file records why the evidence is unlanded, so the diagnosis is auditable rather than living in chat.",
+  "verification_method": "Every absence claim below was control-checked: a query that MUST match was run alongside each query expected to return nothing, so an empty result could not be mistaken for absence. CI conclusions were enumerated in full rather than filtered. The failing assertion was read from the CI log, not inferred from source.",
+  "citation_binding": {
+    "cited_in_165_G2.4_row": "research/g2-process-restart-v1/ OS_PROCESS_RESTART_HELD_OUT_SOLVE_SUPPORTED",
+    "on_origin_main": {
+      "path_hits": 0,
+      "terminal_string_hits": 0
+    },
+    "controls": {
+      "research/g2": 135,
+      "CAUSAL_MACRO_OPERATOR_REUSE_SUPPORTED_AT_LENGTH8": 5
+    },
+    "actually_lives_on": "origin/cursor/issue-165-remaining-gates-cf8f (head of PR #206), files CORE.md, RESULT.json, experiment.py, test_protocol.py",
+    "verdict": "REAL WORK, UNMERGED. The row cites evidence not in the repository with nothing saying so. Qualification published as issue comment 5616907325; the row itself is not edited here."
+  },
+  "pr_status_as_measured": {
+    "note": "all check-runs enumerated in full, not filtered",
+    "206": {
+      "head": "bdee617f9361b5b01b5766d0f567c9d11a24c8d6",
+      "draft": false,
+      "checks": 86,
+      "success": 85,
+      "neutral": 1,
+      "failure": 0,
+      "carries": [
+        "research/g2-process-restart-v1/",
+        "the CORRECTED source-bound-failure test"
+      ]
+    },
+    "209_to_213": {
+      "draft": true,
+      "failing_check": "source-bound-failure",
+      "failure_count_each": 1
+    }
+  },
+  "root_cause_of_the_red_drafts": {
+    "assertion": "research/g3-real-failure-v1/test_protocol.py:42 -> self.assertFalse(competing.exists())",
+    "ci_log_text": "AssertionError: True is not false, in test_predecessor_result_files_are_untouched_terminals",
+    "why_it_only_fails_in_ci": "The assertion is TRUE on each draft branch HEAD, because that branch family never contained research/g3-scoped-failure-memory-v1. It is FALSE on the pull_request merge commit, which includes main, where the directory does exist. So the guard fails in CI and nowhere else.",
+    "the_fix_already_exists": {
+      "where": "origin/cursor/issue-165-remaining-gates-cf8f (PR #206)",
+      "what_it_does": "narrows the guard instead of deleting it: asserts the capsule's own experiment references neither the competing terminal nor its RESULT.json, and only IF the competing directory exists asserts it has no RESULT.json",
+      "why_it_passes": "main's g3-scoped-failure-memory-v1 has PROTOCOL.md and code but no RESULT.json",
+      "author_comment_retained": "Presence is not a scientific result and this capsule must not create, overwrite, or retune that ecology."
+    },
+    "branches_still_carrying_the_hard_assertion": [
+      "cursor/g1-hostile-pi-cf8f",
+      "cursor/l1-continual-adapt-cf8f",
+      "cursor/h1-examples-charge-cf8f",
+      "cursor/g7-primitive-pressure-cf8f",
+      "cursor/g5-warrant-adoption-cf8f"
+    ],
+    "verdict": "STALE BRANCHES, NOT A LANE CONFLICT. The five drafts branched before the guard was corrected."
+  },
+  "lane_comparison": {
+    "question_asked": "do research/g3-scoped-failure-memory-v1 (main) and research/g3-real-failure-v1 (cursor) contradict, overlap, or is one a strict refinement of the other?",
+    "g3_scoped_failure_memory_v1_on_main": {
+      "gate": "G3.2",
+      "measures": "whether counterexamples encountered by the existing polynomial synthesizer produce reusable scoped failure-point records that save repeated interpreter work on later tasks, survive a real process restart, and lose exactly that effect after production evidence withdrawal",
+      "key": "failure point / remaining residual state",
+      "self_framing": "ordinary checked memoization / counterexample reuse, explicitly not a novel OCM algorithm; the equally equipped conventional parent gets identical records, checking, lookup and solver; a tie is PARENT_SUFFICIENT",
+      "artifacts": "PROTOCOL.md, REPRESENTATION_PROTOCOL.md and code; NO RESULT.json",
+      "status": "REGISTERED, NOT YET REPORTING A RESULT"
+    },
+    "g3_real_failure_v1_on_cursor": {
+      "gate": "G3 remaining / G6.1",
+      "measures": "whether a specific source + evidence_id incident is recoverable from the production ledger after OS-process restart or a new solve episode",
+      "key": "source + evidence_id",
+      "self_framing": "its own CORE.md states the obligation is different, and that the incident must be a specific evidence/source identity 'not from a task-id cache'",
+      "terminal": "PARENT_SUFFICIENT_AT_SCOPE"
+    },
+    "verdict": "NO CONTRADICTION AND NEITHER IS A REFINEMENT. Different keys and different outcome variables: work saved by failure-point memoization versus recoverability of a provenance-bound incident. They also never coexisted - the cursor G3 family is g3-failure-memory-v1, g3-real-failure-v1, g3-representation-v1 and g3-representation-diagnosis-v1, and never contained g3-scoped-failure-memory-v1. No supersession decision is required.",
+    "note_on_naming": "The near-collision g3-failure-memory-v1 (cursor) against g3-scoped-failure-memory-v1 (main) is what makes these look like competing lanes. They are not the same capsule."
+  },
+  "recommendation": [
+    "Merge PR #206. It is green, not a draft, and carries both the corrected guard and the restart receipt the ticked checkbox already depends on.",
+    "Then rebase PRs #209-213 onto it so they pick up the corrected assertion. Nothing on main is deleted.",
+    "Only then reconcile sync_165.py's restart-checkbox precondition, because the evidence will actually be on main. Do not edit the guard to make a write proceed."
+  ],
+  "defect_queued": {
+    "id": "G3RF-1",
+    "where": "research/g3-real-failure-v1/RESULT.json on cursor/issue-165-remaining-gates-cf8f",
+    "what": "criteria.competing_scoped_failure_memory_absent is recorded as true, making the absence of another lane's directory a RESULT CRITERION",
+    "why_it_is_a_defect": "presence or absence of a sibling directory is not a scientific criterion; it makes the receipt depend on repository layout. The capsule's own corrected test comment already says presence is not a scientific result, so the RESULT.json contradicts it.",
+    "fix": "drop or rename the field before this receipt is cited anywhere; it is independent of the test fix and survives it"
+  }
+}
