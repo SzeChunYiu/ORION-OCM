@@ -49,7 +49,7 @@ phenotype across seeds exactly as `GS_R2_AGGREGATE.json` deduplicates its arms.
 
 | arm | CPU-h | distinct T2-viable | distinct/seed | morph/CPU-h | **distinct T3-HOLD** | hold rate | hold/CPU-h |
 |---|---|---|---|---|---|---|---|
-| **L1 unranked breadth** | **0.0237** | **41284** | **6880.7** | **1743228** | **34628** | **0.8388** | **1462177** |
+| **L1 unranked breadth** | **0.0237** | **41284** | **6891.3** | **1743228** | **34628** | **0.8388** | **1462177** |
 | GSA5P_fixed | 0.1889 | 13504 | 2251.3 | 71486 | 3001 | 0.2222 | 15886 |
 | GSA6_NG | 0.2262 | 13210 | 2202.0 | 58404 | 3233 | 0.2447 | 14294 |
 | GSA6_DP | 0.1825 | 34773 | 5802.0 | 190527 | 7856 | 0.2259 | 43044 |
@@ -68,7 +68,7 @@ i.e. **4.7%** of the campaign's compute. Per CPU-hour the ratio is **104×**.
 
 | | distinct T2-viable per seed | morphologies per CPU-hour |
 |---|---|---|
-| L1 unranked breadth | **6880.7** | **1743228** |
+| L1 unranked breadth | **6891.3** | **1743228** |
 | GSA2_hetero (strongest parent) | 5062.7 | 354046 |
 | GSA5_surrogate | 2233.3 | 72150 |
 
@@ -76,6 +76,15 @@ L1 beats the strongest frozen parent by **1.36×** on distinct-yield per seed an
 **4.92×** on morphologies per CPU-hour — the two metrics the parents were frozen
 on and on which the committed terminal rule was selected. So
 `PARENT_SUFFICIENT` does not apply: no parent owns this function.
+
+Both figures are computed the way the R2 aggregate computes them, which matters:
+`mean_distinct_per_seed` there is the per-seed distinct count **then averaged**
+(`aggregate_gs_r2.py` builds `dist_per_seed` and takes its mean), not the
+cross-seed-deduped total divided by seeds. L1's per-seed counts are
+[6829, 6837, 6757, 7058, 6891, 6976] → 6891.3; the deduped-total-over-seeds
+figure would be 6880.7, and the receipt reports both. `morphologies_per_cpu_hour`
+is the cross-seed-deduped union over the arm's total CPU on both sides, so that
+one was already like-for-like.
 
 ## Step 5: the null, and why this is not selectivity
 
@@ -90,6 +99,8 @@ be that artifact. The shuffle-equal-n null makes it explicit:
 | expected holds at L1's n = 41284 | 6423.9 (sd 73.65) |
 | observed holds | **34628** |
 | z | **382.95** |
+
+Per-seed T3-hold counts are [5748, 5702, 5693, 5924, 5736, 5859], mean 5777.0.
 
 ## Step 6: a third independent confirmation of the attribution
 

@@ -86,6 +86,27 @@ m = 153 ≥ m* = 104 (`results/RVA_A2_DRAW_INVARIANCE.json`). A genuine
 generalization failure produces a distribution over `feasible_calls ∈ [0, 18]`;
 the observed distribution has support {0, 18} and nothing between.
 
+## The family is a receipt, not an inference
+
+`results/RVA_FAMILY_RECEIPT.json` records `evaluation["per_family"]` directly on
+a deterministic 6000-survivor sample (5050 FAIL, 950 HOLD) and asserts six
+claims, all of which hold with zero violations:
+
+| | claim | result |
+|---|---|---|
+| C1 | every FAIL has `t3_doubt_probe` unsolved | 5050 / 5050 |
+| C2 | no HOLD has `t3_doubt_probe` unsolved | 0 / 950 |
+| C3 | every FAIL has exactly 1 harmful transfer, 0 stale | true |
+| C4 | every HOLD has 0 harmful, 0 stale (no-alarm case) | true |
+| C5 | `t3_conflict_refusal` never unsolved in **either** class | true |
+| C6 | other families fail in **both** classes without changing the verdict | true |
+
+C5 is the fibred route working where T3 offers it, which is why only
+`t3_doubt_probe` separates the classes. C6 is the decisive decoupling: 6 FAILs
+and 11 HOLDs in the sample fail `t3_chain_transfer` or `t3_interrupted_plan`
+with no harmful transfer and no change of verdict. The verdict tracks the gate,
+not the solved count.
+
 ## Falsifier that was run
 
 `hpc/rva_attrib.py` records every survivor whose verdict disagrees with the

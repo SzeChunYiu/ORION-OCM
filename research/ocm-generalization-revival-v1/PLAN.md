@@ -29,17 +29,17 @@ Sizing: T2 evaluation measured at 0.385 ms/genome on LUNARC `lu48`
 (`results/`-adjacent probe `hpc/rva_timing.py`), so 2×10⁶ draws is ≈0.3
 CPU-hours. Interval width at that n is far below the effect size being tested.
 
-## Iteration 2b — exhaustive ceiling (companion, not the verdict)
+## Iteration 2b — exhaustive ceiling: RETIRED, never run
 
-Exhaustive enumeration of `GS_BOUND_V1` (143,881,920 grammars; closed form
-verified by `gs_bound_closed_form_size()`) with T2 + T3 per grammar costs 20.9
-CPU-hours at measured rates. It yields the absolute ceiling
-`|{T2-viable ∧ can_check}|` and the full composition of the viable space. It is
-a ceiling and a composition artifact, **not** the null: a search evaluating
-~10⁵ candidates out of 1.4×10⁸ finds a tiny fraction by budget alone, so the
-raw ceiling cannot discriminate bias from budget. Any use of the enumeration as
-a null requires reweighting to the `lane_hetero` measure
-(`n_extras = randint(2, 5)`, then uniform over `C(12, n_extras)`).
+An exhaustive enumeration of `GS_BOUND_V1` (143,881,920 grammars, 20.9 CPU-hours
+at measured rates) was designed to bound `|{T2-viable ∧ can_check}|`. It was
+**never run and its scripts are not in this study**, deliberately: the ceiling
+was only ever going to argue headroom indirectly, and iteration 3 demonstrated
+headroom directly by finding 34628 distinct T3-holding phenotypes in 0.0237
+CPU-hours. A raw ceiling over 1.4×10⁸ grammars is in any case a statement about
+budget rather than bias, since a search evaluating ~10⁵ candidates finds a tiny
+fraction of any large space by budget alone. Recorded here so the absence is
+deliberate rather than an oversight.
 
 ## Lever candidate, if iteration 2 says the ranking owns it
 

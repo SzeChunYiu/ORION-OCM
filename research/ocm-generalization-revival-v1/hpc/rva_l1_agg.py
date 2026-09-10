@@ -33,10 +33,14 @@ def main():
     # ---- L1: cross-seed dedup
     pheno = {}
     cpu = 0.0; t0_evals = 0; seeds = []
+    per_seed_distinct = []       # per-seed, NOT cross-seed deduped
+    per_seed_hold = []
     for p in sorted(glob.glob(os.path.join(L1, "RVA_L1_s?.json"))):
         d = json.load(open(p))
         seeds.append(d["seed"]); cpu += d["cpu_seconds"]
         t0_evals += d["counts"]["T0_evaluated"]
+        per_seed_distinct.append(d["distinct_t2_viable_phenotypes_this_seed"])
+        per_seed_hold.append(d["distinct_t3_hold_this_seed"])
     for p in sorted(glob.glob(os.path.join(L1, "RVA_L1_s?.jsonl"))):
         for line in open(p):
             q = line.split()
@@ -98,7 +102,18 @@ def main():
             "can_check_equals_hold": mismatch == 0,
             "t3_hold_rate": round(k_hold / max(1, n), 8),
             "t3_hold_rate_wilson95": wilson(k_hold, n),
-            "mean_distinct_per_seed": round(n / max(1, len(seeds)), 2),
+            "mean_distinct_per_seed": round(
+                sum(per_seed_distinct) / max(1, len(per_seed_distinct)), 2),
+            "mean_distinct_per_seed_definition": (
+                "per-seed distinct phenotype count then averaged, matching "
+                "aggregate_gs_r2.py's dist_per_seed/statistics.mean; NOT the "
+                "cross-seed-deduped total divided by seeds"),
+            "per_seed_distinct_t2_viable": per_seed_distinct,
+            "per_seed_distinct_t3_hold": per_seed_hold,
+            "mean_distinct_t3_hold_per_seed": round(
+                sum(per_seed_hold) / max(1, len(per_seed_hold)), 2),
+            "cross_seed_deduped_total_over_seeds": round(
+                n / max(1, len(seeds)), 2),
             "morphologies_per_cpu_hour": round(n / max(1e-12, cpu_h), 1),
             "t3_hold_per_cpu_hour": round(k_hold / max(1e-12, cpu_h), 1)},
         "gs_r2_arms": comp,
