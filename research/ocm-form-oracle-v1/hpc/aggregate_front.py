@@ -162,14 +162,28 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
                 [d["cap_fof_before"] for d in det
                  if _num(d.get("cap_fof_before"))]), 6),
         })
-        always_first = all(d.get("total_proposals") == 3 for d in det
-                           if d.get("total_proposals") is not None)
-        allzero = gate_diag["delta_cap_fof_zero"] == len(det)
-        gate_diag["gate_is_gating"] = not always_first
-        gate_diag["attribution"] = (
-            "MUTATION_OPERATOR_NEUTRAL_ON_FUTURE_FAMILY"
-            if (always_first and allzero) else
-            ("GOVERNANCE_SELECTIVE" if not always_first else "MIXED"))
+        # total_proposals was added AFTER the campaign that produced these
+        # records, so it is absent here. A verdict computed from absent data is
+        # not a measurement: report that it could not be checked and point at
+        # the run that did measure it, rather than emitting a value derived
+        # from nulls.
+        have_prop = [d for d in det if d.get("total_proposals") is not None]
+        if not have_prop:
+            gate_diag["gate_is_gating"] = None
+            gate_diag["attribution"] = "CANNOT_CHECK_FIELD_ABSENT"
+            gate_diag["field_absent"] = "total_proposals"
+            gate_diag["measured_elsewhere"] = (
+                "FORM_ORACLE_PROTOCOL_V1_AMEND_2_CORRECTION.json records the "
+                "240-measurement run that does carry proposals_per_step")
+        else:
+            always_first = all(d["total_proposals"] == 3 for d in have_prop)
+            allzero = gate_diag["delta_cap_fof_zero"] == len(det)
+            gate_diag["n_with_proposal_field"] = len(have_prop)
+            gate_diag["gate_is_gating"] = not always_first
+            gate_diag["attribution"] = (
+                "MUTATION_OPERATOR_NEUTRAL_ON_FUTURE_FAMILY"
+                if (always_first and allzero) else
+                ("GOVERNANCE_SELECTIVE" if not always_first else "MIXED"))
 
     # ---- dedup lever: yield against price
     dedup = {}
