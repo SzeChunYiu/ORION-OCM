@@ -1,0 +1,279 @@
+{
+ "claim_ceiling": "P2 finite certificate over frozen tiny worlds; not a universal proof",
+ "cpu_s": 1.6461,
+ "evidence_class": "CONFIRMATORY_FIXED",
+ "experiment": "D17",
+ "rows": [
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "unsound worlds violating: 8/10; corrupted-edge worlds: 9",
+     "expected": "root contamination detected",
+     "flipped": true,
+     "id": "H-T65a",
+     "plant": "one unsound rule flips conclusion validity"
+    },
+    {
+     "detail": "cyclic worlds refused by enumerator: 2/2",
+     "expected": "no silent accept/loop",
+     "flipped": true,
+     "id": "H-T65b",
+     "plant": "cyclic derivation presented as tree"
+    }
+   ],
+   "property_green": true,
+   "theorem": "T65",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "coverage-free gates approving violating commit: 34; full-gate refusals: 34",
+     "expected": "coverage-free gate approves a violating commit; coverage assertion catches it",
+     "flipped": true,
+     "id": "H-T66a",
+     "plant": "one actual interpretation omitted from J(y) flipping the protected value"
+    },
+    {
+     "detail": "empty-J commits refused: 3/3",
+     "expected": "commit refused without reverse-read evidence",
+     "flipped": true,
+     "id": "H-T66b",
+     "plant": "empty J(y) with commit attempt"
+    }
+   ],
+   "note": "coverage assertion A(y) subseteq J(y) is the safety condition, not accuracy",
+   "property_green": true,
+   "theorem": "T66",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "partial-preservation witness chains found: [('OW3-00', 'a1', 'b0', 'd0')]",
+     "expected": "composition breaks with an explicit witness chain",
+     "flipped": true,
+     "id": "H-T67a",
+     "plant": "per-relation preservation holds only on a subset of pairs"
+    }
+   ],
+   "property_green": true,
+   "theorem": "T67",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "plus-law broken=True; disagreements on witness-using nodes=27, others=0",
+     "expected": "re-evaluation disagreement exactly on derivations using the witness",
+     "flipped": true,
+     "id": "H-T71a",
+     "plant": "homomorphism breaking the plus law on witness monomial"
+    },
+    {
+     "detail": "Boolean a or (a and b)=a holds; tropical min(a,a+b) fails for b=-5 (min(0,-5)=-5), holds for b>=0: lift forbidden (T94)",
+     "expected": "non-universality: lifted law fails; reported, not patched (T94)",
+     "flipped": true,
+     "id": "H-T71b",
+     "plant": "Boolean absorption law reused in tropical semiring"
+    }
+   ],
+   "property_green": true,
+   "theorem": "T71",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "under-reopen witnesses: [('OW4-00', 'g0'), ('OW4-04', 'g0'), ('OW4-06', 'g0'), ('OW4-07', 'g0')]",
+     "expected": "revocation under-reopens: obligation stays accepted after last true support died",
+     "flipped": true,
+     "id": "H-T72a",
+     "plant": "missing dependency edge in recorded provenance hypergraph"
+    },
+    {
+     "detail": "mis-encoded before revoke=True, after=False; status=NEGATION_AWARE_REQUIRED (T73 boundary)",
+     "expected": "monotone revocation exactness breaks; routed to negation-aware status",
+     "flipped": true,
+     "id": "H-T72b",
+     "plant": "negative dependency (support = not-x) laundered into N[X] as constant 1",
+     "status": "CANNOT_CHECK_NEGATION_LAUNDERED__ROUTED_TO_NEGATION_AWARE"
+    }
+   ],
+   "note": "positive/monotone provenance only; negative dependence NOT represented (T73)",
+   "property_green": true,
+   "theorem": "T72",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "broken leg implication holds=False; invalid composed A-solutions caught by V_A: 11 (e.g. x=0)",
+     "expected": "composed reduction emits invalid A-solutions; caught at V_A",
+     "flipped": true,
+     "id": "H-T74a",
+     "plant": "reconstruction g2 off by one (leg implication fails)"
+    }
+   ],
+   "property_green": true,
+   "theorem": "T74",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "witness runs: [{'M': 10, 'greedy_total': 10, 'global_min': 1, 'ratio': 10.0}, {'M': 100, 'greedy_total': 100, 'global_min': 1, 'ratio': 100.0}, {'M': 1000, 'greedy_total': 1000, 'global_min': 1, 'ratio': 1000.0}]",
+     "expected": "greedy total M vs global 1; arbitrarily bad as M grows",
+     "flipped": true,
+     "id": "H-T75a",
+     "plant": "greedy stagewise minimizer on the embedded coupled witness"
+    }
+   ],
+   "note": "factorization+separability are load-bearing; coupled stages break greedy",
+   "property_green": true,
+   "theorem": "T75",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "coordinate mismatches: [0, 1, 2]; disjointness of stage accounting is load-bearing",
+     "expected": "sum of stage expectations != path expectation; detected",
+     "flipped": true,
+     "id": "H-T76a",
+     "plant": "overlapping stage accounting (stage-2 ledger double-counts stage-1 costs)"
+    }
+   ],
+   "note": "linearity of expectation: no independence used; does NOT imply T75 separability",
+   "property_green": true,
+   "theorem": "T76",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "blocks before=3 after=3; split-only checker rejects merge-carrying steps",
+     "expected": "block count non-monotone; strict bound void; step rejected",
+     "flipped": true,
+     "id": "H-T78a",
+     "plant": "refinement step that merges two blocks while splitting another"
+    }
+   ],
+   "property_green": true,
+   "theorem": "T78",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "status=NO_PROGRESS_INFINITE_LOOP_DETECTED; strictness of refinement is the termination licence",
+     "expected": "infinite CEGAR loop detected as no-progress",
+     "flipped": true,
+     "id": "H-T79a",
+     "plant": "refinement not strictly increasing on a spurious counterexample"
+    },
+    {
+     "detail": "invalid e eliminates true hypothesis=True; external validity gate rejects it=True",
+     "expected": "true hypothesis would be eliminated; external validity gate catches",
+     "flipped": true,
+     "id": "H-T79b",
+     "plant": "invalid counterexample (verifier bug) driving pruning"
+    }
+   ],
+   "note": "bound inherits T78; deciding the target needs checker/property assumptions",
+   "property_green": true,
+   "theorem": "T79",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "invalid e removes true hypothesis=True; gate rejects invalid e=True",
+     "expected": "true hypothesis eliminated; external validity gate must catch",
+     "flipped": true,
+     "id": "H-T79b",
+     "plant": "invalid counterexample (expected value flipped) driving pruning"
+    }
+   ],
+   "note": "pruning safety conditional on EXTERNAL validity of e (CEGIS contamination hostile lives here)",
+   "property_green": true,
+   "theorem": "T80",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "status=VERSION_SPACE_COLLAPSE_TERMINAL; empty H_i is a terminal outcome of elimination",
+     "expected": "log(0) undefined; explicit terminal, not a crash",
+     "flipped": true,
+     "id": "H-T81a",
+     "plant": "empty intermediate hypothesis set"
+    }
+   ],
+   "note": "counting convention only: log-ratios are NOT Shannon information without a probability model",
+   "property_green": true,
+   "theorem": "T81",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "J |= alpha(p) holds=True while I |= p holds=False; beta image misses [(0, 0), (0, 1)] -> reflection refused (model coverage load-bearing)",
+     "expected": "translated p entailed without source entailment; reflection refused",
+     "flipped": true,
+     "id": "H-T85a",
+     "plant": "reduct image covering only source models where p true"
+    }
+   ],
+   "note": "finite institution fragment: enumerated models; beta model-expansiveness is the reflection licence",
+   "property_green": true,
+   "theorem": "T85",
+   "verdict": "PROVED_LOCAL"
+  },
+  {
+   "certificate": "P2 finite certificate over frozen tiny worlds (exhaustive enumeration); not a universal proof",
+   "hostiles": [
+    {
+     "detail": "worlds with contaminated classes: 4/10; all caught by member-wise semantic evaluation: 4/4",
+     "expected": "e-class contaminated; extraction guarded by protected semantic check",
+     "flipped": true,
+     "id": "H-T86a",
+     "plant": "exactly one unsound rewrite (plus->times) admitted"
+    },
+    {
+     "detail": "2+3 vs 5: semantically equal=True, distinct subterm patterns 3 vs 1; semantic quotient retains 1 identity, dev-aware retains 2 (T87 honoured)",
+     "expected": "future-variation value destroyed (T87); developmental identities kept distinct",
+     "flipped": true,
+     "id": "H-T86b",
+     "plant": "quotienting semantically-equal expressions for developmental search"
+    }
+   ],
+   "note": "extraction admits any member; T87 forbids developmental quotienting on checker equality alone",
+   "property_green": true,
+   "theorem": "T86",
+   "verdict": "PROVED_LOCAL"
+  }
+ ],
+ "summary": {
+  "cannot_check": 0,
+  "hostile_flip_failures": 0,
+  "n_rows": 14,
+  "property_failed": 0,
+  "proved_local": 14
+ },
+ "wall_s": 1.6465,
+ "worlds": "WORLDS_V1 (OW1..OW7 frozen, seed 20260910)"
+}
