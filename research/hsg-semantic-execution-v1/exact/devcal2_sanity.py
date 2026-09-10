@@ -19,8 +19,12 @@ CLEAN no-alarm case AND a PLANTED HOSTILE that must trip:
                               planted missing-family row -> defect
   class 15 null/draw-inv.     shuffle-equal-n null silent (signflip on the
                               SHUFFLED control, DC1 construction) + per-seed
-                              direction agrees; planted recovering SHUFFLED
-                              -> null ALARM
+                              direction agrees NULL-BAND-GATED (AM-5: seeds
+                              count only outside their sign-flip null band);
+                              planted recovering SHUFFLED -> null ALARM;
+                              AM-5 regression pair: near-null straddling arm
+                              -> NULL_EFFECT non-defect, determinate per-seed
+                              direction conflict -> DIRECTION_CONFLICT defect
   class 16 live serve path    run_ko_arm on build_cell("B",0)/("D",0):
                               KO-1 key silent in B, KO-2 matches + recovers,
                               KO-4 serve identical to KO-3 (accounting only),
@@ -279,6 +283,42 @@ def check_null():
         return _hostile_failed_to_trip(
             "null", "recovering SHUFFLED anchor not flagged")
     _ok("hostile (e) recovering shuffle-equal-n arm trips the null")
+    # AM-5 regression hostiles: the near-null regime the V1 fixture never
+    # exercised (class 15 validated draw-invariance only on a ~96%-effect
+    # arm, so the V1 zero-tolerance sign test shipped while misfiring on
+    # silent arms -- the PR #343 ASSAY_DEFECT).
+    import exact.devcal2_adapters as _A
+    ko2 = _A.make_adapter("KO-2_PLUS_RETRIEVAL")["adapter_sha256"]
+    nullarm = "NULL_STRADDLE_FIXTURE"
+    for wid in range(6):
+        for seed in (0, 1, 2):
+            base = 1000 + 10 * seed + wid
+            off = {0: 4, 1: -2, 2: 3}[seed]       # tiny seed-level drift:
+            # per-seed means straddle zero (raw V1 signs disagree) ...
+            jit = 10 if (wid + seed) % 2 == 0 else -10  # ... but per-pair
+            # noise keeps every seed inside its sign-flip null band
+            rows.append(_row(nullarm, "B", wid, seed, base + off + jit,
+                             adapter_sha=ko2, total=base + off + jit + 50))
+    di = R2.draw_invariance(rows, "B", nullarm)
+    if not di["direction_agrees"] or di["classification"] != "NULL_EFFECT":
+        return _fail("null", "near-null straddling arm misclassified: %s"
+                     % di["classification"])
+    if any(v["determinate"] for v in di["per_seed"].values()):
+        return _fail("null", "straddling fixture seed wrongly determinate")
+    conflict = "CONFLICT_FIXTURE"
+    for wid in range(6):
+        for seed in (0, 1, 2):
+            base = 1000 + 10 * seed + wid
+            w = 30 if seed == 0 else (2000 if seed == 1 else base)
+            rows.append(_row(conflict, "B", wid, seed, w, adapter_sha=ko2,
+                             total=w + 50))
+    di = R2.draw_invariance(rows, "B", conflict)
+    if di["direction_agrees"] or di["classification"] != "DIRECTION_CONFLICT":
+        return _hostile_failed_to_trip(
+            "null", "determinate per-seed direction conflict not flagged "
+            "(%s)" % di["classification"])
+    _ok("AM-5 regression: near-null straddle -> NULL_EFFECT (non-defect); "
+        "determinate seed conflict -> DIRECTION_CONFLICT (defect)")
     return 0
 
 
