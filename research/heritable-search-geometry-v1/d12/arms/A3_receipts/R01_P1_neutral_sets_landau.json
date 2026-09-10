@@ -1,0 +1,45 @@
+{
+ "receipt": "TheoryTransportV1",
+ "arm": "A3",
+ "route": "P1 -> M02 -> Higgs/Landau degeneracy",
+ "atom_id": "P1_optimizer_neutral_sets",
+ "donor_domain": "physics (statistical mechanics / spontaneous symmetry breaking)",
+ "donor_source_ids": [
+  "Landau 1937 theory of phase transitions (degenerate minima vocabulary)",
+  "Higgs 1964 (broken-symmetry ground-state manifold, vocabulary only)",
+  "NOTE: frozen public calibration donor per HSG_D12_CALIBRATION_FREEZE pair 1 - calibration donor, NOT evidence"
+ ],
+ "donor_structure": "vacuum manifold M = {phi : V(phi) = min V}: a degenerate (typically connected) set of equal-energy ground states; point selection by SSB; Goldstone modes = zero-cost tangent directions along M; perturbations of V lift the degeneracy and strictly rank the minima",
+ "target_structure": "neutral set N(f*, E_t) = {states/programs of maximal fitness under current ecology}: optimizer rests anywhere on N; moves within N at zero first-order burden; ecology change E_t -> E_{t+1} re-ranks N",
+ "mapping": "V(phi) <-> -fitness; ground-state manifold <-> neutral set; SSB point selection <-> optimizer pinned on neutral set; Goldstone tangent directions <-> neutral moves; perturbation of V <-> ecology drift",
+ "preserved_relations": [
+  "degenerate optimum set is (generically) a positive-dimensional structure, not an isolated point",
+  "first-order cost of motion along the set is zero",
+  "small perturbation of the objective lifts degeneracy and strictly ranks the set"
+ ],
+ "known_broken_relations": [
+  "no quantum/statistical-mechanical content transfers",
+  "no conservation: OCM burden is non-conserved under task inflow (T18/G10 R7)",
+  "HSG ecology is time-varying (assumption vi removed) whereas Landau V is fixed; 'phase' vocabulary is costume unless a sharp threshold is exhibited"
+ ],
+ "unknown_correspondences": [
+  "whether neutral-set connectivity percolates with an SSB-like sharp threshold in (|language|, |archive|)",
+  "whether a non-order-parameter description of the neutral set exists that is checkable at OCM scope"
+ ],
+ "assumptions_added": [
+  "fitness equality exact on N (measure caveat)",
+  "burden metric locally linear for the 'tangent' reading"
+ ],
+ "candidate_theorem": "ecology drift E_t -> E_{t+1} strictly re-ranks the previous neutral set N(f*,E_t): the optimizer depins sharply; checkable by finite enumeration of small program spaces with two ecology draws",
+ "strongest_parent": "Landau 1937 (degenerate-extrema vocabulary); no theorem claim over the donor",
+ "proof_route": "finite enumeration witness feasible (two ecologies, enumerate N under first, rank under second); NOT executed here per freeze rule (calibration donor, not evidence)",
+ "mapping_search_cost": {
+  "donor_L2": 20,
+  "donor_L3": 40,
+  "map": 15,
+  "synth": 30,
+  "atom_total": 105,
+  "amortized_over_motif_atoms": 3
+ },
+ "status": "PROPOSAL"
+}
