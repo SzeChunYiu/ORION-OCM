@@ -76,8 +76,28 @@ T3 gate actually reads. See [COMPOSITION.md](COMPOSITION.md).
 - `hpc/rva_attrib.py`, `hpc/rva_drawinv.py`, `hpc/rva_timing.py` — offline
   reductions, run on LUNARC `lu48` (`-A lu2026-2-51`).
 
+## Iteration 2 verdict: the ranking machinery owns it, not the gate
+
+Lane-distributed null (`lane_hetero`, 2.4 M draws, every draw evaluated at T2,
+all ranking machinery disabled — `FREEZE_RVA_ITER2.json`, frozen before the run):
+
+| population | n | can_check | fraction | Wilson 95% |
+|---|---|---|---|---|
+| unranked viable (phenotype-deduped) | 616698 | 522090 | **0.84659** | [0.84569, 0.84749] |
+| GS-R2 survivors | 100693 | 15668 | **0.15560** | [0.15338, 0.15785] |
+
+Frozen decision rule → **`RANKING_OWNS_DEPLETION`**, intervals disjoint, ratio
+5.44×. The T2 gate favours checker-bearing organisms by **27.7×**
+(`P(viable | can_check)` 0.6590 against 0.0652). So the search starts from a
+viable pool that is 84.7% checker-bearing and returns a survivor set that is
+15.6% checker-bearing: **the depletion is manufactured by the search's own
+ranking and promotion, not by the morphology space and not by the gate.**
+
+The obstruction is operational, not structural. See [NULL.md](NULL.md).
+
 ## Open
 
-Whether the depletion is owned by the **gate** (frozen physics; structural) or by
-**ranking/promotion** (operational) is decided by the lane-distributed null in
-[PLAN.md](PLAN.md), not yet run at this commit.
+Which sub-stage of ranking is responsible. All five R2 arms sit between 0.054
+and 0.206 including `GSA5P_fixed`, which runs no revival lever, so the depletion
+lives in the common base pipeline (surrogate-ranked successive halving) and the
+GSA6 levers only modulate it. That attribution is iteration 3.
