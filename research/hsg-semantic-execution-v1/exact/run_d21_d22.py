@@ -51,6 +51,16 @@ def main() -> int:
         if s["E2_clean_false_alarms"] != 0:
             print("D21 E2 FAILED: false alarm on a clean arm")
             rc = 2
+        if s["E2b_alarms_on_not_contaminable_hostile_worlds"]:
+            print("D21 E2b FAILED: alarm where contamination is impossible")
+            rc = 2
+        if s["E1_undecided_worlds_eclass_capped"]:
+            print("D21 E1 UNDECIDED: e-class walk capped on",
+                  s["E1_undecided_worlds_eclass_capped"])
+            rc = 2
+        if not s["E6_egglog_decided_every_pair"] or s["E6_cross_check_agreement"] != 1.0:
+            print("D21 E6 FAILED: egglog did not decide every pair, or disagreed")
+            rc = 2
 
     if which in ("d22", "both"):
         from .d22_logic_transport import run_d22
