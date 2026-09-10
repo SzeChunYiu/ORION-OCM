@@ -1,0 +1,118 @@
+{
+ "L1": {
+  "can_check_equals_hold": true,
+  "distinct_can_check": 34628,
+  "distinct_t2_viable": 41284,
+  "distinct_t3_hold": 34628,
+  "mean_distinct_per_seed": 6880.67,
+  "morphologies_per_cpu_hour": 1743228.1,
+  "t3_hold_per_cpu_hour": 1462176.7,
+  "t3_hold_rate": 0.83877531,
+  "t3_hold_rate_wilson95": [
+   0.83519653,
+   0.84229105
+  ]
+ },
+ "arm": "L1_unranked_breadth",
+ "cpu_hours": 0.0236825,
+ "cpu_seconds": 85.257,
+ "farch_of_L1_survivors": {
+  "approx_projection_vsa": 3348,
+  "blackboard_production": 3457,
+  "event_sourced_tms": 3465,
+  "factorized_field": 3434,
+  "flat_typed_relational": 3451,
+  "hierarchical_fibred": 10033,
+  "hypergraph_metagraph": 3531,
+  "kso_reference": 3537,
+  "library_procedural": 3503,
+  "typed_property_graph": 3525
+ },
+ "gs_r2_arms": {
+  "GSA5P_fixed": {
+   "cpu_hours": 0.188905,
+   "distinct_t2_viable": 13504,
+   "distinct_t3_hold": 3001,
+   "mean_distinct_per_seed": 2251.33,
+   "morphologies_per_cpu_hour": 71485.67,
+   "t3_hold_per_cpu_hour": 15886.3,
+   "t3_hold_rate": 0.22223045
+  },
+  "GSA6_ALL": {
+   "cpu_hours": 0.271357,
+   "distinct_t2_viable": 34655,
+   "distinct_t3_hold": 2823,
+   "mean_distinct_per_seed": 5802,
+   "morphologies_per_cpu_hour": 127709.99,
+   "t3_hold_per_cpu_hour": 10403.3,
+   "t3_hold_rate": 0.08146011
+  },
+  "GSA6_DP": {
+   "cpu_hours": 0.18251,
+   "distinct_t2_viable": 34773,
+   "distinct_t3_hold": 7856,
+   "mean_distinct_per_seed": 5802,
+   "morphologies_per_cpu_hour": 190526.55,
+   "t3_hold_per_cpu_hour": 43044.2,
+   "t3_hold_rate": 0.22592241
+  },
+  "GSA6_NG": {
+   "cpu_hours": 0.226183,
+   "distinct_t2_viable": 13210,
+   "distinct_t3_hold": 3233,
+   "mean_distinct_per_seed": 2202,
+   "morphologies_per_cpu_hour": 58404.04,
+   "t3_hold_per_cpu_hour": 14293.7,
+   "t3_hold_rate": 0.24473883
+  },
+  "GSA6_SC": {
+   "cpu_hours": 0.244727,
+   "distinct_t2_viable": 10324,
+   "distinct_t3_hold": 2353,
+   "mean_distinct_per_seed": 1723.17,
+   "morphologies_per_cpu_hour": 42185.78,
+   "t3_hold_per_cpu_hour": 9614.8,
+   "t3_hold_rate": 0.22791554
+  }
+ },
+ "gs_r2_parents_frozen": {
+  "GSA2_hetero": {
+   "cpu_seconds_per_seed": 51.258,
+   "distinct_t2_viable_per_seed": 5062.7,
+   "morphologies_per_cpu_hour": 354046.0
+  },
+  "GSA5_surrogate": {
+   "cpu_seconds_per_seed": 111.257,
+   "distinct_t2_viable_per_seed": 2233.3,
+   "morphologies_per_cpu_hour": 72150.0
+  }
+ },
+ "gs_r2_pooled": {
+  "cpu_hours": 1.113682,
+  "distinct_t2_viable": 100693,
+  "distinct_t3_hold": 15668,
+  "t3_hold_per_cpu_hour": 14068.6,
+  "t3_hold_rate": 0.15560168
+ },
+ "protocol": "lane_hetero, T0->T1->T2 ladder, NO rank_fn, NO promotion selection, NO parent pool; t0_budget 45000/seed, seeds 0..5 -- matched to the GS-R2 arms",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "shuffle_equal_n_null": {
+  "H0": "L1's survivors hold at the GS-R2 pooled rate",
+  "L1_n": 41284,
+  "R2_pooled_hold_rate": 0.15560168,
+  "expected_holds_under_H0": 6423.9,
+  "observed_holds": 34628,
+  "read": "the null asks whether L1's hold COUNT is what the R2 rate would predict at L1's n; a lever that only raised the RATE by finding fewer survivors would not beat it",
+  "sd_under_H0": 73.65,
+  "z": 382.95
+ },
+ "study_id": "RV_A_L1_AGGREGATE",
+ "t0_evaluations": 270000
+}

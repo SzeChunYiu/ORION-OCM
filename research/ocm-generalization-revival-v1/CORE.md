@@ -95,9 +95,45 @@ ranking and promotion, not by the morphology space and not by the gate.**
 
 The obstruction is operational, not structural. See [NULL.md](NULL.md).
 
+## Iteration 3 verdict: the negative is recovered by deleting the ranking
+
+All three ladder rungs are composition-neutral — `lane_hetero` draws carried
+T0 → T1 → T2 with no ranking give 0.8398 checker-bearing at **every** rung, and
+every T0-viable organism clears T1 and T2. So sampling and all three gates hand
+on 84%; the ranking and its parent-pool feedback own the entire drop to 15.6%.
+
+Arm **L1 unranked breadth** — same ladder, same lane, same seeds, same
+`t0_budget = 45000`/seed, no rank function, no promotion selection, no parent
+pool, survivors phenotype-deduped across seeds exactly as the R2 aggregate does:
+
+| | CPU-h | distinct T2-viable | **distinct T3-HOLD** | hold rate |
+|---|---|---|---|---|
+| **L1 unranked breadth** | **0.0237** | **41284** | **34628** | **0.8388** [0.8352, 0.8423] |
+| GS-R2 pooled (all five arms) | 1.1137 | 100693 | 15668 | 0.1556 |
+| best single arm (GSA6_DP) | 0.1825 | 34773 | 7856 | 0.2259 |
+
+**2.21× the absolute hold count of the entire campaign, at 4.7% of its compute**
+(104× per CPU-hour). Shuffle-equal-n null: 6423.9 expected under the R2 rate at
+L1's n, 34628 observed, z = 382.95. Not selectivity — L1 admits *more*
+candidates than any arm and holds at a higher rate.
+
+Against the frozen parents on their own metrics, L1 gives 6880.7 distinct
+T2-viable per seed against `GSA2_hetero`'s 5062.7 (1.36×) and 1743228
+morphologies per CPU-hour against 354046 (4.92×). `PARENT_SUFFICIENT` does not
+apply: no parent owns this function.
+
+Why the ranking is not paying for itself: the surrogate `allocation_score` costs
+8.04 T0-evaluation units per candidate, while η = 3 halving saves about 4.8
+T0-units per viable candidate at a measured T2/T0 tier cost ratio of only 4.60.
+
+See [RESULT.md](RESULT.md).
+
 ## Open
 
-Which sub-stage of ranking is responsible. All five R2 arms sit between 0.054
-and 0.206 including `GSA5P_fixed`, which runs no revival lever, so the depletion
-lives in the common base pipeline (surrogate-ranked successive halving) and the
-GSA6 levers only modulate it. That attribution is iteration 3.
+Whether a *repaired* rank key can beat unranked breadth. The rank
+`allocation_score = P(viable) × predicted dev_score` embeds
+`dev_score = solved_fraction − 0.5·cost`, and T2's `scoped_failure` charges the
+`hierarchical_fibred` route 0.4× consistency work, so the cost term prices the
+checker route out. The archive cannot compensate because `refusal_rate` is a
+gate-induced dead axis (verified). A rank that covers the correctness axis is
+the next candidate, and it must beat L1, not merely the R2 arms.
