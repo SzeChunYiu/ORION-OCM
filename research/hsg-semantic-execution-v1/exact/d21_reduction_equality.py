@@ -282,9 +282,15 @@ def arm_equality_saturation(seed, include_unsound: bool):
     eg.rebuild()
     iters, saturated, stop = eg.saturate(egraph_rules(include_unsound))
     members, complete = eg.eclass_terms(root, cap=ECLASS_CAP)
-    best = (min(members, key=lambda t: (node_count(t), repr(t))) if members
-            else _extract_min_bounded(eg, root))
+    if complete and members:
+        # the walk covered the whole class, so this really is the cheapest member
+        best, best_minimal = min(members, key=lambda t: (node_count(t), repr(t))), True
+    else:
+        # a truncated prefix is enumerated in enode-repr order and can omit the
+        # cheapest term, so fall back to bottom-up extraction over the whole e-graph
+        best, best_minimal = _extract_min_bounded(eg, root), False
     return {"arm": "equality_saturation", "best": best, "cost": node_count(best),
+            "cost_is_minimal": best_minimal,
             "status": "CHECKED" if (saturated and complete) else "CANNOT_CHECK",
             "saturated": saturated, "saturation_stop_reason": stop,
             "iterations": iters,
@@ -298,7 +304,13 @@ def arm_equality_saturation(seed, include_unsound: bool):
             "_eg": eg, "_root": root}
 
 def _extract_min_bounded(eg, root):
-    """Bottom-up cheapest-term extraction (used when exhaustive walk is capped)."""
+    """Bottom-up cheapest-term extraction over the whole e-graph.
+
+    Used whenever the exhaustive walk did not complete: it visits every e-class
+    rather than a repr-ordered prefix, so it does not inherit the prefix's bias.
+    Its result is still not guaranteed minimal over an unsaturated e-graph, which
+    is why the caller reports cost_is_minimal separately.
+    """
     cost, best = {}, {}
     for _ in range(len(eg.classes) + 2):
         changed = False
@@ -566,6 +578,7 @@ def t74_composition(ow6, k_slack=0):
             v_a = bool(eqv) and node_count(g) <= k
             rows.append({"world": w["id"], "leg": label,
                          "V_B": v_b, "V_A": v_a, "status": st,
+                         "b_solution_cost_is_minimal": res["cost_is_minimal"],
                          "composition_sound": (not v_b) or v_a,
                          "witness": None if ((not v_b) or v_a) else
                                     {"x": repr(seed), "y_B": repr(y_b),
