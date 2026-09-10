@@ -9,30 +9,41 @@
  "analysis_ref": "research/top-tier-atomic-closure-v1/NEGATIVES_ROOT_CAUSE_V1.md",
  "non_final": "EXPLICITLY_NON_FINAL",
  "does_not_reopen": "no merged verdict, frozen world, seed, terminal or claim ceiling is altered by this amendment; it adds types, axes and claim-shape rules for FUTURE freezes and for re-reading existing terminals as boundary cases",
-
  "capital_typology": {
   "cause": "#323 HC-1 (solution capital must not stand in for search capital) unified with the measured economy negatives; each type carries its own payback law and admissible claim shape",
   "types": {
    "SOLUTION_STRUCTURAL": {
     "examples": "partitions, abstractions, CEGAR blocks, morphologies-as-representations",
     "payback_law": "sound build costs >= one direct concrete pass (construction floor); exact answering refines toward discrete (RV_B1: 81.2% states discrete, marginal 12.966 vs 11.738 direct)",
-    "admissible_claims": ["delta-relaxed frontier: total_cost(delta) < total_cost_direct at some measured (delta, Q, rho) corner", "rho < rho* conditional frontier"],
-    "inadmissible_claims": ["unconditional exact-economy wins (D20/RV_B1 refuted the shape, not just the instance)"]
+    "admissible_claims": [
+     "delta-relaxed frontier: total_cost(delta) < total_cost_direct at some measured (delta, Q, rho) corner",
+     "rho < rho* conditional frontier"
+    ],
+    "inadmissible_claims": [
+     "unconditional exact-economy wins (D20/RV_B1 refuted the shape, not just the instance)"
+    ]
    },
    "SOLUTION_EPISODIC": {
     "examples": "cached exact answers, provenance substitution, recorded support reuse",
     "payback_law": "pays iff recompute_depth > bookkeeping_constant; D19 ratio 1.07 at depth=one shallow BFS is the shallow boundary, not the law",
-    "admissible_claims": ["substitution_ratio(recompute_depth) frontier with crossover depth d*"]
+    "admissible_claims": [
+     "substitution_ratio(recompute_depth) frontier with crossover depth d*"
+    ]
    },
    "SOLUTION_DECLARATIVE": {
     "examples": "libraries, lemmas, macros, typed operators with applicability contracts (#323 HC-6: DISTINGUISH/REFINE/VERIFY transfer; REDUCE fails where its semantic precondition is absent)",
     "payback_law": "pays iff cross-ecology recurrence sigma > sigma* = acquisition_cost / (Q x savings_per_recurrence); at sigma ~ 0 the loss is structural (no-free-lunch), not a defect",
-    "admissible_claims": ["sigma-conditioned payback frontier", "typed-operator transfer WITH frozen applicability contract and its hostile (REDUCE-class) control"]
+    "admissible_claims": [
+     "sigma-conditioned payback frontier",
+     "typed-operator transfer WITH frozen applicability contract and its hostile (REDUCE-class) control"
+    ]
    },
    "SEARCH": {
     "examples": "representation, decomposition, proposal distribution, retrieval, verification strategy, meta-control",
     "payback_law": "not yet measured anywhere in the programme; D27 prospectively frozen future-cognition signature ABSENT (related 0.0135 vs unrelated 0.0194)",
-    "admissible_claims": ["rank_H(t+1)(m*) < rank_H(t)(m*) with m* not present in history (#323 HDI-15 behavioural receipt)"],
+    "admissible_claims": [
+     "rank_H(t+1)(m*) < rank_H(t)(m*) with m* not present in history (#323 HDI-15 behavioural receipt)"
+    ],
     "note": "this is the developmental capital; solution-capital positives may never be reported as development"
    },
    "ECOLOGICAL": {
@@ -45,7 +56,6 @@
    }
   }
  },
-
  "ecology_axes": {
   "cause": "RC1: all measurements ran at the no-free-lunch corner (rho=1, sigma~0, shallow d) by construction of the world generators",
   "mandatory_in_freeze": {
@@ -54,10 +64,9 @@
    "d": "solution depth (recompute depth for episodic; decomposition depth for structural)",
    "delta": "answer-relaxation dial for structural capital (delta=0 exact; delta>0 buys coarse blocks lawfully)"
   },
-  "generator_obligation": "world-family generators must be able to PLANT recurrence at controlled (rho, sigma) — a generator that can only emit one-off puzzles measures only the NFL corner and its economy terminals must say so",
+  "generator_obligation": "world-family generators must be able to PLANT recurrence at controlled (rho, sigma) \u2014 a generator that can only emit one-off puzzles measures only the NFL corner and its economy terminals must say so",
   "structural_relatedness": "per #323 HC-3/DEV-CAL-1: shared minimal decomposition, shared operator/support structure, or a known valid transport map; a semantic family label is NEVER a substitute"
  },
-
  "claim_shape_rules": {
   "deprecated_shapes": [
    "unconditional economy win at a single unmeasured-ecology corner",
@@ -65,17 +74,27 @@
    "solution-capital positive reported as developmental/search-capital improvement"
   ],
   "admissible_shapes": [
-   "frontier endpoint: Q*(rho,sigma,d,delta), rho*, sigma*, delta* — the crossover threshold with the swept grid attached",
+   "frontier endpoint: Q*(rho,sigma,d,delta), rho*, sigma*, delta* \u2014 the crossover threshold with the swept grid attached",
    "boundary-case statement: a prior negative re-read as the delta=0 or rho=1 or sigma=0 boundary of a measured family",
    "conditional inequality (HSG-03 surviving form / #323 HC-7): future_savings > acquisition + maintenance + revision, evaluated ON MEASURED axes"
   ],
   "predictions_registered": {
-   "rho_star_bracket": [0.51, 0.905],
-    "rho_star_derivation": "two independent derivations from published RV_B1 numbers: linear fit of the amortisation table (direct marginal ~416 ops/query vs incremental ~813 -> rho* ~ 0.512) and the terminal's own steady-state marginals (11.738/12.966 ~ 0.905); D29 measures which (or neither) holds",
-   "sign_flip_prediction": "RV-8 already exhibits the prediction: same library positive (~55% cheaper) on a constructed low-rho stream, negative (~40.5% costlier) on natural high-rho draws"
+   "rho_star_bracket": [
+    0.51,
+    0.905
+   ],
+   "rho_star_derivation": "two independent derivations from published RV_B1 numbers: linear fit of the amortisation table (direct marginal ~416 ops/query vs incremental ~813 -> rho* ~ 0.512) and the terminal's own steady-state marginals (11.738/12.966 ~ 0.905); D29 measures which (or neither) holds",
+   "sign_flip_prediction": "RV-8 already exhibits the prediction: same library positive (~55% cheaper) on a constructed low-rho stream, negative (~40.5% costlier) on natural high-rho draws",
+   "measured_outcome_d29": {
+    "status": "REFUTED_ON_FROZEN_GRID (D29, PR #327): registered prediction preserved verbatim above; outcome appended per amendment discipline",
+    "result": "Q*(rho)=NULL at every rho in {0.0,0.25,0.5,0.75,1.0} through Q<=32; even pure-repeat streams (rho=0) do not cross (fixed floor ~4.3k ops vs marginal saving ~53 ops/query; marginal ratio at rho=0, Q=16->32 = 0.907, off-grid projected crossover ~Q=80.7)",
+    "rho_star_revised": "measured rho* collapses to (0, 0.25); both registered derivations over-read the still-flattening Q<=16 segment of the amortisation table (true Q=16->32 incremental marginal at rho=1 is ~497 ops/query, not ~813)",
+    "boundary_held": "rho=1.0 arm reproduces the committed RV_B1 per-Q totals exactly (8.412/6.44/4.829/3.577/2.493), crossover null \u2014 the boundary clause of the prediction held",
+    "terminal": "NO_CROSSOVER_ANYWHERE_OFF_RHO1 (falsifier fired; per the freeze the capital-cost-floor frontier law as stated must be replaced \u2014 surviving measured shape: amortisation pays only in the pure-repeat limit, crossover far off-grid)",
+    "artifacts": "research/hsg-semantic-execution-v1/exact/results/D29_RHO_CROSSOVER_RESULTS.json + receipts/D29_receipts.jsonl (1050 rows) + receipts/D29_HOST_RECEIPT_billy-laptop.json"
+   }
   }
  },
-
  "registration": {
   "new_atom": "ATOM-DEV-03 (DEVELOPMENTAL_LINEAGE class, terminal OPEN, no closure claimed; ATOM-DEV-02 id was already taken by the GOVERNANCE_META determinism-audit atom) registered in the registry append of this amendment's PR per #323 execution-order item 1",
   "hdi_binding": "the 15 HDI obligations of #323 section 3 are bound as the closure profile load-bearing set for DEVELOPMENTAL_LINEAGE: C4 causal knockout, G3 cross-domain transfer, S3 lifetime economics, R4 disjoint replication, A4 clean-room, E3 ecological validity",
