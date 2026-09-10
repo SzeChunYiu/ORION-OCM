@@ -154,7 +154,7 @@
     "holds_per_cpu_hour_ratio": 104,
     "shuffle_equal_n_null": "L1's n predicts 6423.9 holds under the R2 pooled rate, sd 73.65; observed 34628, z = 382.95",
     "not_selectivity": "L1 admits MORE candidates than any arm (41284 distinct viable) while holding at a higher rate (0.8388)",
-    "ARITHMETIC_DEFECT_IN_SOURCE": "PR #293's title, its merge commit message and RESULT.md state 4.7% for the compute share. 0.0237/1.1137 = 2.13%. The artifact's own 104x per-CPU-hour figure is only consistent with 2.13% (2.21/0.0213 = 103.9), and 1.1137/0.0237 = 47.0 -- the compute REDUCTION was transposed into a percentage. The error UNDERSTATES the result. Correction requested from the owning lane; recorded here so the wrong figure does not propagate."
+    "ARITHMETIC_DEFECT_IN_SOURCE": "RESOLVED in PR #304, commit bfe360a9. RESULT.md originally stated 4.7% for the compute share; 0.0237/1.1137 = 2.13%, the artifact's own 104x per-CPU-hour figure is only consistent with 2.13% (2.21/0.0213 = 103.9), and 1.1137/0.0237 = 47.0 -- the compute REDUCTION had been transposed into a percentage. The owning lane corrected RESULT.md with the original line retained verbatim. NOTE: PR #293's title and its squash-merge commit message on main still carry the original 4.7% and cannot be edited; cite the artifact, not the commit subject. The error understated the result throughout."
    },
    "superseded": {
     "prior_status": "DISPATCHED",
