@@ -1,0 +1,84 @@
+{
+ "schema": "TTAC_QUERY_ECOLOGY_AMENDMENT",
+ "version": "V1",
+ "owner_issue": 277,
+ "parent_issue": 323,
+ "written_utc": "2026-09-10",
+ "amendment_class": "framework_definition_amendment",
+ "cause": "NEGATIVES_ROOT_CAUSE_V1: every economy/amortisation/transfer atom failed while every invariance/detection atom held; two mechanism laws (RC1 no-free-lunch corner sampling, RC2 capital-cost floor) plus one reading law (RC3 measurement-path failure) explain all of them; unconditional economy claims are posed against laws that forbid them, and the registry had no axis on which the surviving conditional inequality (HSG-03 / #323 HC-7) could flip",
+ "analysis_ref": "research/top-tier-atomic-closure-v1/NEGATIVES_ROOT_CAUSE_V1.md",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "does_not_reopen": "no merged verdict, frozen world, seed, terminal or claim ceiling is altered by this amendment; it adds types, axes and claim-shape rules for FUTURE freezes and for re-reading existing terminals as boundary cases",
+
+ "capital_typology": {
+  "cause": "#323 HC-1 (solution capital must not stand in for search capital) unified with the measured economy negatives; each type carries its own payback law and admissible claim shape",
+  "types": {
+   "SOLUTION_STRUCTURAL": {
+    "examples": "partitions, abstractions, CEGAR blocks, morphologies-as-representations",
+    "payback_law": "sound build costs >= one direct concrete pass (construction floor); exact answering refines toward discrete (RV_B1: 81.2% states discrete, marginal 12.966 vs 11.738 direct)",
+    "admissible_claims": ["delta-relaxed frontier: total_cost(delta) < total_cost_direct at some measured (delta, Q, rho) corner", "rho < rho* conditional frontier"],
+    "inadmissible_claims": ["unconditional exact-economy wins (D20/RV_B1 refuted the shape, not just the instance)"]
+   },
+   "SOLUTION_EPISODIC": {
+    "examples": "cached exact answers, provenance substitution, recorded support reuse",
+    "payback_law": "pays iff recompute_depth > bookkeeping_constant; D19 ratio 1.07 at depth=one shallow BFS is the shallow boundary, not the law",
+    "admissible_claims": ["substitution_ratio(recompute_depth) frontier with crossover depth d*"]
+   },
+   "SOLUTION_DECLARATIVE": {
+    "examples": "libraries, lemmas, macros, typed operators with applicability contracts (#323 HC-6: DISTINGUISH/REFINE/VERIFY transfer; REDUCE fails where its semantic precondition is absent)",
+    "payback_law": "pays iff cross-ecology recurrence sigma > sigma* = acquisition_cost / (Q x savings_per_recurrence); at sigma ~ 0 the loss is structural (no-free-lunch), not a defect",
+    "admissible_claims": ["sigma-conditioned payback frontier", "typed-operator transfer WITH frozen applicability contract and its hostile (REDUCE-class) control"]
+   },
+   "SEARCH": {
+    "examples": "representation, decomposition, proposal distribution, retrieval, verification strategy, meta-control",
+    "payback_law": "not yet measured anywhere in the programme; D27 prospectively frozen future-cognition signature ABSENT (related 0.0135 vs unrelated 0.0194)",
+    "admissible_claims": ["rank_H(t+1)(m*) < rank_H(t)(m*) with m* not present in history (#323 HDI-15 behavioural receipt)"],
+    "note": "this is the developmental capital; solution-capital positives may never be reported as development"
+   },
+   "ECOLOGICAL": {
+    "examples": "learned expectations about which structures recur and where transfer is worthwhile",
+    "payback_law": "value only under the same ecology axes it was learned on (RC1); admissible claim shape is ecology-indexed"
+   },
+   "ASSAY": {
+    "examples": "learned ability to detect whether an apparent improvement is real",
+    "payback_law": "governed by RC3: every measurement path must survive hostile attack in alarm AND no-alarm directions before its negatives are read"
+   }
+  }
+ },
+
+ "ecology_axes": {
+  "cause": "RC1: all measurements ran at the no-free-lunch corner (rho=1, sigma~0, shallow d) by construction of the world generators",
+  "mandatory_in_freeze": {
+   "rho": "novel-region fraction of the query stream (fraction of queries falling outside any reusable capital's support)",
+   "sigma": "cross-world/cross-ecology subproblem recurrence rate (fraction of future-world structure that maps onto developmental-history structure under the frozen structural-relatedness relation)",
+   "d": "solution depth (recompute depth for episodic; decomposition depth for structural)",
+   "delta": "answer-relaxation dial for structural capital (delta=0 exact; delta>0 buys coarse blocks lawfully)"
+  },
+  "generator_obligation": "world-family generators must be able to PLANT recurrence at controlled (rho, sigma) — a generator that can only emit one-off puzzles measures only the NFL corner and its economy terminals must say so",
+  "structural_relatedness": "per #323 HC-3/DEV-CAL-1: shared minimal decomposition, shared operator/support structure, or a known valid transport map; a semantic family label is NEVER a substitute"
+ },
+
+ "claim_shape_rules": {
+  "deprecated_shapes": [
+   "unconditional economy win at a single unmeasured-ecology corner",
+   "binary wins/loses reported without the ecology corner coordinates",
+   "solution-capital positive reported as developmental/search-capital improvement"
+  ],
+  "admissible_shapes": [
+   "frontier endpoint: Q*(rho,sigma,d,delta), rho*, sigma*, delta* — the crossover threshold with the swept grid attached",
+   "boundary-case statement: a prior negative re-read as the delta=0 or rho=1 or sigma=0 boundary of a measured family",
+   "conditional inequality (HSG-03 surviving form / #323 HC-7): future_savings > acquisition + maintenance + revision, evaluated ON MEASURED axes"
+  ],
+  "predictions_registered": {
+   "rho_star_bracket": [0.51, 0.905],
+    "rho_star_derivation": "two independent derivations from published RV_B1 numbers: linear fit of the amortisation table (direct marginal ~416 ops/query vs incremental ~813 -> rho* ~ 0.512) and the terminal's own steady-state marginals (11.738/12.966 ~ 0.905); D29 measures which (or neither) holds",
+   "sign_flip_prediction": "RV-8 already exhibits the prediction: same library positive (~55% cheaper) on a constructed low-rho stream, negative (~40.5% costlier) on natural high-rho draws"
+  }
+ },
+
+ "registration": {
+  "new_atom": "ATOM-DEV-03 (DEVELOPMENTAL_LINEAGE class, terminal OPEN, no closure claimed; ATOM-DEV-02 id was already taken by the GOVERNANCE_META determinism-audit atom) registered in the registry append of this amendment's PR per #323 execution-order item 1",
+  "hdi_binding": "the 15 HDI obligations of #323 section 3 are bound as the closure profile load-bearing set for DEVELOPMENTAL_LINEAGE: C4 causal knockout, G3 cross-domain transfer, S3 lifetime economics, R4 disjoint replication, A4 clean-room, E3 ecological validity",
+  "evidence_rule": "HDI-15 behavioural receipt required before any developmental claim: SEARCH_GEOMETRY_RECEIPT_SCHEMA_V1.json"
+ }
+}

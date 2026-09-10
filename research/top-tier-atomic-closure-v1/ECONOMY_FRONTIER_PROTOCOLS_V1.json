@@ -1,0 +1,49 @@
+{
+ "schema": "OCM_ECONOMY_FRONTIER_PROTOCOLS",
+ "version": "V1",
+ "owner_issue": 277,
+ "parent_issue": 323,
+ "written_utc": "2026-09-10",
+ "status": "PRE_REGISTERED_NOT_EXECUTED",
+ "subordination": "DEV-CAL-1 (#323) is the immediate programme priority; D29-D31 are measurements on EXISTING frozen machinery (RV_B1 / D20 / D19 runners, unchanged code paths) — no architecture change, no tau, no operator retuning, no safety/adoption weakening (#323 section 11 respected verbatim). Execution slots after DEV-CAL-1 lands or in parallel where hosts allow, never displacing it.",
+ "purpose": "Convert three filed economy negatives into boundary cases of measured frontier laws (global-recovery doctrine satisfied by definition/mechanic change; all costs charged; no outcome tuning).",
+ "non_final": "EXPLICITLY_NON_FINAL",
+
+ "D29_crossover_frontier": {
+  "machinery": "research/hsg-semantic-execution-v1/exact/run_rv_b1.py UNCHANGED except the query-stream generator gains a frozen rho dial (novel-region fraction of the query stream)",
+  "grid": {"rho": [0.0, 0.25, 0.5, 0.75, 1.0], "Q": [1, 2, 4, 8, 16, 32]},
+  "worlds": "the 30 frozen RV_B1 worlds, seeds unchanged; ONLY the query stream composition varies (swap the reader, never the metric)",
+  "primary_endpoint": "Q*(rho) = smallest Q at which abstraction total cost < direct total cost, per rho; NULL if no crossing within the grid",
+  "registered_prediction": "Q*(rho) finite iff rho < rho* in [0.51, 0.905] (two derivations in NEGATIVES_ROOT_CAUSE_V1 section 3.2); monotone non-decreasing in rho; rho=1.0 reproduces the filed negative (crossover_Q null) as the boundary",
+  "falsifier": "no finite Q*(rho) anywhere off the rho=1 axis, OR Q* non-monotone in rho — then the capital-cost-floor law as stated is wrong and must be replaced",
+  "terminals": ["CROSSOVER_FRONTIER_MEASURED (with Q*(rho) table)", "NO_CROSSOFF_ANYWHERE_OFF_RHO1 (falsifies the frontier form; RC2 restated)", "CANNOT_CHECK (instrument defect, reason recorded)"]
+ },
+
+ "D30_delta_dial": {
+  "machinery": "the frozen D20 runner with a frozen delta dial on the abstract answer (delta-relaxed block answering: an answer may be served from the abstraction when the certified error bound <= delta; delta=0 is the frozen exact path)",
+  "grid": {"delta": [0.0, 0.01, 0.05, 0.1, 0.25], "n": [8, 12, 16, 20, 24]},
+  "worlds": "the 30 frozen D20 worlds, seeds unchanged",
+  "primary_endpoint": "total_cost(delta) vs total_cost_direct(n) per (delta, n); the (delta, compression, cost) Pareto frontier",
+  "registered_prediction": "delta=0 reproduces the filed negative everywhere (boundary of the family); some delta in (0, 0.25] beats direct on total cost at n in the upper grid half",
+  "falsifier": "no delta in (0,1) at which structural capital strictly beats direct on total cost at ANY grid point — then the self-defeat law extends to the relaxed regime and the admissible claim shape narrows to rho-conditioned only",
+  "terminals": ["DELTA_FRONTIER_MEASURED", "SELF_DEFEAT_EXTENDS_TO_RELAXED (negative retained, ceiling tightened)", "CANNOT_CHECK (reason)"]
+ },
+
+ "D31_episodic_depth_law": {
+  "machinery": "the frozen D19 substitution machinery with a frozen recompute-depth dial on the query family (solution depth d of the recomputation the substitution would replace)",
+  "grid": {"d": [1, 2, 4, 8, 16, 32]},
+  "worlds": "the frozen D19 worlds, seeds unchanged",
+  "primary_endpoint": "substitution_vs_recomputation_op_ratio(d); crossover depth d* where ratio < 1",
+  "registered_prediction": "ratio is monotone non-increasing in d and crosses 1 at finite d* (D19's 1.07 at d=1 is the shallow boundary)",
+  "falsifier": "ratio never drops below 1 with depth — then episodic capital NEVER pays on these worlds and the ceiling hardens to a law",
+  "terminals": ["EPISODIC_DEPTH_FRONTIER_MEASURED (with d*)", "EPISODIC_NEVER_PAYS (negative retained as law)", "CANNOT_CHECK (reason)"]
+ },
+
+ "common_rules": [
+  "pre-registration is this file; no scored run exists at this commit",
+  "byte-repro receipts on disjoint host (billy-old) per the D10 discipline; runs never on Mac mini",
+  "every arm carries the full HDI-14 cost ledger; a missing cost family emits CANNOT_CHECK",
+  "shuffle-equal-n null and draw-invariance controls attach where any adaptive/1-bit comparison is derived",
+  "results feed QUERY_ECOLOGY_AMENDMENT_V1.claim_shape_rules.predictions_registered as confirmations or refutations — either is a first-class outcome"
+ ]
+}

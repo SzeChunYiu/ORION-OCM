@@ -1,0 +1,68 @@
+{
+ "schema": "OCM_DEV_CAL_1_PROTOCOL_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_SCORED_RUN",
+ "no_scored_run_in_this_commit": true,
+ "purpose": "Prove the benchmark contains transferable headroom BEFORE repairing OCM: cross surface similarity against latent structural similarity, with an oracle given the best reusable abstraction/representation/transport object from developmental history but never the target answer, compared against RESET under identical target evidence and cost accounting.",
+ "non_final": "EXPLICITLY_NON_FINAL",
+
+ "design": {
+  "relatedness_matrix": {
+   "rows": ["surface_same", "surface_different"],
+   "cols": ["latent_same", "latent_different"],
+   "critical_cell": "surface_different x latent_same",
+   "structural_relation_definition": "latent_same iff the pair shares a frozen structural certificate: (a) shared minimal decomposition (isomorphic decomposition DAG modulo relabeling, depth <= 4) OR (b) shared operator/support structure (same frozen typed-operator support multiset solves both) OR (c) a known valid transport map (explicitly constructed homomorphism verified by checker). A semantic family label NEVER substitutes (HDI-3; HC-3).",
+   "surface_definition": "surface_same iff the pair shares the frozen surface signature (predicate names, arity profile, literal statistics); surface reminting = regenerate the presentation with fresh symbols while preserving the structural certificate or its absence"
+  },
+  "cells": {
+   "A_surface_same_latent_same": "positive control: transfer expected; silence defects the assay",
+   "B_surface_different_latent_same": "THE critical cell: transfer here is the only evidence of structural (non-surface) headroom",
+   "C_surface_same_latent_different": "surface-mimicry control: apparent transfer here is surface-keyed retrieval, not structure",
+   "D_surface_different_latent_different": "negative control: transfer must NOT appear; alarm here defects the assay"
+  },
+  "arms": {
+   "ORACLE_HISTORY": "history carries the best reusable abstraction/representation/transport object available from developmental history for the latent structure class; NEVER the target answer, never a stored target solution (enforced by checker: target-solution digests must be absent from history bytes)",
+   "RESET": "empty history, identical target evidence stream, identical compute accounting",
+   "OCM_CONTINUED": "the actual OCM developmental history, same evidence/compute discipline",
+   "SHUFFLED_HISTORY": "history objects randomly re-assigned across latent classes (control for mere quantity of stored material)"
+  },
+  "world_budget": {
+   "worlds_per_cell": 30,
+   "seeds_per_world": 3,
+   "ecology_axes_declared": true,
+   "rho_sigma_d_per_world_family": "declared in the world freeze per QUERY_ECOLOGY_AMENDMENT_V1.ecology_axes"
+  }
+ },
+
+ "endpoints": {
+  "primary": "acquisition burden (work to first independently verified success) ORACLE_HISTORY vs RESET in cell B, compute-matched and information-matched (HDI-14: acquisition, retrieval, rejected candidates, verification, bytes/state, adaptation all charged)",
+  "secondary": "search-geometry receipts per SEARCH_GEOMETRY_RECEIPT_SCHEMA_V1 on every arm x cell (HDI-15)",
+  "prediction_registered": "if the benchmark is viable, ORACLE_HISTORY reduces acquisition burden in cell B but not cell D; any cell-D reduction is an assay defect (leak), not transfer"
+ },
+
+ "terminals": {
+  "NO_TRANSFERABLE_HEADROOM": "even the oracle cannot materially reduce acquisition burden in cell B (materially = the frozen effect threshold below). Benchmark unsuitable for testing developmental transfer; architecture work remains blocked; redesign the benchmark, not OCM.",
+  "TRANSFERABLE_HEADROOM_OCM_MISSES": "oracle wins in cell B, OCM_CONTINUED does not reach the oracle's reduction. Benchmark viable; proceed to carrier attribution knockouts.",
+  "OCM_STRUCTURAL_TRANSFER": "OCM_CONTINUED wins on reminted surfaces (cell B) with direct search-geometry improvement AND no stored target solution in history. Candidate developmental signal; still requires replication (fresh world, fresh host) and causal attribution before any developmental claim.",
+  "ASSAY_DEFECT": "any alarm in cell D, or silence in cell A, or draw-invariance failure of the primary endpoint. The run does not bear on OCM at all; the assay is fixed first (RC3: a negative is uninterpretable until its measurement path survived hostile attack in both directions)."
+ },
+ "effect_threshold": "material reduction = >= 20% acquisition-burden reduction vs RESET with non-overlapping bootstrap CIs at the frozen seed grid; frozen BEFORE any run",
+ "host_rules": "runs on laptop billy / billy-old / LUNARC only; never Mac mini; fresh worktree; receipts sha-bound",
+
+ "checker_requirements": [
+  "fail-closed structural-certificate checker: every latent_same pair carries its certificate type and digest; unresolved emits CANNOT_CHECK with reason, never silence",
+  "history purity checker: target-solution digests absent from history bytes (both directions: hash match AND normalized-text match)",
+  "cost completeness: all HDI-14 cost families charged to BOTH arms",
+  "shuffle-equal-n null on every adaptive comparison (FQ-2 discipline rule)",
+  "draw-invariance control on every 1-bit endpoint (RV-6 discipline rule)",
+  "positive control must fire (cell A) AND negative control must stay silent (cell D) or the run is ASSAY_DEFECT"
+ ],
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any tau change, mutation-operator retuning, threshold tuning, architecture change (#323 section 11)",
+  "redefinition of the structural relation after seeing target outcomes",
+  "use of stored target methods as evidence of learning-to-learn"
+ ]
+}

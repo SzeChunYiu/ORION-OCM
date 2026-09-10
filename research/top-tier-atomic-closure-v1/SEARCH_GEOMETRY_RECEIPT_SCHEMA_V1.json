@@ -1,0 +1,55 @@
+{
+ "schema": "OCM_SEARCH_GEOMETRY_RECEIPT",
+ "version": "V1",
+ "owner_issue": 323,
+ "written_utc": "2026-09-10",
+ "status": "FROZEN_SCHEMA_BEFORE_ANY_RUN",
+ "purpose": "Machine-visible receipt schema for HDI-15 (behavioural reuse evidence) and #323 section 4 (direct search-geometry measurement). No developmental claim is admissible without a receipt conforming to this schema. Prevents cached methods from impersonating development.",
+ "non_final": "EXPLICITLY_NON_FINAL",
+
+ "required_fields": {
+  "atom_or_study": "string id (e.g. ATOM-DEV-03, DEV-CAL-1)",
+  "arm": "one of ORACLE_HISTORY / RESET / OCM_CONTINUED / SHUFFLED_HISTORY / knockout carrier ids",
+  "world_id": "frozen world id",
+  "seed": "int",
+  "m_star_digest": "sha256 of the eventual successful method/operator/solution, with its identity class",
+  "m_star_in_history": {
+   "type": "bool",
+   "rule": "MUST be computed by the purity checker (normalized-text + digest), not asserted by the lane; if m_star_in_history is true the run CANNOT evidence development — it is reuse (classify as SOLUTION_EPISODIC per QUERY_ECOLOGY_AMENDMENT_V1)",
+   "cannot_check_rule": "unresolvable history bytes emit CANNOT_CHECK with reason; the receipt is inadmissible for developmental claims until resolved"
+  },
+  "recorded_before_solution_discovery": {
+   "eventual_success_rank": "int >= 1; proposal rank of the eventual successful method at search start",
+   "proposal_surprisal_bits": "-log2 P(m* | arm proposal distribution) at search start",
+   "proposal_entropy_bits": "mean proposal entropy over the search",
+   "branch_factor": "mean branching factor expanded",
+   "nodes_expanded": "int",
+   "failed_candidates": "int, with rejection_reason_histogram {}",
+   "decomposition_structure_digest": "sha256 of the subgoal/decomposition DAG actually used",
+   "information_queries": "count + cost of external hints/evidence consumed",
+   "retrieval_attempts": "int, with successful_mappings int (HDI-15: history altered search = retrieval attempted AND used)",
+   "representation_refinements": "int + digests",
+   "verification_calls": "int + total verification cost",
+   "target_evidence_consumed": "bytes/queries charged",
+   "work_to_first_verified_success": "int ops (the primary burden coordinate)"
+  },
+  "delta_receipt": {
+   "rank_delta": "rank_H(t+1)(m*) - rank_H(t)(m*) recorded per world; developmental direction is negative",
+   "surprisal_delta_bits": "-log2 P(m*|T,H(t+1)) - -log2 P(m*|T,H(t)) recorded per world",
+   "developmental_admissible": "true iff rank_delta < 0 OR surprisal_delta_bits < 0 at the frozen threshold AND m_star_in_history == false AND cost-complete (HDI-14)"
+  },
+  "ecology_axes": {"rho": "float", "sigma": "float", "d": "int", "delta": "float or 0-exact"},
+  "cost_ledger": {
+   "acquisition": "int", "storage_bytes": "int", "retrieval": "int",
+   "rejected_candidates": "int", "verification": "int", "adaptation": "int",
+   "rule": "charged to BOTH arms, compute-matched (HDI-14); a missing family emits CANNOT_CHECK, never 0"
+  }
+ },
+
+ "invariants": [
+  "fields under recorded_before_solution_discovery MUST be captured by instrumentation that runs before the solution is found; a post-hoc reconstruction emits RECONSTRUCTED=true and is inadmissible for HDI-15",
+  "every checker on this schema has a hostile positive control (planted leak fires) and a clean no-alarm control (clean run silent) — both retained in the run receipts",
+  "shuffle-equal-n null attaches to any adaptive-vs-fixed comparison derived from these receipts",
+  "CANNOT_CHECK stays distinct from PASS everywhere (HC-4)"
+ ]
+}

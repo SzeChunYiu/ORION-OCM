@@ -1,0 +1,109 @@
+{
+ "schema": "OCM_RECURSIVE_HARDENING_LEDGER",
+ "version": "V1",
+ "owner_issue": 323,
+ "written_utc": "2026-09-10",
+ "rule": "every real failure produces a reusable invariant, hostile, schema rule, static check, causal guard, or claim ceiling that prevents the entire DEFECT CLASS from silently recurring (HC-9). A hand-written local fix alone is solution accumulation, not hardening.",
+ "non_final": "EXPLICITLY_NON_FINAL",
+
+ "defect_classes": [
+  {
+   "id": "RH-01",
+   "defect": "census counts hand-copied (D28 F4: hostile census 27 vs 29)",
+   "class_invariant": "registry census is DERIVED from the atoms array, never hand-written",
+   "enforcement": "derive_census.py recomputes census and fails closed on any mismatch; CI gate ttac-registry-gates runs it",
+   "status": "CLOSED_IN_THIS_PR"
+  },
+  {
+   "id": "RH-02",
+   "defect": "build generators drift from their committed target artifacts (stale-sync class; D28 F6/F7)",
+   "class_invariant": "a generator's committed output must equal what the generator emits from the committed inputs",
+   "enforcement": "CI gate ttac-registry-gates re-runs the deterministic rebuild chain (build_d2 -> build_d3 -> build_d9) and fails on git diff",
+   "status": "CLOSED_IN_THIS_PR"
+  },
+  {
+   "id": "RH-03",
+   "defect": "manually amended result its checker cannot reproduce (RV_B1 correction_C1, fixed by #322; D28 F2)",
+   "class_invariant": "an artifact amended after emission is reproduced by its checker (amendment emitted in-code) OR carries a two-layer raw-result + amendment composition checker",
+   "enforcement": "byte-repro rule already enforced by the D10 replay discipline; amendment blocks are emitted by the checker (pattern of #322)",
+   "status": "CLOSED (pattern established by #322); audit remaining amended artifacts = task #52"
+  },
+  {
+   "id": "RH-04",
+   "defect": "results outside the freeze hash-chain (D28 F1: 8 exact/results/*.json)",
+   "class_invariant": "a result supporting a claim is inside a verifiable provenance/freeze chain or explicitly classed post-freeze-derived",
+   "enforcement": "task #52 owns the freeze-chain extension; new freezes (DEV-CAL-1, D29-31) declare their result-set members IN the freeze file",
+   "status": "OPEN (owner task #52)"
+  },
+  {
+   "id": "RH-05",
+   "defect": "unreachable freeze_commit reference (D28 F3: 11d165b7 unreachable from any ref)",
+   "class_invariant": "every freeze binds a commit reachable from main",
+   "enforcement": "task #52; freeze files must cite merge-commit oids, never PR-head oids that die on squash",
+   "status": "OPEN (owner task #52)"
+  },
+  {
+   "id": "RH-06",
+   "defect": "receipt schemas accept missing frozen load-bearing field families silently (D28 F5: 7/13 families frozen)",
+   "class_invariant": "receipt schemas enforce all frozen load-bearing field families or emit CANNOT_CHECK with a reason",
+   "enforcement": "SEARCH_GEOMETRY_RECEIPT_SCHEMA_V1.invariants + DEV_CAL_1 checker_requirements encode cannot_check-not-silence; retro-fit to older receipt schemas = task #52",
+   "status": "PARTIAL (new schemas enforce; retrofit open)"
+  },
+  {
+   "id": "RH-07",
+   "defect": "duplicate-key JSON identity-weld (B7: QG34 results 7731425f not parse-stable)",
+   "class_invariant": "committed JSON artifacts are parse-stable: duplicate keys banned",
+   "enforcement": "python json.loads with object_pairs_hook detecting duplicates added to ttac-registry-gates for research/**/results/*.json and registry artifacts",
+   "status": "CLOSED_IN_THIS_PR (gate live; the four B7-recorded artifacts stay ledgered as defects in REPLAY_RECEIPTS_V1)"
+  },
+  {
+   "id": "RH-08",
+   "defect": "frozen result file mutates across commits (B7: MSC engineering_chain 0->2 post-freeze appends)",
+   "class_invariant": "a frozen result is immutable; later evidence lands as SEPARATE receipt files, never appended into the frozen artifact",
+   "enforcement": "rule recorded; mechanical freeze-file digest watcher = task #52",
+   "status": "OPEN (owner task #52)"
+  },
+  {
+   "id": "RH-09",
+   "defect": "proxy selection manufactures negatives (GS-R2/RV-6: ranking collapsed the endpoint to 1 bit; 84.4% headline permanently unquotable; unranked lane 2.13% compute, 2.21x held-out)",
+   "class_invariant": "every optimisation/search metric carries a held-out latent-property audit; every 1-bit endpoint carries a draw-invariance control",
+   "enforcement": "encoded in DEV_CAL_1_PROTOCOL_FREEZE_V1.checker_requirements + ECONOMY_FRONTIER_PROTOCOLS_V1.common_rules; applies programme-wide going forward",
+   "status": "CLOSED_FOR_NEW_FREEZES; historical re-audit OPEN under #52"
+  },
+  {
+   "id": "RH-10",
+   "defect": "adaptive-beats-fixed claim reproduced by a row-shuffle null (FQ-2 retraction)",
+   "class_invariant": "every adaptive-vs-fixed claim carries a shuffle-equal-n null",
+   "enforcement": "encoded in DEV-CAL-1 + frontier protocols common rules",
+   "status": "CLOSED_FOR_NEW_FREEZES"
+  },
+  {
+   "id": "RH-11",
+   "defect": "vacuous noninterference (EB-F0 v1: writes declared, reads not; protected assay names absent from state graph)",
+   "class_invariant": "noninterference graphs include reads + writes + multi-hop ancestry; unresolved nodes emit CANNOT_CHECK",
+   "enforcement": "EB-F0 formal contract frozen at #316; DEV-CAL-1 history-purity checker inherits the rule",
+   "status": "CLOSED (contract frozen); apply-on-run OPEN"
+  },
+  {
+   "id": "RH-12",
+   "defect": "missing claim class invisible to closure machinery (TTAC: DEVELOPMENTAL_LINEAGE absent; readiness looked healthy while never scoring the central claim)",
+   "class_invariant": "every new claim area passes adversarial enumeration; a class with zero atoms is a visible row, not an absence",
+   "enforcement": "ATOM-DEV-03 registered (DEVELOPMENTAL_LINEAGE, OPEN, no closure) in this PR + census-by-class makes zero-atom classes conspicuous; adversarial enumeration pass before new claim classes = standing TTAC obligation",
+   "status": "CLOSED_IN_THIS_PR"
+  },
+  {
+   "id": "RH-13",
+   "defect": "unimplemented comparator yields a negative reading (SEV-01: matched adaptive parent suite NOT_IMPLEMENTED_ALL_PARENTS)",
+   "class_invariant": "a lane whose frozen comparator was not implemented emits CANNOT_CLASSIFY, never a negative terminal",
+   "enforcement": "rule recorded here; applied when SEV lane reopens; DEV-CAL-1 ASSAY_DEFECT terminal encodes the same principle",
+   "status": "OPEN (SEV lane reopen)"
+  },
+  {
+   "id": "RH-14",
+   "defect": "machine-specific absolute paths in committed builders (B7: qg34_build_primitives.py /private/tmp scratchpad, artifact uncommitted)",
+   "class_invariant": "committed code contains no machine-specific absolute paths; referenced artifacts are committed",
+   "enforcement": "grep gate in ttac-registry-gates over research builders for /private/tmp and /Users/ literals",
+   "status": "CLOSED_IN_THIS_PR (gate live; the qg34 artifact itself stays ledgered as a defect, owner #52)"
+  }
+ ]
+}
