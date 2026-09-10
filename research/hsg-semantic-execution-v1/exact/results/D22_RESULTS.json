@@ -1,0 +1,2351 @@
+{
+ "certificate_ceiling": "P2 finite certificate over enumerated models; never a universal proof",
+ "comorphisms": [
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-00"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-00"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0017,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-00"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0016,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-00"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0017,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0023,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.002,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-01"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 128,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-02"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 128,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-02"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 128,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-02"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0016,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-02"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0018,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0017,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0026,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-03"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-04"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.002,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 112,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-04"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 7,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 112,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-04"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-04"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L1-CLEAN",
+   "cpu_s": 0.0022,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 0,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 128,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-05"
+  },
+  {
+   "alarms": [
+    "T-SAT",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-SAT",
+   "cpu_s": 0.0021,
+   "expectation_met": true,
+   "expected": {
+    "T-SAT": false
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": false
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [],
+    "source_models": 4,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": false,
+    "n_pairs_checked": 128,
+    "n_violations": 3,
+    "witnesses": [
+     {
+      "beta_model": "01",
+      "sentence": "(~p&~q)",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     },
+     {
+      "beta_model": "01",
+      "sentence": "(~p&q)",
+      "source_sat_phi": true,
+      "target_model": "010",
+      "target_sat_alpha_phi": false
+     },
+     {
+      "beta_model": "01",
+      "sentence": "((~p&~q)|(p&~q))",
+      "source_sat_phi": false,
+      "target_model": "010",
+      "target_sat_alpha_phi": true
+     }
+    ]
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-05"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-frozen-alpha",
+   "cpu_s": 0.0021,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 3,
+    "missing_source_models": [
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "F",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [
+       "(~p&q)"
+      ],
+      "phi": "(~p&~q)",
+      "source_counter_models": [
+       "01"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 128,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-05"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L1-HOSTILE-IMAGE-restricted",
+   "cpu_s": 0.0019,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L1",
+   "n_achievable_premise_sets": 16,
+   "n_alarms": 2,
+   "n_source_models": 4,
+   "n_source_sentences": 16,
+   "n_target_models": 4,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L1-prop{p,q}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 2,
+    "missing_source_models": [
+     "00",
+     "01"
+    ],
+    "source_models": 4,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 256,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "((p&~q)|(p&q))",
+      "source_counter_models": [
+       "01",
+       "00"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&~q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "01"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(((~p&q)|(p&~q))|(p&q))",
+      "source_counter_models": [
+       "00"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 64,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "J1-prop{p',q',e}",
+   "world": "OW7-05"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L2-CLEAN",
+   "cpu_s": 0.0119,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L2",
+   "n_achievable_premise_sets": 61,
+   "n_alarms": 0,
+   "n_source_models": 8,
+   "n_source_sentences": 21,
+   "n_target_models": 16,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L2-Horn{p,q,r}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 8,
+    "missing_source_models": [],
+    "source_models": 8,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 1281,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 336,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L2x-Horn{p,q,r,s}",
+   "world": "L2-derived"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L2-HOSTILE-IMAGE",
+   "cpu_s": 0.0126,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L2",
+   "n_achievable_premise_sets": 61,
+   "n_alarms": 2,
+   "n_source_models": 8,
+   "n_source_sentences": 21,
+   "n_target_models": 8,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L2-Horn{p,q,r}",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [
+     "000",
+     "001",
+     "010",
+     "011"
+    ],
+    "source_models": 8,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 1281,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "p",
+      "source_counter_models": [
+       "010",
+       "000",
+       "001"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(q->p)",
+      "source_counter_models": [
+       "010",
+       "011"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "(r->p)",
+      "source_counter_models": [
+       "001",
+       "011"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 168,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L2x-Horn{p,q,r,s}",
+   "world": "L2-derived"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L3-CLEAN",
+   "cpu_s": 0.0083,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L3",
+   "n_achievable_premise_sets": 12,
+   "n_alarms": 0,
+   "n_source_models": 16,
+   "n_source_sentences": 15,
+   "n_target_models": 32,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L3-equational(1 binary op on {0,1})",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 16,
+    "missing_source_models": [],
+    "source_models": 16,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 180,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 480,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L3x-equational + constant",
+   "world": "L3-derived"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L3-HOSTILE-IMAGE",
+   "cpu_s": 0.0068,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L3",
+   "n_achievable_premise_sets": 12,
+   "n_alarms": 2,
+   "n_source_models": 16,
+   "n_source_sentences": 15,
+   "n_target_models": 16,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L3-equational(1 binary op on {0,1})",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 8,
+    "missing_source_models": [
+     "f=0010",
+     "f=0011",
+     "f=0100",
+     "f=0101",
+     "f=1010",
+     "f=1011",
+     "f=1100",
+     "f=1101"
+    ],
+    "source_models": 16,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 180,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "f(x,y) = f(y,x)",
+      "source_counter_models": [
+       "f=0010",
+       "f=0101",
+       "f=1011"
+      ]
+     },
+     {
+      "gamma": [
+       "x = f(x,x)"
+      ],
+      "phi": "f(x,y) = f(y,x)",
+      "source_counter_models": [
+       "f=0101",
+       "f=0011"
+      ]
+     },
+     {
+      "gamma": [
+       "x = f(x,y)"
+      ],
+      "phi": "x = y",
+      "source_counter_models": [
+       "f=0011"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 240,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L3x-equational + constant",
+   "world": "L3-derived"
+  },
+  {
+   "alarms": [],
+   "comorphism": "L4-CLEAN",
+   "cpu_s": 0.2321,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "fragment": "L4",
+   "n_achievable_premise_sets": 107,
+   "n_alarms": 0,
+   "n_source_models": 16,
+   "n_source_sentences": 48,
+   "n_target_models": 256,
+   "observed": {
+    "T-EXP": true,
+    "T-PRES": true,
+    "T-REFL": true,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L4-FO(1 binary relation, |U|=2)",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 16,
+    "missing_source_models": [],
+    "source_models": 16,
+    "surjective": true
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 5136,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": true,
+    "reflection_witnesses": []
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 12288,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L4x-FO(R and S)",
+   "world": "L4-derived"
+  },
+  {
+   "alarms": [
+    "T-EXP",
+    "T-REFL"
+   ],
+   "comorphism": "L4-HOSTILE-IMAGE",
+   "cpu_s": 0.1984,
+   "expectation_met": true,
+   "expected": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "fragment": "L4",
+   "n_achievable_premise_sets": 107,
+   "n_alarms": 2,
+   "n_source_models": 16,
+   "n_source_sentences": 48,
+   "n_target_models": 64,
+   "observed": {
+    "T-EXP": false,
+    "T-PRES": true,
+    "T-REFL": false,
+    "T-SAT": true
+   },
+   "premise_enumeration_complete": true,
+   "source": "L4-FO(1 binary relation, |U|=2)",
+   "t_exp": {
+    "coverage": "EXHAUSTIVE",
+    "image_size": 4,
+    "missing_source_models": [
+     "R=0000",
+     "R=0001",
+     "R=0010",
+     "R=0011",
+     "R=0100",
+     "R=0101",
+     "R=0110",
+     "R=0111",
+     "R=1000",
+     "R=1010",
+     "R=1100",
+     "R=1110"
+    ],
+    "source_models": 16,
+    "surjective": false
+   },
+   "t_pres_refl": {
+    "coverage": "EXHAUSTIVE over achievable premise sets",
+    "n_pairs_checked": 5136,
+    "preservation_holds": true,
+    "preservation_witnesses": [],
+    "reflection_holds": false,
+    "reflection_witnesses": [
+     {
+      "gamma": [],
+      "phi": "forallx.forally.R(x,x)",
+      "source_counter_models": [
+       "R=0001",
+       "R=0010",
+       "R=0101"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "forallx.forally.R(y,y)",
+      "source_counter_models": [
+       "R=0001",
+       "R=0010",
+       "R=0101"
+      ]
+     },
+     {
+      "gamma": [],
+      "phi": "forallx.forally.(R(x,x)&R(y,y))",
+      "source_counter_models": [
+       "R=0001",
+       "R=0010",
+       "R=0101"
+      ]
+     }
+    ]
+   },
+   "t_sat": {
+    "coverage": "EXHAUSTIVE",
+    "holds": true,
+    "n_pairs_checked": 3072,
+    "n_violations": 0,
+    "witnesses": []
+   },
+   "target": "L4x-FO(R and S)",
+   "world": "L4-derived"
+  }
+ ],
+ "cpu_s": 0.521,
+ "evidence_class": "CONFIRMATORY_FIXED",
+ "experiment": "D22",
+ "fragments": {
+  "L1": "propositional {p,q}, frozen ow7_worlds models",
+  "L2": "Horn {p,q,r}, 8 valuations, 21 definite clauses",
+  "L3": "equational, one binary op on {0,1}, 16 algebras",
+  "L4": "FO finite-model, one binary relation on |U|=2, 16 structures, 64 quantified sentences"
+ },
+ "ow7_surjectivity": {
+  "all_surjective": true,
+  "claim_verified": true,
+  "pre_registered_claim": "removing (0,0,1) does NOT break surjectivity of the drop-extra reduct because (0,0,0) still maps onto (0,0)",
+  "rows": [
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": true,
+    "n_jmodels": 7,
+    "world": "OW7-00"
+   },
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": true,
+    "n_jmodels": 7,
+    "world": "OW7-01"
+   },
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": false,
+    "n_jmodels": 8,
+    "world": "OW7-02"
+   },
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": true,
+    "n_jmodels": 7,
+    "world": "OW7-03"
+   },
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": true,
+    "n_jmodels": 7,
+    "world": "OW7-04"
+   },
+   {
+    "drop_reduct_surjective": true,
+    "missing": [],
+    "model_001_removed": false,
+    "n_jmodels": 8,
+    "world": "OW7-05"
+   }
+  ]
+ },
+ "protocol": "D21_D22_PROTOCOL_V1.md",
+ "summary": {
+  "F1_all_premise_enumerations_complete": true,
+  "F1_consequence_pairs_checked": 19338,
+  "F1_t_sat_pairs_checked": 19080,
+  "F2_preservation_failures_under_satisfying_comorphisms": [],
+  "F3_reflection_expansiveness_mismatches": [],
+  "F4_both_hostiles_fired": true,
+  "F4_hostile_image_fired": true,
+  "F4_hostile_sat_fired": true,
+  "F5_clean_alarms": 0,
+  "F5_clean_arms": 9,
+  "n4_lock": "LOCKED: no Lean, no SMT, no solver; z3-solver/python-sat/pysmt install on this host and were deliberately not used",
+  "n_comorphisms": 30,
+  "n_expectations_met": 30,
+  "n_expectations_total": 30,
+  "ow7_drop_reduct_surjective_on_all_worlds": true,
+  "ow7_pre_registered_claim_verified": true
+ },
+ "wall_s": 0.522,
+ "worlds": "OW7 (frozen, SEED 20260910) + derived L2/L3/L4 fragments"
+}
