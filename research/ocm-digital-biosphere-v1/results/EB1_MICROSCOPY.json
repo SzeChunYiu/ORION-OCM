@@ -1,0 +1,60 @@
+{
+ "gate": "PHYSICS_HOLDS",
+ "n": 7,
+ "open_exploits": [],
+ "results": [
+  {
+   "energy_gain_per_tick": 4,
+   "illegal_count": 8,
+   "name": "ENERGY_DUP",
+   "note": "Second harvest same tick must not add energy.",
+   "status": "BLOCKED"
+  },
+  {
+   "illegal_count": 8,
+   "name": "PHYSICS_TAMPER",
+   "regen_unchanged": true,
+   "status": "BLOCKED"
+  },
+  {
+   "births_delta": 8,
+   "illegal_count": 8,
+   "name": "ASSAY_LEAK",
+   "note": "Opcode is logged and is a no-op. No assay_fitness field exists on cells.",
+   "status": "BLOCKED"
+  },
+  {
+   "energy_delta": -2,
+   "name": "MSG_ENERGY",
+   "note": "Messages must not transfer energy even if energy key is set.",
+   "status": "BLOCKED"
+  },
+  {
+   "births": 0,
+   "illegal_count": 0,
+   "name": "GHOST_REPLICATE",
+   "status": "BLOCKED"
+  },
+  {
+   "deaths": 8,
+   "min_energy": 0,
+   "name": "NEGATIVE_WRAP",
+   "status": "BLOCKED"
+  },
+  {
+   "census": {
+    "max_clone_share": 0.8125,
+    "monoculture": false,
+    "n_alive": 16,
+    "n_births": 21,
+    "stasis_suspect": false,
+    "unique_genomes": 2
+   },
+   "name": "FAST_REPL_MONOCULTURE",
+   "note": "Preserve. Fast replicators under uniform resource are a known ALife failure mode.",
+   "status": "EXPECTED_NEGATIVE"
+  }
+ ],
+ "schema": "EB1_MICROSCOPY_V1",
+ "ts": "2026-09-10T09:57:44Z"
+}

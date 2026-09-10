@@ -1,0 +1,31 @@
+{
+  "schema": "WORLD_STATE_AND_DYNAMICS_V1",
+  "owner_issue": 296,
+  "state": {
+    "W_t": ["E_t", "mu_t", "Gamma_t", "H_t", "P", "C"],
+    "cell": ["g", "F_fragment", "O_subset", "Pi_local", "h_lifetime", "r_resource", "q_proximate_goals", "ell_lineage"],
+    "C_in_cell": false,
+    "primitive_units_forbidden": ["species", "group", "culture", "collective", "intelligence_score"]
+  },
+  "physics_P": {
+    "writable_by_organisms": ["resource_cells_in_E"],
+    "not_writable": ["P", "C", "protected_assays", "evaluators", "host_fs", "host_network"],
+    "niche_construction": "organisms may alter resource state, never P or C"
+  },
+  "kernels": {
+    "K_world": {"writes": ["E"], "randomness": "shock_rng", "cost": "none", "channel": "none"},
+    "K_senseact": {"writes": ["E.resources", "x.r", "x.h"], "randomness": "none_or_sensor_noise", "cost": "energy", "channel": "local_sensors"},
+    "K_learn": {"writes": ["x.F", "x.O", "x.Pi", "x.h", "x.q"], "randomness": "learn_rng", "cost": "compute_memory", "channel": "none"},
+    "K_social": {"writes": ["x.F_or_h_of_recipient", "H.cult"], "randomness": "transfer_rng", "cost": "bandwidth", "channel": "I_h_I_o_I_pub"},
+    "K_assemble": {"writes": ["Gamma"], "randomness": "assemble_rng", "cost": "coordination", "channel": "proximity"},
+    "K_birthdeath": {"writes": ["mu", "H.lineage"], "randomness": "birthdeath_rng", "cost": "replicate_threshold", "channel": "none", "fitness_source": "P_and_resources_only"},
+    "K_mut": {"writes": ["offspring.g"], "randomness": "mut_rng", "cost": "none_or_mut_load", "channel": "none"},
+    "K_inherit": {"writes": ["offspring.F_O_Pi_h"], "randomness": "inherit_rng", "cost": "copy", "channel": "I_gen_I_epi_I_C"}
+  },
+  "ablation_rule": "Each kernel can be replaced by identity independently. Social ablation must not change harvest physics. Assay ablation must not change K_birthdeath.",
+  "selection": {
+    "w_i": "observer statistic: realized offspring contribution, not a reward input",
+    "intelligence_scalar_in_P": false,
+    "assay_in_ancestors_of_birth": false
+  }
+}
