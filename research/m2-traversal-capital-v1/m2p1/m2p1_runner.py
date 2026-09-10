@@ -21,7 +21,8 @@ from pathlib import Path
 LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
 ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
-        "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT")
+        "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
+        "PARENT_WITH_MDL")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -161,6 +162,16 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
+    if arm == "PARENT_WITH_MDL":
+        # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
+        # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
+        # This arm gives the ungated parent the SAME MDL library, isolating the rule. If
+        # it matches CONTINUED_MDL, the win belongs to compression, not to OCM.
+        mdl = dev.get("mdl_fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no mdl library recorded"
+        return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+            "ungated parent serving the MDL library: isolates selection rule from OCM"
     if arm == "CONTINUED_MDL":
         # PROPOSED SUCCESSOR SELECTION RULE, reported only under that label.
         # learn_generator ranks by (support count DESC, length DESC); a substring shared by

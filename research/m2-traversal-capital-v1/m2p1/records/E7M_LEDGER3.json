@@ -1,0 +1,48 @@
+{
+ "admitted": false,
+ "benefit": {
+  "mean_B_CONTINUED": 58752.6,
+  "mean_B_RESET": 58752.6,
+  "saved_slots_per_target": 0.0,
+  "work_reduction": 0.0
+ },
+ "components": {
+  "developmental_solve_slots": 1603487,
+  "validation_full_slots": 1417932,
+  "validation_incremental_slots": 710841
+ },
+ "definitions": {
+  "conservative": "developmental solving + full validation; every dev solve treated as overhead",
+  "incremental": "the duplicate search inside validation only; the agent needs one solution per held-out task and would have paid the baseline anyway, so the prior's genuine extra cost is the second search",
+  "marginal": "full validation only; dev solving granted as work already being done"
+ },
+ "ecology": "E7_MDL",
+ "hardening_parent": 323,
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "ledgers": {
+  "conservative": {
+   "acquisition_slots": 3021419,
+   "breakeven_targets": null,
+   "future_targets_available": 43,
+   "net_slots_over_available_horizon": -3021419.0,
+   "pays_for_itself": false
+  },
+  "incremental": {
+   "acquisition_slots": 710841,
+   "breakeven_targets": null,
+   "future_targets_available": 43,
+   "net_slots_over_available_horizon": -710841.0,
+   "pays_for_itself": false
+  },
+  "marginal": {
+   "acquisition_slots": 1417932,
+   "breakeven_targets": null,
+   "future_targets_available": 43,
+   "net_slots_over_available_horizon": -1417932.0,
+   "pays_for_itself": false
+  }
+ },
+ "owner_issue": 165,
+ "schema": "OCM_M2P1_THREE_LEDGER_V1",
+ "terminal": "PARENT_SUFFICIENT__LEARNER_REFUSED_DEPLOYMENT"
+}
