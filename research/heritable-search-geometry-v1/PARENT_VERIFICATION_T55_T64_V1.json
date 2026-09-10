@@ -1,0 +1,133 @@
+{
+  "lane_id": "HSG-D10-PARENT-VERIFICATION",
+  "pr_base_head": {
+    "pr": 250,
+    "branch": "hsg/v3-d10-donor-theorems",
+    "head_sha": "5a620b0f5da59516b039488c29bd5f89c0eaf5b4",
+    "base": "main"
+  },
+  "scope_note": "Five parent-backed theorems of PR #250 (T55/T56/T59/T61/T63 have no external parent claims). Claims quoted verbatim from origin/hsg/v3-d10-donor-theorems D10_THEOREMS_PART1.md / PART2.md and REGISTRY_PATCH_D10.json before verification.",
+  "claims": [
+    {
+      "theorem": "HSG-T57",
+      "claim_verbatim": "The parent optimal policy is the reservation rule: compute reservation values z_d solving E[(X_d − z_d)^+] = c_d; open donors in decreasing order of z_d; stop when the best observed value exceeds the reservation value of every unopened donor; take the best observed value.",
+      "source_as_cited": "Weitzman 1979, Optimal Search for the Best Alternative, Econometrica 47(3), doi:10.2307/1910412",
+      "verified_source": {
+        "title": "Optimal Search for the Best Alternative",
+        "authors": "Martin L. Weitzman",
+        "year": 1979,
+        "venue": "Econometrica 47(3):641-654 (May 1979)",
+        "doi": "10.2307/1910412",
+        "stable_url": "https://www.jstor.org/stable/1910412",
+        "arxiv_id": null
+      },
+      "verdict": "CONFIRMED",
+      "correction_note": "Reservation functional equation, decreasing-z order rule, and stop-when-best-observed-exceeds-every-unopened-reservation-value rule all match the paper as characterized by the publisher and JSTOR full-text snippets. Full text is paywalled; verification used the Econometric Society abstract, a JSTOR body snippet naming Pandora's Rule and the reservation-price definition, and two independent scholarly restatements of z_i via c_i = E[(X_i - z_i)^+] (Olszewski arXiv:1509.09095; Gergatsouli-Tzamos NeurIPS 2023). With Weitzman's discount factor the definition generalizes; the PR's undiscounted form is the standard special case.",
+      "evidence_quote": "For m = 1, the optimality of Pandora's Rule is easily demonstrated just by directly applying the definition of reservation price.",
+      "evidence_location": "JSTOR stable/1910412 body snippet (Sec. 2, reservation price); publisher abstract (econometricsociety.org): 'The optimal strategy is an elementary reservation price rule, where the reservation prices are easy to calculate and have an intuitive economic interpretation.'"
+    },
+    {
+      "theorem": "HSG-T58",
+      "claim_verbatim": "adaptive greedy achieves the parent near-optimality guarantees within the registered constraint class: a near 1-1/e approximation for adaptive value maximization under a cardinality-style budget and a logarithmic competitive ratio for adaptive minimum-cost cover; in the nonadaptive special case with monotone submodular value under a single knapsack budget, greedy with partial enumeration achieves 1-1/e exactly (Sviridenko).",
+      "source_as_cited": "Golovin & Krause 2011, Adaptive Submodularity, JAIR 42, doi:10.1613/JAIR.3278; Sviridenko 2004, Operations Research Letters 32(1), doi:10.1016/S0167-6377(03)00062-2",
+      "verified_source": [
+        {
+          "title": "Adaptive Submodularity: Theory and Applications in Active Learning and Stochastic Optimization",
+          "authors": "Daniel Golovin, Andreas Krause",
+          "year": 2011,
+          "venue": "Journal of Artificial Intelligence Research 42:427-486 (submitted 1/11, published 11/11)",
+          "doi": "10.1613/jair.3278",
+          "stable_url": "https://www.jair.org/index.php/jair/article/view/10731",
+          "arxiv_id": null
+        },
+        {
+          "title": "A note on maximizing a submodular set function subject to a knapsack constraint",
+          "authors": "Maxim Sviridenko",
+          "year": 2004,
+          "venue": "Operations Research Letters 32(1):41-43",
+          "doi": "10.1016/S0167-6377(03)00062-2",
+          "stable_url": "https://thibaut.horel.org/submodularity/papers/sviridenko2004.pdf",
+          "arxiv_id": null
+        }
+      ],
+      "verdict": "PARTIAL",
+      "correction_note": "Golovin-Krause CONFIRMED (the PR's 'HTTP 404 both fetch attempts' was a wrong URL; live canonical is jair.org/index.php/jair/article/view/10731, DOI 10.1613/jair.3278 printed on the page). Adaptive greedy (1-1/e) under a cardinality budget is verified verbatim. The min-cost-cover guarantee's exact form (Thm 5.8) is c_avg(pi) <= alpha*c_avg(pi*_avg)*(ln(Q/eta)+1) for self-certifying instances and *(ln(Q/(delta*eta))+1) in general, delta = min_phi p(phi) - so 'O(log(1/p_*))-competitive' is a shorthand valid only when Q/eta is constant. Sviridenko WORDING_IMPRECISE: the algorithm enumerates all feasible sets of cardinality ONE OR TWO in phase 1 and ALL 3-element sets U (|U|=3) greedily completed in phase 2 ('For all U subset I such that |U| = 3'), i.e. partial enumeration over TRIPLES (sets of cardinality <= 3), not 'over pairs'. Theorem 1 verbatim: 'The worst-case performance guarantee of the above greedy algorithm for solving problem (1) is equal to 1 - e^-1'; O(n^5) function evaluations.",
+      "evidence_quote": "we see that the greedy policy which selects k items adaptively obtains at least (1-1/e)",
+      "evidence_location": "GK 2011 Sec. 5 (stochastic maximization, via Theorem 5.2), JAIR 42 p.~455 in PDF; also Thm 5.8 statement for min-cost cover; Sviridenko 2004 Theorem 1 and Sec. 2 algorithm, ORL 32(1):41-43."
+    },
+    {
+      "theorem": "HSG-T60",
+      "claim_verbatim": "Source: K. Jamieson, A. Talwalkar, \"Non-stochastic Best Arm Identification and Hyperband Applications\", ICML 2016 ... it identifies the best arm with a budget within logarithmic factors of the lower bound ... with total budget within logarithmic factors of the non-stochastic lower bound (order (K/Δ^2) log K up to log factors).",
+      "source_as_cited": "Jamieson & Talwalkar 2016, Non-stochastic Best Arm Identification and Hyperband Applications, ICML 2016, proceedings.mlr.press/v51/jamieson16.html",
+      "verified_source": {
+        "title": "Non-stochastic Best Arm Identification and Hyperparameter Optimization",
+        "authors": "Kevin Jamieson, Ameet Talwalkar",
+        "year": 2016,
+        "venue": "AISTATS 2016 (19th Int. Conf. on Artificial Intelligence and Statistics), JMLR W&CP 41, PMLR 51:240-248",
+        "doi": null,
+        "stable_url": "https://proceedings.mlr.press/v51/jamieson16.html",
+        "arxiv_id": null
+      },
+      "verdict": "WORDING_IMPRECISE",
+      "correction_note": "Correct title is 'Non-stochastic Best Arm Identification and HYPERPARAMETER Optimization' (not 'Hyperband Applications'; Hyperband/Li et al. is a different paper and is not cited by the PR). Venue is AISTATS 2016 (JMLR W&CP v51), not ICML. The proven guarantee (Thm 1) is sufficiency: any budget B > z_SH returns the best arm (doubling trick: 2*z_SH); Thms 2-4 compare SH to the UNIFORM ALLOCATION baseline - 'provably outperforms the uniform allocation baseline in favorable conditions, and performs comparably (up to log factors) otherwise' - NOT 'within logarithmic factors of the non-stochastic lower bound': a matching lower bound is explicitly a conjecture ('We conjecture that a matching lower bound to Theorem 1 can be derived by considering a stochastic adversary'). The '(K/Δ^2) log K' form is the stochastic-setting complexity (Karnin-Koren-Somekh, ref [15], the acknowledged SH origin: 'the Successive Halving algorithm of [15]'); the non-stochastic bound is stated via envelope functions z_SH, and [15] is missing from the PR's parent list.",
+      "evidence_quote": "If the Successive Halving algorithm is run with any budget B > zSH then the best arm is guaranteed to be returned.",
+      "evidence_location": "PMLR v51 jamieson16.pdf, Theorem 1 (p. 243); baseline comparison in abstract and Thms 2-4; lower-bound status in Sec. 6 Future directions; SH origin credit to [15] Karnin-Koren-Somekh (ICML 2013) in Sec. 2.1 and Fig. 3 caption."
+    },
+    {
+      "theorem": "HSG-T62",
+      "claim_verbatim": "Sampling: m entries revealed uniformly at random (or an adequate random-like sampler); m on the order of n^{6/5} r log n for the square case n_1 = n_2 = n as stated in the 2009 paper (PARENT_STATEMENT_UNVERIFIED_TEXT: exact exponent and constants) ... Under 1-3, nuclear-norm minimization recovers R exactly with high probability.",
+      "source_as_cited": "Candes & Recht 2009, Exact Matrix Completion via Convex Optimization, Foundations of Computational Mathematics 9, doi:10.1007/s10208-009-9045-5",
+      "verified_source": {
+        "title": "Exact Matrix Completion via Convex Optimization",
+        "authors": "Emmanuel J. Candes, Benjamin Recht",
+        "year": 2009,
+        "venue": "Foundations of Computational Mathematics 9(6):717-772 (online 2009-04-03)",
+        "doi": "10.1007/s10208-009-9045-5",
+        "stable_url": "https://link.springer.com/article/10.1007/s10208-009-9045-5",
+        "arxiv_id": "0805.4471"
+      },
+      "verdict": "CONFIRMED",
+      "correction_note": "Publisher abstract (Springer FoCM 9(6):717-772) confirms the exponent exactly: 'm >= C n^{1.2} r log n' with n^{1.2} = n^{6/5}, uniform at random sampling, minimum-nuclear-norm program, perfect recovery with very high probability - matching the PR's assumptions. Two nuances, not defects in the PR: the abstract quantifies over 'most n-by-n matrices of rank r' (random-orthogonal model; incoherence enters via the body theorems for arbitrary matrices) and assumes 'the rank is not too large' - replacing the 1.2 exponent with 1.25 gives the all-ranks result. The PR's closing note 'improved by later work toward near-linear sampling' refers to follow-ups outside the cited 2009 paper and was not verified here.",
+      "evidence_quote": "if the number m of sampled entries obeys m >= C n^{1.2} r log n ... most n-by-n matrices of rank r can be perfectly recovered by solving a simple convex optimization program",
+      "evidence_location": "Publisher abstract, FoCM 9(6):717-772, DOI 10.1007/s10208-009-9045-5 (identical text on arXiv:0805.4471 v1 abstract)."
+    },
+    {
+      "theorem": "HSG-T64",
+      "claim_verbatim": "N. Hay, S. Russell, D. Tolpin, S. Shimony, \"Selecting Computations: Theory and Applications\" (later titled \"Bounded rational metareasonation...\"), arxiv.org/abs/1207.5879 ... (their analysis includes Pandora-like settings) the myopic policy is optimal or near-optimal, while in general it is a heuristic with regret relative to the uncomputable full meta-level optimum.",
+      "source_as_cited": "Russell & Wefald 1991, Principles of metareasoning, Artificial Intelligence 49, doi:10.1016/0004-3702(91)90015-C; Hay-Russell-Tolpin-Shimony 2012, arxiv.org/abs/1207.5879",
+      "verified_source": [
+        {
+          "title": "Principles of Metareasoning",
+          "authors": "Stuart Russell, Eric Wefald",
+          "year": 1991,
+          "venue": "Artificial Intelligence 49(1-3):361-395",
+          "doi": "10.1016/0004-3702(91)90015-C",
+          "stable_url": "CMU IIIF scan: iiif.library.cmu.edu/fileinfo/Newell_box00014_fld01011_doc0001/1/0",
+          "arxiv_id": null
+        },
+        {
+          "title": "Selecting Computations: Theory and Applications",
+          "authors": "Nicholas Hay, Stuart Russell, David Tolpin, Solomon Eyal Shimony",
+          "year": 2012,
+          "venue": "UAI 2012 (Uncertainty in Artificial Intelligence), proceedings pp. 346-355",
+          "doi": "10.5555/3020652.3020691 (ACM DL)",
+          "stable_url": "https://arxiv.org/abs/1207.5879",
+          "arxiv_id": "1207.5879"
+        }
+      ],
+      "verdict": "PARTIAL",
+      "correction_note": "Russell-Wefald CONFIRMED: general utility-of-computation formula, computations treated as actions selected by utility, resource-bounded rationality framing (abstract + Sec. 3 verbatim from the scanned original). Hay et al. content WRONG_ATTRIBUTION on two points: (1) no later title 'Bounded rational metareasonation' exists - the canonical title IS 'Selecting Computations: Theory and Applications' (UAI 2012); the parenthetical is garbled and should be deleted (the registry's 'selecting computations under limited resources' likewise misstates it). (2) 'their analysis includes Pandora-like settings' is unsupported: the full text contains ZERO Pandora/Weitzman content (no matches for pandora|weitzman in the complete PDF text). What the paper actually proves: metalevel selection as a belief-state MDP; Thm 7 (myopic computes => optimal computes); Thm 9 (myopic stops in a transition-closed subset => optimal stops); Thm 10 (one-armed Bernoulli: optimal policy performs at most lambda(1-lambda)/c - 3 <= 1/4c - 3 computations); counterexamples that optimal policies may compute forever (Ex. 3) and optimal index policies (Gittins) may not exist (Ex. 4); the myopic policy 'has a tendency to stop too early'. Myopic optimality is structure-specific (transition-closed subsets), not Pandora-type.",
+      "evidence_quote": "We develop a general formula for the utility of computations, this utility being derived directly from the ability of computations to affect an agent's external actions.",
+      "evidence_location": "Russell-Wefald 1991 abstract (AIJ 49, CMU IIIF scan). Hay et al. quotes at arXiv:1207.5879: Def. 6 + Thms 7/9/10 (Sec. 2), Ex. 3-4 (Sec. 2-3)."
+    }
+  ],
+  "census": {
+    "total": 5,
+    "CONFIRMED": 2,
+    "PARTIAL": 2,
+    "WORDING_IMPRECISE": 1,
+    "WRONG_ATTRIBUTION": 0,
+    "UNVERIFIABLE": 0
+  },
+  "created_utc": "2026-09-09T23:50:01Z"
+}
