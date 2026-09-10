@@ -1,0 +1,77 @@
+{
+ "batch": "B",
+ "rows": [
+  {
+   "id": "P10",
+   "verdict": "CONFIRMED_SUBSTANTIVE",
+   "verified_citation": "E. Gr\u00e4del and V. Tannen, 'Semiring Provenance for First-Order Logic' (arXiv:2412.07986, Dec 2024) \u2014 authors/title/year match the arXiv primary entry exactly.",
+   "statement_match": "Registry use 'dual-indeterminate/provenance for FOL with negation; positive provenance does not automatically extend to negation' matches the primary abstract: prior semiring-provenance work was 'restricted to negation-free query languages' because 'difference or negation cause problems'; the paper extends provenance to full first-order logic by transforming formulas into negation normal form and evaluating in quotient semirings of polynomials with dual (negation) indeterminates, yielding 'a semiring provenance analysis for full first-order logic'.",
+   "drift_notes": "Mechanism is fully attested, but the extension is specifically via NNF + quotient semirings by ideals over dual indeterminates; any capsule wording implying plain polynomial semirings suffice for negation would be imprecise. Citation is to the arXiv version (correct as claimed; no published venue asserted).",
+   "primary_url": "https://arxiv.org/abs/2412.07986"
+  },
+  {
+   "id": "P11",
+   "verdict": "CONFIRMED_VERBATIM",
+   "verified_citation": "Brinke, Dawar, Gr\u00e4del, Pago, 'Preservation Theorems in Semiring Semantics', ICALP 2026, LIPIcs vol. 374, 172:1-172:23, DOI 10.4230/LIPIcs.ICALP.2026.172, published 2026-07-01 (Dagstuhl primary page).",
+   "statement_match": "The 2026 paper exists and its abstract matches the registry use: Boolean preservation theorems (homomorphism preservation, \u0141o\u015b\u2013Tarski preservation) do NOT lift uniformly to arbitrary semirings \u2014 they 'do indeed hold for all lattice semirings' but fail for tropical, Viterbi, \u0141ukasiewicz, and natural-number semirings; validity 'strongly depends on the algebraic properties of the particular semirings'; also a finite-model reversal example (3-element min-max semiring).",
+   "drift_notes": "None. Positives are specifically for lattice semirings (exact match to registry wording); failures are named concrete semirings, not 'all non-lattice semirings' \u2014 capsule should keep the lattice positive / named-counterexample structure.",
+   "primary_url": "https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ICALP.2026.172"
+  },
+  {
+   "id": "P12",
+   "verdict": "CONFIRMED_SUBSTANTIVE",
+   "verified_citation": "J. A. Goguen and R. M. Burstall, 'Institutions: Abstract Model Theory for Specification and Programming', Journal of the ACM 39(1):95-146, Jan 1992, DOI 10.1145/147508.147524 \u2014 verified on the ACM DL primary page (abstract + full 107-item reference list).",
+   "statement_match": "Satisfaction condition attested in the primary abstract: 'The concept of institution is introduced to formalize the informal notion of \"logical system.\" The major requirement is that there is a satisfaction relation between models and sentences that is consistent under change of notation.' \u2014 i.e., the Sign/Sen/Mod/|= quadruple with the satisfaction condition (translations of sentences along signature morphisms agree with reducts of models). The paper's third main result is precisely 'conditions under which it is sound to use a theorem prover for one institution on theories from another'.",
+   "drift_notes": "Terminology drift on 'comorphism': the abstract names only 'institution morphisms' (the paper's second main result); the term 'comorphism' could not be searched in the body (local PDF has a custom font encoding with no ToUnicode map \u2014 extraction garbled), so its absence is evidenced by the abstract only, but the named concept standardly postdates this paper. The forward sentence-translation + model-reduct MECHANISM the registry uses is present; the NAME should be co-cited to Meseguer 'General logics' (1989), which this very paper lists as reference [78].",
+   "primary_url": "https://dl.acm.org/doi/10.1145/147508.147524"
+  },
+  {
+   "id": "P13",
+   "verdict": "PARTIAL",
+   "verified_citation": "R. Harper, F. Honsell, G. Plotkin, 'A Framework for Defining Logics' \u2014 TRUE primary: full version JACM 40(1):143-184, Jan 1993, DOI 10.1145/138027.138060; preliminary version LICS 1987, pp. 194-204.",
+   "statement_match": "Mechanism verified against the JACM 1993 primary abstract: LF is a general logical framework in which 'a wide range of logics' can be defined/presented uniformly (signature + judgments-as-types via the dependently typed \u03bb-calculus), enabling logic-independent implementation of common syntactic and proof-theoretic tools and reducing proof checking to type checking in the framework. Independently corroborated: the Goguen-Burstall bibliography [58] cites the LICS 1987 version, and Necula POPL'97 [5] cites the JACM 1993 version.",
+   "drift_notes": "Citation drift: claimed venue 'LICS 1993' does not exist for this paper \u2014 it conflates the 1987 LICS preliminary version with the 1993 JACM full version. Fix the registry to either 'LICS 1987, pp. 194-204' or (preferred) 'JACM 40(1):143-184, 1993, DOI 10.1145/138027.138060'. Authors and title are correct.",
+   "primary_url": "https://dl.acm.org/doi/10.1145/138027.138060"
+  },
+  {
+   "id": "P14",
+   "verdict": "CONFIRMED_VERBATIM",
+   "verified_citation": "G. C. Necula, 'Proof-Carrying Code', POPL '97 (24th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages), pp. 106-119, DOI 10.1145/263699.263712 \u2014 verified on the ACM DL primary page.",
+   "statement_match": "Primary abstract matches the registry use nearly word-for-word: PCC is 'a mechanism by which a host system can determine with certainty that it is safe to execute a program supplied (possibly in binary form) by an untrusted source'; 'the untrusted code producer must supply with the code a safety proof that attests to the code's adherence to a previously defined safety policy'; 'The host can then easily and quickly validate the proof without using cryptography and without consulting any external agents.' The 'small sound checker against frozen safety policy' = the host's proof validator + fixed safety policy.",
+   "drift_notes": "None. All bibliographic fields (author, venue, year, pages, DOI) confirmed on the primary page.",
+   "primary_url": "https://dl.acm.org/doi/10.1145/263699.263712"
+  },
+  {
+   "id": "P15",
+   "verdict": "CONFIRMED_SUBSTANTIVE",
+   "verified_citation": "R. Nieuwenhuis, A. Oliveras, C. Tinelli, 'Solving SAT and SAT Modulo Theories: From an abstract Davis-Putnam-Logemann-Loveland procedure to DPLL(T)', JACM 53(6):937-977, Nov 2006, DOI 10.1145/1217856.1217859 \u2014 verified on the ACM DL primary page + Crossref.",
+   "statement_match": "Context-only citation (D24 SMT fragments). Primary abstract confirms the exact architecture: 'Abstract DPLL, a rule-based formulation' whose soundness/completeness/termination 'immediately carry over to the modern DPLL implementations'; SMT handled by 'a general DPLL(X) engine, whose parameter X can be instantiated with a specialized solver Solver_T for a given theory T, thus producing a DPLL(T) system', with theory propagation and DPLL(X)-Solver_T cooperation.",
+   "drift_notes": "None for a context citation; no specific theorem is instantiated from this parent.",
+   "primary_url": "https://dl.acm.org/doi/10.1145/1217856.1217859"
+  },
+  {
+   "id": "P16",
+   "verdict": "CONFIRMED_SUBSTANTIVE",
+   "verified_citation": "G. Huet, 'A Complete Proof of Correctness of the Knuth-Bendix Completion Algorithm', JCSS 23(1):11-21, Aug 1981, DOI 10.1016/0022-0000(81)90002-7 \u2014 verified on ScienceDirect primary page + Crossref.",
+   "statement_match": "Primary abstract matches the registry use: the paper gives a 'complete description of the Knuth-Bendix completion algorithm' and proves 'its correctness in full, isolating carefully the essential abstract notions'; the completed system yields 'a semidecision algorithm for the validity problem ... yielding a decision procedure whenever the algorithm terminates'.",
+   "drift_notes": "Registry wording 'completion produces confluent terminating rewrite systems' compresses two conditional facts: confluence of the completed system is established by the body's theorems (the abstract argues via correctness of the limit system) and is guaranteed only when completion terminates without failure-divergence; 'terminating' holds since rules are oriented by a reduction order. Capsule should keep the 'when it terminates' condition.",
+   "primary_url": "https://www.sciencedirect.com/science/article/pii/0022000081900027"
+  },
+  {
+   "id": "P17",
+   "verdict": "CONFIRMED_SUBSTANTIVE",
+   "verified_citation": "BOTH verified. (1) M. Willsey, C. Nandi, Y. R. Wang, O. Flatt, Z. Tatlock, P. Panchekha, 'egg: Fast and Extensible Equality Saturation', POPL 2021, DOI 10.1145/3434304 (Crossref). (2) Same authors, same title, CACM 69(8):105-113, Aug 2026, DOI 10.1145/3815481 (Crossref).",
+   "statement_match": "From the full paper text (arXiv:2004.03082 = authors' version of the POPL 2021 paper): 'An e-graph is a data structure that stores a set of terms and a congruence relation over those terms' (\u00a72.1); equality saturation maintains 'a key invariant: the equivalence relation is closed under congruence' (Definition 2.6, 'The Congruence Invariant'); sound-rewrite preservation attested by 'a new amortized algorithm called rebuilding that defers e-graph invariant maintenance to equality saturation phase boundaries without compromising soundness', monotonicity by 'Due to the additive nature of equality saturation, \u2261node only increases', and growth 'by repeatedly applying pattern-based rewrites' that only add equivalences.",
+   "drift_notes": "Congruence invariant and rebuild-soundness are verbatim-attested; 'sound-rewrite preservation' is the paper's additive/monotonicity property paraphrased (no single sentence uses that exact phrase). CACM 2026 is the magazine recap of the same work, not a second results paper \u2014 fine as a co-citation.",
+   "primary_url": "https://dl.acm.org/doi/10.1145/3434304"
+  },
+  {
+   "id": "P18",
+   "verdict": "CONFIRMED_VERBATIM",
+   "verified_citation": "R. E. Fikes and N. J. Nilsson, 'STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving', Artificial Intelligence 2(3-4):189-208, Winter 1971, DOI 10.1016/0004-3702(71)90010-5 \u2014 verified on ScienceDirect + full text extracted from the publisher PDF.",
+   "statement_match": "Registry use 'flat operator planning representation' matches the primary verbatim in structure: the problem space is '(1) An initial world model, which is a set of wffs ... (2) A set of operators, including a description of their effects and their precondition wff schemata (3) A goal condition stated as a wff'; 'STRIPS represents a world model as an arbitrary collection of first-order predicate calculus formulas' (abstract); 'to define an operator, we must state the preconditions under which it is applicable and its effects'; effects 'are simply described by two lists. On the delete list we specify those clauses in the original model that might no longer be true in the new model. On the add list are those clauses that might not have been true in the original model but are true in the new model.'",
+   "drift_notes": "None material. 'Flat' is the capsule's adjective, not the paper's, but accurately describes the two-list add/delete format. States are full FOL wff sets (not restricted to literals), which the capsule should preserve if it claims state-format fidelity.",
+   "primary_url": "https://www.sciencedirect.com/science/article/pii/0004370271900105"
+  }
+ ]
+}

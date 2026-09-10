@@ -4,145 +4,595 @@
  "frozen_utc": "2026-09-10",
  "source_amendment": "SzeChunYiu/ORION-OCM#233 HSG v4 amendment",
  "non_finality": "EXPLICITLY_NON_FINAL — supersede, never defend",
- "status_vocabulary": ["OPEN", "PROVED_LOCAL", "PARENT_THEOREM_INSTANTIATED", "FINITE_EXACT_CERTIFICATE", "PROBABILISTIC_BOUND", "EMPIRICAL_ONLY", "REFUTED_BY_COUNTEREXAMPLE", "CANNOT_CHECK"],
- "proof_classes": {"P1": "elementary deductive proof (machine-replayable)", "P2": "finite exact oracle certificate", "P3": "probabilistic bound", "P4": "empirical only", "P5": "parent theorem reconstruction with exact assumptions"},
- "d17_tranche": ["T65", "T66", "T67", "T71", "T72", "T74", "T75", "T76", "T78", "T79", "T80", "T81", "T85", "T86"],
+ "status_vocabulary": [
+  "OPEN",
+  "PROVED_LOCAL",
+  "PARENT_THEOREM_INSTANTIATED",
+  "FINITE_EXACT_CERTIFICATE",
+  "PROBABILISTIC_BOUND",
+  "EMPIRICAL_ONLY",
+  "REFUTED_BY_COUNTEREXAMPLE",
+  "CANNOT_CHECK"
+ ],
+ "proof_classes": {
+  "P1": "elementary deductive proof (machine-replayable)",
+  "P2": "finite exact oracle certificate",
+  "P3": "probabilistic bound",
+  "P4": "empirical only",
+  "P5": "parent theorem reconstruction with exact assumptions"
+ },
+ "d17_tranche": [
+  "T65",
+  "T66",
+  "T67",
+  "T71",
+  "T72",
+  "T74",
+  "T75",
+  "T76",
+  "T78",
+  "T79",
+  "T80",
+  "T81",
+  "T85",
+  "T86"
+ ],
  "rows": [
-  {"id": "T65", "title": "Sound obligation-derivation composition", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+  {
+   "id": "T65",
+   "title": "Sound obligation-derivation composition",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "If every leaf/axiom in a finite derivation is valid and every rule {ω_i}=>ω is sound (all premises valid => conclusion valid), then the derivation root is valid.",
-   "assumptions": ["finite derivation tree", "rule soundness on registered scope", "leaf validity"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["unsound single rule contaminates root", "infinite/cyclic derivation: induction licence gone (see T70 caveat)"]},
-  {"id": "T66", "title": "Protected reverse-read safety, conditional on coverage", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "finite derivation tree",
+    "rule soundness on registered scope",
+    "leaf validity"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "unsound single rule contaminates root",
+    "infinite/cyclic derivation: induction licence gone (see T70 caveat)"
+   ]
+  },
+  {
+   "id": "T66",
+   "title": "Protected reverse-read safety, conditional on coverage",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "With intended semantics ω*, projection P, reverse-reader set J(y), actual allowed interpretation set A(y) ⊆ J(y): commit only if J(y) nonempty and every ω in J(y) satisfies P(ω)=P(ω*); then every actual interpretation preserves the protected value.",
-   "assumptions": ["semantic coverage A(y) ⊆ J(y)", "gate predicate applied to ALL of J(y)"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["omitted-reading: one actual interpretation missing from J flips negation/scope/referent", "empty J(y) commits anyway"]},
-  {"id": "T67", "title": "Protected-semantic preservation composes", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "semantic coverage A(y) ⊆ J(y)",
+    "gate predicate applied to ALL of J(y)"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "omitted-reading: one actual interpretation missing from J flips negation/scope/referent",
+    "empty J(y) commits anyway"
+   ]
+  },
+  {
+   "id": "T67",
+   "title": "Protected-semantic preservation composes",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For relations R1:A↔B, R2:B↔D with projections P_A,P_B,P_D: if every related (a,b) preserves the protected value and every (b,d) does likewise, then R2∘R1 preserves it.",
-   "assumptions": ["per-relation preservation on full relation domain"],
-   "parents": [], "status": "OPEN", "hostiles": ["partial-relation preservation (only some pairs) does not compose"]},
-  {"id": "T68", "title": "Ambiguity-safe action criterion", "novelty_class": "COROLLARY", "proof_class": "P1", "d17": false,
+   "assumptions": [
+    "per-relation preservation on full relation domain"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "partial-relation preservation (only some pairs) does not compose"
+   ]
+  },
+  {
+   "id": "T68",
+   "title": "Ambiguity-safe action criterion",
+   "novelty_class": "COROLLARY",
+   "proof_class": "P1",
+   "d17": false,
    "statement": "For possible semantic states S with safe action sets G(s), one deterministic commitment safe for every live interpretation exists iff ∩_{s∈S} G(s) ≠ ∅; else retain ambiguity, acquire discriminating info, abstain, or accept risk.",
-   "assumptions": ["HSG-T29 conflict-hypergraph result", "declared safe-action sets"],
-   "parents": ["HSG-T29"], "status": "OPEN", "hostiles": ["undeclared state in S", "G(s) mis-specified"]},
-  {"id": "T69", "title": "Context-free interpretation impossibility", "novelty_class": "COROLLARY", "proof_class": "P1", "d17": false,
+   "assumptions": [
+    "HSG-T29 conflict-hypergraph result",
+    "declared safe-action sets"
+   ],
+   "parents": [
+    "HSG-T29"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "undeclared state in S",
+    "G(s) mis-specified"
+   ]
+  },
+  {
+   "id": "T69",
+   "title": "Context-free interpretation impossibility",
+   "novelty_class": "COROLLARY",
+   "proof_class": "P1",
+   "d17": false,
    "statement": "If the same surface form under contexts c1,c2 requires disjoint protected interpretations/actions, no context-free deterministic interpreter can satisfy both; context is mathematically required at that registered scope.",
-   "assumptions": ["T29/T68 instantiation", "disjoint protected requirement exhibited"],
-   "parents": ["HSG-T29", "T68"], "status": "OPEN", "hostiles": []},
-  {"id": "T70", "title": "Semiring obligation dynamic programming", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "T29/T68 instantiation",
+    "disjoint protected requirement exhibited"
+   ],
+   "parents": [
+    "HSG-T29",
+    "T68"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T70",
+   "title": "Semiring obligation dynamic programming",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "On finite acyclic deduction hypergraphs, alternatives aggregate by semiring addition and conjunctive premises by multiplication; topological DP exactly computes the registered derivation value. Cyclic/infinite cases require complete/closed-semiring or fixed-point assumptions.",
-   "assumptions": ["finite acyclic hypergraph", "semiring laws", "complete/closed semiring for cyclic case"],
-   "parents": ["Knuth IPL 1977 10.1016/0020-0190(77)90002-3", "Goodman CL 25(4) 1999 J99-4004", "Giegerich-Meyer-Steffen SCP 51(3) 2004 10.1016/j.scico.2003.12.005"],
-   "status": "OPEN", "hostiles": ["acyclic theorem silently reused on cyclic world (SCC)", "non-complete semiring fixed point"]},
-  {"id": "T71", "title": "Homomorphic re-evaluation of a shared derivation object", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "finite acyclic hypergraph",
+    "semiring laws",
+    "complete/closed semiring for cyclic case"
+   ],
+   "parents": [
+    "Knuth IPL 1977 10.1016/0020-0190(77)90002-3",
+    "Goodman CL 25(4) 1999 J99-4004",
+    "Giegerich-Meyer-Steffen SCP 51(3) 2004 10.1016/j.scico.2003.12.005"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "acyclic theorem silently reused on cyclic world (SCC)",
+    "non-complete semiring fixed point"
+   ]
+  },
+  {
+   "id": "T71",
+   "title": "Homomorphic re-evaluation of a shared derivation object",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For finite derivation expression E built from semiring +,*, constants, leaf annotations, and semiring homomorphism h:K→K': h(eval_K(E)) = eval_K'(h(E)).",
-   "assumptions": ["h preserves 0,1,+,*", "E finite", "leaf annotations mapped by h"],
-   "parents": ["semiring algebra"], "status": "OPEN",
-   "hostiles": ["h not a homomorphism (breaks one law)", "T94: Boolean theorem lift invalid in target semiring"]},
-  {"id": "T72", "title": "Exact positive-provenance revocation", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "h preserves 0,1,+,*",
+    "E finite",
+    "leaf annotations mapped by h"
+   ],
+   "parents": [
+    "semiring algebra"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "h not a homomorphism (breaks one law)",
+    "T94: Boolean theorem lift invalid in target semiring"
+   ]
+  },
+  {
+   "id": "T72",
+   "title": "Exact positive-provenance revocation",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For positive derivation provenance polynomial p∈N[X], revoking evidence variable x_j by substitution x_j:=0 removes exactly the monomials whose support contains x_j; monomials not containing x_j remain unchanged. Alternative supports survive iff at least one surviving monomial remains.",
-   "assumptions": ["positive/monotone provenance", "complete dependency capture"],
-   "parents": ["Green-Karvounarakis-Tannen PODS 2007 10.1145/1265530.1265535"], "status": "OPEN",
-   "hostiles": ["missing edge = incomplete dependency capture (planted hostile)", "negation laundered into N[X] (T73 boundary)"]},
-  {"id": "T73", "title": "Negation/provenance scope boundary", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "positive/monotone provenance",
+    "complete dependency capture"
+   ],
+   "parents": [
+    "Green-Karvounarakis-Tannen PODS 2007 10.1145/1265530.1265535"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "missing edge = incomplete dependency capture (planted hostile)",
+    "negation laundered into N[X] (T73 boundary)"
+   ]
+  },
+  {
+   "id": "T73",
+   "title": "Negation/provenance scope boundary",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Positive provenance does not automatically extend to negation; reconstruct Grädel–Tannen dual-indeterminate/quotient approach and register exact laws. No revocation-exactness claim may omit whether negative dependence is represented.",
-   "assumptions": ["per Grädel–Tannen reconstruction"],
-   "parents": ["Grädel-Tannen arXiv 2412.07986"], "status": "OPEN",
-   "hostiles": ["negative dependency present but unrepresented"]},
-  {"id": "T74", "title": "Sound problem-reduction composition", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "per Grädel–Tannen reconstruction"
+   ],
+   "parents": [
+    "Grädel-Tannen arXiv 2412.07986"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "negative dependency present but unrepresented"
+   ]
+  },
+  {
+   "id": "T74",
+   "title": "Sound problem-reduction composition",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "A reduction A→B with forward map f_AB and reconstruction g_AB satisfying V_B(f_AB(x),y_B)=1 => V_A(x,g_AB(x,y_B))=1 is sound; sound A→B and B→D compose to a sound A→D.",
-   "assumptions": ["per-leg reconstruction implication holds"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["reconstruction implication fails in one leg", "solution-coverage gap (verified solution not reconstructible)"]},
-  {"id": "T75", "title": "Stagewise optimization: exact sufficient condition + counterexample", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "per-leg reconstruction implication holds"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "reconstruction implication fails in one leg",
+    "solution-coverage gap (verified solution not reconstructible)"
+   ]
+  },
+  {
+   "id": "T75",
+   "title": "Stagewise optimization: exact sufficient condition + counterexample",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "If feasible choices factor as Cartesian product Z=Π_i Z_i and total scalar cost is additively separable C(z)=Σ_i c_i(z_i), independent per-stage minimization gives a global minimum; without factorization/separability greedy stagewise minimization can be arbitrarily bad (witness: interpretation A costs 0 forcing downstream M vs B costs 1 forcing 0; greedy picks M).",
-   "assumptions": ["Cartesian factorization", "additive separability"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["the embedded greedy-fails witness (M arbitrarily large)", "coupled stages"]},
-  {"id": "T76", "title": "Semantic-execution burden decomposition", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "Cartesian factorization",
+    "additive separability"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "the embedded greedy-fails witness (M arbitrarily large)",
+    "coupled stages"
+   ]
+  },
+  {
+   "id": "T76",
+   "title": "Semantic-execution burden decomposition",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "If complete path cost vector is the coordinatewise sum of integrable stage-cost vectors C_i, then E[Σ_i C_i] = Σ_i E[C_i] coordinatewise; independence unnecessary (linearity of expectation). Does NOT imply T75 separability.",
-   "assumptions": ["disjoint stage accounting", "integrability"],
-   "parents": [], "status": "OPEN", "hostiles": ["double-counted stage (non-disjoint accounting)"]},
-  {"id": "T77", "title": "Abstract-interpretation soundness", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "disjoint stage accounting",
+    "integrability"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "double-counted stage (non-disjoint accounting)"
+   ]
+  },
+  {
+   "id": "T77",
+   "title": "Abstract-interpretation soundness",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Instantiate concrete/abstract domains and Galois connection/adjunction only where the required order/fixpoint structure exists; abstract execution may certify concrete properties when the soundness inequalities hold; abstract states are not automatically true summaries.",
-   "assumptions": ["Galois connection", "fixpoint structure", "soundness inequalities"],
-   "parents": ["Cousot-Cousot POPL 1977 10.1145/512950.512973"], "status": "OPEN",
-   "hostiles": ["no Galois connection but claiming abstraction soundness"]},
-  {"id": "T78", "title": "Finite strict-refinement bound", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "Galois connection",
+    "fixpoint structure",
+    "soundness inequalities"
+   ],
+   "parents": [
+    "Cousot-Cousot POPL 1977 10.1145/512950.512973"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "no Galois connection but claiming abstraction soundness"
+   ]
+  },
+  {
+   "id": "T78",
+   "title": "Finite strict-refinement bound",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For finite concrete state set of n elements with current partition of k blocks, if every refinement step only splits blocks and strictly increases block count, at most n−k strict refinements occur before the discrete partition.",
-   "assumptions": ["finite universe", "split-only", "strict increase"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["merge step smuggled in (non-monotone block count)", "infinite universe"]},
-  {"id": "T79", "title": "Finite CEGAR termination corollary", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "finite universe",
+    "split-only",
+    "strict increase"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "merge step smuggled in (non-monotone block count)",
+    "infinite universe"
+   ]
+  },
+  {
+   "id": "T79",
+   "title": "Finite CEGAR termination corollary",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "Under finite concrete universe, terminating checker, and refinement where every spurious counterexample causes a strict partition refinement, CEGAR performs at most n−k refinement rounds before no further strict refinement is possible; deciding the target then depends on checker/property assumptions.",
-   "assumptions": ["T78 conditions", "terminating checker", "spurious⇒strict refinement"],
-   "parents": ["Clarke-Grumberg-Jha-Lu-Veith CAV 2000 10.1007/10722167_15", "T78"], "status": "OPEN",
-   "hostiles": ["non-strict refinement loop (no progress, no termination)", "checker non-termination"]},
-  {"id": "T80", "title": "Sound counterexample pruning", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "T78 conditions",
+    "terminating checker",
+    "spurious⇒strict refinement"
+   ],
+   "parents": [
+    "Clarke-Grumberg-Jha-Lu-Veith CAV 2000 10.1007/10722167_15",
+    "T78"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "non-strict refinement loop (no progress, no termination)",
+    "checker non-termination"
+   ]
+  },
+  {
+   "id": "T80",
+   "title": "Sound counterexample pruning",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "If verifier returns a valid counterexample e and every truly satisfying hypothesis must be consistent with e, removing hypotheses inconsistent with e cannot remove any truly satisfying hypothesis.",
-   "assumptions": ["external validity of e", "consistency closure of true hypotheses"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["invalid counterexample prunes truth (CEGIS contamination)"]},
-  {"id": "T81", "title": "Version-space elimination telescoping", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "external validity of e",
+    "consistency closure of true hypotheses"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "invalid counterexample prunes truth (CEGIS contamination)"
+   ]
+  },
+  {
+   "id": "T81",
+   "title": "Version-space elimination telescoping",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For finite nested nonempty hypothesis sets H_0⊇…⊇H_m with Δ_i=log(|H_{i-1}|/|H_i|), Σ_i Δ_i = log(|H_0|/|H_m|).",
-   "assumptions": ["finite sets", "uniform counting convention"],
-   "parents": [], "status": "OPEN",
-   "hostiles": ["calling it Shannon information without probability assumptions", "empty intermediate H_i"]},
-  {"id": "T82", "title": "Weakest-precondition / Hoare composition", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "finite sets",
+    "uniform counting convention"
+   ],
+   "parents": [],
+   "status": "OPEN",
+   "hostiles": [
+    "calling it Shannon information without probability assumptions",
+    "empty intermediate H_i"
+   ]
+  },
+  {
+   "id": "T82",
+   "title": "Weakest-precondition / Hoare composition",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Pre/postcondition calculi as parents for backward obligation propagation and verified program/problem transformations; OCM residual is typed integration/provenance/resource accounting, not the calculus.",
-   "assumptions": ["per Hoare/Dijkstra calculi"],
-   "parents": ["Hoare 1969 10.1145/363235.363259", "Dijkstra CACM 1975 10.1145/360933.360975"], "status": "OPEN", "hostiles": []},
-  {"id": "T83", "title": "Proof-carrying adoption", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "per Hoare/Dijkstra calculi"
+   ],
+   "parents": [
+    "Hoare 1969 10.1145/363235.363259",
+    "Dijkstra CACM 1975 10.1145/360933.360975"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T83",
+   "title": "Proof-carrying adoption",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "An untrusted producer may generate arbitrary candidate code/object plus a proof; a small sound checker against a frozen safety policy can authorize acceptance without trusting the producer.",
-   "assumptions": ["sound checker", "frozen safety policy"],
-   "parents": ["Necula POPL 1997 10.1145/263699.263712"], "status": "OPEN", "hostiles": ["checker does not check the policy binding"]},
-  {"id": "T84", "title": "Institution satisfaction invariance", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "sound checker",
+    "frozen safety policy"
+   ],
+   "parents": [
+    "Necula POPL 1997 10.1145/263699.263712"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "checker does not check the policy binding"
+   ]
+  },
+  {
+   "id": "T84",
+   "title": "Institution satisfaction invariance",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Different logical systems may have different signatures/sentences/models while satisfying the institution satisfaction condition; correct parent for N4/N5 heterogeneous mathematics.",
-   "assumptions": ["Goguen–Burstall institution axioms"],
-   "parents": ["Goguen-Burstall JACM 1992 10.1145/147508.147524", "Harper-Honsell-Plotkin LF"], "status": "OPEN", "hostiles": []},
-  {"id": "T85", "title": "Consequence transport through institution comorphisms", "novelty_class": "PARENT_RECONSTRUCTION_PLUS_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "Goguen–Burstall institution axioms"
+   ],
+   "parents": [
+    "Goguen-Burstall JACM 39(1) 1992 10.1145/147508.147524",
+    "Harper-Honsell-Plotkin JACM 40(1):143-184 1993 10.1145/138027.138060 (preliminary LICS 1987)"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T85",
+   "title": "Consequence transport through institution comorphisms",
+   "novelty_class": "PARENT_RECONSTRUCTION_PLUS_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "For an institution comorphism with sentence translation α and target-model reduct β satisfying M' |=_J α(φ) ⇔ β(M') |=_I φ: source entailment implies translated target entailment for all target models; reflection back to all source models additionally follows when β is model-expansive/surjective.",
-   "assumptions": ["comorphism satisfaction condition", "model-expansive/surjective β for reflection"],
-   "parents": ["Goguen-Burstall JACM 1992 10.1145/147508.147524"], "status": "OPEN",
-   "hostiles": ["reduct image covering only source models where p true entails translated p without source entailment (model coverage load-bearing)"]},
-  {"id": "T86", "title": "Equality-saturation semantic safety", "novelty_class": "NEW_PROOF", "proof_class": "P1", "d17": true,
+   "assumptions": [
+    "comorphism satisfaction condition",
+    "model-expansive/surjective β for reflection"
+   ],
+   "parents": [
+    "Goguen-Burstall JACM 1992 10.1145/147508.147524"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "reduct image covering only source models where p true entails translated p without source entailment (model coverage load-bearing)"
+   ]
+  },
+  {
+   "id": "T86",
+   "title": "Equality-saturation semantic safety",
+   "novelty_class": "NEW_PROOF",
+   "proof_class": "P1",
+   "d17": true,
    "statement": "If every admitted rewrite preserves registered semantics and e-class merges preserve congruence, every expression in an e-class remains semantically equivalent to the seed; extraction of any represented member preserves that semantics.",
-   "assumptions": ["all rewrites sound", "congruence closure maintenance"],
-   "parents": ["Willsey et al. egg POPL 2021 10.1145/3434304", "Huet Knuth-Bendix JCSS 1981 10.1016/0022-0000(81)90002-7"], "status": "OPEN",
-   "hostiles": ["exactly one unsound rewrite contaminates the class", "semantic equivalence ≠ equal developmental value (T87)"]},
-  {"id": "T87", "title": "Current semantic equivalence weaker than developmental equivalence", "novelty_class": "COROLLARY", "proof_class": "P1", "d17": false,
+   "assumptions": [
+    "all rewrites sound",
+    "congruence closure maintenance"
+   ],
+   "parents": [
+    "Willsey et al. egg POPL 2021 10.1145/3434304",
+    "Huet Knuth-Bendix JCSS 1981 10.1016/0022-0000(81)90002-7"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "exactly one unsound rewrite contaminates the class",
+    "semantic equivalence ≠ equal developmental value (T87)"
+   ]
+  },
+  {
+   "id": "T87",
+   "title": "Current semantic equivalence weaker than developmental equivalence",
+   "novelty_class": "COROLLARY",
+   "proof_class": "P1",
+   "d17": false,
    "statement": "Two proofs/programs/paraphrases may be equivalent now while exposing different reusable lemmas, operators, explanations or future variation neighborhoods; do not quotient for developmental search merely on current checker equality.",
-   "assumptions": ["HSG-T27"], "parents": ["HSG-T27"], "status": "OPEN", "hostiles": []},
-  {"id": "T88", "title": "Protected-semantic rate-distortion", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "HSG-T27"
+   ],
+   "parents": [
+    "HSG-T27"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T88",
+   "title": "Protected-semantic rate-distortion",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "For a prospectively frozen source distribution and protected distortion function, rate-distortion gives minimum asymptotic information rate meeting expected distortion under its assumptions; not a universal token/runtime bound; exact zero-error finite-class lower bounds use HSG-T29/pigeonhole directly.",
-   "assumptions": ["frozen source law", "distortion contract"],
-   "parents": ["Shannon/Cover-Thomas rate-distortion"], "status": "OPEN", "hostiles": ["no source law but quoting R(D)"]},
-  {"id": "T89", "title": "Belief-state decision parent", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "frozen source law",
+    "distortion contract"
+   ],
+   "parents": [
+    "Shannon/Cover-Thomas rate-distortion"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "no source law but quoting R(D)"
+   ]
+  },
+  {
+   "id": "T89",
+   "title": "Belief-state decision parent",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Under POMDP Markov/observation assumptions, the posterior belief state is a sufficient statistic for optimal control; not a theorem that natural-language meaning is a POMDP.",
-   "assumptions": ["POMDP Markov/observation model"],
-   "parents": ["Kaelbling-Littman-Cassandra AI 1998 10.1016/S0004-3702(98)00023-X"], "status": "OPEN", "hostiles": []},
-  {"id": "T90", "title": "Temporal abstraction via options", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "POMDP Markov/observation model"
+   ],
+   "parents": [
+    "Kaelbling-Littman-Cassandra AI 1998 10.1016/S0004-3702(98)00023-X"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T90",
+   "title": "Temporal abstraction via options",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Under MDP/SMDP assumptions, closed-loop options can enter planning/learning as temporally abstract actions; parent for learned multi-step operators/macros, not proof hierarchy helps at arbitrary tasks.",
-   "assumptions": ["MDP/SMDP", "option Markov closure"],
-   "parents": ["Sutton-Precup-Singh AI 1999 10.1016/S0004-3702(99)00052-1"], "status": "OPEN", "hostiles": []},
-  {"id": "T91", "title": "Hierarchy is not a universal speedup", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "MDP/SMDP",
+    "option Markov closure"
+   ],
+   "parents": [
+    "Sutton-Precup-Singh AI 1999 10.1016/S0004-3702(99)00052-1"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T91",
+   "title": "Hierarchy is not a universal speedup",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "HTN/hierarchical formulations can change complexity dramatically and can be worse/undecidable under some formulations; every decomposition-helps claim needs registered task/representation assumptions and measured lifecycle cost.",
-   "assumptions": ["per Erol-Hendler-Nau complexity results"],
-   "parents": ["Erol-Hendler-Nau AMAI 18 1996", "HSG NFL"], "status": "OPEN", "hostiles": ["hierarchy-negative regions must be retained explicitly"]},
-  {"id": "T92", "title": "Discourse/context as state transformation", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "per Erol-Hendler-Nau complexity results"
+   ],
+   "parents": [
+    "Erol-Hendler-Nau AMAI 18 1996",
+    "HSG NFL"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "hierarchy-negative regions must be retained explicitly"
+   ]
+  },
+  {
+   "id": "T92",
+   "title": "Discourse/context as state transformation",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Language across turns is not repeated stateless sentence parsing; treat context update, referents and commitments as explicit state transformations preserving #93's authority distinction (speaker commitment ≠ world truth).",
-   "assumptions": ["per DRT/DPL/DEL"],
-   "parents": ["Kamp-Reyle DRT", "Groenendijk-Stokhof dynamic semantics"], "status": "OPEN", "hostiles": []},
-  {"id": "T93", "title": "Anytime-valid evidence for an adaptive HPC factory", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "per DRT/DPL/DEL"
+   ],
+   "parents": [
+    "Kamp-Reyle DRT",
+    "Groenendijk-Stokhof dynamic semantics"
+   ],
+   "status": "OPEN",
+   "hostiles": []
+  },
+  {
+   "id": "T93",
+   "title": "Anytime-valid evidence for an adaptive HPC factory",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "If a registered confidence sequence has time-uniform coverage under stated assumptions, coverage remains valid at data-dependent stopping times; exploratory adaptive searches remain exploratory; for many confirmatory hypotheses pre-register family/error control or online-FDR/e-values only under dependence assumptions, else freeze a fresh confirmation family after discovery.",
-   "assumptions": ["time-uniform coverage of the registered sequence", "dependence assumptions for FDR methods"],
-   "parents": ["Howard-Ramdas-McAuliffe-Sekhon Annals of Statistics 2021 10.1214/20-AOS1991"], "status": "OPEN",
-   "hostiles": ["peeking with a fixed-n interval", "adaptive discovery reported as confirmatory"]},
-  {"id": "T94", "title": "Semiring-preservation non-universality", "novelty_class": "PARENT", "proof_class": "P5", "d17": false,
+   "assumptions": [
+    "time-uniform coverage of the registered sequence",
+    "dependence assumptions for FDR methods"
+   ],
+   "parents": [
+    "Howard-Ramdas-McAuliffe-Sekhon Annals of Statistics 2021 10.1214/20-AOS1991"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "peeking with a fixed-n interval",
+    "adaptive discovery reported as confirmatory"
+   ]
+  },
+  {
+   "id": "T94",
+   "title": "Semiring-preservation non-universality",
+   "novelty_class": "PARENT",
+   "proof_class": "P5",
+   "d17": false,
    "statement": "Classical Boolean preservation results do not uniformly lift to arbitrary semiring semantics; broad positives for lattice semirings, failures for several others. Changing the semiring while keeping every theorem is explicitly forbidden.",
-   "assumptions": ["per Brinke-Dawar-Grädel-Pago 2026"],
-   "parents": ["Brinke-Dawar-Grädel-Pago ICALP 2026 10.4230/LIPIcs.ICALP.2026.172"], "status": "OPEN",
-   "hostiles": ["Boolean-to-arbitrary-semiring lift attempted"]}
+   "assumptions": [
+    "per Brinke-Dawar-Grädel-Pago 2026"
+   ],
+   "parents": [
+    "Brinke-Dawar-Grädel-Pago ICALP 2026 10.4230/LIPIcs.ICALP.2026.172"
+   ],
+   "status": "OPEN",
+   "hostiles": [
+    "Boolean-to-arbitrary-semiring lift attempted"
+   ]
+  }
  ]
 }

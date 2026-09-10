@@ -1,0 +1,77 @@
+{
+  "batch": "A",
+  "rows": [
+    {
+      "id": "P01",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "C. A. R. Hoare, 'An axiomatic basis for computer programming', Communications of the ACM 12(10):576-580, October 1969. DOI 10.1145/363235.363259 resolves to exactly this record (Crossref + ACM).",
+      "statement_match": "Abstract (Crossref deposit, also OCR'd from primary scan p.576): 'the elucidation of sets of axioms and rules of inference which can be used in proofs of the properties of computer programs'. Triple definition OCR'd verbatim from p.577 (UMich full-text scan): 'To state the required connection between a precondition (P), a program (Q) and a description of the result of its execution (R), we introduce a new notation: P{Q}R. This may be interpreted \"If the assertion P is true before initiation of a program Q, then the assertion R will be true on its completion.\"' Axiom of assignment (x := E), consequence rules, and composition/iteration rules follow, with termination treated separately -- i.e., a partial-correctness calculus usable for backward propagation of obligations from postcondition to precondition.",
+      "drift_notes": "Notation drift only: the 1969 paper writes P{Q}R (program inside braces), not the modern {P}S{Q} in the registry row. Semantics claim 'partial-correctness calculus' is accurate (correctness conditional on completion; termination not asserted by the rules).",
+      "primary_url": "https://dl.acm.org/doi/10.1145/363235.363259"
+    },
+    {
+      "id": "P02",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "E. W. Dijkstra, 'Guarded commands, nondeterminacy and formal derivation of programs', Communications of the ACM 18(8):453-457, August 1975. DOI 10.1145/360933.360975 resolves to exactly this record (Crossref + ACM publisher page with abstract and keywords).",
+      "statement_match": "wp calculus confirmed verbatim from Dijkstra's own EWD418 manuscript of this paper (UTexas EWD archive transcription): 'we shall introduce necessary and sufficient -- i.e. so-called \"weakest\" -- pre-conditions... we shall use the notation \"wp(S, R)\", where S denotes a statement list and R some condition on the state of the system, to denote the weakest pre-condition for the initial state of the system such that activation of S is guaranteed to lead to a properly terminating activity leaving the system in a final state satisfying the post-condition R.' Guarded commands: Theorem 1 '(Q and BB) => wp(IF, R)', well-foundedness wdec(S,t), wp(DO,T) termination -- the derivation calculus for verified program construction.",
+      "drift_notes": "Manuscript title variant EWD418 'Guarded commands, non-determinacy and a calculus for the derivation of programs' vs published CACM title; registry cite matches the published record. ACM publisher page (dl.acm.org 403 to fetcher) abstract obtained earlier confirms identical content; keywords: correctness proof, derivation of programs, program semantics, termination.",
+      "primary_url": "https://dl.acm.org/doi/10.1145/360933.360975"
+    },
+    {
+      "id": "P03",
+      "verdict": "WORDING_IMPRECISE",
+      "verified_citation": "Donald E. Knuth, 'A generalization of Dijkstra's algorithm', Information Processing Letters 6(1):1-5, February 1977. DOI 10.1016/0020-0190(77)90002-3 resolves to exactly this record (ScienceDirect: Vol 6, Issue 1, pp 1-5).",
+      "statement_match": "Mechanism confirmed via publisher page and its citing-article description: 'The grammar problem, a generalization of the single-source shortest-path problem introduced by D. E. Knuth (Inform. Process. Lett. 6(1) (1977), 1-5) is to compute the minimum-cost derivation of a terminal string from each nonterminal of a given context-free grammar.' I.e., shortest-path/DP recursion lifted from graphs to grammar derivations (AND over RHS symbols, OR over productions) -- the claimed DP-over-derivation-graphs mechanism.",
+      "drift_notes": "Citation string wrong on volume: registry says IPL 8(1); actual is IPL 6(1), Feb 1977, pp 1-5. Title is 'A generalization of Dijkstra's algorithm' (no 'shortest path' in title). 'Semiring-style' and 'AND-OR derivation graphs' are fair glosses, not source terms (full text paywalled; mechanism verified from publisher page + primary-adjacent citing description). Fix volume in registry; no semantic change.",
+      "primary_url": "https://www.sciencedirect.com/science/article/pii/0020019077900023"
+    },
+    {
+      "id": "P04",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "Joshua Goodman, 'Semiring Parsing', Computational Linguistics 25(4):573-605, December 1999. ACL Anthology J99-4004; DOI 10.1162/coli.25.4.573.",
+      "statement_match": "Abstract extracted verbatim from the ACL Anthology PDF: 'We synthesize work on parsing algorithms, deductive parsing, and the theory of algebra applied to formal languages into a general system for describing parsers. Each parser performs abstract computations using the operations of a semiring. The system allows a single, simple representation to be used for describing parsers that compute recognition, derivation forests, Viterbi, n-best, inside values, and other values, simply by substituting the operations of different semirings. We also show how to use the same representation, interpreted differently, to compute outside values.' Body verbatim: items + inference-rules normal form ('we will use an item [i,A,j]... we will use inference rules'), and 'There are three derivation semirings: the derivation forest semiring, the Viterbi-derivation semiring, and the Viterbi-n-best semiring'. Claimed use 'inside weights over deductive parsing systems' confirmed.",
+      "drift_notes": "Minor page-range discrepancy: anthology PDF pages 573-606 (last page likely blank/end matter) vs dblp 573-605. Registry URL and venue correct.",
+      "primary_url": "https://aclanthology.org/J99-4004/"
+    },
+    {
+      "id": "P05",
+      "verdict": "PARTIAL",
+      "verified_citation": "The DOI 10.1016/j.scico.2003.12.005 resolves to R. Giegerich, C. Meyer, P. Steffen, 'A discipline of dynamic programming over sequence data', Science of Computer Programming 51(3):215-263, 2004 -- NOT to a paper titled 'Algebraic dynamic programming'.",
+      "statement_match": "ScienceDirect abstract (verbatim, deposited): the paper establishes the ADP discipline as a decomposition of DP algorithms over sequence data into a grammar part (recurrences) and an algebra part (scoring/evaluation), with a formalization of Bellman's Principle as compositionality condition. Registry's 'evaluation algebras' component confirmed; 'composition of yield morphisms' is the right shape but the literal term was not verifiable from the abstract.",
+      "drift_notes": "Three drifts: (1) registry title 'Algebraic dynamic programming' is the authors' separate LOPSTR'03 paper (LNCS 3018), not the SCP 2004 article this DOI resolves to; (2) 'Bellman's GAP' is NOT in this source -- it is Sauthoff, Giegerich, Hoener zu Siederdissen's later system (2011+); (3) restate claimed use as: ADP discipline = grammar x evaluation algebra decomposition + Bellman's Principle, per SCP 2004; attribute Bellman's GAP separately if the implementation is meant. Venue/volume/pages/year in registry are correct for the DOI.",
+      "primary_url": "https://www.sciencedirect.com/science/article/pii/S0167642304000176"
+    },
+    {
+      "id": "P06",
+      "verdict": "PARTIAL",
+      "verified_citation": "P. Cousot and R. Cousot, 'Abstract interpretation: a unified lattice model for static analysis of programs by construction or approximation of fixpoints', POPL 1977, pp. 238-252. DOI 10.1145/512950.512973 resolves to exactly this record (Crossref + authors' page).",
+      "statement_match": "Confirmed in source (authors' page summary, cross-checked by full-text OCR of the authors' own scan PDF): 'Abstract program properties are modeled by a complete semilattice... Elementary program constructs are locally interpreted by order-preserving functions which are used to associate a system of equations with a program. The program global properties are then defined as one of the extreme fixpoints of that system, Tarski[55]... program properties obtained by an abstract interpretation of a program are consistent with those obtained by a more refined interpretation... limits of finite Kleene[52]'s sequences. Section 9 introduces finite fixpoint approximation methods... shown to be consistent with the abstraction process.' Fixpoint-approximation half of the claimed mechanism fully confirmed.",
+      "drift_notes": "Galois half is drift: 'Galois' occurs 0 times in the full 1977 paper (15-page OCR of the authors' scan; keywords fixpoint=40, Tarski=7, Kleene=19 prove extraction quality), and 'collecting semantics' as a term also does not appear ('collect*' 0 hits). POPL'77 proves abstraction soundness as a consistency theorem over the semilattice, via an abstraction function; the alpha/gamma Galois-connection formulation appears in the Cousots' POPL 1979 'Systematic design of program analysis frameworks' (its summary: the connection between complete lattices 'is related to Galois connections'). Restate: cite POPL'77 for semilattice + extreme fixpoints + consistency + finite fixpoint approximation; add POPL'79 (or Cousot-Cousot 1992) for the Galois alpha/gamma form.",
+      "primary_url": "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml"
+    },
+    {
+      "id": "P07",
+      "verdict": "CONFIRMED_VERBATIM",
+      "verified_citation": "E. Clarke, O. Grumberg, S. Jha, Y. Lu, S. Veith, 'Counterexample-Guided Abstraction Refinement', CAV 2000, LNCS 1855, pp. 154-169. DOI 10.1007/10722167_15 resolves to exactly this record (Springer).",
+      "statement_match": "Verbatim from the paper (Technion co-author copy, byte-identical text): 'continues to refine the abstraction function by partitioning equivalence classes until a real counterexample is found, or the ACTL* property is verified. The partitioning procedure is guaranteed to terminate since each equivalence class must contain at least one element. Thus, our method is complete.' Also: 'If a concrete counterexample is found, then the algorithm terminates.' Scope assumption stated by the authors: 'Our methodology is complete for the fragment of ACTL* which has counterexamples that are either paths or loops.' Full abstract matches the Springer chapter page.",
+      "drift_notes": "Registry claim 'loop termination conditions' accurate, including its stated assumption (ACTL* fragment with path/loop counterexamples). No drift.",
+      "primary_url": "https://link.springer.com/chapter/10.1007/10722167_15"
+    },
+    {
+      "id": "P08",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "J. N. Foster, A. Greenwald, J. Moore, B. C. Pierce, A. Schmitt, 'Combinators for bidirectional tree transformations: A linguistic approach to the view update problem', ACM TOPLAS 29(3), Article 17, May 2007. DOI 10.1145/1232420.1232424 resolves to exactly this record (Crossref; abstract deposited, incl. 'guaranteeing strong well-behavedness and totality properties for well-typed lenses').",
+      "statement_match": "Laws extracted verbatim from the authors' final PDF (cis.upenn.edu): 'its get and putback functions obey the following laws: putback(get(c),c) = c for all c in C (GetPut); get(putback(a,c)) = a for all (a,c) (PutGet)'. Counts in full text: GetPut ~14, PutGet ~27, 'well-behaved' ~66; term 'round-trip' 0 occurrences.",
+      "drift_notes": "Registry's 'round-trip laws' is a gloss; the paper's own terms are 'well-behavedness' with laws named GetPut/PutGet. Registry correctly marks use as ANALOGY ONLY for I/R/J reverse-read laws (no lens-law claim) -- framing appropriate.",
+      "primary_url": "https://dl.acm.org/doi/10.1145/1232420.1232424"
+    },
+    {
+      "id": "P09",
+      "verdict": "CONFIRMED_SUBSTANTIVE",
+      "verified_citation": "T. J. Green, G. Karvounarakis, V. Tannen, 'Provenance semirings', PODS 2007, pp. 31-40. DOI 10.1145/1265530.1265535 resolves to exactly this record (Crossref + ACM).",
+      "statement_match": "Abstract verbatim from the authors' own PDF (cs.ucdavis.edu, identical bytes to UPenn repository): 'We show that relational algebra calculations for incomplete databases, probabilistic databases, bag semantics and why-provenance are particular cases of the same general algorithms involving semirings. This further suggests a comprehensive provenance representation that uses semiring of polynomials. We extend these considerations to datalog and semirings of formal power series.' 'semiring of polynomials' representation confirmed (5 'polynomial' hits in extracted text).",
+      "drift_notes": "The literal token 'N[X]' (positive polynomials over tuples-as-variables) could not be located in the PDF text extraction (math-font encoding escapes), though the polynomial-provenance construction it names is confirmed by the abstract; no semantic drift. Registry URL/venue/year correct.",
+      "primary_url": "https://dl.acm.org/doi/10.1145/1265530.1265535"
+    }
+  ]
+}
