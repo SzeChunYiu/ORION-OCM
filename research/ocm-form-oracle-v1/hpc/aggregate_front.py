@@ -251,6 +251,40 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
     else:
         equal_n["status"] = "CANNOT_CHECK_INSUFFICIENT_RECORDS"
 
+    # ---- WHY dedup loses: is the retained representative arbitrary?
+    # Behavioural dedup keeps the FIRST member of each behaviour class it meets.
+    # If members of a class differ in burden, "first" is arbitrary with respect
+    # to the objective and the class's cheapest member is discarded whenever it
+    # is not seen first. That would be an implementation choice, not a property
+    # of behavioural dedup, and it has a concrete fix: keep the argmin-burden
+    # member instead.
+    classes: Dict[str, List[float]] = collections.defaultdict(list)
+    for r in all_records:
+        sig = r.get("behaviour_signature")
+        if sig and _num(r.get("burden")):
+            classes[sig].append(r["burden"])
+    multi = {k: v for k, v in classes.items() if len(v) > 1}
+    spreads = [max(v) - min(v) for v in multi.values()]
+    rel = [(max(v) - min(v)) / max(v) for v in multi.values() if max(v) > 0]
+    dedup_mechanism = {
+        "n_behaviour_classes": len(classes),
+        "n_classes_with_multiple_members": len(multi),
+        "n_classes_with_burden_spread": sum(1 for x in spreads if x > 1e-9),
+        "fraction_of_multi_classes_with_spread": (
+            round(sum(1 for x in spreads if x > 1e-9) / len(multi), 6)
+            if multi else None),
+        "mean_absolute_burden_spread_within_class": (
+            round(statistics.fmean(spreads), 4) if spreads else None),
+        "mean_relative_burden_spread_within_class": (
+            round(statistics.fmean(rel), 6) if rel else None),
+        "interpretation": (
+            "a class whose members differ in burden loses its cheapest member "
+            "whenever that member is not encountered first; if the spread is "
+            "widespread this is an implementation choice with a concrete fix "
+            "(retain argmin-burden per class), not a property of behavioural "
+            "dedup itself"),
+    }
+
     # ---- why records could not be checked
     # A record outside the evolvability subsample is a different thing from a
     # record where evolvability was attempted and came out undefined. Collapsing
@@ -379,6 +413,7 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
                                 "criterion": "r3['feasible'] (same rule)"},
         },
         "equal_n_dedup_control": equal_n,
+        "dedup_mechanism": dedup_mechanism,
         "region_map": region_map,
         "capability_bin_map": bin_map,
         "cannot_check_reasons": dict(reasons),

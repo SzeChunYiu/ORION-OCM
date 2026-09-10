@@ -72,12 +72,21 @@ def _sampler(lane: str):
     Every lane goes through the zoo's own dispatcher so the Form Oracle draws
     from exactly the space the census and the parents drew from.
     """
+    import random as _random
     import morphology.gs_bound as GB
     if lane == "gs_uniform":
         return GB.gs_uniform_sample
     if not hasattr(GB, "lane_sampler"):
         raise RuntimeError("CANNOT_CHECK_LANE_SAMPLER_MISSING")
-    return lambda rng: GB.lane_sampler(lane, rng)
+    # lane_sampler RETURNS a sampler; it does not draw. Wrapping it as
+    # `lambda rng: lane_sampler(lane, rng)` hands the search a function object
+    # where a genome belongs, which fails silently: every candidate is
+    # unusable, no candidate is promoted, and the arm reports zero survivors
+    # with no error anywhere. Call it once and return what it gives.
+    sampler = GB.lane_sampler(lane, _random.Random(0))
+    if not callable(sampler):
+        raise RuntimeError("CANNOT_CHECK_LANE_SAMPLER_NOT_CALLABLE:%s" % lane)
+    return sampler
 
 
 _SLIM_KEYS = (
@@ -125,6 +134,12 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
     c_before = constitution_snapshot()
 
     sampler = _sampler(lane)
+    # Executed check, not a comment: a sampler that does not return a compilable
+    # genome must fail loudly here rather than silently yield an empty arm.
+    _probe = sampler(random.Random(12345))
+    if not hasattr(_probe, "digest"):
+        raise RuntimeError("CANNOT_CHECK_SAMPLER_RETURNS_%s_FOR_LANE_%s"
+                           % (type(_probe).__name__, lane))
     t_search0 = time.time()
     with _charging_proxy(ledger):
         sh = run_successive_halving(t0_budget=t0_budget, seed=seed,
