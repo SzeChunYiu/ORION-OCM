@@ -32,6 +32,8 @@ by a genuine mechanic change, re-tested against the strongest parent, with every
 | RV-7 | GSA2 unbeaten on throughput (GS-R2) | cost side — dedup pays 2× cpu | canonical-form dedup | queued |
 | RV-8 | library acquisition exceeds later savings (#165 H1) | admission rule, not abstraction cost (FNA-4) | already applied and successful | executed at registered scope |
 | RV-9 | freeze chain has no CI gate (D6 A2) | no enforcement gate exists | amendment-aware verification workflow | queued |
+| RV-11 | `NO_NATIVE_EFFECT` with headroom paradox (M1, #344): oracle 18,762 vs primitive 26,396 ≈ 29% uncaptured work; fragments exist, admission refusal *correct* (ungated parent net −30,207) | missing **applicability/conditioning**, not fragment existence, not the admission threshold | M1B frozen oracle-transplants + knockouts (H_APPL/H_RETR/H_INTG) vs a strong adaptive parent — never admission loosening | dispatched (#346 freeze, machinery lane) |
+| RV-12 | `AMORTISATION_DOMINATED` (DEV-CAL-2 V2, #345): KO-2 carries the oracle transfer at 1.0000, yet no tier recovers on `total_burden_incl_acquisition` (shuffle-null p=0.0) | ledger **charging semantics** vs pipeline structure — still to be discriminated | DEV-CAL-3 analytical recomputation over the sealed V2 receipts: five alternative charge semantics + exact-equality AS_IS control; `CHARGE_CARRIER_NONE` routes back to the mechanism lane | dispatched (#347 freeze, machinery lane) |
 
 ## RV-8 and RV-10 came from the parent scan, and both change what happens next
 
@@ -94,6 +96,28 @@ of 186; `hep` is saturated with unrelated work. RV-6, RV-3 and RV-7 are the clus
 
 > **Hard prohibition:** never make a network connection from LUNARC to any external service. Pure offline
 > compute only — stage in via `git`/`scp`, compute, bring results back.
+
+## RV-11 and RV-12 are the two live chains under umbrella #323 (appended 2026-09-10)
+
+They come from the same decisive decomposition and are deliberately sequenced against each other:
+
+- **RV-11 (M1 → M1B).** The M1 negative is *not* "fragments useless" — the oracle transplant proves ≈29%
+  of the primitive's work is capturable by the fragments that exist, and the refusal gate is *provably
+  correct* because ungated serving of the same fragments is net negative. The one-stage attribution is
+  **applicability/conditioning**, so the lever is attribution itself: three frozen oracle transplants
+  (applicability, retrieval timing, interleaving cost) against three knockouts and a strong adaptive
+  parent, on byte-identical worlds, with search behaviour (candidate order, typed failures, retrieval
+  precision/recall, work-to-first-success) as first-class readouts. Forbidden up front: admission
+  loosening, tau/threshold moves, forced fragments — those would tune, not earn.
+- **RV-12 (DEV-CAL-2 V2 → DEV-CAL-3).** The amortisation failure lives somewhere between the ledger's
+  charge semantics and the pipeline's actual structure. DEV-CAL-3 discriminates analytically over the
+  sealed receipts — no new protected run — under five alternative charge semantics gated by an
+  exact-equality AS_IS control. Every exonerated component lands as a standing invariant; a
+  `CHARGE_CARRIER_NONE` terminal hands the chain back to RV-11's mechanism lane rather than opening
+  a tuning door.
+
+Both chains terminate only at a positive earned by mechanic change or a structurally proven
+obstruction — neither may be closed by threshold movement.
 
 ## Discipline for every entry
 
