@@ -17,28 +17,100 @@
    "id": "eps_sensitivity_curve",
    "quantity": "receipts-per-1000-units as function of eps in {0.02,0.05,0.1,0.15,0.2}",
    "current": null,
-   "status": "UNMEASURED",
-   "evidence": "A4 frozen sensitivity gave only the endpoints",
+   "status": "MEASURED",
+   "evidence": {
+    "results": "results/CONT-CAL-01.results.jsonl",
+    "sha256": "c46d0e7428fb0354cafa0e82cef413a95ec6f3a87640b39abfe792a46566a10f",
+    "summary": "results/CONT-CAL-01.summary.json"
+   },
    "next_experiment": "CONT-CAL-01",
-   "next_experiment_note": "router.py sweep, 5 eps configs x 18 theorem atoms x 3 seeds, donor bank V1"
+   "next_experiment_note": "router.py sweep, 5 eps configs x 18 theorem atoms x 3 seeds, donor bank V1",
+   "measured_value": {
+    "0.02": {
+     "mean_final_cost": 393.3,
+     "total_receipts": 136,
+     "total_donors_found": 136
+    },
+    "0.05": {
+     "mean_final_cost": 435.6,
+     "total_receipts": 141,
+     "total_donors_found": 141
+    },
+    "0.1": {
+     "mean_final_cost": 505.3,
+     "total_receipts": 149,
+     "total_donors_found": 149
+    },
+    "0.15": {
+     "mean_final_cost": 549.4,
+     "total_receipts": 141,
+     "total_donors_found": 155
+    },
+    "0.18": {
+     "mean_final_cost": 581.8,
+     "total_receipts": 142,
+     "total_donors_found": 156
+    }
+   },
+   "measured_utc": "2026-09-10T06:26:37.728725+00:00"
   },
   {
    "id": "halving_two_rung_rule",
    "quantity": "false-elimination rate of true donors under 1-rung vs 2-rung cut",
    "current": null,
-   "status": "UNMEASURED",
-   "evidence": "A5's G04 miss priced the 1-rung failure; repair untested",
+   "status": "MEASURED",
+   "evidence": {
+    "results": "results/CONT-CAL-02.results.jsonl",
+    "sha256": "5339a3088518b76e96e7259e7f317d51cc57220d89811e3dabcd741418a64b37",
+    "summary": "results/CONT-CAL-02.summary.json"
+   },
    "next_experiment": "CONT-CAL-02",
-   "next_experiment_note": "replay the 5 merged D12 arm ladders under both cut rules (2-rung frozen vs 1-rung counterfactual)"
+   "next_experiment_note": "replay the 5 merged D12 arm ladders under both cut rules (2-rung frozen vs 1-rung counterfactual)",
+   "measured_value": {
+    "A1": {
+     "cost_two_rung_minus_single": 0,
+     "validations_two_rung": 0,
+     "validations_single": 0
+    },
+    "A2": {
+     "cost_two_rung_minus_single": 0,
+     "validations_two_rung": 0,
+     "validations_single": 0
+    },
+    "A3": {
+     "cost_two_rung_minus_single": 0,
+     "validations_two_rung": 0,
+     "validations_single": 0
+    },
+    "A4": {
+     "cost_two_rung_minus_single": 0,
+     "validations_two_rung": 0,
+     "validations_single": 0
+    },
+    "A5": {
+     "cost_two_rung_minus_single": 10,
+     "validations_two_rung": 1,
+     "validations_single": 1
+    }
+   },
+   "measured_utc": "2026-09-10T06:26:37.217158+00:00"
   },
   {
    "id": "inspection_cap_boundary",
    "quantity": "verdict-flip rate of L4 inspections on donors accepted at L3",
    "current": null,
-   "status": "UNMEASURED",
-   "evidence": "zero L4/L5 purchases in D12 -> cap untested from above",
+   "status": "PAIRS_READY",
+   "evidence": {
+    "results": "results/CONT-CAL-03.results.jsonl",
+    "sha256": "867e6ea0266619391f430b64fa821c00cde52d2e82d8e18f0681afb6366a2c42",
+    "summary": "results/CONT-CAL-03.summary.json"
+   },
    "next_experiment": "CONT-CAL-03",
-   "next_experiment_note": "for 20 L3-accepted donor-atom pairs, purchase L4 and count verdict flips (inspection needs the model channel)"
+   "next_experiment_note": "for 20 L3-accepted donor-atom pairs, purchase L4 and count verdict flips (inspection needs the model channel)",
+   "measured_value": {
+    "n_pairs": 20
+   },
+   "measured_utc": "2026-09-10T06:26:37.209532+00:00"
   },
   {
    "id": "local_evolvability_levers",
