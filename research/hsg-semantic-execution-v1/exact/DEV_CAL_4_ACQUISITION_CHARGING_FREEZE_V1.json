@@ -1,0 +1,90 @@
+{
+ "schema": "OCM_DEV_CAL_4_ACQUISITION_CHARGING_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "execution_spine": 165,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_EXECUTION",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "trigger": "DEV-CAL-3 terminal CHARGE_CARRIER_MULTIPLE (PR #353 merged 88a66321): the DEV-CAL-2 V2 AMORTISATION_DOMINATED negative is carried by the acquisition (mining) charge in its full-charge no-retirement form (57.83% of cell-B total burden); failures, verification and salvage are exonerated as carriers (DEV_CAL_3_EXONERATED_COMPONENT_INVARIANTS_V1.json, standing). Under NO_MINING_CHARGE and under MARGINAL_COST_ONLY the secondary (total-burden) readout flips to recovery on tiers KO-2/KO-3/KO-4 with the KO-2 primary transfer (1.0000) intact, Holm adjusted p = 0.0, at every sensitivity N in {5,10,25}.",
+
+ "central_question": "under the corrected acquisition-charging semantics — amortised acquisition charge with retirement-after-N, with N fixed by the pre-registered derivation rule below and NOTHING else — does the DEV-CAL-2 secondary (total_burden_incl_acquisition) readout recover on the tiers that carry the primary transfer, with the KO-2 primary transfer intact, on the sealed V2 task stream?",
+
+ "method": {
+  "kind": "ANALYTICAL_RECOMPUTATION_OVER_SEALED_RECEIPTS",
+  "no_new_protected_run": "no new worlds, seeds, arms-at-runtime, or scored execution; the sealed V2 event/cost ledgers are the sole input, bound by exact path + sha256 in the analysis receipt BEFORE recomputation (same input set as the DEV-CAL-3 freeze: results/DEV_CAL_2_SCORED_RESULTS_V1.json + _V2.json, results/DEVCAL2_RESULTS_V2.json, receipts/DEVCAL2_receipts_shard{1..4}_V2.jsonl, receipts/DEVCAL2_HOST_RECEIPT_billy_V2.json; plus this freeze, the DEV-CAL-3 analysis receipt and the exonerated-component invariants file as control targets)",
+  "implementation": "the semantics is the UNCHANGED DEV-CAL-3 MARGINAL_COST_ONLY implementation (exact.devcal3_charging_attribution.semantics_totals with semantics='MARGINAL_COST_ONLY', mco_n=N_FROZEN): per-world raw acquisition cost = the sealed ORACLE anchor row's cost_ledger.acquisition (never recomputed); each of the first N_FROZEN uses in the registered canonical use order (ORACLE s0-2, SHUFFLED s0-2, then ALL_KO_ARMS x seeds, 1-indexed) charges raw/N_FROZEN; uses after N_FROZEN charge zero acquisition (retired); RESET charges zero; work readouts never touched. NO line of exact/devcal3_charging_attribution.py, exact/run_devcal2.py or src/ocm may be edited by this lane; the recompute imports them unchanged.",
+  "leakage_rule": "identical to DEV-CAL-3: semantics applied POST HOC to recorded events only; no event, order, or outcome re-simulated, re-ordered, or dropped (event identity digests re-verified per row under the frozen semantics)"
+ },
+
+ "frozen_semantics": {
+  "name": "MARGINAL_COST_ONLY_AT_FROZEN_N",
+  "statement": "amortised acquisition charge with retirement-after-N_FROZEN: the acquisition (mining) charge is amortised across the asset's measured use lifetime and retires after N_FROZEN uses; no other charge component changes (failures, verification, salvage, retrieval, adaptation stay AS_IS per the standing DEV-CAL-3 exonerated-component invariants)",
+  "single_change_clause": "this freeze authorises EXACTLY ONE charging change (the acquisition amortisation horizon); any second charging change, any touching of the exonerated components, or any re-tuning of another charge is out of scope and forbidden in-lane"
+ },
+
+ "N_derivation_rule": {
+  "registered": "N is fixed by the following rule, written into this freeze BEFORE any count is taken or any N recorded; the rule is computed ONLY from the sealed V2 receipt shards bound by this freeze",
+  "rule": "N_FROZEN = min over world_ids w present in the sealed V2 shard rows of U(w), where U(w) = the number of status=OK rows in the sealed shards whose world_id is w and whose (arm, seed) lies in the registered canonical use order (arm in {ORACLE_HISTORY, SHUFFLED_HISTORY} union ALL_KO_ARMS, seed in {0,1,2}); RESET rows are never uses. Worlds with U(w)=0 are excluded from the min (no uses -> no acquisition charge to amortise; their absence cannot shrink N).",
+  "derivation_meaning": "measured break-even horizon, conservative form: U(w) is the asset's observed use lifetime in world w; N_FROZEN = the use lifetime of the least-used world; equivalently N_FROZEN is the LARGEST single N such that every world still pays its full raw acquisition cost exactly once across its observed uses (total charged per world = raw * min(U(w), N) / N = raw for all w when N = min U(w)); no world's acquisition cost is written off early, the amortisation is spread as wide as one-time full recovery permits, and any use beyond a world's break-even horizon is charged at marginal cost only",
+  "outcome_blindness": "the derivation reads ONLY the sealed shard rows (event/task/arm/world/seed/status fields); no recovery readout, tier, threshold, p-value, recorded MCO grid entry, or any other analysis output may enter the derivation; selecting N to favour an outcome is forbidden and void",
+  "guards": "empty min-set (no world with U(w)>=1) -> CANNOT_CHECK_N_DERIVATION_NO_USED_WORLDS; N_FROZEN < 1 -> CANNOT_CHECK_N_DERIVATION_DEGENERATE; ties impossible (integer min over a nonempty finite set); the derivation must be recomputed and recorded verbatim in the analysis receipt with per-world U(w) counts",
+  "computed_after_freeze_registration": true,
+  "n_frozen": null,
+  "n_derivation": null
+ },
+
+ "controls": {
+  "as_is_exact_equality": "the AS_IS recomputation (unchanged DEV-CAL-2 statistics over the sealed rows) must reproduce every DEV_CAL_2_SCORED_RESULTS_V2.json comparable field exactly (registered 1e-12 relative float-bind tolerance for rollup-summation-order noise, every tolerance-bound field NAMED; any other mismatch = ASSAY_DEFECT, the analysis halts with no frozen-semantics number reported) — identical gate to DEV-CAL-3 stage 1",
+  "machinery_control_N10": "this lane's recomputation at N=10 must reproduce the recorded DEV_CAL_3_ATTRIBUTION_RESULTS_V1.json charge_semantics.MARGINAL_COST_ONLY block field-for-field (per_arm recovery shares + nulls + draw-invariance + controls + purity + adapter digests, ladder_state, recovering_tiers, draw_invariance_conflict_tiers, ko2_primary_intact, evidence_arm, p_one_sided, verdict_if_this_were_the_model) and the marginal_cost_sensitivity entries at N in {5,25} (recovering_tiers, ko2_primary_intact, p_one_sided) — exact equality required (registered 1e-12 float-bind tolerance, named fields); any mismatch = ASSAY_DEFECT",
+  "frozen_N_readout": "the MARGINAL_COST_ONLY readout is recomputed at N_FROZEN. If N_FROZEN in {5,10,25}: exact equality with the corresponding recorded entry is REQUIRED (full block for 10; sensitivity summary fields for 5/25). If N_FROZEN not in {5,10,25}: every field that differs from the recorded N=10 block must be listed and explained field-by-field; expected difference class: acquisition-charge redistribution across arms as N_FROZEN changes which canonical positions pay (secondary/total-burden fields only).",
+  "work_readout_invariance": "under MARGINAL_COST_ONLY at ANY N, every work-derived readout (primary recovery shares, work draw-invariance, purity, controls, adapter digests, event identity) must be IDENTICAL to the recorded N=10 values (MCO never touches work and never touches events); a violation = ASSAY_DEFECT",
+  "leakage_and_direction": "event preservation (identity digests) and direction sanity (no row's total burden exceeds its AS_IS total) re-verified under the frozen semantics, exactly as in DEV-CAL-3; violation = ASSAY_DEFECT"
+ },
+
+ "endpoint_and_stats": {
+  "primary_endpoint": "KO-2_PLUS_RETRIEVAL secondary (total_burden_incl_acquisition) recovery in cell B under the frozen semantics: recovery_share mean >= 0.25 (the inherited frozen DEV-CAL-2 materiality threshold) with CI excluding 0 and shuffle-null non-alarm and draw-invariance no-conflict, WHILE the KO-2 primary transfer stays intact (primary threshold_met with null non-alarm, draw_invariance AGREE_DETERMINATE 3/3, controls A fired C/D silent, purity unchanged)",
+  "secondary_endpoint": "the full per-arm ladder + LOO secondary/primary table under the frozen semantics (all 8 arms reported), plus the recorded-grid cross-reference",
+  "stats": "single pre-registered hypothesis: one-sided signflip permutation test (PERM_N=10000, frozen seed tag) on the KO-2 paired secondary shares at alpha=0.05; Holm-Bonferroni is not applicable to a single hypothesis (the DEV-CAL-3 five-arm Holm result stands as parent context); NULL_BAND_GATED_V1 (AM-5 standing) direction tests; registered 20% margin inherited",
+  "decision_rule": "controls all pass AND KO-2 secondary threshold_met AND KO-2 primary intact AND no draw-invariance conflict on any recovering tier -> POSITIVE_RECOVERY_UNDER_FROZEN_SEMANTICS; controls pass but KO-2 secondary not met (or conflict) -> PERSISTENT_NON_RECOVERY"
+ },
+
+ "terminals": {
+  "precedence": "POSITIVE_RECOVERY_UNDER_FROZEN_SEMANTICS > PERSISTENT_NON_RECOVERY > RECEIPT_BINDING_DEFECT > ASSAY_DEFECT > CANNOT_CHECK_<reason>",
+  "operational_reading": "RECEIPT_BINDING_DEFECT and ASSAY_DEFECT halt the analysis BEFORE any frozen-semantics number is reported (inherited DEV-CAL-3 discipline); when a halt fires, its terminal is reported. CANNOT_CHECK fires when a registered guard (e.g. N-derivation degenerate) or a missing input makes the endpoint unevaluable — never silently.",
+  "meaning": {
+   "POSITIVE_RECOVERY_UNDER_FROZEN_SEMANTICS": "under the frozen amortised-acquisition semantics with N_FROZEN from the registered rule, the DEV-CAL-2 secondary readout recovers on the minimal tier carrying the primary transfer, primary intact — scoped strictly by the claim ceiling below",
+   "PERSISTENT_NON_RECOVERY": "the corrected charging semantics does NOT restore secondary recovery: the non-amortisation is not repaired by amortised acquisition charging alone and the negative stands at this scope",
+   "RECEIPT_BINDING_DEFECT": "any sealed-input sha256 mismatch vs the committed digest sources",
+   "ASSAY_DEFECT": "any control failure (AS_IS mismatch, N=10 machinery mismatch, work-readout invariance breach, leakage/direction violation)"
+  }
+ },
+
+ "claim_ceiling": "any recovery statement is scoped ONLY to the sealed V2 task stream (the 120-world DEV-CAL-2 matrix, 3960 verified rows) under the frozen semantics; NO horizon generalisation (no claim about amortisation horizons beyond N_FROZEN and the recorded sensitivity grid), NO new-stream claim, NO economics/OCM-residual/open-endedness claim (economics = M3 territory), NO oracle-transplant headline comparator, NO new terminal for DEV-CAL-2 itself (the V2 verdict stands; DEV-CAL-3's attribution stands)",
+
+ "forbidden": [
+  "touching any charge component other than the acquisition amortisation horizon: failures, verification and salvage stay AS_IS per DEV_CAL_3_EXONERATED_COMPONENT_INVARIANTS_V1.json (standing invariants, bound by sha256)",
+  "designing, deploying or evaluating a SECOND charging change in this lane (any further charging redesign is a separate prospective registration)",
+  "any new scored/protected run, world, seed, or runtime arm",
+  "editing sealed V1/V2 receipts, the DEV-CAL-3 receipt, or the exonerated-component invariants (analysis outputs land under NEW names, never overwrite)",
+  "outcome-motivated N selection: N comes ONLY from the registered derivation rule; reading recovery outcomes into the N choice voids the study",
+  "editing exact/devcal3_charging_attribution.py, exact/run_devcal2.py, exact/devcal2_adapters.py or any src/ocm mechanism code (imported unchanged; drift = ASSAY_DEFECT)"
+ ],
+
+ "entry_gates": [
+  "PR #353 merged (holds: 88a66321)",
+  "this freeze (with the rule) committed and pushed BEFORE the N computation; the freeze PR merged before any recomputation is reported",
+  "the DEV-CAL-4 recompute script passes a hostile selftest on the run host (planted-defect alarm + no-alarm control, both outcomes asserted) BEFORE touching the real receipts"
+ ],
+
+ "hosts": {
+  "recompute_and_selftest": "laptop billy (compute off-Mac rule; sealed inputs fetched sha256-verified; same interpreter family as the scored V2 and DEV-CAL-3 runs)",
+  "never": "Mac mini (git/gh + single-file edits only)"
+ },
+
+ "explicitly_not_authorized": [
+  "reporting any frozen-semantics number before the AS_IS control and the N=10 machinery control reproduce their targets exactly",
+  "recomputing at any N other than N_FROZEN as a headline (the {5,10,25} recomputations are machinery controls / cross-references only)",
+  "treating a recomputed number as a NEW terminal of DEV-CAL-2 or a revision of DEV-CAL-3"
+ ]
+}
