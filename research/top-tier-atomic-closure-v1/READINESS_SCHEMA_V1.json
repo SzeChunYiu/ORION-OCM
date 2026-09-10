@@ -1,0 +1,77 @@
+{
+ "schema": "TTAC_READINESS_SCHEMA",
+ "version": "V1",
+ "frozen_utc": "2026-09-10",
+ "owner_issue": 277,
+ "parents": [144, 165, 233, 151, 149, 93, 221, 42],
+ "ladder": {
+  "0": "MISSING",
+  "1": "SPECIFIED",
+  "2": "EXPLORATORY",
+  "3": "PROSPECTIVELY_CONFIRMED",
+  "4": "DISJOINTLY_REPLICATED",
+  "5": "INDEPENDENTLY_REPRODUCED"
+ },
+ "evidence_binding": {
+  "2": ["E1", "E2"],
+  "3": ["E3"],
+  "4": ["E4"],
+  "5": ["E5"],
+  "rule": "coordinate value >=3 must cite a registered study of class >= that level (sha + evidence_class); internal replay never exceeds 2; adaptive-exploratory caps at 2 permanently"
+ },
+ "coordinates": {
+  "T": "theory/formalization; for THEOREM atoms tracks proof status itself",
+  "P": "strongest-parent subtraction; 3 requires faithful parent run at matched information/resources/checker access and subtracted; NOT_RUN stays 1",
+  "M": "measurement/construct validity; 3 requires hostile gaming families bounded or carried into claim ceiling",
+  "C": "causal evidence; 3 requires prospective knockout/ablation flipping outcome (E3)",
+  "G": "generalization/cross-domain transfer with negative-transfer controls",
+  "S": "scaling/lifetime economics; full-lifecycle cost vector + frozen non-dominance rule",
+  "R": "replication; E4 disjoint -> 4, E5 independent -> 5",
+  "A": "autonomy/input audit; requires ledger coverage of the atom causal chain; 4 = clean-room",
+  "E": "external/ecological validity; non-toy worlds or independent scorer"
+ },
+ "atom_classes": ["THEOREM", "ENGINEERING_MECHANISM", "EMPIRICAL_REGULARITY", "DEVELOPMENTAL_LINEAGE", "SELF_EVOLUTION", "GOVERNANCE_META"],
+ "terminals": {
+  "PROVED": {"classes": ["THEOREM"]},
+  "FINITE_CERTIFIED": {"classes": ["THEOREM"], "requires": "explicit world scope in ceiling"},
+  "PARENT_SUFFICIENT": {"classes": ["THEOREM", "ENGINEERING_MECHANISM", "EMPIRICAL_REGULARITY"], "note": "success terminal; never engineer past"},
+  "EMPIRICALLY_SUPPORTED_AT_SCOPE": {"classes": ["ENGINEERING_MECHANISM", "EMPIRICAL_REGULARITY", "DEVELOPMENTAL_LINEAGE", "SELF_EVOLUTION"], "requires": "frozen scope in ceiling"},
+  "REFUTED_WITH_COUNTEREXAMPLE": {"classes": ["*"], "requires": "counterexample artifact retained"},
+  "TRADEOFF_FRONTIER_ONLY": {"classes": ["*"], "requires": "frontier plot/definition retained"},
+  "CANNOT_CHECK_<reason>": {"classes": ["*"], "requires": "missing instrument named; resource shortage is not a reason"}
+ },
+ "closure_profiles": [
+  {"class": "THEOREM", "terminal": "PROVED", "minimum": {"T": 5, "P": 3, "R": 4, "A": 2}},
+  {"class": "THEOREM", "terminal": "FINITE_CERTIFIED", "minimum": {"T": 3, "P": 3, "A": 2}},
+  {"class": "THEOREM", "terminal": "PARENT_SUFFICIENT", "minimum": {"T": 3, "P": 5}},
+  {"class": "ENGINEERING_MECHANISM", "terminal": "EMPIRICALLY_SUPPORTED_AT_SCOPE", "minimum": {"M": 3, "C": 3, "R": 3, "A": 2, "S": 2}},
+  {"class": "ENGINEERING_MECHANISM", "terminal": "PARENT_SUFFICIENT", "minimum": {"M": 2, "P": 4}},
+  {"class": "EMPIRICAL_REGULARITY", "terminal": "EMPIRICALLY_SUPPORTED_AT_SCOPE", "minimum": {"M": 3, "C": 3, "R": 4, "S": 2}},
+  {"class": "DEVELOPMENTAL_LINEAGE", "terminal": "EMPIRICALLY_SUPPORTED_AT_SCOPE", "minimum": {"M": 3, "C": 4, "G": 3, "S": 3, "R": 4, "A": 4, "E": 3}},
+  {"class": "SELF_EVOLUTION", "terminal": "any_#149_outcome", "minimum": {"M": 3, "C": 3, "A": 4}},
+  {"class": "GOVERNANCE_META", "terminal": "audit_complete", "minimum": {"M": 3}}
+ ],
+ "atom_row_required_fields": [
+  "atom_id", "class", "owner_issue", "exact_claim", "assumptions", "current_evidence",
+  "claim_ceiling", "next_decisive_experiment", "terminal"
+ ],
+ "readiness_row_required_fields": [
+  "atom_id", "R", "evidence_refs", "scoring_notes", "scored_utc"
+ ],
+ "evidence_refs_rule": "per coordinate with value >=1: null | {sha_or_pr, evidence_class, registered_question}",
+ "claim_ceiling_rules": [
+  "ceiling = strongest claim compatible with current vector; exceeding it is a defect",
+  "finite certificates never lift to universal claims",
+  "adaptive-exploratory results cap at 2 permanently",
+  "value >=3 requires evidence sha + class; decreases allowed via amendment with cause",
+  "autonomy unaudited (A) gates any self-development/self-evolution sentence, not just the number"
+ ],
+ "locks": {
+  "N2_language": "LOCKED per #233 FREEZE_V1",
+  "N4_formal_proof": "LOCKED per #233 FREEZE_V1",
+  "N5_adoption": "LOCKED per #233 FREEZE_V1",
+  "prior_evidence": "append-only (HST/HSG v1-v3, D12-D15)",
+  "in_flight": "D17-D28 + #221 continuous jobs are mapped (D6), never duplicated",
+  "non_finality": "EXPLICITLY_NON_FINAL; supersede via append-only amendments, defending is a defect"
+ }
+}
