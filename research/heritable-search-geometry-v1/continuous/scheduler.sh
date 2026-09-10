@@ -28,7 +28,9 @@ event() { printf '{"ts":"%s",%s}\n' "$(now)" "$1" >> "$EVENTS"; }
 
 submit() { # spec_file -> job handle
   if command -v sbatch >/dev/null 2>&1; then
-    sbatch --parsable --job-name="$(basename "$1" .json)" \
+    # LUNARC requires a time limit; account/partition via SBATCH_EXTRA if needed.
+    sbatch --parsable ${SBATCH_EXTRA:--t 00:10:00} \
+      --job-name="$(basename "$1" .json)" \
       --wrap="python3 calibrate.py --spec $1 --bank $BANK --atoms $ATOMS --term-vocab $VOCAB --update-ledger"
   else
     nohup python3 calibrate.py --spec "$1" --bank "$BANK" --atoms "$ATOMS" \
@@ -60,8 +62,11 @@ PY
     [ -e "$spec" ] || continue
     exp="$(basename "$spec" .json)"
     if [ ! -e "results/$exp.results.jsonl" ]; then
-      handle="$(submit "$spec")"
-      event "\"action\":\"submit\",\"experiment\":\"$exp\",\"handle\":\"$handle\""
+      if handle="$(submit "$spec" 2>&1)"; then
+        event "\"action\":\"submit\",\"experiment\":\"$exp\",\"handle\":\"$handle\""
+      else
+        event "\"action\":\"submit_failed\",\"experiment\":\"$exp\",\"error\":\"$handle\""
+      fi
     fi
   done
 }
