@@ -1,4 +1,11 @@
-# RV-A adjacent result: the GSA6 lever package traded T3-eligible composition for yield
+# RV-A: metric gaming inside our own search — the GSA6 lever package traded T3-eligible composition for yield
+
+**Why this is prominent rather than adjacent.** `GSA6_ALL` was credited on
+distinct-yield and reports exactly the same distinct-yield as `GSA6_DP`, yet it
+returns 3.82× fewer of the survivors that carry the property the held-out
+endpoint tests. The headline metric moved; the thing the metric was standing in
+for moved the other way. That is metric gaming, produced by our own search
+rather than by an adversary, and it generalises well beyond this study.
 
 Parent: [CORE.md](CORE.md). Receipt: `results/RVA_A2_DRAW_INVARIANCE.json`
 (`composition` block).

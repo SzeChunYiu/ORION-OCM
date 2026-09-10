@@ -51,7 +51,11 @@ Zero draw-variance. An empirical-risk estimate cannot be perfectly bimodal over
 0.224507`) is therefore being applied to a degenerate estimator: non-vacuity of
 the bound does not make the endpoint an estimate of transfer risk.
 
-## Adjacent result: the lever package bought yield with the rejected route
+## Metric gaming inside our own search: the lever package bought yield with the rejected route
+
+This is not a footnote. It is the clearest in-house evidence in the programme
+that optimising a headline yield can buy that yield by discarding the route
+carrying the property we actually want.
 
 Exclusive distinct survivors per R2 arm, checker-bearing fraction (Wilson 95%):
 
@@ -74,6 +78,8 @@ T3 gate actually reads. See [COMPOSITION.md](COMPOSITION.md).
 - `results/RVA_A1_ATTRIBUTION.json` — exact cross-tab, single-bit predictor.
 - `results/RVA_A2_DRAW_INVARIANCE.json` — draw invariance + per-arm composition.
 - [ITERATIONS.md](ITERATIONS.md) — the full chain, including the steps that failed.
+- [CORRECTIONS.md](CORRECTIONS.md) — corrections with the original text retained;
+  `results/RVA_NUMBER_AUDIT.json` re-derives every figure in this study.
 - `hpc/rva_attrib.py`, `hpc/rva_drawinv.py`, `hpc/rva_timing.py` — offline
   reductions, run on LUNARC `lu48` (`-A lu2026-2-51`).
 
@@ -113,10 +119,15 @@ pool, survivors phenotype-deduped across seeds exactly as the R2 aggregate does:
 | GS-R2 pooled (all five arms) | 1.1137 | 100693 | 15668 | 0.1556 |
 | best single arm (GSA6_DP) | 0.1825 | 34773 | 7856 | 0.2259 |
 
-**2.21× the absolute hold count of the entire campaign, at 4.7% of its compute**
-(104× per CPU-hour). Shuffle-equal-n null: 6423.9 expected under the R2 rate at
-L1's n, 34628 observed, z = 382.95. Not selectivity — L1 admits *more*
-candidates than any arm and holds at a higher rate.
+**2.21× the absolute hold count of the entire campaign, at 2.13% of its compute**
+— a 47.0× compute reduction, 104× per CPU-hour. Shuffle-equal-n null: 6423.9
+expected under the R2 rate at L1's n, 34628 observed, z = 382.95. Not
+selectivity — L1 admits *more* candidates than any arm and holds at a higher
+rate.
+
+> The compute share originally read 4.7% here and in `RESULT.md` (the 47×
+> reduction transposed into a percentage). Corrected 2026-09-10; the error
+> understated the result. [CORRECTIONS.md](CORRECTIONS.md) C1.
 
 Against the frozen parents on their own metrics, L1 gives 6891.3 distinct
 T2-viable per seed against `GSA2_hetero`'s 5062.7 (1.36×) and 1743228

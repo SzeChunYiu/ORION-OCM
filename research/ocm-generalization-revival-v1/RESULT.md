@@ -62,7 +62,14 @@ L1's hold rate 95% interval is [0.8352, 0.8423].
 **Absolute count, which is the figure that matters:** L1 returns **34628**
 distinct T3-holding phenotypes against the entire five-arm GS-R2 campaign's
 **15668** — **2.21×** — while spending **0.0237 CPU-hours against 1.1137**,
-i.e. **4.7%** of the campaign's compute. Per CPU-hour the ratio is **104×**.
+i.e. **2.13%** of the campaign's compute, a **47.0× reduction**. Per CPU-hour
+the ratio is **104×**.
+
+> **Corrected 2026-09-10.** This line originally read "4.7% of the campaign's
+> compute" — the 47× reduction transposed into a percentage. The error
+> understated the result. See [CORRECTIONS.md](CORRECTIONS.md) C1; every other
+> figure in this document was re-derived from the receipts and is sound
+> (`results/RVA_NUMBER_AUDIT.json`, 17 checks, 1 failing).
 
 ## Step 4: against the two frozen parents, on the parents' own metrics
 
@@ -117,7 +124,8 @@ terminal rule on — distinct T2-viable yield, morphologies per CPU-hour, and
 T3-eligible survivors — the surrogate-ranked successive-halving apparatus is
 dominated by unranked breadth at matched T0 budget, on every axis at once. The
 84.4% T3 failure is recovered to 16.1% by deleting the ranking, and the absolute
-hold count rises 2.21× over the whole campaign at 4.7% of its cost.
+hold count rises 2.21× over the whole campaign at 2.13% of its cost
+([corrected](CORRECTIONS.md) from 4.7%).
 
 **Not claimed.** That unranked breadth is a better *optimizer*. L1 maximizes
 nothing; it enumerates viable morphologies broadly. If the programme's objective
