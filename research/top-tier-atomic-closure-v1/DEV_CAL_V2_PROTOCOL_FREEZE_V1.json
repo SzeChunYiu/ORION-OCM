@@ -1,0 +1,90 @@
+{
+ "schema": "OCM_DEV_CAL_V2_PROTOCOL_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_SCORED_RUN_UNDER_IT",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "relationship_to_prior": {
+  "supersedes_for_decisive_use": "DEV_CAL_1_PROTOCOL_FREEZE_V1.json (original bytes and exposure history preserved verbatim; its executed verdict TRANSFERABLE_HEADROOM_OCM_MISSES stands as recorded at its own scope)",
+  "amends": "DEV_CAL_2_KNOCKOUT_PROTOCOL_FREEZE_V1.json -- terminal semantics (precedence table below), one additional required arm (ORDINARY_ADAPTIVE_PARENT as an adapter-data arm), and the recorded-successor gating below; adapters-as-data, world matrix, anchors and leave-one-out design are UNCHANGED",
+  "trigger": "STEERING_MEMO 2026-09-10 section 5: DEV-CAL-1 'needs a recorded successor/amendment before use as decisive evidence'; all twelve listed gaps are addressed one-for-one in gap_resolutions below",
+  "devcal2_scored_run_gate": "the DEV-CAL-2 scored run is authorized only when (a) this successor is merged, (b) the calibration fixture of STEERING_MEMO section 4 (reimplemented from spec, since the fixture file was not delivered) passes its controls, and (c) the DEV-CAL-2 machinery PR passes its own hostile selftest"
+ },
+
+ "four_claims_separated": {
+  "rule": "mechanism (verified history causally improves acquisition of fresh target-specific cognition), economics (lifetime repayment under priced resources), ocm_specific (residual vs an equally informed, equally adaptive parent), and open_endedness (scope growth) are SEPARATE verdicts; no run under this protocol may collapse them into one",
+  "endpoint_definition": "B(M,T,q) = actual acquisition work (full HDI-14 cost ledger) until the EXTERNAL checker establishes competence criterion q on target T; failures and censored attempts are retained and reported; primary curves are success-probability-vs-budget, never mean-cost-among-successes-only",
+  "parent_parity_reading": "an ordinary adaptive parent matching the effect reattributes the OCM-specific claim (claim 3) but does NOT negate the mechanism claim (claim 1); parity is reported, never interpreted as failure-to-learn"
+ },
+
+ "gap_resolutions": {
+  "1_native_vs_surrogate": {
+   "resolution": "a target is an executable obligation; the learner must emit a concrete candidate object (program/proof/model); an independent verifier unit determines success. Capability flags, counters and stored-method tallies NEVER satisfy success",
+   "decisive_check": "a no-op solver with unchanged capability flags must FAIL the positive control (implemented as a planted hostile in every run)"
+  },
+  "2_target_purity": {
+   "resolution": "the history constructor is frozen and sha-bound BEFORE target parameters are drawn; allowed shared environment information (the latent subspace/structure) is separated in the record from fresh target-specific parameters; answer-bearing transport objects are excluded by construction",
+   "decisive_check": "reparameterized/encoded target answers and answer-bearing transport objects are detected or excluded (planted reparameterization hostile must alarm)"
+  },
+  "3_certificate_semantics": {
+   "resolution": "each structural certificate states WHAT IT PRESERVES (dependency structure, operator-support incidence, transport-homomorphism conditions), not multiset equality alone; the certificate checker accepts type + preserved-property proof, else CANNOT_CHECK",
+   "decisive_check": "same multiset with incompatible dependency structure must NOT validate as a transport certificate (planted hostile)"
+  },
+  "4_cell_D_generic_vs_structural": {
+   "resolution": "cell-D gains decompose into structural-specific and generic-search components; a generic learned-search improvement in D is recorded as generic_benefit, NOT as tampering; actual protected-information access raises a separate leakage alarm with its own terminal",
+   "decisive_check": "a benign generic improvement must not fire the leak alarm; a planted protected-info access must"
+  },
+  "5_oracle_failure_taxonomy": {
+   "resolution": "oracle shortfall maps to exactly one of CERTIFIED_CEILING / WEAK_ORACLE / INSUFFICIENT_HISTORY / FINITE_HORIZON_INSUFFICIENT / LOW_POWER, each with its detector; INSUFFICIENT_HISTORY (e.g. rank-deficient spanning history) never reports as NO_TRANSFERABLE_HEADROOM",
+   "decisive_check": "the fixture's insufficient-rank case reports INSUFFICIENT_HISTORY, not a global no-headroom terminal"
+  },
+  "6_terminal_precedence": {
+   "resolution": "frozen precedence: ASSAY_DEFECT > LEAKAGE_ALARM > INSUFFICIENT_HISTORY > AMORTISATION_DOMINATED > CARRIER_IDENTIFIED_TIER_k > INTERFACE_GRANTS_INSUFFICIENT > PARENT_EQUIVALENT; decision regions are disjoint (an OCM arm may beat RESET while remaining below oracle -- both facts recorded, one terminal)",
+   "decisive_check": "enumerated combinations of oracle/OCM/parent outcomes map to exactly one terminal each (enumerated in a frozen decision table shipped with the run checker)"
+  },
+  "7_adaptive_strong_parent": {
+   "resolution": "ORDINARY_ADAPTIVE_PARENT arm: same history content, same persistence, same legal adaptation operations, outside OCM-specific bookkeeping; supplied the same training data and verification access; hand-designed infrastructure is declared external cognitive input",
+   "decisive_check": "parent arm runs in every scored run; parity receipt emitted (claimed history and adaptation surface logged, not asserted)"
+  },
+  "8_sealed_logs": {
+   "resolution": "state and event logs are sealed (sha) at run end and summarized deterministically afterwards; selection never consults post-freeze metrics; recomputed statistics must match logged candidates",
+   "decisive_check": "modified logs or policy-digest mismatch fail closed"
+  },
+  "9_rank_probability": {
+   "resolution": "search-geometry receipts use ACTUAL proposal order and work against a common semantic target/solution set; probabilities only where the search defines them",
+   "decisive_check": "deterministic search reports probability NOT_APPLICABLE (never invented surprisal)"
+  },
+  "10_no_retrieval_transplant": {
+   "resolution": "persistent learned parameters/representations may influence behavior WITHOUT an explicit retrieval event; the causal test is transplant/removal of the carrier, not observation of a retrieval call",
+   "decisive_check": "a learned prior with zero retrieval calls passes the causal transplant test"
+  },
+  "11_bootstrap_units": {
+   "resolution": "paired treatment effects at the frozen level with confidence level, resampling units, margins, budgets, stopping and multiplicity (Holm) pre-registered; clustering at independently developed lineages/ecologies",
+   "decisive_check": "duplicating tasks within one lineage must not manufacture independent sample size (planted pseudo-replication hostile must be caught by the checker)"
+  },
+  "12_failure_retention": {
+   "resolution": "failed and capped attempts retained; verified-success-at-fixed-budget reported alongside censored/restricted cost outcomes",
+   "decisive_check": "cheap refusal of hard tasks can never present as cheaper learning (refusal-rate reported per arm)"
+  }
+ },
+
+ "native_binding": {
+  "learner": "src/ocm/learning/methods.py (the existing polynomial fragment learner: checked programs, exact normal-form verification, fragment mining, KSO admission, support-sensitive reload) -- bound as-is, no new cognitive core, no learned router (#71 respected)",
+  "objective": "performance AFTER target acquisition (STEERING_MEMO section 3): candidates are tested on whether they improve acquisition of a FRESH validation target, not replay or compression of training solutions",
+  "restart": "a real OS-process checkpoint/restart of the runtime consuming persisted state is in scope for the successor's M1 run (not required for the DEV-CAL-2 amended scored run)"
+ },
+
+ "calibration_fixture": {
+   "spec": "STEERING_MEMO section 4: parity functions f_a(x)=a.x mod 2 on GF(2), d=8, hidden rank r=3 subspace S; developmental stage learns 3 independent prior functions from 24 binary observations; 5 checked coefficients not individually present among priors; learned-basis learner and equally adaptive ordinary parent use 3 fresh observations, RESET uses 8; all 256 inputs checked; 12 unit tests (canonicalization, new-evidence dependence, counterfactual history invariance, actual observation counts, parent parity, insufficient history, malformed observations, persistence serialization, wrong-structure refusal/recovery)",
+   "provenance": "the memo's calibration_reference.py file was NOT delivered; reimplementation from the published spec, marked as such in the header; economic_claim_authorized=false and ocm_specific_claim_authorized=false preserved",
+   "role": "assay validation only -- it validates the DEV-CAL-2 readout pipeline before binding to OCM; it is NOT an OCM result and confers no claim"
+ },
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any relaxation of DEV-CAL-1's executed verdict or exposure history",
+  "promoting a simulator, schema, or unit fixture as developmental OCM evidence",
+  "a second cognitive core, learned router, or self-modification route (#71 and section 11 of #323 unchanged)",
+  "the DEV-CAL-2 scored run before gates (a)-(c) above all hold"
+ ]
+}
