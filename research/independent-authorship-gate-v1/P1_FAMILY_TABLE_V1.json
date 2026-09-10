@@ -1,0 +1,290 @@
+{
+ "determinism": {
+  "byte_identical_rerun_expected": true,
+  "frozen_seed": "P1-FAMILIES-V1-2026-09-10",
+  "rng": "per-family random.Random seeded with '<frozen_seed>|<family_id>'; all facts and object lists sorted before emission"
+ },
+ "discipline": {
+  "instance_generation": "public generator semantics re-implemented faithfully at the generator's OWN default parameters with the frozen seed; NO rejection sampling, NO difficulty filtering, NO oracle-informed selection; the stream is taken as authored; parse failures are the only exclusions and are retained with reasons",
+  "member_stream": "each member draws its randomness from a deterministic per-family RNG stream seeded by (frozen_seed, family_id); re-running the emitter reproduces the family table byte-identically"
+ },
+ "emitted_by": "p1_families.py",
+ "exclusions": [],
+ "exclusions_rule": "parse failures are the only exclusions and are retained here with reasons; none occurred at emission",
+ "families": [
+  {
+   "domain_file": "ipc_domains/blocksworld-ipc2.pddl",
+   "domain_provenance": [
+    "domain:        BLOCKS (blocksworld)",
+    "competition:   International Planning Competition, IPC-2 (2000), \"Blocks World\"",
+    "basis:         transcribed from the standard IPC domain description",
+    "(typed STRIPS blocks world; actions pick-up/put-down/stack/unstack),",
+    "structured by hand from the published semantics -- NOT verbatim",
+    "IPC text; no IPC file was copied byte-for-byte.",
+    "subset:        types, predicates, actions with delete/add effects only",
+    "(no :derived, no :duration, no ADL, no conditional effects)",
+    "pipeline role: S1 external-authorship family domain (P1_PIPELINE_FREEZE_V1.json)"
+   ],
+   "domain_sha256": "652b47e2445ee36c807ddbd2151251909554a33e9c8933a0953be7779d2d71b6",
+   "exclusions": [],
+   "family_id": "S1-BLOCKSWORLD-IPC2",
+   "generator": {
+    "default_parameters": {
+     "deal": "round-robin: shuffled block list dealt into t towers, tower j receiving shuffled blocks j, j+t, j+2t, ...",
+     "goal_state": "second independent deal (no re-roll if it equals the initial state; no solvability or distance filtering)",
+     "initial_state": "first independent deal",
+     "member_sizes_n": [
+      4,
+      6,
+      8,
+      10,
+      12
+     ],
+     "towers_t": [
+      2,
+      3,
+      3,
+      4,
+      4
+     ]
+    },
+    "seed_stream": "P1-FAMILIES-V1-2026-09-10|S1-BLOCKSWORLD-IPC2",
+    "semantics": "IPC-2 (2000) Blocks World random-tower construction: blocks shuffled, dealt into a frozen number of towers; initial and goal states are two independent such deals. Structured by hand from the published generator semantics, not verbatim code."
+   },
+   "member_count": 5,
+   "members": [
+    {
+     "instance_sha256": "1396494304233574b6e1586230c0bc3eb582455c86de5504a5f79e05670e7879",
+     "instance_text": "(define (problem p1-bw-n04)\n  (:domain blocks-strips)\n  (:objects b1 b2 b3 b4 - block)\n  (:init (clear b1) (clear b3) (handempty) (on b1 b4) (on b3 b2) (ontable b2) (ontable b4))\n  (:goal (and (on b1 b3) (on b2 b4) (ontable b3) (ontable b4))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (on b1 b3) (on b2 b4) (ontable b3) (ontable b4",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-bw-n04"
+    },
+    {
+     "instance_sha256": "a00533d162bc18424518b889b90f844f95eda8232a10a01f905f5139b5be94c2",
+     "instance_text": "(define (problem p1-bw-n06)\n  (:domain blocks-strips)\n  (:objects b1 b2 b3 b4 b5 b6 - block)\n  (:init (clear b1) (clear b2) (clear b4) (handempty) (on b1 b3) (on b2 b6) (on b4 b5) (ontable b3) (ontable b5) (ontable b6))\n  (:goal (and (on b3 b4) (on b5 b1) (on b6 b2) (ontable b1) (ontable b2) (ontable b4))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (on b3 b4) (on b5 b1) (on b6 b2) (ontable b1) (ontable b2) (ontable b4",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-bw-n06"
+    },
+    {
+     "instance_sha256": "49c34fa9c991f73ac7152bf8d9df2ecd0c3fa24a2d555424f6af562bfafd3535",
+     "instance_text": "(define (problem p1-bw-n08)\n  (:domain blocks-strips)\n  (:objects b1 b2 b3 b4 b5 b6 b7 b8 - block)\n  (:init (clear b1) (clear b4) (clear b7) (handempty) (on b1 b3) (on b2 b8) (on b3 b6) (on b4 b2) (on b7 b5) (ontable b5) (ontable b6) (ontable b8))\n  (:goal (and (on b1 b4) (on b2 b8) (on b3 b6) (on b4 b7) (on b5 b2) (ontable b6) (ontable b7) (ontable b8))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (on b1 b4) (on b2 b8) (on b3 b6) (on b4 b7) (on b5 b2) (ontable b6) (ontable b7) (ontable b8",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-bw-n08"
+    },
+    {
+     "instance_sha256": "d98f340db78f106879d8acf7118a51fc5d8eb9846dc0b4381630d5d17fa4c03f",
+     "instance_text": "(define (problem p1-bw-n10)\n  (:domain blocks-strips)\n  (:objects b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 - block)\n  (:init (clear b1) (clear b5) (clear b6) (clear b8) (handempty) (on b1 b4) (on b10 b9) (on b4 b7) (on b5 b3) (on b6 b2) (on b8 b10) (ontable b2) (ontable b3) (ontable b7) (ontable b9))\n  (:goal (and (on b10 b8) (on b2 b3) (on b4 b5) (on b6 b1) (on b7 b4) (on b9 b10) (ontable b1) (ontable b3) (ontable b5) (ontable b8))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (on b10 b8) (on b2 b3) (on b4 b5) (on b6 b1) (on b7 b4) (on b9 b10) (ontable b1) (ontable b3) (ontable b5) (ontable b8",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-bw-n10"
+    },
+    {
+     "instance_sha256": "367e52c4c8478c65d331a7c9ede28ed34305a405659d5f4a6d09bd437b77477c",
+     "instance_text": "(define (problem p1-bw-n12)\n  (:domain blocks-strips)\n  (:objects b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 - block)\n  (:init (clear b2) (clear b4) (clear b5) (clear b7) (handempty) (on b10 b12) (on b2 b10) (on b3 b1) (on b4 b3) (on b5 b9) (on b6 b8) (on b7 b6) (on b9 b11) (ontable b1) (ontable b11) (ontable b12) (ontable b8))\n  (:goal (and (on b1 b12) (on b10 b4) (on b12 b9) (on b2 b7) (on b4 b8) (on b5 b6) (on b6 b11) (on b7 b3) (ontable b11) (ontable b3) (ontable b8) (ontable b9))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (on b1 b12) (on b10 b4) (on b12 b9) (on b2 b7) (on b4 b8) (on b5 b6) (on b6 b11) (on b7 b3) (ontable b11) (ontable b3) (ontable b8) (ontable b9",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-bw-n12"
+    }
+   ]
+  },
+  {
+   "domain_file": "ipc_domains/gripper-ipc1.pddl",
+   "domain_provenance": [
+    "domain:        Gripper",
+    "competition:   International Planning Competition, IPC-1 (1998), \"Gripper\"",
+    "basis:         transcribed from the standard IPC domain description",
+    "(robot with two grippers moving balls between rooms; actions",
+    "move/pick/drop, grippers as constants), structured by hand",
+    "from the published semantics -- NOT verbatim IPC text.",
+    "subset:        types, constants, predicates, actions with delete/add effects",
+    "only (no :derived, no :duration, no ADL, no conditional effects)",
+    "pipeline role: S1 external-authorship family domain (P1_PIPELINE_FREEZE_V1.json)"
+   ],
+   "domain_sha256": "c25fac13e2a2f5d155fa575dfff9b4a139354da83dee70794ac0f6dbeb8d7317",
+   "exclusions": [],
+   "family_id": "S1-GRIPPER-IPC1",
+   "generator": {
+    "default_parameters": {
+     "goal_state": "at every ball roomb",
+     "grippers": [
+      "left",
+      "right"
+     ],
+     "initial_state": "at-robby rooma; at every ball rooma; free left; free right",
+     "locations": [
+      "rooma",
+      "roomb"
+     ],
+     "member_sizes_n": [
+      4,
+      6,
+      8,
+      10
+     ]
+    },
+    "seed_stream": "P1-FAMILIES-V1-2026-09-10|S1-GRIPPER-IPC1",
+    "semantics": "IPC-1 (1998) Gripper generator: n balls at rooma, robot at rooma, both grippers free, goal every ball at roomb. Structured by hand from the published generator semantics, not verbatim code."
+   },
+   "member_count": 4,
+   "members": [
+    {
+     "instance_sha256": "bef42a0400f2a500fd62b4951ccf7a2147faaddcf8afbf898ad67edac4f84435",
+     "instance_text": "(define (problem p1-gr-n04)\n  (:domain gripper-strips)\n  (:objects rooma roomb - location ball1 ball2 ball3 ball4 - object)\n  (:init (at ball1 rooma) (at ball2 rooma) (at ball3 rooma) (at ball4 rooma) (at-robby rooma) (free left) (free right))\n  (:goal (and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-gr-n04"
+    },
+    {
+     "instance_sha256": "44561a194ebd0966a095506e069dbcfa69d8a8c3a32e97f20ea12c894ad703ee",
+     "instance_text": "(define (problem p1-gr-n06)\n  (:domain gripper-strips)\n  (:objects rooma roomb - location ball1 ball2 ball3 ball4 ball5 ball6 - object)\n  (:init (at ball1 rooma) (at ball2 rooma) (at ball3 rooma) (at ball4 rooma) (at ball5 rooma) (at ball6 rooma) (at-robby rooma) (free left) (free right))\n  (:goal (and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-gr-n06"
+    },
+    {
+     "instance_sha256": "c423fceb5e5d1f7be2a4a0f254265850a5d8e8db0ff4d346740acde3f5106131",
+     "instance_text": "(define (problem p1-gr-n08)\n  (:domain gripper-strips)\n  (:objects rooma roomb - location ball1 ball2 ball3 ball4 ball5 ball6 ball7 ball8 - object)\n  (:init (at ball1 rooma) (at ball2 rooma) (at ball3 rooma) (at ball4 rooma) (at ball5 rooma) (at ball6 rooma) (at ball7 rooma) (at ball8 rooma) (at-robby rooma) (free left) (free right))\n  (:goal (and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb) (at ball7 roomb) (at ball8 roomb))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (at ball1 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb) (at ball7 roomb) (at ball8 roomb",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-gr-n08"
+    },
+    {
+     "instance_sha256": "277f5c28d40d63c9bd0f98935a3e4e2633bb4a20d6dc32fba536aa865875abc4",
+     "instance_text": "(define (problem p1-gr-n10)\n  (:domain gripper-strips)\n  (:objects rooma roomb - location ball1 ball2 ball3 ball4 ball5 ball6 ball7 ball8 ball9 ball10 - object)\n  (:init (at ball1 rooma) (at ball10 rooma) (at ball2 rooma) (at ball3 rooma) (at ball4 rooma) (at ball5 rooma) (at ball6 rooma) (at ball7 rooma) (at ball8 rooma) (at ball9 rooma) (at-robby rooma) (free left) (free right))\n  (:goal (and (at ball1 roomb) (at ball10 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb) (at ball7 roomb) (at ball8 roomb) (at ball9 roomb))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (at ball1 roomb) (at ball10 roomb) (at ball2 roomb) (at ball3 roomb) (at ball4 roomb) (at ball5 roomb) (at ball6 roomb) (at ball7 roomb) (at ball8 roomb) (at ball9 roomb",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-gr-n10"
+    }
+   ]
+  },
+  {
+   "domain_file": "ipc_domains/logistics-ipc1.pddl",
+   "domain_provenance": [
+    "domain:        Logistics",
+    "competition:   International Planning Competition, IPC-1 (1998) / IPC-2 (2000)",
+    "basis:         transcribed from the standard IPC domain description",
+    "(packages/trucks within cities, airplanes between airports;",
+    "actions load/unload for truck and plane, drive-truck,",
+    "fly-airplane), structured by hand from the published",
+    "semantics -- NOT verbatim IPC text. Predicate and parameter",
+    "naming follows the all-positive STRIPS formulation (distinct",
+    "truck-at/airplane-at/obj-at/obj-in predicates, city bound as",
+    "an explicit drive-truck parameter) so that no negative",
+    "precondition is required anywhere in the domain.",
+    "subset:        types, predicates, actions with delete/add effects only",
+    "(no :derived, no :duration, no ADL, no conditional effects)",
+    "pipeline role: S1 external-authorship family domain (P1_PIPELINE_FREEZE_V1.json)"
+   ],
+   "domain_sha256": "25d4f7acedeb6ab1d1fb195e9327022f20e3d646256d259b589e642494e4dd0e",
+   "exclusions": [],
+   "family_id": "S1-LOGISTICS-IPC1",
+   "generator": {
+    "default_parameters": {
+     "airplane_start": "first city's airport",
+     "airplanes": 1,
+     "members": [
+      {
+       "cities": 2,
+       "packages": 2
+      },
+      {
+       "cities": 3,
+       "packages": 3
+      },
+      {
+       "cities": 3,
+       "packages": 5
+      },
+      {
+       "cities": 4,
+       "packages": 6
+      }
+     ],
+     "package_od": "origin and destination drawn from the seeded family RNG over all locations; a destination equal to the origin is kept (no re-roll)",
+     "per_city": {
+      "airports": 1,
+      "extra_locations": 1,
+      "trucks": 1
+     },
+     "truck_start": "its city airport"
+    },
+    "seed_stream": "P1-FAMILIES-V1-2026-09-10|S1-LOGISTICS-IPC1",
+    "semantics": "IPC-1/IPC-2 Logistics generator: cities each with one airport and one extra location, one truck per city parked at its city airport, one airplane at the first city's airport, packages with seeded origin/destination pairs. Structured by hand from the published generator semantics, not verbatim code."
+   },
+   "member_count": 4,
+   "members": [
+    {
+     "instance_sha256": "b67db1df8f694c8f7587b413bcef39a8229b5e81be4065ed76ad80bf6633d36c",
+     "instance_text": "(define (problem p1-lg-c02p02)\n  (:domain logistics-strips)\n  (:objects c1 c2 - city apt1 apt2 - airport loc1 loc2 - location t1 t2 - truck ap1 - airplane p1 p2 - package)\n  (:init (airplane-at ap1 apt1) (in-city apt1 c1) (in-city apt2 c2) (in-city loc1 c1) (in-city loc2 c2) (obj-at p1 loc1) (obj-at p2 loc1) (truck-at t1 apt1) (truck-at t2 apt2))\n  (:goal (and (obj-at p1 apt2) (obj-at p2 loc1))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (obj-at p1 apt2) (obj-at p2 loc1",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-lg-c02p02"
+    },
+    {
+     "instance_sha256": "8928e635a9e5a09a78d712710aeb9c580e7af50c95a3716c16063a2db797d298",
+     "instance_text": "(define (problem p1-lg-c03p03)\n  (:domain logistics-strips)\n  (:objects c1 c2 c3 - city apt1 apt2 apt3 - airport loc1 loc2 loc3 - location t1 t2 t3 - truck ap1 - airplane p1 p2 p3 - package)\n  (:init (airplane-at ap1 apt1) (in-city apt1 c1) (in-city apt2 c2) (in-city apt3 c3) (in-city loc1 c1) (in-city loc2 c2) (in-city loc3 c3) (obj-at p1 loc2) (obj-at p2 apt2) (obj-at p3 loc1) (truck-at t1 apt1) (truck-at t2 apt2) (truck-at t3 apt3))\n  (:goal (and (obj-at p1 loc1) (obj-at p2 apt2) (obj-at p3 loc2))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (obj-at p1 loc1) (obj-at p2 apt2) (obj-at p3 loc2",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-lg-c03p03"
+    },
+    {
+     "instance_sha256": "572e6f90d988bbaec03ab9c29d38bb6da8522af6114476b4909e0d3da6784d20",
+     "instance_text": "(define (problem p1-lg-c03p05)\n  (:domain logistics-strips)\n  (:objects c1 c2 c3 - city apt1 apt2 apt3 - airport loc1 loc2 loc3 - location t1 t2 t3 - truck ap1 - airplane p1 p2 p3 p4 p5 - package)\n  (:init (airplane-at ap1 apt1) (in-city apt1 c1) (in-city apt2 c2) (in-city apt3 c3) (in-city loc1 c1) (in-city loc2 c2) (in-city loc3 c3) (obj-at p1 loc1) (obj-at p2 loc2) (obj-at p3 apt1) (obj-at p4 apt2) (obj-at p5 loc1) (truck-at t1 apt1) (truck-at t2 apt2) (truck-at t3 apt3))\n  (:goal (and (obj-at p1 apt3) (obj-at p2 loc1) (obj-at p3 loc2) (obj-at p4 apt1) (obj-at p5 loc3))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (obj-at p1 apt3) (obj-at p2 loc1) (obj-at p3 loc2) (obj-at p4 apt1) (obj-at p5 loc3",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-lg-c03p05"
+    },
+    {
+     "instance_sha256": "3007249dfa0c50fd5da6c398669c3bfaeb288651fafac72b99db2ba25692522f",
+     "instance_text": "(define (problem p1-lg-c04p06)\n  (:domain logistics-strips)\n  (:objects c1 c2 c3 c4 - city apt1 apt2 apt3 apt4 - airport loc1 loc2 loc3 loc4 - location t1 t2 t3 t4 - truck ap1 - airplane p1 p2 p3 p4 p5 p6 - package)\n  (:init (airplane-at ap1 apt1) (in-city apt1 c1) (in-city apt2 c2) (in-city apt3 c3) (in-city apt4 c4) (in-city loc1 c1) (in-city loc2 c2) (in-city loc3 c3) (in-city loc4 c4) (obj-at p1 loc3) (obj-at p2 loc2) (obj-at p3 loc3) (obj-at p4 loc4) (obj-at p5 apt4) (obj-at p6 apt1) (truck-at t1 apt1) (truck-at t2 apt2) (truck-at t3 apt3) (truck-at t4 apt4))\n  (:goal (and (obj-at p1 loc1) (obj-at p2 loc4) (obj-at p3 loc3) (obj-at p4 apt2) (obj-at p5 apt2) (obj-at p6 apt1))))\n",
+     "intent_audit": {
+      "authored_goal": "(and (obj-at p1 loc1) (obj-at p2 loc4) (obj-at p3 loc3) (obj-at p4 apt2) (obj-at p5 apt2) (obj-at p6 apt1",
+      "note": "audit-only generator intent; truth labels are recovered by p1_validator.py, never read from this field"
+     },
+     "member_id": "p1-lg-c04p06"
+    }
+   ]
+  }
+ ],
+ "freeze": "P1_PIPELINE_FREEZE_V1.json",
+ "pipeline_file_sha256": {
+  "P1_PIPELINE_FREEZE_V1.json": "1d18bddbf2eaae69b976192a420127c4703b3ee006920f3434e66f42b35dc0c9",
+  "ipc_domains/GENERATOR_PARAMS_V1.json": "c2696c9b103814cda87cd4abec8ada9cbc0b61f223212a3e1dc14c24e0ca046f",
+  "ipc_domains/blocksworld-ipc2.pddl": "652b47e2445ee36c807ddbd2151251909554a33e9c8933a0953be7779d2d71b6",
+  "ipc_domains/gripper-ipc1.pddl": "c25fac13e2a2f5d155fa575dfff9b4a139354da83dee70794ac0f6dbeb8d7317",
+  "ipc_domains/logistics-ipc1.pddl": "25d4f7acedeb6ab1d1fb195e9327022f20e3d646256d259b589e642494e4dd0e",
+  "p1_families.py": "9ff8ea034f2ab575ab10299bb116b67424078e7a96255afe15e7ee6bf155a3f2",
+  "p1_validator.py": "95a55ec4925b9221862b10bf9aa994509129eb8cefa932dbb982395084ebe28d"
+ },
+ "recorded_utc": "2026-09-10",
+ "schema": "OCM_P1_FAMILY_TABLE",
+ "total_members": 13,
+ "version": "V1"
+}
