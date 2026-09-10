@@ -1,0 +1,21 @@
+name: HSG freeze chain
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freeze-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Self-test the checker before trusting it
+        run: python3 research/hsg-semantic-execution-v1/selftest_freeze_chain.py
+      - name: Verify the freeze chain
+        run: python3 research/hsg-semantic-execution-v1/verify_freeze_chain.py
