@@ -80,14 +80,35 @@ def cell_class(c):
     return "reduced" if c["arm"] in H.REDUCED_ARMS else "full"
 
 
+def mix_order():
+    """Alternate the two ends of the mix grid: 11, 0, 10, 1, 9, 2, ...
+
+    The two halves of the surface answer different questions and cost wildly different
+    amounts. High mix carries the crossover claim and is expensive (the incumbent's F2
+    cost dominates); low mix carries the critical-mix claim and is cheap. Running the
+    expensive end alone would occupy every slot for a day and a half before a single
+    low-mix point existed. Alternating fills in both ends from the start."""
+    hi = list(range(len(H.MIX_GRID) - 1, -1, -1))
+    lo = list(range(len(H.MIX_GRID)))
+    out, seen = [], set()
+    for a, b in zip(hi, lo):
+        for x in (a, b):
+            if x not in seen:
+                seen.add(x)
+                out.append(x)
+    return out
+
+
 def ordered_cells():
-    """High mix first; within a mix, the arms that can cross before the ones that
+    """Mix ends alternating; within a mix, the arms that can cross before the ones that
     cannot, and the nulls with them."""
+    rank = dict((m, r) for r, m in enumerate(mix_order()))
     cells = list(enumerate(H.cell_inventory()))
+
     def key(item):
         i, c = item
         cls = 0 if c["arm"] in H.FULL_ARMS else (1 if c["arm"] in H.NULL_ARMS else 2)
-        return (-c["mix_idx"], cls, i)
+        return (rank[c["mix_idx"]], cls, i)
     return [i for i, _c in sorted(cells, key=key)]
 
 
