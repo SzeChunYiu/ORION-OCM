@@ -45,9 +45,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from rv8_horizon import (COMPOSITIONS, FULL_ARMS, HORIZON_LADDER, MIX_GRID,  # noqa: E402
-                         NULL_ARMS, NULL_SEEDS, N_FULL, N_REDUCED, REDUCED_ARMS,
-                         STREAM_SEEDS, SCHEMA, cell_inventory)
+from rv8_horizon import (COMPOSITIONS, FAMILY_ORDER, FULL_ARMS,  # noqa: E402
+                         HORIZON_LADDER, MIX_GRID, NULL_ARMS, NULL_SEEDS, N_FULL,
+                         N_REDUCED, REDUCED_ARMS, STREAM_SEEDS, SCHEMA,
+                         cell_inventory, family_sequence)
 
 BOOT = 2000
 BOOT_SEED = 815001
@@ -193,6 +194,22 @@ def analyse(out):
                         allcap.extend(p["capped_any"])
                     acq_m, acq_f = ps[0]["acq_marginal"], ps[0]["acq_full"]
                     clean = [v for v, c in zip(allsav, allcap) if not c]
+
+                    # per-family attribution. Not a new endpoint: a decomposition of
+                    # the paired saving already recorded, using the family sequence,
+                    # which is deterministic from (mix, composition) and identical at
+                    # every prefix. It says WHICH family the library wins or loses on.
+                    byfam = dict((f, []) for f in FAMILY_ORDER)
+                    for p in ps:
+                        fseq = family_sequence(mix, comp, p["n"])
+                        for i, f in enumerate(fseq):
+                            byfam[f].append(p["savings"][i])
+                    fam_rows = {}
+                    for f, vals in byfam.items():
+                        if not vals:
+                            continue
+                        fam_rows[f] = {"n": len(vals),
+                                       "saving_per_task": sum(vals) / float(len(vals))}
                     res["surface"].append({
                         "arm": arm, "mix": mix, "mix_idx": mi, "composition": comp,
                         "null_seed": ns, "tasks_total": len(allsav),
@@ -205,6 +222,7 @@ def analyse(out):
                         "macro_hits": sum(p["macro_hits"] for p in ps),
                         "capped_tasks_arm": sum(p["arm_capped"] for p in ps),
                         "capped_tasks_baseline": sum(p["base_capped"] for p in ps),
+                        "per_family_saving": fam_rows,
                         "marginal": n_star_ci(allsav, acq_m, rng),
                         "full": n_star_ci(allsav, acq_f, rng),
                         "sensitivity_excluding_capped": {

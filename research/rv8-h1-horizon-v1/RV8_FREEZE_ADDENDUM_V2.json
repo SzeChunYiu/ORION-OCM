@@ -1,0 +1,15 @@
+{
+  "schema": "ocm.rv8.h1-horizon.freeze.addendum.v2",
+  "statement": "Recorded BEFORE any scored cell ran. At the time of writing the cell array had not been submitted and no cell file existed. The only outputs in existence were the two validation gates (selection mirror / frozen-receipt replication), neither of which imports or executes rv8_analyse.py.",
+  "amends": "RV8_FREEZE.json frozen_files_sha256.rv8_analyse.py, as already amended by addendum V1",
+  "addition": {
+    "name": "per-family attribution of the paired saving",
+    "why": "the endpoints answer WHETHER acquisition repays; they do not say WHICH family the library wins or loses on. FNA-4's own diagnosis is per-family (STITCH F1 +11,153 / F2 -34,998 / F3 +3,146), and the frozen-receipt replication gate has already shown the same library flipping sign between a constructed and a natural stream at one mix. Without attribution a negative result cannot be diagnosed, and a negative that cannot be attributed to one stage is a defect under the standing discipline.",
+    "not_a_new_endpoint": "this is a DECOMPOSITION of the paired saving already recorded per task. It adds no measurement, changes no arm, no cost term, no stream and no statistic. The family sequence is deterministic from (mix, composition) and identical at every prefix (validated on the real generator across all 12 mixes and both compositions at prefixes 16/64/256/1024/4096/16384, with a control that must and does differ), so attribution is exact and needs nothing the cells do not already record.",
+    "reported_as": "surface[*].per_family_saving = {family: {n, saving_per_task}}"
+  },
+  "semantic_changes_to_frozen_endpoints": "NONE",
+  "rv8_analyse_py_sha256_superseded": "918e2a6bba16e2f01904ae66a2748ea9e5cf86bebf58e90d313357db399bd471",
+  "rv8_analyse_py_sha256_current": "d005034d001f18ebae025d9dac239a91717dfadb2ca00e769967b7d768686731",
+  "unchanged_from_base_freeze": ["target claim", "axes", "arms", "reduced-horizon rule", "cost model", "stream construction", "hard gates and their terminals", "endpoints", "registered predictions R1-R6", "legitimate outcomes", "forbidden claims", "declared limitations", "rv8_horizon.py digest 3309688e60a60aa524e3a374d04c5566f70d0df1e466000cd8c2dbf455eb29e3"]
+}
