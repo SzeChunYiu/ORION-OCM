@@ -627,8 +627,48 @@ def run_rv_b1():
                 "floor on a single query.",
             "pre_committed": "This terminal was written into "
                              "RV_B_PROTOCOL_V1.json before the run.",
-            "where_the_positive_lives": "query amortisation, measured in "
-                                        "multi_query_amortisation above."}
+            "where_the_positive_lives": "NOT FOUND. Query amortisation was "
+                                        "the hypothesis and the measurement "
+                                        "REFUTED it: crossover_Q is null, the "
+                                        "ratio falls monotonically across the "
+                                        "frozen Q grid but never crosses, and "
+                                        "the linear projection finds none "
+                                        "beyond it. Mechanism, from "
+                                        "self_defeat_diagnosis: amortisation "
+                                        "SELF-DEFEATS. Refinement drives the "
+                                        "partition toward discrete -- final "
+                                        "blocks reach 81.2% of states and 6 "
+                                        "of 30 worlds become fully discrete -- "
+                                        "and in the post-refinement regime the "
+                                        "marginal cost per query is 12.966 for "
+                                        "the abstraction against 11.738 for "
+                                        "direct search. The mechanism that "
+                                        "makes an abstraction accurate enough "
+                                        "to answer queries is the same one "
+                                        "that destroys its size advantage, and "
+                                        "the n-k bound guarantees termination "
+                                        "at or near discrete. The frozen Q "
+                                        "grid is unchanged; extending it would "
+                                        "be a new frozen study.",
+            "correction_C1": {
+                "utc": "2026-09-10",
+                "field": "terminal.where_the_positive_lives",
+                "original_text": "query amortisation, measured in "
+                                 "multi_query_amortisation above.",
+                "why_it_was_wrong": "It asserted a location for the positive "
+                                    "that this result's own measurement did "
+                                    "not confirm. crossover_Q was already "
+                                    "null and post-refinement marginal cost "
+                                    "already favoured direct search IN THE "
+                                    "SAME FILE. It was the summary field "
+                                    "people quote, running ahead of the "
+                                    "evidence beneath it.",
+                "what_changed": "summary field only; no measurement, "
+                                "endpoint, arm, world, seed or verdict "
+                                "altered",
+                "raised_by": "session lead centre review of the merged "
+                             "artifact",
+                "original_retained": "above, verbatim"}}
     else:
         out["terminal"] = {
             "verdict": "LEVER_POSITIVE_SINGLE_QUERY",
