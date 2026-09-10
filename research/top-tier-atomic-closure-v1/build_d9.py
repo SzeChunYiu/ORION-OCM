@@ -58,7 +58,8 @@ protocol = {
     "clauses": [
         {"id": "P1-world-authorship",
          "rule": "task/world families independently authored outside the mechanism's taxonomy; truth labels independently recovered, never generator intent",
-         "hostile": "H-MV-05", "status": "GATE REGISTERED — authorship pipeline not yet built; blocks all E3 promotion"},
+         "hostile": "H-MV-05",
+         "status": "SATISFIED__P1E3 — executed: 10 fresh-session families / 60 instances (floors 10/5/50 met), taxonomy-disjoint (0 overlaps), truth recovered 60/60 by independent exact checker, intent audit-only and refused as cause; authorship is model-proxy (HUMAN_GATE_BYPASSED__MODEL_PROXY); receipt research/independent-authorship-gate-v1/P1E3_RESULT.md. Grants no execution rights: promotion of any study still requires its owning lane's entry gates (promotion_rule)"},
         {"id": "P2-splits",
          "rule": "protected splits, exclusion rules, and non-inferiority margins frozen before any protected outcome is accessed; violations void the study",
          "hostile": "H-MV-10", "status": "ENFORCEABLE NOW"},
@@ -93,5 +94,5 @@ assert len(protocol["clauses"]) == 9 and all(c["id"] and c["rule"] for c in prot
 print(f"R rows={len(rows)} short={len(short_rows)}")
 for x in short_rows:
     print(f"  {x['atom_id']} R{x['R_have']}->{x['R_need']} ({x['terminal'][:14]})")
-print("clauses=9; promotion blocked by P1 authorship pipeline")
+print("clauses=9; P1 authorship satisfied by P1E3 (model-proxy); promotion still rides owning-lane entry gates")
 print("VALIDATION OK")
