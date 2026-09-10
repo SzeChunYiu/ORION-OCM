@@ -1,0 +1,284 @@
+{
+  "ablation": {
+    "effect_disappears": true,
+    "notes": "dropping the CUT lemma returns compose-second search to primitive K/S, which cannot finish",
+    "removed": "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b"
+  },
+  "acquisition_cost": {
+    "notes": "D3 CUT_* discovery plus validation tournament versus primitive K/S",
+    "verifier_calls": 4,
+    "work_units": 700
+  },
+  "active_k_n": {
+    "N": 37,
+    "k": 8,
+    "ratio": 0.21621621621621623
+  },
+  "actual_execution_witnesses": [
+    {
+      "enumeration_attempts": 33,
+      "invoked_identities": [
+        "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b"
+      ],
+      "program": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "task_id": "ffd22db0b288023426c0db84a4500c00538340f6334fca925101c92f66021896",
+      "token_word": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "verified": true
+    },
+    {
+      "enumeration_attempts": 33,
+      "invoked_identities": [
+        "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b"
+      ],
+      "program": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "task_id": "6faa33b38aa1f3f6e93aa5505d4ae4687c6a639d1f2e8e4c0e37f1c2f4d044fa",
+      "token_word": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "verified": true
+    },
+    {
+      "enumeration_attempts": 33,
+      "invoked_identities": [
+        "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b"
+      ],
+      "program": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "task_id": "99105a5ec49faf93414100fb17065c5f895e06f1c2390b0c21ba63a47191a5b8",
+      "token_word": [
+        "CUT_6bb18bedec08",
+        "CUT_6bb18bedec08"
+      ],
+      "verified": true
+    }
+  ],
+  "chi": {
+    "notes": "held-out inhabit cost after CUT; primitive=48.0",
+    "status": "MEASURED",
+    "value": 99.0
+  },
+  "composition_depth": 1,
+  "imported_donor_identities": [
+    "donor:primitive:inc",
+    "donor:primitive:dec",
+    "donor:primitive:double",
+    "donor:primitive:square",
+    "donor:probe:0",
+    "donor:probe:1",
+    "donor:probe:2",
+    "donor:probe:3",
+    "donor:probe:4",
+    "donor:probe:5",
+    "donor:replace-identified-module",
+    "donor:hilbert:K",
+    "donor:hilbert:S",
+    "donor:hilbert:MP"
+  ],
+  "kappa": {
+    "notes": "macro + failure + D2 policy + one local D3 CUT lemma",
+    "status": "MEASURED",
+    "value": 0.10810810810810811
+  },
+  "lineage_id": "orion-ocm-g7-lineage-v1:microscope-d0-d1",
+  "maintenance_cost": {
+    "notes": "no extra index maintenance beyond the bundle write",
+    "verifier_calls": 0,
+    "work_units": 0
+  },
+  "negative_transfer": {
+    "harmful_tasks": 0,
+    "notes": "D3 serving is family-gated; polynomial and diagnosis tasks still use MACRO/failure/probe policy",
+    "observed": false
+  },
+  "new_information_supplied": {
+    "examples": 2,
+    "labels": 0,
+    "training_task_ids": [
+      "0b72ce61b7680c27a3581225aee82c3daa3ac3b5126f8a868d28d3ccf82c21c6",
+      "93b159861d785203e70704d05eb0ac7ff61b60f8b0c39f735d0c039c4257fa68"
+    ]
+  },
+  "new_methods_schemas": [
+    {
+      "identity": "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b",
+      "kind": "method",
+      "origin_category": "LEARNED_COMPOSITION",
+      "payload": {
+        "family": "g7.hilbert-sk-lemma-introduction.v1",
+        "frozen_names_refused": [
+          "PREFIX",
+          "SWAP"
+        ],
+        "lemma_id": "CUT_6bb18bedec08",
+        "lemma_json": {
+          "authorized": true,
+          "lemma_id": "CUT_6bb18bedec08",
+          "schema": [
+            "imp",
+            [
+              "imp",
+              "v0",
+              "v1"
+            ],
+            [
+              "imp",
+              [
+                "imp",
+                "v2",
+                "v0"
+              ],
+              [
+                "imp",
+                "v2",
+                "v1"
+              ]
+            ]
+          ],
+          "support_ids": [
+            "0b72ce61b7680c27a3581225aee82c3daa3ac3b5126f8a868d28d3ccf82c21c6",
+            "93b159861d785203e70704d05eb0ac7ff61b60f8b0c39f735d0c039c4257fa68"
+          ],
+          "witness_term": [
+            "app",
+            [
+              "app",
+              "S",
+              [
+                "app",
+                "K",
+                "S"
+              ]
+            ],
+            "K"
+          ]
+        },
+        "not_flt": true,
+        "not_m11_relabel": true,
+        "not_metamath": true,
+        "schema": "((v0 \u2192 v1) \u2192 ((v2 \u2192 v0) \u2192 (v2 \u2192 v1)))",
+        "schema_alpha": "((v0 \u2192 v1) \u2192 ((v2 \u2192 v0) \u2192 (v2 \u2192 v1)))",
+        "witness_term": "((S (K S)) K)"
+      }
+    },
+    {
+      "identity": "schema:57b22ae123cd22ff083d0671177953577276f9dafa89207400edc2c750391a56",
+      "kind": "schema",
+      "origin_category": "LEARNED_COMPOSITION",
+      "payload": {
+        "family": "g7.hilbert-sk-lemma-introduction.v1",
+        "originating_method_ids": [
+          "method:3ddc213aa7f53147620822f4646f8fa03480c3aee0f7bb1feb6004fa39063c9b"
+        ],
+        "pattern": "invent a CUT_* intermediate that is not the goal and not a frozen PREFIX/SWAP name, then finish compose-second by named-lemma MP"
+      }
+    }
+  ],
+  "omega": {
+    "notes": "lemma introduction from D3-train discovery; not a supplied Metamath label",
+    "status": "MEASURED",
+    "value": 0.5
+  },
+  "persistent_bytes": 14421,
+  "persistent_state_digest": "6f89d4881ba3b96da820634277b12edb9347251589c4f3d2b714d41b119fb7b2",
+  "primitive_operators_added": [
+    "donor:hilbert:K",
+    "donor:hilbert:S",
+    "donor:hilbert:MP"
+  ],
+  "prior_information_manifest": {
+    "charge": 25,
+    "items": [
+      "four total arithmetic primitives inc/dec/double/square",
+      "coefficient normal-form checker",
+      "exact token-word BFS serving",
+      "registered salts and stratum sizes",
+      "T0 G2-style macro retained on the same lineage",
+      "T1 degree-class failure memory retained on the same lineage",
+      "taught D2 probe/replace operators and syndrome windows",
+      "T2 greedy posterior-split probe policy retained on the same lineage",
+      "taught Hilbert K/S axiom schemas and MP"
+    ]
+  },
+  "reasoning_cost": {
+    "notes": "held-out compose-second theorems with invented CUT lemma",
+    "verifier_calls": 3,
+    "work_units": 99
+  },
+  "retention": {
+    "notes": "T0 MACRO, T1 failure memory, and T2 probe policy retained; D3 is a disjoint Hilbert competence",
+    "prior_failure_knowledge_retained": true,
+    "prior_methods_retained": true
+  },
+  "reused_method_identities": [
+    "method:2c621c287d5f908e18a7f6c62a896c001394fc6e3e37eb20a75dbf5456ac1984",
+    "failure:7b506b400626d7f9e884f4bc5946daf9d1f8efb3b6a3b20ba61410c29a61fb0f",
+    "method:42a89102b3f4cb70721edc8ad8cac486ae5b6d8a3dc7c2ea914e3dcbb032cdf9"
+  ],
+  "revision_cost": {
+    "notes": "CUT-lemma admission",
+    "verifier_calls": 0,
+    "work_units": 1
+  },
+  "schema": "ocm.g7.development-transition.v1",
+  "self_change_cost": {
+    "notes": "one D3 method admission",
+    "verifier_calls": 0,
+    "work_units": 1
+  },
+  "source_machine_identity": "a11e5201bd0c6c39d75efb43ae5b4e0952c1d2dbeb4fae483970923839cdbf94",
+  "source_stage": "OCM_2",
+  "strongest_parent_result": {
+    "CONTINUED_OCM": {
+      "arm": "CONTINUED_OCM",
+      "loaded_foreign_store": false,
+      "notes": "loaded T2 bundle; admitted D3 CUT lemma; T0/T1/T2 retained; no reset",
+      "reused_prior_methods": true,
+      "work_units": 799
+    },
+    "RESET_OCM": {
+      "arm": "RESET_OCM",
+      "loaded_foreign_store": false,
+      "notes": "isolated empty store; re-acquired T0 macro, T1 failure memory, T2 policy, then D3 CUT lemma",
+      "reused_prior_methods": false,
+      "work_units": 3880
+    },
+    "STRONG_ADAPTIVE_PARENT": {
+      "arm": "STRONG_ADAPTIVE_PARENT",
+      "loaded_foreign_store": false,
+      "notes": "ordinary persistent CUT-lemma library; comparator evolved at T3",
+      "reused_prior_methods": true,
+      "work_units": 799
+    },
+    "TASK_SPECIFIC_OCM": {
+      "arm": "TASK_SPECIFIC_OCM",
+      "loaded_foreign_store": false,
+      "notes": "Hilbert/SK family only; no T0 macro, T1 failure schema, or T2 probe policy",
+      "reused_prior_methods": false,
+      "work_units": 799
+    },
+    "notes": "Continued reuses T0/T1/T2 and only pays D3 acquisition. Reset rediscovers independently and pays T0+T1+T2+T3. D0/D1/D2 do not cheapen D3 versus a task-specific Hilbert learner; that is recorded, not claimed as transfer. The ordinary CUT-lemma parent may tie the T3 mechanism. Not Metamath, not FLT, not historical M11 relabel.",
+    "parent_ties_continued_mechanism": true,
+    "reset_costs_more_or_fails_reuse": true,
+    "winner": "CONTINUED_OCM_BEATS_RESET"
+  },
+  "target_machine_identity": "6f89d4881ba3b96da820634277b12edb9347251589c4f3d2b714d41b119fb7b2",
+  "target_stage": "OCM_3",
+  "terminal": "OCM_3_D3_CUT_LEMMA_ADDED",
+  "verification_cost": {
+    "notes": "kernel-checked Hilbert reconstructions",
+    "verifier_calls": 3,
+    "work_units": 3
+  }
+}

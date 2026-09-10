@@ -1,0 +1,56 @@
+name: CINV and publication constitution
+
+on:
+  pull_request:
+    paths:
+      - 'research/cinv-audit-v1/**'
+      - 'research/publication-constitution-v1/**'
+      - '.github/workflows/cinv-and-publication.yml'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/constitution/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/cinv-audit-v1/**'
+      - 'research/publication-constitution-v1/**'
+      - '.github/workflows/cinv-and-publication.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  cinv-publication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/cinv-audit-v1:${{ github.workspace }}/research/publication-constitution-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Invariant and protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/cinv-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/cinv-audit-v1 -p 'test_*.py' -v 2>&1 | tee "$out/cinv-tests.txt"
+          python -B -m unittest discover -s research/publication-constitution-v1 -p 'test_*.py' -v 2>&1 | tee "$out/pub-tests.txt"
+      - name: Audit receipt
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/cinv-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/cinv-audit-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cinv-and-publication
+          path: '${{ runner.temp }}/cinv-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

@@ -1,0 +1,59 @@
+name: G5 ZDD warrant parent
+
+on:
+  pull_request:
+    paths:
+      - 'research/g5-zdd-warrant-v3/**'
+      - 'research/g5-bdd-warrant-v2/**'
+      - 'research/g5-factored-warrant-v1/**'
+      - '.github/workflows/g5-zdd-warrant.yml'
+      - 'src/ocm/kso/warrant.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g5-zdd-warrant-v3/**'
+      - '.github/workflows/g5-zdd-warrant.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  zdd-warrant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g5-zdd-warrant-v3:${{ github.workspace }}/research/g5-bdd-warrant-v2:${{ github.workspace }}/research/g5-factored-warrant-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g5-zdd-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g5-zdd-warrant-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/g5-zdd-warrant-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Compare DAG vs BDD vs ZDD vs antichain
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g5-zdd-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/g5-zdd-warrant-v3/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+      - name: Production warrant unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - name: Predecessor RESULT.json frozen
+        if: always()
+        run: |
+          git diff --exit-code -- research/g5-factored-warrant-v1/RESULT.json
+          git diff --exit-code -- research/g5-bdd-warrant-v2/RESULT.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g5-zdd-warrant
+          path: '${{ runner.temp }}/g5-zdd-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

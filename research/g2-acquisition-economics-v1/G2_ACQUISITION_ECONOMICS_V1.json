@@ -1,0 +1,277 @@
+{
+  "authority": "Research-only. #192's populations, candidate pool, search index, expansion rule and attempt accounting are imported unchanged; only the selector differs. No production change, no ML, no routing change.",
+  "candidates": [
+    "dec square",
+    "square dec",
+    "square inc",
+    "double square",
+    "square square",
+    "inc square",
+    "square double",
+    "double dec",
+    "square dec square",
+    "dec double",
+    "double dec square",
+    "inc inc",
+    "double double",
+    "dec square square",
+    "double square dec",
+    "square double square"
+  ],
+  "cheap_selectors": [
+    {
+      "acquisition_work": {
+        "enumeration_attempts": 0,
+        "token_operations": 16,
+        "unique_checks": 0
+      },
+      "chosen": [
+        "dec",
+        "square"
+      ],
+      "scores": {
+        "dec double": 11.0,
+        "dec square": 28.0,
+        "dec square square": 8.0,
+        "double dec": 13.0,
+        "double dec square": 10.0,
+        "double double": 9.0,
+        "double square": 20.0,
+        "double square dec": 8.0,
+        "inc inc": 10.0,
+        "inc square": 15.0,
+        "square dec": 24.0,
+        "square dec square": 12.0,
+        "square double": 15.0,
+        "square double square": 8.0,
+        "square inc": 21.0,
+        "square square": 20.0
+      },
+      "selector": "FREQUENCY",
+      "wall_seconds": 3.0262999644037336e-05
+    },
+    {
+      "acquisition_work": {
+        "enumeration_attempts": 0,
+        "token_operations": 4608,
+        "unique_checks": 0
+      },
+      "chosen": [
+        "dec",
+        "square"
+      ],
+      "scores": {
+        "dec double": 10.0,
+        "dec square": 30.0,
+        "dec square square": 13.0,
+        "double dec": 11.0,
+        "double dec square": 17.0,
+        "double double": 8.0,
+        "double square": 19.0,
+        "double square dec": 13.0,
+        "inc inc": 9.0,
+        "inc square": 17.0,
+        "square dec": 25.0,
+        "square dec square": 21.0,
+        "square double": 14.0,
+        "square double square": 13.0,
+        "square inc": 21.0,
+        "square square": 21.0
+      },
+      "selector": "MDL_COMPRESSION",
+      "wall_seconds": 0.0009807649985305034
+    },
+    {
+      "acquisition_work": {
+        "enumeration_attempts": 0,
+        "token_operations": 4608,
+        "unique_checks": 0
+      },
+      "chosen": [
+        "dec",
+        "square"
+      ],
+      "scores": {
+        "dec double": 5.0,
+        "dec square": 15.0,
+        "dec square square": 4.333333333333333,
+        "double dec": 5.5,
+        "double dec square": 5.666666666666667,
+        "double double": 4.0,
+        "double square": 9.5,
+        "double square dec": 4.333333333333333,
+        "inc inc": 4.5,
+        "inc square": 8.5,
+        "square dec": 12.5,
+        "square dec square": 7.0,
+        "square double": 7.0,
+        "square double square": 4.333333333333333,
+        "square inc": 10.5,
+        "square square": 10.5
+      },
+      "selector": "COMPRESSION_PER_TOKEN",
+      "wall_seconds": 0.0009540339997329284
+    },
+    {
+      "acquisition_work": {
+        "enumeration_attempts": 0,
+        "token_operations": 4608,
+        "unique_checks": 0
+      },
+      "chosen": [
+        "square",
+        "dec",
+        "square"
+      ],
+      "scores": {
+        "dec double": -292560.0,
+        "dec square": -109648.0,
+        "dec square square": -25888.0,
+        "double dec": -275024.0,
+        "double dec square": -13088.0,
+        "double double": -313040.0,
+        "double square": -200400.0,
+        "double square dec": -25888.0,
+        "inc inc": -302800.0,
+        "inc square": -242768.0,
+        "square dec": -153552.0,
+        "square dec square": -288.0,
+        "square double": -251600.0,
+        "square double square": -25888.0,
+        "square inc": -187216.0,
+        "square square": -194512.0
+      },
+      "selector": "SEARCH_AWARE",
+      "wall_seconds": 0.0074386340002092766
+    }
+  ],
+  "reused_from_192": {
+    "candidate_cap": 16,
+    "method_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3",
+    "test_tasks": 64,
+    "training_tasks": 48,
+    "validation_tasks": 32
+  },
+  "schema": "ocm.g2.acquisition-economics.v1",
+  "support": {
+    "dec double": 11,
+    "dec square": 28,
+    "dec square square": 8,
+    "double dec": 13,
+    "double dec square": 10,
+    "double double": 9,
+    "double square": 20,
+    "double square dec": 8,
+    "inc inc": 10,
+    "inc square": 15,
+    "square dec": 24,
+    "square dec square": 12,
+    "square double": 15,
+    "square double square": 8,
+    "square inc": 21,
+    "square square": 20
+  },
+  "test_by_macro": {
+    "dec square": {
+      "aggregate_enumeration_attempts": 4219512,
+      "aggregate_unique_checks": 3002485,
+      "saving": -609213,
+      "strict_improvement_tasks": 30,
+      "strict_wins_with_macro_used": 30
+    },
+    "square dec square": {
+      "aggregate_enumeration_attempts": 3334970,
+      "aggregate_unique_checks": 3099083,
+      "saving": 275329,
+      "strict_improvement_tasks": 13,
+      "strict_wins_with_macro_used": 13
+    }
+  },
+  "test_primitive": {
+    "aggregate_enumeration_attempts": 3610299,
+    "aggregate_unique_checks": 3610299
+  },
+  "test_stratum_exposure": "#192 already ran its selected macro on this test stratum, so it is NOT naive. The primary result here is SELECTION AGREEMENT, which depends only on the training corpus and is unaffected. Test figures are a comparison between selectors on a fixed, already-seen population and are not a fresh held-out estimate of anything.",
+  "tournament": {
+    "acquisition_enumeration_attempts": 9010526,
+    "beats_primitive_on_validation": true,
+    "choice": [
+      "square",
+      "dec",
+      "square"
+    ],
+    "reported_by_192": 8525253,
+    "savings": {
+      "dec double": -197712,
+      "dec square": -93883,
+      "dec square square": -17800,
+      "double dec": -258492,
+      "double dec square": -36183,
+      "double double": -82978,
+      "double square": 10922,
+      "double square dec": -8256,
+      "inc inc": -158622,
+      "inc square": 42433,
+      "square dec": -65264,
+      "square dec square": 92599,
+      "square double": -65495,
+      "square double square": -3623,
+      "square inc": 23086,
+      "square square": 58383
+    }
+  },
+  "training_search_slots": 174521,
+  "verdict": {
+    "agreement_analysis": {
+      "max_support_candidate": "dec square",
+      "pool_size": 16,
+      "reading": "Support is both the benefit proxy every cheap selector uses and the cost driver the tournament measures. A macro token widens the search frontier on EVERY task and repays only on tasks where it closes, so a fragment that appears everywhere compresses best and searches worst. That is why the argmax and the correlation disagree.",
+      "selectors": {
+        "COMPRESSION_PER_TOKEN": {
+          "acquisition_token_operations": 4608,
+          "chosen": "dec square",
+          "chosen_utility_rank_of_pool": 13,
+          "chosen_validation_saving": -93883,
+          "spearman_with_tournament_utility": 0.2688357266651443
+        },
+        "FREQUENCY": {
+          "acquisition_token_operations": 16,
+          "chosen": "dec square",
+          "chosen_utility_rank_of_pool": 13,
+          "chosen_validation_saving": -93883,
+          "spearman_with_tournament_utility": 0.10051871411370526
+        },
+        "MDL_COMPRESSION": {
+          "acquisition_token_operations": 4608,
+          "chosen": "dec square",
+          "chosen_utility_rank_of_pool": 13,
+          "chosen_validation_saving": -93883,
+          "spearman_with_tournament_utility": 0.5181462124743692
+        },
+        "SEARCH_AWARE": {
+          "acquisition_token_operations": 4608,
+          "chosen": "square dec square",
+          "chosen_utility_rank_of_pool": 1,
+          "chosen_validation_saving": 92599,
+          "spearman_with_tournament_utility": 0.530975761509718
+        }
+      },
+      "tournament_choice_support": 12
+    },
+    "any_zero_search_selector_agrees": true,
+    "best_cheap_selector_on_test": "SEARCH_AWARE",
+    "best_cheap_test_saving": 275329,
+    "break_even_tasks_with_tournament": 2136,
+    "break_even_tasks_with_zero_search_acquisition": 41,
+    "frequency_agrees": false,
+    "per_task_saving": 4302.015625,
+    "selectors_agreeing_with_the_tournament": [
+      "SEARCH_AWARE"
+    ],
+    "terminal": "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE",
+    "terminal_reason": "A zero-search selector (SEARCH_AWARE) reading only the training programs chooses the macro the utility tournament chose, at zero enumeration attempts against the tournament's 9,010,526. Acquisition at this ecology is a SCAN, not a search.\n\nThe selector that works is not a better compressor. It adds the term compression structurally cannot see: a macro token WIDENS the grammar at every depth, and by exactly how much is countable in closed form without any search -- a word with m macro tokens and (d-m) primitives expands to m*L + (d-m), so the count is a sum of binomial terms. A length-2 macro widens the depth-7 word count from 21,845 to 30,348 (+39%) while a length-3 macro widens it to 23,451 (+7%). That is why the short frequent fragment every compressor prefers is the one the search cannot afford.\n\nThe correlation barely moved -- rho +0.518 for compression against +0.531 here -- while the argmax moved from rank 13 of 16 to rank 1. Fixing an argmax needs the right TERM, not a better fit.\n\nThis is a conventional parent mechanism computed conventionally. No OCM-specific claim follows.",
+    "tournament_acquisition_enumeration_attempts": 9010526,
+    "tournament_test_saving": 275329,
+    "zero_search_acquisition_enumeration_attempts": 0
+  }
+}

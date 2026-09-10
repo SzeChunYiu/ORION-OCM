@@ -1,0 +1,158 @@
+{
+  "bound_probes": {
+    "at_bound_nodes": 7,
+    "at_bound_production_canonical": true,
+    "at_bound_relabel_invariant": true,
+    "beyond_identical_perm_budget_cannot_check": true,
+    "beyond_identical_perm_count": 40320,
+    "beyond_identical_production_cannot_check": true,
+    "distinct_colour_nodes": 16,
+    "distinct_perm_budget_ok": true,
+    "distinct_perm_count": 1,
+    "distinct_production_cannot_check": true,
+    "perm_budget_agrees_at_bound": true,
+    "tree_ahu_ok": true,
+    "tree_ahu_relabel_invariant": true,
+    "tree_digest_prefix": "tree:",
+    "tree_is_tree": true,
+    "tree_nodes": 16,
+    "tree_production_cannot_check": true,
+    "wl_collides": true,
+    "wl_not_isomorphic": true
+  },
+  "checklist": {
+    "acquire_corpus_scale_lexicon": "CANNOT_CHECK_MINIATURE_MICROWORLD",
+    "exact_canonicalization": "EARNED_AT_SCOPE",
+    "exact_canonicalization_fail_closed_beyond_bound": "EARNED_AT_SCOPE",
+    "historical_bound_independent": "EARNED_AT_SCOPE",
+    "l2": "LOCKED",
+    "l3": "LOCKED",
+    "meaning_graphs_beyond_bound": "GRAPH_BOUND_EXCEEDED_AT_SCOPE",
+    "open_weight_lm_reference": "CANNOT_CHECK_NO_MODEL_WEIGHTS",
+    "perm_budget_restatement": "EARNED_AT_SCOPE",
+    "seed_inventory_inside_bound": "EARNED_AT_SCOPE",
+    "tree_ahu_bound_raised": "EARNED_AT_SCOPE",
+    "ud_alignment": "CANNOT_CHECK_NO_UD_IN_THIS_STUDY",
+    "wl_not_canonical": "EARNED_AT_SCOPE"
+  },
+  "claim_ceiling": "Planted recursive stacked-NP graphs through production interpret/canonical exceed MAX_EXACT_CANONICAL=7 and fail closed. Seed inventory stays inside. AHU raises a finite measured tree bound. Permutation-budget restatement is recorded, not patched into src/. Not corpus-scale N1. L2/L3 locked.",
+  "corpus_n1": false,
+  "examples": {
+    "max_edges": 7,
+    "max_nodes": 6,
+    "n": 9
+  },
+  "git_head": "402439b8ecac733cf75df480414918367f2cc7b9",
+  "historical_bound": {
+    "citations": [
+      "src/ocm/language/meaning.py:MAX_EXACT_CANONICAL",
+      "docs/theorems/OCM_LANGUAGE_OBLIGATION_REGISTRY_V1.json:KS-T34",
+      "research/l0-bootstrap-audit-v1:G5_canonical_max",
+      "tests/m3/test_meaning_graph.py"
+    ],
+    "edge_bound_invented": false,
+    "independent": true,
+    "kind": "max_nodes",
+    "ks_t34_limitation": "exact only up to the registered bound MAX_EXACT_CANONICAL = 7",
+    "l0_max_exact_canonical": 7,
+    "meaning_blob": "26e6f7aa267522cf37ab0db7b22b8ad962d0e241",
+    "value": 7
+  },
+  "issue": 165,
+  "l2_started": false,
+  "l3_started": false,
+  "microworld": {
+    "families": [
+      "negation",
+      "passive",
+      "transitive",
+      "transitive_adj",
+      "yes_no"
+    ],
+    "max_edges": 4,
+    "max_nodes": 4,
+    "n": 240
+  },
+  "neural_net": false,
+  "not_issued": [
+    "L2",
+    "L3",
+    "N1_CORPUS",
+    "NN"
+  ],
+  "planted_recursive_np": {
+    "exceeds_historical_node_bound": true,
+    "field_bridge": {
+      "error": "CannotCheck",
+      "ok": false
+    },
+    "interpret_cannot_check": true,
+    "interpret_detail": "exact canonical form bounded to 7 nodes; fragment has 10",
+    "interpret_error": "CannotCheck",
+    "max_edges": 10,
+    "max_nodes": 10,
+    "n_candidates": 2,
+    "perm_budget_canonical": {
+      "digest": "0a61edecf96e0e84ba57a25d9dfbffcefb108dcc64b32448d21cbe879df9a6bd",
+      "error": null,
+      "ok": true
+    },
+    "production_canonical": {
+      "error": "CannotCheck",
+      "ok": false
+    },
+    "production_canonical_detail": "exact canonical form bounded to 7 nodes; fragment has 10",
+    "sample_colour_perm_count": 1,
+    "sample_is_tree": false,
+    "tree_canonical_any": {
+      "error": "CannotCheck",
+      "ok": false
+    },
+    "utterance": "amber ivory ochre umber violet saffron pewter robot opened the door"
+  },
+  "production_pipeline_max_nodes": 10,
+  "production_src_edited": false,
+  "raised_bounds": {
+    "colour_class_permutation_budget": {
+      "distinct_colour_nodes_measured": 16,
+      "kind": "max_colour_class_permutations",
+      "mechanism": "exhaustive colour-class enumeration identical to canonical(); node-count gate replaced by historical worst-case work 7!",
+      "production_node_cutoff_unchanged": true,
+      "value": 5040,
+      "worst_case_nodes_unchanged": 7
+    },
+    "tree_ahu": {
+      "digest_prefix_above_bound": "tree:",
+      "kind": "max_nodes_trees_measured",
+      "mechanism": "production ocm.language.meaning_tree.canonical_any AHU encoding",
+      "production_module": "ocm.language.meaning_tree",
+      "value": 16
+    }
+  },
+  "salt": "orion-ocm-l1-meaning-graph-bound-v1",
+  "schema": "ocm.l1.meaning-graph-bound.v1",
+  "scope": "l1-microworld.meaning-graph-bound.v1",
+  "seed_interpret": {
+    "colour_perm_count": 1,
+    "is_tree": false,
+    "labels": [
+      "robot",
+      "open",
+      "door",
+      "red"
+    ],
+    "max_nodes": 5,
+    "n_edges": 4,
+    "n_nodes": 4,
+    "probe": "the robot opened the red door",
+    "two_adj_nodes": 5,
+    "verdict": "INTERPRETED"
+  },
+  "seed_inventory_max_nodes": 6,
+  "terminal": "GRAPH_BOUND_EXCEEDED_AT_SCOPE",
+  "v1_result_intact": true,
+  "v2_result_intact": true,
+  "v3_result_intact": true,
+  "v4_present": true,
+  "v4_result_intact": true
+}

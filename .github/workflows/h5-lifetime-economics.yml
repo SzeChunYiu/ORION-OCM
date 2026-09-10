@@ -1,0 +1,97 @@
+name: H5 lifetime economics polynomial microscope
+
+on:
+  pull_request:
+    paths:
+      - 'research/h5-lifetime-economics-v1/**'
+      - '.github/workflows/h5-lifetime-economics.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h5-lifetime-economics-v1/**'
+      - '.github/workflows/h5-lifetime-economics.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h5-lifetime-economics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/h5-lifetime-economics-v1:${{ github.workspace }}/research/h1-amortized-rewrite-v2:${{ github.workspace }}/research/ocm-n1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h5-life-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h5-lifetime-economics-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h5-lifetime-economics-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: H5 lifetime-economics study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h5-life-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h5-lifetime-economics-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          if [ -f research/h5-lifetime-economics-v1/RESULT.json ]; then
+            cp research/h5-lifetime-economics-v1/RESULT.json "$out/capsule-RESULT.json"
+          fi
+          python -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "h5-life-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "LIFETIME_NET_NEGATIVE_AT_POLYNOMIAL_HORIZON",
+              "LIFETIME_NET_POSITIVE_AFTER_CHEAP_ACQUISITION",
+              "CANNOT_CHECK_H1_CAPITAL_DRIFT",
+              "CANNOT_CHECK_G2_RECEIPT_DRIFT",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result.get("dollars_claimed"):
+              sys.exit("dollars are forbidden")
+          if result.get("scalarized_incommensurable_resources"):
+              sys.exit("incommensurable resources were scalarized")
+          if result.get("m12_v5_n1_n2_corpus_claimed"):
+              sys.exit("must not claim M12 V5 with N1/N2 corpus cost")
+          if result.get("programme_wide_close"):
+              sys.exit("must not claim programme-wide close")
+          if result.get("same_path_acquisition_payback"):
+              sys.exit("H5 must not claim executed same-path H1 acquisition/payback")
+          if result["boxes"]["H5/001-lifetime_benefit_after_training_inference_update_maintenance"]["status"] != "CONDITIONAL_COST_SCENARIO_NOT_SAME_PATH":
+              sys.exit("H5/001 must remain a conditional cost scenario")
+          g2 = result["g2_cited_not_rerun"]
+          if g2["break_even_tasks_with_tournament"] != 2136:
+              sys.exit("G2 tournament break-even must remain 2136")
+          if g2["break_even_tasks_with_zero_search_acquisition"] != 41:
+              sys.exit("G2 zero-search break-even must remain 41")
+          print(result["terminal"])
+          PY
+      - name: Do not overwrite frozen H1 / lifetime capsules
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- research/h1-amortized-rewrite-v2
+          git diff --exit-code -- research/h1-amortized-acquisition-v1
+          git diff --exit-code -- research/machine-epistemics-lifetime-v1
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h5-lifetime-economics
+          path: '${{ runner.temp }}/h5-life-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

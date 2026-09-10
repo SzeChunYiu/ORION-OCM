@@ -1,0 +1,69 @@
+name: MATH-1 N4 miniature lemma reuse
+
+on:
+  pull_request:
+    paths:
+      - 'research/math-n4-lemma-reuse-v1/**'
+      - '.github/workflows/math-n4-lemma-reuse.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/math-n4-lemma-reuse-v1/**'
+      - '.github/workflows/math-n4-lemma-reuse.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  miniature-lemma-reuse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/math-n4-lemma-reuse-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/math-n4-lemma-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/math-n4-lemma-reuse-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/math-n4-lemma-reuse-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Miniature Hilbert lemma-reuse study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/math-n4-lemma-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/math-n4-lemma-reuse-v1/experiment.py --out "$out/result.json" \
+            2>&1 | tee "$out/console.txt"
+          python -B - <<'PY'
+          import json, pathlib, os, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "math-n4-lemma-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "result.json").read_text())
+          terminal = result["terminal"]
+          allowed = {
+              "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED_AT_MINIATURE_SCOPE",
+              "NO_CAUSAL_REUSE",
+              "PARENT_SUFFICIENT",
+          }
+          if terminal == "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED":
+              sys.exit("unscoped CAUSAL_PROOF_METHOD_REUSE_SUPPORTED is not licensed")
+          if not (terminal in allowed or str(terminal).startswith("CANNOT_CHECK_")):
+              sys.exit("unexpected terminal %s" % terminal)
+          PY
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math-n4-lemma-reuse
+          path: '${{ runner.temp }}/math-n4-lemma-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error
