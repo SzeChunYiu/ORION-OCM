@@ -321,22 +321,36 @@ def analyse(out):
                          "grid": [{"mix": m, "saving_per_task": v} for m, v, _ in pts]})
     res["critical_mix"] = crit
 
-    # internal consistency check: at mix 1.0 the two compositions are the SAME stream
-    # (rest = 0), so their cells must agree exactly. Free determinism check.
-    same = []
+    # Internal replicate check at mix 1.0. The non-F2 remainder is empty there, so the
+    # two compositions produce the IDENTICAL family sequence -- but composition is part
+    # of the per-task seed, so they draw DIFFERENT tasks. They are therefore independent
+    # replicates of the same distribution, not duplicates, and the free check is:
+    # (a) the family sequences must be identical, and (b) the two saving/task estimates
+    # must agree within their CIs. A disagreement at (b) is a variance warning, not a
+    # determinism failure.
+    rep = []
     if 1.0 in MIX_GRID:
         mi = MIX_GRID.index(1.0)
-        for arm in ["NO_LIBRARY"] + arms:
-            if arm in NULL_ARMS:
+        fam_same = (family_sequence(1.0, "balanced", 4096) ==
+                    family_sequence(1.0, "f1_only", 4096))
+        byarm = {}
+        for r in res["surface"]:
+            if r["mix_idx"] == mi and r["null_seed"] is None:
+                byarm.setdefault(r["arm"], {})[r["composition"]] = r
+        for arm, d in sorted(byarm.items()):
+            if "balanced" not in d or "f1_only" not in d:
                 continue
-            a = store.get((arm, mi, "balanced", 0, None))
-            b = store.get((arm, mi, "f1_only", 0, None))
-            if a and b:
-                same.append({"arm": arm,
-                             "identical": a["per_task"]["units"] ==
-                             b["per_task"]["units"]})
-        store.release()
-    res["mix1_composition_identity_check"] = same
+            a, b = d["balanced"]["marginal"], d["f1_only"]["marginal"]
+            ov = None
+            if None not in (a["saving_per_task_ci95"][0], a["saving_per_task_ci95"][1],
+                            b["saving_per_task_ci95"][0], b["saving_per_task_ci95"][1]):
+                ov = (a["saving_per_task_ci95"][0] <= b["saving_per_task_ci95"][1] and
+                      b["saving_per_task_ci95"][0] <= a["saving_per_task_ci95"][1])
+            rep.append({"arm": arm, "family_sequences_identical": fam_same,
+                        "saving_per_task_balanced": a["saving_per_task"],
+                        "saving_per_task_f1_only": b["saving_per_task"],
+                        "ci95_overlap": ov})
+    res["mix1_replicate_check"] = rep
 
     (out / "RV8_ANALYSIS.json").write_text(
         json.dumps(res, indent=1, sort_keys=True, default=str) + "\n")
@@ -349,7 +363,7 @@ if __name__ == "__main__":
     print(json.dumps({"cells_loaded": r["cells_loaded"],
                       "cells_expected": r["cells_expected"],
                       "surface_rows": len(r["surface"]),
-                      "mix1_identity": r["mix1_composition_identity_check"],
+                      "mix1_replicate_check": r["mix1_replicate_check"],
                       "critical_mix": [{k: c[k] for k in
                                         ("arm", "composition", "critical_mix",
                                          "critical_mix_ci95")}
