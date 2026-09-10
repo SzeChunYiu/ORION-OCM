@@ -11,19 +11,39 @@
   "determinism": "sorted iteration everywhere; no float in any decision predicate; all endpoint arithmetic is int / Fraction / set equality."
  },
  "exactness_licence": "P2 finite certificate over frozen tiny worlds, exhaustively enumerated. Never a universal proof. Every D19 revocation subset and every D20 concrete reachability set is EXHAUSTED, not sampled.",
-
  "D19": {
   "name": "provenance + revocation worlds",
   "worlds": [
-   {"id": "OW4", "role": "CLEAN CONTROL population (positive/monotone, zero negative dependencies)", "n_worlds": 8, "nodes": "4..7", "source": "frozen exact/worlds.py ow4_worlds()"},
-   {"id": "OW4N", "role": "NEGATIVE-DEPENDENCY population (>=1 blocker per world)", "n_worlds": 8, "nodes": "4..7", "source": "exact/worlds_d19d20.py ow4n_worlds()"}
+   {
+    "id": "OW4",
+    "role": "CLEAN CONTROL population (positive/monotone, zero negative dependencies)",
+    "n_worlds": 8,
+    "nodes": "4..7",
+    "source": "frozen exact/worlds.py ow4_worlds()"
+   },
+   {
+    "id": "OW4N",
+    "role": "NEGATIVE-DEPENDENCY population (>=1 blocker per world)",
+    "n_worlds": 8,
+    "nodes": "4..7",
+    "source": "exact/worlds_d19d20.py ow4n_worlds()"
+   }
   ],
   "evidence_variable_definition": "A provenance evidence variable is a node with NO incoming hyperedge (a true source). Recorded explicitly because the frozen T72 oracle revokes over the world's `leaves` field, which is a SUPERSET of the sources; revoking a non-source is a no-op on BOTH the substitution and the recomputation side, so those checks are structurally trivial. D19 measures how many of the T72 oracle's revocation targets are non-sources and reports the count; it makes no claim that T72 itself is wrong (T72 is a statement about provenance variables).",
   "revocation_grid": "EXHAUSTIVE: every subset S of the source set, |S| = 0 .. |sources|. |S|=0 is the no-revocation control. Single revocation = |S|=1, multiple = |S|>=2.",
   "arms": [
-   {"id": "A1_substitution", "definition": "solve provenance N[X] ONCE on the live world with leaf annotation x -> {x}:1; revoke S by substituting x:=0 for every x in S, i.e. delete every monomial whose support meets S. Accept node n iff the resulting polynomial is nonzero."},
-   {"id": "A2_recomputation", "definition": "re-derive support from scratch with every x in S dead, honouring blockers directly in the derivation rule (node supported iff live source, or some incoming edge has all premises supported and no blocker supported). Exhaustive, algebra-free ground truth."},
-   {"id": "A3_negation_detector", "definition": "scan every edge for a nonempty blocker list before certifying A1. If any blocker is present the run returns the distinct terminal CANNOT_CHECK_NEGATION_PRESENT and refuses to certify substitution as exact. 'Could not check' is never reported as 'checked and fine'."}
+   {
+    "id": "A1_substitution",
+    "definition": "solve provenance N[X] ONCE on the live world with leaf annotation x -> {x}:1; revoke S by substituting x:=0 for every x in S, i.e. delete every monomial whose support meets S. Accept node n iff the resulting polynomial is nonzero."
+   },
+   {
+    "id": "A2_recomputation",
+    "definition": "re-derive support from scratch with every x in S dead, honouring blockers directly in the derivation rule (node supported iff live source, or some incoming edge has all premises supported and no blocker supported). Exhaustive, algebra-free ground truth."
+   },
+   {
+    "id": "A3_negation_detector",
+    "definition": "scan every edge for a nonempty blocker list before certifying A1. If any blocker is present the run returns the distinct terminal CANNOT_CHECK_NEGATION_PRESENT and refuses to certify substitution as exact. 'Could not check' is never reported as 'checked and fine'."
+   }
   ],
   "primary_endpoint": "exact set equality of accepted obligations and of reopened obligations (reopened(S) = accepted(empty) minus accepted(S)) between A1 and A2, for every (world, S) pair.",
   "secondary_endpoints": [
@@ -32,51 +52,139 @@
   ],
   "alternate_support_endpoint": "for every (world, S): a node survives iff at least one of its provenance monomials survives (T72). Counted exactly, and separately for nodes carrying >=2 independent supports where at least one support died and at least one survived.",
   "hostiles": [
-   {"id": "H-T72a", "registry": "HOSTILE_REGISTRY_V1", "plant": "one hyperedge deleted from the RECORDED provenance hypergraph while ground truth keeps it (incomplete dependency capture)", "expected_to_flip": "under-reopen: at least one node stays accepted under substitution although its true last support died", "falsifier": "if no world produces an under-reopen witness, the hostile FAILED to flip and that is itself a defect to report",
-    "clean_control": "identical procedure with the COMPLETE edge record; under-reopen witness count must be exactly 0. A nonzero control is a false positive and voids the arm."},
-   {"id": "H-D19b", "registry": "ADDED BY THIS PROTOCOL (extends H-T72b to a population arm)", "plant": "negative dependency present in the world (OW4N blockers) but evaluated with positive-only N[X], which launders the blocker", "expected_to_flip": "A1-vs-A2 disagreement > 0 on OW4N, AND the A3 detector fires on every OW4N world", "falsifier": "zero disagreement on OW4N would mean the planted blockers are semantically inert; report as hostile-did-not-flip, do not tune the worlds",
-    "clean_control": "on OW4 (zero blockers): A1-vs-A2 disagreement must be exactly 0 AND the A3 detector must NOT fire on any world. Either alarm on the control voids the arm."}
+   {
+    "id": "H-T72a",
+    "registry": "HOSTILE_REGISTRY_V1",
+    "plant": "one hyperedge deleted from the RECORDED provenance hypergraph while ground truth keeps it (incomplete dependency capture)",
+    "expected_to_flip": "under-reopen: at least one node stays accepted under substitution although its true last support died",
+    "falsifier": "if no world produces an under-reopen witness, the hostile FAILED to flip and that is itself a defect to report",
+    "clean_control": "identical procedure with the COMPLETE edge record; under-reopen witness count must be exactly 0. A nonzero control is a false positive and voids the arm."
+   },
+   {
+    "id": "H-D19b",
+    "registry": "ADDED BY THIS PROTOCOL (extends H-T72b to a population arm)",
+    "plant": "negative dependency present in the world (OW4N blockers) but evaluated with positive-only N[X], which launders the blocker",
+    "expected_to_flip": "A1-vs-A2 disagreement > 0 on OW4N, AND the A3 detector fires on every OW4N world",
+    "falsifier": "zero disagreement on OW4N would mean the planted blockers are semantically inert; report as hostile-did-not-flip, do not tune the worlds",
+    "clean_control": "on OW4 (zero blockers): A1-vs-A2 disagreement must be exactly 0 AND the A3 detector must NOT fire on any world. Either alarm on the control voids the arm."
+   }
   ],
-  "verdict_vocabulary": ["EXACT_AGREEMENT", "DISAGREEMENT_FOUND", "CANNOT_CHECK_NEGATION_PRESENT", "HOSTILE_DID_NOT_FLIP", "CONTROL_FALSE_ALARM"],
+  "verdict_vocabulary": [
+   "EXACT_AGREEMENT",
+   "DISAGREEMENT_FOUND",
+   "CANNOT_CHECK_NEGATION_PRESENT",
+   "HOSTILE_DID_NOT_FLIP",
+   "CONTROL_FALSE_ALARM"
+  ],
   "negatives_are_first_class": "If substitution loses to full recomputation on the lifecycle-burden endpoint, that is the result. PARENT_SUFFICIENT (recomputation already owns the function at this scale) is a SUCCESS terminal, not a failure to engineer around."
  },
-
  "D20": {
   "name": "abstraction/refinement/CEGAR worlds",
   "worlds": [
-   {"id": "OW5S", "role": "concrete transition systems with a deliberately lossy partition", "n_grid": [8, 12, 16, 20, 24], "n_worlds_per_n": 6, "total_worlds": 30,
-    "successors_per_state": "1..2", "k_rule": "max(2, n // 4)",
+   {
+    "id": "OW5S",
+    "role": "concrete transition systems with a deliberately lossy partition",
+    "n_grid": [
+     8,
+     12,
+     16,
+     20,
+     24
+    ],
+    "n_worlds_per_n": 6,
+    "total_worlds": 30,
+    "successors_per_state": "1..2",
+    "k_rule": "max(2, n // 4)",
     "partition_rule": "interleaved s mod k -- lossy by construction, mixes reachable with unreachable states",
-    "bad_rule": "wi even -> Bad from UNREACHABLE states (concrete SAFE; every abstract counterexample is spurious). wi odd -> Bad contains >=1 REACHABLE state (concrete UNSAFE). Stratified so both CEGAR branches are exercised. Degenerate worlds are FLAGGED in the receipt, never silently reshaped."}
+    "bad_rule": "wi even -> Bad from UNREACHABLE states (concrete SAFE; every abstract counterexample is spurious). wi odd -> Bad contains >=1 REACHABLE state (concrete UNSAFE). Stratified so both CEGAR branches are exercised. Degenerate worlds are FLAGGED in the receipt, never silently reshaped."
+   }
   ],
   "scale_sweep_preregistered": "The n grid [8, 12, 16, 20, 24] is frozen HERE, BEFORE any run. It is not a reaction to an n=8 result. If adaptive refinement loses to direct concrete search at every n in the grid, that negative stands as the finding.",
   "abstraction": "existential (may-) abstraction: abstract states are blocks; B -> B' iff some s in B has a successor in B'; abstract Bad = blocks meeting Bad; abstract init = block containing s0. Over-approximates concrete reachability, so abstract SAFE implies concrete SAFE and abstract UNSAFE may be spurious.",
   "refinement": "on a spurious abstract counterexample B0..Bm, find the first index i where the concrete states reachable along the prefix inside B_i have no successor in B_{i+1}; split B_i into {s in B_i with a successor in B_{i+1}} and the rest. Both parts are nonempty by construction (the abstract edge exists, and the prefix-reachable set witnesses the failure), so every refinement is a STRICT split.",
   "arms": [
-   {"id": "A_direct", "definition": "concrete BFS from s0. Exhaustive ground truth verdict SAFE/UNSAFE."},
-   {"id": "A_fixed", "definition": "build the abstraction once, abstract BFS, validate any abstract counterexample concretely, and NEVER refine. A spurious counterexample terminates as INCONCLUSIVE_SPURIOUS."},
-   {"id": "A_cegar", "definition": "as A_fixed but each spurious counterexample triggers one strict refinement and a full re-abstraction; loop until abstract SAFE, a valid counterexample, or the discrete partition."},
-   {"id": "A_hostile_nonstrict", "definition": "H-T79a: refinement that returns the same partition."},
-   {"id": "A_hostile_underapprox", "definition": "H-D20b: one abstract transition on a shortest abstract path to Bad is dropped, making the abstraction an UNDER-approximation."}
+   {
+    "id": "A_direct",
+    "definition": "concrete BFS from s0. Exhaustive ground truth verdict SAFE/UNSAFE."
+   },
+   {
+    "id": "A_fixed",
+    "definition": "build the abstraction once, abstract BFS, validate any abstract counterexample concretely, and NEVER refine. A spurious counterexample terminates as INCONCLUSIVE_SPURIOUS."
+   },
+   {
+    "id": "A_cegar",
+    "definition": "as A_fixed but each spurious counterexample triggers one strict refinement and a full re-abstraction; loop until abstract SAFE, a valid counterexample, or the discrete partition."
+   },
+   {
+    "id": "A_hostile_nonstrict",
+    "definition": "H-T79a: refinement that returns the same partition."
+   },
+   {
+    "id": "A_hostile_underapprox",
+    "definition": "H-D20b: one abstract transition on a shortest abstract path to Bad is dropped, making the abstraction an UNDER-approximation."
+   }
   ],
   "cost_accounting": "full lifecycle, charged to every arm: abstraction build operations, abstract states expanded, abstract transitions examined, concrete validation operations for EVERY counterexample including rejected/spurious ones, verification (Bad-membership) calls, and one full re-abstraction charged per refinement round. Present cost and future reuse are tracked separately; no arm is credited with reuse it did not demonstrate.",
   "primary_endpoint": "EXACTNESS: refinement count <= n - k on every world at every n in the grid, and every conclusive arm verdict equals the A_direct ground-truth verdict.",
-  "secondary_endpoints": ["states distinguished (final block count minus k)", "search saved or added versus A_direct on full lifecycle cost", "verification cost", "false abstraction certificates retained"],
-  "hostiles": [
-   {"id": "H-D20a", "registry": "HOSTILE_REGISTRY_V1", "plant": "deliberately lossy initial partition (interleaved s mod k)", "expected_to_flip": "spurious counterexamples actually occur and >=1 strict refinement is required on >=1 world; refinement counts approach but never exceed n - k", "falsifier": "if the lossy partition produces zero spurious counterexamples the plant is inert; report hostile-did-not-flip",
-    "clean_control": "the DISCRETE partition (k = n, perfectly precise) on the same worlds must produce zero spurious counterexamples and zero refinements, and must return the A_direct verdict. Any refinement on the control voids the arm."},
-   {"id": "H-T79a", "registry": "HOSTILE_REGISTRY_V1", "plant": "refinement that does not strictly increase the block count", "expected_to_flip": "NO_PROGRESS terminal reported; the loop is never entered", "falsifier": "silently terminating or looping instead of reporting NO_PROGRESS is a defect",
-    "clean_control": "A_cegar on the same worlds must terminate with rounds <= n - k and must NEVER report NO_PROGRESS."},
-   {"id": "H-D20b", "registry": "ADDED BY THIS PROTOCOL (distinct plant from H-D20a and H-T79a: unsound abstraction, not a lossy-but-sound one)", "plant": "one abstract transition on a shortest abstract path to Bad is dropped, turning the may-abstraction into an under-approximation", "expected_to_flip": "false abstraction certificates > 0: the abstraction certifies SAFE on a world the concrete search proves UNSAFE", "falsifier": "if no false certificate appears, the dropped edge was not load-bearing; report hostile-did-not-flip with the reason",
-    "clean_control": "the SOUND existential abstraction on the same worlds must yield exactly 0 false abstraction certificates."}
+  "secondary_endpoints": [
+   "states distinguished (final block count minus k)",
+   "search saved or added versus A_direct on full lifecycle cost",
+   "verification cost",
+   "false abstraction certificates retained"
   ],
-  "verdict_vocabulary": ["CEILING_HELD", "CEILING_VIOLATED", "INCONCLUSIVE_SPURIOUS", "NO_PROGRESS_DETECTED", "FALSE_ABSTRACTION_CERTIFICATE", "HOSTILE_DID_NOT_FLIP", "CONTROL_FALSE_ALARM"],
+  "hostiles": [
+   {
+    "id": "H-D20a",
+    "registry": "HOSTILE_REGISTRY_V1",
+    "plant": "deliberately lossy initial partition (interleaved s mod k)",
+    "expected_to_flip": "spurious counterexamples actually occur and >=1 strict refinement is required on >=1 world; refinement counts approach but never exceed n - k",
+    "falsifier": "if the lossy partition produces zero spurious counterexamples the plant is inert; report hostile-did-not-flip",
+    "clean_control": "the DISCRETE partition (k = n, perfectly precise) on the same worlds must produce zero spurious counterexamples and zero refinements, and must return the A_direct verdict. Any refinement on the control voids the arm."
+   },
+   {
+    "id": "H-T79a",
+    "registry": "HOSTILE_REGISTRY_V1",
+    "plant": "refinement that does not strictly increase the block count",
+    "expected_to_flip": "NO_PROGRESS terminal reported; the loop is never entered",
+    "falsifier": "silently terminating or looping instead of reporting NO_PROGRESS is a defect",
+    "clean_control": "A_cegar on the same worlds must terminate with rounds <= n - k and must NEVER report NO_PROGRESS."
+   },
+   {
+    "id": "H-D20b",
+    "registry": "ADDED BY THIS PROTOCOL (distinct plant from H-D20a and H-T79a: unsound abstraction, not a lossy-but-sound one)",
+    "plant": "one abstract transition on a shortest abstract path to Bad is dropped, turning the may-abstraction into an under-approximation",
+    "expected_to_flip": "false abstraction certificates > 0: the abstraction certifies SAFE on a world the concrete search proves UNSAFE",
+    "falsifier": "if no false certificate appears, the dropped edge was not load-bearing; report hostile-did-not-flip with the reason",
+    "clean_control": "the SOUND existential abstraction on the same worlds must yield exactly 0 false abstraction certificates."
+   }
+  ],
+  "verdict_vocabulary": [
+   "CEILING_HELD",
+   "CEILING_VIOLATED",
+   "INCONCLUSIVE_SPURIOUS",
+   "NO_PROGRESS_DETECTED",
+   "FALSE_ABSTRACTION_CERTIFICATE",
+   "HOSTILE_DID_NOT_FLIP",
+   "CONTROL_FALSE_ALARM"
+  ],
   "negatives_are_first_class": "The registry primary endpoint for D20 is the n-k ceiling, an exactness claim that holds regardless of whether refinement saves search. If adaptive refinement never beats direct concrete search across the frozen n grid, that negative is reported as the secondary finding with its one-stage attribution, and is NOT engineered around by changing the worlds or the grid after the fact."
  },
-
  "admissibility": {
   "rule": "A result produced before its protocol was frozen is not admissible. This protocol and exact/worlds_d19d20.py are committed and pushed in a commit that contains NO result file. Any post-freeze protocol change must be recorded as an explicit supersession with cause, and the affected arms re-run.",
   "reporting_rule": "No D19 or D20 number is reported until the clean control for that specific hostile has been run and confirmed silent. A hostile that flips without a matching silent control is not evidence in this tranche.",
-  "locked_gates": "N2 / N4 / N5 remain LOCKED per FREEZE_V1. Nothing in this protocol unlocks them."
- }
+  "locked_gates": "N2 / N4 / N5 remain LOCKED per FREEZE_V1. Nothing in this protocol unlocks them.",
+  "supersession_note": "Supersession S1 was recorded BEFORE its result was reported, with cause, and the affected arm was re-run. The frozen instantiation's original numbers are retained."
+ },
+ "supersessions": [
+  {
+   "id": "S1",
+   "date_utc": "2026-09-10",
+   "targets": "D20 hostile H-D20b instantiation",
+   "cause": "The frozen instantiation drops each transition on the SHORTEST abstract path to Bad. On a world whose INITIAL block already meets Bad that path has zero edges, so the plant has an EMPTY candidate set and the world is structurally immune to it. Measured on the first frozen run: 7 of the 15 concretely-UNSAFE worlds had no drop candidate at all, and the plant flipped on 1 world.",
+   "change": "Add a superseding instantiation that drops each of EVERY single abstract transition, exhaustively. Same plant class -- removing a may-transition still makes the abstract relation a strict subset of the sound one, i.e. an under-approximation -- with a non-degenerate candidate set.",
+   "what_is_NOT_changed": "No world, seed, n grid, partition rule, arm, endpoint or clean control is altered. The clean control stays the sound existential abstraction and must still yield exactly zero false certificates.",
+   "affected_arms_rerun": true,
+   "frozen_result_retained": "The frozen instantiation's result is reported alongside the superseding one, not replaced by it."
+  }
+ ]
 }
