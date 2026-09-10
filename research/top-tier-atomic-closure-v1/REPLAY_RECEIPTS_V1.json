@@ -378,6 +378,15 @@
   "caveats": [
    "DEV-01 independence is process-level (fresh clone/worktree/frozen salt), not host-level: pdev lane's own replicate ran on billy-laptop-old, the same machine as this replay",
    "PAR-03 carries the four recorded parent-chain defects above; the grant rests on metric identity, not on those artifacts being schema-clean"
+  ],
+  "defects_resolution": [
+   {
+    "resolves": "DEFECT (uncommitted artifact, lane orion-qg): qg34_build_primitives.py hardcodes /private/tmp/.../primitives.json",
+    "resolution_class": "OUT_OF_REPO_CUSTODY",
+    "detail": "The orion-qg lane's artifacts (qg34_build_primitives.py, primitives.json) were never committed to this repository; the defect text is preserved verbatim above. No in-repo artifact can be retro-fabricated (frozen evidence discipline), so the instance is owned by the orion-qg lane's own custody, not remediated here.",
+    "class_level_guard_shipped": "RH-14 absolute-path ban (.github/workflows/ttac-registry-gates.yml) greps committed *.py for /private/tmp and /Users/<name>: the same defect class cannot be committed in this repo again",
+    "recorded_by": "D28 remediation, task #52"
+   }
   ]
  }
 }

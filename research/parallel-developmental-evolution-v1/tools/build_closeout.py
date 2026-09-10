@@ -3,13 +3,15 @@ Pure document assembly on the Mac (no science execution).
 """
 import hashlib
 import json
+import os
 import time
 from collections import Counter
 from pathlib import Path
 
-CAP = Path("/Users/billy/Desktop/projects/ORION-OCM/ORION-OCM-wt/pdev217"
-           "/research/parallel-developmental-evolution-v1")
-B = json.loads(Path("/tmp/closeout_bundle.json").read_text())
+# RH-14: the original run hardcoded the pdev217 worktree's absolute path here;
+# paths are now caller-supplied (no machine-specific default in committed code).
+CAP = Path(os.environ["PDEV_CLOSEOUT_CAP"])
+B = json.loads(Path(os.environ.get("PDEV_CLOSEOUT_BUNDLE", "closeout_bundle.json")).read_text())
 NOW = time.time()
 
 

@@ -135,6 +135,19 @@
    },
    "verification": "Re-ran under PYTHONHASHSEED=1 and PYTHONHASHSEED=98765 with a 4 GB address-space limit; every timing-independent field of D21_RESULTS.json is byte-identical between the two runs. Endpoints are unchanged: E1 1.0 over 5 contaminable worlds, E2 0 false alarms over 40 clean scans, E2b 0, E6 1.0 over 80/80 egglog-decided pairs. OW6-09's hostile arm now stops on ENODE_BUDGET, which is the divergence above, and its contamination is still detected.",
    "supersession": "none of E1-E6, no falsifier, no frozen world and no rewrite set is changed. The pre-fix run is superseded and is not reported."
+  },
+  {
+   "id": "V1.7-D28-REMEDIATION",
+   "utc": "2026-09-10",
+   "cause": "D28 hostile review remediation (task #52): F4 hostile-registry census 27->29 (H-D19b, H-D20b were defined and executed inside D19_D20_PROTOCOL_V1.json but invisible to HOSTILE_REGISTRY); F5 fourteen d17_tranche rows OPEN -> PROVED_LOCAL, derived from exact/receipts/D17_receipts.jsonl (all 14 hostile sets fully flipped, P2 certificate ceiling recorded per row). F3 retarget: the four provenance anchors citing unreachable freeze_commit 11d165b7 (exact/d19.py, exact/d20.py, exact/results/D19_RESULTS.json, exact/results/D20_RESULTS.json) now cite 78259460f1d4ddc2fc28691205b1665ce7da7272 (the FREEZE_D19_D20_V1.json landing commit, reachable from main); original value preserved in this amendment text.",
+   "changes": "THEOREM_REGISTRY_V1.json (F5, 14 status fills + derivation metadata); HOSTILE_REGISTRY_V1.json (F4, 2 rows appended). F3 edits are in files bound by FREEZE_EVIDENCE_BINDING_V1 (new), not by this freeze.",
+   "original_freeze_commit_ref_superseded": "11d165b77ada54cc3dbc286f5ecc9369a7560896",
+   "replacement_freeze_commit_ref": "78259460f1d4ddc2fc28691205b1665ce7da7272",
+   "manifest_sha256_v1_7": {
+    "THEOREM_REGISTRY_V1.json": "524c58e5c0d0ac41bcbd375b7e31e1c17a8bd1008877fcc245504470853fc3ae",
+    "HOSTILE_REGISTRY_V1.json": "350b63336906aed8866353b9e911e202d2c843e70b9c28de60b069cd24b9a334"
+   },
+   "statements_unchanged": true
   }
  ]
 }

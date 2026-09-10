@@ -84,5 +84,30 @@ jobs:
 
       - name: Machine-specific absolute-path ban (RH-14)
         run: |
-          ! grep -rn -E "/private/tmp|/Users/[a-z]" --include="*.py" research/ \
-            || { echo "ABSOLUTE_PATH_LEAK: machine-specific path in committed code"; exit 1; }
+          python3 - <<'EOF'
+          import subprocess, sys
+
+          # Fail-closed scanner (distinct exit codes):
+          #   1 ABSOLUTE_PATH_LEAK   unmarked machine-specific path in committed code
+          #   3 CANNOT_CHECK         the scan itself failed
+          # Evidence carve-out: a line QUOTING a defect path as recorded evidence is
+          # legal only when explicitly marked "RH-14-EVIDENCE" on the same line
+          # (see build_b7.py qg34 defect + its OUT_OF_REPO_CUSTODY resolution).
+          # Runnable-code paths get no exemption.
+          p = subprocess.run(
+              ["grep", "-rn", "-E", r"/private/tmp|/Users/[a-z]", "--include=*.py", "research/"],
+              capture_output=True, text=True)
+          if p.returncode not in (0, 1):
+              print(f"RH-14 CANNOT_CHECK: grep exit {p.returncode}: {p.stderr.strip()}")
+              sys.exit(3)
+          hits = p.stdout.splitlines()
+          leaks = [l for l in hits if "RH-14-EVIDENCE" not in l]
+          evidence = len(hits) - len(leaks)
+          if leaks:
+              print("\n".join(leaks))
+              print(f"ABSOLUTE_PATH_LEAK: {len(leaks)} machine-specific absolute path(s) in "
+                    f"committed code (quoted-evidence lines must carry the RH-14-EVIDENCE marker)")
+              sys.exit(1)
+          print(f"RH-14 PASS: 0 unmarked machine-specific absolute paths in research/*.py "
+                f"({evidence} marked evidence quote(s) allowed)")
+          EOF

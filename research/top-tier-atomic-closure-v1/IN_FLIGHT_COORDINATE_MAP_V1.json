@@ -4,7 +4,7 @@
  "d_step": "TTAC-D6",
  "owner_issue": 277,
  "built_utc": "2026-09-10",
- "purpose": "#277 sec 9 D6: map current #233 D17-D28 and #221 continuous jobs onto readiness coordinates so they are counted, not duplicated. This artifact assigns NO readiness values — assignment is D2.",
+ "purpose": "#277 sec 9 D6: map current #233 D17-D28 and #221 continuous jobs onto readiness coordinates so they are counted, not duplicated. This artifact assigns NO readiness values \u2014 assignment is D2.",
  "rule": "A lane is mapped to the coordinates its PRIMARY ENDPOINT can move, not to every coordinate it touches incidentally.",
  "lanes": [
   {
@@ -144,7 +144,7 @@
    "lane_id": "D21",
    "owner_issue": 233,
    "title": "reduction + equality-saturation worlds",
-   "status": "IN_FLIGHT",
+   "status": "LANDED",
    "frozen_world": "OW6",
    "readiness_coordinates_targeted": [
     "P",
@@ -153,22 +153,32 @@
    "primary_endpoint": "direct solve vs one-shot rewrite vs ordered rewriting vs Knuth-Bendix vs equality saturation vs learned reduction library; single injected unsound rewrite must be caught",
    "duplication_guard": "Owned by an active lane on host billy-old, branch hsg/d21-d22-labs. Do not start a second reduction lane.",
    "evidence_anchor": "dispatched 2026-09-10",
-   "notes": "This lane is a genuine parent-subtraction lane: its arms ARE the strongest parents for reduction. Present cost and future reuse must be tracked separately per T27/T87."
+   "notes": "This lane is a genuine parent-subtraction lane: its arms ARE the strongest parents for reduction. Present cost and future reuse must be tracked separately per T27/T87.",
+   "landing": {
+    "pr": "PR #284",
+    "merge_sha": "7b23ef04",
+    "amendment": "D28-F7-STALE-STATUS: map still showed IN_FLIGHT after landing"
+   }
   },
   {
    "lane_id": "D22",
    "owner_issue": 233,
    "title": "heterogeneous-logic transport",
-   "status": "IN_FLIGHT",
+   "status": "LANDED",
    "frozen_world": "OW7",
    "readiness_coordinates_targeted": [
     "T",
     "G"
    ],
    "primary_endpoint": "satisfaction conditions, consequence preservation, model-expansiveness, hostile incomplete model images",
-   "duplication_guard": "Owned by the same active lane (billy-old, hsg/d21-d22-labs). Lean/SMT adapters stay OUT — N4 is locked.",
+   "duplication_guard": "Owned by the same active lane (billy-old, hsg/d21-d22-labs). Lean/SMT adapters stay OUT \u2014 N4 is locked.",
    "evidence_anchor": "dispatched 2026-09-10",
-   "notes": null
+   "notes": null,
+   "landing": {
+    "pr": "PR #285",
+    "merge_sha": "078dac97",
+    "amendment": "D28-F7-STALE-STATUS: map still showed IN_FLIGHT after landing"
+   }
   },
   {
    "lane_id": "D23",
@@ -181,7 +191,7 @@
     "E"
    ],
    "primary_endpoint": "I/R/J coverage, protected round-trip error, ambiguity-set size, clarification value, abstention, latency, B_exec",
-   "duplication_guard": "Synthetic/frozen semantic tuples are legal NOW. Protected N2 outcomes are LOCKED — do not touch them.",
+   "duplication_guard": "Synthetic/frozen semantic tuples are legal NOW. Protected N2 outcomes are LOCKED \u2014 do not touch them.",
    "evidence_anchor": "#233 FREEZE_V1 locks N2",
    "notes": "The metric contract must be fixed BEFORE N2 unlocks. Inventing a metric after seeing fluency is the exact gaming failure #277 sec 3 targets."
   },
@@ -212,7 +222,7 @@
    ],
    "primary_endpoint": "search phase diagrams across flat STRIPS / verified reductions / HTN / POMDP belief-state / options-macros, after complete cost",
    "duplication_guard": "Not started. Hierarchy-NEGATIVE regions must be retained explicitly when it runs.",
-   "evidence_anchor": "#233 comment 'D25 — general problem-solving laboratory'",
+   "evidence_anchor": "#233 comment 'D25 \u2014 general problem-solving laboratory'",
    "notes": null
   },
   {
@@ -226,7 +236,7 @@
    ],
    "primary_endpoint": "transfer of the invariant contract for DISTINGUISH / REFINE / REDUCE / VERIFY across >=3 materially different domains",
    "duplication_guard": "Not started. G is its sole target - D22 and D25 touch G alongside other coordinates, but this is the only lane devoted to it.",
-   "evidence_anchor": "#233 comment 'D26 — cross-domain operator-transfer test'",
+   "evidence_anchor": "#233 comment 'D26 \u2014 cross-domain operator-transfer test'",
    "notes": "Load-bearing: a general operator claim requires transfer of the invariant CONTRACT, not reuse of the name. Every 'general operator' atom is gated on this lane."
   },
   {
@@ -242,7 +252,7 @@
    ],
    "primary_endpoint": "CONTINUED vs RESET vs strongest persistent parent: B_exec, first-useful-solution hitting time, new information required, counterexamples required, verification calls, active k / total N",
    "duplication_guard": "Not started. This is the direct bridge from semantic competence to the developmental thesis.",
-   "evidence_anchor": "#233 comment 'D27 — developmental semantic execution'",
+   "evidence_anchor": "#233 comment 'D27 \u2014 developmental semantic execution'",
    "notes": "Highest-value uncovered lane: it is the causal knockout for DEVELOPMENTAL_LINEAGE atoms, whose closure profile demands C>=4. Nothing else in flight can raise C for those atoms."
   },
   {
@@ -257,7 +267,7 @@
    ],
    "primary_endpoint": "independent replay of theorem proofs/certificates, parent claims, freeze chain, negative results, coverage, cross-issue hooks",
    "duplication_guard": "Not started. Must run AFTER D19-D27, and no locked milestone criterion may be changed retroactively.",
-   "evidence_anchor": "#233 comment 'D28 — fresh-context hostile/claims review'",
+   "evidence_anchor": "#233 comment 'D28 \u2014 fresh-context hostile/claims review'",
    "notes": null
   },
   {

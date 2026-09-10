@@ -547,7 +547,7 @@ def run_d20():
 
     out = {
         "experiment": "D20", "protocol": "D19_D20_PROTOCOL_V1.json",
-        "freeze_commit": "11d165b77ada54cc3dbc286f5ecc9369a7560896",
+        "freeze_commit": "78259460f1d4ddc2fc28691205b1665ce7da7272",
         "evidence_class": "CONFIRMATORY_FIXED (ceiling) + EXPLORATORY_ADAPTIVE "
                           "(refinement cost regions, never headline)",
         "verdict": verdict,
