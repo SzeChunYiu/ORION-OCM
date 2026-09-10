@@ -57,10 +57,42 @@ def test_theorems_no_fail():
     assert not fails, fails
 
 
+def test_t12_identification_live():
+    rows = [r for r in theorems.run_all() if r.get("theorem_id") == "BIO-T12"]
+    hold = [r for r in rows if r.get("status") == "HOLD"]
+    assert hold, rows
+    h = hold[0]
+    assert h["continued_births"] > 0 and h["reset_births"] > 0, h
+    assert h["continued_child_method_frac"] > h["reset_child_method_frac"], h
+    assert h["hdi2"] == "SOLUTION_INHERITANCE_POSITIVE_AT_SCOPE"
+    assert "not developmental" in h["claim_ceiling"]
+    cannot = [r for r in rows if str(r.get("status")).startswith("CANNOT_CHECK")]
+    assert not cannot, cannot
+    reuse = [r for r in rows if r.get("hostile") == "H-METHOD-REUSE-AS-DEVELOPMENT"]
+    assert reuse and reuse[0]["status"] == "HOSTILE_DETECTED"
+
+
+def test_all_registry_hostiles_fire():
+    import hostiles
+    h = hostiles.run_all()
+    assert h["instruments_can_fail"], h
+    assert not h["missing_required"], h
+    assert not h["unpaired_clean_controls"], h
+
+
+def test_graph_agreement_selftest():
+    import graph_agreement
+    r = graph_agreement.selftest()
+    assert r["GRAPH_AGREEMENT_SELFTEST"] == "OK", r
+    assert r["cases"]["hidden_edge_violation"] == "VIOLATION"
+
+
 def main() -> int:
     tests = [
         test_price_identity, test_multilevel_decomp, test_n_bounds,
         test_clean_no_leak, test_no_lstar, test_theorems_no_fail,
+        test_t12_identification_live, test_all_registry_hostiles_fire,
+        test_graph_agreement_selftest,
     ]
     for fn in tests:
         fn()

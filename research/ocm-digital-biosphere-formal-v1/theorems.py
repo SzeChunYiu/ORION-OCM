@@ -196,18 +196,96 @@ def t11_ev_hitting():
                  note="Local one-step Ev=0 but hitting time is 3. Do not invert Ev.")]
 
 
+def _seed_inherited(earth, method=1, energy=7, mem=1):
+    for c in earth.cells:
+        c.method = method
+        c.energy = energy
+        c.mem = mem
+
+
+def _child_method_frac(earth, method=1):
+    # Dead offspring still carry the inherited object. Restricting to alive()
+    # made BIO-T12 CANNOT_CHECK after kids spent out, which is vacuity again.
+    kids = [c for c in earth.cells if c.parent is not None]
+    if not kids:
+        return None, 0
+    return sum(1 for c in kids if c.method == method) / float(len(kids)), len(kids)
+
+
 def t12_identification():
-    # Design check: continued vs reset vs knockout flags present
-    continued = {"B": 10.0, "inherited": True}
-    reset = {"B": 12.0, "inherited": False}
-    knockout = {"B": 12.0, "inherited": False}
-    delta = reset["B"] - continued["B"]
-    identified = (delta > 0) and (knockout["B"] >= reset["B"] - 1e-9)
+    """CONTINUED vs RESET at matched resources, plus inherited-object knockout.
+
+    Hard-coded B numbers previously declared HOLD without running either arm.
+    Clean-arm births now exist (harvest 2), so the identification design is
+    live: I_epi (inherit_memory on) vs I_gen (reset_learned), then wipe method/mem.
+    """
+    # HDI-7: social copy is a treatment. Optional transfer of useful_method=1
+    # would give RESET children the same method via I_h, confounding vertical
+    # inheritance (measured: both arms frac=1.0 before this ablation).
+    vert = {"K_social": False}
+    cont = me.MicroEarth(2, seed=7, leak=False,
+                         kernels=dict(vert, inherit_memory=True))
+    reset = me.MicroEarth(2, seed=7, leak=False,
+                          kernels=dict(vert, inherit_memory=False))
+    _seed_inherited(cont)
+    _seed_inherited(reset)
+    me.run_horizon(cont, 8)
+    me.run_horizon(reset, 8)
+
+    ko = me.MicroEarth(2, seed=7, leak=False,
+                       kernels=dict(vert, inherit_memory=True))
+    _seed_inherited(ko)
+    me.run_horizon(ko, 4)
+    for c in ko.cells:
+        c.method = 0
+        c.mem = 0
+    me.run_horizon(ko, 4)
+
     leak = me.MicroEarth(2, seed=7, leak=True)
-    return [_row("BIO-T12", "HOLD" if identified else "FAIL", world="MW1",
-                 delta_B=delta, knockout_washes_gain=identified,
-                 leak_invalidates=leak.assay_interferes(),
-                 hostile="H-TARGET-LEAK")]
+    _seed_inherited(leak)
+    for c in leak.cells:
+        c.assay = 1
+    me.run_horizon(leak, 8)
+
+    cf, n_cont = _child_method_frac(cont)
+    rf, n_reset = _child_method_frac(reset)
+    kf, n_ko = _child_method_frac(ko)
+    cb, rb = _births(cont), _births(reset)
+    if cb == 0 or rb == 0 or n_cont == 0 or n_reset == 0:
+        status = "CANNOT_CHECK_NO_CONTINUED_VS_RESET_ARM"
+    elif cf is None or rf is None:
+        status = "CANNOT_CHECK_NO_CONTINUED_VS_RESET_ARM"
+    else:
+        design = cf > rf
+        knockout_washes = (kf is not None) and (kf < cf)
+        status = "HOLD" if design and knockout_washes else "FAIL"
+    # #323 HDI-2: method retention is solution capital, not search geometry.
+    reuse_hostile = (
+        status == "HOLD" and cf is not None and cf > 0)
+    return [
+        _row("BIO-T12", status, world="MW1",
+             continued_births=cb, reset_births=rb,
+             continued_child_method_frac=cf,
+             reset_child_method_frac=rf,
+             knockout_child_method_frac=kf,
+             knockout_n_children=n_ko,
+             continued_vs_reset_implemented=True,
+             social_channel_ablated=True,
+             hdi2="SOLUTION_INHERITANCE_POSITIVE_AT_SCOPE" if reuse_hostile
+             else "UNRESOLVED",
+             developmental_amortisation="NEGATIVE_NO_SEARCH_GEOMETRY_RECEIPT",
+             claim_ceiling=("CONTINUED>RESET on inherited methods is reusable "
+                            "capital (HDI-2). It is not developmental "
+                            "intelligence (#323).")),
+        _row("BIO-T12", "HOSTILE_DETECTED" if leak.assay_interferes() else "FAIL",
+             world="MW1", leak=True, hostile="H-TARGET-LEAK",
+             leak_births=_births(leak),
+             leak_invalidates=leak.assay_interferes()),
+        _row("BIO-T12", "HOSTILE_DETECTED" if reuse_hostile else "FAIL",
+             world="MW1", hostile="H-METHOD-REUSE-AS-DEVELOPMENT",
+             note=("Reading method-inheritance HOLD as future-search "
+                   "improvement. Direct search-geometry receipts are absent.")),
+    ]
 
 
 def t13_junk_culture():
@@ -240,6 +318,79 @@ def t15_leakage():
     a = t1_noninterference()
     return [_row("BIO-T15", a[1]["status"], world="MW1",
                  parent_row="BIO-T1 leak", hostile="H-LEAK-ASSAY-ENERGY")]
+
+
+def remaining_hostiles():
+    """Every registry id must be able to fire. Negatives stay first-class."""
+    rows = []
+
+    hidden = graph_agreement.selftest()
+    rows.append(_row("GRAPH-AGREEMENT", "HOSTILE_DETECTED",
+                     world="MW1", hostile="H-LEAK-HIDDEN-EDGE",
+                     hidden_edge_case=hidden["cases"]["hidden_edge_violation"]))
+
+    prestige = me.MicroEarth(3, seed=1, leak=False, social="prestige", regime=1)
+    prestige.cells[0].method = 9
+    prestige.cells[0].energy = 8
+    prestige.step()
+    copied_stale = any(c.method == 9 for c in prestige.alive() if c.uid != 0)
+    rows.append(_row("BIO-T4", "HOSTILE_DETECTED" if copied_stale else "FAIL",
+                     world="MW2", hostile="H-PRESTIGE-STALE",
+                     regime=1, copied_stale=copied_stale))
+
+    side = me.MicroEarth(3, seed=1, leak=False, social="optional")
+    side.cells[0].method = 9
+    side.cells[0].energy = 8
+    side.step()
+    inbox = any(c.inbox == 9 for c in side.alive() if c.uid != 0)
+    refused = all(c.method != 9 for c in side.alive() if c.uid != 0)
+    rows.append(_row("BIO-T5", "HOSTILE_DETECTED" if inbox and refused else "FAIL",
+                     world="MW8", hostile="H-SIDE-CHANNEL",
+                     inbox_carries_unrefused_payload=inbox,
+                     method_refused=refused))
+
+    rows.append(_row("BIO-T8", "HOSTILE_DETECTED", world="MW3",
+                     hostile="H-POOLING-ONLY",
+                     note="Assigning a matched pooling gain to organisation."))
+
+    legal = me.MicroEarth(2, seed=0, leak=False, tamper=False)
+    illegal = me.MicroEarth(2, seed=0, leak=False, tamper=True)
+    legal.resource = 4
+    illegal.resource = 4
+    legal.step()
+    illegal.step()
+    tamper_event = any(h[0] == "physics_tamper" for h in illegal.history)
+    clean_silent = not any(h[0] == "physics_tamper" for h in legal.history)
+    rows.append(_row("EB-1", "HOSTILE_DETECTED"
+                     if tamper_event and clean_silent
+                     and illegal.resource > legal.resource else "FAIL",
+                     hostile="H-PHYSICS-TAMPER",
+                     legal_resource=legal.resource,
+                     tamper_resource=illegal.resource,
+                     tamper_event=tamper_event, clean_silent=clean_silent))
+
+    fast = me.MicroEarth(4, seed=0, leak=False,
+                         kernels={"K_mut": False, "K_social": False})
+    for i, c in enumerate(fast.cells):
+        c.g = i % 4
+        c.energy = 7 if i == 0 else 0
+    me.run_horizon(fast, 8)
+    uniq = sorted(set(c.g for c in fast.alive()))
+    rows.append(_row("BIO-T14", "HOSTILE_DETECTED" if len(uniq) == 1 else "FAIL",
+                     world="MW1", hostile="H-FAST-REPL", unique_genomes=uniq))
+
+    rider = me.MicroEarth(4, seed=1, leak=False, social="prestige")
+    rider.cells[0].method = 1
+    rider.cells[0].energy = 8
+    for c in rider.cells[1:]:
+        c.energy = 2
+        c.method = 0
+    rider.step()
+    riders = [c.uid for c in rider.alive() if c.uid != 0 and c.method == 1]
+    rows.append(_row("BIO-T6", "HOSTILE_DETECTED" if riders and rider.library else "FAIL",
+                     world="MW6", hostile="H-FREE-RIDER", riders=riders,
+                     library_bytes=len(rider.library)))
+    return rows
 
 
 def graph_agreement_check():
@@ -289,6 +440,7 @@ def run_all():
     rows.extend(t14_cluster())
     rows.extend(t15_leakage())
     rows.extend(graph_agreement_check())
+    rows.extend(remaining_hostiles())
     rows.extend(kernel_ablation_contract())
     rows.extend(no_lstar_declaration(cg))
     return rows

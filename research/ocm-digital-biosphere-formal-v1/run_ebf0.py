@@ -16,7 +16,8 @@ import theorems  # noqa: E402
 def gate(parent_receipts, theorem_rows, hostile_rep):
     parent_fail = [r for r in parent_receipts if r.get("status") == "FAIL"]
     th_fail = [r for r in theorem_rows
-               if r.get("status") in ("FAIL", "VACUOUS_PASS")]
+               if r.get("status") in ("FAIL", "VACUOUS_PASS")
+               or str(r.get("status") or "").startswith("CANNOT_CHECK")]
     can_fail = hostile_rep.get("instruments_can_fail")
     holds = (not parent_fail) and (not th_fail) and bool(can_fail)
     missing = []
@@ -33,8 +34,13 @@ def gate(parent_receipts, theorem_rows, hostile_rep):
         "theorem_fail": [r.get("theorem_id") for r in th_fail],
         "instruments_can_fail": can_fail,
         "missing": missing,
-        "long_earths": "REFUSED" if not holds else "PERMITTED_AFTER_THIS_GATE_ONLY_FOR_SCALING_NOT_TO_REDEFINE_MATH",
-        "note": "GATE_HOLDS is bounded-scope: exact micro-Earths + reconstructed parents. It does not score long Earths or decide L*.",
+        "long_earths": "REFUSED",
+        "developmental_intelligence": "UNRESOLVED",
+        "dev_cal1": "NOT_RUN",
+        "note": ("GATE_HOLDS is bounded-scope: exact micro-Earths + reconstructed "
+                 "parents. It does not score long Earths, does not decide L*, and "
+                 "does not license developmental intelligence (#323). "
+                 "CONTINUED>RESET on inherited methods is solution capital."),
     }
 
 

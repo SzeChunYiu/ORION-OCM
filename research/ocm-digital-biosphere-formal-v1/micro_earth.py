@@ -30,7 +30,7 @@ class Cell:
 
 class MicroEarth:
     def __init__(self, n, seed=0, leak=False, social="optional",
-                 kernels=None, regime=0):
+                 kernels=None, regime=0, tamper=False):
         if n < 2 or n > 8:
             raise ValueError("n in 2..8")
         self.n0 = n
@@ -39,6 +39,7 @@ class MicroEarth:
         self.social = social
         self.kernels = dict(kernels or {})
         self.regime = int(regime)
+        self.tamper = bool(tamper)
         self.tick = 0
         self.resource = 16
         self.library = []  # list of methods; usefulness declared separately
@@ -85,6 +86,10 @@ class MicroEarth:
             self.resource = min(16, self.resource + (0 if self.regime else 1))
             if self.regime == 1:
                 self.resource = max(0, self.resource - 2)
+        if self.tamper:
+            # Illegal SET_REGEN: a cell-side write of P. Legal worlds refuse this.
+            self.resource = min(16, self.resource + 8)
+            self.history.append(("physics_tamper",))
         live = self.alive()
         if self._on("K_senseact"):
             for c in live:
