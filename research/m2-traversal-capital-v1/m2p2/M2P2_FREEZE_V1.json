@@ -13,7 +13,7 @@
   "git_head_at_freeze": "3184131163ac487d8f757a197486484d18c737cd",
   "frozen_files": {
    "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md":
-     "0eb503b6d0c390e97cf241acc174348702830881d697d554e881fde0740c716e",
+     "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
    "research/m2-traversal-capital-v1/m2p2/m2p2_taxa.py":
      "8779dd0ebd4b356e0b59e76fd68e8bfbc386153d04e22c22833aaabc52da8a50"
   },
@@ -31,7 +31,7 @@
 
  "neutral_author_spec": {
   "file": "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md",
-  "sha256": "0eb503b6d0c390e97cf241acc174348702830881d697d554e881fde0740c716e",
+  "sha256": "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
   "frozen_before_authoring": true,
   "vocabulary_rule": "written ONLY in terms of alphabet (four public operations add1/sub1/dbl/sqr), string lengths (builders of 0..8 operations), hidden recurring chunks (4..8 per world, each 2..3 operations), and generation constraints (canonical-builder membership, three-part split with per-length quotas and fraction bands, determinism). It contains NO reference to OCM, learn_generator, fragment ranking or fragment libraries, admission or its rule, arm names, the m2p1 designs E1..E8, or any m2p1 result or number. The substrate semantics it publishes (the four operations, the fixed public enumeration order, canonical-builder membership) are the public arithmetic of the registered grammar stated in neutral vocabulary, exactly as the P1-E3 spec published closure semantics.",
   "interface_bridge": "the compiler maps the spec's public operation order add1<sub1<dbl<sqr positionally onto the registered grammar order (inc, dec, double, square). The map is a bijection on symbols that preserves the enumeration order, so canonical builders, membership and decomposability are identical under the registered machinery. The map is recorded in every compile receipt."
@@ -81,12 +81,20 @@
   "surface_derivability_gate": {
    "id": "G-SURF",
    "blocking": true,
-   "provenance": "the #349 blocking gate (HIDDEN_FAMILY_DESIGN.md): free-fit ~= chance while dev-fit >> chance, reused as this study's own precondition — M2-N2's control turned entry gate",
-   "procedure": "on each viable world, run the m2_probe_v3_feature_sufficiency.py discipline unmodified (feature families FS0..FS5 computed from target surface alone, each fitted twice: _dev on the initial-stream traversal, _free on the full reachable grammar with zero developmental outcomes), scored by ladder successes on the world's future stream against budgets 1000,4000,16000,64000,200000; chance = the FS0 constant cell",
-   "pass_rule_frozen": "G-SURF PASS iff (best _free cell - FS0 constant) <= 2 future-target ladder points AND (best _dev cell - FS0 constant) >= 5 future-target ladder points, in EVERY viable world",
+   "per_world": true,
+   "provenance": "the #349 blocking intent (HIDDEN_FAMILY_DESIGN.md: block worlds whose family is derivable from the surface alone), implemented with the m2_probe_v3_feature_sufficiency.py machinery (FS0..FS5 families, _dev/_free dual fits, ORDER-mode ladder on budgets 1000,4000,16000,64000,200000)",
+   "calibration_note": "the #349 LETTER ('free-fit ~= chance while dev-fit >> chance') was calibrated on the M1 semantic-class population and does NOT transfer to hidden-family worlds — on m2p1's own recorded positives (E5, E6: both HISTORY_INDUCED_SEARCH_PRIOR with scored-G4 PASS) the dev fit gains ZERO ladder points, because the developmental signal lives in fragment structure, which no explicit feature cell expresses. Absence of FS-expressible dev signal therefore does not mean 'no recoverable signal'. The gate was recalibrated BEFORE the author session against both directions of ground truth; see M2P2_GSURF_CALIBRATION.md (all calibration runs are pre-author instrument validations on m2p1 public artifacts and synthetic worlds — no scored run, no authored package)",
+   "procedure": "on each viable world: CHANCE = the best zero-history ordering (FS0 constant fit, ascending, descending); FREE = the best history-free ordering (chance family + FS1..FS5 free fits); ORACLE = the true-length ordering (ceiling of any length-class ordering); all scored by ladder successes on the world's future stream. The _dev fits are computed and reported as evidence; they do not gate",
+   "pass_rule_frozen": "G-SURF fires SURFACE_DERIVABLE on a world iff (FREE - CHANCE) >= 0.5 * (ORACLE - CHANCE) — a grammar-only rule captures at least half the oracle ordering headroom, the regime in which the scored CONTINUED-vs-surface comparison would be uninterpretable; otherwise the world PASSES and proceeds to the scored arms, where the decisive surface test is the scored-stage G4 exactly as m2p1 (CONTINUED vs the best history-free surface ordering, paired)",
+   "calibration_evidence": {
+    "m2p1_E5_recorded_positive": "capture 0.00 -> PASS",
+    "m2p1_E6_recorded_positive": "capture ~0.02 -> PASS (the original #349-letter rule FALSELY fired here: free_gain 4 > threshold 2)",
+    "synthetic_sparse_worlds_VAL_A_H": "captures 0.03..0.42 -> all PASS; no authorable firing world found in calibration (max 42%), so the majority line is retained as a guard against pathological authorings, not an expected branch"
+   },
    "fail_mapping": {
-    "free_tracks_dev": "SURFACE_DERIVABLE — the entry gate fires, the study stops, the worlds are reported with their free/dev fit numbers; this is a valid terminal, not a defect",
-    "both_at_chance": "CANNOT_CHECK_NO_RECOVERABLE_SIGNAL — neither grammar nor initial history carries the structure; worlds retained, no scored arms"
+    "world_fires": "that world is SURFACE_DERIVABLE_world: retained, reported per-world, excluded from the scored family",
+    "all_viable_worlds_fire": "study terminal SURFACE_DERIVABLE — the scored arms never run",
+    "gate_does_not_fire": "PASS — the world proceeds; the decisive surface test is the scored-stage G4"
    }
   }
  },
@@ -122,10 +130,10 @@
  },
 
  "terminals_pre_registered": {
-   "precedence": "ASSAY_DEFECT > AUTHORSHIP_CONTAMINATED > SURFACE_DERIVABLE > CANNOT_CHECK_TOO_FEW_VIABLE_WORLDS / CANNOT_CHECK_NO_RECOVERABLE_SIGNAL / CANNOT_CHECK_NO_ADMITTING_WORLD / CANNOT_CHECK_<reason> > HISTORY_INDUCED_SEARCH_PRIOR_REPLICATED / NOT_REPLICATED",
+   "precedence": "ASSAY_DEFECT > AUTHORSHIP_CONTAMINATED > SURFACE_DERIVABLE > CANNOT_CHECK_TOO_FEW_VIABLE_WORLDS / CANNOT_CHECK_NO_ADMITTING_WORLD / CANNOT_CHECK_<reason> > HISTORY_INDUCED_SEARCH_PRIOR_REPLICATED / NOT_REPLICATED",
    "HISTORY_INDUCED_SEARCH_PRIOR_REPLICATED": "at least one viable world admits the mined generator, EVERY admitting world reaches the per-world m2p1 positive terminal (CONTINUED > RESET, > LIBRARY_ONLY, > SHUFFLED_HISTORY, G4 PASS vs the best history-free surface), at least one admitting world is Holm-significant on the paired CONTINUED-RESET test, SHUFFLED_HISTORY < RESET in every admitting world, and the admission law HOLDS on every viable world",
    "NOT_REPLICATED": "at least one viable world admits, but some admitting world fails the positive-terminal pattern, the Holm requirement, or the shuffled-below-reset requirement; or the admission law is VIOLATED on any viable world",
-   "SURFACE_DERIVABLE": "the G-SURF entry gate fired (free-fit tracks dev-fit); scored arms never run",
+   "SURFACE_DERIVABLE": "every viable world fired the G-SURF entry gate (a grammar-only ordering captured at least half the oracle headroom); scored arms never run; per-world numbers reported",
    "AUTHORSHIP_CONTAMINATED": "any taxonomy-disjointness alarm on any authored artifact, or any post-hoc revision of the neutral spec or this freeze after the author session began",
    "ASSAY_DEFECT": "pid_changed false anywhere, checker C disagreement, dev-state tamper, non-deterministic authored emit, or any pipeline alarm class raised",
    "CANNOT_CHECK_NO_ADMITTING_WORLD": "zero viable worlds admit (the positive terminal is not measurable on this authoring; the refusal record and the admission-law check are still reported in full)",

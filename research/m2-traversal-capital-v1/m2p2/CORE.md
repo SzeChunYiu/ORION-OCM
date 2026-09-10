@@ -14,8 +14,11 @@ author session and any scored run:
 - the **author-unit protocol** — fresh session, spec-only, isolation by instruction,
   mechanically certified by the taxonomy-disjointness hostile
   ([m2p2_taxa.py](m2p2_taxa.py), 219 frozen tokens, P1-E3 tiers imported);
-- the **entry gates** — G1/G2/G3, viability floors, and the blocking G-SURF
-  surface-derivability gate (#349 discipline: free-fit ≈ chance, dev-fit ≫ chance);
+- the **entry gates** — G1/G2/G3, viability floors, and the per-world blocking
+  G-SURF surface-derivability gate (fires only if a history-free ordering captures
+  ≥ 50% of the oracle headroom; calibrated pre-author against m2p1's recorded
+  positives — see [M2P2_GSURF_CALIBRATION.md](M2P2_GSURF_CALIBRATION.md));
+  the decisive surface test stays the scored-stage G4, exactly as m2p1;
 - the **arm set** (CONTINUED / RESET / LIBRARY_ONLY / SHUFFLED_HISTORY hardened /
   best history-free surface / ORACLE calibration / no-gate parent / depth ladder) on
   the registered units imported unmodified;

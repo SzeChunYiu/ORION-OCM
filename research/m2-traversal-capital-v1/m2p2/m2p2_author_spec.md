@@ -70,6 +70,9 @@ worlds.jsonl            # one JSON object per world (generated, deterministic)
 AUTHOR_NOTES.md         # your own description of every world, in your words
 ```
 
+`emit_worlds.py` must write `worlds.jsonl` into the **current directory** (the
+directory it is run FROM), never next to its own file, never to an absolute path.
+
 Each world object must carry EXACTLY these machine-readable keys (fixed interface;
 everything else you add uses your own naming):
 
