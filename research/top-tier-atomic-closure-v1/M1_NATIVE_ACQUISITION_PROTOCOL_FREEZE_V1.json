@@ -1,0 +1,87 @@
+{
+ "schema": "OCM_M1_NATIVE_ACQUISITION_PROTOCOL_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_EXECUTION",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "trigger": "STEERING_MEMO 2026-09-10 section 6 + milestone M1: 'one native causal acquisition effect. Bind the real learner and restart path... A simulator result or schema-only delivery does not close this milestone.'",
+ "relationship_to_prior": {
+  "governs": "the first scored native acquisition run under DEV_CAL_V2_PROTOCOL_FREEZE_V1 (merged as its gate chain completes); inherits that freeze's gap_resolutions, terminal precedence, four-claims separation and statistical rules verbatim",
+  "reuses": "the exact polynomial domain and verifier of research/g2-macro-operator-v1 (grammar inc/dec/double/square; polynomial normal-form task identity; checker bound to src/ocm/learning/methods.py) -- no new domain, no new cognitive core, no learned router (#71 respected)",
+  "entry_gates": "scored execution requires ALL of: (a) DEV_CAL_V2_PROTOCOL_FREEZE_V1 merged; (b) the section-4 calibration fixture (research/top-tier-atomic-closure-v1/calibration_reference.py, reimplemented from spec) passes its 12 tests AND its positive/negative controls; (c) the M1 runner machinery passes its own hostile selftest including a no-op-solver hostile that must FAIL the positive control; (d) frozen semantic partitions emitted with member digests; this freeze grants no execution rights"
+ },
+
+ "semantic_partitions": {
+  "rule": "train/validation/test partitions are frozen BY SEMANTIC PROPERTY of target classes (polynomial degree bands, monomial-support patterns, coefficient structure), then enumerated with per-member normal-form digests at build time; seeds select instances WITHIN a partition, never the partition boundary",
+  "difficulty_axis": "target difficulty is held FIXED across checkpoints; varying difficulty is a separate declared axis and never confounds the developmental trend",
+  "protected_set": "the fresh-obligation evaluation set is disjoint from every developmental stream by construction and sha-bound before any arm runs"
+ },
+
+ "lifecycle_runner": {
+  "cycle": [
+   "1 solve actual developmental tasks; retain success AND failure traces with typed failure reasons",
+   "2 generate candidate reusable transformations using existing registered operators first (fragment mining / macro admission per g2-macro-operator-v1)",
+   "3 test each candidate on ACQUIRING a fresh validation target, never on replaying or compressing training solutions",
+   "4 admit useful state with complete HDI-14 cost ledger, scopes, evidence supports; correctness authority and performance estimates stay separate",
+   "5 checkpoint the actual runtime state to disk",
+   "6 OS-PROCESS RESTART: the runtime process exits and a FRESH interpreter/process loads the persisted state (a function call in one long-lived process does NOT satisfy this step; the runner must evidence pid change / interpreter restart)",
+   "7 the restarted runtime acquires a protected fresh target requiring target-specific information (fresh exact observations; independently checked target equivalence); a concrete candidate object is emitted and verified by the external checker",
+   "8 the acquired target-specific object is evaluated on fresh obligations it did not train on; developmental state updates only from permitted development/validation streams, never from the protected assay"
+  ],
+  "checker_C": "external to the runtime under test (the frozen polynomial identity checker, invoked as an independent unit with its own digest); internal replay never counts"
+ },
+
+ "arms": {
+  "checkpoint_clones": [
+   "RESET: no learned history",
+   "LIBRARY_ONLY: accumulated solved objects present, learning/search-control state frozen",
+   "CONTINUED: persistent native learner and all admitted state",
+   "CONTINUED_WITH_LEARNING_STATE_REMOVED: solved content preserved, the proposed developmental carrier revoked/transplanted",
+   "ORDINARY_ADAPTIVE_PARENT: same allowed history, persistence and legal adaptation machinery, outside OCM-specific bookkeeping",
+   "KNOWN_STRUCTURE_ORACLE: calibration arm only; information advantage explicitly declared; never a headline comparator"
+  ],
+  "joint_carrier_rule": "where library and search-control state are inseparable, the runner reports the JOINT carrier and designs a compatible transplant instead of claiming surgical independence; interactions are tested by a staged factorial, not assumed into one field",
+  "parent_parity": "parity receipt emitted per run; parity reattributes the OCM-specific claim (M3) and never negates the mechanism claim (M1)"
+ },
+
+ "endpoint_and_stats": {
+  "primary": "B(M,T,q): actual acquisition work under the full cost ledger until the external checker establishes competence q on fresh target T, PAIRED across checkpoint clones at matched budgets",
+  "curves": "success-probability-versus-budget; failed and censored attempts retained; refusal-rate reported per arm (cheap refusal never presents as cheaper learning)",
+  "trend": "no per-checkpoint monotonicity requirement; estimated expected trend with uncertainty on the frozen evaluation ecology; retention and adaptation-after-shift both reported",
+  "stats": "paired treatment-effect intervals at frozen confidence with lineage/ecology clustering, Holm multiplicity, margins pre-registered (20% registered default; change only by documented pre-execution amendment); non-overlap of separate intervals never substitutes for a paired interval"
+ },
+
+ "repeated_development": {
+  "transitions": "at least THREE chronological checkpoints; the second and third transitions must consume newly acquired material, distinguishing one useful acquisition from repeated development",
+  "carrier_causality": "losing the effect under carrier removal AND recovering it under a compatible transplant supports causal attribution; a learned prior influencing behavior with zero retrieval calls passes (no-retrieval rule)"
+ },
+
+ "terminals": {
+  "set": [
+   "ASSAY_DEFECT",
+   "LEAKAGE_ALARM",
+   "INSUFFICIENT_HISTORY",
+   "NATIVE_ACQUISITION_DEMONSTRATED (mechanism claim 1 at this scope ONLY)",
+   "NO_NATIVE_EFFECT",
+   "PARENT_EQUIVALENT (mechanism may still hold; OCM-specific claim reattributed)",
+   "CANNOT_CHECK_<reason>"
+  ],
+  "precedence": "per DEV_CAL_V2_PROTOCOL_FREEZE_V1 gap_resolutions 6; an OCM arm beating RESET while below oracle records both facts under ONE terminal",
+  "claim_ceiling": "M1 closes the mechanism claim at its scope ONLY; lifetime economics and OCM-specific residual are M3 deliverables and are NOT claimable from an M1 run alone; open-endedness is never claimable from finite success"
+ },
+
+ "hosts": {
+  "scored_run": "laptop billy (ssh billy-laptop; E3 host per E3_PROTOCOL_FREEZE_V1 P8/P9)",
+  "never": "Mac mini (sub-second selftests only); no crypto-platform network from LUNARC"
+ },
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any scored run before entry gates (a)-(d) all hold",
+  "transplanting the GF(2) parity calibration fixture into production as a second cognitive core",
+  "editing src/ocm mechanism code to make acquisition easier (the learner is bound AS-IS; only research-lane runners and adapters may be added)",
+  "claiming economics, OCM-residual or open-endedness from M1 output",
+  "relaxing validate_generator's no-slowdown rule retroactively; a successor distinguishing immutable correctness from average efficiency requires its own prospective registration"
+ ]
+}
