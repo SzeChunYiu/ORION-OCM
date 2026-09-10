@@ -1,0 +1,350 @@
+{
+ "artifact_id": "MECHANISM_CROSSINDEX_V1",
+ "created_utc": "2026-09-10T00:40:00Z",
+ "motivation": "D12 hidden-pair miss (0/5 arms): remote-donor recall is partition-limited, not effort-limited — see ../d12/D12_SCORING_V1.md",
+ "router_wiring": {
+  "pipeline": "atom statement -> mechanism terms (operative verbs/nouns) -> cross-index rows -> candidate donor disciplines INCLUDING non-adjacent -> one L2 probe each (10 units) -> route deep only on structural overlap",
+  "probe_budget_share": 0.05,
+  "probe_budget_share_status": "UNCALIBRATED — first measurement lands with the next calibration freeze (D15)"
+ },
+ "terms": [
+  {
+   "id": "M01_saturation_capacity_limit",
+   "term": "saturation / nonlinear capacity limit",
+   "owner_disciplines": [
+    "enzyme kinetics (Michaelis-Menten)",
+    "congestion pricing",
+    "queueing (M/M/1/K)",
+    "server saturation",
+    "toxicity dose-response"
+   ],
+   "first_probe_target": "biochemical kinetics"
+  },
+  {
+   "id": "M02_channeling_localized_flow",
+   "term": "channeling / localization of flow",
+   "owner_disciplines": [
+    "metabolic substrate channeling",
+    "JIT supply chains",
+    "network function placement",
+    "dedicated-lane circuits"
+   ],
+   "first_probe_target": "metabolic organization"
+  },
+  {
+   "id": "M03_threshold_economics",
+   "term": "threshold economics (build vs per-use)",
+   "owner_disciplines": [
+    "metabolic enzyme investment",
+    "warehouse/facility location",
+    "cache warming vs cold fetch",
+    "tooling amortization"
+   ],
+   "first_probe_target": "OR / economics"
+  },
+  {
+   "id": "M04_renewal_regenerative",
+   "term": "renewal / regenerative cycles",
+   "owner_disciplines": [
+    "renewal-reward (inventory)",
+    "cell turnover",
+    "garbage-collection cycles",
+    "planned replacement"
+   ],
+   "first_probe_target": "OR reliability"
+  },
+  {
+   "id": "M05_depletion_nonrenewable",
+   "term": "depletion / non-renewable stock",
+   "owner_disciplines": [
+    "optimal extraction (Hotelling)",
+    "fisheries collapse",
+    "memory leak / heap exhaustion"
+   ],
+   "first_probe_target": "resource economics"
+  },
+  {
+   "id": "M06_ratchet_monotone_accumulation",
+   "term": "ratchet / monotone accumulation",
+   "owner_disciplines": [
+    "hypervolume archives",
+    "Kelly compounding",
+    "irreversibility (hysteresis)",
+    "CO2 accumulation"
+   ],
+   "first_probe_target": "EC / QD"
+  },
+  {
+   "id": "M07_allocation_under_capacity",
+   "term": "allocation under capacity",
+   "owner_disciplines": [
+    "surrogate/successive-halving budgets",
+    "metabolic flux allocation",
+    "kidney exchange",
+    "spectrum auctions"
+   ],
+   "first_probe_target": "ML theory"
+  },
+  {
+   "id": "M08_contraction_coupling",
+   "term": "contraction / coupling of processes",
+   "owner_disciplines": [
+    "Dobrushin coefficients",
+    "co-evolutionary lockstep",
+    "thermodynamic coupling",
+    "MCMC coupling"
+   ],
+   "first_probe_target": "probability theory"
+  },
+  {
+   "id": "M09_neutral_sets_degeneracy",
+   "term": "neutral sets / degeneracy",
+   "owner_disciplines": [
+    "Landau degeneracy",
+    "genetic code redundancy",
+    "polygonal billiards",
+    "kernel null-spaces"
+   ],
+   "first_probe_target": "statphys"
+  },
+  {
+   "id": "M10_sufficiency_compression",
+   "term": "sufficiency / compression of information",
+   "owner_disciplines": [
+    "Blackwell experiments",
+    "bisimulation",
+    "rate-distortion",
+    "sufficient statistics"
+   ],
+   "first_probe_target": "information theory"
+  },
+  {
+   "id": "M11_local_to_global_consistency",
+   "term": "local-to-global consistency",
+   "owner_disciplines": [
+    "sheaf gluing",
+    "CSP consistency",
+    "lumpability",
+    "coarse-graining (renormalization)"
+   ],
+   "first_probe_target": "CSP / sheaf"
+  },
+  {
+   "id": "M12_exploration_necessity",
+   "term": "exploration necessity",
+   "owner_disciplines": [
+    "bandit best-arm lower bounds",
+    "PAC-Bayes",
+    "novelty search (minimal criterion)"
+   ],
+   "first_probe_target": "ML theory"
+  }
+ ],
+ "open_cell_routing": {
+  "source": "../HSG_COVERAGE_MATRIX_V1.json",
+  "open_cells_total": 21,
+  "open_atoms_total": 2,
+  "theorem_cells": [
+   {
+    "cell": "A_T01/R2",
+    "question": "subset-infimum at R2 (stochastic dominance)",
+    "terms": [
+     "M10_sufficiency_compression"
+    ],
+    "probe": "information theory"
+   },
+   {
+    "cell": "A_T03/R2",
+    "question": "aliasing impossibility (distribution over aliased states)",
+    "terms": [
+     "M09_neutral_sets_degeneracy"
+    ],
+    "probe": "statphys"
+   },
+   {
+    "cell": "A_T04/R3",
+    "question": "coded-search share under kernel proposals",
+    "terms": [
+     "M10_sufficiency_compression"
+    ],
+    "probe": "information theory"
+   },
+   {
+    "cell": "A_T05/R7",
+    "question": "amortization identity with shared modules (2-level)",
+    "terms": [
+     "M03_threshold_economics",
+     "M02_channeling_localized_flow"
+    ],
+    "probe": "OR / economics (+ metabolic organization cross-partition row — the D12 H1 direction)"
+   },
+   {
+    "cell": "A_T06/R7",
+    "question": "locality cones spanning levels",
+    "terms": [
+     "M08_contraction_coupling",
+     "M11_local_to_global_consistency"
+    ],
+    "probe": "probability theory"
+   },
+   {
+    "cell": "A_T07/R6",
+    "question": "ratchet under kernel-choice eviction",
+    "terms": [
+     "M06_ratchet_monotone_accumulation"
+    ],
+    "probe": "EC / QD"
+   },
+   {
+    "cell": "A_T08/R3",
+    "question": "dominance order on kernel FAMILIES",
+    "terms": [
+     "M10_sufficiency_compression"
+    ],
+    "probe": "information theory"
+   },
+   {
+    "cell": "A_T08/R4",
+    "question": "family dominance under metric perturbation",
+    "terms": [
+     "M10_sufficiency_compression",
+     "M08_contraction_coupling"
+    ],
+    "probe": "information theory"
+   },
+   {
+    "cell": "A_T14/R3",
+    "question": "NFL kernel-averaging; Dobrushin-contractive families",
+    "terms": [
+     "M08_contraction_coupling",
+     "M12_exploration_necessity"
+    ],
+    "probe": "ML theory"
+   },
+   {
+    "cell": "A_T14/R4",
+    "question": "NFL under metric sensitivity",
+    "terms": [
+     "M08_contraction_coupling"
+    ],
+    "probe": "probability theory"
+   },
+   {
+    "cell": "A_T16/R5",
+    "question": "Blum speedup under kernel composition",
+    "terms": [
+     "M12_exploration_necessity"
+    ],
+    "probe": "ML theory"
+   }
+  ],
+  "concept_cells": [
+   {
+    "cell": "G05/R6",
+    "question": "ecology drift (E_t)",
+    "terms": [
+     "M04_renewal_regenerative"
+    ],
+    "probe": "OR reliability"
+   },
+   {
+    "cell": "G05/R7",
+    "question": "open system: task inflow/outflow, non-conserved measures",
+    "terms": [
+     "M04_renewal_regenerative",
+     "M07_allocation_under_capacity"
+    ],
+    "probe": "OR reliability"
+   },
+   {
+    "cell": "G07/R7",
+    "question": "verification crossing a system boundary (external channel)",
+    "terms": [
+     "M02_channeling_localized_flow"
+    ],
+    "probe": "metabolic organization (compartment-crossing channeling) — cross-partition row"
+   },
+   {
+    "cell": "G08/R6",
+    "question": "time-varying constitution (governed amendment process)",
+    "terms": [
+     "M06_ratchet_monotone_accumulation"
+    ],
+    "probe": "EC / QD"
+   },
+   {
+    "cell": "G08/R7",
+    "question": "multi-constellation levels",
+    "terms": [
+     "M11_local_to_global_consistency"
+    ],
+    "probe": "CSP / sheaf"
+   },
+   {
+    "cell": "G11/R6",
+    "question": "kernel evolvability drift",
+    "terms": [
+     "M12_exploration_necessity"
+    ],
+    "probe": "ML theory"
+   },
+   {
+    "cell": "G13/R7",
+    "question": "cross-level charging (inheritance economics)",
+    "terms": [
+     "M03_threshold_economics"
+    ],
+    "probe": "OR / economics"
+   },
+   {
+    "cell": "G14/R7",
+    "question": "multi-level dependency cones",
+    "terms": [
+     "M11_local_to_global_consistency"
+    ],
+    "probe": "CSP / sheaf"
+   },
+   {
+    "cell": "G16/R7",
+    "question": "amortization across coupled trajectories",
+    "terms": [
+     "M03_threshold_economics",
+     "M02_channeling_localized_flow"
+    ],
+    "probe": "OR / economics"
+   },
+   {
+    "cell": "G17/R6",
+    "question": "prior as moving target (Fisher/KL geometry)",
+    "terms": [
+     "M10_sufficiency_compression"
+    ],
+    "probe": "information theory"
+   }
+  ],
+  "open_atoms": [
+   {
+    "cell": "A_T10/all",
+    "question": "Ev estimator at R3 (kernel Ev) and R4 (metric sensitivity)",
+    "terms": [
+     "M08_contraction_coupling",
+     "M09_neutral_sets_degeneracy"
+    ],
+    "probe": "probability theory (estimator stability under kernel perturbation = Dobrushin contraction)"
+   },
+   {
+    "cell": "A_T11/all",
+    "question": "module promotion under uncertain future use (option value form)",
+    "terms": [
+     "M03_threshold_economics",
+     "M05_depletion_nonrenewable"
+    ],
+    "probe": "resource economics (real options / Hotelling-style option value)"
+   }
+  ],
+  "effect": "every OPEN cell now names mechanism terms + a first V1 probe target; cells remain OPEN (no verdict changes) — this is routing metadata, not evidence"
+ },
+ "honest_scope": "V1 covers the 12 mechanism terms that appeared in D10-D12 statements and receipts; NOT a completed ontology. Each row names one probe target, not a proof of transfer. The H1 pair (saturation+channeling -> metabolic economics) is the constructed existence proof that cross-partition rows are reachable this way.",
+ "verification_hook": "next calibration freeze (D15) must include (a) a hidden pair ONLY reachable via this cross-index (measures cross_partition_probe_share) and (b) an anti-donor INSIDE the retrieval surface (makes the false-analogy charge testable); both recorded in ../d12/D12_SCORING_V1.json hidden_pair_outcomes",
+ "no_theorem_status_changes": true
+}
