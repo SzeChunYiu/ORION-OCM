@@ -117,6 +117,12 @@ def main() -> int:
     ap.add_argument("--motif-max-len", type=int, default=4)
     ap.add_argument("--max-tokens", type=int, default=2)
     ap.add_argument("--min-canonical-len", type=int, default=6)
+    ap.add_argument("--max-canonical-len", type=int, default=8,
+                    help="E6: cap target length so a constant max-length guess is a WEAK baseline")
+    ap.add_argument("--split", default="0.5,0.2,0.3",
+                    help="train,validation,protected fractions. A protected-heavy split "
+                         "gives the agent a LONGER FUTURE HORIZON on LESS developmental "
+                         "data -- harder for the history arm, not easier.")
     ap.add_argument("--min-targets", type=int, default=90)
     ap.add_argument("--trials", type=int, default=600)
     a = ap.parse_args()
@@ -146,7 +152,7 @@ def main() -> int:
             continue
         members = []
         for nf, prog in canonical.items():
-            if len(prog) < a.min_canonical_len:
+            if not (a.min_canonical_len <= len(prog) <= a.max_canonical_len):
                 continue
             k = min_tokens(prog, motifs)
             if k is not None and k <= a.max_tokens:
@@ -168,6 +174,7 @@ def main() -> int:
                  for nf, k in members]
     predicted_veto_rate = sum(1 for p in predicted if p["predicted_veto"]) / len(predicted)
 
+    split_fracs = [float(x) for x in a.split.split(",")]
     by_len = defaultdict(list)
     for nf, k in members:
         by_len[len(canonical[nf])].append(nf)
@@ -176,7 +183,7 @@ def main() -> int:
     streams = {"train": [], "validation": [], "protected": []}
     for L, nfs in sorted(by_len.items()):
         i = 0
-        for name, frac in (("train", 0.5), ("validation", 0.2), ("protected", 0.3)):
+        for name, frac in zip(("train", "validation", "protected"), split_fracs):
             k = int(round(len(nfs) * frac))
             streams[name].extend(nfs[i:i + k])
             i += k
@@ -210,7 +217,7 @@ def main() -> int:
     out = {
         "schema": SCHEMA, "lane": LANE, "status": "ECOLOGY_EMISSION_NOT_A_SCORED_RUN",
         "owner_issue": 165, "hardening_parent": 323,
-        "ecology_variant": {"label": "E3", "min_canonical_length": a.min_canonical_len,
+        "ecology_variant": {"label": "E3", "split": a.split, "min_canonical_length": a.min_canonical_len,
                             "max_motif_tokens": a.max_tokens,
                             "motif_lengths": [a.motif_min_len, a.motif_max_len],
                             "derivation": "2*g <= b admission condition measured in M2-P1b"},
