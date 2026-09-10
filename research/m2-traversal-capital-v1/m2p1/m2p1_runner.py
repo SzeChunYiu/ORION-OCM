@@ -20,8 +20,8 @@ from pathlib import Path
 
 LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
-ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "SHUFFLED_HISTORY",
-        "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT")
+ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
+        "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -102,8 +102,26 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                      "worst_ratio>rho_max" if _worst > 2.0 + 1e-9 else
                      "no fragments" if not method.fragments else "admitted")}
 
+    mdl_frags, mdl_report = [], None
+    try:
+        import m2_mdl_selection as _mdl
+        progs = [r.program for _, r in training if r.program]
+        picked = [f for f in _mdl.mdl_select(progs, cap=16) if 2 <= len(f) <= 8][:16]
+        if picked:
+            mdl_method = M.GeneratorMethod(tuple(picked), tuple(sorted(t_.fingerprint for t_, _ in training)))
+            mdl_report = M.validate_generator(mdl_method, held, budget)
+            mdl_frags = [list(f) for f in picked]
+    except Exception as _e:                       # never let the successor arm break dev
+        mdl_report = {"error": str(_e)[:200]}
+
     state = {
-        "schema": "M2P1_DEV_STATE", "eu_admission": eu, "train_solved": len(training),
+        "schema": "M2P1_DEV_STATE", "eu_admission": eu,
+        "mdl_fragments": mdl_frags,
+        "mdl_admission": (mdl_report.get("accepted") if isinstance(mdl_report, dict) else None),
+        "mdl_terminal": (mdl_report.get("terminal") if isinstance(mdl_report, dict) else None),
+        "mdl_strictly_better": (sum(1 for r in mdl_report["held_out"]
+                                    if r["candidate"]["slots"] < r["baseline"]["slots"])
+                                if isinstance(mdl_report, dict) and "held_out" in mdl_report else None), "train_solved": len(training),
         "train_unsolved": unsolved, "fragments_mined": len(method.fragments),
         "fragments": [list(f) for f in method.fragments],
         "admission": bool(report["accepted"]), "terminal": report["terminal"],
@@ -143,6 +161,21 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
+    if arm == "CONTINUED_MDL":
+        # PROPOSED SUCCESSOR SELECTION RULE, reported only under that label.
+        # learn_generator ranks by (support count DESC, length DESC); a substring shared by
+        # two motifs outranks both and displaces them from the fixed top-16. This arm keeps
+        # everything else identical and swaps the SELECTION rule for greedy MDL --
+        # compression of the solved corpus, which prices length and re-parses after each
+        # pick so a taken motif's substrings stop earning credit for its occurrences.
+        # Parent: corpus-guided library learning (Stitch / DreamCoder).
+        mdl = dev.get("mdl_fragments")
+        if not mdl:
+            return M.GeneratorMethod(), "no mdl library recorded"
+        frg = tuple(tuple(f) for f in mdl)
+        return M.GeneratorMethod(frg, tuple(dev["training_task_ids"])), \
+            ("MDL-selected library (%d fragments) served through the registered solver; "
+             "src/ocm/learning/methods.py unmodified" % len(frg))
     if arm == "CONTINUED_EU":
         # PROPOSED SUCCESSOR ADMISSION POLICY -- not the registered rule, and reported
         # only under that label. src/ocm/learning/methods.py is NOT modified.
