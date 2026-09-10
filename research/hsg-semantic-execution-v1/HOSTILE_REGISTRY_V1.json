@@ -31,5 +31,47 @@
   {"id": "H-D25a", "targets": ["D25"], "plant": "hierarchy-negative region (HTN worse than flat)", "expected": "retained explicitly in phase map, not averaged away"},
   {"id": "H-D26a", "targets": ["D26"], "plant": "name-only operator transfer (same label, different contract law)", "expected": "contract invariant fails in target domain; transfer rejected"},
   {"id": "H-D27a", "targets": ["D27"], "plant": "continued lineage with inherited rule later falsified", "expected": "revocation propagates; burden spike measured; no silent retention"}
- ]
+ ],
+ "d21_d22_witnesses": {
+  "protocol_doc": "D21_D22_PROTOCOL_V1.md",
+  "rule": "Witnesses frozen before running so a hostile that cannot fire is caught as world-design failure, not misread as detector failure.",
+  "H-T86a": {
+   "targets": [
+    "T86"
+   ],
+   "witness_requirement": "a frozen OW6 world containing a '+' node whose operands l,r satisfy l+r != l*r at some x in 0..20",
+   "run_records": [
+    "world_id",
+    "subterm",
+    "x",
+    "value_sound",
+    "value_unsound"
+   ],
+   "if_absent": "LANE FAILS (world design, not detector)"
+  },
+  "H-T86b": {
+   "targets": [
+    "T86",
+    "T87"
+   ],
+   "witness_requirement": "quotienting arm must destroy at least one distinct developmental variant that the non-quotienting arm keeps"
+  },
+  "H-T85a": {
+   "targets": [
+    "T85"
+   ],
+   "witness_requirement": "target model set restricted to p'=1 so beta's image misses source model (p=0,q=0)",
+   "expected": "T-PRES holds; T-EXP and T-REFL fail with Gamma={}, phi=p"
+  },
+  "H-T74a": {
+   "targets": [
+    "T74"
+   ],
+   "witness_requirement": "one reduction leg whose reconstruction implication fails on at least one enumerated input"
+  },
+  "no_alarm_controls": {
+   "D21": "clean arms (SOUND_FROZEN + SOUND_EXT) on all 10 OW6 worlds: zero alarms",
+   "D22": "CLEAN arm on all fragments: zero alarms"
+  }
+ }
 }
