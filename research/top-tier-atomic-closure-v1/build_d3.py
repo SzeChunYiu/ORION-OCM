@@ -25,11 +25,11 @@ BLOCKERS = [
      "requires": ["B2-PARENT-BIND"],
      "risk": "low: checkers exist and passed internally; replay is mechanical"},
     {"blocker_id": "B2-PARENT-BIND",
-     "action": "Bind every historical atom's parent artifact with sha + evidence class per READINESS_SCHEMA (evidence >=3 requires sha+class); fills P1->3 without new experiments",
+     "action": "AMENDED (D10, cause below): faithful parent run of every exact checker at matched access on the original host (billy-laptop) with sha-bound receipts, binding each atom's parent artifact (sha + evidence class E3); executed as ONE campaign with B1-IND-REPLAY (disjoint-host half on billy-old). Original action text ('bind artifact sha, fills P1->3 without new experiments') conflicted with READINESS_SCHEMA_V1 coordinate P: '3 requires faithful parent run at matched information/resources/checker access and subtracted; NOT_RUN stays 1' -- archival binding alone cannot fill P3",
      "gap_signature": [("P", 1, 3)],
-     "cost_class": "S", "cost_weight": 1.0, "uncertainty_reduction": 0.5,
+     "cost_class": "M", "cost_weight": 2.0, "uncertainty_reduction": 0.7,
      "requires": [],
-     "risk": "low: archival binding, no reruns"},
+     "risk": "low-moderate: checkers exist and passed internally; faithful rerun is mechanical but must run off-Mac (host rules) with sha-bound receipts"},
     {"blocker_id": "B3-AUTONOMY-AUDIT",
      "action": "Prospective autonomy audit applied to historical evidence chains: for each atom, record whether any admission/self-adoption step lacked external authority; emits A-audit receipts per chain (A1->2). D5 ledger already covers the prospective half",
      "gap_signature": [("A", 1, 2)],
@@ -54,6 +54,12 @@ BLOCKERS = [
      "cost_class": "S", "cost_weight": 1.0, "uncertainty_reduction": 0.4,
      "requires": [],
      "risk": "low: decision + rescoring; must be recorded as an amendment with cause"},
+    {"blocker_id": "B7-EMPIRICAL-PARENT-VERIFY",
+     "action": "Disjoint-host (billy-old) verification of the external empirical parents backing the EMPIRICAL_REGULARITY/PARENT_SUFFICIENT atoms (DEV-01/PAR-02/PAR-03): rerun the incumbent/parent engine arms that produced the parent artifacts and compare metrics against the recorded values, sha-bound receipts (P 2->4, E4-class empirical-parent bar)",
+     "gap_signature": [("P", 2, 4)],
+     "cost_class": "M", "cost_weight": 2.0, "uncertainty_reduction": 0.6,
+     "requires": ["B6-PROFILE-FINAL"],
+     "risk": "medium: parent arms live in lane engines (developmental/PDE); rerun is mechanical but must reproduce the exact parent configurations at the recorded shas"},
 ]
 
 sig_atoms = {}
@@ -115,6 +121,20 @@ dag = {
     "census": {"blockers": len(nodes), "edges": len(edges),
                "gap_atoms_total": sum(len(s) for s in sig_atoms.values()),
                "by_priority": [(n["blocker_id"], n["priority_score"]) for n in ranked]},
+    "amendments": [
+        {"amendment_id": "DAG-AMD-1", "recorded_utc": "2026-09-10", "d_step": "TTAC-D10",
+         "cause": "B2 original action ('archival sha binding fills P1->3 without new experiments') conflicted with the frozen READINESS_SCHEMA_V1 P definition: P3 requires a faithful parent run at matched information/resources/checker access; NOT_RUN stays 1. Schema is authoritative over the DAG action text.",
+         "change": "B2 cost_class S->M, cost_weight 1.0->2.0, action rewritten to the faithful-parent-run campaign executed jointly with B1 (matched host billy-laptop for the P3 half; disjoint host billy-old for the R4 half). Priority rescored mechanically. Append-only: original reading preserved in this amendment.",
+         "executed_by": "PR chain TTAC-D10 (#277); receipts PARENT_BINDING_V1 + REPLAY_RECEIPTS_V1"},
+        {"amendment_id": "DAG-AMD-2", "recorded_utc": "2026-09-10", "d_step": "TTAC-D10/B3",
+         "cause": "B3-AUTONOMY-AUDIT executed: all 24 A-gap chains resolved; A gap 24->0 via d2_overrides_c.json (coordinate-wise deep merge).",
+         "change": "B3 closes_atoms now satisfied on the A coordinate; blocker remains in the DAG for provenance with status recorded in AUTONOMY_AUDIT_V1.json.",
+         "executed_by": "PR TTAC-D10/B3 AUTONOMY_AUDIT_V1"},
+        {"amendment_id": "DAG-AMD-3", "recorded_utc": "2026-09-10", "d_step": "TTAC-D10/B6+B1B2",
+         "cause": "B6-PROFILE-FINAL made P load-bearing for every PARENT_SUFFICIENT terminal, newly exposing the (P,2,4) gap signature on DEV-01/PAR-02/PAR-03 (previously P=null: invisible to the matrix). B1+B2 replay campaign does not cover these atoms: their parents are external empirical parents, not exact checkers.",
+         "change": "Blocker B7-EMPIRICAL-PARENT-VERIFY appended to own the new signature (append-only; no existing blocker changed). Priority scored mechanically with the others.",
+         "executed_by": "PR TTAC-D10/B6-PROFILE-FINAL chain"},
+    ],
     "non_final": "EXPLICITLY_NON_FINAL",
 }
 (BASE / "BLOCKER_DAG_V1.json").write_text(json.dumps(dag, indent=1) + "\n")
