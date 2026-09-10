@@ -1,0 +1,320 @@
+{
+ "claim_ceiling": "P2 finite certificate over frozen tiny worlds; revocation subsets exhausted under both target sets.",
+ "cpu_s": 0.0085,
+ "decision_rule_frozen_before_the_number_was_seen": {
+  "band": [
+   0.035,
+   0.14
+  ],
+  "baseline_saving_under_true_sources": 0.07,
+  "rule": "TARGETING-SENSITIVE if the legacy-targeting saving falls outside [0.035, 0.14] (a factor of two either way) or changes sign; otherwise TARGETING-ROBUST."
+ },
+ "endpoint_deltas_control": {
+  "accepted_agreement": [
+   "50/50",
+   "74/74"
+  ],
+  "alt_support_rescues": [
+   40,
+   40
+  ],
+  "both_exact": true,
+  "lifecycle_ratio": [
+   1.0702,
+   1.2487
+  ],
+  "reopened_agreement": [
+   "50/50",
+   "74/74"
+  ],
+  "subsets_exhausted": [
+   50,
+   74
+  ]
+ },
+ "endpoints_under_both_targetings": {
+  "control_legacy_leaves": {
+   "a1_substitution_ops": 744,
+   "a2_recomputation_ops": 929,
+   "accepted_exact": true,
+   "accepted_set_agreement": "74/74",
+   "alt_support_rescues": 40,
+   "lifecycle_ratio_a2_over_a1": 1.2487,
+   "nodes_with_multi_support": 16,
+   "reopened_exact": true,
+   "reopened_set_agreement": "74/74",
+   "revocation_subsets_exhausted": 74,
+   "saving": 0.2487,
+   "touched_state_total": 204,
+   "worlds": 8,
+   "worlds_exact": 8
+  },
+  "control_true_sources": {
+   "a1_substitution_ops": 598,
+   "a2_recomputation_ops": 640,
+   "accepted_exact": true,
+   "accepted_set_agreement": "50/50",
+   "alt_support_rescues": 40,
+   "lifecycle_ratio_a2_over_a1": 1.0702,
+   "nodes_with_multi_support": 16,
+   "reopened_exact": true,
+   "reopened_set_agreement": "50/50",
+   "revocation_subsets_exhausted": 50,
+   "saving": 0.0702,
+   "touched_state_total": 160,
+   "worlds": 8,
+   "worlds_exact": 8
+  },
+  "ow4n_legacy_leaves": {
+   "a1_substitution_ops": 502,
+   "a2_recomputation_ops": 687,
+   "accepted_exact": false,
+   "accepted_set_agreement": "53/68",
+   "alt_support_rescues": 19,
+   "lifecycle_ratio_a2_over_a1": 1.3685,
+   "nodes_with_multi_support": 13,
+   "reopened_exact": false,
+   "reopened_set_agreement": "43/68",
+   "revocation_subsets_exhausted": 68,
+   "saving": 0.3685,
+   "touched_state_total": 162,
+   "worlds": 8,
+   "worlds_exact": 3
+  },
+  "ow4n_true_sources": {
+   "a1_substitution_ops": 346,
+   "a2_recomputation_ops": 435,
+   "accepted_exact": false,
+   "accepted_set_agreement": "40/46",
+   "alt_support_rescues": 13,
+   "lifecycle_ratio_a2_over_a1": 1.2572,
+   "nodes_with_multi_support": 13,
+   "reopened_exact": false,
+   "reopened_set_agreement": "31/46",
+   "revocation_subsets_exhausted": 46,
+   "saving": 0.2572,
+   "touched_state_total": 107,
+   "worlds": 8,
+   "worlds_exact": 3
+  }
+ },
+ "experiment": "RV-B2",
+ "freeze_commit_as_pushed": "0918c257800c634ba3615a59d152898b255555c0",
+ "margin_question": {
+  "conclusion": "the 7% lifecycle margin is TARGETING-SENSITIVE and must not be quoted without the qualifier",
+  "outside_band": true,
+  "saving_legacy_leaves": 0.2487,
+  "saving_true_sources": 0.0702,
+  "sign_flipped": false,
+  "targeting_sensitive": true
+ },
+ "no_change_is_a_result": "a demonstration that corrected targeting changes no agreement endpoint is a genuine negative and is reported as such",
+ "oracle_fix": {
+  "after_fix": {
+   "detail": "substitution-vs-recomputation node checks: 113",
+   "hostiles": [
+    [
+     "H-T72a",
+     true
+    ],
+    [
+     "H-T72b",
+     true
+    ]
+   ],
+   "pass": true,
+   "revocation_target_count": 18,
+   "revocation_targets": "sources",
+   "verdict": "PROVED_LOCAL"
+  },
+  "before_fix": {
+   "detail": "substitution-vs-recomputation node checks: 140",
+   "hostiles": [
+    [
+     "H-T72a",
+     true
+    ],
+    [
+     "H-T72b",
+     true
+    ]
+   ],
+   "pass": true,
+   "revocation_target_count": 23,
+   "revocation_targets": "leaves",
+   "verdict": "PROVED_LOCAL"
+  },
+  "change": "t72() revokes over TRUE SOURCES (nodes with no incoming hyperedge) instead of the world's `leaves` superset; the legacy path is retained behind target='leaves' for this comparison only and is never the default.",
+  "file": "exact/oracles_d17.py",
+  "hostile_flips_unchanged": true,
+  "pass_unchanged": true
+ },
+ "premise_correction": {
+  "actual": "D19 ALREADY revokes over true sources (exact/d19.py, both the comparison loop and the missing-edge arm). `legacy_leaves` is read only by the census, which drives no endpoint.",
+  "assignment_assumed": "D19 revokes over the world's `leaves` field and should be re-targeted to true sources",
+  "consequence": "re-targeting D19 would have been a no-op and would have produced a fabricated 'no change' result. The defect is in the frozen T72 oracle instead.",
+  "what_was_done_instead": "every D19 endpoint recomputed under BOTH target sets, plus a real repair of the T72 oracle."
+ },
+ "protocol": "RV_B_PROTOCOL_V1.json",
+ "target_set_census": [
+  {
+   "legacy_only_noops": [
+    "g3"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g1",
+    "g3"
+   ],
+   "sources_legacy_misses": [
+    "g2"
+   ],
+   "subsets_legacy": 8,
+   "subsets_true": 8,
+   "true_sources": [
+    "g0",
+    "g1",
+    "g2"
+   ],
+   "world": "OW4-00"
+  },
+  {
+   "legacy_only_noops": [
+    "g2"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g2"
+   ],
+   "sources_legacy_misses": [],
+   "subsets_legacy": 4,
+   "subsets_true": 2,
+   "true_sources": [
+    "g0"
+   ],
+   "world": "OW4-01"
+  },
+  {
+   "legacy_only_noops": [
+    "g1",
+    "g2"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g1",
+    "g2"
+   ],
+   "sources_legacy_misses": [],
+   "subsets_legacy": 8,
+   "subsets_true": 2,
+   "true_sources": [
+    "g0"
+   ],
+   "world": "OW4-02"
+  },
+  {
+   "legacy_only_noops": [
+    "g3"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g1",
+    "g2",
+    "g3"
+   ],
+   "sources_legacy_misses": [],
+   "subsets_legacy": 16,
+   "subsets_true": 8,
+   "true_sources": [
+    "g0",
+    "g1",
+    "g2"
+   ],
+   "world": "OW4-03"
+  },
+  {
+   "legacy_only_noops": [
+    "g1",
+    "g2",
+    "g4"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g1",
+    "g2",
+    "g4"
+   ],
+   "sources_legacy_misses": [],
+   "subsets_legacy": 16,
+   "subsets_true": 2,
+   "true_sources": [
+    "g0"
+   ],
+   "world": "OW4-04"
+  },
+  {
+   "legacy_only_noops": [
+    "g3",
+    "g4"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g2",
+    "g3",
+    "g4"
+   ],
+   "sources_legacy_misses": [
+    "g1",
+    "g5"
+   ],
+   "subsets_legacy": 16,
+   "subsets_true": 16,
+   "true_sources": [
+    "g0",
+    "g1",
+    "g2",
+    "g5"
+   ],
+   "world": "OW4-05"
+  },
+  {
+   "legacy_only_noops": [],
+   "legacy_targets": [
+    "g0"
+   ],
+   "sources_legacy_misses": [
+    "g2",
+    "g4"
+   ],
+   "subsets_legacy": 2,
+   "subsets_true": 8,
+   "true_sources": [
+    "g0",
+    "g2",
+    "g4"
+   ],
+   "world": "OW4-06"
+  },
+  {
+   "legacy_only_noops": [
+    "g1"
+   ],
+   "legacy_targets": [
+    "g0",
+    "g1"
+   ],
+   "sources_legacy_misses": [
+    "g3"
+   ],
+   "subsets_legacy": 4,
+   "subsets_true": 4,
+   "true_sources": [
+    "g0",
+    "g3"
+   ],
+   "world": "OW4-07"
+  }
+ ],
+ "verdict": "TARGETING_SENSITIVE",
+ "wall_s": 0.0085
+}
