@@ -49,6 +49,22 @@
    "prior_manifest_sha256_observed": {},
    "recorded_by": "ORION-OCM M0 reconciliation lane A (STEERING_MEMO 2026-09-10 section 1D; PR #339)",
    "recorded_utc": "2026-09-10"
+  },
+  {
+   "cause": "DEV-CAL-2 scored run (PR #343, issue #323) landed DEVCAL2_receipts_shard{1..4}.jsonl (3960 rows) after this freeze bound RECEIPT_COVERAGE_V1.json, so the committed table no longer derived from the receipts (COVERAGE_DRIFT 20 on the freeze-chain check). Re-emitted the table (20 files x 13 families, 7 findings) exactly per the AM-1 procedure; derive_receipt_coverage.py is UNCHANGED. The DEV-CAL-2 receipt rows emit the families declared in run_devcal2.py PROTOCOL_APPENDIX (cannot_check map, wall_s, k/n, ambiguity_size_n, round_trip_errors with cannot_check on arms without TRANSPORT_MAP, reuse_identities, provenance_source, refinement_count) so 'protected round-trip errors' is no longer ABSENT_EVERYWHERE; the four DEVCAL1 shards remain ZERO_FAMILY_RECEIPT-declared, unchanged. No frozen receipt or result file was modified; the scored run's terminal ASSAY_DEFECT and its artifacts are untouched by this bookkeeping propagation.",
+   "id": "AM-4-DEVCAL2-COVERAGE-PROPAGATION",
+   "manifest_sha256": {
+    "RECEIPT_COVERAGE_V1.json": "a55e8ad33d9c276b9a198caee978395148010b5eb200ebb585526b2a3864605f",
+    "exact/receipts/DEVCAL2_receipts_shard1.jsonl": "fbb15deb88cfe10b2fcad41c2486e09d6b1db6b7fc050dba6454c7d3633ffa7a",
+    "exact/receipts/DEVCAL2_receipts_shard2.jsonl": "fbf65b70017e89f9532eada9e330d6cca8af2bb304b41a2887b22f6524729757",
+    "exact/receipts/DEVCAL2_receipts_shard3.jsonl": "8e9d96083b07ed5a6357225d850d780d90fb24144457ed6b4a5da8797112d366",
+    "exact/receipts/DEVCAL2_receipts_shard4.jsonl": "f217ff1e678e383e1d23619639d322d059a7af332334a1f9a3f25ec0c8e989fb"
+   },
+   "prior_manifest_sha256_observed": {
+    "RECEIPT_COVERAGE_V1.json": "a61ca3a5f6b5c88f45e652dd4ef777ab5da0ae8d0a4bad3167f3d419d6f2f0e0"
+   },
+   "recorded_by": "DEV-CAL-2 scored-run lane (issue #323; PR #343)",
+   "recorded_utc": "2026-09-10"
   }
  ],
  "cause": "D28 F1 (MEDIUM): no freeze manifest named any exact/results/*.json, so post-landing edits to landed results were invisible to the chain (two real disclosed instances: 905a7200, 97b38de2). F9 showed the same hole for emitters (an oracle default flip would have been chain-enforced had emitters been hash-bound). This freeze binds every evidence artifact, receipt, and emitter of the lane as of creation.",
