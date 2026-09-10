@@ -88,12 +88,17 @@ class MicroEarth:
         live = self.alive()
         if self._on("K_senseact"):
             for c in live:
-                take = min(1, self.resource)
-                # leak: assay feeds harvest
+                # Harvest 2, maintenance 1: net +1/tick when resource is present.
+                # Harvest 1 cancelled maintenance 1, so clean energy stayed at
+                # the start value 4 and never reached birth threshold 6.
+                # Reproduction was reachable only through the assay-leak bonus
+                # (extra take + lower threshold). That made BIO-T1's clean HOLD
+                # vacuous: no birth/death decision occurred to leave uncontaminated.
+                take = min(2, self.resource)
                 if self.leak:
-                    take = min(1 + (1 if c.assay > 0 else 0), self.resource)
+                    take = min(take + (1 if c.assay > 0 else 0), self.resource)
                 self.resource -= take
-                c.energy = min(8, c.energy + take - 1)  # maintenance 1
+                c.energy = min(8, c.energy + take - 1)
                 self.history.append(("harvest", c.uid, take))
         if self._on("K_learn"):
             for c in live:

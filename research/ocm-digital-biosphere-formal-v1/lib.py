@@ -17,6 +17,7 @@ HASHED = (
     "micro_earth.py",
     "theorems.py",
     "hostiles.py",
+    "graph_agreement.py",
     "freeze_ebf0.py",
     "run_ebf0.py",
     "DEFINITIONS.md",

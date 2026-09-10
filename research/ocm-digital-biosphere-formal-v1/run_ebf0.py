@@ -15,7 +15,8 @@ import theorems  # noqa: E402
 
 def gate(parent_receipts, theorem_rows, hostile_rep):
     parent_fail = [r for r in parent_receipts if r.get("status") == "FAIL"]
-    th_fail = [r for r in theorem_rows if r.get("status") == "FAIL"]
+    th_fail = [r for r in theorem_rows
+               if r.get("status") in ("FAIL", "VACUOUS_PASS")]
     can_fail = hostile_rep.get("instruments_can_fail")
     holds = (not parent_fail) and (not th_fail) and bool(can_fail)
     missing = []

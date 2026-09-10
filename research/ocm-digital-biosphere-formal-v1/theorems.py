@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 
+import graph_agreement
 import kernels
 import micro_earth as me
 import parents
@@ -14,16 +15,27 @@ def _row(tid, status, **kv):
     return kv
 
 
+def _births(earth):
+    return sum(1 for h in earth.history if h[0] == "birth")
+
+
 def t1_noninterference():
     clean = me.MicroEarth(2, seed=0, leak=False)
     leaky = me.MicroEarth(2, seed=0, leak=True)
-    me.run_horizon(clean, 4)
-    me.run_horizon(leaky, 4)
+    me.run_horizon(clean, 8)
+    me.run_horizon(leaky, 8)
+    cb, lb = _births(clean), _births(leaky)
+    if clean.assay_interferes():
+        clean_status = "FAIL"
+    elif cb == 0:
+        clean_status = "VACUOUS_PASS"
+    else:
+        clean_status = "HOLD"
     return [
-        _row("BIO-T1", "HOLD" if not clean.assay_interferes() else "FAIL",
-             world="MW1", leak=False, graph=sorted(clean.write_graph)),
+        _row("BIO-T1", clean_status, world="MW1", leak=False,
+             graph=sorted(clean.write_graph), births=cb),
         _row("BIO-T1", "HOSTILE_DETECTED" if leaky.assay_interferes() else "FAIL",
-             world="MW1", leak=True, hostile="H-LEAK-ASSAY-ENERGY"),
+             world="MW1", leak=True, hostile="H-LEAK-ASSAY-ENERGY", births=lb),
     ]
 
 
@@ -230,6 +242,19 @@ def t15_leakage():
                  parent_row="BIO-T1 leak", hostile="H-LEAK-ASSAY-ENERGY")]
 
 
+def graph_agreement_check():
+    report = graph_agreement.check_pair()
+    return [_row("GRAPH-AGREEMENT", report["verdict"],
+                 world="MW1",
+                 clean_verdict=report["clean"]["verdict"],
+                 leak_verdict=report["leak"]["verdict"],
+                 clean_births=report["clean"]["births"],
+                 leak_births=report["leak"]["births"],
+                 clean_kinds=report["clean"]["kinds"],
+                 leak_kinds=report["leak"]["kinds"],
+                 hostile=report.get("hostile"))]
+
+
 def kernel_ablation_contract():
     a = kernels.enabled({"K_social": True})
     b = kernels.enabled({"K_social": False})
@@ -263,6 +288,7 @@ def run_all():
     rows.extend(t13_junk_culture())
     rows.extend(t14_cluster())
     rows.extend(t15_leakage())
+    rows.extend(graph_agreement_check())
     rows.extend(kernel_ablation_contract())
     rows.extend(no_lstar_declaration(cg))
     return rows

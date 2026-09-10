@@ -101,7 +101,9 @@
       "parent_ownership": "non-commuting operators; semigroup #145",
       "ocm_residual": "explicit 2-exposure micro-Earth",
       "assumptions": ["none for the negative; for commutation: linear/reversible kernels"],
-      "assumption_removals": [],
+      "assumption_removals": [
+        {"remove": "linear/reversible kernels", "verdict": "LIFT_FAILS", "witness": "MW5 regime-order swap (resource_01=6 vs resource_10=7)"}
+      ],
       "claim_ceiling": "Order is a confound. Curriculum claims need frozen orderings plus permutations.",
       "agp_rungs": {"R5": "LIFT_SURVIVES as semigroup noncommutativity"}
     },
@@ -178,7 +180,9 @@
       "parent_ownership": "junk-novelty hostile; MODES vs function",
       "ocm_residual": "exact 4-organism library that grows junk",
       "assumptions": ["usefulness is a registered U, not byte count"],
-      "assumption_removals": [],
+      "assumption_removals": [
+        {"remove": "usefulness is a registered U, not byte count", "verdict": "LIFT_FAILS", "witness": "H-JUNK-CULTURE"}
+      ],
       "claim_ceiling": "Byte growth ≠ cumulative culture.",
       "agp_rungs": {"R0": "LIFT_SURVIVES"}
     },
@@ -188,8 +192,10 @@
       "proof_class": "P1",
       "parent_ownership": "species concepts in asexual pops; #292 phylotype/ecotype/morphotype/reprotype",
       "ocm_residual": "k-means hostile on a freely mixing pop",
-      "assumptions": ["none for the negative"],
-      "assumption_removals": [],
+      "assumptions": ["none for the negative; for a strong species claim: registered reproductive isolation, heritable variation, differential persistence"],
+      "assumption_removals": [
+        {"remove": "registered reproductive isolation", "verdict": "LIFT_FAILS", "witness": "H-CLUSTER-AS-GROUP"}
+      ],
       "claim_ceiling": "Strong species claims need registered criterion, not a clustering screenshot.",
       "agp_rungs": {"R1": "LIFT_SURVIVES"}
     },
