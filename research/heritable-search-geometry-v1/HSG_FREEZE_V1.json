@@ -4,7 +4,7 @@
   "role": "top-level foundation above #145/#149/#151/#217/#221; HST v1 is its first finite instantiation, not a sibling",
   "frozen_by": "centre",
   "frozen_before_ladder_artifacts": true,
-  "status": "AMENDED_1_LADDER_VERDICTS_LANDED",
+  "status": "AMENDED_2_D6_REMEDIATION",
   "protocol": {
     "name": "Atomic Generalization Protocol (AGP)",
     "steps": [
@@ -83,6 +83,36 @@
         "theorem_atoms_with_verdicts": 16,
         "theorem_atoms": 18
       }
+    },
+    {
+      "amendment_id": "HSG_FREEZE_V1_AMEND_2",
+      "created_utc": "2026-09-10T03:30:00Z",
+      "prior_freeze_sha256": "7e06cbb8d689c9bcc04ed2fed66b8f6ad2dcc7151d758e211d765ba4921866d9",
+      "remediates": "D6_HOSTILE_REVIEW_V1 (PR #254) findings: MED-1, MED-2, LOW-1, LOW-2, LOW-3",
+      "changed_files_sha256": {
+        "hostiles/GEOMETRY_HOSTILES_V1.md": "ddc9e348852c9f86ca1f0129c4858ea6b7d667d57eada7b29047ab89377cdb6f",
+        "ladder/R4_CONE_VS_BALL_G14_AT06.md": "b7ad07af439fad1169e2a89e5547da0ea7e5f1f90067db3972db3f2b496e045f",
+        "ladder/R4_CONTRACTION_G09.md": "dc2551141b34c0fdc665cfd4d35b3c123c94b87468883c615ba8861ea17a946b",
+        "ladder/R5_AMORTIZATION_AT05_G16.md": "5c55da650667cf3c4db3081176b58dec939e606781425e83efdf6b4218588338",
+        "HSG_ATOM_TABLE_V1.json": "a3e57ff5e85d01d7fce559ea8e2065d7c5b3704b5aab88d3f8471f8e8ccd77b4"
+      },
+      "new_files_sha256": {
+        "HSG_COVERAGE_MATRIX_V1.json": "238f931ef7952b702c95ece415faf33f095b1d488316ae9c5e1631a16b746a08",
+        "HSG_COVERAGE_MATRIX_V1.md": "6d0dd7ddd0ff1b0049ca0e14a408b267dd14f4bd50471de3a209aa78a5e11d6e"
+      },
+      "change_scope": "D6-prime remediation, append-only: mirror prose aligned to the machine witness; stale witness numbers corrected; A5 unverified-marker discipline applied; per-(atom,rung) coverage matrix added and N/A routing deferrals reworded to OPEN-pending. NO verdict, statement, census, or hostile-witness bytes changed; G14/R4, G16/R5, A_T12/R5 verdicts byte-identical.",
+      "changed_files_scope": {
+        "hostiles/GEOMETRY_HOSTILES_V1.md": "MED-1 mirror prose rewritten to witness case2 (edges S->A and S->B both kept, d(S,B)=2, d(S,A)=3, ball={B} misses affected A); verdict G14/R4 LIFT_FAILS unchanged",
+        "ladder/R4_CONE_VS_BALL_G14_AT06.md": "MED-1 same mirror-case rewrite, witness-aligned; no verdict change",
+        "ladder/R4_CONTRACTION_G09.md": "LOW-1 stale first-run deltas 1/2 -> final witness values 3/4 (conservative direction; run_v1.log already carried 3/4)",
+        "ladder/R5_AMORTIZATION_AT05_G16.md": "LOW-3 registry note rewritten: G16 R5 = same content as A_T05 R5, landed as its own PARENT_SUFFICIENT row for per-atom coverage (supersedes the artifacts N/A wording; fold verdict unchanged)",
+        "HSG_ATOM_TABLE_V1.json": "LOW-2 A_T12/R5 parent string gains PARENT_STATEMENT_UNVERIFIED_TEXT per protocol A5 (verdict PARENT_SUFFICIENT unchanged); amendment_note recorded in-row"
+      },
+      "new_files": {
+        "HSG_COVERAGE_MATRIX_V1.json": "MED-2 per-(atom,rung) coverage matrix: 51 assigned rung rows + 1 all-row = 52 (census match), 21 OPEN-pending cells (10 lane-G concept + 11 ladder-question halves), A_T10/A_T11 whole-atom OPEN, 173 unrouted",
+        "HSG_COVERAGE_MATRIX_V1.md": "MD twin of the coverage matrix"
+      },
+      "no_status_changes": true
     }
   ],
   "repo_state_ref": "REPO_STATE.json"

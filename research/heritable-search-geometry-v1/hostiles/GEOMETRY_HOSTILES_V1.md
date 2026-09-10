@@ -29,8 +29,9 @@ L-Lipschitz, which H1 shows program costs are not.
 
 DAG {S→A}, B isolated; d(A,B)=1, d(S,A)=d(S,B)=2. Intervention on S: affected = {A} =
 Desc(S) exactly (T06 cone locality holds); ball B_d(S,2) = {A,B} ⊃ Desc(S) ⇒
-over_recompute on B. Mirror: edge set {S→B}, d(S,A)=3: every ball radius r<3 misses
-affected B ⇒ under_invalidate. No metric repairs both (balls symmetric & nested in r;
+over_recompute on B. Mirror (witness case2): edges {S→A, S→B} both kept, d(S,B)=2,
+d(S,A)=3: affected = {A,B}, and ball B_d(S,2) = {B} misses affected A (any ball of
+radius r<3 misses A) ⇒ under_invalidate. No metric repairs both (balls symmetric & nested in r;
 Desc is neither). Operational reading: cache-skip by proximity is unsound in both
 directions; only the cone licence (lane A iff) is sound.
 

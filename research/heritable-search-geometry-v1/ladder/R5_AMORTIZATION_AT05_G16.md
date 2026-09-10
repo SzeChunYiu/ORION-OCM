@@ -47,6 +47,7 @@ does not cover non-regenerative trajectories, and no cheaper parent does.
 
 ## Registry note
 
-A_T05 R5 = PARENT_SUFFICIENT (renewal-reward, verified); G16 R5 = same row (scalar
-alphabet lives in T05's identity; no separate content — NOT_APPLICABLE as an independent
-row, reason recorded).
+A_T05 R5 = PARENT_SUFFICIENT (renewal-reward, verified); G16 R5 = same content as
+A_T05 R5 (the scalar alphabet lives in T05's identity), landed as its own
+PARENT_SUFFICIENT row for per-atom coverage (fold verdict; the earlier "NOT_APPLICABLE
+as an independent row" wording here is superseded by AMEND_2).
