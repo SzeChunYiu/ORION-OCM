@@ -265,7 +265,12 @@ class EnsembleSurrogate:
         return sum(t.predict(x) for t in trees) / len(trees)
 
     def p_viable(self, g) -> float:
-        x = genome_feature_vector(g)
+        return self._p_viable_x(genome_feature_vector(g))
+
+    def predicted_t1_score(self, g) -> float:
+        return self._score_x(genome_feature_vector(g))
+
+    def _p_viable_x(self, x: Sequence[float]) -> float:
         if self.impl == "sklearn" and self.clf is not None and \
                 hasattr(self.clf, "classes_"):
             return float(min(1.0, max(0.0, self.clf.predict_proba([x])[0][1])))
@@ -275,8 +280,7 @@ class EnsembleSurrogate:
             return 0.5 * (min(1.0, max(0.0, pk)) + min(1.0, max(0.0, pt)))
         return min(1.0, max(0.0, pk))
 
-    def predicted_t1_score(self, g) -> float:
-        x = genome_feature_vector(g)
+    def _score_x(self, x: Sequence[float]) -> float:
         if self.impl == "sklearn" and self.reg is not None and \
                 hasattr(self.reg, "n_iter_"):
             return float(self.reg.predict([x])[0])
@@ -288,7 +292,25 @@ class EnsembleSurrogate:
     def allocation_score(self, g) -> float:
         """Promotion rank key: expected value of the T1 score among
         predicted-viable candidates (P(viable) x predicted score)."""
-        return self.p_viable(g) * max(0.0, self.predicted_t1_score(g))
+        x = genome_feature_vector(g)
+        return self._p_viable_x(x) * max(0.0, self._score_x(x))
+
+    def allocation_scores(self, genomes: Sequence[Any]) -> List[float]:
+        """Batched allocation_score (GSA6 surrogate_cumulative lever):
+        one feature pass and ONE predict call per sklearn head instead of
+        two per-row sklearn calls per candidate.  HistGradientBoosting
+        predictions are row-independent, so values equal allocation_score
+        per row; until BOTH heads are fitted the per-row builtin path is
+        used (matching allocation_score's fallbacks exactly)."""
+        X = [genome_feature_vector(g) for g in genomes]
+        if self.impl == "sklearn" and self.clf is not None and \
+                hasattr(self.clf, "classes_") and self.reg is not None and \
+                hasattr(self.reg, "n_iter_"):
+            pv = self.clf.predict_proba(X)
+            ps = self.reg.predict(X)
+            return [min(1.0, max(0.0, float(a[1]))) * max(0.0, float(b))
+                    for a, b in zip(pv, ps)]
+        return [self._p_viable_x(x) * max(0.0, self._score_x(x)) for x in X]
 
 
 def rank_promotions(candidates: Sequence[Any], surrogate: EnsembleSurrogate,
