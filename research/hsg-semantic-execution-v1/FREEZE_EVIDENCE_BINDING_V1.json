@@ -16,6 +16,18 @@
    "recorded_utc": "2026-09-10"
   },
   {
+   "cause": "D31 episodic depth law (#323 economy-frontier lane) landed exact/receipts/D31_receipts.jsonl after AM-1 bound RECEIPT_COVERAGE_V1.json, so the committed table again diverged from the receipts (COVERAGE_DRIFT 20 on re-run). Re-emitted the table with the AM-1 deriver unchanged (16 files x 13 families; D31 emits 8 families over 56 rows; the findings list is unchanged at 8 entries -- D31 adds no new absent-family class). derive_receipt_coverage.py is untouched by this amendment (hash unchanged from AM-1) and is not re-bound.",
+   "id": "AM-2-D31-COVERAGE-PROPAGATION",
+   "manifest_sha256": {
+    "RECEIPT_COVERAGE_V1.json": "a61ca3a5f6b5c88f45e652dd4ef777ab5da0ae8d0a4bad3167f3d419d6f2f0e0"
+   },
+   "prior_manifest_sha256_observed": {
+    "RECEIPT_COVERAGE_V1.json": "87408a4cba3577f14e58fc97bf34bbbfdf9bae1bd4ec43198fb5b5564a52317f"
+   },
+   "recorded_by": "D31 episodic depth law (#323 economy-frontier lane, task #323 follow-on study)",
+   "recorded_utc": "2026-09-10"
+  },
+  {
    "cause": "Issue #165 s16 / P1_PIPELINE_FREEZE_V1.json built the independent-authorship pipeline in research/independent-authorship-gate-v1: three transcribed IPC STRIPS domains (ipc_domains/: blocksworld IPC-2, gripper IPC-1, logistics IPC-1, per-file provenance headers), the independent plan validator p1_validator.py (stdlib-only, zero src/ocm imports), the family emitter p1_families.py, and the emitted P1_FAMILY_TABLE_V1.json (3 families, 13 members, deterministic under the frozen seed; p1_selftest.py four hostiles + no-alarm green, distinct exit codes). This amendment supersedes ON RECORD the E3_PROTOCOL_FREEZE_V1 P1 status line 'authorship pipeline not yet built' WITHOUT editing that frozen file, and binds the pipeline shas so any later modification requires a further amendment per this freeze's rule. Keys are paths relative to this freeze's directory because verify_freeze_chain.py resolves manifest keys against its own directory. Nothing recorded in this directory is superseded (prior_manifest_sha256_observed empty by construction).",
    "id": "AM-2-P1-PIPELINE",
    "manifest_sha256": {

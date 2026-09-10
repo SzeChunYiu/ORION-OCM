@@ -76,6 +76,33 @@ admissible claim shape for structural capital narrows to rho-conditioned only. R
 prediction preserved verbatim in ECONOMY_FRONTIER_PROTOCOLS_V1.json#D30_delta_dial with the
 outcome appended to QUERY_ECOLOGY_AMENDMENT_V1.predictions_registered (amendment discipline:
 append, never rewrite).
+**MEASURED OUTCOME (D31, PR #334): the D19 1.07 is the shallow boundary of a MEASURED depth
+family, not a law — and the sentence at the head of this section reads its direction inverted.**
+The pre-registered falsifier ("ratio never drops below 1 with depth -> EPISODIC_NEVER_PAYS") did
+NOT fire: on the frozen D19 machinery (imported unchanged; the recompute-depth dial carried by a
+new additive world family OW4D, d in {1,2,4,8,16,32}, 8 worlds each, family frozen before the
+scored run), r(d) = a2/a1 = 1.3072 / 1.3088 / 1.3288 / 1.1425 / 0.8215 / 0.9246 — crossing below
+1 at d*=16 (terminal EPISODIC_DEPTH_FRONTIER_MEASURED; prediction PARTIAL: crossing CONFIRMED,
+monotone non-increasing REFUTED at 1->2->4 and 16->32). The boundary clause held exactly: the
+frozen D19 population arm reproduces the committed numbers with zero divergence (a1=598, a2=640,
+ratio 1.07, 50 subsets, per-world). The mechanism is now measured on all 48 dial receipts:
+per-world crossing iff P > V+E (P = sum_n len(poly_n), k-independent; 46/48 exact, the two d=32
+exceptions cross via the frozen early-break charge which only lowers a2 — P>V+E is sufficient and
+never violated); the monomial budget cap P <= (2^k - 1) * V holds 48/48 (substitution capital's
+diversity is capped by the evidence budget); and k=1 economies are degenerate — every monomial is
+the same single leaf-set (P=V exactly) and a2 >= 3V+E = a1 structurally, so single-evidence
+economies NEVER pay for recomputation at ANY depth (18/18 k=1 worlds r>1, plateau 1.36-1.46) —
+while at k>=2 the crossing opens as a finite depth BAND (k=3 crosses by d=8-16; k=2 crosses at
+d=16 and 2 of 4 worlds are back above 1 at d=32), not a permanent regime. GLOSS CORRECTION
+(first-class finding, not a rewrite of the frozen text above): the frozen field
+substitution_vs_recomputation_op_ratio carries a2/a1 — recomputation costs 1.07x substitution
+(committed a1 subst 598 < a2 recompute 640); the sentence above ("substitution (cheapest capital
+there is) costs 1.07x recomputation") reads the same number with the opposite numerator. Under
+that inverted reading the boundary value is 598/640 = 0.934 (already below 1) and the crossing
+set becomes d in {1,2,4,8}; both conventions are emitted at every grid point in the results
+file. Registered prediction preserved verbatim in
+ECONOMY_FRONTIER_PROTOCOLS_V1.json#D31_episodic_depth_law with the outcome appended to
+QUERY_ECOLOGY_AMENDMENT_V1.predictions_registered (amendment discipline: append, never rewrite).
 
 ## 3. Hidden relationships across positives and negatives
 

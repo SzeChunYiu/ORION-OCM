@@ -1,0 +1,353 @@
+{
+ "boundary_arm": {
+  "a1_lifecycle_ops": 598,
+  "a2_lifecycle_ops": 640,
+  "committed_ratio": 1.07,
+  "divergences": [],
+  "population": "OW4 frozen clean control (8 worlds)",
+  "subsets": 50,
+  "substitution_vs_recomputation_op_ratio": 1.07
+ },
+ "claim_ceiling": "P2 finite certificate over the frozen D19 population and the OW4D depth grid; no universal claim",
+ "controls": {
+  "boundary_identity_vs_committed": true,
+  "brute_poly_crosscheck_clean": true,
+  "hostile_plants": {
+   "root_flip@d=1": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "root_flip@d=16": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "root_flip@d=2": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "root_flip@d=32": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "root_flip@d=4": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "root_flip@d=8": {
+    "flagged_violations": 1,
+    "flip_injected": true,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=1": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=16": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=2": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=32": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=4": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   },
+   "survivors_only@d=8": {
+    "flagged_worlds": 8,
+    "flipped": true,
+    "reason_if_silent": null
+   }
+  },
+  "op_auditor": {
+   "charge": "a1 = (V+E) + n_subsets * sum_n len(poly); a2 = base pass + one pass per subset, each pass = all nodes + edges examined up to the first supporting edge (early break included, empty subset charged twice); recomputed from the world alone via the auditor's own N[X] DP and charge loops",
+   "clean_rows_silent": true
+  },
+  "shuffle_equal_n_null": {
+   "applicable": false,
+   "reason": "no random element anywhere in the measured comparison: frozen worlds and seeds, deterministic arms, revocation subsets EXHAUSTED (never sampled), no query stream, no draw, no adaptive selection over a sample; a draw-invariance control has nothing to attach to"
+  },
+  "truth_auditor": {
+   "charge": "root membership under every subset via brute-force derivation-tree enumeration, compared against BOTH arms",
+   "clean_rows_silent": true
+  }
+ },
+ "cost_ledger_hdi14": {
+  "families": {
+   "acquisition": {
+    "recomputation": "STRUCTURAL_ZERO: recomputation acquires no capital; every answer is re-derived from the world alone",
+    "substitution": [
+     "base_solve_ops (one prov_solve pass, V+E)"
+    ]
+   },
+   "adaptation": {
+    "recomputation": "STRUCTURAL_ZERO: no capital to adapt",
+    "substitution": "STRUCTURAL_ZERO: D19 substitution never rewrites the retained polynomials on revocation; subst0 is applied read-only per query (charged as retrieval)"
+   },
+   "bytes_state": {
+    "recomputation": "MEASURED: 0 (nothing retained between queries)",
+    "substitution": "MEASURED: retained_state_bytes (auxiliary, deterministic serialization of the polynomials' monomial counts)"
+   },
+   "rejected_candidates": {
+    "recomputation": "STRUCTURAL_ZERO: recomputation IS the ground truth; it rejects nothing",
+    "substitution": "STRUCTURAL_ZERO: no candidate answer is proposed and rejected; acceptance is read off the polynomial"
+   },
+   "retrieval": {
+    "recomputation": [
+     "per-subset full pass ops (node_visits+edge_visits, frozen a2 charge)"
+    ],
+    "substitution": [
+     "per-subset poly-scan ops (sum_n len(poly), frozen a1 marginal charge)"
+    ]
+   },
+   "verification": {
+    "recomputation": "STRUCTURAL_ZERO: the arm is the oracle",
+    "substitution": "STRUCTURAL_ZERO: no oracle is consulted inside the arm; agreement checks are instrument-side"
+   }
+  },
+  "ledger_complete": true,
+  "missing": [],
+  "note": "the frozen D19 op metric IS the charged ledger (identical counter semantics both arms); retained-state bytes are measured additionally and NOT added to the op metric (charging them can only increase substitution cost, so measured ratios are conservative for recomputation)"
+ },
+ "cpu_s": 0.1214,
+ "depth_dial": {
+  "1": {
+   "a1_lifecycle_ops_total": 166,
+   "a2_lifecycle_ops_total": 217,
+   "cpu_s": 0.0005,
+   "d": 1,
+   "edges_total": 17,
+   "nodes_total": 29,
+   "ratio_recomputation_over_substitution": 1.3072,
+   "ratio_substitution_over_recomputation": 0.765,
+   "sources_total": 13,
+   "subsets_total": 28,
+   "substitution_vs_recomputation_op_ratio": 1.3072,
+   "wall_s": 0.0005,
+   "worlds": 8
+  },
+  "16": {
+   "a1_lifecycle_ops_total": 4364,
+   "a2_lifecycle_ops_total": 3585,
+   "cpu_s": 0.0048,
+   "d": 16,
+   "edges_total": 334,
+   "nodes_total": 274,
+   "ratio_recomputation_over_substitution": 0.8215,
+   "ratio_substitution_over_recomputation": 1.2173,
+   "sources_total": 18,
+   "subsets_total": 44,
+   "substitution_vs_recomputation_op_ratio": 0.8215,
+   "wall_s": 0.0048,
+   "worlds": 8
+  },
+  "2": {
+   "a1_lifecycle_ops_total": 340,
+   "a2_lifecycle_ops_total": 445,
+   "cpu_s": 0.0009,
+   "d": 2,
+   "edges_total": 39,
+   "nodes_total": 47,
+   "ratio_recomputation_over_substitution": 1.3088,
+   "ratio_substitution_over_recomputation": 0.764,
+   "sources_total": 15,
+   "subsets_total": 34,
+   "substitution_vs_recomputation_op_ratio": 1.3088,
+   "wall_s": 0.0009,
+   "worlds": 8
+  },
+  "32": {
+   "a1_lifecycle_ops_total": 5532,
+   "a2_lifecycle_ops_total": 5115,
+   "cpu_s": 0.0062,
+   "d": 32,
+   "edges_total": 668,
+   "nodes_total": 526,
+   "ratio_recomputation_over_substitution": 0.9246,
+   "ratio_substitution_over_recomputation": 1.0815,
+   "sources_total": 14,
+   "subsets_total": 30,
+   "substitution_vs_recomputation_op_ratio": 0.9246,
+   "wall_s": 0.0062,
+   "worlds": 8
+  },
+  "4": {
+   "a1_lifecycle_ops_total": 593,
+   "a2_lifecycle_ops_total": 788,
+   "cpu_s": 0.0013,
+   "d": 4,
+   "edges_total": 76,
+   "nodes_total": 79,
+   "ratio_recomputation_over_substitution": 1.3288,
+   "ratio_substitution_over_recomputation": 0.7525,
+   "sources_total": 15,
+   "subsets_total": 34,
+   "substitution_vs_recomputation_op_ratio": 1.3288,
+   "wall_s": 0.0013,
+   "worlds": 8
+  },
+  "8": {
+   "a1_lifecycle_ops_total": 1305,
+   "a2_lifecycle_ops_total": 1491,
+   "cpu_s": 0.0025,
+   "d": 8,
+   "edges_total": 160,
+   "nodes_total": 143,
+   "ratio_recomputation_over_substitution": 1.1425,
+   "ratio_substitution_over_recomputation": 0.8753,
+   "sources_total": 15,
+   "subsets_total": 34,
+   "substitution_vs_recomputation_op_ratio": 1.1425,
+   "wall_s": 0.0025,
+   "worlds": 8
+  }
+ },
+ "experiment": "D31",
+ "falsifier": {
+  "fired": false,
+  "text": "ratio never drops below 1 with depth -- then episodic capital NEVER pays on these worlds and the ceiling hardens to a law"
+ },
+ "freeze_commit": "75f032fee3ee5ecd97c301ce594b373828a381e7",
+ "grid": {
+  "d": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32
+  ]
+ },
+ "host": "billy-laptop",
+ "instrument_defects": [],
+ "machinery": "research/hsg-semantic-execution-v1/exact/d19.py IMPORTED UNCHANGED; the recompute-depth dial lives on the QUERY FAMILY (new additive world family OW4D, prefix D31D, densities mirrored from the frozen OW4 generator) exactly as the protocol words it; compare_arms runs frozen line for line on every arm",
+ "protocol": "ECONOMY_FRONTIER_PROTOCOLS_V1.json#D31_episodic_depth_law",
+ "protocol_gloss_defect": {
+  "classification": "first-class measured output of D31; scored under the value-anchored convention, corrected in the annotation, never tuned",
+  "finding": "the frozen field name 'substitution_vs_recomputation_op_ratio' carries the value a2/a1 = 640/598 = 1.07 (recomputation costs 1.07x substitution; committed numbers: a1 subst 598 < a2 recompute 640), while NEGATIVES_ROOT_CAUSE_V1.md reads it as 'substitution (cheapest capital there is) costs 1.07x recomputation' and the amendment's SOLUTION_EPISODIC payback_law builds on that inverted direction; the registered D31 prediction anchor ('1.07 at d=1') and its falsifier prose inherit the two opposite conventions"
+ },
+ "protocol_section": "D31_episodic_depth_law",
+ "python": "3.8.10",
+ "ratio_convention": {
+  "frozen_formula": "r(d) = a2_lifecycle_ops / a1_lifecycle_ops = recomputation over substitution; this is the formula that yields the committed D19 value 640/598 = 1.07 and anchors the registered prediction",
+  "inverted_reading": "r_inv(d) = a1/a2 = substitution (capital) over recomputation (direct), the reading the negatives doc and the amendment's SOLUTION_EPISODIC payback_law give the same 1.07; at the boundary that reading evaluates to 598/640 = 0.934 (already below 1)",
+  "scoring": "registered clauses are scored in the frozen value-anchored convention (primary); the inverted reading is emitted alongside every table entry and its crossing set is reported in clauses"
+ },
+ "receipt_coverage": {
+  "emitted_or_cannot_check": [
+   "raw terminal",
+   "wall/CPU/GPU/IO/storage",
+   "obligation nodes/hyperedges/derivations/SCCs",
+   "provenance supports/alternatives",
+   "negative/CANNOT_CHECK status",
+   "active k / total N",
+   "ambiguity size/entropy (entropy part cannot_check)",
+   "operator/library reuse identities"
+  ],
+  "inapplicable_by_design": {
+   "B_exec vector": "INAPPLICABLE_BY_DESIGN: D19 machinery has no B_exec notion",
+   "abstraction/refinement count": "INAPPLICABLE_BY_DESIGN: no abstraction loop in the D19 arms",
+   "counterexample + version-space shrinkage": "INAPPLICABLE_BY_DESIGN: no CEGAR loop; revocation subsets are exhausted, not counterexample-driven",
+   "protected round-trip errors": "INAPPLICABLE_BY_DESIGN: no round trip (interpret/reflect/join) is executed",
+   "reduction/proof/rewrite path": "INAPPLICABLE_BY_DESIGN: no reduction or rewrite machinery is exercised"
+  },
+  "rule": "RECEIPT_COVERAGE_V1.json rule_for_new_studies"
+ },
+ "registered_prediction": {
+  "clauses": {
+   "boundary_arm_reproduces_committed_D19": true,
+   "d_star": 16,
+   "grid_points_below_1": [
+    16,
+    32
+   ],
+   "inverted_convention_crosses_below_1": [
+    1,
+    2,
+    4,
+    8
+   ],
+   "monotonicity_violations": [
+    [
+     1,
+     2,
+     1.3072,
+     1.3088
+    ],
+    [
+     2,
+     4,
+     1.3088,
+     1.3288
+    ],
+    [
+     16,
+     32,
+     0.8215,
+     0.9246
+    ]
+   ],
+   "monotonicity_violations_with_anchor": [
+    [
+     "boundary",
+     1,
+     1.07,
+     1.3072
+    ],
+    [
+     1,
+     2,
+     1.3072,
+     1.3088
+    ],
+    [
+     2,
+     4,
+     1.3088,
+     1.3288
+    ],
+    [
+     16,
+     32,
+     0.8215,
+     0.9246
+    ]
+   ],
+   "ratio_crosses_below_1": true,
+   "ratio_monotone_non_increasing_in_d": false,
+   "ratio_monotone_with_boundary_anchor": false
+  },
+  "text": "ratio is monotone non-increasing in d and crosses 1 at finite d* (D19's 1.07 at d=1 is the shallow boundary)",
+  "verdict": "PARTIAL"
+ },
+ "study": "episodic_depth_law",
+ "terminal": {
+  "d_star": 16,
+  "statement": "r(d) = a2/a1 crosses below 1 at d* = 16 on the frozen-convention grid: beyond d* recomputation is cheaper than substitution, i.e. the substitution arm's retained polynomial capital stops paying. Under the inverted (capital-over-direct) reading the SAME crossing reads as episodic capital STARTING to pay at d*; see ratio_convention and protocol_gloss_defect.",
+  "verdict": "EPISODIC_DEPTH_FRONTIER_MEASURED"
+ },
+ "wall_s": 0.1215,
+ "worlds_note": "the boundary arm uses THE frozen D19 worlds exactly (ow4_with_blocker_field, seeds untouched, committed numbers reproduced); the depth grid d=[1..32] cannot exist on 4-7-node worlds, so the dial arms use the pre-fixed additive family OW4D(d, wi) under the frozen seed discipline (SEED unchanged, new prefix D31D, no existing id or key prefix reused), mirroring the frozen OW4 generator densities (dual-edge prob 0.6, fan-in 1-2, chain+alternative supports); family code frozen before the scored run",
+ "worlds_per_d": 8
+}
