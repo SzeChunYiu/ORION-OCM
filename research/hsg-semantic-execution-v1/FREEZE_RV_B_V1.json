@@ -1,5 +1,19 @@
 {
  "admissibility": "Frozen and pushed in a commit containing no result file. Any later protocol change requires an explicit supersession with cause and a re-run of affected arms.",
+ "amendments": [
+  {
+   "admissibility_intact": "commit 0918c25 was pushed containing exactly three files and ZERO result files, before any RV-B result existed.",
+   "cause": "The other lane merged D21/D22 while RV-B1 was running, moving origin/main from 7a6427e to d3c2220 and adding FREEZE_V1 amendments V1.2, V1.3 and V1.4. The RV-B branch was rebased onto the new main, which rewrote the freeze commit sha from 0918c25 to 994abc1.",
+   "freeze_commit_after_rebase": "994abc1",
+   "freeze_commit_as_pushed": "0918c257800c634ba3615a59d152898b255555c0",
+   "frozen_content_unchanged": true,
+   "id": "R1-REBASE",
+   "manifest_sha256_unchanged": true,
+   "prior_chain_reverified_on_new_base": "make_freeze_rv_b.py re-run on d3c2220 resolves FREEZE_V1 through V1.1 -> V1.2-D21D22-PROTOCOL -> V1.3-D21-CONTAMINABILITY-DENOMINATOR -> V1.4-D21-AMORTISED-REUSE-MEASUREMENT (6 files) and FREEZE_D19_D20_V1 through S1 (2 files), exit 0. The amendment-overlay design absorbed the other lane amendments with no change to this lane.",
+   "proof": "sha256 of every frozen file is byte-identical across the rebase: RV_B_PROTOCOL_V1.json 5310d79ecaaaf9b9, FREEZE_RV_B_V1.json 59ab9021cdc4ce3c, make_freeze_rv_b.py 593737d0afcf36a9. Only the parent commit differs.",
+   "utc": "2026-09-10"
+  }
+ ],
  "base_branch_origin_main": "7a6427e9e8089dbed8e652a957d7b0018947bf50",
  "branch": "hsg/rv-b1-incremental",
  "claim_ceiling": "P2 finite certificate over frozen tiny worlds, plus one asymptotic lower-bound ARGUMENT explicitly not a machine-checked certificate.",
