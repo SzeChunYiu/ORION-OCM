@@ -1,0 +1,51 @@
+{
+  "receipt_id": "A1-R4",
+  "schema": "TheoryTransportV1",
+  "arm": "A1",
+  "atom_id": "G08_constitution_amendment",
+  "donor_domain": "D5_or_economics_renewal_queueing_options (constitutional political economy: Buchanan/Tullock calculus of consent, Brennan-Buchanan reason of rules, Ostrom IAD nested rule levels)",
+  "donor_source_ids": [
+    "Cato Regulation Winter 1987, 'James M. Buchanan: Constitutional Political Economist' (cato.org/regulation/winter-1987/james-m-buchanan-constitutional-political-economist): constitutional choice = choosing rules of the game; post-constitutional = strategy within the game",
+    "Buchanan Nobel lecture 1986 (nobelprize.org/prizes/economic-sciences/1986/buchanan/lecture/): Wicksellian unanimity shifted to the constitutional stage of choice among rules",
+    "Buchanan & Tullock, The Calculus of Consent (oll.libertyfund.org/titles/buchanan-the-calculus-of-consent-logical-foundations-of-constitutional-democracy): external costs + decision-making costs tradeoff determines the optimal majority for collective action",
+    "Brennan & Buchanan 1985, The Reason of Rules (OLL Collected Works vol 10)",
+    "Voigt 2009, 'Positive Constitutional Economics II' (econstor.eu/bitstream/10419/30109/1/611375176.pdf): section 'Procedural Rules for Changing Rules' — taxonomy of constitutional change via higher-order procedures",
+    "Ostrom Workshop IAD guide (ostromworkshop.indiana.edu/pdf/teaching/iad-for-policy-applications.pdf) + McGinnis 2011 'Updated Guide to IAD' (mcginnis.pages.iu.edu/iad_guide.pdf): nested operational / collective-choice / constitutional levels, meta-constitutional level; higher-level rule changes induce lower-level reconfiguration"
+  ],
+  "donor_structure": "Three coupled regularities. (1) Level separation (Buchanan/Ostrom): choices form a strict hierarchy — operational moves (strategies within rules) < collective-choice rules (how operational rules are made) < constitutional rules (who may make collective-choice rules); a rule change at level l must be licensed by level l+1. (2) Cost structure (Calculus of Consent): for a collective decision under required consensus q, expected cost = external cost (damage to those bound, DECREASING in q) + decision-making cost (delay/bargaining, INCREASING in q); the sum has an interior optimal q for most decisions — a finite supermajority, not unanimity and not bare majority. (3) Veil rationale (Buchanan/Brennan): constitutional-stage agreement is achievable because choosers are uncertain which position they will occupy; at runtime there is no veil, so interested rule changes need strictly higher bars. The regress 'rules for changing rules for changing rules...' terminates only by an exogenously frozen top level.",
+  "target_structure": "G08 constitution C_t: assumption v (fixed C across t) is scheduled for removal at R6 = time-varying C governed by an amendment process; atom table currently has only the R2 verdict (constitutions as Cantor space, lane E) — the R6 row is unclaimed. Adjacent owned content: G07 R3 randomized verifier (alpha,beta) bounds; A_T13 ARCHIVE-GOV and A_T18 EPS-PRECOMMIT conditions (lane G) require amendment gates to be pre-committed in C_t.",
+  "mapping": [
+    "constitutional stage (rules of the game) <-> C_t: the frozen governing layer of the search process",
+    "post-constitutional stage (strategy within game) <-> within-run dynamics U, Q_t (G09/G03): moves C_t licenses",
+    "collective-choice level (procedural rules for changing rules, Voigt) <-> the amendment process governing C_t -> C_{t+1} at R6",
+    "Ostrom nesting (level-l change licensed by level-l+1) <-> amendment licence structure: each C_t change must be licensed by a strictly higher, unchanged layer",
+    "external cost (damage from a decision, decreasing in required consensus q) <-> damage from a bad amendment (constitution weakened to admit junk/self-serving changes)",
+    "decision-making cost (delay, increasing in q) <-> adaptation lag: stickiness of a constitution that can no longer be corrected within the horizon",
+    "veil of uncertainty <-> pre-run freeze conditions (e.g. this D12 protocol itself): rules fixed before the run, where the process has no vested state",
+    "infinite regress of rules-for-changing-rules <-> HSG grounding requirement: some level frozen ex ante by construction"
+  ],
+  "preserved_relations": [
+    "strict level separation: within-run updates (operational) are never self-licensing; every amendment is licensed by a strictly higher, unamended layer — the regress terminates only in a pre-run-frozen level",
+    "the Buchanan-Tullock cost tradeoff is a genuine two-sided optimization: an amendment gate has an interior optimal strictness (finite evidence threshold), because both a rubber-stamp gate (external/damage cost) and an absolutist gate (adaptation-lag cost) are dominated",
+    "asymmetric legitimacy: pre-run rule choice (veil: process has no vested state) licenses weaker consensus than runtime amendment (interested process) — runtime amendment thresholds must strictly exceed adoption thresholds"
+  ],
+  "known_broken_relations": [
+    "political economy has human agents with preferences and bargaining; HSG 'consensus' must be reified as verifier/evidence thresholds — without an agent model the supermajority calculus imports costume, not mechanism (costume risk flagged explicitly)",
+    "Ostrom levels presuppose an external enforcer/community; HSG has no enforcer outside the run — self-amendment closure is precisely the open problem, consistent with the governance rule that nothing self-promotes/self-signs",
+    "the veil argument relies on ex ante uncertainty about one's position; a search process at time t>0 KNOWS its state Sigma_t — design-time legitimacy cannot be recreated at runtime, so runtime amendments can never inherit freeze-strength authority (structural, not operational)"
+  ],
+  "unknown_correspondences": [
+    "is there a quantitative analogue of the optimal majority q* as a function of amendment damage distribution and horizon (the Calculus-of-Consent minimization carried out on a constitution Markov chain)?",
+    "multi-constellation R7: does Ostrom's meta-constitutional level (McGinnis) map to cross-constellation governance, and does any nesting theorem survive when several constellations share modules (G16 R7)?"
+  ],
+  "assumptions_added": [
+    "amendment damage and adaptation lag are scalar-measurable per amendment event (to make the q-tradeoff well-posed)",
+    "the frozen top level is genuinely unreachable by the amendment process within any finite horizon (entrenchment is real, not nominal)"
+  ],
+  "candidate_theorem": "A governed time-varying constitution (G08 at R6) is regress-terminating iff some level is frozen pre-run and every amendment licence is strictly level-decreasing; at runtime no amendment can recreate design-time legitimacy (no veil at t>0), so amendment thresholds must strictly exceed adoption thresholds; and under scalar amendment-damage and lag costs there is a finite optimal amendment strictness q* strictly between rubber-stamp and absolute (Buchanan-Tullock form). Corollary matching existing lane-G conditions: ARCHIVE-GOV/EPS-PRECOMMIT pre-commitments in C_t are instances of the frozen top level; removing them dissolves the level separation and makes the amendment process self-licensing.",
+  "strongest_parent": "Buchanan & Tullock 1962 (Calculus of Consent: external+decision cost tradeoff, constitutional vs operational stages) + Ostrom IAD nesting (collective-choice/constitutional levels, higher-level licensing)",
+  "proof_route": "proposed finite witness (NOT executed — budget): Markov chain over finite constitution set with amendment transitions gated by threshold q; (i) verify regress termination iff top level frozen; (ii) sweep q and locate interior minimum of damage-rate + lag-cost; (iii) exhibit a self-licensing chain when the frozen level is made amendable. Design recorded here so a later lane can execute it.",
+  "costs": {"B_donor": 40, "B_map": 15, "B_synth": 30, "B_validate": 0, "total": 85, "price_model": "HSG_D12_CALIBRATION_FREEZE"},
+  "status": "PROPOSAL",
+  "status_note": "validate phase not purchased (budget hard-stop at 1000; cumulative 960 after synth); proof_route records the executable witness design; no validation claimed"
+}

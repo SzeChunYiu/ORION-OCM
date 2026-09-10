@@ -1,0 +1,55 @@
+{
+  "receipt_id": "A1-R2",
+  "schema": "TheoryTransportV1",
+  "arm": "A1",
+  "atom_id": "G11_evolvability",
+  "donor_domain": "D6_population_genetics_neutral_networks (GP-map theory: genotype networks, mutational robustness, Wagner/Ahnert evolvability program)",
+  "donor_source_ids": [
+    "Kirschner & Gerhart 1998, 'Evolvability' (PMC33871) — evolvability = capacity to generate heritable phenotypic variation",
+    "Wagner 2011, 'Genotype networks shed light on evolutionary constraints' (Trends Ecol Evol, S0169534711001996)",
+    "Draghi, Parsons, Wagner & Plotkin 2010, 'Mutational robustness can facilitate adaptation' (PNAS)",
+    "Ahnert 2017, 'Structural properties of genotype-phenotype maps' (RS Interface 14:20170275) — phenotypes with largest neutral networks are most robust AND most evolvable; evolvability measured via phenotype accessibility network",
+    "Ciliberti et al. 2007, 'Innovation and robustness in complex regulatory gene networks' (PNAS) — ability to innovate depends on a genotype's POSITION in the neutral network",
+    "Manrubia et al. 2021, 'From genotypes to organisms' (SciDirect S1571064521000300)"
+  ],
+  "donor_structure": "GP map g: G -> P many-to-one; neutral network N(p) = connected component of genotypes with same phenotype p under 1-mutant adjacency. Phenotype robustness r(p) = mean neutral fraction of neighbor genotypes. Phenotype evolvability e(p) = number of DISTINCT phenotypes accessible at the boundary of N(p). Empirical/analytic regularities: (a) e(p) correlates positively with r(p) (robustness-evolvability reconciliation, Ahnert); (b) e depends on genotype POSITION within N(p) (periphery accesses different novel phenotypes than core, Ciliberti); (c) large N(p) span more of G and abut more distinct phenotypes.",
+  "target_structure": "G11 Ev = P(useful descendant | kernel) at rung R4 (metric sensitivity of Ev; cell-grid vs Wasserstein archive geometry). Lane F already owns: |Ev_Sigma - Ev_Sigma'| <= TV(Q_Sigma, Q_Sigma') via Dobrushin coupling. Target adds: WHAT ELSE determines Ev beyond the local kernel.",
+  "mapping": [
+    "genotype g <-> search state Sigma",
+    "phenotype p <-> archive niche / descriptor cell (or utility equivalence class of states)",
+    "neutral network N(p) <-> optimizer neutral set component / archive-cell occupancy component (ties to P1 receipt A1-R1)",
+    "1-mutant adjacency <-> proposal kernel support Q_Sigma",
+    "phenotype evolvability e(p) <-> Ev (probability of useful descendant: descendant landing in a cell with higher retained quality)",
+    "genotype position in N(p) (core vs periphery) <-> position of Sigma within its neutral/archive component (distance to component boundary)",
+    "accessibility network on phenotypes <-> descriptor-space adjacency graph of archive cells"
+  ],
+  "preserved_relations": [
+    "evolvability is a property of the COMPONENT GEOMETRY, not of the single state: Ev factors as Q_Sigma x (component boundary structure) exactly as e(p) factors as mutation x N(p) boundary",
+    "robustness-evolvability positive coupling at component level: larger neutral components have more distinct boundary phenotypes <-> larger archive cells abut more distinct descriptor cells (verifiable in finite GP maps)",
+    "position-dependence: two states with IDENTICAL local kernel statistics but different positions in their neutral component have different Ev (Ciliberti position effect)"
+  ],
+  "known_broken_relations": [
+    "popgen GP maps are fixed by physics/chemistry (RNA folding); HSG kernels are SELF-MODIFYING (G03/G09) — donor's static-map assumption (xiii) is exactly what HSG lifts",
+    "popgen 'useful' = viable+higher fitness in a fixed environment; HSG 'useful' is ecology-dependent (G05) — under ecology drift the accessibility network itself moves",
+    "donor measures evolvability by COUNTING distinct boundary phenotypes; HSG Ev is a probability under Q — cardinality vs measure mismatch needs the kernel-weighted analogue"
+  ],
+  "unknown_correspondences": [
+    "does the Ahnert robustness-evolvability correlation (largest networks most evolvable) survive under capacity-bounded archives (G15 H4 hostile showed HV can shrink while order-ratchet holds)?",
+    "is there a GP-map analogue of the #221 cell-grid vs Wasserstein geometry distinction (phenotype-space discretization sensitivity)?"
+  ],
+  "assumptions_added": [
+    "neutral component structure is well-defined under the state metric d (components = d-connected neutral sets)",
+    "'useful' is measurable as an event on descendants (lane E's R3 condition already logged)"
+  ],
+  "candidate_theorem": "Ev decomposes: Ev(Sigma) = sum over descriptor cells c of Q_Sigma(boundary-to-c) * u(c), hence at FIXED kernel family, Ev varies with Sigma's position in its neutral component — Ev is not a function of the kernel law alone. Corollary: the lane-F bound |Ev_Sigma - Ev_Sigma'| <= TV(Q_Sigma, Q_Sigma') is tight only when Sigma, Sigma' sit in components with equal boundary exposure; component geometry is an independent degree of freedom.",
+  "strongest_parent": "Ahnert 2017 (robustness-evolvability via accessibility network) + Ciliberti et al. 2007 (position within neutral network determines innovation access)",
+  "proof_route": "finite witness on a toy GP map (binary strings, phenotype = structured function of string, kernel = uniform 1-bit flips): (i) compute Ev for every genotype; (ii) exhibit two states with equal local kernel row-statistics but different Ev due to component position; (iii) exhibit the robustness-evolvability correlation across phenotypes",
+  "costs": {"B_donor": 40, "B_map": 15, "B_synth": 30, "B_validate": 50, "total": 135, "price_model": "HSG_D12_CALIBRATION_FREEZE"},
+  "validation": {
+    "method": "finite witness: binary strings n=10, phenotype=(leading bit, popcount mod 3), kernel=uniform 1-bit flip, fitness ranks on phenotypes; Ev computed exhaustively for all 1024 genotypes",
+    "results": "position clause VERIFIED: phenotype ('L',1) contains states with Ev from 0.10 to 1.00 and ('R',1) from 0.10 to 0.70 under the IDENTICAL uniform kernel (kernel row-form constant across states) — Ev varies with position in the neutral component, so Ev is not a function of the kernel law alone; lane-F tightness corollary follows",
+    "limitations": "robustness-evolvability coupling (Ahnert) NOT exercised: the toy phenotype function yields zero neutral fraction everywhere, so that donor regularity remains unverified here (kept in preserved_relations as donor-side, not theorem clause)",
+    "verdict": "candidate theorem machine-checked on the witness; donor regularity clause left unexercised"
+  },
+  "status": "SUPPORTED"
+}

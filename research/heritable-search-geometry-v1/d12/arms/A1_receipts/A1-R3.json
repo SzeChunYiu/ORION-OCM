@@ -1,0 +1,55 @@
+{
+  "receipt_id": "A1-R3",
+  "schema": "TheoryTransportV1",
+  "arm": "A1",
+  "atom_id": "G16_module_amortization",
+  "donor_domain": "D5_or_economics_renewal_queueing_options (reliability/maintenance OR: age-replacement policy, renewal-reward accounting, learning/experience curves)",
+  "donor_source_ids": [
+    "Renewal theory overview (en.wikipedia.org/wiki/Renewal_theory) + RandomServices renewal-reward chapter (randomservices.org/random/renewal/Reward.html)",
+    "Popova & Wu 1999, 'Renewal reward processes with fuzzy rewards' (EJOR S0377221798002471): 'the renewal reward theorem is the key tool for obtaining maintenance or replacement strategies which have small long-run cost'",
+    "Ramchandani 2009 (Waterloo), condition-based maintenance: age replacement at T or failure, expected long-run cost C(T) = [c_p*R(T) + c_f*F(T)] / integral_0^T (1-F(t))dt",
+    "Vlasiou 2014, 'Renewal processes with costs and rewards' (arXiv:1404.5601)",
+    "AFIT thesis 1994 (scholar.afit.edu/etd/6864): fixed costs interacting with learning-curve amortization"
+  ],
+  "donor_structure": "Age-replacement policy: unit replaced preventively at age T (cost c_p) or at failure (cost c_f > c_p), whichever first; renewal cycles regenerate at each replacement; renewal-reward theorem gives long-run average cost C(T) = E[cost per cycle]/E[cycle length]. Classical results: (a) under increasing failure rate (IFR) an interior optimal T* < inf exists (preventive replacement pays); (b) under DFR run-to-failure (T=inf) is optimal; (c) C(T) is unimodal under IFR. The accounting identity (breakeven) and the POLICY optimization are separable layers.",
+  "target_structure": "G16 module amortization scalars (H_eff, Delta_C_use, C_build, C_maint, C_rev); lane F already owns the R5 accounting identity (renewal-reward long-run form, T05 threshold = breakeven, H_eff = expected regenerative use count) with the regenerativity condition named",
+  "mapping": [
+    "preventive replacement at age T <-> proactive module revision at use-count threshold T (pay C_rev before decay)",
+    "failure replacement (cost c_f) <-> forced emergency rebuild after module failure/obsolescence (pay C_build, or C_build with disruption premium)",
+    "c_p <-> C_rev; c_f <-> C_build (c_f > c_p <-> C_build > C_rev)",
+    "unit lifetime distribution F <-> distribution of module's useful-use-count (utility decay under ecology)",
+    "IFR <-> increasing marginal decay of module usefulness (obsolescence accelerating in cumulative use)",
+    "long-run average cost C(T) <-> long-run amortized cost per use (the T05/renewal-reward quantity)",
+    "H_eff <-> expected cycle length E[uses per cycle] (already lane-F owned)"
+  ],
+  "preserved_relations": [
+    "policy layer separates from accounting layer: the renewal-reward identity holds for EVERY T (lane F's ownership), while the optimizer argmin_T C(T) is NEW content — when to revise, not how to account",
+    "IFR criterion transfers: proactive revision (finite T*) optimal iff module usefulness decay is increasing in cumulative use; run-to-failure optimal under non-increasing decay",
+    "unimodality of the amortized-cost curve in T under IFR (single best revision cadence)",
+    "c_f > c_p asymmetry makes the policy question non-trivial; when C_rev >= C_build the policy degenerates exactly as in the donor"
+  ],
+  "known_broken_relations": [
+    "donor lifetime F is exogenous physics; HSG module decay is ecology-dependent (G05/G16 assumption removal vi) — F itself drifts, so T* is a moving target (adaptive-replacement literature is the honest limit of the transfer)",
+    "donor cycles regenerate i.i.d.; HSG 'use process' regenerativity is exactly the lane-F named condition — outside it the witness deviation (2.0167 vs 4/3) already shows the identity degrading",
+    "economics of scale/learning (unit costs fall with cumulative production) have no analogue when the module is unique (single archive entry)"
+  ],
+  "unknown_correspondences": [
+    "does an interior T* survive under ecology drift lambda (task inflow) — i.e., replacement under a nonstationary F(t)?",
+    "cross-level charging R7 (level-l module charged to level-l' strategies): is there a 2-level age-replacement analogue (nested renewals)?"
+  ],
+  "assumptions_added": [
+    "module usefulness decay is summarizeable by a use-indexed distribution F (scalar aging)",
+    "C_rev, C_build constant over the horizon (no learning curve on revision itself)"
+  ],
+  "candidate_theorem": "For a module with use-indexed usefulness decay and revision cost C_rev < C_build, the long-run amortized cost per use C(T) is minimized at finite T* (proactive revision cadence) iff the decay hazard is increasing in cumulative use; under non-increasing hazard no finite revision cadence beats run-to-failure; C(.) is unimodal under increasing hazard. The renewal-reward accounting identity (lane F, T05) is the T-independent layer underneath.",
+  "strongest_parent": "Age-replacement / preventive-maintenance optimality under IFR (classical reliability OR, Popova-Wu / Barlow-Proschan lineage) — distinct from and additive to lane F's owned renewal-reward identity parent",
+  "proof_route": "finite witness: discrete hazard models — compute C(T) exactly for an IFR distribution (h(t) increasing) and a DFR distribution (h(t) decreasing); check interior argmin vs monotone-to-infinity, and unimodality",
+  "costs": {"B_donor": 40, "B_map": 15, "B_synth": 30, "B_validate": 50, "total": 135, "price_model": "HSG_D12_CALIBRATION_FREEZE"},
+  "validation": {
+    "method": "finite witness, exact rational arithmetic (python3 fractions): discrete age-replacement C(T) = [c_p*P(X>=T) + c_f*P(X<T)]/E[min(X,T)] for hazard-built lifetime distributions; c_p=1, c_f=10",
+    "results": "IFR h(t)=t^2/100 on t=1..10: strict interior optimum T*=3 with C(3)=0.4919 < C(1)=1.0000 (always-replace) and < C(rtf)=1.7415 (run-to-failure); curve unimodal [1.0, 0.5477, 0.4919, 0.5824, 0.7639, ..., 1.7415]. DFR h(t)=0.2/t on t=1..29 with terminal atom at 30: C non-increasing on {2..30} and run-to-failure globally optimal, C(30)=0.3730 <= every interior C (best interior 0.3815). All three theorem clauses machine-checked.",
+    "limitations": "first parameterization (IFR h=t/10, DFR h=1/(t+1)) put the minimum at the discrete boundary T=1: with early hazard h(1) in {0.1, 0.5} the first-period failure exposure outweighs the planned-replacement saving. This is a genuine discrete-time boundary effect, absent in the continuous donor where C(T)->inf as T->0: the interior-optimum clause needs hazard small near t=1. The DFR non-increasing claim likewise holds on {2..inf}, not including the T=1 atom. Recorded as parameter-dependence of the discrete form, not as a defect of the transport.",
+    "verdict": "candidate theorem machine-checked on the witness in its intended regime (IFR with small early hazard / DFR); discrete-boundary caveat recorded"
+  },
+  "status": "SUPPORTED"
+}
