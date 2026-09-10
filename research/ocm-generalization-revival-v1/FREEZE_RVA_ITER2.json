@@ -1,0 +1,96 @@
+{
+ "arms": {
+  "NULL_hetero_unranked": {
+   "lane": "hetero",
+   "n_draws_per_seed": 400000,
+   "ranking_machinery": "DISABLED: no novelty archive, no novelty gate, no surrogate, no successive halving, no dedup promotion, no cross-round promotion",
+   "rationale": "every GS-R2 arm ran lane=hetero; this reproduces the search's own sampling measure",
+   "sampler": "morphology.gs_bound.lane_hetero",
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "tier": "T2",
+   "viability": "evaluate_genome(g, tier='T2')['feasible'] -- frozen hard gates, UNCHANGED"
+  }
+ },
+ "capsule_freeze_binding": {
+  "GRAND_SEARCH_R2_FREEZE.json": "55a966240d3b7bb56a515a8129c67728e30eb3fb32482e1a4dec163f1286c513",
+  "heldout_t3_key_id": "GSHeldoutT3V1:4d0a1487e4427449",
+  "t3_key_sha256": "4d0a1487e442744930436b7dcee4daac9d787dbb5e27745708a4e85d00548780"
+ },
+ "code_sha256": {
+  "hpc/rva_attrib.py": "24d6f0931b0fb583486c40b42e488f829b41d23a88691aad91a84430f866a710",
+  "hpc/rva_drawinv.py": "a9fc5278dda95b78714a1b37d32f36ee444ec1c9ab7d91fcca71cd0a78ad04f5",
+  "hpc/rva_null.py": "e940efe285e84c8acfa79fcc707784e46a5efb1ed56822634e16e1c3edf55896",
+  "hpc/rva_null_agg.py": "dc23d11a555d43f283fc04af299b414e76a2da63047d6dc52220860b35dfc671",
+  "hpc/rva_preflight.py": "6c36ad44409d479b2569462fe5d062ddf88af2cdaff8d79b8adf5887488c26ff",
+  "hpc/rva_timing.py": "e9989d1b079133db409b8185214b0683a7f56cde375736410f18085d674be0f6"
+ },
+ "comparator": {
+  "note": "pooled over all five R2 arms, phenotype-deduped, = the T3 hold rate exactly",
+  "observed_survivor_can_check_fraction": 0.155602,
+  "observed_survivor_can_check_wilson95": [
+   0.153376,
+   0.157854
+  ],
+  "source": "results/RVA_A2_DRAW_INVARIANCE.json composition.pooled_*"
+ },
+ "compute": {
+  "account": "lu2026-2-51",
+  "deviation": "the brief specified partition nuc (96/96 idle); this account is refused on nuc despite appearing in its sacctmgr association list, so lu48 -- the partition the GS-R2 campaign itself used -- is the proven path. Recorded as CUSTODY_DEVIATION_PARTITION.",
+  "measured_sec_per_T2_eval": 0.00038473,
+  "network": "NONE. All code and data staged in advance; no outbound connection from any LUNARC node.",
+  "partition": "lu48",
+  "projected_cpu_hours": 0.2565,
+  "site": "LUNARC"
+ },
+ "decision_rule": {
+  "GATE_OWNS_DEPLETION": "null Wilson95 OVERLAPS the observed interval -> the T2 gate produces the depletion on frozen physics; no allocation or ranking lever can move it; terminal is a proven-structural negative",
+  "RANKING_ENRICHES": "null Wilson95 lies STRICTLY BELOW the observed interval -> ranking already improves composition; the lever must be sought elsewhere",
+  "RANKING_OWNS_DEPLETION": "null Wilson95 lies STRICTLY ABOVE the observed interval -> ranking/promotion owns it; lever has a named target",
+  "applied_to": "endpoint_phenotype_deduped"
+ },
+ "endpoint": {
+  "interval": "Wilson 95%",
+  "primary": "P(can_check | T2-viable), phenotype-deduped",
+  "secondary": [
+   "P(can_check | T2-viable) over raw draws",
+   "P(T2-viable | can_check) vs P(T2-viable | not can_check)",
+   "odds ratio favouring the checker-free route",
+   "F_arch composition of the viable set"
+  ]
+ },
+ "evidence_class": "EXPLORATORY_ADAPTIVE",
+ "falsifiers": {
+  "expected_sampling_can_check_rate": 0.37037037,
+  "impossible_cell": "ZERO viable organisms may be both not-can_check and not hierarchical_fibred; any such organism refutes the T2 correctness-route mechanism and voids the attribution",
+  "sampling_rate_check": "P(can_check) over legal draws must match 1 - (1 - E[n_extras]/12)(1 - 1/9) to within Monte-Carlo error; a mismatch means the sampler is not lane_hetero and the run is void"
+ },
+ "freeze_id": "FREEZE_RVA_ITER2",
+ "governing_lane": "RV-A revival of GS_R2 SURVIVOR_T3_GENERALIZATION_FAIL (84.44%)",
+ "prohibitions": [
+  "no gate loosened or tightened",
+  "no threshold moved",
+  "no T3 key re-drawn, re-selected or consulted to design anything",
+  "no re-split after seeing results",
+  "raising a hold RATE by admitting fewer candidates is selectivity, not edge, and is recorded as a defect"
+ ],
+ "question": "is the checker-depletion of the GS-R2 survivor set owned by the T2 admission GATE (frozen physics -> structural) or by the RANKING/PROMOTION machinery (operational -> a lever has a target)?",
+ "schema": "RVA_ITER2_FREEZE_V1",
+ "self_sha256_note": "computed over this file after write; see FREEZE_RVA_ITER2.sha256",
+ "status": "frozen_before_scored_runs",
+ "supersession_rule": "any post-freeze change to arms, seeds, endpoint, decision rule or falsifiers requires an explicit recorded supersession entry with cause and a full re-run",
+ "work_that_preceded_this_freeze": {
+  "artifacts": [
+   "results/RVA_A1_ATTRIBUTION.json",
+   "results/RVA_A2_DRAW_INVARIANCE.json"
+  ],
+  "committed_at": "febc2067071ab890ff977c7ee431030e65d1533e",
+  "note": "the A1 attribution, the A2 draw-invariance/composition read and the P1-P4 preflight all ran BEFORE this freeze and are already committed. They are reductions over ALREADY-COMMITTED R2 artifacts and the already-frozen T3 key: no new endpoint was drawn, no gate, threshold, split or key was touched, and nothing in them is scored by this freeze."
+ }
+}

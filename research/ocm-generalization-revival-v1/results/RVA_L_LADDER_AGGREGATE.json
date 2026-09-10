@@ -1,0 +1,116 @@
+{
+ "T3_eligible_yield": {
+  "GS_R2_all_arms": {
+   "cpu_hours": 1.113682,
+   "distinct_t3_hold": 15668,
+   "per_cpu_hour": 14068.6
+  },
+  "unranked_ladder": {
+   "caveat": "summed over seeds without cross-seed phenotype dedup; the R2 figure below IS cross-seed deduped, so this comparison is NOT like-for-like and is reported only as an order-of-magnitude bound pending the deduped re-run",
+   "cpu_hours": 0.059308,
+   "distinct_can_check_viable_summed_over_seeds": 92624,
+   "per_cpu_hour": 1561736.7
+  }
+ },
+ "cost": {
+  "cpu_hours_total": 0.059308,
+  "note": "single core per shard, so wall == CPU",
+  "wall_seconds_total": 213.51
+ },
+ "gs_r2_arms": {
+  "GSA5P_fixed": {
+   "cpu_hours": 0.188905,
+   "distinct_t2_viable": 13504,
+   "mean_distinct_per_seed": 2251.33,
+   "morphologies_per_cpu_hour": 71485.67
+  },
+  "GSA6_ALL": {
+   "cpu_hours": 0.271357,
+   "distinct_t2_viable": 34655,
+   "mean_distinct_per_seed": 5802,
+   "morphologies_per_cpu_hour": 127709.99
+  },
+  "GSA6_DP": {
+   "cpu_hours": 0.18251,
+   "distinct_t2_viable": 34773,
+   "mean_distinct_per_seed": 5802,
+   "morphologies_per_cpu_hour": 190526.55
+  },
+  "GSA6_NG": {
+   "cpu_hours": 0.226183,
+   "distinct_t2_viable": 13210,
+   "mean_distinct_per_seed": 2202,
+   "morphologies_per_cpu_hour": 58404.04
+  },
+  "GSA6_SC": {
+   "cpu_hours": 0.244727,
+   "distinct_t2_viable": 10324,
+   "mean_distinct_per_seed": 1723.17,
+   "morphologies_per_cpu_hour": 42185.78
+  }
+ },
+ "gs_r2_parents_frozen": {
+  "GSA2_hetero": {
+   "cpu_seconds_per_seed": 51.258,
+   "distinct_t2_viable_per_seed": 5062.7,
+   "morphologies_per_cpu_hour": 354046.0
+  },
+  "GSA5_surrogate": {
+   "cpu_seconds_per_seed": 111.257,
+   "distinct_t2_viable_per_seed": 2233.3,
+   "morphologies_per_cpu_hour": 72150.0
+  }
+ },
+ "n_draws_total": 720000,
+ "n_shards": 6,
+ "per_rung": {
+  "T0": {
+   "can_check_fraction": 0.83976899,
+   "distinct_can_check_summed_over_seeds": 92624,
+   "distinct_viable_summed_over_seeds": 110297,
+   "raw_can_check": 92663,
+   "raw_viable": 110377,
+   "wilson95": [
+    0.83759235,
+    0.84192196
+   ]
+  },
+  "T1": {
+   "can_check_fraction": 0.83976899,
+   "distinct_can_check_summed_over_seeds": 92624,
+   "distinct_viable_summed_over_seeds": 110297,
+   "raw_can_check": 92663,
+   "raw_viable": 110377,
+   "wilson95": [
+    0.83759235,
+    0.84192196
+   ]
+  },
+  "T2": {
+   "can_check_fraction": 0.83976899,
+   "distinct_can_check_summed_over_seeds": 92624,
+   "distinct_viable_summed_over_seeds": 110297,
+   "raw_can_check": 92663,
+   "raw_viable": 110377,
+   "wilson95": [
+    0.83759235,
+    0.84192196
+   ]
+  }
+ },
+ "read_rungs": "composition is unchanged across T0 -> T1 -> T2 and every T0-viable organism clears T1 and T2, so all three ladder rungs are composition-neutral; T0 is the binding rung",
+ "rungs_identical": true,
+ "sampling_can_check_rate_range": [
+  0.33638333,
+  0.34056667
+ ],
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "study_id": "RV_A_LADDER_ITER3_AGGREGATE"
+}
