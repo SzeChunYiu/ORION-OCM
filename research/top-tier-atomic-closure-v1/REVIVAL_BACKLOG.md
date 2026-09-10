@@ -124,3 +124,34 @@ obstruction — neither may be closed by threshold movement.
 Freeze the protocol and push it in a commit containing **no result file** before running. A post-freeze
 change requires a recorded supersession with cause and a re-run. Report every iteration of the chain,
 including the ones that failed.
+
+## RV-12 chain update: DEV-CAL-3 carrier terminal, DEV-CAL-4 frozen-N positive (appended 2026-09-10)
+
+Append-only update to the RV-12 row above (rows are never rewritten):
+
+- **DEV-CAL-3 (#353, 88a66321) terminal `CHARGE_CARRIER_MULTIPLE`.** The carrier of the DEV-CAL-2 V2
+  non-amortisation is the acquisition (mining) charge in its full-charge, no-retirement form: both
+  reforms of that one component (`NO_MINING_CHARGE`, `MARGINAL_COST_ONLY`) flip the secondary readout
+  to recovery at every sensitivity N in {5,10,25} with the KO-2 primary intact (Holm adj p = 0.0).
+  Failures, verification and no-salvage are exonerated as carriers and stand as class-level invariants
+  (`DEV_CAL_3_EXONERATED_COMPONENT_INVARIANTS_V1.json`); failure charges are load-bearing for the
+  primary readout itself.
+- **DEV-CAL-4 (freeze #355; results in the same PR as this append) terminal
+  `POSITIVE_RECOVERY_UNDER_FROZEN_SEMANTICS`.** The single authorised charging change — amortised
+  acquisition with retirement-after-N — was evaluated at N_FROZEN=30, fixed by the pre-registered
+  derivation rule (min over worlds of the observed asset-use count U(w); uniform U=30 across all 120
+  worlds; rule-only commit cb4d1e74 pushed BEFORE the count was taken) and re-derived from the sealed
+  shards inside the analysis itself. Controls all exact: AS_IS 250/258 fields exact (8 scored-absent,
+  zero tolerance-bound), the N=10 machinery block and the {5,25} sensitivity entries reproduce the
+  recorded DEV-CAL-3 numbers exactly, work-derived readouts invariant 56/56, leakage and direction
+  clean. Readout at N=30: KO-2 secondary recovery 1.0000 [1.0, 1.0] threshold met with the KO-2
+  primary intact, recovering tiers KO-2/KO-3/KO-4, no draw-invariance conflict, one-sided signflip
+  p = 0.0; all 16 field differences vs the recorded N=10 block are acquisition redistribution (zero
+  unexplained). Mechanistic reading: at N=30 every use row of a world pays raw/30, the acquisition
+  burden becomes uniform across arms, and the secondary readout collapses onto the primary (KO-2
+  exactly 1.0000). Scoped strictly by the freeze claim ceiling: sealed V2 task stream under the
+  frozen semantics only — no horizon generalisation, no new-stream claim, no economics claim, no new
+  DEV-CAL-2 terminal.
+- **Chain state: RV-12 closes at its registered scope with a positive earned by mechanic change**
+  (the charging horizon), not a threshold move. Any further charging redesign is a separate
+  prospective registration; economics remain M3 territory.
