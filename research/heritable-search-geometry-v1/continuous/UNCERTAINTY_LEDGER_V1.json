@@ -1,0 +1,68 @@
+{
+ "artifact_id": "HSG_CONTINUOUS_UNCERTAINTY_LEDGER",
+ "version": "V1",
+ "created_utc": "2026-09-10T02:45:00Z",
+ "loop": "results -> uncertainty -> next frozen experiment -> new jobs (operator directive 2026-09-10: use compute to kill/constrain/support the foundation, one item at a time)",
+ "scheduler": "scheduler.sh reads this ledger; for each UNMEASURED entry with a frozen next_experiment: submit -> parse -> flip to MEASURED with evidence",
+ "entries": [
+  {
+   "id": "cross_partition_probe_share",
+   "quantity": "P(retrieval reaches a donor in a non-adjacent partition) per unit probe share",
+   "current": 0.05,
+   "status": "IN_FLIGHT",
+   "evidence": "D12 constant 7, guessed; A6 P1 (blind H3) measures it",
+   "next_experiment": "D15 A6 arm (PR pending)"
+  },
+  {
+   "id": "eps_sensitivity_curve",
+   "quantity": "receipts-per-1000-units as function of eps in {0.02,0.05,0.1,0.15,0.2}",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "A4 frozen sensitivity gave only the endpoints",
+   "next_experiment": "CONT-CAL-01",
+   "next_experiment_note": "router.py sweep, 5 eps configs x 18 theorem atoms x 3 seeds, donor bank V1"
+  },
+  {
+   "id": "halving_two_rung_rule",
+   "quantity": "false-elimination rate of true donors under 1-rung vs 2-rung cut",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "A5's G04 miss priced the 1-rung failure; repair untested",
+   "next_experiment": "CONT-CAL-02",
+   "next_experiment_note": "replay the 5 merged D12 arm ladders under both cut rules (2-rung frozen vs 1-rung counterfactual)"
+  },
+  {
+   "id": "inspection_cap_boundary",
+   "quantity": "verdict-flip rate of L4 inspections on donors accepted at L3",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "zero L4/L5 purchases in D12 -> cap untested from above",
+   "next_experiment": "CONT-CAL-03",
+   "next_experiment_note": "for 20 L3-accepted donor-atom pairs, purchase L4 and count verdict flips (inspection needs the model channel)"
+  },
+  {
+   "id": "local_evolvability_levers",
+   "quantity": "distinct-phenotype yield and rate under novelty-gated allocation and promotion dedup-by-phenotype_digest vs GSA2/GSA5 parents",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "GSA5_RATE_READ_V1: 4.91x gap = 2.267x yield loss x 2.171x CPU, one-stage attribution done",
+   "next_experiment": "GSA6 LUNARC campaign (issue #221 revival levers)"
+  },
+  {
+   "id": "handoff_transfer_decay",
+   "quantity": "capability retention across handoff events (issue #217 protocol)",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "#217 landed the handoff protocol; no decay measurement ran",
+   "next_experiment": "CONT-217: N-generation handoff chain on LUNARC, retention per generation"
+  },
+  {
+   "id": "retention_ecology_perturbation",
+   "quantity": "retention under ecology perturbation (task-inflow/outflow shocks)",
+   "current": null,
+   "status": "UNMEASURED",
+   "evidence": "zoo campaigns measured steady-state only",
+   "next_experiment": "CONT-221B: perturbation sweep on the GSA2 parent config"
+  }
+ ]
+}
