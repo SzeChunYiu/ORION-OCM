@@ -1,0 +1,623 @@
+{
+ "anchors_vs_committed_DEVCAL1": {
+  "anchor_reproduction_defects": [],
+  "cell_B_oracle_vs_reset_reduction": {
+   "committed": {
+    "ci": [
+     0.965,
+     0.974
+    ],
+    "mean": 0.97,
+    "source": "DEVCAL1 PR #328 cc3af86d"
+   },
+   "dc2_rerun": {
+    "ci": [
+     0.9653607535926407,
+     0.9739037427750911
+    ],
+    "mean": 0.9697084646883749
+   }
+  },
+  "cell_B_shuffled_vs_reset_reduction": {
+   "dc2_rerun": {
+    "ci": [
+     -0.43146436737366306,
+     -0.10027655960265738
+    ],
+    "mean": -0.25701942363545793
+   }
+  },
+  "verdict": "all anchors reproduce committed DEVCAL1 values within frozen tolerance (bootstrap CI overlap); zero defects"
+ },
+ "assay_fix": {
+  "amendment": "AM-5-DEVCAL2-ASSAY-FIX in FREEZE_EVIDENCE_BINDING_V1.json (recorded BEFORE this re-run; authored at the fix commit with the defect evidence, one-stage attribution and pre-registered NULL_BAND_GATED_V1 rule)",
+  "defect_repaired": "PR #343 terminal ASSAY_DEFECT: KO-1 draw-invariance sign disagreement at per-seed n=30 (estimator underpowered for a by-design-null arm; false-fire rate 25.6% under true zero)",
+  "v1_evidence": "all PR #343 artifacts preserved byte-identical (DEVCAL2_receipts_shard{1..4}.jsonl, DEVCAL2_RESULTS.json, DEVCAL2_HOST_RECEIPT_billy.json)"
+ },
+ "claims_separation": "This run addresses CARRIER attribution only. Mechanism / economics / OCM-specific-residual claims are NOT made (four-claims separation, DEV_CAL_V2_PROTOCOL_FREEZE_V1).",
+ "descriptive_read_NOT_a_verdict": {
+  "draw_invariance": "zero DIRECTION_CONFLICT under NULL_BAND_GATED_V1: every recovering arm is AGREE_DETERMINATE (3/3 seeds determinate positive); KO-1 and LOO-MINUS-RETRIEVAL are NULL_EFFECT (0/3 determinate); LOO-MINUS-REPRESENTATION is AGREE_DETERMINATE negative (1/3). No draw-invariance defect fired anywhere.",
+  "ladder_primary": "KO-1 silent (-0.2234 [-0.429,-0.042]; AM-5 classification NULL_EFFECT -- all three seed means sit inside their own 95% sign-flip bands 0.41/0.16/0.32, i.e. the V1 sign 'disagreement' was statistical indeterminacy, not a defect); KO-2 is the minimal tier reaching the primary threshold (1.0000 [1.0,1.0], AGREE_DETERMINATE); KO-3/KO-4 = 1.0081. Matches the registered prediction's KO-1-silent/KO-2-minimal pattern exactly.",
+  "leave_one_out": "LOO-MINUS-REPRESENTATION (-0.2148; AGREE_DETERMINATE, seed 1 determinate negative) and LOO-MINUS-RETRIEVAL (-0.1524; NULL_EFFECT direction, 0/3 seeds determinate) collapse primary recovery; LOO-MINUS-TRANSPORT (1.0000) and LOO-MINUS-CHARGING (1.0081) retain it. REPRESENTATION and RETRIEVAL_KEYING are NECESSARY, the ladder's KO-2 is SUFFICIENT-in-sequence.",
+  "note": "Recorded at the AM-5 re-run (merge exit 0, zero terminal defects). The V1 ASSAY_DEFECT (PR #343) is repaired, not overwritten: all V1 artifacts are preserved byte-identical in this same commit range.",
+  "secondary_total_burden": "threshold_met=false on EVERY arm (secondary shuffle-null alarm p_signflip=0.0 on all recovering tiers) -> terminal AMORTISATION_DOMINATED per the frozen rule; carrier = charging model, amortisation structure is the authorised work item."
+ },
+ "gate_evidence": {
+  "a_DEV_CAL_V2_PROTOCOL_FREEZE_V1.json": "PRESENT on origin/main 86dd3701080cbf361c96d8b49937de94c554d9d3 (merged PR #337); unchanged by the fix",
+  "b_calibration": "calibration_reference.py + calibration_run_receipt.json PRESENT (PR #340, controls all_controls_passed=true); parent-parity spec-correction PR #342 MERGED before this re-run (was open at V1 run time)",
+  "c_devcal2_machinery": "run_devcal2.py + devcal2_adapters.py + devcal2_sanity.py at the AM-5 fix commit 2e044922b767; devcal2_sanity --selftest re-run ON THE LAPTOP CHECKOUT exit 0 (all planted hostiles incl. the two AM-5 class-15 regression hostiles tripped)",
+  "d_pre_registration": "AM-5 authored and merged BEFORE the re-run verdict was known; freeze-chain verify on the fix commit: 76 checks, zero unrecorded drift"
+ },
+ "ladder_state": {
+  "KO-1_REPRESENTATION": {
+   "primary": false,
+   "secondary": false
+  },
+  "KO-2_PLUS_RETRIEVAL": {
+   "primary": true,
+   "secondary": false
+  },
+  "KO-3_PLUS_TRANSPORT": {
+   "primary": true,
+   "secondary": false
+  },
+  "KO-4_PLUS_CHARGING": {
+   "primary": true,
+   "secondary": false
+  }
+ },
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "output_bindings": {
+  "receipts/DEVCAL2_receipts_shard1_V2.jsonl": "83b5b8a95beac048b7a51e8996c6bf2a4523cb411f8eb223be2bb4cee89219e0",
+  "receipts/DEVCAL2_receipts_shard2_V2.jsonl": "8be6a3fe5b10c2255962294e446d97d7d3d192a7cc8a0cf806e9195060105b51",
+  "receipts/DEVCAL2_receipts_shard3_V2.jsonl": "d8431a538db9da2c26d0ff2263f6a7a0f2ff155e0672192d86ac145c0d6ad871",
+  "receipts/DEVCAL2_receipts_shard4_V2.jsonl": "d29b2cb689d738164e25244ffb2e6b4c5456c6a4b142a482d2815765669acfb2",
+  "results/DEVCAL2_RESULTS_V2.json": "081330ff8f88b5c5bb6900e25683c9de2a7f97276fdf3b670c35d640e7475807"
+ },
+ "owner_issue": 323,
+ "per_arm": {
+  "KO-1_REPRESENTATION": {
+   "adapter_sha256": "db8c6a2c2e666deb1a0de5dcf179b6cff7aeb81532c0f11212702819a5e00b54",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "NULL_EFFECT",
+    "direction_agrees": true,
+    "n_determinate": 0,
+    "per_seed": {
+     "0": {
+      "determinate": false,
+      "mean_reduction": -0.39583536621933213,
+      "null_band_95": 0.41126158765919574
+     },
+     "1": {
+      "determinate": false,
+      "mean_reduction": 0.01337961678882446,
+      "null_band_95": 0.15568704582895782
+     },
+     "2": {
+      "determinate": false,
+      "mean_reduction": -0.23814484011741388,
+      "null_band_95": 0.3205027923727972
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     -0.428807362234499,
+     -0.04163003880132749
+    ],
+    "mean": -0.22343575396283408,
+    "n_pairs": 90,
+    "threshold_met": false
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     -3.9967091365396747,
+     2.7851266976275904
+    ],
+    "mean": -0.34981787318024155,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "KO-2_PLUS_RETRIEVAL": {
+   "adapter_sha256": "7d1c9b5f49e2bde81013c00c96f077a0a87a118371f335b681da85412a2e34a4",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 3,
+    "per_seed": {
+     "0": {
+      "determinate": true,
+      "mean_reduction": 0.9675281057047032,
+      "null_band_95": 0.3270026152626901
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": 0.970667905544378,
+      "null_band_95": 0.32862222844056826
+     },
+     "2": {
+      "determinate": true,
+      "mean_reduction": 0.9709293828160442,
+      "null_band_95": 0.3284709154546396
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     1.0,
+     1.0
+    ],
+    "mean": 1.0,
+    "n_pairs": 90,
+    "threshold_met": true
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     1.0,
+     1.0
+    ],
+    "mean": 1.0,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "KO-3_PLUS_TRANSPORT": {
+   "adapter_sha256": "e5c158034ceb38ce13a829edd5f38af2352628383ff820e79278abaadd72dd28",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 3,
+    "per_seed": {
+     "0": {
+      "determinate": true,
+      "mean_reduction": 0.9757780085041562,
+      "null_band_95": 0.33090610733904974
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": 0.9781906145147788,
+      "null_band_95": 0.32967878834536857
+     },
+     "2": {
+      "determinate": true,
+      "mean_reduction": 0.9785597646791072,
+      "null_band_95": 0.32921443403126877
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     1.0070538129754836,
+     1.0092639929639942
+    ],
+    "mean": 1.0081470683925764,
+    "n_pairs": 90,
+    "threshold_met": true
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     0.9776441348267824,
+     1.0205002464697408
+    ],
+    "mean": 0.9990924618163958,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "KO-4_PLUS_CHARGING": {
+   "adapter_sha256": "6729f39031056afac8c8d420beff79946753527bd7121f7f3b41fa31752c3582",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 3,
+    "per_seed": {
+     "0": {
+      "determinate": true,
+      "mean_reduction": 0.9757780085041562,
+      "null_band_95": 0.32843953860861697
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": 0.9781906145147788,
+      "null_band_95": 0.32948454409607597
+     },
+     "2": {
+      "determinate": true,
+      "mean_reduction": 0.9785597646791072,
+      "null_band_95": 0.3291946774296521
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     1.0070538129754836,
+     1.0092639929639942
+    ],
+    "mean": 1.0081470683925764,
+    "n_pairs": 90,
+    "threshold_met": true
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     -0.9934614737197351,
+     3.9030177245217463
+    ],
+    "mean": 1.3988720060976139,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "LOO_MINUS_CHARGING": {
+   "adapter_sha256": "1f6373d2aad222baf9b746775c35c0329a3b94e0134db652d8707a740a754d83",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 3,
+    "per_seed": {
+     "0": {
+      "determinate": true,
+      "mean_reduction": 0.9757780085041562,
+      "null_band_95": 0.32848665938720506
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": 0.9781906145147788,
+      "null_band_95": 0.3291301644919414
+     },
+     "2": {
+      "determinate": true,
+      "mean_reduction": 0.9785597646791072,
+      "null_band_95": 0.3290160501106347
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     1.0070538129754836,
+     1.0092639929639942
+    ],
+    "mean": 1.0081470683925764,
+    "n_pairs": 90,
+    "threshold_met": true
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     0.9776441348267824,
+     1.0205002464697408
+    ],
+    "mean": 0.9990924618163958,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "LOO_MINUS_REPRESENTATION": {
+   "adapter_sha256": "a819b608e9a309fbbc946c960181fe36b29280f748cddb0253bbc19ded9c6d49",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 1,
+    "per_seed": {
+     "0": {
+      "determinate": false,
+      "mean_reduction": -0.17736570322170445,
+      "null_band_95": 0.2642815840682602
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": -0.3730643396742551,
+      "null_band_95": 0.26242374692204734
+     },
+     "2": {
+      "determinate": false,
+      "mean_reduction": -0.05858403671476983,
+      "null_band_95": 0.1802856706741753
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     -0.3621416521724678,
+     -0.0801080002093871
+    ],
+    "mean": -0.21481275270238587,
+    "n_pairs": 90,
+    "threshold_met": false
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     -6.952147435743887,
+     3.605059681567924
+    ],
+    "mean": -1.3548032138653605,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "LOO_MINUS_RETRIEVAL": {
+   "adapter_sha256": "6cb61c49fc140f144fe84ae60cf9627b4601f65a319eaa2c031ffa6555b43b03",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "NULL_EFFECT",
+    "direction_agrees": true,
+    "n_determinate": 0,
+    "per_seed": {
+     "0": {
+      "determinate": false,
+      "mean_reduction": -0.18791912804616723,
+      "null_band_95": 0.2818684898898596
+     },
+     "1": {
+      "determinate": false,
+      "mean_reduction": -0.0063970505653109366,
+      "null_band_95": 0.1895492403672265
+     },
+     "2": {
+      "determinate": false,
+      "mean_reduction": -0.2206178194603636,
+      "null_band_95": 0.3597735558660051
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     -0.34008814201370535,
+     0.014481280968798648
+    ],
+    "mean": -0.15237969430098774,
+    "n_pairs": 90,
+    "threshold_met": false
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     -4.912848203653199,
+     1.6797584653581124
+    ],
+    "mean": -0.8944229268147332,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  },
+  "LOO_MINUS_TRANSPORT": {
+   "adapter_sha256": "0662720f7eef733063262702a97f77e00566bbc526625d231bcd4492c8208941",
+   "controls": {
+    "A_fired": true,
+    "C_silent": true,
+    "D_silent": true
+   },
+   "draw_invariance_cell_B": {
+    "classification": "AGREE_DETERMINATE",
+    "direction_agrees": true,
+    "n_determinate": 3,
+    "per_seed": {
+     "0": {
+      "determinate": true,
+      "mean_reduction": 0.9675281057047032,
+      "null_band_95": 0.3262696193715559
+     },
+     "1": {
+      "determinate": true,
+      "mean_reduction": 0.970667905544378,
+      "null_band_95": 0.3263819870439086
+     },
+     "2": {
+      "determinate": true,
+      "mean_reduction": 0.9709293828160442,
+      "null_band_95": 0.3284215539351107
+     }
+    },
+    "rule": "NULL_BAND_GATED_V1 (AM-5-DEVCAL2-ASSAY-FIX)"
+   },
+   "purity": {
+    "n": 360,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 360
+   },
+   "recovery_share_cell_B": {
+    "ci": [
+     1.0,
+     1.0
+    ],
+    "mean": 1.0,
+    "n_pairs": 90,
+    "threshold_met": true
+   },
+   "recovery_share_cell_B_total_burden": {
+    "ci": [
+     -0.9735424141030697,
+     3.8839848426264814
+    ],
+    "mean": 1.3997795442812193,
+    "threshold_met": false
+   },
+   "shuffle_null_cell_B": {
+    "non_alarm": true,
+    "p_signflip": 0.7944
+   },
+   "shuffle_null_cell_B_total_burden": {
+    "non_alarm": false,
+    "p_signflip": 0.0
+   }
+  }
+ },
+ "protocol": "DEV_CAL_2_KNOCKOUT_PROTOCOL_FREEZE_V1 + terminal precedence amended by DEV_CAL_V2_PROTOCOL_FREEZE_V1 gap 6 (ASSAY_DEFECT > LEAKAGE_ALARM > INSUFFICIENT_HISTORY > AMORTISATION_DOMINATED > CARRIER_IDENTIFIED_TIER_k > INTERFACE_GRANTS_INSUFFICIENT > PARENT_EQUIVALENT)",
+ "run_provenance": {
+  "exits": {
+   "merge": 0,
+   "sanity": 0,
+   "shards": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "git_commit": "2e044922b767c24b01642db83152a31e27255397 (fresh clone at /home/billy/orion-ocm-devcal2v2, branch devcal2-assay-fix)",
+  "host": "billy (laptop billy, Linux-5.15.0-139-generic-x86_64-with-glibc2.29; allowed host per freeze host_rules; NEVER Mac mini)",
+  "host_receipt": "receipts/DEVCAL2_HOST_RECEIPT_billy_V2.json (sha256 086a97707a4017fd...; input+output sha bindings; scp'd Mac-side, sha256 verified identical both sides)",
+  "n_receipts": 3960,
+  "python": "3.8.10",
+  "shards": {
+   "1": {
+    "wall_s": 62.0
+   },
+   "2": {
+    "wall_s": 62.0
+   },
+   "3": {
+    "wall_s": 67.0
+   },
+   "4": {
+    "wall_s": 63.0
+   }
+  },
+  "utc": {
+   "clone_start": "2026-09-10T18:17:13Z",
+   "merge_end": "2026-09-10T18:23:31Z",
+   "selftest_end": "2026-09-10T18:18:59Z"
+  }
+ },
+ "schema": "OCM_DEV_CAL_2_SCORED_RESULTS",
+ "study": "DEV-CAL-2 carrier-attribution knockout scored RE-RUN at the AM-5 assay fix (parent: DEV-CAL-1 TRANSFERABLE_HEADROOM_OCM_MISSES; supersedes the run record of the PR #343 ASSAY_DEFECT verdict, which is preserved byte-identical)",
+ "verdict": "AMORTISATION_DOMINATED",
+ "verdict_basis": {
+  "carrier_claim": "AMORTISATION_DOMINATED: carrier = CHARGING_MODEL (KO-4's component). Tiers KO-2/KO-3/KO-4 reach the primary cell-B recovery threshold (1.0000 / 1.0081 / 1.0081, every recovering arm AGREE_DETERMINATE with 3/3 seeds outside their null bands, agreeing positive) but NO tier reaches it on total_burden_incl_acquisition (secondary shuffle-null alarm p_signflip=0.0 gates every recovering tier). Per the frozen terminal: amortisation structure becomes the authorised work item; no other component may be touched.",
+  "defect_detail": "none",
+  "terminal_defects": []
+ },
+ "version": "V2",
+ "written_utc": "2026-09-10T18:23:31Z"
+}
