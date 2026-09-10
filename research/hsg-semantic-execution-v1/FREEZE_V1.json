@@ -66,6 +66,45 @@
    },
    "statements_touched": false,
    "original_manifest_v1_preserved_above": true
+  },
+  {
+   "id": "V1.2-D21D22-PROTOCOL",
+   "utc": "2026-09-10",
+   "cause": "D21/D22 operational protocol frozen before any result-generating code for those lanes (issue #233 method discipline 1).",
+   "changes": {
+    "D21_D22_PROTOCOL_V1.md": "new file: reuse audit, arms, oracles, cost split, hostile witnesses, no-alarm controls, falsifiers",
+    "EXPERIMENT_REGISTRY_V1.json": "additive key d21_d22_protocol; no frozen row touched",
+    "HOSTILE_REGISTRY_V1.json": "additive key d21_d22_witnesses; no frozen row touched"
+   },
+   "supersession": "none; D21/D22 rows and OW6/OW7 generators unchanged",
+   "manifest_sha256_v1_2": {
+    "D21_D22_PROTOCOL_V1.md": "299c8446f37704c5a03e2339303353e7a7a9d7ada755e465a4a970bd02772433",
+    "EXPERIMENT_REGISTRY_V1.json": "8520faffcc84bb94dfbbb6b516487d1b1e4875416e0a4b7dedd0c555844f4684",
+    "HOSTILE_REGISTRY_V1.json": "1d1a9f92203d4d964975587be9334200ceccb648ee28374a52d58ff064fa0f92"
+   }
+  },
+  {
+   "id": "V1.3-D21-CONTAMINABILITY-DENOMINATOR",
+   "utc": "2026-09-10",
+   "cause": "First D21 execution returned E1 = 0.5. Diagnosis: 4 of 10 frozen OW6 worlds contain no + node so unsound_swap cannot apply at all, and OW6-06 is (+ 2 2) where 2+2 == 2*2 == 4 so the unsound rule is sound on that instance. The 5 structurally contaminable worlds were all detected. The frozen falsifier (\"any contaminated e-class with no alarm\") was never violated; the summary statistic used the wrong denominator.",
+   "changes": {
+    "D21 summary": "E1 denominator corrected from all hostile worlds to the structurally contaminable worlds, computed by a new control (contaminability_control) from the frozen world and frozen rewrite alone, independent of the e-graph and the detector",
+    "new control E2b": "alarms on NOT_CONTAMINABLE hostile worlds must be zero; this is a second no-alarm control, on a hostile arm, proving the detector is not simply always-firing",
+    "D21 receipts": "per-world detection_verdict in {DETECTED, NOT_CONTAMINABLE, MISSED}"
+   },
+   "supersession": "PROTOCOL SECTION 1.8 E1 WORDING SUPERSEDED (denominator only). The falsifier text is unchanged. Re-run required and performed after this amendment; the pre-amendment run is inadmissible and is not reported.",
+   "endpoint_unchanged": "E1 falsifier remains: any contaminated e-class with no alarm."
+  },
+  {
+   "id": "V1.4-D21-AMORTISED-REUSE-MEASUREMENT",
+   "utc": "2026-09-10",
+   "cause": "D21 E3 returned a negative: equality saturation never beat ordered rewriting on single-query TASK-OPT because ordered rewriting under a total ground order already attains the direct-solve optimum on all 10 frozen worlds. Per the diagnose-and-revive rule a one-pass negative may not be filed as terminal without an attributed revival attempt.",
+   "changes": {
+    "D21": "ADDITIVE secondary measurement amortised_reuse: one saturated e-graph answering all per-world equivalence queries versus per-query ordered rewriting. Reported as E3b."
+   },
+   "evidence_class": "EXPLORATORY_ADAPTIVE - may never be a headline claim",
+   "supersession": "none; no endpoint, falsifier, world or rewrite set is changed. E1/E2/E3/E4/E5/E6 are untouched and the run that produced them stands.",
+   "stage_attribution": "single-query workload, not the e-graph engine"
   }
  ]
 }

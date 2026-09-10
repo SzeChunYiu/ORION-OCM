@@ -77,5 +77,88 @@
   "job_identity_fields": ["campaign_id", "theorem_or_atom_id", "world_id", "domain_id", "representation_id", "operator_or_rewrite_set", "search_kernel", "history_condition", "checker_id_and_digest", "fidelity_tier", "seed", "freeze_sha"],
   "receipt_fields": ["raw terminal", "B_exec vector", "obligation nodes/hyperedges/derivations/SCCs", "ambiguity size/entropy", "protected round-trip errors", "counterexample + version-space shrinkage", "abstraction/refinement count", "provenance supports/alternatives", "reduction/proof/rewrite path", "operator/library reuse identities", "active k / total N", "wall/CPU/GPU/IO/storage", "negative/CANNOT_CHECK status"],
   "machinery_source": "REUSE #221 research/ocm-morphology-zoo-v1/hpc/ (submission+freeze+receipt+scheduler pattern); NO second campaign-governance system"
+ },
+ "d21_d22_protocol": {
+  "protocol_doc": "D21_D22_PROTOCOL_V1.md",
+  "frozen_utc": "2026-09-10",
+  "rule": "Operational detail for the already-frozen D21/D22 rows. Adds arms, evaluation domains, cost split and falsifiers; changes no frozen row.",
+  "D21": {
+   "worlds": "OW6 verbatim from exact/worlds.py ow6_worlds(), SEED 20260910",
+   "oracles": [
+    "O1 exhaustive point evaluation over X=0..20 (exact: degree<=16)",
+    "O2 sympy.expand normal form over Z[x]"
+   ],
+   "disagreement_status": "CANNOT_CHECK (own exit status, never 'checked and fine')",
+   "rewrite_sets": {
+    "SOUND_FROZEN": [
+     "comm+",
+     "comm*",
+     "assoc+"
+    ],
+    "SOUND_EXT": [
+     "fold",
+     "factor"
+    ],
+    "SOUND_EXT_cause": "frozen set is purely permutative; without a cost-reducing rule TASK-OPT is vacuous",
+    "UNSOUND": [
+     "unsound_swap"
+    ],
+    "unsound_count": 1
+   },
+   "arms": [
+    "direct_solve",
+    "one_shot_rewrite",
+    "ordered_rewriting",
+    "knuth_bendix",
+    "equality_saturation",
+    "egglog_saturation",
+    "learned_library"
+   ],
+   "tasks": {
+    "TASK-EQ": "80 pairs (40 expected-true walks, 40 perturbations)",
+    "TASK-OPT": "min node count over rewrite-reachable class"
+   },
+   "cost_split": {
+    "present": "rewrite applications, e-nodes, terms enumerated, CPU s; rejected candidates and acquisition charged in full",
+    "future_reuse": "held-out worlds 5-9 only; never netted against present"
+   },
+   "endpoints": [
+    "E1 hostile detection rate = 1.0",
+    "E2 clean false-alarm rate = 0.0",
+    "E3 present cost and gap to direct_solve optimum",
+    "E4 library reuse on held-out worlds, acquisition separate",
+    "E5 T74 composition sound, H-T74a caught",
+    "E6 self-built e-graph vs egglog agreement = 1.0"
+   ]
+  },
+  "D22": {
+   "worlds": "OW7 verbatim ow7_worlds() plus derived fragments L2/L3/L4",
+   "fragments": {
+    "L1": "propositional, atoms {p,q}, 4 valuations (frozen OW7)",
+    "L2": "Horn, atoms {p,q,r}, 8 valuations",
+    "L3": "equational, one binary op on {0,1}, all 16 algebras",
+    "L4": "FO finite-model, one binary relation on 2 elements, 16 structures"
+   },
+   "tests": [
+    "T-SAT satisfaction condition",
+    "T-PRES consequence preservation",
+    "T-REFL reflection",
+    "T-EXP model-expansiveness (surjectivity of beta)"
+   ],
+   "arms": {
+    "CLEAN": "beta = induced beta_alpha, full target model set; no alarm expected",
+    "HOSTILE-SAT": "frozen drop-extra reduct vs frozen alpha; T-SAT must fail with witness M'=(0,1,e), phi=q",
+    "HOSTILE-IMAGE": "H-T85a; target models restricted to p'=1; T-PRES holds, T-EXP and T-REFL fail with witness Gamma={}, phi=p, source counter-model (0,0)"
+   },
+   "note_before_run": "ow7_worlds' removal of the single model (0,0,1) does NOT break surjectivity of the drop-extra reduct because (0,0,0) still maps onto (0,0); model-image incompleteness is therefore a derived hostile variant following the ow1_unsound_variant pattern",
+   "locks": "N4 LOCKED: no Lean, no SMT. z3-solver/python-sat/pysmt install cleanly on the host and are deliberately unused.",
+   "endpoints": [
+    "F1 T-SAT exhaustive per (model, sentence) pair",
+    "F2 T-PRES holds wherever T-SAT holds",
+    "F3 T-REFL holds exactly where T-EXP holds",
+    "F4 both hostiles fire with named witnesses",
+    "F5 CLEAN raises zero alarms"
+   ]
+  }
  }
 }

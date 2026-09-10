@@ -1,0 +1,4167 @@
+{
+ "amortised_reuse": {
+  "aggregate_ratio": 0.418,
+  "attribution": "E3's negative is attributed to the single-query workload, not to the e-graph: on the frozen rule set ordered rewriting already attains the direct-solve optimum, so saturation has no optimum-quality headroom to win. This row measures whether the multi-query regime is where it pays.",
+  "evidence_class": "EXPLORATORY_ADAPTIVE",
+  "n_worlds": 10,
+  "note": "a ratio <= 1.0 means the shared e-graph is NOT cheaper even amortised; that strengthens PARENT_SUFFICIENT rather than weakening it",
+  "per_world": [
+   {
+    "application_ratio_resolve_over_shared": 2.22,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0089,
+    "per_query_ordered_rule_applications": 768,
+    "shared_cpu_s": 0.0021,
+    "shared_egraph_enodes": 22,
+    "shared_egraph_rule_applications": 346,
+    "world": "OW6-00"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.27,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0003,
+    "per_query_ordered_rule_applications": 62,
+    "shared_cpu_s": 0.0011,
+    "shared_egraph_enodes": 8,
+    "shared_egraph_rule_applications": 230,
+    "world": "OW6-01"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.45,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0028,
+    "per_query_ordered_rule_applications": 381,
+    "shared_cpu_s": 0.0031,
+    "shared_egraph_enodes": 24,
+    "shared_egraph_rule_applications": 847,
+    "world": "OW6-02"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.109,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0005,
+    "per_query_ordered_rule_applications": 96,
+    "shared_cpu_s": 0.0035,
+    "shared_egraph_enodes": 19,
+    "shared_egraph_rule_applications": 884,
+    "world": "OW6-03"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.388,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0001,
+    "per_query_ordered_rule_applications": 19,
+    "shared_cpu_s": 0.0005,
+    "shared_egraph_enodes": 4,
+    "shared_egraph_rule_applications": 49,
+    "world": "OW6-04"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.0,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0,
+    "per_query_ordered_rule_applications": 0,
+    "shared_cpu_s": 0.0001,
+    "shared_egraph_enodes": 1,
+    "shared_egraph_rule_applications": 0,
+    "world": "OW6-05"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.39,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0001,
+    "per_query_ordered_rule_applications": 16,
+    "shared_cpu_s": 0.0003,
+    "shared_egraph_enodes": 3,
+    "shared_egraph_rule_applications": 41,
+    "world": "OW6-06"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.231,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0015,
+    "per_query_ordered_rule_applications": 154,
+    "shared_cpu_s": 0.0029,
+    "shared_egraph_enodes": 20,
+    "shared_egraph_rule_applications": 667,
+    "world": "OW6-07"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.0,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0,
+    "per_query_ordered_rule_applications": 0,
+    "shared_cpu_s": 0.0002,
+    "shared_egraph_enodes": 1,
+    "shared_egraph_rule_applications": 0,
+    "world": "OW6-08"
+   },
+   {
+    "application_ratio_resolve_over_shared": 0.16,
+    "n_queries": 8,
+    "per_query_ordered_cpu_s": 0.0007,
+    "per_query_ordered_rule_applications": 134,
+    "shared_cpu_s": 0.003,
+    "shared_egraph_enodes": 15,
+    "shared_egraph_rule_applications": 838,
+    "world": "OW6-09"
+   }
+  ],
+  "total_per_query_rule_applications": 1630,
+  "total_shared_rule_applications": 3902,
+  "worlds_where_shared_egraph_is_cheaper": [
+   "OW6-00"
+  ]
+ },
+ "certificate_ceiling": "P2 finite certificate over frozen tiny worlds; not a universal proof",
+ "clean_arms": [
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "+",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       [
+        "+",
+        "3",
+        "x"
+       ],
+       4
+      ],
+      [
+       "+",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.0187,
+     "rewrite_applications": 4352,
+     "terms_enumerated": 512
+    },
+    "reachable": 512,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "+",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       [
+        "+",
+        "3",
+        "x"
+       ],
+       4
+      ],
+      [
+       "+",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ]
+     ]
+    ],
+    "cost": 19,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 512,
+    "present_cost": {
+     "cpu_s": 0.0024,
+     "eclasses": 13,
+     "enodes": 22,
+     "merges": 9,
+     "rewrite_applications": 30
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     [
+      "*",
+      [
+       "*",
+       4,
+       [
+        "+",
+        "3",
+        "x"
+       ]
+      ],
+      [
+       "+",
+       [
+        "*",
+        "2",
+        "x"
+       ],
+       "3"
+      ]
+     ],
+     [
+      "*",
+      "3",
+      [
+       "+",
+       [
+        "*",
+        "x",
+        "x"
+       ],
+       "2"
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 9,
+     "terms_enumerated": 10
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "+",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       [
+        "+",
+        "3",
+        "x"
+       ],
+       4
+      ],
+      [
+       "+",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.0006,
+     "rewrite_applications": 49,
+     "terms_enumerated": 6
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('*', ('*', ('+', '2', '2'), ('+', '3', 'x')), ('+', ('*', '2', 'x'), '3')), ('*', '3', ('+', ('*', 'x', 'x'), '2')))",
+   "seed_cost": 21,
+   "world": "OW6-00"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 18,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 16,
+     "terms_enumerated": 7
+    },
+    "reachable": 7,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 18,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 7,
+    "present_cost": {
+     "cpu_s": 0.0002,
+     "eclasses": 4,
+     "enodes": 8,
+     "merges": 4,
+     "rewrite_applications": 20
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     6,
+     "3"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 3,
+     "terms_enumerated": 4
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 18,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 5,
+     "terms_enumerated": 3
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('*', '2', '3'), '3')",
+   "seed_cost": 5,
+   "world": "OW6-01"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 650,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0046,
+     "rewrite_applications": 1604,
+     "terms_enumerated": 267
+    },
+    "reachable": 267,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 650,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 4,
+    "n_eclass_members": 267,
+    "present_cost": {
+     "cpu_s": 0.001,
+     "eclasses": 10,
+     "enodes": 24,
+     "merges": 14,
+     "rewrite_applications": 95
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     [
+      "+",
+      [
+       "*",
+       "3",
+       "3"
+      ],
+      [
+       "+",
+       "2",
+       "2"
+      ]
+     ],
+     [
+      "*",
+      10,
+      "5"
+     ]
+    ],
+    "cost": 11,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 7,
+     "terms_enumerated": 8
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 650,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0002,
+     "rewrite_applications": 25,
+     "terms_enumerated": 7
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('+', ('*', '3', '3'), ('+', '2', '2')), ('*', ('*', '5', '2'), '5'))",
+   "seed_cost": 13,
+   "world": "OW6-02"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "+",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0005,
+     "rewrite_applications": 100,
+     "terms_enumerated": 28
+    },
+    "reachable": 28,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "+",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 28,
+    "present_cost": {
+     "cpu_s": 0.0005,
+     "eclasses": 9,
+     "enodes": 19,
+     "merges": 10,
+     "rewrite_applications": 41
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "+",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 4,
+     "terms_enumerated": 5
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "+",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 6,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', ('*', '5', 'x'), ('+', '2', '3'))",
+   "seed_cost": 7,
+   "world": "OW6-03"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 2,
+     "terms_enumerated": 2
+    },
+    "reachable": 2,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 2,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "eclasses": 3,
+     "enodes": 4,
+     "merges": 1,
+     "rewrite_applications": 3
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', '3', 'x')",
+   "seed_cost": 3,
+   "world": "OW6-04"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "reachable": 1,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": "5",
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 1,
+    "n_eclass_members": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "eclasses": 1,
+     "enodes": 1,
+     "merges": 0,
+     "rewrite_applications": 0
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "'5'",
+   "seed_cost": 1,
+   "world": "OW6-05"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 2
+    },
+    "reachable": 2,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 4,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 2,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "eclasses": 2,
+     "enodes": 3,
+     "merges": 1,
+     "rewrite_applications": 4
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', '2', '2')",
+   "seed_cost": 3,
+   "world": "OW6-06"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "+",
+     "x",
+     14
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0004,
+     "rewrite_applications": 78,
+     "terms_enumerated": 26
+    },
+    "reachable": 26,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "+",
+     "x",
+     14
+    ],
+    "cost": 3,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 26,
+    "present_cost": {
+     "cpu_s": 0.0005,
+     "eclasses": 8,
+     "enodes": 20,
+     "merges": 12,
+     "rewrite_applications": 49
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "+",
+     [
+      "+",
+      "x",
+      "5"
+     ],
+     9
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 4,
+     "terms_enumerated": 5
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "+",
+     "x",
+     14
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 11,
+     "terms_enumerated": 4
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', ('+', 'x', '5'), ('*', '3', '3'))",
+   "seed_cost": 7,
+   "world": "OW6-07"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "reachable": 1,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": "x",
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 1,
+    "n_eclass_members": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "eclasses": 1,
+     "enodes": 1,
+     "merges": 0,
+     "rewrite_applications": 0
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "'x'",
+   "seed_cost": 1,
+   "world": "OW6-08"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 16,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0002,
+     "rewrite_applications": 78,
+     "terms_enumerated": 23
+    },
+    "reachable": 23,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 16,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 4,
+    "n_eclass_members": 23,
+    "present_cost": {
+     "cpu_s": 0.0003,
+     "eclasses": 6,
+     "enodes": 15,
+     "merges": 9,
+     "rewrite_applications": 70
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     "2",
+     [
+      "+",
+      6,
+      "2"
+     ]
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 4,
+     "terms_enumerated": 5
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 16,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 9,
+     "terms_enumerated": 4
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', '2', ('+', ('+', '3', '3'), '2'))",
+   "seed_cost": 7,
+   "world": "OW6-09"
+  }
+ ],
+ "clean_scans": [
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 513,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 8,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 268,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 29,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 3,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 2,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 3,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 27,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 2,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 24,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  }
+ ],
+ "controls": {
+  "conformance": {
+   "mismatches": [],
+   "n_mismatch": 0,
+   "n_points": 1428,
+   "note": "control that MUST pass; a failure invalidates the lane, not an arm",
+   "passed": true
+  },
+  "contaminability": {
+   "n_contaminable": 5,
+   "n_not_contaminable": 5,
+   "note": "denominator for E1; the frozen falsifier ('any contaminated e-class with no alarm') is unchanged",
+   "rows": [
+    {
+     "contaminable": true,
+     "n_plus_nodes": 4,
+     "n_value_changing_plus_nodes": 3,
+     "reason_if_not": null,
+     "witnesses": [
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        1,
+        1,
+        2
+       ],
+       "subterm": "('+', '3', 'x')",
+       "value_sound": 3,
+       "value_unsound": 0
+      },
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        1,
+        2
+       ],
+       "subterm": "('+', ('*', '2', 'x'), '3')",
+       "value_sound": 3,
+       "value_unsound": 0
+      }
+     ],
+     "world": "OW6-00"
+    },
+    {
+     "contaminable": false,
+     "n_plus_nodes": 0,
+     "n_value_changing_plus_nodes": 0,
+     "reason_if_not": "no '+' node, unsound_swap cannot apply",
+     "witnesses": [],
+     "world": "OW6-01"
+    },
+    {
+     "contaminable": true,
+     "n_plus_nodes": 2,
+     "n_value_changing_plus_nodes": 1,
+     "reason_if_not": null,
+     "witnesses": [
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        1
+       ],
+       "subterm": "('+', ('*', '3', '3'), ('+', '2', '2'))",
+       "value_sound": 13,
+       "value_unsound": 36
+      }
+     ],
+     "world": "OW6-02"
+    },
+    {
+     "contaminable": true,
+     "n_plus_nodes": 2,
+     "n_value_changing_plus_nodes": 2,
+     "reason_if_not": null,
+     "witnesses": [
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [],
+       "subterm": "('+', ('*', '5', 'x'), ('+', '2', '3'))",
+       "value_sound": 5,
+       "value_unsound": 0
+      },
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        2
+       ],
+       "subterm": "('+', '2', '3')",
+       "value_sound": 5,
+       "value_unsound": 6
+      }
+     ],
+     "world": "OW6-03"
+    },
+    {
+     "contaminable": false,
+     "n_plus_nodes": 0,
+     "n_value_changing_plus_nodes": 0,
+     "reason_if_not": "no '+' node, unsound_swap cannot apply",
+     "witnesses": [],
+     "world": "OW6-04"
+    },
+    {
+     "contaminable": false,
+     "n_plus_nodes": 0,
+     "n_value_changing_plus_nodes": 0,
+     "reason_if_not": "no '+' node, unsound_swap cannot apply",
+     "witnesses": [],
+     "world": "OW6-05"
+    },
+    {
+     "contaminable": false,
+     "n_plus_nodes": 1,
+     "n_value_changing_plus_nodes": 0,
+     "reason_if_not": "every '+' node satisfies l+r == l*r on all of X, so the unsound rule is sound on this instance",
+     "witnesses": [],
+     "world": "OW6-06"
+    },
+    {
+     "contaminable": true,
+     "n_plus_nodes": 2,
+     "n_value_changing_plus_nodes": 2,
+     "reason_if_not": null,
+     "witnesses": [
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [],
+       "subterm": "('+', ('+', 'x', '5'), ('*', '3', '3'))",
+       "value_sound": 14,
+       "value_unsound": 45
+      },
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        1
+       ],
+       "subterm": "('+', 'x', '5')",
+       "value_sound": 5,
+       "value_unsound": 0
+      }
+     ],
+     "world": "OW6-07"
+    },
+    {
+     "contaminable": false,
+     "n_plus_nodes": 0,
+     "n_value_changing_plus_nodes": 0,
+     "reason_if_not": "no '+' node, unsound_swap cannot apply",
+     "witnesses": [],
+     "world": "OW6-08"
+    },
+    {
+     "contaminable": true,
+     "n_plus_nodes": 2,
+     "n_value_changing_plus_nodes": 2,
+     "reason_if_not": null,
+     "witnesses": [
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        2
+       ],
+       "subterm": "('+', ('+', '3', '3'), '2')",
+       "value_sound": 8,
+       "value_unsound": 12
+      },
+      {
+       "first_x": 0,
+       "n_points_differing": 21,
+       "position": [
+        2,
+        1
+       ],
+       "subterm": "('+', '3', '3')",
+       "value_sound": 6,
+       "value_unsound": 9
+      }
+     ],
+     "world": "OW6-09"
+    }
+   ]
+  },
+  "degree": {
+   "domain_points": 21,
+   "max_degree": 4,
+   "note": "O1 is exact, not a sample, because |X| exceeds the maximum degree",
+   "o1_exact": true
+  },
+  "h_t86a_witness": {
+   "found": true,
+   "position": [
+    1,
+    1,
+    2
+   ],
+   "subterm": "('+', '3', 'x')",
+   "value_sound": 3,
+   "value_unsound": 0,
+   "world": "OW6-00",
+   "x": 0
+  }
+ },
+ "cpu_s": 5.599,
+ "evidence_class": "CONFIRMATORY_FIXED + EXPLORATORY_ADAPTIVE",
+ "experiment": "D21",
+ "hostile_arms": [
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "*",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ],
+      [
+       "*",
+       [
+        "*",
+        "3",
+        "x"
+       ],
+       4
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.2807,
+     "rewrite_applications": 64512,
+     "terms_enumerated": 6144
+    },
+    "reachable": 6144,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "*",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ],
+      [
+       "*",
+       [
+        "*",
+        "3",
+        "x"
+       ],
+       4
+      ]
+     ]
+    ],
+    "cost": 19,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 6144,
+    "present_cost": {
+     "cpu_s": 0.0262,
+     "eclasses": 13,
+     "enodes": 29,
+     "merges": 16,
+     "rewrite_applications": 52
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     [
+      "*",
+      [
+       "*",
+       4,
+       [
+        "+",
+        "3",
+        "x"
+       ]
+      ],
+      [
+       "+",
+       [
+        "*",
+        "2",
+        "x"
+       ],
+       "3"
+      ]
+     ],
+     [
+      "*",
+      "3",
+      [
+       "+",
+       [
+        "*",
+        "x",
+        "x"
+       ],
+       "2"
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 13,
+     "terms_enumerated": 14
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     [
+      "*",
+      "3",
+      [
+       "*",
+       "2",
+       [
+        "*",
+        "x",
+        "x"
+       ]
+      ]
+     ],
+     [
+      "*",
+      [
+       "*",
+       "3",
+       [
+        "*",
+        "2",
+        "x"
+       ]
+      ],
+      [
+       "*",
+       [
+        "*",
+        "3",
+        "x"
+       ],
+       4
+      ]
+     ]
+    ],
+    "cost": 19,
+    "present_cost": {
+     "cpu_s": 0.0014,
+     "rewrite_applications": 98,
+     "terms_enumerated": 10
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('*', ('*', ('+', '2', '2'), ('+', '3', 'x')), ('+', ('*', '2', 'x'), '3')), ('*', '3', ('+', ('*', 'x', 'x'), '2')))",
+   "seed_cost": 21,
+   "world": "OW6-00"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 18,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 16,
+     "terms_enumerated": 7
+    },
+    "reachable": 7,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 18,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 7,
+    "present_cost": {
+     "cpu_s": 0.0002,
+     "eclasses": 4,
+     "enodes": 8,
+     "merges": 4,
+     "rewrite_applications": 20
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     6,
+     "3"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 3,
+     "terms_enumerated": 4
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 18,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 5,
+     "terms_enumerated": 3
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('*', '2', '3'), '3')",
+   "seed_cost": 5,
+   "world": "OW6-01"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 1000,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0206,
+     "rewrite_applications": 6356,
+     "terms_enumerated": 956
+    },
+    "reachable": 956,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 1800,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 5,
+    "n_eclass_members": 953,
+    "present_cost": {
+     "cpu_s": 0.0029,
+     "eclasses": 10,
+     "enodes": 35,
+     "merges": 25,
+     "rewrite_applications": 205
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     [
+      "+",
+      [
+       "*",
+       "3",
+       "3"
+      ],
+      [
+       "+",
+       "2",
+       "2"
+      ]
+     ],
+     [
+      "*",
+      10,
+      "5"
+     ]
+    ],
+    "cost": 11,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 9,
+     "terms_enumerated": 10
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 650,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0003,
+     "rewrite_applications": 33,
+     "terms_enumerated": 7
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', ('+', ('*', '3', '3'), ('+', '2', '2')), ('*', ('*', '5', '2'), '5'))",
+   "seed_cost": 13,
+   "world": "OW6-02"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0019,
+     "rewrite_applications": 468,
+     "terms_enumerated": 112
+    },
+    "reachable": 112,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 112,
+    "present_cost": {
+     "cpu_s": 0.0008,
+     "eclasses": 9,
+     "enodes": 32,
+     "merges": 23,
+     "rewrite_applications": 89
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "+",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 6,
+     "terms_enumerated": 7
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     5
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 11,
+     "terms_enumerated": 3
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', ('*', '5', 'x'), ('+', '2', '3'))",
+   "seed_cost": 7,
+   "world": "OW6-03"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 2,
+     "terms_enumerated": 2
+    },
+    "reachable": 2,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 2,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "eclasses": 3,
+     "enodes": 4,
+     "merges": 1,
+     "rewrite_applications": 3
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     "3",
+     "x"
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 1,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', '3', 'x')",
+   "seed_cost": 3,
+   "world": "OW6-04"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "reachable": 1,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": "5",
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 1,
+    "n_eclass_members": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "eclasses": 1,
+     "enodes": 1,
+     "merges": 0,
+     "rewrite_applications": 0
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": "5",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "'5'",
+   "seed_cost": 1,
+   "world": "OW6-05"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 3,
+     "terms_enumerated": 3
+    },
+    "reachable": 3,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 4,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 2,
+    "n_eclass_members": 3,
+    "present_cost": {
+     "cpu_s": 0.0035,
+     "eclasses": 2,
+     "enodes": 4,
+     "merges": 2,
+     "rewrite_applications": 8
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 2,
+     "terms_enumerated": 3
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 4,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 2,
+     "terms_enumerated": 2
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', '2', '2')",
+   "seed_cost": 3,
+   "world": "OW6-06"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": [
+     "*",
+     "x",
+     14
+    ],
+    "cost": 3,
+    "present_cost": {
+     "cpu_s": 0.0014,
+     "rewrite_applications": 376,
+     "terms_enumerated": 104
+    },
+    "reachable": 104,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": [
+     "*",
+     "x",
+     14
+    ],
+    "cost": 3,
+    "eclass_note": null,
+    "iterations": 3,
+    "n_eclass_members": 104,
+    "present_cost": {
+     "cpu_s": 0.0007,
+     "eclasses": 8,
+     "enodes": 35,
+     "merges": 27,
+     "rewrite_applications": 107
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "+",
+     [
+      "+",
+      "x",
+      "5"
+     ],
+     9
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 6,
+     "terms_enumerated": 7
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": [
+     "*",
+     [
+      "*",
+      "5",
+      "x"
+     ],
+     9
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 18,
+     "terms_enumerated": 5
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('+', ('+', 'x', '5'), ('*', '3', '3'))",
+   "seed_cost": 7,
+   "world": "OW6-07"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "reachable": 1,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": "x",
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 1,
+    "n_eclass_members": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "eclasses": 1,
+     "enodes": 1,
+     "merges": 0,
+     "rewrite_applications": 0
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": "x",
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 0,
+     "terms_enumerated": 1
+    },
+    "status": "CHECKED"
+   },
+   "seed": "'x'",
+   "seed_cost": 1,
+   "world": "OW6-08"
+  },
+  {
+   "direct_solve": {
+    "arm": "direct_solve",
+    "best": 16,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.001,
+     "rewrite_applications": 366,
+     "terms_enumerated": 98
+    },
+    "reachable": 98,
+    "status": "CHECKED"
+   },
+   "equality_saturation": {
+    "arm": "equality_saturation",
+    "best": 30,
+    "cost": 1,
+    "eclass_note": null,
+    "iterations": 4,
+    "n_eclass_members": 179,
+    "present_cost": {
+     "cpu_s": 0.0008,
+     "eclasses": 6,
+     "enodes": 34,
+     "merges": 28,
+     "rewrite_applications": 168
+    },
+    "saturated": true,
+    "status": "CHECKED"
+   },
+   "one_shot_rewrite": {
+    "arm": "one_shot_rewrite",
+    "best": [
+     "*",
+     "2",
+     [
+      "+",
+      6,
+      "2"
+     ]
+    ],
+    "cost": 5,
+    "present_cost": {
+     "cpu_s": 0.0,
+     "rewrite_applications": 6,
+     "terms_enumerated": 7
+    },
+    "status": "CHECKED"
+   },
+   "ordered_rewriting": {
+    "arm": "ordered_rewriting",
+    "best": 16,
+    "cost": 1,
+    "present_cost": {
+     "cpu_s": 0.0001,
+     "rewrite_applications": 12,
+     "terms_enumerated": 4
+    },
+    "status": "CHECKED"
+   },
+   "seed": "('*', '2', ('+', ('+', '3', '3'), '2'))",
+   "seed_cost": 7,
+   "world": "OW6-09"
+  }
+ ],
+ "hostile_scans": [
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 720,
+     "term": "('*', ('*', '3', ('*', '2', ('*', 'x', 'x'))), ('*', ('*', '3', ('*', '2', 'x')), ('*', ('*', '3', 'x'), 4)))",
+     "term_at_1": 432
+    }
+   ],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 720,
+     "term": "('*', ('*', '3', ('*', '2', ('*', 'x', 'x'))), ('*', ('*', '3', ('*', '2', 'x')), ('*', ('*', '3', 'x'), 4)))",
+     "term_at_1": 432
+    }
+   ],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 720,
+     "term": "('*', ('*', '3', ('*', '2', ('*', 'x', 'x'))), ('*', ('*', '3', ('*', '2', 'x')), ('*', ('*', '3', 'x'), 4)))",
+     "term_at_1": 432
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 720,
+     "term": "('*', ('*', ('*', '2', ('*', 'x', 'x')), '3'), ('*', ('*', ('*', '2', '2'), ('*', '3', 'x')), ('*', '3', ('*', '2', 'x'))))",
+     "term_at_1": 432
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 720,
+     "term": "('*', ('*', ('*', '2', ('*', 'x', 'x')), '3'), ('*', ('*', ('*', '2', '2'), ('*', '3', 'x')), ('*', '3', ('*', 'x', '2'))))",
+     "term_at_1": 432
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 720,
+     "term": "('*', ('*', ('*', '2', ('*', 'x', 'x')), '3'), ('*', ('*', ('*', '2', '2'), ('*', '3', 'x')), ('*', ('*', '2', 'x'), '3')))",
+     "term_at_1": 432
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 720,
+     "term": "('*', ('*', ('*', '2', ('*', 'x', 'x')), '3'), ('*', ('*', ('*', '2', '2'), ('*', '3', 'x')), ('*', ('*', 'x', '2'), '3')))",
+     "term_at_1": 432
+    }
+   ],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 5377,
+   "n_cannot_check": 0,
+   "n_checked": 6145,
+   "scan_status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 8,
+   "scan_status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 650,
+     "term": "1000",
+     "term_at_1": 1000
+    }
+   ],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 650,
+     "term": "1800",
+     "term_at_1": 1800
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 650,
+     "term": "('*', ('*', ('*', '3', '3'), ('*', '2', '2')), ('*', '5', ('*', '2', '5')))",
+     "term_at_1": 1800
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 650,
+     "term": "('*', ('*', ('*', '3', '3'), ('*', '2', '2')), ('*', '5', ('*', '5', '2')))",
+     "term_at_1": 1800
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 650,
+     "term": "('*', ('*', ('*', '3', '3'), ('*', '2', '2')), ('*', '5', 10))",
+     "term_at_1": 1800
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 650,
+     "term": "('*', ('*', ('*', '3', '3'), ('*', '2', '2')), ('*', ('*', '2', '5'), '5'))",
+     "term_at_1": 1800
+    }
+   ],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 632,
+   "n_cannot_check": 0,
+   "n_checked": 954,
+   "scan_status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 10,
+     "term": "('*', ('*', '5', 'x'), 5)",
+     "term_at_1": 25
+    }
+   ],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 10,
+     "term": "('*', ('*', '5', 'x'), 5)",
+     "term_at_1": 25
+    }
+   ],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 10,
+     "term": "('*', ('*', '5', 'x'), 5)",
+     "term_at_1": 25
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 10,
+     "term": "('*', ('*', ('*', '5', 'x'), '2'), '3')",
+     "term_at_1": 30
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 10,
+     "term": "('*', ('*', ('*', 'x', '5'), '2'), '3')",
+     "term_at_1": 30
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 10,
+     "term": "('*', ('*', '2', ('*', '5', 'x')), '3')",
+     "term_at_1": 30
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 10,
+     "term": "('*', ('*', '2', ('*', 'x', '5')), '3')",
+     "term_at_1": 30
+    }
+   ],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 85,
+   "n_cannot_check": 0,
+   "n_checked": 113,
+   "scan_status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 3,
+   "scan_status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 2,
+   "scan_status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 4,
+   "scan_status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 15,
+     "term": "('*', 'x', 14)",
+     "term_at_1": 14
+    }
+   ],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 15,
+     "term": "('*', ('*', '5', 'x'), 9)",
+     "term_at_1": 45
+    }
+   ],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 1,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 15,
+     "term": "('*', 'x', 14)",
+     "term_at_1": 14
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 15,
+     "term": "('*', 'x', ('*', '5', ('*', '3', '3')))",
+     "term_at_1": 45
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 15,
+     "term": "('*', 'x', ('*', '5', 9))",
+     "term_at_1": 45
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 15,
+     "term": "('*', 'x', ('*', ('*', '3', '3'), '5'))",
+     "term_at_1": 45
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 15,
+     "term": "('*', 'x', ('*', 9, '5'))",
+     "term_at_1": 45
+    }
+   ],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 79,
+   "n_cannot_check": 0,
+   "n_checked": 105,
+   "scan_status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 2,
+   "scan_status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "alarms": [],
+   "arm": "direct_solve",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [],
+   "arm": "one_shot_rewrite",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [],
+   "arm": "ordered_rewriting",
+   "eclass_coverage": "EXTRACTION_ONLY (e-class walk capped)",
+   "n_alarms": 0,
+   "n_cannot_check": 0,
+   "n_checked": 1,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  },
+  {
+   "alarms": [
+    {
+     "kind": "extracted",
+     "seed_at_1": 16,
+     "term": "30",
+     "term_at_1": 30
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 16,
+     "term": "('*', '2', ('*', '2', ('*', '2', '3')))",
+     "term_at_1": 24
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 16,
+     "term": "('*', '2', ('*', '2', ('*', '3', '2')))",
+     "term_at_1": 24
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 16,
+     "term": "('*', '2', ('*', '2', ('*', '3', '3')))",
+     "term_at_1": 36
+    },
+    {
+     "kind": "eclass_member",
+     "seed_at_1": 16,
+     "term": "('*', '2', ('*', '2', ('+', '2', '3')))",
+     "term_at_1": 20
+    }
+   ],
+   "arm": "equality_saturation",
+   "eclass_coverage": "EXHAUSTIVE",
+   "n_alarms": 150,
+   "n_cannot_check": 0,
+   "n_checked": 180,
+   "scan_status": "CHECKED",
+   "world": "OW6-09"
+  }
+ ],
+ "knuth_bendix": {
+  "arm": "knuth_bendix",
+  "completeness_note": "the completed system over the orientable subset alone is NOT complete for the AC theory",
+  "oriented": [
+   "assoc+",
+   "fold",
+   "factor"
+  ],
+  "present_cost": {
+   "cpu_s": 0.0
+  },
+  "reason": "no reduction order orients a permutative axiom (l and r are variable permutations of one another), so standard Knuth-Bendix is not applicable to the frozen AC-style set; ordered rewriting under a total ground order is the applicable substitute",
+  "unorientable": [
+   "comm+",
+   "comm*"
+  ],
+  "verdict": "FAILS_TO_ORIENT"
+ },
+ "learned_library": {
+  "cost_split_rule": "acquisition and reuse are reported separately and are never netted into one figure",
+  "future_reuse_holdout": {
+   "cpu_s": 0.0006,
+   "holdout_worlds": [
+    "OW6-05",
+    "OW6-06",
+    "OW6-07",
+    "OW6-08",
+    "OW6-09"
+   ],
+   "library_hits": 2,
+   "per_world": [
+    {
+     "baseline_cost": 1,
+     "delta": 0,
+     "with_library_cost": 1,
+     "world": "OW6-05"
+    },
+    {
+     "baseline_cost": 1,
+     "delta": 0,
+     "with_library_cost": 1,
+     "world": "OW6-06"
+    },
+    {
+     "baseline_cost": 3,
+     "delta": 0,
+     "with_library_cost": 3,
+     "world": "OW6-07"
+    },
+    {
+     "baseline_cost": 1,
+     "delta": 0,
+     "with_library_cost": 1,
+     "world": "OW6-08"
+    },
+    {
+     "baseline_cost": 1,
+     "delta": 0,
+     "with_library_cost": 1,
+     "world": "OW6-09"
+    }
+   ],
+   "total_nodes_saved": 0
+  },
+  "library_size": 13,
+  "present_cost_acquisition": {
+   "acquisition_worlds": [
+    "OW6-00",
+    "OW6-01",
+    "OW6-02",
+    "OW6-03",
+    "OW6-04"
+   ],
+   "candidates_considered": 22,
+   "candidates_rejected": 8,
+   "cpu_s": 0.0078
+  },
+  "verdict": "PARENT_SUFFICIENT",
+  "verdict_note": "library never repaid its acquisition on held-out worlds; ordered rewriting alone already owns the function"
+ },
+ "protocol": "D21_D22_PROTOCOL_V1.md",
+ "summary": {
+  "E1_contaminable_worlds": 5,
+  "E1_hostile_detection_rate": 1.0,
+  "E1_missed_detections": [],
+  "E1_not_contaminable_worlds": [
+   "OW6-01",
+   "OW6-04",
+   "OW6-05",
+   "OW6-06",
+   "OW6-08"
+  ],
+  "E1_worlds_with_contamination_detected": 5,
+  "E2_clean_false_alarms": 0,
+  "E2_clean_scans": 40,
+  "E2b_alarms_on_not_contaminable_hostile_worlds": [],
+  "E3_arms_producing_non_equivalent_terms": 0,
+  "E3b_amortised_application_ratio": 0.418,
+  "E3b_worlds_where_shared_egraph_cheaper": [
+   "OW6-00"
+  ],
+  "E4_library_verdict": "PARENT_SUFFICIENT",
+  "E5_t74_broken_leg_detection_rate": 1.0,
+  "E5_t74_clean_all_sound": true,
+  "E5_t74_contaminable_worlds": 5,
+  "E5_t74_hostile_broken_legs_caught": 5,
+  "E6_cross_check_agreement": 1.0,
+  "conformance_control_passed": true,
+  "knuth_bendix_verdict": "FAILS_TO_ORIENT",
+  "unsound_witness_found": true
+ },
+ "t74_composition": {
+  "clean_all_sound": true,
+  "endpoint": "E5",
+  "hostile_broken_legs_caught": 5,
+  "hostile_total": 10,
+  "note": "V_A is decided by the two independent semantics oracles, never by the same e-graph that produced the B-solution",
+  "rows": [
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-00"
+   },
+   {
+    "V_A": false,
+    "V_B": true,
+    "composition_sound": false,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": {
+     "recon_at_1": 432,
+     "seed_at_1": 720,
+     "x": "('*', ('*', ('*', ('+', '2', '2'), ('+', '3', 'x')), ('+', ('*', '2', 'x'), '3')), ('*', '3', ('+', ('*', 'x', 'x'), '2')))",
+     "y_B": "('*', ('*', '3', ('*', '2', ('*', 'x', 'x'))), ('*', ('*', '3', ('*', '2', 'x')), ('*', ('*', '3', 'x'), 4)))"
+    },
+    "world": "OW6-00"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-01"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-01"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-02"
+   },
+   {
+    "V_A": false,
+    "V_B": true,
+    "composition_sound": false,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": {
+     "recon_at_1": 1800,
+     "seed_at_1": 650,
+     "x": "('*', ('+', ('*', '3', '3'), ('+', '2', '2')), ('*', ('*', '5', '2'), '5'))",
+     "y_B": "1800"
+    },
+    "world": "OW6-02"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-03"
+   },
+   {
+    "V_A": false,
+    "V_B": true,
+    "composition_sound": false,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": {
+     "recon_at_1": 25,
+     "seed_at_1": 10,
+     "x": "('+', ('*', '5', 'x'), ('+', '2', '3'))",
+     "y_B": "('*', ('*', '5', 'x'), 5)"
+    },
+    "world": "OW6-03"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-04"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-04"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-05"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-05"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-06"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-06"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-07"
+   },
+   {
+    "V_A": false,
+    "V_B": true,
+    "composition_sound": false,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": {
+     "recon_at_1": 14,
+     "seed_at_1": 15,
+     "x": "('+', ('+', 'x', '5'), ('*', '3', '3'))",
+     "y_B": "('*', 'x', 14)"
+    },
+    "world": "OW6-07"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-08"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-08"
+   },
+   {
+    "V_A": true,
+    "V_B": true,
+    "composition_sound": true,
+    "leg": "clean",
+    "status": "CHECKED",
+    "witness": null,
+    "world": "OW6-09"
+   },
+   {
+    "V_A": false,
+    "V_B": true,
+    "composition_sound": false,
+    "leg": "hostile",
+    "status": "CHECKED",
+    "witness": {
+     "recon_at_1": 30,
+     "seed_at_1": 16,
+     "x": "('*', '2', ('+', ('+', '3', '3'), '2'))",
+     "y_B": "30"
+    },
+    "world": "OW6-09"
+   }
+  ]
+ },
+ "t87_developmental_variants": [
+  {
+   "destroyed": 511,
+   "distinct_variants": 512,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-00"
+  },
+  {
+   "destroyed": 6,
+   "distinct_variants": 7,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-01"
+  },
+  {
+   "destroyed": 266,
+   "distinct_variants": 267,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-02"
+  },
+  {
+   "destroyed": 27,
+   "distinct_variants": 28,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-03"
+  },
+  {
+   "destroyed": 1,
+   "distinct_variants": 2,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-04"
+  },
+  {
+   "destroyed": 0,
+   "distinct_variants": 1,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-05"
+  },
+  {
+   "destroyed": 1,
+   "distinct_variants": 2,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-06"
+  },
+  {
+   "destroyed": 25,
+   "distinct_variants": 26,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-07"
+  },
+  {
+   "destroyed": 0,
+   "distinct_variants": 1,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-08"
+  },
+  {
+   "destroyed": 22,
+   "distinct_variants": 23,
+   "kept_by_quotienting": 1,
+   "status": "CHECKED",
+   "world": "OW6-09"
+  }
+ ],
+ "task_eq": {
+  "cross_check_agreement": 1.0,
+  "cross_check_disagreements": [],
+  "egraph_complete_on_true": 40,
+  "egraph_unsound_decisions": 0,
+  "endpoint": "E6",
+  "n_cannot_check": 0,
+  "n_checked": 80,
+  "n_ground_truth_distinct": 40,
+  "n_ground_truth_equivalent": 40,
+  "n_pairs": 80,
+  "rows": [
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-00"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-01"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-02"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-03"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-04"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-05"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-06"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-07"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-08"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 1,
+    "kind": "walk",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 2,
+    "kind": "walk",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 4,
+    "kind": "walk",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": true,
+    "egglog_status": "CHECKED",
+    "egraph": true,
+    "egraph_sound": true,
+    "ground_truth": true,
+    "k": 8,
+    "kind": "walk",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 0,
+    "kind": "perturb",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 1,
+    "kind": "perturb",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 2,
+    "kind": "perturb",
+    "world": "OW6-09"
+   },
+   {
+    "egglog": false,
+    "egglog_status": "CHECKED",
+    "egraph": false,
+    "egraph_sound": true,
+    "ground_truth": false,
+    "k": 3,
+    "kind": "perturb",
+    "world": "OW6-09"
+   }
+  ]
+ },
+ "wall_s": 5.6,
+ "worlds": "OW6 (frozen, SEED 20260910)"
+}
