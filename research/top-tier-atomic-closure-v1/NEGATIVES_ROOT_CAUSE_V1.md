@@ -73,6 +73,16 @@ axis on which it could flip.
    rho* = 11.738/12.966 ~ 0.905. Either way **a finite crossover rho* in (0,1) exists and every
    measurement so far ran at rho = 1.0** — the impossible corner. RV-8's constructed stream is
    exactly a rho << 1 ecology — which is where the library won.
+   **MEASURED OUTCOME (D29, PR #327): the [0.51, 0.905] bracket is REFUTED on the frozen grid.**
+   Q*(rho) = NULL at every rho in {0.0,...,1.0} through Q<=32; even pure-repeat streams do not
+   cross within grid (fixed floor ~4.3k ops vs ~53 ops/query marginal saving; off-grid
+   projection ~Q=80.7 at rho=0). Measured rho* collapses to (0, 0.25): both derivations above
+   over-read the still-flattening Q<=16 segment (true Q=16->32 incremental marginal at rho=1
+   is ~497, not ~813). The boundary clause held exactly — the rho=1.0 arm reproduces the
+   committed RV_B1 per-Q totals with zero divergence. The surviving law is harsher:
+   **amortisation pays only in the pure-repeat limit; the crossover is far off-grid.**
+   Registered prediction preserved verbatim in QUERY_ECOLOGY_AMENDMENT_V1.predictions_registered
+   with the outcome appended (amendment discipline: append, never rewrite).
 3. **T87 quotienting (512 -> 1) is the economy claim that WINS** — its equivalence certificates
    are FREE (given by the rewrite rules), while CEGAR blocks must EARN each merge against the
    concrete function. Compression cost scales with the semantic distance between the

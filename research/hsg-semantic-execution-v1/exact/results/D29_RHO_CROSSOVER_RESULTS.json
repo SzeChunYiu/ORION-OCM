@@ -1,0 +1,894 @@
+{
+ "claim_ceiling": "P2 finite certificate over the 30 frozen RV_B1 worlds and the swept grid; no universal claim",
+ "controls": {
+  "rho1_numbers_vs_committed_rv_b1_failures": [],
+  "rho1_stream_identity_failures": [],
+  "shuffle_equal_n_null": {
+   "draw_unstable_rhos": [],
+   "draws": 5,
+   "q_star_by_draw": {
+    "0": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "0.25": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "0.5": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "0.75": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "1": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "rule": "deterministic permutations of the exact per-world query multiset per cell; direct totals are order-independent by construction"
+  }
+ },
+ "cost_ledger_hdi14": {
+  "families": {
+   "acquisition": {
+    "abstraction": [
+     "abstraction_build_ops",
+     "pred_index_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: the direct arm acquires no capital; direct_bfs holds no cross-query state"
+   },
+   "adaptation": {
+    "abstraction": [
+     "incremental_build_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: no capital to adapt"
+   },
+   "bytes_state": {
+    "abstraction": "MEASURED: retained_state_bytes (auxiliary, deterministic serialization of partition + edges)",
+    "direct": "MEASURED: 0 (nothing retained between queries)"
+   },
+   "rejected_candidates": {
+    "abstraction": [
+     "validation_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: direct search proposes no candidate answer to reject"
+   },
+   "retrieval": {
+    "abstraction": [
+     "abstract_states_expanded",
+     "abstract_transitions_examined"
+    ],
+    "direct": [
+     "states_expanded",
+     "transitions_examined"
+    ]
+   },
+   "verification": {
+    "abstraction": [
+     "verification_calls"
+    ],
+    "direct": [
+     "verification_calls"
+    ]
+   }
+  },
+  "ledger_complete": true,
+  "missing": [],
+  "note": "the frozen RV_B1 op metric IS the charged ledger (identical counters both arms); retained-state bytes are measured additionally and NOT added to the op metric (charging them can only increase abstraction cost, so measured Q* is conservative for direct)"
+ },
+ "cpu_s": 1.0066,
+ "experiment": "D29",
+ "falsifier": {
+  "fired": true,
+  "text": "no finite Q*(rho) anywhere off the rho=1 axis, OR Q* non-monotone in rho"
+ },
+ "freeze_commit": "3d82387cc067adbec0bbdd22c24c66f665102e43",
+ "grid": {
+  "Q": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32
+  ],
+  "rho": [
+   0.0,
+   0.25,
+   0.5,
+   0.75,
+   1.0
+  ]
+ },
+ "host": "billy-laptop",
+ "instrument_defects": [],
+ "machinery": "research/hsg-semantic-execution-v1/exact/rv_b1.py IMPORTED UNCHANGED; the query-stream generator gains the frozen rho dial (reader swap); metric, counters, worlds and seeds untouched",
+ "off_grid_projection_if_no_crossover": {
+  "0": {
+   "abstraction_fixed_ops": 4278.0,
+   "marginal_abstraction_ops_per_query": 517.0,
+   "marginal_direct_ops_per_query": 570.0,
+   "marginal_ratio_abstraction_over_direct": 0.907,
+   "projected_crossover_Q_off_grid": 80.72,
+   "status": "PROJECTION, NOT A MEASUREMENT; grid not extended (extending the frozen grid is a new frozen study)"
+  },
+  "0.25": {
+   "abstraction_fixed_ops": 6426.0,
+   "marginal_abstraction_ops_per_query": 607.75,
+   "marginal_direct_ops_per_query": 481.625,
+   "marginal_ratio_abstraction_over_direct": 1.262,
+   "projected_crossover_Q_off_grid": null,
+   "status": "PROJECTION, NOT A MEASUREMENT; grid not extended (extending the frozen grid is a new frozen study)"
+  },
+  "0.5": {
+   "abstraction_fixed_ops": 7661.0,
+   "marginal_abstraction_ops_per_query": 579.188,
+   "marginal_direct_ops_per_query": 459.438,
+   "marginal_ratio_abstraction_over_direct": 1.261,
+   "projected_crossover_Q_off_grid": null,
+   "status": "PROJECTION, NOT A MEASUREMENT; grid not extended (extending the frozen grid is a new frozen study)"
+  },
+  "0.75": {
+   "abstraction_fixed_ops": 8480.0,
+   "marginal_abstraction_ops_per_query": 522.688,
+   "marginal_direct_ops_per_query": 432.125,
+   "marginal_ratio_abstraction_over_direct": 1.21,
+   "projected_crossover_Q_off_grid": null,
+   "status": "PROJECTION, NOT A MEASUREMENT; grid not extended (extending the frozen grid is a new frozen study)"
+  },
+  "1": {
+   "abstraction_fixed_ops": 9032.0,
+   "marginal_abstraction_ops_per_query": 497.25,
+   "marginal_direct_ops_per_query": 416.938,
+   "marginal_ratio_abstraction_over_direct": 1.193,
+   "projected_crossover_Q_off_grid": null,
+   "status": "PROJECTION, NOT A MEASUREMENT; grid not extended (extending the frozen grid is a new frozen study)"
+  }
+ },
+ "primary_endpoint_rule": "Q*(rho) = smallest Q with abstraction total ops <= direct total ops, totals summed over the 30 frozen worlds; NULL if no crossing within the grid",
+ "protocol": "ECONOMY_FRONTIER_PROTOCOLS_V1.json#D29_crossover_frontier",
+ "protocol_section": "D29_crossover_frontier",
+ "python": "3.8.10",
+ "q_star": {
+  "0": null,
+  "0.25": null,
+  "0.5": null,
+  "0.75": null,
+  "1": null
+ },
+ "q_star_table": [
+  {
+   "Q_star": null,
+   "finite": false,
+   "rho": 0.0
+  },
+  {
+   "Q_star": null,
+   "finite": false,
+   "rho": 0.25
+  },
+  {
+   "Q_star": null,
+   "finite": false,
+   "rho": 0.5
+  },
+  {
+   "Q_star": null,
+   "finite": false,
+   "rho": 0.75
+  },
+  {
+   "Q_star": null,
+   "finite": false,
+   "rho": 1.0
+  }
+ ],
+ "registered_prediction": {
+  "clauses": {
+   "finite_somewhere_off_rho1": false,
+   "monotone_nondecreasing_in_rho": true,
+   "rho1_reproduces_filed_negative": true,
+   "rho_star_bracket_not_excluded": false,
+   "rho_star_bracket_sharpened": false,
+   "rho_star_measured_interval": null
+  },
+  "text": "Q*(rho) finite iff rho < rho* in [0.51, 0.905]; monotone non-decreasing in rho; rho=1.0 reproduces the filed negative (crossover_Q null) as the boundary",
+  "verdict": "REFUTED"
+ },
+ "registered_prediction_source": "QUERY_ECOLOGY_AMENDMENT_V1.json#claim_shape_rules.predictions_registered",
+ "rho_dial_semantics": {
+  "novel_position": "_rng('D29NOV', world, q).random() < rho; draw = frozen _rng('RVBQ', world, q) sample",
+  "position_0": "the world's ORIGINAL frozen Bad set (as RV_B1)",
+  "prefix_consistent": true,
+  "repeat_position": "copy of position _rng('D29RPT', world, q).randrange(q)",
+  "rho_1_stream_identical_to_frozen": true
+ },
+ "study": "crossover_frontier",
+ "terminal": {
+  "protocol_spelling": "NO_CROSSOFF_ANYWHERE_OFF_RHO1 in ECONOMY_FRONTIER_PROTOCOLS_V1.json",
+  "statement": "No finite Q*(rho) exists at any rho < 1.0 on the frozen grid, or Q* is non-monotone in rho: the capital-cost-floor frontier law as stated is wrong and must be replaced (RC2 restated).",
+  "verdict": "NO_CROSSOVER_ANYWHERE_OFF_RHO1"
+ },
+ "total_cost_curves": {
+  "0": {
+   "per_q": {
+    "1": {
+     "abstraction_ops_total": 4795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 570,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 8.412,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "16": {
+     "abstraction_ops_total": 12550,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 9120,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.0625,
+     "novel_fraction_realized_min": 0.0625,
+     "ratio_abstraction_over_direct": 1.376,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 7
+    },
+    "2": {
+     "abstraction_ops_total": 5312,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 1140,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.5,
+     "novel_fraction_realized_min": 0.5,
+     "ratio_abstraction_over_direct": 4.66,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "32": {
+     "abstraction_ops_total": 20822,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 18240,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.0312,
+     "novel_fraction_realized_min": 0.0312,
+     "ratio_abstraction_over_direct": 1.142,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 9
+    },
+    "4": {
+     "abstraction_ops_total": 6346,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 2280,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.25,
+     "novel_fraction_realized_min": 0.25,
+     "ratio_abstraction_over_direct": 2.783,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 3
+    },
+    "8": {
+     "abstraction_ops_total": 8414,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 4560,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.125,
+     "novel_fraction_realized_min": 0.125,
+     "ratio_abstraction_over_direct": 1.845,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 6
+    }
+   },
+   "rho": 0.0
+  },
+  "0.25": {
+   "per_q": {
+    "1": {
+     "abstraction_ops_total": 4795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 570,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 8.412,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "16": {
+     "abstraction_ops_total": 16150,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 8059,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.5625,
+     "novel_fraction_realized_min": 0.1875,
+     "ratio_abstraction_over_direct": 2.004,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 1
+    },
+    "2": {
+     "abstraction_ops_total": 5645,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 1097,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.5,
+     "ratio_abstraction_over_direct": 5.146,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 130,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "32": {
+     "abstraction_ops_total": 25874,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 15765,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.4688,
+     "novel_fraction_realized_min": 0.125,
+     "ratio_abstraction_over_direct": 1.641,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 2
+    },
+    "4": {
+     "abstraction_ops_total": 8223,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 2297,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.25,
+     "ratio_abstraction_over_direct": 3.58,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 90,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "8": {
+     "abstraction_ops_total": 11223,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 4183,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.625,
+     "novel_fraction_realized_min": 0.125,
+     "ratio_abstraction_over_direct": 2.683,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 23,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 1
+    }
+   },
+   "rho": 0.25
+  },
+  "0.5": {
+   "per_q": {
+    "1": {
+     "abstraction_ops_total": 4795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 570,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 8.412,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "16": {
+     "abstraction_ops_total": 16928,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 7264,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.8125,
+     "novel_fraction_realized_min": 0.3125,
+     "ratio_abstraction_over_direct": 2.33,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 1
+    },
+    "2": {
+     "abstraction_ops_total": 6165,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 1105,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.5,
+     "ratio_abstraction_over_direct": 5.579,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 118,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "32": {
+     "abstraction_ops_total": 26195,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 14615,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.7812,
+     "novel_fraction_realized_min": 0.3438,
+     "ratio_abstraction_over_direct": 1.792,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "4": {
+     "abstraction_ops_total": 9161,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 2138,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.25,
+     "ratio_abstraction_over_direct": 4.285,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 42,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "8": {
+     "abstraction_ops_total": 12293,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 3920,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.875,
+     "novel_fraction_realized_min": 0.25,
+     "ratio_abstraction_over_direct": 3.136,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    }
+   },
+   "rho": 0.5
+  },
+  "0.75": {
+   "per_q": {
+    "1": {
+     "abstraction_ops_total": 4795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 570,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 8.412,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "16": {
+     "abstraction_ops_total": 16843,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 6878,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.625,
+     "ratio_abstraction_over_direct": 2.449,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 1
+    },
+    "2": {
+     "abstraction_ops_total": 6326,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 1123,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.5,
+     "ratio_abstraction_over_direct": 5.633,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 104,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "32": {
+     "abstraction_ops_total": 25206,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 13792,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 0.9688,
+     "novel_fraction_realized_min": 0.6875,
+     "ratio_abstraction_over_direct": 1.828,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "4": {
+     "abstraction_ops_total": 9567,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 2135,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.25,
+     "ratio_abstraction_over_direct": 4.481,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 26,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "8": {
+     "abstraction_ops_total": 12729,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 3776,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 0.5,
+     "ratio_abstraction_over_direct": 3.371,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    }
+   },
+   "rho": 0.75
+  },
+  "1": {
+   "per_q": {
+    "1": {
+     "abstraction_ops_total": 4795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 570,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 8.412,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 150,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "16": {
+     "abstraction_ops_total": 16988,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 6815,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 2.493,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 1
+    },
+    "2": {
+     "abstraction_ops_total": 6698,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 1040,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 6.44,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 94,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "32": {
+     "abstraction_ops_total": 24944,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 13486,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 1.85,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "4": {
+     "abstraction_ops_total": 9725,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 2014,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 4.829,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 5,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    },
+    "8": {
+     "abstraction_ops_total": 12795,
+     "abstraction_wins": false,
+     "aggregate_bits_by_draw": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ],
+     "direct_ops_total": 3577,
+     "draw_invariant": true,
+     "novel_fraction_realized_max": 1.0,
+     "novel_fraction_realized_min": 1.0,
+     "ratio_abstraction_over_direct": 3.577,
+     "runs_defective": 0,
+     "vacuous_shuffle_draws": 0,
+     "worlds_total": 30,
+     "worlds_where_abstraction_wins": 0
+    }
+   },
+   "rho": 1.0
+  }
+ },
+ "wall_s": 1.0071,
+ "worlds": 30
+}
