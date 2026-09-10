@@ -1,0 +1,104 @@
+{
+ "bound_sources": {
+  "git_head": "7cd2ba15422141b0010b7bca88efa3b5a29c9dec",
+  "methods.py": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3"
+ },
+ "ecology": {
+  "canonical_length_distribution": {
+   "8": 70
+  },
+  "members": 70,
+  "token_distribution": {
+   "3": 70
+  }
+ },
+ "ecology_variant": {
+  "derivation": "2*g <= b admission condition measured in M2-P1b",
+  "label": "E3",
+  "max_motif_tokens": 3,
+  "min_canonical_length": 8,
+  "motif_lengths": [
+   2,
+   3
+  ]
+ },
+ "entry_gates": {
+  "G1_length_parity_max_deviation": 0.0,
+  "G1_verdict": "PASS",
+  "G2_shared_normal_forms": 0,
+  "G2_verdict": "PASS",
+  "G3_non_decomposable": 0,
+  "G3_verdict": "PASS",
+  "G4_surface_predictor_null": "DEFERRED_TO_SCORED_RUN"
+ },
+ "frozen_seed": 20260910,
+ "grammar": {
+  "max_length": 8,
+  "primitives": [
+   "inc",
+   "dec",
+   "double",
+   "square"
+  ]
+ },
+ "hardening_parent": 323,
+ "hidden_motifs": [
+  [
+   "dec",
+   "double",
+   "double"
+  ],
+  [
+   "double",
+   "dec",
+   "square"
+  ],
+  [
+   "double",
+   "square"
+  ],
+  [
+   "inc",
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "square",
+   "inc",
+   "double"
+  ]
+ ],
+ "hidden_motifs_sha256": "01bb19abc47d88e5a0a00bfb3114e5f6f6e78bfc93f4ea2686bfd154227fa398",
+ "host": {
+  "hostname": "billy-laptop-old",
+  "python": "3.14.4"
+ },
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "learnability_condition": {
+  "motifs_pairwise_substring_disjoint": true,
+  "necessary_bound": "m*(L-1) <= 16 distinct length-2 substrings exist",
+  "predicted_true_motifs_recovered": 6,
+  "rejected_non_disjoint_samples": 5758,
+  "rule": "learn_generator ranks by (count DESC, length DESC); disjointness makes a motif's count TIE its substrings' so the length tiebreak puts the motif first"
+ },
+ "owner_issue": 165,
+ "registered_admission_prediction": {
+  "guided_position_estimate_g": 8420,
+  "note": "computed from the ecology alone, before any developmental run",
+  "predicted_veto_rate": 0.0,
+  "rule": "veto predicted when 2*g > b",
+  "tokens_T": 20
+ },
+ "schema": "OCM_M2P1_ECOLOGY_E4_V1",
+ "status": "ECOLOGY_EMISSION_NOT_A_SCORED_RUN",
+ "stream_sizes": {
+  "protected": 21,
+  "train": 35,
+  "validation": 14
+ },
+ "timing_seconds": 9.09
+}
