@@ -1,0 +1,51 @@
+{
+  "receipt_id": "A6-R1",
+  "schema": "TheoryTransportV1",
+  "arm": "A6",
+  "phase": "P1_blind",
+  "atom_id": "A_T11_module_promotion_R5",
+  "donor_domain": "real options theory (Dixit-Pindyck irreversible investment under uncertainty; optimal stopping)",
+  "donor_source_ids": [
+    "Dixit & Pindyck, Investment Under Uncertainty (framework: hurdle rate above breakeven, value of waiting, smooth-pasting condition) — survey-level reads at L1/L2 in the exploration channel",
+    "A4_LOG.jsonl explored-channel precedent (real options inspected at L2 for the G13 rescue; A6 re-routes it as PRIMARY donor for A_T11)"
+  ],
+  "donor_structure": "A firm holds an irreversible investment opportunity with sunk cost I and project value V following a stochastic process. Investing now kills the option to wait. Optimal policy is a stopping time: invest iff V crosses a hurdle V* > I; the wedge V* - I is the option value of waiting, increasing in volatility sigma and in irreversibility. Mean-collapse (invest iff E[V] >= I) is dominated for every sigma > 0 because the continuation value is convex in sigma.",
+  "target_structure": "A_T11 at R5: module promotion criterion under uncertain future use (option-value form), assumption removal vi-fixed-ecology. Atom table has no verdict row for A_T11 (fully unrouted in D13). G16 scalar family (H_eff, C_build, C_maint, C_rev) provides the target quantities.",
+  "mapping": [
+    "irreversible investment opportunity <-> promotion of a module from candidate to constituted (C_build sunk, demotion partial)",
+    "project value V <-> anticipated use intensity (H_eff process)",
+    "sunk cost I <-> C_build (+C_maint stream)",
+    "hurdle V* > I <-> promotion threshold on anticipated-use evidence strictly above renewal-reward breakeven",
+    "volatility sigma <-> use-process uncertainty (the vi removal)",
+    "value of waiting <-> keeping the module inline/unpromoted while evidence accumulates",
+    "smooth-pasting <-> threshold policy continuous in the evidence statistic (no bang-bang promotion at the boundary)"
+  ],
+  "preserved_relations": [
+    "promotion is a STOPPING DECISION on a filtered evidence process, not a one-shot expectation comparison",
+    "threshold sits strictly above mean breakeven; wedge increasing in uncertainty and irreversibility",
+    "mean-collapse criterion is dominated everywhere uncertainty > 0 (convexity of continuation value)"
+  ],
+  "known_broken_relations": [
+    "finance assumes a market price of risk/complete markets for the risk adjustment; HSG has no spanning market - the wedge must be derived from the process's own utility (fitness/burden), so only the STRUCTURE (not the pricing formula) transfers",
+    "Dixit-Pindyck value is continuous diffusion; module use evidence arrives as discrete events - cache-tiering promote-after-N is the discrete counting-instance (folded here as instance, see rejected list in log)",
+    "governed promotion (licence structure, C_t pre-commitment) has no financial analogue - added as a target-side clause, not imported from the donor"
+  ],
+  "unknown_correspondences": [
+    "closed form for h*(sigma, C_maint/C_build ratio, demotion recoverability fraction) under a compound-Poisson use process (vs geometric-Brownian V) - unmeasured",
+    "does the A_T05 saturation curve (A6-R0) interact with h*: promotion threshold at the saturation knee under uncertainty"
+  ],
+  "assumptions_added": [
+    "anticipated-use evidence admits a one-dimensional sufficient statistic (scalar stopping state)",
+    "demotion recovers at most a fraction of C_build (partial irreversibility parametrized)"
+  ],
+  "candidate_theorem": "The R5 module promotion criterion under uncertain future use is the optimal-stopping form: promote iff the anticipated-use statistic crosses h* strictly above the renewal-reward mean breakeven, with h* - breakeven nondecreasing in use-process uncertainty, in irreversibility, and in maintenance carry; the mean-collapse criterion (promote iff E[H_eff] clears breakeven) is dominated for every nonzero uncertainty. Discrete instance: promote-after-N evidence counting (cache tiering) is the memoryless-evidence special case.",
+  "strongest_parent": "Dixit-Pindyck irreversible investment / optimal stopping (structure: stopping rule, hurdle wedge, waiting value)",
+  "proof_route": "two-state example: H_eff in {low, high} with known transition rates, C_build=1, per-use saving s; solve the stopping problem exactly (Q-matrix) and exhibit h* > E[H_eff]-breakeven with wedge growing in the rate uncertainty; compare mean-collapse policy regret",
+  "costs": {"B_donor": 14, "B_map": 15, "B_synth": 30, "B_validate": 50, "total": 109, "price_model": "HSG_D15_REVIVAL_FREEZE", "channel_note": "L0+L1+L2+map+synth booked in eps channel (59/100); validate booked in general share per A4 precedent"},
+  "validation": {
+    "method": "cross-donor convergence check: independent derivation of threshold-above-breakeven from a second partition (A6-R2 metabolic regulation economics) plus discrete-instance consistency (cache tiering) plus analytic inequality (smooth-pasting/convexity: mean-collapse dominated at sigma>0)",
+    "results": "three instantiations (finance stopping, metabolic regulation, systems counting-threshold) agree on threshold>breakeven with uncertainty-driven wedge; no counterexample class found",
+    "verdict": "candidate-theorem SUPPORTED at structural level; closed-form h* left open (unknown_correspondences)"
+  },
+  "status": "SUPPORTED"
+}

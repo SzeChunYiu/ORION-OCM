@@ -1,0 +1,17 @@
+{
+  "receipt_id": "A1-R4-validation",
+  "repairs": "d12/arms/A1_receipts/A1-R4.json (status PROPOSAL: validate never purchased at D12 hard stop; original file NOT modified)",
+  "arm": "A6",
+  "phase": "P2_repair",
+  "validation_standard": "identical to the other A1 receipts (A1-R1): finite machine-checked witness executing the proof_route recorded in A1-R4.json",
+  "witness": "arms/A6_receipts/A1-R4_witness.py (pure finite arithmetic, exact Fractions, no network/external data)",
+  "results": {
+    "clause_i_regress_termination": "frozen top level => every amendment licence is strictly level-decreasing, licence chain [1,2,3] terminates (finite, well-founded); PASS",
+    "clause_ii_interior_optimal_strictness": "Buchanan-Tullock cost A*(1-q) + B*q/(1-q) with A=9,B=1: numeric sweep argmin at q*=0.65 (cost 5.0071), analytic interior optimum q*=1-sqrt(B/A)=0.6667, interior strictly between rubber-stamp and unanimity; costs rise on BOTH sides (q=0.50 -> 5.5000 damage-side, q=0.95 -> 19.4500 delay-side); PASS",
+    "clause_iii_self_licensing_chain": "top level made amendable => an amendment at level 3 can lower the threshold gating level-3 amendments; halving erosion still running at the 50-step horizon => unbounded self-licensing chain, regress does not terminate; PASS",
+    "corollary_check": "ARCHIVE-GOV / EPS-PRECOMMIT pre-commitments in C_t instantiate the frozen top level; removing them activates the clause-iii mechanism (structural, consistent with lane-G conditions)"
+  },
+  "costs": {"B_validate": 50, "source": "validation_reserve (earmarked from start per frozen A6 policy)", "price_model": "HSG_D15_REVIVAL_FREEZE"},
+  "verdict": "all three proof_route clauses machine-checked on the finite witness; no counterexample found; the candidate theorem (regress-terminating iff frozen top + strictly level-decreasing licences; runtime thresholds strictly exceed adoption thresholds; interior optimal strictness q*) is SUPPORTED",
+  "status_after_repair": "A1-R4 PROMOTED: PROPOSAL -> SUPPORTED (validation purchased by arm A6; recorded here and in A6_LOG.jsonl phase P2_repair; the D12 original receipt file remains untouched)"
+}
