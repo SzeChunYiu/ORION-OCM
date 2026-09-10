@@ -1,76 +1,138 @@
 {
-  "GATE_HOLDS": false,
-  "amendments": [
-    {
-      "id": 1,
-      "manifest_sha256": {
-        "DEFINITIONS.md": "7ee4812f252fb8fd1ccab5318318639a256f59d423ae6989970b5404db7ec546",
-        "HOSTILE_REGISTRY_V1_AMEND_1.json": "cdd51d9d9c79324e86e39ba8c529375b5387a6b8c7dcd945f11db9e3122e3713",
-        "NONINTERFERENCE_CHECK_SPEC_V1.json": "82f588e0fbe8cb0a41ff5ee755860e632af7adca92f87021e5435f1193cc5b0d",
-        "PARENT_LEDGER_MODULE_BINDING_V1.md": "dca5f42b7fdb1429fc3e9584ca979d46d45a2677eb8c72a68ac3ceec04ca630f",
-        "THEOREM_REGISTRY_V1_AMEND_1.json": "3d8e82afee0a6729af79d115e12717d78b117ebc68938782a21f69a903f7983e",
-        "WORLD_STATE_AND_DYNAMICS_V1_AMEND_1.json": "624626ec2b5b56ff8eb0a2e432b311a2282bb6eed0a1123002431ee6ec193e2b",
-        "check_noninterference.py": "9ce9fe0c09d67bd8fbf16cb68b43949ae19a7f5e2405d8fc450b962c99740dff"
-      },
-      "reason": "The base kernel declarations carried writes but not reads, so the section 3 ancestor closure had no incoming edges and returned a VACUOUS PASS for every world. The protected assay names were also absent from the state vocabulary entirely, a second vacuous pass found by running the checker rather than by reading the contract. The base hostile registry recorded alarms without the clean controls that prove the instruments discriminate.",
-      "title": "Kernel reads, observer-side assay kernel, implementable noninterference predicate, hostile no-alarm controls, module binding ledger"
-    }
-  ],
-  "closure_conditions_section_17": {
-    "1_objects_frozen": "SATISFIED",
-    "2_noninterference_machine_checkable": "SATISFIED_FOR_DECLARED_GRAPH__RUN_BINDING_OPEN",
-    "3_unit_analysis_outcome_neutral": "SATISFIED",
-    "4_resource_matching_and_knockout_frozen": "SATISFIED_FOR_OBJECT_KNOCKOUT__CHANNEL_KNOCKOUT_OPEN",
-    "5_evidence_bridge_explicit_non_circular": "SATISFIED",
-    "6_theorem_registry_parents_assumptions_falsifiers": "OPEN__3_OF_15_ROWS_LACK_WEAKENINGS",
-    "7_hostiles_demonstrate_instruments_can_fail": "OPEN__6_OF_15_ROWS_UNPAIRED",
-    "8_claim_ceilings_cannot_silently_become_general_intelligence": "SATISFIED"
+ "GATE_HOLDS": false,
+ "amendments": [
+  {
+   "id": 1,
+   "manifest_sha256": {
+    "DEFINITIONS.md": "7ee4812f252fb8fd1ccab5318318639a256f59d423ae6989970b5404db7ec546",
+    "HOSTILE_REGISTRY_V1_AMEND_1.json": "cdd51d9d9c79324e86e39ba8c529375b5387a6b8c7dcd945f11db9e3122e3713",
+    "NONINTERFERENCE_CHECK_SPEC_V1.json": "82f588e0fbe8cb0a41ff5ee755860e632af7adca92f87021e5435f1193cc5b0d",
+    "PARENT_LEDGER_MODULE_BINDING_V1.md": "dca5f42b7fdb1429fc3e9584ca979d46d45a2677eb8c72a68ac3ceec04ca630f",
+    "THEOREM_REGISTRY_V1_AMEND_1.json": "3d8e82afee0a6729af79d115e12717d78b117ebc68938782a21f69a903f7983e",
+    "WORLD_STATE_AND_DYNAMICS_V1_AMEND_1.json": "624626ec2b5b56ff8eb0a2e432b311a2282bb6eed0a1123002431ee6ec193e2b",
+    "check_noninterference.py": "9ce9fe0c09d67bd8fbf16cb68b43949ae19a7f5e2405d8fc450b962c99740dff"
+   },
+   "reason": "The base kernel declarations carried writes but not reads, so the section 3 ancestor closure had no incoming edges and returned a VACUOUS PASS for every world. The protected assay names were also absent from the state vocabulary entirely, a second vacuous pass found by running the checker rather than by reading the contract. The base hostile registry recorded alarms without the clean controls that prove the instruments discriminate.",
+   "title": "Kernel reads, observer-side assay kernel, implementable noninterference predicate, hostile no-alarm controls, module binding ledger"
   },
-  "contains_results": false,
-  "frozen_before_result_generating_code": true,
-  "gate_holds_reason": "Conditions 2, 4, 6 and 7 are not fully closed. This freeze records the contract; it does not assert the gate. #292 EB-2..EB-8 remain refused.",
-  "gates_issue": 292,
-  "long_earths_refused_until": "EB-F0 GATE_HOLDS",
-  "manifest_sha256": {
+  {
+   "architecture_change_authorised": false,
+   "code_digest": "83b51223b35f6a82a290353d5822867830bb50869e31099552f9f55368236971",
+   "code_files_sha256": {
     "ASSAY_TRANSFER_CONTRACT_V1.json": "dae61d9e6f5e95099833d8748f359df321a8b53c396b073e7cf9d4ee0e275d21",
     "COARSE_GRAINING_INDIVIDUALITY_V1.json": "b972a24e125fca8ba6b0ecb6d8c1fb0c848d1c61845154de32d1bc626d1b6835",
     "COGNITIVE_UNIT_CONTRACT_V1.json": "73a26e6b3b53d36f205b086256f9bff3afaf44461229769a27d6a48231fbfba5",
     "DEFINITIONS.md": "7ee4812f252fb8fd1ccab5318318639a256f59d423ae6989970b5404db7ec546",
     "DUPLICATION_GUARD_V1.json": "b7cec923c3e96408623c7f780bd538197378cad7f93ced48cb9ad244e68f3ab4",
     "EXACT_WORLD_REGISTRY_V1.json": "47adb1b20f83529e2bbc5cebb480f9c0e550bb2dbc3d0e0ecebde9aea1afffc7",
-    "HOSTILE_REGISTRY_V1.json": "ddbbae87484b98eedd1f373688e2ed94eb358b9911b9327a0a47d1e511af9498",
+    "HOSTILE_REGISTRY_V1.json": "7d9ec39773e4aac93de443785658dca82d4df2b8ef61d116cf2692408e5d9ba9",
     "INHERITANCE_SOCIAL_CHANNELS_V1.json": "0c7ec4f22d9ba9ef8e89c6cfa46c0021a0e8b1a4dc5c40652a82820daa102c48",
     "PARENT_LEDGER.md": "ad4bb5feb76bed661015a6a9066082ea80e7f042dc89e1165eb008acfc0e9e22",
-    "README.md": "f07fb7938eb9689a5523e851035a77be7c431cae19bb18b1c271bb9d20f0d3d4",
-    "THEOREM_REGISTRY_V1.json": "25fa57246ba6f72368fd93c6fddc4cc783c77b76c57ac2142482ac32db008ca7",
-    "WORLD_STATE_AND_DYNAMICS_V1.json": "904d08dbaa60d70f644615bf95c88700de83c9088c2fa0e710b41313c4461f2e"
-  },
-  "open_ended_forbidden_terminal": true,
-  "outcome_neutral": true,
-  "owner_issue": 296,
-  "prior_manifest_note": "Modules this freeze BINDS to and asserts it did not author and did not touch. See PARENT_LEDGER_MODULE_BINDING_V1.md. Another lane may legitimately amend one of these, but only if some freeze in ITS OWN directory records that amendment.",
-  "prior_manifest_sha256_observed": {
-    "research/hsg-semantic-execution-v1/verify_freeze_chain.py": "510ddfa7be7f58bdf66eae134b0af1ee8ab9325d86909b3256940c21250898f2",
-    "research/ocm-form-oracle-v1/oracle/behaviour_sig.py": "7e5d8e70a781c640c9cc42e603e603c33cb53bc6155ef60e449e400f5650ed29",
-    "research/ocm-form-oracle-v1/oracle/burden.py": "3c593702da74a7f1ca7d0548c29409a5beb061425eef809f3e7d88f42f6a0330",
-    "research/ocm-form-oracle-v1/oracle/c_immutability.py": "91e5a14fa06380ff39e305fb7bf092875d02f343921839cd084dfaf75f591ba5",
-    "research/ocm-form-oracle-v1/oracle/d26_adapters.py": "e92bba6022ae2b9c681599c87910b7f3d0262041da928c10d927fbcf2c0216ca",
-    "research/ocm-form-oracle-v1/oracle/d26_operators.py": "8a88779e0df14f8d119a52c7fbbedae0058f956191de3d0e18d7e4b4e495b614",
-    "research/ocm-form-oracle-v1/oracle/d27_lineage.py": "e15b44b677049958a7d61e129120eadf66c785fc40d4100b6609a21564d55ae4",
-    "research/ocm-form-oracle-v1/oracle/evolvability.py": "334a8c30fb40f5344e337be67a9e75f992fe75d39c48e25aa6f6d7e0f3e7546d",
-    "research/ocm-form-oracle-v1/oracle/future_family.py": "ce59a2f82d4e6f46820e38ca3cbf9cdc955dd4e1281670f0623c5be196cab256",
-    "research/ocm-form-oracle-v1/oracle/objectives4.py": "f4ebff47a2db1b1e78ac836e8cbd6cfe74cff31d1126c9a3a65c9747044b902f"
-  },
-  "resolution_rule": "A file's authoritative hash is the one in the NEWEST amendment that names it, falling back to this base manifest. Comparing the base manifest against a live tree reports FALSE drift on any file carrying a legitimate recorded amendment.",
-  "role": "FORMAL_PRECONDITION_NOT_A_COGNITIVE_CORE",
-  "schema": "BIOSPHERE_EBF0_FREEZE_V1",
-  "supersession_rule": "Amendments are numbered and recorded, never silent edits. An unrecorded change is drift and is reported as such.",
-  "tooling_excluded_from_manifest": [
-    "make_freeze.py",
-    "verify_freeze_chain.py",
-    "selftest_freeze_chain.py"
-  ],
-  "tooling_exclusion_reason": "Checkers and generators are not frozen content. Freezing a generator makes its next edit report as drift on itself. Verified against research/hsg-semantic-execution-v1/FREEZE_V1.json, which excludes the same three roles.",
-  "top_rule": "Formalize what is invariant and what counts as evidence; do not formalize the empirical answer. The biosphere must remain free to reveal that intelligence is individual, collective, cultural, ecology-specific, plural, unstable, or absent.",
-  "verified_by": "verify_freeze_chain.py in this directory, gated by .github/workflows/biosphere-ebf0.yml"
+    "THEOREM_REGISTRY_V1.json": "b1305965f4978bce22727d2f8db90b0bf9beb6e266bed3f96f68535ef067c50b",
+    "WORLD_STATE_AND_DYNAMICS_V1.json": "904d08dbaa60d70f644615bf95c88700de83c9088c2fa0e710b41313c4461f2e",
+    "freeze_ebf0.py": "8dc292c4b25e61c34b68c037f7b16c1d59d12da43b44d2fcb040bcdb37e1ade3",
+    "graph_agreement.py": "f1f68a5ce28e4411064cb270af6353013222e1afa68547c08c38508cd05435aa",
+    "hostiles.py": "506aa71fceb42895140d5f27b7bfbdd156e51094457bdb469178f9f35e982382",
+    "kernels.py": "11097a89f199c9affe98c52a344ab2e7ebda28a17343550842cd9193b0e2f818",
+    "lib.py": "4aa23c71b4c043c1d30acae9992e66b39b036d29046547bc06dc27574e422801",
+    "micro_earth.py": "bbb91d329b267820bb775a386d55faa211077a01da7f8121fd4ae532309b7541",
+    "parents.py": "80f4ec211a49e59718256350030175af49cd23665b35784b5cf2788e097f437e",
+    "run_ebf0.py": "66d17eb9d29695998d78a0e48e4cf6d1d44f1adcb9c25dba219faf851dfbf14b",
+    "theorems.py": "4be310764160fd44bd815b8b3e04a4a5433a16efa595dd71f4307eada039e530"
+   },
+   "contains_results": false,
+   "id": 2,
+   "manifest_sha256": {
+    "HOSTILE_REGISTRY_V1.json": "7d9ec39773e4aac93de443785658dca82d4df2b8ef61d116cf2692408e5d9ba9",
+    "THEOREM_REGISTRY_V1.json": "b1305965f4978bce22727d2f8db90b0bf9beb6e266bed3f96f68535ef067c50b"
+   },
+   "owner_issues": [
+    296,
+    323
+   ],
+   "reason": "Harvest 1 cancelled maintenance 1, so BIO-T1 clean HOLD was vacuous (no births). BIO-T12 HOLD was hardcoded B-numbers. Optional social copy of useful_method made RESET identical to CONTINUED, confounding vertical inheritance with I_h (HDI-7). Six hostiles lacked clean controls in the live registry file the gate actually loads. CONTINUED>RESET on inherited methods is solution capital, not developmental intelligence (#323 HDI-2). This amendment records the live registry/theorem hashes and an executable code_digest so run_ebf0.py can refuse drift. No scored DEV-CAL-1 run. Long Earths remain refused.",
+   "title": "Run-level BIO-T12 identification, registry hostiles, HDI-2 claim ceiling",
+   "utc": "2026-09-10T14:34:00Z"
+  }
+ ],
+ "closure_conditions_section_17": {
+  "1_objects_frozen": "SATISFIED",
+  "2_noninterference_machine_checkable": "SATISFIED_FOR_DECLARED_GRAPH_AND_RUN_LEVEL_GRAPH_AGREEMENT",
+  "3_unit_analysis_outcome_neutral": "SATISFIED",
+  "4_resource_matching_and_knockout_frozen": "SATISFIED_FOR_OBJECT_KNOCKOUT__SEARCH_GEOMETRY_RECEIPT_OPEN",
+  "5_evidence_bridge_explicit_non_circular": "SATISFIED",
+  "6_theorem_registry_parents_assumptions_falsifiers": "SATISFIED_WEAKENINGS_IN_LIVE_REGISTRY",
+  "7_hostiles_demonstrate_instruments_can_fail": "SATISFIED_ALL_REGISTRY_IDS_PAIRED_AND_FIRING",
+  "8_claim_ceilings_cannot_silently_become_general_intelligence": "SATISFIED"
+ },
+ "code_digest": "83b51223b35f6a82a290353d5822867830bb50869e31099552f9f55368236971",
+ "code_files_sha256": {
+  "ASSAY_TRANSFER_CONTRACT_V1.json": "dae61d9e6f5e95099833d8748f359df321a8b53c396b073e7cf9d4ee0e275d21",
+  "COARSE_GRAINING_INDIVIDUALITY_V1.json": "b972a24e125fca8ba6b0ecb6d8c1fb0c848d1c61845154de32d1bc626d1b6835",
+  "COGNITIVE_UNIT_CONTRACT_V1.json": "73a26e6b3b53d36f205b086256f9bff3afaf44461229769a27d6a48231fbfba5",
+  "DEFINITIONS.md": "7ee4812f252fb8fd1ccab5318318639a256f59d423ae6989970b5404db7ec546",
+  "DUPLICATION_GUARD_V1.json": "b7cec923c3e96408623c7f780bd538197378cad7f93ced48cb9ad244e68f3ab4",
+  "EXACT_WORLD_REGISTRY_V1.json": "47adb1b20f83529e2bbc5cebb480f9c0e550bb2dbc3d0e0ecebde9aea1afffc7",
+  "HOSTILE_REGISTRY_V1.json": "7d9ec39773e4aac93de443785658dca82d4df2b8ef61d116cf2692408e5d9ba9",
+  "INHERITANCE_SOCIAL_CHANNELS_V1.json": "0c7ec4f22d9ba9ef8e89c6cfa46c0021a0e8b1a4dc5c40652a82820daa102c48",
+  "PARENT_LEDGER.md": "ad4bb5feb76bed661015a6a9066082ea80e7f042dc89e1165eb008acfc0e9e22",
+  "THEOREM_REGISTRY_V1.json": "b1305965f4978bce22727d2f8db90b0bf9beb6e266bed3f96f68535ef067c50b",
+  "WORLD_STATE_AND_DYNAMICS_V1.json": "904d08dbaa60d70f644615bf95c88700de83c9088c2fa0e710b41313c4461f2e",
+  "freeze_ebf0.py": "8dc292c4b25e61c34b68c037f7b16c1d59d12da43b44d2fcb040bcdb37e1ade3",
+  "graph_agreement.py": "f1f68a5ce28e4411064cb270af6353013222e1afa68547c08c38508cd05435aa",
+  "hostiles.py": "506aa71fceb42895140d5f27b7bfbdd156e51094457bdb469178f9f35e982382",
+  "kernels.py": "11097a89f199c9affe98c52a344ab2e7ebda28a17343550842cd9193b0e2f818",
+  "lib.py": "4aa23c71b4c043c1d30acae9992e66b39b036d29046547bc06dc27574e422801",
+  "micro_earth.py": "bbb91d329b267820bb775a386d55faa211077a01da7f8121fd4ae532309b7541",
+  "parents.py": "80f4ec211a49e59718256350030175af49cd23665b35784b5cf2788e097f437e",
+  "run_ebf0.py": "66d17eb9d29695998d78a0e48e4cf6d1d44f1adcb9c25dba219faf851dfbf14b",
+  "theorems.py": "4be310764160fd44bd815b8b3e04a4a5433a16efa595dd71f4307eada039e530"
+ },
+ "contains_results": false,
+ "frozen_before_result_generating_code": true,
+ "gate_holds_reason": "Contract freeze does not assert GATE_HOLDS. Executable checkers may report GATE_HOLDS at micro-Earth scope only. That is not developmental intelligence (#323). DEV-CAL-1 is not run. #292 EB-2..EB-8 remain refused.",
+ "gates_issue": 292,
+ "long_earths_refused_until": "EB-F0 executable GATE_HOLDS AND DEV-CAL-1 terminal AND #323 success certificate",
+ "manifest_sha256": {
+  "ASSAY_TRANSFER_CONTRACT_V1.json": "dae61d9e6f5e95099833d8748f359df321a8b53c396b073e7cf9d4ee0e275d21",
+  "COARSE_GRAINING_INDIVIDUALITY_V1.json": "b972a24e125fca8ba6b0ecb6d8c1fb0c848d1c61845154de32d1bc626d1b6835",
+  "COGNITIVE_UNIT_CONTRACT_V1.json": "73a26e6b3b53d36f205b086256f9bff3afaf44461229769a27d6a48231fbfba5",
+  "DEFINITIONS.md": "7ee4812f252fb8fd1ccab5318318639a256f59d423ae6989970b5404db7ec546",
+  "DUPLICATION_GUARD_V1.json": "b7cec923c3e96408623c7f780bd538197378cad7f93ced48cb9ad244e68f3ab4",
+  "EXACT_WORLD_REGISTRY_V1.json": "47adb1b20f83529e2bbc5cebb480f9c0e550bb2dbc3d0e0ecebde9aea1afffc7",
+  "HOSTILE_REGISTRY_V1.json": "ddbbae87484b98eedd1f373688e2ed94eb358b9911b9327a0a47d1e511af9498",
+  "INHERITANCE_SOCIAL_CHANNELS_V1.json": "0c7ec4f22d9ba9ef8e89c6cfa46c0021a0e8b1a4dc5c40652a82820daa102c48",
+  "PARENT_LEDGER.md": "ad4bb5feb76bed661015a6a9066082ea80e7f042dc89e1165eb008acfc0e9e22",
+  "README.md": "f07fb7938eb9689a5523e851035a77be7c431cae19bb18b1c271bb9d20f0d3d4",
+  "THEOREM_REGISTRY_V1.json": "25fa57246ba6f72368fd93c6fddc4cc783c77b76c57ac2142482ac32db008ca7",
+  "WORLD_STATE_AND_DYNAMICS_V1.json": "904d08dbaa60d70f644615bf95c88700de83c9088c2fa0e710b41313c4461f2e"
+ },
+ "open_ended_forbidden_terminal": true,
+ "outcome_neutral": true,
+ "owner_issue": 296,
+ "prior_manifest_note": "Modules this freeze BINDS to and asserts it did not author and did not touch. See PARENT_LEDGER_MODULE_BINDING_V1.md. Another lane may legitimately amend one of these, but only if some freeze in ITS OWN directory records that amendment.",
+ "prior_manifest_sha256_observed": {
+  "research/hsg-semantic-execution-v1/verify_freeze_chain.py": "510ddfa7be7f58bdf66eae134b0af1ee8ab9325d86909b3256940c21250898f2",
+  "research/ocm-form-oracle-v1/oracle/behaviour_sig.py": "7e5d8e70a781c640c9cc42e603e603c33cb53bc6155ef60e449e400f5650ed29",
+  "research/ocm-form-oracle-v1/oracle/burden.py": "3c593702da74a7f1ca7d0548c29409a5beb061425eef809f3e7d88f42f6a0330",
+  "research/ocm-form-oracle-v1/oracle/c_immutability.py": "91e5a14fa06380ff39e305fb7bf092875d02f343921839cd084dfaf75f591ba5",
+  "research/ocm-form-oracle-v1/oracle/d26_adapters.py": "e92bba6022ae2b9c681599c87910b7f3d0262041da928c10d927fbcf2c0216ca",
+  "research/ocm-form-oracle-v1/oracle/d26_operators.py": "8a88779e0df14f8d119a52c7fbbedae0058f956191de3d0e18d7e4b4e495b614",
+  "research/ocm-form-oracle-v1/oracle/d27_lineage.py": "e15b44b677049958a7d61e129120eadf66c785fc40d4100b6609a21564d55ae4",
+  "research/ocm-form-oracle-v1/oracle/evolvability.py": "334a8c30fb40f5344e337be67a9e75f992fe75d39c48e25aa6f6d7e0f3e7546d",
+  "research/ocm-form-oracle-v1/oracle/future_family.py": "ce59a2f82d4e6f46820e38ca3cbf9cdc955dd4e1281670f0623c5be196cab256",
+  "research/ocm-form-oracle-v1/oracle/objectives4.py": "f4ebff47a2db1b1e78ac836e8cbd6cfe74cff31d1126c9a3a65c9747044b902f"
+ },
+ "resolution_rule": "A file's authoritative hash is the one in the NEWEST amendment that names it, falling back to this base manifest. Comparing the base manifest against a live tree reports FALSE drift on any file carrying a legitimate recorded amendment.",
+ "role": "FORMAL_PRECONDITION_NOT_A_COGNITIVE_CORE",
+ "schema": "BIOSPHERE_EBF0_FREEZE_V1",
+ "supersession_rule": "Amendments are numbered and recorded, never silent edits. An unrecorded change is drift and is reported as such.",
+ "tooling_excluded_from_manifest": [
+  "make_freeze.py",
+  "verify_freeze_chain.py",
+  "selftest_freeze_chain.py"
+ ],
+ "tooling_exclusion_reason": "Checkers and generators are not frozen content. Freezing a generator makes its next edit report as drift on itself. Verified against research/hsg-semantic-execution-v1/FREEZE_V1.json, which excludes the same three roles.",
+ "top_rule": "Formalize what is invariant and what counts as evidence; do not formalize the empirical answer. The biosphere must remain free to reveal that intelligence is individual, collective, cultural, ecology-specific, plural, unstable, or absent.",
+ "verified_by": "verify_freeze_chain.py in this directory, gated by .github/workflows/biosphere-ebf0.yml"
 }
