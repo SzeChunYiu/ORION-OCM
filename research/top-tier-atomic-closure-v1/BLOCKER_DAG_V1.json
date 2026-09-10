@@ -47,37 +47,14 @@
    "requires": [],
    "risk": "low-moderate: checkers exist and passed internally; faithful rerun is mechanical but must run off-Mac (host rules) with sha-bound receipts",
    "closes_atoms": [
-    "ATOM-HST-01",
-    "ATOM-HST-02",
-    "ATOM-HST-03",
-    "ATOM-HST-05",
-    "ATOM-HST-06",
-    "ATOM-HST-07",
-    "ATOM-HST-10",
-    "ATOM-HST-11",
-    "ATOM-HST-12",
-    "ATOM-HST-13",
-    "ATOM-HST-15",
-    "ATOM-HST-17",
-    "ATOM-HST-18",
-    "ATOM-PRV-01",
-    "ATOM-SEM-01",
-    "ATOM-SEM-02",
-    "ATOM-SEM-04",
-    "ATOM-SEM-05",
-    "ATOM-SEM-06",
-    "ATOM-SEM-08",
-    "ATOM-SEM-10"
+    "ATOM-HST-15"
    ],
    "closes_claims": [
-    "DC-01",
-    "DC-04",
-    "DC-05",
     "DC-15"
    ],
-   "atoms_closed": 21,
-   "claims_touched": 4,
-   "priority_score": 8.75,
+   "atoms_closed": 1,
+   "claims_touched": 1,
+   "priority_score": 0.7,
    "priority_formula": "uncertainty_reduction * (atoms_closed + claims_touched) / cost_weight"
   },
   {
@@ -206,23 +183,23 @@
  "critical_path": [
   {
    "rank": 1,
+   "blocker_id": "B4-NULL-CHECKER",
+   "rationale": "Author exact checkers for LIMITS_V1 theorems with checker=null (HST-14/15/16), or prove ch"
+  },
+  {
+   "rank": 2,
    "blocker_id": "B2-PARENT-BIND",
    "rationale": "AMENDED (D10, cause below): faithful parent run of every exact checker at matched access o"
   },
   {
-   "rank": 2,
+   "rank": 3,
    "blocker_id": "B1-IND-REPLAY",
    "rationale": "Independent replay of every exact theorem checker on a disjoint host (billy-old/laptop via"
   },
   {
-   "rank": 3,
+   "rank": 4,
    "blocker_id": "B5-PARENT-DEEPEN",
    "rationale": "Deepen parent-sufficiency verification from witness-verified (P4) to independent-check dep"
-  },
-  {
-   "rank": 4,
-   "blocker_id": "B4-NULL-CHECKER",
-   "rationale": "Author exact checkers for LIMITS_V1 theorems with checker=null (HST-14/15/16), or prove ch"
   },
   {
    "rank": 5,
@@ -258,12 +235,8 @@
  "census": {
   "blockers": 7,
   "edges": 3,
-  "gap_atoms_total": 58,
+  "gap_atoms_total": 28,
   "by_priority": [
-   [
-    "B2-PARENT-BIND",
-    8.75
-   ],
    [
     "B1-IND-REPLAY",
     5.4
@@ -279,6 +252,10 @@
    [
     "B4-NULL-CHECKER",
     1.2
+   ],
+   [
+    "B2-PARENT-BIND",
+    0.7
    ],
    [
     "B3-AUTONOMY-AUDIT",

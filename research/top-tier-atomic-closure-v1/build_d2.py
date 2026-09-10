@@ -13,7 +13,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent
 ATOMS = json.loads((BASE / "ATOM_REGISTRY_V1.json").read_text())
 OV = {}
-for _fname in ("d2_overrides_a.json", "d2_overrides_b.json", "d2_overrides_c.json", "d2_overrides_d.json"):
+for _fname in ("d2_overrides_a.json", "d2_overrides_b.json", "d2_overrides_c.json", "d2_overrides_d.json", "d2_overrides_e.json"):
     for _aid, _o in json.loads((BASE / _fname).read_text()).items():
         _cur = OV.setdefault(_aid, {})
         _cur["R"] = {**_cur.get("R", {}), **_o.get("R", {})}  # coordinate-wise; later files refine, never clobber
