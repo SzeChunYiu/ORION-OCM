@@ -111,13 +111,16 @@ def main() -> None:
         assert TASK_SPEC.get("freeze_sha256") in (None, fsha), \
             "batch spec not bound to this freeze"
         arm_cfg.update({k: TASK_SPEC[k] for k in
-                        ("lane", "rank", "t0_budget_per_seed", "n0")
+                        ("lane", "rank", "t0_budget_per_seed", "n0",
+                         "dedup_promotion")
                         if k in TASK_SPEC})
     t0_budget = int(TASK_SPEC["t0_budget"]) if TASK_SPEC and \
         "t0_budget" in TASK_SPEC else int(arm_cfg["t0_budget_per_seed"])
     n0 = int(arm_cfg["n0"])
     lane = arm_cfg["lane"]
     rank_kind = arm_cfg["rank"]
+    # GSA6 revival levers (allocation-only, default OFF = frozen behavior)
+    dedup_promotion = bool(arm_cfg.get("dedup_promotion", False))
 
     deadline = None
     if os.environ.get("GS_STOP_TS"):
@@ -219,7 +222,7 @@ def main() -> None:
         insurance_fraction=freeze["successive_halving"]["late_bloomer_fraction"],
         n0=n0, wall_deadline=deadline,
         rank_prepare=rank_prepare, on_round_end=on_round_end,
-        on_progress=on_progress)
+        on_progress=on_progress, dedup_promotion=dedup_promotion)
     cpu_s = time.process_time() - t_cpu
     wall_s = time.time() - t_wall
 
@@ -242,6 +245,7 @@ def main() -> None:
         "run_id": RUN_ID, "arm": ARM, "seed": SEED, "lane": lane,
         "rank": rank_kind, "algorithm": res["algorithm"],
         "eta": res["eta"], "insurance_fraction": res["insurance_fraction"],
+        "revival_levers": {"dedup_promotion": dedup_promotion},
         "rounds": res["rounds"], "counts": res["counts"],
         "viable_counts": res["viable_counts"],
         "t1_t2_eval_failures": res["t1_t2_eval_failures"],
