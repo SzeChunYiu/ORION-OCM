@@ -131,11 +131,15 @@ class _StumpTree:
         while len(self.leaf_value) < 4 * node + 4:
             self.leaf_value.append(0.0)
         self.rules.append((fi, thr, node, 1))
-        self.leaf_value[node] = float("nan")  # internal marker
-        self._build(2 * node + 1, LX, Ly, depth + 1)
+        left = self._build(2 * node + 1, LX, Ly, depth + 1)
         self.rules[-1] = (fi, thr, node, 2)
-        self._build(2 * node + 2, RX, Ry, depth + 1)
-        return 0.0
+        right = self._build(2 * node + 2, RX, Ry, depth + 1)
+        # Internal nodes carry the subtree-leaf mean, NEVER a NaN marker:
+        # predict()'s depth guard can stop on an internal node and must not
+        # emit NaN (GSA5_HOLDOUT_MAE_NAN fix — the old marker poisoned the
+        # holdout MAE on 5/6 seeds).
+        self.leaf_value[node] = 0.5 * (left + right)
+        return self.leaf_value[node]
 
     def _flat(self) -> None:
         # collapse rules into a dict for prediction
@@ -201,20 +205,32 @@ class EnsembleSurrogate:
         y = [float(s) for _, s in pairs]
         rng = random.Random(self.seed + 1)
         if len(X) >= 16:
-            # honest holdout MAE when there is enough data
+            # honest holdout MAE when there is enough data — computed with
+            # the SAME impl that ranks promotions (GSA5_HOLDOUT_MAE_NAN fix:
+            # the old path scored builtin stumps even when impl="sklearn",
+            # and the depth-guard NaN marker leaked into the MAE on 5/6
+            # seeds).  sklearn holdout = fresh head fit on the train split.
             if len(X) >= 64:
                 h = rng.sample(range(len(X)), len(X) // 4)
                 hset = set(h)
                 trX = [X[i] for i in range(len(X)) if i not in hset]
                 trY = [y[i] for i in range(len(X)) if i not in hset]
-                hold_trees = [
-                    _StumpTree(self._subspace(rng), rng).fit(
-                        *_bootstrap(trX, trY, rng))
-                    for _ in range(GS_SUR_TREES)]
-                errs = [abs(self._tree_vote(hold_trees, X[i]) - y[i])
-                        for i in h]
-                self.stats["holdout_mae_t1"] = round(
-                    sum(errs) / len(errs), 6)
+                if self.impl == "sklearn":
+                    _, hold_reg = _sklearn_heads(self.seed)
+                    hold_reg.fit(trX, trY)
+                    pred = [float(p) for p in
+                            hold_reg.predict([X[i] for i in h])]
+                else:
+                    hold_trees = [
+                        _StumpTree(self._subspace(rng), rng).fit(
+                            *_bootstrap(trX, trY, rng))
+                        for _ in range(GS_SUR_TREES)]
+                    pred = [self._tree_vote(hold_trees, X[i]) for i in h]
+                errs = [abs(p - y[i]) for p, i in zip(pred, h)]
+                mae = sum(errs) / len(errs)
+                assert math.isfinite(mae), \
+                    "holdout MAE not finite: %r" % mae
+                self.stats["holdout_mae_t1"] = round(mae, 6)
             if self.impl == "sklearn":
                 _, self.reg = _sklearn_heads(self.seed)
                 self.reg.fit(X, y)

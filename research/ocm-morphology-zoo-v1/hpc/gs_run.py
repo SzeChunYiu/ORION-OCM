@@ -44,6 +44,7 @@ os.environ["ZOO_FAILURES_JSONL"] = os.path.join(
     ROOT, "results", "FAILURES_%s.jsonl" % _RUN_ID_BASE)
 
 import hashlib  # noqa: E402
+import math  # noqa: E402
 
 
 def sha256_file(p: str) -> str:
@@ -161,6 +162,9 @@ def main() -> None:
             if pairs:
                 sur.train_t1(pairs)
             stats.update(sur.stats)
+            _mae = stats.get("holdout_mae_t1")
+            assert _mae is None or math.isfinite(_mae), \
+                "GSA5_HOLDOUT_MAE_NAN: surrogate holdout MAE not finite"
             stats["n_retrains"] = stats.get("n_retrains", 0) + 1
             sur_state.append({"n_train_t0": sur.stats["n_train_t0"],
                               "n_train_t1": sur.stats["n_train_t1"]})
