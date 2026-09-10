@@ -100,14 +100,15 @@ def _patched_freeze(**changes):
     return _patched_path("FREEZE4_PATH", mutate)
 
 
-def _mini_arm(secondary_mean=0.9991):
-    def seed_block(mean, lo, hi):
+def _mini_arm(secondary_mean=0.9991, secondary_met=True):
+    def seed_block(mean, lo, hi, met=True):
         return {"mean": mean, "ci": [lo, hi], "n_pairs": 90,
-                "threshold_met": True}
+                "threshold_met": met}
     return {
         "recovery_share_cell_B": seed_block(1.0, 1.0, 1.0),
         "recovery_share_cell_B_total_burden": seed_block(secondary_mean,
-                                                         0.9776, 1.0205),
+                                                         0.9776, 1.0205,
+                                                         secondary_met),
         "shuffle_null_cell_B": {"non_alarm": True, "p_signflip": 0.7944},
         "shuffle_null_cell_B_total_burden": {"non_alarm": True,
                                              "p_signflip": 0.3},
@@ -126,7 +127,7 @@ def _mini_arm(secondary_mean=0.9991):
 def _mini_ev(secondary_mean=0.9991, threshold_met=True):
     recovering = [ARM] if threshold_met else []
     return {
-        "per_arm": {ARM: _mini_arm(secondary_mean)},
+        "per_arm": {ARM: _mini_arm(secondary_mean, threshold_met)},
         "ladder_state": {ARM: {"primary": True, "secondary": threshold_met}},
         "verdict_if_this_were_the_model": (
             "CARRIER_IDENTIFIED_TIER_2" if threshold_met
@@ -291,7 +292,8 @@ def hostile_e_terminal_decision():
     assert pos["terminal"] == "POSITIVE_RECOVERY_UNDER_FROZEN_SEMANTICS" \
         and pos["positive"] and pos["ko2_secondary_threshold_met"], pos
     neg = D4.decide_terminal4(_mini_ev(threshold_met=False))
-    assert neg["terminal"] == "PERSISTENT_NON_RECOVERY" and not neg["positive"]
+    assert neg["terminal"] == "PERSISTENT_NON_RECOVERY" \
+        and not neg["positive"], neg
     assert neg["ko2_secondary_threshold_met"] is False \
         and neg["ko2_primary_intact"] and neg[
             "draw_invariance_conflict_on_recovering_tiers"] == [], neg
@@ -315,8 +317,10 @@ def hostile_f_binding():
         bindings, docs, expected, n_frozen = D4.bind_inputs4(d)
         assert len(bindings) == 12, sorted(bindings)
         assert n_frozen == 30, n_frozen
-        assert docs["freeze4"]["N_derivation_rule"]["n_frozen"] == 30
-        assert docs["dc3_invariants"]["terminal"] == "CHARGE_CARRIER_MULTIPLE"
+        assert docs["freeze4"]["N_derivation_rule"]["n_frozen"] == 30, \
+            docs["freeze4"]["N_derivation_rule"]
+        assert docs["dc3_invariants"]["terminal"] == \
+            "CHARGE_CARRIER_MULTIPLE", docs["dc3_invariants"]["terminal"]
         # tampered shard -> fail-closed at the parent gate (both sources)
         with open(os.path.join(d, "DEVCAL2_receipts_shard1_V2.jsonl"),
                   "a") as f:
