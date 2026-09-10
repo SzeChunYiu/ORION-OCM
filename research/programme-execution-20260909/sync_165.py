@@ -31,11 +31,15 @@ G2.4 or G3.1 unrun; it does not requalify every historical checkbox below.
 
 | Obligation | Disposition | Evidence and strict boundary |
 |---|---|---|
-| G2.4 | **SUPPORTED AT REGISTERED POLYNOMIAL SCOPE** | #192, run `34280474284`, artifact `10077457805`: `CAUSAL_MACRO_OPERATOR_REUSE_SUPPORTED_AT_LENGTH8`; 13/64 actual-use wins; ordinary = OCM, revoked = primitive. Runtime reconstruction is reported, not a newly established separate-OS-process claim. |
-| G3.1 | **SUPPORTED AT REGISTERED POLYNOMIAL SCOPE** | #193, run `34281240853`, artifact `10077796740`: `METHOD_COMPOSITION_SUPPORTED_AT_SCOPE`; 3/256 both-method witnesses and A/B/both revocation controls. Ordinary library parent ties. |
-| G1.2 | **PARTIAL / NEGATIVE SUBTRACTION DISPOSITION** | Open #187 reports both existing vessel interfaces required by current tests; no production deletion or minimum-vessel proof. Compensation, physical costs and general minimality remain unresolved. |
-| G4 | **EXACT-PARENT / PRICE-CONDITIONAL DISPOSITION** | #152 / #154 / #167 / #176: current compose reordering has `EXACT_POLICY_SUFFICIENT`; exact stopping/strategy results do not establish a learned residual. #71 remains `LEARNED_ROUTER_NOT_YET_AUTHORIZED`. #192 reports `NO_LIFETIME_MACRO_SEARCH_PAYBACK_AT_64_LENGTH8_TESTS`; #193 does not establish lifetime payback. |
-| Second-domain goal-only reuse | **NOT ESTABLISHED BY FROZEN #203 v1** | Exact source `29c0ec40bb377152e24b5e9cd5ad133daae6fa36`; recorded first allocation has 30/30 `UNKNOWN` at the 8-second grounding bound, before target search/native proof checking. Not unprovability or method uselessness. Any unchanged repeat is post-exposure reproducibility; the separately described join successor cannot overwrite v1. |
+| G2.4 | **SUPPORTED AT REGISTERED POLYNOMIAL SCOPE** | #192, run `34280474284`, artifact `10077457805`: `CAUSAL_MACRO_OPERATOR_REUSE_SUPPORTED_AT_LENGTH8`. Separate OS-process restart: `research/g2-process-restart-v1/` `OS_PROCESS_RESTART_HELD_OUT_SOLVE_SUPPORTED`. Not G2.4 complete. |
+| G3.1 | **SUPPORTED AT REGISTERED POLYNOMIAL SCOPE** | #193, run `34281240853`, artifact `10077796740`: `METHOD_COMPOSITION_SUPPORTED_AT_SCOPE`. |
+| P1 | **SUPPORTED AT POLYNOMIAL MICROSCOPE** | `research/p1-causal-reuse-v1/` `P1_CAUSAL_REUSE_SUPPORTED_AT_POLYNOMIAL_MICROSCOPE`. |
+| H2/H3/H4 | **PARENT_SUFFICIENT AT PLANTED SCOPE** | H2 planted index; H3 planted KSO; H4 planted exact revocation. Not programme-wide. |
+| GEF/#93 | **CURRENT_KSO_ALREADY_GENERAL_ENOUGH** | `kso-general-field-v1` + `kso-general-field-nk-v2` (GEF/001–013). |
+| H1 | **PARTIAL / CAPITAL NEGATIVE — SCOPED. Per-task inequality confirmed at registered scope; lifetime repayment PROJECTED, NOT OBSERVED** | Failing stage re-attributed to the ADMISSION RULE, not acquisition cost. In `research/functional-neural-absorption-v1/fna4_library_synthesis/` the STITCH arm carries the highest marginal acquisition of any arm (240,294,343 units against the incumbent's 64,305) and is still the only arm that pays, so acquisition cost cannot be the failing stage. Utility-gated admission reaches 327,886 against 366,072 units on the fresh 16-task stream; recurrence-gated admission is harmful (+1149% Reynolds lgg, +1279% e-graph saturation). Misfires isolate the mechanism: 451,582 and 286,120 against STITCH's 16,813 — high match cost at near-zero applicability, the term Minton's utility formula charges (AAAI-88 p.566). FNA-4 terminal: `PARENT_SUFFICIENT_FOR_EXPERIENCE_CONSOLIDATION_AT_REGISTERED_SCOPE`, 270,829 < 366,072 units (−26.0%), every cost charged. A classical stdlib-only non-neural parent owns this function, so **no ORION-OCM-specific attribution is available for it**. `LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS` remains a negative but is PROJECTED, NOT OBSERVED: break-even sits at ~6,123 tasks against a 16-task measured stream, a 380× extrapolation; horizon run outstanding. Regime boundary is OURS, not the literature's — critical same-family share 11.8–17.0% plus the ~6,123-task horizon. A primary-source sweep (Minton AAAI-88; Tambe/Newell/Rosenbloom, Machine Learning 5:299-348, 1990; Kennedy & De Jong ICML-2003; Gratch & DeJong and Greiner & Jurisica, both AAAI-92) finds a per-rule break-even inequality and formal conditions for deciding its sign, but no analytic crossover in N; Tambe et al. give “no explicit guarantees about the benefits of chunking” and Minton names the gap as future work. See PR #297 and RV-8 in `research/top-tier-atomic-closure-v1/REVIVAL_BACKLOG_V1.json`. |
+| G1.2 | **PARTIAL / NEGATIVE SUBTRACTION DISPOSITION** | Open #187 reports both existing vessel interfaces required by current tests. |
+| G4 | **EXACT-PARENT / PRICE-CONDITIONAL DISPOSITION** | #71 remains `LEARNED_ROUTER_NOT_YET_AUTHORIZED`. Do not train ML. |
+| Second-domain goal-only reuse | **NOT ESTABLISHED BY FROZEN #203 v1** | Exact source `29c0ec40bb377152e24b5e9cd5ad133daae6fa36`. |
 
 **Ordered work, under the same `(F,O,Π,C)` rather than new cognitive cores:**
 A. Synchronize this evidence record. B. Execute/audit frozen #203 unchanged.
@@ -53,8 +57,8 @@ replication and final proof-of-function. No C–L success is inferred from A or 
 Raw search counts are not elapsed time, RSS, energy, or whole-lifetime cost.
 Separate-process execution, production evidence revocation, learning, usefulness,
 architectural advantage and independent replication remain distinct claims.
-<!-- OCM-EVIDENCE-SYNC-20260909:END -->
-"""
+PR #206 remaining-gates campaign. Boxes ticked only with on-disk terminals.
+<!-- OCM-EVIDENCE-SYNC-20260909:END -->"""
 NOTES = {
 "### G1.2 Minimality / subtraction": "**Scoped disposition:** #187 reports unsuccessful subtraction under current tests; this is partial/negative evidence, not a minimality proof. Its open PR and unlanded attempts remain distinct from production adoption.",
 "### G2.4 Fresh-task causal use": "**Scoped support:** #192 supports the registered polynomial mechanism. Checked items below refer only to that scope. Its restart control reconstructs `OCMRuntime`; the separate-OS-process obligation is deliberately not marked complete. No architectural or lifetime-payback result is implied.",
