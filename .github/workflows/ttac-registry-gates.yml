@@ -1,0 +1,88 @@
+name: ttac-registry-gates
+
+# #323 recursive hardening, section 9: registry artifacts are DERIVED, never
+# hand-copied, and generators never drift from their committed outputs.
+# Fail-closed: any divergence, hand-edited census, off-taxonomy class,
+# duplicate-key JSON, or machine-specific absolute path fails the build.
+# python3 stdlib only; no installs.
+on:
+  push:
+    paths:
+      - "research/top-tier-atomic-closure-v1/**"
+      - ".github/workflows/ttac-registry-gates.yml"
+  pull_request:
+    paths:
+      - "research/top-tier-atomic-closure-v1/**"
+      - ".github/workflows/ttac-registry-gates.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Census derivation (RH-01: census is derived, never hand-copied)
+        run: python3 research/top-tier-atomic-closure-v1/derive_census.py
+
+      - name: Rebuild registry chain (RH-02: generator drift fails closed)
+        run: |
+          cd research/top-tier-atomic-closure-v1
+          python3 build_d2.py
+          python3 build_d3.py
+          python3 build_d9.py
+          # build_b7.py is deliberately NOT re-run: it appends to the
+          # append-only REPLAY_RECEIPTS_V1 ledger and is not idempotent.
+
+      - name: Rebuild-vs-committed diff (stale generators fail closed)
+        run: |
+          /usr/bin/git diff --exit-code -- research/top-tier-atomic-closure-v1 \
+            || { echo "REGISTRY_DRIFT: rebuilt artifacts differ from committed ones; regenerate and commit them"; exit 1; }
+
+      - name: Post-rebuild census re-check
+        run: python3 research/top-tier-atomic-closure-v1/derive_census.py
+
+      - name: Duplicate-key JSON ban (RH-07: parse-stable artifacts)
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          from pathlib import Path
+
+          def no_dupes(pairs):
+              keys = [k for k, _ in pairs]
+              if len(keys) != len(set(keys)):
+                  raise ValueError(f"duplicate keys: {sorted(k for k in keys if keys.count(k) > 1)}")
+              return dict(pairs)
+
+          # Raw evidence captures are preserved byte-for-byte by design (truncated logs,
+          # stdin dumps, planted tamper specimens) and are NOT claim-bearing JSON;
+          # verified against the live tree: all 13 unparsable files live under these paths.
+          SKIP_MARKERS = ("/raw/", "/records/", "diagnostic", "source_tamper")
+
+          dup, unparsable, checked, skipped = [], [], 0, 0
+          for p in Path("research").rglob("*.json"):
+              if any(m in str(p) for m in SKIP_MARKERS):
+                  skipped += 1
+                  continue
+              checked += 1
+              try:
+                  json.loads(p.read_text(), object_pairs_hook=no_dupes)
+              except ValueError as e:
+                  if "duplicate keys" in str(e):
+                      dup.append(f"{p}: {e}")
+                  else:
+                      unparsable.append(f"{p}: {e}")
+          if dup or unparsable:
+              print("\n".join(dup + unparsable))
+              print(f"JSON_STABILITY: {len(dup)} duplicate-key, {len(unparsable)} unparsable claim-bearing files")
+              sys.exit(1)
+          print(f"JSON_STABILITY PASS: {checked} claim-bearing files parse-stable ({skipped} raw captures skipped)")
+          EOF
+
+      - name: Machine-specific absolute-path ban (RH-14)
+        run: |
+          ! grep -rn -E "/private/tmp|/Users/[a-z]" --include="*.py" research/ \
+            || { echo "ABSOLUTE_PATH_LEAK: machine-specific path in committed code"; exit 1; }

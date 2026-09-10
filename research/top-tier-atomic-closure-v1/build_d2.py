@@ -26,9 +26,18 @@ LOAD_BEARING = {
     "THEOREM": ["T", "P", "R", "A"],
     "ENGINEERING_MECHANISM": ["M", "C", "R", "A", "S", "P"],
     "EMPIRICAL_REGULARITY": ["M", "C", "R", "S"],
+    # RH-12 (#323): the class existed in TAXONOMY_FREEZE_V1 sec 1/4 but was absent from
+    # this table, so the builder could not score it at all -- the enumeration gap that let
+    # readiness look healthy while the central claim class had zero atoms. ATOM-DEV-03 now
+    # carries it; profile per taxonomy sec 4 (M3, C4, G3, S3, R4, A4, E3).
+    "DEVELOPMENTAL_LINEAGE": ["M", "C", "G", "S", "R", "A", "E"],
     "SELF_EVOLUTION": ["M", "C", "A"],
     "GOVERNANCE_META": ["M"],
 }
+# every class named by the taxonomy, so derive_census.py can require zero-count classes
+# to appear as visible rows rather than absences (RH-12)
+TAXONOMY_CLASSES = ["THEOREM", "ENGINEERING_MECHANISM", "EMPIRICAL_REGULARITY",
+                    "DEVELOPMENTAL_LINEAGE", "SELF_EVOLUTION", "GOVERNANCE_META"]
 PROFILES = {
     ("THEOREM", "PROVED"): {"T": 5, "P": 3, "R": 4, "A": 2},
     ("THEOREM", "FINITE_CERTIFIED"): {"T": 3, "P": 3, "A": 2},
@@ -37,6 +46,7 @@ PROFILES = {
     ("ENGINEERING_MECHANISM", "PARENT_SUFFICIENT"): {"P": 4, "M": 2},
     ("EMPIRICAL_REGULARITY", "EMPIRICALLY_SUPPORTED_AT_SCOPE"): {"M": 3, "C": 3, "R": 4, "S": 2},
     ("EMPIRICAL_REGULARITY", "PARENT_SUFFICIENT"): {"P": 4, "M": 2},  # analogy with ENGINEERING profile, noted
+    ("DEVELOPMENTAL_LINEAGE", "EMPIRICALLY_SUPPORTED_AT_SCOPE"): {"M": 3, "C": 4, "G": 3, "S": 3, "R": 4, "A": 4, "E": 3},
     ("SELF_EVOLUTION", "any"): {"M": 3, "C": 3, "A": 4},
     ("GOVERNANCE_META", "audit_complete"): {"M": 3},
 }
@@ -102,7 +112,8 @@ matrix = {
         "amendments": "value decreases via amendment with cause; increases require sha+class per schema",
     },
     "rows": rows,
-    "census": {"atoms": len(rows), "by_class": dict(Counter(r["class"] for r in rows)),
+    "census": {"atoms": len(rows), "by_class": {**{c: 0 for c in TAXONOMY_CLASSES},
+                                                  **dict(Counter(r["class"] for r in rows))},
                "by_terminal": dict(Counter(r["terminal"] for r in rows)),
                "load_bearing_min_distribution": dict(sorted(lb_dist.items())),
                "atoms_with_closure_gap": len(gaps),
@@ -128,6 +139,9 @@ CLAIMS = [
     ("DC-13", 144, "Publication-constitution readiness", ["ATOM-REP-03", "ATOM-REP-04"]),
     ("DC-14", 277, "Replication + autonomy infrastructure exists and is negative-honest", ["ATOM-REP-01", "ATOM-REP-02", "ATOM-PAR-01"]),
     ("DC-15", 165, "Programme closure: every required lane has a bounded disposition", [r["atom_id"] for r in rows]),
+    # DC-16 (#323): the developmental-intelligence claim as its own decisive row, so the
+    # headline cannot borrow strength from solution-inheritance positives (HC-1/HC-2).
+    ("DC-16", 323, "Developmental history causally improves future-search geometry on structurally related targets (stored-method reuse excluded)", ["ATOM-DEV-03"]),
 ]
 by_id = {r["atom_id"]: r for r in rows}
 claims = []
