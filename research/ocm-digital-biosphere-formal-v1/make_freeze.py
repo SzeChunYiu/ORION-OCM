@@ -35,6 +35,11 @@ AMEND_1_FILES = [
     "PARENT_LEDGER_MODULE_BINDING_V1.md",
     "check_noninterference.py",
     "THEOREM_REGISTRY_V1_AMEND_1.json",
+    # DEFINITIONS.md is amended, not replaced: its section 2 stated four required
+    # kernel fields and omitted `reads`, which would have led a reader to build a
+    # declaration that cannot be checked. Its CURRENT hash is recorded here and
+    # supersedes the base entry by the newest-amendment resolution rule.
+    "DEFINITIONS.md",
 ]
 # Tooling is deliberately NOT in the manifest. Verified against the HSG lane:
 # research/hsg-semantic-execution-v1/FREEZE_V1.json names 5 content files and
