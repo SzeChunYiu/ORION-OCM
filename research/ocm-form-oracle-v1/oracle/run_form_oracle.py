@@ -80,6 +80,27 @@ def _sampler(lane: str):
     return lambda rng: GB.lane_sampler(lane, rng)
 
 
+_SLIM_KEYS = (
+    "arm", "seed", "lane", "genotype_digest", "phenotype_digest",
+    "behaviour_signature", "capability", "B_own", "burden", "index_built",
+    "active_kN", "F_arch", "Pi_arch", "L", "R", "K", "T_family", "n_units",
+    "unit_types", "tier_of_objectives", "t2_feasible", "t2_total_tasks",
+    "t3_gen", "t3_feasible", "evolvability", "cap_bin",
+    "search_objectives", "report_objectives", "coverage_objectives",
+)
+
+
+def _slim(rec: Dict[str, Any], keep_detail: bool) -> Dict[str, Any]:
+    """One record, without provenance nothing reads."""
+    out = {k: rec[k] for k in _SLIM_KEYS if k in rec}
+    if keep_detail:
+        for k in ("burden_components", "evolvability_detail",
+                  "evolvability_error", "t3_error"):
+            if k in rec:
+                out[k] = rec[k]
+    return out
+
+
 def _genome_of(rec: Dict[str, Any]):
     from morphology.schema import OCMMorphologyGenomeV1
     g = rec.get("genome")
@@ -171,6 +192,18 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
             "burden_components": BU.burden_components(ev),
             "index_built": bool(ev.get("index_built", False)),
             "active_kN": ev.get("active_kN"),
+            # Structural coordinates. Without these a front member is an opaque
+            # digest and the front cannot be attributed to any region of the
+            # (F, O, Pi) space, which is the map the study is for.
+            "F_arch": getattr(g, "F_arch", None) if g is not None else None,
+            "Pi_arch": getattr(g, "Pi_arch", None) if g is not None else None,
+            "L": getattr(g, "L", None) if g is not None else None,
+            "R": getattr(g, "R", None) if g is not None else None,
+            "K": getattr(g, "K", None) if g is not None else None,
+            "T_family": getattr(g, "T", None) if g is not None else None,
+            "n_units": len(getattr(g, "U", []) or []) if g is not None else None,
+            "unit_types": (sorted({u.unit_type for u in getattr(g, "U", [])})
+                           if g is not None else None),
             "tier_of_objectives": "T2",
             "t2_feasible": bool(rec["t2"].get("feasible")),
             "t2_total_tasks": ev.get("total_tasks"),
@@ -215,6 +248,11 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
         records.append(out)
 
     crash_settle = ledger.settle()
+
+    # Indices whose full provenance is retained in the written output.
+    detail_idx = {i for i, r in enumerate(records)
+                  if isinstance(r.get("evolvability_detail"), dict)}
+
     front_search = OB.pareto_front_k(records, "search_objectives",
                                      OB.SEARCH_MAXIMIZE)
     front_report = OB.pareto_front_k(records, "report_objectives",
@@ -282,7 +320,14 @@ def run_oracle_arm(arm: str, seed: int, t0_budget: int,
             "phenotype costs ~0 wall clock but is charged its full modelled "
             "work. Wall-clock rates are therefore optimistic relative to "
             "charged work and are only comparable at matched budget."),
-        "records": records,
+        # Records are written SLIM. A campaign of 72 arms retaining ~2500
+        # records each overran the LUNARC home quota when every record carried
+        # its full burden-component dict and evolvability provenance. The
+        # aggregator needs the objective vectors and the structural
+        # coordinates; per-record provenance is kept only where it is actually
+        # read -- front members and the evolvability subsample.
+        "records": [_slim(r, keep_detail=(i in detail_idx))
+                    for i, r in enumerate(records)],
         "sh_meta": {k: v for k, v in sh.items()
                     if not isinstance(v, (list, dict))},
     }

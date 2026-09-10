@@ -268,6 +268,62 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
         if not _num(r.get("t3_gen")):
             reasons["t3:missing"] += 1
 
+    # ---- the region map: where each form wins and loses
+    # Front membership alone names a champion. The deliverable is a map, so
+    # every structural axis is tabulated with the rate at which its levels
+    # reach the front and their burden and T3 behaviour. A level that never
+    # reaches the front is as informative as one that dominates it.
+    region_map: Dict[str, Any] = {}
+    front_ids = set(front_cov["front_indices"])
+    for axis in ("F_arch", "Pi_arch", "L", "R", "K", "T_family", "n_units"):
+        tab: Dict[Any, Dict[str, Any]] = {}
+        for i, r in enumerate(all_records):
+            lvl = r.get(axis)
+            if lvl is None:
+                continue
+            e = tab.setdefault(str(lvl), {"n": 0, "n_front": 0,
+                                          "burden": [], "t3": [], "cap": []})
+            e["n"] += 1
+            if i in front_ids:
+                e["n_front"] += 1
+            if _num(r.get("burden")):
+                e["burden"].append(r["burden"])
+            if _num(r.get("t3_gen")):
+                e["t3"].append(r["t3_gen"])
+            if _num(r.get("capability")):
+                e["cap"].append(r["capability"])
+        region_map[axis] = {
+            lvl: {
+                "n": e["n"], "n_on_front": e["n_front"],
+                "front_rate": round(e["n_front"] / e["n"], 6) if e["n"] else None,
+                "mean_burden": (round(statistics.fmean(e["burden"]), 3)
+                                if e["burden"] else None),
+                "mean_capability": (round(statistics.fmean(e["cap"]), 6)
+                                    if e["cap"] else None),
+                "mean_t3": (round(statistics.fmean(e["t3"]), 6)
+                            if e["t3"] else None),
+            }
+            for lvl, e in sorted(tab.items())
+        }
+
+    # Per capability bin: the cheapest form and its structural signature.
+    by_bin: Dict[Any, List[int]] = collections.defaultdict(list)
+    for i, r in enumerate(all_records):
+        if r.get("cap_bin") is not None and _num(r.get("burden")):
+            by_bin[int(r["cap_bin"])].append(i)
+    bin_map = {}
+    for b, idxs in sorted(by_bin.items()):
+        best = min(idxs, key=lambda i: all_records[i]["burden"])
+        r = all_records[best]
+        bin_map[str(b)] = {
+            "n": len(idxs),
+            "cheapest": {k: r.get(k) for k in
+                         ("arm_tag", "capability", "burden", "t3_gen",
+                          "F_arch", "Pi_arch", "L", "R", "K", "n_units")},
+            "mean_burden": round(statistics.fmean(
+                [all_records[i]["burden"] for i in idxs]), 3),
+        }
+
     c_viol = sum(r["c_immutability"]["n_violations"] for r in runs)
 
     return {
@@ -323,6 +379,8 @@ def aggregate(results_dir: str) -> Dict[str, Any]:
                                 "criterion": "r3['feasible'] (same rule)"},
         },
         "equal_n_dedup_control": equal_n,
+        "region_map": region_map,
+        "capability_bin_map": bin_map,
         "cannot_check_reasons": dict(reasons),
         "c_immutability": {"total_violations": c_viol,
                            "verdict": ("NO_CONFIGURATION_ALTERED_C"
