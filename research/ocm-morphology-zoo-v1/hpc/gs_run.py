@@ -40,7 +40,11 @@ if TASK_SPEC is not None:
         TASK_SPEC.get("base_arm") == ARM, "spec base_arm mismatch"
     SEED = int(TASK_SPEC.get("seed", SEED))
 _RUN_ID_BASE = (TASK_SPEC["task_id"] if TASK_SPEC else "%s_s%d" % (ARM, SEED))
-RUN_ID = "GS_R1_%s" % _RUN_ID_BASE
+# GS-R2 (JOB B): freeze name + run-id prefix are env-parameterized so the
+# SAME worker serves the R2 capsule; defaults reproduce frozen R1 exactly.
+FREEZE_NAME = os.environ.get("GS_FREEZE_NAME", "GRAND_SEARCH_R1_FREEZE.json")
+RUN_PREFIX = os.environ.get("GS_RUN_PREFIX", "GS_R1_")
+RUN_ID = "%s%s" % (RUN_PREFIX, _RUN_ID_BASE)
 # GSA6 novelty_gate lever: eps floor so a fully-duplicate cohort (nov=0)
 # still yields finite, orderable gated rank keys.
 GS_NOVELTY_GATE_EPS = 1e-9
@@ -103,7 +107,7 @@ def trim(rec):
 
 
 def main() -> None:
-    freeze_path = os.path.join(ROOT, "GRAND_SEARCH_R1_FREEZE.json")
+    freeze_path = os.path.join(ROOT, FREEZE_NAME)
     freeze = json.load(open(freeze_path))
     fsha = sha256_file(freeze_path)
     env_sha = os.environ.get("GS_FREEZE_SHA", "")
