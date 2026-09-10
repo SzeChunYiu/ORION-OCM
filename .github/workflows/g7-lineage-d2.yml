@@ -1,0 +1,58 @@
+name: G7 lineage D2 successor
+
+on:
+  pull_request:
+    paths:
+      - 'research/g7-lineage-d2-v2/**'
+      - 'research/g7-lineage-v1/RESULT.json'
+      - '.github/workflows/g7-lineage-d2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g7-lineage-d2-v2/**'
+      - '.github/workflows/g7-lineage-d2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  microscope-lineage-d2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/g7-lineage-d2-v2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-lineage-d2-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g7-lineage-d2-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/g7-lineage-d2-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Three-transition lineage study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g7-lineage-d2-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          /usr/bin/time -v python -B research/g7-lineage-d2-v2/experiment.py \
+            --out "$out/result.json" \
+            --transitions "$out/transitions" \
+            2> >(tee "$out/time-and-stderr.txt" >&2) \
+            | tee "$out/console.txt"
+      - name: Frozen v1 RESULT not overwritten
+        run: git diff --exit-code -- research/g7-lineage-v1/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g7-lineage-d2
+          path: '${{ runner.temp }}/g7-lineage-d2-${{ github.run_id }}-${{ github.run_attempt }}'
+          if-no-files-found: error

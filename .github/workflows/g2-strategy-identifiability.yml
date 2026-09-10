@@ -1,0 +1,82 @@
+name: G2 strategy identifiability
+
+on:
+  pull_request:
+    paths:
+      - 'research/g2-strategy-identifiability-v1/**'
+      - '.github/workflows/g2-strategy-identifiability.yml'
+      - 'src/ocm/learning/methods.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g2-strategy-identifiability-v1/**'
+      - '.github/workflows/g2-strategy-identifiability.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  strategy-identifiability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g2-strategy-identifiability-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g2-strategy-ident-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g2-strategy-identifiability-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g2-strategy-identifiability-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Identifiability study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g2-strategy-ident-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B research/g2-strategy-identifiability-v1/experiment.py --out "$out/RESULT.json" | tee "$out/console.txt"
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g2-strategy-ident-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "PARENT_SUFFICIENT_AT_SCOPE",
+              "STRATEGY_SELECTION_RESIDUAL_CONFIRMED",
+              "SINGLE_SAFE_STRATEGY_ONLY",
+              "OPTIMAL_STRATEGY_CONSTANT",
+              "COUNTERFACTUAL_NOT_IDENTIFIABLE",
+              "OBSERVATION_CHANNEL_INSUFFICIENT",
+              "HYPOTHESIS_CLASS_INADEQUATE",
+              "CANNOT_CHECK_LEGAL_FEATURES",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result["terminal"] == "CAUSAL_METHOD_REUSE_SUPPORTED":
+              sys.exit("unscoped CAUSAL_METHOD_REUSE_SUPPORTED is not licensed")
+          if result.get("g24_complete"):
+              sys.exit("this capsule must not claim G2.4 complete")
+          if result.get("g44_ml_authorized"):
+              sys.exit("this capsule must not authorize G4.4 ML")
+          if result.get("ml_trained"):
+              sys.exit("G4.4 is locked; this capsule must not train ML")
+          if result["residual_table"]["analytic_degree_threshold"]["residual_slots"] < 0:
+              sys.exit("negative analytic residual is not a cost")
+          print(result["terminal"])
+          PY
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g2-strategy-identifiability
+          path: '${{ runner.temp }}/g2-strategy-ident-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

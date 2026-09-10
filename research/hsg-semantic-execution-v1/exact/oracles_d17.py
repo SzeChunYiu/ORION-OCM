@@ -245,13 +245,30 @@ def _solve_prov(hg, dead_leaf=None):
     vals, _ = hg.solve(ProvenanceNX(), leaf_annotation=la)
     return vals
 
-def t72():
+def _prov_sources(world):
+    """True provenance evidence variables: nodes with NO incoming hyperedge.
+
+    RV-B2(ii) fix. ow4_worlds() carries a `leaves` field that is a SUPERSET of
+    these. Revoking a non-source is a no-op on BOTH the substitution and the
+    recomputation side -- leaf_annotation only fires on nodes without incoming
+    edges -- so such a check is structurally trivial and cannot discriminate.
+    The D19 census measured 11 of 23 legacy targets to be such no-ops while 6
+    genuine sources were never revoked at all. T72 itself is a statement about
+    provenance variables; only the oracle's targeting was wrong.
+    """
+    concluded = set(e["conclusion"] for e in world["edges"])
+    return [n for n in world["nodes"] if n not in concluded]
+
+def t72(target="sources"):
+    """target="sources" is the RV-B2(ii) fix and the shipped default.
+    target="leaves" reproduces the legacy targeting for before/after
+    comparison only; it is never the default and never the certified path."""
     worlds = W.ow4_worlds()
     prop_ok, checked = True, 0
     for w in worlds:
         hg = Hypergraph(w["nodes"], w["edges"])
         polys = _solve_prov(hg)
-        for x in w["leaves"]:
+        for x in (w["leaves"] if target == "leaves" else _prov_sources(w)):
             recomputed = _solve_prov(hg, dead_leaf=x)
             for n in sorted(w["nodes"]):
                 checked += 1
@@ -267,7 +284,7 @@ def t72():
         full = Hypergraph(w["nodes"], w["edges"])
         e_star = sorted(w["edges"], key=lambda e: e["id"])[-1]
         miss = Hypergraph(w["nodes"], [e for e in w["edges"] if e["id"] != e_star["id"]])
-        for x in w["leaves"]:
+        for x in (w["leaves"] if target == "leaves" else _prov_sources(w)):
             rec_full, rec_miss = _solve_prov(full), _solve_prov(miss)
             surv_rec = _subst0(rec_miss[w["root"]], x)
             true_dead = _solve_prov(full, dead_leaf=x)[w["root"]]
@@ -291,9 +308,20 @@ def t72():
                      "flipped": detected,
                      "detail": f"mis-encoded before revoke={mis_before}, after={mis_after}; status=NEGATION_AWARE_REQUIRED (T73 boundary)",
                      "status": "CANNOT_CHECK_NEGATION_LAUNDERED__ROUTED_TO_NEGATION_AWARE"})
-    return _row("T72", prop_ok,
-                f"substitution-vs-recomputation node checks: {checked}", hostiles,
-                note="positive/monotone provenance only; negative dependence NOT represented (T73)")
+    row = _row("T72", prop_ok,
+               f"substitution-vs-recomputation node checks: {checked} "
+               f"(revocation targets: {target})", hostiles,
+               note="positive/monotone provenance only; negative dependence NOT represented (T73). "
+                    "RV-B2(ii): revocation targets are TRUE SOURCES (nodes with no incoming "
+                    "hyperedge), not the world's `leaves` superset, whose non-source members "
+                    "are no-ops on both arms.")
+    # _row does not retain prop_detail; T72 surfaces its own check count so the
+    # RV-B2 before/after comparison has a number to compare.
+    row["property_detail"] = (f"substitution-vs-recomputation node checks: {checked}")
+    row["revocation_targets"] = target
+    row["revocation_target_count"] = sum(
+        len(w["leaves"] if target == "leaves" else _prov_sources(w)) for w in worlds)
+    return row
 
 # ------------------------------------------------------------------ T74 ----
 MOD = 11

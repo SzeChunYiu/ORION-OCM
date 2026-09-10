@@ -1,0 +1,67 @@
+name: G2 acquisition economics
+
+on:
+  pull_request:
+    paths:
+      - 'research/g2-acquisition-economics-v1/**'
+      - 'research/g2-macro-operator-v1/**'
+      - '.github/workflows/g2-acquisition-economics.yml'
+      - 'src/ocm/learning/methods.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g2-acquisition-economics-v1/**'
+      - '.github/workflows/g2-acquisition-economics.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  acquisition-economics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g2-macro-operator-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g2-acq-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g2-acquisition-economics-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g2-acquisition-economics-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Frozen receipt present
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import json, pathlib, sys
+          p = pathlib.Path("research/g2-acquisition-economics-v1/G2_ACQUISITION_ECONOMICS_V1.json")
+          doc = json.loads(p.read_text())
+          terminal = doc["verdict"]["terminal"]
+          allowed = {
+              "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE",
+              "NO_CHEAP_ACQUISITION_AT_THIS_ECOLOGY",
+              "ANY_CHEAP_RULE_AGREES_SELECTION_IS_NOT_DISCRIMINATING",
+          }
+          if terminal not in allowed:
+              sys.exit("unexpected terminal %s" % terminal)
+          if "SEARCH_AWARE" not in doc["verdict"]["selectors_agreeing_with_the_tournament"]:
+              sys.exit("frozen receipt must record SEARCH_AWARE agreement")
+          print(terminal)
+          PY
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g2-acquisition-economics
+          path: '${{ runner.temp }}/g2-acq-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

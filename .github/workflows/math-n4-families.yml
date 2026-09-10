@@ -1,0 +1,82 @@
+name: MATH-1 N4 miniature family worlds v3
+
+on:
+  pull_request:
+    paths:
+      - 'research/math-n4-families-v3/**'
+      - 'research/math-n4-lemma-reuse-v1/RESULT.json'
+      - 'research/math-n4-subgoal-v2/RESULT.json'
+      - '.github/workflows/math-n4-families.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/math-n4-families-v3/**'
+      - '.github/workflows/math-n4-families.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  miniature-families:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/research/math-n4-families-v3'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/math-n4-families-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/math-n4-families-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/math-n4-families-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Miniature Hilbert family-worlds study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/math-n4-families-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/math-n4-families-v3/experiment.py --out "$out/result.json" \
+            --core "$out/CORE.md" \
+            2>&1 | tee "$out/console.txt"
+          python -B - <<'PY'
+          import json, pathlib, os, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "math-n4-families-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "result.json").read_text())
+          terminal = result["terminal"]
+          allowed = {
+              "MINIATURE_FAMILY_METHOD_TRANSFER_SUPPORTED_AT_HILBERT_SCOPE",
+              "NO_CAUSAL_REUSE",
+              "PARENT_SUFFICIENT",
+          }
+          if terminal == "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED":
+              sys.exit("unscoped CAUSAL_PROOF_METHOD_REUSE_SUPPORTED is not licensed")
+          if not (terminal in allowed or str(terminal).startswith("CANNOT_CHECK_")):
+              sys.exit("unexpected terminal %s" % terminal)
+          if result.get("math2_n5_status") != "LOCKED":
+              sys.exit("MATH-2 must remain LOCKED")
+          if not result["v1_result_custody"]["unchanged"]:
+              sys.exit("frozen v1 RESULT.json was overwritten")
+          if not result["v2_result_custody"]["unchanged"]:
+              sys.exit("frozen v2 RESULT.json was overwritten")
+          PY
+      - name: Frozen predecessor RESULT.json
+        run: |
+          git diff --exit-code -- research/math-n4-lemma-reuse-v1/RESULT.json
+          git diff --exit-code -- research/math-n4-subgoal-v2/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math-n4-families
+          path: '${{ runner.temp }}/math-n4-families-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

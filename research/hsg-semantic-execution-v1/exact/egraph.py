@@ -73,8 +73,8 @@ class EGraph:
             self.stats["rebuilds"] += 1
             seen: dict[tuple, int] = {}
             for c in list(self.classes):
-                if self.find(c) != c:
-                    continue
+                if c not in self.classes or self.find(c) != c:
+                    continue          # a merge earlier in this pass removed the entry
                 for n in list(self.classes[c]):
                     cn = self._canon(n)
                     if cn in seen and self.find(seen[cn]) != self.find(c):
@@ -90,33 +90,50 @@ class EGraph:
 
     # ------------------------------------------------------------ enumeration
     def eclass_terms(self, cid: int, cap: int = 50000):
-        """EXHAUSTIVE enumeration of every term in the e-class.
+        """Enumerate e-class members. Returns (terms, complete).
 
-        Raises EClassCapExceeded on a self-referential class or on cap overflow,
-        so 'could not check' is never reported as 'checked and fine'.
+        `complete` is True only when the whole class was walked. It never raises,
+        because the two claims built on this have different logical forms:
+        contamination is EXISTENTIAL (one bad member proves it, even from a partial
+        walk) while cleanliness is UNIVERSAL (it needs the complete walk). Callers
+        must not read a partial walk as clean.
         """
         memo: dict[int, list] = {}
+        complete = [True]
 
         def walk(c: int, path: frozenset):
+            """Returns (terms, truncated). `truncated` marks a result that depended
+            on this ancestor path or on the cap, and such a result is NOT memoised:
+            caching it would freeze a short list and hand it back on a later path
+            where more terms are constructible, which could silently drop a
+            reachable contaminated member."""
             c = self.find(c)
             if c in path:
-                raise EClassCapExceeded(f"class {c} is self-referential")
+                complete[0] = False           # self-referential class
+                return [], True
             if c in memo:
-                return memo[c]
+                return memo[c], False
             out: list = []
+            truncated = False
             for n in sorted(self.classes[c], key=repr):
                 if n[0] == "leaf":
                     out.append(n[1])
                     continue
-                for l in walk(n[1], path | {c}):
-                    for r in walk(n[2], path | {c}):
+                ls, lt = walk(n[1], path | {c})
+                rs, rt = walk(n[2], path | {c})
+                truncated = truncated or lt or rt
+                for l in ls:
+                    for r in rs:
+                        if len(out) >= cap:
+                            complete[0] = False
+                            return out, True
                         out.append((n[0], l, r))
-                        if len(out) > cap:
-                            raise EClassCapExceeded(f"class {c} exceeded cap {cap}")
-            memo[c] = out
-            return out
+            if not truncated:
+                memo[c] = out                 # path-independent, safe to reuse
+            return out, truncated
 
-        return walk(self.find(cid), frozenset())
+        terms, _ = walk(self.find(cid), frozenset())
+        return terms, complete[0]
 
     def enodes(self):
         """Canonical (class_id, enode) pairs, stable order."""
@@ -126,40 +143,60 @@ class EGraph:
             for n in sorted(self.classes[c], key=repr):
                 yield c, self._canon(n)
 
-    def leaf_value(self, cid: int):
-        """The numeric leaf of a class, if it has one (else None)."""
+    def leaf_values(self, cid: int):
+        """EVERY numeric leaf of a class, sorted.
+
+        A class can hold several distinct constants once an unsound rule has merged
+        semantically different terms. Returning only the first one would fold
+        incompletely and would depend on set iteration order, so the walk could miss
+        reachable folded terms and the extracted constant could vary between runs.
+        """
+        out = set()
         for n in self.classes[self.find(cid)]:
-            if n[0] == "leaf":
-                v = n[1]
-                if isinstance(v, int):
-                    return v
-                if isinstance(v, str) and v.isdigit():
-                    return int(v)
-        return None
+            if n[0] != "leaf":
+                continue
+            v = n[1]
+            if isinstance(v, int):
+                out.add(v)
+            elif isinstance(v, str) and v.isdigit():
+                out.add(int(v))
+        return sorted(out)
 
     # ------------------------------------------------------------- saturation
-    def saturate(self, rules, cap_iters: int = 60, deadline_s: float = 300.0):
+    def saturate(self, rules, cap_iters: int = 8, deadline_s: float = 60.0,
+                 max_enodes: int = 40000):
         """`rules`: name -> fn(egraph) -> iterable of (class_a, class_b) merge requests.
 
-        Returns (iterations, saturated).
+        Returns (iterations, saturated, stop_reason). An unsound rule can destroy
+        termination outright: once a contaminated class holds several constants,
+        constant folding across it manufactures unboundedly many new ones. That is
+        reported as a stop reason, never hidden behind a claim of saturation.
         """
         t_end = time.process_time() + deadline_s
         for it in range(1, cap_iters + 1):
             if time.process_time() > t_end:
-                return it, False
+                return it, False, "DEADLINE"
+            if self.stats["enodes"] > max_enodes:
+                return it, False, "ENODE_BUDGET"
             requests: list[tuple[int, int]] = []
             for name in sorted(rules):
                 for a, b in rules[name](self):
                     self.stats["rule_applications"] += 1
                     requests.append((a, b))
+                    if self.stats["enodes"] > max_enodes:
+                        break
+                if self.stats["enodes"] > max_enodes:
+                    break
             changed = False
             for a, b in requests:
                 if self.merge(a, b):
                     changed = True
             self.rebuild()
+            if self.stats["enodes"] > max_enodes:
+                return it, False, "ENODE_BUDGET"
             if not changed:
-                return it, True
-        return cap_iters, False
+                return it, True, "FIXPOINT"
+        return cap_iters, False, "ITER_CAP"
 
     def n_classes(self) -> int:
         return len({self.find(c) for c in self.classes})

@@ -1,0 +1,79 @@
+name: H1 amortized lifetime polynomial microscope
+
+on:
+  pull_request:
+    paths:
+      - 'research/h1-amortized-lifetime-v3/**'
+      - '.github/workflows/h1-amortized-lifetime.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h1-amortized-lifetime-v3/**'
+      - '.github/workflows/h1-amortized-lifetime.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h1-amortized-lifetime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/h1-amortized-lifetime-v3'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-lt-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h1-amortized-lifetime-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h1-amortized-lifetime-v3 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: H1 amortized-lifetime study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h1-lt-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h1-amortized-lifetime-v3/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          if [ -f research/h1-amortized-lifetime-v3/RESULT.json ]; then
+            cp research/h1-amortized-lifetime-v3/RESULT.json "$out/capsule-RESULT.json"
+          fi
+      - name: Do not overwrite H1 v1 or v2 RESULT.json
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- research/h1-amortized-acquisition-v1/RESULT.json
+          git diff --exit-code -- research/h1-amortized-rewrite-v2/RESULT.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          v1 = json.loads(Path("research/h1-amortized-acquisition-v1/RESULT.json").read_text())
+          v2 = json.loads(Path("research/h1-amortized-rewrite-v2/RESULT.json").read_text())
+          assert v1["terminal"] == "NO_AMORTIZED_ACQUISITION_LATER_NOT_CHEAPER", v1["terminal"]
+          assert v1["later"]["kt"]["compute"] == 62043
+          assert v2["terminal"] == "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS", v2["terminal"]
+          assert v2["later"]["kt"]["compute"] == 36289
+          for path in (
+              "research/h1-amortized-acquisition-v1/RESULT.json",
+              "research/h1-amortized-rewrite-v2/RESULT.json",
+          ):
+              raw = Path(path).read_bytes()
+              print(path, hashlib.sha256(raw).hexdigest(), len(raw))
+          PY
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h1-amortized-lifetime
+          path: '${{ runner.temp }}/h1-lt-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

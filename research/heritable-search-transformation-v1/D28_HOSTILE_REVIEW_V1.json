@@ -1,0 +1,201 @@
+{
+ "review_id": "D28_HOSTILE_REVIEW_V1",
+ "lane": "D28 (fresh-context hostile review + downstream integration)",
+ "registry_row": "EXPERIMENT_REGISTRY_V1.json row D28: verdict PASS/PASS_WITH_FINDINGS/FAIL; hooks only AFTER review; no locked milestone criterion changed retroactively",
+ "reviewed_branch_head": "a70c2f7a",
+ "branch": "hsg/v4-d23-d28",
+ "reviewer": "fresh-context agent lane (no prior involvement in D16-D22 authoring; hostile instructions: find real defects, a zero-defect review is theater)",
+ "scope": [
+  "FREEZE_V1.json base manifest + amendments V1.1 through V1.6",
+  "FREEZE_D19_D20_V1.json (+ supersession S1), FREEZE_RV_B_V1.json (+ amendment R1-REBASE)",
+  "core frozen docs: DEFINITIONS.md, THEOREM_REGISTRY_V1.json (30 rows), EXPERIMENT_REGISTRY_V1.json (12 experiment rows), HOSTILE_REGISTRY_V1.json (27 rows), PARENT_LEDGER.md (25 rows)",
+  "shipped results: exact/results/{D17,D18,D19,D20,D21,D22,RV_B1,RV_B2}_RESULTS.json",
+  "result-generating code: exact/*.py (oracles_d17.py, rv_b1.py, d19.py, d20.py, d21_reduction_equality.py, d22_logic_transport.py, engine.py, worlds*.py)",
+  "receipts: exact/receipts/*.jsonl",
+  "cross-capsule coordination: research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json"
+ ],
+ "method": [
+  "replayed the freeze-chain verifier and selftest on the working tree at the reviewed head",
+  "diffed frozen statements against live files (byte identity, then semantic diff of non-statement metadata)",
+  "traced file history of every results artifact (git log --follow) and compared first-landed blobs against current bytes",
+  "independently re-ran the result emitters on two disjoint hosts (billy-laptop python 3.8.10, billy-old python 3.14.4; receipts /tmp/sem_replay_billy-laptop.jsonl sha256 d791276fd3912b0a827f46cc776e6f3e10ed866c88b9ef425069019eb9e90627, /tmp/sem_replay_billy-old.jsonl sha256 2818a5e16eeff4662f6dd43f30b0117a881ae4fd3c0eadcd9e464c9dfe7b0493; emitted artifacts byte-identical across hosts)",
+  "checked every recorded provenance anchor for reachability from live refs",
+  "counted registry bookkeeping (statuses, hostile census, receipt-field coverage) programmatically"
+ ],
+ "verdict": "PASS_WITH_FINDINGS",
+ "verdict_rationale": "No claim exceeds its registered ceiling, no frozen statement was silently edited, no negative was dropped, and every post-landing mutation found is disclosed in-file or in its commit message. The real defects are structural: results artifacts and result-generating code live outside the freeze hash-chain, so the chain cannot see the mutations it exists to record; one committed results file is no longer byte-reproducible from its emitter; and one recorded provenance anchor is unreachable from any ref.",
+ "checks": [
+  {
+   "id": "C1",
+   "description": "freeze-chain integrity at reviewed head",
+   "result": "PASS",
+   "detail": "verify_freeze_chain.py: VERIFIED, 20 checks across 4 freeze files, 2 recorded supersessions, zero unrecorded drift, exit 0. The 2 NOTEs are the pre-existing recorded-supersession class (FREEZE_D19_D20 prior-manifest observations for the two registries, both superseded by recorded amendment V1.2), not new."
+  },
+  {
+   "id": "C2",
+   "description": "chain checker self-consistency",
+   "result": "PASS",
+   "detail": "selftest_freeze_chain.py: no-alarm holds, both tamper directions fire, cannot-check distinct, exit 0."
+  },
+  {
+   "id": "C3",
+   "description": "frozen statement immutability (core docs vs recorded hashes)",
+   "result": "PASS",
+   "detail": "All five core files match their newest recorded amendment hashes. Historical statement text of all 30 theorem rows is byte-identical since freeze; the only registry change beyond freeze-time content is T84.parents metadata, added by a recorded amendment."
+  },
+  {
+   "id": "C4",
+   "description": "registries append-only since freeze",
+   "result": "PASS",
+   "detail": "EXPERIMENT_REGISTRY and HOSTILE_REGISTRY diffs since freeze are purely additive (D21/D22 protocol block; no row removed or rewritten)."
+  },
+  {
+   "id": "C5",
+   "description": "negative retention",
+   "result": "PASS",
+   "detail": "D20 PARENT_SUFFICIENT terminal retained as success; RV_B1 retains the REFUTATION of its own amortisation hypothesis with a correction_C1 block that keeps the wrong original text verbatim; D21's denominator correction (V1.3) kept the original numbers alongside; D17 summary reports hostile_flip_failures and cannot_check counts as first-class fields."
+  },
+  {
+   "id": "C6",
+   "description": "results artifacts bound by the freeze chain",
+   "result": "FAIL",
+   "detail": "No manifest in any FREEZE*.json names any exact/results/*.json (verified programmatically across all freeze files and amendments: zero entries). All 8 results files are invisible to the chain verifier; two were legitimately-but-unrecordably mutated after landing (F1)."
+  },
+  {
+   "id": "C7",
+   "description": "committed results reproducible from their emitters",
+   "result": "FAIL",
+   "detail": "RV_B1_RESULTS.json carries terminal.where_the_positive_lives text plus a correction_C1 block that exact/rv_b1.py (line 630) does not emit; the emitter still writes the original summary text. Cross-host replay confirms every other results file regenerates byte-identically except timing fields (F2)."
+  },
+  {
+   "id": "C8",
+   "description": "recorded provenance anchors resolvable",
+   "result": "FAIL",
+   "detail": "freeze_commit 11d165b77ada54cc3dbc286f5ecc9369a7560896, cited by d19.py:288, d20.py:550 and both D19/D20_RESULTS.json, exists as a local object but is unreachable from every ref (git branch -a --contains is empty); it resolves only in long-lived clones via reflog and vanishes on fresh clone. FREEZE_D19_D20's head_at_freeze b434c55c remains reachable (F3)."
+  },
+  {
+   "id": "C9",
+   "description": "claim ceilings honest (no claim above registered ceiling)",
+   "result": "PASS",
+   "detail": "Every results file carries an explicit P2 finite-certificate claim_ceiling; no P1 relabeling of P2 evidence found; D22 keeps N4 locked and states unused-installed solvers; RV_B1 headline 'PARENT_SUFFICIENT' matches its pre-committed deeper-terminal rule."
+  },
+  {
+   "id": "C10",
+   "description": "hostile census bookkeeping",
+   "result": "PASS_WITH_FINDINGS",
+   "detail": "All planted hostiles that were run fired with named witnesses or were reported as not-flipping with reasons; but two hostiles (H-D19b, H-D20b) live only inside D19_D20_PROTOCOL_V1.json and were never appended to HOSTILE_REGISTRY_V1.json, so the registry census (27) understates ground truth (29) (F4)."
+  },
+  {
+   "id": "C11",
+   "description": "registry status back-propagation",
+   "result": "PASS_WITH_FINDINGS",
+   "detail": "THEOREM_REGISTRY_V1.json statuses remain 30/30 OPEN although D17 landed 14 rows PROVED_LOCAL (D17_RESULTS summary proved_local: 14). No reader can learn a row's landed state from the registry itself (F5)."
+  },
+  {
+   "id": "C12",
+   "description": "receipts vs frozen receipt schema",
+   "result": "PASS_WITH_FINDINGS",
+   "detail": "exact/receipts/*.jsonl exist for every experiment, but implement a strict subset of the 13-field frozen receipt_fields schema: D17 receipts carry 7 keys (job, theorem_or_atom_id, verdict, certificate_ceiling, hostile_flips, hostiles_total, negative_or_cannot_check_status); no B_exec vector, no wall/CPU/IO, no provenance-support, ambiguity, counterexample or reuse-identity fields anywhere in the receipts (F6)."
+  }
+ ],
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "MEDIUM",
+   "check": "C6",
+   "claim_reviewed": "the freeze chain governs the capsule's evidence artifacts",
+   "evidence_gap": "The chain hash-binds the 5 core docs and lane protocol files only. Zero of the 8 exact/results/*.json files are named by any manifest, so post-landing edits to landed results are structurally invisible to verify_freeze_chain. Two such edits exist: D17_RESULTS.json gained an RV-B2(ii) provenance note after first landing (first-landed blob 84b127a7 lacks it; 905a7200 added it together with the T72 oracle repair), and RV_B1_RESULTS.json was edited by 97b38de2 (RV-6/correction). Both edits are disclosed and substantively honest; the defect is that nothing in the chain would have caught an undisclosed one.",
+   "fix_hint": "At landing time, record each results file's sha256 in the lane freeze (or a small FREEZE_RESULTS manifest amended per result commit), so any later in-place edit becomes recorded drift exactly like a core-doc edit."
+  },
+  {
+   "id": "F2",
+   "severity": "MEDIUM",
+   "check": "C7",
+   "claim_reviewed": "committed results are the output of their committed checkers",
+   "evidence_gap": "exact/rv_b1.py line 630 emits where_the_positive_lives = 'query amortisation, measured in multi_query_amortisation above.', but the committed RV_B1_RESULTS.json contains the hand-corrected text plus a correction_C1 block ('raised_by: session lead centre review of the merged artifact'). The committed artifact therefore cannot be regenerated byte-for-byte from its own emitter. Two-host replay (billy-laptop, billy-old; byte-identical outputs on both) shows this is the ONLY non-reproducing results file.",
+   "fix_hint": "Fold the correction into the emitter (with the original retained as a field, as correction_C1 already does) and regenerate, recording both hashes in the freeze; or mark the file as human-annotated with a schema the emitter itself emits."
+  },
+  {
+   "id": "F3",
+   "severity": "MEDIUM",
+   "check": "C8",
+   "claim_reviewed": "recorded freeze_commit anchors identify real history",
+   "evidence_gap": "11d165b77ada54cc3dbc286f5ecc9369a7560896 (freeze_commit recorded in d19.py, d20.py, D19_RESULTS.json, D20_RESULTS.json) is unreachable from every ref on origin; it survives only as an unreferenced object in long-lived clones. A fresh clone cannot verify what was frozen in that commit. The D19/D20 branch was evidently rebased before merge (merged history diverges from the branch the freeze recorded).",
+   "fix_hint": "Retarget the four freeze_commit references to the merge commit on main that contains the frozen trees (or record both), via a one-line freeze amendment; going forward, freeze files should record only commits reachable from main."
+  },
+  {
+   "id": "F4",
+   "severity": "LOW",
+   "check": "C10",
+   "claim_reviewed": "HOSTILE_REGISTRY census is the authoritative hostile list",
+   "evidence_gap": "H-D19b and H-D20b are declared 'ADDED BY THIS PROTOCOL' inside D19_D20_PROTOCOL_V1.json but were never appended to HOSTILE_REGISTRY_V1.json, whose census in FREEZE_V1 still says hostiles: 27 while ground truth is 29. Fragmented hostile bookkeeping is how a hostile gets silently dropped from a future census.",
+   "fix_hint": "Append the two rows (with their protocol as origin) and amend the census count."
+  },
+  {
+   "id": "F5",
+   "severity": "LOW",
+   "check": "C11",
+   "claim_reviewed": "THEOREM_REGISTRY status reflects landed evidence",
+   "evidence_gap": "All 30 rows read OPEN; 14 carry PROVED_LOCAL certificates in D17_RESULTS since #275. The registry is the natural index for downstream lanes (and D28 hooks) and currently understates landed state.",
+   "fix_hint": "Additive status amendment: OPEN -> PROVED_LOCAL(D17) for the 14 rows, citing the results file; keep OPEN for the rest."
+  },
+  {
+   "id": "F6",
+   "severity": "LOW",
+   "check": "C12",
+   "claim_reviewed": "receipts implement the frozen receipt_fields schema",
+   "evidence_gap": "The frozen schema names 13 field families (B_exec vector, wall/CPU/GPU/IO/storage, provenance supports/alternatives, ambiguity size/entropy, protected round-trip errors, counterexample + version-space shrinkage, reuse identities, active k/N, ...). Landed receipts carry 7 keys; the B_exec vector itself - the programme's core burden object - is absent from every receipt row.",
+   "fix_hint": "Extend the receipt writers to emit at least B_exec stage counts and wall/CPU per job; or amend the schema to the subset actually promised for D17-D22 and keep the full schema as the D25+ target."
+  },
+  {
+   "id": "F7",
+   "severity": "LOW",
+   "check": "C1",
+   "claim_reviewed": "cross-capsule coordination reflects reality",
+   "evidence_gap": "research/top-tier-atomic-closure-v1/IN_FLIGHT_COORDINATE_MAP_V1.json still marks D21 and D22 as IN_FLIGHT although both landed (PRs #289 and #285 merged at heads 885ccbad / 078dac97); its D23/D24 legality notes and D27 'highest-value unstarted' ranking are being consumed by planning lanes as if current.",
+   "fix_hint": "One-line status update in that map (D21/D22 -> LANDED with PR refs), or a standing rule that the map is advisory-only with a checked-at date."
+  },
+  {
+   "id": "F8",
+   "severity": "INFO",
+   "check": "C1",
+   "claim_reviewed": "one freeze discipline per capsule",
+   "evidence_gap": "Two coexisting legal patterns: standalone lane freezes (D19/D20, RV-B, and now D23) vs amendments to FREEZE_V1 (D21/D22 protocol). Both verify, but a new lane must now choose per precedent, and census fields in FREEZE_V1 cannot see standalone-lane content.",
+   "fix_hint": "Document the rule of thumb (standalone freeze for new lane protocols; core amendment only when a frozen core doc itself changes) in the next protocol that freezes."
+  },
+  {
+   "id": "F9",
+   "severity": "INFO",
+   "check": "C6",
+   "claim_reviewed": "post-landing code repairs stay auditable",
+   "evidence_gap": "oracles_d17.py t72 revocation-target default was switched to true sources by the RV-B2 repair (905a7200), with the legacy 'leaves' mode retained and the D17_RESULTS note added. Fully disclosed, but had emitters been hash-bound (F1) the repair would have required a recorded amendment naming the new oracle hash, making the audit trail automatic rather than commit-message-deep.",
+   "fix_hint": "Same as F1: bind result-generating code hashes at landing."
+  }
+ ],
+ "hook_plan": {
+  "rule": "Registry row D28: hooks only AFTER review. Nothing below is posted to any other issue until this review is merged; staged here verbatim so the posting lane does not have to re-derive it.",
+  "staged_hooks": [
+   {
+    "target": "SzeChunYiu/ORION-OCM#221",
+    "hook": "Results/code hash-binding gap class (F1/F2/F9) belongs to the campaign freeze+receipt machinery remit: a receipt pattern that hash-binds emitted artifacts and emitters at landing time would close it for every future capsule."
+   },
+   {
+    "target": "SzeChunYiu/ORION-OCM#43 (and roadmap lanes #44/#46/#47)",
+    "hook": "Registry back-propagation rule (F5): landed PROVED_LOCAL statuses should be visible in THEOREM_REGISTRY, else downstream parent-absorption work re-litigates proved rows."
+   },
+   {
+    "target": "SzeChunYiu/ORION-OCM#93",
+    "hook": "The freeze-chain coverage lesson (F1): a hash chain that excludes results artifacts protects statements, not evidence; candidate integrity rule for the General Epistemic Field factorization."
+   },
+   {
+    "target": "SzeChunYiu/ORION-OCM#217",
+    "hook": "None blocking. When N2 unlocks, D23's frozen metric contract (this PR) is the contract the learned-realization run must reuse unchanged."
+   }
+  ]
+ },
+ "what_was_deliberately_not_done": [
+  "No theorem proof replayed line-by-line beyond the D17 oracle re-run and the two-host emitter replay already on record; the D28 registry row asks the reviewer to replay certificates, and the two-host byte-identical replay of all 8 emitters (plus D16 parent-verification lane outputs already in parent_verification/) is the replay evidence relied on here.",
+  "No hook posted to any external issue (registry rule: hooks only AFTER review).",
+  "No locked milestone criterion changed retroactively; N2/N4/N5 remain LOCKED."
+ ]
+}

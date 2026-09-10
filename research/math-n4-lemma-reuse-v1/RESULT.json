@@ -1,0 +1,707 @@
+{
+  "acquisition": {
+    "operators_after": [
+      "K",
+      "S",
+      "MP",
+      "PREFIX",
+      "SWAP"
+    ],
+    "operators_before": [
+      "K",
+      "S",
+      "MP"
+    ],
+    "prefix": {
+      "holdout": {
+        "goal": "((j \u2192 k) \u2192 ((i \u2192 j) \u2192 (i \u2192 k)))",
+        "kernel_ok": true,
+        "proof_length": 7
+      },
+      "kernel_checks": 4,
+      "rows": [
+        {
+          "goal": "((v \u2192 w) \u2192 ((u \u2192 v) \u2192 (u \u2192 w)))",
+          "proof_length": 7,
+          "search": {
+            "failed_unifications": 71,
+            "formulas_materialized": 0,
+            "kernel_checks": 1,
+            "kernel_rejects": 0,
+            "lemma_instantiations": 0,
+            "mp_attempts": 70,
+            "nodes": 72,
+            "one_step_hits": 0,
+            "skipped_nogoods": 0,
+            "subgoals_introduced": 63,
+            "successful_unifications": 1,
+            "terms_enumerated": 72,
+            "type_inferences": 152,
+            "wall_s": 0.0
+          },
+          "task_id": "task:family-a-uvw",
+          "term": "((S (K S)) K)"
+        },
+        {
+          "goal": "((v2 \u2192 w2) \u2192 ((u2 \u2192 v2) \u2192 (u2 \u2192 w2)))",
+          "proof_length": 7,
+          "search": {
+            "failed_unifications": 71,
+            "formulas_materialized": 0,
+            "kernel_checks": 1,
+            "kernel_rejects": 0,
+            "lemma_instantiations": 0,
+            "mp_attempts": 70,
+            "nodes": 72,
+            "one_step_hits": 0,
+            "skipped_nogoods": 0,
+            "subgoals_introduced": 63,
+            "successful_unifications": 1,
+            "terms_enumerated": 72,
+            "type_inferences": 152,
+            "wall_s": 0.0
+          },
+          "task_id": "task:family-a-u2v2w2",
+          "term": "((S (K S)) K)"
+        }
+      ],
+      "search_nodes": 144,
+      "terms_enumerated": 144,
+      "wall_s": 0.009219489000088288
+    },
+    "representation_introduced": [
+      "PREFIX",
+      "SWAP"
+    ],
+    "swap": {
+      "catalog": [
+        "I",
+        "B",
+        "C"
+      ],
+      "catalog_hits": [
+        "C"
+      ],
+      "catalog_prior_information": true,
+      "holdout": {
+        "goal": "((l \u2192 (m \u2192 n)) \u2192 (m \u2192 (l \u2192 n)))",
+        "kernel_ok": true,
+        "proof_length": 19
+      },
+      "kernel_checks": 7,
+      "rows": [
+        {
+          "goal": "((x \u2192 (y \u2192 z)) \u2192 (y \u2192 (x \u2192 z)))",
+          "proof_length": 19,
+          "task_id": "task:family-b-xyz"
+        },
+        {
+          "goal": "((x2 \u2192 (y2 \u2192 z2)) \u2192 (y2 \u2192 (x2 \u2192 z2)))",
+          "proof_length": 19,
+          "task_id": "task:family-b-x2y2z2"
+        }
+      ],
+      "search_nodes": 188,
+      "size4_misses": [
+        {
+          "nodes": 94,
+          "status": "NOT_FOUND",
+          "task_id": "task:family-b-xyz",
+          "terms_enumerated": 94
+        },
+        {
+          "nodes": 94,
+          "status": "NOT_FOUND",
+          "task_id": "task:family-b-x2y2z2",
+          "terms_enumerated": 94
+        }
+      ],
+      "terms_enumerated": 188,
+      "wall_s": 0.012280276999945272
+    }
+  },
+  "claim_boundary": "Causal lemma reuse is supported only in this miniature Hilbert/SK microscope. It does not close MATH-1 / N4 for Metamath, does not expand FLT, and does not emit unscoped CAUSAL_PROOF_METHOD_REUSE_SUPPORTED.",
+  "costs": {
+    "acquisition": {
+      "catalog": [
+        "I",
+        "B",
+        "C"
+      ],
+      "catalog_prior_information": true,
+      "prefix_search_nodes": 144,
+      "prefix_terms_enumerated": 144,
+      "prefix_wall_s": 0.009219489000088288,
+      "swap_search_nodes": 188,
+      "swap_terms_enumerated": 188,
+      "swap_wall_s": 0.012280276999945272
+    },
+    "check": {
+      "acquisition_kernel_checks": 11,
+      "fresh_both_kernel_checks": 152,
+      "fresh_both_kernel_rejects": 0
+    },
+    "search": {
+      "consumer_mp_budget": 4000,
+      "fresh_both_mp_attempts": 176,
+      "fresh_both_nodes": 176,
+      "fresh_prefix_only_mp_attempts": 992,
+      "fresh_primitive_mp_attempts": 227,
+      "fresh_swap_only_mp_attempts": 1209,
+      "library_inhabitation_terms": 19
+    },
+    "storage": {
+      "failure_memory_entries": 2,
+      "lemma_count": 2,
+      "library_bytes": 1793
+    }
+  },
+  "criteria": {
+    "ablation_increases_mp_cost": true,
+    "failure_memory_shape_not_task_id": true,
+    "fresh_atoms_held_out": true,
+    "fresh_found_with_both_lemmas": true,
+    "one_step_zero_on_composition": true,
+    "os_process_restart": true,
+    "prefix_ablation_loses_proof": true,
+    "primitive_cannot_at_budget": true,
+    "restore_returns_lemma_use": true,
+    "revoke_both_matches_primitive": true,
+    "revoke_prefix_restores_weaker_search": true,
+    "revoke_swap_restores_weaker_search": true,
+    "subgoal_intermediates_recorded": true,
+    "swap_ablation_loses_proof": true
+  },
+  "do_not_expand_flt": true,
+  "domain": "positive implicational Hilbert calculus / typed SK combinatory logic",
+  "failure_attempts": {
+    "compatible_dead_end_skipped": true,
+    "first_status": "NOT_FOUND",
+    "first_task_id": "task:dead-a",
+    "first_terms_enumerated": 22,
+    "keyed_by_alpha_shape": true,
+    "memory_contains_first_task_id": false,
+    "memory_contains_second_task_id": false,
+    "nogood_shapes": [
+      [
+        "(((v0 \u2192 (v1 \u2192 v2)) \u2192 (v0 \u2192 v1)) \u2192 ((v0 \u2192 (v1 \u2192 v2)) \u2192 (v0 \u2192 v2)))",
+        "((v0 \u2192 (v1 \u2192 v2)) \u2192 ((v0 \u2192 v1) \u2192 (v0 \u2192 v2)))"
+      ],
+      [
+        "(((v0 \u2192 (v1 \u2192 v2)) \u2192 (v0 \u2192 v1)) \u2192 ((v0 \u2192 (v1 \u2192 v2)) \u2192 (v0 \u2192 v2)))",
+        "(v0 \u2192 (v1 \u2192 v0))"
+      ]
+    ],
+    "nogoods_after_first": 2,
+    "not_task_id_blacklist": true,
+    "second_status": "NOT_FOUND",
+    "second_task_id": "task:dead-b",
+    "second_terms_enumerated": 22,
+    "skipped_on_second": 2,
+    "success_outside_failure_scope": true,
+    "success_status": "FOUND",
+    "success_task_id": "task:live-b-identity"
+  },
+  "fresh": {
+    "both": {
+      "conclusion": "((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))",
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1760,
+        "kernel_checks": 152,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 1024,
+        "mp_attempts": 176,
+        "nodes": 176,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 1024,
+        "successful_unifications": 152,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [
+        "PREFIX",
+        "SWAP"
+      ],
+      "mp_count": 1,
+      "one_step_hits": [],
+      "proof_length": 3,
+      "skipped_nogoods": 0,
+      "status": "FOUND",
+      "subgoal_count": 1024,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "library_inhabitation": {
+      "conclusion": "((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))",
+      "costs": {
+        "failed_unifications": 18,
+        "formulas_materialized": 0,
+        "kernel_checks": 1,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 0,
+        "mp_attempts": 15,
+        "nodes": 19,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 15,
+        "successful_unifications": 1,
+        "terms_enumerated": 19,
+        "type_inferences": 38,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [
+        "SWAP",
+        "PREFIX"
+      ],
+      "mp_count": 1,
+      "one_step_hits": [],
+      "proof_length": 3,
+      "skipped_nogoods": 0,
+      "status": "FOUND",
+      "subgoal_count": 15,
+      "subgoals": [
+        "(t0 \u2192 (t1 \u2192 t2))",
+        "(t0 \u2192 (t1 \u2192 t2))",
+        "(t0 \u2192 (t1 \u2192 t2))",
+        "(t0 \u2192 (t1 \u2192 t2))",
+        "t0",
+        "t0",
+        "t0",
+        "t0"
+      ],
+      "term": "(SWAP PREFIX)"
+    },
+    "one_step_hits": [],
+    "one_step_invocations": 0,
+    "prefix_only": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1283,
+        "kernel_checks": 187,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 512,
+        "mp_attempts": 992,
+        "nodes": 992,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 512,
+        "successful_unifications": 187,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 512,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "primitive": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 659,
+        "kernel_checks": 75,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 0,
+        "mp_attempts": 227,
+        "nodes": 227,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 0,
+        "successful_unifications": 75,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 0,
+      "subgoals": [],
+      "term": null
+    },
+    "swap_only": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1279,
+        "kernel_checks": 183,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 512,
+        "mp_attempts": 1209,
+        "nodes": 1209,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 512,
+        "successful_unifications": 183,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 512,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (((q \u2192 r) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((p \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (r \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (p \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((q \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (q \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((p \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    }
+  },
+  "issue": 165,
+  "lane": "MATH-1",
+  "metamath_library": {
+    "bytes": 1231,
+    "disposition": "MINIATURE_HILBERT_MICROSCOPE",
+    "joined_prefix_exists": false,
+    "present": true,
+    "reason": "LIBRARY-ARTIFACT.json is a custody pointer to an off-host Metamath prefix; no kernel runtime in this environment.",
+    "runtime_available": false,
+    "sha256": "d4fc2ac8cafa1d5e7bf274c83f102089d716a5eb0058c7fc2dad8a58b2d265ef"
+  },
+  "n4_metamath_status": "OPEN",
+  "neural_guided_prover": "CANNOT_CHECK_NO_NEURAL_PROVER_IN_THIS_ENVIRONMENT",
+  "partition": {
+    "acquisition_atoms": [
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "u",
+      "u2",
+      "v",
+      "v2",
+      "w",
+      "w2",
+      "x",
+      "x2",
+      "y",
+      "y2",
+      "z",
+      "z2"
+    ],
+    "family_a_ids": [
+      "task:family-a-uvw",
+      "task:family-a-u2v2w2"
+    ],
+    "family_b_ids": [
+      "task:family-b-xyz",
+      "task:family-b-x2y2z2"
+    ],
+    "fresh_atoms": [
+      "p",
+      "q",
+      "r"
+    ],
+    "fresh_atoms_disjoint_from_acquisition": true,
+    "fresh_goal": "((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))",
+    "fresh_id": "task:fresh-pqr"
+  },
+  "process": {
+    "max_rss_kib": 26316,
+    "pid": 12892,
+    "study_wall_s": 0.15260747100001026
+  },
+  "restart": {
+    "kernel_checks": 152,
+    "lemmas_used": [
+      "PREFIX",
+      "SWAP"
+    ],
+    "mp_attempts": 176,
+    "one_step_hits": [],
+    "parent_pid": 12892,
+    "pid": 12893,
+    "proof_length": 3,
+    "returncode": 0,
+    "status": "FOUND",
+    "subgoals": [
+      "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+      "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+    ]
+  },
+  "retrieval_parent": {
+    "method": "bag-of-symbols Jaccard after alpha-normalization",
+    "top1": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1283,
+        "kernel_checks": 187,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 512,
+        "mp_attempts": 992,
+        "nodes": 992,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 512,
+        "successful_unifications": 187,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 512,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "top1_ids": [
+      "PREFIX"
+    ],
+    "top2": {
+      "conclusion": "((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))",
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1760,
+        "kernel_checks": 152,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 1024,
+        "mp_attempts": 176,
+        "nodes": 176,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 1024,
+        "successful_unifications": 152,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [
+        "PREFIX",
+        "SWAP"
+      ],
+      "mp_count": 1,
+      "one_step_hits": [],
+      "proof_length": 3,
+      "skipped_nogoods": 0,
+      "status": "FOUND",
+      "subgoal_count": 1024,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "top2_ids": [
+      "PREFIX",
+      "SWAP"
+    ]
+  },
+  "revocation": {
+    "restore": {
+      "conclusion": "((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))",
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1760,
+        "kernel_checks": 152,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 1024,
+        "mp_attempts": 176,
+        "nodes": 176,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 1024,
+        "successful_unifications": 152,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [
+        "PREFIX",
+        "SWAP"
+      ],
+      "mp_count": 1,
+      "one_step_hits": [],
+      "proof_length": 3,
+      "skipped_nogoods": 0,
+      "status": "FOUND",
+      "subgoal_count": 1024,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "revoke_both": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 659,
+        "kernel_checks": 75,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 0,
+        "mp_attempts": 227,
+        "nodes": 227,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 0,
+        "successful_unifications": 75,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 0,
+      "subgoals": [],
+      "term": null
+    },
+    "revoke_prefix": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1279,
+        "kernel_checks": 183,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 512,
+        "mp_attempts": 1209,
+        "nodes": 1209,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 512,
+        "successful_unifications": 183,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 512,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (((q \u2192 r) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((p \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (r \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (p \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((q \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 (q \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))) \u2192 ((p \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    },
+    "revoke_swap": {
+      "conclusion": null,
+      "costs": {
+        "failed_unifications": 0,
+        "formulas_materialized": 1283,
+        "kernel_checks": 187,
+        "kernel_rejects": 0,
+        "lemma_instantiations": 512,
+        "mp_attempts": 992,
+        "nodes": 992,
+        "one_step_hits": 0,
+        "skipped_nogoods": 0,
+        "subgoals_introduced": 512,
+        "successful_unifications": 187,
+        "terms_enumerated": 0,
+        "type_inferences": 0,
+        "wall_s": 0.0
+      },
+      "lemmas_used": [],
+      "mp_count": null,
+      "one_step_hits": [],
+      "proof_length": null,
+      "skipped_nogoods": 0,
+      "status": "NOT_FOUND",
+      "subgoal_count": 512,
+      "subgoals": [
+        "((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((((q \u2192 r) \u2192 (p \u2192 r)) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((r \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 r) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((p \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 p) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((q \u2192 r) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (q \u2192 r)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "((q \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 q) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))",
+        "(((p \u2192 q) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r)))) \u2192 ((((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 (p \u2192 q)) \u2192 (((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))) \u2192 ((p \u2192 q) \u2192 ((q \u2192 r) \u2192 (p \u2192 r))))))"
+      ],
+      "term": null
+    }
+  },
+  "schema": "math-n4-lemma-reuse.result.v1",
+  "scope": "bounded MATH-1 microscope; not N4 completion of Metamath",
+  "terminal": "CAUSAL_PROOF_METHOD_REUSE_SUPPORTED_AT_MINIATURE_SCOPE",
+  "transformer_proof_reference": "CANNOT_CHECK_NO_NEURAL_PROVER_IN_THIS_ENVIRONMENT",
+  "unscoped_causal_reuse_not_claimed": true
+}

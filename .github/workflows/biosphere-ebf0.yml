@@ -1,0 +1,30 @@
+name: Biosphere EB-F0 formal gate
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ebf0:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      # Self-test each checker BEFORE trusting it. A gate only ever seen not
+      # firing has not been validated, and one that cries wolf on its first
+      # real run gets switched off.
+      - name: Self-test the freeze verifier
+        run: python3 research/ocm-digital-biosphere-formal-v1/selftest_freeze_chain.py
+      - name: Self-test BIO-NI-1 noninterference (both directions)
+        run: python3 research/ocm-digital-biosphere-formal-v1/check_noninterference.py --selftest
+      - name: Verify the biosphere freeze chain
+        run: python3 research/ocm-digital-biosphere-formal-v1/verify_freeze_chain.py
+      # The contract's own section 3 obligation, executed. Exit 0 PASS,
+      # 2 VIOLATION, 3 CANNOT_CHECK -- and CANNOT_CHECK is never a pass.
+      - name: Execute BIO-NI-1 against the frozen declaration
+        run: python3 research/ocm-digital-biosphere-formal-v1/check_noninterference.py

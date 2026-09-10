@@ -1,0 +1,125 @@
+name: G1 F/O accumulation at polynomial plus L1 microworld
+
+on:
+  pull_request:
+    paths:
+      - 'research/g1-fo-accumulation-v1/**'
+      - '.github/workflows/g1-fo-accumulation.yml'
+      - 'research/g2-macro-operator-v1/experiment.py'
+      - 'research/l1-linguistic-g2-v1/experiment.py'
+      - 'research/g1-controller-growth-v1/RESULT.json'
+      - 'research/g1-fo-competence-v2/RESULT.json'
+      - 'research/g1-pi-small-v1/RESULT.json'
+      - 'research/g1-duplicate-cores-v1/RESULT.json'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/dialogue/planner.py'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g1-fo-accumulation-v1/**'
+      - '.github/workflows/g1-fo-accumulation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  g1-fo-accumulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g1-fo-accumulation-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Snapshot frozen RESULT hashes
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-fo-acc-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g1-fo-acc-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          paths = [
+              "research/g1-fo-accumulation-v1/RESULT.json",
+              "research/g1-controller-growth-v1/RESULT.json",
+              "research/g1-fo-competence-v2/RESULT.json",
+              "research/g1-duplicate-cores-v1/RESULT.json",
+              "research/g1-pi-small-v1/RESULT.json",
+          ]
+          frozen = {}
+          for rel in paths:
+              p = root / rel
+              if p.is_file():
+                  frozen[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+          (out / "frozen-sha256.json").write_text(json.dumps(frozen, indent=2) + "\n")
+          PY
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-fo-acc-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B -m unittest discover -s research/g1-fo-accumulation-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g1-fo-accumulation-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: F/O accumulation measurement
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-fo-acc-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B research/g1-fo-accumulation-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g1-fo-acc-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          frozen = json.loads((root / "research/g1-fo-accumulation-v1/RESULT.json").read_text())
+          if result["terminal"] != frozen["terminal"]:
+              sys.exit("live terminal %s != frozen %s" % (result["terminal"], frozen["terminal"]))
+          PY
+          cp research/g1-fo-accumulation-v1/RESULT.json "$out/capsule-RESULT.json"
+      - name: Restore frozen RESULT after runs
+        if: always()
+        run: |
+          set -euo pipefail
+          git checkout -- research/g1-fo-accumulation-v1/RESULT.json
+          git diff --exit-code -- research/g1-fo-accumulation-v1/RESULT.json
+          python3 -B - <<'PY'
+          import hashlib, json, os, pathlib, sys
+          root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g1-fo-acc-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          frozen = json.loads((out / "frozen-sha256.json").read_text())
+          for rel, digest in frozen.items():
+              got = hashlib.sha256((root / rel).read_bytes()).hexdigest()
+              if got != digest:
+                  sys.exit("frozen RESULT drifted: %s" % rel)
+          PY
+      - name: Predecessor RESULT files not overwritten
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- \
+            research/g1-controller-growth-v1/RESULT.json \
+            research/g1-fo-competence-v2/RESULT.json \
+            research/g1-duplicate-cores-v1/RESULT.json
+          if [ -f research/g1-pi-small-v1/RESULT.json ]; then
+            git diff --exit-code -- research/g1-pi-small-v1/RESULT.json
+          fi
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g1-fo-accumulation
+          path: '${{ runner.temp }}/g1-fo-acc-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

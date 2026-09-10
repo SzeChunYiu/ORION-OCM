@@ -1,0 +1,161 @@
+{
+  "schema": "WORLD_STATE_AND_DYNAMICS_V1_AMEND_1",
+  "amendment_id": 1,
+  "amends": "WORLD_STATE_AND_DYNAMICS_V1.json",
+  "owner_issue": 296,
+  "contains_results": false,
+  "reason": "The base artifact declares writes, randomness, cost and channel per kernel, but NOT reads. The section 3 noninterference obligation is `protected assay state NOT IN ancestors_of(birth/death/resource-transition)`. Ancestry is a read/write reachability property: without a declared reads set there are no incoming edges, every ancestor set collapses to the sink itself, and the check returns PASS vacuously for every world including a leaking one. A checker that cannot fail is a broken instrument. This amendment supplies the missing half of the edge relation.",
+  "defect_class": "VACUOUS_PASS__NOT_A_FALSE_NEGATIVE",
+  "blocks_closure_condition": "section 17 condition 2 (protected-assay noninterference machine-checkable)",
+  "required_fields_per_kernel_v2": [
+    "randomness_source",
+    "reads",
+    "writes",
+    "resource_cost",
+    "information_channel",
+    "removable_independently"
+  ],
+  "field_added": "reads",
+  "kernel_reads": {
+    "K_world": {
+      "reads": [
+        "E"
+      ],
+      "note": "ecology transition is autonomous of organism state except through resource cells already in E"
+    },
+    "K_senseact": {
+      "reads": [
+        "E",
+        "x.s",
+        "x.q",
+        "x.F",
+        "x.O",
+        "x.Pi",
+        "x.r"
+      ],
+      "note": "sensing reads local ecology and the organism's own controller; it must NOT read x.a"
+    },
+    "K_learn": {
+      "reads": [
+        "x.h",
+        "x.F",
+        "x.O",
+        "x.Pi",
+        "x.q",
+        "x.r"
+      ],
+      "note": "within-lifetime update reads only own state"
+    },
+    "K_social": {
+      "reads": [
+        "Gamma",
+        "x_donor.F",
+        "x_donor.h",
+        "H.cult",
+        "x_recipient.r"
+      ],
+      "note": "reads donor content and the recipient's budget; the recipient's assay state is not an input to whether transfer occurs"
+    },
+    "K_assemble": {
+      "reads": [
+        "x.s",
+        "x.q",
+        "E",
+        "Gamma"
+      ],
+      "note": "grouping reads proximity and proximate goals"
+    },
+    "K_birthdeath": {
+      "reads": [
+        "x.r",
+        "E.resources",
+        "P.replicate_threshold"
+      ],
+      "note": "SINK. Resources and world physics only. Any additional name appearing here is the leak.",
+      "noninterference_sink": true
+    },
+    "K_mut": {
+      "reads": [
+        "parent.g",
+        "P.mut_load"
+      ],
+      "note": "variation reads the genome and the mutation-load law"
+    },
+    "K_inherit": {
+      "reads": [
+        "parent.F",
+        "parent.O",
+        "parent.Pi",
+        "parent.h",
+        "C.admission_verdict"
+      ],
+      "note": "C is READ here and never written; reading C is legal, writing or naming a C-owned constant is not"
+    }
+  },
+  "resource_transition_sinks": {
+    "names": [
+      "E.resources",
+      "x.r"
+    ],
+    "written_by": [
+      "K_world",
+      "K_senseact",
+      "K_birthdeath"
+    ],
+    "rationale": "Section 3 names birth/death AND resource-transition decisions. Resource transitions are the second sink because an assay value that moves energy moves reproduction one step later, which is the H-LEAK-ASSAY-ENERGY hostile already registered in HOSTILE_REGISTRY_V1."
+  },
+  "protected_names_must_not_appear_in_any_reads_closure": [
+    "x.a",
+    "assay_task_identity",
+    "assay_score",
+    "assay_family_label",
+    "assay_target_domain_T",
+    "assay_rng_stream"
+  ],
+  "DECLARE_semantics": {
+    "meaning": "A kernel field left unresolved by an implementing run is an obligation on that run, not an open contract clause.",
+    "consequence": "An unresolved reads or writes field yields CANNOT_CHECK for the whole predicate. It never yields PASS.",
+    "precedent": [
+      "research/hsg-semantic-execution-v1/verify_freeze_chain.py distinct exit codes",
+      "research/ocm-form-oracle-v1/oracle/objectives4.py partition_checkable"
+    ]
+  },
+  "schema_choice_note": {
+    "chosen": "per_kernel_reads_writes",
+    "rejected": "monolithic adjacency matrix",
+    "reason": "Per-kernel declaration is locally amendable when a kernel is added, and it is the exact input the closure needs.",
+    "amendable_by": "EB-F0-X"
+  },
+  "prior_manifest_sha256_observed_note": "This amendment does not modify the base artifact bytes. It supersedes the base's kernel field list by the newest-amendment resolution rule used in research/hsg-semantic-execution-v1/verify_freeze_chain.py.",
+  "observer_side_kernels": {
+    "reason": "The protected assay names did not appear anywhere in the declared reads or writes of the eight primary kernels, so they were not nodes of the graph at all. An ancestor closure over a vocabulary that does not contain the protected names returns PASS for every world, leaking or not -- a second vacuous pass, found by running the checker rather than by reading the contract. The assay machinery must therefore be declared as a node-bearing kernel, even though it is emphatically NOT part of the primary biosphere law P.",
+    "K_assay": {
+      "role": "observer-side protected assay administration",
+      "part_of_primary_law_P": false,
+      "reads": [
+        "x.F",
+        "x.O",
+        "x.Pi",
+        "x.h",
+        "x.q",
+        "x.s"
+      ],
+      "writes": [
+        "x.a",
+        "assay_score",
+        "assay_task_identity",
+        "assay_family_label",
+        "assay_target_domain_T",
+        "assay_rng_stream"
+      ],
+      "randomness_source": "assay_rng",
+      "resource_cost": "charged to the observer, never to the organism's r",
+      "information_channel": "observer_readout",
+      "removable_independently": true,
+      "removal_semantics": "ABLATE__no_assay_administered; the primary run must be unchanged by this ablation, which is itself a testable prediction of noninterference"
+    },
+    "noninterference_restated": "K_assay WRITES the protected names and READS organism behaviour. Legality is that no path runs from those written names back into a selection sink. K_assay reading organism state is expected and legal; a selection kernel reading K_assay's output is the leak.",
+    "ablation_is_a_falsifier": "If deleting K_assay changes the primary trajectory at all, noninterference is false for that run regardless of what the declared graph says. This is the run-level counterpart of the declared-level check and belongs to EB-F0-X."
+  },
+  "state_vocabulary_completeness_rule": "Every protected name in ASSAY_TRANSFER_CONTRACT_V1 must appear in some kernel's writes, or the predicate is unposable. A checker returning PASS over an unresolvable protected set must return CANNOT_CHECK instead."
+}

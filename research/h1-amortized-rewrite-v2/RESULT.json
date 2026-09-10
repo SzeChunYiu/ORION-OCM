@@ -1,0 +1,698 @@
+{
+  "boxes": {
+    "H1/001-new_information": {
+      "later_k0": 59929,
+      "later_kt": 36289,
+      "library": 132863,
+      "lifetime_k0": 59929,
+      "lifetime_kt": 169152,
+      "status": "EARNED_AT_SCOPE",
+      "text": "new information",
+      "unit": "unique 4-primitive programs checked until threshold"
+    },
+    "H1/002-examples_demonstrations": {
+      "later_k0": 0,
+      "later_kt": 0,
+      "library": 16,
+      "lifetime_k0": 0,
+      "lifetime_kt": 16,
+      "note": "Later-task acquisition is search, not extra teaching examples. Training demonstrations are library capital and are not recouped as a later-task example saving.",
+      "status": "NO_STRICT_SAVING",
+      "text": "examples/demonstrations",
+      "unit": "training demonstrations charged as library capital; later additional examples are 0 in both arms"
+    },
+    "H1/003-environment_interactions": {
+      "note": "Polynomial microscope has no external environment interaction channel.",
+      "status": "CANNOT_CHECK_NO_ENVIRONMENT_CHANNEL",
+      "text": "environment interactions"
+    },
+    "H1/004-compute": {
+      "later_k0": 59929,
+      "later_kt": 36289,
+      "library": 132863,
+      "lifetime_k0": 59929,
+      "lifetime_kt": 169152,
+      "status": "EARNED_AT_SCOPE",
+      "text": "compute",
+      "unit": "4-primitive programs visited in rewrite-cost order until first verified identity"
+    },
+    "H1/005-verifier_calls": {
+      "later_k0": 59929,
+      "later_kt": 36289,
+      "library": 132863,
+      "lifetime_k0": 59929,
+      "lifetime_kt": 169152,
+      "status": "EARNED_AT_SCOPE",
+      "text": "verifier calls",
+      "unit": "normal_form polynomial-identity checks on unique 4-primitive programs"
+    },
+    "H1/006-io_tool_calls": {
+      "note": "No external tool/IO channel on this microscope; persist bytes are charged under state written.",
+      "status": "CANNOT_CHECK_NO_IO_TOOL_CHANNEL",
+      "text": "IO/tool calls"
+    },
+    "H1/007-human_instructional_burden": {
+      "note": "No human teaching channel; training demonstrations are machine-solved identities.",
+      "status": "CANNOT_CHECK_NO_HUMAN_INSTRUCTION_CHANNEL",
+      "text": "human instructional burden"
+    },
+    "H1/008-state_written": {
+      "later_k0": 0,
+      "later_kt": 0,
+      "library": 14248,
+      "lifetime_k0": 0,
+      "lifetime_kt": 14248,
+      "note": "K_t writes ordinary JSON and an OCM snapshot; K_0 writes nothing. Later incremental state is equal (0).",
+      "ocm_bytes": 14248,
+      "ordinary_bytes": 117,
+      "revoked_bytes": 17619,
+      "status": "NO_STRICT_SAVING",
+      "text": "state written",
+      "unit": "persist bytes of the earned library; later incremental persist is 0"
+    }
+  },
+  "cannot_check": [
+    "H1/003-environment_interactions",
+    "H1/006-io_tool_calls",
+    "H1/007-human_instructional_burden"
+  ],
+  "claim_ceiling": "Bounded H1 later-task comparison on one exact polynomial microscope after a utility-gated 4-primitive rewrite. Ordinary parent parity and restart/revocation are required. Library capital is first-class. Not programme-wide H1, not P6 residual, not language meta-learning, not an OCM architecture uniqueness claim, not a salt retune of H1 v1.",
+  "contribution_level": "L2",
+  "earned": [
+    "H1/001-new_information",
+    "H1/004-compute",
+    "H1/005-verifier_calls"
+  ],
+  "evidence_class": "E3",
+  "grammar_tokens": [
+    "inc",
+    "dec",
+    "double",
+    "square"
+  ],
+  "grammar_width": 4,
+  "h1_vector_strictly_less": false,
+  "head": "0f658c200be9adaa19fc92d049c10ccbcc0b32c2",
+  "issue": 165,
+  "later": {
+    "causal_rewrite_wins": 9,
+    "k0": {
+      "compute": 59929,
+      "examples": 0,
+      "new_information": 59929,
+      "state_written": 0,
+      "verifier_calls": 59929
+    },
+    "kt": {
+      "compute": 36289,
+      "examples": 0,
+      "new_information": 36289,
+      "state_written": 0,
+      "verifier_calls": 36289
+    },
+    "ordinary": {
+      "compute": 36289,
+      "examples": 0,
+      "new_information": 36289,
+      "state_written": 0,
+      "verifier_calls": 36289
+    },
+    "ordinary_equals_ocm": true,
+    "per_task": [
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 5253,
+        "k0_new_information": 5253,
+        "kt_compute": 367,
+        "kt_new_information": 367,
+        "macro_used": true,
+        "operator_word": [
+          "REWRITE",
+          "inc",
+          "double",
+          "REWRITE"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "1837fd47791ee1797c260f516d0ec33322766e7b7bd888f1a72169e83e6cac8d"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 5203,
+        "k0_new_information": 5203,
+        "kt_compute": 1320,
+        "kt_new_information": 1320,
+        "macro_used": true,
+        "operator_word": [
+          "square",
+          "double",
+          "REWRITE",
+          "square",
+          "dec"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "7366e2dd112e2ec4077b8eb0a3971faeba59f1ff4127421a2d780f57b31fad84"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 2034,
+        "k0_new_information": 2034,
+        "kt_compute": 2930,
+        "kt_new_information": 2930,
+        "macro_used": false,
+        "operator_word": [
+          "inc",
+          "double",
+          "double",
+          "dec",
+          "square",
+          "inc"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "3a1aa5af24a4e17019ba3bcdd45d6887ed0112c6189f0290d71fa7b460af7a64"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 2315,
+        "k0_new_information": 2315,
+        "kt_compute": 794,
+        "kt_new_information": 794,
+        "macro_used": true,
+        "operator_word": [
+          "inc",
+          "REWRITE",
+          "double",
+          "dec",
+          "double"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "25fe222a710e962c6bbeae1f1c3bd5aa5df63c41d4d2927f5d4fbc5c921cc8ed"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 4224,
+        "k0_new_information": 4224,
+        "kt_compute": 4683,
+        "kt_new_information": 4683,
+        "macro_used": false,
+        "operator_word": [
+          "double",
+          "square",
+          "inc",
+          "double",
+          "double",
+          "double"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "c57ced80ea748c7672f7531d55d4420650d99febd135dc35159b365f9d93381a"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 5398,
+        "k0_new_information": 5398,
+        "kt_compute": 1493,
+        "kt_new_information": 1493,
+        "macro_used": true,
+        "operator_word": [
+          "REWRITE",
+          "square",
+          "inc",
+          "inc",
+          "inc"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "f9d78c811c459d33aaed35e95b8c8a0cc2064fded6f7f70162a23bf55d2a3848"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 3348,
+        "k0_new_information": 3348,
+        "kt_compute": 951,
+        "kt_new_information": 951,
+        "macro_used": true,
+        "operator_word": [
+          "dec",
+          "square",
+          "double",
+          "REWRITE",
+          "double"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "a7e270a3ece9112aa955ed838f4242029ac0215fc168685806dae6c89d2b8367"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 2371,
+        "k0_new_information": 2371,
+        "kt_compute": 801,
+        "kt_new_information": 801,
+        "macro_used": true,
+        "operator_word": [
+          "inc",
+          "REWRITE",
+          "double",
+          "square",
+          "dec"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "75ff5c6ef7bf8adfb494c4205a5eeb53a048204f88f7b8ab89edefba9f8a6102"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 4489,
+        "k0_new_information": 4489,
+        "kt_compute": 4862,
+        "kt_new_information": 4862,
+        "macro_used": false,
+        "operator_word": [
+          "square",
+          "inc",
+          "inc",
+          "square",
+          "inc",
+          "square"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "cfc92e3ec2f2bea583959eaaec7275781eef7b91312e800e613e8a4f0fe0a32b"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 4242,
+        "k0_new_information": 4242,
+        "kt_compute": 1130,
+        "kt_new_information": 1130,
+        "macro_used": true,
+        "operator_word": [
+          "double",
+          "square",
+          "inc",
+          "REWRITE",
+          "inc"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "112288d1ffe207eeed1ab5880462645aedd093e2053f99368104d2df414f8061"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 2356,
+        "k0_new_information": 2356,
+        "kt_compute": 787,
+        "kt_new_information": 787,
+        "macro_used": true,
+        "operator_word": [
+          "inc",
+          "REWRITE",
+          "dec",
+          "square",
+          "double"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "9c378167bdee95617056bdf2e6e5e4710c559212cd9f84538200f7c01e67859b"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 2751,
+        "k0_new_information": 2751,
+        "kt_compute": 3488,
+        "kt_new_information": 3488,
+        "macro_used": false,
+        "operator_word": [
+          "dec",
+          "dec",
+          "dec",
+          "double",
+          "double",
+          "dec"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "4acdd331dff11dc8105c22023552e8fa63f2ecb04da50b5e6eaa3856608fd435"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 4449,
+        "k0_new_information": 4449,
+        "kt_compute": 4825,
+        "kt_new_information": 4825,
+        "macro_used": false,
+        "operator_word": [
+          "square",
+          "inc",
+          "inc",
+          "inc",
+          "double",
+          "square"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "508750429aef7608c9fc169cf684b3baea6d8444dd33a4ce756b92adf685594a"
+      },
+      {
+        "causal_rewrite_win": true,
+        "k0_compute": 5349,
+        "k0_new_information": 5349,
+        "kt_compute": 379,
+        "kt_new_information": 379,
+        "macro_used": true,
+        "operator_word": [
+          "REWRITE",
+          "double",
+          "inc",
+          "REWRITE"
+        ],
+        "rewrite_used": true,
+        "strict_compute_saving": true,
+        "task": "52316aac91cc3103f5265f1a7565bf47e60a3b8dc13ad7631a4039e37d7d7bef"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 4577,
+        "k0_new_information": 4577,
+        "kt_compute": 4939,
+        "kt_new_information": 4939,
+        "macro_used": false,
+        "operator_word": [
+          "square",
+          "inc",
+          "double",
+          "inc",
+          "double",
+          "square"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "1966ee0e4bd08bb3879be80c0bf57e38f1b9e784409103d3eb8ede50df798e37"
+      },
+      {
+        "causal_rewrite_win": false,
+        "k0_compute": 1570,
+        "k0_new_information": 1570,
+        "kt_compute": 2540,
+        "kt_new_information": 2540,
+        "macro_used": false,
+        "operator_word": [
+          "inc",
+          "inc",
+          "square",
+          "inc",
+          "square",
+          "inc"
+        ],
+        "rewrite_used": false,
+        "strict_compute_saving": false,
+        "task": "088764f6a601ea9656d56b63c5bb4b8e936c81f95147244500e623c35ef7c57f"
+      }
+    ],
+    "revoked": {
+      "compute": 59929,
+      "examples": 0,
+      "new_information": 59929,
+      "state_written": 0,
+      "verifier_calls": 59929
+    },
+    "revoked_equals_primitive": true,
+    "strict_compute_saving": true,
+    "strict_new_information_saving": true,
+    "strict_verifier_saving": true
+  },
+  "library": {
+    "admitted": [
+      "square",
+      "square"
+    ],
+    "candidates": [
+      [
+        "inc",
+        "square"
+      ],
+      [
+        "square",
+        "double"
+      ],
+      [
+        "double",
+        "double"
+      ],
+      [
+        "double",
+        "inc"
+      ],
+      [
+        "square",
+        "inc"
+      ],
+      [
+        "square",
+        "square"
+      ],
+      [
+        "double",
+        "double",
+        "double"
+      ],
+      [
+        "inc",
+        "square",
+        "double"
+      ]
+    ],
+    "cost": {
+      "compute": 132863,
+      "examples": 16,
+      "new_information": 132863,
+      "state_written": 14248,
+      "verifier_calls": 132863
+    },
+    "evaluations": [
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "inc",
+          "square"
+        ],
+        "support": 5,
+        "val_compute": 11862
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "square",
+          "double"
+        ],
+        "support": 5,
+        "val_compute": 15166
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "double",
+          "double"
+        ],
+        "support": 4,
+        "val_compute": 16443
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "double",
+          "inc"
+        ],
+        "support": 4,
+        "val_compute": 14079
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "square",
+          "inc"
+        ],
+        "support": 4,
+        "val_compute": 10982
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "square",
+          "square"
+        ],
+        "support": 4,
+        "val_compute": 10375
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "double",
+          "double",
+          "double"
+        ],
+        "support": 3,
+        "val_compute": 16435
+      },
+      {
+        "beats_primitive": false,
+        "fragment": [
+          "inc",
+          "square",
+          "double"
+        ],
+        "support": 3,
+        "val_compute": 16924
+      }
+    ],
+    "frequency_selected": [
+      "inc",
+      "square"
+    ],
+    "gate_refused_frequency": true,
+    "primitive_val_compute": 16731,
+    "support": {
+      "('double', 'double')": 4,
+      "('double', 'double', 'double')": 3,
+      "('double', 'inc')": 4,
+      "('inc', 'square')": 5,
+      "('inc', 'square', 'double')": 3,
+      "('square', 'double')": 5,
+      "('square', 'inc')": 4,
+      "('square', 'square')": 4
+    },
+    "tournament_compute": 128997,
+    "training_compute": 3866
+  },
+  "lifetime": {
+    "k0": {
+      "compute": 59929,
+      "examples": 0,
+      "new_information": 59929,
+      "state_written": 0,
+      "verifier_calls": 59929
+    },
+    "kt": {
+      "compute": 169152,
+      "examples": 16,
+      "new_information": 169152,
+      "state_written": 14248,
+      "verifier_calls": 169152
+    },
+    "library_pays_back_compute": false,
+    "note": "K_0 lifetime is later-task C_acquire only (reset). K_t lifetime is library capital (training search + every candidate validation search + persist bytes + demonstrations) plus later-task C_acquire."
+  },
+  "lifetime_terminal": "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS",
+  "mechanism_comment": "Utility-gated 4-primitive rewrite reduces later related-task search against reset, but library capital does not pay back on this frozen 16/16/16 length-4/5/6 horizon: training+tournament compute 132863 plus later K_t 36289 = 169152 >= K_0 later 59929 (later-task compute saving 23640). The dominant mechanism is the validation tournament: every candidate is fully searched on the disjoint validation stratum before admission, and that selection work exceeds later savings. Training demonstrations and persist bytes are additional unrecouped capital. Ordinary persistent library ties OCM (PARENT_SUFFICIENT vs program-library rewrite). Salts and counts were not retuned.",
+  "methods_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3",
+  "negative_terminals_frozen": [
+    "UTILITY_GATE_SELECTS_NO_METHOD",
+    "NO_AMORTIZED_ACQUISITION_LATER_NOT_CHEAPER",
+    "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS",
+    "CANNOT_CHECK_COMPONENT_TRANSPLANT_PARITY",
+    "CANNOT_CHECK_REVOCATION_ABLATION"
+  ],
+  "not_earned": [
+    "H1/002-examples_demonstrations",
+    "H1/008-state_written"
+  ],
+  "not_issued": [
+    "PROGRAMME_WIDE_H1_CLOSE",
+    "P6_MATCHED_LIFETIME_RESIDUAL",
+    "LANGUAGE_META_LEARNING",
+    "OCM_ARCHITECTURE_UNIQUENESS_OVER_LIBRARY_SEARCH",
+    "H2_SPARSE_RELEVANT_COGNITION",
+    "H5_LIFETIME_ECONOMICS_CROSSOVER",
+    "SALT_RETUNE_OF_H1_V1_5ARY_MACRO"
+  ],
+  "ocm": {
+    "atom_id": "rewrite-operator:83465db2cdbe5f36a8bc81a06858804cb5a467b2680c8df6357d4b4562ee5573",
+    "ocm_bytes": 14248,
+    "ordinary_bytes": 117,
+    "restart_before_later": true,
+    "revoked_bytes": 17619,
+    "support_withdrawal_ablation": true,
+    "training_evidence": "ev:ocm:7bb9c24ba166af9b",
+    "utility_evidence": "ev:ocm:6b072a1f993ff90a"
+  },
+  "parent": "ordinary persistent rewrite/library operator inside the 4-primitive grammar (DreamCoder/Stitch/#192 replacement, no 5th token)",
+  "parent_sufficient": true,
+  "partition": {
+    "later_ids": [
+      "1837fd47791ee1797c260f516d0ec33322766e7b7bd888f1a72169e83e6cac8d",
+      "7366e2dd112e2ec4077b8eb0a3971faeba59f1ff4127421a2d780f57b31fad84",
+      "3a1aa5af24a4e17019ba3bcdd45d6887ed0112c6189f0290d71fa7b460af7a64",
+      "25fe222a710e962c6bbeae1f1c3bd5aa5df63c41d4d2927f5d4fbc5c921cc8ed",
+      "c57ced80ea748c7672f7531d55d4420650d99febd135dc35159b365f9d93381a",
+      "f9d78c811c459d33aaed35e95b8c8a0cc2064fded6f7f70162a23bf55d2a3848",
+      "a7e270a3ece9112aa955ed838f4242029ac0215fc168685806dae6c89d2b8367",
+      "75ff5c6ef7bf8adfb494c4205a5eeb53a048204f88f7b8ab89edefba9f8a6102",
+      "cfc92e3ec2f2bea583959eaaec7275781eef7b91312e800e613e8a4f0fe0a32b",
+      "112288d1ffe207eeed1ab5880462645aedd093e2053f99368104d2df414f8061",
+      "9c378167bdee95617056bdf2e6e5e4710c559212cd9f84538200f7c01e67859b",
+      "4acdd331dff11dc8105c22023552e8fa63f2ecb04da50b5e6eaa3856608fd435",
+      "508750429aef7608c9fc169cf684b3baea6d8444dd33a4ce756b92adf685594a",
+      "52316aac91cc3103f5265f1a7565bf47e60a3b8dc13ad7631a4039e37d7d7bef",
+      "1966ee0e4bd08bb3879be80c0bf57e38f1b9e784409103d3eb8ede50df798e37",
+      "088764f6a601ea9656d56b63c5bb4b8e936c81f95147244500e623c35ef7c57f"
+    ],
+    "later_min_length": 6,
+    "later_n": 16,
+    "train_ids": [
+      "a21716ebe467f3bf9d47f786ccedadae12b4d20e6f111f9716d0eb1a5d9c3986",
+      "209f67737bc27452897383343cca5e0045e2801832c16b31100b390625836cd4",
+      "16adcd5100ca3a1e1b0911e637fbf0e4e273a9876644229fd2c0526e926cbd41",
+      "42799f62b9ef7281cc9d19e93795dbae512280007da49def6c1ff88143ae8d7c",
+      "d32421d3c7600455f16e3f6a4114636499745778443c686f21108e7660f6dd80",
+      "9f71e5057d61fe27ce48c31e70b30ba3f9024a4dd793145fde6a05436d4a22a7",
+      "7793a134193d284ded1fc31fc1fdb1a7411c398fd28ca22c58ba22affc76b09a",
+      "aef1bb4d778aada229994e848c909eb4625d048b918139b11d3dd0d0fadb25f2",
+      "7d309e9359bc1c8d8d6b0af30637de3cafc692d9fe99294d34bf13a5eaf499c1",
+      "02586d95e0f9ffb09295824c3bda964e5466ba49e47cac6f53cb74f6f1c456de",
+      "bf0251a8c359c47297e325b451f4bedfe0116a46c5b7f5505c3cc165e1e89469",
+      "b5c40f355138441cead00bf500b35a4d9257872676e685b56446e4bc5f7bb538",
+      "3eb349066fe20e20380a18b95756b4a675bfd686ca9d8035b935267bd8d85053",
+      "e5120b31b973bd4d994cdce43b11cd301e4451e92668c115eb9ea582609b1a37",
+      "d2d1d74acece601a4de7d91d57018d830d7f66ed5bb567e7cb8a30e83dc67f66",
+      "c8b8e37c0349d5fc8beb7224d9673d617d105055a7c3664bf95ff670c0bc376a"
+    ],
+    "train_min_length": 4,
+    "train_n": 16,
+    "val_ids": [
+      "21e08847345409e12b4ec3396937ecd4c035b87f8815a72312eaf15bdd78c887",
+      "6fdd67d7e17b8dbb5abdf3dc07ff2668afe0bf17a96c368ca0ffab58a5c09991",
+      "fd94a1937af388af507d7d6091b7668dcb043bb9435a73827b53d039bc796616",
+      "226897478691be34c97daeca543a71d4a4a31d17b4e3e05d3c90305403f0323a",
+      "ae0867913a408b099ce82a88b622d3f0f1c29b64ed4ad2ab0f83eaf4f9935d87",
+      "88ae559c972915e33afbbf4d44a2539cfb8793418be02081b7d535f76f19fccc",
+      "3e7c3df9be17b150bea35f96064b49247922c4cbbb2847f852662e2808c7777b",
+      "95b400384c80a94134c66f531ff37cd5ee8447eb819d09cae0d052a8dfeaa344",
+      "d452ce555391b94040f6513de132f3e8428e9068b2be173ee9239f08ecf6e81e",
+      "981b819ce0fe60815cc0b1932ce2e5a57b5e8f181838f3195fbc1f986eec6926",
+      "70c91ad47292903dfda804eda742aecb8bab96b3bed151f2e80886efaa272074",
+      "769267143d8a61953a2d5a90ce9524df2307c0aeed22141f0c675419add88e67",
+      "0706cd80fb9f5b2508d7cd97296d0421b1f2ecf492d6d9b1e376d4e34d2bb223",
+      "78975fc7a0d6d6edac84e1f6a4900dd4af0ff66b99fe8f81d91718f39e0f29e6",
+      "87d32dd691ea2480fe1f7bc9d177202eea803839084d38fc8d59af983e044805",
+      "729d07405372d3a426f491b9a90c269794e673f65fa1569f7eef18fca3d1abb1"
+    ],
+    "val_min_length": 5,
+    "val_n": 16
+  },
+  "predecessor_v1_mechanism": "MACRO as 5th BFS token expanded grammar width so later compute rose",
+  "predecessor_v1_terminal": "NO_AMORTIZED_ACQUISITION_LATER_NOT_CHEAPER",
+  "production_src_edited": false,
+  "programme_wide_close": false,
+  "salts": {
+    "later": "orion-ocm-h1-rewrite-later-v2",
+    "train": "orion-ocm-h1-rewrite-train-v2",
+    "val": "orion-ocm-h1-rewrite-val-v2"
+  },
+  "schema": "ocm.h1.amortized-rewrite.v2",
+  "serving": "greedy-leftmost-rewrite-in-4-primitive-grammar",
+  "terminal": "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS"
+}

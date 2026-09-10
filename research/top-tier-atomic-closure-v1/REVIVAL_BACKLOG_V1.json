@@ -22,11 +22,50 @@
    "attribution_confidence": "HIGH - stated by the lane from its own instrumented cost split, not inferred",
    "lever": "INCREMENTAL REFINEMENT: keep the previous abstraction and split only the blocks the counterexample distinguishes, so per-round build cost is O(touched blocks + incident edges) instead of O(full concrete edge relation). The attribution names an IMPLEMENTATION property, not a law - rebuilding from scratch each round is a choice, which is exactly what makes this negative revivable.",
    "retest_against": "direct concrete search, same frozen 30 worlds and same frozen n grid, full lifecycle charged including initial build and rejected candidates",
-   "status": "DISPATCHED",
+   "status": "CLOSED_EARNED_TERMINAL",
    "placement": "laptop billy (lane RV-B1)",
    "earned_terminal_rule": "If incremental refinement STILL loses, PARENT_SUFFICIENT is EARNED at a deeper level and is filed as a SUCCESS terminal with the stronger statement, not tuned. Never engineer past a parent that genuinely owns the function.",
-   "chain_iteration": 1,
-   "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study."
+   "chain_iteration": 2,
+   "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study.",
+   "outcome": "PARENT_SUFFICIENT_EARNED_AT_A_DEEPER_LEVEL (success terminal)",
+   "executed_as": "lane RV-B1, PR #291, merge f403bde",
+   "result_anchor": "research/hsg-semantic-execution-v1/exact/results/RV_B1_RESULTS.json",
+   "lever_effect": "incremental refinement cut ops to 0.840 of the rebuild arm, removing 16.0% of the construction overhead the attribution named. Equivalence guard 95 checks 0 failures; ceiling held 30/30; refinement counts identical to rebuild on all 30 worlds.",
+   "cost_ratio_curve_across_grid": {
+    "n_grid": [
+     8,
+     12,
+     16,
+     20,
+     24
+    ],
+    "rebuild_over_direct": [
+     3.355,
+     6.297,
+     10.769,
+     12.493,
+     13.532
+    ],
+    "incremental_over_direct": [
+     4.316,
+     6.099,
+     9.471,
+     10.101,
+     10.007
+    ],
+    "lever_gain_vs_rebuild": [
+     -0.286,
+     0.031,
+     0.121,
+     0.191,
+     0.26
+    ],
+    "reading": "the lever FLATTENS the curve: rebuild grows x4.033 across the grid, incremental only x2.319. Incremental has plateaued (10.101 -> 10.007) while rebuild is still climbing (12.493 -> 13.532). At the smallest n the lever is WORSE than rebuild (-28.6%): the predecessor index is a fixed setup surcharge too few refinement rounds cannot amortise. The curve never crosses 1.0."
+   },
+   "deeper_attribution": "MEASURED decomposition at the largest n: setup 31.0%, abstract search 24.8%, per-round incremental build 19.9%, counterexample validation 13.2%, verification 11.1%. The largest term is the one the lever cannot touch. The irreducible setup ALONE costs 1.267x the entire direct search and meets or exceeds it on 21 of 30 worlds, so it is a floor sitting above 1.0.",
+   "crossing_condition": "crossing 1.0 would require the sound abstraction build to be sublinear in the concrete edge relation. Soundness forbids it: omitting any may-transition is the H-D20b under-approximation already shown to yield false abstraction certificates. Unreachable, not merely unmet, for a single reachability query.",
+   "amortisation_probe": "a pre-registered multi-query arm (Q grid 1,2,4,8,16) found NO crossover: ratio falls 8.412 -> 2.493 monotonically and stops. Refinement drives the partition toward discrete (final blocks 81.2% of states, 6 of 30 fully discrete), and after refinement stops the marginal cost per query is 12.966 for the abstraction against 11.738 for direct. Amortisation self-defeats.",
+   "grid_not_extended": "the frozen n grid is reported unchanged; extending it would be a new frozen study."
   },
   {
    "revival_id": "RV-2",
@@ -64,11 +103,18 @@
    "attribution_confidence": "HIGH - counted exactly by the lane against its own explicit evidence_variable_definition",
    "lever": "RE-TARGET revocation to true sources (nodes with no incoming hyperedge) and re-run every D19 endpoint.",
    "retest_against": "the prior D19 result itself - does ANY endpoint move: the 50/50 positive-control agreement, the 40/46 and 31/46 OW4N figures, the alternate-support rescue count, or the 598-vs-640 margin?",
-   "status": "DISPATCHED",
+   "status": "CLOSED_QUESTION_ANSWERED",
    "placement": "laptop billy (lane RV-B2)",
    "earned_terminal_rule": "A no-change result is a genuinely useful negative and must be reported as one. The specific question to rule in or out: a 7% lifecycle margin is thin enough that a targeting artifact could account for it.",
-   "chain_iteration": 1,
-   "notes": "D19 correctly reported the count and made NO claim that T72 is wrong - T72 is a statement about provenance variables. This revival tests the instrument, not the theorem."
+   "chain_iteration": 2,
+   "notes": "D19 correctly reported the count and made NO claim that T72 is wrong - T72 is a statement about provenance variables. This revival tests the instrument, not the theorem.",
+   "outcome": "TARGETING_SENSITIVE - the 7% lifecycle margin does NOT survive the targeting change",
+   "executed_as": "lane RV-B2, PR #294, merge 905a720",
+   "result_anchor": "research/hsg-semantic-execution-v1/exact/results/RV_B2_RESULTS.json",
+   "premise_correction": "the dispatched lever asked to re-target D19 to true sources. D19 ALREADY revoked over true sources (exact/d19.py, both the comparison loop and the missing-edge arm); legacy_leaves was read only by the census, which drives no endpoint. Running the lever literally would have been a no-op producing a fabricated no-change result. The defect was in the frozen T72 ORACLE, which is what was repaired.",
+   "margin_answer": "saving 0.0702 under true sources against 0.2487 under legacy targeting - three and a half times larger and far outside the band [0.035, 0.14] frozen before the number was seen. Legacy targeting INFLATES substitution's apparent advantage, because each structurally trivial target still forces a full recomputation on the A2 side while costing the substitution arm almost nothing. The corrected 7% is both the honest figure and the smaller one, so D19 erred conservatively.",
+   "what_did_not_move": "every agreement endpoint is exact under BOTH target sets (50/50 and 74/74 on the control) and the control alternate-support rescue count is 40 either way. Targeting moves the COST endpoint only, never correctness. That is the useful negative.",
+   "oracle_repaired": "exact/oracles_d17.py t72() now revokes true sources, computed inside the oracle since ow4_worlds() carries no sources field. 140 node checks over 23 targets became 113 over 18; pass and hostile flips unchanged; D17 still 14/14 with all flips OK; D18 untouched at agreement 1.0 over 360 checks."
   },
   {
    "revival_id": "RV-5",
@@ -86,17 +132,35 @@
   },
   {
    "revival_id": "RV-6",
-   "negative": "GS-R2: 85,025 of 100,693 distinct T2-viable survivors FAIL T3 generalization - 84.4%.",
-   "source_anchor": "PR #279, commit b434c55c, results/GS_R2_AGGREGATE.json t3_summary",
-   "one_stage_attribution": "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
-   "attribution_confidence": "NONE - attribution is the first deliverable, and applying a lever before attributing would be the diffuse-effort defect the doctrine forbids",
-   "lever": "DETERMINED BY ATTRIBUTION. Explicitly forbidden: moving a threshold, re-drawing the T3 key, re-splitting after seeing results, or loosening a gate to raise the hold rate.",
+   "negative": "GS-R2 recorded 85,025 of 100,693 distinct T2-viable survivors as FAILING T3 generalization (84.4%). RECLASSIFIED: that endpoint was never measuring generalization.",
+   "source_anchor": "PR #279, commit b434c55c; reclassified and recovered by PR #293, commit bebe864c",
+   "one_stage_attribution": "GATE LEAKAGE in its strong form: the T2/T3 correctness-predicate asymmetry. SURVIVOR_T3_GENERALIZATION_* is a hard-gate read of evaluate_t3()['feasible'] and is an EXACT deterministic function of one genome bit -- NOT can_check <=> FAIL, 100693/100693, zero false positives, zero false negatives. T2 scoped_failure (lifetime2.py:141) and T3 t3_conflict_refusal (t3_ecology.py:178) accept (can_check OR F_arch == hierarchical_fibred); T3 t3_doubt_probe (t3_ecology.py:134) accepts can_check ONLY, with no fibred route. All 85,025 failures are hierarchical_fibred; the checker-free non-fibred cell is empty.",
+   "attribution_confidence": "HIGH - machine-checked identity over all 100693 survivors; predicate asymmetry verified from source at the cited lines by an independent centre review. Genuine non-generalization is ruled out by DRAW INVARIANCE: over 18 independently key-derived sub-keys, failures are 0/18 feasible and holds 18/18 with ZERO survivors in between, and an empirical-risk estimate cannot be perfectly bimodal. Selection pressure is real but SECONDARY -- the frozen-parent replication arm, running no revival lever, is already 82.5% failing.",
+   "lever": "DELETE THE RANKING. Sampling and all three ladder rungs were exonerated first: the T2 gate FAVOURS checker-bearing organisms by 27.7x, and unranked draws give 0.8398 checker-bearing at every rung. The ranking does not pay for itself -- allocation_score costs 8.04 T0-evaluation units per candidate against about 4.8 saved by eta=3 halving. Arm L1 removes it: same ladder, lane, seeds and t0_budget, no rank function, no promotion selection, no parent pool.",
    "retest_against": "GSA2_hetero (5062.7 distinct_t2_viable_per_seed, 354,046 morphologies/cpu-hour) and GSA5_surrogate (2233.3, 72,150), plus a shuffle-equal-n null",
-   "status": "DISPATCHED",
-   "placement": "LUNARC nuc partition (96/96 nodes idle, 7-day limit) - the flagship compute study",
-   "earned_terminal_rule": "An honest 'the 84.4% is real, and here is the mechanism' is a valid and valuable outcome. A proven-structural obstruction plus the adjacent scoped positive is also a success.",
-   "chain_iteration": 1,
-   "notes": "Largest retained negative in the repository. Every claimed improvement needs hold RATE, absolute hold COUNT, and the shuffle null together - a lever that raises the rate by admitting fewer candidates has improved selectivity, not generalization."
+   "status": "CLOSED_DEFECT_RECLASSIFIED_AND_RECOVERED",
+   "placement": "LUNARC, PR #293 commit bebe864c",
+   "earned_terminal_rule": "PARENT_SUFFICIENT does NOT apply: L1 beats both frozen parents on the two metrics they were frozen on -- 6891.3 distinct T2-viable per seed against GSA2_hetero's 5062.7, and 1,743,228 morphologies per CPU-hour against its 354,046 (4.92x). No parent owns this function.",
+   "chain_iteration": 3,
+   "notes": "RECLASSIFIED as a MEASUREMENT-VALIDITY DEFECT, not a scientific finding -- the exact sec 3 hostile family in which a metric reports one quantity while measuring another. The held-out key carries NO information (see draw invariance above). And OUR OWN LEVER PACKAGE GAMED IT: GSA6_DP and GSA6_ALL report IDENTICAL distinct-yield at 5802.0 per seed, yet DP alone returns 6768 checker-bearing exclusive survivors against ALL's 1773 -- the package bought its headline yield by rejecting the route that carried checkers. That is the clearest in-house evidence that optimising a headline yield can discard the property actually wanted. The 84.4% figure must never again be quoted as a generalization result.",
+   "result": {
+    "distinct_t3_hold_L1": 34628,
+    "distinct_t3_hold_GS_R2_pooled": 15668,
+    "hold_count_ratio": 2.21,
+    "cpu_hours_L1": 0.0237,
+    "cpu_hours_GS_R2_pooled": 1.1137,
+    "compute_share_pct": 2.13,
+    "compute_reduction_x": 47.0,
+    "holds_per_cpu_hour_ratio": 104,
+    "shuffle_equal_n_null": "L1's n predicts 6423.9 holds under the R2 pooled rate, sd 73.65; observed 34628, z = 382.95",
+    "not_selectivity": "L1 admits MORE candidates than any arm (41284 distinct viable) while holding at a higher rate (0.8388)",
+    "ARITHMETIC_DEFECT_IN_SOURCE": "RESOLVED in PR #304, commit bfe360a9. RESULT.md originally stated 4.7% for the compute share; 0.0237/1.1137 = 2.13%, the artifact's own 104x per-CPU-hour figure is only consistent with 2.13% (2.21/0.0213 = 103.9), and 1.1137/0.0237 = 47.0 -- the compute REDUCTION had been transposed into a percentage. The owning lane corrected RESULT.md with the original line retained verbatim. NOTE: PR #293's title and its squash-merge commit message on main still carry the original 4.7% and cannot be edited; cite the artifact, not the commit subject. The error understated the result throughout."
+   },
+   "superseded": {
+    "prior_status": "DISPATCHED",
+    "prior_attribution": "NOT YET ATTRIBUTED. Four candidates must be discriminated by evidence before any lever is applied: descriptor/representation overfit to T2; gate leakage (GATE_CORRECTNESS 295,871 and GATE_CAPABILITY_FLOOR 64,910 admitting on a T2-correlated criterion); selection pressure (the search optimises distinct-yield, which dedup_promotion raised 2.60x, so higher yield may actively buy more non-generalizers); or genuine non-generalizing morphology.",
+    "why": "PR #293 attributed and recovered it; the prior entry recorded it as unattributed and dispatched."
+   }
   },
   {
    "revival_id": "RV-7",
@@ -115,16 +179,16 @@
   {
    "revival_id": "RV-8",
    "negative": "#165 H1: LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS - library acquisition cost is not repaid by later savings.",
-   "source_anchor": "#165 disposition table",
-   "one_stage_attribution": "ABSTRACTION STAGE. Stitch (POPL 2023) localises DreamCoder-style library-learning cost to the abstraction stage specifically, which under one-stage attribution names H1's failing stage rather than indicting library learning in general. Independently, H1 is a REDISCOVERY OF MINTON'S UTILITY PROBLEM in a new substrate, with Soar's expensive chunks as the direct symbolic ancestor - so the failure has decades of prior analysis to assimilate rather than re-derive.",
-   "attribution_confidence": "MEDIUM - the localisation is established in the parent literature and must still be established against our own H1 receipts rather than accepted by analogy",
-   "lever": "SWAP THE ABSTRACTION OPERATOR. If cost localises to abstraction, replace the abstraction operator with the one whose advantage Stitch demonstrates, verified from the primary source rather than inferred. Then re-test H1's own frozen setup with acquisition cost and later savings tracked SEPARATELY. Secondary and equally valuable: the utility-problem literature may already state WHEN acquisition repays, in which case the crossing condition is a regime boundary to locate rather than a result to rediscover.",
-   "retest_against": "the strongest library-learning parent at matched information and resources",
-   "status": "ATTRIBUTED_LEVER_IDENTIFIED",
-   "placement": "design with parent-scan lane; execution to a compute lane",
-   "earned_terminal_rule": "Any morphology or library atom touching acquisition economics must engage with this negative rather than talking past it.",
-   "chain_iteration": 1,
-   "notes": null
+   "source_anchor": "#165 disposition table; re-attributed against research/functional-neural-absorption-v1/fna4_library_synthesis/ FNA4_RESULTS.json and FNA4_REPORT.md at origin/main",
+   "one_stage_attribution": "ADMISSION RULE, not abstraction-search cost. The earlier 'abstraction stage' attribution was taken from the parent literature by analogy and is REFUTED by our own FNA-4 receipt. In FNA4_RESULTS.json main.arms, the STITCH arm carries the HIGHEST marginal acquisition of any arm - 240,294,343 units against NO_LIBRARY's 64,305, a factor of 3,737 - and is nevertheless the only arm that pays. Acquisition cost therefore does not discriminate the paying arm from the failing ones, so it cannot be the failing stage. What does discriminate is the ADMISSION criterion. Utility-gated admission (STITCH) reaches 327,886 units on the fresh 16-task stream against the incumbent's 366,072 (-10.5%); recurrence-gated admission is actively HARMFUL on the same substrate - AU_PAIR (Reynolds lgg) 4,576,312 (+1149%) and EGGRAPH (egg saturation) 5,050,822 (+1279%). The misfire counts isolate the mechanism exactly: AU_PAIR 451,582 and EGGRAPH 286,120 against STITCH's 16,813 and the incumbent's 7,166. That is high match cost at near-zero applicability - precisely the quantity Minton's utility formula charges, Utility = (AvrSavings x ApplicFreq) - AvrMatchCost (AAAI-88 p.566), and precisely the failure his admission test exists to prevent.",
+   "attribution_confidence": "HIGH - established against our own receipts across 8 arms on one frozen substrate, not by analogy. The discriminating variable is isolated: acquisition cost is anti-correlated with success, admission rule is not.",
+   "lever": "ALREADY APPLIED AND SUCCESSFUL - there is nothing left to swap. FNA-4's own terminal records it: PARENT_SUFFICIENT_FOR_EXPERIENCE_CONSOLIDATION_AT_REGISTERED_SCOPE, with C_future(T | E_t) < C_future(T | E_0) CONFIRMED with every cost charged, 270,829 < 366,072 units on an identical 16-task fresh stream (-26.0%), by the classical arm STITCH + per-batch nogoods + CEGIS. The lane states the mechanism in its own words: 'utility-gated admission (Stitch) is load-bearing' and 'recurrence-gated admission (Reynolds AU, e-graph) is HARMFUL on this substrate'. Note the terminal is PARENT_SUFFICIENT: a classical stdlib-only non-neural parent owns this function, so no ORION-OCM-specific attribution is available for it.",
+   "retest_against": "NOT the lever - the lever is spent. The open quantity is the HORIZON. FNA-4 measures the fresh-stream per-task inequality at 16 tasks but places break-even for the 240,294,343-unit marginal acquisition at ~6,123 tasks at zero repeat, a 380x extrapolation beyond the measured stream. So H1's per-task inequality is confirmed at registered scope while H1's LIFETIME repayment claim - the thing LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS actually asserts - remains PROJECTED, not observed. The decisive re-test is a horizon run on the same frozen substrate long enough to cross or miss 6,123 tasks, with acquisition and later savings tracked separately, against the same 8 arms.",
+   "status": "REVIVAL_ALREADY_EXECUTED_AT_REGISTERED_SCOPE - #165 RECONCILIATION OUTSTANDING",
+   "placement": "no new run needed for the lever; horizon run to a compute lane (billy-old ran FNA-4)",
+   "earned_terminal_rule": "Any morphology or library atom touching acquisition economics must engage with this negative rather than talking past it - and must now also engage with FNA-4's registered-scope POSITIVE, which #165's disposition table does not yet reflect. Reporting H1 as an unqualified capital negative is, as of FNA-4, a defect.",
+   "chain_iteration": 2,
+   "notes": "REGIME BOUNDARY LOCATED, AND IT IS NOT IN THE PARENT LITERATURE. A primary-source sweep of the utility-problem literature (Minton AAAI-88; Tambe/Newell/Rosenbloom ML 5:299-348 1990; Kennedy & De Jong ICML-2003; Gratch & DeJong AAAI-92; Greiner & Jurisica AAAI-92) finds a per-rule break-even inequality and formal sample-complexity conditions for deciding that inequality's SIGN, but no analytic crossover in N. Tambe et al. bound the cost side structurally and state they give 'no explicit guarantees about the benefits of chunking'; Minton names the gap as future work, writing that 'there is no such thing as an average domain' and that 'better methods for characterizing and comparing domains must be developed'. FNA-4 supplies exactly that missing object as a (mix, horizon) pair: a critical same-family share of 11.8-17.0% of the stream (STITCH alone 17.0% balanced / 24.2% all-F1; combined arm 11.8% / 17.4%; no share pays for CHUNK/AU_PAIR/EGGRAPH) together with the ~6,123-task break-even horizon. Below the critical share the lane reports NO_LIFETIME_PAYBACK on every horizon. That pair is the regime boundary to defend and extend, not to rediscover."
   },
   {
    "revival_id": "RV-9",
@@ -158,17 +222,23 @@
  "counts": {
   "total": 10,
   "by_status": {
-   "DISPATCHED": 3,
+   "CLOSED_EARNED_TERMINAL": 1,
+   "CLOSED_QUESTION_ANSWERED": 1,
+   "DISPATCHED": 1,
    "QUEUED": 6,
-   "ATTRIBUTED_LEVER_IDENTIFIED": 1
+   "REVIVAL_ALREADY_EXECUTED_AT_REGISTERED_SCOPE - #165 RECONCILIATION OUTSTANDING": 1
   },
   "by_attribution_confidence": {
-   "HIGH": 7,
-   "MEDIUM": 2,
+   "HIGH": 8,
+   "MEDIUM": 1,
    "NONE": 1
   },
   "unattributed_requiring_diagnosis_first": [
    "RV-6"
+  ],
+  "closed_by_lane_rv_b": [
+   "RV-1",
+   "RV-4"
   ]
  },
  "lunarc_allocation": {
@@ -183,5 +253,16 @@
   ],
   "hard_prohibition": "NEVER make a network connection from LUNARC to any external service. Pure offline compute only: stage in via git/scp, compute, bring results back."
  },
- "non_final": true
+ "non_final": true,
+ "amendments": [
+  {
+   "id": "RV6-RECLASS",
+   "utc": "2026-09-10",
+   "cause": "PR #293 established the endpoint was not measuring generalization and recovered it by deleting the ranking.",
+   "rows_changed": [
+    "RV-6"
+   ],
+   "prior_values_retained": "in RV-6.superseded"
+  }
+ ]
 }

@@ -1,0 +1,57 @@
+name: Cross-domain cognitive transfer
+
+on:
+  pull_request:
+    paths:
+      - 'research/cross-domain-transfer-v1/**'
+      - '.github/workflows/cross-domain-transfer.yml'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/cross-domain-transfer-v1/**'
+      - '.github/workflows/cross-domain-transfer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  prospective-cross-domain-transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/cross-domain-transfer-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/cross-domain-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/cross-domain-transfer-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/cross-domain-transfer-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Prospective cross-domain transfer study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/cross-domain-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          /usr/bin/time -v python -B research/cross-domain-transfer-v1/experiment.py --out "$out/result.json" \
+            2> >(tee "$out/time-and-stderr.txt" >&2) \
+            | tee "$out/console.txt"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cross-domain-transfer
+          path: '${{ runner.temp }}/cross-domain-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

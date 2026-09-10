@@ -7,7 +7,7 @@ from __future__ import annotations
 import time
 
 from . import worlds as W
-from .egraph import EGraph, EClassCapExceeded
+from .egraph import EGraph
 
 X_DOMAIN = tuple(range(21))          # exact for degree <= 20; frozen worlds are <= 16
 NUMERIC_TOKENS = {"2": 2, "3": 3, "5": 5}
@@ -149,7 +149,7 @@ def _rule_assoc_plus(eg):
     for c, n in list(eg.enodes()):
         if n[0] != "+":
             continue
-        for m in list(eg.classes[eg.find(n[1])]):
+        for m in sorted(eg.classes[eg.find(n[1])], key=repr):
             if m[0] == "+":
                 inner = eg.add_node(("+", m[2], n[2]))
                 yield c, eg.add_node(("+", m[1], inner))
@@ -158,20 +158,19 @@ def _rule_fold(eg):
     for c, n in list(eg.enodes()):
         if n[0] == "leaf":
             continue
-        a, b = eg.leaf_value(n[1]), eg.leaf_value(n[2])
-        if a is None or b is None:
-            continue
-        v = a + b if n[0] == "+" else a * b
-        yield c, eg.add_node(("leaf", v))
+        for a in eg.leaf_values(n[1]):                 # every constant, not the first
+            for b in eg.leaf_values(n[2]):
+                v = a + b if n[0] == "+" else a * b
+                yield c, eg.add_node(("leaf", v))
 
 def _rule_factor(eg):
     for c, n in list(eg.enodes()):
         if n[0] != "+":
             continue
-        for m1 in list(eg.classes[eg.find(n[1])]):
+        for m1 in sorted(eg.classes[eg.find(n[1])], key=repr):
             if m1[0] != "*":
                 continue
-            for m2 in list(eg.classes[eg.find(n[2])]):
+            for m2 in sorted(eg.classes[eg.find(n[2])], key=repr):
                 if m2[0] != "*" or eg.find(m1[1]) != eg.find(m2[1]):
                     continue
                 s = eg.add_node(("+", m1[2], m2[2]))
@@ -281,19 +280,23 @@ def arm_equality_saturation(seed, include_unsound: bool):
     eg = EGraph()
     root = eg.add_term(seed)
     eg.rebuild()
-    iters, saturated = eg.saturate(egraph_rules(include_unsound))
-    try:
-        members = eg.eclass_terms(root, cap=ECLASS_CAP)
-        status, n_members = "CHECKED", len(members)
-        best = min(members, key=lambda t: (node_count(t), repr(t)))
-    except EClassCapExceeded as ex:
-        members, status, n_members = None, "CANNOT_CHECK", None
-        best = _extract_min_bounded(eg, root)
-        ex_note = str(ex)
+    iters, saturated, stop = eg.saturate(egraph_rules(include_unsound))
+    members, complete = eg.eclass_terms(root, cap=ECLASS_CAP)
+    if complete and members:
+        # the walk covered the whole class, so this really is the cheapest member
+        best, best_minimal = min(members, key=lambda t: (node_count(t), repr(t))), True
+    else:
+        # a truncated prefix is enumerated in enode-repr order and can omit the
+        # cheapest term, so fall back to bottom-up extraction over the whole e-graph
+        best, best_minimal = _extract_min_bounded(eg, root), False
     return {"arm": "equality_saturation", "best": best, "cost": node_count(best),
-            "status": status, "saturated": saturated, "iterations": iters,
-            "n_eclass_members": n_members, "members": members,
-            "eclass_note": None if status == "CHECKED" else ex_note,
+            "cost_is_minimal": best_minimal,
+            "status": "CHECKED" if (saturated and complete) else "CANNOT_CHECK",
+            "saturated": saturated, "saturation_stop_reason": stop,
+            "iterations": iters,
+            "n_eclass_members_enumerated": len(members),
+            "eclass_enumeration_complete": complete,
+            "members": members,
             "present_cost": {"rewrite_applications": eg.stats["rule_applications"],
                              "enodes": eg.stats["enodes"], "merges": eg.stats["merges"],
                              "eclasses": eg.n_classes(),
@@ -301,7 +304,13 @@ def arm_equality_saturation(seed, include_unsound: bool):
             "_eg": eg, "_root": root}
 
 def _extract_min_bounded(eg, root):
-    """Bottom-up cheapest-term extraction (used when exhaustive walk is capped)."""
+    """Bottom-up cheapest-term extraction over the whole e-graph.
+
+    Used whenever the exhaustive walk did not complete: it visits every e-class
+    rather than a repr-ordered prefix, so it does not inherit the prefix's bias.
+    Its result is still not guaranteed minimal over an unsaturated e-graph, which
+    is why the caller reports cost_is_minimal separately.
+    """
     cost, best = {}, {}
     for _ in range(len(eg.classes) + 2):
         changed = False
@@ -383,8 +392,11 @@ def egglog_equal(a, b, include_unsound=False):
 def contamination_scan(seed, arm_result):
     """Alarm iff any produced term is not semantically equal to the seed.
 
-    For equality saturation the scan covers EVERY e-class member (T86's invariant),
-    not merely the extracted representative (T86's corollary).
+    For equality saturation the scan covers every ENUMERATED e-class member, which
+    is T86's invariant rather than merely its extraction corollary. The two verdicts
+    have different logical forms and are reported separately: CONTAMINATED is
+    existential and stands on a partial walk, while CLEAN is universal and is only
+    claimed when saturation reached a fixpoint AND the walk was complete.
     """
     checked, alarms, cannot = 0, [], 0
     def check(term, kind):
@@ -395,18 +407,31 @@ def contamination_scan(seed, arm_result):
             return
         checked += 1
         if not eqv:
-            alarms.append({"kind": kind, "term": repr(term),
+            alarms.append({"kind": kind, "term": repr(term)[:120],
                            "seed_at_1": d21_eval(seed, 1), "term_at_1": d21_eval(term, 1)})
     check(arm_result["best"], "extracted")
     members = arm_result.get("members")
     if members is not None:
         for m in members:
             check(m, "eclass_member")
+    exhaustive = bool(arm_result.get("eclass_enumeration_complete", False)
+                      and arm_result.get("saturated", True))
+    if alarms:
+        verdict = "CONTAMINATED"                 # existential: partial walk suffices
+    elif exhaustive and cannot == 0:
+        verdict = "CLEAN"                        # universal: needs the complete walk
+    elif cannot:
+        verdict = "CANNOT_CHECK_ORACLE_DISAGREEMENT"
+    else:
+        verdict = "CANNOT_CHECK_INCOMPLETE_WALK"
     return {"n_checked": checked, "n_cannot_check": cannot,
             "n_alarms": len(alarms), "alarms": alarms[:5],
-            "scan_status": "CHECKED" if cannot == 0 else "PARTIAL_CANNOT_CHECK",
-            "eclass_coverage": ("EXHAUSTIVE" if members is not None else
-                                "EXTRACTION_ONLY (e-class walk capped)")}
+            "verdict": verdict,
+            "scan_status": "CHECKED" if verdict in ("CONTAMINATED", "CLEAN")
+                           else verdict,
+            "eclass_exhaustive": exhaustive,
+            "eclass_coverage": "EXHAUSTIVE" if exhaustive else
+                               "PARTIAL: a clean reading is NOT licensed here"}
 
 # ------------------------------------------------------- H-T86a witness -----
 def contaminability_control(ow6):
@@ -553,6 +578,7 @@ def t74_composition(ow6, k_slack=0):
             v_a = bool(eqv) and node_count(g) <= k
             rows.append({"world": w["id"], "leg": label,
                          "V_B": v_b, "V_A": v_a, "status": st,
+                         "b_solution_cost_is_minimal": res["cost_is_minimal"],
                          "composition_sound": (not v_b) or v_a,
                          "witness": None if ((not v_b) or v_a) else
                                     {"x": repr(seed), "y_B": repr(y_b),
@@ -627,15 +653,23 @@ def run_task_eq(pairs):
         if est == "CHECKED" and theirs != mine:
             disagreements.append(row)
     checked = [r for r in rows if r.get("ground_truth") is not None]
+    n_egglog = sum(1 for r in checked if r.get("egglog_status") == "CHECKED")
+    all_decided = n_egglog == len(checked) and bool(checked)
     return {"n_pairs": len(pairs), "n_checked": len(checked),
+            "n_egglog_checked": n_egglog,
+            "egglog_decided_every_pair": all_decided,
             "n_cannot_check": cannot,
             "n_ground_truth_equivalent": n_true_gt,
             "n_ground_truth_distinct": len(checked) - n_true_gt,
             "egraph_unsound_decisions": sum(1 for r in checked if not r["egraph_sound"]),
             "egraph_complete_on_true": sum(1 for r in checked
                                            if r["ground_truth"] and r["egraph"]),
-            "cross_check_agreement": (1.0 if not disagreements else
+            "cross_check_agreement": (None if not all_decided else
+                                      1.0 if not disagreements else
                                       round(1 - len(disagreements) / max(1, len(checked)), 4)),
+            "cross_check_status": ("CHECKED" if all_decided else
+                                   "CANNOT_CHECK: egglog did not decide every pair; "
+                                   "agreement is undefined, never reported as 1.0"),
             "cross_check_disagreements": disagreements[:5],
             "endpoint": "E6", "rows": rows}
 
@@ -703,25 +737,39 @@ def run_d21():
     contam = contaminability_control(ow6)
     can = {r["world"] for r in contam["rows"] if r["contaminable"]}
     cannot = {r["world"] for r in contam["rows"] if not r["contaminable"]}
-    detected = {w for w in can if host_by_world.get(w, {}).get("n_alarms", 0) > 0}
-    missed = sorted(can - detected)
+    detected = {w for w in can
+                if host_by_world.get(w, {}).get("verdict") == "CONTAMINATED"}
+    undecided = {w for w in can - detected
+                 if not host_by_world.get(w, {}).get("eclass_exhaustive", False)}
+    missed = sorted(can - undecided - detected)
     false_on_uncontaminable = sorted(w for w in cannot
                                      if host_by_world.get(w, {}).get("n_alarms", 0) > 0)
+    host_stops = {w: host_by_world.get(w, {}).get("eclass_exhaustive") for w in host_by_world}
 
     # H-T86b: developmental variants destroyed by quotienting (T87)
     t87 = []
     for w in ow6:
         es = arm_equality_saturation(w["expr"], False)
-        n = es["n_eclass_members"]
-        t87.append({"world": w["id"], "distinct_variants": n,
-                    "kept_by_quotienting": 1 if n is not None else None,
-                    "destroyed": (n - 1) if n is not None else None,
+        n = es["n_eclass_members_enumerated"]
+        ok = es["eclass_enumeration_complete"] and es["saturated"]
+        t87.append({"world": w["id"], "distinct_variants": n if ok else None,
+                    "variants_enumerated": n,
+                    "kept_by_quotienting": 1,
+                    "destroyed": (n - 1) if ok else None,
                     "status": es["status"]})
 
     summary = {
-        "E1_hostile_detection_rate": round(len(detected) / max(1, len(can)), 4),
+        "E1_hostile_detection_rate": (round(len(detected) / max(1, len(can) - len(undecided)), 4)
+                                     if len(can) > len(undecided) else None),
         "E1_worlds_with_contamination_detected": len(detected),
         "E1_contaminable_worlds": len(can),
+        "E1_undecided_worlds_eclass_capped": sorted(undecided),
+        "E1_hostile_saturation_stop_reasons": {
+            a["world"]: a["equality_saturation"]["saturation_stop_reason"]
+            for a in arms_hostile},
+        "E1_note": "detection is existential and stands on a partial walk; a CLEAN "
+                   "reading is universal and is claimed only on a complete walk of a "
+                   "saturated e-graph",
         "E1_missed_detections": missed,
         "E1_not_contaminable_worlds": sorted(cannot),
         "E2_clean_false_alarms": clean_alarms,
@@ -735,6 +783,8 @@ def run_d21():
         "E5_t74_broken_leg_detection_rate": round(
             t74["hostile_broken_legs_caught"] / max(1, len(can)), 4),
         "E6_cross_check_agreement": eqres["cross_check_agreement"],
+        "E6_egglog_decided_every_pair": eqres["egglog_decided_every_pair"],
+        "E6_n_egglog_checked": eqres["n_egglog_checked"],
         "E3b_amortised_application_ratio": amort["aggregate_ratio"],
         "E3b_worlds_where_shared_egraph_cheaper": amort["worlds_where_shared_egraph_is_cheaper"],
         "conformance_control_passed": conf["passed"],
@@ -762,7 +812,8 @@ def run_d21():
                          "contaminable": w["id"] in can,
                          "detection_verdict": ("DETECTED" if w["id"] in detected else
                                                "NOT_CONTAMINABLE" if w["id"] in cannot
-                                               else "MISSED"),
+                                               else "CANNOT_CHECK_ECLASS_CAPPED"
+                                               if w["id"] in undecided else "MISSED"),
                          "hostile_alarms": hs.get("n_alarms"),
                          "hostile_eclass_coverage": hs.get("eclass_coverage"),
                          "clean_alarms": sum(c["n_alarms"] for c in cs),

@@ -1,0 +1,60 @@
+name: KSO general epistemic field N/k indexes
+
+on:
+  pull_request:
+    paths:
+      - 'research/kso-general-field-nk-v2/**'
+      - 'research/g5-packed-field-v1/**'
+      - '.github/workflows/kso-general-field-nk.yml'
+      - 'src/ocm/kso/space.py'
+      - 'src/ocm/kso/warrant.py'
+      - 'src/ocm/kso/types.py'
+      - 'src/ocm/kso/admission.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/kso-general-field-nk-v2/**'
+      - '.github/workflows/kso-general-field-nk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  kso-general-field-nk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/kso-general-field-nk-v2:${{ github.workspace }}/research/g5-packed-field-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/kso-gef-nk-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/kso-general-field-nk-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/kso-general-field-nk-v2 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Planted N/k/index/federation study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/kso-gef-nk-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/kso-general-field-nk-v2/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          cp research/kso-general-field-nk-v2/RESULT.json "$out/capsule-RESULT.json"
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - name: v1 capsule untouched
+        if: always()
+        run: git diff --exit-code -- research/kso-general-field-v1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kso-general-field-nk
+          path: '${{ runner.temp }}/kso-gef-nk-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

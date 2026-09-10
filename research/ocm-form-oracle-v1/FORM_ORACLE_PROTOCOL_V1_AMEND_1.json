@@ -1,0 +1,40 @@
+{
+ "amendment_id": "FORM_ORACLE_PROTOCOL_V1_AMEND_1",
+ "cause": "evolvability is computed on a seeded random subsample, so the 4-objective report front covers only that subsample; a smoke run showed 14 retained, 8 with a complete 4-vector, 6 dropped. Reporting only that front would omit part of the map.",
+ "change": "added COVERAGE_OBJECTIVES = (capability, burden, t3_gen) and its Pareto front, computed over every retained record",
+ "code_digest_drift": {
+  "added": [],
+  "changed": {
+   "oracle/objectives4.py": {
+    "current": "5549e212102fef52f9572b59f6929f4c6254f89bc7a249996473a5566187faf6",
+    "frozen": "67391798ab4adf19ca538955bcee76f5aeb0aecaaf2262f6b4a445b5e5474e03"
+   },
+   "oracle/run_form_oracle.py": {
+    "current": "9528dc7308471f7cf36b505ee2cbfc518084fdab740463ffcc1e5821ddf18584",
+    "frozen": "097c508a0c73aad3ad197c8d701d388b998817d9df6d90ad8b9ec40642020e8a"
+   }
+  },
+  "removed": []
+ },
+ "coverage_maximize": [
+  true,
+  false,
+  true
+ ],
+ "coverage_objectives": [
+  "capability",
+  "burden",
+  "t3_gen"
+ ],
+ "created_utc": "2026-09-10T09:57:49Z",
+ "protocol_digest_on_disk": "3c956d336793b04c98c8dce19af2137e7365c3ef971bd70aefaeed889ecbf833",
+ "rerun_rationale": "no scored result existed when the change was made, so no outcome could have informed it and nothing needed re-running",
+ "rerun_required": false,
+ "supersedes_digest": "3c956d336793b04c98c8dce19af2137e7365c3ef971bd70aefaeed889ecbf833",
+ "timing": "BEFORE_ANY_SCORED_RUN",
+ "unchanged": [
+  "search-time admission is still (capability, burden, evolvability)",
+  "T3 still never enters admission",
+  "every estimator, hard gate, seed, rung, null and falsifier"
+ ]
+}

@@ -1,0 +1,50 @@
+name: G6 intervention-effect laboratory
+
+on:
+  pull_request:
+    paths:
+      - 'research/g6-intervention-lab-v1/**'
+      - '.github/workflows/g6-intervention-lab.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g6-intervention-lab-v1/**'
+      - '.github/workflows/g6-intervention-lab.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  intervention-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g6-intervention-lab-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g6-lab-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g6-intervention-lab-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+      - name: Three-generation study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g6-lab-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/g6-intervention-lab-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g6-intervention-lab
+          path: '${{ runner.temp }}/g6-lab-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

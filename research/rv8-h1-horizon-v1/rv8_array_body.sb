@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH -o /projects/hep/fs12/scratch/scyiu-rv8/logs/cell_%A_%a.out
+set -u
+BASE=/projects/hep/fs12/scratch/scyiu-rv8
+OUT=$BASE/out
+cd $BASE/repo/research/rv8-h1-horizon-v1
+IDX=${SLURM_ARRAY_TASK_ID}
+DONE=$OUT/cells/cell_$(printf %05d $IDX).json.gz
+if [ -f "$DONE" ] && python3 -c "
+import gzip,json,sys
+try:
+    c=json.load(gzip.open('$DONE','rt'))
+    sys.exit(0 if c.get('complete') else 1)
+except Exception:
+    sys.exit(1)
+"; then
+  echo "cell $IDX already complete, skipping"
+  exit 0
+fi
+python3 rv8_horizon.py cell $IDX $OUT

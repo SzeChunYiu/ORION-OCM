@@ -1,0 +1,259 @@
+{
+  "admitted": [
+    "double",
+    "square",
+    "inc"
+  ],
+  "claim_ceiling": "v2 refuses frequency-harmful transfer via validation utility. Not a new G2.4 positive. Library search remains parent-owned.",
+  "controls": {
+    "domain_native_synthesis": {
+      "attempts": 13230,
+      "parent": "methods.py-BFS"
+    },
+    "harmful_transfer": {
+      "frequency_delta": -1438,
+      "frequency_library_worse_than_primitive": false,
+      "gated_delta": -3177,
+      "gated_library_worse_than_primitive": false
+    },
+    "method_removed": {
+      "attempts": 16407,
+      "equals_primitive": true
+    },
+    "persistent_exemplar_memory": {
+      "excluded_as_answer_cache": true,
+      "held_out_fingerprint_hits": 0
+    },
+    "persistent_method_library": {
+      "attempts": 13230,
+      "selected": [
+        "double",
+        "square",
+        "inc"
+      ]
+    },
+    "reset_OCM": {
+      "attempts": 16407,
+      "equals_primitive": true
+    },
+    "same_library_conventional_search": {
+      "attempts": 13230,
+      "parent_tied": true
+    },
+    "scope_conflicting_method": {
+      "attempts": 16615,
+      "note": "placebo admitted as if in-scope"
+    },
+    "structural_placebo": {
+      "attempts": 16615,
+      "fragment": [
+        "dec",
+        "dec",
+        "dec"
+      ],
+      "worse_or_equal_to_gated": true
+    },
+    "unrelated_method_growth": {
+      "flood_attempts": 13926,
+      "interference": true,
+      "n_macros": 8
+    }
+  },
+  "donors": [
+    {
+      "disposition": "ADAPT",
+      "donor": "stitch-style-library",
+      "object": [
+        "square",
+        "inc"
+      ],
+      "origin": "compression-of-repeated-length-2",
+      "prior": "fragment-mining",
+      "residual": "none-if-selected-matches-utility-tournament"
+    },
+    {
+      "disposition": "OPEN",
+      "donor": "dreamcoder-class-abstraction",
+      "object": null,
+      "origin": "not-executed",
+      "prior": "full-dreamcoder-runtime-absent",
+      "residual": "CANNOT_CHECK_NO_DREAMCODER_RUNTIME"
+    },
+    {
+      "disposition": "REJECT",
+      "donor": "anti-unification",
+      "object": [],
+      "origin": "lgg-common-prefix",
+      "prior": "program-traces",
+      "residual": "prefix-only-may-be-weaker-than-infix-fragments"
+    },
+    {
+      "disposition": "ADAPT",
+      "donor": "grammar-induction",
+      "object": [
+        "double",
+        "square",
+        "inc"
+      ],
+      "origin": "token-ngram-as-macro-tokens",
+      "prior": "same-primitive-library",
+      "residual": "utility-gate-on-disjoint-validation"
+    },
+    {
+      "disposition": "OPEN",
+      "donor": "e-graph-rewrite",
+      "object": null,
+      "origin": "inc/dec/double/square-congruence",
+      "prior": "rewrite-rules-are-the-primitives",
+      "residual": "CANNOT_CHECK_NO_SEPARATE_EGRAPH_EXTRACTION"
+    },
+    {
+      "disposition": "ADAPT",
+      "donor": "program-compression",
+      "object": [
+        "square",
+        "inc"
+      ],
+      "origin": "same-as-stitch",
+      "prior": "MDL-on-traces",
+      "residual": "may-alias-primitives-see-G2.3"
+    },
+    {
+      "disposition": "ADOPT",
+      "donor": "domain-native-induction",
+      "object": [
+        "double",
+        "square",
+        "inc"
+      ],
+      "origin": "methods.learn_generator",
+      "prior": "exact-polynomial-checker",
+      "residual": "utility-gate-on-disjoint-validation"
+    },
+    {
+      "disposition": "ADOPT",
+      "donor": "conventional-same-library",
+      "object": [
+        "double",
+        "square",
+        "inc"
+      ],
+      "origin": "BFS-token-grammar-with-macros",
+      "prior": "identical-search",
+      "residual": "utility-gate-on-disjoint-validation"
+    }
+  ],
+  "frequency_selected": [
+    "square",
+    "inc"
+  ],
+  "gate_refused_frequency": true,
+  "methods_blob": "50323a33418b8ef8bb6500ddeba4b9d1f795e9e3",
+  "root_cause": "Frequency ranking admits high-support infixes without measuring held-out search cost. Utility gating requires a disjoint validation win before admission.",
+  "salts": {
+    "test": "orion-ocm-g2-ugate-test-v2",
+    "train": "orion-ocm-g2-ugate-train-v2",
+    "val": "orion-ocm-g2-ugate-val-v2"
+  },
+  "schema": "ocm.g2.utility-gated-parents.v2",
+  "support": {
+    "('dec', 'square')": 4,
+    "('double', 'double')": 5,
+    "('double', 'square')": 5,
+    "('double', 'square', 'inc')": 3,
+    "('inc', 'square')": 4,
+    "('square', 'dec')": 5,
+    "('square', 'inc')": 7,
+    "('square', 'inc', 'double')": 3
+  },
+  "terminal": "UTILITY_GATED_LIBRARY_BEATS_PRIMITIVE",
+  "test": {
+    "frequency_attempts": 14969,
+    "gated_attempts": 13230,
+    "primitive_attempts": 16407
+  },
+  "test_n": 16,
+  "train_n": 16,
+  "v1_frozen": {
+    "capsule": "research/g2-strong-parents-v1/",
+    "frequency_fragment": [
+      "inc",
+      "double"
+    ],
+    "not_retuned": true,
+    "terminal": "HARMFUL_TRANSFER_LIMIT"
+  },
+  "val_n": 16,
+  "validation": {
+    "candidates": [
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "square",
+          "inc"
+        ],
+        "val_attempts": 15274
+      },
+      {
+        "beats_primitive": false,
+        "fragment": [
+          "double",
+          "double"
+        ],
+        "val_attempts": 19059
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "double",
+          "square"
+        ],
+        "val_attempts": 13636
+      },
+      {
+        "beats_primitive": false,
+        "fragment": [
+          "square",
+          "dec"
+        ],
+        "val_attempts": 17867
+      },
+      {
+        "beats_primitive": false,
+        "fragment": [
+          "dec",
+          "square"
+        ],
+        "val_attempts": 17512
+      },
+      {
+        "beats_primitive": false,
+        "fragment": [
+          "inc",
+          "square"
+        ],
+        "val_attempts": 21204
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "double",
+          "square",
+          "inc"
+        ],
+        "val_attempts": 13547
+      },
+      {
+        "beats_primitive": true,
+        "fragment": [
+          "square",
+          "inc",
+          "double"
+        ],
+        "val_attempts": 16660
+      }
+    ],
+    "frequency_attempts": 15274,
+    "primitive_attempts": 16916
+  }
+}

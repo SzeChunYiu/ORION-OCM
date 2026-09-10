@@ -1,0 +1,57 @@
+name: G5 packed physical field parent
+
+on:
+  pull_request:
+    paths:
+      - 'research/g5-packed-field-v1/**'
+      - '.github/workflows/g5-packed-field.yml'
+      - 'src/ocm/kso/space.py'
+      - 'src/ocm/kso/warrant.py'
+      - 'src/ocm/kso/types.py'
+      - 'src/ocm/kso/nogoods.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g5-packed-field-v1/**'
+      - '.github/workflows/g5-packed-field.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  packed-field-parent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g5-packed-field-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Freeze controls
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g5-packed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/g5-packed-field-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/g5-packed-field-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Packed-field economics
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g5-packed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/g5-packed-field-v1/experiment.py \
+            --out "$out/RESULT.json" \
+            --summary "$out/SUMMARY.json" \
+            2>&1 | tee "$out/console.txt"
+      - name: Production KSO default unchanged
+        run: git diff --exit-code -- src/ocm/kso/space.py src/ocm/kso/warrant.py src/ocm/kso/types.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g5-packed-field
+          path: '${{ runner.temp }}/g5-packed-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

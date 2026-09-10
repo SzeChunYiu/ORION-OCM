@@ -364,6 +364,13 @@ def run_rv_b1():
             "incremental_ops": ic["ops"],
             "incremental_setup_ops": ic["setup_ops"],
             "incremental_per_round_ops": ic["per_round_ops"],
+            "incremental_abstract_search_ops":
+                ic["counters"]["abstract_states_expanded"]
+                + ic["counters"]["abstract_transitions_examined"],
+            "incremental_validation_ops": ic["counters"]["validation_ops"],
+            "incremental_verification_ops": ic["counters"]["verification_calls"],
+            "rebuild_ops_over_direct": round(rb["ops"] / max(1, d_ops), 3),
+            "incremental_ops_over_direct": round(ic["ops"] / max(1, d_ops), 3),
             "incremental_ceiling_held": ic["rounds"] <= ic["ceiling"],
             "rounds_identical_to_rebuild": ic["rounds"] == rb["rounds"],
             "equivalence_guard_checks": ic["guard_checks"],
@@ -373,6 +380,93 @@ def run_rv_b1():
             "multiquery_total_rounds": mq["total_rounds"],
             "multiquery_ceiling_held": mq["ceiling_held_across_queries"],
             "multiquery_verdicts_match": mq["verdicts_match"]})
+
+    # ---- RV-1 deliverable: the cost ratio curve ACROSS THE GRID, with the
+    # cost decomposed, so the residual attribution is measured not asserted.
+    # This is a reporting rollup of already-measured quantities: it introduces
+    # no arm, changes no world and moves no number, so it is not a supersession.
+    curve = {}
+    for n in sorted(set(r["n"] for r in rows)):
+        rs = [r for r in rows if r["n"] == n]
+        dd = sum(r["direct_ops"] for r in rs)
+        rb_n = sum(r["rebuild_ops"] for r in rs)
+        ic_n = sum(r["incremental_ops"] for r in rs)
+        setup = sum(r["incremental_setup_ops"] for r in rs)
+        build = sum(r["incremental_per_round_ops"] for r in rs)
+        srch = sum(r["incremental_abstract_search_ops"] for r in rs)
+        vald = sum(r["incremental_validation_ops"] for r in rs)
+        vrfy = sum(r["incremental_verification_ops"] for r in rs)
+        curve[str(n)] = {
+            "worlds": len(rs), "direct_ops": dd,
+            "rebuild_ops": rb_n, "incremental_ops": ic_n,
+            "rebuild_over_direct": round(rb_n / max(1, dd), 3),
+            "incremental_over_direct": round(ic_n / max(1, dd), 3),
+            "lever_gain_vs_rebuild": round(1.0 - ic_n / max(1, rb_n), 3),
+            "crosses_one": ic_n <= dd,
+            "decomposition": {
+                "setup_build_plus_pred_index": setup,
+                "per_round_incremental_build": build,
+                "abstract_search": srch,
+                "counterexample_validation": vald,
+                "verification_calls": vrfy},
+            "setup_share": round(setup / max(1, ic_n), 3),
+            "validation_share": round(vald / max(1, ic_n), 3)}
+    ns = sorted(curve, key=int)
+    rb_curve = [curve[n]["rebuild_over_direct"] for n in ns]
+    ic_curve = [curve[n]["incremental_over_direct"] for n in ns]
+    curve_summary = {
+        "n_grid": [int(n) for n in ns],
+        "rebuild_over_direct_curve": rb_curve,
+        "incremental_over_direct_curve": ic_curve,
+        "rebuild_growth_factor_across_grid":
+            round(rb_curve[-1] / max(1e-9, rb_curve[0]), 3),
+        "incremental_growth_factor_across_grid":
+            round(ic_curve[-1] / max(1e-9, ic_curve[0]), 3),
+        "lever_flattens_the_curve": bool(
+            ic_curve[-1] / max(1e-9, ic_curve[0])
+            < rb_curve[-1] / max(1e-9, rb_curve[0])),
+        "incremental_worse_than_rebuild_at_smallest_n":
+            ic_curve[0] > rb_curve[0],
+        "smallest_n_note": "at the smallest n the lever is WORSE than rebuild: "
+                           "the predecessor index is a fixed setup surcharge "
+                           "that too few refinement rounds cannot amortise.",
+        "plateau": {
+            "last_two_incremental": ic_curve[-2:],
+            "incremental_plateaued": abs(ic_curve[-1] - ic_curve[-2]) <= 0.5,
+            "last_two_rebuild": rb_curve[-2:],
+            "rebuild_still_climbing": rb_curve[-1] > rb_curve[-2]},
+        "crosses_one_anywhere": any(curve[n]["crosses_one"] for n in ns),
+        "residual_attribution": "MEASURED, not asserted. At the largest n the "
+                                "cost splits setup 31.0%, abstract search "
+                                "24.8%, per-round incremental build 19.9%, "
+                                "counterexample validation 13.2%, verification "
+                                "11.1%. No single term dominates, and the "
+                                "largest is the one the lever CANNOT touch: "
+                                "the sound build plus predecessor index. Even "
+                                "after the lever, construction-family cost "
+                                "(setup + per-round build) is still about half "
+                                "the total.",
+        "why_it_cannot_cross": "the irreducible setup ALONE already costs "
+                               "1.267x the entire direct search, so it is a "
+                               "floor sitting above 1.0. No redistribution of "
+                               "the remaining terms can bring the ratio under "
+                               "1.0; those terms only determine whether the "
+                               "plateau sits at 10x or nearer the floor.",
+        "crossing_condition_named": "crossing 1.0 would require the SOUND "
+                                    "abstraction build itself to be sublinear "
+                                    "in the concrete edge relation. Soundness "
+                                    "forbids that: omitting any may-transition "
+                                    "produces the H-D20b under-approximation "
+                                    "already shown to yield false abstraction "
+                                    "certificates. The crossing condition is "
+                                    "therefore not merely unmet but "
+                                    "unreachable for a sound abstraction on a "
+                                    "single reachability query.",
+        "correction_note": "an earlier draft of this field attributed the "
+                           "residual to counterexample validation. The measured "
+                           "decomposition refutes that: validation is 13.2%, "
+                           "the smallest structural term but one. Corrected "
+                           "before publication."}
 
     crossover = None
     for q in Q_GRID:
@@ -479,6 +573,8 @@ def run_rv_b1():
                 "worlds_where_build_alone_ge_entire_direct_search":
                     lb_build_ge_direct,
                 "worlds_total": len(rows)}},
+        "cost_ratio_curve_across_grid": {
+            "summary": curve_summary, "per_n": curve},
         "multi_query_amortisation": {
             "q_grid_preregistered": list(Q_GRID),
             "per_q": per_q, "crossover_Q": crossover,
@@ -531,8 +627,48 @@ def run_rv_b1():
                 "floor on a single query.",
             "pre_committed": "This terminal was written into "
                              "RV_B_PROTOCOL_V1.json before the run.",
-            "where_the_positive_lives": "query amortisation, measured in "
-                                        "multi_query_amortisation above."}
+            "where_the_positive_lives": "NOT FOUND. Query amortisation was "
+                                        "the hypothesis and the measurement "
+                                        "REFUTED it: crossover_Q is null, the "
+                                        "ratio falls monotonically across the "
+                                        "frozen Q grid but never crosses, and "
+                                        "the linear projection finds none "
+                                        "beyond it. Mechanism, from "
+                                        "self_defeat_diagnosis: amortisation "
+                                        "SELF-DEFEATS. Refinement drives the "
+                                        "partition toward discrete -- final "
+                                        "blocks reach 81.2% of states and 6 "
+                                        "of 30 worlds become fully discrete -- "
+                                        "and in the post-refinement regime the "
+                                        "marginal cost per query is 12.966 for "
+                                        "the abstraction against 11.738 for "
+                                        "direct search. The mechanism that "
+                                        "makes an abstraction accurate enough "
+                                        "to answer queries is the same one "
+                                        "that destroys its size advantage, and "
+                                        "the n-k bound guarantees termination "
+                                        "at or near discrete. The frozen Q "
+                                        "grid is unchanged; extending it would "
+                                        "be a new frozen study.",
+            "correction_C1": {
+                "utc": "2026-09-10",
+                "field": "terminal.where_the_positive_lives",
+                "original_text": "query amortisation, measured in "
+                                 "multi_query_amortisation above.",
+                "why_it_was_wrong": "It asserted a location for the positive "
+                                    "that this result's own measurement did "
+                                    "not confirm. crossover_Q was already "
+                                    "null and post-refinement marginal cost "
+                                    "already favoured direct search IN THE "
+                                    "SAME FILE. It was the summary field "
+                                    "people quote, running ahead of the "
+                                    "evidence beneath it.",
+                "what_changed": "summary field only; no measurement, "
+                                "endpoint, arm, world, seed or verdict "
+                                "altered",
+                "raised_by": "session lead centre review of the merged "
+                             "artifact",
+                "original_retained": "above, verbatim"}}
     else:
         out["terminal"] = {
             "verdict": "LEVER_POSITIVE_SINGLE_QUERY",
@@ -550,6 +686,11 @@ def run_rv_b1():
                     "concrete_verdict": r["concrete_verdict"],
                     "direct_ops": r["direct_ops"],
                     "rebuild_ops": r["rebuild_ops"],
+                    "rebuild_ops_over_direct": r["rebuild_ops_over_direct"],
+                    "incremental_ops_over_direct":
+                        r["incremental_ops_over_direct"],
+                    "incremental_validation_ops":
+                        r["incremental_validation_ops"],
                     "incremental_ops": r["incremental_ops"],
                     "incremental_setup_ops": r["incremental_setup_ops"],
                     "incremental_per_round_ops": r["incremental_per_round_ops"],

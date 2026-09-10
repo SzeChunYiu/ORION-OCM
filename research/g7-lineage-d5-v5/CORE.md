@@ -1,0 +1,161 @@
+# G7 lineage D5 successor (microscope)
+
+**Terminal:** `PHASED_COGNITIVE_DEVELOPMENT`
+
+Owner: issue [#165](https://github.com/SzeChunYiu/ORION-OCM/issues/165) G7 / #151.
+Successor to [`research/g7-lineage-d4-v4/`](../g7-lineage-d4-v4/CORE.md), which stopped
+at five earned transitions (`EMPTY→OCM_0`, `OCM_0→OCM_1`, `OCM_1→OCM_2`,
+`OCM_2→OCM_3`, `OCM_3→OCM_4`) on lineage id `orion-ocm-g7-lineage-v1:microscope-d0-d1`
+with D5–D6 unrun.
+
+This capsule **does not overwrite** v1, D2, D3, or D4 `RESULT.json`. It continues
+the **same lineage id** and actually runs a sixth earned `DevelopmentTransitionV1`
+`OCM_4 → OCM_5` / D5 metacognition: select which of two already-earned methods to
+try first from a tiny validation utility table.
+
+Not neural. Not Metamath. Not FLT. Historical M11 `g0 → g1 → g2 → g2` is **not**
+relabeled. Not an `OperatorSpec` / `src/ocm` import.
+
+```text
+T0  EMPTY → OCM_0 / D0 exact interaction
+    G2-style one macro acquired (tiny exact token-word search)
+
+T1  OCM_0 → OCM_1 / D1 composition / failure / scope
+    G3.2-style scoped failure memory added
+    same lineage id; no reset in the principal arm
+
+T2  OCM_1 → OCM_2 / D2 planning / uncertainty / information gathering
+    greedy posterior-split probe policy on a disjoint diagnosis family
+    T0 MACRO and T1 failure memory retained
+    constitution C frozen
+
+T3  OCM_2 → OCM_3 / D3 formal mathematics / controlled language
+    CUT_* lemma invented on compose-second Hilbert/SK goals
+    not PREFIX/SWAP, not Metamath, not FLT
+    T0/T1/T2 retained; constitution C frozen
+
+T4  OCM_3 → OCM_4 / D4 coding / tools / procedural
+    RW_* exact replace-all string-rewrite on two-occurrence PQ→QP
+    not REGEX/EVAL, not Metamath, not FLT, not M11 relabel
+    T0/T1/T2/T3 retained; constitution C frozen
+
+T5  OCM_4 → OCM_5 / D5 metacognition / learning-to-learn
+    SEL_* per-cue validation utility table: try TRY_LEFT or TRY_RIGHT first
+    not NEURAL/SGD/BACKPROP/LLM, not Metamath, not FLT, not M11 relabel
+    T0/T1/T2/T3/T4 retained; constitution C frozen
+```
+
+Unrun (registered, not pretended): `OCM_6` D6 governed self-evolution. D6
+self-evolution did not happen.
+
+## Why T5 is a new family, not a sixth polynomial trick
+
+D0/D1 remain the polynomial grammar `g7.polynomial-total-arithmetic.v1`.
+D2 remains `g7.diagnosis-probe-planning.v1`.
+D3 remains `g7.hilbert-sk-lemma-introduction.v1`.
+D4 remains `g7.exact-string-rewrite.v1`.
+
+D5 is `g7.method-selection-metacognition.v1`: cue-conditioned tasks over a disjoint
+fingerprint family. Two methods `TRY_LEFT` and `TRY_RIGHT` are already earned
+(taught donors). Train measures per-cue utility of each method. Validation admits
+a `SEL_*` table that picks the cheaper first method. Held-out serving consults
+the persisted table after restart. Fixed-left / fixed-right cannot match the
+table on mixed cues. Fingerprints do not overlap polynomial, diagnosis, Hilbert,
+or rewrite families. The learned object is a **named first-method utility
+table**, not another MACRO fragment, probe policy, CUT lemma, rewrite rule, or
+neural net.
+
+Conversion if the table cannot beat fixed first-method on held-out tasks:
+
+```text
+CANNOT_CHECK_D5_METACOGNITION_NOT_EARNED
+```
+
+This successor's conversion, if T5 is not earned, is a named `CANNOT_CHECK`,
+not a fake `OCM_5` and not a salt retune of T4 rewrite.
+
+## Persist where earned
+
+The serialised bundle always contains the thirteen G7 slots. After T5 the
+earned contents are:
+
+| slot | T0 | T1 | T2 | T3 | T4 | T5 |
+|---|---|---|---|---|---|---|
+| field state | seed atoms + admitted method | retained | plus probe-policy atom | plus CUT-lemma atom | plus rewrite atom | plus selection-policy atom |
+| learned methods | one macro | same macro | plus D2 probe policy | plus D3 CUT lemma | plus D4 rewrite | plus D5 utility table |
+| method schemas | macro-token schema | retained | plus probe-policy schema | plus CUT-lemma schema | plus rewrite schema | plus selection-policy schema |
+| imported donors | four taught primitives | retained | plus taught probe/replace operators | plus taught K/S/MP | plus taught substitute/scan | plus already-earned TRY_LEFT/TRY_RIGHT and cue-read |
+| applicability/scope | empty | degree-class restriction | retained | retained | retained | retained |
+| failure/counterexample knowledge | empty | `MACRO_AT_EMPTY_PREFIX` | retained | retained | retained | retained |
+| representations | taught coefficient normal form | retained | retained | plus Hilbert/SK representation | plus string-rewrite representation | plus utility-table representation |
+| support/dependency | training SUPPORT edge | plus RESTRICTS edge | plus D2 SUPPORT edge | plus D3 SUPPORT edge | plus D4 SUPPORT edge | plus D5 SUPPORT edge |
+| acquisition strategies | taught exact BFS | retained | retained | retained | retained | retained |
+| executive/metareasoning policy | serve+nogood; **do not rewrite C** | retained | family-gated serving; C frozen | Hilbert family gated; C frozen | rewrite family gated; C frozen | selection family gated; C frozen |
+| self-model | known competence list | updated stage | OCM_2 | OCM_3 | OCM_4 | OCM_5; OCM_5 removed from unknown |
+| self-change history | admit-macro | admit-failure-memory | admit-d2-probe-policy | admit-d3-cut-lemma | admit-d4-rewrite-rule | admit-d5-selection-policy |
+| resource history | T0 work units | T1 work units | T2 work units | T3 work units | T4 work units | T5 work units |
+
+Restart is `persist` then a fresh `LineageStore.load` of the whole bundle.
+A mismatched digest raises `DigestTamperError`. Rewriting constitution C
+raises `ConstitutionMutationError` and does not persist.
+
+## Comparators (every transition, including T5)
+
+```text
+CONTINUED_OCM
+RESET_OCM
+TASK_SPECIFIC_OCM
+STRONG_ADAPTIVE_PARENT
+```
+
+T5 reset has its own store root, starts empty, and must re-acquire T0 then T1
+then T2 then T3 then T4 then T5. Isolation failure is `IsolationError`. Reset
+rediscovery is `INDEPENDENT_REDISCOVERY`. Continued reuses T0/T1/T2/T3/T4 and
+only pays D5 acquisition, so reset costs more.
+
+Task-specific D5 learns the utility table without T0/T1/T2/T3/T4. D0–D4 do
+**not** cheapen D5 versus that learner; that is recorded, not claimed as
+cross-family transfer. The ordinary selection-table parent may **tie** the T5
+mechanism (§12 absorption).
+
+## Origin categories
+
+| object | category |
+|---|---|
+| inc/dec/double/square, checker, BFS, D2 probes/replace, K/S/MP, substitute/scan, TRY_LEFT/TRY_RIGHT, cue-read | `TAUGHT_IMPORTED` |
+| T0 macro fragment | `LEARNED_COMPOSITION` |
+| T1 degree-class failure/scope | `LEARNED_APPLICABILITY` |
+| T2 greedy posterior-split probe policy | `LEARNED_COMPOSITION` |
+| T3 CUT_* named lemma | `LEARNED_COMPOSITION` |
+| T4 RW_* named rewrite | `LEARNED_COMPOSITION` |
+| T5 SEL_* first-method utility table | `LEARNED_COMPOSITION` |
+| reset-arm re-acquired macro / policy / lemma / rewrite / table | `INDEPENDENT_REDISCOVERY` |
+
+## What this does not claim
+
+- Not D6, not Metamath N4 close, not FLT, not cross-domain transfer, not
+  lifetime payback, not an OCM architecture residual over the ordinary parent.
+- Not G3.1 independent two-macro composition, not G3.3 representation change,
+  not G6 three-generation self-evolution, not production M11, not neural.
+- `κ`, `Ω`, `χ` are microscope coordinates, not a G6 evolvability law.
+- Not `DEVELOPMENTAL_CROSS_FAMILY_TRANSFER_SUPPORTED`: T0–T4 do not reduce
+  D5 acquisition cost versus a task-specific utility-table learner.
+- Not unscoped `CAUSAL_PROOF_METHOD_REUSE_SUPPORTED`. MATH-1 / N4 on Metamath
+  stays OPEN.
+
+## Reproduction
+
+```sh
+python3 -B -m unittest discover -s research/g7-lineage-d5-v5 -p 'test_*.py' -v
+python3 -B research/g7-lineage-d5-v5/experiment.py \
+  --out research/g7-lineage-d5-v5/RESULT.json \
+  --transitions research/g7-lineage-d5-v5/transitions
+```
+
+[RESULT.json](RESULT.json) · [T0](transitions/T0.json) · [T1](transitions/T1.json) ·
+[T2](transitions/T2.json) · [T3](transitions/T3.json) · [T4](transitions/T4.json) ·
+[T5](transitions/T5.json) · [schema](schema.json) · v1 frozen
+[RESULT.json](../g7-lineage-v1/RESULT.json) · D2 frozen
+[RESULT.json](../g7-lineage-d2-v2/RESULT.json) · D3 frozen
+[RESULT.json](../g7-lineage-d3-v3/RESULT.json) · D4 frozen
+[RESULT.json](../g7-lineage-d4-v4/RESULT.json)

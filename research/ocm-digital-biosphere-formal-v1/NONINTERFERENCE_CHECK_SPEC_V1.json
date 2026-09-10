@@ -1,0 +1,128 @@
+{
+  "schema": "NONINTERFERENCE_CHECK_SPEC_V1",
+  "predicate_id": "BIO-NI-1",
+  "owner_issue": 296,
+  "clause": "section 3",
+  "contains_results": false,
+  "implements_closure_condition": "section 17 condition 2 \u2014 protected-assay noninterference machine-checkable",
+  "status": "SPECIFIED_AND_IMPLEMENTED",
+  "reference_implementation": "check_noninterference.py",
+  "consumer": "EB-F0-X",
+  "why_a_spec_and_not_a_sentence": "The base contract states the obligation as prose: 'protected assay state not in ancestors_of(birth/death/resource-transition)'. That sentence does not fix the node set, the edge direction, the sink set, the failure taxonomy, or what happens when a declaration is incomplete. Two honest implementers would build two different checks from it, and one of them would return PASS on a leaking world. This file fixes all five.",
+  "signature": "check_noninterference(kernels, protected, sinks) -> NIResult",
+  "inputs": {
+    "kernels": "Mapping[str, {'reads': Sequence[str], 'writes': Sequence[str]}] \u2014 from WORLD_STATE_AND_DYNAMICS_V1 as amended by AMEND_1",
+    "protected": "Set[str] \u2014 from ASSAY_TRANSFER_CONTRACT_V1 protected state names",
+    "sinks": "Set[str] \u2014 birth/death decision variables plus resource-transition variables"
+  },
+  "graph_construction": {
+    "nodes": "every state name in any kernel's reads or writes, plus one node per kernel",
+    "edges": [
+      "for each kernel k and each r in reads(k):  r -> k",
+      "for each kernel k and each w in writes(k): k -> w"
+    ],
+    "ancestors_of": "reflexive-transitive closure along REVERSED edges, seeded from the sink set",
+    "name_matching": "exact string match, plus dotted-prefix containment so that 'x.a' is matched by a declared read of 'x' \u2014 a kernel that declares it reads the whole organism record reads the assay field too",
+    "prefix_rule_rationale": "Coarse declarations must be treated as MORE permissive, never less. Declaring reads=['x'] must not launder a read of x.a.",
+    "prefix_rule_is_bidirectional": {
+      "rule": "A declared name covers a target when either is a dotted prefix of the other.",
+      "why_both_directions": "Both directions widen, never narrow. A kernel declaring reads=['x'] must be treated as reading x.a, so a coarse declaration cannot launder a fine-grained read. A sink declared as 'E.resources' is likewise matched by the coarser declared name 'E', so the sink set grows.",
+      "measured_effect_on_the_frozen_declaration": {
+        "sinks_declared": [
+          "mu",
+          "H.lineage",
+          "E.resources",
+          "x.r"
+        ],
+        "sinks_resolved": [
+          "E",
+          "E.resources",
+          "H.lineage",
+          "mu",
+          "x.r"
+        ],
+        "sinks_widened_by": [
+          "E"
+        ],
+        "protected_declared_count": 6,
+        "protected_resolved_count": 6,
+        "protected_widened_by": [],
+        "closure_size": 16,
+        "total_graph_nodes": 42
+      },
+      "direction_of_error": "Widening either the sink set or the protected set errs toward VIOLATION and never toward PASS. A conservative check that over-alarms is recoverable by amendment; one that under-alarms silently licenses a false spontaneous-cognition claim.",
+      "evidence_the_check_still_discriminates": "The closure covers 16 of 42 nodes, not all of them. It contains the organism's cognitive state (x.F, x.O, x.Pi, x.h, x.q, x.s) -- correctly, since behaviour affects resources which affect reproduction -- and excludes every protected assay name. That separation is the PASS."
+    }
+  },
+  "outputs": {
+    "verdict": "PASS | VIOLATION | CANNOT_CHECK",
+    "witness_path": "required and non-empty on VIOLATION: the node sequence from the protected name to the sink",
+    "reason": "required and non-empty on CANNOT_CHECK: which kernel or which name could not be resolved",
+    "checked_kernels": "count of kernels whose reads and writes both resolved"
+  },
+  "exit_codes": {
+    "0": "PASS \u2014 the ancestor closure of the sinks is disjoint from the protected names",
+    "2": "VIOLATION \u2014 at least one directed path exists; the witness path is emitted",
+    "3": "CANNOT_CHECK \u2014 a kernel omitted reads or writes, or a declared name is not in the state vocabulary",
+    "4": "USAGE"
+  },
+  "cannot_check_is_never_pass": {
+    "binding": true,
+    "rule": "Exit 3 must never be folded into exit 0, and no caller may treat a CANNOT_CHECK verdict as satisfying section 17 condition 2.",
+    "precedent": [
+      "research/hsg-semantic-execution-v1/verify_freeze_chain.py",
+      "research/ocm-form-oracle-v1/oracle/objectives4.py partition_checkable"
+    ]
+  },
+  "selftest_obligation": {
+    "binding": true,
+    "rule": "The checker must assert BOTH directions on real declarations before any verdict it produces is trusted.",
+    "required_cases": [
+      {
+        "case": "no_alarm",
+        "input": "the clean declared factorization from AMEND_1",
+        "must_return": "PASS",
+        "why": "a gate only ever seen not firing has not been validated"
+      },
+      {
+        "case": "alarm_direct",
+        "input": "K_birthdeath reads x.a",
+        "must_return": "VIOLATION"
+      },
+      {
+        "case": "alarm_indirect",
+        "input": "K_senseact reads x.a and writes x.r, which K_birthdeath reads",
+        "must_return": "VIOLATION",
+        "why": "this is the H-LEAK-ASSAY-ENERGY hostile: assay value moves energy, energy moves reproduction one step later"
+      },
+      {
+        "case": "alarm_prefix",
+        "input": "K_birthdeath reads the whole record x",
+        "must_return": "VIOLATION",
+        "why": "a coarse declaration must not launder a fine-grained read"
+      },
+      {
+        "case": "cannot_check",
+        "input": "a kernel with reads omitted",
+        "must_return": "CANNOT_CHECK",
+        "why": "the H-LEAK-HIDDEN-EDGE hostile is exactly an incomplete graph; it must not present as PASS"
+      }
+    ],
+    "pattern_source": "research/ocm-form-oracle-v1/oracle/c_immutability.py selftest(), which asserts both the no-alarm and the alarm direction"
+  },
+  "consequence_of_violation": {
+    "severity": "REPORTABLE_RESULT_NOT_A_WARNING",
+    "effect": "Invalidates any spontaneous or general cognition claim for that run.",
+    "does_not_invalidate": "an ASSAY_SELECTED_CONTROL arm, which is declared to leak by construction and is scored separately"
+  },
+  "scope_limits": {
+    "what_this_proves": "The DECLARED graph has no path from protected names to selection.",
+    "what_this_does_not_prove": [
+      "that the declaration matches the running simulator",
+      "that no unregistered side channel exists in the implementation",
+      "that C is empirically ungameable"
+    ],
+    "residual_obligation_on_EB_F0_X": "Bind the declaration to the executing kernels so that the graph is derived from the code rather than asserted alongside it. Until then the strongest available claim is DECLARED_GRAPH_NONINTERFERENCE, not RUN_NONINTERFERENCE.",
+    "matching_theorem_row": "BIO-T1, whose assumptions already include 'graph complete for protected outputs' and 'no hidden side channel'"
+  }
+}

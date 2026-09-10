@@ -1,0 +1,61 @@
+name: H4 exact revocation planted oracle
+
+on:
+  pull_request:
+    paths:
+      - 'research/h4-exact-revocation-v1/**'
+      - '.github/workflows/h4-exact-revocation.yml'
+      - 'src/ocm/kso/warrant.py'
+      - 'src/ocm/kso/revocation.py'
+      - 'src/ocm/kso/admission.py'
+      - 'src/ocm/kso/procedures.py'
+      - 'src/ocm/kso/extraction_index.py'
+      - 'src/ocm/kso/space.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/h4-exact-revocation-v1/**'
+      - '.github/workflows/h4-exact-revocation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  h4-exact-revocation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/h4-exact-revocation-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h4-rev-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python -B -m unittest discover -s research/h4-exact-revocation-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python -B -O -m unittest discover -s research/h4-exact-revocation-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Planted H4 exact-revocation study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/h4-rev-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B research/h4-exact-revocation-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          cp research/h4-exact-revocation-v1/RESULT.json "$out/capsule-RESULT.json"
+      - name: Production src unchanged
+        if: always()
+        run: git diff --exit-code -- src
+      - name: H3 capsule unchanged
+        if: always()
+        run: git diff --exit-code -- research/h3-local-revision-v1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: h4-exact-revocation
+          path: '${{ runner.temp }}/h4-rev-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

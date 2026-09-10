@@ -1,0 +1,88 @@
+name: G2 abstraction parents
+
+on:
+  pull_request:
+    paths:
+      - 'research/g2-abstraction-parents-v1/**'
+      - 'research/g2-acquisition-economics-v1/**'
+      - 'research/g2-macro-operator-v1/**'
+      - '.github/workflows/g2-abstraction-parents.yml'
+      - 'src/ocm/learning/methods.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g2-abstraction-parents-v1/**'
+      - '.github/workflows/g2-abstraction-parents.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  abstraction-parents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g2-abstraction-parents-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g2-abs-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g2-abstraction-parents-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g2-abstraction-parents-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Abstraction-parent study
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g2-abs-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B research/g2-abstraction-parents-v1/experiment.py --out "$out/RESULT.json" | tee "$out/console.txt"
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g2-abs-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          result = json.loads((out / "RESULT.json").read_text())
+          allowed = {
+              "CONVENTIONAL_LIBRARY_PARENTS_SUBORDINATE_TO_SEARCH_AWARE",
+              "LIBRARY_PARENT_DISPOSITIONS_RECORDED",
+          }
+          if result["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % result["terminal"])
+          if result.get("tournament_rerun"):
+              sys.exit("tournament must not be rerun")
+          if result["imported_receipt"]["terminal"] != (
+              "CHEAP_SEARCH_AWARE_SELECTION_REPRODUCES_THE_TOURNAMENT_CHOICE"
+          ):
+              sys.exit("must cite frozen SEARCH_AWARE economics terminal")
+          if not result["imported_receipt"]["compression_failed_argmax"]:
+              sys.exit("must cite compression argmax failure")
+          by = {row["parent"]: row for row in result["parents"]}
+          if by["conventional-same-library"]["disposition"] != "ADOPT":
+              sys.exit("SEARCH_AWARE conventional parent must be ADOPT")
+          if by["stitch-style-library"]["disposition"] != "REJECT":
+              sys.exit("Stitch-style compression must be REJECT")
+          if " ".join(by["stitch-style-library"]["chosen"]) != "dec square":
+              sys.exit("refusing to retune compression off dec square")
+          if " ".join(by["conventional-same-library"]["chosen"]) != "square dec square":
+              sys.exit("SEARCH_AWARE must remain square dec square")
+          for row in result["parents"]:
+              if (row.get("acquisition_work") or {}).get("enumeration_attempts"):
+                  sys.exit("%s charged enumeration_attempts" % row["parent"])
+          print(result["terminal"])
+          PY
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g2-abstraction-parents
+          path: '${{ runner.temp }}/g2-abs-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

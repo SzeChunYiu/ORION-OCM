@@ -1,0 +1,635 @@
+{
+  "G1_1_6_duplicate_cores": "NOT_EARNED_AS_DELETION",
+  "G1_checkboxes": {
+    "G1.2": [
+      {
+        "id": "G1.2/001",
+        "note": "sqlite stub, warrant collapse, work.Operator stub; restored; no production deletion. #187 hid-file probes remain the vessel-core inventory.",
+        "status": "EARNED_AS_PROBES",
+        "text": "Remove candidate architecture components one at a time."
+      },
+      {
+        "id": "G1.2/002",
+        "note": "OperatorSpec wrapping work.Operator is permitted and measured. It does not preserve M9 tests.",
+        "status": "EARNED_AS_MEASUREMENT",
+        "text": "Permit compensating compositions where scientifically appropriate.",
+        "wrap_preserves_backend": true
+      },
+      {
+        "id": "G1.2/003",
+        "operator_capability_loss": true,
+        "sqlite_capability_loss": false,
+        "status": "EARNED",
+        "text": "Measure capability loss."
+      },
+      {
+        "id": "G1.2/004",
+        "sqlite_resource_change": true,
+        "status": "EARNED",
+        "text": "Measure resource change."
+      },
+      {
+        "id": "G1.2/005",
+        "status": "EARNED",
+        "text": "Measure epistemic-invariant failure.",
+        "warrant_unknown_disappears": true
+      },
+      {
+        "id": "G1.2/006",
+        "status": "EARNED",
+        "text": "Distinguish algebraic / resource / epistemic necessity."
+      },
+      {
+        "id": "G1.2/007",
+        "note": "Not reopened. G5 DATABASE_PARENT_SUFFICIENT is cited for the ledger parent.",
+        "status": "PRESERVED",
+        "text": "Preserve PARENT_SUFFICIENT where ordinary architecture mechanisms suffice."
+      },
+      {
+        "id": "G1.2/008",
+        "note": "Nothing deleted. MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE is not issued.",
+        "status": "OBEYED",
+        "text": "Do not call the machine minimal merely because code was deleted."
+      }
+    ],
+    "G1.3": [
+      {
+        "controller_growth_dominates": false,
+        "id": "G1.3.1",
+        "note": "Language adds planner.py (170 nloc). Math and procedural add 0 production \u03a0 nloc. Not a git time series.",
+        "status": "EARNED_AS_ATTRIBUTION_SERIES",
+        "text": "Measure controller source/branch growth across domain additions."
+      },
+      {
+        "id": "G1.3.2",
+        "predominantly_across_three_domains": false,
+        "status": "PARTIAL_AT_POLYNOMIAL_SCOPE",
+        "text": "Demonstrate new competence predominantly appears in learned/imported field/operator state."
+      },
+      {
+        "hostile_solves": true,
+        "id": "G1.3.3",
+        "status": "EARNED",
+        "text": "Add hostile where a domain-specific hard-coded \u03a0 rule would trivially solve the task."
+      },
+      {
+        "absent": true,
+        "id": "G1.3.4",
+        "status": "EARNED",
+        "text": "Require that hostile to be absent from the mechanism arm."
+      },
+      {
+        "evidence": "research/g1-vessel-freeze-v1/PRIOR_INFORMATION.json",
+        "id": "G1.3.5",
+        "status": "EARNED_UPSTREAM",
+        "text": "Count every retained domain-specific rule as prior information."
+      }
+    ]
+  },
+  "architecture_rules_empirical": {
+    "INTELLIGENCE_IN_F_AND_O": "PARTIAL_AT_POLYNOMIAL_SCOPE",
+    "PI_SMALL_DOMAIN_GENERAL": "PARTIAL"
+  },
+  "classifications": [
+    {
+      "algebraic_necessity": false,
+      "capability_loss": false,
+      "component": "sqlite_ledger_vs_jsonl",
+      "epistemic_invariant_failure": false,
+      "epistemic_necessity": false,
+      "note": "Hash-chain capability is preserved (local match + G5 semantic parity). Physical write/head cost changes. Storage is not warrant (STORAGE_NOT_AUTHORITY). A ledger of some kind is a resource parent; sqlite-vs-jsonl is not algebraic or epistemic.",
+      "removed": "SQLiteLedgerStore stubbed; JSONL LedgerStore remains",
+      "resource_change": true,
+      "resource_necessity": true,
+      "witness": {
+        "g5_n2048_jsonl_rewrite_bytes": 529399134,
+        "g5_n2048_sqlite_rewrite_bytes": 4697488,
+        "g5_terminal": "DATABASE_PARENT_SUFFICIENT",
+        "g5_write_amplification": 1022.06,
+        "jsonl_dir_bytes": 7916,
+        "jsonl_head_s": 0.0002818779998960963,
+        "local_n": 32,
+        "sqlite_dir_bytes": 465376,
+        "sqlite_head_s": 0.00010350599995945231
+      }
+    },
+    {
+      "algebraic_necessity": false,
+      "capability_loss": false,
+      "component": "warrant_interval",
+      "epistemic_invariant_failure": true,
+      "epistemic_necessity": true,
+      "note": "UNKNOWN disappears. LIVE/DEAD for certified profiles remain. Epistemic, not algebraic or resource.",
+      "removed": "three-valued interval liveness collapsed to boolean via mutant_unknown_as_dead",
+      "resource_change": false,
+      "resource_necessity": false,
+      "witness": {
+        "boolean_collapse": "DEAD",
+        "existing_test": "tests/m1/test_mutants.py::test_unknown_treated_as_live_and_as_dead_mutants",
+        "interval_UNKNOWN": "UNKNOWN",
+        "mutant": "ocm.kso.warrant.mutant_unknown_as_dead",
+        "unknown_count_after": 0,
+        "unknown_count_before": 1
+      }
+    },
+    {
+      "algebraic_necessity": true,
+      "capability_loss": true,
+      "compensating_composition": {
+        "form": "OperatorSpec wrapping work.Operator.backend",
+        "permitted": true,
+        "preserves_backend_transform": true,
+        "preserves_m9_tests": false
+      },
+      "component": "work.Operator",
+      "epistemic_invariant_failure": false,
+      "epistemic_necessity": false,
+      "note": "Algebraic/API necessity for M9 construction is confirmed by stub failure. OperatorSpec wrapping recovers the classify transform, so the cognitive backend is not uniquely tied to the work.Operator class. Unification was not performed.",
+      "removed": "class stub / import-block (no production deletion)",
+      "resource_change": false,
+      "resource_necessity": false,
+      "witness": {
+        "issue_187": "M0 OCMRuntime and work.Operator required by current tests; G1.1.6 NOT_EARNED as deletion",
+        "stub_error": "TypeError: 'NoneType' object is not callable",
+        "wrap_survives_stub": true
+      }
+    }
+  ],
+  "gates": [
+    "G1.2",
+    "G1.3"
+  ],
+  "head": "37beae6a8717b182260965e0d47413922bf1e42c",
+  "hostile": {
+    "hostile_absent_from_mechanism_arm": true,
+    "hostile_function_nloc": 7,
+    "hostile_solves_all_table_tasks": true,
+    "hostile_tasks": [
+      {
+        "guessed": [],
+        "ok": true,
+        "program": []
+      },
+      {
+        "guessed": [
+          "inc"
+        ],
+        "ok": true,
+        "program": [
+          "inc"
+        ]
+      },
+      {
+        "guessed": [
+          "dec"
+        ],
+        "ok": true,
+        "program": [
+          "dec"
+        ]
+      },
+      {
+        "guessed": [
+          "double"
+        ],
+        "ok": true,
+        "program": [
+          "double"
+        ]
+      },
+      {
+        "guessed": [
+          "square"
+        ],
+        "ok": true,
+        "program": [
+          "square"
+        ]
+      },
+      {
+        "guessed": [
+          "inc",
+          "double"
+        ],
+        "ok": true,
+        "program": [
+          "inc",
+          "double"
+        ]
+      },
+      {
+        "guessed": [
+          "double",
+          "inc"
+        ],
+        "ok": true,
+        "program": [
+          "double",
+          "inc"
+        ]
+      },
+      {
+        "guessed": [
+          "inc",
+          "square"
+        ],
+        "ok": true,
+        "program": [
+          "inc",
+          "square"
+        ]
+      }
+    ],
+    "marker": "HOSTILE_PI_COEFFICIENT_TABLE_V1",
+    "mechanism_arm_solves_same_tasks_by_enumeration": true,
+    "mechanism_contains_hostile": {
+      "research/g2-macro-operator-v1/experiment.py": {
+        "bytes": 23690,
+        "function_name": false,
+        "marker": false,
+        "sha256": "644a1ce09573b1cb9725e1df843c5c0251b4ffbbea3c94cca34ea1d3d4ae377c"
+      },
+      "src/ocm/learning/methods.py": {
+        "bytes": 14581,
+        "function_name": false,
+        "marker": false,
+        "sha256": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3"
+      },
+      "src/ocm/runtime/solve.py": {
+        "bytes": 34057,
+        "function_name": false,
+        "marker": false,
+        "sha256": "c27e4b9fe787961a6c6ecb278f385535e375283aa72c4ec618fd2c90b4d08f63"
+      }
+    },
+    "mechanism_rows": [
+      {
+        "enumeration_attempts": 1,
+        "program": [],
+        "token_word": [],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 2,
+        "program": [
+          "inc"
+        ],
+        "token_word": [
+          "inc"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 3,
+        "program": [
+          "dec"
+        ],
+        "token_word": [
+          "dec"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 4,
+        "program": [
+          "double"
+        ],
+        "token_word": [
+          "double"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 5,
+        "program": [
+          "square"
+        ],
+        "token_word": [
+          "square"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 8,
+        "program": [
+          "inc",
+          "double"
+        ],
+        "token_word": [
+          "inc",
+          "double"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 14,
+        "program": [
+          "double",
+          "inc"
+        ],
+        "token_word": [
+          "double",
+          "inc"
+        ],
+        "verified": true
+      },
+      {
+        "enumeration_attempts": 9,
+        "program": [
+          "inc",
+          "square"
+        ],
+        "token_word": [
+          "inc",
+          "square"
+        ],
+        "verified": true
+      }
+    ]
+  },
+  "inventory": {
+    "competence_in_learned_imported_fo_state": {
+      "language": false,
+      "math_polynomial_g2_admit": true,
+      "note": "G2 admit_macro writes ledger operator state without growing solve.py. Language competence remains authored planner.py. Procedural competence remains authored work/operators source. G2/G3 run artifacts are absent on this branch.",
+      "predominantly_across_three_domains": false,
+      "procedural": false,
+      "status": "PARTIAL_AT_POLYNOMIAL_SCOPE"
+    },
+    "controller_growth_dominates": false,
+    "freeze_by_role": {
+      "C": {
+        "bytes": 70007,
+        "files": 7,
+        "lines": 1347,
+        "nloc": 1094
+      },
+      "CUSTODY": {
+        "bytes": 23245,
+        "files": 6,
+        "lines": 373,
+        "nloc": 309
+      },
+      "F": {
+        "bytes": 277334,
+        "files": 36,
+        "lines": 6479,
+        "nloc": 5287
+      },
+      "HARNESS": {
+        "bytes": 315169,
+        "files": 38,
+        "lines": 5302,
+        "nloc": 4551
+      },
+      "O": {
+        "bytes": 83823,
+        "files": 14,
+        "lines": 1705,
+        "nloc": 1392
+      },
+      "PRIOR": {
+        "bytes": 318552,
+        "files": 41,
+        "lines": 6104,
+        "nloc": 5046
+      },
+      "\u03a0": {
+        "bytes": 236230,
+        "files": 21,
+        "lines": 4310,
+        "nloc": 3588
+      }
+    },
+    "freeze_git_head": "b35093a26e51ccf4829aa1218957827d95db8923",
+    "growth_series": [
+      {
+        "after": "language",
+        "authored_fo_nloc": 3203,
+        "cumulative_controller_nloc": 3758,
+        "domain_controller_nloc": 170,
+        "fo_delta_from_previous": 3203,
+        "learned_fo_state_bytes": 0,
+        "pi_delta_from_previous": 170,
+        "production_pi_nloc": 3588
+      },
+      {
+        "after": "math",
+        "authored_fo_nloc": 4210,
+        "cumulative_controller_nloc": 3758,
+        "domain_controller_nloc": 170,
+        "fo_delta_from_previous": 1007,
+        "learned_fo_state_bytes": 10917,
+        "pi_delta_from_previous": 0,
+        "production_pi_nloc": 3588
+      },
+      {
+        "after": "procedural",
+        "authored_fo_nloc": 5096,
+        "cumulative_controller_nloc": 3758,
+        "domain_controller_nloc": 170,
+        "fo_delta_from_previous": 886,
+        "learned_fo_state_bytes": 10917,
+        "pi_delta_from_previous": 0,
+        "production_pi_nloc": 3588
+      }
+    ],
+    "language": {
+      "authored_controller": {
+        "bytes": 12280,
+        "counted_as": "domain-specific \u03a0 / hard-coded control",
+        "nloc": 170,
+        "path": "src/ocm/dialogue/planner.py",
+        "role_in_freeze": "PRIOR"
+      },
+      "by_freeze_role": {
+        "F": {
+          "bytes": 15718,
+          "files": 1,
+          "nloc": 315
+        },
+        "PRIOR": {
+          "bytes": 184656,
+          "files": 22,
+          "nloc": 2888
+        }
+      },
+      "learned_imported_records_on_disk": 0,
+      "modules": [
+        {
+          "bytes": 124826,
+          "files": 14,
+          "nloc": 2037,
+          "path": "src/ocm/language"
+        },
+        {
+          "bytes": 75548,
+          "files": 9,
+          "nloc": 1166,
+          "path": "src/ocm/learning/language"
+        }
+      ]
+    },
+    "learned": {
+      "admitted_atom_id": "macro-operator:f53dcbfcbdbe67faceaf3e67f9c508de5b18ff53bef63c93741e8e7eb438edc6",
+      "admitted_ledger_bytes": 10917,
+      "admitted_macro": [
+        "inc",
+        "inc"
+      ],
+      "g2_experiment_bytes": 23690,
+      "g2_experiment_nloc": 528,
+      "g2_g3_result_artifacts_on_disk": [],
+      "g3_experiment_bytes": 24387,
+      "g3_experiment_nloc": 557,
+      "macro_index_attempts": 94,
+      "macro_index_json_bytes": 8384,
+      "macro_index_records": 64,
+      "primitive_index_attempts": 85,
+      "primitive_index_json_bytes": 8414,
+      "primitive_index_max_length": 3,
+      "primitive_index_records": 64,
+      "production_pi_nloc_unchanged_by_macro_admit": true,
+      "training_evidence": "ev:ocm:a80390fb6f595632",
+      "used_experiment_modules_as_learned_competence": true,
+      "utility_evidence": "ev:ocm:8b675a3757cb89b4"
+    },
+    "math": {
+      "authored_controller_delta_nloc": 0,
+      "by_freeze_role": {
+        "F": {
+          "bytes": 6238,
+          "files": 1,
+          "nloc": 82
+        },
+        "PRIOR": {
+          "bytes": 50453,
+          "files": 9,
+          "nloc": 925
+        }
+      },
+      "modules": [
+        {
+          "bytes": 42110,
+          "files": 9,
+          "nloc": 759,
+          "path": "src/ocm/science"
+        },
+        {
+          "bytes": 14581,
+          "files": 1,
+          "nloc": 248,
+          "path": "src/ocm/learning/methods.py"
+        }
+      ],
+      "shared_executive": {
+        "bytes": 34057,
+        "nloc": 536,
+        "path": "src/ocm/runtime/solve.py",
+        "role_in_freeze": "\u03a0"
+      }
+    },
+    "nloc_definition": "non-blank, non-comment Python lines under src/ocm/",
+    "procedural": {
+      "authored_controller_delta_nloc": 0,
+      "authored_operator_schema_nloc": 188,
+      "by_freeze_role": {
+        "O": {
+          "bytes": 55494,
+          "files": 9,
+          "nloc": 886
+        }
+      },
+      "modules": [
+        {
+          "bytes": 35161,
+          "files": 4,
+          "nloc": 509,
+          "path": "src/ocm/work"
+        },
+        {
+          "bytes": 20333,
+          "files": 5,
+          "nloc": 377,
+          "path": "src/ocm/operators"
+        }
+      ]
+    },
+    "state_size_dominates": false
+  },
+  "issue": 165,
+  "not_issued": [
+    "MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED_AT_SCOPE",
+    "MINIMUM_SELF_EXTENDING_VESSEL",
+    "CURRENT_KSO_PARENT_SUFFICIENT",
+    "CONTROLLER_GROWTH_DOMINATES",
+    "STATE_SIZE_DOMINATES",
+    "DOMAIN_CORE_FORK_REQUIRED"
+  ],
+  "parent_freeze": {
+    "path": "research/g1-vessel-freeze-v1",
+    "src_ocm_tree": "3a4dcbcf3a1875acefcec80cfa8d47330d172655",
+    "terminal": "COMPACT_VESSEL_PARTIAL"
+  },
+  "production_code_deleted": false,
+  "schema": "ocm.g1-controller-growth.result.v1",
+  "subtraction": {
+    "sqlite_vs_jsonl": {
+      "g5": {
+        "jsonl_cumulative_rewrite_bytes": 529399134,
+        "jsonl_head_s": 0.014331749873235822,
+        "jsonl_write_amplification": 1022.06,
+        "n": 2048,
+        "path": "research/g5-physical-denominator-v1/SUMMARY.json",
+        "production_sources_unchanged": [
+          "src/ocm/store/ledger.py",
+          "src/ocm/store/sqlite_ledger.py"
+        ],
+        "sqlite_parent_cumulative_rewrite_bytes": 4697488,
+        "sqlite_parent_head_s": 6.63751270622015e-05,
+        "terminal": "DATABASE_PARENT_SUFFICIENT"
+      },
+      "jsonl_capability_unchanged_under_sqlite_stub": true,
+      "live_comparison": {
+        "capability_hash_chain_match": true,
+        "jsonl_dir_bytes": 7916,
+        "jsonl_head_s": 0.0002818779998960963,
+        "n": 32,
+        "resource_changed": true,
+        "sqlite_dir_bytes": 465376,
+        "sqlite_head_s": 0.00010350599995945231
+      },
+      "sqlite_stubbed": true,
+      "stub_error": null
+    },
+    "warrant_interval": {
+      "certified_revoked": "DEAD",
+      "certified_unrevoked": "LIVE",
+      "epistemic_invariant_failure": true,
+      "mutant": "ocm.kso.warrant.mutant_unknown_as_dead",
+      "partial_revoked_boolean_collapse": "DEAD",
+      "partial_revoked_interval": "UNKNOWN",
+      "unknown_count_after_boolean_collapse": 0,
+      "unknown_count_with_interval": 1,
+      "witness": "tests/m1/test_mutants.py::test_unknown_treated_as_live_and_as_dead_mutants"
+    },
+    "work_Operator": {
+      "algebraic_api_necessity": true,
+      "blocking_tests_cited_from_187": [
+        "tests/m9/test_work.py",
+        "tests/m9/test_method_contract_integrity_v3.py",
+        "tests/m10/test_proof_lifecycle.py",
+        "tests/m12/test_current_comparator_parity.py"
+      ],
+      "cognitive_capability_via_OperatorSpec": true,
+      "compensating_composition": "OperatorSpec wrapping work.Operator.backend",
+      "m9_construction_fails_when_Operator_stubbed": true,
+      "m9_tests_not_preserved_by_wrap": true,
+      "restored_work_Operator": true,
+      "stub_error": "TypeError: 'NoneType' object is not callable",
+      "wrap_preserves_classify_transform": true,
+      "wrap_survives_Operator_stub": true
+    }
+  },
+  "terminal": "COMPACT_VESSEL_PARTIAL"
+}

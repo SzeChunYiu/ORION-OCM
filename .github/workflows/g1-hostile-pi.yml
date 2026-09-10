@@ -1,0 +1,88 @@
+name: G1 hostile work-operator Π remainder
+
+on:
+  pull_request:
+    paths:
+      - 'research/g1-hostile-pi-v1/**'
+      - '.github/workflows/g1-hostile-pi.yml'
+      - 'research/g2-macro-operator-v1/experiment.py'
+      - 'research/g1-pi-small-v1/RESULT.json'
+      - 'research/g1-fo-competence-v2/RESULT.json'
+      - 'research/g1-controller-growth-v1/RESULT.json'
+      - 'src/ocm/runtime/**'
+      - 'src/ocm/dialogue/planner.py'
+      - 'src/ocm/work/**'
+      - 'src/ocm/operators/**'
+      - 'src/ocm/learning/methods.py'
+      - 'src/ocm/kso/**'
+      - 'src/ocm/store/**'
+  push:
+    branches: [main]
+    paths:
+      - 'research/g1-hostile-pi-v1/**'
+      - '.github/workflows/g1-hostile-pi.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  g1-hostile-pi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/research/g1-hostile-pi-v1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Protocol tests
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-hostile-pi-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$out"
+          python3 -B -m unittest discover -s research/g1-hostile-pi-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests.txt"
+          python3 -B -O -m unittest discover -s research/g1-hostile-pi-v1 -p 'test_*.py' -v 2>&1 | tee "$out/tests-optimized.txt"
+      - name: Hostile Π measurement
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/g1-hostile-pi-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B research/g1-hostile-pi-v1/experiment.py "$out/RESULT.json" | tee "$out/console.txt"
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          out = pathlib.Path(os.environ["RUNNER_TEMP"]) / (
+              "g1-hostile-pi-%s-%s" % (os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
+          )
+          live = json.loads((out / "RESULT.json").read_text())
+          frozen = json.loads(pathlib.Path("research/g1-hostile-pi-v1/RESULT.json").read_text())
+          allowed = {"PARENT_SUFFICIENT", "PI_GREW", "HOSTILE_PI_REQUIRED"}
+          if live["terminal"] not in allowed:
+              sys.exit("unexpected terminal %s" % live["terminal"])
+          if frozen["terminal"] != live["terminal"]:
+              sys.exit("frozen terminal %s != live %s" % (frozen["terminal"], live["terminal"]))
+          if live["programme_terminal"] != "COMPACT_VESSEL_PARTIAL":
+              sys.exit("programme terminal must stay COMPACT_VESSEL_PARTIAL")
+          if "MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED" not in live["not_issued"]:
+              sys.exit("must not issue MINIMUM_SELF_EXTENDING_VESSEL_SUPPORTED")
+          if live["architecture_rules_empirical"]["PI_SMALL_DOMAIN_GENERAL"] != "PARTIAL":
+              sys.exit("programme PI_SMALL_DOMAIN_GENERAL must stay PARTIAL")
+          PY
+          git checkout -- research/g1-hostile-pi-v1/RESULT.json
+      - name: Predecessor RESULT files not overwritten
+        run: |
+          git diff --exit-code -- \
+            research/g1-pi-small-v1/RESULT.json \
+            research/g1-fo-competence-v2/RESULT.json \
+            research/g1-controller-growth-v1/RESULT.json
+      - name: Source custody
+        if: always()
+        run: git diff --exit-code -- src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g1-hostile-pi
+          path: '${{ runner.temp }}/g1-hostile-pi-${{ github.run_id }}-${{ github.run_attempt }}/*'
+          if-no-files-found: error

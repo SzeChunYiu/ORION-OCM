@@ -95,26 +95,55 @@ rows = [
    1,
    "Which arm 'wins' currently depends on the metric chosen - itself a #277 sec 3 measurement-validity finding, and it must be carried into the claim ceiling rather than resolved by picking the flattering metric."),
 
- R("RV-8",
-   "#165 H1: LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS - library acquisition cost is not repaid by later savings.",
-   "#165 disposition table",
-   "ABSTRACTION STAGE. Stitch (POPL 2023) localises DreamCoder-style library-learning cost to the "
-   "abstraction stage specifically, which under one-stage attribution names H1's failing stage rather than "
-   "indicting library learning in general. Independently, H1 is a REDISCOVERY OF MINTON'S UTILITY PROBLEM in a "
-   "new substrate, with Soar's expensive chunks as the direct symbolic ancestor - so the failure has decades of "
-   "prior analysis to assimilate rather than re-derive.",
-   "MEDIUM - the localisation is established in the parent literature and must still be established against our "
-   "own H1 receipts rather than accepted by analogy",
-   "SWAP THE ABSTRACTION OPERATOR. If cost localises to abstraction, replace the abstraction operator with the "
-   "one whose advantage Stitch demonstrates, verified from the primary source rather than inferred. Then re-test "
-   "H1's own frozen setup with acquisition cost and later savings tracked SEPARATELY. Secondary and equally "
-   "valuable: the utility-problem literature may already state WHEN acquisition repays, in which case the crossing "
-   "condition is a regime boundary to locate rather than a result to rediscover.",
-   "the strongest library-learning parent at matched information and resources",
-   "ATTRIBUTED_LEVER_IDENTIFIED", "design with parent-scan lane; execution to a compute lane",
-   "Any morphology or library atom touching acquisition economics must engage with this negative rather than talking past it.",
-   1, None),
-
+    R("RV-8",
+      "#165 H1: LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS - library acquisition cost is not repaid by later savings.",
+      "#165 disposition table; re-attributed against research/functional-neural-absorption-v1/fna4_library_synthesis/ "
+      "FNA4_RESULTS.json and FNA4_REPORT.md at origin/main",
+      "ADMISSION RULE, not abstraction-search cost. The earlier 'abstraction stage' attribution was taken from the "
+      "parent literature by analogy and is REFUTED by our own FNA-4 receipt. In FNA4_RESULTS.json main.arms, the "
+      "STITCH arm carries the HIGHEST marginal acquisition of any arm - 240,294,343 units against NO_LIBRARY's "
+      "64,305, a factor of 3,737 - and is nevertheless the only arm that pays. Acquisition cost therefore does not "
+      "discriminate the paying arm from the failing ones, so it cannot be the failing stage. What does discriminate "
+      "is the ADMISSION criterion. Utility-gated admission (STITCH) reaches 327,886 units on the fresh 16-task "
+      "stream against the incumbent's 366,072 (-10.5%); recurrence-gated admission is actively HARMFUL on the same "
+      "substrate - AU_PAIR (Reynolds lgg) 4,576,312 (+1149%) and EGGRAPH (egg saturation) 5,050,822 (+1279%). The "
+      "misfire counts isolate the mechanism exactly: AU_PAIR 451,582 and EGGRAPH 286,120 against STITCH's 16,813 "
+      "and the incumbent's 7,166. That is high match cost at near-zero applicability - precisely the quantity "
+      "Minton's utility formula charges, Utility = (AvrSavings x ApplicFreq) - AvrMatchCost (AAAI-88 p.566), and "
+      "precisely the failure his admission test exists to prevent.",
+      "HIGH - established against our own receipts across 8 arms on one frozen substrate, not by analogy. The "
+      "discriminating variable is isolated: acquisition cost is anti-correlated with success, admission rule is not.",
+      "ALREADY APPLIED AND SUCCESSFUL - there is nothing left to swap. FNA-4's own terminal records it: "
+      "PARENT_SUFFICIENT_FOR_EXPERIENCE_CONSOLIDATION_AT_REGISTERED_SCOPE, with C_future(T | E_t) < "
+      "C_future(T | E_0) CONFIRMED with every cost charged, 270,829 < 366,072 units on an identical 16-task fresh "
+      "stream (-26.0%), by the classical arm STITCH + per-batch nogoods + CEGIS. The lane states the mechanism in "
+      "its own words: 'utility-gated admission (Stitch) is load-bearing' and 'recurrence-gated admission (Reynolds "
+      "AU, e-graph) is HARMFUL on this substrate'. Note the terminal is PARENT_SUFFICIENT: a classical stdlib-only "
+      "non-neural parent owns this function, so no ORION-OCM-specific attribution is available for it.",
+      "NOT the lever - the lever is spent. The open quantity is the HORIZON. FNA-4 measures the fresh-stream "
+      "per-task inequality at 16 tasks but places break-even for the 240,294,343-unit marginal acquisition at "
+      "~6,123 tasks at zero repeat, a 380x extrapolation beyond the measured stream. So H1's per-task inequality "
+      "is confirmed at registered scope while H1's LIFETIME repayment claim - the thing "
+      "LIBRARY_ACQUISITION_EXCEEDS_LATER_SAVINGS actually asserts - remains PROJECTED, not observed. The decisive "
+      "re-test is a horizon run on the same frozen substrate long enough to cross or miss 6,123 tasks, with "
+      "acquisition and later savings tracked separately, against the same 8 arms.",
+      "REVIVAL_ALREADY_EXECUTED_AT_REGISTERED_SCOPE - #165 RECONCILIATION OUTSTANDING",
+      "no new run needed for the lever; horizon run to a compute lane (billy-old ran FNA-4)",
+      "Any morphology or library atom touching acquisition economics must engage with this negative rather than "
+      "talking past it - and must now also engage with FNA-4's registered-scope POSITIVE, which #165's disposition "
+      "table does not yet reflect. Reporting H1 as an unqualified capital negative is, as of FNA-4, a defect.",
+      2,
+      "REGIME BOUNDARY LOCATED, AND IT IS NOT IN THE PARENT LITERATURE. A primary-source sweep of the utility-problem "
+      "literature (Minton AAAI-88; Tambe/Newell/Rosenbloom ML 5:299-348 1990; Kennedy & De Jong ICML-2003; Gratch & "
+      "DeJong AAAI-92; Greiner & Jurisica AAAI-92) finds a per-rule break-even inequality and formal sample-complexity "
+      "conditions for deciding that inequality's SIGN, but no analytic crossover in N. Tambe et al. bound the cost side "
+      "structurally and state they give 'no explicit guarantees about the benefits of chunking'; Minton names the gap as "
+      "future work, writing that 'there is no such thing as an average domain' and that 'better methods for "
+      "characterizing and comparing domains must be developed'. FNA-4 supplies exactly that missing object as a "
+      "(mix, horizon) pair: a critical same-family share of 11.8-17.0% of the stream (STITCH alone 17.0% balanced / "
+      "24.2% all-F1; combined arm 11.8% / 17.4%; no share pays for CHUNK/AU_PAIR/EGGRAPH) together with the ~6,123-task "
+      "break-even horizon. Below the critical share the lane reports NO_LIFETIME_PAYBACK on every horizon. That pair is "
+      "the regime boundary to defend and extend, not to rediscover."),
  R("RV-9",
    "The HSG freeze chain is discipline-enforced, not gate-enforced: zero of the 53 workflows references the hsg lane, the freeze builder or the exact suite.",
    "TTAC-D6 amendment A2, PR #287",

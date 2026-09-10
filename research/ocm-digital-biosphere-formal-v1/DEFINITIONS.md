@@ -47,9 +47,20 @@ K_inherit    vertical inheritance of permitted state/methods
 ```
 
 Composed kernel: `Law(W_{t+1} | W_t)`. Deterministic worlds are degenerate
-kernels. Every kernel declares randomness source, writable state, resource
-cost and information channel. Ablating one kernel must not rewrite unrelated
-physics.
+kernels. Every kernel declares randomness source, **read set**, writable state,
+resource cost and information channel. Ablating one kernel must not rewrite
+unrelated physics.
+
+The read set is not optional bookkeeping. The section 3 obligation is that
+protected assay state is not an *ancestor* of any birth/death or
+resource-transition decision, and ancestry is reachability over both halves of
+the edge relation. A declaration carrying writes alone has no incoming edges,
+so every ancestor set collapses to the sink itself and the check returns PASS
+for every world including a leaking one. See
+`WORLD_STATE_AND_DYNAMICS_V1_AMEND_1.json` for the read sets and for `K_assay`,
+the observer-side kernel that writes the protected names, and
+`NONINTERFERENCE_CHECK_SPEC_V1.json` for the decidable form of the predicate.
+An unresolved read or write set yields `CANNOT_CHECK`, never `PASS`.
 
 ## 3. Endogenous selection
 

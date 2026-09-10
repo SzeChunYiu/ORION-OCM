@@ -105,6 +105,36 @@
    "evidence_class": "EXPLORATORY_ADAPTIVE - may never be a headline claim",
    "supersession": "none; no endpoint, falsifier, world or rewrite set is changed. E1/E2/E3/E4/E5/E6 are untouched and the run that produced them stands.",
    "stage_attribution": "single-query workload, not the e-graph engine"
+  },
+  {
+   "id": "V1.5-D22-CLEAN-ARM-TRANSLATION",
+   "utc": "2026-09-10",
+   "cause": "Protocol section 2.3 specified the D22 CLEAN arm as the induced reduct beta_alpha under the frozen ow7 translation alpha(p)=p1, alpha(q)=p1 AND q1. That comorphism cannot serve as a no-alarm control: beta_alpha(M) = (M(p1), M(p1) AND M(q1)), so a source model with q true and p false has no preimage and beta_alpha is not surjective. The frozen alpha is therefore not model-expansive by construction. Established by derivation before running, not read off a result.",
+   "changes": {
+    "D22 CLEAN arm": "uses the identity-style translation alpha(p)=p1, alpha(q)=q1 with its induced reduct, which is model-expansive and is a genuine no-alarm control",
+    "D22 new arm L1-HOSTILE-IMAGE-frozen-alpha": "the frozen alpha with its induced reduct is retained as an ADDITIONAL hostile arm: satisfaction holds, preservation holds, expansiveness and reflection fail. A naturally occurring instance of H-T85a rather than a constructed one.",
+    "D22 fragments": "L2 Horn, L3 equational and L4 first-order finite-model arms added as specified in protocol section 2.1",
+    "D22 consequence quantification": "premise sets are the intersection closure of the per-sentence model sets, which is exactly the set of achievable Mod(Gamma); quantifying over it is exhaustive over all Gamma"
+   },
+   "supersession": "PROTOCOL SECTION 2.3 CLEAN-ARM DEFINITION SUPERSEDED. No endpoint, falsifier or frozen world is changed. HOSTILE-SAT keeps the frozen alpha with the drop-extra reduct and its pre-registered witness.",
+   "endpoints_unchanged": "F1-F5 as frozen."
+  },
+  {
+   "id": "V1.6-D21-SATURATION-BUDGETS-AND-CONTAMINATION-DIVERGENCE",
+   "utc": "2026-09-10",
+   "cause": "Automated review of the D21 code found three defects in the checker itself, all confirmed by inspection. (1) The fold matcher read one arbitrary numeric leaf from an unordered set, so folding was incomplete and the extracted constant could vary with hash order. (2) The egglog cross-check counted a CANNOT_CHECK as agreement, so E6 could read 1.0 with the mature engine never having decided a pair. (3) A capped e-class walk was reported as extraction-only and still fed the detection endpoint, so an undecided world could be scored as clean.",
+   "finding": "Fixing (1) exposed a real property of contaminated e-graphs rather than a bug: once an unsound rule merges semantically different terms, a class holds several constants at once, and folding across it manufactures unboundedly many new constants. An unsound rewrite therefore destroys the TERMINATION of saturation, not only the correctness of extraction. The first complete-fold run exhausted host memory and was killed.",
+   "changes": {
+    "fold matcher": "folds over every numeric leaf of both child classes, in sorted order; complete and hash-order independent",
+    "matcher iteration": "class members are iterated in sorted order everywhere",
+    "saturation budgets": "FROZEN at cap_iters=8, deadline_s=60, max_enodes=40000; saturate returns a stop reason in {FIXPOINT, ITER_CAP, DEADLINE, ENODE_BUDGET} and a budget stop is never reported as saturation",
+    "e-class enumeration": "returns (terms, complete) instead of raising; contamination is EXISTENTIAL and stands on a partial walk, cleanliness is UNIVERSAL and is claimed only on a complete walk of a saturated e-graph",
+    "E6": "reports n_egglog_checked and egglog_decided_every_pair; agreement is null, never 1.0, unless the mature engine decided every pair",
+    "E1": "worlds whose walk is incomplete and which show no alarm are UNDECIDED, never counted as clean or as missed",
+    "runner": "gates on E1-undecided, E2b and E6 in addition to E1 and E2"
+   },
+   "verification": "Re-ran under PYTHONHASHSEED=1 and PYTHONHASHSEED=98765 with a 4 GB address-space limit; every timing-independent field of D21_RESULTS.json is byte-identical between the two runs. Endpoints are unchanged: E1 1.0 over 5 contaminable worlds, E2 0 false alarms over 40 clean scans, E2b 0, E6 1.0 over 80/80 egglog-decided pairs. OW6-09's hostile arm now stops on ENODE_BUDGET, which is the divergence above, and its contamination is still detected.",
+   "supersession": "none of E1-E6, no falsifier, no frozen world and no rewrite set is changed. The pre-fix run is superseded and is not reported."
   }
  ]
 }
