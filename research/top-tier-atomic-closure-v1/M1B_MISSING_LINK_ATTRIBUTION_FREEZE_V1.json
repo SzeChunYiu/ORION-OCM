@@ -1,0 +1,86 @@
+{
+ "schema": "OCM_M1B_MISSING_LINK_ATTRIBUTION_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "execution_spine": 165,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_PROTECTED_RUN",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "trigger": "operator directive 2026-09-10 + two scored terminals: M1 NO_NATIVE_EFFECT (PR #344) and DEV-CAL-2 re-run AMORTISATION_DOMINATED with carrier=charging model (PR #345)",
+
+ "registered_facts_evidence_base": {
+  "headroom_exists": "KNOWN_STRUCTURE_ORACLE mean B 18762 vs primitive-family 26396 (18/40 vs 12/40 rows) -- approx 29% acquisition work uncaptured (PR #344)",
+  "fragments_exist": "16 fragments mined from 144 solved dev tasks (PR #344 dev_state)",
+  "admission_refused_and_refusal_correct": "validate_generator no-slowdown rule refused deployment (refusal_rate 1.0); ungated serving of the SAME fragments by ORDINARY_ADAPTIVE_PARENT is net negative (mean B 30207, 11/40 vs 12/40, 4 better / 9 worse) -- fragments as mined carry negative CONDITIONAL value on this ecology, so the failure is applicability/conditioning, not fragment existence",
+  "retrieval_near_inert": "7 retrieval events, 0 adaptation across the M1 run -- keying static, no conditional firing",
+  "amortisation_carrier": "DEV-CAL-2 V2: KO-2 (+retrieval keying) minimal recovering tier 1.0000 [1.0,1.0] determinate 3/3; LOO -REPRESENTATION/-RETRIEVAL collapse recovery; secondary total-burden threshold unmet -- amortisation structure is the authorised work item there and is OUT OF SCOPE here"
+ },
+
+ "central_question": "where between mined fragments and captured headroom does the native chain fail: applicability induction (WHICH fragment helps WHERE), conditional retrieval (WHEN to fire), or search integration (HOW to enter search without paying a max-penalty tax on every task)?",
+
+ "hypotheses": {
+  "H_APPL_structure_applicability_induction": "no mechanism learns when/where a fragment applies; oracle transplant = perfect per-task applicability (declared info advantage, calibration-only)",
+  "H_RETR_conditional_retrieval": "keying is static; no policy decides when retrieval is worth its cost; oracle transplant = perfect retrieval timing (fires exactly when a fragment lies on the eventual verified solution path)",
+  "H_INTG_search_integration": "even correctly-selected fragments pay integration cost under max-penalty serving; oracle transplant = optimal-cost interleaving (macro expansions placed at solver choice points, charged only true enumeration cost, never overhead)"
+ },
+
+ "arms": {
+  "transplants_calibration_only": ["APPL_ORACLE", "RETR_ORACLE", "INTG_ORACLE"],
+  "knockouts_necessity": ["APPL_KO (perfect applicability but fragments removed -- must collapse to primitive)", "RETR_KO (perfect timing but retrieval disabled)", "INTG_KO (optimal interleaving but fragments charged as primitive sequences)"],
+  "native_and_parents": ["RESET", "CONTINUED (registered learner as-is)", "STRONG_ADAPTIVE_PARENT: ordinary conditional policy -- decision-list or k-NN applicability on task normal-form features, own persistence, same 16 fragments + same dev data, outside OCM bookkeeping; parity reported, never interpreted as failure-to-learn"],
+  "primary_attribution": "share of the frozen oracle gap (B_reset_mean - B_oracle_mean at matched rungs) recovered by each transplant arm; knockouts verify necessity; the parent tests whether ordinary conditioning suffices"
+ },
+
+ "forbidden": [
+  "loosening admission, tuning tau, changing thresholds, or forcing fragments into the registered serving path",
+  "relaxing validate_generator's no-slowdown rule (a correctness-vs-non-inferiority split is a separate NEW registration)",
+  "editing the frozen worlds: M1_PARTITIONS_V1.json (sha256 a5b0cbc1...) and its protected set (62f19996...) are reused BYTE-IDENTICAL",
+  "modifying src/ocm/learning/methods.py; the learner is bound AS-IS, oracle transplants live in the research lane as declared-information adapters",
+  "claiming economics, OCM-residual, or open-endedness from any M1B outcome"
+ ],
+
+ "search_behavior_metrics": {
+  "candidate_order": "rank of the first solution-generating candidate; order-distance vs primitive baseline per task",
+  "failures": "typed per stage: enum_exhausted / wrong_fragment / verification_reject / budget_censored",
+  "retrieval": "event count, hit rate (on-path fraction), firing precision/recall vs the perfect-timing oracle",
+  "verification": "calls, per-outcome distribution",
+  "work_to_first_success": "full distribution per arm-rung (never mean-only); success-vs-budget curves",
+  "costs": "full HDI-14 ledger + physical vector where the host provides it; refusal rates per arm"
+ },
+
+ "statistics": {
+  "design": "paired across checkpoint clones at matched budgets; lineage/ecology clustering; Holm family; 20% registered margin (change only by documented pre-execution amendment)",
+  "direction_tests": "NULL_BAND_GATED per AM-5 (a seed's direction is evidence only outside its own 95% sign-flip band; two determinate seeds disagreeing = defect; all-indeterminate = NULL_EFFECT)",
+  "claim_rule": "non-overlap of separate intervals never substitutes for a paired treatment-effect interval"
+ },
+
+ "terminals": {
+  "precedence": "ASSAY_DEFECT > LEAKAGE_ALARM > INSUFFICIENT_HISTORY > LINK_ATTRIBUTED_{APPL|RETR|INTG|MULTIPLE|NONE} > AMORTISATION_DOMINATED > PARENT_EQUIVALENT > CANNOT_CHECK_<reason>",
+  "meaning": "LINK_ATTRIBUTED_k closes ONLY the attribution question at this scope and authorises building the corresponding mechanism as a NEW prospective registration; AMORTISATION_DOMINATED defers to the DEV-CAL-2 carrier work item; PARENT_EQUIVALENT reattributes OCM-specificity without negating any demonstrated mechanism"
+ },
+
+ "negatives_to_invariants": [
+  "FORCED_FRAGMENT_NEGATIVE: ungated fragment serving must never beat gated admission on this ecology -- becomes a standing hostile (planted ungated-win must alarm)",
+  "REFUSAL_CORRECTNESS: admission refusal under demonstrated negative ungated value is CORRECT behavior recorded as data, never tuned away",
+  "NULL_INDETERMINACY: direction claims inside a seed's null band are void (AM-5 class, now standing)",
+  "every new negative terminal from M1B lands as a class-level invariant/hostile/checker in the same PR as its result; ASSAY_DEFECT and CANNOT_CHECK are preserved honestly, never massaged"
+ ],
+
+ "entry_gates": [
+  "PR #344 (M1 NO_NATIVE_EFFECT artifacts) merged",
+  "PR #345 (DEV-CAL-2 AM-5 + AMORTISATION_DOMINATED) merged",
+  "M1B machinery hostile selftest green (incl. the negatives_to_invariants hostiles) on the run host",
+  "this freeze merged before any protected run"
+ ],
+
+ "hosts": {
+  "scored_run": "laptop billy (E3 host per E3_PROTOCOL_FREEZE_V1 P8/P9)",
+  "never": "Mac mini (sub-second selftests only)"
+ },
+
+ "explicitly_not_authorized": [
+  "any protected run before entry gates hold",
+  "building the applicability/retrieval/integration mechanism itself BEFORE its attribution is demonstrated",
+  "presenting an oracle-transplant arm as a native result (calibration only, declared info advantage, never headline)"
+ ]
+}
