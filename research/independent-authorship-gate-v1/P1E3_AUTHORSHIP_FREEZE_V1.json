@@ -1,0 +1,124 @@
+{
+ "schema": "OCM_P1E3_AUTHORSHIP_PIPELINE_FREEZE",
+ "version": "V1",
+ "owner_issue": 277,
+ "secondary_issues": [165, 151],
+ "bound_to": [
+  "E3_PROTOCOL_FREEZE_V1.json clause P1-world-authorship",
+  "MEASUREMENT_VALIDITY_V1.json hostile H-MV-05",
+  "research/independent-authorship-gate-v1/POLICY.md (issue #165 s16)",
+  "research/independent-authorship-gate-v1/P1_PIPELINE_FREEZE_V1.json (companion IPC-transcription route; this freeze adds the fresh-session authorship route and supersedes nothing)"
+ ],
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_FAMILY_EMISSION",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "problem": "E3 clause P1-world-authorship requires task/world families independently authored OUTSIDE the mechanism's taxonomy with truth labels independently recovered. P1_PIPELINE_FREEZE_V1 built the IPC-transcription route (external community authorship, 3 families / 13 members). The ME-X1 cause-recovery route proved the labelling policy but its own RESULT.md says the 17 POSITIVE agreements are not independent authorship and independently authored E3+ families were still open. This freeze builds the missing fresh-session authorship route at the required E3 floor (>=10 families, >=5 instances each, >=50 total). It grants NO E3 execution rights (E3_PROTOCOL_FREEZE_V1 promotion_rule).",
+
+ "author_unit": {
+  "definition": "a FRESH model session (nested agent, general-purpose, no inherited conversation context) given ONLY the neutral interface spec research/independent-authorship-gate-v1/p1e3_author_spec.md (frozen by this PR, passed verbatim in the spawn prompt) plus instructions to write into a scratch studio directory outside this repository",
+  "must_not_receive": [
+   "any path into or name of this repository",
+   "the OCM mechanism, its modules, or any src/ocm code",
+   "the mechanism taxonomy: ATOM_REGISTRY_V1.json atom names, IDENT/PROV/DEP/TRANS/EVAL/ATLAS/AUTH tokens, ResidualKind names, M11 D-layer names, ME-X1 family names, language construction family names",
+   "any prior world family (ME-X1, IPC PDDL set, language suites, M11 scenarios)",
+   "the recovery pipeline, the checker, or that truth labels will be recovered"
+  ],
+  "isolation_procedure": "spec passed in the prompt only; studio directory outside the repo; authored artifacts copied into the repo verbatim with sha256 provenance (never edited by the pipeline author)",
+  "isolation_is_by_instruction_not_enforcement": true,
+  "mechanical_guarantee": "the taxonomy-disjointness hostile (below) scans every authored artifact byte for frozen mechanism-taxonomy tokens; any overlap alarms and voids the family set for P1-E3 purposes",
+  "human_gate_label": "HUMAN_GATE_BYPASSED__MODEL_PROXY — the ideal is an independent human author; the strongest available legitimate proxy is a fresh model session with no context inheritance and no repo access. This is model-proxy authorship, never marked externally obtained. Recorded limitation: the author unit shares the pipeline author's model family and host; independence here = session/context/spec-only isolation, mechanically certified only for taxonomy disjointness."
+ },
+
+ "neutral_interface_spec": {
+  "file": "research/independent-authorship-gate-v1/p1e3_author_spec.md",
+  "frozen_before_authoring": true,
+  "substrate": "a single public finite formal core (Implication Systems over named elements: forward-chaining closure, goal reachability, minimum-cost seed set under exclusion constraints) with exact enumeration semantics and hard size bounds; the author authors families as constructions that COMPILE into this core, exactly as IPC domains compile into public STRIPS",
+  "author_freedom": "family names, family descriptions, instance identifiers, all surface/narrative fields, construction code, sizes and difficulty gradients within the bounds, and the author's own vocabulary everywhere outside the frozen interface keys",
+  "frozen_interface_keys": ["elements", "implications", "base", "excluded", "weights", "goals"],
+  "size_bounds_frozen": {
+   "elements_max": 24,
+   "implications_max": 64,
+   "base_max": 24,
+   "excluded_max": 12,
+   "goals_max": 8,
+   "seedable_elements_max": 16,
+   "weights_min": 1,
+   "weights_max": 99
+  }
+ },
+
+ "floors": {
+  "families_min": 10,
+  "instances_per_family_min": 5,
+  "instances_total_min": 50,
+  "family_counts_toward_floor_only_if": "at least 1 instance of that family has truth RECOVERED by the independent checker; CANNOT_CHECK families are retained and counted, never dropped"
+ },
+
+ "independent_truth": {
+  "rule": "truth labels are RECOVERED ONLY by the independent exact checker p1e3_recover.py, which implements the frozen substrate semantics (forward-chaining fixpoint; exhaustive subset enumeration over seedable elements for the minimum-cost seed) reading ONLY the frozen interface keys of each instance; it imports nothing from src/ocm, nothing from the mechanism, and nothing from the authored generators",
+  "generator_intent": "all author intent fields (expected answers, notes, difficulty estimates) are audit-only, retained on every row, never used to form, filter, or repair a truth label",
+  "fail_closed": "any instance outside the frozen size bounds, any instance whose formal core is malformed, any enumeration exceeding the frozen caps -> status CANNOT_CHECK with reason, retained and counted; no fallback to intent, no massaging",
+  "disagreement_is_a_finding": "recovered-vs-intent disagreement is counted and retained as a ladder finding (#165 precedent: 32/50 disagreement was the finding, not a defect); agreement is never evidence of correctness"
+ },
+
+ "hostiles_required_before_any_e3_use": [
+  {
+   "id": "H-P1E3-1-taxonomy-disjointness",
+   "procedure": "build the frozen mechanism-taxonomy token list from ATOM_REGISTRY_V1.json atom ids/names plus the mechanism token families (IDENT, PROV, DEP, TRANS, EVAL, ATLAS, AUTH, ResidualKind names, ME-X1 family names, OCM module names) and grep EVERY authored artifact (generator code, emitted instances including surface fields, author README) for any token overlap; alarm on ANY overlap",
+   "pass": "zero overlaps on every authored artifact",
+   "voids": "any overlap voids the whole family set for P1-E3 (the family set is then NOT outside the mechanism taxonomy)"
+  },
+  {
+   "id": "H-P1E3-2-intent-label-leakage",
+   "procedure": "a planted attempt to label truth from a generator intent field must be REFUSED by the frozen policy (policy.py refuse_generator_intent_as_cause / label_truth fail-closed path); the refusal is recorded in the receipt",
+   "pass": "refusal raised and recorded; no truth row anywhere carries source GENERATOR_INTENT"
+  },
+  {
+   "id": "H-P1E3-3-known-answer",
+   "procedure": "synthetic instances with hand-computed oracle answers (closure, reachable goals, minimum-cost seed, impossible case) embedded in the checker selftest; the checker must match 100%",
+   "pass": "all known-answer rows match exactly"
+  },
+  {
+   "id": "H-P1E3-4-no-alarm-control",
+   "procedure": "run the taxonomy-disjointness checker on pristine artifacts (files known clean of the taxonomy) and assert zero alarms, proving the checker does not cry wolf",
+   "pass": "zero alarms on pristine control files"
+  },
+  {
+   "id": "H-P1E3-5-tamper-sensitivity",
+   "procedure": "inject one planted taxonomy token into a COPY of a pristine artifact and assert the checker ALARMS (proves the disjointness checker actually detects)",
+   "pass": "alarm raised on the tampered copy"
+  }
+ ],
+
+ "authored_code_execution": {
+  "where": "authored generators are executed only in a sandboxed subprocess (scratch cwd, wall-clock timeout, stdout/stderr captured), reviewed line-by-line before first execution for network/file-write/system access",
+  "review_is_process_control_not_authorship": true,
+  "rejection_rule": "an authored generator that attempts network, filesystem writes outside its studio, or unbounded computation is rejected with reason recorded; its family becomes CANNOT_CHECK (never silently patched)"
+ },
+
+ "artifacts_to_emit_on_execution": [
+  "p1e3_authored/: the authored package copied verbatim from the studio with per-file sha256 and a provenance manifest (spawn timestamp, spec sha, isolation note)",
+  "p1e3_recover.py: the independent exact checker + known-answer selftest",
+  "p1e3_taxa.py: frozen taxonomy token list builder + disjointness hostile",
+  "p1e3_check.py: orchestrator (sandboxed generator run, recovery, hostiles, receipts)",
+  "P1E3_FAMILY_TABLE_V1.json: family rows (author name, member digests, recovered/cannot_check counts, hostile outcomes)",
+  "P1E3_RECOVERY.json: per-instance truth rows with audit-only intent, same fail-closed schema family as RECOVERY.json",
+  "P1E3_RESULT.md: fail-closed result note"
+ ],
+
+ "status_field_updates_in_results_pr": {
+  "files": [
+   "research/top-tier-atomic-closure-v1/E3_PROTOCOL_FREEZE_V1.json (clause P1-world-authorship status field ONLY, append-style field update, no other bytes touched)",
+   "research/top-tier-atomic-closure-v1/MEASUREMENT_VALIDITY_V1.json (hostiles[H-MV-05] status/outcome/receipt fields ONLY)"
+  ],
+  "update_rule": "P1 status becomes SATISFIED__P1E3 only if every floor and every hostile passes as frozen above; otherwise it becomes BLOCKED with the exact unmet item; the promotion_rule still requires the owning lane's entry gates — this pipeline alone authorizes no E3 run"
+ },
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any E3/E4/E5 run (E3_PROTOCOL_FREEZE_V1 promotion_rule unchanged)",
+  "editing authored artifacts after the fact (any fix re-runs through the author unit or becomes CANNOT_CHECK)",
+  "using author intent fields as truth, as filters, or as repair hints",
+  "claiming human authorship — the author unit is a model proxy, labelled HUMAN_GATE_BYPASSED__MODEL_PROXY everywhere it is reported",
+  "treating this route as superseding the IPC route (P1_PIPELINE_FREEZE_V1); both routes stand, this one meets the >=10-family E3 floor"
+ ]
+}
