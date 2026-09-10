@@ -130,16 +130,24 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         import random
         rng = random.Random(int(eco["frozen_seed"]) + 7)
         pool = [p for L in (2, 3) for p in __import__("itertools").product(M.PRIMITIVES, repeat=L)]
+        # The control must destroy STRUCTURE while preserving count and length profile.
+        # It must therefore EXCLUDE the true hidden motifs: over a small grammar a
+        # uniform sample can rediscover them by chance (there are only 16 length-2 and
+        # 64 length-3 strings), which would silently weaken the control toward the
+        # treatment. Excluding them is the conservative direction.
+        true_motifs = {tuple(m) for m in eco["hidden_motifs"]}
         pick, seen = [], set()
         for f in frags:                       # match count AND length profile exactly
-            cands = [p for p in pool if len(p) == len(f) and p not in seen]
+            cands = [p for p in pool
+                     if len(p) == len(f) and p not in seen and p not in true_motifs]
             if not cands:
                 continue
             c = rng.choice(cands)
             seen.add(c)
             pick.append(c)
         return M.GeneratorMethod(tuple(pick), tuple(dev["training_task_ids"])), \
-            "random fragments matching the mined count and length profile"
+            ("random fragments matching the mined count and length profile, with the "
+             "true hidden motifs excluded so the control cannot rediscover them by chance")
     if arm == "ORACLE_FAMILY":
         return M.GeneratorMethod(tuple(tuple(m) for m in eco["hidden_motifs"]), ()), \
             "CALIBRATION ONLY: the true hidden motif set"
