@@ -353,12 +353,15 @@ class LearnedState:
         return state
 
 
-def developmental_learn(observations):
-    """Learn the prior coefficient vectors from 24 binary observations.
+def learn_prior_rows(observations):
+    """Learn the raw prior coefficient vectors from 24 binary observations.
 
-    observations: list of (prior_index, x, y) with y = f_{prior_i}(x).
-    Returns (state, learned_priors) where state is INSUFFICIENT_HISTORY-marked
-    (rank-deficient history) rather than any headroom verdict.
+    The structural-learning algorithm itself, with no OCM-specific
+    bookkeeping (no canonicalization, no digest, no persistence): this is the
+    entry point the equally adaptive ORDINARY parent runs. observations is a
+    list of (prior_index, x, y) with y = f_{prior_i}(x). Returns
+    (rows, state_name); rank-deficient histories return
+    (None, STATE_INSUFFICIENT_HISTORY), never a headroom verdict.
     """
     if len(observations) != DEV_OBS_TOTAL:
         raise MalformedObservation(
@@ -388,7 +391,20 @@ def developmental_learn(observations):
         # insufficient developmental history, structurally distinct from any
         # no-headroom verdict about the target class.
         return None, STATE_INSUFFICIENT_HISTORY
-    return LearnedState(learned_priors), STATE_SOLVED
+    return learned_priors, STATE_SOLVED
+
+
+def developmental_learn(observations):
+    """OCM-bookkeeping wrapper: canonical LearnedState from the raw rows.
+
+    Same structural-learning algorithm as the ordinary parent
+    (learn_prior_rows), plus canonicalization/digest/persistence state. The
+    parent exhibits the same developmental effect without this bookkeeping.
+    """
+    rows, state_name = learn_prior_rows(observations)
+    if state_name != STATE_SOLVED:
+        return None, state_name
+    return LearnedState(rows), STATE_SOLVED
 
 
 # ---------------------------------------------------------------------------
@@ -454,35 +470,46 @@ def acquire_ambient(oracle, task, rng, n_measurements=D):
     }
 
 
-def acquire_ordinary_adaptive_parent(oracle, task, rng):
-    """ORDINARY_ADAPTIVE_PARENT arm: equally adaptive, no structural prior.
+def acquire_ordinary_adaptive_parent(oracle, task, rng, history):
+    """ORDINARY_ADAPTIVE_PARENT arm: classical parent, memo-spec parity.
 
-    Uses its 3 fresh observations, discovers the ambient system is
-    rank-deficient (3 equations, 8 unknowns — cannot identify), and recovers
-    through the PAID ambient fallback: 3 + 8 observations total.
+    The SAME structural-learning algorithm on the SAME 24-observation
+    developmental history (learn_prior_rows), run entirely outside OCM
+    bookkeeping (no canonical state, digest, or persistence). Per memo
+    section 4: "The learned-basis learner and an equally adaptive ordinary
+    parent each use 3 fresh binary observations; RESET uses 8." The parent
+    derives the same structural prior from the same history — a classical
+    parent exhibiting the same developmental effect establishes the function
+    is available to assimilate; it does not negate the effect — and acquires
+    each fresh target in exactly 3 observations: PARITY in cost and outcome
+    with the learner, reported as parity, never as learner failure. (The
+    3+8 paid ambient fallback belongs to the wrong-structure case only.)
     """
-    xs = []
-    while len(xs) < R:
-        x = [rng.randint(0, 1) for _ in range(D)]
-        if x not in xs and rank_of(xs + [x], D) == len(xs) + 1:
-            xs.append(x)
+    prior_rows, state_name = learn_prior_rows(history)
+    if state_name != STATE_SOLVED:
+        return {
+            "state": state_name,
+            "observations": 0,
+            "verified_all_256": False,
+            "count_parity_with_learner": False,
+        }
+    basis = prior_rows
+    xs = _adaptive_measurements(rng, basis, R)
     ys = [oracle.observe(task, x) for x in xs]
-    a_hat, rank = solve_gf2(xs, ys, D)
-    if rank >= D:
-        verified = oracle.verify(task, a_hat)
-        return {"state": STATE_SOLVED if verified else STATE_FAILED,
-                "attempt_observations": len(ys), "fallback_observations": 0,
-                "total_observations": len(ys), "verified_all_256": verified}
-    # 3 observations cannot identify an 8-bit coefficient: paid fallback.
-    fallback = acquire_ambient(oracle, task, rng, n_measurements=D)
-    total = len(ys) + fallback["observations"]
+    rows = [[dot(x, b) for b in basis] for x in xs]
+    coefficients, rank = solve_gf2(rows, ys, R)
+    if coefficients is None or rank < R:
+        return {"state": STATE_FAILED, "observations": len(ys),
+                "verified_all_256": False,
+                "count_parity_with_learner": len(ys) == R}
+    a_hat = combine(coefficients, basis)
+    verified = oracle.verify(task, a_hat)
     return {
-        "state": fallback["state"],
-        "attempt_observations": len(ys),
-        "fallback_observations": fallback["observations"],
-        "total_observations": total,
-        "verified_all_256": fallback["verified_all_256"],
-        "coefficient": fallback["coefficient"],
+        "state": STATE_SOLVED if verified else STATE_FAILED,
+        "observations": len(ys),
+        "verified_all_256": verified,
+        "count_parity_with_learner": len(ys) == R,
+        "coefficient": a_hat,
     }
 
 
@@ -633,13 +660,15 @@ def run_calibration(seed=DEFAULT_SEED):
         per_target = []
         for t in range(N_CHECKED_TARGETS):
             rng = random.Random(seed + 2000 + t)
-            per_target.append(acquire_ordinary_adaptive_parent(o, t, rng))
+            per_target.append(
+                acquire_ordinary_adaptive_parent(o, t, rng, observations))
         return {
-            "attempt_observations": [r["attempt_observations"] for r in per_target],
-            "fallback_observations": [r["fallback_observations"] for r in per_target],
-            "total_observations": [r["total_observations"] for r in per_target],
+            "observations_per_target": [r["observations"] for r in per_target],
             "oracle_actual_counts": [o.observation_counts[t] for t in range(N_CHECKED_TARGETS)],
             "verified_all_256": [r["verified_all_256"] for r in per_target],
+            "count_parity_with_learner": [
+                r["count_parity_with_learner"] for r in per_target
+            ],
             "all_solved": all(r["state"] == STATE_SOLVED for r in per_target),
         }
 
@@ -727,11 +756,23 @@ def run_calibration(seed=DEFAULT_SEED):
         and max(learned["oracle_actual_counts"])
         < min(reset["oracle_actual_counts"])
     )
+    parent = arms["ORDINARY_ADAPTIVE_PARENT"]
+    parent_parity = bool(
+        parent["all_solved"]
+        and learned is not None
+        and learned["all_solved"]
+        and parent["oracle_actual_counts"] == learned["oracle_actual_counts"]
+        and all(c == R for c in parent["oracle_actual_counts"])
+        and all(parent["count_parity_with_learner"])
+    )
     neg_noop = bool(not noop_block["any_earned"])
     neg_history = bool(insufficient_block["distinct_from_no_headroom"])
     controls = {
         "positive_control_learned_3_vs_reset_8": (
             "PASS" if positive else "FAIL"
+        ),
+        "parent_parity_classical_parent_3_equals_learner_3": (
+            "PASS" if parent_parity else "FAIL"
         ),
         "negative_control_no_op_cannot_earn_3_observation_success": (
             "PASS" if neg_noop else "FAIL"
@@ -739,7 +780,9 @@ def run_calibration(seed=DEFAULT_SEED):
         "negative_control_insufficient_history_is_not_no_headroom": (
             "PASS" if neg_history else "FAIL"
         ),
-        "all_controls_passed": positive and neg_noop and neg_history,
+        "all_controls_passed": (
+            positive and parent_parity and neg_noop and neg_history
+        ),
     }
 
     report = {
