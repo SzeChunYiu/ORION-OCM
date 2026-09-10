@@ -73,8 +73,13 @@ def main() -> None:
                     dtype=np.float64)
     t0 = time.perf_counter()
     for _ in range(10):
+        # np.ptp(arr, ...) not arr.ptp(...): the ndarray method was REMOVED in
+        # numpy 2.0, so the method form raises AttributeError on any host with
+        # numpy >= 2 (LUNARC compute nodes carry 2.x). The free function has
+        # identical semantics on every numpy version, so this is a
+        # compatibility repair and the measurement is unchanged.
         norm = (vecs - vecs.min(axis=0)) / (
-            vecs.ptp(axis=0) + 1e-12)          # noqa: N806 (vectorized proxy)
+            np.ptp(vecs, axis=0) + 1e-12)      # noqa: N806 (vectorized proxy)
         pd = np.sqrt(((vecs[:, None, :] - norm[None, :, :]) ** 2).sum(-1))
         knn = np.sort(pd, axis=1)[:, :15].mean(axis=1)
     proxy_numpy_s = (time.perf_counter() - t0) / 10.0
