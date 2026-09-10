@@ -78,3 +78,39 @@ It is explicitly **not** general developmental intelligence, and **not** fresh-w
 replication: #323's success certificate remains unmet until an ecology someone else
 authored shows the same effect. Cost accounting charges acquisition, retrieval,
 matching, rejected candidates, verification and storage, per #323 HDI-14.
+
+## Pre-registered ecology variants (written before any M2-P1 scored result was read)
+
+`methods.solve` interleaves the guided and baseline streams — odd slots guided, even
+slots baseline — so a guided arm pays a **2× toll on the baseline stream** and only
+wins where the compositional shortcut exceeds that toll. This is a property of the
+registered integration mode, not a tunable, and it has a predictable consequence:
+
+> on targets whose canonical program is short, the baseline reaches the answer before
+> the motif composition can pay for the interleave, so guided search is *expected* to
+> lose there.
+
+`validate_generator`'s no-slowdown rule requires `candidate.slots <= baseline.slots`
+on **every** held-out task. A single short target can therefore veto admission of a
+generator that is strongly beneficial on the rest of the ecology. That is the same
+refusal that produced M1's `NO_NATIVE_EFFECT`, and it is correct behaviour by the
+registered learner — it must not be relaxed (#323 §11).
+
+Two ecologies are therefore registered up front:
+
+| ecology | membership rule | purpose |
+|---|---|---|
+| `E1` | canonical program length ≥ 4 | as emitted, `M2P1_ECOLOGY_V1.json` |
+| `E2` | canonical program length ≥ 6 | interleave-toll-aware variant |
+
+`E2` is **not** a threshold tune of the learner, the admission gate, or any metric.
+It is a statement about which ecology the compositional claim is made over, declared
+before the outcome is known. If `E1` admits, `E2` is reported as a robustness replicate.
+If `E1` refuses, the refusal is attributed to a single stage — the interleave toll on
+short targets — and `E2` is the pre-registered revival, with the attribution evidenced
+by the per-target `B_slots` of the vetoing tasks rather than asserted.
+
+Both ecologies carry the same blocking gates (G1 parity, G2 disjointness, G3
+decomposability, G4 surface-predictor null). Replication is run on **fresh worlds**
+(different frozen seeds, therefore different hidden motif sets) and a **fresh host**
+(LUNARC), per #323's certificate.
