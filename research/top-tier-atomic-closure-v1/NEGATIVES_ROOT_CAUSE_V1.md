@@ -59,6 +59,23 @@ capital costs >= one direct pass to build, carries bookkeeping on every use, and
 must refine toward the concrete anyway. An UNCONDITIONAL economy claim is posed against a law
 that forbids it.** The surviving conditional inequality was never measured: the registry had no
 axis on which it could flip.
+**MEASURED OUTCOME (D30, PR #330): the self-defeat law EXTENDS to the relaxed regime.** The
+pre-registered falsifier fired over the FULL delta interval (0,1): no delta at any grid point
+makes structural capital beat direct on total cost (grid deltas {0.01,0.05,0.1,0.25} never
+serve at all — totals 9312 ops vs direct 570 on the 30 worlds; the delta=1.0 envelope arm,
+serve at the FIRST abstract counterexample = the infimum of structural cost over all delta in
+(0,1], costs 1938 vs 570 = 3.40x while serving a near-vacuous classification: mean certified
+bound 0.875-0.958, actual error mass ~0.52). The boundary clause held exactly — delta=0
+reproduces the committed D20 per-world and per-n numbers with zero divergence, so the filed
+negative IS the exact boundary of the family. The mechanism is now measured: the certified
+bound |U-L|/n (U = full abstract closure, L = certified reachable) stays ~0.92 because the
+interleaved lossy partition mixes reachable and unreachable states in every block — certified
+uncertainty decays only under the refinement that exact answering itself performs, so
+relaxation cannot be bought cheaper than exactness. Per the pre-registered consequence, the
+admissible claim shape for structural capital narrows to rho-conditioned only. Registered
+prediction preserved verbatim in ECONOMY_FRONTIER_PROTOCOLS_V1.json#D30_delta_dial with the
+outcome appended to QUERY_ECOLOGY_AMENDMENT_V1.predictions_registered (amendment discipline:
+append, never rewrite).
 
 ## 3. Hidden relationships across positives and negatives
 

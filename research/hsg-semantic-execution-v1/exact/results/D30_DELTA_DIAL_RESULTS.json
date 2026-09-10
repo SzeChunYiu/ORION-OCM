@@ -1,0 +1,668 @@
+{
+ "claim_ceiling": "P2 finite certificate over the 30 frozen D20 worlds and the swept grid; no universal claim",
+ "controls": {
+  "delta0_identity_vs_live_frozen_cegar": true,
+  "delta0_negative_retained_per_world": true,
+  "delta0_per_n_totals_vs_committed_D20": true,
+  "frozen_reachable_field_drift": [],
+  "hostile_plants": {
+   "half@1": {
+    "alarms": 47,
+    "flipped": true,
+    "reason_if_silent": null,
+    "served_rows": 30
+   },
+   "half@1/4": {
+    "alarms": 34,
+    "flipped": true,
+    "reason_if_silent": null,
+    "served_rows": 5
+   },
+   "zero@1": {
+    "alarms": 47,
+    "flipped": true,
+    "reason_if_silent": null,
+    "served_rows": 30
+   },
+   "zero@1/4": {
+    "alarms": 34,
+    "flipped": true,
+    "reason_if_silent": null,
+    "served_rows": 30
+   }
+  },
+  "shuffle_equal_n_null": {
+   "applicable": false,
+   "reason": "no random element anywhere in the measured comparison: frozen worlds and seeds, deterministic arms, no query stream, no draw, no adaptive selection over a sample; the only 1-bit quantities (relaxed vs truth verdicts) are REPORTED, never scored, so no draw-invariance control attaches"
+  },
+  "soundness_checker": {
+   "checked_rows": 30,
+   "no_alarm_control_silent": true,
+   "violations_on_sound_rows": []
+  }
+ },
+ "cost_ledger_hdi14": {
+  "families": {
+   "acquisition": {
+    "dial": [
+     "abstraction_build_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: the direct arm acquires no capital; direct_bfs holds no state"
+   },
+   "adaptation": {
+    "dial": [
+     "dial_bookkeeping_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: no capital to adapt",
+    "note": "dial_bookkeeping_ops is the delta dial itself (L maintenance, full abstract closure for a sound serve, bound evaluation, served-answer materialisation). STRUCTURAL_ZERO_EXACTLY_AT delta=0: the dial branch never executes, so the counter is identically 0 and the arm is byte-identical to frozen d20.cegar (asserted per world against committed D20_RESULTS.json)"
+   },
+   "bytes_state": {
+    "dial": "MEASURED: retained_state_bytes (auxiliary, deterministic serialization of the final partition)",
+    "direct": "MEASURED: 0 (nothing retained)"
+   },
+   "rejected_candidates": {
+    "dial": [
+     "validation_ops"
+    ],
+    "direct": "STRUCTURAL_ZERO: direct search proposes no candidate answer to reject"
+   },
+   "retrieval": {
+    "dial": [
+     "abstract_states_expanded",
+     "abstract_transitions_examined"
+    ],
+    "direct": [
+     "states_expanded",
+     "transitions_examined"
+    ]
+   },
+   "verification": {
+    "dial": [
+     "verification_calls"
+    ],
+    "direct": [
+     "verification_calls"
+    ]
+   }
+  },
+  "ledger_complete": true,
+  "missing": [],
+  "note": "the frozen D20 op metric IS the charged ledger (identical counter families both arms); the dial adds dial_bookkeeping_ops (adaptation) at delta > 0 only; retained-state bytes are measured additionally and NOT added to the op metric (charging them can only increase dial cost, so measured comparisons are conservative for direct)"
+ },
+ "cpu_s": 0.0401,
+ "dial_semantics": {
+  "bound_num_leq_n_minus_1": "init lies in U and in L, so bound_num <= n-1: every envelope serve already fires at delta = bound_num/n < 1",
+  "certified_bound": "|U - L| / n with L = {init} joined with every certified concrete prefix-reachable set; all arithmetic exact (Fraction)",
+  "serve_rule": "at an abstract counterexample, serve U when delta > 0 and certified_bound <= delta; delta = 0 never takes the branch",
+  "served_object": "block-level reachability classification (U = union of the FULL abstract closure; wrong-no set empty by may-abstraction induction)",
+  "verdict_at_relaxed_stop": "REPORTED against ground truth, never certified (no verdict-bit claim at delta > 0)"
+ },
+ "experiment": "D30",
+ "falsifier": {
+  "decision_rule": "grid deltas decide (0, 0.25]; the delta=1.0 envelope arm decides (0.25, 1): within (0,1] cost is non-increasing in delta (every full intermediate round costs >= n+1 > len(U) <= n ops, asserted at run time), and a non-serving delta terminates exact, costing at least the delta=0 arm which already loses to direct everywhere",
+  "fired": true,
+  "text": "no delta in (0, 1) at which structural capital strictly beats direct on total cost at ANY grid point"
+ },
+ "freeze_commit": "75f032fee3ee5ecd97c301ce594b373828a381e7",
+ "grid": {
+  "delta": [
+   "0",
+   "1/100",
+   "1/20",
+   "1/10",
+   "1/4"
+  ],
+  "envelope_delta": "1",
+  "n": [
+   8,
+   12,
+   16,
+   20,
+   24
+  ]
+ },
+ "host": "billy-laptop",
+ "instrument_defects": [],
+ "machinery": "research/hsg-semantic-execution-v1/exact/d20.py IMPORTED UNCHANGED; cegar_dial is a line-for-line copy of d20.cegar with the frozen delta dial branch between abstract_bfs and validate; worlds, seeds, counters and the op metric untouched",
+ "pareto": {
+  "compression_definition": "mean over worlds of n / final_blocks (direct = 1.0: per-state exact classification, nothing compressed)",
+  "frontier_arms": [
+   "1",
+   "direct"
+  ],
+  "points": [
+   {
+    "arm": "0",
+    "compression_total": 76.5641,
+    "cost_ops_total": 5706,
+    "delta": 0.0,
+    "kind": "dial",
+    "mean_compression": 2.5521,
+    "pareto_optimal": false,
+    "worlds_served": 0
+   },
+   {
+    "arm": "1/100",
+    "compression_total": 76.5641,
+    "cost_ops_total": 9312,
+    "delta": 0.01,
+    "kind": "dial",
+    "mean_compression": 2.5521,
+    "pareto_optimal": false,
+    "worlds_served": 0
+   },
+   {
+    "arm": "1/20",
+    "compression_total": 76.5641,
+    "cost_ops_total": 9312,
+    "delta": 0.05,
+    "kind": "dial",
+    "mean_compression": 2.5521,
+    "pareto_optimal": false,
+    "worlds_served": 0
+   },
+   {
+    "arm": "1/10",
+    "compression_total": 76.5641,
+    "cost_ops_total": 9312,
+    "delta": 0.1,
+    "kind": "dial",
+    "mean_compression": 2.5521,
+    "pareto_optimal": false,
+    "worlds_served": 0
+   },
+   {
+    "arm": "1/4",
+    "compression_total": 76.5641,
+    "cost_ops_total": 9312,
+    "delta": 0.25,
+    "kind": "dial",
+    "mean_compression": 2.5521,
+    "pareto_optimal": false,
+    "worlds_served": 0
+   },
+   {
+    "arm": "1",
+    "compression_total": 120.0,
+    "cost_ops_total": 1938,
+    "delta": 1.0,
+    "kind": "dial",
+    "mean_compression": 4.0,
+    "pareto_optimal": true,
+    "worlds_served": 30
+   },
+   {
+    "arm": "direct",
+    "compression_total": 30.0,
+    "cost_ops_total": 570,
+    "delta": 0.0,
+    "kind": "direct",
+    "mean_compression": 1.0,
+    "pareto_optimal": true,
+    "worlds_served": 0
+   }
+  ]
+ },
+ "primary_endpoint": {
+  "envelope_beat_points": [],
+  "grid_beat_points": [],
+  "rule": "total_cost(delta) vs total_cost_direct(n), totals summed over the 6 frozen worlds of each n; dial beats direct iff dial_ops_total < direct_ops_total"
+ },
+ "protocol": "ECONOMY_FRONTIER_PROTOCOLS_V1.json#D30_delta_dial",
+ "protocol_section": "D30_delta_dial",
+ "python": "3.8.10",
+ "registered_prediction": {
+  "clauses": {
+   "cost_monotone_nondecreasing_in_delta_over_open_interval": true,
+   "delta0_reproduces_filed_negative_everywhere": true,
+   "envelope_beat_points": [],
+   "grid_beat_points": [],
+   "some_grid_delta_beats_direct_at_upper_half": false,
+   "upper_half_grid_beat_points": []
+  },
+  "text": "delta=0 reproduces the filed negative everywhere (boundary of the family); some delta in (0, 0.25] beats direct on total cost at n in the upper grid half",
+  "verdict": "REFUTED"
+ },
+ "registered_prediction_source": "ECONOMY_FRONTIER_PROTOCOLS_V1.json#D30_delta_dial.registered_prediction",
+ "study": "delta_dial",
+ "terminal": {
+  "statement": "No delta in (0, 1) at ANY grid point makes structural capital strictly beat direct on total cost: the self-defeat law extends to the relaxed regime; the admissible claim shape narrows to rho-conditioned only.",
+  "verdict": "SELF_DEFEAT_EXTENDS_TO_RELAXED"
+ },
+ "total_cost_table": {
+  "0": {
+   "delta_frac": "0/1",
+   "envelope_arm": false,
+   "grid_arm": true,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 0,
+     "dial_ops_total": 699,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 5.5,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 6.2973,
+     "rounds_total": 15,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 0,
+     "dial_ops_total": 1120,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 7.667,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 10.7692,
+     "rounds_total": 22,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 0,
+     "dial_ops_total": 1724,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 9.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 12.4928,
+     "rounds_total": 25,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 0,
+     "dial_ops_total": 1908,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 10.333,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 13.5319,
+     "rounds_total": 26,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 0,
+     "dial_ops_total": 255,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 3.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 3.3553,
+     "rounds_total": 7,
+     "worlds": 6,
+     "worlds_served": 0
+    }
+   }
+  },
+  "1": {
+   "delta_frac": "1/1",
+   "envelope_arm": true,
+   "grid_arm": false,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 166,
+     "dial_ops_total": 303,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": 0.4583,
+     "mean_blocks_final": 3.0,
+     "mean_certified_frac_at_serve": 0.9167,
+     "ratio_dial_over_direct": 2.7297,
+     "rounds_total": 0,
+     "worlds": 6,
+     "worlds_served": 6
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 208,
+     "dial_ops_total": 370,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": 0.5729,
+     "mean_blocks_final": 4.0,
+     "mean_certified_frac_at_serve": 0.8958,
+     "ratio_dial_over_direct": 3.5577,
+     "rounds_total": 0,
+     "worlds": 6,
+     "worlds_served": 6
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 283,
+     "dial_ops_total": 483,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": 0.5083,
+     "mean_blocks_final": 5.0,
+     "mean_certified_frac_at_serve": 0.95,
+     "ratio_dial_over_direct": 3.5,
+     "rounds_total": 0,
+     "worlds": 6,
+     "worlds_served": 6
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 345,
+     "dial_ops_total": 587,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": 0.5417,
+     "mean_blocks_final": 6.0,
+     "mean_certified_frac_at_serve": 0.9583,
+     "ratio_dial_over_direct": 4.1631,
+     "rounds_total": 0,
+     "worlds": 6,
+     "worlds_served": 6
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 104,
+     "dial_ops_total": 195,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": 0.375,
+     "mean_blocks_final": 2.0,
+     "mean_certified_frac_at_serve": 0.875,
+     "ratio_dial_over_direct": 2.5658,
+     "rounds_total": 0,
+     "worlds": 6,
+     "worlds_served": 6
+    }
+   }
+  },
+  "1/10": {
+   "delta_frac": "1/10",
+   "envelope_arm": false,
+   "grid_arm": true,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 432,
+     "dial_ops_total": 1131,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 5.5,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 10.1892,
+     "rounds_total": 15,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 687,
+     "dial_ops_total": 1807,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 7.667,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 17.375,
+     "rounds_total": 22,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1119,
+     "dial_ops_total": 2843,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 9.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 20.6014,
+     "rounds_total": 25,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1236,
+     "dial_ops_total": 3144,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 10.333,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 22.2979,
+     "rounds_total": 26,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 132,
+     "dial_ops_total": 387,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 3.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 5.0921,
+     "rounds_total": 7,
+     "worlds": 6,
+     "worlds_served": 0
+    }
+   }
+  },
+  "1/100": {
+   "delta_frac": "1/100",
+   "envelope_arm": false,
+   "grid_arm": true,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 432,
+     "dial_ops_total": 1131,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 5.5,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 10.1892,
+     "rounds_total": 15,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 687,
+     "dial_ops_total": 1807,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 7.667,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 17.375,
+     "rounds_total": 22,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1119,
+     "dial_ops_total": 2843,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 9.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 20.6014,
+     "rounds_total": 25,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1236,
+     "dial_ops_total": 3144,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 10.333,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 22.2979,
+     "rounds_total": 26,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 132,
+     "dial_ops_total": 387,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 3.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 5.0921,
+     "rounds_total": 7,
+     "worlds": 6,
+     "worlds_served": 0
+    }
+   }
+  },
+  "1/20": {
+   "delta_frac": "1/20",
+   "envelope_arm": false,
+   "grid_arm": true,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 432,
+     "dial_ops_total": 1131,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 5.5,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 10.1892,
+     "rounds_total": 15,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 687,
+     "dial_ops_total": 1807,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 7.667,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 17.375,
+     "rounds_total": 22,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1119,
+     "dial_ops_total": 2843,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 9.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 20.6014,
+     "rounds_total": 25,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1236,
+     "dial_ops_total": 3144,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 10.333,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 22.2979,
+     "rounds_total": 26,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 132,
+     "dial_ops_total": 387,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 3.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 5.0921,
+     "rounds_total": 7,
+     "worlds": 6,
+     "worlds_served": 0
+    }
+   }
+  },
+  "1/4": {
+   "delta_frac": "1/4",
+   "envelope_arm": false,
+   "grid_arm": true,
+   "per_n": {
+    "12": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 432,
+     "dial_ops_total": 1131,
+     "direct_ops_total": 111,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 5.5,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 10.1892,
+     "rounds_total": 15,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "16": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 687,
+     "dial_ops_total": 1807,
+     "direct_ops_total": 104,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 7.667,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 17.375,
+     "rounds_total": 22,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "20": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1119,
+     "dial_ops_total": 2843,
+     "direct_ops_total": 138,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 9.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 20.6014,
+     "rounds_total": 25,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "24": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 1236,
+     "dial_ops_total": 3144,
+     "direct_ops_total": 141,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 10.333,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 22.2979,
+     "rounds_total": 26,
+     "worlds": 6,
+     "worlds_served": 0
+    },
+    "8": {
+     "dial_beats_direct": false,
+     "dial_bookkeeping_ops_total": 132,
+     "dial_ops_total": 387,
+     "direct_ops_total": 76,
+     "mean_actual_error_frac_at_serve": null,
+     "mean_blocks_final": 3.167,
+     "mean_certified_frac_at_serve": null,
+     "ratio_dial_over_direct": 5.0921,
+     "rounds_total": 7,
+     "worlds": 6,
+     "worlds_served": 0
+    }
+   }
+  }
+ },
+ "wall_s": 0.0402,
+ "worlds": 30
+}
