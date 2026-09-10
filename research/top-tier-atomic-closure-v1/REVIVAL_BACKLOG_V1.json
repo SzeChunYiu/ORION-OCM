@@ -22,9 +22,9 @@
    "attribution_confidence": "HIGH - stated by the lane from its own instrumented cost split, not inferred",
    "lever": "INCREMENTAL REFINEMENT: keep the previous abstraction and split only the blocks the counterexample distinguishes, so per-round build cost is O(touched blocks + incident edges) instead of O(full concrete edge relation). The attribution names an IMPLEMENTATION property, not a law - rebuilding from scratch each round is a choice, which is exactly what makes this negative revivable.",
    "retest_against": "direct concrete search, same frozen 30 worlds and same frozen n grid, full lifecycle charged including initial build and rejected candidates",
-   "status": "DISPATCHED",
-   "placement": "laptop billy (lane RV-B1)",
-   "earned_terminal_rule": "If incremental refinement STILL loses, PARENT_SUFFICIENT is EARNED at a deeper level and is filed as a SUCCESS terminal with the stronger statement, not tuned. Never engineer past a parent that genuinely owns the function.",
+   "status": "CLOSED_BOUNDARY_LOCATED",
+   "placement": "laptop billy (lane RV-B1), PR #291 commit f403bde8",
+   "earned_terminal_rule": "OUTCOME: the lever WORKED and was NOT ENOUGH. Incremental refinement removed 16.0% of construction overhead (ops 0.840 of rebuild, equivalence guard 95 checks / 0 failures, rounds identical on all 30 worlds) and still lost, 8.412x direct against the rebuild arm's 10.011x, saving search on 0 of 30 worlds. Terminal PARENT_SUFFICIENT_EARNED_AT_A_DEEPER_LEVEL, pre-committed in the protocol before the run. TWO BOUNDARIES LOCATED. (a) Single query, structural: a sound may-abstraction must read every concrete transition, since omitting one is exactly the H-D20b under-approximation already shown to yield false certificates -- so setup is Omega(|E|) while direct search is O(|V|+|E|) with early exit. Empirically the one-time build alone costs 1.267x the entire direct search and already meets or exceeds it on 21 of 30 worlds. Labelled an asymptotic argument, not a machine-checked certificate. (b) Multi query: AMORTISATION SELF-DEFEATS. No crossover exists in the frozen Q grid (ratio 8.41, 6.44, 4.83, 3.58, 2.49, monotone but never crossing) and none is projected beyond it, because refinement drives the partition toward DISCRETE -- final blocks reach 81.2% of states, 6 of 30 worlds go fully discrete -- and post-refinement the marginal cost per query is 12.966 for the abstraction against 11.738 for direct. The mechanism that makes an abstraction accurate enough to answer queries is the same one that destroys its size advantage, and the n-k bound guarantees termination at or near discrete.",
    "chain_iteration": 1,
    "notes": "The n-k ceiling must continue to hold; a lever that breaches it is a bug in the lever, not a discovery. If the frozen grid is simply too small for any abstraction to pay off, that is the honest finding, and extending the grid is a NEW frozen study."
   },
@@ -158,8 +158,9 @@
  "counts": {
   "total": 10,
   "by_status": {
-   "DISPATCHED": 3,
+   "CLOSED_BOUNDARY_LOCATED": 1,
    "QUEUED": 6,
+   "DISPATCHED": 2,
    "ATTRIBUTED_LEVER_IDENTIFIED": 1
   },
   "by_attribution_confidence": {

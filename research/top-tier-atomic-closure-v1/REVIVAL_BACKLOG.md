@@ -23,7 +23,7 @@ by a genuine mechanic change, re-tested against the strongest parent, with every
 
 | ID | Negative | One-stage attribution | Lever | Status |
 |---|---|---|---|---|
-| RV-1 | CEGAR never beats direct search (D20, `PARENT_SUFFICIENT`) | abstraction **construction**, not search | incremental refinement | dispatched |
+| RV-1 | CEGAR never beats direct search (D20, `PARENT_SUFFICIENT`) | abstraction **construction**, not search | incremental refinement | **closed, two boundaries located** |
 | RV-2 | `CANNOT_CHECK_NEGATION_PRESENT` (D19) | missing instrument: positive-only `N[X]` | negation-aware semiring | queued |
 | RV-3 | substitution beats recomputation by only 7% (D19) | world scale — single solve dominates | scaling curve on LUNARC | queued |
 | RV-4 | T72 oracle: 11 no-op targets, 6 sources never revoked (D19) | oracle targeting defect | re-target to true sources | dispatched |
@@ -32,6 +32,29 @@ by a genuine mechanic change, re-tested against the strongest parent, with every
 | RV-7 | GSA2 unbeaten on throughput (GS-R2) | cost side — dedup pays 2× cpu | canonical-form dedup | queued |
 | RV-8 | library acquisition exceeds later savings (#165 H1) | not re-attributed this window | after strongest-parent comparison | queued |
 | RV-9 | freeze chain has no CI gate (D6 A2) | no enforcement gate exists | amendment-aware verification workflow | queued |
+
+## RV-1 closed, and it is the model for the rest
+
+The lever **worked** — incremental refinement genuinely removed 16.0% of the construction overhead, with the
+equivalence guard clean at 95 checks and round counts identical to rebuild on all 30 worlds — and it was
+**still not enough**. That is the outcome the doctrine is built to handle, and it produced two boundaries
+rather than one disappointment.
+
+**Single query, structural.** A sound may-abstraction must read every concrete transition, because omitting
+one is exactly the under-approximation already shown to yield false certificates. So its setup is Ω(|E|)
+while direct search is O(|V|+|E|) with early exit. The one-time build alone costs 1.267× the entire direct
+search and already meets or exceeds it on 21 of 30 worlds.
+
+**Multi query — amortisation self-defeats.** No crossover exists in the frozen grid and none is projected
+beyond it. Refinement drives the partition toward discrete: final blocks reach 81.2% of states, 6 of 30
+worlds go fully discrete, and after refinement stops the abstraction costs 12.966 operations per query
+against direct search's 11.738. *The mechanism that makes an abstraction accurate enough to answer queries
+is the same one that destroys its size advantage*, and the `n − k` bound guarantees it terminates at or near
+discrete.
+
+D21 reached the same shape independently from a different mechanism — a shared e-graph amortising to 0.418
+aggregate, winning only on the largest world. Two lanes converging on where sharing does and does not repay
+is stronger evidence about the boundary than either alone.
 
 ## RV-8 and RV-10 came from the parent scan, and both change what happens next
 
