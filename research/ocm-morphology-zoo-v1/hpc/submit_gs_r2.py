@@ -163,11 +163,21 @@ def main():
     event("sync_lunarc", root=REMOTE_ROOT)
 
     gate("4. environment probe on %s (BEFORE freeze)" % HOST)
-    probe = sh("cd %s && python3 hpc/env_probe.py %s" % (REMOTE_ROOT,
-                                                         REMOTE_ROOT),
-               via_relay_lunarc=True)
-    print(probe)
-    assert "ENV PROBE" in probe
+    have_f = sh("test -f %s/%s && echo yes || echo no" % (REMOTE_ROOT,
+                                                          FREEZE_NAME),
+                via_relay_lunarc=True)
+    if have_f.strip() == "yes":
+        # freeze exists: never rewrite the probe (the freeze pins its sha)
+        have_p = sh("test -f %s/GS_ENV_PROBE.json && echo yes || echo no"
+                    % REMOTE_ROOT, via_relay_lunarc=True)
+        assert have_p.strip() == "yes", "freeze pins a missing env probe"
+        print("freeze exists — probe preserved (sha pinned by freeze)")
+    else:
+        probe = sh("cd %s && python3 hpc/env_probe.py %s" % (REMOTE_ROOT,
+                                                             REMOTE_ROOT),
+                   via_relay_lunarc=True)
+        print(probe)
+        assert "ENV PROBE" in probe
     event("env_probe", host=HOST)
 
     gate("5. FREEZE on %s (tool-stamped; refuses on scored artifacts)"
@@ -263,8 +273,8 @@ def main():
     event("frozen_artifacts_synced", freeze_sha256=fsha)
 
     gate("8. determinism probe on %s (builtin impls, cross-host)" % LAPTOP)
-    lout = laptop("cd %s && python3 hpc/determinism_probe_r2.py %s"
-                  % (LAPTOP_DIR, LAPTOP_DIR))
+    lout = laptop("cd %s && python3 hpc/determinism_probe_r2.py ."
+                  % LAPTOP_DIR)
     print(lout)
     lm2 = re.search(r"PROBE_DIGEST=([0-9a-f]{64})", lout)
     assert lm2, "no laptop probe digest:\n%s" % lout
