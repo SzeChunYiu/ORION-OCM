@@ -14,6 +14,18 @@
    },
    "recorded_by": "task #54 follow-up (DEV-CAL-1 verdict propagation)",
    "recorded_utc": "2026-09-10"
+  },
+  {
+   "cause": "D31 episodic depth law (#323 economy-frontier lane) landed exact/receipts/D31_receipts.jsonl after AM-1 bound RECEIPT_COVERAGE_V1.json, so the committed table again diverged from the receipts (COVERAGE_DRIFT 20 on re-run). Re-emitted the table with the AM-1 deriver unchanged (16 files x 13 families; D31 emits 8 families over 56 rows; the findings list is unchanged at 8 entries -- D31 adds no new absent-family class). derive_receipt_coverage.py is untouched by this amendment (hash unchanged from AM-1) and is not re-bound.",
+   "id": "AM-2-D31-COVERAGE-PROPAGATION",
+   "manifest_sha256": {
+    "RECEIPT_COVERAGE_V1.json": "a61ca3a5f6b5c88f45e652dd4ef777ab5da0ae8d0a4bad3167f3d419d6f2f0e0"
+   },
+   "prior_manifest_sha256_observed": {
+    "RECEIPT_COVERAGE_V1.json": "87408a4cba3577f14e58fc97bf34bbbfdf9bae1bd4ec43198fb5b5564a52317f"
+   },
+   "recorded_by": "D31 episodic depth law (#323 economy-frontier lane, task #323 follow-on study)",
+   "recorded_utc": "2026-09-10"
   }
  ],
  "cause": "D28 F1 (MEDIUM): no freeze manifest named any exact/results/*.json, so post-landing edits to landed results were invisible to the chain (two real disclosed instances: 905a7200, 97b38de2). F9 showed the same hole for emitters (an oracle default flip would have been chain-enforced had emitters been hash-bound). This freeze binds every evidence artifact, receipt, and emitter of the lane as of creation.",
