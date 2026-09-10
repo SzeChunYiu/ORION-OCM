@@ -23,7 +23,7 @@ ENTRY_GATES = [
     {"gate": "At least two materially different domains use the same core",
      "status": "PARTIAL", "evidence": "language/mathematics/procedural types registered per #165 section 8; heterogeneous lifetime study not executed (LIF-02 synthetic calibration only)"},
     {"gate": "Strongest comparator configurations frozen",
-     "status": "PENDING", "evidence": "comparator ladder defined (#165 section 9 B0-B8+OCM); configurations not yet frozen for the developmental arm"},
+     "status": "SATISFIED", "evidence": "COMPARATOR_LADDER_FREEZE_V1.json (TTAC-D7a, PR #362; merge sha recorded in the #165 evidence-sync comment) freezes every rung B0-B8+OCM for the developmental arm: registered machine configurations, budgets (200k serving / 200k dev / sealed dev charge ledger rule), seed 20260910, capability gate delta 0.20 before protected outcomes, HDI-14 + P3 physical meters; rungs anchored to sealed receipts (M1B arms, FNA-3 tournament winners, M7/M12 matched+semantic parents); Transformer gap routed to E5 with in-estate scope declared"},
 ]
 
 DESIGN = {

@@ -1,0 +1,208 @@
+{
+ "schema": "TTAC_COMPARATOR_LADDER_FREEZE",
+ "version": "V1",
+ "d_step": "TTAC-D7a",
+ "owner_issue": 277,
+ "binds_issue": 151,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_PROTECTED_RUN",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "trigger": "FLAGSHIP_EXPERIMENT_V1.json entry gate 'Strongest comparator configurations frozen' = PENDING: '#165 section 9 comparator ladder (B0-B8+OCM) defined; configurations not yet frozen for the developmental arm'. This freeze closes that gate by fixing every rung to concrete registered machinery, budgets, seed policy, capability-gate parameters and cost-vector recording.",
+
+ "scope": "the developmental arm of flagship FE-DEV-AMORT-1 (issue #151, DC-10) only. It freezes WHICH machine each ladder rung is and under which shared invariants it runs. It grants NO execution rights: the E3 promotion rule (E3_PROTOCOL_FREEZE_V1 clause P1 + flagship entry gates) is unchanged, and authorization of FE-DEV-AMORT-1 remains withheld until every entry gate reads SATISFIED.",
+
+ "domain_substrates": {
+  "D1_polynomial_formal_language": {
+   "estate": "research/g2-macro-operator-v1 grammar inc/dec/double/square; polynomial normal-form task identity; frozen worlds M1_PARTITIONS_V1.json sha256 a5b0cbc1814042a7b4ddcfbc8658e63c4b352fade22cfdcd91c1968bea13921e, protected set 62f199960eecfb0822bc724be9877cef9aa0fa87695917ead50ab4b1d98b236a",
+   "checker": "CHECKER_C: the frozen polynomial identity checker invoked as an independent subprocess unit with its own digest (M1 runner pattern, reused verbatim by M1B/M1C)",
+   "sealed_dev_economy": "dev budget 200000 slots; sealed dev enumeration cost 14427131 slots; mined-fragment fingerprint 70d8cad4ce2189eebf878eeaa1dc597cb20dbf68d157712b6983505543ed72bc"
+  },
+  "D2_implication_systems": {
+   "estate": "the independently authored P1-E3 family set (research/independent-authorship-gate-v1/p1e3_authored/, 10 families / 60 instances, authored outside the mechanism taxonomy per P1E3_AUTHORSHIP_FREEZE_V1) compiled onto the public implication-systems core (forward-chaining closure, goal reachability, minimum-cost seed set under exclusion)",
+   "checker": "the implication-systems exact enumerator as an independent CHECKER_C unit (same subprocess pattern; bound by the D2 study's own pre-registration)",
+   "sealed_dev_economy": "dev/serving budget constants inherit this freeze verbatim; the D2 dev-enumeration cost is a MEASURED OUTPUT sealed inside the D2 study's own pre-registration before any protected run — never a tunable"
+  },
+  "D2_selection_rule": "any second domain substrate admitted for the flagship must be registered by a prospective freeze BEFORE any protected run and inherits every cross-rung invariant below unchanged; deviations require their own recorded pre-execution amendment, never a post-hoc change"
+ },
+
+ "cross_rung_invariants": {
+  "budgets": {
+   "serving_budget_slots": 200000,
+   "dev_budget_slots": 200000,
+   "dev_charge_rule": "the one-time dev enumeration charge is a SINGLE fixed ledger entry (D1: 14427131 slots) paid identically once per run by every arm that uses dev history; never re-executed per arm, never amortised differently per arm, never scaled by T (M1C dev_charge_ledger_entry rule, cited verbatim)",
+   "justification": "200000 is the registered M1B top rung — the only rung where RESET and STRONG_ADAPTIVE_PARENT both complete 8/8 checker-verified serves in the sealed receipts, i.e. the registered completed-serve budget; re-deriving it would be post-hoc tuning"
+  },
+  "seeds_policy": {
+   "frozen_seed": 20260910,
+   "null_and_bootstrap": "sign-flip permutation null + equal-n label-shuffle null + percentile bootstrap all run under the frozen seed (M1B/M1C null_discipline)",
+   "sampling": "seeds select instances WITHIN frozen semantic partitions, never the partition boundary (M1 semantic_partitions rule)",
+   "no_redraw": "no seed, partition or rung redraw after any result is seen"
+  },
+  "capability_gate": {
+   "form": "Performance_OCM >= Performance_parent - delta",
+   "delta": 0.20,
+   "metric": "checker-verified competence (CHECKER_C verified_external counts) at the frozen serving budget",
+   "justification": "delta = 0.20 is the registered pre-experiment margin default frozen in the M1 endpoint_and_stats block and reused unchanged by M1B/M1C; the gate is frozen BEFORE any protected outcome and no efficiency claim survives a materially worse capability reading (#165 section 9 capability gate)"
+  },
+  "cost_vector_recording": {
+   "hdi14_families": ["acquisition_slots", "dev_enumeration_slots", "obligation_slots", "retrieval_events", "retrieval_cost_slots", "max_penalty_tax_slots", "rejected_candidates", "verification_calls", "external_checker_spawns", "storage_bytes", "adapter_storage_bytes", "adaptation_events", "interpreter_restarts", "wall_seconds"],
+   "physical_meters": "E3 clause P3 verbatim: elapsed wall time, RSS, I/O, storage (energy where available) recorded alongside raw counts; count-only cost claims invalid",
+   "storage_rule": "store bytes are honestly charged in the storage families and NEVER converted to slots (M1C rule)"
+  },
+  "parity": "every parent rung runs at matched information, resources and checker access (evidence-class P3 definition): same manifests/knowledge visible to the OCM machine, same serving budget, same CHECKER_C channel; a parity receipt is emitted per run (M1B parent_parity rule: parity reattributes the OCM-specific claim, never the mechanism claim)",
+  "oracle_discipline": "oracle arms (APPL_ORACLE, RETR_ORACLE, INTG_ORACLE, KNOWN_STRUCTURE_ORACLE and any D2 analogue) are calibration riders with declared information advantages, NEVER headline comparators (M1B CALIBRATION_ONLY_ARMS rule)",
+  "stats": "flagship stats_plan_frozen verbatim: one-sided pre-registered primaries, Holm family control at alpha 0.05, fixed horizon, no interim looks, paired across task-order permutations, task families as independent units"
+ },
+
+ "ladder": [
+  {
+   "rung": "B0",
+   "canonical": "conventional domain system",
+   "registered_configuration": {
+    "D1": "the registered primitive search itself: src/ocm/learning/methods.py M.solve imported AS-IS, primitive operators only, zero learned state, no fragments served, no gate — the M1B RESET arm configuration byte-identically",
+    "D2": "exhaustive forward-chaining enumeration over the implication-systems core (the substrate's own standard algorithm), no learned state",
+    "dialogue_substrate": "the conventional templated front-end: src/ocm/comparators/matched_parent.py MatchedParent instantiated FRESH per task (stateless: save/load never invoked)"
+   },
+   "role_in_developmental_arm": "capability floor reference; at serving time RESET_OCM coincides with B0-D1 by construction (an integrated ablation of the same machine, not a separate machine) — the identity is declared, both readings recorded",
+   "justification": "the domain-standard solver absent any learning machinery; in this estate the registered primitives ARE the domain-standard algorithm (polynomial normal-form rewriting; forward chaining)"
+  },
+  {
+   "rung": "B1",
+   "canonical": "strong Transformer",
+   "registered_configuration": {
+    "in_estate_instantiation": "the strongest trainable sequence/statistical parent per world from the frozen FNA-3 tournament (research/fna3-seqgrammar-parents-v1/fna3.py imported AS-IS): CTW on sparse-PSA worlds (PARENT_SUFFICIENT at n=1000), PCFG-EM on nesting, BPE+PPM on character streams, n-gram on POS — winner-per-world exactly as scored in FNA3_RESULTS_V1",
+    "canonical_form_status": "NOT_RUNNABLE_IN_ESTATE: no GPU/LLM training estate exists and an externally pretrained Transformer cannot be charged on the registered physical denominator inside this repo; the true-Transformer instantiation is routed to the E5 external second-implementation ladder (out-of-repo, independent unit)"
+   },
+   "role_in_developmental_arm": "the neural-capability reference the LLM_CAPABILITY_DOMINATES terminal is read against",
+   "justification": "the no-strawman duty is met by the REGISTERED tournament winner per world (FNA-3 already ran the bounded-parent tournament and documented where each breaks), not by an unrunnable model claimed in prose",
+   "claim_ceiling": "until an E5 Transformer exists, LLM_CAPABILITY_DOMINATES may be claimed ONLY at the in-estate scope (vs the FNA-3 strongest parent), never as a blanket Transformer statement"
+  },
+  {
+   "rung": "B2",
+   "canonical": "Transformer + RAG",
+   "registered_configuration": {
+    "machine": "the B1 winner with the registered retrieval unit src/ocm/comparators/semantic_memory.py imported AS-IS supplying retrieved records into the parent's context",
+    "retrieval_depth": "the registered module's own behaviour (all matching active records for the query digest) — no new retrieval-depth parameter is introduced",
+    "matched_information": "the retrieval store is the SAME manifest/knowledge the OCM machine holds (parity invariant)"
+   },
+   "role_in_developmental_arm": "isolates what retrieval alone buys the strongest statistical parent",
+   "justification": "retrieval-augmented = registered retrieval unit over the same knowledge; inventing a bespoke retriever here would be an unfrozen new mechanism"
+  },
+  {
+   "rung": "B3",
+   "canonical": "Transformer + persistent memory",
+   "registered_configuration": {
+    "machine": "B2 plus cross-task persistence under the matched parent's own persistence model: src/ocm/comparators/matched_parent.py save/load (statements/words/lessons) invoked across stage boundaries exactly as the matched-parent product persists",
+    "persistence_points": "every stage boundary of the developmental schedule; identical checkpoints the OCM arm takes"
+   },
+   "role_in_developmental_arm": "isolates persistence-without-admission from genuine skill acquisition",
+   "justification": "the registered persistence model of the matched parent is the in-estate canonical persistent-memory control (M7 section 4)"
+  },
+  {
+   "rung": "B4",
+   "canonical": "Transformer + tools/checkers",
+   "registered_configuration": {
+    "machine": "the B1 winner with access to the external CHECKER_C channel: the frozen independent-substring checker pattern (M1 runner checker_C / M1B CHECKER) — the parent may propose and verify through the same external checker units the OCM machine uses",
+    "charging": "verification_calls and external_checker_spawns land in the HDI-14 ledger like every other arm"
+   },
+   "role_in_developmental_arm": "matched tool/checker access control",
+   "justification": "checker access is part of matched resources (P3); denying the parent the checker the OCM machine uses would fabricate an OCM advantage"
+  },
+  {
+   "rung": "B5",
+   "canonical": "Transformer + memory + tools",
+   "registered_configuration": {
+    "machine": "B3 + B4 combined: the B1 winner with registered retrieval, matched-parent persistence across stages, and the CHECKER_C channel"
+   },
+   "role_in_developmental_arm": "the strongest non-adaptive parent product",
+   "justification": "the union of the individually registered components; no new machinery"
+  },
+  {
+   "rung": "B6",
+   "canonical": "Transformer + adaptation/skill memory",
+   "registered_configuration": {
+    "machine": "B5 plus parent-side skill accumulation under the registered utility-gated admission rule (FNA-4: utility-gated admission — the rule whose measured marginal acquisition is the estate's registered parent-side admission standard; recurrence-gated admission is documented harmful and stays excluded)",
+    "persistence": "the skill store persists across stages with its own bookkeeping outside OCM; storage honestly charged in the storage families"
+   },
+   "role_in_developmental_arm": "the adaptive-parent control that also learns skills — no frozen-parent strawman anywhere on the ladder",
+   "justification": "the strongest registered PARENT-side learning rule; adopting OCM's admission machinery here would make the rung an OCM variant, not a parent"
+  },
+  {
+   "rung": "B7",
+   "canonical": "strongest domain-specialized parent",
+   "registered_configuration": {
+    "D1": "the M1B STRONG_ADAPTIVE_PARENT machinery byte-identically: decision-list applicability gate fit on DEV data only over frozen normal-form partition features, own persistence outside OCM bookkeeping, serving the SAME mined fragments through the REGISTERED M.solve path (timing and cost untouched)",
+    "D2": "the strongest specialized closure solver for the implication-systems core as fixed by the D2 study's own pre-registration (default: D1's decision-list machinery re-fit on D2 dev data only, if the D2 freeze adopts it; otherwise the D2-registered strongest parent)",
+    "dialogue_substrate": "src/ocm/comparators/semantic_parent.py imported AS-IS (the M12 semantic parent over conventional memory)",
+    "sequence_worlds": "the FNA-3 per-world winner (identity with B1 on sequence worlds is DECLARED, not hidden: there the tournament winner IS the strongest specialized parent)"
+   },
+   "role_in_developmental_arm": "the parent-control arm of the flagship (see developmental_arm_binding below)",
+   "justification": "the strongest specialized system each registered domain actually has, per sealed receipts — never a weakened stand-in"
+  },
+  {
+   "rung": "B8",
+   "canonical": "strongest faithful parent product",
+   "registered_configuration": {
+    "machine": "src/ocm/comparators/matched_parent.py MatchedParent (M7 section 4) — the same knowledge, lessons, dialogue record and budget as the OCM machine, built from known components (retrieval memory, dialogue-state memory, in-context lesson memory, template renderer), deliberately WITHOUT warrant intervals, reopening, version spaces and the commitment gate; on the language substrate the M12 semantic_parent layer rides it (adopted interpretation, conventional memory)",
+    "subtraction": "exactly the machine-epistemics machinery is what is subtracted — this rung IS the subtraction control"
+   },
+   "role_in_developmental_arm": "the faithful-product denominator for every OCM-specific residual claim",
+   "justification": "registered in the core as the strongest faithful matched parent (M7 section 4); reusing it AS-IS keeps faithfulness matching frozen in code, not prose"
+  },
+  {
+   "rung": "OCM",
+   "canonical": "the machine under test",
+   "registered_configuration": {
+    "F": "compact persistent epistemic field: the registered kso/knowledge store units (src/ocm/kso, src/ocm/store) imported AS-IS",
+    "O": "learned + donor operator algebra: src/ocm/learning/methods.py registered learner (M.solve) + registered operators, imported AS-IS",
+    "PI": "small domain-general controller: src/ocm/runtime/ocm_runtime.py OCMRuntime imported AS-IS",
+    "C": "immutable external constitutional boundary + the CHECKER_C independent-subprocess channel",
+    "lifecycle": "the registered M1 8-step lifecycle (solve -> mine -> validate on fresh acquisition -> admit with full cost ledger -> checkpoint -> OS-PROCESS restart with pid evidence -> fresh protected acquisition -> fresh obligations), DevelopmentTransitionV1 record per transition (#165 section G7)",
+    "machine_identity": "src/ocm mechanism code is never edited for this study; drift vs the merge commit = RECEIPT_BINDING_DEFECT (M1C rule)"
+   },
+   "role_in_developmental_arm": "the principal arm's machine (binding below)",
+   "justification": "the registered core units bound AS-IS — the flagship tests the registered machine, not a variant tuned for the comparison"
+  }
+ ],
+
+ "developmental_arm_binding": {
+  "CONTINUED_OCM": "the OCM rung with NO reset across stages: full learned state persists where earned through every stage boundary and OS restart; pays the one-time dev ledger entry once (cross_rung_invariants.dev_charge_rule); DevelopmentTransitionV1 recorded at every transition",
+  "RESET_OCM": "the OCM rung with state reset at each stage boundary (the #165 section 9 integrated ablation 'reset OCM'); runs no dev phase and carries no dev charge — its lane cost is serving burden only (M1C RESET rule); coincides with B0-D1 at serving time (declared identity)",
+  "STRONG_ADAPTIVE_PARENT": "the B7 machinery with the SAME allowed history, persistence and legal adaptation machinery as the OCM arm (the M1/M1B ORDINARY_ADAPTIVE_PARENT parity clause), riding the whole ladder and every scale rung; a parity receipt is emitted per run; never a frozen-parent strawman (#165 G7)",
+  "ablation_riders": "the #165 section 9 integrated OCM ablations (no learned methods, no composition, no failure memory, no dependency/revocation graph, global scan, no representation change, no consolidation) ride the OCM rung as declared knockouts; oracle riders per the oracle_discipline invariant"
+ },
+
+ "honest_limitations": [
+  "B1's canonical form (a trained Transformer) does not exist in this estate; the frozen instantiation is the registered FNA-3 tournament winner per world, and the true-Transformer comparison is deferred to the E5 external route — any LLM_CAPABILITY_DOMINATES reading before E5 exists is in-estate scope only",
+  "B7 and B1 coincide on sequence worlds (the tournament winner is the strongest specialized parent there); the identity is declared rather than disguised",
+  "D2 budget constants are frozen here; the D2 dev-enumeration cost is a measured output to be sealed in the D2 study's own pre-registration — it cannot be a number in this file without fabricating a measurement",
+  "this freeze covers the developmental arm only; other flagships re-freeze their own ladder specializations"
+ ],
+
+ "forbidden": [
+  "tuning any frozen number (budgets, seed, delta, rung set) after any protected outcome is seen; a needed change is a recorded supersession with cause, before the next run",
+  "adding, removing or substituting ladder arms mid-study",
+  "editing src/ocm mechanism code or any registered comparator module to change the comparison (imported AS-IS; drift = RECEIPT_BINDING_DEFECT)",
+  "running a weakened subset of the ladder (e.g. B0-only) and presenting it as the comparator set",
+  "presenting an oracle rider as a headline comparator",
+  "claiming the Transformer gap closed without a delivered E5 second implementation",
+  "any scored execution of FE-DEV-AMORT-1 while its authorization reads FROZEN_DESIGN_NOT_AUTHORIZED"
+ ],
+
+ "entry_gates": [
+  "this freeze merged to main before any protected run",
+  "FLAGSHIP_EXPERIMENT_V1.json regenerated by build_d7.py with the comparator gate evidence pointing at this file (same PR)",
+  "an evidence-sync comment on #165 recording the merge sha (gate flip discipline)"
+ ],
+
+ "hosts": {
+  "any_future_scored_run": "laptop billy (E3 confirmatory) / billy-old (E4) / LUNARC batch (scale arms) per FLAGSHIP_EXPERIMENT_V1 execution_hosts",
+  "never": "Mac mini — git/gh and single-file edits only"
+ },
+
+ "explicitly_not_authorized": [
+  "any protected run of FE-DEV-AMORT-1 (authorization still FROZEN_DESIGN_NOT_AUTHORIZED; three further entry gates remain open)",
+  "any E3 promotion without clause P1 independently authored families for the exact worlds used",
+  "treating this freeze as evidence for any gate other than 'Strongest comparator configurations frozen'"
+ ]
+}
