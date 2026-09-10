@@ -51,6 +51,23 @@ def main():
           % (ec["build_only_over_direct"],
              ec["worlds_where_build_alone_ge_entire_direct_search"],
              ec["worlds_total"]))
+    cv = out["cost_ratio_curve_across_grid"]
+    cs = cv["summary"]
+    print("  CURVE   cost ratio across the frozen grid (RV-1 deliverable)")
+    print("            n     rebuild/direct  incremental/direct  lever gain  validation share")
+    for n in [str(x) for x in cs["n_grid"]]:
+        c = cv["per_n"][n]
+        print("            %-4s  %-14s  %-18s  %-10s  %s"
+              % (n, c["rebuild_over_direct"], c["incremental_over_direct"],
+                 c["lever_gain_vs_rebuild"], c["validation_share"]))
+    print("            growth across grid: rebuild x%s -> incremental x%s | flattens=%s"
+          % (cs["rebuild_growth_factor_across_grid"],
+             cs["incremental_growth_factor_across_grid"],
+             cs["lever_flattens_the_curve"]))
+    print("            incremental plateaued=%s %s | rebuild still climbing=%s %s | crosses 1.0 anywhere=%s"
+          % (cs["plateau"]["incremental_plateaued"], cs["plateau"]["last_two_incremental"],
+             cs["plateau"]["rebuild_still_climbing"], cs["plateau"]["last_two_rebuild"],
+             cs["crosses_one_anywhere"]))
     print("  AMORT   crossover Q =", mq["crossover_Q"])
     for q in mq["q_grid_preregistered"]:
         d = mq["per_q"][str(q)]
