@@ -1,0 +1,538 @@
+{
+ "arms_run": [
+  "ORACLE_HISTORY",
+  "RESET",
+  "SHUFFLED_HISTORY"
+ ],
+ "checker_controls": {
+  "purity_clean_silent": {
+   "control": "clean template-only history must stay silent",
+   "detail": {
+    "digest_hits": [],
+    "method_text_direction": "checked",
+    "normalized_text_hit": false,
+    "status": "CHECKED"
+   },
+   "silent": true
+  },
+  "purity_hashdirection_hostile_fire": {
+   "control": "planted method digest in history must be flagged",
+   "detail": {
+    "digest_hits": [
+     "method_digest"
+    ],
+    "method_text_direction": "checked",
+    "normalized_text_hit": false,
+    "status": "CHECKED"
+   },
+   "fired": true
+  },
+  "purity_hostile_fire": {
+   "control": "history containing the target solution must be flagged",
+   "detail": {
+    "digest_hits": [],
+    "method_text_direction": "checked",
+    "normalized_text_hit": true,
+    "status": "CHECKED"
+   },
+   "fired": true
+  },
+  "structural_clean_silent": {
+   "control": "cell-D world declared latent_different must carry none",
+   "detail": {
+    "certificate_type": null
+   },
+   "silent": true
+  },
+  "structural_hostile_fire": {
+   "control": "cell-B world declared latent_same must carry a certificate",
+   "detail": {
+    "certificate_type": "a"
+   },
+   "fired": true
+  },
+  "surface_clean_silent": {
+   "control": "cell-A surface must compare same",
+   "silent": true
+  },
+  "surface_hostile_fire": {
+   "control": "cell-B surface must compare different",
+   "fired": true
+  }
+ },
+ "ecology_amendment": "QUERY_ECOLOGY_AMENDMENT_V1",
+ "effect_threshold": 0.2,
+ "endpoint_note": "primary endpoint = per-target acquisition burden (work_to_first_verified_success, INCLUDING retrieval+adaptation ops for history arms; compute+information matched across arms); the fully-charged variant (history acquisition per world, no amortization) is reported per cell but is not a terminal-rule input",
+ "generated_utc": "2026-09-10T15:24:08Z",
+ "host": "billy",
+ "n_receipts": 1080,
+ "ocm_continued": {
+  "arm": "OCM_CONTINUED",
+  "reason": "no natural OCM developmental history exists for the DEV-CAL-1 world families anywhere in the machinery; the only runnable OCM runtime (research/ocm-form-oracle-v1 evaluation.lifetime2 over morphology genomes) operates on Form-Oracle tasks and cannot consume typed-operator decomposition worlds without new adapter code, which would fabricate rather than record a developmental history; protocol forbids fabrication",
+  "status": "OMITTED_WITH_REASON"
+ },
+ "owner_issue": 323,
+ "per_cell": {
+  "A": {
+   "arms": {
+    "ORACLE_HISTORY": {
+     "ci": [
+      61.53333333333333,
+      69.95555555555555
+     ],
+     "mean": 65.66666666666667
+    },
+    "RESET": {
+     "ci": [
+      3731.5777777777776,
+      5502.122222222222
+     ],
+     "mean": 4580.344444444445
+    },
+    "SHUFFLED_HISTORY": {
+     "ci": [
+      3689.488888888889,
+      5900.211111111111
+     ],
+     "mean": 4718.122222222222
+    }
+   },
+   "cost_ledger_means": {
+    "ORACLE_HISTORY": {
+     "acquisition": 3780.9666666666667,
+     "adaptation": 23.0,
+     "rejected_candidates": 1.7666666666666666,
+     "retrieval": 7.0,
+     "storage_bytes": 227.1,
+     "verification": 1.8666666666666667
+    },
+    "RESET": {
+     "acquisition": 0.0,
+     "adaptation": 0.0,
+     "rejected_candidates": 422.6111111111111,
+     "retrieval": 0.0,
+     "storage_bytes": 0.0,
+     "verification": 191.34444444444443
+    },
+    "SHUFFLED_HISTORY": {
+     "acquisition": 3780.9666666666667,
+     "adaptation": 21.666666666666668,
+     "rejected_candidates": 427.7,
+     "retrieval": 7.0,
+     "storage_bytes": 223.96666666666667,
+     "verification": 191.37777777777777
+    }
+   },
+   "cost_ledger_missing_families": [],
+   "draw_invariance": {
+    "direction_agrees": true,
+    "per_seed": {
+     "0": {
+      "mean_reduction": 0.9729104614543936,
+      "positive_fraction": 1.0
+     },
+     "1": {
+      "mean_reduction": 0.9729992779720477,
+      "positive_fraction": 1.0
+     },
+     "2": {
+      "mean_reduction": 0.9723019390611846,
+      "positive_fraction": 1.0
+     }
+    }
+   },
+   "n_pairs": 90,
+   "oracle_vs_reset_reduction": {
+    "burden_cis_nonoverlapping": true,
+    "ci": [
+     0.9682356539007352,
+     0.9769480749700105
+    ],
+    "mean": 0.9727372261625421,
+    "threshold_met": true
+   },
+   "oracle_vs_reset_reduction_fully_charged": {
+    "ci": [
+     -0.23828190577312655,
+     0.0719418259521679
+    ],
+    "mean": -0.07335917513236537,
+    "note": "history-arm acquisition (measured source solve) charged per world, no amortization; reported, not a terminal rule input"
+   },
+   "purity": {
+    "n": 180,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 180
+   },
+   "rank_delta_oracle_minus_reset": {
+    "developmental_direction_count_negative": 90,
+    "mean": -420.84444444444443,
+    "n": 90
+   },
+   "shuffle_equal_n_null": {
+    "observed_mean_excess": 137.77777777777777,
+    "p_signflip": 0.769
+   },
+   "shuffled_vs_reset_reduction": {
+    "ci": [
+     -0.28987086744226204,
+     0.007574269635212485
+    ],
+    "mean": -0.1345024433428837
+   }
+  },
+  "B": {
+   "arms": {
+    "ORACLE_HISTORY": {
+     "ci": [
+      67.11111111111111,
+      74.46666666666667
+     ],
+     "mean": 70.7
+    },
+    "RESET": {
+     "ci": [
+      3582.722222222222,
+      5335.722222222223
+     ],
+     "mean": 4423.611111111111
+    },
+    "SHUFFLED_HISTORY": {
+     "ci": [
+      3690.6222222222223,
+      5440.066666666667
+     ],
+     "mean": 4508.066666666667
+    }
+   },
+   "cost_ledger_means": {
+    "ORACLE_HISTORY": {
+     "acquisition": 4098.2,
+     "adaptation": 23.166666666666668,
+     "rejected_candidates": 2.2,
+     "retrieval": 7.0,
+     "storage_bytes": 227.1,
+     "verification": 1.9666666666666666
+    },
+    "RESET": {
+     "acquisition": 0.0,
+     "adaptation": 0.0,
+     "rejected_candidates": 403.2111111111111,
+     "retrieval": 0.0,
+     "storage_bytes": 0.0,
+     "verification": 196.1
+    },
+    "SHUFFLED_HISTORY": {
+     "acquisition": 4098.2,
+     "adaptation": 19.0,
+     "rejected_candidates": 408.4555555555556,
+     "retrieval": 7.0,
+     "storage_bytes": 227.73333333333332,
+     "verification": 200.4
+    }
+   },
+   "cost_ledger_missing_families": [],
+   "draw_invariance": {
+    "direction_agrees": true,
+    "per_seed": {
+     "0": {
+      "mean_reduction": 0.9675281057047032,
+      "positive_fraction": 1.0
+     },
+     "1": {
+      "mean_reduction": 0.970667905544378,
+      "positive_fraction": 1.0
+     },
+     "2": {
+      "mean_reduction": 0.9709293828160442,
+      "positive_fraction": 1.0
+     }
+    }
+   },
+   "n_pairs": 90,
+   "oracle_vs_reset_reduction": {
+    "burden_cis_nonoverlapping": true,
+    "ci": [
+     0.9653607535926407,
+     0.9739037427750911
+    ],
+    "mean": 0.9697084646883749,
+    "threshold_met": true
+   },
+   "oracle_vs_reset_reduction_fully_charged": {
+    "ci": [
+     -0.3174372154018287,
+     0.012185219029449103
+    ],
+    "mean": -0.14667325562315292,
+    "note": "history-arm acquisition (measured source solve) charged per world, no amortization; reported, not a terminal rule input"
+   },
+   "purity": {
+    "n": 180,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 180
+   },
+   "rank_delta_oracle_minus_reset": {
+    "developmental_direction_count_negative": 90,
+    "mean": -401.0111111111111,
+    "n": 90
+   },
+   "shuffle_equal_n_null": {
+    "observed_mean_excess": 84.45555555555555,
+    "p_signflip": 0.7944
+   },
+   "shuffled_vs_reset_reduction": {
+    "ci": [
+     -0.43146436737366306,
+     -0.10027655960265738
+    ],
+    "mean": -0.25701942363545793
+   }
+  },
+  "C": {
+   "arms": {
+    "ORACLE_HISTORY": {
+     "ci": [
+      3416.5,
+      5487.455555555555
+     ],
+     "mean": 4394.422222222222
+    },
+    "RESET": {
+     "ci": [
+      3186.7,
+      5132.811111111111
+     ],
+     "mean": 4104.666666666667
+    },
+    "SHUFFLED_HISTORY": {
+     "ci": [
+      3590.688888888889,
+      6320.488888888889
+     ],
+     "mean": 4840.511111111111
+    }
+   },
+   "cost_ledger_means": {
+    "ORACLE_HISTORY": {
+     "acquisition": 5245.6,
+     "adaptation": 20.5,
+     "rejected_candidates": 392.81111111111113,
+     "retrieval": 7.0,
+     "storage_bytes": 236.23333333333332,
+     "verification": 188.5222222222222
+    },
+    "RESET": {
+     "acquisition": 0.0,
+     "adaptation": 0.0,
+     "rejected_candidates": 371.4888888888889,
+     "retrieval": 0.0,
+     "storage_bytes": 0.0,
+     "verification": 179.3
+    },
+    "SHUFFLED_HISTORY": {
+     "acquisition": 5245.6,
+     "adaptation": 18.5,
+     "rejected_candidates": 425.7888888888889,
+     "retrieval": 7.0,
+     "storage_bytes": 227.03333333333333,
+     "verification": 204.3111111111111
+    }
+   },
+   "cost_ledger_missing_families": [],
+   "draw_invariance": {
+    "direction_agrees": true,
+    "per_seed": {
+     "0": {
+      "mean_reduction": -0.3699852332914905,
+      "positive_fraction": 0.43333333333333335
+     },
+     "1": {
+      "mean_reduction": -0.4534134006196803,
+      "positive_fraction": 0.4666666666666667
+     },
+     "2": {
+      "mean_reduction": -0.14100791761445478,
+      "positive_fraction": 0.4666666666666667
+     }
+    }
+   },
+   "n_pairs": 90,
+   "oracle_vs_reset_reduction": {
+    "burden_cis_nonoverlapping": false,
+    "ci": [
+     -0.5152276108706018,
+     -0.15250486410174308
+    ],
+    "mean": -0.32146885050854174,
+    "threshold_met": false
+   },
+   "oracle_vs_reset_reduction_fully_charged": {
+    "ci": [
+     -3.948828911754781,
+     -2.5384030655023824
+    ],
+    "mean": -3.2119484370045126,
+    "note": "history-arm acquisition (measured source solve) charged per world, no amortization; reported, not a terminal rule input"
+   },
+   "purity": {
+    "n": 180,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 180
+   },
+   "rank_delta_oracle_minus_reset": {
+    "developmental_direction_count_negative": 41,
+    "mean": 21.322222222222223,
+    "n": 90
+   },
+   "shuffle_equal_n_null": {
+    "observed_mean_excess": 735.8444444444444,
+    "p_signflip": 0.0871
+   },
+   "shuffled_vs_reset_reduction": {
+    "ci": [
+     -0.608630536934764,
+     -0.1819634937287276
+    ],
+    "mean": -0.3846002099533327
+   }
+  },
+  "D": {
+   "arms": {
+    "ORACLE_HISTORY": {
+     "ci": [
+      3775.2444444444445,
+      5660.577777777778
+     ],
+     "mean": 4654.311111111111
+    },
+    "RESET": {
+     "ci": [
+      3585.5555555555557,
+      5269.366666666667
+     ],
+     "mean": 4371.977777777778
+    },
+    "SHUFFLED_HISTORY": {
+     "ci": [
+      3335.5777777777776,
+      5070.111111111111
+     ],
+     "mean": 4142.488888888889
+    }
+   },
+   "cost_ledger_means": {
+    "ORACLE_HISTORY": {
+     "acquisition": 5066.2,
+     "adaptation": 21.666666666666668,
+     "rejected_candidates": 420.97777777777776,
+     "retrieval": 7.0,
+     "storage_bytes": 231.03333333333333,
+     "verification": 194.6
+    },
+    "RESET": {
+     "acquisition": 0.0,
+     "adaptation": 0.0,
+     "rejected_candidates": 402.0777777777778,
+     "retrieval": 0.0,
+     "storage_bytes": 0.0,
+     "verification": 185.16666666666666
+    },
+    "SHUFFLED_HISTORY": {
+     "acquisition": 5066.2,
+     "adaptation": 18.666666666666668,
+     "rejected_candidates": 380.1666666666667,
+     "retrieval": 7.0,
+     "storage_bytes": 225.23333333333332,
+     "verification": 175.77777777777777
+    }
+   },
+   "cost_ledger_missing_families": [],
+   "draw_invariance": {
+    "direction_agrees": true,
+    "per_seed": {
+     "0": {
+      "mean_reduction": -0.3993877264085146,
+      "positive_fraction": 0.4
+     },
+     "1": {
+      "mean_reduction": -0.22722569332099332,
+      "positive_fraction": 0.43333333333333335
+     },
+     "2": {
+      "mean_reduction": -0.10807063301434199,
+      "positive_fraction": 0.4666666666666667
+     }
+    }
+   },
+   "n_pairs": 90,
+   "oracle_vs_reset_reduction": {
+    "burden_cis_nonoverlapping": false,
+    "ci": [
+     -0.40662889271487046,
+     -0.09673825660274984
+    ],
+    "mean": -0.24489468424795,
+    "threshold_met": false
+   },
+   "oracle_vs_reset_reduction_fully_charged": {
+    "ci": [
+     -3.164141456257229,
+     -1.6990511159180288
+    ],
+    "mean": -2.3701672076552143,
+    "note": "history-arm acquisition (measured source solve) charged per world, no amortization; reported, not a terminal rule input"
+   },
+   "purity": {
+    "n": 180,
+    "n_cannot_check": 0,
+    "n_impure": 0,
+    "n_pure": 180
+   },
+   "rank_delta_oracle_minus_reset": {
+    "developmental_direction_count_negative": 40,
+    "mean": 18.9,
+    "n": 90
+   },
+   "shuffle_equal_n_null": {
+    "observed_mean_excess": -229.48888888888888,
+    "p_signflip": 0.3322
+   },
+   "shuffled_vs_reset_reduction": {
+    "ci": [
+     -0.20594727985430777,
+     0.04739072124999729
+    ],
+    "mean": -0.0729745504249144
+   }
+  }
+ },
+ "protocol": "DEV_CAL_1_PROTOCOL_FREEZE_V1",
+ "receipt_schema": "SEARCH_GEOMETRY_RECEIPT_SCHEMA_V1",
+ "solution_episodic_classification": {
+  "cell_B": {
+   "n": 180,
+   "n_cannot_check": 0,
+   "n_impure": 0,
+   "n_pure": 180
+  },
+  "rule": "if m* in history, run evidences REUSE (SOLUTION_EPISODIC), never development"
+ },
+ "study": "DEV-CAL-1",
+ "terminal": "TRANSFERABLE_HEADROOM_OCM_MISSES",
+ "terminal_defects": [],
+ "terminal_note": null,
+ "wall_s": 11.297,
+ "worlds": {
+  "cannot_check_worlds": [],
+  "cert_type_histogram": {
+   "a": 60
+  },
+  "label_defects": [],
+  "per_cell": 30,
+  "seeds_per_world": 3
+ }
+}
