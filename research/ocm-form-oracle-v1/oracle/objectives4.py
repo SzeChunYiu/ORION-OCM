@@ -93,28 +93,61 @@ def pareto_front_k(items: List[Dict[str, Any]], vec_key: str,
                    maximize: Sequence[bool]) -> Dict[str, Any]:
     """Indices of the non-dominated set over `vec_key`.
 
+    Simple-cull skyline: candidates are compared only against the CURRENT
+    front, which costs O(n * |front|) rather than the naive O(n^2). The result
+    is identical -- this is an algorithmic change, not a semantic one -- but
+    the naive form does not terminate at campaign scale: an arm retaining ~2500
+    records over 72 arms gives ~10^5 records and ~10^10 pairwise comparisons.
+
+    Identical objective vectors are collapsed first, since duplicates can never
+    dominate one another and only inflate the comparison count. Every index
+    sharing a front vector is still reported, so no member is lost.
+
     Returns both the front and the cannot-check bucket so a caller can never
     silently read an incomplete front as a complete one.
     """
     ok, bad = partition_checkable(items, vec_key, len(maximize))
-    front: List[int] = []
+
+    # Collapse duplicate vectors: one representative each, members remembered.
+    groups: Dict[Any, List[int]] = {}
     for i in ok:
-        vi = items[i][vec_key]
+        groups.setdefault(tuple(items[i][vec_key]), []).append(i)
+    reps = list(groups.items())
+
+    # Sorting by the first objective in its own sense puts strong candidates
+    # first, so the front stabilises early and most later candidates are
+    # rejected on their first comparison.
+    first_max = bool(maximize[0]) if maximize else True
+    reps.sort(key=lambda kv: kv[0][0], reverse=first_max)
+
+    front_vecs: List[Any] = []
+    for vec, _members in reps:
         dominated = False
-        for j in ok:
-            if i == j:
-                continue
-            if dominates_k(items[j][vec_key], vi, maximize):
+        for fv in front_vecs:
+            if dominates_k(fv, vec, maximize):
                 dominated = True
                 break
-        if not dominated:
-            front.append(i)
+        if dominated:
+            continue
+        front_vecs = [fv for fv in front_vecs
+                      if not dominates_k(vec, fv, maximize)]
+        front_vecs.append(vec)
+
+    front_set = {tuple(v) for v in front_vecs}
+    front: List[int] = []
+    for vec, members in groups.items():
+        if vec in front_set:
+            front.extend(members)
+    front.sort()
     return {
         "front_indices": front,
         "n_front": len(front),
+        "n_distinct_front_vectors": len(front_set),
         "n_checked": len(ok),
+        "n_distinct_checked_vectors": len(groups),
         "n_cannot_check": len(bad),
-        "cannot_check_indices": bad,
+        "cannot_check_indices": bad[:500],
+        "n_cannot_check_indices_truncated": max(0, len(bad) - 500),
         "objectives": list(maximize),
     }
 
