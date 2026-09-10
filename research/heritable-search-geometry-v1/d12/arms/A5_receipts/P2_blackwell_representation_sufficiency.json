@@ -1,0 +1,41 @@
+{
+  "receipt_id": "A5-P2-BLACKWELL",
+  "schema": "TheoryTransportV1",
+  "atom_id": "P2 representation sufficiency",
+  "donor_domain": "statistical decision theory / information economics",
+  "donor_source_ids": [
+    "Blackwell, D. (1951), Comparison of Experiments, Proc. Second Berkeley Symposium",
+    "Blackwell, D. (1953), Equivalent Comparisons of Experiments, Ann. Math. Statist. 24(2)",
+    "verification aids: Richet-Perez proof note (HAL hal-03393159); de Oliveira diagrammatic notes; Liang lecture notes ch4 (five equivalent definitions); Tamuz Caltech notes"
+  ],
+  "donor_structure": "Experiment = Markov kernel mu(.|theta) from state theta to signals. mu' is a GARBLING of mu iff mu' = mu.M for a stochastic (Markov) matrix M. Theorem: garbling iff statistical sufficiency iff mu is preferred by EVERY expected-utility decision maker in every decision problem (one partial order, several equivalent definitions).",
+  "target_structure": "HSG representation sufficiency atom: when does a representation r: Sigma -> R of the search state preserve everything the system needs? Representation r2 is sufficient relative to r1 iff r1 factors through r2 by a degradation kernel; equivalently r1 loses no task value over r2 iff r2 is a garbling of r1.",
+  "mapping": "experiment mu(.|theta) <-> observation channel induced by representation r; garbling matrix M <-> any coarser representation r' = M.r (deterministic or stochastic aggregation); decision problem u <-> HSG task; value order <-> uniform-over-tasks value of a representation.",
+  "preserved_relations": [
+    "garbling order is a partial order (reflexive, transitive); so representation sufficiency is transitive: composing degradations loses (weakly) value",
+    "strictly coarsening a representation strictly loses value for SOME task (not all) - coarsening is never free but is sometimes harmless",
+    "sufficiency = existence of a factorization through a kernel: purely structural, prior-free",
+    "d = 0 distance under bisimulation metrics (Desharnais 2004) recovers the exact/aggregation end of the same order (kernel-side dual)"
+  ],
+  "known_broken_relations": [
+    "Blackwell order is partial: incomparable representations exist (no total preorder on representations); HSG must keep incomparability, not force a ranking",
+    "classic theorem is finite signal/state spaces; general Borel extensions exist but measurability conditions must be added (assumption iii relocation, same caveat as G01/G06 rows)"
+  ],
+  "unknown_correspondences": [
+    "Blackwell order with COSTLY observation (channel price) - the price-aware refinement relevant to G10 burden is not part of the parent theorem",
+    "whether the PAC-Bayes chain geometry (G17 receipt) is monotone along the Blackwell order of its data-dependent priors - open, candidate D13 question"
+  ],
+  "assumptions_added": [
+    "finite or standard-Borel signal/state spaces",
+    "fixed task family (decision problems) known to the comparison - 'every task' quantification is over a declared family",
+    "representations as measurable kernels (no nonmeasurable representations; ties to assumption iii load-bearing finding in G06 row)"
+  ],
+  "candidate_theorem": "HSG representations ordered by garbling: r1 >= r2 iff exists kernel M with r2 = M.r1; then r2 suffices for every governed task iff r1 does, and if the order is strict some task loses value. Corollary: representation-minimal systems sit at garbling-minimal elements of their reachable representation set; further compression is exactly the Blackwell-incomparable-or-worse region.",
+  "strongest_parent": "Blackwell 1951/1953 garbling-sufficiency-value equivalence (verified at L2 and re-checked at validate)",
+  "route": "proof route: direct - the parent theorem IS the transported statement modulo renaming; finite case immediate, Borel case by standard extension",
+  "mapping_cost": {"L0": 1, "L1": 3, "L2": 10, "L3": 40, "map": 15, "synth": 30, "validate": 50, "total": 149},
+  "status": "SUPPORTED",
+  "self_assessment_note": "parent verified against multiple independent sources; mapping is a renaming, so SUPPORTED rather than PROPOSAL; residual risk concentrated in the Borel-extension measurability caveat",
+  "arm": "A5 successive-depth halving",
+  "written_utc": "2026-09-10T00:50:00Z"
+}
