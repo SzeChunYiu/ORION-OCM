@@ -102,28 +102,37 @@ class EGraph:
         complete = [True]
 
         def walk(c: int, path: frozenset):
+            """Returns (terms, truncated). `truncated` marks a result that depended
+            on this ancestor path or on the cap, and such a result is NOT memoised:
+            caching it would freeze a short list and hand it back on a later path
+            where more terms are constructible, which could silently drop a
+            reachable contaminated member."""
             c = self.find(c)
             if c in path:
-                complete[0] = False           # self-referential class, cannot enumerate
-                return []
+                complete[0] = False           # self-referential class
+                return [], True
             if c in memo:
-                return memo[c]
+                return memo[c], False
             out: list = []
+            truncated = False
             for n in sorted(self.classes[c], key=repr):
                 if n[0] == "leaf":
                     out.append(n[1])
                     continue
-                for l in walk(n[1], path | {c}):
-                    for r in walk(n[2], path | {c}):
+                ls, lt = walk(n[1], path | {c})
+                rs, rt = walk(n[2], path | {c})
+                truncated = truncated or lt or rt
+                for l in ls:
+                    for r in rs:
                         if len(out) >= cap:
                             complete[0] = False
-                            memo[c] = out
-                            return out
+                            return out, True
                         out.append((n[0], l, r))
-            memo[c] = out
-            return out
+            if not truncated:
+                memo[c] = out                 # path-independent, safe to reuse
+            return out, truncated
 
-        terms = walk(self.find(cid), frozenset())
+        terms, _ = walk(self.find(cid), frozenset())
         return terms, complete[0]
 
     def enodes(self):
