@@ -1,12 +1,25 @@
 {
- "freeze_id": "FREEZE_EVIDENCE_BINDING_V1",
- "registry": "HSG_V4_SEMANTIC_EXECUTION_EVIDENCE_BINDING",
- "version": "V1",
+ "amendment_chain": [],
+ "amendments": [
+  {
+   "cause": "DEV-CAL-1 (PR #328) landed D30_receipts.jsonl and DEVCAL1_receipts_shard{1..4}.jsonl after this freeze bound RECEIPT_COVERAGE_V1.json, so the committed table no longer derived from the receipts (COVERAGE_DRIFT 20 on first re-run). Re-emitted the table (15 files x 13 families) and extended derive_receipt_coverage.py with the ZERO_FAMILY_RECEIPT finding class so the five receipts emitting no frozen family (D22 + all four DEVCAL1 shards) are DECLARED rather than silently absent. The (empty) amendment_chain field predates this amendment and is retained verbatim; this freeze's amendments live under 'amendments', the key verify_freeze_chain.py resolves.",
+   "id": "AM-1-DEVCAL1-D30-COVERAGE-PROPAGATION",
+   "manifest_sha256": {
+    "RECEIPT_COVERAGE_V1.json": "87408a4cba3577f14e58fc97bf34bbbfdf9bae1bd4ec43198fb5b5564a52317f",
+    "derive_receipt_coverage.py": "971c53b08fb0701b64d0bd2b328c03014a3f5dd3334ca416abedbb0a4618a0d6"
+   },
+   "prior_manifest_sha256_observed": {
+    "RECEIPT_COVERAGE_V1.json": "23eede4faac5c1263f8fad4f278b843a8aca9fa362158f03bcb8e1376b670dd7",
+    "derive_receipt_coverage.py": "577c0d0ddaedc9db172f87c4d1e7b7ad5b6886b39ea703e00bc3a1b74b6ca455"
+   },
+   "recorded_by": "task #54 follow-up (DEV-CAL-1 verdict propagation)",
+   "recorded_utc": "2026-09-10"
+  }
+ ],
+ "cause": "D28 F1 (MEDIUM): no freeze manifest named any exact/results/*.json, so post-landing edits to landed results were invisible to the chain (two real disclosed instances: 905a7200, 97b38de2). F9 showed the same hole for emitters (an oracle default flip would have been chain-enforced had emitters been hash-bound). This freeze binds every evidence artifact, receipt, and emitter of the lane as of creation.",
  "created_by": "D28 hostile review F1/F9 remediation (task #52)",
  "created_from_commit": "e0f5a62ad46c51a41e852427ca2801487a3157ab",
- "cause": "D28 F1 (MEDIUM): no freeze manifest named any exact/results/*.json, so post-landing edits to landed results were invisible to the chain (two real disclosed instances: 905a7200, 97b38de2). F9 showed the same hole for emitters (an oracle default flip would have been chain-enforced had emitters been hash-bound). This freeze binds every evidence artifact, receipt, and emitter of the lane as of creation.",
- "scope": "exact/results/*, exact/receipts/*, exact/*.py (emitters+worlds+runners), RECEIPT_COVERAGE_V1.json, derive_receipt_coverage.py. New studies ADD files freely (unbound until named); MODIFying any bound file requires an amendment below naming the file and its new sha256, per verify_freeze_chain.py resolution rules.",
- "rule": "append-only amendments; the newest amendment naming a file is authoritative; a change without an amendment is UNRECORDED_DRIFT and fails CI (freeze-chain.yml)",
+ "freeze_id": "FREEZE_EVIDENCE_BINDING_V1",
  "manifest_sha256": {
   "RECEIPT_COVERAGE_V1.json": "23eede4faac5c1263f8fad4f278b843a8aca9fa362158f03bcb8e1376b670dd7",
   "derive_receipt_coverage.py": "577c0d0ddaedc9db172f87c4d1e7b7ad5b6886b39ea703e00bc3a1b74b6ca455",
@@ -55,6 +68,9 @@
   "exact/worlds.py": "b606c3e3485fd7df32f0d806b6b96f6d57a9f362d4adb21b15a83bb20b832208",
   "exact/worlds_d19d20.py": "7b47adea49914bb6dcc8ac4a8818da6daca6c6360330841c574587cf176b8df7"
  },
- "amendment_chain": [],
- "non_finality": "EXPLICITLY_NON_FINAL - supersede, never defend"
+ "non_finality": "EXPLICITLY_NON_FINAL - supersede, never defend",
+ "registry": "HSG_V4_SEMANTIC_EXECUTION_EVIDENCE_BINDING",
+ "rule": "append-only amendments; the newest amendment naming a file is authoritative; a change without an amendment is UNRECORDED_DRIFT and fails CI (freeze-chain.yml)",
+ "scope": "exact/results/*, exact/receipts/*, exact/*.py (emitters+worlds+runners), RECEIPT_COVERAGE_V1.json, derive_receipt_coverage.py. New studies ADD files freely (unbound until named); MODIFying any bound file requires an amendment below naming the file and its new sha256, per verify_freeze_chain.py resolution rules.",
+ "version": "V1"
 }

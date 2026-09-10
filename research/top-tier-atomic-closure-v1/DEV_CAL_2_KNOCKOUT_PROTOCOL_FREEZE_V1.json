@@ -1,0 +1,75 @@
+{
+ "schema": "OCM_DEV_CAL_2_KNOCKOUT_PROTOCOL_FREEZE",
+ "version": "V1",
+ "owner_issue": 323,
+ "written_utc": "2026-09-10",
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_ANY_SCORED_RUN",
+ "no_scored_run_in_this_commit": true,
+ "purpose": "Carrier attribution for the DEV-CAL-1 terminal TRANSFERABLE_HEADROOM_OCM_MISSES: the benchmark provably carries structural transferable headroom (cell B oracle-history burden reduction +97.0% [96.5, 97.4] vs RESET, PR #328 cc3af86d) that the actual OCM history cannot reach. This study grants the OCM side EXACTLY ONE interface component per arm — as data, never as a code change — and identifies which missing component (the carrier) blocks the transfer.",
+ "non_final": "EXPLICITLY_NON_FINAL",
+
+ "parent_anchors": {
+  "protocol": "DEV_CAL_1_PROTOCOL_FREEZE_V1.json",
+  "terminal_fired": "TRANSFERABLE_HEADROOM_OCM_MISSES",
+  "terminal_rule_being_executed": "oracle wins in cell B, OCM_CONTINUED does not reach the oracle's reduction. Benchmark viable; proceed to carrier attribution knockouts.",
+  "committed_evidence": "exact/results/DEVCAL1_RESULTS.json; receipts exact/receipts/DEVCAL1_receipts_shard{1..4}.jsonl (PR #328, commit cc3af86d)",
+  "oracle_ceiling_cell_B": "+97.0% acquisition-burden reduction, bootstrap CI [96.5, 97.4], n=90 world-seed pairs, draw-invariant, shuffle null p=0.79",
+  "reset_floor_cell_B": "RESET arm as committed in DEVCAL1_RESULTS.json",
+  "controls_validity_carried_from_devcal1": "A positive control fired (+97.3%), C surface-mimicry control silent (-32.1%), D negative control silent (-24.5%); controls are RE-RUN per arm here (assay validity is per-arm, never inherited)",
+  "ocm_continued_status_in_parent": "OMITTED_WITH_REASON: no natural typed-operator OCM history exists for the reminted world matrix and fabricating one is forbidden by the DEV-CAL-1 purity rules; this is exactly the gap the knockouts below attribute"
+ },
+
+ "interface_components": {
+  "REPRESENTATION": "histories may store and serve typed-operator STRUCTURAL CERTIFICATES for their stored objects: the m* template (decomposition DAG modulo relabeling), the typed-operator support multiset, digest-bound, in the DEV-CAL-1 certificate format (devcal1_certificates.py emitters, unchanged)",
+  "RETRIEVAL_KEYING": "retrieval is keyed by structural certificate (same three certificate types as latent_same) instead of/by the surface signature; a reminted target retrieves history objects of its latent class",
+  "TRANSPORT_MAP": "an explicit transport map — the verified homomorphism the DEV-CAL-1 checker already accepts as certificate (c) — carries a retrieved certificate onto the reminted surface symbols",
+  "CHARGING_MODEL": "per-world history acquisition cost is amortised across the world family that shares the certificate (the DEV-CAL-1 fully-charged variant measured -14.7% in cell B at a 2-world economy; amortisation structure is an open variable)"
+ },
+
+ "design": {
+  "world_matrix": "IDENTICAL to the frozen DEV-CAL-1 matrix: exact/results/DEVCAL1_world_freeze_table.json verbatim, same worlds, same cells, same seeds, same ecology axes; DC2 arms are NEW arms on the SAME matrix (comparability by construction; the committed DEVCAL1 anchors remain the reference values)",
+  "ladder_arms_PRIMARY": {
+   "KO-1_REPRESENTATION": "grant REPRESENTATION only. Certificates are stored in history and visible as content; retrieval, transport and charging unchanged. If the existing pipeline cannot even incidentally use stored certificates, this arm is expected silent — that silence is a measurement, not a waste",
+   "KO-2_PLUS_RETRIEVAL": "grant REPRESENTATION + RETRIEVAL_KEYING. A reminted target retrieves by certificate; no object transformation occurs at serve time",
+   "KO-3_PLUS_TRANSPORT": "grant REPRESENTATION + RETRIEVAL_KEYING + TRANSPORT_MAP. The full serve path from history object to reminted surface exists",
+   "KO-4_PLUS_CHARGING": "the full stack + CHARGING_MODEL. Identical serve path to KO-3; only the cost accounting of acquisition changes"
+  },
+  "leave_one_out_SECONDARY": "from the full KO-4 stack, remove exactly one component (4 arms: -REPRESENTATION, -RETRIEVAL, -TRANSPORT, -CHARGING). A component whose removal collapses recovery is NECESSARY; the ladder says which are SUFFICIENT in sequence. Divergence between the two readings is recorded, not adjudicated here",
+  "anchors_per_world_pair": "ORACLE_HISTORY, RESET, SHUFFLED_HISTORY re-run unchanged from the committed DEVCAL1 arm definitions on every world-pair (the anchors must reproduce the committed values within frozen tolerance or the run is ASSAY_DEFECT)",
+  "adapters_are_data": "every grant is a DECLARATIVE adapter record consumed by the unchanged runner (component name, certificate digests, keying rule id, transport map id, amortisation rule id); adapters are sha256-bound and emitted in the receipts; NO runner code change is authorised by this freeze",
+  "controls_per_arm": "cells A, C, D re-run for every arm; the DEV-CAL-1 assay-validity rule applies per-arm (A must fire, C and D must stay silent)"
+ },
+
+ "endpoints": {
+  "primary": "recovery_share in cell B per arm: (burden_RESET - burden_arm) / (burden_RESET - burden_ORACLE_HISTORY), on acquisition burden compute-matched and information-matched, all HDI-14 cost families charged (acquisition, retrieval, rejected candidates, verification, bytes/state, adaptation)",
+  "secondary": "total_burden_incl_acquisition recovery_share (the amortisation-sensitive readout); search-geometry receipts per SEARCH_GEOMETRY_RECEIPT_SCHEMA_V1 on every arm x cell (HDI-15)",
+  "prediction_registered": "the failing carrier is the interface pipeline's first missing component; if the DEV-CAL-1 attribution (representational world/operator interface) is right, KO-1 alone stays silent and KO-2 or KO-3 is the minimal recovering tier; if amortisation alone blocks transfer, KO-3 recovers on the primary but not the secondary readout"
+ },
+
+ "terminals": {
+  "CARRIER_IDENTIFIED_TIER_k": "tier k is the MINIMAL ladder arm whose cell-B recovery_share >= the frozen threshold (below), with the anchor reproduction check passing. The component granted at tier k is THE failing carrier; architecture work on exactly that component (and nothing else) becomes authorised, per #323 section 6",
+  "INTERFACE_GRANTS_INSUFFICIENT": "no tier including the full stack reaches the threshold while the oracle anchor still reproduces its committed reduction. The block is not any single grantable component; the negative stands with the causal statement that the interface pipeline as a whole does not carry the oracle's transfer. Any further move is a NEW frozen study, not a re-run",
+  "AMORTISATION_DOMINATED": "tiers reach the threshold on the primary readout but none on total_burden_incl_acquisition. Carrier = charging model (KO-4's component); amortisation structure becomes the authorised work item, no other component may be touched",
+  "ASSAY_DEFECT": "any arm's control failure (A silent, or C/D alarmed), anchor reproduction failure, or draw-invariance failure of the primary endpoint. The arm does not bear on carriers at all; fix the assay and re-run"
+ },
+ "effect_threshold": "material recovery = recovery_share >= 0.25 of the oracle's cell-B reduction with non-overlapping bootstrap CIs at the frozen seed grid AND shuffle-equal-n null non-alarm; frozen BEFORE any run",
+ "host_rules": "runs on laptop billy / billy-old / LUNARC only; never Mac mini; fresh worktree; receipts sha-bound; 13-family receipt coverage rule of RECEIPT_COVERAGE_V1.json applies with explicit cannot_check markers for applicable-but-unmeasured families",
+
+ "checker_requirements": [
+  "single-component verifier: each KO adapter record names exactly the components its arm grants; any extra capability in the record fails closed",
+  "adapter digest binding: every adapter record's sha256 is emitted in the receipts and any post-hoc adapter edit is drift",
+  "anchor reproduction: ORACLE_HISTORY/RESET/SHUFFLED_HISTORY re-runs must match the committed DEVCAL1 cell values within the frozen tolerance (bootstrap CI overlap), else ASSAY_DEFECT",
+  "fail-closed structural-certificate checker unchanged from DEV-CAL-1 (certificate type + digest per latent_same pair; CANNOT_CHECK with reason, never silence)",
+  "history purity checker unchanged (target-solution digests absent from history bytes, both directions)",
+  "cost completeness: all HDI-14 cost families charged to every arm including adapter storage/serve costs",
+  "shuffle-equal-n null on every adaptive comparison; draw-invariance control on every 1-bit endpoint; positive control must fire and negative control must stay silent PER ARM"
+ ],
+
+ "explicitly_not_authorized_by_this_freeze": [
+  "any tau change, mutation-operator retuning, threshold tuning, architecture change (#323 section 11) — this freeze AUTHORIZES at most the component named by a CARRIER_IDENTIFIED_TIER_k terminal, and only after it fires",
+  "any runner/world/certificate-emitter code change; grants are data records only",
+  "granting more than the arm's declared components (including via adapter side effects)",
+  "redefining the structural relation, the certificate types, or the world matrix after seeing DC2 outcomes",
+  "using stored target methods or semantic family labels as evidence of anything"
+ ]
+}

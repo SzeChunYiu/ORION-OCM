@@ -135,6 +135,17 @@ def main():
         n_emit = sum(1 for t in table.values() if t[fam] == "EMITTED")
         if n_emit == 0:
             findings.append(f"ABSENT_EVERYWHERE: '{fam}' is emitted by NO committed receipt file")
+    # F6 follow-up (DEV-CAL-1/D30 propagation): a receipt file emitting ZERO of the
+    # 13 families was invisible before this rule -- its rows are readable but no
+    # frozen family key appears at receipt top level. The table rows already show
+    # ABSENT x13; this finding names the file so a zero-family receipt is DECLARED,
+    # not merely derivable (either no family applies -- recorded in that study's
+    # protocol -- or the receipt violates rule_for_new_studies below).
+    for fname, s in sorted(summary.items()):
+        if s["families_emitted"] == 0:
+            findings.append(f"ZERO_FAMILY_RECEIPT: '{fname}' ({s['rows']} rows) emits none of "
+                            f"the 13 frozen field families; applicable-but-unmeasured families "
+                            f"require explicit cannot_check markers under rule_for_new_studies")
     b_exec = [f for f, t in table.items() if t["B_exec vector"] == "EMITTED"]
     if b_exec:
         findings.append(f"B_exec vector emitted only by {b_exec} (D28 F6 measured it absent "
