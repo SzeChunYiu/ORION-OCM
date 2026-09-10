@@ -1,0 +1,66 @@
+{
+ "schema": "OCM_DEV_CAL_3_EXONERATED_COMPONENT_INVARIANTS",
+ "version": "V1",
+ "study": "DEV-CAL-3 charging attribution",
+ "protocol": "DEV_CAL_3_CHARGING_ATTRIBUTION_FREEZE_V1",
+ "owner_issue": 323,
+ "parent_verdict": "DEV-CAL-2 V2 AMORTISATION_DOMINATED (PR #345, 5d10d910)",
+ "generated_utc": "2026-09-10T20:22:00Z",
+ "source_results_file": "DEV_CAL_3_ATTRIBUTION_RESULTS_V1.json",
+ "source_results_sha256": "6ddd2b6555df5735c544c4821c2dba8656479c5bf9f09cc1c17b7c6a460b7470",
+ "run_host": "billy (laptop, python 3.8.10 — same interpreter family as the scored V2 run)",
+ "terminal": "CHARGE_CARRIER_MULTIPLE",
+ "carriers": ["NO_MINING_CHARGE", "MARGINAL_COST_ONLY"],
+ "carrier_reading": "The non-amortisation is carried by the acquisition (mining) charge in its full-charge, no-retirement form: excluding it entirely (NO_MINING_CHARGE) OR retiring it after N uses (MARGINAL_COST_ONLY, flips at every sensitivity N in {5,10,25}) both flip the secondary readout to recovery on tiers KO-2/KO-3/KO-4 with the KO-2 primary transfer intact and no draw-invariance conflict (Holm adjusted p = 0.0). Per the frozen decision rule (exactly one carrier -> CHARGE_CARRIER_k; more than one -> MULTIPLE) the terminal is MULTIPLE: two reform arms flip, both of them reforms of the same acquisition-charging component.",
+ "invariants": [
+  {
+   "invariant": "FAILURES_NOT_CARRIER",
+   "component": "FAILURES",
+   "class_level_statement": "Charging failed attempts is NOT the carrier of the DEV-CAL-2 non-amortisation: zeroing the failed-attempt charge (41.54% of cell-B total burden) does NOT flip the secondary readout to recovery — instead it breaks the KO-2 primary transfer itself (no arm holds the primary threshold; verdict under this reform = INTERFACE_GRANTS_INSUFFICIENT). Failure charges are load-bearing for the compute-matched primary readout.",
+   "measured_bounds": {
+    "failed_attempt_share_of_total_burden_cell_B": 0.41542407746531884,
+    "failed_attempt_share_of_work_cell_B": 0.9850942484291929,
+    "max_secondary_recovery_share_under_reform": 1.0,
+    "recovering_tiers_under_reform": [],
+    "ko2_primary_intact_under_reform": false,
+    "verdict_under_reform": "INTERFACE_GRANTS_INSUFFICIENT"
+   }
+  },
+  {
+   "invariant": "VERIFICATION_NOT_CARRIER",
+   "component": "VERIFICATION",
+   "class_level_statement": "The external verifier (CHECKER_C) charge is NOT the carrier of the non-amortisation: zeroing all verification charges (8.91% of cell-B total burden) leaves the verdict AMORTISATION_DOMINATED with zero recovering tiers and the KO-2 primary intact.",
+   "measured_bounds": {
+    "verification_share_of_total_burden_cell_B": 0.08905417722365773,
+    "max_secondary_recovery_share_under_reform": 43.2169769626335,
+    "recovering_tiers_under_reform": [],
+    "ko2_primary_intact_under_reform": true,
+    "verdict_under_reform": "AMORTISATION_DOMINATED"
+   }
+  },
+  {
+   "invariant": "NO_SALVAGE_NOT_CARRIER",
+   "component": "NO_SALVAGE",
+   "class_level_statement": "The absence of salvage credit on failed traces is NOT the carrier of the non-amortisation: failed traces DO carry reusable information (measured ledger reuse rate r_failed = 0.17200 — 177404 of 1031432 failed-trace events have a candidate digest equal to some run's verified success), but crediting that value at the measured rate still leaves the verdict AMORTISATION_DOMINATED with zero recovering tiers. The ledger is not salvage-starved; the acquisition charge dominates.",
+   "measured_bounds": {
+    "measured_reuse_rate_r_failed": 0.17199776621241147,
+    "n_failed_events": 1031432,
+    "n_reused_failed_events": 177404,
+    "max_secondary_recovery_share_under_reform": 10.073644856167114,
+    "recovering_tiers_under_reform": [],
+    "ko2_primary_intact_under_reform": true,
+    "verdict_under_reform": "AMORTISATION_DOMINATED"
+   }
+  }
+ ],
+ "as_is_control": {
+  "verdict": "EXACT_EQUALITY_WITH_DEV_CAL_2_SCORED_V2",
+  "fields_compared": 258,
+  "fields_exact": 250,
+  "fields_within_float_tolerance": 0,
+  "scored_fields_absent": 8,
+  "note": "On the laptop (same interpreter family as the scored run) every comparable field binds EXACTLY; the registered 1e-12 relative tolerance was not needed."
+ },
+ "n_rows_replayed_and_verified": 3960,
+ "input_binding_verification": "ALL_MATCH (both committed digest sources gate all five score-bearing inputs)"
+}
