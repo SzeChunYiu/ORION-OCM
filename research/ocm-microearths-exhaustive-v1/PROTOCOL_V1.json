@@ -1,0 +1,203 @@
+{
+ "axes": {
+  "genome_alleles": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "kernel_names": [
+   "K_world",
+   "K_senseact",
+   "K_learn",
+   "K_social",
+   "K_assemble",
+   "K_birthdeath",
+   "K_mut",
+   "K_inherit",
+   "inherit_memory"
+  ],
+  "kernel_specs": 512,
+  "leak": [
+   false,
+   true
+  ],
+  "method_semantics": {
+   "0": "none",
+   "1": "useful_method",
+   "9": "junk_method"
+  },
+  "methods": [
+   0,
+   1,
+   9
+  ],
+  "n_org": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "regime": [
+   0,
+   1
+  ],
+  "seeds": [
+   0
+  ],
+  "social_policy": [
+   "optional",
+   "forced",
+   "prestige"
+  ],
+  "ticks": 6
+ },
+ "binds_contract": {
+  "commit": "af4fa91e8f1dc74366857b25eb693809d1faf0eb",
+  "dir": "research/ocm-digital-biosphere-formal-v1",
+  "freeze_file": "FREEZE_V1.json",
+  "verification": "binding.verify_contract recomputes every declared sha256; drift is CANNOT_CHECK_CONTRACT_DRIFT, never a pass"
+ },
+ "cannot_check_rule": "CANNOT_CHECK_<reason> must name the missing instrument, never a resource shortage",
+ "compute_placement": {
+  "account": "lu2026-2-51",
+  "forbidden_partition": "nuc",
+  "forbidden_partition_reason": "submit-plugin refuses this project on nuc; sinfo and scontrol do not reveal it",
+  "network": "NONE -- LUNARC performs pure offline compute",
+  "partition": "lu48",
+  "staging": "/projects/hep/fs12/scratch"
+ },
+ "enumeration_bounds": [
+  {
+   "initial_full": 144,
+   "initial_multiset": 78,
+   "n_org": 2,
+   "reduction_factor": 1.85,
+   "worlds_full": 884736,
+   "worlds_multiset": 479232
+  },
+  {
+   "initial_full": 1728,
+   "initial_multiset": 364,
+   "n_org": 3,
+   "reduction_factor": 4.75,
+   "worlds_full": 10616832,
+   "worlds_multiset": 2236416
+  },
+  {
+   "initial_full": 20736,
+   "initial_multiset": 1365,
+   "n_org": 4,
+   "reduction_factor": 15.19,
+   "worlds_full": 127401984,
+   "worlds_multiset": 8386560
+  },
+  {
+   "initial_full": 248832,
+   "initial_multiset": 4368,
+   "n_org": 5,
+   "reduction_factor": 56.97,
+   "worlds_full": 1528823808,
+   "worlds_multiset": 26836992
+  },
+  {
+   "initial_full": 2985984,
+   "initial_multiset": 12376,
+   "n_org": 6,
+   "reduction_factor": 241.27,
+   "worlds_full": 18345885696,
+   "worlds_multiset": 76038144
+  },
+  {
+   "initial_full": 35831808,
+   "initial_multiset": 31824,
+   "n_org": 7,
+   "reduction_factor": 1125.94,
+   "worlds_full": 220150628352,
+   "worlds_multiset": 195526656
+  },
+  {
+   "initial_full": 429981696,
+   "initial_multiset": 75582,
+   "n_org": 8,
+   "reduction_factor": 5688.94,
+   "worlds_full": 2641807540224,
+   "worlds_multiset": 464375808
+  }
+ ],
+ "enumeration_modes": {
+  "FULL": "ordered initial assignments, 12^n",
+  "MULTISET": "unordered, C(12+n-1, n); licensed ONLY if permutation_invariance_probe returns PERMUTATION_INVARIANT"
+ },
+ "falsifiers": [
+  "F1 a kernel that cannot be ablated from the all-on baseline refutes section 2 independence",
+  "F2 a permutation counterexample forbids MULTISET and forces FULL enumeration",
+  "F3 a hostile that fires in zero worlds is an instrument hole, not a safe world",
+  "F4 a clean arm with zero birth/death events makes the BIO-T1 pass vacuous",
+  "F5 a clean control that is not silent invalidates the matching hostile's flip"
+ ],
+ "gates_issue": 292,
+ "instruments": [
+  {
+   "fails_when": "any frozen sha256 differs or a frozen file is missing",
+   "id": "binding.verify_contract"
+  },
+  {
+   "fails_when": "the frozen kernels.assert_independent_ablation ever returns ok=False",
+   "id": "ablation.probe_frozen_checker"
+  },
+  {
+   "fails_when": "two runs of an identical spec differ (must stay silent)",
+   "id": "ablation.no_alarm_control"
+  },
+  {
+   "fails_when": "any of the 512 kernel combinations raises",
+   "id": "ablation.lattice_completeness"
+  },
+  {
+   "fails_when": "a kernel cannot be flipped from the all-on baseline without raising",
+   "id": "ablation.baseline_effect_matrix"
+  },
+  {
+   "fails_when": "a permutation of the initial population changes the trajectory signature",
+   "id": "invariance.probe"
+  },
+  {
+   "fails_when": "the clean arm never exercises a birth/death decision (VACUOUS_PASS)",
+   "id": "vacuity.birth_reachability"
+  },
+  {
+   "fails_when": "a registered hostile fires nowhere, or a clean control is not silent",
+   "id": "hostiles_x.run_matrix"
+  },
+  {
+   "fails_when": "a registered hostile does not gate the frozen EB-F0 result",
+   "id": "hostiles_x.frozen_gate_coverage"
+  }
+ ],
+ "lane": "EB-F0-X exhaustive micro-Earths",
+ "no_alarm_controls": [
+  "identical spec rerun must produce a byte-identical trajectory signature",
+  "optional social policy must refuse the junk method (clean control for H-FORCED-COPY / H-PRESTIGE-STALE)",
+  "clean (leak=False) world must not report assay_interferes"
+ ],
+ "owner_issue": 296,
+ "schema": "MEX_PROTOCOL_V1",
+ "section": "16",
+ "terminals_allowed": [
+  "HOLD",
+  "FAIL",
+  "HOSTILE_DETECTED",
+  "COUNTEREXAMPLE",
+  "PARENT_RECONSTRUCTED",
+  "PARENT_SUFFICIENT",
+  "VACUOUS_PASS_DECISION_NEVER_EXERCISED",
+  "CANNOT_CHECK_<reason>"
+ ],
+ "terminals_forbidden": [
+  "OPEN_ENDED"
+ ]
+}
