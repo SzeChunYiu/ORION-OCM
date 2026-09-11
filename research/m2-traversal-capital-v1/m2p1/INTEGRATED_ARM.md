@@ -393,8 +393,10 @@ rows (hc02 / hc03 / hc10 were on controller_v2). Under **controller_v4** uniform
 | **hc10-quartic-climb** | **17 620** | **13 760** | **+28.1 % (loss)** |
 
 **7 / 8 under a uniform controller**, not 8 / 8. Attribution (hc10 dev states): controller_v3's
-probe-cost rule ranked the frequency library just ahead of MDL (expected 18 466 vs 20 758); in
-deployment it missed 42 of 163 targets (MDL: 9) and cost 17 620 vs 11 274. Over the eight worlds v3's
+probe-cost rule ranked the frequency library ahead of MDL (expected probe cost 18 466 vs 20 758), while
+v2's interleave validation preferred MDL (95 vs 86 held-out tasks strictly better); deployed, the
+frequency library cost 17 620 against v2's 11 274 on the same 163 targets (records: dev_state
+`ocm_controller`, arm rows on LUNARC `runs/…hc10…_ocm` and `_ocm4`). Over the eight worlds v3's
 rule changed two: hc01 better (2 495 → 1 632), hc10 much worse — net-negative.
 
 **controller_v5 (registered before its run):** v2's interleave-validation library rule restored,
