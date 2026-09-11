@@ -1,0 +1,9 @@
+M2-P2 emitter (real)                               V2 ACCEPT                 expected ACCEPT                 OK | V1 open-pattern: ACCEPT(open-pattern only) | 
+M2-P3 package A emitter (real)                     V2 ACCEPT                 expected ACCEPT                 OK | V1 open-pattern: REJECTED_CANNOT_CHECK | 
+tamper: package A plus a second write              V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: REJECTED_CANNOT_CHECK | expected exactly one write to worlds.jsonl, found 2
+tamper: package A writing another path             V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: REJECTED_CANNOT_CHECK | write to a target other than worlds.jsonl (line 172); expected exactly one write to worlds.jsonl, found 0
+tamper: M2-P2 with its name rebound to another path V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: ACCEPT(open-pattern only) | write to a target other than worlds.jsonl (line 474); expected exactly one write to worlds.jsonl, found 0
+tamper: package A plus a read of another file      V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: REJECTED_CANNOT_CHECK | open() that is not a write (line 182): only the one required write is allowed
+tamper: package A plus an os.environ read          V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: REJECTED_CANNOT_CHECK | \bos\.environ
+tamper: package A plus subprocess                  V2 REJECTED_CANNOT_CHECK  expected REJECTED_CANNOT_CHECK  OK | V1 open-pattern: REJECTED_CANNOT_CHECK | subprocess
+CALIBRATION PASS 8 cases
