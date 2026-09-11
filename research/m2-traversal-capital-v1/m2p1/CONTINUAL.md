@@ -1166,3 +1166,49 @@ itself stays NOT_ESTABLISHED: its verdict (v6.6 / v6.8 / v6.9) is not amended by
   so each gets both a v6.6 and a v6.6+h run and is compared pairwise. If identity holds everywhere, (h)
   becomes part of the default controller.
 
+## Outcomes of the v6.10 follow-up registrations (2026-09-11; every arm verifies every target)
+
+**K1-L attribution (records/k1abl610/) — prediction held.** h-only is identical to h+i, target by target,
+on **11 / 11** K1-L dev states. The K1-L pass is attributed to (h) alone; (i) has no demonstrated effect.
+
+**(h) adopted into the defaults.** The registered identity check on the v6.6 base held on **14 / 14** runs:
+identical liveness logs, cost never higher. SHIFT45 / s602 / s603 / s604, A → B → C s613, E5, FV6 and the
+three cross-world pairs are unchanged; A → B → C s604 3 498 → 3 478, s614 2 228 → 2 190, s615 2 204 → 2 089,
+FV8 59 741 → 58 885. The default controller is now **continual_v6.6+h** (`M2_H_OFF=1` reproduces
+pre-adoption runs). The standing positives — regime-shift lifetimes and cross-world acquisition — are
+unchanged by construction.
+
+**K1 under v6.10hi (fresh seeds 670–681, all 12 gated; records/k1n610/) — FAILED.** Under the fixed bar
+arithmetic: lifetime below the fixed controller **9 / 12 = 0.750** (bar ≥ 0.833); below RESET 12 / 12;
+regime-C at or below RESET 9 / 12 = 0.750 (bar ≥ 0.750, met). **K1 on mixed regimes stays NOT_ESTABLISHED**;
+per its stop rule the next attempt must address regime-change detection. The three seeds that lose to the
+fixed controller are **exactly the three that entered the lock-out** (s672 3 194 vs 3 078, s674 2 940 vs
+2 804, s679 2 345 vs 2 336): (h) stops paying for the lock-out but cannot lift it.
+
+**K1-L did not replicate on the next fresh sample.** The same lifetime bar on seeds 670–681 is 9 / 12,
+below 0.833. K1-L stands as passed on its registered sample (11 / 11) and **not replicated** on the next
+(9 / 12); it is recorded as FRAGILE, not as a robust C2 result.
+
+*Observational separation, pooled over five fresh-seed sets (v6.6, v6.8, v6.9, v6.10 × 2; 58 seeds):*
+seeds that entered the lock-out lost to the fixed controller on **10 / 11**; seeds that never entered it
+beat the fixed controller on **44 / 47**. The remaining mixed-regime lifetime negative is the lock-out itself.
+
+## Regime-change detection — exploratory offline study (not a registered claim)
+
+The organism's only regime signal is a developmental or foreign-regime library standing down; after a
+lock-out none is active, so no regime change is ever detected and the failure-evidence bar is never
+reset. Ground truth for a detector is in every A → B → C ecology (per-target segment labels). Parent
+absorbed: ADWIN (Bifet & Gavaldà 2007, `river` 0.22) and windowed two-sample distribution tests.
+
+- **Pass 1 (`m2_detector_offline.py`) — negative, explained.** ADWIN on per-target fragment novelty
+  detected nothing on any seed. The detector works (a must-flag step-stream control fires); the feature
+  does not: with four primitives the fragment vocabulary saturates and novelty only decays
+  (≈ 0.24 in A, 0.09 in B, 0.00 in C). The regimes differ in *which* motifs recur, not in new tokens.
+- **Pass 2 (`m2_detector_tv.py`).** Total-variation distance between the bigram distribution of the last W
+  verified programs and the current regime window; signal when TV > τ on k consecutive targets. Selected
+  on the 11 K1-v6.6 ecologies by a rule fixed in the script (W = 6, τ = 0.4, k = 3): 21 / 22 boundaries.
+  On 47 held-out ecologies: **89 / 94 boundaries detected, median delay 5 targets (max 18), 0.34 false
+  alarms per lifetime**; the must-flag control fires 5 and 4 targets after its two switches. The
+  held-out set includes the ecologies of seeds 658–681, so a registered detector test must use seeds
+  ≥ 682 whose ecologies have not been inspected.
+

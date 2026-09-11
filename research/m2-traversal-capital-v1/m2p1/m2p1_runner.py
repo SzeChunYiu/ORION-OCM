@@ -94,7 +94,7 @@ def _cont_version():
     e = lambda k: os.environ.get(k) == "1"
     base = ("continual_v6.9" if e("M2_V68D") and e("M2_V68E") and e("M2_V69F") else "continual_v6.8" if e("M2_V68D") and e("M2_V68E")
             else "continual_v6.7" if e("M2_V67") else "continual_v6.6")
-    h, i = e("M2_V610H"), e("M2_V610I")
+    h, i = e("M2_V610H") or os.environ.get("M2_H_OFF") != "1", e("M2_V610I")
     if not (h or i):
         return base
     if base == "continual_v6.9":
@@ -108,7 +108,10 @@ CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdo
              "incumbent_reset": os.environ.get("M2_V67") == "1",
              "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
              "retire_in_regime": os.environ.get("M2_V69F") == "1",
-             "futility_bar": os.environ.get("M2_V610H") == "1", "regime_evidence": os.environ.get("M2_V610I") == "1"}
+             # v6.10(h) is part of the DEFAULT controller since the registered identity check on the v6.6 base
+             # (14 / 14 runs: identical liveness logs, cost never higher). M2_H_OFF=1 reproduces pre-adoption runs.
+             "futility_bar": os.environ.get("M2_V610H") == "1" or os.environ.get("M2_H_OFF") != "1",
+             "regime_evidence": os.environ.get("M2_V610I") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.

@@ -72,3 +72,9 @@ continual_v6.10hi (lifetime below the fixed controller 11/11 and below RESET 11/
 verified), attributed to a decision-invariant futility repair of a failure-evidence lock-out. Full K1 stays
 NOT_ESTABLISHED; a fresh full-K1 test under v6.10hi is registered as a new claim. Rung remains **C2**.
 
+**Update (2026-09-11, latest).** K1 under v6.10hi failed on fresh seeds (lifetime below fixed 9/12);
+K1 stays NOT_ESTABLISHED. K1-L passed on its registered sample but did not replicate (9/12) and is
+recorded as FRAGILE. The decision-invariant futility repair (h) is now part of the default controller
+(identity 14/14). Rung remains **C2**; the robust K1 positives are regime shifts and cross-world
+acquisition.
+
