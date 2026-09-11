@@ -271,3 +271,31 @@ retained libraries at once). Predictions: s604 A′ ≤ 1 100 and lifetime ≤ 1
 the fixed controller); SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2; E5 414.1 ± 5 %;
 FV8 ≤ +0.05 %. Falsifiers: s604 lifetime ≥ 2 292; any B ≥ RESET; E5 > 434.8.
 
+## Outcome, continual_v5 (records/continual/SHIFT45*_v5_*)
+
+| world | RESET | fixed controller | v4.x | **v5** | B (v5) | A′ (v5) |
+|---|---|---|---|---|---|---|
+| SHIFT45 | 3 476 | 2 038 | 1 506 | 1 715 (+13.9 %) | 3 814 (+1.0 %) | 796 |
+| s602 | 3 538 | 2 156 | 1 785 | 1 859 (+4.1 %) | 3 814 (+3.1 %) | 989 |
+| s603 | 3 804 | 2 128 | 1 667 | 2 128 (+27.7 %) | 4 423 (+28.6 %) | 1 228 |
+| **s604** | 3 673 | 2 292 | 2 729 | **1 813 (−50.6 %; −21 % vs fixed)** | 3 625 (−12.6 %) | **1 107** |
+| E5 | 44 738 | 414.1 | 414.1 | 414.1 | | |
+
+s604 recovered as registered (A′ ≤ 1 100 missed by 7 slots; the lifetime falsifier silent).
+**The other three regressed** (± 3 % registered; +4 / +14 / +28 % measured; two B segments back
+above RESET) — s603's B is byte-for-byte the fixed controller's, i.e. the learned library
+never served. Attribution: the value window is not regime-aware — at a regime change it still
+carries the previous regime's positive hit deltas, so the old library stands down later than
+under the three-miss rule; the regime therefore starts later, the corpus at target 72 is a
+different (thinner) set, and the library it yields is weaker or is itself stood down by the
+same rule before it can earn a positive window.
+
+**Invariant.** The two stand-down signals detect different failures and neither subsumes the
+other: consecutive misses are fast at a regime change; realised value catches an expensive
+library whose sporadic hits do not pay for its misses.
+
+**continual_v5.1 (registered before its run): stand down on EITHER signal.** Nothing else
+changes. Predictions: SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2 (1 506 / 1 785 /
+1 667); s604 within ± 3 % of v5 (1 813), A′ ≤ 1 150; E5 414.1 ± 5 %. Falsifiers: any lifetime
+above its bound; any B ≥ RESET on SHIFT45 / s603 / s604.
+
