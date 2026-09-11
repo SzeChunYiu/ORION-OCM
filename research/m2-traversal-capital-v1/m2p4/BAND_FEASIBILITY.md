@@ -19,6 +19,18 @@ chunks, so the combinatorial skeleton the finding rests on is untouched. The tel
 that no prediction could be derived from it except "bigger T, bigger advantage" — a
 monotone rescaling of the same mechanism, not a new test of it.
 
+**That rejection must be read against what this lane has already done, not as a claim
+that wider-primitive grammars are untried.** `m2p1/m2_ext_distance.py` runs exactly such
+a substrate — `PRIMS6 = (inc, dec, double, square, triple, neg)` — and the **P = 6
+analogue is complete**: 6 seeds, all `BENEFIT_SURVIVES_AT_D2`, with benefit not decaying
+from d = 1 to d = 2 on any seed ([D2_REGISTERED_GRAMMAR.md](../m2p1/D2_REGISTERED_GRAMMAR.md),
+records `m2p1/records/EXT_DISTANCE_*.json`). It is a research analogue, EXACT_MATCH-controlled
+against the registered solver, not the registered grammar — which is precisely why it does
+not by itself discharge C3. So the accurate statement is: a wider-primitive grammar has been
+run and the d = 2 law held there; what is still missing is a variation carried through the
+**registered, gated, authored-world** pipeline, which is what the chunk-band route below
+would supply.
+
 Widening the **chunk band** is the variation that does change the structure: with
 chunks of length 3–4, reachable builder lengths are sums of {3,4} — 3, 4, 6, 7, 8 —
 so **length 5 is unreachable**. And it needs no new substrate: the registered units
