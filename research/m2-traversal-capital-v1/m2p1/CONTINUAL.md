@@ -1212,3 +1212,36 @@ absorbed: ADWIN (Bifet & Gavaldà 2007, `river` 0.22) and windowed two-sample di
   held-out set includes the ecologies of seeds 658–681, so a registered detector test must use seeds
   ≥ 682 whose ecologies have not been inspected.
 
+## continual_v6.11 — regime-change detector (registered 2026-09-11, before any v6.11 run)
+
+**Mechanism.** After every verified solve, the continual arm computes the total-variation distance between the
+bigram distribution of its **own** last W verified programs and that of the programs in its current detector
+window before them; after k consecutive exceedances of τ it signals a change at the start of the recent window
+and does exactly what a developmental library's stand-down already does: a new regime begins there
+(`regime_start`), retirements are lifted, and with (i) the failure-evidence bar is reset. It reads only the
+organism's verified programs, never ecology labels. Flag `M2_V611R`, off by default; run on the v6.10hi base.
+**Registered values, frozen: W = 6, τ = 0.4, k = 3** (warm-up 12), selected on the eleven K1-v6.6 ecologies by
+the rule in `m2_detector_tv.py`; no other values will be reported. The offline study used the ecologies'
+canonical programs; in life the organism's verified programs may differ in tokens, so the offline 89 / 94 is an
+upper bound and **the in-life detection log is what counts**. In-runner controls: a synthetic step stream is
+flagged at both switches (targets 50 and 94 for changes at 45 and 90); a stationary stream is never flagged.
+
+**Falsifiers, stated now.**
+- **The mechanism fires.** On the eleven pooled lock-out seeds (623, 626, 628, 629, 636, 642, 647, 662, 672,
+  674, 679), a `regime_detected` event followed by an `evidence_reset` occurs after the first lock-out attempt
+  on **≥ 8 / 11**. If it does not fire, the mechanism is dead whatever the cost.
+- **Lifetime.** Those eleven seeds beat the fixed controller on **≥ 6 / 11** (v6.10hi: 3 / 11).
+- **Inertness.** No regression beyond **+ 2 %** of v6.10hi on SHIFT45 / s602 / s603 / s604, the three cross-world
+  pairs, E5, FV6 and FV8 — worlds where a detection is mostly a false alarm, and a false alarm resets the corpus.
+  Clean A → B → C controls (634, 646, 658, 670) are reported without a bar.
+- **K1 under v6.11** (new claim, own lineage; the earlier K1 verdicts stand): freshly generated seeds
+  **682–693**, whose ecologies no study has inspected; all three original bars unchanged under the fixed
+  proportion rule (lifetime below the fixed controller ≥ 0.833 and below RESET on every gated seed, regime-C at
+  or below RESET ≥ 0.750, at least 10 gated seeds, every arm verifying every target).
+- **Stop rule.** If K1 under v6.11 fails, K1 on mixed regimes stays NOT_ESTABLISHED and the regime-detection
+  route is recorded as tried; the next attempt must change the evidence bar itself (the lock-out criterion),
+  not add a further trigger.
+
+controller_v5 is still running on hc02 and hc10 (the hc10 prediction, ≤ 13 760, is open); six of eight authored
+worlds beat their strongest parent so far.
+
