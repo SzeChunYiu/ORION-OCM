@@ -346,3 +346,11 @@ the chosen depth).** Predictions: hc08 misses fall to ≈ β + RESET and the int
 ≤ 17 000 (below the strongest parent, 19 449); hc01 / 05 / 06 / 09 within ± 5 % or better.
 Falsifier: hc08 ≥ 19 449.
 
+**controller_v4 outcome (LUNARC 3593366; records/m2p2_exploratory_v4/).** hc08: **15 509**
+vs the strongest parent's 19 449 (**−20.3 %**; was +4.6 %) — the registered ≤ 17 000 held; the
+miss-conditional rule (fitted on 9 of 46 validation rows, fallback False) no longer routes
+misses to the interleave. hc01 (1 632), hc05 (7 644) and hc09 (5 628) unchanged, as predicted.
+With hc06 (−50 %, v3 pending) the deployable controller now beats the strongest parent on
+**5 / 5 authored worlds scored so far** (−16 … −50 %), on worlds whose registered admission
+rule refused on every one.
+
