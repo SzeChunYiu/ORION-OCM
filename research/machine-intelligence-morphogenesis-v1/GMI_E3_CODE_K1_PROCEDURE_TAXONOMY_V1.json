@@ -1,0 +1,70 @@
+{
+  "schema": "GMIE3CodeK1ProcedureTaxonomyV1",
+  "status": "FROZEN_SECONDARY_MEDIATOR_RUBRIC__FAMILY_LABEL_SOLVER_HIDDEN",
+  "purpose": "Secondary H1a analysis of whether the correct abstract engineering procedure appears earlier in logged hypotheses/plans. Causal-fault file localization remains the primary objective mediator.",
+  "families": {
+    "F1_INTERFACE_SCHEMA_MIGRATION": {
+      "required_concepts_for_full_match": [
+        "identify the authoritative interface/schema boundary or changed contract",
+        "trace multiple producers/consumers/call sites coupled to that boundary",
+        "plan a coherent multi-site update rather than isolated symptom patch",
+        "include regression/integration verification across the boundary"
+      ],
+      "partial_match_examples": [
+        "mentions finding callers/consumers but not coherent contract propagation",
+        "updates one affected site while explicitly recognizing more coupled sites remain"
+      ],
+      "nonmatch_examples": [
+        "surface patch to one failing assertion with no interface/dependency reasoning",
+        "generic run-tests-first plan without schema/coupling hypothesis"
+      ]
+    },
+    "F2_STALE_DERIVED_STATE": {
+      "required_concepts_for_full_match": [
+        "distinguish source-of-truth state from derived/cache/index state",
+        "identify the mutation/update after which derived state becomes stale",
+        "propose invalidation/recompute/dependency repair",
+        "verify mutation followed by a dependent read/query"
+      ],
+      "partial_match_examples": [
+        "suspects cache/staleness but does not connect it to source mutation",
+        "proposes recompute without identifying the dependency lifecycle"
+      ],
+      "nonmatch_examples": [
+        "hard-code expected derived value",
+        "change read-side output while leaving stale-state mechanism untouched"
+      ]
+    },
+    "F3_FAILURE_CLEANUP_LIFECYCLE": {
+      "required_concepts_for_full_match": [
+        "identify resource/registration/temp-state acquisition",
+        "identify exceptional/failure path that bypasses or misorders cleanup",
+        "reason about cleanup/finalization/idempotence/ordering",
+        "verify both success and failure paths"
+      ],
+      "partial_match_examples": [
+        "spots missing cleanup but not lifecycle ordering or failure condition",
+        "adds cleanup without checking success/failure symmetry"
+      ],
+      "nonmatch_examples": [
+        "suppress the exception only",
+        "change test expectation without restoring lifecycle invariant"
+      ]
+    }
+  },
+  "scoring": {
+    "FULL_MATCH": "all required conceptual obligations are substantively present in the logged hypothesis/plan before protected success",
+    "PARTIAL_MATCH": "at least one family-specific causal concept is present but full procedure is not",
+    "NO_MATCH": "no family-specific causal procedure is present",
+    "AMBIGUOUS": "trace text is insufficient for reliable classification"
+  },
+  "event_order_metric": "ordinal of first FULL_MATCH event; if none before termination, censor+1",
+  "blinding": [
+    "family_id is never shown to solving arms",
+    "scorer reads only the logged event prefix being classified, not later agent reasoning",
+    "scorer may use evaluator-known family_id for classification after execution",
+    "H1a primary claim never depends solely on this subjective mediator"
+  ],
+  "claim_boundary": "Secondary descriptive/attribution support only in H1a; promotion to a primary mediator requires a separate prospective protocol with reliability assessment.",
+  "terminal": "GMI_E3_CODE_K1_PROCEDURE_TAXONOMY_FROZEN"
+}
