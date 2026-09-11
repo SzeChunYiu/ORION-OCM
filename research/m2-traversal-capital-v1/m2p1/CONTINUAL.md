@@ -441,3 +441,40 @@ the developmental *procedure* (probe with history-learned depth, charged validat
 own acquisitions, retained libraries) transfers across worlds even when the library does not —
 a first K2-flavoured observation, still inside one grammar.
 
+## Cross-world transfer — outcome (records/crossworld/)
+
+| develop on → deploy on | targets | RESET | fixed controller (X's library) | **continual_v5.2 (X's library)** | cont / fixed | events |
+|---|---|---|---|---|---|---|
+| E7 → E8_m7 | 63 | 40 850 | 41 036 (1.005×) | **35 980** | **0.877** | learned at 24 (freq, 5/8 tilable, 36 070); served 25–35; stood down at 38; no second attempt |
+| E8_m7 → E7 | 43 | 62 935 | 63 198 (1.004×) | **37 264** | **0.590** | learned at 24 (35 965); served 25–42 at ≈ 600 |
+| E5 → E7 | 43 | 62 935 | 63 090 (1.002×) | **37 192** | **0.590** | learned at 24 (35 965); served 25–42 |
+| E7 → E5 | 21 | 44 738 | 44 947 (1.005×) | 44 947 | 1.000 | attempt at 16 skipped (too few); lifetime ended |
+
+Held: the fixed controller within ± 30 % of RESET on every pair (it stands down and pays the
+cadence: +0.2…+0.5 %). **Missed:** continual ≤ 0.5 × fixed (0.88 / 0.59 / 0.59 / 1.00) and
+≤ −50 % vs RESET; the "continual ≥ fixed" falsifier fires by equality on E7 → E5.
+
+**What the rows say.** On the 43-target pairs the arm learns the foreign world at target 24
+and serves the rest at the matched controller's cost; the mean is then ≈ (24 × RESET + 36 k)
+/ 43 ≈ 0.57 × RESET — the *learning horizon* (≈ 24 in-regime solutions) plus the validation
+charge bound the benefit, as they do inside a shift segment. Predicted from that model: 0.57
+(measured 0.59). On the 21-target pair the horizon exceeds the lifetime: no headroom, equality
+— the honest terminal at that length. On E7 → E8_m7 the library learned from 16 easy early
+solutions (5/8 tilable) covered the easy half, missed on the harder targets from 36 on, was
+stood down at 38, and **no second attempt came**: the stand-down reset the regime corpus, so
+20 fresh solutions were required again and the lifetime ended first.
+
+**Invariant.** Standing down a library *learned in the current regime* is not evidence of a
+regime change; only a developmental or foreign-regime library's stand-down is. **continual_v5.4
+(registered before its run):** a learned library's stand-down keeps the regime corpus and
+retries after 8 new solutions; libraries carry the regime they were learned in. Predictions:
+E7 → E8_m7 second attempt near target 48 on a ≈ 40-solution corpus, cont / fixed ≤ 0.70;
+E8_m7 → E7 and E5 → E7 unchanged (± 2 %); SHIFT45 / s602 / s603 / s604 unchanged (± 2 %:
+their learned libraries stand down only at the A′ boundary, where A's library hits and no
+re-mining occurs). Falsifiers: E7 → E8_m7 ≥ 0.85 × fixed; any shift lifetime > 2 % above v5.2.
+
+**Claim as it stands.** The developmental *procedure* transfers to a foreign world when the
+library does not: on every pair long enough to contain the learning horizon, the continual arm
+learns the new world in life and lands well below the fixed controller and RESET; the size of
+the benefit is bounded by (lifetime − horizon) / lifetime. Still one grammar.
+

@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.2"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.4"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -571,7 +571,15 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         # try the OTHER retained libraries at once -- a return to a known
                         # regime should cost one probe each, not a cadence wait.
                         prev = C["active"]; C["active"] = None
-                        C["regime_start"] = len(C["solved"]); C["since_mine"] = 0
+                        if str(L.get("library", "")).startswith("dev:") or L.get("regime") != C.get("regime_start"):
+                            # a developmental or foreign-regime library standing down: a new regime begins
+                            C["regime_start"] = len(C["solved"]); C["since_mine"] = 0
+                        else:
+                            # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
+                            # regime change (E7 -> E8m7: the first learned library covered the easy
+                            # half, was stood down, and the corpus reset cost the lifetime its second
+                            # attempt). Keep the corpus; retry after min_new_after_fail new solutions.
+                            C["since_mine"] = max(C["since_mine"], CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
                         for kk, L2 in enumerate(C["libs"]):
                             if kk == prev:
                                 continue
@@ -600,6 +608,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 C["since_mine"] = 0 if rec is not None else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"]
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
+                                rec["regime"] = C.get("regime_start", 0)
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1
                                 pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
                                 used += u
