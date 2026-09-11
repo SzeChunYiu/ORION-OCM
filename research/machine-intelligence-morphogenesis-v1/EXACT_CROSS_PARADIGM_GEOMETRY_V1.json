@@ -1,0 +1,47 @@
+{
+  "schema": "ExactCrossParadigmGeometryV1",
+  "families": {
+    "programmatic_library": {
+      "morphology_cost_vector": {"MACRO_A":[4,16],"MACRO_B":[16,4]},
+      "unit": "binary enumerative candidates proxy",
+      "rows": [
+        {"p_family_X":0.1,"expected_cost":{"MACRO_A":14.8,"MACRO_B":5.2},"winner":["MACRO_B"]},
+        {"p_family_X":0.25,"expected_cost":{"MACRO_A":13.0,"MACRO_B":7.0},"winner":["MACRO_B"]},
+        {"p_family_X":0.5,"expected_cost":{"MACRO_A":10.0,"MACRO_B":10.0},"winner":["MACRO_A","MACRO_B"]},
+        {"p_family_X":0.75,"expected_cost":{"MACRO_A":7.0,"MACRO_B":13.0},"winner":["MACRO_A"]},
+        {"p_family_X":0.9,"expected_cost":{"MACRO_A":5.2,"MACRO_B":14.8},"winner":["MACRO_A"]}
+      ]
+    },
+    "probabilistic_bayes": {
+      "morphology_cost_vector": {"PRIOR_PLUS":[2,4],"PRIOR_MINUS":[4,2]},
+      "unit": "observations to posterior >=0.95 under fixed log-likelihood-ratio evidence",
+      "rows": [
+        {"p_family_X":0.1,"expected_cost":{"PRIOR_PLUS":3.8,"PRIOR_MINUS":2.2},"winner":["PRIOR_MINUS"]},
+        {"p_family_X":0.25,"expected_cost":{"PRIOR_PLUS":3.5,"PRIOR_MINUS":2.5},"winner":["PRIOR_MINUS"]},
+        {"p_family_X":0.5,"expected_cost":{"PRIOR_PLUS":3.0,"PRIOR_MINUS":3.0},"winner":["PRIOR_MINUS","PRIOR_PLUS"]},
+        {"p_family_X":0.75,"expected_cost":{"PRIOR_PLUS":2.5,"PRIOR_MINUS":3.5},"winner":["PRIOR_PLUS"]},
+        {"p_family_X":0.9,"expected_cost":{"PRIOR_PLUS":2.2,"PRIOR_MINUS":3.8},"winner":["PRIOR_PLUS"]}
+      ]
+    },
+    "neural_quadratic_gd": {
+      "morphology_cost_vector": {"FAST_X":[4,18],"FAST_Y":[18,4]},
+      "unit": "gradient steps to coordinate error <=0.1",
+      "rows": [
+        {"p_family_X":0.1,"expected_cost":{"FAST_X":16.6,"FAST_Y":5.4},"winner":["FAST_Y"]},
+        {"p_family_X":0.25,"expected_cost":{"FAST_X":14.5,"FAST_Y":7.5},"winner":["FAST_Y"]},
+        {"p_family_X":0.5,"expected_cost":{"FAST_X":11.0,"FAST_Y":11.0},"winner":["FAST_X","FAST_Y"]},
+        {"p_family_X":0.75,"expected_cost":{"FAST_X":7.5,"FAST_Y":14.5},"winner":["FAST_X"]},
+        {"p_family_X":0.9,"expected_cost":{"FAST_X":5.4,"FAST_Y":16.6},"winner":["FAST_X"]}
+      ]
+    }
+  },
+  "common_form": "Each morphology induces a target-family-conditioned burden vector c_M; ecology P yields E_P[c_M].",
+  "interpretation": [
+    "All three paradigm-specific structures induce different developmental burdens on target families and exact ecology-dependent winner reversals.",
+    "The mechanism producing c_M is different in each paradigm: code length/search branching, Bayesian prior odds/evidence, and optimization contraction.",
+    "The shared expected-cost form is too generic to establish a distinct GMI invariant; it is decision/portfolio mathematics.",
+    "A stronger theory must predict c_M or a compressed sufficient signature from morphology structure before target outcomes and transfer that predictor across paradigms."
+  ],
+  "terminal": "CROSS_PARADIGM_PHASE_CALIBRATED__COMMON_EXPECTED_COST_FORM_TOO_GENERIC",
+  "claim_ceiling": "exact parent-domain calibration; no cross-paradigm GMI law established"
+}
