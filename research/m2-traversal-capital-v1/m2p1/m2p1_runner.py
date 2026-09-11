@@ -206,7 +206,9 @@ def _remine(M, solved):
                              "depth": v["probe_depth"], "beta": v["beta"],
                              "tilable_at_depth": sum(1 for x in v["fit_detail"] if x["tiling"] <= v["probe_depth"]),
                              "hits": sum(1 for x in v["fit_detail"] if x["hit"]),
-                             "tiling_probe_violations": v["tiling_probe_violations"]} for k, v in fitted.items()},
+                             "tiling_probe_violations": v["tiling_probe_violations"],
+                             "lib": v["lib"], "val_tilings": [x["tiling"] for x in v["fit_detail"]]} for k, v in fitted.items()},
+          "val_programs": [list(r.program) for _, r, _ in val][:8],
           "chosen": best["library"], "deployed": bool(ok)}
     return (best if ok else None), charged, ev
 

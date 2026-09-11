@@ -478,3 +478,28 @@ library does not: on every pair long enough to contain the learning horizon, the
 learns the new world in life and lands well below the fixed controller and RESET; the size of
 the benefit is bounded by (lifetime − horizon) / lifetime. Still one grammar.
 
+## Twelve shift lifetimes (continual_v5.2 + controller_v4 dev on s610–s613; records/continual/SHIFT45_s61*_*)
+
+| world | RESET | fixed controller | **continual** | vs RESET | vs fixed | B | A′ (fixed → continual) |
+|---|---|---|---|---|---|---|---|
+| s610 | 3 713 | 1 832 | **1 640** | −55.8 % | −10 % | 3 114 (−13.7 %) | 978 → 1 289 |
+| s611 | 3 502 | 2 033 | **1 537** | −56.1 % | −24 % | 3 330 (−15.9 %) | 943 → 586 |
+| s612 | 3 746 | 1 962 | **1 508** | −59.7 % | −23 % | 2 831 (−17.4 %) | 1 262 → 998 |
+| s613 | 3 601 | 1 727 | **1 695** | −52.9 % | −1.9 % | 3 595 (+8.9 %) | 930 → 930 |
+
+```text
+12 shift lifetimes (1 in-sample, 11 fresh):  continual below the fixed controller on 12 / 12  (−1.9 … −27 %)
+                                             continual below RESET on 12 / 12                 (−47 … −60 %)
+                                             B (never developed) below RESET on 8 / 12; A′ recovered on 12 / 12
+```
+
+s613 is the first world where in-life learning never validated: three attempts (targets 72,
+80, 88; corpora 17, 25, 32 in-regime programs) and both candidates had **0 / 8 validation
+programs tilable at the chosen depth** every time, so every attempt was rejected at zero cost
+(v5.2) and B ran at the fixed controller's cost. From 32 canonical B programs the compact
+candidate should hold most of B's eight motifs, so a 0 / 8 tiling is unexplained by counts
+alone; the event record did not keep the candidate libraries. It now does (libraries, the
+per-task tiling depths and the validation programs), and s613 re-runs to attribute this from
+the record rather than by conjecture. s610's A′ (1 289 vs 978) is the expensive-learned-
+library transition already priced on s604.
+
