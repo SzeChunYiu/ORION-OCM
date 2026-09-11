@@ -214,3 +214,66 @@ and it is recorded as a missed prediction rather than absorbed.
 `B` at +32 % over RESET is the integrated arm's worst regime: a stale library costs a
 window of misses to detect and a re-probe every window to monitor. The parent's cost in
 the same regime is +100 %.
+
+## Twenty worlds, one controller (LUNARC arrays 3593038 → 3593063, liveness_v2)
+
+The integrated arm re-run from a fresh controller-aware dev phase on every world the lane
+had executed on LUNARC — three designs, twenty worlds, no per-world tuning:
+
+| world | targets | RESET | integrated | parent + MDL | ordinary parent | library | depth | vs RESET | vs strongest parent |
+|---|---|---|---|---|---|---|---|---|---|
+| e5_2001 | 17 | 60,046 | **523** | 1,045 | 51,485 | mdl | 3 | −99.1 % | −50.0 % |
+| e5_2002 | 22 | 58,739 | **374** | 746 | 6,474 | mdl | 3 | −99.4 % | −49.9 % |
+| e5_2003 | 20 | 59,972 | **306** | 611 | 13,082 | mdl | 3 | −99.5 % | −49.9 % |
+| e5_2004 | 20 | 65,206 | **369** | 738 | 5,821 | mdl | 3 | −99.4 % | −49.9 % |
+| e5_2005 | 21 | 62,287 | **374** | 746 | 44,202 | mdl | 3 | −99.4 % | −49.9 % |
+| e5_2006 | 28 | 66,654 | **408** | 816 | 6,984 | mdl | 3 | −99.4 % | −49.9 % |
+| e5_2007 | 21 | 48,858 | **392** | 783 | 6,102 | mdl | 3 | −99.2 % | −49.9 % |
+| e5_2008 | 26 | 69,594 | **412** | 822 | 5,885 | mdl | 3 | −99.4 % | −49.9 % |
+| e5_2009 | 21 | 73,291 | **296** | 592 | 5,578 | mdl | 3 | −99.6 % | −49.9 % |
+| e5_2010 | 16 | 66,959 | **371** | 741 | 52,226 | mdl | 3 | −99.5 % | −49.9 % |
+| life_3001 | 670 | 3,614 | **1,658** | 3,238 | 3,842 | freq (pre-controller dev) | 3 | −54.1 % | −48.8 % |
+| life_3003 | 669 | 3,647 | **1,633** | 3,242 | 3,937 | freq (pre-controller dev) | 3 | −55.2 % | −49.6 % |
+| world_1001_min6 | 99 | 55,373 | **1,654** | 3,307 | 11,490 | mdl | 4 | −97.0 % | −50.0 % |
+| world_1002_min4 | 82 | 37,830 | **2,735** | 5,468 | 15,178 | mdl | 4 | −92.8 % | −50.0 % |
+| world_1003_min6 | 97 | 53,648 | **3,041** | 4,221 | 13,643 | mdl | 4 | −94.3 % | −28.0 % |
+| world_1004_min4 | 82 | 30,728 | **5,252** | 6,105 | 22,494 | mdl | 4 | −82.9 % | −14.0 % |
+| world_1005_min6 | 61 | 44,804 | **2,273** | 4,545 | 13,370 | mdl | 4 | −94.9 % | −50.0 % |
+| world_1006_min4 | 79 | 36,683 | **2,446** | 4,892 | 24,914 | mdl | 4 | −93.3 % | −50.0 % |
+| world_1007_min6 | 77 | 40,351 | **3,952** | 7,557 | 21,617 | mdl | 4 | −90.2 % | −47.7 % |
+| world_1008_min4 | 73 | 29,364 | **6,236** | 7,979 | 15,216 | mdl | 4 | −78.8 % | −21.9 % |
+
+```text
+worlds                      : 20  (E5-recipe seeds 2001–2010, lifetimes 3001/3003 at 670 targets, fresh worlds 1001–1008 min-length 4/6)
+beats strongest parent      : 20 / 20
+vs RESET                    : median −98.1 %   min −54.1 %
+vs strongest parent         : median −49.9 %   min −14.0 %   max −50.0 %
+library chosen by validation: MDL on 18 / 18 worlds with a controller-aware dev phase
+```
+
+The strongest parent is the better of the two parents on each world: on 18 of 20 it is the
+same-library parent, and the integrated arm sits at the P1 bound (0.50) against it; on
+world_1003/1004/1008 the parent-with-MDL is already close to the controller and the margin
+narrows to 14–28 %, which is the honest floor of this table. Records:
+[records/WORLDS_OCM_AGGREGATE.json](records/WORLDS_OCM_AGGREGATE.json) and
+`records/worlds_ocm/<world>_ocm/{SUMMARY,LEDGER3_OCM}.json`.
+
+### FV8: the bounded stand-down overhead, and the defect behind it
+
+FV8 (14 foreign-vocabulary motifs of length 3–4, min canonical length 8) is the world where
+the library has no value: the probe's depth rule chooses depth 1 (β = 18), no probe hits,
+and the controller stands down. Measured (liveness_v2): integrated **56 370** vs RESET
+**56 056** (−0.56 %), parent-with-MDL 75 646, ordinary parent 81 800 — the controller
+beats the strongest parent by 25 % *by refusing to serve*, and pays a 314-slot/target
+overhead against RESET. The ledger cannot pay (there is no benefit to amortise); recorded
+as such in `records/worlds_ocm/../OCM_FV8_LEDGER3.json`.
+
+The overhead is not the probe (15 re-probes × 18 slots = 2 slots per target). It is a
+**cold-start defect**: liveness_v2 boots *live*, so the first window consulted the
+task-statement rule before a single probe had run; on a world the library never fits,
+those rule-routed interleaves (parent cost +35 %) are the whole 37 668-slot excess.
+**liveness_v3** (runner patched 2026-09-11): cold start stood down, the first target
+probes immediately, liveness is earned by a hit and never assumed. Registered before the
+re-runs: FV8 overhead falls to ≈ 2 slots/target (< 0.01 %); E5 and the shift lifetime
+change by < 1 % (their first probe hits, after which v2 and v3 coincide). Re-runs:
+FV8_v3 and E5_v3 on billy-old, SHIFT3 on laptop billy.

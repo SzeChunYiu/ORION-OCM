@@ -50,6 +50,24 @@ attribution rule* on a lifetime whose horizon was chosen to exceed the measured 
 that resolves target (2)'s ambiguity by measurement, not by choosing the friendlier rule.
 It does not change the 670-target record, which stays 475 ✓ / 878 ✗.
 
+## Amendment before any arm ran (2026-09-11 09:44 UTC, dev phase in progress)
+
+The ≈ 855-target horizon assumed life_3001's member count (1 031). That count was an
+argmax over 3 000 generator trials; with one trial per seed the member count follows the
+motif draw: **839 / 579 / 459 members → 696 / 481 / 381 protected targets** (streams
+101/42, 69/29, 55/23). The prediction rule is unchanged (break-even = hostile cost /
+1 957 with life_3001's per-task costs 3 603 dev, 7 655 validation); applied per seed:
+
+| seed | dev tasks | validation tasks | predicted hostile cost | predicted break-even | horizon | predicted |
+|---|---|---|---|---|---|---|
+| 4001 | 101 | 42 | 685 413 | 350 | 696 | ✓ (2.0×) |
+| 4002 | 69 | 29 | 470 602 | 240 | 481 | ✓ (2.0×) |
+| 4003 | 55 | 23 | 374 230 | 191 | 381 | ✓ (2.0×) |
+
+Because the split allocates cost and horizon proportionally, the margin is the same ≈ 2×
+on every seed; the falsifiers (a)–(c) stand. The array runs the liveness_v2 runner (the
+one registered above); the LUNARC runner is not touched while it runs.
+
 ## Outcome
 
 _pending — filled from `runs/life_400{1,2,3}/LEDGER3_OCM.json` when the array completes._

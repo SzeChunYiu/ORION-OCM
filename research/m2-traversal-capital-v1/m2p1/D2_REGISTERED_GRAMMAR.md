@@ -142,7 +142,7 @@ arrangement, part coverage 1.0:
 | seed | RESET | MDL library | reduction | better | **integrated arm** | reduction |
 |---|---|---|---|---|---|---|
 | D2 | 51 459 | 42 089 | 18.2 % | 30/60 | 22 685 | 55.9 % |
-| R401 | 56 386 | 49 884 | 11.5 % | 25/60 | — | — |
+| R401 | 56 386 | 49 884 | 11.5 % | 25/60 | 26 087 | 53.7 % |
 | R402 | 63 275 | 53 734 | 15.1 % | 32/60 | 26 867 | 57.5 % |
 | R403 | 59 562 | 41 415 | 30.5 % | 43/60 | 21 012 | 64.7 % |
 | R404 | 50 016 | 41 757 | 16.5 % | 33/59 | 22 265 | 55.5 % |
@@ -154,10 +154,9 @@ arrangement, part coverage 1.0:
 
 ```text
 library:        10 / 10 positive   mean −27.0 %   min −11.5 %
-integrated arm:  9 / 9 positive    mean −63.7 %   min −55.5 %   (R401 re-running: its
-                                    first dev state predated the controller)
+integrated arm: 10 / 10 positive   mean −63.4 %   min −53.7 %
 shuffled:       worse than RESET on every seed (≈ 2×)
-integrated / same-library parent:  0.500 – 0.540 on every seed (mean 0.513)
+integrated / same-library parent:  0.500 – 0.540 on every seed (mean 0.514)
 ```
 
 The integrated-over-parent ratio sits at the P1 bound on every seed: the probe serves
