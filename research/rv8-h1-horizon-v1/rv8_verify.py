@@ -110,10 +110,26 @@ def main(out):
             mismatched.append({"arm": arm, "mix_idx": mi, "composition": comp,
                                "null_seed": ns, "diffs": bad})
 
-    # CONTROL: the checker must be able to fire. Compare a row against a DIFFERENT
-    # row's recomputation; if that does not mismatch, the comparison logic is inert.
-    control_fired = None
+    # CONTROLS: agreement is not evidence unless the comparison can FAIL. Two of them,
+    # the first of which always runs so thin grid coverage cannot leave the checker
+    # unfired and silently inert.
+    #
+    # (1) synthetic: perturb a recomputed value by a known amount and require the same
+    #     comparison that produced "agree" to flag it.
+    # (2) cross-mix: compare a row against a DIFFERENT mix's recomputation, when the
+    #     loaded cells hold two mixes for one arm.
+    control_synthetic = None
+    control_cross_mix = None
     keys = sorted(rows)
+    for (arm, mi, comp, ns) in keys:
+        seeds = (STREAM_SEEDS[0],) if ns is not None else STREAM_SEEDS
+        mine = recompute(cells, arm, mi, comp, ns, seeds)
+        if mine is None:
+            continue
+        theirs = rows[(arm, mi, comp, ns)]["marginal"]["saving_per_task"]
+        control_synthetic = abs((mine["saving_per_task"] + 1.0) - theirs) > max(
+            TOL, abs(theirs) * 1e-12)
+        break
     for k1 in keys:
         arm, mi, comp, ns = k1
         if ns is not None:
@@ -124,14 +140,22 @@ def main(out):
         mine = recompute(cells, arm, other[0][1], comp, None, STREAM_SEEDS)
         if mine is None:
             continue
-        control_fired = abs(mine["saving_per_task"] -
-                            rows[k1]["marginal"]["saving_per_task"]) > TOL
+        control_cross_mix = abs(mine["saving_per_task"] -
+                                rows[k1]["marginal"]["saving_per_task"]) > TOL
         break
+    control_fired = bool(control_synthetic) and (control_cross_mix is not False)
 
     print(json.dumps({"rows_checked": checked, "rows_skipped": skipped,
                       "mismatched": mismatched,
                       "agree": not mismatched and checked > 0,
-                      "control_can_fire": control_fired}, indent=1, default=str))
+                      "control_can_fire": control_fired,
+                      "control_synthetic": control_synthetic,
+                      "control_cross_mix": control_cross_mix,
+                      "NOTE": "run against a SNAPSHOT of out/cells, never the live "
+                              "directory: cells are rewritten every 4,096 tasks, so a "
+                              "live read gives the analysis and this verifier different "
+                              "bytes and they will disagree for that reason alone"},
+                     indent=1, default=str))
     return 0 if (not mismatched and checked > 0 and control_fired) else 1
 
 

@@ -1,6 +1,14 @@
 """Post-preflight cost probe: measured wall-seconds per task per arm per family, on the
 REAL libraries. Sizing only (SLURM --time and launch order); touches no frozen design
-constant and files no result. Uses a probe salt disjoint from the scored stream."""
+constant and files no result. Uses a probe salt disjoint from the scored stream.
+
+WARNING, and the reason this file is not evidence about any arm: the probe seeds its
+draws from the LIBRARY KEY as well as the family, so every arm sees DIFFERENT tasks.
+Its numbers are per-arm absolute costs for sizing --time, and cross-arm comparisons
+drawn from them are unpaired and meaningless. The scored cells are the opposite:
+stream_task() hashes (SALT_RV8, mix_idx, composition, seed, pos) with NO arm term, so
+every arm solves the identical task at the identical position and the surface is
+strictly paired."""
 import json, pickle, sys, time, hashlib, random
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
