@@ -1,0 +1,42 @@
+{
+  "all_predictions_green": false,
+  "claim_ceiling": "Exact finite lifecycle calibration only. Generic amortization/locality economics remain parent-owned; this does not establish a new machine-intelligence morphology.",
+  "constants": {
+    "N": 15,
+    "coordination_cost": 0.25,
+    "memory_price": 8,
+    "module_sizes": [1, 3, 5, 15],
+    "query_arity": 4,
+    "unversioned_copies": 1,
+    "unversioned_exposure": 1,
+    "verify_multiplier": 0.5,
+    "versioned_copies": 2,
+    "versioned_exposure": 0.05
+  },
+  "diagnosis": "T1 stationary did remove versioning but did not collapse factorization: with high sigma/materialization cost 2^k, the monolithic k=15 realization remained too expensive. Low invalidation alone is insufficient to predict monolith; sigma/representation scaling must be modeled jointly.",
+  "predictions": {
+    "R_STAR_intermediate_module_size": true,
+    "R_STAR_versioned": true,
+    "T1_stationary_monolithic_unversioned": false,
+    "T2_dense_is_no_finer_than_target": true,
+    "T3_weak_retention_unversioned": true,
+    "T4_short_reuse_no_coarser_than_target": true
+  },
+  "regimes": [
+    {"horizon_queries": 120000, "name": "R_STAR_TARGET", "retention_price": 2.5, "update_cone": 1, "update_events": 600},
+    {"horizon_queries": 120000, "name": "T1_STATIONARY", "retention_price": 2.5, "update_cone": 1, "update_events": 0},
+    {"horizon_queries": 120000, "name": "T2_DENSE_DEPENDENCY", "retention_price": 2.5, "update_cone": 12, "update_events": 600},
+    {"horizon_queries": 120000, "name": "T3_WEAK_RETENTION", "retention_price": 0.0, "update_cone": 1, "update_events": 600},
+    {"horizon_queries": 6000, "name": "T4_SHORT_REUSE", "retention_price": 2.5, "update_cone": 1, "update_events": 600}
+  ],
+  "winners": {
+    "R_STAR_TARGET": {"avg_query_modules": 2.5384615384615383, "avg_update_modules": 1.0, "build_work": 96.0, "memory_charge": 1536.0, "module_count": 3, "module_size": 5, "regime": "R_STAR_TARGET", "retention_penalty": 2400.0, "serving_work": 350769.23076923075, "total_cost": 383601.23076923075, "update_work": 28800.0, "versioned": true},
+    "T1_STATIONARY": {"avg_query_modules": 2.5384615384615383, "avg_update_modules": 1.0, "build_work": 96.0, "memory_charge": 768.0, "module_count": 3, "module_size": 5, "regime": "T1_STATIONARY", "retention_penalty": 0.0, "serving_work": 350769.23076923075, "total_cost": 351633.23076923075, "update_work": 0.0, "versioned": false},
+    "T2_DENSE_DEPENDENCY": {"avg_query_modules": 2.5384615384615383, "avg_update_modules": 3.0, "build_work": 96.0, "memory_charge": 1536.0, "module_count": 3, "module_size": 5, "regime": "T2_DENSE_DEPENDENCY", "retention_penalty": 7200.0, "serving_work": 350769.23076923075, "total_cost": 446001.23076923075, "update_work": 86400.0, "versioned": true},
+    "T3_WEAK_RETENTION": {"avg_query_modules": 2.5384615384615383, "avg_update_modules": 1.0, "build_work": 96.0, "memory_charge": 768.0, "module_count": 3, "module_size": 5, "regime": "T3_WEAK_RETENTION", "retention_penalty": 0.0, "serving_work": 350769.23076923075, "total_cost": 380433.23076923075, "update_work": 28800.0, "versioned": false},
+    "T4_SHORT_REUSE": {"avg_query_modules": 3.1868131868131866, "avg_update_modules": 1.0, "build_work": 40.0, "memory_charge": 640.0, "module_count": 5, "module_size": 3, "regime": "T4_SHORT_REUSE", "retention_penalty": 600.0, "serving_work": 22401.0989010989, "total_cost": 30881.0989010989, "update_work": 7200.0, "versioned": true}
+  },
+  "all_rows_omitted_from_summary_receipt": true,
+  "all_rows_note": "The executable deterministically emits every candidate row. This compact committed receipt records the complete winner/prediction decision and the failure diagnosis; rerunning gmi_vlc_exact_phase.py emits the full table.",
+  "terminal": "VLC_PHASE_PREDICTION_EXACT_MICROSCOPE_FAIL"
+}
