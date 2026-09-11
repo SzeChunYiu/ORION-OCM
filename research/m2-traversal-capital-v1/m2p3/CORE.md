@@ -46,5 +46,6 @@ It cannot conclude:
 | 1 — freeze (this PR) | design and calibration only; no authored content, no scored run |
 | 2 — author session + entry gates | **package A: `CANNOT_CHECK_EMITTER_REJECTED`** (the frozen guard rejects the spec-mandated write when the filename is spelled literally; [STAGE2.md](STAGE2.md)); its overlap result (0/7 shapes, 0/7 chunk sets) stands |
 | 2b — V2 freeze (corrected guard implementation, calibrated) | **frozen by this PR**: guard 8 / 8 on real emitters and tamper controls; orchestrator reproduces M2-P2's stage-2 receipt in all 16 fields; [v2/M2P3_FREEZE_V2.json](v2/M2P3_FREEZE_V2.json) |
-| 2c — fresh author session (package B) + V2 entry gates | blocked on this PR merging |
-| 3 — scored run (LUNARC, `m2p2_gf` runner) | blocked on a package that passes stage 2 |
+| 2c — fresh author session (package B) + V2 entry gates | **`ENTRY_GATES_PASS`**, 4 viable / 6, G-SURF 4 / 4 ([STAGE2B.md](STAGE2B.md)) |
+| 3 — scored run (LUNARC 3600810, scored 3600991) | **`C2_REPLICATED_SECOND_AUTHOR_MODEL` (4 / 4)**, median −92.0 %, point prediction held ([STAGE3.md](STAGE3.md)) |
+
