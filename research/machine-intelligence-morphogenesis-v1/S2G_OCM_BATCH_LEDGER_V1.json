@@ -1,0 +1,37 @@
+{
+  "schema": "S2GOCMBatchLedgerV1",
+  "protocol": "S2G_OCM_PROSPECTIVE_V1.md",
+  "freeze_rule": "Eligibility/exclusion is decided before protected outcomes of the candidate batch. This ledger may append future attempts but may not retroactively admit an excluded world after seeing its result.",
+  "historical_not_eligible": [
+    {
+      "group": "all worlds visible before S2G-V1 freeze",
+      "reason": "calibration/history only by protocol"
+    },
+    {
+      "group": "ABC seeds 601-603",
+      "reason": "the C3 runs were registered/launched before S2G-V1 was frozen; later outcome visibility cannot make them prospective"
+    }
+  ],
+  "post_freeze_candidates": [
+    {
+      "group": "C3b ABC seeds 604-612 under continual_v6.3",
+      "registration_seen": "main commit e5b5f6a7884d78130dccd56157047b44e3b0c347",
+      "status": "EXCLUDED_FROM_S2G_V1_BEFORE_OUTCOME",
+      "reason": "v6.3 performs protected-lifetime re-mining/recombination and can change its library/developmental geometry after protected execution starts. S2G-V1's frozen predictor is computed once from pre-target chosen-library/validation geometry and contains no state variable for later reminting/recombination. Counting ABC-v6.3 would therefore test an omitted dynamic-morphology object, not the frozen V1 map.",
+      "allowed_use": "C3/K2 assay only; may motivate a separately frozen S2G-V2 after the complete C3b outcome batch, never backfilled into V1"
+    }
+  ],
+  "admission_rule_for_v1": {
+    "required": [
+      "fresh world first executed after S2G-V1 freeze",
+      "pre-target development+validation produces chosen library, T, D, beta_D and validation b_i/d_i/g_i rows",
+      "the protected arm's proposal geometry is governed by that frozen controller/library state for the scored world, aside from the already specified liveness fallback; no new library/miner/update mechanism during protected target execution",
+      "protected per-target rank_0 and rank_H receipt is available for every verified target",
+      "world is independent under the existing lane definition"
+    ],
+    "minimum_batch": 6
+  },
+  "current_v1_count": 0,
+  "current_terminal": "CANNOT_CHECK_BATCH_SIZE",
+  "next_eligible_source": "future fresh fixed-controller/single-development-state worlds executed after freeze; do not redesign the world family to favor the predictor"
+}
