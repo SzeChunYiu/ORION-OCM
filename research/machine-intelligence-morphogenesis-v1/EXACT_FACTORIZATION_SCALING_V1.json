@@ -1,0 +1,33 @@
+{
+  "schema": "ExactFactorizationScalingV1",
+  "family": "n independent binary state cells with n-bit external input; synchronous update s_i' = s_i XOR x_i",
+  "native_factored_description": "n state cells + one shared local XOR rule + wiring/loop index",
+  "flat_parent": "explicit global finite-state transducer table",
+  "compact_parent": "ordinary loop/program over a bit vector",
+  "rows": [
+    {"n":1,"global_states":2,"global_inputs":2,"flat_transition_entries":4,"factored_state_bits":1,"factored_execution_xor_ops":1,"generic_program_execution_xor_ops":1,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":4.0},
+    {"n":2,"global_states":4,"global_inputs":4,"flat_transition_entries":16,"factored_state_bits":2,"factored_execution_xor_ops":2,"generic_program_execution_xor_ops":2,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":8.0},
+    {"n":3,"global_states":8,"global_inputs":8,"flat_transition_entries":64,"factored_state_bits":3,"factored_execution_xor_ops":3,"generic_program_execution_xor_ops":3,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":21.333333333333332},
+    {"n":4,"global_states":16,"global_inputs":16,"flat_transition_entries":256,"factored_state_bits":4,"factored_execution_xor_ops":4,"generic_program_execution_xor_ops":4,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":64.0},
+    {"n":5,"global_states":32,"global_inputs":32,"flat_transition_entries":1024,"factored_state_bits":5,"factored_execution_xor_ops":5,"generic_program_execution_xor_ops":5,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":204.8},
+    {"n":6,"global_states":64,"global_inputs":64,"flat_transition_entries":4096,"factored_state_bits":6,"factored_execution_xor_ops":6,"generic_program_execution_xor_ops":6,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":682.6666666666666},
+    {"n":7,"global_states":128,"global_inputs":128,"flat_transition_entries":16384,"factored_state_bits":7,"factored_execution_xor_ops":7,"generic_program_execution_xor_ops":7,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":2340.5714285714284},
+    {"n":8,"global_states":256,"global_inputs":256,"flat_transition_entries":65536,"factored_state_bits":8,"factored_execution_xor_ops":8,"generic_program_execution_xor_ops":8,"exact_transition_equivalence_verified":true,"flat_to_factored_execution_ratio":8192.0},
+    {"n":9,"global_states":512,"global_inputs":512,"flat_transition_entries":262144,"factored_state_bits":9,"factored_execution_xor_ops":9,"generic_program_execution_xor_ops":9,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":29127.11111111111},
+    {"n":10,"global_states":1024,"global_inputs":1024,"flat_transition_entries":1048576,"factored_state_bits":10,"factored_execution_xor_ops":10,"generic_program_execution_xor_ops":10,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":104857.6},
+    {"n":11,"global_states":2048,"global_inputs":2048,"flat_transition_entries":4194304,"factored_state_bits":11,"factored_execution_xor_ops":11,"generic_program_execution_xor_ops":11,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":381300.36363636365},
+    {"n":12,"global_states":4096,"global_inputs":4096,"flat_transition_entries":16777216,"factored_state_bits":12,"factored_execution_xor_ops":12,"generic_program_execution_xor_ops":12,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":1398101.3333333333},
+    {"n":13,"global_states":8192,"global_inputs":8192,"flat_transition_entries":67108864,"factored_state_bits":13,"factored_execution_xor_ops":13,"generic_program_execution_xor_ops":13,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":5162220.307692308},
+    {"n":14,"global_states":16384,"global_inputs":16384,"flat_transition_entries":268435456,"factored_state_bits":14,"factored_execution_xor_ops":14,"generic_program_execution_xor_ops":14,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":19173961.14285714},
+    {"n":15,"global_states":32768,"global_inputs":32768,"flat_transition_entries":1073741824,"factored_state_bits":15,"factored_execution_xor_ops":15,"generic_program_execution_xor_ops":15,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":71582788.26666667},
+    {"n":16,"global_states":65536,"global_inputs":65536,"flat_transition_entries":4294967296,"factored_state_bits":16,"factored_execution_xor_ops":16,"generic_program_execution_xor_ops":16,"exact_transition_equivalence_verified":false,"flat_to_factored_execution_ratio":268435456.0}
+  ],
+  "interpretation": [
+    "The explicit flat transition table has 4^n state-input entries while the factored and generic-program executions use n XOR operations.",
+    "Factorization can therefore create exponential succinctness relative to an explicit transition table.",
+    "An ordinary compact program preserves the same O(n) execution structure, so the result does not privilege an OCM or neuron-like basis.",
+    "The scientifically relevant residual is which factorization/update/search bias is acquired and favored, not whether a flat table exists."
+  ],
+  "terminal": "FACTORIZATION_EXPONENTIAL_VS_FLAT__GENERAL_PROGRAM_PARENT_COMPACT",
+  "claim_ceiling": "exact scaling calibration; standard factorization/state-space-explosion principle; no intelligence novelty"
+}
