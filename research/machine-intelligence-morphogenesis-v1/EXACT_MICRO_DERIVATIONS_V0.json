@@ -1,0 +1,73 @@
+{
+  "schema": "ExactMicroDerivationV0",
+  "domain": {
+    "state": [0, 1, 2],
+    "x0": [0, 1],
+    "x1": [0, 1],
+    "label": [0, 1]
+  },
+  "basis": {
+    "leaves": ["state/input/label", "constants_0_1_2"],
+    "unary": ["is0", "is2", "inc_saturating", "dec_saturating"],
+    "binary": ["add_saturating", "min"],
+    "ternary": ["if_then_else"],
+    "forbidden_architecture_macros": [
+      "NEURON",
+      "PRODUCTION_RULE",
+      "BAYES_UPDATE",
+      "PROGRAM_INTERPRETER",
+      "ATTENTION",
+      "BACKPROP"
+    ]
+  },
+  "search": {
+    "prediction_max_expression_size": 6,
+    "update_max_expression_size": 6,
+    "prediction_semantic_classes": 702,
+    "update_semantic_classes": 1979
+  },
+  "targets": {
+    "NEURAL_LIKE_DISCRETE_THRESHOLD_LEARNER": {
+      "prediction": {
+        "size": 6,
+        "expression": "is2(add(s,add(x0,x1)))"
+      },
+      "update": {
+        "size": 6,
+        "expression": "add(l,is2(add(s,l)))"
+      }
+    },
+    "SYMBOLIC_RULE_MICRO": {
+      "prediction": {
+        "size": 3,
+        "expression": "min(s,x0)"
+      },
+      "update": {
+        "size": 6,
+        "expression": "ite(min(x0,l),x0,s)"
+      }
+    },
+    "EVIDENCE_ACCUMULATOR_MICRO": {
+      "prediction": {
+        "size": 3,
+        "expression": "is0(is0(s))"
+      },
+      "update": {
+        "size": 3,
+        "expression": "add(s,l)"
+      }
+    },
+    "PROGRAMMATIC_REGISTER_MICRO": {
+      "prediction": {
+        "size": 4,
+        "expression": "ite(x0,s,x1)"
+      },
+      "update": {
+        "size": 4,
+        "expression": "ite(x0,l,s)"
+      }
+    }
+  },
+  "terminal": "COMMON_MICROBASIS_D1_COMPILES_FOUR_TOY_MORPHOLOGIES__UNIVERSALITY_NULL_OPEN",
+  "claim_boundary": "Finite bounded D1 compilation only. Targets are tiny analogues, not full neural, Bayesian, symbolic or program-learning systems. The basis is a small generic program algebra, so UNIVERSAL_COMPUTATION_ONLY and PARENT_FORMALISM_SUFFICIENT remain live nulls."
+}
