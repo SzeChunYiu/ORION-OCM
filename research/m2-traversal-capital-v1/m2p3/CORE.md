@@ -44,5 +44,6 @@ It cannot conclude:
 | stage | state |
 |---|---|
 | 1 — freeze (this PR) | design and calibration only; no authored content, no scored run |
-| 2 — author session + entry gates | blocked on this PR merging |
-| 3 — scored run (LUNARC, `m2p2_gf` runner) | blocked on stage 2 |
+| 2 — author session + entry gates | **package A: `CANNOT_CHECK_EMITTER_REJECTED`** (the frozen guard rejects the spec-mandated write when the filename is spelled literally; [STAGE2.md](STAGE2.md)); its overlap result (0/7 shapes, 0/7 chunk sets) stands |
+| 2b — V2 freeze (corrected guard implementation, calibrated), then a fresh author session | next |
+| 3 — scored run (LUNARC, `m2p2_gf` runner) | blocked on a package that passes stage 2 |
