@@ -76,3 +76,51 @@ For the fitted gate on the 670-target worlds, the marginal ledger against fit si
 Monotone: the gate's acquisition cost is the fit, and a small fit suffices. The **probe
 gate needs no fit at all**, so for it this ledger collapses to "does probe-B beat RESET-B" —
 which is what the 670-target probe run now measures.
+
+## The decay curve — benefit does not decay with distance
+
+D1 is the matched mixed ecology (same 12 motifs, `k = 4`, same MDL library selection),
+whose protected stream carries both grades. Joining each arm's per-target rows to the
+ecology's `arrangement_distance_to_train`:
+
+| ecology | distance | n | RESET | MDL library | reduction | strictly better |
+|---|---|---|---|---|---|---|
+| D1 | **1** | 34 | 48 361 | 45 832 | **5.2 %** | 15 / 34 |
+| D1 | **2** | 26 | 49 963 | 43 506 | **12.9 %** | 12 / 26 |
+| D2 | **2** | 60 | 51 459 | 42 089 | **18.2 %** | 30 / 60 |
+
+**The benefit does not decay from `d = 1` to `d = 2`; it rises.** An interpolator over
+stored solutions — the hostile review's alternative explanation — would show its largest
+benefit at `d = 1` and collapse at `d = 2`. The observed direction is the reverse. The
+transferable object is therefore a **compositional prior over parts**, indifferent to how
+far the target's arrangement sits from any solved arrangement, not proximity to anything
+already solved.
+
+Claim ceiling for this sub-result: one library, one seed, `n = 34 / 26 / 60`. The rise
+from 5.2 % to 12.9 % within D1 is inside sampling noise at these sizes; what is *not*
+noise is the absence of the collapse that interpolation predicts. A 3-seed replication of
+pure `d = 2` at the feasible window (`m = 12, k = 4, train_n = 90`) is running.
+
+## Deployment at d = 2 — two gates, complementary regimes
+
+| gate on D2 (pure `d = 2`, n = 60) | served | RESET | parent (always serve) | gate | oracle |
+|---|---|---|---|---|---|
+| **observable** (task-statement features) | 70 % | 51 459 | 42 089 | **38 877** | 34 313 |
+| probe (depth ≤ 3) | **0 %** | 51 459 | 42 089 | 55 074 | 34 313 |
+
+The **observable-feature gate is positive at `d = 2`**: −24.5 % vs RESET and **−7.6 % vs
+the parent with the same library**, leak-free. That is a deployable OCM-specific win on
+novel arrangements in the registered grammar.
+
+The **probe gate fails here for a mechanism-exact reason**: D2's targets are 4-token
+compositions and the registered probe spans ≤ 3 tokens, so it never hits and pays only
+`β` — the "β-overhead regime" the [probe-gate note](PROBE_GATE.md) said was untested.
+It is now measured: −7.0 % vs RESET, the predicted overhead.
+
+So the two deployable gate forms have **complementary regimes** — the probe wins at
+composition depth ≤ 3 (FOREIGN_M1, the 670-target worlds), the task-statement rule wins
+at depth 4 (D2), and neither is universal. The mechanism-derived next step is a probe
+whose depth is **learned from history** (the tiling-token count of solved training
+programs is observable). Registered prediction before the run: on D2 it hits ~50 % and
+its expected `B` (~61 k) *exceeds* RESET — likely negative; the run measures the boundary
+rather than rescues the gate.
