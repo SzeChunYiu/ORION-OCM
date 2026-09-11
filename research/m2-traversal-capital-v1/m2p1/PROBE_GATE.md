@@ -106,6 +106,7 @@ small-horizon ecology built to test distance, not economics.
 |---|---|---|---|---|
 | FOREIGN_M1 | ≤ 3 | **−26 % vs parent** | coverage-depth: +22 % vs RESET ✗ → cost-depth running | lost |
 | E7 (43 targets) | ≤ 3 | **−37 % vs parent** (served 49 %) | — | lost (−7 %) |
+| FV6 (foreign vocabulary, 120 targets) | ≤ 3 | **−40 % vs parent** (served 100 %, beats oracle) | — | −30 % vs parent |
 | life_3001 / 3003 | ≤ 3 | **−49 % vs parent** | — | (oracle-feature ceiling only) |
 | D2 (pure d = 2) | 4 | −7 % vs RESET (overhead) | **−46 % vs parent** | −7.6 % vs parent |
 | FV8 | 4 | −15 % vs RESET (overhead) | running | −1 % vs RESET |
