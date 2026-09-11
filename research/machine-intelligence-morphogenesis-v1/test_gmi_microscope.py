@@ -179,3 +179,13 @@ def test_credit_receipt_cell_reproduces():
     committed = json.loads((RES / "STAGE_DE_CREDIT_V11_CREDIT_E8.json").read_text())
     r = rl.run("R1", bases.B0, 4, 0, 8)
     assert r["capability"] == committed["capability_by_cell"]["R1|B0_LOCAL_ADAPTIVE_TRANSDUCERS|4"] and r["R"] == committed["R_by_cell"]["R1|B0_LOCAL_ADAPTIVE_TRANSDUCERS|4"]
+
+
+def test_transformer_microfeature_exact_receipt_reproduces(tmp_path):
+    """X-TMT1..13: the exact/numerical theorem checks are GREEN and the receipt is byte-reproducible (sha)."""
+    import json
+    from gmi_microscope import tmt
+    r = tmt.main(str(tmp_path / "r.json"))
+    assert r["status"] == "GREEN" and r["n_passed"] == 13
+    ref = json.load(open(HERE / "GMI_TRANSFORMER_MICROFEATURE_EXACT_RECEIPT_V1.json"))
+    assert ref["receipt_sha256"] == r["receipt_sha256"]
