@@ -37,7 +37,7 @@ def main():
             top = max(sizes); vals = sizes[top]
             best[r] = max(vals); adm[r] = min(vals) >= theta
         target = d.get("target_coeffs"); kind = "parity" if target is None and "PARITY" in os.path.basename(path) else ("smooth" if target else "unknown")
-        rows.append({"receipt": os.path.basename(path), "run_tag": d.get("run_tag"), "kind": kind, "target_coeffs": target, "train": eco.get("train"), "criterion": crit, "H": eco.get("H"),
+        rows.append({"receipt": os.path.basename(path), "run_tag": d.get("run_tag"), "kind": kind, "target_coeffs": target, "train": eco.get("train"), "criterion": crit, "H": eco.get("H"), "label_noise": eco.get("label_noise"),
                      "best_capability_by_row": best, "admissible_rows": sorted(r for r in adm if adm[r]), "hole": not any(adm.values()),
                      "frontier_empty_everywhere": all(v == [] for v in d["frontier_H_r"].values()), "predicted_occupant_property": PREDICTED_PROPERTY.get(kind)})
     holes = [r for r in rows if r["hole"]]
@@ -48,9 +48,9 @@ def main():
            "row_classes": CLASS}
     out["receipt_sha256"] = sha256_of({k: v for k, v in out.items() if k != "receipt_sha256"})
     json.dump(out, open(os.path.join(RES, "STAGE_DE_HOLE_CENSUS_V1.json"), "w"), indent=1, sort_keys=True, default=str)
-    L = ["# Hole census v1 (RV-377-027) — admissible registered rows per executed ecology\n", "| receipt | kind | criterion | train | admissible rows | hole |", "|---|---|---|---|---|---|"]
+    L = ["# Hole census v1 (RV-377-027) — admissible registered rows per executed ecology\n", "| receipt | kind | criterion | events | noise | train | admissible rows | hole |", "|---|---|---|---|---|---|---|---|"]
     for r in rows:
-        L.append(f"| {r['receipt']} | {r['kind']} {r['target_coeffs'] or ''} | {r['criterion']} | {r['train']} | {', '.join(r['admissible_rows']) or '—'} | {'HOLE' if r['hole'] else ''} |")
+        L.append(f"| {r['receipt']} | {r['kind']} {r['target_coeffs'] or ''} | {r['criterion']} | {r['H']} | {'yes' if r['label_noise'] else ''} | {r['train']} | {', '.join(r['admissible_rows']) or '—'} | {'HOLE' if r['hole'] else ''} |")
     L.append("\nPredicted occupant property per hole kind (declared before any occupant row): " + json.dumps(PREDICTED_PROPERTY, indent=0))
     open(os.path.join(RES, "STAGE_DE_HOLE_CENSUS_V1.md"), "w").write("\n".join(L) + "\n")
     return out

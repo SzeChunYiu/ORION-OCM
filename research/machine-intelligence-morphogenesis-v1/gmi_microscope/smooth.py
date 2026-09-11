@@ -547,6 +547,11 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth1_calib_v6":
         # RV-377-025 calibration: ROWS_V6 on the original E_smooth (V1 coefficients); used only for per-column per-event costs
         main(coeffs=COEFFS_V1, tag="V4C_SMOOTH1_ROWS_V6_CALIB", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] in ("bayes2_few", "bayes2_noise", "bayes2_ref"):
+        # RV-377-031: the RV-029 ecologies re-run under the corrected NORMALIZE macro (wide accumulator)
+        which = sys.argv[1].split("_")[1]
+        main(coeffs=COEFFS_V3, tag={"few": "V12_SMOOTH3_BAYES_E6_FIX", "noise": "V12_SMOOTH3_BAYES_NOISE_FIX", "ref": "V12_SMOOTH3_BAYES_REF_FIX"}[which],
+             n_events=6 if which == "few" else 16, rows=ROWS_V7, criterion="unseen", noise=(which == "noise"))
     elif len(sys.argv) > 1 and sys.argv[1] == "bayes_few":
         # RV-377-029 (i): few observations (6 events) on E_smooth3, rows ROWS_V7
         main(coeffs=COEFFS_V3, tag="V10_SMOOTH3_BAYES_E6", n_events=6, rows=ROWS_V7, criterion="unseen")

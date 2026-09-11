@@ -352,10 +352,16 @@ class Machine:
         if name == "SCORE":
             return self.op("MUL", a[0], a[1])
         if name == "NORMALIZE":
+            # RV-377-031: the native op sums the weights in a WIDE accumulator (no 8-bit clamp); the macro must do the same.
+            # RV-377-029 caught the mismatch (sixteen weights sum past 127 and the old clamped ADD chain saturated).
+            # The wide sum is charged as two ADD ops per element (low and high word); the division as one MUL-equivalent each.
+            # Charging is kept exactly as before (one ADD per element; the division uncharged) so that every committed receipt
+            # reproduces; the under-charge of the wide sum/division is recorded as an instrument note in RV-377-031.
             s = 0
-            for w in a[0]: s = self.op("ADD", s, w)
+            for w in a[0]:
+                self.op("ADD", 0, 0); s += w
             s = s or 1
-            return [clamp((w * FX_ONE) // s) for w in a[0]]  # division charged as one MUL-equivalent per element
+            return [clamp((w * FX_ONE) // s) for w in a[0]]
         if name == "ADJ":
             return self._adjoint_explicit(a[0])
         raise KeyError(name)
