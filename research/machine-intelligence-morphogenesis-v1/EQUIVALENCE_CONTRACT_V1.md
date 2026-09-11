@@ -102,11 +102,13 @@ Never turn failure to distinguish into proof of equivalence.
 
 A candidate `M*` may be called `NEW_MORPHOLOGY_CANDIDATE_AT_SCOPE` only if:
 
-1. it is not developmentally equivalent to every registered known parent morphology under the strongest feasible compiler class;
+1. it is **not developmentally equivalent to any registered known parent morphology** under the strongest feasible compiler class;
 2. the separation is not caused solely by an arbitrary resource price chosen after outcomes;
 3. it occupies a reproducible new Pareto/developmental region on disjoint ecologies;
 4. its advantage survives a reminted encoding/implementation where feasible;
 5. a stronger parent family has not been omitted.
+
+Equivalently, a candidate that is developmentally equivalent to even one registered known parent fails the novelty gate and must be classified under that parent/equivalence class.
 
 Forbidden conclusion from this gate alone: `NEW_FORM_OF_INTELLIGENCE_PROVEN`.
 
