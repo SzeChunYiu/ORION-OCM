@@ -1,0 +1,28 @@
+{
+  "schema": "ExactCrossParadigmDriftV1",
+  "families": {
+    "program_search": {
+      "potential": "unsolved indicator Phi=1",
+      "drift": "proposal success probability q",
+      "rows": {"FAST_X":{"Phi":1,"delta":"1/4","E_T":4},"FAST_Y":{"Phi":1,"delta":"1/16","E_T":16}}
+    },
+    "bayesian_update": {
+      "potential": "remaining registered log-odds gap to posterior threshold",
+      "drift": "fixed log-likelihood-ratio information per observation",
+      "rows": {"PRIOR_PLUS":{"Phi":4,"delta":2,"T":2},"PRIOR_MINUS":{"Phi":8,"delta":2,"T":4}}
+    },
+    "quadratic_gradient": {
+      "potential": "registered log-error gap",
+      "drift": "fixed log-error contraction per gradient step",
+      "rows": {"FAST_X":{"Phi":8,"delta":2,"T":4},"FAST_Y":{"Phi":36,"delta":2,"T":18}}
+    }
+  },
+  "common_form": "expected/registered first hitting time = initial potential / per-step drift in these calibrated constant-drift cases",
+  "interpretation": [
+    "Three materially different parent paradigms admit the same potential/progress first-hitting description once an appropriate paradigm-specific potential is supplied.",
+    "This does not establish a new GMI invariant because drift/hitting-time theory already owns the abstraction and because choosing a useful potential is itself the difficult structure-dependent step.",
+    "The live residual is structure/history -> useful pre-outcome potential+drift signature, not potential+drift -> hitting time."
+  ],
+  "terminal": "CROSS_PARADIGM_POTENTIAL_DRIFT_FORM_EXACT__DRIFT_ANALYSIS_PARENT_SUFFICIENT",
+  "claim_ceiling": "parent-theory unification/calibration only"
+}
