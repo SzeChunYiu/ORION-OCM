@@ -99,7 +99,8 @@ def _cont_version():
         return base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+s"
     if e("M2_V612P"):
         # v6.12 (candidate, unregistered): libraries that lost value in deployment stay retired across regime changes
-        return ("continual_v6.12" if (base == "continual_v6.9" and h and i and e("M2_V611R")) else base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+p")
+        return (("continual_v6.12" + ("ps" if e("M2_V612S") else "")) if (base == "continual_v6.9" and h and i and e("M2_V611R"))
+                else base + ("+h" if h else "") + ("+i" if i else "") + ("+r" if e("M2_V611R") else "") + "+p" + ("+s" if e("M2_V612S") else ""))
     if e("M2_V611R"):
         # v6.11: the regime-change detector on the registered v6.10hi base; on any other base it stays attached
         return "continual_v6.11" if (base == "continual_v6.9" and h and i) else base + ("+h" if h else "") + ("+i" if i else "") + "+r"

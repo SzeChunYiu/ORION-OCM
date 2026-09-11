@@ -1329,3 +1329,25 @@ attributed defects, and a later K1 test would need its own registration on seeds
   E7 → E8m7 falsification (20 511 vs ≤ 14 732; ledger row 41). Falsifier: E7 → E8m7 ≤ 14 732 with its first deployment
   at target 24; the other two cross-world pairs, E5, FV6 and FV8 within + 2 % of v6.11.
 
+## Outcomes of the v6.12 diagnostics (2026-09-11; every run verifies every target)
+
+**v6.12(p) — failed libraries stay retired (records/k1diag612p/) — PASSED every falsifier.** Zero repeat failures on
+s626, s629 and s672, each cheaper than v6.11 (3 446 → 3 093, −10.2 %; 3 322 → 3 026, −8.9 %; 4 353 → 3 303, −24.1 %);
+liveness logs **identical** to v6.11 on all six runs with no failed deployment (s623, s628, s647, s634, s658, s670).
+
+**v6.12(s) — spacing bounds spending (billy-old) — PASSED.** E7 → E8m7 **14 443** (v6.11: 20 511; registered ≤ 14 732),
+first deployment back at target 24; E5 → E7, E8m7 → E7, E5, FV6 and FV8 identical to v6.11. **The v6.9 E7 → E8m7
+falsification (ledger row 41) is revived.**
+
+## K1 under v6.12ps (registered 2026-09-11, before the run)
+
+continual_v6.12ps = v6.11 + (p) + (s), label `continual_v6.12ps` (the p-only diagnostic runs keep their recorded label
+`continual_v6.12`; the runner change is the label only). Freshly generated seeds **706–717**, whose ecologies no study has
+inspected; all three original bars unchanged under the fixed proportion rule. Stated expectations: the lifetime bars
+are expected to hold (they held on 23 / 23 under v6.11, and (p) and (s) only remove costs where they act). The
+regime-C bar is **not predicted either way**: neither (p) nor (s) targets the recombination regime on seeds without
+repeat failures, which is where v6.11's replication missed. Inertness on hosts: SHIFT45 / s602 / s603 / s604 and
+laptop A → B → C s604 / s613 / s614 / s615 reported against v6.11, with the + 2 % bar on the four shift worlds.
+Stop rule: if it fails on regime C, K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of the
+recombination regime itself (C3), not a further controller flag.
+
