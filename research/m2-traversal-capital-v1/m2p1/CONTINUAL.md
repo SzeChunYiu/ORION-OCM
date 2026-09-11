@@ -832,3 +832,25 @@ fresh seed that passes the ecology gate, both lifetimes ≤ the fixed controller
 arm verifies every target. The recombination-vs-ablation ratio is reported **descriptively only**
 and is not C3 evidence.
 
+## continual_v6.4 — outcome: FALSIFIED, reverted (records/abc/*_v6.4_*, records/continual/*_v6.4_*)
+
+Every arm verifies every target. Against the registration:
+
+| check | registered | measured | verdict |
+|---|---|---|---|
+| s604 diagnostic: both continual arms' regime-C cost ≤ RESET (3 808) | ≤ 3 808 | ablation 5 292, recombination 8 773 | **failed** |
+| FV8 diagnostic | second deployment blocked, ≤ +8 % | blocked (log: deploy at 76, fail at 79, 5/8 candidate refused); +6.6 % | held |
+| shift regressions ± 2 % of v6.3 | ± 2 % | SHIFT45, s602, s604 identical; **s603 1 800 vs 1 577 (+14 %)** | **failed** |
+| ABC regressions ± 2 % of v6.3 | ± 2 % | ablation lifetimes +5 … +33 % on s601/602/603/605/606; recombination +12 % (s603), +18 % (s605) | **failed** |
+| E5, FV6, cross-world pairs | ± 2 % | identical | held |
+| fresh K1 test (613–615 so far): both continual arms' regime-C ≤ RESET on every fresh seed | every seed | s613 fails (5 230 / 4 391 vs 3 766); s614, s615 pass | **failed** |
+
+The regressions track the new `failed_deployment` counter (4–5 on the worst runs). **v6.4 is
+reverted**: the current controller is v6.3's behaviour plus the liveness log (v6.5), with v6.4's two
+changes kept behind recorded flags (`M2_V64A` = no regime reset, `M2_V64C` = failure evidence).
+LUNARC seeds 617–621 were already running v6.4 and are kept as descriptive records.
+
+**Attribution run (diagnostic, not a claim).** One variable at a time on the four worst-regressed
+worlds (s603 shift; ABC s605, s606, s613 ablation arm): v6.5 base, base + (a) only, base + (c) only.
+The base run must reproduce v6.3 exactly — the check that the log changes nothing.
+
