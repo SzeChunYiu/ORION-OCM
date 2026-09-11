@@ -441,3 +441,139 @@ the developmental *procedure* (probe with history-learned depth, charged validat
 own acquisitions, retained libraries) transfers across worlds even when the library does not —
 a first K2-flavoured observation, still inside one grammar.
 
+## Cross-world transfer — outcome (records/crossworld/)
+
+| develop on → deploy on | targets | RESET | fixed controller (X's library) | **continual_v5.2 (X's library)** | cont / fixed | events |
+|---|---|---|---|---|---|---|
+| E7 → E8_m7 | 63 | 40 850 | 41 036 (1.005×) | **35 980** | **0.877** | learned at 24 (freq, 5/8 tilable, 36 070); served 25–35; stood down at 38; no second attempt |
+| E8_m7 → E7 | 43 | 62 935 | 63 198 (1.004×) | **37 264** | **0.590** | learned at 24 (35 965); served 25–42 at ≈ 600 |
+| E5 → E7 | 43 | 62 935 | 63 090 (1.002×) | **37 192** | **0.590** | learned at 24 (35 965); served 25–42 |
+| E7 → E5 | 21 | 44 738 | 44 947 (1.005×) | 44 947 | 1.000 | attempt at 16 skipped (too few); lifetime ended |
+
+Held: the fixed controller within ± 30 % of RESET on every pair (it stands down and pays the
+cadence: +0.2…+0.5 %). **Missed:** continual ≤ 0.5 × fixed (0.88 / 0.59 / 0.59 / 1.00) and
+≤ −50 % vs RESET; the "continual ≥ fixed" falsifier fires by equality on E7 → E5.
+
+**What the rows say.** On the 43-target pairs the arm learns the foreign world at target 24
+and serves the rest at the matched controller's cost; the mean is then ≈ (24 × RESET + 36 k)
+/ 43 ≈ 0.57 × RESET — the *learning horizon* (≈ 24 in-regime solutions) plus the validation
+charge bound the benefit, as they do inside a shift segment. Predicted from that model: 0.57
+(measured 0.59). On the 21-target pair the horizon exceeds the lifetime: no headroom, equality
+— the honest terminal at that length. On E7 → E8_m7 the library learned from 16 easy early
+solutions (5/8 tilable) covered the easy half, missed on the harder targets from 36 on, was
+stood down at 38, and **no second attempt came**: the stand-down reset the regime corpus, so
+20 fresh solutions were required again and the lifetime ended first.
+
+**Invariant.** Standing down a library *learned in the current regime* is not evidence of a
+regime change; only a developmental or foreign-regime library's stand-down is. **continual_v5.4
+(registered before its run):** a learned library's stand-down keeps the regime corpus and
+retries after 8 new solutions; libraries carry the regime they were learned in. Predictions:
+E7 → E8_m7 second attempt near target 48 on a ≈ 40-solution corpus, cont / fixed ≤ 0.70;
+E8_m7 → E7 and E5 → E7 unchanged (± 2 %); SHIFT45 / s602 / s603 / s604 unchanged (± 2 %:
+their learned libraries stand down only at the A′ boundary, where A's library hits and no
+re-mining occurs). Falsifiers: E7 → E8_m7 ≥ 0.85 × fixed; any shift lifetime > 2 % above v5.2.
+
+**Claim as it stands.** The developmental *procedure* transfers to a foreign world when the
+library does not: on every pair long enough to contain the learning horizon, the continual arm
+learns the new world in life and lands well below the fixed controller and RESET; the size of
+the benefit is bounded by (lifetime − horizon) / lifetime. Still one grammar.
+
+## Twelve shift lifetimes (continual_v5.2 + controller_v4 dev on s610–s613; records/continual/SHIFT45_s61*_*)
+
+| world | RESET | fixed controller | **continual** | vs RESET | vs fixed | B | A′ (fixed → continual) |
+|---|---|---|---|---|---|---|---|
+| s610 | 3 713 | 1 832 | **1 640** | −55.8 % | −10 % | 3 114 (−13.7 %) | 978 → 1 289 |
+| s611 | 3 502 | 2 033 | **1 537** | −56.1 % | −24 % | 3 330 (−15.9 %) | 943 → 586 |
+| s612 | 3 746 | 1 962 | **1 508** | −59.7 % | −23 % | 2 831 (−17.4 %) | 1 262 → 998 |
+| s613 | 3 601 | 1 727 | **1 695** | −52.9 % | −1.9 % | 3 595 (+8.9 %) | 930 → 930 |
+
+```text
+12 shift lifetimes (1 in-sample, 11 fresh):  continual below the fixed controller on 12 / 12  (−1.9 … −27 %)
+                                             continual below RESET on 12 / 12                 (−47 … −60 %)
+                                             B (never developed) below RESET on 8 / 12; A′ recovered on 12 / 12
+```
+
+s613 is the first world where in-life learning never validated: three attempts (targets 72,
+80, 88; corpora 17, 25, 32 in-regime programs) and both candidates had **0 / 8 validation
+programs tilable at the chosen depth** every time, so every attempt was rejected at zero cost
+(v5.2) and B ran at the fixed controller's cost. From 32 canonical B programs the compact
+candidate should hold most of B's eight motifs, so a 0 / 8 tiling is unexplained by counts
+alone; the event record did not keep the candidate libraries. It now does (libraries, the
+per-task tiling depths and the validation programs), and s613 re-runs to attribute this from
+the record rather than by conjecture. s610's A′ (1 289 vs 978) is the expensive-learned-
+library transition already priced on s604.
+
+**s613 attributed from the record (records/continual/SHIFT45_s613_recorded_*).** At target
+72 the MDL candidate was `doublesquare, decdec, incsquare, decdouble, incinc, decsquare` —
+five of B's eight motifs — and it tiles **4 / 8** of the validation programs (the event's
+"0 / 8" was a reporting slip in the skip branch, now fixed; the count that drove the decision
+was 4). The skip rule was right: a candidate that can at best tie the majority is refused at
+zero cost. What stayed missing over 17 → 25 → 32 programs is structural to the two
+candidates: the frequency library (all 8 motifs + 8 recurring pairs) is complete but its
+16 tokens make depth 3 dearer than the baseline, so the expected-cost rule pins it at depth
+1–2 where nothing tiles; greedy MDL spends its 6–8 slots on recurring motif *pairs* and never
+completes the motif set. **continual_v5.5 (registered before its run): a third candidate,
+the count ranking truncated to the MDL library's size ("compact frequency") — complete and
+cheap, no new mining, validated by the same probes.** Predictions: s613 validates a B library
+by target 80 and B ≤ 0.95 × RESET; SHIFT45 / s602 / s603 / s604 / s610 within ± 2 % or
+better (the selection can only add a candidate the same probes must prefer). Falsifiers:
+s613 B ≥ RESET; any regression > 2 %.
+
+hc06 under controller_v3: 2 546 (unchanged; MDL chosen at probe cost 4 591 vs 28 581) — held.
+
+**continual_v5.4 outcome (records/crossworld/*_v5.4_*).** E7 → E8_m7: **16 229 vs the fixed
+controller's 41 036 — 0.395×** (registered ≤ 0.70 held): the first learned library stood down
+at 38, the corpus was kept, a second attempt at target 40 deployed (38 402 charged) and served
+the rest. E8_m7 → E7 and E5 → E7 unchanged (0.590), and all four shift lifetimes byte-identical
+to v5.2 — as registered. Cross-world transfer now: **0.40 / 0.59 / 0.59 × the fixed controller
+on the three pairs long enough to learn**, equality on the 21-target pair.
+
+**s613 under v5.5 (records/continual/SHIFT45_s613_v5.5_*).** The compact-frequency candidate
+did what it was built for — validated 6 / 8 at target 80 (six of B's eight motifs, mean delta
++1 499, 4 917 charged) and deployed — and then the next three targets all needed the two
+motifs it lacked (`decinc`, `squaredouble`): three misses at β + baseline, stand-down, a
+re-probe at 88 that missed, and the segment ended. B 3 835 (+16 % vs RESET) against 3 595
+under v5.2 — the registered ≤ 0.95 × RESET **missed**; lifetime 1 775 vs 1 695. SHIFT45
+unchanged (MDL still preferred). The candidate is kept only if the remaining regressions hold
+(it can only add an option the same probes must prefer); s613 stays a recorded negative at
+this segment length — its learning horizon (≈ 32 in-regime programs for a complete compact
+library) is longer than the 45-target segment allows, the invariant already stated.
+
+**continual_v5.5 regressions (records/continual/*_v5.5_*): held.** SHIFT45 1 504.5, s602
+1 784.2, s604 1 895.4, s610 1 640.4 — byte-identical; **s603 improved 1 663.7 → 1 614.5**
+(the compact-frequency candidate won the validation at target 72 and deployed eight targets
+earlier). v5.5 is kept. s613 remains a recorded negative at 45-target segments (learning horizon).
+
+## Developmental capital — recombining retained capital (C3 test; registered 2026-09-11 before any run)
+
+**Question (#373 §6, K2).** Does history make the *acquisition of new search capital* cheaper,
+not just the search? Every continual result so far learns a new regime from scratch: ≈ 20
+in-regime solutions, then mining, then validation. A developmental organism should acquire a
+regime built from parts it has already met in other company faster than one it has never met.
+
+**World (A → B → C).** A from a seed; B = the complement of A's motifs (disjoint); **C = four
+of A's motifs + four of B's**, with every normal form that is a member of A or B removed from
+C's stream, so each C target mixes the two earlier regimes. 45 targets per segment, 135 per
+lifetime, development on A only (`m2_abc_ecology.py`). A seeds 601, 602, 603.
+
+**Mechanism (continual_v6).** One extra candidate at each re-mining attempt: the fragments of
+every library the organism has retained (developmental and learned), ranked by how many of the
+current regime's solved programs contain them, truncated to eight — a *recombination* of
+retained capital, validated by the same charged probes as the other candidates. Because it
+only has to be *selected*, not discovered, it may be attempted with 4 corpus programs
+(+ 8 held out) instead of 12. **Ablation:** `CONTINUAL_OCM_NOREC` — identical, without the
+recombination candidate. Controls: RESET, the same-library parent, the fixed controller.
+
+**Predictions (per seed).** (1) In C, the recombination arm deploys a library covering ≥ 6 of
+C's 8 motifs having consumed ≤ 14 in-regime solutions; the ablation needs ≥ 20. (2) C-segment
+mean: recombination ≤ 0.85 × ablation on ≥ 2 / 3 seeds. (3) Lifetime: recombination ≤ ablation
+on 3 / 3. (4) Regressions: SHIFT45 / s602 / s603 / s604 and E5 / FV8 and the three cross-world
+pairs within ± 2 % of v5.5 / v5.4. **Falsifiers:** recombination ≥ ablation on the C segment on
+2 / 3 seeds (history does not speed acquisition), or any regression > 2 %.
+
+**Claim ceiling if positive.** A first measured K2 effect in this lane: retained capital from
+earlier regimes cuts the in-life cost of acquiring a new regime's library, isolated by an
+ablation. The parent is library persistence in DreamCoder-style learners; the residual tested
+here is that the organism *decides by charged validation on its own acquisitions* which
+retained fragments to recombine and when. One grammar; not yet K3.
+
