@@ -1,0 +1,35 @@
+{
+  "schema": "ExactDependencyFactorizationPhaseV1",
+  "variables": [0,1,2,3],
+  "candidate_space": "all 15 set partitions of four variables",
+  "cost_model": {
+    "build": "(1/2) * number_of_within_block_pairs",
+    "per_task": "1 + 2 * indicator(requested_pair_crosses_blocks)",
+    "lifetime": "build + H * expected_per_task"
+  },
+  "ecologies": {
+    "PAIR_01_23": "P(01)=P(23)=0.45; each other pair=0.025",
+    "PAIR_02_13": "P(02)=P(13)=0.45; each other pair=0.025",
+    "UNIFORM": "all six pairs probability 1/6"
+  },
+  "rows": [
+    {"ecology":"PAIR_01_23","H":1,"winner":"((0,1),(2,3))","cost":"11/5"},
+    {"ecology":"PAIR_01_23","H":4,"winner":"((0,1),(2,3))","cost":"29/5"},
+    {"ecology":"PAIR_01_23","H":16,"winner":"((0,1,2,3),)","cost":"19"},
+    {"ecology":"PAIR_02_13","H":1,"winner":"((0,2),(1,3))","cost":"11/5"},
+    {"ecology":"PAIR_02_13","H":4,"winner":"((0,2),(1,3))","cost":"29/5"},
+    {"ecology":"PAIR_02_13","H":16,"winner":"((0,1,2,3),)","cost":"19"},
+    {"ecology":"UNIFORM","H":1,"winner":"((0),(1),(2),(3))","cost":"3"},
+    {"ecology":"UNIFORM","H":4,"winner":"((0,1,2,3),)","cost":"7"},
+    {"ecology":"UNIFORM","H":16,"winner":"((0,1,2,3),)","cost":"19"}
+  ],
+  "interpretation": [
+    "At short/medium horizons, a concentrated dependency ecology selects the factorization that groups its recurring pairs.",
+    "At long horizons, the higher build cost of a monolithic factorization amortizes because it removes all cross-factor task surcharges.",
+    "With a uniform ecology and one-task horizon, the zero-build singleton factorization wins; by H=4 the monolith pays back.",
+    "Thus ecology dependency structure and resource horizon can produce exact morphology/factorization phase changes under a shared neutral partition space.",
+    "The mechanism is ordinary graph partitioning/clustering plus lifecycle amortization; modularity/evolvability and factored-model parents own the generic principle."
+  ],
+  "terminal": "DEPENDENCY_FACTORIZATION_PHASE_EXACT__GRAPH_PARTITIONING_AMORTIZATION_PARENT",
+  "claim_ceiling": "exact parent-domain calibration; not a new GMI law"
+}
