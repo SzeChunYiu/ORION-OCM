@@ -6,7 +6,7 @@
 #SBATCH -n 1
 #SBATCH -c 2
 #SBATCH -o /projects/hep/fs12/scratch/scyiu-m2trav/logs/k1d69_%A_%a.out
-# v6.8 diagnostic (registered before the run): one variable at a time on the K1-v6.6 seeds that failed.
+# v6.9 diagnostic (registered before the run): add retire-in-regime on the K1-v6.6 failing seeds.
 set -euo pipefail
 B=/projects/hep/fs12/scratch/scyiu-m2trav
 PY=/sw/easybuild_milan/software/Python/3.11.5-GCCcore-13.2.0/bin/python3
