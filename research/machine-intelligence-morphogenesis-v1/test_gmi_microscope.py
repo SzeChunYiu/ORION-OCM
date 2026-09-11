@@ -141,3 +141,17 @@ def test_xor_row_identifies_parity_only_on_a_spanning_split():
     finally:
         smooth.set_train([0, 3, 5, 6, 9, 10, 12, 15])
     assert smooth.run("S6", bases.B0, 4, 0, tgt, 16, smooth.ROWS_V5, "unseen")["capability"] == 0.3333
+
+
+def test_fast_evaluator_matches_charged_machine_on_random_candidates():
+    import random
+    from gmi_microscope import blind, fast
+    blind.G_DEPTH = 3; blind.set_bits(8)
+    rng = random.Random(2024)
+    single = blind.ecologies(run4=True)["E_smooth8"]; div = blind.ecology_div()
+    cands = [blind.rand_candidate(rng) for _ in range(60)] + [blind.PLANTED_LEARNER_SMOOTH8_LR4]
+    for c in cands:
+        assert fast.fast_run_candidate(c, single) == blind.run_candidate(c, single, 0)["score"]
+    for c in cands[:20] + [blind.PLANTED_LEARNER_SMOOTH8_LR4]:
+        assert fast.fast_run_candidate(c, div) == blind.run_candidate_div(c, div, 0)["score"]
+    blind.set_bits(4)
