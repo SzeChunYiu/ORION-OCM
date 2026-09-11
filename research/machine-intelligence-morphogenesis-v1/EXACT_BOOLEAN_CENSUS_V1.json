@@ -1,0 +1,24 @@
+{
+  "schema": "ExactBooleanBasisCensusResultV1",
+  "executed": true,
+  "execution_date": "2026-09-11",
+  "runner": "exact_basis_census.py",
+  "scope": "all 16 binary Boolean functions under composition with free projections x,y",
+  "primitive_catalogue": ["NOT", "AND", "OR", "XOR", "NAND", "NOR"],
+  "non_empty_subset_count": 63,
+  "complete_subset_count": 54,
+  "minimal_complete_bases": [
+    {"basis": ["NAND"], "closure_size": 16, "max_min_depth": 3},
+    {"basis": ["NOR"], "closure_size": 16, "max_min_depth": 3},
+    {"basis": ["NOT", "AND"], "closure_size": 16, "max_min_depth": 4},
+    {"basis": ["NOT", "OR"], "closure_size": 16, "max_min_depth": 4}
+  ],
+  "compensation_aware_removal": {
+    "NAND": {"remove_NAND_closure_size": 2},
+    "NOR": {"remove_NOR_closure_size": 2},
+    "NOT+AND": {"remove_NOT_closure_size": 3, "remove_AND_closure_size": 4},
+    "NOT+OR": {"remove_NOT_closure_size": 3, "remove_OR_closure_size": 4}
+  },
+  "terminal": "EXACT_BASIS_CENSUS_CALIBRATED_ON_KNOWN_BOOLEAN_SCOPE",
+  "claim_boundary": "Known functional-completeness calibration. No novelty, intelligence, morphology, or fundamental-basis claim."
+}
