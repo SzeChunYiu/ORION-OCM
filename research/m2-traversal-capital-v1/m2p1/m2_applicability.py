@@ -116,11 +116,15 @@ def main() -> int:
     ap.add_argument("--slots", type=int, default=200000)
     ap.add_argument("--use-mdl", action="store_true")
     ap.add_argument("--targets", type=int, default=0)
-    ap.add_argument("--features", choices=("observable", "probe", "oracle"), default="observable",
+    ap.add_argument("--features", choices=("observable", "probe", "probe_then_rule", "oracle"), default="observable",
                     help="observable: task-statement features only (deployable). "
                          "probe: no fitted rule -- run the guided stream ALONE for beta "
                          "slots (charged); hit -> done, miss -> RESET. oracle: "
                          "answer-derived features, calibration ceiling only.")
+    ap.add_argument("--probe-depth", default="3",
+                    help="max tokens per probe word. '3' (registered default) or 'auto': "
+                         "the max tiling-token count over SOLVED training programs -- "
+                         "observable, because history is solved -- capped at 4.")
     ap.add_argument("--fit-n", type=int, default=0,
                     help="cap the validation rows used to fit the gate. The fit IS the "
                          "gate's marginal acquisition cost, so this is the lever for the "
@@ -164,22 +168,31 @@ def main() -> int:
     if a.targets:
         prot = prot[: a.targets]
     _T = len(lib) + len(M.PRIMITIVES)
-    beta = min(_T + _T ** 2 + _T ** 3, 20000)   # all <=3-token guided words; the probe's price
+    if a.probe_depth == "auto":
+        # depth learned from HISTORY: how many library tokens do the solved training
+        # programs need? Training programs are solved, so tiling them is observable.
+        _tk = [tileable(tuple(r["canonical_program"]), lib) for r in eco["streams"]["train"]]
+        _tk = [x for x in _tk if x is not None]
+        probe_depth = min(max(_tk) if _tk else 3, 4)
+    else:
+        probe_depth = int(a.probe_depth)
+    beta = sum(_T ** i for i in range(1, probe_depth + 1))   # all <=depth-token words
     arms = {k: [] for k in ("RESET", "ALWAYS_SERVE", "APPLICABILITY", "ORACLE_APPL")}
     served = 0
+    per_target = []
     for i, row in enumerate(prot):
         nf = nf_of(row)
         t = M.PolynomialTask(f"ap:{i}", nf)
         b = M.solve(t, budget)
         c = M.solve(t, budget, method)
-        if a.features == "probe":
+        if a.features in ("probe", "probe_then_rule"):
             # charged ACTION, observable by construction: enumerate the guided stream alone
             # (library tokens + primitives, words of <= 3 tokens, every word one slot, the
             # same accounting as solve) and stop at the first verified hit or at beta.
             tokens = tuple(lib) + tuple((op,) for op in M.PRIMITIVES)
             beta_used, hit = 0, None
             from itertools import product as _prod
-            for L in (1, 2, 3):
+            for L in range(1, probe_depth + 1):
                 for word in _prod(tokens, repeat=L):
                     beta_used += 1
                     if beta_used > beta:
@@ -193,7 +206,16 @@ def main() -> int:
                 if hit is not None or beta_used > beta:
                     break
             decide = hit is not None
-            probe_B = hit if hit is not None else beta + b.slots   # miss: fall back to RESET
+            if hit is not None:
+                probe_B = hit
+            elif a.features == "probe_then_rule":
+                # miss: the observable rule (fitted on validation) decides interleave vs RESET
+                z_r = feats_observable(nf, lib)
+                use_interleave = rule.get(z_r, fallback)
+                probe_B = beta + (c.slots if use_interleave else b.slots)
+                decide = decide or use_interleave
+            else:
+                probe_B = beta + b.slots   # miss: fall back to RESET
         else:
             z = (feats_oracle(nf, lib, row) if a.features == "oracle" else feats_observable(nf, lib))
             decide = rule.get(z, fallback)
@@ -203,6 +225,8 @@ def main() -> int:
         arms["ALWAYS_SERVE"].append(c.slots)
         arms["APPLICABILITY"].append(probe_B if probe_B is not None else (c.slots if decide else b.slots))
         arms["ORACLE_APPL"].append(min(b.slots, c.slots))
+        per_target.append({"i": i, "RESET": b.slots, "ALWAYS": c.slots,
+                           "APPL": arms["APPLICABILITY"][-1], "served": bool(decide)})
 
     n = len(prot)
     summ = {k: {"mean_B": round(statistics.fmean(v), 1), "total_B": sum(v)} for k, v in arms.items()}
@@ -226,13 +250,29 @@ def main() -> int:
                         "net": round(saved_total - fit_cost_candidate, 1)},
         "definitions": "conservative = dev solving + full fit; marginal = full fit; incremental = the fit's candidate half only",
     }
+    bound = None
+    if a.features in ("probe", "probe_then_rule"):
+        _slack = (lambda r: r["RESET"] + beta) if a.features == "probe" else (lambda r: beta + max(r["RESET"], r["ALWAYS"]))
+        viol = [r for r in per_target if r["APPL"] > _slack(r)]
+        bound = {"claim": "APPL <= RESET + beta on every target", "beta": beta,
+                 "violations": len(viol), "max_excess": max((r["APPL"] - r["RESET"] for r in per_target), default=0),
+                 "verdict": "DISCHARGED_EMPIRICALLY" if not viol else "FALSIFIED"}
+    if a.features in ("probe", "probe_then_rule"):
+        ledger["marginal"] = {"cost": 0, "breakeven": 0.0, "pays": saved_per > 0, "net": round(saved_total, 1)}
+        ledger["incremental"] = dict(ledger["marginal"])
+        ledger["conservative"] = {"cost": dev_solve, "breakeven": _bk(dev_solve),
+                                  "pays": bool(saved_per > 0 and dev_solve / saved_per <= n),
+                                  "net": round(saved_total - dev_solve, 1)}
+        ledger["note"] = "probe gate fits nothing; beta is charged inside B; fit cost from the rule path removed"
     out = {"schema": "OCM_M2_APPLICABILITY_V2", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+           "per_target": per_target, "probe_bound": bound,
            "feature_mode": a.features,
-           "deployable": a.features in ("observable", "probe"),
+           "deployable": a.features in ("observable", "probe", "probe_then_rule"),
            "leak_note": ("ORACLE_FEATURES: answer-derived, calibration ceiling only, NOT a "
                          "deployable gate" if a.features == "oracle" else
                          "features/actions computable from the task statement or charged probes"),
-           "probe_beta_slots": beta if a.features == "probe" else None,
+           "probe_beta_slots": beta if a.features in ("probe", "probe_then_rule") else None,
+           "probe_depth": probe_depth if a.features in ("probe", "probe_then_rule") else None,
            "ledger": ledger, "dev_solve_slots": dev_solve, "fit_cost_slots": fit_cost, "fit_n": len(fit_rows),
            "label": a.label, "library_source": key, "library_size": len(lib),
            "targets": n, "served_fraction": round(served / n, 3) if n else None,

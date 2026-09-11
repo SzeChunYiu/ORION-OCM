@@ -68,3 +68,46 @@ Two ecology shapes (one uniform, one heterogeneous), one `β` rule, the library'
 value already known to be non-negative on average. **Not** shown: behaviour when the
 library is harmful on average *and* the probe misses often (the `β` overhead regime), or
 `β` derived from anything but `T`.
+
+## Probe depth learned from history — a registered prediction falsified favourably
+
+The depth-3 probe misses every 4-token target (D2: served 0 %; FV8: served 0 %). The
+mechanism-derived fix sets the probe depth from **history**: the tiling-token count of the
+solved training programs is observable, because history is solved. On D2 that gives
+depth 4, `β = 54 240`.
+
+**Registered before the run:** ~50 % hits, expected `B ≈ 61 k`, i.e. *likely negative*.
+
+**Observed:**
+
+| | RESET | parent (interleave) | **PROBE, depth from history** | oracle |
+|---|---|---|---|---|
+| mean `B`, pure d = 2, n = 60 | 51 459 | 42 089 | **22 685** | 34 313 |
+| served | | | **100 %** | |
+
+−55.9 % vs RESET, **−46.1 % vs the strongest parent**, on novel arrangements in the
+registered grammar, leak-free. The prediction was wrong because the interleave's 30/60
+"strictly better" was read as ~50 % reachability. It is not: under the interleave a
+guided hit at `2g > b` counts as *worse* even when guided-alone reaches it at `g < b`.
+**The 50/50 alternation masks reachability rather than measuring it.** Recorded as a
+falsified prediction, direction favourable.
+
+**Bound obligation discharged** on this run's per-target rows: `B ≤ RESET + β` holds on
+all 60 targets, 0 violations, max excess 17 799 < β. Six targets were found later than
+baseline would have found them — the probe's honest overhead, inside the bound.
+
+Ledger: conservative does not pay on D2 (break-even 221 vs 60 targets — developmental
+solving of 120 length-8 targets is 6.4 M slots); marginal pays (+1.73 M). D2 is a
+small-horizon ecology built to test distance, not economics.
+
+## Regime map for deployable gates, as now measured
+
+| ecology | composition depth | probe depth 3 | probe depth = history | task-statement rule |
+|---|---|---|---|---|
+| FOREIGN_M1 | ≤ 3 | **−26 % vs parent** | running | lost |
+| life_3001 / 3003 | ≤ 3 | **−49 % vs parent** | — | (oracle-feature ceiling only) |
+| D2 (pure d = 2) | 4 | −7 % vs RESET (overhead) | **−46 % vs parent** | −7.6 % vs parent |
+| FV8 | 4 | −15 % vs RESET (overhead) | running | −1 % vs RESET |
+
+The probe with history-learned depth is the strongest deployable form everywhere it has
+been run. The composed gate (probe → rule on miss) is running where the probe misses.
