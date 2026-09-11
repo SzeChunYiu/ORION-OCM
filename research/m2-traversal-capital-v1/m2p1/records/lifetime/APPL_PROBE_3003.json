@@ -1,0 +1,92 @@
+{
+ "applicability_vs_always": 0.4961,
+ "applicability_vs_reset": 0.5522,
+ "arms": {
+  "ALWAYS_SERVE": {
+   "mean_B": 3241.5,
+   "total_B": 2168570
+  },
+  "APPLICABILITY": {
+   "mean_B": 1633.3,
+   "total_B": 1092649
+  },
+  "ORACLE_APPL": {
+   "mean_B": 2624.8,
+   "total_B": 1756024
+  },
+  "RESET": {
+   "mean_B": 3647.2,
+   "total_B": 2439957
+  }
+ },
+ "beats_always_serve": true,
+ "beats_reset": true,
+ "deployable": true,
+ "dev_solve_slots": 937922,
+ "fallback_serve": true,
+ "feature_mode": "probe",
+ "features": "mechanism-derived: tiling-token-count and baseline-index band",
+ "fit_cost_slots": 725815,
+ "fit_n": 103,
+ "fit_rows": 103,
+ "label": "life_3003",
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "leak_note": "features/actions computable from the task statement or charged probes",
+ "ledger": {
+  "conservative": {
+   "breakeven": 826.1,
+   "cost": 1663737,
+   "net": -316429,
+   "pays": false
+  },
+  "definitions": "conservative = dev solving + full fit; marginal = full fit; incremental = the fit's candidate half only",
+  "future_targets": 669,
+  "incremental": {
+   "breakeven": 177.6,
+   "cost": 357628,
+   "net": 989680,
+   "pays": true
+  },
+  "marginal": {
+   "breakeven": 360.4,
+   "cost": 725815,
+   "net": 621493,
+   "pays": true
+  },
+  "saved_slots_per_target": 2013.9,
+  "total_saved": 1347308
+ },
+ "ledger_probe_corrected": {
+  "conservative": {
+   "breakeven": 465.7,
+   "cost": 937922,
+   "net": 409386,
+   "pays": true
+  },
+  "incremental": {
+   "breakeven": 0.0,
+   "cost": 0,
+   "net": 1347308,
+   "pays": true
+  },
+  "marginal": {
+   "breakeven": 0.0,
+   "cost": 0,
+   "net": 1347308,
+   "pays": true
+  },
+  "note": "probe gate fits nothing; beta is charged inside B; fit cost from the rule path removed",
+  "saved_slots_per_target": 2013.9,
+  "total_saved": 1347308
+ },
+ "library_size": 12,
+ "library_source": "mdl_fragments",
+ "note": "rule fitted on the VALIDATION stream only; protected targets untouched during fitting. Explicit decision list, no learned router (#71 rung 1).",
+ "oracle_vs_reset": 0.2803,
+ "probe_beta_slots": 4368,
+ "rule_cells": 35,
+ "schema": "OCM_M2_APPLICABILITY_V2",
+ "served_fraction": 1.0,
+ "targets": 669,
+ "terminal": "APPLICABILITY_CONTROL_POSITIVE"
+}
