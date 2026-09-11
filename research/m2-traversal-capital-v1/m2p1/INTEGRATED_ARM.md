@@ -277,3 +277,13 @@ probes immediately, liveness is earned by a hit and never assumed. Registered be
 re-runs: FV8 overhead falls to ≈ 2 slots/target (< 0.01 %); E5 and the shift lifetime
 change by < 1 % (their first probe hits, after which v2 and v3 coincide). Re-runs:
 FV8_v3 and E5_v3 on billy-old, SHIFT3 on laptop billy.
+
+**liveness_v3 re-runs (records/OCM_E5_v3_SUMMARY.json, records/SHIFT_SPLIT_v3.json).**
+E5: 414.1 → 414.1, byte-identical (prediction held — its first probe hits). Shift
+lifetime: 2 148.5 → **2 191.9 (+2.0 %)**; the "< 1 %" prediction **missed**. Per-target
+rows: 83 / 90 identical; the 7 that differ are exactly the re-probe cadence targets
+(39/40, 47/48, 55/56 swap the β = 1 463 probe charge between neighbours; 63 → 64 moves
+the A′ re-activation one target later, 292 → 4 190). Segments: A 507.0 = 507.0, B
+5 207.7 = 5 207.7, A′ 730.9 → 860.9. So v3 changes nothing but the phase of the periodic
+re-probe, and the missed prediction is the price of one delayed re-activation; the
+lifetime stays −38 % vs RESET and −34 % vs the parent (3 314). FV8_v3 pending.
