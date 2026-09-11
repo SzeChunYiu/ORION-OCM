@@ -3,7 +3,7 @@
 This module is intentionally small and parent-owned. It checks semantics of:
 
 * semantic admissibility before resource comparison;
-* Pareto dominance over matched-capability realizations;
+* Pareto dominance over capability + resource coordinates;
 * price-vector ranking reversal for incomparable resource vectors;
 * affine horizon crossovers;
 * discovery/build cost reversing a serving-only ranking;
@@ -58,6 +58,21 @@ def resource_strictly_dominates(a: Vector, b: Vector) -> bool:
     return resource_weakly_dominates(a, b) and a != b
 
 
+def realization_strictly_dominates(a: Realization, b: Realization) -> bool:
+    """Pareto dominance with capability maximized and resources minimized.
+
+    Strict improvement may come from higher capability, lower resources, or both.
+    """
+
+    resources_no_worse = resource_weakly_dominates(a.resources, b.resources)
+    capability_no_worse = a.capability >= b.capability
+    strict_somewhere = (
+        a.capability > b.capability
+        or resource_strictly_dominates(a.resources, b.resources)
+    )
+    return capability_no_worse and resources_no_worse and strict_somewhere
+
+
 def feasible(
     candidates: Iterable[Realization], *, capability_floor: float
 ) -> Tuple[Realization, ...]:
@@ -71,15 +86,13 @@ def feasible(
 def realization_frontier(
     candidates: Iterable[Realization], *, capability_floor: float
 ) -> Tuple[Realization, ...]:
-    """Pareto frontier over resources after semantic/capability feasibility gates."""
+    """Pareto frontier after semantic admissibility and capability-floor gates."""
 
     pts = feasible(candidates, capability_floor=capability_floor)
     out = []
     for i, candidate in enumerate(pts):
         if any(
-            i != j
-            and other.capability >= candidate.capability
-            and resource_strictly_dominates(other.resources, candidate.resources)
+            i != j and realization_strictly_dominates(other, candidate)
             for j, other in enumerate(pts)
         ):
             continue
@@ -136,7 +149,12 @@ def normative_optimum(
     capability_floor: float,
     weights: Vector,
 ) -> Tuple[str, ...]:
-    """Oracle optimum over the full admissible candidate set."""
+    """Oracle minimum scalarized resource burden above a capability floor.
+
+    This helper intentionally treats capability as a constraint, not part of the
+    scalar utility. Use `realization_frontier` when capability tradeoffs themselves
+    are part of the comparison.
+    """
 
     return scalar_optimum(
         candidates,
