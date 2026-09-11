@@ -53,3 +53,10 @@ cross-world acquisition: the continual procedure learns a world it was never dev
 acquisition, not K2. The honest statement of what would advance C3 now is a *different* grammar or a
 different acquisition mechanism with its own prospective registration, not another revision here.
 
+**Update (2026-09-11, evening).** Two corrections to what was claimed upward: (1) the deployable
+controller beats the strongest parent on **7 / 8** independently authored worlds under one uniform
+controller (hc10 loses by 28 % under controller_v4), not 8 / 8; controller_v5 is registered to test
+8 / 8 uniformly. (2) The continual controller's mixed-regime K1 claim failed confirmation on fresh seeds
+(6 / 11 below the fixed controller); v6.8 is registered with a stop rule. The rung remains C2; the
+K1 claims that stand are regime shifts (12 / 12) and cross-world acquisition (3 / 3).
+

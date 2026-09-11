@@ -88,10 +88,12 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6",
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.9" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" and os.environ.get("M2_V69F") == "1" else "continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
              # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
              "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
-             "incumbent_reset": os.environ.get("M2_V67") == "1"}
+             "incumbent_reset": os.environ.get("M2_V67") == "1",
+             "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
+             "retire_in_regime": os.environ.get("M2_V69F") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -375,7 +377,10 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
         _freq_frags = [list(f) for f in method.fragments]
         _pc_freq = _probe_cost(_freq_frags, report) if _freq_frags else float("inf")
         _pc_mdl = _probe_cost(mdl_frags, mdl_report) if (mdl_frags and isinstance(mdl_report, dict) and "held_out" in mdl_report) else float("inf")
-        _use_mdl = bool(mdl_frags) and _pc_mdl <= _pc_freq
+        # controller_v5 (M2_LIB_RULE=interleave): v3's probe-cost rule was net-negative over the eight
+        # authored worlds (hc01 2 495 -> 1 632, hc10 11 274 -> 17 620); v2's interleave validation is restored.
+        _lib_rule = os.environ.get("M2_LIB_RULE", "probe_cost")
+        _use_mdl = bool(mdl_frags) and ((_pc_mdl <= _pc_freq) if _lib_rule == "probe_cost" else (_mdl_better >= _freq_better))
         _chosen_report = mdl_report if _use_mdl else report
         _chosen_frags = mdl_frags if _use_mdl else _freq_frags
         if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
@@ -424,7 +429,7 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                        "depth_rule": "expected-cost on held-out validation (controller_v2)",
                        "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
                        "library": "mdl" if _use_mdl else "frequency",
-                       "library_rule": "controller_v3: expected probe cost on held-out validation tilings",
+                       "library_rule": ("controller_v3: expected probe cost on held-out validation tilings" if _lib_rule == "probe_cost" else "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule"),
                        "expected_probe_cost": {"frequency": round(_pc_freq, 1) if _pc_freq != float("inf") else None,
                                                "mdl": round(_pc_mdl, 1) if _pc_mdl != float("inf") else None},
                        "validated_better_interleave": {"frequency": _freq_better, "mdl": _mdl_better}}
@@ -640,6 +645,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if not str(L.get("library", "")).startswith("dev:") and C["vals"] and sum(C["vals"]) < 0:
                             C["failed_evidence"] = max(C.get("failed_evidence", 0), L.get("tilable_at_depth", 0))
                             C["live_log"].append((i, "failed_deployment", prev, round(sum(C["vals"]), 1), L.get("tilable_at_depth", 0)))
+                            if CONTINUAL["retire_failed"]:
+                                C.setdefault("retired", set()).add(prev)   # v6.8(e): not re-probed until the regime changes
                         C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
                         if str(L.get("library", "")).startswith("dev:") or L.get("regime") != C.get("regime_start"):
                             # a developmental or foreign-regime library standing down: a new regime begins
@@ -654,14 +661,22 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 C["since_mine"] = 0
                                 if not CONTINUAL["no_regime_reset"]:
                                     C["regime_start"] = len(C["solved"])   # v6.3 behaviour; v6.4(a) removes it (flag)
+                                    C["retired"] = set()                   # v6.8(e): a new regime lifts retirements
                         else:
                             # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
                             # regime change (E7 -> E8m7: the first learned library covered the easy
                             # half, was stood down, and the corpus reset cost the lifetime its second
                             # attempt). Keep the corpus; retry after min_new_after_fail new solutions.
                             C["since_mine"] = max(C["since_mine"], CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
+                            if CONTINUAL["retire_in_regime"]:
+                                # v6.9(f): a library that stood down INSIDE the regime it serves has been measured
+                                # there; a later cadence hit is a sporadic hit, not coverage (E7 -> E8m7 under v6.8:
+                                # the stood-down library revived at 44 on one hit and pre-empted the due re-mine
+                                # until 62; s626 / s629: the same oscillation). Retired until the regime changes.
+                                C.setdefault("retired", set()).add(prev)
+                                C["live_log"].append((i, "retired_in_regime", prev))
                         for kk, L2 in enumerate(C["libs"]):
-                            if kk == prev:
+                            if kk == prev or kk in C.get("retired", ()):
                                 continue
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L2["lib"]], L2["probe_depth"], min(L2["beta"], q))
                             used += u
@@ -678,6 +693,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         # post-stand-down corpus at the 104 tick was 6 / 4 / 3 programs by chance.
                         cadence = (len(C["hits"]) - 1) % 8 == 0
                         for k, L in (enumerate(C["libs"]) if cadence else []):
+                            if k in C.get("retired", ()):
+                                continue
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                             used += u
                             if pr is not None:
@@ -694,7 +711,10 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
                                 # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
-                                C["since_mine"] = 0 if rec is not None else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"]
+                                C["since_mine"] = 0 if rec is not None else ((need - CONTINUAL["min_new_after_fail"]) if CONTINUAL["retry_fix"]
+                                                               else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
+                                # v6.8(d): the retry comes after min_new_after_fail NEW solutions whatever `need` is;
+                                # v4.2 x v6.2 composed to a retry every 4 targets (s623/s628: 35-60 k per failed validation)
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 rec["regime"] = C.get("regime_start", 0)
