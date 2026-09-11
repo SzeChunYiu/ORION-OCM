@@ -200,6 +200,7 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                        "beta": sum(_T ** i for i in range(1, _depth + 1)),
                        "liveness_window": 8, "liveness_min_hit_rate": 0.25,
                        "depth_rule": "expected-cost on held-out validation (controller_v2)",
+                       "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
                        "library": "mdl" if _use_mdl else "frequency",
                        "validated_better": {"frequency": _freq_better, "mdl": _mdl_better}}
     except Exception as _e:
@@ -384,17 +385,24 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if sum(recent) / len(recent) < ctl["liveness_min_hit_rate"]:
                             phase_acquire._live = False          # stand the probe down
                 else:
+                    # stood down: the counter must ADVANCE every target (liveness_v2 -- the
+                    # first port only appended on a re-probe, so reactivation could fire
+                    # once and never again), and a periodic re-probe restores the library.
                     prog, used = (None, 0)
+                    phase_acquire._hits.append(False)
                     if len(phase_acquire._hits) % ctl["liveness_window"] == 0:   # periodic re-probe
                         prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
-                        phase_acquire._hits.append(prog is not None)
+                        phase_acquire._hits[-1] = prog is not None
                         if prog is not None:
                             phase_acquire._live = True           # reactivate
                 if prog is not None:
                     res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
                                          prog, used, used, (0,), 8)
                 else:
-                    use_inter = ctl["rule"].get(str(_obs_feats(task.coefficients, lib)), ctl["fallback"])
+                    # liveness_v2: while stood down the LIBRARY is presumed stale, so the
+                    # rule (fitted on the old ecology) may not route to the interleave
+                    use_inter = (phase_acquire._live and
+                                 ctl["rule"].get(str(_obs_feats(task.coefficients, lib)), ctl["fallback"]))
                     rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
                     r2 = M.solve(task, rest, method) if use_inter else M.solve(task, rest)
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,

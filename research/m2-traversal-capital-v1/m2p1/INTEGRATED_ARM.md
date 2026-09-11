@@ -161,3 +161,33 @@ recorded with the shortfall.
 With this, the integrated arm is better than the strongest parent on **six of six**
 ecologies (three structured, one unstructured, two built from the M1 lane's own
 vocabulary) and at 670-target scale.
+
+## The shift test found two liveness defects in the port — recorded, fixed, re-running
+
+The integrated arm's liveness had only been exercised by the standalone plasticity
+script. A shifted ecology inside the runner — `A → B → A′`, `B` built as the exact
+**complement** of `A`'s motifs, development on `A` only, 30 targets per segment:
+
+| segment | RESET | **`CONTINUED_OCM` v1 liveness** | parent + library |
+|---|---|---|---|
+| A | 3 363 | **507** | 1 013 |
+| B (stale library) | 3 933 | **8 207** ✗ | 7 865 |
+| A′ | 3 282 | 1 065 = parent | 1 065 |
+| lifetime | 3 526 | 3 260 | 3 314 |
+
+Two defects, both visible in the segment pattern:
+
+1. **Stood-down probe, live rule.** In `B` liveness did stand the probe down, but the
+   task-statement rule — fitted on `A`'s validation — kept routing misses to the interleave
+   with the stale library, paying the stale 2× on top of `β`. Fix: while stood down the
+   *library* is presumed stale, so misses go to RESET.
+2. **Reactivation could fire once, ever.** The re-probe counter only advanced on a
+   re-probe, so after the first re-probe it froze; `A′` ran entirely on the interleave,
+   which is why it equals the parent to the decimal. Fix: the counter advances every
+   target. The standalone plasticity script had both of these right; the port dropped them.
+
+The five non-shifting ecologies and the 670-target worlds are unaffected: their hit-rates
+never dropped below the floor, so the probe never stood down there.
+
+**Registered before the re-run:** `A ≈ 507`, `B ≈ RESET + re-probe overhead ≈ 4 100`,
+`A′ ≈ 507` after reactivation within one window, lifetime ≈ 1 800 vs parent 3 314.
