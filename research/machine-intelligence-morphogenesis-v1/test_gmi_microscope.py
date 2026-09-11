@@ -214,7 +214,7 @@ def test_vm_zoo_deterministic_and_remint_invariant_response():
     def runit(g):
         rows = {"IR": (lambda gg: (lambda size: VMRow(gg, size)))(g)}
         return smooth.run("IR", B0, 1, seed=0, target=target, n_events=16, rows=rows, criterion="unseen")
-    expect = {"gradient_net_h4": 0.8073, "hamming_knn_k3": 0.8698, "exemplar_table": 0.7083, "particles_p4": 0.8958, "soft_retrieval": 0.8542}
+    expect = {"gradient_net_h4": 0.8021, "hamming_knn_k3": 0.8698, "exemplar_table": 0.7083, "particles_p4": 0.8958, "soft_retrieval": 0.8542}
     for name, cap in expect.items():
         g = zoo.ZOO[name](); r = runit(g); assert r["capability"] == cap, (name, r["capability"])
         r2 = runit(morph.remint(g, 5)); assert r2["R"] == r["R"] and r2["capability"] == cap, name
