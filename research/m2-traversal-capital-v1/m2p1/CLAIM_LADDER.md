@@ -112,3 +112,13 @@ while the probe hits equivalent ones; and miss routing to the interleave. The tu
 signal (ρ 0.64–1.0), but on hc08 and hc09 it robustly ranks the contested libraries the wrong way (validation
 bootstrap P = 0.018 and 0.001), so selection from the tuning stream is unavailable there, and measuring the probe
 directly does not help. The lever moves upstream to mining coverage (ledger row 58). The rung stays C2.
+
+**Update (2026-09-12, M2-P3): the C2 benefit replicates on a second author model.** Under a registration fixed before
+the author session (#414/#417), worlds authored by claude-haiku-4-5 (M2-P2's author was claude-fable-5-1) were scored
+with the fixed guided-first parent `PARENT_GF_D4` against RESET. **Terminal `C2_REPLICATED_SECOND_AUTHOR_MODEL`, 4 / 4
+viable worlds**, each Holm-significant at the registered 50 % effect-size bar (p = 0.0004), median −92.0 %, and the
+co-registered point prediction (−88 % ± 8) held. Independence is reported beside it: 0 / 6 shape collisions and
+0 / 6 identical chunk sets against both M2-P2 and the earlier package A. Scope: the author is the same model family and
+harness, so this is model- and session-level independence, not family-level or human authorship; M2-P2's frozen terminal
+is untouched; and **target (3) stays FALSIFIED** — `CONTINUED_OCM` again equalled the fixed parent on all four worlds.
+The rung stays C2; target (1) is no longer tied to one author model's worlds.
