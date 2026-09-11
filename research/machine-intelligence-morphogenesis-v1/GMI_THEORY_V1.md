@@ -4,22 +4,22 @@ Status: **formal synthesis / working theory**, subordinate to #233 (HST), #377 a
 
 ## 0. Central thesis
 
-A general theory of machine intelligence should not identify intelligence with one implementation family (neural, symbolic, Bayesian, programmatic or OCM). It should explain all of them as realizations of a common abstract developmental object and state what can and cannot be compared across realizations.
+A general theory of machine intelligence should not identify intelligence with one implementation family (neural, symbolic, Bayesian, programmatic or OCM). It should explain them as different realizations of a common abstract developmental object and state what can and cannot be compared across realizations.
 
 GMI-v1 proposes:
 
-> **Machine intelligence is the capacity of a resource-bounded adaptive system to reach externally verified outcomes over an ecology of tasks, and to transform its own future cognition-generation process from experience. Different intelligence morphologies are different factorizations / inductive biases / update geometries realizing task-relative sufficient developmental states.**
+> **Machine intelligence is the capacity of a resource-bounded adaptive system, from a declared developmental situation and under a declared development protocol, to reach externally admissible verified outcomes across a registered ecology family and to transform its own future cognition-generation process from experience. Different intelligence morphologies are different computational factorizations / inductive biases / update geometries realizing task-relative sufficient developmental states.**
 
 The theory has four layers:
 
 ```text
-future cognitive obligation
+future cognitive obligation + development protocol
         ↓
 minimal sufficient developmental state
         ↓
 resource-bounded morphology / factorization
         ↓
-execution + learning + morphogenesis over an ecology
+execution + learning + morphogenesis
         ↓
 verified capability/resource developmental frontier
 ```
@@ -28,33 +28,66 @@ This is a synthesis object. Its value must come from coherence, deductions, pred
 
 ---
 
-# 1. External cognitive obligation
+# 1. Cognitive obligation and development protocol
 
-All intelligence statements are relative to an explicit obligation
+Every intelligence statement is relative to an explicit contract
 
 \[
-\mathcal O=(\mathfrak E,\mathcal A,\mathcal Y,V,C,\rho,H),
+\mathcal O=(\mathfrak E,\mathcal A,\mathcal Y,V,C,\rho,H,D,J),
 \]
 
 where:
 
-- `E` is a registered family/distribution of task ecologies;
-- `A` is the set of legal machine actions/computations;
-- `Y` is the externally visible outcome space;
-- `V` is the verifier/evidence semantics;
-- `C` is the external constitutional boundary (authority, evaluator identity, protected information, adoption rules);
-- `rho` maps machine/environment events to a raw resource vector;
-- `H` is a registered horizon or stopping condition.
+- `Eset` / `\mathfrak E` — registered family/distribution of task ecologies;
+- `A` — legal machine actions/computations/tool calls;
+- `Y` — externally visible outcome/evidence space;
+- `V` — verifier/evidence semantics;
+- `C` — external constitutional boundary: evaluator identity, protected information, authority/adoption rules;
+- `rho` — raw resource-metering coordinates;
+- `H` — registered horizon/stopping regime;
+- `D` — **development protocol**: initialization, supplied pretrained state, permitted information, machine/external updates, tools/donors, resets/continuation, human input and charging;
+- `J` — registered external intervention/probe/teaching class used when defining future distinguishability.
 
-There is no representation-independent scalar intelligence without choosing at least an ecology/evaluation measure. This is consistent with Universal Intelligence/AIXI-style environment-relative performance and with No-Free-Lunch limits on unrestricted optimization.
+There is no representation-independent scalar intelligence without choosing at least an ecology/evaluation/resource/development contract.
 
-The verifier is separate from the learner's internal training objective. A loss, reward, heuristic, posterior score or utility estimate is not automatically truth/admissibility.
+## 1.1 Development protocol is part of the system being evaluated
+
+`D` must explicitly declare at least:
+
+```text
+initial machine state / pretrained capital
+permitted training/development streams
+whether task answers/labels are available and when
+which tools/donors are preinstalled vs acquired
+which updates may be machine-proposed
+which updates may be externally imposed
+human intervention and its meter
+morphology-change permissions
+reset / continuation semantics
+maintenance / revision obligations
+```
+
+A human engineer installing a solution is not free machine intelligence. A pretrained model can be evaluated as a deployed system, but its supplied capital must be declared; a claim about acquisition efficiency must charge or otherwise control that capital.
+
+Different development protocols define different scientific comparisons and cannot be silently pooled.
+
+## 1.2 External verification is separate from internal optimization
+
+The verifier `V` and constitution `C` remain external to the machine's internal objective.
+
+```text
+low loss != truth
+high reward != admissible evidence
+high confidence != verification
+```
+
+This distinction allows the same GMI language to cover Lean kernel verification, execution/tests, empirical evidence and explicit `UNKNOWN/CANNOT_CHECK` terminals.
 
 ---
 
 # 2. Developmental situations and sufficient state
 
-A history alone may not determine the future of a learning machine: two identical external histories can leave different hidden optimizer, memory, random-state, posterior, replay-buffer or structural configurations.
+A history alone may not determine the future of a learning machine: identical external histories can leave different optimizer, memory, random-state, posterior, replay-buffer or structural configurations.
 
 Let
 
@@ -62,7 +95,7 @@ Let
 h_t=(o_0,a_0,e_0,r_0,\ldots,o_t)
 \]
 
-be the complete registered interaction/development history and let `chi_t` denote the current machine configuration relevant to future protected behavior/development at the theory level.
+be the registered interaction/development history and let `chi_t` denote the current machine configuration relevant to future protected behavior/development at theory level.
 
 Define the **developmental situation**
 
@@ -70,66 +103,65 @@ Define the **developmental situation**
 d_t=(\chi_t,h_t,\xi_t),
 \]
 
-where `xi_t` contains any registered current ecology/authority context not already encoded in `h_t` that can affect future protected quantities.
+where `xi_t` contains current registered public/experimental context that can affect protected futures.
 
-If `chi_t` is not directly observable to an experimenter, the operational representation may be a belief/predictive state over it. The theory-level equivalence below is semantic, not a requirement that the exact state be computable.
+Hidden environment variables unavailable to the machine are **not free machine information**. They are integrated over the registered ecology/environment law conditional on legal observations. If an ontic hidden state is used in a theorem, it must be distinguished from the machine information state and cannot be consumed by `K/U/Gamma` unless legally observed.
 
 ## 2.1 Future developmental equivalence
 
-For obligation `O`, define
+For fixed `O,D,J`, define
 
 \[
-d \sim_{\mathcal O} d'
+d \sim_{\mathcal O,D,J} d'
 \]
 
-when, for every admissible future intervention/action programme `alpha` in the registered class, the conditional law of every future protected quantity is identical (or equal within a declared approximation relation):
+when for every admissible future intervention/probe programme `j\in J` and every legal continuation policy/process under `D`, the conditional law of every registered future protected quantity is the same (or equal under a declared approximation relation):
 
 \[
-\mathsf P(\text{verified future traces, future machine changes, resource receipts}\mid d,\alpha)
+\mathsf P(
+  \text{verified future traces, machine changes, resource receipts}
+  \mid d,j,D
+)
 =
-\mathsf P(\cdot\mid d',\alpha).
+\mathsf P(\cdot\mid d',j,D).
 \]
 
-The **developmental sufficient state** is the equivalence class
+The **developmental sufficient state** is
 
 \[
-z=[d]_{\sim_{\mathcal O}}.
+z=[d]_{\sim_{\mathcal O,D,J}}.
 \]
 
-This is the strongest representation-independent candidate for the theory's primitive state distinction.
+This is the theory's strongest representation-independent primitive **state distinction**.
 
-It is **not** a physical cognitive atom. It is task/future-obligation relative.
+It is not a physical cognitive atom and not necessarily computable.
 
 Parent instances include:
 
-- Myhill-Nerode / Mealy-machine minimization in finite deterministic systems;
-- predictive-state representations for controlled stochastic systems;
-- computational-mechanics causal states / epsilon-machines for prediction;
-- bisimulation / state-abstraction relations in MDPs.
+- Myhill-Nerode / Mealy-machine minimization;
+- predictive-state representations;
+- computational-mechanics causal states / epsilon-machines;
+- bisimulation / state abstraction.
 
 ## 2.2 Minimality
 
-A state distinction is necessary at obligation `O` iff merging it with another class changes at least one admissible future verified outcome/development/resource distribution.
+A state distinction is necessary iff merging it changes at least one future protected distribution under the registered future intervention/development semantics.
 
-Thus the representation-invariant minimal object is:
-
-```text
-minimal sufficient developmental state for a declared future obligation
-```
-
-not:
+Therefore the meaningful minimal object is:
 
 ```text
-one universal smallest neuron/rule/operator.
+minimal sufficient developmental state relative to (O,D,J)
 ```
 
-Finite exact minimization is already calibrated in Track B. General stochastic/continuous approximations remain parent-heavy and technically open.
+not a universal smallest neuron/rule/operator.
+
+Approximate/stochastic versions require parent predictive-state/bisimulation/statistical machinery and explicit tolerances.
 
 ---
 
 # 3. Machine-intelligence morphology
 
-The abstract developmental state may admit many computational realizations.
+The abstract developmental process can have many computational realizations.
 
 Define a morphology
 
@@ -139,86 +171,93 @@ M=(F,\Theta,K,U,\Gamma,\kappa,\rho_M),
 
 where:
 
-- `F` — factorization / topology / program / graphical organization;
-- `Theta` — mutable local parameters, rules, memory, beliefs or other configuration;
-- `K` — execution/cognition kernel generating internal computations, proposals and external actions;
+- `F` — factorization/topology/program/graph organization;
+- `Theta` — mutable parameters, rules, memories, beliefs/configuration;
+- `K` — execution/cognition/proposal/action kernel;
 - `U` — within-morphology experience-driven update law;
-- `Gamma` — optional structural/morphogenetic law that can change `F`, `K`, `U` or their allowed family;
-- `kappa` — semantics/compiler map connecting the realization to the developmental-state/future-trace contract;
-- `rho_M` — implementation resource semantics (description, compute, memory, communication, update, verification, maintenance, human input, etc.).
+- `Gamma` — structural/morphogenetic law changing `F`, `K`, `U` or their family;
+- `kappa` — semantics/compiler map into the registered developmental-state/obligation semantics;
+- `rho_M` — implementation resource semantics.
 
-A morphology is valid at obligation `O` when `kappa` preserves the registered semantics within declared tolerance.
+A morphology is valid at scope when `kappa` preserves the registered protected semantics within declared tolerance.
 
 ## 3.1 Morphology identity
 
 Source syntax is not morphology identity.
 
-Two realizations can be called equivalent only under a registered bounded developmental compiler relation that preserves:
+Two realizations can be called developmentally equivalent only under a registered bounded compiler relation preserving, within tolerance:
 
 ```text
 verified capability
 future response to experience
 retention/plasticity
 revision/drift behavior
-resource vector within declared bounds
+resource vectors
 verification semantics
 ```
 
-Behavioral equivalence alone is insufficient; Track B has an exact counterexample where two machines have identical current behavior and diverge after the same teaching event.
+Behavioral equivalence alone is insufficient; Track B contains an exact witness where two machines have identical current behavior and diverge after the same teaching event.
 
 ---
 
-# 4. Three time scales
-
-GMI-v1 separates three processes.
+# 4. Three timescales
 
 ## 4.1 Execution / cognition
 
-For fixed morphology `M_t`, cognition/action is generated by
+For fixed morphology:
 
 \[
 (a_t,y_t,c_t,z'_{t})\sim K_{M_t}(\cdot\mid z_t,o_t,g_t).
 \]
 
-This includes forward inference, proof search, program search, retrieval, rule firing, planning, tool use, etc.
+This covers inference, proof/program search, retrieval, rule firing, planning and tool use.
 
 ## 4.2 Within-form development
-
-Experience changes the realization:
 
 \[
 M_{t+1}=U(M_t,e_t).
 \]
 
-Examples: SGD, Bayesian conditioning, rule induction/chunking, library learning, memory consolidation, OCM admission/revision.
+Examples include SGD/Adam, Bayesian conditioning, rule induction, chunking, library learning, memory consolidation and OCM admission/revision.
 
 ## 4.3 Morphogenesis
 
-The architecture/factorization/update law itself may change:
-
 \[
-M' \sim \Gamma(\cdot\mid M,E,R,H_{dev}).
+M'\sim\Gamma(\cdot\mid M,E,R,H_{dev}).
 \]
 
-Examples: NAS, neuroevolution, program synthesis, modularity evolution, model-structure learning, architecture repair.
+Examples include NAS, neuroevolution, program synthesis, model-structure learning, growth/pruning and architecture repair.
 
-A fourth meta-level is possible when experience changes `Gamma` itself; that is meta-morphogenesis / strong RSI territory.
+When experience changes `Gamma` itself, the process enters meta-morphogenesis / K3 / strong-RSI territory.
 
 ---
 
-# 5. Verified developmental burden
+# 5. External admissibility and verified developmental burden
 
-For a task `tau`, capability threshold/contract `q`, developmental situation `d`, and morphology `M`, define the stopping time
+A universal scalar verifier threshold is not assumed.
+
+For task `tau`, let the external constitution define an admissibility contract
 
 \[
-T_q=\inf\{t:\ V(\text{outcome}_t,\tau;C)\ge q\}.
+A_\tau(y,e;V,C)\in\{0,1\}
 \]
 
-Define complete raw burden
+or a declared partially ordered evidence/capability contract whose admissible region is fixed before protected outcome access.
+
+Define first-admissible stopping time
 
 \[
-\mathbf B_M(\tau,q\mid d)
-=\mathbb E\left[\sum_{t=0}^{T_q}\rho(t)\mid M,d,\tau\right].
+T_A=\inf\{t:A_\tau(y_t,e_t;V,C)=1\}.
+\]
+
+For morphology `M`, developmental situation `d`, and development protocol `D`, define complete raw burden
+
+\[
+\mathbf B_M(\tau\mid d,D)
+=\mathbb E\left[
+\sum_{t=0}^{T_A}\rho(t)
+\mid M,d,D,\tau
+\right].
 \]
 
 Coordinates may include:
@@ -237,34 +276,57 @@ human intervention
 CPU/GPU/wall/energy/IO
 ```
 
-No scalar is canonical. A scalar cost is allowed only after a prospective price/utility vector is declared.
+No scalar is canonical. Scalar cost requires a prospectively frozen price/utility mapping.
 
 ---
 
-# 6. Developmental feasible set and intelligence profile
+# 6. Developmental feasible set, frontier and intelligence profile
 
-For ecology `E`, define the reachable capability-resource set
-
-\[
-\mathcal A_M(E\mid d)
-=\{(Q,\mathbf B): (Q,\mathbf B)\text{ reachable under legal development}\}.
-\]
-
-The **developmental frontier** is
+For ecology `E`, morphology `M`, current developmental situation `d` and protocol `D`, define the **semantic feasible set**
 
 \[
-\mathcal F_M(E\mid d)=\operatorname{Pareto}(\mathcal A_M(E\mid d)).
+\mathcal A_M(E\mid d,D)
+=\{(Q,\mathbf B): (Q,\mathbf B)\text{ reachable under }M,D,E\}.
 \]
 
-The most representation-neutral GMI object is the **intelligence profile**
+Its Pareto developmental frontier is
 
 \[
-\mathcal I_{M,d}:\ E\mapsto\mathcal F_M(E\mid d).
+\mathcal F_M(E\mid d,D)
+=\operatorname{Pareto}(\mathcal A_M(E\mid d,D)).
 \]
 
-This is set-valued rather than one magic scalar.
+The **intelligence profile** is
 
-It records both what the machine can eventually do and what it must spend to get there from its current developmental situation.
+\[
+\mathcal I_{M,d,D}:E\mapsto\mathcal F_M(E\mid d,D).
+\]
+
+It is set-valued rather than one magic scalar.
+
+## 6.1 Semantic vs certified frontier
+
+For rich systems the semantic frontier may be uncomputable.
+
+Therefore distinguish:
+
+```text
+semantic frontier        theory-level reachable Pareto set
+certified inner frontier externally verified/proved/observed points
+outer/inner bounds        theorem/statistical bounds where available
+```
+
+Experiments establish certified points or bounded regions, not universal enumeration of all reachable intelligence.
+
+## 6.2 Starting capital matters
+
+The primary object is a deployed system `(M,d,D)`, not architecture `M` in isolation.
+
+Claims about a morphology family must either:
+
+- match initialization/development protocols;
+- charge acquisition of starting capital; or
+- explicitly state that the comparison is between deployed systems rather than innate architecture-only intelligence.
 
 ---
 
@@ -272,341 +334,318 @@ It records both what the machine can eventually do and what it must spend to get
 
 ## 7.1 Partial-order generality
 
-For registered ecology family `\mathfrak E`, define
+For a registered ecology family `\mathfrak E`, define
 
 \[
-(M_1,d_1)\succeq_{\mathfrak E}(M_2,d_2)
+(M_1,d_1,D_1)\succeq_{\mathfrak E}(M_2,d_2,D_2)
 \]
 
-when the first profile weakly dominates the second on every ecology in `\mathfrak E`, with strict improvement on at least one registered coordinate/ecology if strict dominance is claimed.
+when the first certified/semantic frontier (as explicitly stated) weakly dominates the second on every ecology in `\mathfrak E`, with strict improvement somewhere if strict dominance is claimed.
 
-Because of No-Free-Lunch, speedup and resource-tradeoff limits, no unrestricted global total order is expected.
+This is naturally a partial order. Tradeoffs across ecologies are not hidden.
 
 ## 7.2 Distributional scalarization
 
-If a task/ecology distribution `mu` and utility functional `u(Q,B)` are prospectively declared, define
+If an ecology distribution `mu` and utility functional `u(Q,B)` are prospectively declared,
 
 \[
-G_{\mu,u}(M,d)
-=\mathbb E_{E\sim\mu}\left[\sup_{(Q,\mathbf B)\in\mathcal F_M(E\mid d)}u(Q,\mathbf B)\right].
+G_{\mu,u}(M,d,D)
+=\mathbb E_{E\sim\mu}
+\left[
+\sup_{(Q,\mathbf B)\in\mathcal F_M(E\mid d,D)}u(Q,\mathbf B)
+\right].
 \]
 
-This turns the profile into a scalar for a declared question.
+Different `mu`, `u`, starting states or development protocols can reverse rankings.
 
-Universal-Intelligence/AIXI-style expected performance is a special limiting orientation of this construction when the ecology weighting and reward semantics are fixed and developmental/resource accounting is collapsed accordingly; GMI-v1 does not claim to replace UAI.
+Universal-Intelligence/AIXI-style expected performance is a powerful parent orientation when its environment/reward/complexity measure is adopted; GMI-v1 does not claim to replace it.
 
 ---
 
-# 8. Capital hierarchy
+# 8. Developmental capital hierarchy
 
-Let `RESET` denote the matched system without the relevant developmental history/state, with the same external tools, evaluator, architecture family and protected information.
+Let `RESET` denote a matched counterfactual that lacks the relevant inherited developmental state while retaining the same declared external tools/evaluator/protocol information.
 
 ## K0 — solution capital
 
-History stores a directly reusable answer/proof/program or object-specific solution.
+A directly reusable answer/proof/program/object-specific solution is retained.
 
-Useful, but not evidence that future cognition-generation changed.
+K0 is useful but does not establish changed future cognition-generation.
 
 ## K1 — cognition/search capital
 
-History creates K1 on fresh task distribution `D` when:
+Inherited developmental state creates K1 on fresh targets when:
 
-1. protected target solutions are absent from history;
-2. before target success, history changes the proposal/search/action distribution or representation/control;
-3. this causally lowers future verified burden against matched reset/shuffle/library-only controls.
+1. protected target solution is absent from the relevant history;
+2. before target success, inherited state changes proposal/search/action distribution or representation/control;
+3. that change causally lowers future verified burden against matched reset/history controls.
 
-One measurable form is proposal-rank/surprisal change:
+A measurable mediator is
 
 \[
-\Delta I(\tau)
-=\log_2\frac{\operatorname{rank}_{RESET}(m^*)}
-{\operatorname{rank}_{H}(m^*)}.
+\Delta I(\tau)=
+\log_2\frac{rank_{RESET}(m^*)}{rank_H(m^*)}.
 \]
 
 #323 currently supports K1/C2 at its authored grammar scope.
 
 ## K2 — developmental capital
 
-History creates K2 only if it reduces the burden of **acquiring new K1** on fresh tasks/ecologies:
+Inherited state creates K2 only if it reduces burden of acquiring **new K1**:
 
 \[
 \mathbb E[B^{acq}_{H}(K1_{new})]
 <
-\mathbb E[B^{acq}_{RESET}(K1_{new})]
+\mathbb E[B^{acq}_{RESET}(K1_{new})].
 \]
 
-under a registered causal mechanism and complete cost accounting.
+#323's retained-capital C3 test ended `NOT_ESTABLISHED` at the current grammar (2/9 fresh seeds met the registered bar).
 
-#323's retained-capital recombination C3 test ended `NOT_ESTABLISHED` at the current grammar (2/9 fresh seeds met the registered bar). Therefore ORION must not currently claim K2 from that lane.
+## K3 — improvement / morphogenesis capital
 
-## K3 — improvement/morphogenesis capital
-
-History changes `Gamma`/`U` so that discovering or constructing future frontier-improving morphologies/learning procedures becomes cheaper or more reliable on fresh ecology families.
+Inherited state changes `Gamma/U` such that discovering or constructing future verified frontier improvements becomes cheaper or more reliable on fresh ecology families under fixed external governance.
 
 This is the natural bridge to governed RSI.
+
+Capital labels require causal counterfactual evidence; they are not assigned by inspection.
 
 ---
 
 # 9. Adopted parent theorem modules
 
-GMI-v1 intentionally imports parent theory rather than re-proving everything.
+Parent ownership is foundational, not a defect.
 
-## P-UAI — general agent/performance layer
+## P-UAI — general agent/performance
 
-Universal Artificial Intelligence / Universal Intelligence establish broad formal environment-relative theories of intelligent action/performance and algorithmic environment weighting. GMI uses them as the strongest parent for claims about broad agent performance, not morphology emergence.
+Universal Artificial Intelligence / Universal Intelligence provide broad environment-relative theories/measures of intelligent action/performance and algorithmic environment weighting.
 
-## P-STATE — minimal/predictive state layer
+## P-STATE — minimal/predictive state
 
-Automata minimization, predictive-state representations, computational mechanics and bisimulation/state abstraction provide parent mathematics for sufficient/minimal state and behavioral equivalence.
+Automata minimization, predictive-state representations, computational mechanics and bisimulation/state abstraction provide mathematics for future-sufficient/minimal state.
 
-## P-INFO — information/resource layer
+## P-INFO — representation/resource tradeoff
 
-Information Bottleneck, rate-distortion and information-theoretic bounded rationality provide parent variational principles trading task-relevant information/performance against information-processing cost.
+Information Bottleneck, rate-distortion and information-theoretic bounded rationality provide variational compression/performance/information-cost principles.
 
-## P-FACT — factorization layer
+## P-FACT — structured factorization
 
-Factored MDPs, DBNs, graphical models, software/program decompositions and modular systems provide compact representations of exponentially large global states and locality/communication tradeoffs.
+Factored MDPs, DBNs, graphical models and structured programs provide compact factorizations of huge global states.
 
-## P-SEARCH — search/universal programme layer
+## P-SEARCH — universal/incremental search
 
-Levin search, Solomonoff/Hutter universal induction, OOPS/PowerPlay and program synthesis own universal/incremental search-bias and reusable-program-search ideas.
+Levin/Solomonoff/Hutter, OOPS/PowerPlay and program synthesis provide universal/incremental search and reusable bias machinery.
 
-## P-META — developmental transfer layer
+## P-META — learning-to-learn
 
-Baxter, PAC-Bayes lifelong/meta-learning, MAML, learned optimizers and related theory own conditional learning-to-learn / learned-inductive-bias results under explicit task-environment assumptions.
+Baxter, PAC-Bayes lifelong/meta-learning, MAML, learned optimizers and related theory provide conditional future-task transfer under explicit relatedness assumptions.
 
-## P-MORPH — morphology emergence layer
+## P-MORPH — morphology generation
 
-AutoML/NAS/neuroevolution, modularly varying goals, facilitated variation, connection-cost modularity/hierarchy and quality-diversity/open-ended search own broad results in which task/resource structure produces architecture or evolvability.
+AutoML/NAS/neuroevolution, modularly varying goals, facilitated variation, connection-cost modularity/hierarchy and QD/open-ended search provide broad morphology/evolvability mechanisms.
 
-## P-META-COMP — metareasoning layer
+## P-META-COMP — computational resource allocation
 
-Algorithm selection, rational metareasoning, stochastic-shortest-path/control and drift analysis own much of cost-aware computational choice and hitting-time mathematics once the relevant state/potential is specified.
+Algorithm selection, rational metareasoning, stochastic-shortest-path/control and drift analysis provide cost-aware computational choice and hitting-time theory.
 
-These modules are **part of the theory**. Parent ownership is not a defect.
+These are components of GMI-v1.
 
 ---
 
-# 10. Derived propositions / theory consequences
+# 10. Core consequences
 
 ## GMI-T1 — no representation-independent implementation atom
 
-Computation alone does not determine a unique unit boundary: units can often be split/refactored and finite networks flattened/merged. Therefore any irreducible implementation unit requires an explicit locality/physics/resource/equivalence contract.
-
-Status: supported by Track-B finite flattening/granularity results + parent computability theory.
+Computation alone does not determine a unique unit boundary: units can be split/refactored and finite networks can be flattened/merged. Any irreducible implementation unit therefore requires extra locality/physics/resource/causal assumptions.
 
 ## GMI-T2 — task-relative minimal developmental state is well posed at finite deterministic scope
 
-Quotient developmental situations by equality of all registered future output/update traces. The resulting minimal Mealy/transducer representation is unique up to isomorphism.
-
-Status: parent automata theorem; Track-B exact calibration present.
+Quotient complete developmental situations by equality of all registered future traces under the allowed event/intervention semantics; the minimal deterministic representation is unique up to isomorphism.
 
 ## GMI-T3 — factorization can matter exponentially without changing expressivity
 
-A global minimal state may have exponentially many configurations while a factored realization has linear/shared local description and local update cost.
-
-Status: parent factored-state principle; Track-B exact `3^n` calibration present.
+A global sufficient state can grow exponentially while a factored realization remains compact/local. Track B's exact construction yields `3^n` minimal global states with `n` local cells and one shared local rule.
 
 ## GMI-T4 — lifecycle morphology phase boundary
 
-For fixed scalarized costs, if morphologies `i,j` have build costs `A_i,A_j` and expected per-use burdens `c_i(E),c_j(E)` over horizon `H`, then
+For fixed scalarized build/per-use costs:
 
 \[
-i\text{ beats }j
-\iff
-(A_i-A_j)+H(c_i(E)-c_j(E))<0.
+C_i=A_i+Hc_i(E),
 \]
 
-With vector resources use Pareto dominance instead.
+and morphology `i` beats `j` exactly when
 
-Status: arithmetic / parent amortization & algorithm-selection principle; Track-B exact phase calibrations present.
+\[
+(A_i-A_j)+H[c_i(E)-c_j(E)]<0.
+\]
 
-## GMI-T5 — ecology-aligned factorization can reduce future development cost
+## GMI-T5 — ecology-aligned factorization can lower future developmental burden
 
-When future tasks repeatedly reuse partially independent substructure, a morphology whose factorization aligns with those dependencies can reduce search/reconfiguration/update burden relative to an incompatible factorization, after build/coordination cost is charged.
+Repeated partially independent substructure can favor a matching reusable factorization after build/coordination costs. This is already strongly parent-owned by modularity/factored-model/library-learning theory.
 
-Status: parent-owned in modularity/facilitated-variation/factored-model/library-learning families. Cross-paradigm quantitative law remains open.
+## GMI-T6 — inherited history need not help
 
-## GMI-T6 — learned history need not help
+Without relatedness/transfer assumptions, inherited state can impose maintenance/interference/routing costs and hurt future performance.
 
-Without relatedness/transfer assumptions, inherited state can impose acquisition, maintenance, interference and routing costs and may be harmful. No unconditional developmental-improvement theorem is permitted.
+## GMI-T7 — no universal exact burden predictor for unrestricted Turing-complete systems
 
-Status: immediate from cost accounting + NFL/harmful-transfer parents.
+An exact computable predictor of arbitrary finite reachability/burden would decide halting/reachability in general. Predictive theorems must restrict the class or become probabilistic/empirical.
 
-## GMI-T7 — exact universal burden predictor is impossible on unrestricted Turing-complete classes
+## GMI-T8 — generality is conditional
 
-A computable exact predictor of arbitrary target reachability / finite burden would solve halting/reachability in general. Useful predictive theory must restrict machine/ecology classes or provide probabilistic/empirical guarantees.
-
-Status: P5 limit; formalized in Track B.
-
-## GMI-T8 — generality is conditional, not one architecture
-
-No morphology can be called universally superior without restricting ecology/resource semantics. The appropriate object is a profile/frontier or a declared distributional scalarization.
-
-Status: NFL/resource theory.
+No morphology is expected to be universally superior across unrestricted ecologies/resources. The natural object is a profile/frontier or explicitly declared scalar measure.
 
 ---
 
-# 11. Known machine-intelligence forms as specializations
+# 11. Known forms are specializations
 
-The same GMI object accommodates multiple forms.
+The same morphology tuple accommodates:
 
-## Neural / differentiable
+### Neural / differentiable
 
 ```text
-F      layer/graph/module topology
-Theta  weights, optimizer state, activations/memory
-K      forward inference / sampling / planning through the model
-U      SGD/Adam/meta-learned/plastic update
-Gamma  NAS/neuroevolution/growth/pruning (optional)
-rho    FLOPs, memory, data, communication, training/inference energy
+F      layer/module topology
+Theta  weights, optimizer/recurrent state
+K      forward inference / model-based cognition
+U      SGD/Adam/plastic/meta-learned update
+Gamma  NAS/evolution/growth/pruning
 ```
 
-## Symbolic / production
+### Symbolic / production
 
 ```text
-F      predicates/rule graph/index/working-memory organization
-Theta  rules, facts, agenda/preferences
-K      match/fire/unify/search/operator selection
-U      rule induction, chunking, revision, TMS update
+F      predicates/rule/index/workspace organization
+Theta  rules/facts/preferences
+K      match/fire/unify/search
+U      rule induction/chunking/revision
 Gamma  vocabulary/operator/representation restructuring
-rho    matching/search/index/update/verification work
 ```
 
-## Probabilistic / generative
+### Probabilistic / generative
 
 ```text
-F      factor graph / graphical model / probabilistic program structure
-Theta  priors/posteriors/latent state
+F      factor graph / graphical model / probabilistic program
+Theta  posterior/latent/model parameters
 K      inference/sampling/planning
-U      conditioning/parameter learning/posterior update
+U      conditioning/parameter learning
 Gamma  model-structure learning
-rho    sampling/inference/normalization/data/verification work
 ```
 
-## Programmatic / library-learning
+### Programmatic / library-learning
 
 ```text
-F      grammar/program/library/call graph
-Theta  library, search priors, partial programs
+F      grammar/program/library graph
+Theta  library/search priors/partial programs
 K      enumeration/synthesis/execution
-U      abstraction/library induction/search-prior update
-Gamma  grammar/operator/library structural change
-rho    proposal/execution/checking/storage/maintenance
+U      abstraction/library/search-prior update
+Gamma  grammar/operator growth
 ```
 
-## OCM-like explicit governed morphology
+### OCM-like governed explicit
 
 ```text
-F      warranted field + cognitive assets + dependency/provenance organization
+F      warranted field + cognitive assets + provenance/dependencies
 Theta  facts/methods/applicability/control/self-model state
-K      retrieval/search/composition/tool choice/controller
+K      retrieval/search/composition/tool/executive control
 U      verified admission/revision/failure learning/consolidation
-Gamma  representation/operator/control change under governance
-rho    complete search/verification/acquisition/storage/revision ledger
+Gamma  governed representation/operator/control change
 ```
 
-No row is asserted to be fundamentally superior.
+No specialization is assumed fundamental.
 
 ---
 
-# 12. What makes a theory of machine intelligence 'general'?
+# 12. What makes GMI general?
 
-GMI-v1 uses four requirements.
+GMI-v1 has four tests.
 
 ## G1 — realization breadth
 
-The theory can represent the execution and development semantics of materially different morphology families without architecture-labelled escape hatches.
+Materially different machine-intelligence families fit the same core definitions without architecture-specific semantic escape hatches.
 
 ## G2 — invariant definitions
 
-Capability, resource burden, sufficient developmental state, developmental frontier, K1/K2/K3 and generality use the same definitions across families.
+Admissibility, resource burden, developmental state, frontiers, K0-K3 and generality keep the same meanings across forms.
 
-## G3 — parent-consistent deductions
+## G3 — parent consistency
 
-Known theorems/results from parent fields arise as special cases or imported modules rather than contradictions.
+Established parent theorems appear as special cases/modules rather than contradictions.
 
 ## G4 — predictive cross-paradigm content
 
-At least one nontrivial quantitative prediction must transfer across materially different morphology families using pre-outcome information and beat the product of family-specific parent predictors.
+At least one quantitative pre-outcome prediction transfers across materially different forms and beats the product of family-native parent predictors.
 
-G1-G3 can establish a coherent **framework/theory synthesis**. G4 is needed for a new scientific law.
+G1-G3 can establish a coherent synthesis theory. G4 is required for a new general scientific law.
 
 ---
 
-# 13. Current evidence / non-evidence
+# 13. Current evidence
 
-Established at current Track-B / OCM scope:
+Supported now:
 
 ```text
-- no unique representation-independent cognitive atom established;
-- task-relative developmental minimization is mathematically well posed at finite scope;
-- factorized realizations can be exponentially more compact/local than flat state tables;
-- ecology/resource-dependent morphology phase boundaries exist in exact toy systems;
-- parent work directly demonstrates ecology/resource-driven modularity/hierarchy/evolvability;
-- #323 shows real pre-solution history-induced proposal-rank improvement on 2741 fresh targets
-  at one authored program-search grammar (C2/K1 evidence);
-- #323 C3/K2 retained-capital acquisition claim is NOT_ESTABLISHED at that grammar.
+no unique representation-independent implementation atom established
+task-relative finite developmental minimization is well posed
+factorized realizations can be exponentially more compact/local than flat state tables
+ecology/resource morphology phases exist in exact systems and parent literature
+#323 provides C2/K1 pre-solution search-geometry evidence at one authored grammar
 ```
 
-Not established:
+Negative/locked:
 
 ```text
-- cross-paradigm predictive developmental law;
-- universal useful morphology metric;
-- unique basis;
-- unknown machine-intelligence morphology;
-- cross-domain K2 developmental capital;
-- meta-morphogenesis / RSI improvement slope.
+#323 K2/C3 retained-capital acquisition NOT_ESTABLISHED at current grammar
+no cross-paradigm predictive developmental law yet
+no unique basis
+no theory-predicted unknown morphology
+no meta-morphogenesis / RSI improvement slope
 ```
 
 ---
 
-# 14. Scientific programme implied by the theory
-
-The theory is established in layers rather than by one grand experiment.
+# 14. Scientific programme
 
 ### Layer A — mathematical coherence
 
-- formalize developmental sufficient state/equivalence;
-- prove finite exact properties;
-- define approximate stochastic extension using parent bisimulation/predictive-state machinery;
-- prove reduction/specialization maps to parent theories.
+- finish obligation/situation/equivalence semantics;
+- import exact parent assumption maps;
+- prove finite exact consequences;
+- define stochastic/approximate extensions using parent machinery.
 
 ### Layer B — realization maps
 
-For neural, symbolic, probabilistic, programmatic and OCM-like systems, provide explicit mappings into `(F,Theta,K,U,Gamma,kappa,rho)` and family-scale bounded compiler/resource analyses.
+Complete family-scale neural, symbolic, probabilistic, programmatic and OCM mappings into the same tuple and resource contracts.
 
 ### Layer C — developmental measurement
 
-Measure K1/K2/K3 with matched RESET/CONTINUED/history-shuffle/parent controls and complete resource ledgers.
+Measure K1/K2/K3 using matched causal controls and complete ledgers.
 
 ### Layer D — cross-paradigm prediction
 
-Freeze a compact pre-outcome structural/developmental signature and predict held-out burden/frontier in at least two materially different morphology families. Family-native predictors are strong parents.
+Freeze a compact pre-outcome structural/developmental signature and predict held-out burden/frontier in at least two materially different forms against family-native parent predictors.
 
 ### Layer E — real cognitive ecologies
 
-Math (Lean) -> code/tools -> language-mediated mixed tasks -> science, using strongest donors and the same developmental definitions.
+Math (Lean) -> code/tools -> language-mediated mixed tasks -> science, with the same GMI definitions and strongest donor systems.
 
 ### Layer F — morphology discovery / RSI
 
-Only after known-family phase prediction works: identify a parent-frontier hole, freeze its required properties, discover a candidate blindly, reduce it against all parents, and then ask whether the morphology-generator itself improves across fresh ecologies.
+Only after known-family prediction works: predict a parent-frontier hole, freeze required properties, search blindly, reduce candidate against parents, then ask whether `Gamma` itself develops.
 
 ---
 
 # 15. Current theory status
 
 ```text
-GMI_V1_COHERENT_SYNTHESIS_PROPOSED
-PARENT_THEOREMS_ADOPTED_AS_MODULES
-REPRESENTATION_INDEPENDENT_ATOM_REJECTED_AS_REQUIRED_ASSUMPTION
-TASK_RELATIVE_DEVELOPMENTAL_STATE_IS_CORE_ABSTRACT_OBJECT
+GMI_V1_COHERENT_SYNTHESIS_UNDER_ACTIVE_HOSTILE_REVIEW
+PARENT_THEOREMS_ARE_FOUNDATIONAL_MODULES
+REPRESENTATION_INDEPENDENT_ATOM_NOT_REQUIRED
+TASK_RELATIVE_DEVELOPMENTAL_SUFFICIENT_STATE_IS_CORE_ABSTRACT_OBJECT
 MORPHOLOGY_IS_RESOURCE_BOUNDED_REALIZATION / FACTORIZATION
 INTELLIGENCE_IS_VERIFIED_DEVELOPMENTAL_FRONTIER / PROFILE
-GENERALITY_IS_ECOLOGY_FAMILY_RELATIVE
-K1_K2_K3_DEVELOPMENTAL_CAPITAL_DEFINED
+GENERALITY_IS_ECOLOGY_AND_PROTOCOL_RELATIVE
+K0_K1_K2_K3_DEVELOPMENTAL_CAPITAL_DEFINED
 NEW_CROSS_PARADIGM_PREDICTIVE_LAW_NOT_YET_ESTABLISHED
 ```
 
-This is intended as the first version that can be **used as a theory even if every individual mathematical component comes from parents**. The remaining research question is whether the synthesis yields new correct predictions and whether the same definitions survive real language/math/code/science systems.
+GMI-v1 is intended to be usable even if most individual mathematics comes from parent fields. The theory becomes scientifically stronger as it survives reductions, exact hostiles and real math/code/language/science validation.
