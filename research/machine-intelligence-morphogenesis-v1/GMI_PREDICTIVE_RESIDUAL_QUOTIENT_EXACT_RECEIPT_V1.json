@@ -1,0 +1,93 @@
+{
+  "by_n": {
+    "1": {
+      "bell_number_partitions": 1,
+      "partition_pairs_checked": 1
+    },
+    "2": {
+      "bell_number_partitions": 2,
+      "partition_pairs_checked": 4
+    },
+    "3": {
+      "bell_number_partitions": 5,
+      "partition_pairs_checked": 25
+    },
+    "4": {
+      "bell_number_partitions": 15,
+      "partition_pairs_checked": 225
+    },
+    "5": {
+      "bell_number_partitions": 52,
+      "partition_pairs_checked": 2704
+    },
+    "6": {
+      "bell_number_partitions": 203,
+      "partition_pairs_checked": 41209
+    }
+  },
+  "checks": {
+    "constructive_decoder_exact": true,
+    "residual_alphabet_equals_max_within_predictive_target_multiplicity": true,
+    "uniform_conditional_entropy_le_log2_max_multiplicity": true,
+    "uniform_conditional_entropy_zero_iff_zero_residual": true,
+    "zero_residual_iff_target_factors_through_predictive_quotient": true
+  },
+  "claim_ceiling": "Exact finite partition theorem calibration only; does not establish real-world quotient identifiability or empirical RQM superiority.",
+  "counts": {
+    "max_conditional_entropy_uniform_bits_seen": 2.584962500721156,
+    "max_fixed_residual_bits_seen": 3,
+    "nonzero_residual_pairs": 41263,
+    "partition_pairs_checked": 44168,
+    "zero_residual_pairs": 2905
+  },
+  "named_hostiles": [
+    {
+      "conditional_entropy_uniform_bits": 0.0,
+      "max_target_multiplicity_inside_predictive_fiber": 1,
+      "minimum_fixed_residual_bits": 0,
+      "minimum_residual_alphabet": 1,
+      "n": 4,
+      "name": "ZERO_RESIDUAL_FACTORIZATION",
+      "predictive_partition": [0, 0, 1, 1],
+      "target_factors_through_predictor": true,
+      "target_partition": [0, 0, 1, 1]
+    },
+    {
+      "conditional_entropy_uniform_bits": 0.5,
+      "max_target_multiplicity_inside_predictive_fiber": 2,
+      "minimum_fixed_residual_bits": 1,
+      "minimum_residual_alphabet": 2,
+      "n": 4,
+      "name": "ONE_BIT_PREDICTIVE_ALIAS",
+      "predictive_partition": [0, 0, 1, 1],
+      "target_factors_through_predictor": false,
+      "target_partition": [0, 1, 2, 2]
+    },
+    {
+      "conditional_entropy_uniform_bits": 1.934940079072802,
+      "max_target_multiplicity_inside_predictive_fiber": 5,
+      "minimum_fixed_residual_bits": 3,
+      "minimum_residual_alphabet": 5,
+      "n": 6,
+      "name": "FIVE_WAY_RESIDUAL_FIBER",
+      "predictive_partition": [0, 0, 0, 0, 0, 1],
+      "target_factors_through_predictor": false,
+      "target_partition": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "conditional_entropy_uniform_bits": 1.0,
+      "max_target_multiplicity_inside_predictive_fiber": 2,
+      "minimum_fixed_residual_bits": 1,
+      "minimum_residual_alphabet": 2,
+      "n": 6,
+      "name": "LINEAGE_STYLE_ALIAS",
+      "predictive_partition": [0, 0, 1, 1, 2, 2],
+      "target_factors_through_predictor": false,
+      "target_partition": [0, 1, 2, 3, 4, 5]
+    }
+  ],
+  "schema": "GMI_PREDICTIVE_RESIDUAL_QUOTIENT_EXACT_V1",
+  "scope": "all set-partition pairs on n=1..6 labeled histories",
+  "status": "GREEN",
+  "terminal": "PREDICTIVE_RESIDUAL_QUOTIENT_EXACT_FINITE_GREEN"
+}
