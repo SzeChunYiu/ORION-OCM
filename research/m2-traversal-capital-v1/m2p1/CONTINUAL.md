@@ -1364,3 +1364,45 @@ Neither (p) nor (s) had been run on the shift worlds; a one-variable attribution
 s602) is running, and **neither v6.12 mechanism is adopted anywhere until it reports.** Defaults remain
 continual_v6.6+h.
 
+## v6.12 shift-world attribution (one variable at a time, laptop; every run verifies every target)
+
+| world | v6.11 | v6.11 + p | v6.11 + s | v6.12ps |
+|---|---|---|---|---|
+| SHIFT45 | 1 449 | 1 449 | 1 753 | 1 753 |
+| SHIFT45 s602 | 1 642 | 1 642 | 1 758 | 1 758 |
+
+**(s) alone causes both regressions; (p) is identical to v6.11, logs included.** Mechanism: (s) retries uncharged
+failures sooner, so the first learned library deploys earlier from a thinner corpus (SHIFT45 at 66 instead of 70;
+s602 at 71 instead of 75); on SHIFT45 that library stands down four targets later and a second one is mined. The
+timing that repaired E7 → E8m7 (first deploy back at 24) costs the shift worlds: **(s) is a trade-off, not a fix, and
+is not adopted.** (p) passed every falsifier it was given (zero repeat failures, identity on 6 / 6 diagnostic seeds
+and on both shift worlds) and remains a candidate for the defaults, pending an identity check on the default base.
+
+## C3 diagnosis — where regime-C cost goes (v6.11 and v6.12ps fresh seeds, 34 lifetimes)
+
+Per target in the regime-C window, against RESET on the same targets:
+
+| | failing seeds (10) | passing seeds (24) |
+|---|---|---|
+| targets cheaper than RESET | 9.2 | 20.7 |
+| savings where cheaper | 559 | 1 350 |
+| excess where dearer | 980 | 512 |
+| learning charges | 370 | 183 |
+| deploy / stand-down / detection events in the window | 6.4 | 3.4 |
+
+The largest term is **missing savings**: failing seeds win on less than half as many regime-C targets. Extra losses come
+second and learning charges third, with twice the library churn. The organism mostly **fails to acquire a library that
+covers the recombined regime**, rather than overpaying for one.
+
+**Event level (the ten failing seeds against four passing ones).** On every passing seed the same thing happens: about
+15–18 targets into regime C a *recombined* library is mined from ≈ 10 regime-C programs, deploys, and stays live to
+the end (s683 at 110, s700 at 109, s708 at 106, s714 at 108). The failing seeds break this in two ways:
+- **boundary deployment from the old regime:** a library mined at targets 90–93 from a corpus of 32 old-regime
+  programs with **no** recent-window programs (`corpus_recent` 0), before the detector has signalled the change,
+  deploys and fails in C — s705 (92), s707 (93), s712 (90), and late on s689 (134);
+- **the recombined candidate fails:** it never validates (s695, s699, s702) or deploys and then fails in deployment
+  (s706, s709, s717).
+Both are acquisition failures in the recombination regime. The first is a timing defect with a named observable (a
+candidate whose recent window is empty at a stand-down is mined entirely from the regime that just ended); the second
+is the C3 negative proper. Neither is registered as a revision yet.
+
