@@ -793,3 +793,42 @@ arms' regime-C cost ≤ RESET's on every fresh seed**; every arm verifies every 
 of acquiring a new regime) is recorded **NOT_ESTABLISHED at this grammar** and this chain stops —
 no further C3 revisions on this grammar.
 
+## C3b terminal (all nine fresh seeds; every arm verifies every target): **C3 NOT_ESTABLISHED at this grammar**
+
+| seed | RESET C | fixed C | ablation C | recombination C | ratio | lifetime RESET / fixed / ablation / recombination |
+|---|---|---|---|---|---|---|
+| 604 | 3,808 | 4,017 | 6,039 | 6,222 | 1.030 | 3,781 / 3,124 / 3,478 / 3,539 |
+| 605 | 2,897 | 3,077 | 3,536 | 3,991 | 1.128 | 3,334 / 2,810 / 2,762 / 2,913 |
+| 606 | 3,204 | 3,276 | 2,768 | 2,847 | 1.029 | 3,485 / 2,724 / 2,077 / 2,104 |
+| 607 | 3,993 | 4,155 | 5,206 | 5,276 | 1.013 | 3,805 / 2,928 / 2,980 / 3,004 |
+| 608 | 2,983 | 3,145 | 2,907 | 2,796 | 0.962 | 3,522 / 2,498 / 2,138 / 2,101 |
+| 609 | 4,106 | 4,316 | 3,275 | 2,559 | **0.781** | 3,744 / 3,161 / 2,409 / 2,170 |
+| 610 | 3,419 | 3,582 | 3,574 | 1,984 | **0.555** | 3,592 / 2,700 / 2,372 / 1,842 |
+| 611 | 3,109 | 3,319 | 3,662 | 3,842 | 1.049 | 3,482 / 2,824 / 2,568 / 2,551 |
+| 612 | 3,262 | 3,471 | 3,874 | 4,841 | 1.250 | 3,519 / 2,698 / 2,421 / 2,743 |
+
+Recombination meets the registered bar (≤ 0.85 × the ablation's regime-C cost) on **2 / 9** fresh
+seeds (s609 0.78, s610 0.56) against a registered 2 / 3. **C3b fails, and by its own registered rule
+C3 — retained capital cutting the in-life cost of acquiring a new regime's library — is recorded
+NOT_ESTABLISHED at this grammar and the C3 chain stops.** The two seeds where it helped are real
+records, not noise-free: on 7 / 9 seeds the recombination candidate either never validated
+earlier than mining or validated libraries that served worse.
+
+**The C3c registration's C3 component is withdrawn.** It was registered after C3b's stop rule and
+before C3b's outcome; running it as a C3 test would let a later registration override an earlier
+commitment — the forking-paths move #373 forbids. Nothing in C3c had been run.
+
+**What C3b shows about K1 acquisition (the claim that remains live).** In the mixed regime C the
+continual arm's regime-C cost is **above RESET on 6 / 9** fresh seeds — the s604 defect is
+general, not a seed accident — while its *lifetime* beats RESET on 9 / 9 and the fixed
+controller on 7 / 9. v6.4 parts (a)–(c) address those recorded failures (rows 33–34), not C3.
+
+## v6.4 — re-labelled before any run
+
+The v6.4 runs test only the K1-acquisition and controller claims:
+*diagnostic* (s604, FV8 — as registered above), *regressions* (± 2 % of v6.3, as registered), and a
+**fresh-seed K1 test** on A seeds 613–621: both continual arms' regime-C cost ≤ RESET's on every
+fresh seed that passes the ecology gate, both lifetimes ≤ the fixed controller's on ≥ 8 / 9, every
+arm verifies every target. The recombination-vs-ablation ratio is reported **descriptively only**
+and is not C3 evidence.
+
