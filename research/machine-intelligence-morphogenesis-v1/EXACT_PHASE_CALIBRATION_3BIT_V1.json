@@ -1,0 +1,35 @@
+{
+  "schema": "PhaseCalibration3BitV1",
+  "frozen_protocol": "PHASE_CALIBRATION_3BIT_FREEZE_V1.md",
+  "universe_size": 256,
+  "max_minimum_expression_size": 12,
+  "costs": {"label": 1.0, "verify": 0.25},
+  "simple": {
+    "target_count": 14,
+    "correct_rate": 0.39413265306122447,
+    "wrong_rate": 0.22831632653061226,
+    "abstain_rate": 0.37755102040816324,
+    "mean_acquisition_cost": 0.7614795918367346
+  },
+  "complex": {
+    "target_count": 87,
+    "correct_rate": 0.31834975369458124,
+    "wrong_rate": 0.39018883415435135,
+    "abstain_rate": 0.29146141215106736,
+    "mean_acquisition_cost": 0.8587848932676518
+  },
+  "frozen_predictions": {
+    "P1_simple_cost_lt_1": true,
+    "P2_complex_cost_ge_simple": true,
+    "P3_positive_gap": true,
+    "complex_minus_simple_cost": 0.0973053014309172
+  },
+  "secondary_post_outcome_readout": {
+    "simple_proposal_precision": 0.6331967213114753,
+    "complex_proposal_precision": 0.44930475086906146,
+    "derived_break_even_rule": "For this proposal/check/label policy, M1 beats direct label acquisition when V/L < correct/(correct+wrong).",
+    "posthoc_phase_interval": "If 0.4493 < V/L < 0.6332, this same observed data imply simple targets favor the MDL proposer while complex targets favor direct label acquisition. This interval was derived after the frozen V=0.25 result and is exploratory only."
+  },
+  "terminal": "DESCRIPTION_COMPLEXITY_PREDICTS_PARENT_MORPHOLOGY_COST_REGION_AT_3BIT_SCOPE",
+  "claim_boundary": "Exact finite MDL/version-space/value-of-verification calibration only. Complex targets still beat direct label memory at frozen V=0.25; only the registered simple-vs-complex cost separation is confirmatory here. Mechanism is parent-owned."
+}
