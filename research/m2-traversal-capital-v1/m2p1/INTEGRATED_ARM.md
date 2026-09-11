@@ -493,9 +493,9 @@ verified every target except the two marked, which are excluded from every compa
 | hc09-negative-ladder | **5 628** | 6 687 | 4 986 (+12.9 %) | 3 344 `GFQ_D4` (+68.3 %) | — |
 | hc10-quartic-climb | **8 521** | 13 760 | 8 576 (-0.6 %) | 8 576 `GF_D4` (-0.6 %) | GFQ_D4 |
 
-hc02's `PARENT_GFQ_D3` and `PARENT_GFQ_D4` were still running when this was recorded (LUNARC 3598971_2; its log in
-records/m2p2_gf/ is the partial one). They can only lower hc02's GF_best, so they cannot move any conclusion below; the
-row is completed when they land.
+hc02's last two arms have landed (LUNARC 3598971_2, 2 h 51 min; its log in records/m2p2_gf/ is now the complete one):
+`PARENT_GFQ_D3` 60 178 and `PARENT_GFQ_D4` 24 669, both verifying every target. hc02's GF_best stays `PARENT_GF_D4` at 9 745,
+so its row and every conclusion below are unchanged.
 
 **Against the registration.**
 - *Identity* — **held, 8 / 8.** `CONTINUED_OCM` on the new runner reproduces 3597797 to the slot on every world.
