@@ -848,7 +848,7 @@ Every arm verifies every target. Against the registration:
 The regressions track the new `failed_deployment` counter (4–5 on the worst runs). **v6.4 is
 reverted**: the current controller is v6.3's behaviour plus the liveness log (v6.5), with v6.4's two
 changes kept behind recorded flags (`M2_V64A` = no regime reset, `M2_V64C` = failure evidence).
-LUNARC seeds 617–621 were already running v6.4 and are kept as descriptive records.
+LUNARC seeds 617–621 were already running v6.4 and are kept as descriptive records (records/abc/ABC_s61{7..9}_v6.4_*, ABC_s62{0,1}_v6.4_*): regime-C cost of the ablation arm above RESET on 2 / 5 (s617, s621), lifetimes below RESET on 5 / 5.
 
 **Attribution run (diagnostic, not a claim).** One variable at a time on the four worst-regressed
 worlds (s603 shift; ABC s605, s606, s613 ablation arm): v6.5 base, base + (a) only, base + (c) only.
