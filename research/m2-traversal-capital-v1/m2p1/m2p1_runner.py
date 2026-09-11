@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.4"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.5"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -159,7 +159,7 @@ def _fit_controller(M, lib, val_rows):
     rule = {z: (statistics.fmean(v) > 0) for z, v in cells.items()}
     better = sum(1 for d in deltas if d > 0)
     return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": rule,
-            "fit_detail": detail, "tiling_probe_violations": len(violations),
+            "fit_detail": detail, "tiling_probe_violations": len(violations), "tilable_at_depth": tilable,
             "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
@@ -191,6 +191,14 @@ def _remine(M, solved):
         cands["mdl"] = tuple(tuple(f) for f in picked)
     except Exception:
         cands["mdl"] = ()
+    # v5.5: a COMPACT-FREQUENCY candidate. s613: the 16-fragment frequency library is
+    # complete but too fat for the probe (T = 20, depth 3 never pays), and greedy MDL from
+    # 32 programs spends its slots on recurring motif pairs and stays incomplete (5/8
+    # motifs, 4/8 validation tilings, correctly refused). The count ranking truncated to
+    # the MDL library's size is complete AND cheap; it costs no new mining and is
+    # validated by the same probes as the other two.
+    if cands.get("frequency") and cands.get("mdl"):
+        cands["frequency_compact"] = tuple(cands["frequency"][:max(4, len(cands["mdl"]))])
     charged, fitted = 0, {}
     for name, lib in cands.items():
         if not lib:
@@ -204,7 +212,7 @@ def _remine(M, solved):
     ev = {"corpus": len(corpus), "validated_on": len(val_rows), "charged": charged,
           "candidates": {k: {"n": len(v["lib"]), "val_better": v["val_better"], "val_mean_delta": v["val_mean_delta"],
                              "depth": v["probe_depth"], "beta": v["beta"],
-                             "tilable_at_depth": sum(1 for x in v["fit_detail"] if x["tiling"] <= v["probe_depth"]),
+                             "tilable_at_depth": v.get("tilable_at_depth", sum(1 for x in v["fit_detail"] if x["tiling"] <= v["probe_depth"])),
                              "hits": sum(1 for x in v["fit_detail"] if x["hit"]),
                              "tiling_probe_violations": v["tiling_probe_violations"],
                              "lib": v["lib"], "val_tilings": [x["tiling"] for x in v["fit_detail"]]} for k, v in fitted.items()},

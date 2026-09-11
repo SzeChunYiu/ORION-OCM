@@ -503,3 +503,21 @@ per-task tiling depths and the validation programs), and s613 re-runs to attribu
 the record rather than by conjecture. s610's A′ (1 289 vs 978) is the expensive-learned-
 library transition already priced on s604.
 
+**s613 attributed from the record (records/continual/SHIFT45_s613_recorded_*).** At target
+72 the MDL candidate was `doublesquare, decdec, incsquare, decdouble, incinc, decsquare` —
+five of B's eight motifs — and it tiles **4 / 8** of the validation programs (the event's
+"0 / 8" was a reporting slip in the skip branch, now fixed; the count that drove the decision
+was 4). The skip rule was right: a candidate that can at best tie the majority is refused at
+zero cost. What stayed missing over 17 → 25 → 32 programs is structural to the two
+candidates: the frequency library (all 8 motifs + 8 recurring pairs) is complete but its
+16 tokens make depth 3 dearer than the baseline, so the expected-cost rule pins it at depth
+1–2 where nothing tiles; greedy MDL spends its 6–8 slots on recurring motif *pairs* and never
+completes the motif set. **continual_v5.5 (registered before its run): a third candidate,
+the count ranking truncated to the MDL library's size ("compact frequency") — complete and
+cheap, no new mining, validated by the same probes.** Predictions: s613 validates a B library
+by target 80 and B ≤ 0.95 × RESET; SHIFT45 / s602 / s603 / s604 / s610 within ± 2 % or
+better (the selection can only add a candidate the same probes must prefer). Falsifiers:
+s613 B ≥ RESET; any regression > 2 %.
+
+hc06 under controller_v3: 2 546 (unchanged; MDL chosen at probe cost 4 591 vs 28 581) — held.
+
