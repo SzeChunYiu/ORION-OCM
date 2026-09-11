@@ -28,17 +28,21 @@ This blocks the common identification:
 low training loss == truth == capability.
 ```
 
-## A2 — future-consequence state equivalence
+## A2 — future-consequence developmental-state equivalence
 
-Histories are equivalent iff no admissible future intervention can distinguish them through registered future verified outputs, developmental changes or resource receipts.
+A **developmental situation** `d=(chi,h,xi)` contains the current machine configuration `chi`, registered interaction/development history `h`, and any current ecology/authority context `xi` that can affect protected futures.
+
+Two developmental situations are equivalent iff no admissible future intervention/programme can distinguish them through registered future verified outputs, machine-development traces or resource receipts:
 
 \[
-h\sim_{\mathcal O}h'
+d\sim_{\mathcal O}d'
 \iff
-\forall \alpha:\ P(Future_{\mathcal O}|h,\alpha)=P(Future_{\mathcal O}|h',\alpha).
+\forall \alpha:\ P(Future_{\mathcal O}|d,\alpha)=P(Future_{\mathcal O}|d',\alpha).
 \]
 
-The equivalence class is the abstract developmental state.
+The equivalence class is the abstract developmental sufficient state.
+
+History alone is not assumed sufficient: identical external histories can leave different optimizer state, memory, random state, posterior, replay buffer or morphology configuration.
 
 ## A3 — realization multiplicity
 
@@ -58,7 +62,7 @@ A change counts as developmental only when information/state produced by earlier
 
 ## A7 — no universal superiority without ecology restriction
 
-Morphology superiority is always relative to an ecology/resource/verifier class. A global total order is not assumed.
+Morphology/situation superiority is always relative to an ecology/resource/verifier class. A global total order is not assumed.
 
 ---
 
@@ -68,7 +72,7 @@ Morphology superiority is always relative to an ecology/resource/verifier class.
 
 **Class:** `ADOPTED_PARENT + FINITE_EXACT`
 
-For a finite deterministic developmental transducer and finite registered event alphabet, quotienting states by equality of all future output/update traces produces a unique minimal deterministic machine up to isomorphism.
+For a finite deterministic developmental transducer and finite registered event alphabet, quotienting complete machine situations/states by equality of all future output/update traces produces a unique minimal deterministic machine up to isomorphism.
 
 **Parent:** Myhill-Nerode / deterministic transducer minimization.
 
@@ -114,7 +118,7 @@ while realization uses `n` local cells + one six-entry rule.
 
 **Class:** `DERIVED_FROM_DEFINITIONS`
 
-For two fixed morphologies with build costs `A_i,A_j`, expected per-use scalarized burdens `c_i(E),c_j(E)`, and reuse horizon `H`,
+For two fixed morphologies/situations with build costs `A_i,A_j`, expected per-use scalarized burdens `c_i(E),c_j(E)`, and reuse horizon `H`,
 
 \[
 C_i=A_i+Hc_i(E),\quad C_j=A_j+Hc_j(E),
@@ -180,9 +184,9 @@ Given a valid progress potential `Phi` and drift conditions, expected time/cost 
 
 **Class:** `DEFINITION + EMPIRICAL_CAUSAL_CRITERION`
 
-Let fresh target `tau` have verified solution `m*` absent from developmental history. Let `Q_0` be matched-reset proposal dynamics and `Q_H` history-conditioned dynamics.
+Let fresh target `tau` have verified solution `m*` absent from the relevant developmental history. Let `Q_0` be matched-reset proposal dynamics and `Q_H` inherited-state-conditioned dynamics.
 
-History creates K1 cognition capital if, before access to target success, it causes a change in future proposal/control/representation that reduces complete verified burden:
+Inherited developmental state creates K1 cognition capital if, before access to target success, it causes a change in future proposal/control/representation that reduces complete verified burden:
 
 \[
 E[B_H(\tau)]<E[B_0(\tau)]
@@ -212,7 +216,7 @@ E[B^{acq}_{H}(K1_{new})]
 E[B^{acq}_{RESET}(K1_{new})].
 \]
 
-The mechanism must be history-derived and matched against a procedure that has the same external information/tools but lacks the relevant developmental state.
+The mechanism must be inherited-state-derived and matched against a procedure that has the same external information/tools but lacks the relevant developmental state.
 
 **Current OCM status:** NOT_ESTABLISHED at the #323 grammar for retained-capital recombination (registered bar met on 2/9 fresh seeds).
 
@@ -274,11 +278,11 @@ bits in the worst case.
 
 **Class:** `DEFINITION / ORDER THEORY`
 
-For ecology family `Eset`, morphology `M1` developmentally dominates `M2` when its capability-resource frontier weakly dominates on every registered ecology and strictly dominates somewhere if strict superiority is claimed.
+For ecology family `Eset`, developmental situation `(M1,d1)` dominates `(M2,d2)` when its capability-resource frontier weakly dominates on every registered ecology and strictly dominates somewhere if strict superiority is claimed.
 
 This defines a partial order, not necessarily a total order.
 
-**Consequence:** statements such as "more generally intelligent" can be made without inventing a universal scalar, provided the ecology family and frontier coordinates are explicit.
+**Consequence:** statements such as "more generally intelligent" can be made without inventing a universal scalar, provided the ecology family, initial developmental situations and frontier coordinates are explicit.
 
 ---
 
@@ -286,13 +290,13 @@ This defines a partial order, not necessarily a total order.
 
 **Class:** `DERIVED_FROM_DEFINITION`
 
-A scalar generality score is meaningful only after declaring ecology distribution `mu` and utility/scalarization `u`:
+A scalar generality score is meaningful only after declaring ecology distribution `mu`, initial developmental situation `d`, and utility/scalarization `u`:
 
 \[
-G_{\mu,u}(M)=E_{E\sim\mu}[\sup_{(Q,B)\in F_M(E)}u(Q,B)].
+G_{\mu,u}(M,d)=E_{E\sim\mu}[\sup_{(Q,B)\in F_M(E\mid d)}u(Q,B)].
 \]
 
-Different `mu,u` can reverse rankings.
+Different `mu,u,d` can reverse rankings.
 
 **Parent relation:** Universal Intelligence supplies an especially broad complexity-weighted environment measure for reward-oriented agents; GMI retains raw developmental/resource profiles before scalarization.
 
