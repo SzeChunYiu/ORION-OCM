@@ -1,0 +1,178 @@
+{
+ "admission": false,
+ "eu_admission": {
+  "admitted": false,
+  "all_verified": true,
+  "ci95_low": -34.6,
+  "mean_delta": 1551.4,
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "reason": "ci95_low<=0",
+  "rho_max": 2.0,
+  "worst_ratio": 2.0
+ },
+ "fragments": [
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "double",
+   "double"
+  ],
+  [
+   "double",
+   "inc"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "double",
+   "double"
+  ],
+  [
+   "inc",
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "double",
+   "double",
+   "double"
+  ],
+  [
+   "inc",
+   "inc",
+   "double"
+  ],
+  [
+   "double",
+   "double",
+   "inc"
+  ],
+  [
+   "double",
+   "inc",
+   "square"
+  ],
+  [
+   "inc",
+   "double",
+   "inc"
+  ],
+  [
+   "inc",
+   "inc",
+   "inc"
+  ],
+  [
+   "double",
+   "double",
+   "double",
+   "inc"
+  ],
+  [
+   "double",
+   "double",
+   "inc",
+   "square"
+  ]
+ ],
+ "fragments_mined": 16,
+ "held_out_mean_baseline": 2895.6,
+ "held_out_mean_candidate": 1344.2,
+ "held_out_never_worse": false,
+ "held_out_strictly_better": 6,
+ "mdl_admission": false,
+ "mdl_fragments": [
+  [
+   "inc",
+   "double",
+   "double"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "double",
+   "double"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "double",
+   "inc"
+  ]
+ ],
+ "mdl_strictly_better": 6,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "ocm_controller": {
+  "beta": 420,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "expected_probe_cost": {
+   "frequency": 785.8,
+   "mdl": 797.5
+  },
+  "fallback": false,
+  "library": "frequency",
+  "library_rule": "controller_v3: expected probe cost on held-out validation tilings",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "liveness_min_hit_rate": 0.25,
+  "liveness_window": 8,
+  "probe_depth": 2,
+  "rule": {
+   "[2, 3, 1, 4]": false,
+   "[4, 5, 1, 4]": false
+  },
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 2 of 8 rows",
+  "validated_better_interleave": {
+   "frequency": 6,
+   "mdl": 8
+  }
+ },
+ "pid": 2427751,
+ "schema": "M2P1_DEV_STATE",
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "train_solved": 15,
+ "train_unsolved": 0,
+ "training_task_ids": [
+  "06980348de6d95abdd9aa2f970e244d649e22a0876702bf3d1ad4dbd3f96c2a2",
+  "14d7ae002d8e321354b6f143f98b90801ef1c783de6be5ef77be0f618c087701",
+  "52079532cb7295ad03c5b7363d685f1b1652753bef8da7cab91dbf5411aca0c3",
+  "7cf7c4b8bc4c7344f2dd5e113d6b43df8ed48e4cdfb771733d2cfe2c9d7ffada",
+  "834edd32f93c276c570e2418d3559880234b65c220a9685883a479004a4a9b2c",
+  "8555774d0622799de7e9afe2690372d075049c4310798ce62b06dfd879677e60",
+  "956daf58b37cf966fc7f69fd0097b23a0430b73cf46d41ff2c8b57018323eb8f",
+  "9aa811a1f52d40e7388ca1bfc97f3b89c96142791e28ab399e721bd916a79473",
+  "9dcbdfa1f51251a5bfa6048cfaac10d0e01e07429f70a133d71c4d6393d6ba48",
+  "a334ae13a37689b6922ddfa1893dd54dcd46e956518f89ebe468b30d6cb5becb",
+  "a3ce820ee7108ea9a0c0bea9b689015ed1ba7e7b61995917ca2046293e8ab6c1",
+  "b2c1ada0b3549e76d74341926ceed7b0078ad14004b50d32d00da428a821cfd7",
+  "b6bc1cc14b6789b488a5c57ec02e6a38296109127e97f1f7564d84bff2afc629",
+  "cd418ff99a76ed0258a7221db9fcc39bea22f45e43bd38d54b8c344b083af801",
+  "de604158f2078140d0ddcb75616b241d5bd32cda205b529391ce3098a5e174f5"
+ ],
+ "validated_on": 8,
+ "wall_seconds": 1.29
+}
