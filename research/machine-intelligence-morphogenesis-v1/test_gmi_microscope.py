@@ -155,3 +155,27 @@ def test_fast_evaluator_matches_charged_machine_on_random_candidates():
     for c in cands[:20] + [blind.PLANTED_LEARNER_SMOOTH8_LR4]:
         assert fast.fast_run_candidate(c, div) == blind.run_candidate_div(c, div, 0)["score"]
     blind.set_bits(4)
+
+
+def test_e1_vlc_receipt_cell_reproduces():
+    from gmi_microscope import e1_vlc
+    committed = json.loads((RES / "STAGE_E1_V13_E1_VLC.json").read_text())
+    cell = committed["cells"]["RSTAR|VLC|B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+    r = e1_vlc.run("VLC", bases.B0, 8, 1)
+    for k in ("capability", "regressions", "wrong_served_in_window", "abstained_in_window", "desc_state", "R"):
+        assert r[k] == cell[k], k
+
+
+def test_e1_cp_receipt_cell_reproduces():
+    from gmi_microscope import e1_cp
+    committed = json.loads((RES / "STAGE_E1_V14_E1_CP.json").read_text())
+    cell = committed["cells"]["PPLUS|CP|B0_LOCAL_ADAPTIVE_TRANSDUCERS"]
+    r = e1_cp.run("CP", bases.B0, e1_cp.CELLS["PPLUS"])
+    assert r["capability_by_regime"] == cell["capability_by_regime"] and r["R"] == cell["R"] and r["rebuilds"] == cell["rebuilds"]
+
+
+def test_credit_receipt_cell_reproduces():
+    from gmi_microscope import rl
+    committed = json.loads((RES / "STAGE_DE_CREDIT_V11_CREDIT_E8.json").read_text())
+    r = rl.run("R1", bases.B0, 4, 0, 8)
+    assert r["capability"] == committed["capability_by_cell"]["R1|B0_LOCAL_ADAPTIVE_TRANSDUCERS|4"] and r["R"] == committed["R_by_cell"]["R1|B0_LOCAL_ADAPTIVE_TRANSDUCERS|4"]
