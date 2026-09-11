@@ -352,3 +352,92 @@ vs RESET; SHIFT45 / s602 / s603 / s604 within ± 1 % of v5.1 (their deployed can
 ≥ 5/8 tilable; s603's rejected attempt at 72 had 0 tilable and is now skipped at zero cost).
 Falsifiers: FV8 > +0.05 %; any shift lifetime > 1 % above v5.1.
 
+## Widening set (continual_v5.1; records/continual/SHIFT45_s60{6,7,8,9}_*, E7_v5.1_*, E8_v5.1_*)
+
+| world | RESET | fixed controller | **continual_v5.1** | vs RESET | vs fixed | B | A′ |
+|---|---|---|---|---|---|---|---|
+| s606 | 3 566 | 2 197 | **1 784** | −50.0 % | −19 % | 3 730 (+1.4 %) | 905 |
+| s607 | 3 629 | 2 048 | **1 487** | −59.0 % | −27 % | 3 139 (−15.8 %) | 808 |
+| s608 | 3 838 | 1 943 | **1 608** | −58.1 % | −17 % | 3 503 (−0.6 %) | 833 |
+| s609 | 3 523 | 2 217 | **1 871** | −46.9 % | −16 % | 3 995 (+2.3 %) | 861 |
+| E7 (static) | 62 935 | 507.5 | 507.5 | | | | |
+| **E8 (static)** | 40 850 | 596.3 | **7 479.6** | −82 % | **+1 154 %** | | |
+
+Eight shift lifetimes now (one in-sample, seven fresh): the continual arm is −47…−59 % vs
+RESET and −16…−27 % below the fixed-library controller on every one; A′ recovers on every one;
+the never-developed regime B is below RESET on 5 / 8 and within +2.3 % on the rest.
+
+**E8 is a regression of the three-miss signal**: on a static world whose library hits almost
+always, a chance streak of three misses stands the library down and every stood-down target
+costs ≈ RESET (40 k) until the next re-probe — the fixed controller never stands down. The
+pure value rule (v5) would not have: its window sum stays positive. v5 was slow at regime
+changes only because a miss was priced as its probe cost, not the interleave excess it
+triggers. **continual_v5.3 (registered before its run): the value rule alone, with every
+live target priced as (expected baseline − total charged), settled after the solve.** One
+rule, fast at regime changes (three interleaved misses at ≈ 2.3× RESET outweigh the previous
+hits) and immune to chance streaks (one miss never outweighs a window of 40 k hits).
+Predictions: E8 ≤ 700; E7 / E5 unchanged; FV8 ≤ +0.05 %; SHIFT45 / s602 / s603 / s604 within
+± 5 % of v5.2. Falsifiers: E8 > 700; any shift lifetime above the fixed controller.
+
+## Outcomes, continual_v5.2 and v5.3 (records/continual/*_v5.2_*, *_v5.3_*)
+
+| world | v5.1 | **v5.2** (validation skip) | v5.3 (value rule alone, full cost) |
+|---|---|---|---|
+| SHIFT45 | 1 505.7 | **1 504.5** | 1 751.3 (A′ 1 101) |
+| s602 | 1 785.4 | **1 784.2** | 1 842.1 (A′ 1 085) |
+| s603 | 1 666.7 | **1 663.7** (rejected attempt now 0) | 1 865.3 (A′ 1 321) |
+| s604 | 1 895.4 | **1 895.4** | 2 114.6 (A′ 1 528) |
+| FV8 | 57 167 (+1.98 %) | **56 057.9 (+0.004 %; 13 attempts, 0 slots charged)** | — |
+| E8 | 7 479.6 | — | **7 479.6 (identical)** |
+| E7 / E5 | 507.5 / 414.1 | — | 507.5 / 414.1 |
+
+v5.2 **held every prediction** (± 1 % on the four shift worlds; FV8 ≤ +0.05 %): the
+criterion-derived skip removes the validation cost entirely on a library-valueless world. v5.3
+**falsified its E8 prediction** — E8 is byte-identical under the value rule alone, so the
+three-miss signal was *not* its cause and my attribution was wrong — and it is worse than
+v5.1 on all four shift worlds (A′ 1 085–1 528 vs 510–1 124: the value window is slower at
+the B → A′ boundary even with the full cost). v5.2 is therefore the current controller;
+v5.3 is retired as a recorded miss.
+
+**E8, read from the record.** Both arms serve the same 8-fragment MDL dev library. The
+continual arm misses on every one of the first 24 targets (≈ RESET + probe) while the fixed
+arm's record hits at 941, 1 063, 1 062 …; from target 25 the learned library hits at 130–650
+and *beats* the fixed record. A direct test of both probe code paths on E8's first target
+misses in both (1 884 slots, no hit) with the current runner — so the fixed arm's 596.3 was
+produced by an older runner and may not be reproducible. The fixed CONTINUED_OCM arm is
+re-running on E8 from the same dev state with the current runner; the E8 verdict waits for it.
+
+**E8 corrected — a launch error, not a controller regression.** The morning's E8 arms
+(records 596.3 / 40 850) ran on `M2P1_ECOLOGY_E8_m7.json` (63 targets, 7 motifs); my
+regression launches picked `M2P1_ECOLOGY_E8_m6.json` (55 targets, 6 motifs — a different
+world), whose protected targets match **0 / 55** of the old record. The continual arm was
+therefore deployed with a library developed on one world onto another: it missed on the first
+24 targets, learned the new world's library from its own solutions at target 24 (38 749 slots
+of validation) and served the rest at 130–650 — an *accidental cross-world transfer* test,
+kept as an exploratory record (`records/continual/E8_v5.3_*` is that run). The matched
+comparison (continual_v5.2 on E8_m7 from the same dev state) is running; the fixed controller
+on the mismatched world is also running so the accidental transfer can be read fairly.
+Ledger row 24 is corrected accordingly; v5.3 remains retired on the shift-world evidence.
+The runner is restored to continual_v5.2 with controller_v4's dev-phase rule.
+
+**E8 settled (records/continual/E8m7_v5.2_*, E8m6_from_m7_*).** Matched world (E8_m7, same
+dev state): continual_v5.2 **596.3 — byte-identical to the fixed controller**; no regression.
+The accidental mismatch is itself a result: a library developed on E8_m7 and deployed on
+E8_m6 (different motifs) leaves the fixed controller at **29 680** (stood down, ≈ RESET − the
+occasional hit), while the continual arm learned E8_m6's library from its own first 24
+solutions and finished at **7 480** — 4× cheaper than the fixed controller and −82 % vs RESET
+on a world it never developed on. Unplanned, therefore exploratory; registered below as a
+prospective test.
+
+## Cross-world transfer (registered 2026-09-11 before the runs; billy-old)
+
+Deploy a lifetime developed on world X onto world Y with different hidden motifs, same grammar
+and regime: (E7 → E8_m7), (E8_m7 → E7), (E5 → E7), (E7 → E5). Arms on Y: RESET, the fixed
+controller with X's dev state, continual_v5.2 with X's dev state. Predictions on every pair:
+the fixed controller within ± 30 % of RESET (it stands down and pays the re-probe cadence);
+continual ≤ 0.5 × the fixed controller and ≤ −50 % vs RESET (it learns Y in life). Falsifiers:
+continual ≥ the fixed controller on any pair; continual ≥ RESET on any pair. Claim if positive:
+the developmental *procedure* (probe with history-learned depth, charged validation on one's
+own acquisitions, retained libraries) transfers across worlds even when the library does not —
+a first K2-flavoured observation, still inside one grammar.
+

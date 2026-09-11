@@ -318,14 +318,14 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
         if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
             _lib = [tuple(f) for f in _chosen_frags]
             mdl_report = _chosen_report          # the rule below is fitted on the chosen library
-            _rule = {}
-            for _r, _h in zip(mdl_report["held_out"], held):
-                _z = str(_obs_feats(_h.coefficients, _lib))
-                _rule.setdefault(_z, []).append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
-            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
-            _fallback = statistics.fmean(_r["baseline"]["slots"] - _r["candidate"]["slots"]
-                                         for _r in mdl_report["held_out"]) > 0
             _T = len(_lib) + len(M.PRIMITIVES)
+            # controller_v4: the rule is only ever consulted on a PROBE MISS, so it must be
+            # fitted on the validation tasks the probe would miss (tiling deeper than the
+            # chosen depth) -- fitting it on all tasks credits the interleave with the easy
+            # hits it never gets to serve (hc08: 16 misses routed to an interleave at 1.4x
+            # RESET because the unconditional rule said the interleave paid). The depth is
+            # chosen first (below), then the rule is fitted on the miss-conditional rows.
+            _rows_all = list(zip(mdl_report["held_out"], held))
             # expected-cost depth on solved history: hits cost their guided position,
             # misses cost beta_D plus the baseline index the organism actually paid (r_.slots)
             # depth rule on HELD-OUT validation: tiling of each validation task's canonical
@@ -344,7 +344,18 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                                       for d_, b_ in _hist) if _hist else float("inf")
                 if _c < _bc:
                     _depth, _bc = _D, _c
+            _rule, _cond = {}, []
+            for _r, _h in _rows_all:
+                _bp = _r["baseline"].get("program")
+                _dt = _tile_tokens(tuple(_bp), _lib) if _bp else None
+                if _dt is not None and _dt <= _depth:
+                    continue                                  # the probe would hit: the rule is never asked
+                _cond.append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
+                _rule.setdefault(str(_obs_feats(_h.coefficients, _lib)), []).append(_cond[-1])
+            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
+            _fallback = (statistics.fmean(_cond) > 0) if _cond else False
             ocm_ctl = {"rule": _rule, "fallback": _fallback, "probe_depth": _depth,
+                       "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); %d of %d rows" % (len(_cond), len(_rows_all)),
                        "beta": sum(_T ** i for i in range(1, _depth + 1)),
                        "liveness_window": 8, "liveness_min_hit_rate": 0.25,
                        "depth_rule": "expected-cost on held-out validation (controller_v2)",
