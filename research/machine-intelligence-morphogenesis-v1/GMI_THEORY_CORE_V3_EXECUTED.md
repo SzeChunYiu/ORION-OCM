@@ -103,7 +103,7 @@ Predicted abilities in R* (frequent local revision, strict retention, long reuse
 - A4 revision cost proportional to |cone| (not to the whole realization);
 - A5 frontier membership iff λ_wrong > λ*(basis), with λ* strictly between 0 and 256 in every basis at this scope and larger where verification is emulated (B2);
 - A6 loses to the unversioned modular row when λ_wrong → 0 (T3) and when there are no revisions (T1); does **not** lose to the monolith at any horizon here (materialization curvature, L4d), an explicit departure from the VLC document's T1/T2 twins.
-Experiment: `gmi_microscope/e1_vlc.py` (five cells × six rows × six bases; verdict `compare_e1.py`). Kill: RSTAR won by MOD_U, or λ* outside (0, 256), or A2/A3 violated.
+Experiment: `gmi_microscope/e1_vlc.py` (five cells × six rows × six bases; verdict `compare_e1.py`). **Outcome (RV-377-032, executed):** A1–A4 held as measured (capability 1.0; 0 collateral regressions; 0 wrong answers served, 96 abstentions; revision ∝ cone). A5 held in five of six bases: λ* = 92 (U, P3), 142 (B0, B1, B3) — inside (0, 256), so RSTAR → VLC and T3 → unversioned modular in those bases — but λ* = 4 036 in B2 where verification is emulated at gate level, so MOD_U wins RSTAR there. A6 partly wrong as I wrote it: at H = 2 versioning still wins (the serving term vanishes, the retention term does not); the monolith wins only in B2 at H ≥ 128 with no revisions (the VLC document's T1 twin holds exactly there). Terminal: `VLC_PHASE_DIRECTION_SUPPORTED_AT_SCOPE_IN_FIVE_OF_SIX_BASES`; the phase boundary is a per-basis threshold λ*(basis) that must be computed before freezing (rule 14).
 
 ### 5.2 Cognitive Polyphenism (ChatGPT lane, #409/#410; RV-033 designed)
 
