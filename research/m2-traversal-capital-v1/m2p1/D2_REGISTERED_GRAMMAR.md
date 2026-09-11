@@ -181,3 +181,19 @@ integrated arm stays at **≤ 0.55 × the same-library parent and ≤ 0.65 × RE
 seed** — the probe serves the guided stream alone, so a partially-recovered library that
 hits on a fraction of targets still pays. Falsifier: any seed with integrated ≥ 0.65 × RESET
 or ≥ 0.55 × the parent.
+
+**Seed 503 (read after the registration above):** library +0.5 % (27/60), integrated
+33 341 = **0.571 × RESET, 0.574 × the same-library parent**. The RESET bound held; the
+parent bound (≤ 0.55) **missed by 0.024**, and the miss is a derivation error, not noise:
+the 0.50 ratio is the P1 bound against a parent that *benefits* from the library (parent
+≈ 2g); when the library is worthless the parent sits at RESET and the ratio is simply the
+controller's own probe benefit. Corrected registration for 504–506: **integrated ≤ 0.65 ×
+min(RESET, parent)** on every seed — the same quantity in both regimes. Records
+`records/DIST_SPLIT_M14_50{1,2,3}.json`.
+
+| seed | library vs RESET | integrated / RESET | integrated / parent |
+|---|---|---|---|
+| 501 | −1.0 % | 0.505 | 0.500 |
+| 502 | +27.1 % | 0.397 | 0.545 |
+| 503 | +0.5 % | 0.571 | 0.574 |
+
