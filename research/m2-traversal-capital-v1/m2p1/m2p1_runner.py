@@ -376,7 +376,13 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
             if arm == "CONTINUED_OCM" and method.fragments:
                 ctl = dev["ocm_controller"]; lib = list(method.fragments)
                 if not hasattr(phase_acquire, "_live"):
-                    phase_acquire._live, phase_acquire._hits = True, []
+                    # liveness_v3: COLD START STOOD DOWN. Liveness is earned by a probe hit,
+                    # never assumed -- v2 booted live, so its first window consulted the
+                    # task-statement rule before any probe evidence existed; on a world the
+                    # library never fits (FV8) those rule-routed interleaves were the whole
+                    # -0.56 % overhead. The first target probes immediately (below), so a
+                    # working library loses nothing.
+                    phase_acquire._live, phase_acquire._hits = False, []
                 if phase_acquire._live:
                     prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
                     phase_acquire._hits.append(prog is not None)
@@ -390,7 +396,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     # once and never again), and a periodic re-probe restores the library.
                     prog, used = (None, 0)
                     phase_acquire._hits.append(False)
-                    if len(phase_acquire._hits) % ctl["liveness_window"] == 0:   # periodic re-probe
+                    # probe on the FIRST target and every liveness_window thereafter
+                    if (len(phase_acquire._hits) - 1) % ctl["liveness_window"] == 0:
                         prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
                         phase_acquire._hits[-1] = prog is not None
                         if prog is not None:

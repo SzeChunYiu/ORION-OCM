@@ -167,3 +167,33 @@ task-statement rule and liveness never fire because the library keeps hitting.
 **History makes novel arrangements of known parts cheaper to acquire, on every seed, in
 the registered grammar.** The hostile review's interpolation reading is refuted with
 replication, not a single run. `d ≥ 3` remains empty by counting at this `(m, k)`.
+
+## Beyond the measured map: m = 14, k = 4 (registered 2026-09-11, seeds 504–506 launched after 501–502 were read)
+
+Seeds 501–503 (`m = 14, k = 4, train_n = 90`, outside the feasibility table's measured
+rows) were launched as an unregistered extension before any prediction was written; their
+first two results are therefore **exploratory**: 501 library −1.0 % (17/59 better),
+integrated −49.5 %; 502 library +27.1 % (36/60), integrated −60.3 %. Registered now, before
+seeds 503–506 are read: the library-by-interleave benefit is **fragile** at m = 14 (its
+sign may vary by seed, since per-motif support at train_n = 90 falls to ≈ 26 occurrences
+and the 16-fragment library cannot hold every motif with its substrings), while the
+integrated arm stays at **≤ 0.55 × the same-library parent and ≤ 0.65 × RESET on every
+seed** — the probe serves the guided stream alone, so a partially-recovered library that
+hits on a fraction of targets still pays. Falsifier: any seed with integrated ≥ 0.65 × RESET
+or ≥ 0.55 × the parent.
+
+**Seed 503 (read after the registration above):** library +0.5 % (27/60), integrated
+33 341 = **0.571 × RESET, 0.574 × the same-library parent**. The RESET bound held; the
+parent bound (≤ 0.55) **missed by 0.024**, and the miss is a derivation error, not noise:
+the 0.50 ratio is the P1 bound against a parent that *benefits* from the library (parent
+≈ 2g); when the library is worthless the parent sits at RESET and the ratio is simply the
+controller's own probe benefit. Corrected registration for 504–506: **integrated ≤ 0.65 ×
+min(RESET, parent)** on every seed — the same quantity in both regimes. Records
+`records/DIST_SPLIT_M14_50{1,2,3}.json`.
+
+| seed | library vs RESET | integrated / RESET | integrated / parent |
+|---|---|---|---|
+| 501 | −1.0 % | 0.505 | 0.500 |
+| 502 | +27.1 % | 0.397 | 0.545 |
+| 503 | +0.5 % | 0.571 | 0.574 |
+
