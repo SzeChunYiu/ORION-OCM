@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.1"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.2"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -120,16 +120,46 @@ def _fit_controller(M, lib, val_rows):
         if c < bc:
             depth, bc = D, c
     beta = sum(T ** i for i in range(1, depth + 1))
-    charged, deltas, cells = 0, [], {}
-    for task, prog, bs in val_rows:
+    charged, deltas, cells, detail = 0, [], {}, []
+    # v5.2: validation probes buy INFORMATION, not savings. The deployment criterion is
+    # "strictly better on more than half of the slice", and a task that does not tile in
+    # <= depth tokens cannot be a strict win, so (a) a candidate with tilable tasks <= n/2 is
+    # rejected before any probe is charged, and (b) probing stops as soon as the majority is
+    # out of reach. FV8: two attempts charged 65 k each on candidates with 1/8 tilable tasks.
+    n_val = len(val_rows); tilable = sum(1 for d_t, _ in hist if d_t <= depth)
+    if tilable * 2 <= n_val:
+        return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": {},
+                "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
+                "fallback": False, "val_mean_delta": 0.0, "val_better": 0, "val_n": n_val,
+                "fit_detail": [], "tiling_probe_violations": 0, "tilable_at_depth": tilable,
+                "skipped_probes": "cannot reach majority (%d/%d tilable)" % (tilable, n_val)}, 0
+    order = sorted(range(n_val), key=lambda i: hist[i][0])          # tilable tasks first
+    hits_so_far, remaining_tilable = 0, tilable
+    for i in order:
+        (task, prog, bs), (d_t, _) = val_rows[i], hist[i]
+        if d_t <= depth:
+            remaining_tilable -= 1
+        if (hits_so_far + remaining_tilable + (1 if d_t <= depth else 0)) * 2 <= n_val:
+            # the majority is already out of reach: stop paying for information
+            deltas.append(-1); cells.setdefault(str(_obs_feats(task.coefficients, lib)), []).append(-1)
+            detail.append({"tiling": d_t, "hit": False, "used": 0, "baseline": bs, "unprobed": True})
+            continue
         pr, used = _probe(M, task.coefficients, lib, depth, beta)
         charged += used
+        if pr is not None:
+            hits_so_far += 1
         cand = used if pr is not None else used + bs       # miss: probe + the baseline it would then pay
         deltas.append(bs - cand)
         cells.setdefault(str(_obs_feats(task.coefficients, lib)), []).append(bs - cand)
+        detail.append({"tiling": d_t, "hit": pr is not None, "used": used, "baseline": bs})
+    # INVARIANT (assay): a validation program that tiles in <= depth tokens must be reachable by
+    # the probe at <= beta words. A violation means the depth rule and the probe disagree about
+    # the library and the fit is untrustworthy; it is recorded, never smoothed.
+    violations = [x for x in detail if x["tiling"] <= depth and not x["hit"]]
     rule = {z: (statistics.fmean(v) > 0) for z, v in cells.items()}
     better = sum(1 for d in deltas if d > 0)
     return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": rule,
+            "fit_detail": detail, "tiling_probe_violations": len(violations),
             "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
@@ -173,7 +203,10 @@ def _remine(M, solved):
     ok = best["val_mean_delta"] > 0 and best["val_better"] * 2 > best["val_n"]
     ev = {"corpus": len(corpus), "validated_on": len(val_rows), "charged": charged,
           "candidates": {k: {"n": len(v["lib"]), "val_better": v["val_better"], "val_mean_delta": v["val_mean_delta"],
-                             "depth": v["probe_depth"]} for k, v in fitted.items()},
+                             "depth": v["probe_depth"], "beta": v["beta"],
+                             "tilable_at_depth": sum(1 for x in v["fit_detail"] if x["tiling"] <= v["probe_depth"]),
+                             "hits": sum(1 for x in v["fit_detail"] if x["hit"]),
+                             "tiling_probe_violations": v["tiling_probe_violations"]} for k, v in fitted.items()},
           "chosen": best["library"], "deployed": bool(ok)}
     return (best if ok else None), charged, ev
 

@@ -338,3 +338,17 @@ the learner needs (≈ 25 in-regime solutions) before it can pay, and the transi
 the old library are priced. What the chain has established is the mechanism; the size of the
 in-segment benefit is a property of segment length relative to the learning horizon.
 
+**FV8 attributed (records/continual/FV8_v5.1_instrumented_*).** v5.1 reproduces v5 on FV8
+(57 167.1; the liveness rule is not the cause). The instrumented fit shows, at targets 40 and
+72, the frequency candidate with **1 of 8** validation programs tilable at depth 3, exactly
+one probe hit, `tiling_probe_violations` 0 — no assay defect. The expected-cost depth rule
+was right for *deployment* (one large saving outweighs seven β losses in expectation), but
+validation probes buy information, not savings, and the deployment criterion — strictly
+better on more than half of the slice — is unreachable for a candidate with ≤ 4/8 tilable
+tasks. **continual_v5.2 (registered before its run):** a candidate whose tilable tasks are
+≤ n/2 is rejected before any probe is charged, and a validation stops as soon as the majority
+is out of reach. Derived from the criterion, no constant added. Predictions: FV8 ≤ +0.05 %
+vs RESET; SHIFT45 / s602 / s603 / s604 within ± 1 % of v5.1 (their deployed candidates had
+≥ 5/8 tilable; s603's rejected attempt at 72 had 0 tilable and is now skipped at zero cost).
+Falsifiers: FV8 > +0.05 %; any shift lifetime > 1 % above v5.1.
+
