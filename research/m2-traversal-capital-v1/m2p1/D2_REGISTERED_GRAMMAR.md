@@ -99,8 +99,15 @@ already solved.
 Claim ceiling for this sub-result: one library, one seed, `n = 34 / 26 / 60`. The rise
 from 5.2 % to 12.9 % within D1 is inside sampling noise at these sizes; what is *not*
 noise is the absence of the collapse that interpolation predicts. A replication of pure `d = 2` at the feasible window (`m = 12, k = 4, train_n = 90`) is
-running across 9 seeds. First replicate, R401: RESET 56 386 → MDL 49 884, **−11.5 %**,
-25/60 strictly better, shuffled 111 417 — same sign as D2, smaller magnitude.
+running across 9 seeds. Replicates so far, pure `d = 2`:
+
+| seed | n | RESET | MDL library | reduction | better | **integrated arm** |
+|---|---|---|---|---|---|---|
+| D2 | 60 | 51 459 | 42 089 | 18.2 % | 30 | 22 685 (−56 %) |
+| R401 | 60 | 56 386 | 49 884 | 11.5 % | 25 | — |
+| R404 | 59 | 50 016 | 41 757 | 16.5 % | 33 | **22 265 (−55.5 %)** |
+
+Same sign on every seed; shuffled ≈ 2× RESET on every seed.
 
 ## Deployment at d = 2 — two gates, complementary regimes
 

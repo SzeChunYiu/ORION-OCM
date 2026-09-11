@@ -163,6 +163,10 @@ def main() -> int:
     eco = json.loads(Path(a.ecology).read_text())
     dev = json.loads(Path(a.dev).read_text())
     key = "mdl_fragments" if a.use_mdl and dev.get("mdl_fragments") else "fragments"
+    if a.use_mdl and dev.get("mdl_fragments") and dev.get("mdl_strictly_better") is not None:
+        # controller_v2 parity: choose the library by its validated record
+        if dev["held_out_strictly_better"] > dev["mdl_strictly_better"]:
+            key = "fragments"
     lib = tuple(tuple(f) for f in dev[key])
     method = M.GeneratorMethod(lib, tuple(dev["training_task_ids"]))
     budget = M.SearchBudget(slots=a.slots, max_length=8)
@@ -176,6 +180,7 @@ def main() -> int:
     # FIT on the validation stream only -- protected targets are never touched here
     fit_rows = []
     fit_cost = fit_cost_candidate = 0      # HDI-14: the gate's own acquisition cost
+    val_hist = []                          # (tiling tokens of the baseline solution, b) per validation task
     _val = eco["streams"]["validation"]
     if a.fit_n:
         _val = _val[: a.fit_n]
@@ -188,6 +193,8 @@ def main() -> int:
         fit_rows.append((z_fit, b.slots - c.slots))
         fit_cost += b.slots + c.slots
         fit_cost_candidate += c.slots
+        _dv = tileable(tuple(b.program), lib) if b.program else None
+        val_hist.append((_dv if _dv is not None else 99, b.slots))
     rule, fallback = fit_rule(fit_rows)
     dev_solve = sum(int(r.get("baseline_first_index") or 0) for r in eco["streams"]["train"])
 
@@ -196,7 +203,17 @@ def main() -> int:
         prot = prot[: a.targets]
     _T = len(lib) + len(M.PRIMITIVES)
     if a.probe_depth == "cost":
-        probe_depth = choose_probe_depth(eco["streams"]["train"], lib, _T)
+        # cost_v2: expected cost on HELD-OUT validation (controller_v2 parity). Training
+        # tilings are optimistic because the library was mined from them.
+        import statistics as _st
+        best_D, best_c = 3, float("inf")
+        for D in range(1, 5):
+            bD = sum(_T ** i for i in range(1, D + 1))
+            c_ = _st.fmean((sum(_T ** j for j in range(1, d)) + _T ** d / 2) if d <= D else bD + b
+                           for d, b in val_hist) if val_hist else float("inf")
+            if c_ < best_c:
+                best_D, best_c = D, c_
+        probe_depth = best_D
     elif a.probe_depth == "auto":
         # depth learned from HISTORY: how many library tokens do the solved training
         # programs need? Training programs are solved, so tiling them is observable.

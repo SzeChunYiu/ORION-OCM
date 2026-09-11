@@ -18,13 +18,19 @@ def gen(seed, out):
     return json.loads(Path(out).read_text())
 A = gen(601, "/tmp/shiftA.json")
 mA = {tuple(m) for m in A["hidden_motifs"]}
-for s in range(602, 640):
-    B = gen(s, "/tmp/shiftB.json")
-    mB = {tuple(m) for m in B["hidden_motifs"]}
-    if not (mA & mB):
-        break
-else:
-    raise SystemExit("no disjoint B found")
+# Only 16 length-2 strings exist, so two 8-motif samples are disjoint only if they are
+# exact complements. Build B as the COMPLEMENT of A explicitly -- deterministic, disjoint.
+from itertools import product as _prod
+prims = ("inc", "dec", "double", "square")
+comp = [list(m) for m in _prod(prims, repeat=2) if m not in mA]
+Path("/tmp/shiftB_motifs.json").write_text(json.dumps({"fragments": comp}))
+subprocess.run([py, a.gen, "--repo", a.repo, "--out", "/tmp/shiftB.json", "--motif-file", "/tmp/shiftB_motifs.json",
+                "--min-canonical-len", "6", "--max-canonical-len", "6", "--max-tokens", "3",
+                "--split", "0.4,0.15,0.45", "--min-targets", "900", "--trials", "1"], check=True, capture_output=True)
+B = json.loads(Path("/tmp/shiftB.json").read_text())
+mB = {tuple(m) for m in B["hidden_motifs"]}
+assert not (mA & mB), "complement construction failed"
+s = "complement"
 n = a.n
 prot = A["streams"]["protected"]; protB = B["streams"]["protected"]
 if len(prot) < 2 * n or len(protB) < n:
