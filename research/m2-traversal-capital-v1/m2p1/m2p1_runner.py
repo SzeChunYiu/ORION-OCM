@@ -255,9 +255,33 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
         _mdl_better = (sum(1 for r in mdl_report["held_out"]
                            if r["candidate"]["slots"] < r["baseline"]["slots"])
                        if isinstance(mdl_report, dict) and "held_out" in mdl_report else -1)
-        _use_mdl = bool(mdl_frags) and _mdl_better >= _freq_better
+        # controller_v3: SELECT THE LIBRARY THE WAY IT IS DEPLOYED. validate_generator scores
+        # each candidate by the INTERLEAVE; the controller deploys through the PROBE, whose
+        # cost scales with (|lib| + P)^depth. On the authored world hc08 the interleave
+        # validation picked the 16-fragment frequency library and the probe then lost to the
+        # same-library parent (beta 8 420); the compact MDL library would have paid. Each
+        # candidate is therefore costed by the expected PROBE cost on the held-out validation
+        # tilings (the same rule that sets the depth), from the rows already recorded -- no
+        # extra search. Both scores are reported; the interleave choice is kept as
+        # `validated_better_interleave` for the record.
+        def _probe_cost(_frags, _rep):
+            _lib = [tuple(f) for f in _frags]; _T = len(_lib) + len(M.PRIMITIVES); _h = []
+            for _r in _rep["held_out"]:
+                _bp = _r["baseline"].get("program"); _bs = _r["baseline"]["slots"]
+                _d = _tile_tokens(tuple(_bp), _lib) if _bp else None
+                _h.append((_d if _d is not None else 99, _bs))
+            _best = (float("inf"), 3)
+            for _D in range(1, 5):
+                _bD = sum(_T ** i for i in range(1, _D + 1))
+                _c = statistics.fmean((sum(_T ** j for j in range(1, d_)) + _T ** d_ / 2) if d_ <= _D else _bD + b_ for d_, b_ in _h) if _h else float("inf")
+                _best = min(_best, (_c, _D))
+            return _best[0]
+        _freq_frags = [list(f) for f in method.fragments]
+        _pc_freq = _probe_cost(_freq_frags, report) if _freq_frags else float("inf")
+        _pc_mdl = _probe_cost(mdl_frags, mdl_report) if (mdl_frags and isinstance(mdl_report, dict) and "held_out" in mdl_report) else float("inf")
+        _use_mdl = bool(mdl_frags) and _pc_mdl <= _pc_freq
         _chosen_report = mdl_report if _use_mdl else report
-        _chosen_frags = mdl_frags if _use_mdl else [list(f) for f in method.fragments]
+        _chosen_frags = mdl_frags if _use_mdl else _freq_frags
         if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
             _lib = [tuple(f) for f in _chosen_frags]
             mdl_report = _chosen_report          # the rule below is fitted on the chosen library
@@ -293,7 +317,10 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                        "depth_rule": "expected-cost on held-out validation (controller_v2)",
                        "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
                        "library": "mdl" if _use_mdl else "frequency",
-                       "validated_better": {"frequency": _freq_better, "mdl": _mdl_better}}
+                       "library_rule": "controller_v3: expected probe cost on held-out validation tilings",
+                       "expected_probe_cost": {"frequency": round(_pc_freq, 1) if _pc_freq != float("inf") else None,
+                                               "mdl": round(_pc_mdl, 1) if _pc_mdl != float("inf") else None},
+                       "validated_better_interleave": {"frequency": _freq_better, "mdl": _mdl_better}}
     except Exception as _e:
         ocm_ctl = {"error": str(_e)[:200]}
 
