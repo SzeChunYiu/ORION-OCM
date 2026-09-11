@@ -1,0 +1,94 @@
+{
+  "schema": "CrossRepresentationPhase4BitV1",
+  "freeze": "CROSS_REP_PHASE_4BIT_FREEZE_V1.md",
+  "class_sizes": {"H_T": 980, "H_P": 882},
+  "ecology_sizes": {"E_T_ONLY": 718, "E_P_ONLY": 620, "E_OVERLAP": 262},
+  "costs": {"label": 1.0, "verify": 0.25},
+  "results": {
+    "E_T_ONLY": {
+      "H_T": {
+        "queries": 551424,
+        "correct": 15752,
+        "wrong": 0,
+        "abstain": 535672,
+        "correct_rate": 0.028566039925719593,
+        "wrong_rate": 0.0,
+        "abstain_rate": 0.9714339600742804,
+        "proposal_precision": 1.0,
+        "mean_cost": 0.9785754700557103,
+        "mean_version_space_size": 82.31828864902506
+      },
+      "H_P": {
+        "queries": 551424,
+        "correct": 0,
+        "wrong": 0,
+        "abstain": 551424,
+        "correct_rate": 0.0,
+        "wrong_rate": 0.0,
+        "abstain_rate": 1.0,
+        "proposal_precision": null,
+        "mean_cost": 1.0,
+        "mean_version_space_size": 63.29348015320334
+      }
+    },
+    "E_P_ONLY": {
+      "H_T": {
+        "queries": 476160,
+        "correct": 14958,
+        "wrong": 15721,
+        "abstain": 445481,
+        "correct_rate": 0.031413810483870964,
+        "wrong_rate": 0.03301621303763441,
+        "abstain_rate": 0.9355699764784946,
+        "proposal_precision": 0.4875647837282832,
+        "mean_cost": 0.9846936953965054,
+        "mean_version_space_size": 65.84012096774194
+      },
+      "H_P": {
+        "queries": 476160,
+        "correct": 0,
+        "wrong": 0,
+        "abstain": 476160,
+        "correct_rate": 0.0,
+        "wrong_rate": 0.0,
+        "abstain_rate": 1.0,
+        "proposal_precision": null,
+        "mean_cost": 1.0,
+        "mean_version_space_size": 61.503729838709674
+      }
+    },
+    "E_OVERLAP": {
+      "H_T": {
+        "queries": 201216,
+        "correct": 4699,
+        "wrong": 0,
+        "abstain": 196517,
+        "correct_rate": 0.023353013676844784,
+        "wrong_rate": 0.0,
+        "abstain_rate": 0.9766469863231552,
+        "proposal_precision": 1.0,
+        "mean_cost": 0.9824852397423665,
+        "mean_version_space_size": 85.48413645038168
+      },
+      "H_P": {
+        "queries": 201216,
+        "correct": 0,
+        "wrong": 0,
+        "abstain": 201216,
+        "correct_rate": 0.0,
+        "wrong_rate": 0.0,
+        "abstain_rate": 1.0,
+        "proposal_precision": null,
+        "mean_cost": 1.0,
+        "mean_version_space_size": 67.83587786259542
+      }
+    }
+  },
+  "frozen_predictions": {
+    "CR_P1_threshold_region": true,
+    "CR_P2_program_region": false,
+    "CR_P4_reversal": false
+  },
+  "terminal": "REPRESENTATION_MEMBERSHIP_INSUFFICIENT__VERSION_SPACE_IDENTIFIABILITY_DOMINATES_AT_4BIT_SCOPE",
+  "claim_boundary": "Frozen program-region/reversal predictions failed. H_P abstains on every held-out query after four labels even where the true target belongs only to H_P; H_T makes some verifier-checked proposals and is slightly cheaper. Representation membership alone does not determine morphology preference. Predictive identifiability under the available experience must enter the phase law."
+}
