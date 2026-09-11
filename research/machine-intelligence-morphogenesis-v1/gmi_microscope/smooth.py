@@ -571,6 +571,14 @@ if __name__ == "__main__":
         else:
             k = int(which); a = k / 16
             main(coeffs=(a, a, a, a), tag=f"V16_SYM{k}_HW", n_events=16, rows=ROWS_V6, criterion="unseen", columns=bases.ALL_HW)
+    elif len(sys.argv) > 1 and sys.argv[1] == "seed2":
+        # RV-377-039: gap G2 (single seed on every frontier prediction): the same three ecologies with ROWS_V6 at machine seed 1;
+        # only S3 consumes the seed (SAMPLE ops), every other row is deterministic by construction
+        which = sys.argv[2]
+        if which == "smooth3": main(seed=1, coeffs=COEFFS_V3, tag="V20_SMOOTH3_S1", n_events=16, rows=ROWS_V6, criterion="unseen")
+        else:
+            k = int(which); a = k / 16
+            main(seed=1, coeffs=(a, a, a, a), tag=f"V20_SYM{k}_S1", n_events=16, rows=ROWS_V6, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "syma":
         # RV-377-034: E_sym(k/16) with the attention row (ROWS_V8)
         k = int(sys.argv[2]); a = k / 16
