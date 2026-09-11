@@ -95,3 +95,11 @@ def test_smooth3_prediction_receipt_is_reproducible_and_was_frozen_before_the_ru
     assert committed["receipt_sha256"] == rc["receipt_sha256"]
     assert committed["n_called"] == 336 and committed["n_abstained"] == 0
     assert committed["certification_capabilities_B0"]["S5"] < 0.85 < committed["certification_capabilities_B0"]["S4"]
+
+
+def test_smooth3_verdict_receipt_is_reproducible_and_positive():
+    from gmi_microscope import compare_smooth3
+    committed = json.loads((RES / "STAGE_DE_SMOOTH3_VERDICT.json").read_text())
+    rc = compare_smooth3.main()
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert rc["verdict"]["all_claims_hold"] is True and rc["verdict"]["n_wrong"] == 0 and rc["verdict"]["n_called"] == 336
