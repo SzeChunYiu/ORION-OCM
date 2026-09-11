@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 8, "version": "continual_v2"}
 
 
 def _fit_controller(M, lib, val_rows):
@@ -126,14 +126,17 @@ def _fit_controller(M, lib, val_rows):
 
 def _remine(M, solved):
     """Mine candidate libraries from the organism's own verified acquisitions and validate
-    them on the most recent held-out slice. solved = [(task, SearchResult, B)] in order.
-    Returns (controller_record or None, charged_slots, event)."""
-    if len(solved) < CONTINUAL["val_n"] + 2:
-        return None, 0, {"skipped": "too few solutions"}
+    them on the most recent held-out slice. solved = [(task, SearchResult, B)] in order,
+    RESTRICTED by the caller to the current regime (solutions since the last stand-down):
+    continual_v1 mined a window that straddled the shift, so its first attempt learned
+    the old regime and its second came too late to pay. Returns
+    (controller_record or None, charged_slots, event)."""
+    if len(solved) < CONTINUAL["val_n"] + CONTINUAL["min_corpus"]:
+        return None, 0, {"skipped": "too few solutions in this regime", "regime_solved": len(solved)}
     val = solved[-CONTINUAL["val_n"]:]
     corpus = solved[-(CONTINUAL["mine_n"] + CONTINUAL["val_n"]):-CONTINUAL["val_n"]]
-    if len(corpus) < 2:
-        return None, 0, {"skipped": "corpus<2"}
+    if len(corpus) < CONTINUAL["min_corpus"]:
+        return None, 0, {"skipped": "corpus too small", "corpus": len(corpus)}
     val_rows = [(t, r.program, b) for t, r, b in val]
     cands = {}
     try:
@@ -463,7 +466,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     P._c = {"libs": [{"lib": [list(f) for f in method.fragments], "probe_depth": c0["probe_depth"],
                                       "beta": c0["beta"], "rule": c0["rule"], "fallback": c0["fallback"],
                                       "library": "dev:" + c0.get("library", "mdl")}],
-                            "active": None, "hits": [], "solved": [], "since_mine": 0, "events": []}
+                            "active": None, "hits": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0}
                 C = P._c
                 prog, used = None, 0
                 if C["active"] is not None:
@@ -472,6 +475,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     C["hits"].append(prog is not None)
                     if len(C["hits"]) >= 8 and sum(C["hits"][-8:]) / 8 < 0.25:
                         C["active"] = None                      # stand down
+                        C["regime_start"] = len(C["solved"])     # v2: a new regime begins here
+                        C["since_mine"] = 0
                 else:
                     C["hits"].append(False)
                     if (len(C["hits"]) - 1) % 8 == 0:           # re-probe every retained library
@@ -480,18 +485,19 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             used += u
                             if pr is not None:
                                 prog, C["active"] = pr, k
-                                C["hits"][-1] = True
+                                C["hits"] = [True]               # v2: a fresh window for the reactivated library
                                 break
                         if prog is None and C["since_mine"] >= CONTINUAL["min_new"]:
-                            rec, charged, ev = _remine(M, C["solved"])
+                            rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):])
                             used += charged; C["since_mine"] = 0
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1
                                 pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
                                 used += u
+                                C["hits"] = [pr is not None]     # v2: a fresh window for the new library
                                 if pr is not None:
-                                    prog = pr; C["hits"][-1] = True
+                                    prog = pr
                 if prog is not None:
                     res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
                                          prog, used, used, (0,), 8)

@@ -47,6 +47,39 @@ incremental attribution, unambiguous here because those solves were the targets 
 registered units without touching them; the ceiling stays the registered grammar and
 authored ecologies. A multi-regime lifetime (A → B → A′ → B′) is the next test.
 
-## Outcome
+## Outcome, continual_v1 (2026-09-11; records/continual/SHIFT_v1_*, E5_v1_*)
 
-_pending_
+| world | v3 | continual_v1 | prediction | verdict |
+|---|---|---|---|---|
+| E5 | 414.1 | **414.1** | unchanged | held |
+| shift A / A′ | 507 / 861 | **507 / 861** | unchanged | held |
+| shift B | 5 208 | **5 524** (+40 % vs RESET) | ≤ 3 740 | **falsified** |
+| shift lifetime | 2 192 | 2 297 | ≤ 1 900 | **falsified** |
+
+**Attribution (per-target rows, two stages, both mechanical).**
+1. *Corpus straddled the shift.* The first re-mine (target 40) mined a 32-solution window
+   that was three-quarters A-regime; both candidates failed validation (0/8) — correct, 248
+   slots charged. The second (target 56) recovered B's motifs (`inc·double, square·square,
+   square·dec, square·inc, square·double`), validated 7/8 with mean delta +3 020, and cost
+   7 684 slots of validation probes — four targets before B ends. The mechanism needs
+   ≈ 24 verified in-regime solutions (16 corpus + 8 held out) before it can deploy; a
+   30-target segment leaves ≤ 6 targets to amortise, and my prediction also priced the
+   transition window at 1.3× RESET where the rows show 2.3×.
+2. *Liveness window not reset on activation.* The window still held the stood-down misses,
+   so the freshly validated library was stood down on its first miss (target 57 → 58 back
+   at baseline). A′ is unaffected (its reactivation probe hit and kept hitting).
+
+**Revival, continual_v2 (registered before its run).** (a) Regime-aware corpus: mine only
+from solutions acquired since the last stand-down, at least 8 in the corpus and 8 held
+out. (b) A fresh liveness window on every activation. (c) The fair test is a lifetime whose
+new regime is long enough to amortise learning it. The A world holds 136 members, so
+60-target segments are infeasible at this recipe (`too small A=61`, recorded); with a
+0.2 / 0.1 / 0.7 split it supports **45-target segments** (A → B → A′, 135 targets; dev on
+27 tasks). Arms: RESET, PARENT_WITH_MDL, CONTINUED_OCM (v3), CONTINUAL_OCM (v2), one dev
+phase (`ECO_SHIFT45.json`, laptop billy).
+
+Predictions for the 45-segment lifetime: v3's B segment **+10…+40 % vs RESET** (transition
+≈ 8 × 2.3×, then stood down); continual_v2's B segment **≤ −5 % vs RESET** (deployed by
+≈ B + 24, live for ≈ 21 targets at guided cost), lifetime below v3 by ≥ 10 %. Falsifiers:
+B ≥ RESET under v2; v2 lifetime ≥ v3 lifetime. FV8 under v1 is still running; its record
+is reported when it lands.
