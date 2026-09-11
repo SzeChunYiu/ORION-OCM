@@ -379,3 +379,31 @@ hits) and immune to chance streaks (one miss never outweighs a window of 40 k hi
 Predictions: E8 ≤ 700; E7 / E5 unchanged; FV8 ≤ +0.05 %; SHIFT45 / s602 / s603 / s604 within
 ± 5 % of v5.2. Falsifiers: E8 > 700; any shift lifetime above the fixed controller.
 
+## Outcomes, continual_v5.2 and v5.3 (records/continual/*_v5.2_*, *_v5.3_*)
+
+| world | v5.1 | **v5.2** (validation skip) | v5.3 (value rule alone, full cost) |
+|---|---|---|---|
+| SHIFT45 | 1 505.7 | **1 504.5** | 1 751.3 (A′ 1 101) |
+| s602 | 1 785.4 | **1 784.2** | 1 842.1 (A′ 1 085) |
+| s603 | 1 666.7 | **1 663.7** (rejected attempt now 0) | 1 865.3 (A′ 1 321) |
+| s604 | 1 895.4 | **1 895.4** | 2 114.6 (A′ 1 528) |
+| FV8 | 57 167 (+1.98 %) | **56 057.9 (+0.004 %; 13 attempts, 0 slots charged)** | — |
+| E8 | 7 479.6 | — | **7 479.6 (identical)** |
+| E7 / E5 | 507.5 / 414.1 | — | 507.5 / 414.1 |
+
+v5.2 **held every prediction** (± 1 % on the four shift worlds; FV8 ≤ +0.05 %): the
+criterion-derived skip removes the validation cost entirely on a library-valueless world. v5.3
+**falsified its E8 prediction** — E8 is byte-identical under the value rule alone, so the
+three-miss signal was *not* its cause and my attribution was wrong — and it is worse than
+v5.1 on all four shift worlds (A′ 1 085–1 528 vs 510–1 124: the value window is slower at
+the B → A′ boundary even with the full cost). v5.2 is therefore the current controller;
+v5.3 is retired as a recorded miss.
+
+**E8, read from the record.** Both arms serve the same 8-fragment MDL dev library. The
+continual arm misses on every one of the first 24 targets (≈ RESET + probe) while the fixed
+arm's record hits at 941, 1 063, 1 062 …; from target 25 the learned library hits at 130–650
+and *beats* the fixed record. A direct test of both probe code paths on E8's first target
+misses in both (1 884 slots, no hit) with the current runner — so the fixed arm's 596.3 was
+produced by an older runner and may not be reproducible. The fixed CONTINUED_OCM arm is
+re-running on E8 from the same dev state with the current runner; the E8 verdict waits for it.
+
