@@ -59,3 +59,46 @@ stays negative.
 One smoke ecology for the integrated arm; the cost-depth rule is under test on three.
 Liveness (window 8, hit-rate floor 0.25, periodic re-probe) has not yet been exercised
 by a shift in this arm — the plasticity result stands separately.
+
+## Six-ecology run — two strong positives and a negative that fixed the controller
+
+| ecology | RESET | ordinary parent | parent + same library | **`CONTINUED_OCM`** | vs same-library parent |
+|---|---|---|---|---|---|
+| E5 | 44 738 | 7 167 | 827 | **414** | **−50 %** |
+| FV6 (foreign vocabulary) | 3 725 | 4 553 | 4 053 | **2 103** | **−48 %** |
+| FOREIGN_M1 (unstructured) | 29 387 | **19 992** | 31 494 | 36 118 | **+15 %** ✗ (+23 % vs RESET) |
+
+E5 and FV6 replicate the smoke test: the integrated arm halves the cost of the parent
+holding the identical library. FOREIGN_M1 is the unstructured ecology (RSI class C3), and
+the arm is worse than RESET there.
+
+### Diagnosis, from the controller's own state
+
+| | library | T | depth chosen | β | validated better (freq / MDL) |
+|---|---|---|---|---|---|
+| E5 | MDL (6) | 10 | 3 | 1 110 | 14 / 14 |
+| FV6 | MDL (14) | 18 | 3 | 6 174 | 68 / 88 |
+| **FOREIGN_M1** | MDL (11) | 15 | **4** | **54 240** | **18 / 16** |
+
+Two errors, both visible in the state:
+
+1. **Depth.** The expected-cost rule estimated the miss rate from **training** tilings.
+   The library was mined *from* those programs, so it tiles them optimistically — on a
+   structured ecology the bias is harmless (FV6, E5 chose 3 correctly), on an unstructured
+   one it makes depth 4 look cheap. Reality: `max B = 186 840`, a miss paying `β` plus the
+   full fallback.
+2. **Library.** Frequency validated *better* than MDL on FOREIGN_M1 (18 vs 16 of 40) — the
+   controller committed to MDL regardless. On an ecology with no latent structure there is
+   nothing for compression to find, which is exactly what RSI-2's `mdl_response = −2`
+   said about this world.
+
+### `controller_v2`, registered before re-running
+
+- **library chosen by validation**: frequency vs MDL, whichever has the better held-out
+  strictly-better count — both are already computed in the dev phase;
+- **depth rule on held-out validation**: tiling of each validation task's baseline
+  solution against the chosen library; an untileable task is a miss at every depth.
+
+Nothing new is read: the validation stream is solved history the dev phase already paid
+for. **Prediction:** FOREIGN_M1 picks frequency and depth 3 → ≈ 14.8 k (the standalone
+probe result); E5 and FV6 keep MDL and depth 3, unchanged.
