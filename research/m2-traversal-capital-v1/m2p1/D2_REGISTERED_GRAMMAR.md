@@ -167,3 +167,17 @@ task-statement rule and liveness never fire because the library keeps hitting.
 **History makes novel arrangements of known parts cheaper to acquire, on every seed, in
 the registered grammar.** The hostile review's interpolation reading is refuted with
 replication, not a single run. `d ≥ 3` remains empty by counting at this `(m, k)`.
+
+## Beyond the measured map: m = 14, k = 4 (registered 2026-09-11, seeds 504–506 launched after 501–502 were read)
+
+Seeds 501–503 (`m = 14, k = 4, train_n = 90`, outside the feasibility table's measured
+rows) were launched as an unregistered extension before any prediction was written; their
+first two results are therefore **exploratory**: 501 library −1.0 % (17/59 better),
+integrated −49.5 %; 502 library +27.1 % (36/60), integrated −60.3 %. Registered now, before
+seeds 503–506 are read: the library-by-interleave benefit is **fragile** at m = 14 (its
+sign may vary by seed, since per-motif support at train_n = 90 falls to ≈ 26 occurrences
+and the 16-fragment library cannot hold every motif with its substrings), while the
+integrated arm stays at **≤ 0.55 × the same-library parent and ≤ 0.65 × RESET on every
+seed** — the probe serves the guided stream alone, so a partially-recovered library that
+hits on a fraction of targets still pays. Falsifier: any seed with integrated ≥ 0.65 × RESET
+or ≥ 0.55 × the parent.
