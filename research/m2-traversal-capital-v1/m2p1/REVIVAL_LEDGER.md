@@ -1,0 +1,30 @@
+# Revival ledger — every negative in this lane, its diagnosis, and where the chain stands
+
+Format (#373 §8): result → diagnose → attribute (one stage) → invariant → strongest parent →
+minimum justified change → frozen prediction → fresh test → status. A negative is never
+erased; a later cycle supersedes its *interpretation* only.
+
+| # | negative (where recorded) | attributed stage | invariant extracted | parent | minimum change | fresh test → status |
+|---|---|---|---|---|---|---|
+| 1 | Registered admission refuses on nearly every world (E5_ADMISSION, authored worlds 4/4 so far) | universal non-inferiority vetoes a 2×-bounded regret | P1: interleave ⇒ candidate ≤ 2·baseline, tight, 0 violations in 410 measurements | EU admission (decision theory) | expected-utility admission as a labelled successor; deployment by validated library | 20/20 worlds, 10/10 seeds → POSITIVE_AT_REGISTERED_SCOPE (rule itself untouched) |
+| 2 | Frequency library displaced by shared substrings (LEARNABILITY, MDL_SELECTION) | selection rule | motifs pairwise substring-disjoint ⇒ learnable; bound m(ℓ−1) ≤ P² | Stitch / DreamCoder compression | MDL selection by validation (library chosen per world) | 18/18 controller worlds chose MDL → POSITIVE |
+| 3 | Answer-derived applicability gate (APPLICABILITY, retracted) | feature leak (read the solution) | a deployment predicate may read the task statement and charged outcomes, never the solution | — | probe gate (charged guided stream, depth from history) | PROBE_GATE positive on 4 worlds; FV8 abstains → POSITIVE / boundary |
+| 4 | Coverage depth rule +22 % worse (FOREIGN_M1) | training tiling optimistic | depth must be costed on held-out validation | expected-cost decision | expected-cost depth on validation | auto-depth beat D2 prediction favourably → POSITIVE |
+| 5 | MDL committed on an unstructured world | library selection without validation | library by validation | model selection | validated_better comparison | 18/18 → POSITIVE |
+| 6 | Liveness v1: rule routed stale interleave; re-probe counter froze (PLASTICITY) | implementation | counter advances every target; stood-down ⇒ RESET until re-probe hits | — | liveness_v2 | shift lifetime −35 % vs parent → POSITIVE |
+| 7 | FV8 −0.56 % vs RESET (INTEGRATED_ARM) | cold start booted live | liveness is earned by a hit, never assumed | — | liveness_v3 | FV8_v3 +0.004 %, E5 identical, shift +2 % (phase) → POSITIVE at floor |
+| 8 | Shift "< 1 %" prediction missed (+2.0 %) | re-probe cadence phase | a cadence change shifts re-activation by ≤ 1 target | — | none (priced) | RECORDED_MISS, no revival needed |
+| 9 | Conservative ledger 878 ✗ at 670 targets (AMORTISATION) | horizon shorter than break-even | break-even is a mechanism constant; payment is a horizon property | — | long-horizon lifetime, hostile rule unchanged | 3/3 seeds pay (LONG_HORIZON_LIFETIME) → POSITIVE |
+| 10 | Long-horizon assumption ≈ 855 targets (actual 696/481/381) | member count follows the motif draw | one trial per seed ⇒ world size varies | — | per-seed predictions before arms ran | held on 3/3 → RECORDED_MISS (assumption), POSITIVE (prediction rule) |
+| 11 | d ≥ 3 empty by counting (ARRANGEMENT_OBSTRUCTION) | admission bound, not benefit bound | feasibility window: recovery train_n ≥ c·m; novelty train_n·(k(m−1)+1) < A(m,k) | — | test inside the window | d=2 10/10 → POSITIVE; d ≥ 3 → FORMAL_BOUNDARY at this (m,k) |
+| 12 | m = 14 bound missed (0.705 on 504) (D2_REGISTERED_GRAMMAR) | derivation error, then thin library | 0.50 is the P1 ratio only against a parent that benefits | — | corrected bound ≤ 0.65 × min(RESET, parent) | 2/3 held → RECORDED_MISS, bound not re-tuned |
+| 13 | continual_v1 B +40 % (CONTINUAL) | corpus straddled the shift; window not reset | mine only the current regime; a new library gets a fresh window | continual learning parents | continual_v2 | B +9 % → still negative |
+| 14 | continual_v2 B +9 %, A′ +42 % | liveness latency at each regime change | stand-down must be fast; retained libraries re-probed at stand-down; learned rules never route to interleave | — | continual_v3 | B +3.0 %, A′ 735 → B still negative |
+| 15 | continual_v3 B +3 % | 8-program corpus attempt failed and cost 11 k | learning needs ≥ 12 in-regime programs | — | continual_v4 (+ counter bug fix v4.1) | B −2.6 % → −8.1 % (SHIFT45) → POSITIVE in-sample |
+| 16 | continual_v4.1 out of sample: s602 B 0.9503×RESET, s603 B +14 % | s603's first attempt failed on a 17-program corpus and waited 16 more solutions | a failed validation is evidence, not a reason to wait | — | continual_v4.2 (retry after 8) | s602/s603 re-runs + fresh s604 → RUNNING |
+| 17 | RSI L6 no monotone slope (rsi/RSI6) | one taxonomy, one repair catalogue | cost-to-verified-improvement falls stepwise, not monotonically | — | larger packet / new generations | OPEN |
+| 18 | E3, E6, P1-loss, B-segment predictions falsified (various) | registered predictions | falsified predictions are kept as recorded misses | — | — | RECORDED |
+| 19 | Authored worlds: registered rule refuses 4/4, admission law violated on hc09 (6/6 recovered, 58/59 better) | universal quantifier over a 59-task held-out set | the law "recovered==all ⟺ admitted" holds only while the held-out set is small enough that no guided miss exceeds its baseline index | — | (frozen study — no change permitted) | stage 3 running; terminal expected CANNOT_CHECK_NO_ADMITTING_WORLD; exploratory controller arm running |
+| 20 | continual_v4.2 s604 lifetime +19 % above the fixed controller (A′ 3 625) | consecutive-miss liveness never stands down an expensive library with sporadic hits | liveness must be judged on realised value (hit saving vs probe cost), not hit count | sequential testing / bandit regret | continual_v5 value-based liveness | s604 + s602/s603/SHIFT45 + E5/FV8 → RUNNING |
+| 21 | continual_v5 regressed SHIFT45/s602/s603 (+4…+28 %) while fixing s604 | value window not regime-aware (carries the old regime's hits) | the two stand-down signals detect different failures; neither subsumes the other | — | continual_v5.1: stand down on either signal | four shift worlds + E5 → RUNNING |
+

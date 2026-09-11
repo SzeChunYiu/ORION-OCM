@@ -88,7 +88,15 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "version": "continual_v4.1"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.1"}
+# v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
+# A-prime target in three and was therefore never stood down by the consecutive-miss rule,
+# paying beta + baseline on every miss for 17 targets. A library stays live while the realised
+# delta over the last value_window targets (hit: expected baseline - position; miss: -probe cost)
+# is non-negative; a hit that does not pay for its misses stands the library down.
+# v4.2: a FAILED validation is evidence the corpus was too small, not a reason to wait for 16 more
+# solutions; the next attempt comes at the next re-probe with >= 8 new solutions (s603: the
+# attempt at 72 failed on a 17-program corpus and the deployment waited until 88).
 # v4: min_corpus 8 -> 12. On SHIFT45 the v3 attempt on an 8-program corpus failed validation and
 # charged 9 556 slots; the 13- and 24-program attempts (v2, v3) both deployed. Registered on
 # SHIFT45 and on a fresh shift world before the run.
@@ -122,6 +130,7 @@ def _fit_controller(M, lib, val_rows):
     rule = {z: (statistics.fmean(v) > 0) for z, v in cells.items()}
     better = sum(1 for d in deltas if d > 0)
     return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": rule,
+            "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
             "val_better": better, "val_n": len(deltas)}, charged
@@ -468,16 +477,24 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     c0 = dev["ocm_controller"]
                     P._c = {"libs": [{"lib": [list(f) for f in method.fragments], "probe_depth": c0["probe_depth"],
                                       "beta": c0["beta"], "rule": c0["rule"], "fallback": c0["fallback"],
+                                      "expected_baseline": dev.get("held_out_mean_baseline"),
                                       "library": "dev:" + c0.get("library", "mdl")}],
-                            "active": None, "hits": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0}
+                            "active": None, "hits": [], "vals": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0}
                 C = P._c
                 prog, used = None, 0
                 if C["active"] is not None:
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                     C["hits"].append(prog is not None)
-                    k = CONTINUAL["standdown_misses"]
-                    if len(C["hits"]) >= k and not any(C["hits"][-k:]):
+                    # v5: realised value of keeping this library live on this target
+                    C["vals"].append((L.get("expected_baseline") or 0) - used if prog is not None else -used)
+                    W = CONTINUAL["value_window"]; k = CONTINUAL["standdown_misses"]
+                    # v5.1: EITHER signal stands the library down -- k consecutive misses (fast at a
+                    # regime change, where the value window still carries the old regime's hits)
+                    # or a negative realised value over the window (an expensive library whose
+                    # sporadic hits never pay for its misses, s604).
+                    if (len(C["hits"]) >= k and not any(C["hits"][-k:])) or \
+                       (len(C["vals"]) >= k and sum(C["vals"][-W:]) < 0):
                         # v3: stand down after k consecutive misses (v2's 8-window hit-rate rule
                         # paid ~7 targets of probe + interleave at every regime change), and
                         # try the OTHER retained libraries at once -- a return to a known
@@ -491,7 +508,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             used += u
                             if pr is not None:
                                 prog, C["active"] = pr, kk
-                                C["hits"] = [True]
+                                C["hits"] = [True]; C["vals"] = []
                                 break
                 else:
                     C["hits"].append(False)
@@ -501,20 +518,21 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             used += u
                             if pr is not None:
                                 prog, C["active"] = pr, k
-                                C["hits"] = [True]               # v2: a fresh window for the reactivated library
+                                C["hits"] = [True]; C["vals"] = []   # v2: a fresh window for the reactivated library
                                 break
                         if prog is None and C["since_mine"] >= CONTINUAL["min_new"]:
                             rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):])
                             used += charged
                             if "skipped" not in ev:
-                                C["since_mine"] = 0              # v4.1: a SKIPPED attempt (corpus too small) mined
-                                                                 # nothing and must not consume the counter
+                                # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
+                                # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
+                                C["since_mine"] = 0 if rec is not None else CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"]
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1
                                 pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
                                 used += u
-                                C["hits"] = [pr is not None]     # v2: a fresh window for the new library
+                                C["hits"] = [pr is not None]; C["vals"] = []   # v2: a fresh window for the new library
                                 if pr is not None:
                                     prog = pr
                 if prog is not None:

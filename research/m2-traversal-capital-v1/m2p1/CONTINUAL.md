@@ -201,3 +201,101 @@ What remains of B's cost is mechanical and priced: the old library's three-miss 
 exist to learn from. The out-of-sample test is the two fresh shift worlds (A seeds 602 /
 603), registered above; their outcome decides whether any of this is tuned to SHIFT45.
 
+## Out of sample — fresh shift worlds s602 / s603, FV8 (records/continual/SHIFT45_s60{2,3}_*, FV8_v4_*)
+
+| world | arm | lifetime | A | B | A′ | events |
+|---|---|---|---|---|---|---|
+| s602 (train 28) | RESET | 3 538 | 3 428 | 3 698 | 3 488 | |
+| | fixed-library controller | 2 156 (−39 %) | 773 | 4 633 (+25 %) | 1 061 | |
+| | **continual (v4)** | **1 741 (−50.8 %)** | 773 | **3 514 (−5.0 %)** | 935 | skip 64; deploy 80 (corpus 25, 8/8, 5 691) |
+| s603 (train 49) | RESET | 3 804 | 3 803 | 3 438 | 4 172 | |
+| | fixed-library controller | 2 128 (−44 %) | 734 | 4 422 (+29 %) | 1 228 | |
+| | **continual (v4.1)** | **1 850 (−51.4 %)** | 734 | **3 920 (+14.0 %)** | 897 | skip 64; **fail 72** (corpus 17, MDL 0/8, 240); deploy 88 (corpus 32, 8/8, 3 911) |
+| FV8 | continual (v4) | 56 072 (+0.029 %) | | | | 7 attempts, none validated |
+| E5 | continual (v4) | 414.1 | | | | never stood down |
+
+Held out of sample: lifetime ≤ −45 % vs RESET on both (−50.8 / −51.4), ≥ 10 % below the
+fixed-library controller on both (−19 / −13 %), A′ recovered on both, FV8 and E5 inside their
+bounds. **Missed:** B ≤ 0.95 × RESET — s602 at 0.9503 (one slot over the line; recorded as a
+miss) and s603 at +14 %, where the attempt at target 72 mined a 17-program corpus whose MDL
+library did not tile the held-out slice (0/8, rejected for 240 slots) and the next attempt
+waited for 16 more solutions. On every attempt the registered frequency library is dominated
+by design: 16 fragments make the probe's β = 20 + 400 + 8 000 dearer than the baseline, so the
+expected-cost rule pins it at depth 1 and it never hits; the compact MDL library (6–7
+fragments, β ≤ 1 463) is the one that pays. s605's A world was too small (`too small A=53`),
+so the next fresh world is s604 (train 50).
+
+**Invariant.** In-life learning of a regime pays within a segment only when the segment is
+long compared with the in-regime solutions the learner needs (≈ 25–32 programs for MDL on
+these worlds); a 45-target segment is at that edge, which is why B sits within ±10 % of RESET
+across worlds while the lifetime is −50 % on all of them.
+
+**continual_v4.2 (registered before its run).** A failed validation is evidence the corpus was
+too small, not a reason to wait for 16 more solutions: the next attempt comes at the next
+re-probe with ≥ 8 new solutions (`min_new_after_fail` = 8). Nothing else changes. Predictions:
+s603 B ≤ 0.98 × RESET (attempt at 80 on a ≈ 25-program corpus deploys, ≥ 9 targets served);
+s602 unchanged within ± 2 % (its first attempt deployed); fresh s604: lifetime ≤ −45 % vs RESET
+and ≥ 10 % below the fixed-library controller, B < RESET, A′ ≤ the fixed-library A′.
+Falsifiers: s603 B ≥ RESET; s604 lifetime ≥ the fixed-library controller.
+
+## Outcome, continual_v4.2 (records/continual/SHIFT45_s60{2,3}_v4.2_*, SHIFT45_s604_*)
+
+| world | RESET | fixed-library controller | continual_v4.2 | B (v4.2) | A′ (v4.2) | events |
+|---|---|---|---|---|---|---|
+| s602 | 3 538 | 2 156 | 1 785 (−49.5 %) | 3 672 (−0.7 %) | 911 | deploy 72 (corpus 17, 5 944) |
+| s603 | 3 804 | 2 128 | **1 667 (−56.2 %)** | **3 369 (−2.0 %)** | 897 | fail 72 (240); deploy 80 (corpus 25, 3 361) |
+| **s604** (fresh, train 50) | 3 673 | 2 292 | **2 729 (−25.7 %)** | 3 858 (−6.9 %) | **3 625** | deploy 72 (corpus 17, **frequency** library, 16 164) |
+
+Held: s603 B ≤ 0.98 × RESET (3 369 vs 3 369.2 — at the line), s603 lifetime, s604 B < RESET.
+**Missed:** s602 "unchanged ± 2 %" (+4.5 % — the earlier attempt mined a thinner corpus and
+learned a slightly weaker library); **s604's lifetime is 19 % *above* the fixed-library
+controller** — the registered falsifier fired.
+
+**Attribution (s604 rows 90–106).** The library learned at 72 was the *frequency* candidate
+(16 fragments, validated 7/8 on the slice, β = 8 420 at depth 3; the MDL candidate had 5
+fragments, 5/8). In B it served well (−6.9 %). At the B → A′ boundary it was not stood down for
+17 targets: its long fragments tile an occasional A′ target (hits at 92, 95, 100, 103, 107),
+each hit resetting the three-consecutive-miss streak, while every miss cost β + baseline
+(10–12 k per target against a RESET of 2–4 k). At 104–106 three misses finally lined up, A's
+library was re-probed and A′ ran at the fixed controller's cost from 107 on (rows identical).
+
+**Invariant.** Liveness must be judged on *value*, not on hits: a library that hits one target
+in three while its misses cost β each is a net loss and must stand down. The consecutive-miss
+rule is a special case that fails exactly for expensive libraries with sporadic hits.
+
+**continual_v5 (registered before its run).** Value-based liveness: on each live target record
+the realised delta (hit → the library's expected baseline, taken from its own validation slice,
+minus the position; miss → −probe cost); stand down when the sum over the last 8 targets is
+negative (after ≥ 3 targets). Everything else unchanged (stand-down still re-probes the other
+retained libraries at once). Predictions: s604 A′ ≤ 1 100 and lifetime ≤ 1 950 (≥ 15 % below
+the fixed controller); SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2; E5 414.1 ± 5 %;
+FV8 ≤ +0.05 %. Falsifiers: s604 lifetime ≥ 2 292; any B ≥ RESET; E5 > 434.8.
+
+## Outcome, continual_v5 (records/continual/SHIFT45*_v5_*)
+
+| world | RESET | fixed controller | v4.x | **v5** | B (v5) | A′ (v5) |
+|---|---|---|---|---|---|---|
+| SHIFT45 | 3 476 | 2 038 | 1 506 | 1 715 (+13.9 %) | 3 814 (+1.0 %) | 796 |
+| s602 | 3 538 | 2 156 | 1 785 | 1 859 (+4.1 %) | 3 814 (+3.1 %) | 989 |
+| s603 | 3 804 | 2 128 | 1 667 | 2 128 (+27.7 %) | 4 423 (+28.6 %) | 1 228 |
+| **s604** | 3 673 | 2 292 | 2 729 | **1 813 (−50.6 %; −21 % vs fixed)** | 3 625 (−12.6 %) | **1 107** |
+| E5 | 44 738 | 414.1 | 414.1 | 414.1 | | |
+
+s604 recovered as registered (A′ ≤ 1 100 missed by 7 slots; the lifetime falsifier silent).
+**The other three regressed** (± 3 % registered; +4 / +14 / +28 % measured; two B segments back
+above RESET) — s603's B is byte-for-byte the fixed controller's, i.e. the learned library
+never served. Attribution: the value window is not regime-aware — at a regime change it still
+carries the previous regime's positive hit deltas, so the old library stands down later than
+under the three-miss rule; the regime therefore starts later, the corpus at target 72 is a
+different (thinner) set, and the library it yields is weaker or is itself stood down by the
+same rule before it can earn a positive window.
+
+**Invariant.** The two stand-down signals detect different failures and neither subsumes the
+other: consecutive misses are fast at a regime change; realised value catches an expensive
+library whose sporadic hits do not pay for its misses.
+
+**continual_v5.1 (registered before its run): stand down on EITHER signal.** Nothing else
+changes. Predictions: SHIFT45 / s602 / s603 within ± 3 % of v4.1 / v4.2 (1 506 / 1 785 /
+1 667); s604 within ± 3 % of v5 (1 813), A′ ≤ 1 150; E5 414.1 ± 5 %. Falsifiers: any lifetime
+above its bound; any B ≥ RESET on SHIFT45 / s603 / s604.
+
