@@ -376,3 +376,30 @@ ladder and is not comparable with the frozen stage-3 ladder. hc02 / hc03 / hc10 
 under controller_v4 (LUNARC 3594193) so the table is uniform; the registered expectation is
 unchanged or better, since their rule never routed misses to a losing interleave.
 
+## Correction: authored worlds under one uniform controller (records/m2p2_exploratory_v4b/)
+
+The "8 / 8 authored worlds beat the strongest parent" statement (#381) mixed controller versions across
+rows (hc02 / hc03 / hc10 were on controller_v2). Under **controller_v4** uniformly:
+
+| world | integrated (v4) | strongest parent | vs strongest |
+|---|---|---|---|
+| hc01-binary-ladder | 1 632 | 2 914 | −44.0 % |
+| hc02-square-shift | 9 745 | 19 488 | −50.0 % |
+| hc03-shift-runs | 3 593 | 7 185 | −50.0 % |
+| hc05-long-form | 7 644 | 10 958 | −30.2 % |
+| hc06-decoy-pair | 2 546 | 5 092 | −50.0 % |
+| hc08-drawn-lot-b | 15 509 | 19 449 | −20.3 % |
+| hc09-negative-ladder | 5 628 | 6 687 | −15.8 % |
+| **hc10-quartic-climb** | **17 620** | **13 760** | **+28.1 % (loss)** |
+
+**7 / 8 under a uniform controller**, not 8 / 8. Attribution (hc10 dev states): controller_v3's
+probe-cost rule ranked the frequency library just ahead of MDL (expected 18 466 vs 20 758); in
+deployment it missed 42 of 163 targets (MDL: 9) and cost 17 620 vs 11 274. Over the eight worlds v3's
+rule changed two: hc01 better (2 495 → 1 632), hc10 much worse — net-negative.
+
+**controller_v5 (registered before its run):** v2's interleave-validation library rule restored,
+v4's miss-conditional rule kept; all eight authored worlds re-run uniformly from a fresh dev phase
+(LUNARC, `M2_LIB_RULE=interleave`). Prediction: the integrated arm beats the strongest parent on
+**8 / 8** — hc10 ≤ 13 760 (the v4 rule should also cheapen its nine MDL misses), hc01 ≤ 2 914, the rest
+within ± 5 % of the v4 table. Falsifier: any world at or above its strongest parent.
+
