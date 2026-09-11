@@ -352,3 +352,30 @@ vs RESET; SHIFT45 / s602 / s603 / s604 within ± 1 % of v5.1 (their deployed can
 ≥ 5/8 tilable; s603's rejected attempt at 72 had 0 tilable and is now skipped at zero cost).
 Falsifiers: FV8 > +0.05 %; any shift lifetime > 1 % above v5.1.
 
+## Widening set (continual_v5.1; records/continual/SHIFT45_s60{6,7,8,9}_*, E7_v5.1_*, E8_v5.1_*)
+
+| world | RESET | fixed controller | **continual_v5.1** | vs RESET | vs fixed | B | A′ |
+|---|---|---|---|---|---|---|---|
+| s606 | 3 566 | 2 197 | **1 784** | −50.0 % | −19 % | 3 730 (+1.4 %) | 905 |
+| s607 | 3 629 | 2 048 | **1 487** | −59.0 % | −27 % | 3 139 (−15.8 %) | 808 |
+| s608 | 3 838 | 1 943 | **1 608** | −58.1 % | −17 % | 3 503 (−0.6 %) | 833 |
+| s609 | 3 523 | 2 217 | **1 871** | −46.9 % | −16 % | 3 995 (+2.3 %) | 861 |
+| E7 (static) | 62 935 | 507.5 | 507.5 | | | | |
+| **E8 (static)** | 40 850 | 596.3 | **7 479.6** | −82 % | **+1 154 %** | | |
+
+Eight shift lifetimes now (one in-sample, seven fresh): the continual arm is −47…−59 % vs
+RESET and −16…−27 % below the fixed-library controller on every one; A′ recovers on every one;
+the never-developed regime B is below RESET on 5 / 8 and within +2.3 % on the rest.
+
+**E8 is a regression of the three-miss signal**: on a static world whose library hits almost
+always, a chance streak of three misses stands the library down and every stood-down target
+costs ≈ RESET (40 k) until the next re-probe — the fixed controller never stands down. The
+pure value rule (v5) would not have: its window sum stays positive. v5 was slow at regime
+changes only because a miss was priced as its probe cost, not the interleave excess it
+triggers. **continual_v5.3 (registered before its run): the value rule alone, with every
+live target priced as (expected baseline − total charged), settled after the solve.** One
+rule, fast at regime changes (three interleaved misses at ≈ 2.3× RESET outweigh the previous
+hits) and immune to chance streaks (one miss never outweighs a window of 40 k hits).
+Predictions: E8 ≤ 700; E7 / E5 unchanged; FV8 ≤ +0.05 %; SHIFT45 / s602 / s603 / s604 within
+± 5 % of v5.2. Falsifiers: E8 > 700; any shift lifetime above the fixed controller.
+

@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.2"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.3"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -318,14 +318,14 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
         if _chosen_frags and isinstance(_chosen_report, dict) and "held_out" in _chosen_report:
             _lib = [tuple(f) for f in _chosen_frags]
             mdl_report = _chosen_report          # the rule below is fitted on the chosen library
-            _rule = {}
-            for _r, _h in zip(mdl_report["held_out"], held):
-                _z = str(_obs_feats(_h.coefficients, _lib))
-                _rule.setdefault(_z, []).append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
-            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
-            _fallback = statistics.fmean(_r["baseline"]["slots"] - _r["candidate"]["slots"]
-                                         for _r in mdl_report["held_out"]) > 0
             _T = len(_lib) + len(M.PRIMITIVES)
+            # controller_v4: the rule is only ever consulted on a PROBE MISS, so it must be
+            # fitted on the validation tasks the probe would miss (tiling deeper than the
+            # chosen depth) -- fitting it on all tasks credits the interleave with the easy
+            # hits it never gets to serve (hc08: 16 misses routed to an interleave at 1.4x
+            # RESET because the unconditional rule said the interleave paid). The depth is
+            # chosen first (below), then the rule is fitted on the miss-conditional rows.
+            _rows_all = list(zip(mdl_report["held_out"], held))
             # expected-cost depth on solved history: hits cost their guided position,
             # misses cost beta_D plus the baseline index the organism actually paid (r_.slots)
             # depth rule on HELD-OUT validation: tiling of each validation task's canonical
@@ -344,7 +344,18 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
                                       for d_, b_ in _hist) if _hist else float("inf")
                 if _c < _bc:
                     _depth, _bc = _D, _c
+            _rule, _cond = {}, []
+            for _r, _h in _rows_all:
+                _bp = _r["baseline"].get("program")
+                _dt = _tile_tokens(tuple(_bp), _lib) if _bp else None
+                if _dt is not None and _dt <= _depth:
+                    continue                                  # the probe would hit: the rule is never asked
+                _cond.append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
+                _rule.setdefault(str(_obs_feats(_h.coefficients, _lib)), []).append(_cond[-1])
+            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
+            _fallback = (statistics.fmean(_cond) > 0) if _cond else False
             ocm_ctl = {"rule": _rule, "fallback": _fallback, "probe_depth": _depth,
+                       "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); %d of %d rows" % (len(_cond), len(_rows_all)),
                        "beta": sum(_T ** i for i in range(1, _depth + 1)),
                        "liveness_window": 8, "liveness_min_hit_rate": 0.25,
                        "depth_rule": "expected-cost on held-out validation (controller_v2)",
@@ -546,15 +557,15 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                     C["hits"].append(prog is not None)
-                    # v5: realised value of keeping this library live on this target
-                    C["vals"].append((L.get("expected_baseline") or 0) - used if prog is not None else -used)
+                    C["_pending_live"] = True                      # v5.3: delta is settled after the solve
                     W = CONTINUAL["value_window"]; k = CONTINUAL["standdown_misses"]
-                    # v5.1: EITHER signal stands the library down -- k consecutive misses (fast at a
-                    # regime change, where the value window still carries the old regime's hits)
-                    # or a negative realised value over the window (an expensive library whose
-                    # sporadic hits never pay for its misses, s604).
-                    if (len(C["hits"]) >= k and not any(C["hits"][-k:])) or \
-                       (len(C["vals"]) >= k and sum(C["vals"][-W:]) < 0):
+                    # v5.3: the value rule ALONE, with the FULL realised cost. v5.1's three-miss
+                    # signal stood a valuable library down on a chance streak (E8: 596 -> 7 480,
+                    # every stood-down target ~RESET until the re-probe); v5's value rule was slow
+                    # at regime changes only because a miss was priced as its probe cost, not the
+                    # interleave excess it triggers. Pricing every live target as
+                    # (expected baseline - total charged) makes one rule both fast and safe.
+                    if len(C["vals"]) >= k and sum(C["vals"][-W:]) < 0:
                         # v3: stand down after k consecutive misses (v2's 8-window hit-rate rule
                         # paid ~7 targets of probe + interleave at every regime change), and
                         # try the OTHER retained libraries at once -- a return to a known
@@ -610,6 +621,10 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
                                          used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+                if C.pop("_pending_live", False):
+                    Lx = C["libs"][C["active"]] if C["active"] is not None else None
+                    if Lx is not None:                            # still live: settle this target's realised delta
+                        C["vals"].append((Lx.get("expected_baseline") or 0) - res.slots)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
             elif arm == "CONTINUED_OCM" and method.fragments:

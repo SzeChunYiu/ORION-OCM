@@ -327,3 +327,22 @@ Ledgers on these short-horizon worlds (46–146 targets): the conservative ledge
 none (break-evens 158–400), the marginal on hc05 / hc06, the incremental on 4 / 5 — the
 horizon property measured in LONG_HORIZON_LIFETIME.md, not a new negative.
 
+**controller_v3 outcome (LUNARC 3593171; records/m2p2_exploratory_v3/).** hc08 **falsified the
+selection hypothesis**: the expected probe cost also prefers the frequency library (10 747 vs
+30 226 for MDL on the validation tilings), the record is byte-identical (20 346 vs 19 449),
+and the loss is not selection. hc01 flipped to frequency (3 543 vs 4 941) and improved from
+2 495 to **1 632** (−95 % vs RESET, −44 % vs the strongest parent) — the "unchanged ± 2 %"
+regression prediction missed in the favourable direction; the rule stays (it is the
+deployment mode's own cost), hc06 pending.
+
+**hc08 attributed from its rows.** 39 / 55 probe hits at a mean position of 2 410 (RESET
+29 300 on those targets); 16 misses at a mean of **64 065** — β 8 420 plus a rule-routed
+interleave at 55 645, *worse than RESET's 39 018 on those same targets*, where the MDL parent
+pays 33 087. The rule is fitted on all validation tasks but only ever consulted on a miss —
+exactly the tasks the library does not tile, where the interleave is least likely to pay: a
+selection effect. **controller_v4 (registered before the re-run; LUNARC on hc01/05/06/08/09):
+the rule and fallback are fitted on the miss-conditional validation rows (tiling deeper than
+the chosen depth).** Predictions: hc08 misses fall to ≈ β + RESET and the integrated arm lands
+≤ 17 000 (below the strongest parent, 19 449); hc01 / 05 / 06 / 09 within ± 5 % or better.
+Falsifier: hc08 ≥ 19 449.
+
