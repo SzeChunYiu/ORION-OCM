@@ -28,15 +28,15 @@ Levels (`GMI_KNOWN_FORM_DERIVATION_LADDER_V1`): **D0** embedding in the realizat
 | probabilistic / generative | M3, S3 (particles over a grammar) | yes | compiled (GMI-T6; native sampling in B3) | no | inadmissible on every executed ecology (never on a frontier) — **gap: no ecology yet registered where the stochastic form should win (partial observability / expensive observation axis)** |
 | exemplar memory | M5, S5 | yes | compiled | **yes** (two seeds) | yes (Stage E) |
 | generalizing memory / kNN / retrieval | S5h (corrected in RV-025) | yes | compiled | no | running (closed-form admissibility law) |
-| in-context / meta-learned adaptation | — | yes (Codex normal form; Chan 2022, Mikulik 2020 parents) | **not compiled** | — | — |
-| attention / Transformer | — | yes (D0 only) | **not compiled** | — | — |
+| in-context adaptation (query conditions on a context store, no weight update: Chan 2022's ICL vs IWL axis) | S5h IS the minimal in-context form (update = insert; all computation at query time over the context); S4 is the in-weights form | yes | compiled (as S5h) | no | running (RV-025: ICL vs IWL occupant is basis-dependent on the revision axis) |
+| attention / Transformer | — (minimal ancestor: similarity-weighted retrieval over the context = S5h with a soft kernel; declared next row S5a) | yes (D0 only) | **not compiled** | — | — |
 | reinforcement / temporal credit assignment | — | yes (D0 only) | **not compiled** | — | — |
 | library learning (DreamCoder / Stitch) | P3 basis (compressed-program parent) | yes | as a basis, not as a row | — | — |
 | continual / plasticity-preserving | — | yes (D0; L1 parents) | not compiled | — | — |
 | evolutionary / population search | Γ (the search family), not a row | yes | as the generator | — | — |
 | OCM-like explicit governed developmental | Codex `GMI_SPECIALIZATIONS_V1` | yes | outside the exact layer | — | — |
 
-**What S1 still needs (in order of leverage):** (a) three missing D1 rows — in-context adaptation (a row whose query conditions on a context store without a weight update), attention (content-addressed weighted retrieval: S5h with learned similarity is the minimal ancestor), temporal credit assignment (a row with delayed scalar reward); each is a compiled program in the same universe with charged constants; (b) an ecology axis on which the stochastic form is predicted to win (partial observability), so that M3/S3 gets a D3 row; (c) D2 for the dense form (RV-023), after which D2 for the search form becomes attemptable.
+**What S1 still needs (in order of leverage):** (a) two missing D1 rows — attention (content-addressed weighted retrieval: S5h with a soft kernel is the minimal ancestor) and temporal credit assignment (a row with delayed scalar reward, which also needs a sequential ecology axis); each is a compiled program in the same universe with charged constants; (b) an ecology axis on which the stochastic form is predicted to win (partial observability), so that M3/S3 gets a D3 row; (c) D2 for the dense form (RV-023), after which D2 for the search form becomes attemptable.
 
 ## 2. S2 — what "predictive" means here and the record
 
