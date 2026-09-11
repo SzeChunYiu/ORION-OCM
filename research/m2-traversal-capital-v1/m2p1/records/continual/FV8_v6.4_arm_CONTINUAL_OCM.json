@@ -1,0 +1,9692 @@
+{
+ "all_targets_verified": true,
+ "arm": "CONTINUAL_OCM",
+ "attempts": 120,
+ "calibration_only": false,
+ "continual": {
+  "libraries": [
+   {
+    "beta": 18,
+    "expected_baseline": 59142.7,
+    "fallback": false,
+    "lib": [
+     [
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "square"
+     ],
+     [
+      "inc",
+      "double"
+     ],
+     [
+      "square",
+      "square"
+     ],
+     [
+      "dec",
+      "double"
+     ],
+     [
+      "dec",
+      "dec"
+     ],
+     [
+      "double",
+      "double"
+     ],
+     [
+      "inc",
+      "inc"
+     ],
+     [
+      "square",
+      "double"
+     ],
+     [
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "inc"
+     ],
+     [
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "dec"
+     ]
+    ],
+    "library": "dev:mdl",
+    "probe_depth": 1
+   },
+   {
+    "beta": 69904,
+    "expected_baseline": 57983.6,
+    "fallback": true,
+    "fit_detail": [
+     {
+      "baseline": 65678,
+      "hit": true,
+      "tiling": 4,
+      "used": 33462
+     },
+     {
+      "baseline": 78307,
+      "hit": true,
+      "tiling": 4,
+      "used": 4961
+     },
+     {
+      "baseline": 70844,
+      "hit": true,
+      "tiling": 4,
+      "used": 9676
+     },
+     {
+      "baseline": 73783,
+      "hit": true,
+      "tiling": 4,
+      "used": 14389
+     },
+     {
+      "baseline": 34148,
+      "hit": true,
+      "tiling": 4,
+      "used": 46970
+     },
+     {
+      "baseline": 84274,
+      "hit": true,
+      "tiling": 4,
+      "used": 23315
+     },
+     {
+      "baseline": 34175,
+      "hit": false,
+      "tiling": 99,
+      "unprobed": "not tilable at depth: miss assumed",
+      "used": 0
+     },
+     {
+      "baseline": 22660,
+      "hit": false,
+      "tiling": 99,
+      "unprobed": "not tilable at depth: miss assumed",
+      "used": 0
+     }
+    ],
+    "lib": [
+     [
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "square"
+     ],
+     [
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "dec"
+     ],
+     [
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "inc"
+     ],
+     [
+      "inc",
+      "inc"
+     ],
+     [
+      "double",
+      "double"
+     ],
+     [
+      "dec",
+      "square"
+     ],
+     [
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "double"
+     ]
+    ],
+    "library": "mdl",
+    "probe_depth": 4,
+    "regime": 0,
+    "tilable_at_depth": 6,
+    "tiling_probe_violations": 0,
+    "val_better": 5,
+    "val_ci95_low": -21993.6,
+    "val_mean_delta": 16806.6,
+    "val_n": 8
+   }
+  ],
+  "libraries_retained": 2,
+  "liveness_events": [
+   [
+    76,
+    "deploy",
+    1
+   ],
+   [
+    79,
+    "standdown",
+    1
+   ],
+   [
+    79,
+    "failed_deployment",
+    1,
+    -88375.4,
+    6
+   ],
+   [
+    100,
+    "reactivate",
+    1
+   ],
+   [
+    111,
+    "standdown",
+    1
+   ],
+   [
+    116,
+    "reactivate",
+    1
+   ],
+   [
+    119,
+    "standdown",
+    1
+   ],
+   [
+    119,
+    "failed_deployment",
+    1,
+    -18966.8,
+    6
+   ]
+  ],
+  "params": {
+   "deploy_ci": false,
+   "min_corpus": 12,
+   "min_new": 16,
+   "min_new_after_fail": 8,
+   "mine_n": 32,
+   "recomb_corpus": 4,
+   "recomb_size": 8,
+   "recomb_support": 1,
+   "standdown_misses": 3,
+   "val_n": 8,
+   "value_window": 8,
+   "version": "continual_v6.4"
+  },
+  "remine_events": [
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "recombined",
+    "corpus": 4,
+    "corpus_recent": 4,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 12,
+    "val_programs": [
+     [
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "double",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "square",
+      "double",
+      "inc",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "inc",
+      "double"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "double",
+      "inc",
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "double",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "dec"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "recombined",
+    "corpus": 8,
+    "corpus_recent": 8,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 16,
+    "val_programs": [
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "inc",
+      "double"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "double",
+      "inc",
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "double",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "double",
+      "square",
+      "double",
+      "dec"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "inc",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 12,
+    "corpus_recent": 12,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 20,
+    "val_programs": [
+     [
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "double",
+      "square",
+      "double",
+      "dec"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "double",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "double",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "double"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 16,
+    "corpus_recent": 16,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 24,
+    "val_programs": [
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "double",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "double",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "square",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 20,
+    "corpus_recent": 20,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 28,
+    "val_programs": [
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "double",
+      "dec",
+      "double"
+     ],
+     [
+      "inc",
+      "square",
+      "double",
+      "inc",
+      "square",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "square",
+      "double",
+      "square",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 13,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 9,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 13,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 9,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 4,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 24,
+    "corpus_recent": 24,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 32,
+    "val_programs": [
+     [
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "double",
+      "dec",
+      "double"
+     ],
+     [
+      "inc",
+      "square",
+      "double",
+      "inc",
+      "square",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "square",
+      "double",
+      "square",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "double",
+      "square",
+      "square",
+      "square",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "double",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "dec"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 28,
+    "corpus_recent": 28,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 36,
+    "val_programs": [
+     [
+      "double",
+      "double",
+      "square",
+      "square",
+      "square",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "double",
+      "square",
+      "double",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "dec"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "double"
+     ],
+     [
+      "dec",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "double",
+      "square",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 8420,
+      "ci95_low": null,
+      "depth": 3,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 1,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 40,
+    "val_programs": [
+     [
+      "inc",
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "double"
+     ],
+     [
+      "dec",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "double",
+      "square",
+      "double"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "double",
+      "dec"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 3,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 44,
+    "val_programs": [
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "double",
+      "dec"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "double"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "square",
+      "double",
+      "square",
+      "double",
+      "square",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 48,
+    "val_programs": [
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "dec",
+      "double",
+      "double",
+      "double"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "square",
+      "double",
+      "square",
+      "double",
+      "square",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc"
+     ],
+     [
+      "inc",
+      "square",
+      "dec",
+      "square",
+      "double",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "inc",
+      "double",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 14,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 10,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 52,
+    "val_programs": [
+     [
+      "inc",
+      "square",
+      "dec",
+      "square",
+      "double",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "inc",
+      "double",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "square"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "inc",
+      "double",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "double"
+     ],
+     [
+      "dec",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec"
+     ],
+     [
+      "dec",
+      "double",
+      "double",
+      "square",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "inc",
+      "inc",
+      "inc",
+      "double",
+      "square",
+      "square",
+      "double",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 56,
+    "val_programs": [
+     [
+      "square",
+      "inc",
+      "double",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "double"
+     ],
+     [
+      "dec",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "square",
+      "dec"
+     ],
+     [
+      "dec",
+      "double",
+      "double",
+      "square",
+      "double",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "inc",
+      "inc",
+      "inc",
+      "double",
+      "square",
+      "square",
+      "double",
+      "inc"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "double",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "dec"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "square"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 60,
+    "val_programs": [
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "double",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "dec"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "dec",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec"
+     ],
+     [
+      "square",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "square"
+     ],
+     [
+      "dec",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 2,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 64,
+    "val_programs": [
+     [
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec"
+     ],
+     [
+      "square",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "square"
+     ],
+     [
+      "dec",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "double"
+     ],
+     [
+      "square",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "double",
+      "square",
+      "inc"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "double",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 8420,
+      "ci95_low": null,
+      "depth": 3,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 1,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 18,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "inc"
+       ]
+      ],
+      "n": 14,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 18,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 14,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 68,
+    "val_programs": [
+     [
+      "square",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "double",
+      "square",
+      "inc"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "square",
+      "dec",
+      "dec"
+     ],
+     [
+      "double",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "double",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "double",
+      "dec",
+      "square"
+     ],
+     [
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 8420,
+      "ci95_low": null,
+      "depth": 3,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "square",
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 1,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 17,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ]
+      ],
+      "n": 13,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 17,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 13,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": false,
+    "min_tilable": 0,
+    "target_index": 72,
+    "val_programs": [
+     [
+      "double",
+      "dec",
+      "double",
+      "double",
+      "square",
+      "double",
+      "dec",
+      "square"
+     ],
+     [
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "dec"
+     ],
+     [
+      "square",
+      "square",
+      "dec",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "double",
+      "inc"
+     ],
+     [
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "double",
+      "dec",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 69904,
+      "ci95_low": -21993.6,
+      "depth": 4,
+      "hits": 6,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 6,
+      "tiling_probe_violations": 0,
+      "val_better": 5,
+      "val_mean_delta": 16806.6,
+      "val_tilings": [
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       99,
+       99
+      ]
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 132773,
+    "chosen": "mdl",
+    "corpus": 32,
+    "corpus_recent": 32,
+    "deployed": true,
+    "min_tilable": 0,
+    "target_index": 76,
+    "val_programs": [
+     [
+      "double",
+      "double",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "double",
+      "inc"
+     ],
+     [
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "double",
+      "double",
+      "dec"
+     ],
+     [
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "dec"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "double",
+      "dec",
+      "double"
+     ],
+     [
+      "square",
+      "inc",
+      "double",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "inc",
+      "inc",
+      "inc",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "inc",
+      "inc",
+      "square",
+      "inc",
+      "double",
+      "square",
+      "double"
+     ],
+     [
+      "square",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "inc",
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 3,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 0,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 83,
+    "val_programs": [
+     [
+      "square",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "double",
+      "dec",
+      "square",
+      "dec"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "dec",
+      "square",
+      "inc",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "double",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 3,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 0,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 87,
+    "val_programs": [
+     [
+      "dec",
+      "dec",
+      "dec",
+      "dec",
+      "double",
+      "double",
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "double",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "dec",
+      "double"
+     ],
+     [
+      "double",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "square",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 54240,
+      "ci95_low": -27063.6,
+      "depth": 4,
+      "hits": 5,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 5,
+      "tiling_probe_violations": 0,
+      "val_better": 5,
+      "val_mean_delta": 11969.8,
+      "val_tilings": [
+       4,
+       4,
+       4,
+       4,
+       4,
+       99,
+       99,
+       99
+      ]
+     },
+     "mdl": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 2,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined_recent": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "double",
+        "inc"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 102733,
+    "chosen": "frequency_compact",
+    "corpus": 32,
+    "corpus_recent": 4,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 91,
+    "val_programs": [
+     [
+      "double",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "square"
+     ],
+     [
+      "dec",
+      "square",
+      "dec",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "dec",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "dec",
+      "square",
+      "square",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "double",
+      "square",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "inc",
+      "double",
+      "inc"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 15,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 11,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 3,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined_recent": {
+      "beta": 22620,
+      "ci95_low": null,
+      "depth": 4,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 2,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 8,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 95,
+    "val_programs": [
+     [
+      "inc",
+      "inc",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "double",
+      "square",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "inc",
+      "double",
+      "inc"
+     ],
+     [
+      "double",
+      "square",
+      "square",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "double"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "double",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "square",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "inc",
+      "square"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "double"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact_recent": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_recent": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "double"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 16,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "inc",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "double",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "double"
+       ]
+      ],
+      "n": 12,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl_recent": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined_recent": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 12,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 99,
+    "val_programs": [
+     [
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "dec",
+      "dec",
+      "double"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "double",
+      "dec",
+      "square",
+      "inc"
+     ],
+     [
+      "square",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "square",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "dec",
+      "double",
+      "square",
+      "square",
+      "inc",
+      "square"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "dec",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "square",
+      "square",
+      "square",
+      "double",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "dec",
+      "square",
+      "square",
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "double",
+      "inc",
+      "square",
+      "inc",
+      "square",
+      "double",
+      "dec"
+     ]
+    ],
+    "validated_on": 8
+   },
+   {
+    "blocked_by_ci": false,
+    "candidates": {
+     "frequency": {
+      "beta": 20,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc",
+        "square",
+        "square"
+       ],
+       [
+        "dec",
+        "square",
+        "inc"
+       ],
+       [
+        "double",
+        "square",
+        "inc"
+       ]
+      ],
+      "n": 16,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "frequency_compact": {
+      "beta": 17,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "inc",
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "square",
+        "dec"
+       ],
+       [
+        "square",
+        "square",
+        "square"
+       ]
+      ],
+      "n": 13,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "mdl": {
+      "beta": 17,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc",
+        "square"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ],
+       [
+        "inc",
+        "double",
+        "inc"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "inc"
+       ],
+       [
+        "dec",
+        "dec"
+       ],
+       [
+        "double",
+        "double"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ]
+      ],
+      "n": 13,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     },
+     "recombined": {
+      "beta": 12,
+      "ci95_low": null,
+      "depth": 1,
+      "hits": 0,
+      "lib": [
+       [
+        "square",
+        "inc"
+       ],
+       [
+        "inc",
+        "square"
+       ],
+       [
+        "square",
+        "square"
+       ],
+       [
+        "double",
+        "square"
+       ],
+       [
+        "square",
+        "dec"
+       ],
+       [
+        "dec",
+        "square"
+       ],
+       [
+        "square",
+        "double"
+       ],
+       [
+        "dec",
+        "double"
+       ]
+      ],
+      "n": 8,
+      "tilable_at_depth": 0,
+      "tiling_probe_violations": 0,
+      "val_better": 0,
+      "val_mean_delta": 0.0,
+      "val_tilings": []
+     }
+    },
+    "charged": 0,
+    "chosen": "frequency",
+    "corpus": 32,
+    "corpus_recent": 0,
+    "deployed": false,
+    "min_tilable": 6,
+    "target_index": 112,
+    "val_programs": [
+     [
+      "inc",
+      "double",
+      "inc",
+      "square",
+      "square",
+      "square",
+      "square",
+      "double"
+     ],
+     [
+      "double",
+      "double",
+      "square",
+      "double",
+      "square",
+      "square",
+      "dec",
+      "square"
+     ],
+     [
+      "inc",
+      "double",
+      "inc",
+      "double",
+      "square",
+      "inc",
+      "square",
+      "double"
+     ],
+     [
+      "inc",
+      "inc",
+      "square",
+      "double",
+      "square",
+      "square",
+      "square",
+      "inc"
+     ],
+     [
+      "double",
+      "dec",
+      "double",
+      "square",
+      "dec",
+      "square",
+      "double",
+      "dec"
+     ],
+     [
+      "double",
+      "double",
+      "double",
+      "double",
+      "double",
+      "dec",
+      "double",
+      "square"
+     ],
+     [
+      "inc",
+      "square",
+      "square",
+      "double",
+      "square",
+      "dec",
+      "square",
+      "square"
+     ],
+     [
+      "dec",
+      "dec",
+      "double",
+      "square",
+      "inc",
+      "double",
+      "double",
+      "double"
+     ]
+    ],
+    "validated_on": 8
+   }
+  ]
+ },
+ "external_verifications": 120,
+ "fragments_served": 14,
+ "ladder": [
+  200000
+ ],
+ "ladder_total": 120,
+ "mean_B_slots": 59741.3,
+ "note": "integrated controller: probe depth 1 beta 18, rule cells 24; CONTINUAL: re-mines from its own verified acquisitions while stood down (corpus 32, held-out 8, min new 16), retains every library; recombination of retained capital",
+ "process": {
+  "pid": 3570032,
+  "pid_changed": true,
+  "pre_restart_pid": 3168004
+ },
+ "rows": [
+  {
+   "B_slots": 64837,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 64819,
+   "budget_slots": 200000,
+   "candidates_checked": 64819,
+   "canonical_length": 8,
+   "checker_pid": 3570128,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e44061d845478f0c1ff083f8869546a10278f180a897b8d8fd854d4d5cc87905",
+   "verified": true
+  },
+  {
+   "B_slots": 45253,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45253,
+   "budget_slots": 200000,
+   "candidates_checked": 45253,
+   "canonical_length": 8,
+   "checker_pid": 3570213,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "86c4c486683ab3a1aaad8fe146885fb96809ace31a7a2de10a3b1031c1880303",
+   "verified": true
+  },
+  {
+   "B_slots": 58573,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 58573,
+   "budget_slots": 200000,
+   "candidates_checked": 58573,
+   "canonical_length": 8,
+   "checker_pid": 3570322,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2a6211ce743b0f713d0535aa4e6578fe3732abf33b869f702a4d9083635dcb6b",
+   "verified": true
+  },
+  {
+   "B_slots": 87302,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 87302,
+   "budget_slots": 200000,
+   "candidates_checked": 87302,
+   "canonical_length": 8,
+   "checker_pid": 3570624,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "075a3c3ca36e2474a58ab38b9fd42bfae41ad4a4b143b72798d41d8eeaf78539",
+   "verified": true
+  },
+  {
+   "B_slots": 58129,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 58129,
+   "budget_slots": 200000,
+   "candidates_checked": 58129,
+   "canonical_length": 8,
+   "checker_pid": 3570722,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "d5a112fa1899d4732453538c282a2da09acb53dc46590b7e4182faa75f251c5f",
+   "verified": true
+  },
+  {
+   "B_slots": 67603,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 67603,
+   "budget_slots": 200000,
+   "candidates_checked": 67603,
+   "canonical_length": 8,
+   "checker_pid": 3570823,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "3f589b77bbe099b6de4e0b84a646cc441cd85c31117fce56967e8f24caa7c347",
+   "verified": true
+  },
+  {
+   "B_slots": 67718,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 67718,
+   "budget_slots": 200000,
+   "candidates_checked": 67718,
+   "canonical_length": 8,
+   "checker_pid": 3570905,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "f692eb30e7e28f7e572295fe3bb04c4b63d281dcd9b95b74eb4d042409e3275f",
+   "verified": true
+  },
+  {
+   "B_slots": 58594,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 58594,
+   "budget_slots": 200000,
+   "candidates_checked": 58594,
+   "canonical_length": 8,
+   "checker_pid": 3570965,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2c4af1f6583a32ef49bfae44c516752c3504c1e0b1ea9825488e7c4113843da8",
+   "verified": true
+  },
+  {
+   "B_slots": 57866,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 57848,
+   "budget_slots": 200000,
+   "candidates_checked": 57848,
+   "canonical_length": 8,
+   "checker_pid": 3570998,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0bbbc59f2607eef4b874ab70e82de0c62a788af19cb8ba93f03762b8d339db28",
+   "verified": true
+  },
+  {
+   "B_slots": 77029,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 77029,
+   "budget_slots": 200000,
+   "candidates_checked": 77029,
+   "canonical_length": 8,
+   "checker_pid": 3571142,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0b79ccad07b6921fd63eef94857ea01b90653f66f89d21c3d367587e35825c82",
+   "verified": true
+  },
+  {
+   "B_slots": 62605,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 62605,
+   "budget_slots": 200000,
+   "candidates_checked": 62605,
+   "canonical_length": 8,
+   "checker_pid": 3571251,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "10ffb3d7903cf145a3a80a6a3503c714fa849d189491214008ae2622dd8f5ded",
+   "verified": true
+  },
+  {
+   "B_slots": 66307,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 66307,
+   "budget_slots": 200000,
+   "candidates_checked": 66307,
+   "canonical_length": 8,
+   "checker_pid": 3571306,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2ceefa45be3bf0051bf19be9673c219bfce0ce56672ae465efb1648788d8e468",
+   "verified": true
+  },
+  {
+   "B_slots": 84690,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 84690,
+   "budget_slots": 200000,
+   "candidates_checked": 84690,
+   "canonical_length": 8,
+   "checker_pid": 3571431,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "34fb35045ca0ecddbb30b0d3c71831845591bbf36ab298ec54ecdd86afd3c238",
+   "verified": true
+  },
+  {
+   "B_slots": 44303,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44303,
+   "budget_slots": 200000,
+   "candidates_checked": 44303,
+   "canonical_length": 8,
+   "checker_pid": 3571464,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "188aa80bfe47590b637a5d99e89f1238ca3eefcbdbbc2c113ae5debef3db4f44",
+   "verified": true
+  },
+  {
+   "B_slots": 62677,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 62677,
+   "budget_slots": 200000,
+   "candidates_checked": 62677,
+   "canonical_length": 8,
+   "checker_pid": 3571691,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "6b3e0776cc18cd1d99236447a6d1545fa0081a58a1f01a17cf9f5c44274af781",
+   "verified": true
+  },
+  {
+   "B_slots": 58054,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 58054,
+   "budget_slots": 200000,
+   "candidates_checked": 58054,
+   "canonical_length": 8,
+   "checker_pid": 3571733,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "6dfd81e6843d7136aa71bd1afa2e52b1808fec97b8bca4c66bdcdfc81c448b3e",
+   "verified": true
+  },
+  {
+   "B_slots": 25816,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 25798,
+   "budget_slots": 200000,
+   "candidates_checked": 25798,
+   "canonical_length": 8,
+   "checker_pid": 3571753,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "5ab531c4b4882674ace074401d2899b728143f2cba2975c1ba88f02733bf41cd",
+   "verified": true
+  },
+  {
+   "B_slots": 63661,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 63661,
+   "budget_slots": 200000,
+   "candidates_checked": 63661,
+   "canonical_length": 8,
+   "checker_pid": 3571802,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "c6176784388c66c0c9572c107e4749dc38ff5e101c0919d43b0a66554bc8f74a",
+   "verified": true
+  },
+  {
+   "B_slots": 62585,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 62585,
+   "budget_slots": 200000,
+   "candidates_checked": 62585,
+   "canonical_length": 8,
+   "checker_pid": 3571844,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "8101a205a3f70c6134ee3c9d4c842b2382a98c5e30c605ae4e3ef3d1d70d34c9",
+   "verified": true
+  },
+  {
+   "B_slots": 78002,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 78002,
+   "budget_slots": 200000,
+   "candidates_checked": 78002,
+   "canonical_length": 8,
+   "checker_pid": 3571912,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "c416e29f0f94c0917fae12ce6abc051429243ff8c3306adbfdab82bef06b859c",
+   "verified": true
+  },
+  {
+   "B_slots": 64649,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 64649,
+   "budget_slots": 200000,
+   "candidates_checked": 64649,
+   "canonical_length": 8,
+   "checker_pid": 3571970,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "c6e631056df445fa76e3f1941aab8c426e836bff50ef8ec696d878f9c7caa3d9",
+   "verified": true
+  },
+  {
+   "B_slots": 52435,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 52435,
+   "budget_slots": 200000,
+   "candidates_checked": 52435,
+   "canonical_length": 8,
+   "checker_pid": 3572045,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b2b5016fdf3aece2bf5807ca0c310c3b3bd295037aa57f5cfb0462413ca6980c",
+   "verified": true
+  },
+  {
+   "B_slots": 78593,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 78593,
+   "budget_slots": 200000,
+   "candidates_checked": 78593,
+   "canonical_length": 8,
+   "checker_pid": 3572105,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "8d8567d389bba17588753c6239c7f13593e98576f4b2886461501dc05da177c7",
+   "verified": true
+  },
+  {
+   "B_slots": 24932,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 24932,
+   "budget_slots": 200000,
+   "candidates_checked": 24932,
+   "canonical_length": 8,
+   "checker_pid": 3572122,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "3f74b45021cfacbc6019200b19ad32f0b596bc47b856f14a5bff22948c9be74b",
+   "verified": true
+  },
+  {
+   "B_slots": 37572,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 37554,
+   "budget_slots": 200000,
+   "candidates_checked": 37554,
+   "canonical_length": 8,
+   "checker_pid": 3572144,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e47271cf9a567258ef361bc84596b8b28296096d39c553e6ecccb77f9a9c0e9d",
+   "verified": true
+  },
+  {
+   "B_slots": 44028,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44028,
+   "budget_slots": 200000,
+   "candidates_checked": 44028,
+   "canonical_length": 8,
+   "checker_pid": 3572156,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e311e4eef12ffc00752f595c8e927a21a65a1500536473d8d2a9d7dd87f465eb",
+   "verified": true
+  },
+  {
+   "B_slots": 36437,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 36437,
+   "budget_slots": 200000,
+   "candidates_checked": 36437,
+   "canonical_length": 8,
+   "checker_pid": 3572224,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e27e763d2d4114edb74eb4d25210d8a53ebb8072a2035092d38ef7e60e1def15",
+   "verified": true
+  },
+  {
+   "B_slots": 83235,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 83235,
+   "budget_slots": 200000,
+   "candidates_checked": 83235,
+   "canonical_length": 8,
+   "checker_pid": 3572371,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "193c30c9a41332f7b73ddd8d6b83f84134f64456ea4906fd49be74a589916eb6",
+   "verified": true
+  },
+  {
+   "B_slots": 66897,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 66897,
+   "budget_slots": 200000,
+   "candidates_checked": 66897,
+   "canonical_length": 8,
+   "checker_pid": 3572493,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "be2fb5dd1a70fd959c0b58485f8e7d9042ea335158e443ead8b4697786f2639f",
+   "verified": true
+  },
+  {
+   "B_slots": 36049,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 36049,
+   "budget_slots": 200000,
+   "candidates_checked": 36049,
+   "canonical_length": 8,
+   "checker_pid": 3572538,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e9181f036b6432096c2005ed2112a8726cea97af8bd83a4797fa6ce482a7c12f",
+   "verified": true
+  },
+  {
+   "B_slots": 57873,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 57873,
+   "budget_slots": 200000,
+   "candidates_checked": 57873,
+   "canonical_length": 8,
+   "checker_pid": 3572573,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "f7fdf320ae865ee06f86856783a04590adb56892820f68f400fcba246d2204a1",
+   "verified": true
+  },
+  {
+   "B_slots": 78595,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 78595,
+   "budget_slots": 200000,
+   "candidates_checked": 78595,
+   "canonical_length": 8,
+   "checker_pid": 3572629,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "15b250cbbc3f8905daaf08218255d55adb05c25ace19a8eaf85e9294739276cb",
+   "verified": true
+  },
+  {
+   "B_slots": 25381,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 25363,
+   "budget_slots": 200000,
+   "candidates_checked": 25363,
+   "canonical_length": 8,
+   "checker_pid": 3572651,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "dfa3b2079b3c092d80ef09fe8039d86e6a985a7b435d49a650c708c8a2097b6c",
+   "verified": true
+  },
+  {
+   "B_slots": 45604,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45604,
+   "budget_slots": 200000,
+   "candidates_checked": 45604,
+   "canonical_length": 8,
+   "checker_pid": 3572674,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b7503a92eadbe25398327c9cf41040b667e079c4556515dc5ce3fb125b4da78c",
+   "verified": true
+  },
+  {
+   "B_slots": 65624,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65624,
+   "budget_slots": 200000,
+   "candidates_checked": 65624,
+   "canonical_length": 8,
+   "checker_pid": 3572710,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0d7898de918c64efb6b15340bc64136698f499768372426b692372df5c90a21c",
+   "verified": true
+  },
+  {
+   "B_slots": 50756,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 50756,
+   "budget_slots": 200000,
+   "candidates_checked": 50756,
+   "canonical_length": 8,
+   "checker_pid": 3572730,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "56bb522c23f6872186f13868392897cc4a8fc6edb54299c535ac7fcf117db684",
+   "verified": true
+  },
+  {
+   "B_slots": 85205,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 85205,
+   "budget_slots": 200000,
+   "candidates_checked": 85205,
+   "canonical_length": 8,
+   "checker_pid": 3573015,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "10236e09c281b35c3d7be6c69b398a488abe8320feeaff52b0e44753aa2cab2c",
+   "verified": true
+  },
+  {
+   "B_slots": 24532,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 24532,
+   "budget_slots": 200000,
+   "candidates_checked": 24532,
+   "canonical_length": 8,
+   "checker_pid": 3573026,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "3dd0d1a61218e7c341a29ec26393a9314f6da978f3f04f81e73ced0c13f7065a",
+   "verified": true
+  },
+  {
+   "B_slots": 62223,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 62223,
+   "budget_slots": 200000,
+   "candidates_checked": 62223,
+   "canonical_length": 8,
+   "checker_pid": 3573046,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "52fd90c31a0422e997582a96e05a596c5cc158816a69c8cae2cbf1410f29f179",
+   "verified": true
+  },
+  {
+   "B_slots": 54052,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 54052,
+   "budget_slots": 200000,
+   "candidates_checked": 54052,
+   "canonical_length": 8,
+   "checker_pid": 3573097,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "4bb3c4ff0ae1113276265ae0170eadf1351fd30cfe15b3ed2135a54acaaca201",
+   "verified": true
+  },
+  {
+   "B_slots": 64722,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 64704,
+   "budget_slots": 200000,
+   "candidates_checked": 64704,
+   "canonical_length": 8,
+   "checker_pid": 3573143,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "74f5bd31746470d0bb6a6d673cc8a44d2fb3b83878873a758de8a5960600f4ad",
+   "verified": true
+  },
+  {
+   "B_slots": 25732,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 25732,
+   "budget_slots": 200000,
+   "candidates_checked": 25732,
+   "canonical_length": 8,
+   "checker_pid": 3573161,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "adb387c66b1e97282d2cb537ec40678ae579bd88ab0339bd27ce77cf89de6df8",
+   "verified": true
+  },
+  {
+   "B_slots": 69906,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 69906,
+   "budget_slots": 200000,
+   "candidates_checked": 69906,
+   "canonical_length": 8,
+   "checker_pid": 3573216,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "1988272d1a658db775497f45130761b9e82111083c25177e8205f642705dbe32",
+   "verified": true
+  },
+  {
+   "B_slots": 67586,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 67586,
+   "budget_slots": 200000,
+   "candidates_checked": 67586,
+   "canonical_length": 8,
+   "checker_pid": 3573273,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "ae8d30fad473713df69a68c7bd1584dd4c91465340789e7cd5a3736545e9e7d4",
+   "verified": true
+  },
+  {
+   "B_slots": 36107,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 36107,
+   "budget_slots": 200000,
+   "candidates_checked": 36107,
+   "canonical_length": 8,
+   "checker_pid": 3573294,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "63946e986b1dfbba32d6626107b83ebe5d56d543fc885f54345324ab652248c6",
+   "verified": true
+  },
+  {
+   "B_slots": 33931,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 33931,
+   "budget_slots": 200000,
+   "candidates_checked": 33931,
+   "canonical_length": 8,
+   "checker_pid": 3573328,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "c9c3209c60626c2a22a74ae0b4b9e75389742799c55d77d73de60eedfbb41b64",
+   "verified": true
+  },
+  {
+   "B_slots": 65049,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65049,
+   "budget_slots": 200000,
+   "candidates_checked": 65049,
+   "canonical_length": 8,
+   "checker_pid": 3573352,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "492ef41588a467de79435d5e2af0271a29f2dc465ba46195e7984879beccdbfc",
+   "verified": true
+  },
+  {
+   "B_slots": 58131,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 58131,
+   "budget_slots": 200000,
+   "candidates_checked": 58131,
+   "canonical_length": 8,
+   "checker_pid": 3573392,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "4ad563f4648b3ac3cf610c10550244679d0ca4ff57cb3c60591f0ae429430d59",
+   "verified": true
+  },
+  {
+   "B_slots": 73630,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 73612,
+   "budget_slots": 200000,
+   "candidates_checked": 73612,
+   "canonical_length": 8,
+   "checker_pid": 3573428,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "43493ea67b507466681b76d6b3ea4ca3e6b1af05c8f336a747e4d8e84b46014b",
+   "verified": true
+  },
+  {
+   "B_slots": 48419,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 48419,
+   "budget_slots": 200000,
+   "candidates_checked": 48419,
+   "canonical_length": 8,
+   "checker_pid": 3573464,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "d951384f77e492d09a8a6633a0016d88c31fc85b1d2e8f60c6c6368e9050d13b",
+   "verified": true
+  },
+  {
+   "B_slots": 49427,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 49427,
+   "budget_slots": 200000,
+   "candidates_checked": 49427,
+   "canonical_length": 8,
+   "checker_pid": 3573507,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "289bdb44116786728a79d425064e7713c6d92bc600c8296449e5a42cc0562a93",
+   "verified": true
+  },
+  {
+   "B_slots": 22606,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 22606,
+   "budget_slots": 200000,
+   "candidates_checked": 22606,
+   "canonical_length": 8,
+   "checker_pid": 3573519,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "a6120a5af8e77860092ce8357fd8a19b54c22d1d4c625daf2648ed1a76a8ffe0",
+   "verified": true
+  },
+  {
+   "B_slots": 70945,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 70945,
+   "budget_slots": 200000,
+   "candidates_checked": 70945,
+   "canonical_length": 8,
+   "checker_pid": 3573633,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "43b92cef3a6e67231123b3849218cefcb09eb37714aca062f00255db5c1645ca",
+   "verified": true
+  },
+  {
+   "B_slots": 34069,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 34069,
+   "budget_slots": 200000,
+   "candidates_checked": 34069,
+   "canonical_length": 8,
+   "checker_pid": 3573697,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "f7fe84cfd2c60fcc8459f1a60eb0184ba861711a0127b16d55ac0215e67992b5",
+   "verified": true
+  },
+  {
+   "B_slots": 85167,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 85167,
+   "budget_slots": 200000,
+   "candidates_checked": 85167,
+   "canonical_length": 8,
+   "checker_pid": 3573751,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "536ecccc590ca3c351c8bd92645c8a4a21a5ff8505b4bbf3dd3548564a18bfec",
+   "verified": true
+  },
+  {
+   "B_slots": 45613,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45613,
+   "budget_slots": 200000,
+   "candidates_checked": 45613,
+   "canonical_length": 8,
+   "checker_pid": 3573778,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b26a192e10c6a7e9d627aeaff999d7d7c281dd05344f1f7ead34aea9304a21a9",
+   "verified": true
+  },
+  {
+   "B_slots": 76902,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 76884,
+   "budget_slots": 200000,
+   "candidates_checked": 76884,
+   "canonical_length": 8,
+   "checker_pid": 3573852,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "e7ba4ee9ed9edcf83e8be99f4f4f87fb581d283bcc0aad3d139d3a94750b91c8",
+   "verified": true
+  },
+  {
+   "B_slots": 57727,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 57727,
+   "budget_slots": 200000,
+   "candidates_checked": 57727,
+   "canonical_length": 8,
+   "checker_pid": 3573887,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "02f8960d232ebb9be7087935fc9b85ba7ca61a900ed2f5afedda2e147c1ff654",
+   "verified": true
+  },
+  {
+   "B_slots": 86721,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 86721,
+   "budget_slots": 200000,
+   "candidates_checked": 86721,
+   "canonical_length": 8,
+   "checker_pid": 3573959,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "8389349a564c55f96361d83c61339ae16af891390e910e33b8756fcc937d8fce",
+   "verified": true
+  },
+  {
+   "B_slots": 48416,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 48416,
+   "budget_slots": 200000,
+   "candidates_checked": 48416,
+   "canonical_length": 8,
+   "checker_pid": 3573981,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "4b566358ba57252b180f526b6599e108ec71cac607496d742ffc6b4e55ae0d13",
+   "verified": true
+  },
+  {
+   "B_slots": 83853,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 83853,
+   "budget_slots": 200000,
+   "candidates_checked": 83853,
+   "canonical_length": 8,
+   "checker_pid": 3574077,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2759b28a2a1133db674151b345cff52328521c1cd9be6c53be5b787f5ba2a4c2",
+   "verified": true
+  },
+  {
+   "B_slots": 50754,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 50754,
+   "budget_slots": 200000,
+   "candidates_checked": 50754,
+   "canonical_length": 8,
+   "checker_pid": 3574102,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "87a432d8f3f53c3a054e323d07338721d36ec99f6dff5b27f49ee96424f5f04f",
+   "verified": true
+  },
+  {
+   "B_slots": 24971,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 24971,
+   "budget_slots": 200000,
+   "candidates_checked": 24971,
+   "canonical_length": 8,
+   "checker_pid": 3574131,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b263f4cff5f0f6d06245121276a96e8419a1f385d8564f3c2f7ac2908b70c8c1",
+   "verified": true
+  },
+  {
+   "B_slots": 61574,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 61574,
+   "budget_slots": 200000,
+   "candidates_checked": 61574,
+   "canonical_length": 8,
+   "checker_pid": 3574165,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b2ca71a67367232cdd4116d83ee2fec41749c66091af737d7c8b3aa1b1a737be",
+   "verified": true
+  },
+  {
+   "B_slots": 61519,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 61501,
+   "budget_slots": 200000,
+   "candidates_checked": 61501,
+   "canonical_length": 8,
+   "checker_pid": 3574192,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "31b7d023527241757867ee99d5c87e45b3a6c205450daae36a160ff8af58c1f1",
+   "verified": true
+  },
+  {
+   "B_slots": 30867,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 30867,
+   "budget_slots": 200000,
+   "candidates_checked": 30867,
+   "canonical_length": 8,
+   "checker_pid": 3574204,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "5af3c982e7f5848e497a30436826d690e3dba0757995f6f9f2890d569d82ea15",
+   "verified": true
+  },
+  {
+   "B_slots": 76979,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 76979,
+   "budget_slots": 200000,
+   "candidates_checked": 76979,
+   "canonical_length": 8,
+   "checker_pid": 3574269,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2c6359122a27fbfe130573cea3df2cd806bcc940ec70bdb1943ab621b740180e",
+   "verified": true
+  },
+  {
+   "B_slots": 85317,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 85317,
+   "budget_slots": 200000,
+   "candidates_checked": 85317,
+   "canonical_length": 8,
+   "checker_pid": 3574523,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "034b5d30e452fd662fcde0bb89e259c41d6f4fa9d36329fee407f7e1103162fb",
+   "verified": true
+  },
+  {
+   "B_slots": 65678,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65678,
+   "budget_slots": 200000,
+   "candidates_checked": 65678,
+   "canonical_length": 8,
+   "checker_pid": 3574544,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "74d06c43c8bed4d1fc23957d8515b4aa4c73723e0b68f29deee2b58c8b0bb0e1",
+   "verified": true
+  },
+  {
+   "B_slots": 34175,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 34175,
+   "budget_slots": 200000,
+   "candidates_checked": 34175,
+   "canonical_length": 8,
+   "checker_pid": 3574576,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2ef808f267a016d592cd4678e187681ec514bdbdfa9ef0e262dead3b24d13eb1",
+   "verified": true
+  },
+  {
+   "B_slots": 78307,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 78307,
+   "budget_slots": 200000,
+   "candidates_checked": 78307,
+   "canonical_length": 8,
+   "checker_pid": 3574620,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "f4d1a8f599b1cd990ff56d7ef875938306d3d2ba30cb43b42b804d4fa64a90ba",
+   "verified": true
+  },
+  {
+   "B_slots": 70844,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 70844,
+   "budget_slots": 200000,
+   "candidates_checked": 70844,
+   "canonical_length": 8,
+   "checker_pid": 3574669,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "fa3f081b57ef650a351614722708a3640a3ee7f0f52f354c89c4931f57e0f0d6",
+   "verified": true
+  },
+  {
+   "B_slots": 73783,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 73765,
+   "budget_slots": 200000,
+   "candidates_checked": 73765,
+   "canonical_length": 8,
+   "checker_pid": 3574726,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "9d20fe7385a78824eb02c80a16d1d4a19fdcf3fec0039cd3b17185e8d22b95d0",
+   "verified": true
+  },
+  {
+   "B_slots": 34148,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 34148,
+   "budget_slots": 200000,
+   "candidates_checked": 34148,
+   "canonical_length": 8,
+   "checker_pid": 3574759,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "7b7e097a4d5974aeb3ec054a553571c0cf7a8dbd174cb9979190f27c6b75a1bc",
+   "verified": true
+  },
+  {
+   "B_slots": 22660,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 22660,
+   "budget_slots": 200000,
+   "candidates_checked": 22660,
+   "canonical_length": 8,
+   "checker_pid": 3574765,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "dc9d8ac07a9ad8b076e218fb9719e4f85e8c7e505536e0b90076f1526924e450",
+   "verified": true
+  },
+  {
+   "B_slots": 84274,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 84274,
+   "budget_slots": 200000,
+   "candidates_checked": 84274,
+   "canonical_length": 8,
+   "checker_pid": 3574911,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "7ebef020eee9d33b6371c274171c0b4bdff6b3850724a3c1c3f802e5669cd55e",
+   "verified": true
+  },
+  {
+   "B_slots": 233640,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 30963,
+   "budget_slots": 200000,
+   "candidates_checked": 30963,
+   "canonical_length": 8,
+   "checker_pid": 3575327,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "004d292746f5a41b5802b2ba018385d094de7feaf3006adec181e7d551421602",
+   "verified": true
+  },
+  {
+   "B_slots": 114077,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44173,
+   "budget_slots": 200000,
+   "candidates_checked": 44173,
+   "canonical_length": 8,
+   "checker_pid": 3575471,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "01a4a41c43c8ae962e527a5e4e51c48f4f1922c7ddb02fd871fa97c768089001",
+   "verified": true
+  },
+  {
+   "B_slots": 6551,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 76998,
+   "budget_slots": 200000,
+   "candidates_checked": 6551,
+   "canonical_length": 8,
+   "checker_pid": 3575486,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "867fd5a209d36635f942a596ebad19aa0c033023e41ebb6c0978e460538f3847",
+   "verified": true
+  },
+  {
+   "B_slots": 113691,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 43769,
+   "budget_slots": 200000,
+   "candidates_checked": 43769,
+   "canonical_length": 8,
+   "checker_pid": 3575636,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "019515a443ba66a8d6706c69b8c420831ab20c848eb43560563a56fa22913e68",
+   "verified": true
+  },
+  {
+   "B_slots": 54461,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 54461,
+   "budget_slots": 200000,
+   "candidates_checked": 54461,
+   "canonical_length": 8,
+   "checker_pid": 3575701,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "567b4e0905b698e78e20f1a33d44fee4a4ae7d11153272c17a077e0fad3000bc",
+   "verified": true
+  },
+  {
+   "B_slots": 44365,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44365,
+   "budget_slots": 200000,
+   "candidates_checked": 44365,
+   "canonical_length": 8,
+   "checker_pid": 3575745,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0e48636246339c48536fbc80627a7b287a246f982dd391ae47cb54ad77a8149e",
+   "verified": true
+  },
+  {
+   "B_slots": 70860,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 70860,
+   "budget_slots": 200000,
+   "candidates_checked": 70860,
+   "canonical_length": 8,
+   "checker_pid": 3575828,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2ea1892ea723efa5f6a7bcfe21045d258e55f95e9182abccbeb70c976325b981",
+   "verified": true
+  },
+  {
+   "B_slots": 67885,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 67885,
+   "budget_slots": 200000,
+   "candidates_checked": 67885,
+   "canonical_length": 8,
+   "checker_pid": 3575899,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "21777b50e8732d3b03537b301ee3cf51be68c97f8108bb47e1623e6c52c9d222",
+   "verified": true
+  },
+  {
+   "B_slots": 121924,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 52002,
+   "budget_slots": 200000,
+   "candidates_checked": 52002,
+   "canonical_length": 8,
+   "checker_pid": 3576052,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "4f5e4ea58168862fbca6f80f77175e267b613a82067d4ad8c3ca2c35b636cef4",
+   "verified": true
+  },
+  {
+   "B_slots": 46388,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 46388,
+   "budget_slots": 200000,
+   "candidates_checked": 46388,
+   "canonical_length": 8,
+   "checker_pid": 3576089,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "91628ce46a2fd721248b651940283f799467a7168736dd2a2205f23e0ad772aa",
+   "verified": true
+  },
+  {
+   "B_slots": 64852,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 64852,
+   "budget_slots": 200000,
+   "candidates_checked": 64852,
+   "canonical_length": 8,
+   "checker_pid": 3576161,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "51ebbeddf18ea89843f4f0ed05240314543d947e33787093c959e27c9ef7a738",
+   "verified": true
+  },
+  {
+   "B_slots": 25876,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 25876,
+   "budget_slots": 200000,
+   "candidates_checked": 25876,
+   "canonical_length": 8,
+   "checker_pid": 3576196,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "6aa4b3212272287d344829e4cda0046b00e2e827d19ed304c516c8e5269a17b8",
+   "verified": true
+  },
+  {
+   "B_slots": 54322,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 54322,
+   "budget_slots": 200000,
+   "candidates_checked": 54322,
+   "canonical_length": 8,
+   "checker_pid": 3576255,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "465a51139687e6012fb6344dbde4cf19067cf6549b8a8e8843d122d9c6c3de50",
+   "verified": true
+  },
+  {
+   "B_slots": 45150,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45150,
+   "budget_slots": 200000,
+   "candidates_checked": 45150,
+   "canonical_length": 8,
+   "checker_pid": 3576268,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "09444130a680dd0e270f91d1b5e4986d7d99e9db6ca177f6400f3a9f0e8ac616",
+   "verified": true
+  },
+  {
+   "B_slots": 70692,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 70692,
+   "budget_slots": 200000,
+   "candidates_checked": 70692,
+   "canonical_length": 8,
+   "checker_pid": 3576340,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "72d8fe51028c75a22c93d22cb877a1e6ce9ded9e51f1c1cafd8407a165cd0eb8",
+   "verified": true
+  },
+  {
+   "B_slots": 137849,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 35116,
+   "budget_slots": 200000,
+   "candidates_checked": 35116,
+   "canonical_length": 8,
+   "checker_pid": 3576653,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0bd63630b4f1c0da97f85b14627e820cf6c9ad11c5c3504054d782b08b3a5248",
+   "verified": true
+  },
+  {
+   "B_slots": 115220,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45298,
+   "budget_slots": 200000,
+   "candidates_checked": 45298,
+   "canonical_length": 8,
+   "checker_pid": 3576809,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0da06eeec34209106377b5d0c0abde2fa2dc6650a6f2644ec883fef02ef958ed",
+   "verified": true
+  },
+  {
+   "B_slots": 77973,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 77973,
+   "budget_slots": 200000,
+   "candidates_checked": 77973,
+   "canonical_length": 8,
+   "checker_pid": 3576931,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "52a3e1b969f63cb543adb2532a857becc2bcf46d0258e88c8d015f0dcd8336bb",
+   "verified": true
+  },
+  {
+   "B_slots": 35913,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 35913,
+   "budget_slots": 200000,
+   "candidates_checked": 35913,
+   "canonical_length": 8,
+   "checker_pid": 3576963,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "f94ee4c6e2ed0e272401180f524ef7000e74d47dd4c779dcfbb5bc8c081e3daf",
+   "verified": true
+  },
+  {
+   "B_slots": 44836,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44836,
+   "budget_slots": 200000,
+   "candidates_checked": 44836,
+   "canonical_length": 8,
+   "checker_pid": 3577002,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "4e1eaf58438659946d00ef985a8e591b36d0af726763bd7bfaeb14a7db78c729",
+   "verified": true
+  },
+  {
+   "B_slots": 38164,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 38164,
+   "budget_slots": 200000,
+   "candidates_checked": 38164,
+   "canonical_length": 8,
+   "checker_pid": 3577056,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "6bad96330655953c6f7ebcc62579de3fd9dff7f2cc50c35aa99d36b7d6c99e70",
+   "verified": true
+  },
+  {
+   "B_slots": 53730,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 53730,
+   "budget_slots": 200000,
+   "candidates_checked": 53730,
+   "canonical_length": 8,
+   "checker_pid": 3577090,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "024374f967610625e304297f352978fbd8d905970ca2858851cf61f3d572a7cb",
+   "verified": true
+  },
+  {
+   "B_slots": 63631,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 63631,
+   "budget_slots": 200000,
+   "candidates_checked": 63631,
+   "canonical_length": 8,
+   "checker_pid": 3577134,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "c60703b04d200334803e84abf015f94868332bae4be43098998db2c2e36c91c1",
+   "verified": true
+  },
+  {
+   "B_slots": 82296,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 82296,
+   "budget_slots": 200000,
+   "candidates_checked": 82296,
+   "canonical_length": 8,
+   "checker_pid": 3577166,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "32a98feae3d052477b147b92d0946709dd50102e349a4e9052f260b096c8631c",
+   "verified": true
+  },
+  {
+   "B_slots": 9844,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65889,
+   "budget_slots": 200000,
+   "candidates_checked": 9844,
+   "canonical_length": 8,
+   "checker_pid": 3577197,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "143d16ff5c427a6de91c5cc53fdda35022c54b0b44d1e20e03f7a4cbd2865531",
+   "verified": true
+  },
+  {
+   "B_slots": 21340,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 86604,
+   "budget_slots": 200000,
+   "candidates_checked": 21340,
+   "canonical_length": 8,
+   "checker_pid": 3577231,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "1038fae794308e3fd43902ac53ca107cbdc92df312ba134d5eb060136ae2a749",
+   "verified": true
+  },
+  {
+   "B_slots": 17075,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 61586,
+   "budget_slots": 200000,
+   "candidates_checked": 17075,
+   "canonical_length": 8,
+   "checker_pid": 3577258,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "40c661eca9cc817ac2ff496d043e974571a58d1ad69c3bbf8c9f0e83a7666433",
+   "verified": true
+  },
+  {
+   "B_slots": 4666,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 78116,
+   "budget_slots": 200000,
+   "candidates_checked": 4666,
+   "canonical_length": 8,
+   "checker_pid": 3577265,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "a6edc455d1a900626bf4ab0ee74cfae911cfdb31c8ed8d2aeffb03719da279f0",
+   "verified": true
+  },
+  {
+   "B_slots": 100964,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 31060,
+   "budget_slots": 200000,
+   "candidates_checked": 31060,
+   "canonical_length": 8,
+   "checker_pid": 3577456,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "08f33b39cbc150919e18b73527ca0fcba04af06e19b2a3b04ee9f0273290672e",
+   "verified": true
+  },
+  {
+   "B_slots": 35417,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 66637,
+   "budget_slots": 200000,
+   "candidates_checked": 35417,
+   "canonical_length": 8,
+   "checker_pid": 3577511,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "a3af328d3fdf1735139f220ff949f5453510a36f3210323270d4a8fcd94c1ba8",
+   "verified": true
+  },
+  {
+   "B_slots": 100660,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 30756,
+   "budget_slots": 200000,
+   "candidates_checked": 30756,
+   "canonical_length": 8,
+   "checker_pid": 3577652,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "529179c7dd38202ab9fb5d10b49a8565a21becefa562e4ad96c4a1ea48a3b88f",
+   "verified": true
+  },
+  {
+   "B_slots": 31315,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 25682,
+   "budget_slots": 200000,
+   "candidates_checked": 31315,
+   "canonical_length": 8,
+   "checker_pid": 3577708,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "1e88df30dfc61705f4646e071b52d0acd1054dbff0c23405ad9185131d2d0492",
+   "verified": true
+  },
+  {
+   "B_slots": 17044,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 61647,
+   "budget_slots": 200000,
+   "candidates_checked": 17044,
+   "canonical_length": 8,
+   "checker_pid": 3577757,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "5c5c1741b20ab09ea503b2fb59ed67298ffaafa31fe813ac38fae695c38e2a2e",
+   "verified": true
+  },
+  {
+   "B_slots": 34882,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65521,
+   "budget_slots": 200000,
+   "candidates_checked": 34882,
+   "canonical_length": 8,
+   "checker_pid": 3577833,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "510577889f3848a6976c890922aafc389930697ca93796bc9d5c31c2322b2954",
+   "verified": true
+  },
+  {
+   "B_slots": 47637,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 37941,
+   "budget_slots": 200000,
+   "candidates_checked": 47637,
+   "canonical_length": 8,
+   "checker_pid": 3577923,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "96c8641d80946accc9ca19027e89c253ac1c1ab7632a179553c9eea9394cd395",
+   "verified": true
+  },
+  {
+   "B_slots": 115106,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 45184,
+   "budget_slots": 200000,
+   "candidates_checked": 45184,
+   "canonical_length": 8,
+   "checker_pid": 3578073,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "a229e9a313d6f8e99a77c8844367fe12fea9348acae1ba656d59fad124b7a221",
+   "verified": true
+  },
+  {
+   "B_slots": 32737,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 32737,
+   "budget_slots": 200000,
+   "candidates_checked": 32737,
+   "canonical_length": 8,
+   "checker_pid": 3578082,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "14781f96a5b74026c23ab1adb5601c2bdf66477a214a98141e5ed36652e64d6a",
+   "verified": true
+  },
+  {
+   "B_slots": 65077,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 65077,
+   "budget_slots": 200000,
+   "candidates_checked": 65077,
+   "canonical_length": 8,
+   "checker_pid": 3578130,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "6578c75f9bbbb01f12acde81990d4867fb6658436b845e3bbeecf1ccfa36e7ac",
+   "verified": true
+  },
+  {
+   "B_slots": 44875,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 44875,
+   "budget_slots": 200000,
+   "candidates_checked": 44875,
+   "canonical_length": 8,
+   "checker_pid": 3578138,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "1b69fc37c1c53ee2841cd25d29e44a0922494df3f605f9f471dffee0516dbfd9",
+   "verified": true
+  },
+  {
+   "B_slots": 73737,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 73737,
+   "budget_slots": 200000,
+   "candidates_checked": 73737,
+   "canonical_length": 8,
+   "checker_pid": 3578206,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "0f222cb3337b664c7ccc2b8e505f22ec38c91c0ad144b59409f695d14bd5b610",
+   "verified": true
+  },
+  {
+   "B_slots": 46948,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 34385,
+   "budget_slots": 200000,
+   "candidates_checked": 46948,
+   "canonical_length": 8,
+   "checker_pid": 3578332,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "9c49f9350192faec1fbf2958344d6d4c88deab7c2d902190bc1372f0e187e2c7",
+   "verified": true
+  },
+  {
+   "B_slots": 46450,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 37985,
+   "budget_slots": 200000,
+   "candidates_checked": 46450,
+   "canonical_length": 8,
+   "checker_pid": 3578422,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "b83359b9ab2ecdc4a785f539ab37e325e6ead34e1e70dd2359ce1bdd52cf442e",
+   "verified": true
+  },
+  {
+   "B_slots": 18580,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 61391,
+   "budget_slots": 200000,
+   "candidates_checked": 18580,
+   "canonical_length": 8,
+   "checker_pid": 3578471,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "2fda18c2fa68a281ef803b2e1ff59dd96208f88f274b4115401c52bb74685e9f",
+   "verified": true
+  },
+  {
+   "B_slots": 133477,
+   "arm": "CONTINUAL_OCM",
+   "baseline_first_index": 63555,
+   "budget_slots": 200000,
+   "candidates_checked": 63555,
+   "canonical_length": 8,
+   "checker_pid": 3578611,
+   "externally_verified": true,
+   "status": "VERIFIED_POLYNOMIAL_IDENTITY",
+   "target": "bf86553b1e15566d6e2fa0ea113ee647ace6468403cf7781c58b6af988167159",
+   "verified": true
+  }
+ ],
+ "schema": "M2P1_ARM_REPORT",
+ "successes": 120,
+ "successes_by_budget": {
+  "200000": 120
+ },
+ "targets": 120,
+ "wall_seconds": 303.59
+}

@@ -832,3 +832,58 @@ fresh seed that passes the ecology gate, both lifetimes ≤ the fixed controller
 arm verifies every target. The recombination-vs-ablation ratio is reported **descriptively only**
 and is not C3 evidence.
 
+## continual_v6.4 — outcome: FALSIFIED, reverted (records/abc/*_v6.4_*, records/continual/*_v6.4_*)
+
+Every arm verifies every target. Against the registration:
+
+| check | registered | measured | verdict |
+|---|---|---|---|
+| s604 diagnostic: both continual arms' regime-C cost ≤ RESET (3 808) | ≤ 3 808 | ablation 5 292, recombination 8 773 | **failed** |
+| FV8 diagnostic | second deployment blocked, ≤ +8 % | blocked (log: deploy at 76, fail at 79, 5/8 candidate refused); +6.6 % | held |
+| shift regressions ± 2 % of v6.3 | ± 2 % | SHIFT45, s602, s604 identical; **s603 1 800 vs 1 577 (+14 %)** | **failed** |
+| ABC regressions ± 2 % of v6.3 | ± 2 % | ablation lifetimes +5 … +33 % on s601/602/603/605/606; recombination +12 % (s603), +18 % (s605) | **failed** |
+| E5, FV6, cross-world pairs | ± 2 % | identical | held |
+| fresh K1 test (613–615 so far): both continual arms' regime-C ≤ RESET on every fresh seed | every seed | s613 fails (5 230 / 4 391 vs 3 766); s614, s615 pass | **failed** |
+
+The regressions track the new `failed_deployment` counter (4–5 on the worst runs). **v6.4 is
+reverted**: the current controller is v6.3's behaviour plus the liveness log (v6.5), with v6.4's two
+changes kept behind recorded flags (`M2_V64A` = no regime reset, `M2_V64C` = failure evidence).
+LUNARC seeds 617–621 were already running v6.4 and are kept as descriptive records (records/abc/ABC_s61{7..9}_v6.4_*, ABC_s62{0,1}_v6.4_*): regime-C cost of the ablation arm above RESET on 2 / 5 (s617, s621), lifetimes below RESET on 5 / 5.
+
+**Attribution run (diagnostic, not a claim).** One variable at a time on the four worst-regressed
+worlds (s603 shift; ABC s605, s606, s613 ablation arm): v6.5 base, base + (a) only, base + (c) only.
+The base run must reproduce v6.3 exactly — the check that the log changes nothing.
+
+## v6.4 attribution — outcome (records/attribution/)
+
+| world | v6.5 base (= v6.3) | + (a) never reset the regime window | + (c) failure evidence |
+|---|---|---|---|
+| s603 shift | 1 576.8 | **1 800.4** (2 failed deployments) | 1 576.8 |
+| ABC s606 (ablation arm) | 2 077.4 | **2 760.8** (5) | 2 077.4 |
+| ABC s605 (ablation arm) | 2 761.5 | **2 930.4** (2) | 2 761.5 |
+| ABC s613 (ablation arm) | 2 612.5 | **3 066.5** (4) | 2 612.5 |
+
+The base reproduces v6.3 byte-for-byte on every world with a v6.3 record (the log changes nothing).
+**(a) is the whole regression; (c) is neutral here** and is what took FV8 from +13.7 % to +6.6 %.
+**Current controller: v6.6 = v6.3 + (c)** (failure evidence on by default).
+
+**Why (a) failed, from the attribution.** The regime reset is right at a genuine change (A → B: the
+incumbent stands down and the new regime must not be mined on the old one's corpus) and wrong only
+when an old library that was re-probed back to life stands down again inside the window (s604's
+oscillation on a mixed regime). (a) removed both.
+
+## v6.7 — incumbent-only regime reset (registered 2026-09-11, before any run)
+
+A regime change is signalled only by the stand-down of the **incumbent** — a library that was live
+when the current regime window began; a library reactivated inside the window and failing again is
+recorded as an oscillation and does not reset the corpus. One change on top of v6.6 (`M2_V67`).
+
+Predictions: **s604** — the ablation arm's regime-C cost ≤ RESET's (3 808); the four attribution
+worlds and SHIFT45 / s602 / s604-shift within ± 2 % of v6.6; **fresh K1 test** on 613–615 (laptop) and
+617–621 (LUNARC; 616 failed the ecology gate): both continual arms' regime-C cost ≤ RESET's on ≥ 7 / 8
+fresh seeds and lifetimes ≤ the fixed controller's on ≥ 7 / 8, every arm verifying every target. The
+same seeds also run v6.6 so the comparison is paired.
+**Stop rule, stated now:** if v6.7 fails the s604 diagnostic or the fresh bar, the mixed-regime
+limitation is recorded as a **boundary** — within a regime assembled from two earlier ones the
+continual arm can cost more than RESET, while its lifetime stays below RESET — and this chain ends.
+
