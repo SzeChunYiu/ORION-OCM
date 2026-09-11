@@ -88,7 +88,10 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "version": "continual_v6"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.3"}
+# v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
+# (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
+# s603 +5.4 % and E7 -> E8m7 +43 %.
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -149,6 +152,13 @@ def _fit_controller(M, lib, val_rows):
             deltas.append(-1); cells.setdefault(str(_obs_feats(task.coefficients, lib)), []).append(-1)
             detail.append({"tiling": d_t, "hit": False, "used": 0, "baseline": bs, "unprobed": True})
             continue
+        if d_t > depth:
+            # v6.1: a validation program that does not tile in <= depth tokens is (up to an
+            # equivalent program) unreachable by the probe; its outcome is a miss at -beta.
+            # Probing it buys no information, so it is not probed and nothing is charged.
+            deltas.append(-beta); cells.setdefault(str(_obs_feats(task.coefficients, lib)), []).append(-beta)
+            detail.append({"tiling": d_t, "hit": False, "used": 0, "baseline": bs, "unprobed": "not tilable at depth: miss assumed"})
+            continue
         pr, used = _probe(M, task.coefficients, lib, depth, beta)
         charged += used
         if pr is not None:
@@ -165,56 +175,68 @@ def _fit_controller(M, lib, val_rows):
     better = sum(1 for d in deltas if d > 0)
     return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": rule,
             "fit_detail": detail, "tiling_probe_violations": len(violations), "tilable_at_depth": tilable,
+            "val_ci95_low": (round(statistics.fmean(deltas) - 1.96 * statistics.pstdev(deltas) / len(deltas) ** 0.5, 1) if len(deltas) > 1 else None),
             "expected_baseline": round(statistics.fmean(bs for _, _, bs in val_rows), 1) if val_rows else None,
             "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
             "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
             "val_better": better, "val_n": len(deltas)}, charged
 
 
-def _remine(M, solved, pool=None):
-    """Mine candidate libraries from the organism's own verified acquisitions and validate
-    them on the most recent held-out slice. solved = [(task, SearchResult, B)] in order,
-    RESTRICTED by the caller to the current regime (solutions since the last stand-down):
-    continual_v1 mined a window that straddled the shift, so its first attempt learned
-    the old regime and its second came too late to pay. Returns
-    (controller_record or None, charged_slots, event)."""
-    # v6: a RECOMBINATION candidate built from retained capital only needs to be selected, not
-    # discovered, so it may be attempted with recomb_corpus corpus programs; full mining still
-    # needs min_corpus. pool = fragments of every retained library (None in the ablation arm).
-    full = len(solved) >= CONTINUAL["val_n"] + CONTINUAL["min_corpus"]
-    rec_ok = bool(pool) and len(solved) >= CONTINUAL["val_n"] + CONTINUAL["recomb_corpus"]
+def _remine(M, solved, pool=None, recent=None):
+    """Mine candidate libraries from the organism's own verified acquisitions and validate them
+    on the most recent held-out slice (charged guided-only probes). solved = the regime window
+    [(task, SearchResult, B)]; recent = the window since the last stand-down of ANY library.
+
+    v6.1: candidates are built on BOTH windows and charged validation chooses. v5.4 decided at
+    stand-down time whether a learned library's stand-down was a regime change (keep the corpus)
+    -- right on E7 -> E8m7, wrong on A -> B -> C, where the kept corpus was mostly B and the
+    recombination candidate was ranked on the wrong regime. The organism cannot tell the two
+    apart at stand-down; validation on its own most recent acquisitions can."""
+    V = CONTINUAL["val_n"]
+    full = len(solved) >= V + CONTINUAL["min_corpus"]
+    rec_ok = bool(pool) and len(solved) >= V + CONTINUAL["recomb_corpus"]
     if not (full or rec_ok):
         return None, 0, {"skipped": "too few solutions in this regime", "regime_solved": len(solved)}
-    val = solved[-CONTINUAL["val_n"]:]
-    corpus = solved[-(CONTINUAL["mine_n"] + CONTINUAL["val_n"]):-CONTINUAL["val_n"]]
-    full = full and len(corpus) >= CONTINUAL["min_corpus"]
+    val = solved[-V:]
+    corpus = solved[-(CONTINUAL["mine_n"] + V):-V]
     val_rows = [(t, r.program, b) for t, r, b in val]
     cands = {}
-    if full:
-        try:
-            cands["frequency"] = tuple(M.learn_generator([(t, r) for t, r, _ in corpus]).fragments)
-        except Exception:
-            cands["frequency"] = ()
-        try:
-            import m2_mdl_selection as _mdl
-            picked = [f for f in _mdl.mdl_select([r.program for _, r, _ in corpus], cap=16) if 2 <= len(f) <= 8][:16]
-            cands["mdl"] = tuple(tuple(f) for f in picked)
-        except Exception:
-            cands["mdl"] = ()
-    if rec_ok:
-        progs = [tuple(r.program) for _, r, _ in corpus if r.program]
-        cnt = {tuple(f): sum(1 for p in progs if _occurs(f, p)) for f in pool}
-        ranked = sorted((f for f in cnt if cnt[f] >= 2), key=lambda f: (-cnt[f], -len(f), f))[:CONTINUAL["recomb_size"]]
-        if ranked:
-            cands["recombined"] = tuple(ranked)
-    # v5.5: a COMPACT-FREQUENCY candidate. s613: the 16-fragment frequency library is
-    # complete but too fat for the probe (T = 20, depth 3 never pays), and greedy MDL from
-    # 32 programs spends its slots on recurring motif pairs and stays incomplete (5/8
-    # motifs, 4/8 validation tilings, correctly refused). The count ranking truncated to
-    # the MDL library's size is complete AND cheap; it costs no new mining and is
-    # validated by the same probes as the other two.
-    if cands.get("frequency") and cands.get("mdl"):
-        cands["frequency_compact"] = tuple(cands["frequency"][:max(4, len(cands["mdl"]))])
+
+    def _build(corp, sfx):
+        progs = [r.program for _, r, _ in corp if r.program]
+        if len(corp) >= CONTINUAL["min_corpus"]:
+            try:
+                fr = tuple(M.learn_generator([(t, r) for t, r, _ in corp]).fragments)
+            except Exception:
+                fr = ()
+            try:
+                import m2_mdl_selection as _mdl
+                md = tuple(tuple(f) for f in [f for f in _mdl.mdl_select(progs, cap=16) if 2 <= len(f) <= 8][:16])
+            except Exception:
+                md = ()
+            if fr:
+                cands["frequency" + sfx] = fr
+            if md:
+                cands["mdl" + sfx] = md
+            if fr and md:     # v5.5 compact frequency: the count ranking truncated to MDL's size
+                cands["frequency_compact" + sfx] = tuple(fr[:max(4, len(md))])
+        if pool and len(corp) >= CONTINUAL["recomb_corpus"]:
+            # v6: recombination of retained capital, ranked by occurrence in this corpus
+            tp = [tuple(q) for q in progs]
+            cnt = {tuple(f): sum(1 for q in tp if _occurs(f, q)) for f in pool}
+            # v6.2: retained fragments already carry support from earlier regimes (each was mined
+            # with support >= 2 and validated there); one sighting in this regime corroborates it.
+            # learn_generator's >= 2 rule guards NEW fragments against one-off substrings.
+            ranked = sorted((f for f in cnt if cnt[f] >= CONTINUAL["recomb_support"]), key=lambda f: (-cnt[f], -len(f), f))[:CONTINUAL["recomb_size"]]
+            if ranked:
+                cands["recombined" + sfx] = tuple(ranked)
+
+    _build(corpus, "")
+    corp_r = []
+    if recent is not None and len(recent) > V:
+        corp_r = recent[:-V][-CONTINUAL["mine_n"]:]
+        if 0 < len(corp_r) < len(corpus):
+            _build(corp_r, "_recent")
     charged, fitted = 0, {}
     for name, lib in cands.items():
         if not lib:
@@ -223,17 +245,25 @@ def _remine(M, solved, pool=None):
         charged += c; rec["library"] = name; fitted[name] = rec
     if not fitted:
         return None, charged, {"skipped": "no candidate library", "charged": charged}
-    best = max(fitted.values(), key=lambda r: (r["val_better"], r["val_mean_delta"]))
-    ok = best["val_mean_delta"] > 0 and best["val_better"] * 2 > best["val_n"]
-    ev = {"corpus": len(corpus), "validated_on": len(val_rows), "charged": charged,
+    # v6.1: deploy only on a positive LOWER confidence bound of the validation delta -- the lane's
+    # own EU-admission rule applied in life. FV8: a depth-4 candidate (beta 54 240) validated 7/8
+    # with mean delta +19 500, then hit ~54 % in deployment and lost 124 k.
+    def _passes(r, need_ci):
+        base = r["val_mean_delta"] > 0 and r["val_better"] * 2 > r["val_n"]
+        return base and (not need_ci or (r.get("val_ci95_low") is not None and r["val_ci95_low"] > 0))
+    eligible = [r for r in fitted.values() if _passes(r, CONTINUAL["deploy_ci"])]
+    blocked = (not eligible) and any(_passes(r, False) for r in fitted.values())
+    best = max(eligible or list(fitted.values()), key=lambda r: (r["val_better"], r["val_mean_delta"]))
+    ok = bool(eligible)
+    ev = {"corpus": len(corpus), "corpus_recent": len(corp_r), "validated_on": len(val_rows), "charged": charged,
           "candidates": {k: {"n": len(v["lib"]), "val_better": v["val_better"], "val_mean_delta": v["val_mean_delta"],
                              "depth": v["probe_depth"], "beta": v["beta"],
                              "tilable_at_depth": v.get("tilable_at_depth", sum(1 for x in v["fit_detail"] if x["tiling"] <= v["probe_depth"])),
                              "hits": sum(1 for x in v["fit_detail"] if x["hit"]),
                              "tiling_probe_violations": v["tiling_probe_violations"],
-                             "lib": v["lib"], "val_tilings": [x["tiling"] for x in v["fit_detail"]]} for k, v in fitted.items()},
+                             "ci95_low": v.get("val_ci95_low"), "lib": v["lib"], "val_tilings": [x["tiling"] for x in v["fit_detail"]]} for k, v in fitted.items()},
           "val_programs": [list(r.program) for _, r, _ in val][:8],
-          "chosen": best["library"], "deployed": bool(ok)}
+          "chosen": best["library"], "deployed": bool(ok), "blocked_by_ci": blocked}
     return (best if ok else None), charged, ev
 
 
@@ -577,10 +607,10 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                       "beta": c0["beta"], "rule": c0["rule"], "fallback": c0["fallback"],
                                       "expected_baseline": dev.get("held_out_mean_baseline"),
                                       "library": "dev:" + c0.get("library", "mdl")}],
-                            "active": None, "hits": [], "vals": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0}
+                            "active": None, "hits": [], "vals": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0, "standdown_at": 0}
                 C = P._c
                 use_pool = arm == "CONTINUAL_OCM"                # v6: the ablation never recombines
-                prog, used = None, 0
+                prog, used, learn_charge = None, 0, 0    # v6.3: learning is overhead, not search
                 if C["active"] is not None:
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
@@ -599,6 +629,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         # try the OTHER retained libraries at once -- a return to a known
                         # regime should cost one probe each, not a cadence wait.
                         prev = C["active"]; C["active"] = None
+                        C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
                         if str(L.get("library", "")).startswith("dev:") or L.get("regime") != C.get("regime_start"):
                             # a developmental or foreign-regime library standing down: a new regime begins
                             C["regime_start"] = len(C["solved"]); C["since_mine"] = 0
@@ -619,8 +650,13 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 break
                 else:
                     C["hits"].append(False)
-                    if (len(C["hits"]) - 1) % 8 == 0:           # re-probe every retained library
-                        for k, L in enumerate(C["libs"]):
+                    if True:
+                        # v6.3: re-probing retained libraries is CHARGED, so it stays on the cadence;
+                        # re-mining is free unless a candidate validates, so it may be attempted on
+                        # ANY stood-down target. The cadence quantised learning: in A -> B -> C the
+                        # post-stand-down corpus at the 104 tick was 6 / 4 / 3 programs by chance.
+                        cadence = (len(C["hits"]) - 1) % 8 == 0
+                        for k, L in (enumerate(C["libs"]) if cadence else []):
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                             used += u
                             if pr is not None:
@@ -630,8 +666,9 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         pool = sorted({tuple(f) for Lp in C["libs"] for f in Lp["lib"]}) if use_pool else None
                         need = (CONTINUAL["val_n"] + CONTINUAL["recomb_corpus"]) if pool else CONTINUAL["min_new"]
                         if prog is None and C["since_mine"] >= need:
-                            rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool)
-                            used += charged
+                            rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool,
+                                                       recent=C["solved"][C.get("standdown_at", 0):])
+                            learn_charge += charged     # v6.3: never deducted from the search budget
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
                                 # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
@@ -647,7 +684,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                     prog = pr
                 if prog is not None:
                     res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
-                                         prog, used, used, (0,), 8)
+                                         prog, used + learn_charge, used, (0,), 8)
                 else:
                     L = C["libs"][C["active"]] if C["active"] is not None else None
                     # v3: only the dev-fitted rule (fitted on interleave-vs-baseline deltas) may
@@ -659,7 +696,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     meth = M.GeneratorMethod(tuple(tuple(f) for f in L["lib"]), method.training_tasks) if use_inter else None
                     r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
-                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+                                         used + r2.slots + learn_charge, r2.candidates_checked, r2.counterexamples, 8)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
             elif arm == "CONTINUED_OCM" and method.fragments:
@@ -729,6 +766,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                        "pid_changed": os.getpid() != ck["pre_restart_pid"]},
            "targets": len(prot), "ladder": ladder,
            "successes": len(ok_rows), "attempts": len(rows),
+           "all_targets_verified": len({r["target"] for r in ok_rows}) == len(prot),
            "ladder_total": len(ok_rows),
            "mean_B_slots": round(statistics.fmean(r["B_slots"] for r in ok_rows), 1) if ok_rows else None,
            "external_verifications": verifications,

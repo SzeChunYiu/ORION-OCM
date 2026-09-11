@@ -228,8 +228,9 @@ Record: `records/EXT_DISTANCE_s2.json`. Research analogue, not the registered gr
 | 1001 | 10 | 9 | 67.1 % (21 / 25) | 81.9 % (24 / 25) | 1.84× |
 | 1002 | 10 | 7 | 98.1 % (25 / 25) | 97.9 % (25 / 25) | 1.86× |
 | 1010 | 12 | 7 | 98.4 % (25 / 25) | 98.7 % (25 / 25) | 1.73× |
+| 1011 | 12 | 8 | 98.7 % (25 / 25) | 98.4 % (25 / 25) | — |
 | 1012 | 12 | 8 | 66.1 % (23 / 25) | 65.5 % (23 / 25) | 1.69× |
 
-The d = 2 law holds in a grammar with six primitives on 5 / 5 seeds (seed 1011 still running);
+The d = 2 law holds in a grammar with six primitives on **6 / 6** seeds;
 benefit does not decay from d = 1 to d = 2 on any seed. Research analogue, EXACT_MATCH-controlled.
 
