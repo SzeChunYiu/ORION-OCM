@@ -55,6 +55,7 @@ authored ecologies. A multi-regime lifetime (A → B → A′ → B′) is the n
 | shift A / A′ | 507 / 861 | **507 / 861** | unchanged | held |
 | shift B | 5 208 | **5 524** (+40 % vs RESET) | ≤ 3 740 | **falsified** |
 | shift lifetime | 2 192 | 2 297 | ≤ 1 900 | **falsified** |
+| FV8 | 56 057.9 (+0.004 %) | **56 073.9 (+0.032 %)** — 7 re-mine attempts, none validated, 1912 slots charged in total | ≤ +0.05 % | held |
 
 **Attribution (per-target rows, two stages, both mechanical).**
 1. *Corpus straddled the shift.* The first re-mine (target 40) mined a 32-solution window
