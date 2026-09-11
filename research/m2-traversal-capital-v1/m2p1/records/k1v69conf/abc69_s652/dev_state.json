@@ -1,0 +1,172 @@
+{
+ "admission": false,
+ "eu_admission": {
+  "admitted": false,
+  "all_verified": true,
+  "ci95_low": -355.8,
+  "mean_delta": 988.2,
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "reason": "ci95_low<=0",
+  "rho_max": 2.0,
+  "worst_ratio": 2.0
+ },
+ "fragments": [
+  [
+   "dec",
+   "square"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "dec",
+   "dec"
+  ],
+  [
+   "dec",
+   "dec",
+   "dec"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "square",
+   "double"
+  ],
+  [
+   "dec",
+   "square",
+   "dec"
+  ],
+  [
+   "square",
+   "dec",
+   "dec"
+  ],
+  [
+   "dec",
+   "double",
+   "dec"
+  ],
+  [
+   "dec",
+   "double"
+  ],
+  [
+   "square",
+   "dec",
+   "dec",
+   "dec"
+  ],
+  [
+   "dec",
+   "square",
+   "double"
+  ],
+  [
+   "square",
+   "dec",
+   "square"
+  ],
+  [
+   "double",
+   "dec",
+   "square"
+  ],
+  [
+   "double",
+   "inc",
+   "square"
+  ],
+  [
+   "double",
+   "inc"
+  ]
+ ],
+ "fragments_mined": 16,
+ "held_out_mean_baseline": 3633.3,
+ "held_out_mean_candidate": 2645.1,
+ "held_out_never_worse": false,
+ "held_out_strictly_better": 8,
+ "mdl_admission": true,
+ "mdl_fragments": [
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "dec",
+   "dec"
+  ],
+  [
+   "double",
+   "dec"
+  ],
+  [
+   "square",
+   "double"
+  ],
+  [
+   "dec",
+   "square"
+  ],
+  [
+   "double",
+   "inc"
+  ]
+ ],
+ "mdl_strictly_better": 10,
+ "mdl_terminal": "HELD_OUT_SEARCH_IMPROVEMENT",
+ "ocm_controller": {
+  "beta": 1110,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "expected_probe_cost": {
+   "frequency": 2823.2,
+   "mdl": 610.0
+  },
+  "fallback": false,
+  "library": "mdl",
+  "library_rule": "controller_v3: expected probe cost on held-out validation tilings",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "liveness_min_hit_rate": 0.25,
+  "liveness_window": 8,
+  "probe_depth": 3,
+  "rule": {},
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 0 of 10 rows",
+  "validated_better_interleave": {
+   "frequency": 8,
+   "mdl": 10
+  }
+ },
+ "pid": 800924,
+ "schema": "M2P1_DEV_STATE",
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "train_solved": 19,
+ "train_unsolved": 0,
+ "training_task_ids": [
+  "029502debc715489337e4de21bb2d95177a9fbc8c3d265e76c0f3cdf9cf320b2",
+  "060092281c980c88c20e5d1d78dbc0f7edb9f841a3b9f3a080d8ce5055971f56",
+  "1d855da95ddfcc7235052494c05617469014faaab55796d514f2d9708db253cd",
+  "27f7356372fddb9993f0f2bb7bf8ebc9958a3daafd120f14b7c1f8321a8be0f3",
+  "35268509a06d87f7a7a6f2bfcbc1e023865aa766ecb81aaaa200ea56953624ea",
+  "57591521dcf207b77c8aeeba951d425ea8afd8b645f05a02d5f3bcbedd3ce5cd",
+  "68385e60eab00a08dd50d36f823ef3900b3bfb9ce47fb264c70146079956dee6",
+  "7329b065cf0e77cd180b4aab7fdfadc725e4fdfd5a91e6050b579d281c3cdc23",
+  "8284944ec0245ad68582081aaf2fb55bdb94a70bd247b4b8e7056f84d934abbe",
+  "91aeacf2a08cd3defbcd3caad34a7d253569a76eff0ec53a92d251ef9c746ddf",
+  "984bc556430a08c150726677d4e520fd98d1a1e674966f193f6559dec3ab5def",
+  "b09fac43747a1575c29e559a52db88b6125035c93bceb813307f48c3d52287c5",
+  "c85c4c4757dfb8b06ca3e30897c5cafc7172302448fb7d044070c6b1dfbba1b1",
+  "d026e5d54a01039ba457c0a208d16b474d09eeef29e8229d840e2af1ae4bdb41",
+  "d4c06077c3ffcb63dacbf42ab9b8f836cf0544c73ea79cef37ae67cdb4e010d2",
+  "dcf94b3a9f7c4b00ebce5d1bc83aa80a7a726e3dc85f9357b4a0500cdbf3c261",
+  "ecdf1893c9fc111f8e1a29e1b2dd2499a5154db534afde173786d28030b06165",
+  "ee21110d22d67060053860b64cd7dcd8378b92a7c5c10a8d2c9a19b38935070c",
+  "f153a93476b9734dcb9f47fde2e131d515e189acd0c604117a29a2d1bc702737"
+ ],
+ "validated_on": 10,
+ "wall_seconds": 3.08
+}
