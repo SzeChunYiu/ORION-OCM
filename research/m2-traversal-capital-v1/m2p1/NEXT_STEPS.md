@@ -37,23 +37,36 @@ set no learner can mine (ledger 58). No further controller revision is registere
 
 | level | status | evidence |
 |---|---|---|
-| L5 self-diagnosis | 🟡 | 9/9 in-sample → **0.758** on a 33-case sealed packet (C0 9/9, C1 13/13); residual C2→C1 on the ambiguous lifetime worlds |
-| L6 improvement of improvement | 🔴 → 🟡 | first **fall** in cost-to-verified-improvement (G4 → G6, zero-cost `admitted` probe); no monotone slope over G0 → G6; a **policy generation** (decision-theoretic stopping) is running |
+| L5 self-diagnosis | 🟡 | **0.818** active / 0.758 exhaustive on the 33-case sealed packet ([RSI-7](rsi/RSI7_RESULT.md); C0 9/9, C1 11/13, C2 6/9); residual C3 called C1 |
+| L6 improvement of improvement | 🔴 → 🟡 | active G4 → G7: accuracy 0.455 → **0.818**, cost-to-verified-improvement 14.13 → **2.93** ([RSI-7](rsi/RSI7_RESULT.md)); terminal **NO_IMPROVING_SLOPE** still stands over G0 → G7 (G0–G2 rose). The **policy generation** (P1, decision-theoretic stopping) ran and was **falsified**: 0.485 active, *below* the fixed rule ([RSI-6](rsi/RSI6_RESULT.md)) |
 
 ## Next experiments, in order
 
-1. **hc02's last guided-first arm** (`PARENT_GFQ_D4`, LUNARC 3598971_2) — append its row; it can
-   only lower hc02's GF_best and cannot move any conclusion.
-2. **Target (1): a second authoring regime.** The same frozen neutral spec, authored by a model
-   of a *different* family than this lane's, then the frozen M2-P2 gates and arm set. This is the
-   cheapest change that moves the independence question, and it needs no controller. Register the
-   falsifier before the author session.
+1. ~~**hc02's last guided-first arm** (`PARENT_GFQ_D4`, LUNARC 3598971_2)~~ — **done.** The row is
+   recorded (`PARENT_GFQ_D4` 24 669, verifying every target); hc02's GF_best stays `PARENT_GF_D4`
+   at 9 745, so no conclusion moved, as predicted.
+2. **Target (1): a second authoring regime — partly done, at *model* scope.** M2-P3 re-ran the
+   frozen neutral spec under a second author **model**, then the frozen M2-P2 gates and arm set,
+   with the falsifier registered before the author session: `C2_REPLICATED_SECOND_AUTHOR_MODEL`,
+   4/4 worlds (#421). What that does **not** establish is **family-level** author independence —
+   the second author was another model of this lane's own family. A *different-family* author is
+   **not reachable from this lane's tooling** (the available agent models are all Claude), so it
+   needs an external author supplied by the operator. Stated once here; not re-litigated per cycle.
 3. **Not registered, with the reason: a deployed-cost miner.** The coverage diagnostic (#412)
    shows the mined libraries already beat the true chunks on three worlds, and the remaining gap
    is to an unmineable oracle. A better miner is library-learning parent territory
    (DreamCoder / Stitch) and would bear on target (2), not (3).
-4. *Carried from the previous ledger, status not re-checked this session:* policy generation P1
-   (active diagnosis), the repair-catalogue revision and RSI-6 re-score, and the P=6 analogue.
+4. *Carried items, re-checked and resolved — all but one are closed:*
+   - **Policy generation P1** (active diagnosis) — **ran, falsified.** Registered "active accuracy
+     rises toward 0.758"; observed **0.485**, below the fixed rule. Active diagnosis is bottlenecked
+     by the likelihoods, not the policy ([RSI-6](rsi/RSI6_RESULT.md)).
+   - **Repair-catalogue revision** — **done.** The stale `C2 → REDUCE_K_OR_RAISE_P` is replaced by
+     `C2 → DEPTH_AWARE_DEPLOYMENT`, the repair that actually worked ([RSI-7](rsi/RSI7_RESULT.md)).
+   - **RSI-6 re-score** — **done**, and superseded by RSI-7 (active 0.818 at 2.93 per verified
+     improvement). Note the file convention: `rsi/RSI{N}_*.json` holds generations G0…G{N-1}, so
+     `RSI8_*.json` is RSI-7's own data file, not an unwritten result.
+   - **The P=6 analogue** — **still open.** Its first run was retracted for a budget defect
+     (`CORE.md`); no completed P=6 analogue is recorded in this lane.
 
 ## What would still falsify the picture
 
