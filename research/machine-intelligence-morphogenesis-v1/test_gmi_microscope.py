@@ -103,3 +103,41 @@ def test_smooth3_verdict_receipt_is_reproducible_and_positive():
     rc = compare_smooth3.main()
     assert committed["receipt_sha256"] == rc["receipt_sha256"]
     assert rc["verdict"]["all_claims_hold"] is True and rc["verdict"]["n_wrong"] == 0 and rc["verdict"]["n_called"] == 336
+
+
+def test_sym2_prediction_receipt_is_reproducible_and_was_frozen_before_the_run():
+    from gmi_microscope import predict_sym2
+    committed = json.loads((RES / "STAGE_DE_SYM2_PREDICTION.json").read_text())
+    rc = predict_sym2.main()
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert committed["per_ecology"]["SYM3"]["predicted_admissible"] == ["S4", "S2a", "S5h"]
+
+
+def test_sym2_verdict_receipt_is_reproducible():
+    from gmi_microscope import compare_sym2
+    committed = json.loads((RES / "STAGE_DE_SYM2_VERDICT.json").read_text())
+    rc = compare_sym2.main()
+    assert committed["receipt_sha256"] == rc["receipt_sha256"]
+    assert committed["verdict"]["C2_admissible_sets_as_predicted"] is True  # RV-377-025 recorded partial positive (C1 fails on one B2 cell, C6 fails: SHR macro)
+
+
+def test_knn_row_matches_its_closed_form_and_the_defective_row_does_not():
+    from gmi_microscope import smooth
+    from gmi_microscope.predict_sym import knn_capability_closed_form
+    for k in (3, 5, 8):
+        target = smooth.make_target((k / 16,) * 4)
+        good = smooth.run("S5h", bases.B0, 4, 0, target, 16, smooth.ROWS_V6, "unseen")["capability"]
+        bad = smooth.run("S5k", bases.B0, 4, 0, target, 16, smooth.ROWS_V4, "unseen")["capability"]
+        assert good == knn_capability_closed_form(k)
+        assert bad != good  # RV-377-021 instrument defect (Boolean XOR) is preserved for receipt reproducibility
+
+
+def test_xor_row_identifies_parity_only_on_a_spanning_split():
+    from gmi_microscope import smooth
+    tgt = smooth.make_parity_target()
+    smooth.set_train(smooth.TRAIN_MIXED)
+    try:
+        assert smooth.run("S6", bases.B0, 4, 0, tgt, 16, smooth.ROWS_V5, "unseen")["capability"] == 1.0
+    finally:
+        smooth.set_train([0, 3, 5, 6, 9, 10, 12, 15])
+    assert smooth.run("S6", bases.B0, 4, 0, tgt, 16, smooth.ROWS_V5, "unseen")["capability"] == 0.3333

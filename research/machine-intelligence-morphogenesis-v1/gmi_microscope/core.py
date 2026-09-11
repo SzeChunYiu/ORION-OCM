@@ -279,9 +279,22 @@ class Machine:
         if name == "THRESH":
             g = self.op("GT", a[0], 0); return self._rec_adj(name, a, a[0] if g else 0)
         if name == "SHR":
-            bits = to_bits(a[0]); out = bits[1:] + [bits[-1]]
+            # RV-377-026: the macro must realize the NATIVE semantics (round toward zero), not an arithmetic (floor) shift;
+            # RV-377-025 C6 caught the mismatch on negative operands (native SHR(-5) = -2, old macro -3). Negative values are
+            # negated (charged two's-complement negation), shifted, and negated back.
+            neg = a[0] < 0
+            mag = -a[0] if neg else a[0]
+            if neg:
+                for _ in range(16): self.op("NOT", 0)
+                for _ in range(16): self.op("XOR", 0, 0); self.op("AND", 0, 0)
+            bits = to_bits(mag); out = bits[1:] + [0]
             for _ in range(TOTAL_BITS): self.op("AND", 1, 1)  # wiring cost charged as one gate per bit
-            return from_bits(out)
+            res = from_bits(out)
+            if neg:
+                for _ in range(16): self.op("NOT", 0)
+                for _ in range(16): self.op("XOR", 0, 0); self.op("AND", 0, 0)
+                res = -res
+            return clamp(res)
         if name in ("S_INSERT", "S_LOOKUP", "S_MATCH", "S_DELETE", "S_SCAN"):
             # store emulated as declared cells + linear scan with EQ per entry; or, under the declared
             # indexed-emulation amendment, a charged binary index: 1+ceil(log2(n+1)) compares per access

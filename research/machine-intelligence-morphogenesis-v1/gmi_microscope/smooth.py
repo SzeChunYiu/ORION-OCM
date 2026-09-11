@@ -492,6 +492,9 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth1_calib_v6":
         # RV-377-025 calibration: ROWS_V6 on the original E_smooth (V1 coefficients); used only for per-column per-event costs
         main(coeffs=COEFFS_V1, tag="V4C_SMOOTH1_ROWS_V6_CALIB", n_events=16, rows=ROWS_V6, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_h_shrfix":
+        # RV-377-026: E_smooth3 with ROWS_V6 after the B2 SHR macro correction (C2 predicted restored)
+        main(coeffs=COEFFS_V3, tag="V9_SMOOTH3_H_SHRFIX", n_events=16, rows=ROWS_V6, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth3_h":
         # RV-377-025: E_smooth3 with the corrected kNN row (three admissible classes predicted on the RV-017 ecology)
         main(coeffs=COEFFS_V3, tag="V8_SMOOTH3_H", n_events=16, rows=ROWS_V6, criterion="unseen")
