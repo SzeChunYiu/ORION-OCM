@@ -1,0 +1,51 @@
+{
+  "schema": "BasisCandidatesV1",
+  "status": "COMPETING_HYPOTHESES_NO_WINNER",
+  "selection_rule": "No candidate may be preferred before parent reconstruction plus exact compensation-aware census. A candidate that collapses to UNIVERSAL_COMPUTATION_ONLY is demoted even if expressive.",
+  "candidates": [
+    {
+      "id": "B0_LOCAL_ADAPTIVE_TRANSDUCERS",
+      "idea": "Typed local stateful transducers connected by a mutable graph; local transition kernels plus local/global update operators.",
+      "primitive_signature": ["typed_local_state", "typed_ports", "local_transition_kernel", "composition_edge", "update_of_state_parameters_or_topology", "resource_meter"],
+      "natural_derivations": ["cellular_automata", "recurrent_neural_systems", "message_passing", "finite_state_systems", "production_like_local_rules"],
+      "strong_parents": ["state machines", "cellular automata", "neural cellular automata", "graph dynamical systems"],
+      "main_risk": "May be only a universal graph computer with no intelligence-specific content.",
+      "kill_test": "If all nontrivial results reduce to simulation and no ecology-conditioned learnability/resource prediction follows, return UNIVERSAL_COMPUTATION_ONLY.",
+      "why_keep": "Most neutral candidate for morphology emergence and locality; does not hard-code neural weights or symbolic rules."
+    },
+    {
+      "id": "B1_COMPOSITIONAL_LEARNER",
+      "idea": "Parameterized typed functions paired with update/request maps and monoidal composition, extended with explicit resource and topology-change semantics.",
+      "primitive_signature": ["typed_parameterized_map", "learner_update", "learner_request_or_feedback", "serial_parallel_composition", "resource_semantics", "optional_structure_update"],
+      "natural_derivations": ["feedforward_neural_networks", "backpropagating_learners", "differentiable_programs", "composed_estimators"],
+      "strong_parents": ["Backprop as Functor", "Categorical Deep Learning", "compositional game/learner formalisms"],
+      "main_risk": "Neural/differentiable bias may make symbolic/program/probabilistic derivations unnatural or simply encode them as opaque maps.",
+      "kill_test": "If cross-paradigm compilation requires arbitrary black-box morphisms or unbounded hidden state, parent algebra is insufficient for Track-B residual.",
+      "why_keep": "Best-developed compositional mathematics among candidates and therefore an important strongest-parent basis."
+    },
+    {
+      "id": "B2_REWRITABLE_TYPED_PROGRAM_GRAPH",
+      "idea": "Small typed instruction/rewrite primitives operating over a graph/program/state store; learning is governed graph/program rewrite and library formation.",
+      "primitive_signature": ["typed_values", "small_instruction_set", "composition_or_call", "conditional_control", "mutable_store", "rewrite_or_synthesis_update", "resource_semantics"],
+      "natural_derivations": ["symbolic_programs", "production_systems", "program_synthesis", "library_learning", "finite_automata"],
+      "strong_parents": ["universal machines/lambda calculus", "genetic programming", "DreamCoder", "Stitch", "CEGIS", "OOPS/PowerPlay"],
+      "main_risk": "Almost certainly computationally universal; may merely re-encode every morphology as a program and explain nothing about emergence.",
+      "kill_test": "Demand bounded developmental compilation and predictive phase results; representation-only success is UNIVERSAL_COMPUTATION_ONLY.",
+      "why_keep": "Strong parent for explicit/programmatic cognition and a useful adversary to claims that local transducers are fundamental."
+    },
+    {
+      "id": "B3_STOCHASTIC_GENERATIVE_KERNEL",
+      "idea": "Typed stochastic generative primitives plus conditioning/inference/update and compositional stochastic processes.",
+      "primitive_signature": ["typed_random_choice", "deterministic_transform", "composition", "conditioning_or_scoring", "state_or_memoization", "inference_update", "resource_semantics"],
+      "natural_derivations": ["Bayesian_networks", "probabilistic_programs", "belief_state_agents", "stochastic_policies", "sampling_based_learning"],
+      "strong_parents": ["Church/probabilistic programming", "Bayesian inference", "Bayesian Program Learning", "AIXI mixture models"],
+      "main_risk": "Stochastic semantics may bake probabilistic intelligence into the basis and make deterministic/programmatic systems mere degenerate cases.",
+      "kill_test": "If its only cross-paradigm story is 'deterministic systems are delta distributions', it has not explained morphology differences.",
+      "why_keep": "Forces Track B to test whether uncertainty/inference is fundamental, derived, or ecology-specific rather than assuming determinism."
+    }
+  ],
+  "explicit_non_candidate": {
+    "id": "CURRENT_OCM_U2",
+    "reason": "u2 contains warrant/provenance/authority/lifecycle fields that may be valuable at morphology level but would bias the putative fundamental basis toward the current OCM design. It remains a Cognitive Asset Contract candidate, not the assumed atom."
+  }
+}
