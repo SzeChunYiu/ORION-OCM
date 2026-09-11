@@ -1,0 +1,19 @@
+{
+  "schema": "GMIReferenceTestReceiptV1",
+  "scope": "offline exact semantic checks for gmi_reference.py; not a capability experiment",
+  "status": "GREEN",
+  "checks": [
+    "Pareto frontier retains capability/resource tradeoffs and removes dominated points",
+    "ecology-family generality is a partial order: winning one ecology and losing another is not family-wide dominance",
+    "family-wide strict dominance requires weak dominance on every registered ecology and strict improvement somewhere",
+    "declared ecology weighting can reverse scalarized rankings",
+    "lifecycle break-even arithmetic recovers H*=22.5 for the registered toy values",
+    "median pre-solution rank information shift uses log2(rank_RESET/rank_HISTORY) and the registered [3,1,1]-bit fixture has median 1.0 bit"
+  ],
+  "bugs_found_before_green": [
+    "strict-dominance flag incorrectly allowed a win on one ecology even when another ecology was lost; fixed",
+    "rank-information test expected 2.0 bits for shifts [3,1,1]; corrected to exact median 1.0"
+  ],
+  "claim_boundary": "Reference-definition semantics only. No statement about real machine intelligence follows from this receipt.",
+  "terminal": "GMI_REFERENCE_SEMANTICS_EXACT_CHECKS_GREEN_V1"
+}
