@@ -88,8 +88,21 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.10" + ("h" if os.environ.get("M2_V610H") == "1" else "") + ("i" if os.environ.get("M2_V610I") == "1" else "")
-             if (os.environ.get("M2_V610H") == "1" or os.environ.get("M2_V610I") == "1") else "continual_v6.9" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" and os.environ.get("M2_V69F") == "1" else "continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
+def _cont_version():
+    """Label a continual run by its flags. (h) / (i) on the v6.9 base keep the registered 'continual_v6.10h/hi'
+    labels; on any other base (e.g. the v6.6 defaults) they are appended as '+h' / '+i'."""
+    e = lambda k: os.environ.get(k) == "1"
+    base = ("continual_v6.9" if e("M2_V68D") and e("M2_V68E") and e("M2_V69F") else "continual_v6.8" if e("M2_V68D") and e("M2_V68E")
+            else "continual_v6.7" if e("M2_V67") else "continual_v6.6")
+    h, i = e("M2_V610H"), e("M2_V610I")
+    if not (h or i):
+        return base
+    if base == "continual_v6.9":
+        return "continual_v6.10" + ("h" if h else "") + ("i" if i else "")
+    return base + ("+h" if h else "") + ("+i" if i else "")
+
+
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": _cont_version(),
              # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
              "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
              "incumbent_reset": os.environ.get("M2_V67") == "1",
