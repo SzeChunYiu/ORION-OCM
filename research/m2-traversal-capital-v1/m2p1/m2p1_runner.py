@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "version": "continual_v4"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "version": "continual_v4.1"}
 # v4: min_corpus 8 -> 12. On SHIFT45 the v3 attempt on an 8-program corpus failed validation and
 # charged 9 556 slots; the 13- and 24-program attempts (v2, v3) both deployed. Registered on
 # SHIFT45 and on a fresh shift world before the run.
@@ -505,7 +505,10 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 break
                         if prog is None and C["since_mine"] >= CONTINUAL["min_new"]:
                             rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):])
-                            used += charged; C["since_mine"] = 0
+                            used += charged
+                            if "skipped" not in ev:
+                                C["since_mine"] = 0              # v4.1: a SKIPPED attempt (corpus too small) mined
+                                                                 # nothing and must not consume the counter
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1

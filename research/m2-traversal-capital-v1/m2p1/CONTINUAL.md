@@ -158,3 +158,21 @@ fresh worlds: B ≤ 0.95 × RESET, lifetime ≤ −45 % vs RESET and below the v
 ≥ 10 %; E5 ≤ 414.1 × 1.05; FV8 ≤ +0.05 % vs RESET. Falsifiers: B ≥ RESET on any world;
 E5 > 434.8; FV8 > +0.05 %.
 
+## Outcome, continual_v4 on SHIFT45 (records/continual/SHIFT45_v4_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| continual_v3 | 1 720 | 536 | 3 888 (+3.0 %) | 735 |
+| **continual_v4** | **1 649 (−52.6 %)** | 536 | **3 676 (−2.6 %)** | 735 |
+
+**B is below RESET for the first time** (the falsifier "B ≥ RESET" is silent); E5 unchanged
+(414.1, so the 3-miss stand-down causes no false stand-downs there). The ≤ 3 400 target
+**missed**: the target-64 attempt was correctly skipped (8-program corpus < 12, nothing
+charged) — but the implementation reset the new-solution counter on the skip, so the real
+attempt still waited until target 80 and served nine targets. A skipped attempt mines
+nothing and must not consume the counter: **continual_v4.1** (bug fix, no constant
+changed; version stamped in every arm record). Registered before its run: the attempt
+fires at the first re-probe cadence with ≥ 20 in-regime solutions (≈ target 72), B ≤ 3 400,
+A / A′ unchanged, lifetime ≤ 1 580. The fresh worlds s602 / s603 run their continual arm
+last in their chains and therefore under v4.1; their predictions stand as registered.
+
