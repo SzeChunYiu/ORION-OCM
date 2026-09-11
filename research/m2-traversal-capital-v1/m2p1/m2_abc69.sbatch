@@ -6,7 +6,7 @@
 #SBATCH -n 1
 #SBATCH -c 2
 #SBATCH -o /projects/hep/fs12/scratch/scyiu-m2trav/logs/abc69_%A_%a.out
-# K1-v6.8 confirmation (registered before the run): fresh A -> B -> C lifetimes, continual_v6.8, five arms.
+# K1-v6.9 confirmation (registered before the run): fresh A -> B -> C lifetimes, continual_v6.9, five arms.
 set -euo pipefail
 export M2_V68D=1 M2_V68E=1 M2_V69F=1
 B=/projects/hep/fs12/scratch/scyiu-m2trav
