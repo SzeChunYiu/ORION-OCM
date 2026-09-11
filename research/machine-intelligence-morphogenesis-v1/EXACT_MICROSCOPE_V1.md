@@ -12,15 +12,6 @@ Universe:
 - legal construction: functional composition only;
 - cost coordinate: minimum expression depth in this first calibration.
 
-Procedure:
-
-1. enumerate all `2^6-1 = 63` non-empty primitive subsets;
-2. compute exact closure under composition;
-3. mark a subset complete iff closure contains all 16 binary Boolean functions;
-4. identify inclusion-minimal complete subsets;
-5. remove each primitive from every minimal basis and recompute closure (compensation-aware removal);
-6. record minimum construction depth.
-
 Executed result:
 
 ```text
@@ -33,13 +24,13 @@ Inclusion-minimal complete bases:
   {NOT, OR}    max minimum depth 4
 ```
 
-Removing the sole primitive from `{NAND}` or `{NOR}` leaves only the two projections. Removing either primitive from `{NOT,AND}` or `{NOT,OR}` destroys completeness.
-
-This is **not new mathematics**. It is a machinery check showing that the census correctly recovers multiple non-unique minimal bases and separates basis cardinality from compilation depth.
+This is **not new mathematics**. Post/clone theory and classical functional-completeness results own the underlying Boolean structure. This stage calibrates compensation-aware census machinery only.
 
 Terminal:
 
 `EXACT_BASIS_CENSUS_CALIBRATED_ON_KNOWN_BOOLEAN_SCOPE`
+
+---
 
 ## Stage B — developmental-equivalence counterexample (executed)
 
@@ -61,13 +52,11 @@ M_adaptive:
 
 Before the event the machines are extensionally identical on **every input in the complete registered universe**. After the same event they diverge because their update laws differ.
 
-This is an exact finite witness for:
+Terminal:
 
-```text
-CURRENT_BEHAVIOR_EQUIVALENCE
-  does not imply
-DEVELOPMENTAL_EQUIVALENCE
-```
+`CURRENT_BEHAVIOR_EQUIVALENCE_DOES_NOT_IMPLY_DEVELOPMENTAL_EQUIVALENCE_EXACT`
+
+Scientific consequence: morphology equivalence cannot be current I/O behavior alone; registered update/development behavior must be part of the relation.
 
 Artifacts:
 
@@ -77,28 +66,115 @@ test_developmental_equivalence_witness.py
 EXACT_DEVELOPMENTAL_EQUIVALENCE_V1.json
 ```
 
-Terminal:
+Claim boundary: finite exact counterexample only.
 
-`CURRENT_BEHAVIOR_EQUIVALENCE_DOES_NOT_IMPLY_DEVELOPMENTAL_EQUIVALENCE_EXACT`
+---
 
-Claim boundary: finite exact counterexample only; not a universal taxonomy of intelligence morphologies.
+## Stage C-v0 — one-bit adaptive Boolean basis census (executed)
 
-## Stage C — tiny typed adaptive bases (next decisive exact work)
+This stage extends the calibration from static Boolean functions to tiny adaptive transducers while deliberately remaining exact.
 
-Register a finite grammar containing only low-level typed primitives such as:
+A morphology is:
 
 ```text
-bit state / small finite state
-read/write local state
-boolean/arithmetic transform
-message/pass value
-conditional composition
-bounded stochastic choice (separate arm)
-parameter/state update
-local topology add/remove (separate arm)
+one-bit state s
+one-bit input x
+one-bit supervised label l
+
+output  f(s,x)   -> y
+update  g(s,x,l) -> s'
+initial state s=0
 ```
 
-Do **not** include architecture labels such as:
+Both `f` and `g` are composed from subsets of:
+
+```text
+NOT, AND, OR, XOR, NAND, NOR
+```
+
+No `LEARN`, `NEURON`, `BACKPROP`, `BAYES_UPDATE`, `PRODUCTION_RULE`, `PROGRAM_INTERPRETER` or other architecture-labelled primitive exists.
+
+Developmental signatures are computed exactly over every supervised history of length `<=2`, followed by both probe inputs.
+
+Executed exact result:
+
+```text
+basis subsets enumerated                  63
+complete basis subsets                    54
+full (f,g) morphology universe          4096
+current-behavior classes at s=0            4
+developmental classes (history <=2)     2884
+```
+
+Inclusion-minimal complete bases remain:
+
+```text
+{NAND}
+{NOR}
+{NOT, AND}
+{NOT, OR}
+```
+
+Registered compilation-depth results over the complete adaptive universe:
+
+```text
+{NAND}       mean depth(f)+depth(g) = 5.47265625   max = 8
+{NOR}        mean depth(f)+depth(g) = 5.47265625   max = 8
+{NOT,AND}    mean depth(f)+depth(g) = 6.14062500   max = 10
+{NOT,OR}     mean depth(f)+depth(g) = 6.14062500   max = 10
+```
+
+Within the registered six-gate catalogue the lowest mean complete-basis compilation depth is achieved by a richer basis including `{AND, OR, XOR, NAND, NOR}`:
+
+```text
+mean depth sum = 3.43359375
+max depth sum  = 5
+```
+
+### What Stage C-v0 establishes
+
+1. **Developmental equivalence is much finer than current behavior** in this finite fixture: `2884` developmental classes versus only `4` current behavior classes.
+2. **Primitive cardinality is not resource optimality**: a minimal-cardinality complete basis can require deeper compilation than a richer basis.
+3. Exact developmental/resource census is tractable enough to calibrate before heuristic architecture search.
+
+### What it does NOT establish
+
+The functional-completeness core is still ordinary Boolean clone/Post mathematics. The adaptive result composes two Boolean maps; therefore this is not evidence that Boolean connectives are a machine-intelligence atom.
+
+Terminal:
+
+`ADAPTIVE_BOOLEAN_BASIS_CENSUS_EXACT__PARENT_MATHEMATICS_DOMINATES`
+
+Artifacts:
+
+```text
+adaptive_boolean_basis_census.py
+test_adaptive_boolean_basis_census.py
+EXACT_ADAPTIVE_BOOLEAN_CENSUS_V1.json
+```
+
+This is a scientifically useful negative/subtraction result: **the naive adaptive-Boolean route is too close to mature functional-completeness mathematics to carry the general-intelligence novelty. Move upward.**
+
+---
+
+## Stage C-v1 — structured adaptive basis beyond clone-theory calibration (next)
+
+The next exact grammar must introduce structure that is not exhausted by simply choosing two arbitrary Boolean functions.
+
+Candidate low-level components, frozen before outcome:
+
+```text
+typed local state
+explicit read/write state operation
+message/pass value
+conditional composition
+bounded local update of a parameter/state coordinate
+explicit topology add/remove in a separate arm
+explicit stochastic choice in a separate arm
+resource meter
+```
+
+Do **not** include architecture labels:
 
 ```text
 NEURON
@@ -109,42 +185,51 @@ ATTENTION
 BACKPROP
 ```
 
-For every basis:
+### Required attacks
 
-- enumerate all legal morphologies up to frozen size/depth;
-- quotient exact behavioral classes;
-- quotient exact developmental classes;
-- perform compensation-aware primitive removal;
-- compute compilation-depth / state-size / update-work Pareto fronts;
-- identify multiple equivalent minimal bases if present;
-- retain `NO_SMALL_BASIS` and `NON_IDENTIFIABLE` terminals.
+- compare against a plain Moore/coalgebraic-state-machine parent;
+- compare against program/universal-interpreter encodings;
+- quotient exact current behavior;
+- quotient exact developmental behavior;
+- compensation-aware primitive removal;
+- vary resource prices so primitive rank and resource rank can disagree;
+- separate on-unit adaptation from externally applied update laws;
+- deterministic and explicit-stochastic arms;
+- no-learning/static control;
+- exhaustive enumeration before heuristic search wherever feasible.
 
-### Stage-C design constraints added by the second hardening pass
+Possible terminals:
 
-- treat a plain Moore/coalgebraic state machine as a **parent**, not Track-B novelty;
-- keep local transition semantics separate from update-of-transition/topology semantics;
-- include a no-learning/static control;
-- include one ecology where current behavior is identical but future update utility differs;
-- include resource price variants so basis rank and resource rank can disagree;
-- keep stochasticity in an explicit arm rather than hiding it in an opaque universal interpreter;
-- exhaust tiny spaces before using heuristic search.
+```text
+STRUCTURED_ADAPTIVE_BASIS_RESIDUAL_AT_SCOPE
+MULTIPLE_EQUIVALENT_ADAPTIVE_BASES_AT_SCOPE
+PARENT_FORMALISM_SUFFICIENT
+UNIVERSAL_COMPUTATION_ONLY
+NO_SMALL_CROSS_PARADIGM_BASIS
+NON_IDENTIFIABLE_AT_CURRENT_RESOLUTION
+```
+
+---
 
 ## Stage D — known-form micro-derivations
 
-Only after Stage C is stable, construct tiny target instances from different paradigms:
+Only after Stage C-v1 is frozen and interpretable, construct tiny targets from different paradigms:
 
-1. a 2–3 unit feedforward threshold/neural computation;
-2. a finite production/rewrite controller;
-3. a tiny stochastic/Bayesian update fixture;
-4. a tiny explicit program/library learner.
+1. 2–3 unit neural/threshold computation plus one update step;
+2. finite production/rewrite learner;
+3. tiny stochastic/Bayesian update fixture;
+4. tiny explicit program/library learner;
+5. one simple hybrid statistical + exact-check fixture.
 
-The goal is not to prove general derivability yet. The question is whether the same frozen basis can reproduce the **behavior + registered update law** without architecture-labelled macros and at what cost.
+The same frozen basis should reproduce **behavior + registered update law** without architecture-labelled macros. Record D0 representability, D1 compilation resources and eventually D2 acquisition.
 
-## Stage E — developmental frontier calibration
+---
 
-After known-form micro-derivations exist, vary at least two ecology coordinates and test whether the complete finite Pareto frontier changes membership between registered morphology classes.
+## Stage E — exact developmental-frontier calibration
 
-Possible tiny axes:
+After known-form micro-derivations exist, vary at least two ecology coordinates and compute complete finite frontiers.
+
+Candidate axes:
 
 ```text
 reuse horizon
@@ -153,17 +238,22 @@ noise / stochasticity
 exact-verification requirement
 ```
 
-This is the first finite setting in which `DEVELOPMENTAL_FRONTIER_V1.md` can be attacked exactly rather than only discussed conceptually.
+Freeze phase-crossing predictions on development worlds, then test them on disjoint tiny worlds.
+
+This is the first exact test of `DEVELOPMENTAL_FRONTIER_V1.md` rather than a post-hoc explanation.
+
+---
 
 ## Adoption/kill rules
 
-- If every candidate basis is complete only because it contains a universal interpreter, return `UNIVERSAL_COMPUTATION_ONLY`.
-- If a “local adaptive transducer” result is already exactly captured by standard coalgebra/dynamical-system formalisms and no developmental/resource residual remains, return `PARENT_FORMALISM_SUFFICIENT`.
-- If different bases are equivalent but resource overhead differs, retain the Pareto/equivalence result rather than choosing a metaphysical winner.
-- If stochastic/probabilistic fixtures require a primitive not derivable at bounded cost, report the obstruction; do not hide stochasticity in an opaque random-program primitive.
-- If one basis is selected only after seeing target results, the study becomes exploratory and must be re-frozen.
-- If phase regions are explained only after outcomes, no phase-law credit is earned.
+- Universal interpreter success alone -> `UNIVERSAL_COMPUTATION_ONLY`.
+- Generic local state-machine success already captured by coalgebra/dynamical parents with no residual -> `PARENT_FORMALISM_SUFFICIENT`.
+- Boolean functional-completeness/minimal-basis results -> parent mathematics/calibration, not GMI novelty.
+- Different bases equivalent but resource-ranked differently -> preserve Pareto/equivalence result; do not force a metaphysical winner.
+- Stochastic fixture needs irreducible stochastic primitive at registered bound -> report obstruction, do not hide randomness in opaque code.
+- Basis chosen after target results -> exploratory only; re-freeze.
+- Phase regions explained after outcome -> no phase-law credit.
 
 ## No-HPC rule
 
-GMI-D2 is intentionally finite/exact and should run on ordinary hardware. #221/#220 search machinery is not authorized until the exact microscope has established a neutral grammar, equivalence test and nontrivial residual.
+GMI-D2 remains finite/exact and runs on ordinary hardware. #221/#220 search machinery is not authorized until the structured grammar, equivalence test and nontrivial residual survive these microscopes.
