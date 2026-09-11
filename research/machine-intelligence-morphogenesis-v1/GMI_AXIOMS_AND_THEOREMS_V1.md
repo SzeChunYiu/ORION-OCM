@@ -8,15 +8,17 @@ The aim is to make GMI-v1 a theory with explicit assumptions, not a vocabulary l
 
 # Axioms / constitutive assumptions
 
-## A0 — obligation relativity
+## A0 — obligation and protocol relativity
 
-Every intelligence claim is made relative to a declared cognitive obligation
+Every intelligence claim is made relative to a declared cognitive obligation/development contract
 
 \[
-\mathcal O=(\mathfrak E,\mathcal A,\mathcal Y,V,C,\rho,H).
+\mathcal O=(\mathfrak E,\mathcal A,\mathcal Y,V,C,\rho,H,D,J),
 \]
 
-There is no claim of architecture-independent success without specifying what outcomes count, what information/actions are legal, who verifies them, and what resources are charged.
+where `D` fixes initialization/development/intervention permissions and `J` fixes the future probe/intervention class relevant to state distinguishability.
+
+There is no claim of architecture-independent success without specifying what outcomes count, what information/actions/updates are legal, who verifies them, what resources are charged, and which starting capital is supplied.
 
 ## A1 — external verification separation
 
@@ -30,14 +32,14 @@ low training loss == truth == capability.
 
 ## A2 — future-consequence developmental-state equivalence
 
-A **developmental situation** `d=(chi,h,xi)` contains the current machine configuration `chi`, registered interaction/development history `h`, and any current ecology/authority context `xi` that can affect protected futures.
+A **developmental situation** `d=(chi,h,xi)` contains the current machine configuration `chi`, registered interaction/development history `h`, and any current public/experimental context `xi` that can affect protected futures.
 
-Two developmental situations are equivalent iff no admissible future intervention/programme can distinguish them through registered future verified outputs, machine-development traces or resource receipts:
+Two developmental situations are equivalent iff no admissible future intervention/programme in `J`, under the same development protocol `D`, can distinguish them through registered future verified outputs, developmental changes or resource receipts:
 
 \[
-d\sim_{\mathcal O}d'
+d\sim_{\mathcal O,D,J}d'
 \iff
-\forall \alpha:\ P(Future_{\mathcal O}|d,\alpha)=P(Future_{\mathcal O}|d',\alpha).
+\forall j\in J:\ P(Future_{\mathcal O}|d,j,D)=P(Future_{\mathcal O}|d',j,D).
 \]
 
 The equivalence class is the abstract developmental sufficient state.
@@ -58,11 +60,11 @@ Execution/cognition, within-form development, and morphogenesis are distinct pro
 
 ## A6 — inherited development
 
-A change counts as developmental only when information/state produced by earlier experience persists causally into future cognition or future update/morphogenesis.
+A change counts as developmental only when information/state produced by earlier registered experience persists causally into future cognition or future update/morphogenesis.
 
 ## A7 — no universal superiority without ecology restriction
 
-Morphology/situation superiority is always relative to an ecology/resource/verifier class. A global total order is not assumed.
+Morphology/deployed-system superiority is always relative to an ecology/resource/verifier/development class. A global total order is not assumed.
 
 ---
 
@@ -118,7 +120,7 @@ while realization uses `n` local cells + one six-entry rule.
 
 **Class:** `DERIVED_FROM_DEFINITIONS`
 
-For two fixed morphologies/situations with build costs `A_i,A_j`, expected per-use scalarized burdens `c_i(E),c_j(E)`, and reuse horizon `H`,
+For two fixed deployed systems with scalarized build costs `A_i,A_j`, expected per-use burdens `c_i(E),c_j(E)`, and reuse horizon `H`,
 
 \[
 C_i=A_i+Hc_i(E),\quad C_j=A_j+Hc_j(E),
@@ -140,7 +142,7 @@ H^*=\frac{A_j-A_i}{c_i(E)-c_j(E)}.
 
 **Parent ownership:** amortization/materialization/algorithm-selection/resource economics.
 
-**GMI use:** this is the simplest phase law for why a high-build low-use-cost morphology (e.g. a trained neural model) may dominate only at sufficiently long reuse horizon.
+**GMI use:** simplest exact phase law for why a high-build low-use-cost system (e.g. a trained neural model) may dominate only at sufficiently long reuse horizon.
 
 ---
 
@@ -278,11 +280,15 @@ bits in the worst case.
 
 **Class:** `DEFINITION / ORDER THEORY`
 
-For ecology family `Eset`, developmental situation `(M1,d1)` dominates `(M2,d2)` when its capability-resource frontier weakly dominates on every registered ecology and strictly dominates somewhere if strict superiority is claimed.
+For an ecology family `Eset`, define a deployed system `S=(M,d,D)` and its intelligence profile. `S1` developmentally dominates `S2` when its capability-resource frontier weakly dominates on every registered ecology.
 
-This defines a partial order, not necessarily a total order.
+This relation is reflexive and transitive but not antisymmetric on machine identities: different systems can have identical profiles.
 
-**Consequence:** statements such as "more generally intelligent" can be made without inventing a universal scalar, provided the ecology family, initial developmental situations and frontier coordinates are explicit.
+Therefore generality dominance is a **preorder on deployed systems**.
+
+Define profile equivalence by mutual dominance. The induced relation is a partial order on profile-equivalence classes under the declared frontier semantics.
+
+**Consequence:** statements such as "more generally intelligent" can be made without a universal scalar, but the ecology family, starting situations, development protocols and frontier coordinates must be explicit.
 
 ---
 
@@ -290,13 +296,13 @@ This defines a partial order, not necessarily a total order.
 
 **Class:** `DERIVED_FROM_DEFINITION`
 
-A scalar generality score is meaningful only after declaring ecology distribution `mu`, initial developmental situation `d`, and utility/scalarization `u`:
+A scalar generality score is meaningful only after declaring ecology distribution `mu`, starting developmental situation `d`, development protocol `D`, and utility/scalarization `u`:
 
 \[
-G_{\mu,u}(M,d)=E_{E\sim\mu}[\sup_{(Q,B)\in F_M(E\mid d)}u(Q,B)].
+G_{\mu,u}(M,d,D)=E_{E\sim\mu}[\sup_{(Q,B)\in F_M(E\mid d,D)}u(Q,B)].
 \]
 
-Different `mu,u,d` can reverse rankings.
+Different `mu,u,d,D` can reverse rankings.
 
 **Parent relation:** Universal Intelligence supplies an especially broad complexity-weighted environment measure for reward-oriented agents; GMI retains raw developmental/resource profiles before scalarization.
 
@@ -304,19 +310,42 @@ Different `mu,u,d` can reverse rankings.
 
 # Theory closure conditions
 
-GMI-v1 may be called an **established synthesis theory at scope** when all of the following are true:
+## Established synthesis theory at scope
 
-- [ ] definitions are internally consistent and non-circular;
-- [ ] finite exact reference implementation matches GMI-T01/T03/T04/T12;
-- [ ] formal mappings from at least four morphology families into the same schema are complete;
-- [ ] imported parent theorems have explicit assumption maps;
-- [ ] one real math/code domain pair uses the same burden/K1/K2 definitions without semantic changes;
-- [ ] hostile examples demonstrate when each major assumption fails.
+GMI-v1 may be called
 
-A **new general law** additionally requires:
+```text
+GMI_SYNTHESIS_THEORY_ESTABLISHED_AT_SCOPE_V1
+```
 
-- [ ] one pre-outcome cross-paradigm predictor/signature beats family-specific parent products on held-out regimes;
-- [ ] or one theory-predicted morphology phase transition is blindly recovered from a neutral candidate space;
-- [ ] or a theory-predicted parent-frontier hole is filled by a non-parent-equivalent morphology.
+when all are true:
 
-These are different scientific accomplishments and must not be conflated.
+- [ ] definitions/axioms are internally consistent and non-circular after hostile review;
+- [ ] finite exact reference implementation matches core profile/dominance/amortization/minimization semantics;
+- [ ] mappings from at least four materially different morphology families use the same schema/definitions;
+- [ ] imported parent theorems have explicit assumption maps/reduction maps;
+- [ ] major impossibility/negative cases are represented rather than excluded by definition.
+
+This is a **formal synthesis claim**, not an empirical cross-domain intelligence claim.
+
+## Empirically supported general developmental theory
+
+Additionally requires real-domain evidence that the same definitions survive materially different validation regimes (e.g. Lean mathematics + execution-verified coding) without semantic rewriting, with disjoint replication.
+
+## New general law
+
+Additionally requires at least one of:
+
+- [ ] pre-outcome cross-paradigm predictor/signature beats family-specific parent products on held-out regimes;
+- [ ] theory-predicted morphology phase transition recovered prospectively from a neutral endogenous candidate space;
+- [ ] theory-predicted parent-frontier hole filled by a non-parent-equivalent morphology.
+
+## New form of intelligence
+
+Requires the third route plus parent reduction and replication.
+
+## RSI / meta-morphogenesis
+
+Requires declining burden to obtain fresh verified frontier improvements across genuine generations under a fixed external constitution and strong meta-optimization parents.
+
+These accomplishments are different rungs and must not be conflated.
