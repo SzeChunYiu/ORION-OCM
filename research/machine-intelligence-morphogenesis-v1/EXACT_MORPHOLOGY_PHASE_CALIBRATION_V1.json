@@ -1,0 +1,30 @@
+{
+  "schema": "ExactMorphologyPhaseCalibrationV1",
+  "ecology": "one supervised binary-label example at x=0; labels 0/1 equally weighted; then predict the taught constant label for probe inputs x=0 and x=1",
+  "candidate_space": "all 9216 morphologies from StructuredAdaptiveGrammarCensusV1",
+  "perfect_morphologies": 996,
+  "pareto_morphologies": 12,
+  "resource_coordinates": [
+    "description_tokens",
+    "expected_changed_local_state_bits_during_training",
+    "expected_changed_edge_bits_during_training",
+    "expected_neighbor_messages_per_future_query",
+    "output_compute_units_per_future_query"
+  ],
+  "pareto_resource_vectors": [
+    [3, 0.5, 0.0, 0.0, 1],
+    [4, 0.0, 0.5, 0.5, 1]
+  ],
+  "state_storage_interpretation": "WRITE_LABEL into local state and read STATE during future inference",
+  "topology_storage_interpretation": "store positive label by activating the edge to a seeded neighbor bit and read NEIGHBOR during future inference",
+  "scalar_cost_model": "C = w_desc*description + w_state*state_writes + w_edge*edge_writes + H*(w_message*messages_per_query + w_query*query_compute)",
+  "exact_boundary": "topology storage wins iff w_state > 2*w_desc + w_edge + H*w_message",
+  "interpretation": [
+    "Two developmentally distinct morphology families achieve identical registered capability but occupy different raw resource regions.",
+    "Resource prices and reuse horizon can change which morphology is preferred.",
+    "Long horizons penalize topology storage when it requires repeated communication.",
+    "This is an exact calibration of Track-B frontier/phase machinery, not a novel phase law: resource-rational analysis and algorithm-selection parents own the generic cost-sensitive-selection principle."
+  ],
+  "terminal": "EXACT_MORPHOLOGY_PHASE_BOUNDARY_CALIBRATED__RESOURCE_RATIONAL_PARENT_OWNED",
+  "claim_ceiling": "finite exact phase-frontier calibration only"
+}
