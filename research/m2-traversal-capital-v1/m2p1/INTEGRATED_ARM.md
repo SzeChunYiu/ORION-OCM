@@ -102,3 +102,36 @@ Two errors, both visible in the state:
 Nothing new is read: the validation stream is solved history the dev phase already paid
 for. **Prediction:** FOREIGN_M1 picks frequency and depth 3 → ≈ 14.8 k (the standalone
 probe result); E5 and FV6 keep MDL and depth 3, unchanged.
+
+## At scale — the integrated arm on 670 executed targets, on the registered prediction
+
+**Registered:** ≈ 1 650 mean `B`, conservative pays at break-even ≈ 475, liveness never
+stands down. **Observed:**
+
+| arm | life_3001 (670) | life_3003 (669) |
+|---|---|---|
+| **`CONTINUED_OCM`** | **1 657.7** | **1 633.3** |
+| `PARENT_WITH_MDL` (same library) | 3 237.5 | 3 241.5 |
+| `RESET` | 3 613.8 | 3 647.2 |
+| `ORDINARY_ADAPTIVE_PARENT` | 3 842.3 | 3 937.1 |
+| `SHUFFLED_HISTORY` | 7 177.7 | 7 237.6 |
+
+Every target verified. −54 % vs RESET, **−49 % vs the parent holding the identical
+library**, within 0.5 % of the prediction.
+
+### The ledger — two honest readings of "conservative"
+
+The arm ledger (`m2p1_ledger3.py`) and the probe-gate ledger disagree on one line, and
+the disagreement is a definition, not an error:
+
+| ledger | what "conservative" charges | cost | break-even | pays at 670 |
+|---|---|---|---|---|
+| arm ledger | developmental solving **+ the whole validation phase** | 1 718 166 | **878** | ✗ |
+| probe-gate ledger | developmental solving only | 929 652 | **475** | ✓ |
+| middle | dev + validation's *candidate* half only | ≈ 1.35 M | ≈ 690 | ✗ (just) |
+
+Validation's *baseline* solves are real targets the agent solved — wanted cognition — so
+charging them as overhead is the maximally hostile view; its *candidate* solves are the
+admission check's own cost. The conservative verdict therefore turns on that one
+attribution and is reported as **borderline, sign depending on the charging rule**.
+Marginal (break-even 403) and incremental (215) pay under both ledgers.
