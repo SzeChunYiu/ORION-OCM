@@ -117,3 +117,16 @@ INDEXED_VARIANTS = {b.name: b for b in (B0i, B1i, B3i)}
 CANDIDATES = {b.name: b for b in (B0, B1, B2, B3)}
 PARENTS = {b.name: b for b in (U, P3)}
 ALL = {**CANDIDATES, **PARENTS}
+
+# RV-377-035: a DECLARED hardware-priced parent column (tensor accelerator reading of P-N4/P-N5 in
+# NEURAL_MORPHOLOGY_PARENT_ANALYSIS_V1): arithmetic and the adjoint are native at unit cost (MUL = 1, not 2), store
+# operations are native but memory-bound (8 per activation), stochastic ops emulated. Not a member of ALL: no existing
+# receipt is re-priced; used only by the CLIs that name it.
+HW = Basis(
+    "HW_TENSOR_PRICED",
+    BOOL_OPS | FIN_OPS | FX_OPS | ADJ_OPS | STORE_OPS,
+    {op: 1 for op in BOOL_OPS | FIN_OPS | FX_OPS | ADJ_OPS} | {op: 8 for op in STORE_OPS},
+    _DESC_FULL, 1, 1, 2, _STORE_ENTRY,
+    "declared hardware price vector: dense arithmetic and adjoints at unit cost, memory-bound store activations at 8x",
+)
+ALL_HW = {**ALL, HW.name: HW}

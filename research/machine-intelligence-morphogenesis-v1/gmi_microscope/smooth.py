@@ -458,15 +458,15 @@ def analytic_rstar(pe_i, pe_j, Hh):
     return round(a / b, 3) if b > 0 and a > 0 else None
 
 
-def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all", target=None, noise=False):
+def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all", target=None, noise=False, columns=None):
     rows = rows or ROWS
     target = make_target(coeffs) if target is None else target
-    cols = list(bases.ALL)
+    cols = list(columns or bases.ALL)
     cells = {}
     for row, cls in rows.items():
         for col in cols:
             for size in cls.ladder:
-                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows, criterion, noise)
+                cells[(row, col, size)] = run(row, (columns or bases.ALL)[col], size, seed, target, n_events, rows, criterion, noise)
     c2 = {f"{row}@{size}": all(cells[(row, col, size)]["D"] == cells[(row, cols[0], size)]["D"] for col in cols) for row, cls in rows.items() for size in cls.ladder}
     caps = {f"{row}|{col}|{size}": cells[(row, col, size)]["capability"] for (row, col, size) in cells}
     H_GRID = [1, 2, 4, 8, 16, 32, 64, 128]; R_GRID = [0, 1, 2, 4, 8, 16, 32]
@@ -564,6 +564,13 @@ if __name__ == "__main__":
         # RV-377-021: symmetric-coefficient ecology E_sym(a), a = k/16 given as the integer k; rows ROWS_V4 (S5k = kNN memory)
         k = int(sys.argv[2]); a = k / 16
         main(coeffs=(a, a, a, a), tag=f"V6_SYM{k}", n_events=16, rows=ROWS_V4, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "hw":
+        # RV-377-035: the hardware-priced column added to the six registered columns (ROWS_V6)
+        which = sys.argv[2]
+        if which == "smooth3": main(coeffs=COEFFS_V3, tag="V16_SMOOTH3_HW", n_events=16, rows=ROWS_V6, criterion="unseen", columns=bases.ALL_HW)
+        else:
+            k = int(which); a = k / 16
+            main(coeffs=(a, a, a, a), tag=f"V16_SYM{k}_HW", n_events=16, rows=ROWS_V6, criterion="unseen", columns=bases.ALL_HW)
     elif len(sys.argv) > 1 and sys.argv[1] == "syma":
         # RV-377-034: E_sym(k/16) with the attention row (ROWS_V8)
         k = int(sys.argv[2]); a = k / 16
