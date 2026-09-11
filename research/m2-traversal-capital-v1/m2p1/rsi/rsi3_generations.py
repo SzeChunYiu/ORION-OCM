@@ -34,16 +34,16 @@ from pathlib import Path
 CAUSES = ["C0_NO_FAILURE", "C1_INCOMPLETE_RECOVERY", "C2_ARRANGEMENT_DEPTH",
           "C3_UNSTRUCTURED_ECOLOGY", "C4_ESTIMATOR_VARIANCE", "C5_ECOLOGY_SHIFT"]
 REPAIR = {"C0_NO_FAILURE": "none", "C1_INCOMPLETE_RECOVERY": "MDL_SELECTION",
-          "C2_ARRANGEMENT_DEPTH": "REDUCE_K_OR_RAISE_P", "C3_UNSTRUCTURED_ECOLOGY": "APPLICABILITY_GATE",
+          "C2_ARRANGEMENT_DEPTH": "DEPTH_AWARE_DEPLOYMENT", "C3_UNSTRUCTURED_ECOLOGY": "APPLICABILITY_GATE",
           "C4_ESTIMATOR_VARIANCE": "EXPECTED_UTILITY_ADMISSION", "C5_ECOLOGY_SHIFT": "DEPLOYMENT_LIVENESS"}
 VALIDATED = {"E7_longhorizon": "MDL_SELECTION", "E3_16motifs": "MDL_SELECTION",
-             "D1_m12k4": "REDUCE_K_OR_RAISE_P", "D2_m12k4": "REDUCE_K_OR_RAISE_P",
+             "D1_m12k4": "DEPTH_AWARE_DEPLOYMENT", "D2_m12k4": "DEPTH_AWARE_DEPLOYMENT",   # the probe gate with cost-depth is what fixed these
              "FOREIGN_M1": "APPLICABILITY_GATE", "E5_healthy": "none", "E8_healthy": "none",
              "E6_healthy": "none", "PLAST_shift": "DEPLOYMENT_LIVENESS"}
 COST = {"composability": 4, "guided_depth": 4, "winrate": 1, "ci_shape": 1,
         "compression_gain": 3, "oracle_also_fails": 6, "drift_signal": 2,
         "mdl_response": 8,   # re-mine + re-validate: the dearest probe
-        "probe_pays": 2, "admitted": 0}   # arithmetic on the library; the gate's own verdict
+        "probe_pays": 2, "admitted": 0, "lib_overlap": 0}   # arithmetic on the library; the gate's own verdict
 
 
 def obs(c):
@@ -59,6 +59,8 @@ def obs(c):
         "probe_pays": ("unknown" if c.get("probe_pays_frac") is None else
                        "high" if c["probe_pays_frac"] >= 0.6 else "low" if c["probe_pays_frac"] >= 0.2 else "none"),
         "admitted": ("unknown" if c.get("admitted") is None else "yes" if c["admitted"] else "no"),
+        "lib_overlap": ("unknown" if c.get("lib_overlap") is None else
+                        "high" if c["lib_overlap"] >= 0.6 else "low" if c["lib_overlap"] >= 0.3 else "none"),
         "mdl_response": ("unknown" if c.get("mdl_response") is None else
                          "improves" if c["mdl_response"] > 0 else
                          "flat" if c["mdl_response"] == 0 else "worsens"),
@@ -95,6 +97,12 @@ LIK = {
                 "low": {"C1": .35, "C2": .30, "C3": .15, "C4": .10, "C5": .07, "C0": .03},
                 "high": {"C0": .45, "C1": .25, "C4": .15, "C5": .10, "C2": .03, "C3": .02},
                 "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
+ # lib_overlap: if compression and frequency select the same fragments, nothing was
+ # displaced -- recovery is complete, so a refusal is depth (C2) not recovery (C1)
+ "lib_overlap": {"high": {"C2": .45, "C0": .30, "C5": .10, "C4": .08, "C3": .04, "C1": .03},
+                 "low": {"C1": .40, "C2": .20, "C0": .15, "C3": .12, "C4": .08, "C5": .05},
+                 "none": {"C1": .55, "C3": .25, "C4": .08, "C2": .05, "C5": .04, "C0": .03},
+                 "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
  # the gate's own verdict: an admitted library is, by definition, not a failure
  # C0 "no failure" is DEFINED by admission in the labelling rule, so an unadmitted
  # library cannot be C0 (and an admitted one cannot be C1-C4). Encoding a definition,
@@ -120,6 +128,7 @@ GENERATIONS = [
     ("G4", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response"]),
     ("G5", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response", "probe_pays"]),
     ("G6", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response", "probe_pays", "admitted"]),
+    ("G7", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response", "probe_pays", "admitted", "lib_overlap"]),
 ]
 
 
