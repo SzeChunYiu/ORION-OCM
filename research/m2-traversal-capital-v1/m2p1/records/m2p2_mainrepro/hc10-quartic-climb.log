@@ -1,0 +1,151 @@
+=== host cn090 world=M2P2_WORLD_hc10-quartic-climb main-runner reproduction of controller_v5; runner_sha=5bf2f8c2e2b19a8f methods_sha=e0a0565466dc6778
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": 29453.2,
+  "ci95_low": 22039.1,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": true,
+  "reason": "admitted"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[8, 5, 1, 2]": true,
+   "[8, 6, 6, 2]": false,
+   "[8, 6, 3, 2]": true,
+   "[8, 5, 0, 2]": true,
+   "[8, 5, 6, 2]": true,
+   "[8, 6, 2, 2]": true,
+   "[8, 6, 4, 2]": false,
+   "[8, 6, 1, 2]": true,
+   "[8, 6, 5, 2]": false,
+   "[8, 3, 0, 2]": true
+  },
+  "fallback": false,
+  "probe_depth": 4,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 29 of 108 rows",
+  "beta": 22620,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 18466.4,
+   "mdl": 20758.4
+  },
+  "validated_better_interleave": {
+   "frequency": 86,
+   "mdl": 95
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "square"
+  ],
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "double",
+   "square"
+  ],
+  [
+   "inc",
+   "square"
+  ],
+  [
+   "square",
+   "double"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "inc",
+   "double"
+  ],
+  [
+   "square",
+   "dec"
+  ]
+ ],
+ "mdl_admission": false,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "mdl_strictly_better": 95,
+ "train_solved": 164,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 108,
+ "held_out_strictly_better": 86,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 46963.0,
+ "held_out_mean_candidate": 17509.8,
+ "wall_seconds": 1728.68,
+ "pid": 2452764
+}
+checkpoint written, pid 2463498
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 4 beta 22620, rule cells 10",
+ "fragments_served": 8,
+ "process": {
+  "pid": 2463500,
+  "pre_restart_pid": 2463498,
+  "pid_changed": true
+ },
+ "targets": 163,
+ "ladder": [
+  200000
+ ],
+ "successes": 163,
+ "attempts": 163,
+ "all_targets_verified": true,
+ "ladder_total": 163,
+ "mean_B_slots": 8521.0,
+ "external_verifications": 163,
+ "successes_by_budget": {
+  "200000": 163
+ },
+ "wall_seconds": 267.48
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 8,
+ "process": {
+  "pid": 2464165,
+  "pre_restart_pid": 2463498,
+  "pid_changed": true
+ },
+ "targets": 163,
+ "ladder": [
+  200000
+ ],
+ "successes": 163,
+ "attempts": 163,
+ "all_targets_verified": true,
+ "ladder_total": 163,
+ "mean_B_slots": 13760.4,
+ "external_verifications": 163,
+ "successes_by_budget": {
+  "200000": 163
+ },
+ "wall_seconds": 132.23
+}
+
+=== DONE M2P2_WORLD_hc10-quartic-climb 2026-09-11T18:05:53Z

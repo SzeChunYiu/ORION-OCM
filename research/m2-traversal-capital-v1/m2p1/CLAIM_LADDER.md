@@ -99,3 +99,16 @@ identity, so "beats the strongest parent" is not claimed until the absorbed guid
 enumeration at hindsight-best fixed depth, registered before its run) is measured. Target (3) is open at that scope. It is exploratory relative to the frozen M2-P2 family,
 whose terminal stays `CANNOT_CHECK_NO_ADMITTING_WORLD`; the rung stays C2. The next step that would move
 target (1) is a prospective M2-P3 registration: a fresh authoring with controller_v5 frozen as the primary arm.
+
+**Update (2026-09-12, later): target (3) is FALSIFIED at authored-world scope.** The absorbed guided-first parent
+has landed (LUNARC 3598971; INTEGRATED_ARM.md, records/m2p2_gf/). A single fixed, non-oracle parent,
+`PARENT_GF_D4` (MDL library, depth 4, always live, no rule, plain-baseline fallback), **ties controller_v5 on
+hc01, hc02, hc03, hc06 and hc10, and beats it on hc05, hc08 and hc09 (−11 … −17 %)**. On the ties the controller
+reduced to that parent. The controller's learned components (library selection, the task-statement miss rule,
+liveness) are net-negative or neutral against it on every authored world. **No OCM-specific residual beyond
+guided-first serving is claimed anywhere in this lane.** The failure is attributed to two stages, recorded
+separately in the revival ledger: library selection, where the validation cost model tiles only canonical programs
+while the probe hits equivalent ones; and miss routing to the interleave. The tuning stream does carry selection
+signal (ρ 0.64–1.0), but on hc08 and hc09 it robustly ranks the contested libraries the wrong way (validation
+bootstrap P = 0.018 and 0.001), so selection from the tuning stream is unavailable there, and measuring the probe
+directly does not help. The lever moves upstream to mining coverage (ledger row 58). The rung stays C2.
