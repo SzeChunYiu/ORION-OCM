@@ -55,6 +55,21 @@ def tileable(prog, lib):
     return best[n]
 
 
+def feats_observable(nf, lib):
+    """Computable from the TASK STATEMENT alone: the target polynomial's coefficients."""
+    deg = len(nf) - 1
+    sup = sum(1 for c in nf if c != 0)
+    mag = max(max(abs(c.numerator).bit_length(), abs(c.denominator).bit_length()) for c in nf)
+    return (min(deg, 8), min(sup, 6), min(mag // 4, 6), min(len(lib), 16) // 4)
+
+
+def feats_oracle(nf, lib, row=None):
+    """ANSWER-DERIVED. canonical_program and baseline_first_index are properties of the
+    SOLUTION, not the task; a deployed gate cannot read them for an unsolved target.
+    Retained ONLY as a calibration upper bound and always labelled ORACLE_FEATURES."""
+    return feats(nf, lib, row)
+
+
 def feats(nf, lib, row=None):
     """MECHANISM-DERIVED features, replacing the generic surface ones.
 
@@ -101,6 +116,11 @@ def main() -> int:
     ap.add_argument("--slots", type=int, default=200000)
     ap.add_argument("--use-mdl", action="store_true")
     ap.add_argument("--targets", type=int, default=0)
+    ap.add_argument("--features", choices=("observable", "probe", "oracle"), default="observable",
+                    help="observable: task-statement features only (deployable). "
+                         "probe: no fitted rule -- run the guided stream ALONE for beta "
+                         "slots (charged); hit -> done, miss -> RESET. oracle: "
+                         "answer-derived features, calibration ceiling only.")
     ap.add_argument("--fit-n", type=int, default=0,
                     help="cap the validation rows used to fit the gate. The fit IS the "
                          "gate's marginal acquisition cost, so this is the lever for the "
@@ -133,7 +153,8 @@ def main() -> int:
         t = M.PolynomialTask(f"ap-fit:{i}", nf)
         b = M.solve(t, budget)
         c = M.solve(t, budget, method)
-        fit_rows.append((feats(nf, lib, row), b.slots - c.slots))
+        z_fit = (feats_oracle(nf, lib, row) if a.features == "oracle" else feats_observable(nf, lib))
+        fit_rows.append((z_fit, b.slots - c.slots))
         fit_cost += b.slots + c.slots
         fit_cost_candidate += c.slots
     rule, fallback = fit_rule(fit_rows)
@@ -142,6 +163,8 @@ def main() -> int:
     prot = eco["streams"]["protected"]
     if a.targets:
         prot = prot[: a.targets]
+    _T = len(lib) + len(M.PRIMITIVES)
+    beta = min(_T + _T ** 2 + _T ** 3, 20000)   # all <=3-token guided words; the probe's price
     arms = {k: [] for k in ("RESET", "ALWAYS_SERVE", "APPLICABILITY", "ORACLE_APPL")}
     served = 0
     for i, row in enumerate(prot):
@@ -149,12 +172,36 @@ def main() -> int:
         t = M.PolynomialTask(f"ap:{i}", nf)
         b = M.solve(t, budget)
         c = M.solve(t, budget, method)
-        z = feats(nf, lib, row)
-        decide = rule.get(z, fallback)
+        if a.features == "probe":
+            # charged ACTION, observable by construction: enumerate the guided stream alone
+            # (library tokens + primitives, words of <= 3 tokens, every word one slot, the
+            # same accounting as solve) and stop at the first verified hit or at beta.
+            tokens = tuple(lib) + tuple((op,) for op in M.PRIMITIVES)
+            beta_used, hit = 0, None
+            from itertools import product as _prod
+            for L in (1, 2, 3):
+                for word in _prod(tokens, repeat=L):
+                    beta_used += 1
+                    if beta_used > beta:
+                        break
+                    prog = tuple(op for tok in word for op in tok)
+                    if len(prog) > 8:
+                        continue
+                    if M.normal_form(prog) == nf:
+                        hit = beta_used
+                        break
+                if hit is not None or beta_used > beta:
+                    break
+            decide = hit is not None
+            probe_B = hit if hit is not None else beta + b.slots   # miss: fall back to RESET
+        else:
+            z = (feats_oracle(nf, lib, row) if a.features == "oracle" else feats_observable(nf, lib))
+            decide = rule.get(z, fallback)
+            probe_B = None
         served += int(decide)
         arms["RESET"].append(b.slots)
         arms["ALWAYS_SERVE"].append(c.slots)
-        arms["APPLICABILITY"].append(c.slots if decide else b.slots)
+        arms["APPLICABILITY"].append(probe_B if probe_B is not None else (c.slots if decide else b.slots))
         arms["ORACLE_APPL"].append(min(b.slots, c.slots))
 
     n = len(prot)
@@ -179,7 +226,13 @@ def main() -> int:
                         "net": round(saved_total - fit_cost_candidate, 1)},
         "definitions": "conservative = dev solving + full fit; marginal = full fit; incremental = the fit's candidate half only",
     }
-    out = {"schema": "OCM_M2_APPLICABILITY_V1", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+    out = {"schema": "OCM_M2_APPLICABILITY_V2", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+           "feature_mode": a.features,
+           "deployable": a.features in ("observable", "probe"),
+           "leak_note": ("ORACLE_FEATURES: answer-derived, calibration ceiling only, NOT a "
+                         "deployable gate" if a.features == "oracle" else
+                         "features/actions computable from the task statement or charged probes"),
+           "probe_beta_slots": beta if a.features == "probe" else None,
            "ledger": ledger, "dev_solve_slots": dev_solve, "fit_cost_slots": fit_cost, "fit_n": len(fit_rows),
            "label": a.label, "library_source": key, "library_size": len(lib),
            "targets": n, "served_fraction": round(served / n, 3) if n else None,
@@ -195,6 +248,7 @@ def main() -> int:
            "note": ("rule fitted on the VALIDATION stream only; protected targets untouched "
                     "during fitting. Explicit decision list, no learned router (#71 rung 1).")}
     Path(a.out).write_text(json.dumps(out, indent=1, sort_keys=True))
+    print("[%s] " % a.features.upper(), end="")
     print("%-14s lib=%-3s served=%-6s | RESET=%-9s ALWAYS=%-9s APPL=%-9s ORACLE=%-9s | vs_reset=%s vs_always=%s -> %s" % (
         a.label, len(lib), out["served_fraction"], reset, always, appl, orc,
         out["applicability_vs_reset"], out["applicability_vs_always"], out["terminal"]))

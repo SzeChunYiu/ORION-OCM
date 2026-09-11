@@ -1,4 +1,22 @@
-# Applicability control — the highest architectural gap, implemented and positive
+# Applicability control — **RETRACTED AS DEPLOYABLE; stands as a calibration ceiling**
+
+> **Leak found by this lane's own audit.** The "v2 mechanism-derived" features below are
+> `tile_tokens(canonical_program)` and `baseline_first_index` — properties of the
+> **solution**, not the task. Fitting on validation is legitimate (those targets are solved
+> history), but *applying* the rule to an unsolved protected target reads its answer. The
+> v2 rows are therefore an **oracle-feature ceiling**, not a deployable gate, and the same
+> applies to the 670-target LUNARC result and the fit-size sweep, which used them.
+>
+> The deployable gate is **v1 (observable features)**, which lost to always-serve on two of
+> three ecologies. Status: **applicability control 🟢 → 🟡**. The tool now refuses
+> answer-derived features unless `--features oracle` is passed explicitly and labels every
+> output with its feature mode. Revival launched: a **probe gate** — the "feature" is a
+> charged action (run the guided stream alone for β slots; hit → done, miss → RESET),
+> observable by construction.
+>
+> Invariant added to the lane: **a deployment predicate may read the task statement and
+> the outcomes of charged actions, never the solution.**
+
 
 #357 named applicability the missing link: an oracle takes 12/40 → 36/40, while retrieval
 timing alone is *exactly* null. This lane's evidence agreed from the other side — the
