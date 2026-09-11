@@ -735,3 +735,61 @@ is (validating a depth-4 library there costs ≈ three baselines). **Falsifier:*
 of fresh seeds meet the 0.85 bar — then C3 is recorded **NOT_ESTABLISHED at this grammar** and
 this chain stops.
 
+## continual_v6.3 — outcomes (every arm verifies every target; records/abc/*_v6.3_*, records/crossworld/*_v6.3_*)
+
+**C3b, fresh laptop seeds (LUNARC seeds 607–612 still running; the C3b terminal is recorded when
+they finish):**
+
+| seed | RESET C | fixed controller C | ablation C | recombination C | ratio | lifetimes (RESET / fixed / ablation / recombination) |
+|---|---|---|---|---|---|---|
+| 604 | 3 808 | 4 017 | 6 039 | 6 222 | 1.030 | 3 781 / 3 124 / 3 478 / 3 539 |
+| 605 | 2 897 | 3 077 | 3 536 | 3 991 | 1.129 | 3 334 / 2 811 / 2 762 / 2 913 |
+| 606 | 3 204 | 3 276 | 2 768 | 2 847 | 1.029 | 3 485 / 2 724 / 2 077 / 2 104 |
+
+Recombination is worse than the ablation on all three fresh laptop seeds. The registered bar
+(≤ 0.85 × on ≥ 2 / 3 of the nine fresh seeds) can now be met only if all six LUNARC seeds pass.
+
+**Regressions.** Shift lifetimes SHIFT45 1 497.3 (+0.6 %), s602 1 758.1 (−0.1 %), s604 1 890.8
+(+0.7 %) — held; **s603 1 576.8**, the best of any version. Cross-world pairs all improved:
+E7 → E8_m7 **14 443** (0.35 × the fixed controller), E8_m7 → E7 **30 028** and E5 → E7 **29 974**
+(0.47 ×) — re-mining on any stood-down target learns the foreign world sooner. E5 and FV6
+identical. ABC seeds 601–603: ablation lifetimes 2 151 / 2 302 / 2 308 (s603 −18 % vs v6.2).
+**FV8: 63 722 (+13.7 % vs RESET), all 120 targets verified** — the honest figure.
+
+**s604 attributed (records/abc/ABC_s604_v6.3_*).** Both continual arms cost ≈ 6 000 in regime C
+against RESET's 3 808. Three things, all visible in the rows: (i) every eight targets a charged
+re-probe of both retained libraries costs exactly +10 304 (β 1 884 + β 8 420); (ii) C is made of A's
+and B's motifs, so each old library hits a C target now and then, is reactivated, and pays β-priced
+misses before standing down again (108–113); (iii) every stand-down of the *developmental*
+library reset the regime corpus, so regime C never accumulated the 20 solutions needed to learn —
+the first attempt was "too few solutions in this regime" at target 129. The reset is a v2
+mechanism that v6.1's two windows made redundant. The ablation fails identically, so this is an
+acquisition defect in both arms, exposed by exactly the mixed regime where retained capital
+should matter most.
+
+**FV8 attributed (records/continual/FV8_v6.3_*).** Validation charged 235 506; the rest of the
+920 k excess over the fixed controller is two *validated* deployments that lost — an MDL library
+at target 76 (depth 4, β 69 904, 6 / 8 tiled, validated +16 807) and a compact library at 91 (depth 4,
+β 54 240, 5 / 8, +11 970). The organism made the same mistake twice with first-hand evidence
+after the first.
+
+## continual_v6.4 and C3c (registered 2026-09-11, before any run)
+
+Mechanism (three parts, each from a recorded failure, no new constant):
+(a) the regime window is never reset — the two windows and validation decide (s604);
+(b) a liveness event log (stand-down / reactivate / deploy / failed deployment) in every record;
+(c) **evidence must exceed the evidence that already failed**: when a learned library stands down
+having realised negative value while live, later candidates must tile *more* validation tasks than
+it did (FV8) — the organism's own failed learning attempts raise its bar.
+
+Predictions. *Diagnostic (the seeds that exposed the defects; not confirmation):* s604 — both
+continual arms' regime-C cost ≤ RESET's (3 808); FV8 — the second validated deployment is blocked
+(`failed_deployment` in the log), FV8 ≤ +8 % vs RESET, all targets verified. *Regressions (± 2 % of
+v6.3):* the four shift lifetimes, E5, FV6, the three cross-world pairs, ABC 601–603 / 605 / 606.
+*C3c (fresh A seeds 613–615 on laptop billy, 616–621 on LUNARC):* recombination's regime-C cost
+≤ 0.85 × the ablation's on ≥ 2 / 3 of the fresh seeds that pass the ecology gate, and **both continual
+arms' regime-C cost ≤ RESET's on every fresh seed**; every arm verifies every target.
+**Terminal rule, stated now:** if C3c fails its bar, C3 (retained capital cutting the in-life cost
+of acquiring a new regime) is recorded **NOT_ESTABLISHED at this grammar** and this chain stops —
+no further C3 revisions on this grammar.
+
