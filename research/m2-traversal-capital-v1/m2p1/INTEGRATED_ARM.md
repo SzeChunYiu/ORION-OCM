@@ -191,3 +191,26 @@ never dropped below the floor, so the probe never stood down there.
 
 **Registered before the re-run:** `A ≈ 507`, `B ≈ RESET + re-probe overhead ≈ 4 100`,
 `A′ ≈ 507` after reactivation within one window, lifetime ≈ 1 800 vs parent 3 314.
+
+### liveness_v2 — both directions fire inside the runner
+
+| segment | RESET | **`CONTINUED_OCM` v2** | parent + library | v1 |
+|---|---|---|---|---|
+| A | 3 363 | **507** | 1 013 | 507 |
+| B (stale library) | 3 933 | 5 208 | 7 865 | 8 207 |
+| A′ | 3 282 | **731** | 1 065 | 1 065 |
+| **lifetime** | 3 526 | **2 149** | 3 314 | 3 260 |
+
+Lifetime moves from a marginal edge (−1.6 % vs the parent) to **−35 % vs the parent and
+−39 % vs RESET**. In `B` the probe stands down and misses go to RESET; in `A′` it comes
+back within a window.
+
+Against the registered predictions: `A` exact; `A′` *better* than the one-window-lag
+estimate (731 vs ~1 250); **`B` missed by 27 %** — predicted ≈ 4 100, observed 5 208. The
+estimate under-counted the eight pre-detection targets, each paying `β` plus the full
+fallback before the hit-rate floor is crossed. That is the price of a detection window,
+and it is recorded as a missed prediction rather than absorbed.
+
+`B` at +32 % over RESET is the integrated arm's worst regime: a stale library costs a
+window of misses to detect and a re-probe every window to monitor. The parent's cost in
+the same regime is +100 %.
