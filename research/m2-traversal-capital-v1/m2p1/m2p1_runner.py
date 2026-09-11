@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.3"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.4"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -182,7 +182,7 @@ def _fit_controller(M, lib, val_rows):
             "val_better": better, "val_n": len(deltas)}, charged
 
 
-def _remine(M, solved, pool=None, recent=None):
+def _remine(M, solved, pool=None, recent=None, min_tilable=0):
     """Mine candidate libraries from the organism's own verified acquisitions and validate them
     on the most recent held-out slice (charged guided-only probes). solved = the regime window
     [(task, SearchResult, B)]; recent = the window since the last stand-down of ANY library.
@@ -249,7 +249,11 @@ def _remine(M, solved, pool=None, recent=None):
     # own EU-admission rule applied in life. FV8: a depth-4 candidate (beta 54 240) validated 7/8
     # with mean delta +19 500, then hit ~54 % in deployment and lost 124 k.
     def _passes(r, need_ci):
-        base = r["val_mean_delta"] > 0 and r["val_better"] * 2 > r["val_n"]
+        # v6.4: a candidate must present MORE validation evidence (tasks tiled at its depth) than
+        # the strongest learned library that was validated and then lost in deployment -- the
+        # organism's own failed learning attempts raise its bar (FV8: two libraries validated at
+        # 6/8 and 5/8 tiled both lost; the second deployment would have been blocked).
+        base = r["val_mean_delta"] > 0 and r["val_better"] * 2 > r["val_n"] and r.get("tilable_at_depth", 0) > min_tilable
         return base and (not need_ci or (r.get("val_ci95_low") is not None and r["val_ci95_low"] > 0))
     eligible = [r for r in fitted.values() if _passes(r, CONTINUAL["deploy_ci"])]
     blocked = (not eligible) and any(_passes(r, False) for r in fitted.values())
@@ -263,7 +267,7 @@ def _remine(M, solved, pool=None, recent=None):
                              "tiling_probe_violations": v["tiling_probe_violations"],
                              "ci95_low": v.get("val_ci95_low"), "lib": v["lib"], "val_tilings": [x["tiling"] for x in v["fit_detail"]]} for k, v in fitted.items()},
           "val_programs": [list(r.program) for _, r, _ in val][:8],
-          "chosen": best["library"], "deployed": bool(ok), "blocked_by_ci": blocked}
+          "chosen": best["library"], "deployed": bool(ok), "blocked_by_ci": blocked, "min_tilable": min_tilable}
     return (best if ok else None), charged, ev
 
 
@@ -629,10 +633,14 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         # try the OTHER retained libraries at once -- a return to a known
                         # regime should cost one probe each, not a cadence wait.
                         prev = C["active"]; C["active"] = None
+                        C.setdefault("live_log", []).append((i, "standdown", prev))
+                        if not str(L.get("library", "")).startswith("dev:") and C["vals"] and sum(C["vals"]) < 0:
+                            C["failed_evidence"] = max(C.get("failed_evidence", 0), L.get("tilable_at_depth", 0))
+                            C["live_log"].append((i, "failed_deployment", prev, round(sum(C["vals"]), 1), L.get("tilable_at_depth", 0)))
                         C["standdown_at"] = len(C["solved"])      # v6.1: start of the recent window
                         if str(L.get("library", "")).startswith("dev:") or L.get("regime") != C.get("regime_start"):
                             # a developmental or foreign-regime library standing down: a new regime begins
-                            C["regime_start"] = len(C["solved"]); C["since_mine"] = 0
+                            C["since_mine"] = 0   # v6.4: the regime window is no longer reset -- two windows + validation decide
                         else:
                             # v5.4: a library LEARNED IN THIS REGIME standing down is not evidence of a
                             # regime change (E7 -> E8m7: the first learned library covered the easy
@@ -645,7 +653,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L2["lib"]], L2["probe_depth"], min(L2["beta"], q))
                             used += u
                             if pr is not None:
-                                prog, C["active"] = pr, kk
+                                prog, C["active"] = pr, kk; C.setdefault("live_log", []).append((i, "reactivate", kk))
                                 C["hits"] = [True]; C["vals"] = []
                                 break
                 else:
@@ -660,14 +668,15 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                             used += u
                             if pr is not None:
-                                prog, C["active"] = pr, k
+                                prog, C["active"] = pr, k; C.setdefault("live_log", []).append((i, "reactivate", k))
                                 C["hits"] = [True]; C["vals"] = []   # v2: a fresh window for the reactivated library
                                 break
                         pool = sorted({tuple(f) for Lp in C["libs"] for f in Lp["lib"]}) if use_pool else None
                         need = (CONTINUAL["val_n"] + CONTINUAL["recomb_corpus"]) if pool else CONTINUAL["min_new"]
                         if prog is None and C["since_mine"] >= need:
                             rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool,
-                                                       recent=C["solved"][C.get("standdown_at", 0):])
+                                                       recent=C["solved"][C.get("standdown_at", 0):],
+                                                       min_tilable=C.get("failed_evidence", 0))
                             learn_charge += charged     # v6.3: never deducted from the search budget
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
@@ -676,7 +685,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             ev["target_index"] = i; C["events"].append(ev)
                             if rec is not None:
                                 rec["regime"] = C.get("regime_start", 0)
-                                C["libs"].append(rec); C["active"] = len(C["libs"]) - 1
+                                C["libs"].append(rec); C["active"] = len(C["libs"]) - 1; C.setdefault("live_log", []).append((i, "deploy", len(C["libs"]) - 1))
                                 pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
                                 used += u
                                 C["hits"] = [pr is not None]; C["vals"] = []   # v2: a fresh window for the new library
@@ -775,7 +784,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
            "rows": rows, "wall_seconds": round(time.perf_counter() - t0, 2)}
     if arm in ("CONTINUAL_OCM", "CONTINUAL_OCM_NOREC") and hasattr(phase_acquire, "_c"):
         C = phase_acquire._c
-        rep["continual"] = {"libraries_retained": len(C["libs"]),
+        rep["continual"] = {"libraries_retained": len(C["libs"]), "liveness_events": C.get("live_log", []),
                             "libraries": [{k: v for k, v in L.items() if k != "rule"} for L in C["libs"]],
                             "remine_events": C["events"], "params": CONTINUAL}
     (run / f"arm_{arm}.json").write_text(json.dumps(rep, indent=1, sort_keys=True))
