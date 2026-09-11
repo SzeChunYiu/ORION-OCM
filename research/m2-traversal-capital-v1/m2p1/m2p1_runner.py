@@ -22,7 +22,7 @@ LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
 ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
         "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
-        "PARENT_WITH_MDL", "CONTINUED_OCM")
+        "PARENT_WITH_MDL", "CONTINUED_OCM", "CONTINUAL_OCM")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -85,6 +85,82 @@ def _probe(M, nf, lib, depth, beta):
             if M.normal_form(prog) == nf:
                 return prog, used
     return None, used
+
+
+# ------------------------------------------------ continual development (CONTINUAL_OCM)
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16}
+
+
+def _fit_controller(M, lib, val_rows):
+    """Fit depth / rule / fallback for `lib` on a held-out slice of the organism's OWN
+    solved history: val_rows = [(task, program, baseline_B)]. Same rules as the dev-phase
+    controller_v2 (expected-cost depth, per-cell rule), but the candidate cost of each
+    validation task is measured by a CHARGED guided-only probe, never by a second full solve."""
+    T = len(lib) + len(M.PRIMITIVES)
+    hist = []
+    for _t, prog, bs in val_rows:
+        d = _tile_tokens(tuple(prog), lib) if prog else None
+        hist.append((d if d is not None else 99, bs))
+    depth, bc = 3, float("inf")
+    for D in range(1, 5):
+        bD = sum(T ** i for i in range(1, D + 1))
+        c = statistics.fmean((sum(T ** j for j in range(1, d_)) + T ** d_ / 2) if d_ <= D else bD + b_
+                             for d_, b_ in hist) if hist else float("inf")
+        if c < bc:
+            depth, bc = D, c
+    beta = sum(T ** i for i in range(1, depth + 1))
+    charged, deltas, cells = 0, [], {}
+    for task, prog, bs in val_rows:
+        pr, used = _probe(M, task.coefficients, lib, depth, beta)
+        charged += used
+        cand = used if pr is not None else used + bs       # miss: probe + the baseline it would then pay
+        deltas.append(bs - cand)
+        cells.setdefault(str(_obs_feats(task.coefficients, lib)), []).append(bs - cand)
+    rule = {z: (statistics.fmean(v) > 0) for z, v in cells.items()}
+    better = sum(1 for d in deltas if d > 0)
+    return {"lib": [list(f) for f in lib], "probe_depth": depth, "beta": beta, "rule": rule,
+            "fallback": (statistics.fmean(deltas) > 0) if deltas else False,
+            "val_mean_delta": round(statistics.fmean(deltas), 1) if deltas else 0.0,
+            "val_better": better, "val_n": len(deltas)}, charged
+
+
+def _remine(M, solved):
+    """Mine candidate libraries from the organism's own verified acquisitions and validate
+    them on the most recent held-out slice. solved = [(task, SearchResult, B)] in order.
+    Returns (controller_record or None, charged_slots, event)."""
+    if len(solved) < CONTINUAL["val_n"] + 2:
+        return None, 0, {"skipped": "too few solutions"}
+    val = solved[-CONTINUAL["val_n"]:]
+    corpus = solved[-(CONTINUAL["mine_n"] + CONTINUAL["val_n"]):-CONTINUAL["val_n"]]
+    if len(corpus) < 2:
+        return None, 0, {"skipped": "corpus<2"}
+    val_rows = [(t, r.program, b) for t, r, b in val]
+    cands = {}
+    try:
+        cands["frequency"] = tuple(M.learn_generator([(t, r) for t, r, _ in corpus]).fragments)
+    except Exception:
+        cands["frequency"] = ()
+    try:
+        import m2_mdl_selection as _mdl
+        picked = [f for f in _mdl.mdl_select([r.program for _, r, _ in corpus], cap=16) if 2 <= len(f) <= 8][:16]
+        cands["mdl"] = tuple(tuple(f) for f in picked)
+    except Exception:
+        cands["mdl"] = ()
+    charged, fitted = 0, {}
+    for name, lib in cands.items():
+        if not lib:
+            continue
+        rec, c = _fit_controller(M, list(lib), val_rows)
+        charged += c; rec["library"] = name; fitted[name] = rec
+    if not fitted:
+        return None, charged, {"skipped": "no candidate library", "charged": charged}
+    best = max(fitted.values(), key=lambda r: (r["val_better"], r["val_mean_delta"]))
+    ok = best["val_mean_delta"] > 0 and best["val_better"] * 2 > best["val_n"]
+    ev = {"corpus": len(corpus), "validated_on": len(val_rows), "charged": charged,
+          "candidates": {k: {"n": len(v["lib"]), "val_better": v["val_better"], "val_mean_delta": v["val_mean_delta"],
+                             "depth": v["probe_depth"]} for k, v in fitted.items()},
+          "chosen": best["library"], "deployed": bool(ok)}
+    return (best if ok else None), charged, ev
 
 
 # ---------------------------------------------------------------- checker C
@@ -254,7 +330,7 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
-    if arm == "CONTINUED_OCM":
+    if arm in ("CONTINUED_OCM", "CONTINUAL_OCM"):
         # INTEGRATED DEVELOPMENTAL CONTROLLER: MDL selection -> probe with history-learned
         # depth -> task-statement rule on a miss -> liveness on the probe hit-rate.
         # Reads only the task statement, solved history and charged-action outcomes.
@@ -265,8 +341,11 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not mdl:
             return M.GeneratorMethod(), "no library"
         return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
-            "integrated controller: probe depth %d beta %d, rule cells %d" % (
+            ("integrated controller: probe depth %d beta %d, rule cells %d" % (
                 ctl["probe_depth"], ctl["beta"], len(ctl["rule"]))
+             + ("; CONTINUAL: re-mines from its own verified acquisitions while stood down "
+                "(corpus %d, held-out %d, min new %d), retains every library"
+                % (CONTINUAL["mine_n"], CONTINUAL["val_n"], CONTINUAL["min_new"]) if arm == "CONTINUAL_OCM" else ""))
     if arm == "PARENT_WITH_MDL":
         # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
         # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
@@ -373,10 +452,69 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
         task = task_of(M, row, 20_000 + i)
         first_ok = None
         for q in ladder:
-            if arm == "CONTINUED_OCM" and method.fragments:
+            if arm == "CONTINUAL_OCM" and method.fragments:
+                # CONTINUAL DEVELOPMENT: the v3 controller, plus re-mining from the organism's
+                # own verified acquisitions while stood down. Reads only the task statement,
+                # its own solved history and charged-action outcomes; every probe, every
+                # validation probe and every interleave excess is charged to the target.
+                P = phase_acquire
+                if not hasattr(P, "_c"):
+                    c0 = dev["ocm_controller"]
+                    P._c = {"libs": [{"lib": [list(f) for f in method.fragments], "probe_depth": c0["probe_depth"],
+                                      "beta": c0["beta"], "rule": c0["rule"], "fallback": c0["fallback"],
+                                      "library": "dev:" + c0.get("library", "mdl")}],
+                            "active": None, "hits": [], "solved": [], "since_mine": 0, "events": []}
+                C = P._c
+                prog, used = None, 0
+                if C["active"] is not None:
+                    L = C["libs"][C["active"]]
+                    prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
+                    C["hits"].append(prog is not None)
+                    if len(C["hits"]) >= 8 and sum(C["hits"][-8:]) / 8 < 0.25:
+                        C["active"] = None                      # stand down
+                else:
+                    C["hits"].append(False)
+                    if (len(C["hits"]) - 1) % 8 == 0:           # re-probe every retained library
+                        for k, L in enumerate(C["libs"]):
+                            pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
+                            used += u
+                            if pr is not None:
+                                prog, C["active"] = pr, k
+                                C["hits"][-1] = True
+                                break
+                        if prog is None and C["since_mine"] >= CONTINUAL["min_new"]:
+                            rec, charged, ev = _remine(M, C["solved"])
+                            used += charged; C["since_mine"] = 0
+                            ev["target_index"] = i; C["events"].append(ev)
+                            if rec is not None:
+                                C["libs"].append(rec); C["active"] = len(C["libs"]) - 1
+                                pr, u = _probe(M, task.coefficients, [tuple(f) for f in rec["lib"]], rec["probe_depth"], min(rec["beta"], q))
+                                used += u
+                                if pr is not None:
+                                    prog = pr; C["hits"][-1] = True
+                if prog is not None:
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
+                                         prog, used, used, (0,), 8)
+                else:
+                    L = C["libs"][C["active"]] if C["active"] is not None else None
+                    use_inter = bool(L) and L["rule"].get(str(_obs_feats(task.coefficients, [tuple(f) for f in L["lib"]])), L["fallback"])
+                    rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
+                    meth = M.GeneratorMethod(tuple(tuple(f) for f in L["lib"]), method.training_tasks) if use_inter else None
+                    r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
+                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+                if M.verify_solution(task, res):
+                    C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
+            elif arm == "CONTINUED_OCM" and method.fragments:
                 ctl = dev["ocm_controller"]; lib = list(method.fragments)
                 if not hasattr(phase_acquire, "_live"):
-                    phase_acquire._live, phase_acquire._hits = True, []
+                    # liveness_v3: COLD START STOOD DOWN. Liveness is earned by a probe hit,
+                    # never assumed -- v2 booted live, so its first window consulted the
+                    # task-statement rule before any probe evidence existed; on a world the
+                    # library never fits (FV8) those rule-routed interleaves were the whole
+                    # -0.56 % overhead. The first target probes immediately (below), so a
+                    # working library loses nothing.
+                    phase_acquire._live, phase_acquire._hits = False, []
                 if phase_acquire._live:
                     prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
                     phase_acquire._hits.append(prog is not None)
@@ -390,7 +528,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     # once and never again), and a periodic re-probe restores the library.
                     prog, used = (None, 0)
                     phase_acquire._hits.append(False)
-                    if len(phase_acquire._hits) % ctl["liveness_window"] == 0:   # periodic re-probe
+                    # probe on the FIRST target and every liveness_window thereafter
+                    if (len(phase_acquire._hits) - 1) % ctl["liveness_window"] == 0:
                         prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
                         phase_acquire._hits[-1] = prog is not None
                         if prog is not None:
@@ -439,6 +578,11 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
            "successes_by_budget": {str(q): sum(1 for r in rows if r["budget_slots"] == q and r["verified"])
                                    for q in ladder},
            "rows": rows, "wall_seconds": round(time.perf_counter() - t0, 2)}
+    if arm == "CONTINUAL_OCM" and hasattr(phase_acquire, "_c"):
+        C = phase_acquire._c
+        rep["continual"] = {"libraries_retained": len(C["libs"]),
+                            "libraries": [{k: v for k, v in L.items() if k != "rule"} for L in C["libs"]],
+                            "remine_events": C["events"], "params": CONTINUAL}
     (run / f"arm_{arm}.json").write_text(json.dumps(rep, indent=1, sort_keys=True))
     print(json.dumps({k: v for k, v in rep.items() if k != "rows"}, indent=1))
 
