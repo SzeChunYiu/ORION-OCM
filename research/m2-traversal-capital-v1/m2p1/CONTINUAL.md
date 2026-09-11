@@ -992,3 +992,51 @@ on every one, regime-C at or below RESET on ≥ 9 / 12, every arm verifying ever
 recorded **NOT_ESTABLISHED at this grammar**; the continual-development claim stays scoped to regime
 shifts (12 / 12 lifetimes) and cross-world acquisition (3 / 3 pairs).
 
+## continual_v6.8 regressions — outcome: one registered bar FAILED (laptop billy, billy-old; every target verified)
+
+| run | v6.6 | v6.8 | change |
+|---|---|---|---|
+| SHIFT45 | 1 497 | 1 497 | 0 |
+| SHIFT45 s602 | 1 758 | 1 642 | −6.6 % |
+| SHIFT45 s603 | 1 577 (v6.7) | 1 538 | −2.5 % |
+| SHIFT45 s604 | 1 891 | 1 891 | 0 |
+| A→B→C s604 (full arm) | 3 498 | 3 478 | −0.6 % |
+| A→B→C s613 | 2 414 | 2 156 | −10.7 % |
+| A→B→C s614 | 2 228 | 2 060 | −7.5 % |
+| A→B→C s615 | 2 204 | 2 143 | −2.8 % |
+| E5 | 414 | 414 | 0 |
+| FV6 | 2 103 | 2 103 | 0 |
+| cross-world E5 → E7 | 29 974 | 29 974 | 0 |
+| cross-world E8m7 → E7 | 30 028 | 30 028 | 0 |
+| **cross-world E7 → E8m7** | **14 443** | **21 921** | **+51.8 % (bar: ± 2 %)** |
+
+Several runs improved by more than the ± 2 % band (reported as outside the band, in the favourable
+direction). E7 → E8m7 regressed far outside it; it is still below the fixed controller (41 036) but
+the cross-world ratio worsens from 0.35 to 0.53. **v6.8 therefore cannot become the default**, whatever
+its K1 confirmation shows. FV8 is still running.
+
+**Attribution (one variable at a time, billy-old):** d alone reproduces 21 921 exactly; e alone gives
+14 443, identical to v6.7. Mechanism, from the liveness and re-mining logs: (d) moves the re-mining
+schedule from targets 12 / 16 / 20 / 24 to 12 / 20 / 28, so a different first library deploys (MDL
+at 28, not frequency at 24); it stands down at 40 after three consecutive misses — positive realised
+value, so (e) does not retire it; the re-mine at 41 finds no candidate that passes the tilability bar;
+and at 44 the cadence re-probe **revives the stood-down library on a single hit**, which pre-empts every
+further re-mining until 62 (targets that v6.7's second library solved at ≈ 12 k cost 45–80 k).
+v6.7 avoided this only because its re-mine at 39 succeeded before a cadence tick. d is not the defect
+— it does what it states; the defect is that a library measured and stood down *inside the regime it
+was learned in* can be revived by a sporadic hit — the same oscillation seen on s626 and s629, which
+(e) covers only when the library's value went negative.
+
+## continual_v6.9 (registered 2026-09-11, before any v6.9 run)
+
+(f) a library that stands down inside its own regime (the v5.4 branch: not a regime change) is
+**retired until the regime changes**, like a library that failed in deployment. Flag `M2_V69F` on top
+of d and e; defaults unchanged. Predictions: **E7 → E8m7 ≤ 14 732** (v6.7 + 2 %); every other
+regression above no more than 2 % worse than v6.8; on the diagnostic seeds s623 / s626 / s628 / s629
+the full arm's regime-C cost at or below v6.8's (+d+e) on each. **K1-v6.9 confirmation** on new fresh
+seeds 646–657 (LUNARC), same bars as K1-v6.6 / v6.8. **Stop rules:** v6.8's stop rule stands for v6.8
+and is not rescued by v6.9. If K1-v6.9 also fails, the flag-level revision chain for mixed-regime K1
+closes: K1 on mixed regimes is NOT_ESTABLISHED at this grammar for the continual controller, and the
+next attempt must be a different mechanism class (for example an explicit regime-change detector),
+not another retry or retirement flag.
+

@@ -88,11 +88,12 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": ("continual_v6.9" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" and os.environ.get("M2_V69F") == "1" else "continual_v6.8" if os.environ.get("M2_V68D") == "1" and os.environ.get("M2_V68E") == "1" else "continual_v6.7" if os.environ.get("M2_V67") == "1" else "continual_v6.6"),
              # v6.5 = v6.3 behaviour + the liveness log; v6.4's two changes sit behind recorded flags for attribution
              "no_regime_reset": os.environ.get("M2_V64A") == "1", "failure_evidence": os.environ.get("M2_V64C", "1") == "1",
              "incumbent_reset": os.environ.get("M2_V67") == "1",
-             "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1"}
+             "retry_fix": os.environ.get("M2_V68D") == "1", "retire_failed": os.environ.get("M2_V68E") == "1",
+             "retire_in_regime": os.environ.get("M2_V69F") == "1"}
 # v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
 # (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
 # s603 +5.4 % and E7 -> E8m7 +43 %.
@@ -667,6 +668,13 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             # half, was stood down, and the corpus reset cost the lifetime its second
                             # attempt). Keep the corpus; retry after min_new_after_fail new solutions.
                             C["since_mine"] = max(C["since_mine"], CONTINUAL["min_new"] - CONTINUAL["min_new_after_fail"])
+                            if CONTINUAL["retire_in_regime"]:
+                                # v6.9(f): a library that stood down INSIDE the regime it serves has been measured
+                                # there; a later cadence hit is a sporadic hit, not coverage (E7 -> E8m7 under v6.8:
+                                # the stood-down library revived at 44 on one hit and pre-empted the due re-mine
+                                # until 62; s626 / s629: the same oscillation). Retired until the regime changes.
+                                C.setdefault("retired", set()).add(prev)
+                                C["live_log"].append((i, "retired_in_regime", prev))
                         for kk, L2 in enumerate(C["libs"]):
                             if kk == prev or kk in C.get("retired", ()):
                                 continue
