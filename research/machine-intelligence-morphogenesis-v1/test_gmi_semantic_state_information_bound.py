@@ -23,7 +23,9 @@ def test_ternary_global_state_information_is_linear_in_n():
     for n in (1, 2, 4, 8, 16):
         bits = ternary_factored_state_bits(n)
         assert bits == ceil(n * log2(3))
-        assert bits < 2 * n
+        assert bits <= 2 * n
+        if n >= 3:
+            assert bits < 2 * n
 
 
 def test_global_state_enumeration_is_exponential_while_bits_are_linear():
