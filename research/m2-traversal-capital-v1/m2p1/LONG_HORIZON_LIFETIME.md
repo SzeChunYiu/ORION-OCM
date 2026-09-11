@@ -68,6 +68,27 @@ Because the split allocates cost and horizon proportionally, the margin is the s
 on every seed; the falsifiers (a)–(c) stand. The array runs the liveness_v2 runner (the
 one registered above); the LUNARC runner is not touched while it runs.
 
-## Outcome
+## Outcome (LUNARC 3593078, all three seeds complete 2026-09-11 07:45–07:51 UTC; liveness_v2 runner as registered)
 
-_pending — filled from `runs/life_400{1,2,3}/LEDGER3_OCM.json` when the array completes._
+| seed | horizon | RESET | integrated | parent + MDL | shuffled | saved / target | hostile cost | **hostile break-even** | marginal | incremental | net (hostile) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 4001 | 696 | 3,862 | **1,401** | 2,802 | 7,294 | 2,460 | 733,656 | **298 ✓** | 134 | 70 | +978,713 |
+| 4002 | 481 | 3,460 | **1,116** | 2,231 | 6,420 | 2,344 | 432,379 | **184 ✓** | 94 | 51 | +695,037 |
+| 4003 | 381 | 3,155 | **1,054** | 2,108 | 5,881 | 2,101 | 320,834 | **153 ✓** | 74 | 36 | +479,571 |
+
+```text
+conservative ledger, hostile rule (developmental solving + the whole validation phase):
+  pays on 3 / 3 seeds   break-even 298 / 185 / 153   vs horizon 696 / 481 / 381   (margin 2.3× / 2.6× / 2.5×)
+registered predictions 350 / 240 / 191: held, and were conservative — the per-target saving
+  came out 2 460 / 2 344 / 2 101 against the 1 957 assumed from life_3001
+falsifier (a): the registered admission REFUSED on every seed (2g > b, as the ecology predicted,
+  exactly as on life_3001); the controller deployed through the validated library and the
+  benefit is 64–68 % — the refusal-with-zero-benefit branch did not occur
+falsifier (b): saving ≥ 990 on every seed
+falsifier (c): shuffled history 1.9× RESET on every seed (structure, not volume)
+```
+
+**Target (2) closes on the hostile ledger's own terms.** The 670-target record stays
+475 ✓ / 878 ✗; on three fresh seeds whose horizon exceeds the measured break-even, the prior
+pays under every attribution rule, with the prediction registered before the run.
+Records: `records/life_long/life_400{1,2,3}_{SUMMARY,LEDGER3_OCM,ATTRIBUTION}.json`.
