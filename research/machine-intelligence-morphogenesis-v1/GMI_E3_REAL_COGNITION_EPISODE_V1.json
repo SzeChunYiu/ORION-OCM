@@ -1,0 +1,164 @@
+{
+  "schema": "GMIRealCognitionEpisodeV1",
+  "status": "FROZEN_COMMON_SEMANTIC_CONTRACT__NO_PROTECTED_OUTCOME_ACCESSED",
+  "purpose": "One episode schema for real formal-math and execution-verified coding validation without changing GMI state, morphology, burden or capital semantics by domain.",
+  "required_fields": {
+    "episode_identity": [
+      "episode_id",
+      "domain",
+      "task_family_id",
+      "task_id",
+      "run_id",
+      "arm_id",
+      "protocol_version"
+    ],
+    "task_contract": [
+      "raw_task_digest",
+      "semantic_task_digest",
+      "goal_obligations",
+      "constraints",
+      "allowed_tools_actions",
+      "disallowed_tools_actions",
+      "success_contract_id",
+      "resource_budget_id",
+      "protected_information_policy"
+    ],
+    "starting_developmental_situation": [
+      "machine_configuration_digest",
+      "registered_history_digest",
+      "public_ecology_authority_context_digest",
+      "morphology_identity",
+      "development_protocol_id",
+      "intervention_probe_class_id"
+    ],
+    "morphology_realization": [
+      "F_factorization_identity",
+      "Theta_mutable_state_digest",
+      "K_execution_kernel_identity",
+      "U_update_law_identity",
+      "Gamma_morphogenesis_identity_or_none",
+      "kappa_semantic_adapter_identity",
+      "rho_resource_semantics_id"
+    ],
+    "external_verification": [
+      "verifier_type",
+      "verifier_identity",
+      "verifier_version_digest",
+      "admissibility_rule_digest",
+      "statement_or_spec_correspondence_rule",
+      "verifier_strength_claim",
+      "known_verifier_limitations"
+    ],
+    "pre_solution_trace": [
+      "proposal_events",
+      "retrieval_events",
+      "search_expansions",
+      "tool_calls",
+      "verification_calls",
+      "failure_events",
+      "retrieved_assets",
+      "consumed_assets",
+      "pre_solution_geometry_metrics"
+    ],
+    "outcome": [
+      "terminal",
+      "admissible_result",
+      "capability_vector",
+      "partial_certificate_or_none",
+      "semantic_claim_ceiling",
+      "all_required_checks_complete"
+    ],
+    "resource_vector": [
+      "foundation_model_calls",
+      "foundation_model_input_tokens",
+      "foundation_model_output_tokens",
+      "candidate_generation_count",
+      "search_expansions",
+      "tool_calls",
+      "verifier_calls",
+      "failed_attempts",
+      "cpu_time",
+      "gpu_time",
+      "wall_time",
+      "peak_memory",
+      "persistent_bytes_read",
+      "persistent_bytes_written",
+      "index_or_library_maintenance_work",
+      "development_update_work",
+      "human_interventions",
+      "other_domain_specific_raw_receipts"
+    ],
+    "ending_developmental_situation": [
+      "machine_configuration_digest",
+      "registered_history_digest",
+      "public_ecology_authority_context_digest",
+      "new_persistent_objects",
+      "revoked_or_retired_objects",
+      "post_task_update_receipts"
+    ],
+    "developmental_attribution": [
+      "solution_was_absent_from_relevant_history",
+      "pre_solution_mediator_observed",
+      "matched_reset_result_ref",
+      "strongest_parent_result_ref",
+      "shuffle_or_cross_history_result_ref_or_na",
+      "candidate_capital_level",
+      "causal_attribution_terminal"
+    ]
+  },
+  "domain_specialization_rule": "A domain may specialize values and verifier semantics but may not add a new meaning of developmental state, morphology, burden, K0/K1/K2/K3 or generality. New fields must be raw receipts or task/verifier metadata, not hidden alternative theory objects.",
+  "pre_solution_geometry": {
+    "generic_fields": [
+      "eventual_successful_object_rank_when_identifiable",
+      "proposal_or_retrieval_mass_proxy_when_identifiable",
+      "verified_progress_before_final_success",
+      "repeated_failure_count",
+      "search_frontier_size_or_open_obligations"
+    ],
+    "math_examples": [
+      "rank of eventually useful premise",
+      "rank of eventually successful tactic/proof-step candidate",
+      "proof-state nodes expanded before successful path",
+      "kernel calls before accepted proof"
+    ],
+    "code_examples": [
+      "rank/order of eventually correct localization or patch hypothesis",
+      "candidate patches before accepted patch",
+      "test/checker cycles before accepted result",
+      "repeated failed hypothesis count"
+    ],
+    "rule": "If the eventual successful object is not identifiable in a family, use a prospectively frozen family-native mediator and retain CANNOT_CHECK for rank-based K1 rather than inventing a post-hoc proxy."
+  },
+  "capital_classification": {
+    "K0": "A previously solved task-specific object is directly reused; no claim that future cognition-generation changed.",
+    "K1": "On a genuinely fresh target, inherited state changes pre-solution cognition/search/control and causally lowers verified burden against matched reset/parent controls.",
+    "K2": "Inherited state causally lowers the burden of acquiring new K1, not merely solving with existing K1.",
+    "K3": "Inherited state causally improves the process that discovers/constructs future learning procedures or morphologies on fresh ecology families."
+  },
+  "invalid_attribution_conditions": [
+    "protected target or solution leaked into developmental history",
+    "foundation model/harness/tool differs between claimed matched arms without explicit resource/information accounting",
+    "adapter or verifier carries the attributed solution",
+    "failed or censored target silently omitted from aggregate",
+    "post-outcome proxy/threshold chosen from the same protected data",
+    "public benchmark memorization credited as developmental learning",
+    "development or preprocessing cost omitted",
+    "domain-specific theory semantics substituted after outcome access"
+  ],
+  "allowed_terminals": [
+    "VERIFIED_SUCCESS",
+    "PARTIAL_VERIFIED_PROGRESS",
+    "UNKNOWN",
+    "CANNOT_CHECK",
+    "ASSAY_DEFECT",
+    "PARENT_SUFFICIENT",
+    "K1_SUPPORTED_AT_SCOPE",
+    "K1_NOT_ESTABLISHED",
+    "K2_SUPPORTED_AT_SCOPE",
+    "K2_NOT_ESTABLISHED",
+    "ADAPTER_DOMINATES",
+    "VERIFIER_INSUFFICIENT_FOR_CLAIM",
+    "RESOURCE_COST_DOMINATES",
+    "HARMFUL_TRANSFER"
+  ]
+}
