@@ -132,3 +132,31 @@ whose depth is **learned from history** (the tiling-token count of solved traini
 programs is observable). Registered prediction before the run: on D2 it hits ~50 % and
 its expected `B` (~61 k) *exceeds* RESET — likely negative; the run measures the boundary
 rather than rescues the gate.
+
+## Replication complete — nine seeds, all positive
+
+Pure `d = 2`, `m = 12, k = 4, train_n = 90` (inside the feasibility window), 58–60
+protected targets per seed, every target ≥ 2 motif substitutions from every training
+arrangement, part coverage 1.0:
+
+| seed | RESET | MDL library | reduction | better | **integrated arm** | reduction |
+|---|---|---|---|---|---|---|
+| D2 | 51 459 | 42 089 | 18.2 % | 30/60 | 22 685 | 55.9 % |
+| R401 | 56 386 | 49 884 | 11.5 % | 25/60 | — | — |
+| R402 | 63 275 | 53 734 | 15.1 % | 32/60 | — | — |
+| R404 | 50 016 | 41 757 | 16.5 % | 33/59 | 22 265 | 55.5 % |
+| R405 | 58 039 | 32 124 | 44.7 % | 45/60 | 16 062 | 72.3 % |
+| R406 | 64 480 | 45 135 | 30.0 % | 36/60 | 22 651 | 64.9 % |
+| R407 | 59 844 | 42 509 | 29.0 % | 35/60 | 22 942 | 61.7 % |
+| R408 | 54 800 | 39 396 | 28.1 % | 38/60 | 20 562 | 62.5 % |
+| R409 | 61 897 | 32 891 | 46.9 % | **58/58** | 16 446 | 73.4 % |
+
+```text
+library:        9 / 9 positive   mean −26.7 %   min −11.5 %
+integrated arm: 6 / 6 positive   mean −65.0 %
+shuffled:       worse than RESET on every seed (≈ 2×)
+```
+
+**History makes novel arrangements of known parts cheaper to acquire, on every seed, in
+the registered grammar.** The hostile review's interpolation reading is refuted with
+replication, not a single run. `d ≥ 3` remains empty by counting at this `(m, k)`.

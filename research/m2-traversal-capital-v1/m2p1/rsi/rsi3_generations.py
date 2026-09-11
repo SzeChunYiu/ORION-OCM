@@ -96,8 +96,11 @@ LIK = {
                 "high": {"C0": .45, "C1": .25, "C4": .15, "C5": .10, "C2": .03, "C3": .02},
                 "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
  # the gate's own verdict: an admitted library is, by definition, not a failure
- "admitted": {"yes": {"C0": .85, "C5": .08, "C4": .04, "C1": .01, "C2": .01, "C3": .01},
-              "no": {"C1": .30, "C2": .25, "C3": .18, "C4": .15, "C5": .10, "C0": .02},
+ # C0 "no failure" is DEFINED by admission in the labelling rule, so an unadmitted
+ # library cannot be C0 (and an admitted one cannot be C1-C4). Encoding a definition,
+ # not fitting an outcome; the earlier .02/.01 let two cheap probes outvote it.
+ "admitted": {"yes": {"C0": .90, "C5": .098, "C4": .001, "C1": .0005, "C2": .0003, "C3": .0002},
+              "no": {"C1": .31, "C2": .26, "C3": .18, "C4": .15, "C5": .099, "C0": .001},
               "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
  # MDL reselection helps iff displaced structure EXISTS (C1). No structure (C3) -> flat;
  # depth (C2) -> flat, the library is not the bottleneck; healthy (C0) -> flat/worse.
@@ -131,11 +134,15 @@ def _update(post, p, o):
     s = sum(post.values()) or 1
     return {k: v / s for k, v in post.items()}
 
-def diagnose_active(case, available, stop=0.6):
+def diagnose_active(case, available, stop=0.6, stop_rule="fixed"):
     """VOI policy pre-registered in RSI-1: max expected info gain per cost, stop at 0.6."""
     post = {c: 1.0 / len(CAUSES) for c in CAUSES}
     o = obs(case)
     remaining, spent, used = list(available), 0, []
+    # zero-cost probes first: infinite information per unit cost, and a division by
+    # zero otherwise (this crashed the first G6 active run)
+    for p in [p for p in remaining if COST[p] == 0]:
+        remaining.remove(p); used.append(p); post = _update(post, p, o[p])
     while remaining:
         best, score = None, -1e9
         for p in remaining:
@@ -152,7 +159,15 @@ def diagnose_active(case, available, stop=0.6):
         used.append(best)
         post = _update(post, best, o[best])
         top = max(post, key=post.get)
-        if post[top] >= stop:
+        if stop_rule == "loss":
+            # POLICY GENERATION (section 9): stop only when no remaining probe is cheaper
+            # than the expected loss of acting now. L_WRONG = cost of a wrong repair
+            # attempt = one re-mine + re-validate = COST["mdl_response"]. Derived a priori.
+            exp_loss = (1.0 - post[top]) * COST["mdl_response"]
+            cheapest = min((COST[p] for p in remaining), default=float("inf"))
+            if exp_loss < cheapest:
+                break
+        elif post[top] >= stop:
             break
     top = max(post, key=post.get)
     return top, round(post[top], 3), spent, used
@@ -174,6 +189,10 @@ def main() -> int:
     ap.add_argument("--cases", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--mode", choices=("exhaustive", "active"), default="exhaustive")
+    ap.add_argument("--stop-rule", choices=("fixed", "loss"), default="fixed",
+                    help="active mode only: 'fixed' = posterior >= 0.6 (RSI-1 policy); "
+                         "'loss' = continue while a remaining probe costs less than the "
+                         "expected loss of acting now (policy generation P1)")
     a = ap.parse_args()
     cases = json.loads(Path(a.cases).read_text())["cases"]
 
@@ -184,7 +203,7 @@ def main() -> int:
         calls = {}
         for c in cases:
             if a.mode == "active":
-                top, conf, spent, used = diagnose_active(c, probes)
+                top, conf, spent, used = diagnose_active(c, probes, stop_rule=a.stop_rule)
                 cost += spent
             else:
                 top, conf = diagnose(c, probes)
@@ -215,7 +234,7 @@ def main() -> int:
     acc = [g["repair_accuracy"] for g in gens]
     slope_ok = all(ctv[i + 1] <= ctv[i] for i in range(len(ctv) - 1)) and acc[-1] > acc[0]
     out = {"schema": "OCM_RSI3_GENERATIONS_V1", "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
-           "stage": "RSI-3/RSI-4", "mode": a.mode, "cases": len(cases), "causes": CAUSES,
+           "stage": "RSI-3/RSI-4", "mode": a.mode, "stop_rule": a.stop_rule, "cases": len(cases), "causes": CAUSES,
            "generations": gens,
            "cost_to_verified_improvement_by_generation": ctv,
            "repair_accuracy_by_generation": acc,

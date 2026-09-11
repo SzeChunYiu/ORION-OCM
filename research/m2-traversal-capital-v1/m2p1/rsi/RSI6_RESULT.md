@@ -59,3 +59,27 @@ about them, recorded as the next gap rather than resolved by adjustment:
 
 Active mode: G5's `probe_pays` also produced its first cost fall (14.13 → 10.73) at flat
 accuracy; G6 under the VOI stopping rule is reported in the JSON.
+
+## Policy generation P1 — falsified; and a definitional likelihood fix
+
+**P1 (decision-theoretic stopping)** — continue while any remaining probe costs less
+than the expected loss of acting now. Registered: active accuracy rises toward 0.758.
+**Observed: 0.485**, *below* the fixed rule. Falsified; the third falsifier in
+`NEXT_STEPS` fired — active diagnosis is bottlenecked by the likelihoods, not the policy.
+
+Its confusion showed why: six C1 cases called **C0 despite `admitted = no`**, because two
+cheap probes favouring C0 outweighed a C0-under-refusal likelihood of 0.02. But C0 is
+*defined* by admission in the labelling rule — an unadmitted library cannot be "no
+failure". That likelihood is now ~0.001. Encoding a definition is not fitting to an
+outcome, and it is recorded here as the one likelihood changed after seeing a confusion,
+with the reason.
+
+| mode | accuracy | cost / verified |
+|---|---|---|
+| exhaustive | 0.758 | 40.92 (unchanged) |
+| **active, fixed 0.6** | **0.576** (was 0.394) | **13.68** |
+| active, loss rule (P1) | 0.485 | 14.25 |
+
+The fixed-threshold active policy with the definitional likelihood is the best active
+diagnoser so far: 0.576 at a third of the exhaustive cost. The residual C2 → C1 confusion
+on the lifetime worlds is untouched by any of this and remains the named next gap.
