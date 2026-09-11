@@ -1,0 +1,56 @@
+{
+  "schema": "StructuredAdaptiveBasisCensusV1",
+  "registered_history_depth": 2,
+  "grammar_depth": 1,
+  "state_cells": 2,
+  "operator_catalogue": ["NOT", "AND", "XOR"],
+  "selected_arms": {
+    "LOCAL_FULL": {
+      "cross_cell": false,
+      "operators": ["NOT", "AND", "XOR"],
+      "update_semantic_classes": 14,
+      "output_semantic_classes": 14,
+      "morphology_products": 2744,
+      "current_behavior_classes": 4,
+      "developmental_classes": 95,
+      "mean_min_compilation_cost": 6.463157894736842,
+      "max_min_compilation_cost": 9,
+      "cost_histogram": {"3": 6, "4": 7, "5": 13, "6": 18, "7": 24, "8": 16, "9": 11}
+    },
+    "CROSS_AND_XOR": {
+      "cross_cell": true,
+      "operators": ["AND", "XOR"],
+      "update_semantic_classes": 22,
+      "output_semantic_classes": 14,
+      "morphology_products": 6776,
+      "current_behavior_classes": 4,
+      "developmental_classes": 294,
+      "mean_min_compilation_cost": 7.408163265306122,
+      "max_min_compilation_cost": 9,
+      "cost_histogram": {"3": 9, "5": 42, "7": 123, "9": 120}
+    },
+    "CROSS_FULL": {
+      "cross_cell": true,
+      "operators": ["NOT", "AND", "XOR"],
+      "update_semantic_classes": 22,
+      "output_semantic_classes": 14,
+      "morphology_products": 6776,
+      "current_behavior_classes": 4,
+      "developmental_classes": 294,
+      "mean_min_compilation_cost": 6.772108843537415,
+      "max_min_compilation_cost": 9,
+      "cost_histogram": {"3": 9, "4": 14, "5": 37, "6": 57, "7": 78, "8": 56, "9": 43}
+    }
+  },
+  "derived_findings": {
+    "cross_cell_reach_gain": 199,
+    "cross_cell_reach_ratio_vs_local_full": 3.094736842105263,
+    "and_xor_matches_full_cross_reach": true,
+    "not_is_reach_redundant_at_registered_scope": true,
+    "not_is_resource_useful_at_registered_scope": true,
+    "mean_min_cost_reduction_from_not": 0.6360544217687072,
+    "interpretation": "At fixed shallow grammar/history scope, communication topology materially expands developmental reach. NOT adds no developmental classes beyond AND+XOR with constant 1, but reduces minimum expression cost for many classes. Thus reach irreducibility and resource irreducibility differ."
+  },
+  "terminal": "STRUCTURED_ADAPTIVE_CENSUS_EXACT__TOPOLOGY_EXPANDS_BOUNDED_REACH__NOT_RESOURCE_USEFUL_NOT_REACH_NECESSARY",
+  "claim_boundary": "Exact finite depth-1 two-cell grammar only. State-machine/coalgebra/program and Boolean-algebra parents remain live; no fundamental intelligence basis is established."
+}
