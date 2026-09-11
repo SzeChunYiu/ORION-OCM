@@ -77,7 +77,7 @@ Each gap names what closes it; a closed gap opens the next one (the recursion). 
 
 | id | gap | closes it | status / record |
 |---|---|---|---|
-| G1 | frozen charged price vector, not hardware prices | a second price vector (hardware-priced; tensor-favouring) and the prediction that boundaries move as P-N4 says | OPEN (needs a declared price table; laptop) |
+| G1 | frozen charged price vector, not hardware prices | a second price vector (hardware-priced; tensor-favouring) and the prediction that boundaries move as P-N4 says | EXECUTED (RV-035, held 5/6): under `HW_TENSOR_PRICED` the gradient row wins every (H, r ≥ 1) cell of the two ecologies where it is admissible (168/168) and none where it is not (0/56); capabilities unchanged; the six registered columns byte-identical. Next: a *measured* price vector (G1b) |
 | G2 | single seed on every frontier prediction | second seed on RV-017/025/032 ecologies | OPEN (laptop, minutes) |
 | G3 | search-row description length is data-dependent (17 misses at H = 1, r = 0) | certify desc per ecology or abstain at the desc corner; rule 13 in design §9 | CLOSED as a rule (RV-025) |
 | G4 | base cost model has no retention/exposure term | lifecycle extension: wrong answers served, abstentions, collateral regression, priced by λ | EXECUTED in the E1 microscope (RV-032 PENDING) |
@@ -124,21 +124,28 @@ The ChatGPT lane added a typed demand signature (`GMI_REALIZATION_DEMAND_SIGNATU
 
 | their object | executed instance in this lane | status |
 |---|---|---|
-| A1 factor/materialization partition; A3 dependency-tracked incremental repair | MOD_U and VLC rows (per-factor tables; cone rebuild); measured blast radius = cone (RV-032) | A1+A3 bundled in both rows: their G2 (matched ablations) asks for A1-only and A3-only variants — **not yet executed** |
+| A1 factor/materialization partition; A3 dependency-tracked incremental repair | MOD_U and VLC rows (per-factor tables; cone rebuild); measured blast radius = cone (RV-032); single-mechanism rows MONO_A3, MONO_A4, MOD_NOA3 (RV-037) | **executed (RV-037, held 5.5/6)**: A4 is the only mechanism that changes a behavioural witness (wrong served 60 → 0, abstentions 0 → 96, in every column); A1 and A3 change cost only (update work 101 469 → 669 → 387 in B0); interactions I_A4×A1A3 < 0 and I_A3×A1 > 0 in all six columns and *independent of λ* (the T3 half of clause 6 was a prediction-writing error: single-mechanism witnesses cancel λ in the contrast) |
 | A4 speculative candidate isolation (verify-before-swap) | VLC row: shadow build, verifier, atomic swap, abstention (0 wrong served vs 60) | executed as a bundle with A1+A3; per-basis threshold λ* = {92, 142, 4 036} is the A4 activation boundary |
 | A2 authority/serving separation | all compiled rows (source learner + tables); CP row (source + regime phenotypes) | executed; MN2's side-information bound not measured |
-| A5 historical persistence, β_lin | no ecology with legal historical queries yet | **open** (their MN4 twin is executable at this layer) |
-| Δ_Q vs Δ_U split (MN5) | E_factored has scope-2 queries (Δ_Q partial) and cone revisions (Δ_U); the C-Q/U collision cells are not yet separated | **next: RV-036 (query scope local vs global × cone local vs global)** |
-| P (price vector as context, not demand) | the six registered columns + the declared HW_TENSOR_PRICED column (RV-035) | executed as L4b/L4e basis-dependence |
+| A5 historical persistence, β_lin | `gmi_microscope/e1_lineage.py` (RV-038): E_EPHEMERAL vs P_PERSISTENT_D1/D8 with identical revision process; rows MOD_U, HIST_SNAP, HIST_LOG | **executed (RV-038, held 4/5)**: MOD_U inadmissible under P in every column (as-of 0.5 / 0.42) and the frontier winner under E; both A5 encodings 1.0 (MN7: witness does not identify encoding); encoding tournament flips with depth in *all six* columns (LOG at depth 1, SNAP at depth 8; H*(depth) = desc surplus 3 020 / exec gap); the native-column depth-1 clause failed by description amortization (H* = 169 > 64) |
+| Δ_Q vs Δ_U split (MN5) | CQU1–4 cells (`main_collision`, RV-036): query scope local/global × update cone local/global | **executed (RV-036, held 5/5)**: MONO_C wins only native-lookup × global-query × zero-update cells (6 cells, all B2); VLC beats MOD_U only in the global-update cells (λ* = 27 / 52 vs 406 / 429 in B0; exposure 656 / 308 vs 20 wrong served); sign pattern of (256 − λ*) = (−, −, +, +) in five columns, (−, −, −, −) in B2; with the update cone fixed, query geometry alone flips the (128, 0) occupant in B2 (VLC → MONO_C): no scalar dependency coordinate predicts it |
+| P (price vector as context, not demand) | the six registered columns + the declared HW_TENSOR_PRICED column (RV-035, held 5/6) | executed as L4b/L4e basis-dependence; the price vector flips the occupant only within the admissible set (L3 before L4) |
 | G0 typed measurement freeze | our coordinates are exact op counts (I0) | passes by construction at this layer |
-| G1 collision matrix; G2 factorial; G3 implementation tournament | RV-032/033 vary one ecology axis per twin but test composite rows | **RV-032/033 count as their E1-L3 (parent frontier) only; L1/L2/L4 need the factorial** |
+| G1 collision matrix; G2 factorial; G3 implementation tournament | G1 → RV-036 (collision cells); G2 → RV-037 (A1/A3/A4 factorial); G3 → RV-038 (snapshot vs undo-log encodings of A5) | **all three executed at scope** (held 5/5, 5.5/6, 4/5); RV-032/033 remain E1-L3 (parent frontier); L1/L2/L4 now have their factorial |
 | G4 adaptive-search firewall (D/V/P layers) | the freeze-before-run rule with disclosed calibrations; no protected layer separate from development | partially satisfied; a protected world set must be declared before E3 |
 | G11 phase language | this lane already restricts itself to finite frontier crossovers (r*, H*, λ*) | satisfied |
 | MN1 rollback information ≥ log2 max fiber | VLC keeps two copies of a 4-entry table (rollback information = 32 bits) | consistent; bound not tested |
-| MN5 overcompression no-go (F vs G cost table) | MONO_C (coarse) vs MOD_U (fine) at scope-2 queries: fine wins everywhere except B2 at H ≥ 128 with no updates | consistent with MN5's Q-global/U-small regime |
+| MN5 overcompression no-go (F vs G cost table) | MONO_C (coarse) vs MOD_U (fine): fine wins every local-query cell in every column at every H ≤ 128; coarse wins only global-query × native-lookup × U = 0 (RV-036) | **executed and held**: exactly MN5's Q-global/U-small regime, and nowhere else |
 | their gap ledger G-07/09/12/14/22/23/27/31/32/34 (P0, block strengthened E1–E3) | this lane's G3/G4/G6/G8 overlap G-14 (history), G-27 (frontier uncertainty), G-31/32 (search firewall/encoding) | cross-referenced; P0 items executable here: G-07 (RV-036), G-23 (factorial), G-27 (frontier margin rule already used: 10%) |
 
-Executable asks from their documents at this layer, in order of cost: (1) C-Q/U collision cells (RV-036); (2) A1/A3/A4 matched ablations of the VLC row (their G2); (3) MN4 lineage twin with legal historical queries (A5); (4) the A4 implementation tournament (shadow copy vs copy-on-write vs undo log vs persistent root) — four encodings of the same witness; (5) MN1 fiber-size rollback test; (6) PS1 signature-collision construction.
+Executable asks from their documents at this layer, in order of cost: (1) C-Q/U collision cells — **RV-036 executed, held**; (2) A1/A3/A4 matched ablations of the VLC row (their G2) — **RV-037 executed, held**; (3) MN4 lineage twin with legal historical queries (A5) — **RV-038 executed, held**; (4) the A5 implementation tournament — **two of four encodings executed in RV-038 (snapshot, undo log); copy-on-write and persistent root remain**; (5) MN1 fiber-size rollback test; (6) PS1 signature-collision construction.
+
+### 5c. What the four twins established together (RV-035…038, all executed 2026-09-11)
+
+- **The occupant is selected by three separable things and nothing else at scope:** admissibility (L3: a price vector cannot rescue an inadmissible form, 0/56 cells), then per-basis cost crossovers (H*, r*, λ*), then the price vector (which flips the occupant only inside the admissible set, 168/168 cells). The note's question 3 ("why do neural networks dominate") has an executed answer of this shape: a price vector under which the gradient row's update-plus-verification work is cheaper than the memory's flips every admissible cell to the gradient row, with capabilities unchanged.
+- **Demand needs at least five coordinates, not one:** reuse H, revision U, retention price λ, query scope Δ_Q and update cone Δ_U — RV-036 shows Δ_Q alone flips the occupant with Δ_U held fixed, so no scalar dependency coordinate reproduces the executed table. RV-038 adds a sixth, persistence depth, which makes single-version forms inadmissible and selects among history encodings through H*(depth).
+- **Mechanisms split into witness-changing and cost-changing classes:** only verify-before-swap (A4) changes a behavioural witness; factorization (A1) and incremental repair (A3) change costs, and their interactions are independent of λ. A demand-signature prediction of the occupant therefore needs λ only for the witness-changing mechanisms.
+- **Three of the four records failed one clause each, all by the same fault:** a clause written from a one-column calibration or in contradiction with another clause of the same record (RV-035 clause 6, RV-037 clause 6 T3 half, RV-038 clause 4 native columns). Protocol rules 12 and 14 (per-column threshold before freezing; check clauses against each other and against the disclosed calibration) are now mandatory in the freeze checklist.
 
 ## 6. E-series status across the three lanes
 
@@ -151,14 +158,14 @@ Executable asks from their documents at this layer, in order of cost: (1) C-Q/U 
 | Codex | E3 math/code | gates frozen; #46 locked; code H0 episode (#208) pending — **not runnable here** |
 | ChatGPT | VLC E0 (v1 failed twin, v2 green) | GREEN; E1 → this lane's RV-032 (running) |
 | ChatGPT | CP E0 exact phase | GREEN; E1 → RV-033 (designed above) |
-| this lane | D/E/F exact microscopes, RV-001…037 | held: 013, 017, 019, 020, 022, 024, 026, 030, 034 (+ partial 025, 031, 032, 033); failed-and-revived: 009, 014, 015, 016, 018, 021, 029; pending: 028 (10^6), 035 (hardware price vector), 036 (query/update collision cells), 037 (mechanism ablations) |
+| this lane | D/E/F exact microscopes, RV-001…038 | held: 013, 017, 019, 020, 022, 024, 026, 030, 034, 036 (+ partial 025, 031, 032, 033, 035, 037, 038 — each with one clause scored as a prediction-writing error); failed-and-revived: 009, 014, 015, 016, 018, 021, 029; pending: 028 (10^6, three seeds at ~0.4–0.6 × 10^6) |
 
 ## 7. What success requires now (in order) and the kill terminals
 
 1. RV-028 outcome (10^6) → if no dense winner: RV-029b at 10^7 with crossover/macro-mutation added as a declared family element; if still none: `DENSE_FORM_NOT_BLIND_REACHABLE_AT_1E7__SEARCH_FAMILY_INSUFFICIENT` (a real result about Γ).
 2. RV-032 (VLC E1) → if held: their V2 rung earned at scope; next E3-lite: neutral search over a grammar with checkpoint/verify/route primitives in RSTAR vs T3, predicted P1–P5 enrichment. If RSTAR is won by MOD_U: `VERSIONING_NOT_ON_FRONTIER_AT_SCOPE`.
 3. RV-033 (CP E1) → analogous.
-4. G2 second seeds and G1 hardware price vector (cheap, laptop).
+4. G2 second seeds (cheap, laptop); G1 executed (RV-035) — next G1b: a *measured* price vector for one real accelerator, then the same three ecologies.
 5. G5 wider-precision universe → probabilistic and policy-gradient D3 rows.
 6. Outside this lane: Codex E3/E4 real regimes; E5 reduction attacks on any survivor; E6/E7 only afterwards.
 
