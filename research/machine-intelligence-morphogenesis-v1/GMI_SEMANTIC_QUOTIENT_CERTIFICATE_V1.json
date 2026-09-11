@@ -1,0 +1,49 @@
+{
+  "schema": "GMISemanticQuotientCertificateV1",
+  "fixture": {
+    "states": ["u0", "u1", "s", "l"],
+    "symbols": ["query", "teach"],
+    "interpretation": {
+      "u0_u1": "implementation-distinct but future-equivalent teachable-unlearned states",
+      "s": "stubborn-unlearned state",
+      "l": "learned state"
+    }
+  },
+  "canonical_semantic_quotient": [
+    ["u0", "u1"],
+    ["s"],
+    ["l"]
+  ],
+  "all_set_partitions": 15,
+  "exact_encoding_partitions": 2,
+  "exact_partitions": [
+    [["u0"], ["u1"], ["s"], ["l"]],
+    [["u0", "u1"], ["s"], ["l"]]
+  ],
+  "minimum_exact_encoded_states": 3,
+  "minimum_exact_partitions": [
+    [["u0", "u1"], ["s"], ["l"]]
+  ],
+  "minimum_unique_up_to_labels": true,
+  "all_exact_encodings_factor_through_quotient": true,
+  "distinguishing_word_teachable_vs_stubborn": ["teach", "query"],
+  "invalid_coarse_example": [
+    ["u0", "u1", "s"],
+    ["l"]
+  ],
+  "theorem_rows": {
+    "GMI-SQ1": "every exact encoding factors through the canonical semantic quotient",
+    "GMI-SQ2": "every exact encoding has at least three reachable encoded states in this fixture",
+    "GMI-SQ3": "the unique minimum exact state partition is the canonical quotient up to labels",
+    "GMI-SQ4": "the four-state fully split realization is an exact but semantically redundant refinement",
+    "GMI-SQ5": "merging teachable and stubborn unlearned states is invalid because teach;query separates them"
+  },
+  "strongest_parent_families": [
+    "Myhill-Nerode / deterministic automaton minimization",
+    "minimal sufficient statistics / epsilon-machines",
+    "predictive-state representations",
+    "bisimulation / state abstraction"
+  ],
+  "terminal": "GMI_SEMANTIC_QUOTIENT_FINITE_EXACT_GREEN_V1",
+  "claim_ceiling": "finite exact semantic-state theorem calibration; no unique local cognitive atom, universal architecture, or general-intelligence claim"
+}
