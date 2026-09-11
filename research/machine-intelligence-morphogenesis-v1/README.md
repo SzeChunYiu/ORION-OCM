@@ -203,7 +203,7 @@ instrument aimed at the "undesigned form" question. Read in this order:
    axes each anchored to a parent theorem that already proves a tractability flip (Angluin vs
    Gold/Pitt–Warmuth; SQ/parity; comp–stat; Valiant evolvability; Kirsch transition), with `PH-5`
    (parity under scalar loss) as the mandatory negative control.
-3. `proofs/GMI_PROOFS_V1.md` + `THEOREM_REGISTRY_V4.json` — canonical #377 §11 rows GMI-T0…T12 in the
+3. `proofs/GMI_PROOFS_V1.md` + `THEOREM_REGISTRY_CANONICAL_377.json` — canonical #377 §11 rows GMI-T0…T12 in the
    #233 schema (statuses: T0 PROVED; T2 PROVED relation-type; T3 PROVED band lemma; T10-A PROVED
    direction-of-boundary under the frozen cost model; T11 PROVED impossibility part; T4/T5/T6/T7/T8/T9
    PARENT_ANCHORED; T1/T12 OPEN/BLOCKED), with Codex's V3 rows T13–T20 preserved and reconciled.

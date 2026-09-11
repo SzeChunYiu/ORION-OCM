@@ -128,7 +128,7 @@ Falsifiers and their terminals:
 `microscopes/results/STAGE_D_MATRIX_V1.json` (κ tensor rows×columns×coordinates×ladder, K_sim,
 class-separation table, identifiability table, universality verdicts, sha256 chain of frozen inputs),
 `STAGE_D_REPORT_V1.md`, and a registry patch touching only the `status`/`evidence` fields of
-GMI-T2/T3/T4/T5/T7/T8/T11 in `THEOREM_REGISTRY_V4.json` (statements frozen).
+GMI-T2/T3/T4/T5/T7/T8/T11 in `THEOREM_REGISTRY_CANONICAL_377.json` (statements frozen).
 
 ## 8. Execution order
 

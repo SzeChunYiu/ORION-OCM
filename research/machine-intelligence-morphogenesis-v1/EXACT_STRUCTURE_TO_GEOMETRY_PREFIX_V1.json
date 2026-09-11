@@ -1,0 +1,34 @@
+{
+  "schema": "ExactStructureToGeometryPrefixV1",
+  "morphology_structures": {
+    "BALANCED": {"leaf_depths":[2,2,2,2]},
+    "BIASED": {"leaf_depths":[1,2,3,3]}
+  },
+  "derived_proposal_priors": {
+    "BALANCED": [0.25,0.25,0.25,0.25],
+    "BIASED": [0.5,0.25,0.125,0.125]
+  },
+  "ecology": "P_p=[p/2,p/2,(1-p)/2,(1-p)/2]",
+  "derived_expected_burden_bits": {
+    "BALANCED": "2",
+    "BIASED": "3 - 1.5 p"
+  },
+  "lifetime_boundary_with_biased_build_cost_B": "p*(H,B)=(1+B/H)/1.5",
+  "rows_B_equals_1": [
+    {"horizon":1,"biased_build_cost_bits":1.0,"p_star":1.3333333333333333,"biased_can_win_for_p_in_[0,1]":false},
+    {"horizon":2,"biased_build_cost_bits":1.0,"p_star":1.0,"biased_can_win_for_p_in_[0,1]":true},
+    {"horizon":4,"biased_build_cost_bits":1.0,"p_star":0.8333333333333334,"biased_can_win_for_p_in_[0,1]":true},
+    {"horizon":8,"biased_build_cost_bits":1.0,"p_star":0.75,"biased_can_win_for_p_in_[0,1]":true},
+    {"horizon":16,"biased_build_cost_bits":1.0,"p_star":0.7083333333333334,"biased_can_win_for_p_in_[0,1]":true},
+    {"horizon":64,"biased_build_cost_bits":1.0,"p_star":0.6770833333333334,"biased_can_win_for_p_in_[0,1]":true},
+    {"horizon":256,"biased_build_cost_bits":1.0,"p_star":0.6692708333333334,"biased_can_win_for_p_in_[0,1]":true}
+  ],
+  "interpretation": [
+    "Proposal probabilities are derived from tree/code structure by Kraft weights; they are not assigned independently.",
+    "The ecology-dependent expected proposal/code burden follows exactly from that structure.",
+    "A build cost creates a horizon-dependent morphology phase boundary.",
+    "This is standard prefix-coding/information theory and is used only to calibrate the structure-to-geometry methodology."
+  ],
+  "terminal": "STRUCTURE_TO_GEOMETRY_EXACT_PREFIX_CALIBRATION__CODING_PARENT",
+  "claim_ceiling": "exact structure->prior->burden->phase derivation in a parent-owned coding model"
+}

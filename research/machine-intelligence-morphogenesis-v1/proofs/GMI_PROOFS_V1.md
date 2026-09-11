@@ -1,4 +1,4 @@
-# GMI proofs v1 — P1 rows of `THEOREM_REGISTRY_V3.json`
+# GMI proofs v1 — P1 rows of `THEOREM_REGISTRY_CANONICAL_377.json`
 
 Status: `DRAFT_FOR_HOSTILE_REVIEW`. Objects from `DEFINITIONS_V2_EXACT.md` (cited D2-§n).
 Discipline (HST): a P1 row is a deductive consequence of the frozen definitions; it says nothing
