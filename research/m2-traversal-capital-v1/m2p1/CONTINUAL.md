@@ -420,3 +420,24 @@ on the mismatched world is also running so the accidental transfer can be read f
 Ledger row 24 is corrected accordingly; v5.3 remains retired on the shift-world evidence.
 The runner is restored to continual_v5.2 with controller_v4's dev-phase rule.
 
+**E8 settled (records/continual/E8m7_v5.2_*, E8m6_from_m7_*).** Matched world (E8_m7, same
+dev state): continual_v5.2 **596.3 — byte-identical to the fixed controller**; no regression.
+The accidental mismatch is itself a result: a library developed on E8_m7 and deployed on
+E8_m6 (different motifs) leaves the fixed controller at **29 680** (stood down, ≈ RESET − the
+occasional hit), while the continual arm learned E8_m6's library from its own first 24
+solutions and finished at **7 480** — 4× cheaper than the fixed controller and −82 % vs RESET
+on a world it never developed on. Unplanned, therefore exploratory; registered below as a
+prospective test.
+
+## Cross-world transfer (registered 2026-09-11 before the runs; billy-old)
+
+Deploy a lifetime developed on world X onto world Y with different hidden motifs, same grammar
+and regime: (E7 → E8_m7), (E8_m7 → E7), (E5 → E7), (E7 → E5). Arms on Y: RESET, the fixed
+controller with X's dev state, continual_v5.2 with X's dev state. Predictions on every pair:
+the fixed controller within ± 30 % of RESET (it stands down and pays the re-probe cadence);
+continual ≤ 0.5 × the fixed controller and ≤ −50 % vs RESET (it learns Y in life). Falsifiers:
+continual ≥ the fixed controller on any pair; continual ≥ RESET on any pair. Claim if positive:
+the developmental *procedure* (probe with history-learned depth, charged validation on one's
+own acquisitions, retained libraries) transfers across worlds even when the library does not —
+a first K2-flavoured observation, still inside one grammar.
+
