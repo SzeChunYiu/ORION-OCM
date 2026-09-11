@@ -78,38 +78,40 @@ UNAFFECTED_PROBES = [(x, s) for s in SCOPES for x in (0b00010110, 0b01100001)]
 class Learner:
     """Shared per-factor linear learner (exact solve from the three seen patterns): the semantic developmental state."""
 
-    def __init__(self, M):
-        self.M = M
+    def __init__(self, M, prefix=""):
+        self.M = M; self.p = prefix
         for i in range(N_F):
-            M.declare(f"a{i}", "fx", 0); M.declare(f"c{i}", "fx", 0); M.declare(f"n{i}", "fin", 0)
-        M.declare_store("evidence")
+            M.declare(f"{prefix}a{i}", "fx", 0); M.declare(f"{prefix}c{i}", "fx", 0); M.declare(f"{prefix}n{i}", "fin", 0)
+        M.declare_store(f"{prefix}evidence")
 
     def observe(self, x, scope, y):
         M = self.M
-        M.op("S_INSERT", "evidence", (x, scope), y)
+        M.op("S_INSERT", f"{self.p}evidence", (x, scope), y)
         # credit assignment: with two factors per scope, solve from single-active-bit evidence when available
         for i in scope:
             other = [j for j in scope if j != i][0]
             b0, b1 = fbits(x, i); o0, o1 = fbits(x, other)
-            est_other = clamp(M.op("ADD", M.op("MUL", M.read(f"a{other}"), fx(1.0) if o0 else 0), M.op("MUL", M.read(f"c{other}"), fx(1.0) if o1 else 0)))
+            P = self.p
+            est_other = clamp(M.op("ADD", M.op("MUL", M.read(f"{P}a{other}"), fx(1.0) if o0 else 0), M.op("MUL", M.read(f"{P}c{other}"), fx(1.0) if o1 else 0)))
             resid = M.op("SUB", y, est_other)
-            if b0 and not b1: M.write(f"a{i}", resid); M.write(f"n{i}", M.op("INC", M.read(f"n{i}")))
-            elif b1 and not b0: M.write(f"c{i}", resid); M.write(f"n{i}", M.op("INC", M.read(f"n{i}")))
+            if b0 and not b1: M.write(f"{P}a{i}", resid); M.write(f"{P}n{i}", M.op("INC", M.read(f"{P}n{i}")))
+            elif b1 and not b0: M.write(f"{P}c{i}", resid); M.write(f"{P}n{i}", M.op("INC", M.read(f"{P}n{i}")))
 
     def value(self, i, x):
-        M = self.M; b0, b1 = fbits(x, i)
-        return clamp(M.op("ADD", M.op("MUL", M.read(f"a{i}"), fx(1.0) if b0 else 0), M.op("MUL", M.read(f"c{i}"), fx(1.0) if b1 else 0)))
+        M = self.M; b0, b1 = fbits(x, i); P = self.p
+        return clamp(M.op("ADD", M.op("MUL", M.read(f"{P}a{i}"), fx(1.0) if b0 else 0), M.op("MUL", M.read(f"{P}c{i}"), fx(1.0) if b1 else 0)))
 
     def reset(self, factors):
+        P = self.p
         for i in factors:
-            self.M.write(f"a{i}", 0); self.M.write(f"c{i}", 0); self.M.write(f"n{i}", 0)
-        self.M.stores["evidence"] = [(k, v) for k, v in self.M.stores["evidence"] if not (set(k[1]) & set(factors))]
-        self.M.op("S_DELETE", "evidence", None)
+            self.M.write(f"{P}a{i}", 0); self.M.write(f"{P}c{i}", 0); self.M.write(f"{P}n{i}", 0)
+        self.M.stores[f"{P}evidence"] = [(k, v) for k, v in self.M.stores[f"{P}evidence"] if not (set(k[1]) & set(factors))]
+        self.M.op("S_DELETE", f"{P}evidence", None)
 
     def consistent(self, i):
         """verifier: the current factor model reproduces every stored evidence triple involving factor i (EQ ops charged)."""
         M = self.M; ok = 1
-        for (x, scope), y in M.stores["evidence"]:
+        for (x, scope), y in M.stores[f"{self.p}evidence"]:
             if i in scope:
                 pred = clamp(sum(self.value(j, x) for j in scope))
                 ok = M.op("AND", ok, M.op("EQ", pred, y))
@@ -184,7 +186,7 @@ class VLC(ModularUnversioned):
         for p in range(4):
             x = (p & 1) << (2 * i) | ((p >> 1) & 1) << (2 * i + 1)
             M.op("S_INSERT", "shadow", (i, p), self.L.value(i, x))
-        if self.L.consistent(i) and M.read(f"n{i}") >= 2:
+        if self.L.consistent(i) and M.read(f"{self.L.p}n{i}") >= 2:
             M.stores["ftab"] = [(k, v) for k, v in M.stores["ftab"] if k[0] != i] + list(M.stores["shadow"])
             M.op("S_INSERT", "ftab", (i, 99), 0); M.op("S_DELETE", "ftab", (i, 99))  # the atomic swap, charged as one write
             self.stale.discard(i)
