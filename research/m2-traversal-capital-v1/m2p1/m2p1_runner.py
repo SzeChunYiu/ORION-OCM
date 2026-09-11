@@ -88,7 +88,7 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.3"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "version": "continual_v5.2"}
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -557,15 +557,15 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                     C["hits"].append(prog is not None)
-                    C["_pending_live"] = True                      # v5.3: delta is settled after the solve
+                    # v5: realised value of keeping this library live on this target
+                    C["vals"].append((L.get("expected_baseline") or 0) - used if prog is not None else -used)
                     W = CONTINUAL["value_window"]; k = CONTINUAL["standdown_misses"]
-                    # v5.3: the value rule ALONE, with the FULL realised cost. v5.1's three-miss
-                    # signal stood a valuable library down on a chance streak (E8: 596 -> 7 480,
-                    # every stood-down target ~RESET until the re-probe); v5's value rule was slow
-                    # at regime changes only because a miss was priced as its probe cost, not the
-                    # interleave excess it triggers. Pricing every live target as
-                    # (expected baseline - total charged) makes one rule both fast and safe.
-                    if len(C["vals"]) >= k and sum(C["vals"][-W:]) < 0:
+                    # v5.1: EITHER signal stands the library down -- k consecutive misses (fast at a
+                    # regime change, where the value window still carries the old regime's hits)
+                    # or a negative realised value over the window (an expensive library whose
+                    # sporadic hits never pay for its misses, s604).
+                    if (len(C["hits"]) >= k and not any(C["hits"][-k:])) or \
+                       (len(C["vals"]) >= k and sum(C["vals"][-W:]) < 0):
                         # v3: stand down after k consecutive misses (v2's 8-window hit-rate rule
                         # paid ~7 targets of probe + interleave at every regime change), and
                         # try the OTHER retained libraries at once -- a return to a known
@@ -621,10 +621,6 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
                                          used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
-                if C.pop("_pending_live", False):
-                    Lx = C["libs"][C["active"]] if C["active"] is not None else None
-                    if Lx is not None:                            # still live: settle this target's realised delta
-                        C["vals"].append((Lx.get("expected_baseline") or 0) - res.slots)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
             elif arm == "CONTINUED_OCM" and method.fragments:

@@ -407,3 +407,16 @@ misses in both (1 884 slots, no hit) with the current runner — so the fixed ar
 produced by an older runner and may not be reproducible. The fixed CONTINUED_OCM arm is
 re-running on E8 from the same dev state with the current runner; the E8 verdict waits for it.
 
+**E8 corrected — a launch error, not a controller regression.** The morning's E8 arms
+(records 596.3 / 40 850) ran on `M2P1_ECOLOGY_E8_m7.json` (63 targets, 7 motifs); my
+regression launches picked `M2P1_ECOLOGY_E8_m6.json` (55 targets, 6 motifs — a different
+world), whose protected targets match **0 / 55** of the old record. The continual arm was
+therefore deployed with a library developed on one world onto another: it missed on the first
+24 targets, learned the new world's library from its own solutions at target 24 (38 749 slots
+of validation) and served the rest at 130–650 — an *accidental cross-world transfer* test,
+kept as an exploratory record (`records/continual/E8_v5.3_*` is that run). The matched
+comparison (continual_v5.2 on E8_m7 from the same dev state) is running; the fixed controller
+on the mismatched world is also running so the accidental transfer can be read fairly.
+Ledger row 24 is corrected accordingly; v5.3 remains retired on the shift-world evidence.
+The runner is restored to continual_v5.2 with controller_v4's dev-phase rule.
+
