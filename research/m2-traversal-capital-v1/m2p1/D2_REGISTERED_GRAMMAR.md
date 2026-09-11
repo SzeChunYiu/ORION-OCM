@@ -211,3 +211,12 @@ seed (0.54–0.56×), but the 0.65 bound was missed once — on the seed where t
 worst, the probe's hit rate is lowest and the miss overhead (β + baseline) is what remains.
 Recorded as a miss; the bound is not re-tuned. Records `records/DIST_SPLIT_M14_50{4,5,6}.json`.
 
+## Extended grammar (P = 6 research analogue): seed 1002 — BENEFIT_SURVIVES_AT_D2
+
+`m2_ext_distance.py` (P = 6, budget 2.1 M, EXACT_MATCH-controlled against the registered
+solver at P = 4): seed 1002 (m = 10) recovered 7 / 10 motifs, library 7, and the history-
+induced benefit is **98.1 % at d = 1 (25 / 25) and 97.9 % at d = 2 (25 / 25)** —
+terminal `BENEFIT_SURVIVES_AT_D2`. The d = 2 law holds in a grammar with two more
+primitives; the remaining seeds (1000, 1001; m = 12: 1010–1012) are still running.
+Record: `records/EXT_DISTANCE_s2.json`. Research analogue, not the registered grammar.
+

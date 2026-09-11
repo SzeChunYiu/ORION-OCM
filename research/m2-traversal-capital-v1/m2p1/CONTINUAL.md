@@ -521,3 +521,21 @@ s613 B ≥ RESET; any regression > 2 %.
 
 hc06 under controller_v3: 2 546 (unchanged; MDL chosen at probe cost 4 591 vs 28 581) — held.
 
+**continual_v5.4 outcome (records/crossworld/*_v5.4_*).** E7 → E8_m7: **16 229 vs the fixed
+controller's 41 036 — 0.395×** (registered ≤ 0.70 held): the first learned library stood down
+at 38, the corpus was kept, a second attempt at target 40 deployed (38 402 charged) and served
+the rest. E8_m7 → E7 and E5 → E7 unchanged (0.590), and all four shift lifetimes byte-identical
+to v5.2 — as registered. Cross-world transfer now: **0.40 / 0.59 / 0.59 × the fixed controller
+on the three pairs long enough to learn**, equality on the 21-target pair.
+
+**s613 under v5.5 (records/continual/SHIFT45_s613_v5.5_*).** The compact-frequency candidate
+did what it was built for — validated 6 / 8 at target 80 (six of B's eight motifs, mean delta
++1 499, 4 917 charged) and deployed — and then the next three targets all needed the two
+motifs it lacked (`decinc`, `squaredouble`): three misses at β + baseline, stand-down, a
+re-probe at 88 that missed, and the segment ended. B 3 835 (+16 % vs RESET) against 3 595
+under v5.2 — the registered ≤ 0.95 × RESET **missed**; lifetime 1 775 vs 1 695. SHIFT45
+unchanged (MDL still preferred). The candidate is kept only if the remaining regressions hold
+(it can only add an option the same probes must prefer); s613 stays a recorded negative at
+this segment length — its learning horizon (≈ 32 in-regime programs for a complete compact
+library) is longer than the 45-target segment allows, the invariant already stated.
+
