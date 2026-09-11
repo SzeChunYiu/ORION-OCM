@@ -1,0 +1,139 @@
+{
+ "schema": "OCM_M2P4_SECOND_GRAMMAR_FREEZE",
+ "version": "V1",
+ "owner_issue": 165,
+ "hardening_parent": 323,
+ "status": "PROSPECTIVELY_FROZEN_BEFORE_THE_AUTHOR_SESSION (effective on merge)",
+ "non_final": "EXPLICITLY_NON_FINAL",
+ "problem": "Every result in this lane \u2014 C2, the d=2 replication, guided-first, and M2-P3's second-author replication \u2014 lives in ONE authored-world grammar: four primitives, builders of length <= 8, hidden chunks of length 2 or 3. The claim ladder names the limit in its own words: C3 needs a different grammar or a different acquisition mechanism. This study varies the GRAMMAR and holds everything else fixed.",
+ "what_varies_and_why_it_is_not_a_costume": "Chunks become length 3 or 4 and chunk count becomes 10..16. This changes what chunking BUYS, not merely what it costs: builder lengths are sums of chunk lengths, so under a 3-4 band the attainable lengths are 3, 4, 6, 7, 8 \u2014 length 5 is UNREACHABLE \u2014 and the length-class structure the finding rests on is therefore different, not rescaled. REJECTED ALTERNATIVE, recorded so it is not retried: a sibling substrate with more primitives (e.g. triple/halve, T 4->5) changes only the cost of enumeration; length-8 builders still factor into 2-3-op chunks. It also is NOT untried \u2014 m2p1/m2_ext_distance.py already ran a 6-primitive analogue (PRIMS6) and the d=2 law held on 6/6 seeds (D2_REGISTERED_GRAMMAR.md); what that analogue lacks is passage through the registered, gated, authored-world pipeline, which is what this study supplies.",
+ "why_chunk_count_moves_too": "It is forced, not chosen. With t chunks of length 3 and f of length 4 the only tilings of a builder of length <= 8 are 4, 3+3, 3+4, 4+3 and 4+4, so members <= f + (t+f)^2 = f + k^2. At the M2-P2 cap of k <= 8 that is <= 72 against a viability floor of 90 members, and greedy search attains exactly 72, so the bound is tight and NO band-3-4 world can be viable at k <= 8. Clearing the floor requires k >= 10. Bound validated on 156 worlds, 0 violations (m2p4/BAND_FEASIBILITY.md, ledger row 61).",
+ "bound_to": {
+  "git_head_at_freeze": "d2084f5723259c7c302d756796723a5424104a58",
+  "frozen_files": {
+   "research/m2-traversal-capital-v1/m2p4/m2p4_author_spec.md": "382e6152fcdf9569039a14e46eae45fcc8609ab8b70d628e605c688ed71f64ea",
+   "research/m2-traversal-capital-v1/m2p4/m2p2_compile_b34.py": "579704ffff13a2a20a6743e3d28faf0437cbb8d2668d78541a42e92886f1cff8",
+   "research/m2-traversal-capital-v1/m2p4/make_compile_variant.py": "7ef646fe6d4f04e16016cccadb5fcf8000fb099cbbc2df46a10a55c93328c07a",
+   "research/m2-traversal-capital-v1/m2p4/GSURF_B34_CALIBRATION.md": "561275c4ab3abc09db935cf0729d5d16e8553ff36dd3718e8acc0e546c0df3b6",
+   "research/m2-traversal-capital-v1/m2p4/BAND_FEASIBILITY.md": "9868c00fa1fc1bd9ba61524ae471c78ddab9685b013433bba1f1c460d46c9002",
+   "research/m2-traversal-capital-v1/m2p2/m2p2_taxa.py": "8779dd0ebd4b356e0b59e76fd68e8bfbc386153d04e22c22833aaabc52da8a50",
+   "research/m2-traversal-capital-v1/m2p2/m2p2_gsurf.py": "c5b302e4c7a2d406e438db07034eaaa218e8c2701dff09551319f39bff9f45ea",
+   "research/m2-traversal-capital-v1/m2_probe_v3_feature_sufficiency.py": "f5b554c02ef343eb080e59135b303a5513491776eb2cfb319f82b932574118ef",
+   "research/m2-traversal-capital-v1/m2p3/v2/m2p3_check_v2.py": "1b8c5c5c07dccbce9040d9912600f4697e188a3e6ae9120ca3b0953e652cc66f",
+   "research/m2-traversal-capital-v1/m2p3/v2/guard_v2.py": "d7b3c480c7cfb7c0dfe0eb0c007074ce0debeb35e11e9bcdd2c94d38aba4ac4c",
+   "research/m1-native-acquisition/m1_partitions.py": "f83aa82ef2afe2674e8d7448ac09aa50ddd11f8b6545540d8f9cf89d126c7414",
+   "src/ocm/learning/methods.py": "e0a0565466dc67787b2162831e363b232960d0d864c15af62bc9e7e865f8b4d3"
+  },
+  "imported_unmodified": [
+   "src/ocm/learning/methods.py (registered units; sha256 asserted in every receipt)",
+   "m2p2_gsurf.py and m2_probe_v3_feature_sufficiency.py (the entry-gate instrument, driven unmodified)",
+   "m2p2_taxa.py (the 219-token taxonomy hostile, unmodified)",
+   "the m2p1 runner, dose ladder and summarize, exactly as M2-P2/M2-P3 used them"
+  ],
+  "replication_of": "M2P2_FREEZE_V1.json and M2P3_FREEZE_V2.json, which this study copies in every respect except the authored-world grammar"
+ },
+ "neutral_author_spec": {
+  "file": "research/m2-traversal-capital-v1/m2p4/m2p4_author_spec.md",
+  "sha256": "382e6152fcdf9569039a14e46eae45fcc8609ab8b70d628e605c688ed71f64ea",
+  "frozen_before_authoring": true,
+  "derived_from": {
+   "file": "research/m2-traversal-capital-v1/m2p2/m2p2_author_spec.md",
+   "sha256": "6a25c7f37c30dfece5875298d66f6d82955442fcfdd6c69d971dca4d10b439bd",
+   "difference": "exactly five bound changes plus one clarifying note, proven by line diff: chunk length 2-or-3 -> 3-or-4 (prose and hard bounds), chunk count 4..8 -> 10..16 (prose and interface), the worked example relabelled to band-legal chunks, and a note recording that attainable builder lengths are 3,4,6,7,8 so min_builder_length 5 and 6 select identical members. 7 lines removed, 11 added; every other word of the neutral wording is preserved."
+  },
+  "taxonomy_clean": "0 hits on the 219-token hostile, with the scanner validated in the same run: no_alarm_control passed AND a tamper control planting ORACLE_FAMILY alarmed. A zero from an unvalidated scanner would not have been recorded.",
+  "vocabulary_rule": "written ONLY in terms of the four public operations, string lengths and fractions; no lane, mechanism or repository vocabulary",
+  "known_spec_trap_documented": "length 5 is unreachable under a 3-4 band, so mbl 5 and 6 are equivalent; the spec says so, to stop an author satisfying the distinct-shapes floor with a difference that is not one"
+ },
+ "author_unit": {
+  "definition": "a FRESH model session (nested agent, no inherited conversation context) given ONLY the frozen neutral spec above, verbatim in the spawn prompt, plus instructions to write into a scratch studio directory outside this repository",
+  "same_as_m2p2_m2p3": "the author-unit contract is imported unchanged from M2P2_FREEZE_V1: must_not_receive list, isolation procedure, determinism double-run, intent-stripping, sandboxed execution, and the taxonomy mechanical guarantee",
+  "human_gate_label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+  "independence_scope": "UNCHANGED from M2-P3: same model family, session/context/spec-only isolation. This study does NOT advance author independence and must never be reported as doing so. Family-level authorship remains open and requires an external author.",
+  "floors": {
+   "worlds_min": 6,
+   "distinct_shapes_min": 2,
+   "shape_definition": "(chunk count, chunk-length multiset, minimum builder length, part fractions); note mbl 5 and 6 are the same world, so they do not constitute distinct shapes",
+   "counts_toward_floor_only_if": "the world passes the hard bounds and compiles VIABLE"
+  }
+ },
+ "entry_gates": {
+  "order": "compile (structural gates + viability) -> dev traversal + mining -> G-SURF -> scored arms",
+  "compiler": {
+   "file": "research/m2-traversal-capital-v1/m2p4/m2p2_compile_b34.py",
+   "sha256": "579704ffff13a2a20a6743e3d28faf0437cbb8d2668d78541a42e92886f1cff8",
+   "relationship_to_frozen_compiler": "generated by make_compile_variant.py, which PROVES rather than asserts the relationship: the variant with its banner removed is byte-identical to the frozen m2p2_compile.py with exactly three substitutions applied \u2014 chunk count 4..8 -> 4..16, chunk length 2..3 -> 2..4, and the schema relabelled to OCM_M2P4_B34_COMPILED_WORLD_V1 so a variant-compiled world can never be mistaken for a frozen one. The generator aborts on any other drift. The frozen compiler itself is NOT modified.",
+   "note_on_wider_bounds": "the variant admits 4..16 chunks and lengths 2..4, which is wider than this spec's 10..16 and 3..4; the SPEC is the binding constraint on the author and the compiler's hard-bound rejection remains a backstop, exactly as in M2-P2"
+  },
+  "structural_gates": "G1 length parity, G2 disjoint normal forms, G3 decomposability \u2014 unchanged",
+  "viability_floor_per_world": {
+   "members_min": 90,
+   "initial_min": 15,
+   "tuning_min": 6,
+   "future_min": 20,
+   "unchanged_from": "M2P2_FREEZE_V1",
+   "on_failure": "CANNOT_CHECK_world with measured counts, retained and reported"
+  },
+  "static_guard_and_orchestrator": {
+   "guard": "guard_v2.py sha256 d7b3c480c7cfb7c0dfe0eb0c007074ce0debeb35e11e9bcdd2c94d38aba4ac4c",
+   "orchestrator": "m2p3_check_v2.py sha256 1b8c5c5c07dccbce9040d9912600f4697e188a3e6ae9120ca3b0953e652cc66f",
+   "why_v2": "M2P3_FREEZE_V2 supersedes V1 for EVERY author session starting after it merged, so this study binds the V2 guard and orchestrator. Binding V1's m2p2_check.py would re-introduce the defect that rejected package A (ledger row 59)."
+  },
+  "surface_derivability_gate": {
+   "id": "G-SURF",
+   "blocking": true,
+   "per_world": true,
+   "pass_rule_frozen": "fires SURFACE_DERIVABLE iff (FREE - CHANCE) >= 0.5 * (ORACLE - CHANCE); unchanged",
+   "calibrated_on_this_band_before_freezing": "6/6 lane-authored band-3-4 worlds (k=13..16, all VIABLE, G1/G2/G3 PASS) return PASS with captures 0.0000-0.1053 against the 0.5 line, comparable to the band-2-3 controls (max 0.2451); on 5 of 6 the best history-free ordering is the trivial ANCHOR_ASC. The harness was validated first: the same invocation reproduces all 8 recorded control verdicts on every decision-bearing field, 0 mismatches, with the 2 worlds lacking a recorded verdict reported NOT-COMPARABLE rather than counted as passes. Records: m2p4/GSURF_B34_CALIBRATION.md (row 63).",
+   "known_limitation": "those calibration records carry an empty bound_sources.git_head because the tree they ran against was unpacked from a git archive with no .git; the methods.py binding is byte-identical to the originals and no verdict is affected. Disclosed in the calibration record, not repaired after the fact."
+  },
+  "calibration_worlds_are_not_the_study": "the six band-3-4 worlds in m2p4/b34_compiled/ were authored by THIS LANE as a fake author for instrument calibration only, exactly as VAL-A..VAL-H were for M2-P2. They are never scored, never counted toward any floor, and the author unit never sees them."
+ },
+ "arm_set": {
+  "unchanged_from": "M2P2_FREEZE_V1 arm_set, imported verbatim",
+  "arms": [
+   "CONTINUED",
+   "RESET",
+   "LIBRARY_ONLY",
+   "SHUFFLED_HISTORY",
+   "BEST_HISTORY_FREE_SURFACE",
+   "ORACLE_FAMILY (calibration only)",
+   "ORDINARY_ADAPTIVE_PARENT"
+  ],
+  "strongest_parent_note": "PARENT_GF_D4 (MDL library served guided-first, fixed depth 4, no rule, no liveness) is the strongest non-oracle parent established in this lane and is reported beside the arms; target (3) remains FALSIFIED at authored-world scope and this study does not reopen it."
+ },
+ "statistics": {
+  "per_world_primary": "paired per-target B_slots, CONTINUED vs RESET on the same future targets, one-sided, shuffle-equal-n null within pairs (exact enumeration up to n=20, else 100000 Monte Carlo shuffles at the world's frozen seed) \u2014 unchanged",
+  "multiplicity": "Holm-Bonferroni across viable worlds, family-wise alpha 0.05 \u2014 unchanged",
+  "effect_size_primary": "the registered 50% effect-size bar, unchanged from M2-P3",
+  "point_prediction": "NONE IS CARRIED OVER, deliberately. M2-P3 co-registered a median ratio of -88% +/- 8, but that was fitted to the band-2-3 tiling structure. Under a 3-4 band the attainable length classes differ (5 unreachable) and the library/baseline economics are not a monotone rescaling of the old ones, so copying the number forward would be a mis-registration. The 50% bar stands alone; any post-hoc point estimate is descriptive and is labelled as such."
+ },
+ "terminals_pre_registered": {
+  "precedence": "ASSAY_DEFECT > AUTHORSHIP_CONTAMINATED > SURFACE_DERIVABLE > CANNOT_CHECK_TOO_FEW > the per-world m2p1 precedence \u2014 unchanged",
+  "C2_REPLICATED_SECOND_GRAMMAR": "at least 4 viable worlds, >= 80% of them passing the registered 50% effect-size bar with Holm-adjusted p < 0.05 \u2014 the M2-P3 terminal shape, applied to a different grammar",
+  "NOT_REPLICATED_IN_SECOND_GRAMMAR": "viable worlds exist and admit, but the 80% threshold is not met; this is a REAL negative about generality and is reported as one, not re-tuned",
+  "CANNOT_CHECK_NO_VIABLE_WORLD": "fewer than 4 worlds compile viable. Given the bound f + k^2, an author who chooses k near 10 may land below the floor; that is a measurement outcome, not a defect, and the spec is not widened afterwards to rescue it.",
+  "AUTHORSHIP_CONTAMINATED": "any taxonomy alarm on any authored artifact, or any post-hoc spec revision"
+ },
+ "claim_ceiling": {
+  "text": "replication of the history-induced search-prior benefit in a SECOND authored-world GRAMMAR (chunk band 3-4, chunk count 10-16), with the registered learner driven unmodified, the admission rule never relaxed, and the entry gate calibrated on the new band before use",
+  "not_claimed": [
+   "any advance in author independence \u2014 the author unit is the same model family as M2-P3; family-level authorship remains open and operator-gated",
+   "OCM-specific superiority over the strongest parent \u2014 target (3) stays FALSIFIED at authored-world scope",
+   "general developmental intelligence or open-endedness",
+   "any change to #323's status; it and #277/#165 remain open regardless of outcome"
+  ]
+ },
+ "forbidden": [
+  "any post-hoc revision of the spec, this freeze, the gates, the arm set, the terminals or the statistics after the author session",
+  "widening the spec's bounds after seeing how many worlds compiled viable",
+  "repeating an author session to obtain a different gate or scored outcome",
+  "showing the author unit the calibration worlds, the feasibility bound, or any hint about chunk-count economics",
+  "editing authored artifacts after the session (any fix re-runs the author unit or becomes CANNOT_CHECK)",
+  "using author intent or surface fields as inputs to compilation, gating, fitting or scoring",
+  "touching src/ocm, or editing any m2p1/m2p2/m2p3 artifact",
+  "carrying M2-P3's -88% +/- 8 point prediction into this study",
+  "reporting this study as a second independence result",
+  "scored execution on the Mac mini (execution belongs to laptop billy / LUNARC)"
+ ]
+}
