@@ -38,6 +38,8 @@ ALL_X = list(range(16))
 TRAIN = [0, 3, 5, 6, 9, 10, 12, 15]
 COEFFS_V1 = (0.25, 0.5, -0.25, 0.5)  # frozen E_smooth target coefficients
 COEFFS_V2 = (0.5, -0.5, 0.25, 0.75)  # RV-377-009 fresh ecology E_smooth2 (0.75 not in the S2 grammar)
+COEFFS_V3 = (0.5, 0.25, -0.5, 0.375)  # RV-377-017 fresh ecology E_smooth3 (0.375 not in the grammar); generalization criterion
+UNSEEN = [x for x in ALL_X if x not in TRAIN]
 
 
 def make_target(coeffs):
@@ -244,7 +246,7 @@ DENSE = {"S4", "S3"}
 LOCAL = {"S2", "S2a", "S5"}
 
 
-def run(row, basis, size, seed=0, target=None, n_events=None, rows=None):
+def run(row, basis, size, seed=0, target=None, n_events=None, rows=None, criterion="all"):
     target = TARGET if target is None else target
     n_events = H if n_events is None else n_events
     revoke_at = REVOKE_AT if n_events == H else (n_events // 2 + 1)
@@ -261,7 +263,8 @@ def run(row, basis, size, seed=0, target=None, n_events=None, rows=None):
         if t == revoke_at:
             M.phase("rev"); ref.revoke(M, TRAIN[1]); M.end_event()
     M.phase("exec"); final = {xx: ref.query(M, xx) for xx in ALL_X}; D.append(final)
-    err = sum(abs(final[xx] - target[xx]) for xx in ALL_X) / FX_ONE / len(ALL_X)
+    eval_x = UNSEEN if criterion == "unseen" else ALL_X
+    err = sum(abs(final[xx] - target[xx]) for xx in eval_x) / FX_ONE / len(eval_x)
     cap = max(0.0, 1 - err / 1.5)
     n_cells = len(M.cells) + sum(len(s) for s in M.stores.values())
     return {"row": row, "basis": basis.name, "size": size, "D": D, "R": dict(M.L.c), "capability": round(cap, 4), "max_writes": max_writes, "n_cells": n_cells, "n_events": n_events}
@@ -282,7 +285,7 @@ def analytic_rstar(pe_i, pe_j, Hh):
     return round(a / b, 3) if b > 0 and a > 0 else None
 
 
-def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None):
+def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all"):
     rows = rows or ROWS
     target = make_target(coeffs)
     cols = list(bases.ALL)
@@ -290,7 +293,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
     for row, cls in rows.items():
         for col in cols:
             for size in cls.ladder:
-                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows)
+                cells[(row, col, size)] = run(row, bases.ALL[col], size, seed, target, n_events, rows, criterion)
     c2 = {f"{row}@{size}": all(cells[(row, col, size)]["D"] == cells[(row, cols[0], size)]["D"] for col in cols) for row, cls in rows.items() for size in cls.ladder}
     caps = {f"{row}|{col}|{size}": cells[(row, col, size)]["capability"] for (row, col, size) in cells}
     H_GRID = [1, 2, 4, 8, 16, 32, 64, 128]; R_GRID = [0, 1, 2, 4, 8, 16, 32]
@@ -340,7 +343,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
                     within = obs is not None and obs[0] <= pred <= obs[1] * 1.0 + 1e-9 or (obs is not None and (pred < obs[0] and obs[0] == 0)) or (obs is not None and R_GRID.index(obs[1]) - R_GRID.index(obs[0]) == 1 and obs[0] <= pred <= obs[1])
             rstar[col] = {"predicted_rstar_from_E_smooth": pred, "observed_crossing_interval": obs, "both_admissible": adm, "within_one_grid_step": within}
     receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "run_tag": tag, "target_coeffs": list(coeffs), "analytic_rstar_test": rstar,
-               "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows)},
+               "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows), "capability_criterion": criterion},
                "C2": c2, "capability_by_cell": caps, "R_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["R"] for (row, col, size) in cells},
                "writes_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["max_writes"] for (row, col, size) in cells},
                "frontier_H_r": frontier, "PH_REV": ph, "grammar_size": len(GRAMMAR),
@@ -370,7 +373,9 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "smooth2_d48":
+    if len(sys.argv) > 1 and sys.argv[1] == "smooth3":
+        main(coeffs=COEFFS_V3, tag="V4_SMOOTH3_GEN", n_events=16, rows=ROWS_V3, criterion="unseen")
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth2_d48":
         main(coeffs=COEFFS_V2, tag="V3_SMOOTH2_D48", reference_receipt="STAGE_DE_SMOOTH_V1.json", n_events=48, rows=ROWS_V3)
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth2":
         main(coeffs=COEFFS_V2, tag="V2_SMOOTH2", reference_receipt="STAGE_DE_SMOOTH_V1.json")
