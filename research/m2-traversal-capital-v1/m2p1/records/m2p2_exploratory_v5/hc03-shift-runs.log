@@ -1,0 +1,399 @@
+=== host cn010 world=M2P2_WORLD_hc03-shift-runs EXPLORATORY integrated arm, controller_v5 (uniform); runner_sha=bb9f219e22c0af40 methods_sha=e0a0565466dc6778
+{
+ "schema": "M2P1_DEV_STATE",
+ "eu_admission": {
+  "policy": "EXPECTED_UTILITY_WITH_BOUNDED_REGRET_V1",
+  "mean_delta": 20722.4,
+  "ci95_low": 16286.7,
+  "worst_ratio": 2.0,
+  "rho_max": 2.0,
+  "all_verified": true,
+  "admitted": true,
+  "reason": "admitted"
+ },
+ "ocm_controller": {
+  "rule": {
+   "[2, 3, 0, 1]": true,
+   "[1, 2, 0, 1]": true,
+   "[2, 3, 1, 1]": true,
+   "[4, 5, 1, 1]": false,
+   "[4, 5, 2, 1]": false,
+   "[4, 3, 0, 1]": true,
+   "[4, 3, 1, 1]": true,
+   "[4, 4, 1, 1]": false,
+   "[2, 2, 0, 1]": true,
+   "[4, 5, 0, 1]": false,
+   "[4, 4, 0, 1]": false
+  },
+  "fallback": true,
+  "probe_depth": 4,
+  "rule_fit": "controller_v4: miss-conditional (validation tasks tiling deeper than the probe depth); 25 of 203 rows",
+  "beta": 11110,
+  "liveness_window": 8,
+  "liveness_min_hit_rate": 0.25,
+  "depth_rule": "expected-cost on held-out validation (controller_v2)",
+  "liveness": "v2: counter advances every target; stood-down => RESET until re-probe hits",
+  "library": "mdl",
+  "library_rule": "controller_v5: interleave validation (v2 rule) + v4 miss-conditional rule",
+  "expected_probe_cost": {
+   "frequency": 17127.9,
+   "mdl": 6883.5
+  },
+  "validated_better_interleave": {
+   "frequency": 163,
+   "mdl": 189
+  }
+ },
+ "mdl_fragments": [
+  [
+   "square",
+   "inc"
+  ],
+  [
+   "square",
+   "dec"
+  ],
+  [
+   "dec",
+   "dec"
+  ],
+  [
+   "inc",
+   "inc"
+  ],
+  [
+   "dec",
+   "square"
+  ],
+  [
+   "inc",
+   "square"
+  ]
+ ],
+ "mdl_admission": false,
+ "mdl_terminal": "KEEP_PRIMITIVE_BASELINE",
+ "mdl_strictly_better": 189,
+ "train_solved": 304,
+ "train_unsolved": 0,
+ "fragments_mined": 16,
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "validated_on": 203,
+ "held_out_strictly_better": 163,
+ "held_out_never_worse": false,
+ "held_out_mean_baseline": 38009.1,
+ "held_out_mean_candidate": 17286.7,
+ "wall_seconds": 851.23,
+ "pid": 3756966
+}
+checkpoint written, pid 3760577
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "RESET",
+ "calibration_only": false,
+ "note": "no generator; LIBRARY_ONLY holds solved objects whose normal forms are disjoint from every target (gate G2)",
+ "fragments_served": 0,
+ "process": {
+  "pid": 3760579,
+  "pre_restart_pid": 3760577,
+  "pid_changed": true
+ },
+ "targets": 303,
+ "ladder": [
+  200000
+ ],
+ "successes": 303,
+ "attempts": 303,
+ "all_targets_verified": true,
+ "ladder_total": 303,
+ "mean_B_slots": 37172.7,
+ "external_verifications": 303,
+ "successes_by_budget": {
+  "200000": 303
+ },
+ "wall_seconds": 335.32
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "CONTINUED_OCM",
+ "calibration_only": false,
+ "note": "integrated controller: probe depth 4 beta 11110, rule cells 11",
+ "fragments_served": 6,
+ "process": {
+  "pid": 3763626,
+  "pre_restart_pid": 3760577,
+  "pid_changed": true
+ },
+ "targets": 303,
+ "ladder": [
+  200000
+ ],
+ "successes": 303,
+ "attempts": 303,
+ "all_targets_verified": true,
+ "ladder_total": 303,
+ "mean_B_slots": 3593.4,
+ "external_verifications": 303,
+ "successes_by_budget": {
+  "200000": 303
+ },
+ "wall_seconds": 79.77
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "PARENT_WITH_MDL",
+ "calibration_only": false,
+ "note": "ungated parent serving the MDL library: isolates selection rule from OCM",
+ "fragments_served": 6,
+ "process": {
+  "pid": 3764927,
+  "pre_restart_pid": 3760577,
+  "pid_changed": true
+ },
+ "targets": 303,
+ "ladder": [
+  200000
+ ],
+ "successes": 303,
+ "attempts": 303,
+ "all_targets_verified": true,
+ "ladder_total": 303,
+ "mean_B_slots": 7185.1,
+ "external_verifications": 303,
+ "successes_by_budget": {
+  "200000": 303
+ },
+ "wall_seconds": 64.84
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "ORDINARY_ADAPTIVE_PARENT",
+ "calibration_only": false,
+ "note": "same mined fragments served WITHOUT the admission gate",
+ "fragments_served": 16,
+ "process": {
+  "pid": 3766470,
+  "pre_restart_pid": 3760577,
+  "pid_changed": true
+ },
+ "targets": 303,
+ "ladder": [
+  200000
+ ],
+ "successes": 303,
+ "attempts": 303,
+ "all_targets_verified": true,
+ "ladder_total": 303,
+ "mean_B_slots": 14172.0,
+ "external_verifications": 303,
+ "successes_by_budget": {
+  "200000": 303
+ },
+ "wall_seconds": 90.37
+}
+
+{
+ "schema": "M2P1_ARM_REPORT",
+ "arm": "SHUFFLED_HISTORY",
+ "calibration_only": false,
+ "note": "random fragments matching the mined count and length profile, with the true hidden motifs excluded so the control cannot rediscover them by chance",
+ "fragments_served": 16,
+ "process": {
+  "pid": 3766856,
+  "pre_restart_pid": 3760577,
+  "pid_changed": true
+ },
+ "targets": 303,
+ "ladder": [
+  200000
+ ],
+ "successes": 303,
+ "attempts": 303,
+ "all_targets_verified": true,
+ "ladder_total": 303,
+ "mean_B_slots": 73734.9,
+ "external_verifications": 303,
+ "successes_by_budget": {
+  "200000": 303
+ },
+ "wall_seconds": 377.62
+}
+
+{
+ "terminal": "PARENT_SUFFICIENT__LEARNER_REFUSED_DEPLOYMENT",
+ "G4": "CANNOT_CHECK_NO_DEPLOYED_HISTORY_ARM",
+ "ladder": {
+  "CONTINUED_OCM": 303,
+  "ORDINARY_ADAPTIVE_PARENT": 303,
+  "PARENT_WITH_MDL": 303,
+  "RESET": 303,
+  "SHUFFLED_HISTORY": 303
+ },
+ "best_surface": 303,
+ "mean_B": {
+  "CONTINUED_OCM": 3593.4,
+  "ORDINARY_ADAPTIVE_PARENT": 14172.0,
+  "PARENT_WITH_MDL": 7185.1,
+  "RESET": 37172.7,
+  "SHUFFLED_HISTORY": 73734.9
+ },
+ "admission": false
+}
+{
+ "schema": "OCM_M2P1_ATTRIBUTION_V1",
+ "lane": "LANE_M2_TRAVERSAL_CAPITAL_OPUS",
+ "admission": false,
+ "terminal": "KEEP_PRIMITIVE_BASELINE",
+ "held_out_n": 203,
+ "strictly_better": 163,
+ "worse": 40,
+ "mean_baseline_slots": 38009.1,
+ "mean_candidate_slots": 17286.7,
+ "mean_work_reduction": 0.5452,
+ "by_canonical_length": {
+  "5": {
+   "n": 4,
+   "worse": 2,
+   "mean_candidate_over_baseline": 1.272
+  },
+  "6": {
+   "n": 32,
+   "worse": 10,
+   "mean_candidate_over_baseline": 0.859
+  },
+  "7": {
+   "n": 21,
+   "worse": 2,
+   "mean_candidate_over_baseline": 0.643
+  },
+  "8": {
+   "n": 146,
+   "worse": 26,
+   "mean_candidate_over_baseline": 0.53
+  }
+ },
+ "worse_length_distribution": {
+  "5": 2,
+  "6": 10,
+  "7": 2,
+  "8": 26
+ }
+}
+VETOING TASKS: [
+ {
+  "canonical_length": 8,
+  "baseline_slots": 45747,
+  "candidate_slots": 91494,
+  "delta": 45747,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 45739,
+  "candidate_slots": 91478,
+  "delta": 45739,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44339,
+  "candidate_slots": 88678,
+  "delta": 44339,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44333,
+  "candidate_slots": 88666,
+  "delta": 44333,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44323,
+  "candidate_slots": 88646,
+  "delta": 44323,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44243,
+  "candidate_slots": 88486,
+  "delta": 44243,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44237,
+  "candidate_slots": 88474,
+  "delta": 44237,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44233,
+  "candidate_slots": 88466,
+  "delta": 44233,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44211,
+  "candidate_slots": 88422,
+  "delta": 44211,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 44179,
+  "candidate_slots": 88358,
+  "delta": 44179,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 43827,
+  "candidate_slots": 87654,
+  "delta": 43827,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ },
+ {
+  "canonical_length": 8,
+  "baseline_slots": 43725,
+  "candidate_slots": 87450,
+  "delta": 43725,
+  "worse": true,
+  "ratio": 2.0,
+  "both_verified": true
+ }
+]
+m2p2_M2P2_WORLD_hc03-shift-runs_ocm  admitted=True  saved/target=33579  future=303
+  conservative  cost=22811589   breakeven=679.3    pays=False  net=-12637061.1
+  marginal      cost=11225059   breakeven=334.3    pays=False  net=-1050531.1
+  incremental   cost=3509210    breakeven=104.5    pays=True   net=6665317.9
+=== DONE M2P2_WORLD_hc03-shift-runs 2026-09-11T16:15:04Z
