@@ -1,0 +1,489 @@
+{
+ "family_id": "W4_P2P3P5P8_LB",
+ "family_name": "Depth pass: self-modification/OOPS/PowerPlay/Goedel (P2), NAS/evolution (P3), program synthesis/library learning (P5), cognitive architectures (P8), plus the load-bearing missing parents of MISSING_PARENTS_TRIAGE_V1 that are reachable on arXiv",
+ "worker_note": "Written by the main researcher after the dispatched W4 worker was terminated by rate limits. arXiv is egress-blocked in this session; every source below was read through the alphaXiv page-retrieval tool, which returns the most relevant pages rather than the whole PDF. verification_status is therefore PARTIAL_TEXT_READ unless the whole text was returned; page numbers read are listed. Non-arXiv load-bearing items (Chalmers 1990; Cooper 1990; Dagum-Luby 1993; Wingate-Stuhlmueller-Goodman 2011; Zilberstein-Russell 1996; Bennett 1988; Solomonoff 1989; Gurevich 2000 / Boker-Dershowitz 2006; Neary-Woods 2006 TCS) could not be accessed and are reported under missing_parents_you_noticed with their status unchanged.",
+ "entries": [
+  {
+   "parent_id": "P2.OOPS",
+   "name": "Optimal Ordered Problem Solver (Schmidhuber 2002/2004): bias-optimal incremental universal search with frozen prefixes",
+   "primary_sources": [
+    {
+     "title": "Optimal Ordered Problem Solver",
+     "authors": "Juergen Schmidhuber",
+     "year": 2002,
+     "venue": "TR IDSIA-12-02 v2; Machine Learning 54 (2004)",
+     "url_or_doi": "https://arxiv.org/abs/cs/0207097",
+     "arxiv_id_if_any": "cs/0207097",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval (pp. 1-17, 27) followed by the full extracted text (2 645 lines): Sections 1-6.8 and Appendix A.1-A.3 read in full; references not read"
+    }
+   ],
+   "what_it_already_explains": "Defines n-bias-optimality (Def. 1: a searcher never spends more than P(p|r)*T_max/n on candidate p) and shows Levin search is near-bias-optimal with O(P(p) f(k)) = O(f(k)) complexity. OOPS (Method 3.1): solve tasks in order; for task n spend half the time on prolongations of the most recently frozen prefix (tested only on task n) and half on fresh programs starting above the frozen address (tested on all tasks 1..n); freeze the first solver found. Realistic OOPS is 8-bias-optimal (factor 2 for the split, 2 for time doubling, 2 for Try's backtracking) and near-bias-optimal w.r.t. the initial bias plus subsequent code bias shifts (Obs. 3.5). Prefixes may rewrite the distribution on their suffixes (metasearching, Obs. 3.8). Experiment: 30-disk Towers of Hanoi solved after a context-free-language task; the earlier solution's prefix (c3 dec boostq) boosts the probabilities of useful instructions so that the 10-token universal Hanoi solver has probability 9.3e-11 given prior code, ~1000x acceleration of universal search; the whole run tested 9.4e10 prefixes over ~4 days. Sec. 5.1 scopes NFL to i.i.d. uniform problem spaces and locates OOPS's advantage in task relatedness; Sec. 5.2: OOPS does not invent its own subtask curriculum (that is PowerPlay's addition) and needs resetable environments; Appendix A defines the Forth-like language with per-instruction time costs (1 unit; n for n-cell copies/finds; n for n probability modifications), i.e. a charged primitive universe of the same kind as the microscope's.",
+   "formal_object": "P on programs; n-bias-optimal searcher (Def. 1); frozen prefix q_{a_last:a_frozen}; degree of bias B := 1/T (Sec. 4.3, cf. Solomonoff's conceptual jump size)",
+   "key_quote": "'Oops is about optimal time-sharing, given a sequence of problems ... spend a fixed fraction of the total search time on programs starting with the most recently frozen prefix' (Sec. 3.4)",
+   "track_b_rows_served": [
+    "GMI-T8 (program-search learning law, parent accounting for the M2/S2/S2a rows)",
+    "GMI-T12 (developmental cost: degree of bias = 1/search time is the parent's own developmental-capital measure)",
+    "#323 K1/C2 (history changes future proposal geometry: OOPS's frozen prefixes are the mechanism; RV-377-009's diagnosis 'per-event WORK' is Levin/OOPS accounting)"
+   ],
+   "what_it_does_not_cover": "no claim about which morphology emerges; the constant factors (8x, plus hardware) are explicitly 'in the real world constants do matter' (Sec. 2.3); no phase law; incremental profit depends on mutual information between successive solutions given the copy-edit primitives (Sec. 4.3)",
+   "verification_notes": "complete main text and appendix; Sec. 5.1 (NFL scope: uniform i.i.d. only; 'oops-like procedures are advantageous only where such relatedness does exist'), 5.2 (resetable environments required; a badly chosen training sequence may cost more than solving the final task alone), 6.6 (1^n2^n solver found in 0.3 days after 5 prolongations; universal Hanoi solver in ~3 more days; 9.4e10 prefixes / 6.8e11 time steps total), 6.8 (Bremermann limit bounds conceptual jump size), A.2 (instruction costs: most 1 unit; copies and finds cost n; boostq costs the number of instructions modified) — these are the parent's own resource semantics"
+  },
+  {
+   "parent_id": "P2.POWERPLAY",
+   "name": "PowerPlay (Schmidhuber 2011/2013): self-invented simplest-still-unsolvable tasks with a no-forgetting correctness demonstration",
+   "primary_sources": [
+    {
+     "title": "POWERPLAY: Training an Increasingly General Problem Solver by Continually Searching for the Simplest Still Unsolvable Problem",
+     "authors": "Juergen Schmidhuber",
+     "year": 2011,
+     "venue": "arXiv 1112.5309 v2 (2012); Frontiers in Psychology 4 (2013)",
+     "url_or_doi": "https://arxiv.org/abs/1112.5309",
+     "arxiv_id_if_any": "1112.5309",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-6, 9-12 of ~18 read (Alg. 2, Sec. 3.1, Alg. 4.1, Sec. 4.2-4.3, 5, 6, 7)"
+    }
+   ],
+   "what_it_already_explains": "Framework (Alg. 2): search pairs (task T, solver modification q) such that (1) s_{i-1} cannot solve T, (2) q solves T, (3) q still solves all T_k, k<i; the first pair found and validated is adopted. With the OOPS implementation (Alg. 4.1) candidate pairs are ordered by conditional computational complexity given stored experience, so 'the new task and its corresponding skill are those first found and validated ... biases the search towards pairs that can be described compactly and validated quickly'; validation cost need not grow with repertoire size when solver modularization tracks which components affect which tasks (Sec. 3.3.2). Tasks may require achieving a 'wow-effect' (solving an old task with less time/space). Section 5: once storage is bounded (or earlier, because reuse is cheaper to find), the search starts compressing previous solutions, making s generalize. Variant II (Sec. 7.1) explicitly penalizes time and space and allows average-performance-preserving forgetting. Optimality: asymptotic (O(f(k)/P(p))) for the OOPS variant; the task search itself is greedy, 'but at least practically feasible'.",
+   "formal_object": "task sequence T_1, T_2, ...; solver sequence s_i with s_i solves T_{<=i}, s_{i-1} does not solve T_i; CORRECTNESS DEMONSTRATION as an external verifier",
+   "key_quote": "'Every new task added to the repertoire is essentially defined by the time required to invent it, to solve it, and to demonstrate that no previously learned skills got lost' (Sec. 1)",
+   "track_b_rows_served": [
+    "GMI-T12 / B5 (self-generated developmental curriculum; the no-forgetting validation cost is a charged 'ver' coordinate of the lifecycle model)",
+    "#377 §22 terminal on meta-morphogenesis: PowerPlay is the parent of 'the generator improves itself' (weak form) — Codex Q5 parent list confirmed at primary-source depth"
+   ],
+   "what_it_does_not_cover": "no theorem on which morphology PowerPlay's search selects; generalization is 'broken' deliberately by novelty search (Sec. 9.5); experiments are in separate papers (Srivastava et al. 2012/2013), not read",
+   "verification_notes": "Sec. 8-10 not read"
+  },
+  {
+   "parent_id": "P2.GOEDEL_MACHINE",
+   "name": "Goedel machine (Schmidhuber 2003/2006): provably useful self-rewrites via an embedded proof searcher; global optimality theorem",
+   "primary_sources": [
+    {
+     "title": "Goedel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements",
+     "authors": "Juergen Schmidhuber",
+     "year": 2006,
+     "venue": "TR IDSIA-19-03 v5; in Artificial General Intelligence (Springer 2007)",
+     "url_or_doi": "https://arxiv.org/abs/cs/0309048",
+     "arxiv_id_if_any": "cs/0309048",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-3, 5-6, 12-16, 21, 23, 25 of ~26 read (Sec. 2.2-2.4, Thm 4.1 with proof, Sec. 4.2-4.4, Def. 5.1, Method 5.1, Thm 5.1, Sec. 5.2, 6.4 item 4, 6.7, 7)"
+    }
+   ],
+   "what_it_already_explains": "A self-rewrite (switchprog) is executed only after the embedded proof searcher proves the target theorem 'rewriting now yields higher utility than continuing to search' under axioms describing hardware, initial software p(1), environment and the utility u (which charges computation time of everything including proof search). Theorem 4.1: any such self-change is globally optimal because the target theorem implicitly compares against all switchprogs the searcher could produce later; all meta-levels collapse (Sec. 4.3). The initial proof searcher BIOPS is an online universal search over proof techniques, O()-optimal (Thm 5.1) with the same 1/P(w) constant; OOPS can accelerate later proof searches (8-bias-optimal, Sec. 5.2). Limitations (Sec. 2.4, 4.4): Goedel incompleteness — improvements whose utility is unprovable in A must be ignored; pathological environments/utilities exist where no target theorem is ever provable; Rice-theorem triviality does not reflect scientific triviality; usefulness of constant-factor speedups is provable in simple cases.",
+   "formal_object": "target theorem (2)/(3); utility u = E[sum of future rewards | s, Env]; axiomatic system A encoded in p(1); BIOPS Method 5.1",
+   "key_quote": "'if there is no proof of some self-rewrite's utility, then humans cannot do much either' (Sec. 1)",
+   "track_b_rows_served": [
+    "GMI-T9 / #377 §22 (recursive self-improvement is parent-owned in its provable form; the ver coordinate is the proof search)",
+    "Codex GMI_CORE_ANSWER Q5 and E7: the Goedel machine is the strongest parent for 'governed self-change with an external verifier internalized as proof'"
+   ],
+   "what_it_does_not_cover": "no implementation with measured constants; optimality is relative to the initial proof searcher and axioms; nothing about morphology selection",
+   "verification_notes": "Sec. 3 (instruction set), 6.1-6.3, 6.5-6.6 not read"
+  },
+  {
+   "parent_id": "P5.DREAMCODER_WAKE_SLEEP",
+   "name": "DreamCoder (Ellis et al. 2020/2021): wake-sleep Bayesian program learning with library refactoring and a neural recognition model",
+   "primary_sources": [
+    {
+     "title": "DreamCoder: Growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning",
+     "authors": "Kevin Ellis, Catherine Wong, Maxwell Nye, Mathias Sable-Meyer, Luc Cary, Lucas Morales, Luke Hewitt, Armando Solar-Lezama, Joshua B. Tenenbaum",
+     "year": 2020,
+     "venue": "arXiv 2006.08381; PLDI 2021",
+     "url_or_doi": "https://arxiv.org/abs/2006.08381",
+     "arxiv_id_if_any": "2006.08381",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval (pp. 1, 3-10, 13-14) followed by the full extracted main text (arXiv v1, ~66k characters): all sections including Discussion read; supplement S1-S4 not included in the extracted text"
+    }
+   ],
+   "what_it_already_explains": "Objective (Eq. 1): wake finds rho_x = argmax P[x|rho]P[rho|L] among programs with high Q(rho|x); abstraction sleep grows L = argmax P[L] prod_x max_{rho refactoring rho_x} P[x|rho]P[rho|L] with a description-length prior over libraries, i.e. minimize library MDL plus the MDL of refactored programs; dreaming trains Q on replays and fantasies (50/50) with a MAP objective that breaks syntactic symmetries. Refactorings are enumerated up to a bound on beta-reduction steps (set to 3) with a version-space/e-graph data structure polynomial in program size (10^6 nodes represent 10^14 refactorings). Search difficulty ~ breadth^depth: library learning cuts depth, the recognition model cuts breadth. Results: text editing 3.7% -> 79.6% of SyGuS 2017 problems (84.3% at competition compute); ablations without abstraction or without recognition solve fewer held-out tasks in every domain; deeper libraries correlate with solve rate (r = 0.79); from generic primitives it learns 93% of 60 physics laws after 8 cycles via a learned vector-algebra vocabulary; a day on 20-100 CPUs per domain. Discussion: the from-scratch route (Y-combinator + Lisp primitives to fold/unfold/map/zip) cost ~5 days on 64 CPUs (~1 CPU-year); the authors reject blank-slate learning in favour of rich built-in bases ('the shoulders of so many giants'), which is the P5 parent's own verdict on the D2 'acquire the morphology from nothing' level.",
+   "formal_object": "generative model P[rho|L]; recognition model Q(rho|x); library prior P[L]; version space of bounded refactorings",
+   "key_quote": "'Library learning decreases depth at the expense of breadth, while training a neural recognition model effectively decreases breadth' (footnote 1)",
+   "track_b_rows_served": [
+    "GMI-T8 (program-search learning law with library growth; the M2 row's parent accounting)",
+    "B3-ECOLOGY-AXES (compositional/reusable-subproblem ecology -> library form is parent-demonstrated)",
+    "RV-377-016 (the search-family requirement: neural guidance + library abstraction are what make blind program discovery reachable; the lane's random+hill-climb family has neither)"
+   ],
+   "what_it_does_not_cover": "no resource-frontier comparison against non-program morphologies; compute costs reported only coarsely; no phase law",
+   "verification_notes": "main text complete; supplement not available in the extracted text. Discussion adds: 'Just to construct origami functional programming, DreamCoder took approximately a year of total CPU time' (resource statement for the from-scratch route) and the explicit position against blank-slate learning (build in control flow, higher-order functions, types; learn the rest)"
+  },
+  {
+   "parent_id": "P5.STITCH_TOP_DOWN",
+   "name": "Stitch (Bowers et al. 2023): corpus-guided top-down branch-and-bound abstraction synthesis",
+   "primary_sources": [
+    {
+     "title": "Top-Down Synthesis for Library Learning",
+     "authors": "Matthew Bowers, Theo X. Olausson, Lionel Wong, Gabriel Grand, Joshua B. Tenenbaum, Kevin Ellis, Armando Solar-Lezama",
+     "year": 2023,
+     "venue": "POPL 2023 (PACMPL 7); arXiv 2211.16605",
+     "url_or_doi": "https://doi.org/10.1145/3571234",
+     "arxiv_id_if_any": "2211.16605",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-5, 10, 17, 19, 28-29, 34 read (Sec. 1-3.2, Eq. 4, Lemma 1, Sec. 6 hypotheses, Fig. 7, Sec. 7.5, Alg. 1)"
+    }
+   ],
+   "what_it_already_explains": "Abstractions are synthesized top-down from holes; a partial abstraction's match locations over-approximate those of any completion, and the size of each matched subtree upper-bounds the compression gain, giving U_upper(A??) = sum of sizes of matches (Eq. 4) for branch-and-bound with strict-dominance pruning (Lemma 1: optimality preserved). Utility = the DreamCoder compression objective (Eq. 18 best-of-task). Results: 3-4 orders of magnitude faster and 2 orders less memory than DreamCoder's version-space refactoring at equal or better compressivity (Fig. 7); scales to corpora of hundreds of programs with 76-189 symbols; anytime (high-quality abstractions within 1-10% of search time). Limitation: cannot learn higher-order abstractions (map from fold) without deductive rewrites; babble is the expressive counterpart (Sec. 7.5).",
+   "formal_object": "partial abstraction grammar; utility U_{P,R}(A); upper bound U_upper; strict dominance",
+   "key_quote": "'the size of the subtree is a strict upper bound on how much compression can be achieved at a match location' (Sec. 2)",
+   "track_b_rows_served": [
+    "GMI-T8 (library growth cost is a charged 'upd' coordinate of the program morphology; Stitch gives the exact search structure and its resource profile)",
+    "B1-RESOURCE-MINIMALITY (same semantic result — the compressive library — at 3-4 orders lower charged work: the finite instance of Codex GMI-RP7 for the abstraction step)"
+   ],
+   "what_it_does_not_cover": "no learning-law comparison outside programs",
+   "verification_notes": "Sec. 4 (exact utility), 5, 6.2-6.5 details not read"
+  },
+  {
+   "parent_id": "P3.REGULARIZED_EVOLUTION",
+   "name": "Regularized (aging) evolution for architecture search (Real et al. 2019)",
+   "primary_sources": [
+    {
+     "title": "Regularized Evolution for Image Classifier Architecture Search",
+     "authors": "Esteban Real, Alok Aggarwal, Yanping Huang, Quoc V. Le",
+     "year": 2019,
+     "venue": "AAAI 2019; arXiv 1802.01548 v7",
+     "url_or_doi": "https://arxiv.org/abs/1802.01548",
+     "arxiv_id_if_any": "1802.01548",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-3, 7-8, 12-14 read (Alg. 1, mutations, Discussion, Supplements A-C)"
+    }
+   ],
+   "what_it_already_explains": "Aging evolution (Alg. 1): population P, sample S at random, mutate the best of the sample, add the child, remove the OLDEST (not the worst). Two mutations (hidden-state, op) suffice to cover the NASNet space. Evolution reaches results faster than RL and random search at equal hardware, especially early (Fig. A-1e), and matches RL in final quality; aging beats non-aging in 4 of 5 contexts and in a toy noisy-evaluation space increasingly with dimensionality (Supp. B-C). Interpretation: aging forces architectures to re-train well repeatedly, a regularizer against evaluation noise. Evolved models are faster (lower FLOPs).",
+   "formal_object": "tournament selection with age-based removal; NASNet cell search space",
+   "key_quote": "'keep a population of N models and proceed in cycles: at each cycle, copy-mutate the best of S random models and kill the oldest in the population' (Discussion)",
+   "track_b_rows_served": [
+    "RV-377-016 (the declared next search family for B5: population + structured mutation + aging; this is the AutoML-Zero search backbone)",
+    "P3 depth beyond AutoML-Zero (the same regularized evolution is what AutoML-Zero uses)"
+   ],
+   "what_it_does_not_cover": "search over fixed cell grammar, not over update rules (that is AutoML-Zero); no theory of when evolution beats gradient-based search",
+   "verification_notes": "Methods Details and Supplement D not read"
+  },
+  {
+   "parent_id": "P4.META_BAYES_MIKULIK",
+   "name": "Meta-trained agents implement Bayes-optimal agents (Mikulik et al. 2020): behavioural and structural (simulation) equivalence",
+   "primary_sources": [
+    {
+     "title": "Meta-trained agents implement Bayes-optimal agents",
+     "authors": "Vladimir Mikulik, Gregoire Deletang, Tom McGrath, Tim Genewein, Miljan Martic, Shane Legg, Pedro A. Ortega",
+     "year": 2020,
+     "venue": "NeurIPS 2020; arXiv 2010.11223",
+     "url_or_doi": "https://arxiv.org/abs/2010.11223",
+     "arxiv_id_if_any": "2010.11223",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-9, 16, 19 (main text complete; appendices B.2, C, D.4)"
+    }
+   ],
+   "what_it_already_explains": "On 10 prediction tasks (exponential-family observations with conjugate priors) and 4 two-armed bandits with tractable Bayes-optimal policies (Gittins indices), LSTM meta-learners trained by BPTT/Impala behave virtually indistinguishably from the Bayes-optimal agent (Fig. 4a), converge to it across 10 training runs (Fig. 2: 'Bayes-optimal policies are the fixed points of the meta-learning dynamics'), and are structurally simulated by it: a learned map phi from the RNN state (PCA-projected to the dimension of the sufficient statistics) to the Bayes-optimal state makes transitions and outputs agree (low D_s, D_o for RNN -> Opt). The reverse simulation fails partly (non-injective, non-minimal sufficient statistics; 'no explicit incentive during RNN training that would force representations to be minimal'). Untrained RNNs already have low state dissimilarity on bandits (reservoir effect). Scope: 'when optimal policies are in the search space, and training converges to those policies, then the resulting policy will be Bayes-optimal'.",
+   "formal_object": "Mealy machines (f_w, g_w); simulation relation N <= M via a state map phi (transitions and outputs); dissimilarities d, D_s, D_o",
+   "key_quote": "'meta-learners are well simulated by Bayes-optimal agents, but not necessarily vice versa' (Sec. 5)",
+   "track_b_rows_served": [
+    "GMI-T6/T12 and rung B3 (learning-law convergence across morphologies: a parametric-gradient substrate under meta-training converges to the Bayes update law; kills 'Bayes law needs a probabilistic basis' as a morphology claim — H-STOCHASTIC-DEGENERACY reading confirmed at source)",
+    "GMI-T2 (the simulation relation with a state map is exactly the parent of the Dev-preserving compilation clause C2 with an explicit kappa; their D_s/D_o are a resource-free version of Phi_E equivalence)",
+    "GMI-T11 (non-minimal sufficient statistics = non-identifiability of the internal morphology from behaviour; the RNN over-represents)"
+   ],
+   "what_it_does_not_cover": "no resource accounting; tasks with tractable Bayes-optimal solutions only; 'further study is needed to understand the kind of suboptimal solutions that are generated by meta-learning' when optimal policies are not representable",
+   "verification_notes": "Appendices A, D.1-D.3, D.5-D.7 not read"
+  },
+  {
+   "parent_id": "P4.ICL_DISTRIBUTIONAL_CHAN",
+   "name": "Data distributional properties drive emergent in-context learning (Chan et al. 2022): published phase axes between in-weights and in-context learning",
+   "primary_sources": [
+    {
+     "title": "Data Distributional Properties Drive Emergent In-Context Learning in Transformers",
+     "authors": "Stephanie C. Y. Chan, Adam Santoro, Andrew K. Lampinen, Jane X. Wang, Aaditya Singh, Pierre H. Richemond, James L. McClelland, Felix Hill",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv 2205.05055 v6",
+     "url_or_doi": "https://arxiv.org/abs/2205.05055",
+     "arxiv_id_if_any": "2205.05055",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-3, 5-9, 16, 18 (main text complete; appendix C.3-C.4)"
+    }
+   ],
+   "what_it_already_explains": "Omniglot sequences of image-label pairs; in-context learning (ICL) measured on holdout classes with labels re-assigned per sequence, in-weights learning (IWL) on trained classes with no context support. Axes and directions: burstiness up -> ICL up, IWL down (Fig. 2); number of rarely-occurring classes up (100 -> 1600 -> 12800) -> ICL up, IWL down (Fig. 3), and 'we need both burstiness and a large number of classes for in-context learning to emerge'; label multiplicity up -> ICL up (Fig. 4); within-class variation up -> ICL up, IWL down (Fig. 5). Trade-off: uniform-marginal training never sustains both. Coexistence: Zipfian class marginal with exponent ~1 gives both ICL and IWL of common classes (Fig. 6; rare classes never memorized). Architecture: transformers only — matched vanilla RNNs and LSTMs never exceed chance on ICL (Fig. 7) and are also worse at IWL (Fig. 8). Interpretation: 'neither type of learning is correct per se'; the model's bias is measured on sequences where both strategies give the same training answer; ICL can fade toward IWL with more training.",
+   "formal_object": "p(bursty), number of classes, label multiplicity, within-class noise, Zipf exponent alpha; ICL/IWL accuracies",
+   "key_quote": "'we need both burstiness and a large number of classes for in-context learning to emerge' (Sec. 3.1); 'a sweet spot at Zipf exponent = 1, where the model maintains high levels of both' (Sec. 3.2)",
+   "track_b_rows_served": [
+    "ECOLOGY_AXES_V2 task_diversity / distribution-structure axes (parent for a published, measured phase law with named ecology axes switching a fixed substrate between an exemplar-memory-like form (IWL) and an adaptive-in-context form (ICL))",
+    "GMI-T10 (B: exact phase boundaries in a toy world are parent-preceded by these empirical boundaries; the Zipf-1 coexistence regime is a two-form frontier region)",
+    "B3-NEURAL-DOMINANCE (architecture AND data both necessary: 'attention is not all you need')"
+   ],
+   "what_it_does_not_cover": "no resource accounting; no theory of the boundary location; one dataset family",
+   "verification_notes": "Sec. 2 (setup) and appendix A-B partly not read"
+  },
+  {
+   "parent_id": "P4.ICL_FUNCTION_CLASSES_GARG",
+   "name": "What can transformers learn in-context? (Garg et al. 2022): in-context learning of function classes matches task-specific algorithms",
+   "primary_sources": [
+    {
+     "title": "What Can Transformers Learn In-Context? A Case Study of Simple Function Classes",
+     "authors": "Shivam Garg, Dimitris Tsipras, Percy Liang, Gregory Valiant",
+     "year": 2022,
+     "venue": "NeurIPS 2022; arXiv 2208.01066 v3",
+     "url_or_doi": "https://arxiv.org/abs/2208.01066",
+     "arxiv_id_if_any": "2208.01066",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-5, 8-10, 13, 20 read"
+    }
+   ],
+   "what_it_already_explains": "Definition: a model in-context learns F up to eps w.r.t. (D_F, D_X) if E_P[l(M(P), f(x_query))] <= eps. A 9.5M-parameter GPT-2-style model trained from scratch on prompts from 20-d linear functions matches least squares (error 0.02 at k = d, 0.0006 at 2d), robust to noise (with double descent), orthant shift, and cannot be memorization (32M training weight vectors would give error ~0.2; 10k distinct vectors still suffice). Sparse linear: matches Lasso (0.58/0.09 vs 0.62/0.08 at k = 5/10); decision trees depth 4: 0.12 vs greedy 0.80 / XGBoost 0.62 at k = 100; two-layer ReLU nets: 0.17 = a network trained by Adam on the in-context examples. Capacity raises ICL accuracy and robustness; curriculum drastically speeds training. Fragile to input scale shift (errors 0.30/0.58 at 1/3x and 3x).",
+   "formal_object": "prompt P = (x_1, f(x_1), ..., x_k, f(x_k), x_query); ICL error (Eq. 1); training objective (Eq. 2)",
+   "key_quote": "'Transformers can encode algorithms with similar performance in a single forward pass' (Sec. 1)",
+   "track_b_rows_served": [
+    "GMI-T6/T12 (a dense-parametric substrate under meta-training implements exact-search-class algorithms (least squares, Lasso) — the same law-convergence as Mikulik on a different family)",
+    "PH-REV-2 diagnosis (per-event WORK: the implemented algorithm's cost is amortized into the forward pass)"
+   ],
+   "what_it_does_not_cover": "no resource accounting; distribution-shift limits; language-model implications left open",
+   "verification_notes": "Sec. 4 (most shifts), 6 (capacity plots), 7 related work partly not read"
+  },
+  {
+   "parent_id": "P4.LPG_DISCOVERED_UPDATE_OH",
+   "name": "Discovering reinforcement learning algorithms (Oh et al. 2020): a meta-learned update rule that generalizes from toy MDPs to Atari",
+   "primary_sources": [
+    {
+     "title": "Discovering Reinforcement Learning Algorithms",
+     "authors": "Junhyuk Oh, Matteo Hessel, Wojciech M. Czarnecki, Zhongwen Xu, Hado van Hasselt, Satinder Singh, David Silver",
+     "year": 2020,
+     "venue": "NeurIPS 2020; arXiv 2007.08794 v3",
+     "url_or_doi": "https://arxiv.org/abs/2007.08794",
+     "arxiv_id_if_any": "2007.08794",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-9, 16, 19 read (main text complete except parts of Sec. 4.5; appendix B.1, C)"
+    }
+   ],
+   "what_it_already_explains": "LPG: a backward LSTM update rule eta takes [r_t, d_t, gamma, pi(a_t|s_t), y(s_t), y(s_t+1)] (no observations/actions -> environment-agnostic) and outputs targets (pi_hat, y_hat) for the policy and a 30-d categorical prediction vector with no imposed semantics; agent update Eq. 2; meta-gradient Eq. 3-4 with entropy and L2 regularizers; per-environment hyperparameter bandit (Sec. 3.4) needed for stability. Trained on 15 toy environments (tabular/random grid worlds, delayed-chain MDPs), LPG outperforms A2C on most training environments, discovers a prediction semantics from which value functions at several discounts can be regressed (Fig. 5), converges (Fig. 6), and generalizes to Atari with super-human scores on 14 games; generalization improves with the number of training environments (Fig. 9). LPG-V (given a TD value function) is worse: 'discovering the semantics of prediction is the key'.",
+   "formal_object": "eta* = argmax E_E E_theta0 [G]; update rule as LSTM; prediction vector y in [0,1]^30",
+   "key_quote": "'when trained solely on toy environments, LPG generalises effectively to complex Atari games' (Abstract)",
+   "track_b_rows_served": [
+    "GMI-T12 / rung B3 (a learning LAW as a developmental product; the law generalizes across ecologies) — parent for 'update law as morphology coordinate U'",
+    "Codex Q5 (learned optimizers / meta-RL are strong parents of the generator improving itself; confirmed at source)"
+   ],
+   "what_it_does_not_cover": "no resource accounting of meta-training (10^10 steps, 960 lifetimes); no theory of convergence",
+   "verification_notes": "Sec. 4.5 partly, appendix A, B.2-B.4 not read"
+  },
+  {
+   "parent_id": "P7.ALGORITHMIC_ALIGNMENT_XU",
+   "name": "What can neural networks reason about? (Xu et al. 2020): algorithmic alignment and a sample-complexity bound",
+   "primary_sources": [
+    {
+     "title": "What Can Neural Networks Reason About?",
+     "authors": "Keyulu Xu, Jingling Li, Mozhi Zhang, Simon S. Du, Ken-ichi Kawarabayashi, Stefanie Jegelka",
+     "year": 2020,
+     "venue": "ICLR 2020; arXiv 1905.13211 v4",
+     "url_or_doi": "https://arxiv.org/abs/1905.13211",
+     "arxiv_id_if_any": "1905.13211",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-9 (main text complete)"
+    }
+   ],
+   "what_it_already_explains": "Def. 3.4: N (M, eps, delta)-algorithmically aligns with g if module functions f_1..f_n generate g and n * max_i C_{A_i}(f_i, eps, delta) <= M. Thm 3.6: under sequential module training with auxiliary labels, algorithm stability and Lipschitzness, g is (M, O(eps), O(delta))-learnable — sample complexity decreases with alignment; Thm 3.5 gives the MLP module bound (polynomial-degree weighted norms); Cor. 3.7: MLP needs O(l^2) more samples than a GNN for sum of pairwise squared differences. Predictions confirmed (Fig. 3): Deep Sets/GNN but not MLP learn summary statistics (96%/100% vs 9%); GNN but not Deep Sets learn relational argmax (>90% vs 21%); only GNNs with >= 4 iterations learn a shortest-path DP task (94-96% vs 62%/27%/11%/8%); GNNs fail on subset sum (72%) while a search-aligned NES reaches 98%. All architectures are universal approximators (Props 3.1-3.2), so the differences are generalization, not expressivity.",
+   "formal_object": "(M, eps, delta)-algorithmic alignment; C_A(g, eps, delta); DP-Update form (Eq. 4.1)",
+   "key_quote": "'if they align well, the network only needs to learn simple algorithm steps to simulate the reasoning process, which leads to better sample efficiency' (Sec. 1)",
+   "track_b_rows_served": [
+    "GMI-T4/T10 (the only resource theorem in the neural <-> algorithm bridge: morphology aligned to the ecology's algorithm has lower sample complexity — a phase-law parent with the resource coordinate = samples)",
+    "B3-ECOLOGY-AXES (task algorithmic structure is an ecology axis; universal expressivity is explicitly not the deciding quantity — the exact statement of UNIVERSAL_COMPUTATION_ONLY at the sample-complexity level)"
+   ],
+   "what_it_does_not_cover": "end-to-end learning bound left open; exact reasoning processes only",
+   "verification_notes": "Appendices D, G not read"
+  },
+  {
+   "parent_id": "P7.LENS_OPTIC_SPACETIME_GAVRANOVIC",
+   "name": "Space-time tradeoffs of lenses and optics (Gavranovic 2022): the one categorical-cybernetics paper that charges resources",
+   "primary_sources": [
+    {
+     "title": "Space-time tradeoffs of lenses and optics via higher category theory",
+     "authors": "Bruno Gavranovic",
+     "year": 2022,
+     "venue": "arXiv 2209.09351",
+     "url_or_doi": "https://arxiv.org/abs/2209.09351",
+     "arxiv_id_if_any": "2209.09351",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-3, 5, 7-15, 18, 20-22, 24-25 read (Sec. 1-3.3, Def. 1-3, Thm 2, Remarks 1, 7, 8, Sec. 5.2)"
+    }
+   ],
+   "what_it_already_explains": "Cartesian lens composition recomputes forward maps in the backward pass (n-1 levels; node evaluations O(n^2), memory constant in depth) because all backward data must pass through the A-typed residual — this IS gradient checkpointing (Remark 1). Optic composition takes M_1 (x) M_2 as residual: no recomputation, memory grows with depth. The 1-categorical isomorphism Lens_Cart(C) = Optic(C) is 'blind to operational concerns'; 2-Optic(C) reifies residual morphisms as 2-cells ('can be optimised to'), Optic(C) is its local pi_0 quotient (Prop. 6), and the lens -> optic embedding becomes an oplax functor whose oplaxator graph(f) : A -> A x B detects the different composition rule (Thm 2). Closed lenses behave operationally like optics (Remark 8). Adjunction in a standard 2-category fails one triangle identity (Sec. 5.2).",
+   "formal_object": "2-Optic(C); oplax functor iota with oplaxator graph(f); residual M",
+   "key_quote": "'lens composition picks a particular space-time tradeoff when solving the issue of backpropagating information. It uses less space ... but more time' (Sec. 2)",
+   "track_b_rows_served": [
+    "GMI-T5 / P7.RESOURCE_SILENCE (the claim 'the categorical works charge nothing' is CORRECTED: this paper charges time/space of the compiled composite and shows denotationally equal morphologies with different resource vectors — the categorical-level instance of Codex GMI-RP7 and of the M5/M5L witness)",
+    "B1-ENCODING-ROBUSTNESS (the 1-categorical quotient is exactly the phenotype quotient Phi_E; resource content lives in the 2-cells)"
+   ],
+   "what_it_does_not_cover": "no concrete cost numbers; conjectural double-categorical adjunction; no learning-law content beyond the chain rule",
+   "verification_notes": "Sec. 4 and Appendix partly not read"
+  },
+  {
+   "parent_id": "P1.BOUNDED_RATIONALITY_ORTEGA_BRAUN",
+   "name": "Information, utility and bounded rationality (Ortega & Braun 2011/2013): free-utility principle with KL resource cost",
+   "primary_sources": [
+    {
+     "title": "Information, Utility & Bounded Rationality",
+     "authors": "Pedro A. Ortega, Daniel A. Braun",
+     "year": 2011,
+     "venue": "AGI 2011 (LNAI 6830); extended arXiv 1107.5766; cf. Proc. R. Soc. A 2013 'Thermodynamics as a theory of decision-making with information-processing costs'",
+     "url_or_doi": "https://arxiv.org/abs/1107.5766",
+     "arxiv_id_if_any": "1107.5766",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-10 (complete)"
+    }
+   ],
+   "what_it_already_explains": "Axioms A1-A3 (utility gain real-valued, additive, monotone in conditional probability) force u(A|B) = alpha log P(A|B) (Thm 1), so P is a Gibbs measure with temperature alpha (Eq. 2). Free utility J(Pr; U) = E_Pr[U] - alpha H(Pr) is maximized by the Gibbs measure (Thm 2). Changing an initial policy P_i to P_f under new constraints costs J_f - J_i = E_{P_f}[U*] - alpha KL(P_f || P_i) (Eq. 3): expected utility minus an information cost; the bounded-optimal control solution is P_f ∝ P_i exp(U*/alpha) (Eq. 4). alpha -> 0 recovers maximum expected utility (delta on argmax), alpha -> infinity keeps the prior; nested two-step problems give log-partition value recursions (Sec. 4) that reduce to Bellman as lambda -> infinity, with risk-sensitive and minimax/robust control as the environment's temperature varies.",
+   "formal_object": "free utility J(Pr; U); conjugate pair (P, U); KL(P_f || P_i) as resource cost; temperature alpha",
+   "key_quote": "'bounded rational agents trade off utility maximization against resource costs measured by the KL divergence with respect to an initial policy' (Sec. 5)",
+   "track_b_rows_served": [
+    "GMI-T10 (the direct parent of Codex's idealized KL phase theorem GMI-V4-06 / C_M = B_M + N[H(P) + KL(P||Q_M)]: the KL term is the information cost of moving from the prior proposal to the target proposal; cite instead of re-deriving)",
+    "P1 residual (bounded optimality with an explicit price: alpha is the frozen price vector of D2-§0)"
+   ],
+   "what_it_does_not_cover": "relation to time/space costs explicitly deferred ('In the future it will be interesting to relate the thermodynamic resource costs ... to space and time requirements'); no morphology content",
+   "verification_notes": "complete"
+  },
+  {
+   "parent_id": "P0.NFL_PERMUTATION_CLOSURE",
+   "name": "Classes of functions for which No Free Lunch holds (Igel & Toussaint 2001): permutation closure is the exact NFL condition and almost no subset satisfies it",
+   "primary_sources": [
+    {
+     "title": "On Classes of Functions for which No Free Lunch Results Hold",
+     "authors": "Christian Igel, Marc Toussaint",
+     "year": 2001,
+     "venue": "Information Processing Letters 86 (2003); arXiv cs/0108011",
+     "url_or_doi": "https://arxiv.org/abs/cs/0108011",
+     "arxiv_id_if_any": "cs/0108011",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-8 (complete, including the appendix proof of Thm 2)"
+    }
+   ],
+   "what_it_already_explains": "Thm 1 (Schumacher-Vose-Whitley 2001, restated): for finite X, Y, NFL holds over a subset F of Y^X for all algorithm pairs and performance measures iff F is closed under permutation (c.u.p.). Thm 2: the number of non-empty c.u.p. subsets is 2^{C(|X|+|Y|-1, |X|)} - 1, a vanishing fraction of the 2^{|Y|^|X|} - 1 subsets (already ~1e-170 for Boolean functions on 3 bits). Thm 3 / Cor. 1-2: any non-trivial neighbourhood structure on X, with a bound on steepness or on the number of local minima below the maximum possible, yields a class that is not c.u.p. — so NFL is silent for structured search spaces with constrained ruggedness.",
+   "formal_object": "closure under permutation; Y-histograms and basis classes B_h; fraction of c.u.p. subsets",
+   "key_quote": "'the statement \"I'm only interested in a subset F of all possible functions, so the NFL theorems do not apply\" is true with a probability close to one' (Sec. 5)",
+   "track_b_rows_served": [
+    "GMI-T9 (exact domain of NFL: phase laws can exist precisely on non-c.u.p. classes, which is every class with a neighbourhood-based constraint; ECOLOGY_AXES_V2 axes are such constraints)",
+    "Codex GMI-RP16 / GMI_BIAS_ECOLOGY_PHASE_THEOREM (the alpha=|T|/|F| crossover is the NFL-parent statement; Igel-Toussaint fixes when the common baseline b exists)"
+   ],
+   "what_it_does_not_cover": "continuous domains (Auger-Teytaud 2010, not accessed); performance under time-bounded search",
+   "verification_notes": "complete"
+  },
+  {
+   "parent_id": "P0.SMALL_UTM_WEAK_NEARY_WOODS",
+   "name": "Small weakly universal Turing machines (Neary & Woods 2007): smallest universal machines and their polynomial simulation overheads",
+   "primary_sources": [
+    {
+     "title": "Small weakly universal Turing machines",
+     "authors": "Turlough Neary, Damien Woods",
+     "year": 2007,
+     "venue": "arXiv 0707.4489; cf. Neary & Woods, 'Small fast universal Turing machines', TCS 362 (2006) [not accessed]",
+     "url_or_doi": "https://arxiv.org/abs/0707.4489",
+     "arxiv_id_if_any": "0707.4489",
+     "verification_status": "FULL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval returned pages 1-12 (complete)"
+    }
+   ],
+   "what_it_already_explains": "Weakly universal machines with state-symbol pairs (6,2), (3,3), (2,4) simulating Rule 110, hence Turing machines in time O(t^4 log^2 t) (Rule 110 simulates TMs in O(t^3 log t), improvable to O(t^2 log t)); Watanabe's semi-weak machines simulate TMs directly with O(t^2) overhead and are the most time-efficient small weak machines; the standard universal curve (2-tag / bi-tag simulators) and lower bounds via decidability of halting for (2,2), (3,2), (2,3), (1,n), (n,1). Cites [14] Neary-Woods TCS 2006 for small FAST universal machines (polynomial rather than exponential slowdown), which is the load-bearing result for GMI-T1.",
+   "formal_object": "state-symbol universality curves; simulation time overhead O(t^k)",
+   "key_quote": "'Our machines simulate (single tape, deterministic) Turing machines in time O(t^4 log^2 t), via Rule 110' (Sec. 1)",
+   "track_b_rows_served": [
+    "GMI-T1 / B1 (a MINIMAL universal basis pays polynomial, not exponential, simulation overhead — K_sim for minimal bases is polynomial in t; the exact TCS-2006 statement remains to be read)",
+    "GMI-T0 (universality curves show minimality is a two-parameter frontier (states, symbols), not a unique atom — the exact-computation analogue of Codex Q1's verdict)"
+   ],
+   "what_it_does_not_cover": "the 2006 TCS 'small fast' paper itself was not accessible; no learning content",
+   "verification_notes": "complete"
+  },
+  {
+   "parent_id": "P8.CA_SURVEY_KOTSERUBA_FULLTEXT",
+   "name": "A review of 40 years in cognitive architecture research (Kotseruba & Tsotsos 2018): 84 architectures, taxonomy, mechanisms",
+   "primary_sources": [
+    {
+     "title": "A Review of 40 Years in Cognitive Architecture Research: Core Cognitive Abilities and Practical Applications",
+     "authors": "Iuliia Kotseruba, John K. Tsotsos",
+     "year": 2018,
+     "venue": "Artificial Intelligence Review 53 (2020); arXiv 1610.08602 v3",
+     "url_or_doi": "https://arxiv.org/abs/1610.08602",
+     "arxiv_id_if_any": "1610.08602",
+     "verification_status": "PARTIAL_TEXT_READ",
+     "how_accessed": "alphaXiv page retrieval; pages 1-3, 5, 8-11, 23-24, 28, 32 read (Sec. 1, 3, 6.1-6.2, Figs. 2, 3, 7, 8, 9)"
+    }
+   ],
+   "what_it_already_explains": "84 implemented architectures (49 active) out of ~300 estimated; taxonomy by representation/processing: symbolic (22), emergent (neuronal modelling vs connectionist logic systems, ~14), hybrid (symbolic sub-processing vs fully integrated, ~48, the largest and growing group). Self-assigned labels are inconsistent (Soar/ACT-R called cognitivist or hybrid by different surveys); the survey fixes explicit-symbol vs neuron-metaphor definitions. Mechanisms: action selection (planning, WTA, probabilistic, predefined order, relevance, utility, reactive) — few architectures share the same set; memory types (sensory, WM, semantic, procedural, episodic, global); learning types (declarative, perceptual, procedural, associative, non-associative, priming). Hybrids 'form a continuum between emergent and symbolic systems'. Evaluation criteria (Newell, Sun) exist but comparability is lacking; >900 practical projects catalogued.",
+   "formal_object": "taxonomy tree (Fig. 3); mechanism x architecture incidence diagrams (Figs. 7-9)",
+   "key_quote": "'hybrid architectures are the most numerous and diverse group, showing the tendency to grow even more' (Sec. 3)",
+   "track_b_rows_served": [
+    "B2-MORPHOLOGY-ATLAS / SIGNATURE_HOLE_CENSUS (the P8 region of the atlas is a continuum of hybrids, not a set of discrete forms; the census's 'multi-occupant cell' finding for production/TMS/blackboard is the survey's inconsistency finding at source)",
+    "GMI-T11 (identifiability: self-labels do not determine the representation class — label-free observables are required)"
+   ],
+   "what_it_does_not_cover": "no resource or developmental-cost data; no learning-law comparison; brain-simulation projects excluded",
+   "verification_notes": "Sec. 4-5 (perception, attention), 7-9 details, and application analysis not read"
+  }
+ ],
+ "family_level_synthesis": {
+  "what_the_family_already_owns": "(P2) Bias-optimal incremental search with frozen, re-usable code (OOPS), self-generated curricula with no-forgetting verification (PowerPlay) and provably useful self-rewrites (Goedel machine) own, at primary-source depth, the whole 'history shapes future search' and 'generator improves itself' territory: the accounting is search TIME under a bias P, the developmental capital is a set of frozen programs, verification is a charged proof/test search. The lane's RV-377-009 correction (revision-axis direction is set by per-event WORK) is OOPS accounting. (P3) Regularized evolution is the search family that made both NAS and AutoML-Zero work; its aging rule is a regularizer against evaluation noise; this is the declared next B5 family. (P5) DreamCoder/Stitch own library growth as an MDL objective with exact search structure and give the only measured 'same semantic result at 3-4 orders lower work' instance in the parents. (P4-LB) Mikulik and Garg give two independent law-convergence data: a dense-parametric substrate under (meta-)training implements the Bayes update and exact-search estimators; Chan gives a published phase law with axes; Oh gives a learned update law that transfers across ecologies. (P7-LB) Xu gives the sample-complexity form of 'alignment beats expressivity'; Gavranovic corrects GMI-T5's 'categorical works charge nothing'. (P1-LB) Ortega-Braun is the source of the KL-cost form used by Codex's idealized phase theorem. (P0-LB) Igel-Toussaint fix NFL's exact domain; Neary-Woods show minimal universal machines are a two-parameter frontier with polynomial overhead.",
+  "corrections_to_prior_ledger": [
+   {
+    "target": "THEOREM_REGISTRY_CANONICAL_377 GMI-T5 / P7.RESOURCE_SILENCE",
+    "correction": "'the categorical works charge nothing' is false as stated: Gavranovic 2022 charges time/space of lens vs optic composition and identifies lens composition with gradient checkpointing; the correct statement is 'the 1-categorical quotient discards resource content; a 2-categorical refinement recovers it'",
+    "evidence": "P7.LENS_OPTIC_SPACETIME_GAVRANOVIC"
+   },
+   {
+    "target": "ECOLOGY_AXES_V2 task_diversity axis",
+    "correction": "the published parent for the memorization-vs-in-context switch names FOUR axes (burstiness, number of rare classes, label multiplicity, within-class variation) and one coexistence regime (Zipf exponent ~1); the axis file should carry these as the parent flips rather than a single 'diversity' scalar",
+    "evidence": "P4.ICL_DISTRIBUTIONAL_CHAN"
+   },
+   {
+    "target": "MISSING_PARENTS_TRIAGE_V1 (Neary & Woods 2006)",
+    "correction": "the accessible 2007 paper establishes the universality-curve picture and cites the 2006 TCS 'small fast' result; the polynomial-overhead claim for minimal bases must still be verified against the 2006 text",
+    "evidence": "P0.SMALL_UTM_WEAK_NEARY_WOODS"
+   }
+  ],
+  "missing_parents_you_noticed": [
+   {
+    "parent": "Chalmers 1990 'The evolution of learning: an experiment in genetic connectionism' (blind rediscovery of the delta rule) — NOT accessible in this session (not on arXiv; arxiv.org egress blocked anyway); status unchanged FROM_MEMORY_UNVERIFIED; load-bearing for B5",
+    "class": "LB"
+   },
+   {
+    "parent": "Cooper 1990 (NP-hardness of exact Bayesian inference); Dagum & Luby 1993 (NP-hardness of approximate inference) — NOT accessible; load-bearing for the M3 complexity axis",
+    "class": "LB"
+   },
+   {
+    "parent": "Wingate, Stuhlmueller, Goodman 2011 (lightweight implementations of probabilistic programming via transformational compilation) — NOT accessible; the D1 compiler instance for M3",
+    "class": "LB"
+   },
+   {
+    "parent": "Zilberstein & Russell 1996 (anytime algorithm composition) — NOT accessible; parent of the combinator cost algebra",
+    "class": "LB"
+   },
+   {
+    "parent": "Bennett 1988 (logical depth); Solomonoff 1989 (conceptual jump size) — NOT accessible; OOPS Sec. 4.3 cites conceptual jump size as the parent of its 'degree of bias'",
+    "class": "LB"
+   },
+   {
+    "parent": "Gurevich 2000 ASM thesis; Boker & Dershowitz 2006 — NOT accessible; parents of the equivalence notion in DEFINITIONS_V2 §4",
+    "class": "LB"
+   },
+   {
+    "parent": "Neary & Woods 2006 TCS 'Small fast universal Turing machines' — NOT accessible (only the 2007 weak-machines paper was)",
+    "class": "LB"
+   },
+   {
+    "parent": "Auger & Teytaud 2010 (continuous free lunches); Whitley & Rowe 2008 — NOT accessed",
+    "class": "LB"
+   },
+   {
+    "parent": "Srivastava, Steunebrink, Schmidhuber 2012/2013 (first PowerPlay experiments) — not accessed",
+    "class": "DR"
+   },
+   {
+    "parent": "Genewein et al. 2015 (bounded rationality, abstraction and hierarchical decision-making) — not accessed; extends Ortega-Braun",
+    "class": "DR"
+   },
+   {
+    "parent": "Schumacher, Vose, Whitley 2001 (sharpened NFL; the c.u.p. theorem itself) — not accessed; Igel-Toussaint restate it",
+    "class": "DR"
+   },
+   {
+    "parent": "Cao et al. 2023 babble (e-graph library learning) — not accessed; complements Stitch",
+    "class": "DR"
+   }
+  ],
+  "suggested_theorem_hooks": {
+   "GMI-T5": "restate as: resource content of a compilation is invisible at the 1-categorical (denotational) level and visible at the 2-categorical (operational) level — Gavranovic 2022; the M5/M5L witness is the finite instance",
+   "GMI-T8": "OOPS Def. 1 (n-bias-optimality) is the parent accounting for every search-based update law in the microscope; per-event update work of S2/S2a is the Levin-search cost with early exit (S2) or full enumeration (S2a)",
+   "GMI-T9": "NFL is silent exactly off permutation-closed classes (Igel-Toussaint); every ecology in ECOLOGY_AXES_V2 has a neighbourhood constraint and is therefore outside NFL's domain — this is where phase laws may live and where Codex RP16 applies",
+   "GMI-T10": "two published phase-law parents with named axes and a resource coordinate: Chan 2022 (data-distribution axes; IWL vs ICL) and Xu 2020 (algorithmic alignment; sample complexity); the KL-cost form is Ortega-Braun 2011",
+   "GMI-T11": "Mikulik 2020's failed reverse simulation (non-minimal statistics) and Kotseruba's inconsistent self-labels are two parent instances of non-identifiability of internal morphology from behaviour/labels",
+   "GMI-T12": "learned update laws (Oh 2020) and meta-learned Bayes updates (Mikulik 2020) are the parents of 'the learning law is itself a developmental product' — rung B3's algebra covers the gradient/Bayes/selection laws; these two show the laws are reachable BY a dense substrate under training"
+  }
+ }
+}

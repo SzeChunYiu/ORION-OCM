@@ -224,3 +224,19 @@ Claim ceiling after V2: unchanged in kind — no basis, no phase law, no new for
 new is *where content can live* (sub-band), *how encoding artefacts are bounded* (band lemma), *one
 direction-only phase prediction from observables* (conditional P1), and *pre-registered regions* for
 an undesigned form. No HPC, no search, no new architecture.
+
+
+## Executed evidence layer (same lane, after the V2 layer) — Stage D/E/F run on this machine, sixteen-record revival chain
+
+Read in this order (everything is a receipt or a frozen-then-tested prediction; nothing here was launched on HPC):
+
+1. `gmi_microscope/` — the exact interpreter (`core.py`: one charged primitive universe with executed emulation macros; `bases.py`: B0–B3, U, P3 and the declared indexed-emulation variants B0i/B1i/B3i; `references.py`: M0–M5 + M5L as programs with parent accounting; `runner.py`, `matrix.py`, `matrix_r2.py`, `matrix_r3.py`, `matrix_r4.py`, `frontier.py`, `smooth.py`, `blind.py`). `test_gmi_microscope.py` re-derives every committed matrix receipt byte-for-byte.
+2. `microscopes/results/STAGE_D_MATRIX_{V1,R2,R3,R4}.json` (+ reports) — the cross-basis compilation matrix at sizes 1–256 in nine columns: C2 holds on every cell; K_sim 3.2 (B0/B1/B3) and 131 (B2); the per-phase growth-order certificate (GMI-T10-B); the M5/M5L sub-band witness (P5).
+3. `STAGE_E_FRONTIER_V1.json`, `STAGE_DE_SMOOTH_{V1,V2_SMOOTH2,V3_SMOOTH2_D48}.json` — lifecycle frontiers over (H, r): local forms dominate the binding ecology; on E_smooth the r-axis crossing is the parent cost-model crossover (Codex GMI-RP3), not the locality mechanism of GMI-T10-A (refuted); E_smooth2 not testable with the registered rows.
+4. `STAGE_F_BLIND_RECOVERY_{V1,RUN2,RUN3_BIND16,RECLASS_RUN3,RUN4_SMOOTH8,RUN6_SMOOTH8_GDEPTH3}.json` + `STAGE_F_SYNTHESIS_V1.md` — label-free recovery: memory forms recovered on the binding ecology (7/9 after canonicalization, one seed); the dense form was not representable in the frozen grammar (planted check) and, once representable, not reachable by random + hill-climb (reachability terminal).
+5. `REVIVAL_LEDGER.jsonl` — RV-377-001…016: every negative diagnosed, minimally changed, frozen in a commit, re-tested on fresh evidence; outcomes recorded verbatim.
+6. `HOSTILE_REVIEW_V2_EXACT_LAYER_AND_STAGES.md` — ten instrument defects and the attacks on every positive; `microscopes/STAGE_D_CROSS_BASIS_COMPILATION_DESIGN_V1.md` §9 — six binding protocol rules learned from execution.
+7. `THEOREM_REGISTRY_CANONICAL_377.json` (amendment 2 + Codex reconciliation map), `CLAIM_LADDER_V3.json`, `GAP_REGISTER_V4.json`, `NOVELTY_RESIDUAL_V2.md`, `ULTIMATE_QUESTION_STATUS_V4_EXECUTED_ADDENDUM.md`.
+8. `PARENT_FAMILY_W4_P2P3P5P8_LB.json` → `PARENT_LEDGER_V2.json` / `LITERATURE_LEDGER_V2.md` — the W4 primary-source pass (OOPS and DreamCoder read in full; PowerPlay, Gödel machine, Stitch, regularized evolution, Mikulik 2020, Chan 2022, Garg 2022, Oh 2020, Xu 2020, Gavranović 2022, Ortega–Braun 2011, Igel–Toussaint 2001, Neary–Woods 2007, Kotseruba–Tsotsos 2018); coverage terminal in `LEDGER_MERGE_REPORT_V2.md` (computed, never asserted).
+
+Claim ceiling after execution: see `CLAIM_LADDER_V3.json` — B2 earned at scope with the representation caveat, the growth-order certificate and the corrected revision-axis mechanism; no phase law, no blind dense recovery, no new form. `FREEZE_V2_EXECUTED.json` carries the sha256 of every receipt and document listed above.
