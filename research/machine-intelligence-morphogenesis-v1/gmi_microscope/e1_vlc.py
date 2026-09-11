@@ -147,6 +147,58 @@ class MonoCompiled:
         self.L.reset(factors); self._build(M)
 
 
+class MonoIncremental(MonoCompiled):
+    """A3 only (ChatGPT gate G2 matched ablation): one global compiled table with DEPENDENCY-TRACKED incremental repair —
+    on revision only the entries whose scope meets the cone are rebuilt (no factorization of the served state, no versioning)."""
+    row = "MONO_A3"
+
+    def _build(self, M, factors=None):
+        if factors is None or not self.built:
+            return super()._build(M)
+        M.stores["table"] = [(k, v) for k, v in M.stores["table"] if not (set(k[1]) & set(factors))]
+        for x in range(256):
+            for sc in self.scopes:
+                if set(sc) & set(factors): M.op("S_INSERT", "table", (x, sc), clamp(sum(self.L.value(i, x) for i in sc)))
+
+    def feedback(self, M, x, s, y):
+        self.L.observe(x, s, y); self._build(M, list(s))
+
+    def revise(self, M, factors):
+        self.L.reset(factors); self._build(M, list(factors))
+
+
+class MonoVersioned(MonoCompiled):
+    """A4 only: one global compiled table rebuilt as a shadow, verified against ALL evidence, swapped atomically; the whole
+    realization abstains while invalid (no factorization, no cone: every query abstains during the update window)."""
+    row = "MONO_A4"
+
+    def init(self, M):
+        super().init(M); M.declare_store("shadow"); self.invalid = True; self.rejected = 0
+
+    def _build(self, M):
+        M.stores["shadow"] = []
+        for x in range(256):
+            for sc in self.scopes: M.op("S_INSERT", "shadow", (x, sc), clamp(sum(self.L.value(i, x) for i in sc)))
+        ok = 1
+        for i in range(N_F):
+            if M.read(f"{self.L.p}n{i}") < 2: ok = 0
+            ok = M.op("AND", ok, self.L.consistent(i))
+        if ok:
+            M.stores["table"] = list(M.stores["shadow"]); M.op("S_INSERT", "table", (999, ()), 0); M.op("S_DELETE", "table", (999, ())); self.invalid = False
+        else:
+            self.rejected += 1; M.op("AND", 0, 0)
+
+    def query(self, M, x, s):
+        if M.op("EQ", 1 if self.invalid else 0, 1): return None
+        return super().query(M, x, s)
+
+    def feedback(self, M, x, s, y):
+        self.L.observe(x, s, y); self._build(M)
+
+    def revise(self, M, factors):
+        self.L.reset(factors); self.invalid = True; self._build(M)
+
+
 class ModularUnversioned:
     row = "MOD_U"
 
@@ -173,6 +225,20 @@ class ModularUnversioned:
     def revise(self, M, factors):
         self.L.reset(factors); self.stale |= set(factors)
         for i in sorted(self.stale): self._rebuild(M, i)
+
+
+class ModularNoTracking(ModularUnversioned):
+    """A1 only: per-factor tables (factorized served state) but NO dependency tracking — every revision or feedback rebuilds
+    all four factor tables; unverified adoption."""
+    row = "MOD_NOA3"
+
+    def feedback(self, M, x, s, y):
+        self.L.observe(x, s, y)
+        for i in range(N_F): self._rebuild(M, i)
+
+    def revise(self, M, factors):
+        self.L.reset(factors)
+        for i in range(N_F): self._rebuild(M, i)
 
 
 class VLC(ModularUnversioned):
@@ -284,7 +350,9 @@ class TripleKNN(TripleMemory):
         return acc
 
 
-ROWS = {"MONO_C": MonoCompiled, "MOD_U": ModularUnversioned, "VLC": VLC, "DENSE": DenseNet, "MEM": TripleMemory, "KNN": TripleKNN}
+ROWS = {"MONO_C": MonoCompiled, "MOD_U": ModularUnversioned, "VLC": VLC, "DENSE": DenseNet, "MEM": TripleMemory, "KNN": TripleKNN,
+        "MONO_A3": MonoIncremental, "MONO_A4": MonoVersioned, "MOD_NOA3": ModularNoTracking}
+ABLATION_ROWS = ("MONO_C", "MONO_A3", "MONO_A4", "MOD_NOA3", "MOD_U", "VLC")  # RV-377-037: A1 / A3 / A4 matched ablations (ChatGPT gate G2)
 CELLS = {  # updates U, cone size, retention price lambda (per wrong answer served; abstention priced lambda/16), reuse horizon H
     "RSTAR": {"U": 8, "cone": 1, "lambda": 256, "H": 64},
     "T1_STATIONARY": {"U": 0, "cone": 1, "lambda": 256, "H": 64},
@@ -418,7 +486,36 @@ def main(tag="V13_E1_VLC", seed=0):
     return receipt
 
 
+def main_ablation(tag="V18_E1_ABL", seed=0):
+    cells_spec = {"RSTAR": CELLS["RSTAR"], "T3_WEAK_RETENTION": CELLS["T3_WEAK_RETENTION"]}
+    cols = list(bases.ALL); cells = {}
+    for cell, spec in cells_spec.items():
+        for row in ABLATION_ROWS:
+            for col in cols: cells[(cell, row, col)] = run(row, bases.ALL[col], spec["U"], spec["cone"], seed)
+    frontier = {}; adm = {}; interaction = {}
+    for cell, spec in cells_spec.items():
+        for col in cols:
+            rows_adm = [row for row in ABLATION_ROWS if cells[(cell, row, col)]["capability"] >= THETA]; adm[f"{cell}|{col}"] = rows_adm
+            costs = {row: lifecycle_cost(cells[(cell, row, col)], spec["H"], spec["U"], spec["lambda"]) for row in rows_adm}
+            frontier[f"{cell}|{col}"] = sorted(r for r, c in costs.items() if c <= min(costs.values()) + 1e-9) if costs else []
+            C = {row: lifecycle_cost(cells[(cell, row, col)], spec["H"], spec["U"], spec["lambda"]) for row in ABLATION_ROWS}
+            interaction[f"{cell}|{col}"] = {"I_A4_x_A1A3": C["VLC"] - C["MOD_U"] - C["MONO_A4"] + C["MONO_C"], "I_A3_x_A1": C["MOD_U"] - C["MOD_NOA3"] - C["MONO_A3"] + C["MONO_C"], "costs": {k: round(v, 1) for k, v in C.items()}}
+    witnesses = {f"{cell}|{row}|{col}": {"wrong": r["wrong_served_in_window"], "abstain": r["abstained_in_window"], "regress": r["regressions"], "upd_per_update": round(r["per_update"]["upd"], 1)} for (cell, row, col), r in cells.items()}
+    c2 = {f"{cell}|{row}": all(cells[(cell, row, col)]["capability"] == cells[(cell, row, cols[0])]["capability"] and cells[(cell, row, col)]["wrong_served_in_window"] == cells[(cell, row, cols[0])]["wrong_served_in_window"] for col in cols) for cell in cells_spec for row in ABLATION_ROWS}
+    receipt = {"schema": "StageE1AblationV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "related": [418, 419], "revival_record": "RV-377-037", "run_tag": tag,
+               "cells_spec": cells_spec, "rows": list(ABLATION_ROWS), "C2": c2, "cells": {f"{cell}|{row}|{col}": {k: v for k, v in r.items() if k not in ("row", "basis")} for (cell, row, col), r in cells.items()},
+               "witnesses": witnesses, "admissible": adm, "frontier": frontier, "interaction_contrasts": interaction, "claim_ceiling": "exact charged lifecycle; matched single-mechanism ablations of the VLC bundle (A1 / A3 / A4) plus the bundle rows"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_E1_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    print("C2 all:", all(c2.values()))
+    for cell in cells_spec:
+        print(cell, {row: (cells[(cell, row, cols[0])]["capability"], witnesses[f"{cell}|{row}|{cols[0]}"]) for row in ABLATION_ROWS}, "| frontier:", {c.split('_')[0]: frontier[f"{cell}|{c}"] for c in cols})
+        print("   interactions B0:", interaction[f"{cell}|{cols[0]}"])
+    return receipt
+
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] == "collision": main_collision()
+    elif len(sys.argv) > 1 and sys.argv[1] == "ablation": main_ablation()
     else: main()
