@@ -55,6 +55,33 @@ def tileable(prog, lib):
     return best[n]
 
 
+def choose_probe_depth(train_rows, lib, T, max_depth=4):
+    """Depth that MINIMISES EXPECTED COST on solved history (utility, not coverage).
+
+    For each solved training program we know its tiling-token count d_i and the baseline
+    index b_i the organism paid to solve it. Under probe depth D:
+        d_i <= D : cost ~ guided position ~ sum_{j<d_i} T^j + T^{d_i} / 2
+        d_i >  D : cost ~ beta_D + b_i            (miss, fall back)
+    Pick the D with the lowest mean. Everything here is history; nothing is a target."""
+    import statistics as _st
+    rows = []
+    for r in train_rows:
+        d = tileable(tuple(r["canonical_program"]), lib)
+        b = int(r.get("baseline_first_index") or 0)
+        if d is not None and b > 0:
+            rows.append((d, b))
+    if not rows:
+        return 3
+    best, best_cost = 3, float("inf")
+    for D in range(1, max_depth + 1):
+        beta_D = sum(T ** i for i in range(1, D + 1))
+        cost = _st.fmean((sum(T ** j for j in range(1, d)) + T ** d / 2) if d <= D else beta_D + b
+                         for d, b in rows)
+        if cost < best_cost:
+            best, best_cost = D, cost
+    return best
+
+
 def feats_observable(nf, lib):
     """Computable from the TASK STATEMENT alone: the target polynomial's coefficients."""
     deg = len(nf) - 1
@@ -168,7 +195,9 @@ def main() -> int:
     if a.targets:
         prot = prot[: a.targets]
     _T = len(lib) + len(M.PRIMITIVES)
-    if a.probe_depth == "auto":
+    if a.probe_depth == "cost":
+        probe_depth = choose_probe_depth(eco["streams"]["train"], lib, _T)
+    elif a.probe_depth == "auto":
         # depth learned from HISTORY: how many library tokens do the solved training
         # programs need? Training programs are solved, so tiling them is observable.
         _tk = [tileable(tuple(r["canonical_program"]), lib) for r in eco["streams"]["train"]]

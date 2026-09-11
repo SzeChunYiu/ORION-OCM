@@ -22,7 +22,7 @@ LANE = "LANE_M2_TRAVERSAL_CAPITAL_OPUS"
 SCHEMA = "OCM_M2P1_SCORED_V1"
 ARMS = ("RESET", "LIBRARY_ONLY", "CONTINUED", "CONTINUED_EU", "CONTINUED_MDL",
         "SHUFFLED_HISTORY", "ORACLE_FAMILY", "ORDINARY_ADAPTIVE_PARENT",
-        "PARENT_WITH_MDL")
+        "PARENT_WITH_MDL", "CONTINUED_OCM")
 CALIBRATION_ONLY = ("ORACLE_FAMILY",)
 
 
@@ -47,6 +47,44 @@ def load_methods(repo: Path):
 def task_of(M, row, idx):
     return M.PolynomialTask(f"m2p1:{idx}:{row['normal_form_digest'][:16]}",
                             tuple(Fraction(c) for c in row["coefficients"]))
+
+
+# ------------------------------------------------ integrated developmental controller
+def _tile_tokens(prog, lib):
+    n = len(prog); best = [None] * (n + 1); best[0] = 0
+    for i in range(n):
+        if best[i] is None:
+            continue
+        for f in lib:
+            j = i + len(f)
+            if j <= n and tuple(prog[i:j]) == tuple(f) and (best[j] is None or best[i] + 1 < best[j]):
+                best[j] = best[i] + 1
+    return best[n]
+
+
+def _obs_feats(nf, lib):
+    deg = len(nf) - 1
+    sup = sum(1 for c in nf if c != 0)
+    mag = max(max(abs(c.numerator).bit_length(), abs(c.denominator).bit_length()) for c in nf)
+    return [min(deg, 8), min(sup, 6), min(mag // 4, 6), min(len(lib), 16) // 4]
+
+
+def _probe(M, nf, lib, depth, beta):
+    """guided stream ALONE, words of <= depth tokens, every word one charged slot"""
+    from itertools import product as _prod
+    tokens = tuple(lib) + tuple((op,) for op in M.PRIMITIVES)
+    used = 0
+    for L in range(1, depth + 1):
+        for word in _prod(tokens, repeat=L):
+            used += 1
+            if used > beta:
+                return None, beta
+            prog = tuple(op for tok in word for op in tok)
+            if len(prog) > 8:
+                continue
+            if M.normal_form(prog) == nf:
+                return prog, used
+    return None, used
 
 
 # ---------------------------------------------------------------- checker C
@@ -115,8 +153,39 @@ def phase_dev(M, repo, eco, run: Path, slots: int) -> None:
     except Exception as _e:                       # never let the successor arm break dev
         mdl_report = {"error": str(_e)[:200]}
 
+    ocm_ctl = None
+    try:
+        if mdl_frags and isinstance(mdl_report, dict) and "held_out" in mdl_report:
+            _lib = [tuple(f) for f in mdl_frags]
+            _rule = {}
+            for _r, _h in zip(mdl_report["held_out"], held):
+                _z = str(_obs_feats(_h.coefficients, _lib))
+                _rule.setdefault(_z, []).append(_r["baseline"]["slots"] - _r["candidate"]["slots"])
+            _rule = {z: (statistics.fmean(v) > 0) for z, v in _rule.items()}
+            _fallback = statistics.fmean(_r["baseline"]["slots"] - _r["candidate"]["slots"]
+                                         for _r in mdl_report["held_out"]) > 0
+            _T = len(_lib) + len(M.PRIMITIVES)
+            # expected-cost depth on solved history: hits cost their guided position,
+            # misses cost beta_D plus the baseline index the organism actually paid (r_.slots)
+            _hist = [(_tile_tokens(tuple(r_.program), _lib), r_.slots) for _, r_ in training if r_.program]
+            _hist = [(d_, b_) for d_, b_ in _hist if d_ is not None and b_ > 0]
+            _depth, _bc = 3, float("inf")
+            for _D in range(1, 5):
+                _bD = sum(_T ** i for i in range(1, _D + 1))
+                _c = statistics.fmean((sum(_T ** j for j in range(1, d_)) + _T ** d_ / 2) if d_ <= _D else _bD + b_
+                                      for d_, b_ in _hist) if _hist else float("inf")
+                if _c < _bc:
+                    _depth, _bc = _D, _c
+            ocm_ctl = {"rule": _rule, "fallback": _fallback, "probe_depth": _depth,
+                       "beta": sum(_T ** i for i in range(1, _depth + 1)),
+                       "liveness_window": 8, "liveness_min_hit_rate": 0.25,
+                       "depth_rule": "expected-cost on solved history"}
+    except Exception as _e:
+        ocm_ctl = {"error": str(_e)[:200]}
+
     state = {
         "schema": "M2P1_DEV_STATE", "eu_admission": eu,
+        "ocm_controller": ocm_ctl,
         "mdl_fragments": mdl_frags,
         "mdl_admission": (mdl_report.get("accepted") if isinstance(mdl_report, dict) else None),
         "mdl_terminal": (mdl_report.get("terminal") if isinstance(mdl_report, dict) else None),
@@ -162,6 +231,16 @@ def arm_method(M, arm: str, eco, dev) -> tuple:
         if not dev["admission"]:
             return M.GeneratorMethod(), "learner refused deployment; refusal is first-class"
         return M.GeneratorMethod(frags, tuple(dev["training_task_ids"])), "admitted generator"
+    if arm == "CONTINUED_OCM":
+        # INTEGRATED DEVELOPMENTAL CONTROLLER: MDL selection -> probe with history-learned
+        # depth -> task-statement rule on a miss -> liveness on the probe hit-rate.
+        # Reads only the task statement, solved history and charged-action outcomes.
+        ctl, mdl = dev.get("ocm_controller"), dev.get("mdl_fragments")
+        if not mdl or not ctl or "error" in ctl:
+            return M.GeneratorMethod(), "no controller (%s)" % ((ctl or {}).get("error", "no mdl"))
+        return M.GeneratorMethod(tuple(tuple(f) for f in mdl), tuple(dev["training_task_ids"])), \
+            "integrated controller: probe depth %d beta %d, rule cells %d" % (
+                ctl["probe_depth"], ctl["beta"], len(ctl["rule"]))
     if arm == "PARENT_WITH_MDL":
         # FAIRNESS CONTROL. CONTINUED_MDL beating ORDINARY_ADAPTIVE_PARENT conflates two
         # things: the selection RULE (MDL vs frequency) and the OCM/parent distinction.
@@ -268,7 +347,35 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
         task = task_of(M, row, 20_000 + i)
         first_ok = None
         for q in ladder:
-            res = M.solve(task, M.SearchBudget(slots=q, max_length=8), method)
+            if arm == "CONTINUED_OCM" and method.fragments:
+                ctl = dev["ocm_controller"]; lib = list(method.fragments)
+                if not hasattr(phase_acquire, "_live"):
+                    phase_acquire._live, phase_acquire._hits = True, []
+                if phase_acquire._live:
+                    prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
+                    phase_acquire._hits.append(prog is not None)
+                    if len(phase_acquire._hits) >= ctl["liveness_window"]:
+                        recent = phase_acquire._hits[-ctl["liveness_window"]:]
+                        if sum(recent) / len(recent) < ctl["liveness_min_hit_rate"]:
+                            phase_acquire._live = False          # stand the probe down
+                else:
+                    prog, used = (None, 0)
+                    if len(phase_acquire._hits) % ctl["liveness_window"] == 0:   # periodic re-probe
+                        prog, used = _probe(M, task.coefficients, lib, ctl["probe_depth"], min(ctl["beta"], q))
+                        phase_acquire._hits.append(prog is not None)
+                        if prog is not None:
+                            phase_acquire._live = True           # reactivate
+                if prog is not None:
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
+                                         prog, used, used, (0,), 8)
+                else:
+                    use_inter = ctl["rule"].get(str(_obs_feats(task.coefficients, lib)), ctl["fallback"])
+                    rest = M.SearchBudget(slots=max(1, q - used), max_length=8)
+                    r2 = M.solve(task, rest, method) if use_inter else M.solve(task, rest)
+                    res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
+                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+            else:
+                res = M.solve(task, M.SearchBudget(slots=q, max_length=8), method)
             ok = M.verify_solution(task, res)
             ext = None
             if ok and first_ok is None:
