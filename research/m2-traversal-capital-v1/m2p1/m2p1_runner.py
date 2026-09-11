@@ -251,6 +251,7 @@ def _detect_regime(C, i):
     na, nb = sum(rec.values()), sum(ref.values())
     d = 0.5 * sum(abs(rec[g] / na - ref[g] / nb) for g in set(rec) | set(ref)) if na and nb else 0.0
     C["det_run"] = C.get("det_run", 0) + 1 if d > tau else 0
+    C["det_last"] = round(d, 3)   # instrumentation only: the latest TV statistic (never read by any decision)
     if C["det_run"] >= k:
         cp = t - W + 1
         C["det_start"], C["det_run"] = cp, 0
@@ -803,6 +804,8 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 # v6.8(d): the retry comes after min_new_after_fail NEW solutions whatever `need` is;
                                 # v4.2 x v6.2 composed to a retry every 4 targets (s623/s628: 35-60 k per failed validation)
                             ev["target_index"] = i; C["events"].append(ev)
+                            # instrumentation only (decision-invariant): the detector's pending state at this attempt
+                            ev["det_run"] = C.get("det_run", 0); ev["det_last"] = C.get("det_last")
                             if rec is not None:
                                 rec["regime"] = C.get("regime_start", 0)
                                 C["libs"].append(rec); C["active"] = len(C["libs"]) - 1; C.setdefault("live_log", []).append((i, "deploy", len(C["libs"]) - 1)); C["active_since"] = len(C["solved"])
