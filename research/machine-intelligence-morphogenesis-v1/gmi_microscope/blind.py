@@ -169,6 +169,17 @@ def run_candidate(cand, ecology, seed=0):
     return {"score": round(score, 4), "cost": cost, "max_writes": max_writes, "used_store": used_store, "n_fx_cells_written": len(fx_writes)}
 
 
+def classify_locality(res):
+    """RUN3 classifier (declared in CLAIM_LADDER_V2 F'): keyed on write locality and numeric-vs-store use, not on store-primitive use alone."""
+    if res["max_writes"] <= 2 and (res["used_store"] or res["n_fx_cells_written"] <= 2):
+        return "LOCAL_MEMORY (store or cell-memory; M1/M5 class)"
+    if not res["used_store"] and res["n_fx_cells_written"] >= 3:
+        return "NUMERIC_DENSE (M4 class)"
+    if not res["used_store"]:
+        return "NUMERIC_SPARSE"
+    return "STORE_PLUS_NUMERIC (hybrid)"
+
+
 def classify(res):
     """post-hoc label-free class from observables (MORPHOLOGY_SIGNATURES_V2 reading)."""
     if res["used_store"] and res["max_writes"] <= 2:
@@ -182,7 +193,10 @@ def classify(res):
     return "INERT/OTHER"
 
 
-def ecologies():
+def ecologies(run3=False):
+    if run3:
+        tgt16 = {x: int(((x * 7) >> 2) & 1) for x in range(16)}  # a 16-input binding target with no simple bit rule
+        return {"E_bind16": {"kind": "bind", "train": list(range(16)), "all_x": list(range(16)), "target": tgt16, "events": 32}}
     e_bind = {"kind": "bind", "train": [0, 1, 2, 3], "all_x": [0, 1, 2, 3], "target": BINDING_TARGET, "events": 8}
     tgt = {x: clamp(fx(0.25 * (x & 1) + 0.5 * ((x >> 1) & 1) - 0.25 * ((x >> 2) & 1) + 0.5 * ((x >> 3) & 1))) for x in range(16)}
     e_smooth = {"kind": "smooth", "train": [0, 3, 5, 6, 9, 10, 12, 15], "all_x": list(range(16)), "target": tgt, "events": 16}
@@ -208,34 +222,41 @@ def search(ecology, rng, seed):
     return elites, scored
 
 
-def main(seed=0):
+def main(seed=0, n_random=None, hill_steps=None, tag="V1", run3=False):
+    global N_RANDOM, HILL_STEPS
+    if n_random: N_RANDOM = n_random
+    if hill_steps: HILL_STEPS = hill_steps
     rng = random.Random(seed)
-    eco = ecologies()
+    eco = ecologies(run3=run3)
+    cls_fn = classify_locality if run3 else classify
     out = {}
     for name, e in eco.items():
         elites, scored = search(e, rng, seed)
         theta = THETA_BIND if e["kind"] == "bind" else THETA_SMOOTH
         winners = [(s, c, r) for s, _, c, r in elites if s >= theta]
-        classes = [classify(r) for _, _, r in winners]
+        classes = [cls_fn(r) for _, _, r in winners]
         out[name] = {"n_random": N_RANDOM, "hill_steps": HILL_STEPS, "topk": TOPK, "theta": theta, "best_score": elites[0][0],
                      "n_winners_at_theta": len(winners), "winner_classes": classes,
-                     "winner_details": [{"score": s, "class": classify(r), "max_writes": r["max_writes"], "used_store": r["used_store"], "n_fx_cells_written": r["n_fx_cells_written"], "cost": r["cost"], "f": json.dumps(c["f"]), "g": json.dumps(c["g"])} for s, c, r in winners[:6]],
+                     "winner_details": [{"score": s, "class": cls_fn(r), "max_writes": r["max_writes"], "used_store": r["used_store"], "n_fx_cells_written": r["n_fx_cells_written"], "cost": r["cost"], "f": json.dumps(c["f"]), "g": json.dumps(c["g"])} for s, c, r in winners[:6]],
                      "random_baseline_fraction_at_theta": sum(1 for s, _, _, _ in scored if s >= theta) / N_RANDOM}
     def frac(name, cls_prefix):
         cl = out[name]["winner_classes"]
         return (sum(1 for c in cl if c.startswith(cls_prefix)) / len(cl)) if cl else None
-    f1 = frac("E_bind", "STORE_LOCAL"); f1_dense = frac("E_bind", "NUMERIC_DENSE")
-    f2 = frac("E_smooth", "NUMERIC_DENSE"); f2_store = frac("E_smooth", "STORE_LOCAL")
+    if run3:
+        f1 = frac("E_bind16", "LOCAL_MEMORY"); f1_dense = frac("E_bind16", "NUMERIC_DENSE"); f2 = None; f2_store = None
+    else:
+        f1 = frac("E_bind", "STORE_LOCAL"); f1_dense = frac("E_bind", "NUMERIC_DENSE")
+        f2 = frac("E_smooth", "NUMERIC_DENSE"); f2_store = frac("E_smooth", "STORE_LOCAL")
     verdict = {
         "F1_bind_winners_store_local": {"fraction_store_local": f1, "fraction_numeric_dense": f1_dense, "holds": (f1 is not None and f1 >= 0.5 and (f1_dense or 0) < 0.5)},
         "F2_smooth_winners_numeric_dense": {"fraction_numeric_dense": f2, "fraction_store_local": f2_store, "holds": (f2 is not None and f2 >= 0.5 and (f2_store or 0) < 0.5)},
         "F3_handover": "NOT_OBSERVABLE__NO_STORE_LOCAL_CANDIDATE_REACHED_THETA_IN_E_SMOOTH" if (f2_store in (None, 0.0)) else "STORE_LOCAL_CANDIDATES_REACHED_THETA_IN_E_SMOOTH (see winner_details; handover computable)",
     }
-    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
+    receipt = {"schema": "StageFBlindRecoveryV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "seed": seed, "run_tag": tag, "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result", "ecologies": {k: {kk: vv for kk, vv in v.items() if kk != "target"} for k, v in eco.items()},
                "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)", "results": out, "verdict": verdict,
                "claim_ceiling": "E2 exploratory at tiny scope, single search family, one basis column (B0), one seed; post-hoc label-free classification; not a confirmatory blind-recovery result (#377 §13 requires matched generic search parents, multiple encodings and seeds)."}
     receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
-    json.dump(receipt, open(os.path.join(RES, "STAGE_F_BLIND_RECOVERY_V1.json"), "w"), indent=1, sort_keys=True, default=str)
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_F_BLIND_RECOVERY_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
     L = ["# Stage F — blind recovery at tiny scope: report V1\n", f"Receipt `microscopes/results/STAGE_F_BLIND_RECOVERY_V1.json` (sha256 `{receipt['receipt_sha256'][:16]}…`).\n",
          f"Search: {N_RANDOM} random candidates + {HILL_STEPS} hill-climb steps from the top {TOPK}, per ecology, seed {seed}; the search saw only (score, charged cost).\n"]
     for name, o in out.items():
@@ -245,11 +266,17 @@ def main(seed=0):
         L.append("")
     L.append("## Verdicts\n" + json.dumps(verdict, indent=1, default=str) + "\n")
     L.append(receipt["claim_ceiling"] + "\n")
-    open(os.path.join(RES, "STAGE_F_REPORT_V1.md"), "w").write("\n".join(L) + "\n")
+    open(os.path.join(RES, f"STAGE_F_REPORT_{tag}.md"), "w").write("\n".join(L) + "\n")
     print(json.dumps(verdict, indent=1, default=str))
     for name, o in out.items():
         print(name, "best", o["best_score"], "winners", o["n_winners_at_theta"], o["winner_classes"], "baseline", o["random_baseline_fraction_at_theta"])
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "run2":
+        main(seed=1, n_random=12000, hill_steps=160, tag="RUN2")
+    elif len(sys.argv) > 1 and sys.argv[1] == "run3":
+        main(seed=2, n_random=6000, hill_steps=80, tag="RUN3_BIND16", run3=True)
+    else:
+        main()

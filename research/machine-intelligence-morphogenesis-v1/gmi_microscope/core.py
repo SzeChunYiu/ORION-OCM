@@ -283,24 +283,45 @@ class Machine:
             for _ in range(TOTAL_BITS): self.op("AND", 1, 1)  # wiring cost charged as one gate per bit
             return from_bits(out)
         if name in ("S_INSERT", "S_LOOKUP", "S_MATCH", "S_DELETE", "S_SCAN"):
-            # store emulated as declared cells + linear scan with EQ per entry
+            # store emulated as declared cells + linear scan with EQ per entry; or, under the declared
+            # indexed-emulation amendment, a charged binary index: 1+ceil(log2(n+1)) compares per access
             st = self.stores.setdefault(a[0], [])
+            indexed = getattr(self.basis, "indexed_emulation", False)
+            probes = (len(st) + 1).bit_length() + 1
             if name == "S_INSERT":
                 st.append((a[1], a[2])); self.L.writes_in_event.add(f"{a[0]}#{len(st)}"); self.L.c["desc"] += self.basis.desc_store_entry
-                self.op("CONST", 0); return 1
+                if indexed:
+                    for _ in range(probes): self.op("EQ", 0, 0)  # index maintenance
+                else:
+                    self.op("CONST", 0)
+                return 1
             if name == "S_LOOKUP":
+                if indexed:
+                    for _ in range(probes): self.op("EQ", 0, 0)
+                    for k, v in st:
+                        if k == a[1]: return v
+                    return None
                 for k, v in st:
                     if self.op("EQ", k, a[1]): return v
                 return None
             if name == "S_MATCH":
+                if indexed:
+                    for _ in range(probes): self.op("EQ", 0, 0)
+                    for k, v in st:
+                        if a[1](k): return (k, v)
+                    return None
                 for k, v in st:
                     self.op("EQ", 0, 0)  # one compare per entry charged; predicate evaluated by caller ops
                     if a[1](k): return (k, v)
                 return None
             if name == "S_DELETE":
                 n = len(st); keep = []
-                for k, v in st:
-                    if not self.op("EQ", k, a[1]): keep.append((k, v))
+                if indexed:
+                    for _ in range(probes): self.op("EQ", 0, 0)
+                    keep = [(k, v) for k, v in st if k != a[1]]
+                else:
+                    for k, v in st:
+                        if not self.op("EQ", k, a[1]): keep.append((k, v))
                 self.stores[a[0]] = keep
                 if len(keep) != n: self.L.writes_in_event.add(f"{a[0]}#del{a[1]}")
                 return n - len(keep)

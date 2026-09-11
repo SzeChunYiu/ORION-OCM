@@ -114,7 +114,7 @@
       "parent_theorem": "Invariance thesis (van Emde Boas 1990) for finiteness of K_sim; Cybenko/Hornik and Siegelmann\u2013Sontag as the D0 trivializers for neural; Post/clone theory for Boolean (Codex Stage A/C-v0)",
       "track_b_residual": "The sub-band regime K \u227a K_sim: explicit constants per coordinate, and the upd/ver/rev coordinates. Whether any candidate basis has non-empty, non-trivial content there is decided by Def 5.5 tests (BASIS_CANDIDATES_V2_UNIVERSALITY_TESTS.json).",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T0",
-      "exact_checker": "TARGET: Stage D cross-basis compilation matrix must exhibit a table-equal pair whose minimal mutual overhead lies outside a chosen K \u227a K_sim and inside K_sim\u2218K_sim",
+      "exact_checker": "Stage D: K_sim vs U measured per candidate on charged coordinates: B0 2.93, B1 2.93, B2 131.48, B3 2.42 (STAGE_D_MATRIX_V1.json K_sim_vs_U_by_candidate). Sub-band witness for TABLE-EQUAL pairs (P5): none at scope \u2014 every table-equal pair (M1~M5) is within K_FLAT in every column; the content regime at this scope is Dev-table difference plus cross-basis cost asymmetry, not resource-only splits.",
       "counterexample_when_assumption_removed": "At K \u227a K_sim clause 3 of \u2248 is non-vacuous; Codex Stage C-v0 already shows richer bases with lower depth than inclusion-minimal ones at the same tables (EXACT_ADAPTIVE_BOOLEAN_CENSUS_V1.json) \u2014 a sub-band separation in the desc/exec coordinate",
       "empirical_bridge": "Every microscope row states K and K_sim; rows at or above the band are auto-labelled UNIVERSAL_COMPUTATION_ONLY",
       "claim_ceiling": "Definitional P1; it locates where content can live, it does not show that any basis has content there.",
@@ -163,15 +163,15 @@
       "quantifiers": "\u2200 bases, \u2200K",
       "proof_class": "P1",
       "secondary_class": "P2 (cross-basis matrix)",
-      "parent_theorem": "Simulation-overhead composition (van Emde Boas 1990); bisimulation / behavioural equivalence (Milner; Rutten 2000 coalgebra \u2014 Codex PARENT_EXPANSION_V2) for the table clauses",
+      "parent_theorem": "Simulation-overhead composition (van Emde Boas 1990); bisimulation (Rutten 2000); Gurevich ASM / Boker-Dershowitz 'comparing computational power' (simulation up to representation) \u2014 flagged load-bearing by P0 ledger, absorption pending W4; execution-coordinate table reconstructed in PARENT_LEDGER_V2 P9A.SIMA_ORPONEN / P9A.RASP_TRACR",
       "track_b_residual": "The cross-basis overhead MATRIX among B0..B3 on all five coordinates including upd/ver/rev (Stage D); whether the four candidates are mutually poly-equivalent (expected) AND whether their constant-factor overheads differ by coordinate (the content)",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T2",
-      "exact_checker": "TARGET: microscopes/STAGE_D_CROSS_BASIS_COMPILATION_DESIGN_V1.md matrix runner \u2014 NOT YET RUN",
+      "exact_checker": "Stage D matrix executed: 6 rows x 6 columns x ladder; C2 holds in every cell; matrix NOT flat within K_FLAT=(2x,+4); ledger P9A recommends splitting the row into T2a (exec/desc: PARENT_THEOREM, simulation table Kleene/Sima-Orponen/Tracr) and T2b (upd/ver/rev: measured) \u2014 adopted as a reading, statement unchanged.",
       "counterexample_when_assumption_removed": "fixed constant K: x\u2248y, y\u2248z, x\u2249z when overheads multiply past K (construct in Stage D with three composites at overhead 1.5\u00d7 each, K=2\u00d7)",
       "empirical_bridge": "#145 basis-equivalence claims; #221 encoding tournament (E0 vs E1-CGP) is a special case of the matrix",
       "claim_ceiling": "Relation-type P1; matrix values are P2 at scope.",
       "falsifier": "Matrix flat across coordinates and bases \u21d2 UNIVERSAL_COMPUTATION_ONLY at scope (GMI-T0 Cor 5.4)",
-      "status": "PROVED (relation type) / OPEN (matrix)",
+      "status": "PROVED (relation type) / FINITE_CERTIFIED (matrix at scope)",
       "v2_evidence": "V2:GMI-T3 OPEN_PROOF ('find non-transitivity') \u2014 answered: non-transitivity is real at fixed constant K and recovered at K\u2218K"
     },
     {
@@ -193,12 +193,12 @@
       "parent_theorem": "bisimulation quotients (coalgebra); Blackwell/decision-sufficiency for the 'equal tables' reading (HST-T08); HST-T10 evolvability for the D-table reading",
       "track_b_residual": "Whether the seven registered signatures separate at some K \u227a K_sim on a structured basis (they trivially collapse above the band, GMI-T0) \u2014 Stage C-v1/D decide; the band lemma converts the encoding hostile into a computed number",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T3",
-      "exact_checker": "developmental_equivalence_witness.py (Codex; part a); TARGET Stage D for (b),(c)",
+      "exact_checker": "Stage D class_separation: M1~M5 ONE_CLASS_AT_K in all six columns (identical Dev tables, resources within K_FLAT); all other pairs NOT_EQUIV_DEV. Codex V3 GMI-T16 (developmental quotient, Myhill-Nerode parent) supplies the minimal-state reading; P7 ledger: 2-cell quotient in Para(Optic) is the algebraic parent of the class relation; Fong-Spivak-Tuyeras Thm III.2 is defective per Cruttwell et al. \u00a76 (cite Cruttwell for functoriality).",
       "counterexample_when_assumption_removed": "multiplicative combinator cost (loop_n) \u21d2 band grows with n; must be computed per scope",
       "empirical_bridge": "#221 'diverse morphologies' terminal must be re-read through \ud835\udcdc_k: syntactic diversity with one D-table is one class (Codex hostile H-BEHAVIOR-ONLY)",
       "claim_ceiling": "P1 transfer lemma + P2 finite witnesses; no claim that real architectures fall into exactly seven classes.",
       "falsifier": "A registered signature pair that is mutually K-compilable with equal tables at every K \u227a K_sim in Stage D \u21d2 those two signatures are one class at scope (merge them; not a failure)",
-      "status": "PROVED (b,c) / FINITE_CERTIFIED (a)",
+      "status": "PROVED (b,c) / FINITE_CERTIFIED (a; and M1\u2261M5 one class at scope)",
       "v2_evidence": "V2:GMI-T4 CURRENT_BEHAVIOR_EQUIVALENCE_DOES_NOT_IMPLY_DEVELOPMENTAL_EQUIVALENCE_EXACT (EXACT_DEVELOPMENTAL_EQUIVALENCE_V1.json); V2:GMI-T5A 4 behaviour classes vs 2884 developmental classes over 4096 morphologies (EXACT_ADAPTIVE_BOOLEAN_CENSUS_V1.json)"
     },
     {
@@ -219,12 +219,12 @@
       "parent_theorem": "McCulloch & Pitts 1943; Kleene 1956; Minsky 1967 ch.3; \u0160\u00edma & Orponen 2003 (bounded simulations neural\u2194automata\u2194circuits); Cybenko 1989 / Hornik 1991 (D0 only); Telgarsky 2016 (depth lower bounds); Tracr (program\u2192transformer compiler with reported overhead) \u2014 pending P9A ledger verification",
       "track_b_residual": "Only the measured constants per candidate basis and the Dev clause (which is GMI-T5). Forward derivation alone is FORWARD_K_DERIVED and does not satisfy #377 \u00a723.",
       "proof_artifact": "none (parent)",
-      "exact_checker": "TARGET Stage D neural micro-derivation (EXACT_MICROSCOPE_V1.md Stage D item 1) \u2014 NOT YET RUN",
+      "exact_checker": "Stage D row M4: forward+one gradient step compiled Dev-preservingly into every column; kappa per coordinate recorded (STAGE_D_MATRIX_V1.json kappa['M4|*|*']); P9A ledger: TM \u2261 rational saturated-linear RNN (886 units, precision growing linearly; not sigmoidal \u2014 Codex P-NEURAL-UNIVERSALITY corrected), transformer TM simulation 1+3 layers, Tracr overhead = (layers=dependency depth, heads=selectors, width=\u03a3 value-set sizes).",
       "counterexample_when_assumption_removed": "unbounded precision \u21d2 Siegelmann\u2013Sontag super-Turing regime; the row is void",
       "empirical_bridge": "#214 FNA absorption (neural function \u2192 explicit) is the reverse direction; both directions' constants feed the phase model",
       "claim_ceiling": "PARENT_SUFFICIENT at the execution coordinate; P2 constants at scope.",
       "falsifier": "A candidate basis in which no forward compiler exists within n_max for a 2-2-1 net \u21d2 NOT_DERIVABLE_AT_SCOPE for that basis",
-      "status": "PARENT_SUFFICIENT (execution) / OPEN (constants)",
+      "status": "PARENT_SUFFICIENT (execution) / FINITE_CERTIFIED (constants at scope)",
       "v2_evidence": "V2:GMI-T2 ADOPTED_LIMIT (Cybenko; Siegelmann\u2013Sontag); V2:GMI-T6 OPEN"
     },
     {
@@ -246,12 +246,12 @@
       "parent_theorem": "Baur & Strassen 1983 / Griewank cheap-gradient principle (constant pending P9A ledger verification); Fong, Spivak & Tuy\u00e9ras 2019 (backprop as a functor Para\u2192Learn: compositional derivation of the update law); Cruttwell et al. 2022 (reverse-derivative categories); Wilson & Zanasi 2021 (reverse-derivative ascent on Boolean circuits: the same law on a symbolic morphology) \u2014 pending P7 ledger",
       "track_b_residual": "Measured \u03ba_upd of the gradient law in each candidate basis (Stage D item 1, update step) and the locality bound as the phase-relevant quantity; parent-subtract Backprop-as-Functor explicitly: the compositional derivation is theirs, the charged constants and the cross-basis asymmetry are ours",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T10-A Lemma A (locality); cheap-gradient corollary is parent",
-      "exact_checker": "TARGET Stage D: compile one gradient step of a 2-2-1 net into B0..B3, charge upd per coordinate written \u2014 NOT YET RUN",
+      "exact_checker": "Stage D P1a HOLDS: gradient law into the rewrite basis costs 107-116x the compositional-learner basis on upd at 8-bit precision (frozen threshold 8x). P9A ledger adds a theorem-grade non-invariance at the update coordinate: gradient complexity \u0398(1) (DAG+adjoint, Baur-Strassen; \u22644x Griewank-Walther), \u0398(d) (black-box), n^{1+\u03a9(1)} (formulas/planar circuits, Ramya-Shastri 2025 Cor. 45-46). P7 ledger: Gavranovi\u0107 2022 shows denotational equivalence erases the memory/recomputation distinction, so a cost functor must be 2-categorical \u2014 the exact place where the charged constants live.",
       "counterexample_when_assumption_removed": "sparse gradients (e.g. one-hot targets with ReLU dead units) \u21d2 locality SPARSE, slope of \u00a7T10-A weakens; must be measured not assumed",
       "empirical_bridge": "#214 FNA (learned update laws in explicit machinery)",
       "claim_ceiling": "Compositional derivation PARENT_SUFFICIENT; locality bound P1; constants P2.",
       "falsifier": "A basis in which the gradient step compiles with \u03ba_upd growing faster than the emulation constant would contradict cheap-gradient in that basis \u2014 report CANNOT_CHECK or a modelling defect in \u03c1",
-      "status": "PARENT_ANCHORED / OPEN (constants)",
+      "status": "PARENT_ANCHORED (algebra: Cruttwell et al. Para(R) for any CRDC + reverse-derivative ascent) / FINITE_CERTIFIED (constants)",
       "v2_evidence": "V2:GMI-T6 OPEN_DERIVATION_PARENT_OWNED_IN_PART"
     },
     {
@@ -273,12 +273,12 @@
       "parent_theorem": "Cox/Jaynes (update law); Goodman et al. 2008 Church + Staton et al. 2016 (semantics); Fritz 2020 Markov categories (Codex V2 expansion); Smithe 2020 Bayesian lenses; Ackerman, Freer & Roy 2011 (noncomputable conditioning) \u2014 pending P7P8P6P5 ledger",
       "track_b_residual": "Whether explicit stochastic primitives are resource-irreducible at scope (Codex hostile H-STOCHASTIC-DEGENERACY): compile M3 references into the deterministic candidates with a charged PRNG and compare \u03ba_upd/\u03ba_exec against B3; and the ecology axis (partial observability \u00d7 likelihood feedback) on which M3 is predicted Pareto-favoured (PH-3)",
       "proof_artifact": "none (parent); boundary is parent P5",
-      "exact_checker": "TARGET Stage D item 3 \u2014 NOT YET RUN",
+      "exact_checker": "Stage D row M3 (particle/trace distribution): native sample/score in B3 makes conditioning cheaper than in every other column (B3 universality test PASSES); no LEARNING_LAW_REQUIRES_NEW_PRIMITIVE obstruction at scope. P6/P7P8P6P5 ledgers: Ackerman-Freer-Roy Thm 7.6 / Prop 6.4 / Cor 8.5 negative; Prop 9.2 (discrete), Cor 9.6 (density), \u00a79.4 (smooth noise) positive \u2014 any D1 claim names the observation class; Smithe Thm 5.2 'Bayesian updates compose optically'. Measured note: particle-style conditioning has DENSE update locality (rewrites every weight), correcting the registered M3 signature (amendment in MORPHOLOGY_SIGNATURES_V2).",
       "counterexample_when_assumption_removed": "continuous observations without computable density \u21d2 conditioning undefined; the row is void beyond finite scope",
       "empirical_bridge": "#93 GEF uncertainty coordinates",
       "claim_ceiling": "P2 at finite scope with an explicit P5 ceiling.",
       "falsifier": "A basis where finite conditioning compiles only with \u03ba_upd \u2265 K_sim \u21d2 stochastic structure is resource-irreducible at scope (a valid positive obstruction, LEARNING_LAW_REQUIRES_NEW_PRIMITIVE_BAYES)",
-      "status": "PARENT_ANCHORED / OPEN",
+      "status": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope; obstruction not found)",
       "v2_evidence": "V2:GMI-T8 OPEN_DERIVATION_OR_OBSTRUCTION"
     },
     {
@@ -299,12 +299,12 @@
       "parent_theorem": "Post 1943 production systems; Newell 1973; Forgy 1982 Rete (cost model); Laird 2012 Soar chunking; Doyle/de Kleer TMS for the revision coordinate (parent-absorption ledger)",
       "track_b_residual": "Constants per basis; rev-coordinate advantage of provenance-carrying rules under drift (PH-REV) \u2014 the prediction, not the mechanism",
       "proof_artifact": "none (parent)",
-      "exact_checker": "TARGET Stage D item 2 \u2014 NOT YET RUN",
+      "exact_checker": "Stage D row M1: chunking = one insert per counterexample, LOCAL_O1 writes on the whole ladder in every column; charged upd grows with store size only in linear-scan columns (P4 refinement); rev cheaper in the indexed-store column at sizes 4/8, tie at 2 (P1b partial).",
       "counterexample_when_assumption_removed": "unbounded store \u21d2 match cost unbounded; scope must bound the store",
       "empirical_bridge": "#221 production_rule unit type; #145 operator basis",
       "claim_ceiling": "PARENT_SUFFICIENT mechanism; P2 constants.",
       "falsifier": "Match cost in a candidate basis exceeding the Rete bound by more than K \u21d2 that basis cannot host M1 efficiently at scope (a phase datum, not a failure)",
-      "status": "PARENT_ANCHORED / OPEN",
+      "status": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope)",
       "v2_evidence": "V2:GMI-T7 OPEN_DERIVATION"
     },
     {
@@ -326,12 +326,12 @@
       "parent_theorem": "Levin 1973 / Hutter 2002 (search law, constants \u2014 pending P9A proof-level reconstruction); Schmidhuber 2004 OOPS; DreamCoder/Stitch (library learning); SMCGP (self-modifying program graphs, Codex V3)",
       "track_b_residual": "Constants per basis for the interpreter and the search law; the H-PROGRAM-INTERPRETER hostile (interpreter must compile from P \u222a C at bounded cost) decided exactly",
       "proof_artifact": "none (parent)",
-      "exact_checker": "TARGET Stage D item 4 \u2014 NOT YET RUN",
+      "exact_checker": "Stage D row M2: enumerate-test over a 16-program grammar with library insert; interpreter compiled from P \u222a C (no SMUGGLED op); kappa recorded; P0 ledger closes the Levin/Hutter proof-level item (5t_p + d_p\u00b7time + c_p with d_p = 40\u00b72^{l(p)+l(t_p)}).",
       "counterexample_when_assumption_removed": "interpreter supplied as a primitive \u21d2 SMUGGLED_INTERPRETER; row void",
       "empirical_bridge": "#145 operator language; #62/#115 library learning",
       "claim_ceiling": "PARENT_SUFFICIENT mechanism; P2 constants; never 'universality'.",
       "falsifier": "Interpreter not compilable within n_max in a candidate \u21d2 NOT_DERIVABLE_AT_SCOPE (raise n_max once, declared; else terminal)",
-      "status": "PARENT_ANCHORED / OPEN",
+      "status": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope)",
       "v2_evidence": "V2:GMI-T9 OPEN_DERIVATION"
     },
     {
@@ -357,7 +357,7 @@
       "empirical_bridge": "#221 must never claim a universal winner; #373 \u00a711 generality = invariant laws not one solver",
       "claim_ceiling": "Parent-anchored P5/P3; Track B adds no theorem here, only the axis registry.",
       "falsifier": "n/a (limit)",
-      "status": "PARENT_ANCHORED",
+      "status": "PARENT_ANCHORED (theorem-grade flips verified at partial/full depth in P9B ledger: Gold/Pitt-Warmuth vs Angluin; Abbe et al. b\u03c1<1/8 \u21d2 SGD=PAC, b\u03c1\u00b2=\u03c9(log n) \u21d2 SGD\u2286SQ\u228aPAC; SST Thm 1; SQ\u228anoisy-PAC; Valiant/Feldman evolvability=CSQ)",
       "v2_evidence": "V2:GMI-T1 ADOPTED_LIMIT (NFL only) \u2014 V3 adds the theorem-grade per-axis flips"
     },
     {
@@ -381,12 +381,12 @@
       "parent_theorem": "HST-T05 macro amortization (arithmetic); Codex ANALYTIC_PHASE_MICROSCOPE_V1 (toy constants); Maurer et al. 2016 and Kirsch et al. 2022 as regime-law templates; grokking axes (weight decay, data fraction) as candidate coordinates \u2014 pending ledgers",
       "track_b_residual": "Binding cost terms to label-free observables so that direction of boundaries is predicted from S(x); the exact finite frontier with \u22652 axes; the negative control PH-5",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T10-A",
-      "exact_checker": "TARGET Stage E (EXACT_MICROSCOPE_V1.md) with PH-REV and PH-5 frozen \u2014 NOT YET RUN",
+      "exact_checker": "STAGE_E_FRONTIER_V1.json; Stage D P4: written cells per event constant for M1/M5 on the ladder in every column (locality observable basis-independent) while charged upd grows 2-3x under linear-scan store emulation \u2014 Lemma A bounds writes, not total charged update. Codex V3 GMI-T18: common expected-cost form 'too generic' \u2014 consistent: the content is in binding costs to observables, and at this scope the binding held for writes but not for charged totals without the indexed-store hypothesis.",
       "counterexample_when_assumption_removed": "linear-scan store: R_exec grows with r, term r\u00b7H\u00b7\u0394exec can reverse the boundary (must be charged); dense update charged as one event erases the slope",
       "empirical_bridge": "#221 QD frontier re-read by class; #151 lineage revision economics (H3/H4 local revision, exact revocation)",
       "claim_ceiling": "Analytic direction P1 under the model; magnitudes P2 at scope; no real-architecture claim.",
       "falsifier": "Stage E finds a dense-update composite dominating a local-update one at equal Q for all r on the grid while \u03c1 charges per coordinate \u21d2 Lemma A's premise is violated in the implementation (ASSAY_DEFECT) or capability is not equal (report)",
-      "status": "PROVED (A, conditional) / OPEN (B) / BLOCKED (C on B)",
+      "status": "PROVED (A, conditional; hypothesis (iii) indexed store access now EXPLICIT after Stage D P4) / FINITE_CERTIFIED (B: frontier executed; handover NOT OBSERVABLE in the binding ecology \u2014 local rows dominate at every (H,r) in every column, as the axis theory predicts for PH-2 conditions) / OPEN (C)",
       "v2_evidence": "V2:GMI-T10 OPEN_NOT_CONFIRMATORY; V2:GMI-T11 hybrid conjecture; V2:GMI-T13 phase hole BLOCKED; ANALYTIC_PHASE_MICROSCOPE_V1.json LINEAR_LIFECYCLE_PHASE_BOUNDARY_CALIBRATED"
     },
     {
@@ -409,12 +409,12 @@
       "parent_theorem": "Gold 1967 identification in the limit; Angluin 1987 (query identifiability); HST-T03 representation insufficiency (aliasing); Blackwell (HST-T08)",
       "track_b_residual": "Which observables are identifiable by which probes \u2014 a protocol result binding #377 \u00a713 (blind recovery) to a required probe set",
       "proof_artifact": "proofs/GMI_PROOFS_V1.md \u00a7T11",
-      "exact_checker": "TARGET: Stage D/E identifiability check \u2014 for each pair of registered signatures, does the probe family separate them? \u2014 NOT YET RUN",
+      "exact_checker": "STAGE_D_MATRIX_V1.json observables_by_row_col.writes_per_event_by_size; Codex V3 GMI-T15 (burden vectors do not identify morphology) is the same impossibility from the burden side.",
       "counterexample_when_assumption_removed": "single size point or \u0394=\u2205 \u21d2 locality and store discipline inseparable",
       "empirical_bridge": "#221 descriptor degeneracy finding (4/100 cells) is an identifiability failure of that descriptor set, re-read here",
       "claim_ceiling": "P1 trivial impossibility + P2 protocol adequacy at scope.",
       "falsifier": "A probe family claimed sufficient that fails to separate two registered signatures in Stage D \u21d2 protocol inadequate (fix protocol, not signatures, before search)",
-      "status": "PROVED (impossibility) / OPEN (positive)",
+      "status": "PROVED (impossibility) / FINITE_CERTIFIED (positive part: update_locality identifiable from write counts on the ladder in every column; charged-cost growth is NOT a basis-independent identifier)",
       "v2_evidence": "none in V2 (hostile H-CLASSIFIER-POSTHOC only)"
     },
     {
@@ -435,12 +435,12 @@
       "parent_theorem": "Valiant 2009 evolvability (limit); Feldman 2008; HST-T10/T12/T13; Kirsch & Schmidhuber 2021, Kirsch et al. 2022 (empirical D2 at learning-law level); PowerPlay/OOPS (solver growth \u2260 morphology change) \u2014 pending ledgers",
       "track_b_residual": "Class-level evolvability and B_morph,g slope across generations on fresh ecology shifts \u2014 none of the parents measure morphology-class transitions with charged costs",
       "proof_artifact": "none yet",
-      "exact_checker": "HST exact Ev oracle (heritable-search-transformation-v1/exact) lifted to classes \u2014 TARGET after Stage E",
+      "exact_checker": "STAGE_F_BLIND_RECOVERY_V1.json (frozen budget) and _RUN2.json (declared 4x budget); ledger P4/P9B: Kirsch et al. GPICL transition axes (#tasks \u22652^13, state size, meta-batch); Chalmers 1990 and Mikulik 2020 queued as load-bearing blind-recovery / law-convergence data (W4).",
       "counterexample_when_assumption_removed": "unregistered future ecology \u21d2 harmful-transfer twin (HST hostiles)",
       "empirical_bridge": "#149 governed RSI; #151 lineage; #217 evolvability",
       "claim_ceiling": "P2 at scope; P4 on real systems; never 'open-ended morphogenesis proven'.",
       "falsifier": "B_morph,g+1 \u2265 B_morph,g on every registered shift after charging \u21d2 NO_DEVELOPMENTAL_MORPHOGENESIS_AT_SCOPE",
-      "status": "BLOCKED (on T10-B) / PARENT_ANCHORED (limits)",
+      "status": "BLOCKED / PARENT_ANCHORED (limits) \u2014 Stage F E2 exploratory: label-free search recovered local-update forms in the binding ecology and a numeric non-store form in the smooth ecology; frozen classifier criteria (store use; \u22653 cells) failed; recorded as bounded failure with revival records, not as support",
       "v2_evidence": "V2:GMI-T12 finite-search limit; V2:GMI-T14 META_MORPHOGENESIS_NOT_YET_AUTHORIZED"
     }
   ],
@@ -682,6 +682,166 @@
       "statement": "Universal/program representation + domain-specific compilers + AutoML/NAS/program evolution + meta-learning + algorithm selection + rational metareasoning + information theory may fully explain the complete Track-B signature.",
       "status": "LIVE_STRONG_NULL",
       "terminal": "PARENT_PRODUCT_SUFFICIENT_FOR_GMI_SIGNATURE"
+    }
+  ],
+  "amendments": [
+    {
+      "amendment_id": "CANONICAL_377_AMEND_1",
+      "utc": "2026-09-11T11:28:31Z",
+      "rule": "statements frozen; only status/evidence/parent fields patched; every change listed here",
+      "sources": [
+        "microscopes/results/STAGE_D_MATRIX_V1.json",
+        "microscopes/results/STAGE_E_FRONTIER_V1.json",
+        "microscopes/results/STAGE_F_BLIND_RECOVERY_V1.json",
+        "microscopes/results/STAGE_F_BLIND_RECOVERY_RUN2.json",
+        "PARENT_LEDGER_V2.json (families P9A_P0, P9B_P3P4, P7P8P6P5)"
+      ],
+      "changes": [
+        {
+          "row": "GMI-T0",
+          "field": "status",
+          "old": "PROVED",
+          "new": "PROVED"
+        },
+        {
+          "row": "GMI-T0",
+          "field": "exact_checker",
+          "old": "TARGET: Stage D cross-basis compilation matrix must exhibit a table-equal pair whose minimal mutual overhead lies outside a chosen K \u227a K_sim and inside K_sim\u2218K_sim",
+          "new": "Stage D: K_sim vs U measured per candidate on charged coordinates: B0 2.93, B1 2.93, B2 131.48, B3 2.42 (STAGE_D_MATRIX_V1.json K_sim_vs_U_by_candidate). Sub-band witness for TABLE-EQUAL pairs (P5): none at scope \u2014 every table-equal pair (M1~M5) is within K_FLAT in every column; the content regime at this scope is Dev-table difference plus cross-basis cost asymmetry, not resource-only splits."
+        },
+        {
+          "row": "GMI-T2",
+          "field": "status",
+          "old": "PROVED (relation type) / OPEN (matrix)",
+          "new": "PROVED (relation type) / FINITE_CERTIFIED (matrix at scope)"
+        },
+        {
+          "row": "GMI-T2",
+          "field": "exact_checker",
+          "old": "TARGET: microscopes/STAGE_D_CROSS_BASIS_COMPILATION_DESIGN_V1.md matrix runner \u2014 NOT YET RUN",
+          "new": "Stage D matrix executed: 6 rows x 6 columns x ladder; C2 holds in every cell; matrix NOT flat within K_FLAT=(2x,+4); ledger P9A recommends splitting the row into T2a (exec/desc: PARENT_THEOREM, simulation table Kleene/Sima-Orponen/Tracr) and T2b (upd/ver/rev: measured) \u2014 adopted as a reading, statement unchanged."
+        },
+        {
+          "row": "GMI-T2",
+          "field": "parent_theorem",
+          "old": "Simulation-overhead composition (van Emde Boas 1990); bisimulation / behavioural equivalence (Milner; Rutten 2000 coalgebra \u2014 Codex PARENT_EXPANSION_V2) for the table clauses",
+          "new": "Simulation-overhead composition (van Emde Boas 1990); bisimulation (Rutten 2000); Gurevich ASM / Boker-Dershowitz 'comparing computational power' (simulation up to representation) \u2014 flagged load-bearing by P0 ledger, absorption pending W4; execution-coordinate table reconstructed in PARENT_LEDGER_V2 P9A.SIMA_ORPONEN / P9A.RASP_TRACR"
+        },
+        {
+          "row": "GMI-T3",
+          "field": "status",
+          "old": "PROVED (b,c) / FINITE_CERTIFIED (a)",
+          "new": "PROVED (b,c) / FINITE_CERTIFIED (a; and M1\u2261M5 one class at scope)"
+        },
+        {
+          "row": "GMI-T3",
+          "field": "exact_checker",
+          "old": "developmental_equivalence_witness.py (Codex; part a); TARGET Stage D for (b),(c)",
+          "new": "Stage D class_separation: M1~M5 ONE_CLASS_AT_K in all six columns (identical Dev tables, resources within K_FLAT); all other pairs NOT_EQUIV_DEV. Codex V3 GMI-T16 (developmental quotient, Myhill-Nerode parent) supplies the minimal-state reading; P7 ledger: 2-cell quotient in Para(Optic) is the algebraic parent of the class relation; Fong-Spivak-Tuyeras Thm III.2 is defective per Cruttwell et al. \u00a76 (cite Cruttwell for functoriality)."
+        },
+        {
+          "row": "GMI-T4",
+          "field": "status",
+          "old": "PARENT_SUFFICIENT (execution) / OPEN (constants)",
+          "new": "PARENT_SUFFICIENT (execution) / FINITE_CERTIFIED (constants at scope)"
+        },
+        {
+          "row": "GMI-T4",
+          "field": "exact_checker",
+          "old": "TARGET Stage D neural micro-derivation (EXACT_MICROSCOPE_V1.md Stage D item 1) \u2014 NOT YET RUN",
+          "new": "Stage D row M4: forward+one gradient step compiled Dev-preservingly into every column; kappa per coordinate recorded (STAGE_D_MATRIX_V1.json kappa['M4|*|*']); P9A ledger: TM \u2261 rational saturated-linear RNN (886 units, precision growing linearly; not sigmoidal \u2014 Codex P-NEURAL-UNIVERSALITY corrected), transformer TM simulation 1+3 layers, Tracr overhead = (layers=dependency depth, heads=selectors, width=\u03a3 value-set sizes)."
+        },
+        {
+          "row": "GMI-T5",
+          "field": "status",
+          "old": "PARENT_ANCHORED / OPEN (constants)",
+          "new": "PARENT_ANCHORED (algebra: Cruttwell et al. Para(R) for any CRDC + reverse-derivative ascent) / FINITE_CERTIFIED (constants)"
+        },
+        {
+          "row": "GMI-T5",
+          "field": "exact_checker",
+          "old": "TARGET Stage D: compile one gradient step of a 2-2-1 net into B0..B3, charge upd per coordinate written \u2014 NOT YET RUN",
+          "new": "Stage D P1a HOLDS: gradient law into the rewrite basis costs 107-116x the compositional-learner basis on upd at 8-bit precision (frozen threshold 8x). P9A ledger adds a theorem-grade non-invariance at the update coordinate: gradient complexity \u0398(1) (DAG+adjoint, Baur-Strassen; \u22644x Griewank-Walther), \u0398(d) (black-box), n^{1+\u03a9(1)} (formulas/planar circuits, Ramya-Shastri 2025 Cor. 45-46). P7 ledger: Gavranovi\u0107 2022 shows denotational equivalence erases the memory/recomputation distinction, so a cost functor must be 2-categorical \u2014 the exact place where the charged constants live."
+        },
+        {
+          "row": "GMI-T6",
+          "field": "status",
+          "old": "PARENT_ANCHORED / OPEN",
+          "new": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope; obstruction not found)"
+        },
+        {
+          "row": "GMI-T6",
+          "field": "exact_checker",
+          "old": "TARGET Stage D item 3 \u2014 NOT YET RUN",
+          "new": "Stage D row M3 (particle/trace distribution): native sample/score in B3 makes conditioning cheaper than in every other column (B3 universality test PASSES); no LEARNING_LAW_REQUIRES_NEW_PRIMITIVE obstruction at scope. P6/P7P8P6P5 ledgers: Ackerman-Freer-Roy Thm 7.6 / Prop 6.4 / Cor 8.5 negative; Prop 9.2 (discrete), Cor 9.6 (density), \u00a79.4 (smooth noise) positive \u2014 any D1 claim names the observation class; Smithe Thm 5.2 'Bayesian updates compose optically'. Measured note: particle-style conditioning has DENSE update locality (rewrites every weight), correcting the registered M3 signature (amendment in MORPHOLOGY_SIGNATURES_V2)."
+        },
+        {
+          "row": "GMI-T7",
+          "field": "status",
+          "old": "PARENT_ANCHORED / OPEN",
+          "new": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope)"
+        },
+        {
+          "row": "GMI-T7",
+          "field": "exact_checker",
+          "old": "TARGET Stage D item 2 \u2014 NOT YET RUN",
+          "new": "Stage D row M1: chunking = one insert per counterexample, LOCAL_O1 writes on the whole ladder in every column; charged upd grows with store size only in linear-scan columns (P4 refinement); rev cheaper in the indexed-store column at sizes 4/8, tie at 2 (P1b partial)."
+        },
+        {
+          "row": "GMI-T8",
+          "field": "status",
+          "old": "PARENT_ANCHORED / OPEN",
+          "new": "PARENT_ANCHORED / FINITE_CERTIFIED (constants at scope)"
+        },
+        {
+          "row": "GMI-T8",
+          "field": "exact_checker",
+          "old": "TARGET Stage D item 4 \u2014 NOT YET RUN",
+          "new": "Stage D row M2: enumerate-test over a 16-program grammar with library insert; interpreter compiled from P \u222a C (no SMUGGLED op); kappa recorded; P0 ledger closes the Levin/Hutter proof-level item (5t_p + d_p\u00b7time + c_p with d_p = 40\u00b72^{l(p)+l(t_p)})."
+        },
+        {
+          "row": "GMI-T9",
+          "field": "status",
+          "old": "PARENT_ANCHORED",
+          "new": "PARENT_ANCHORED (theorem-grade flips verified at partial/full depth in P9B ledger: Gold/Pitt-Warmuth vs Angluin; Abbe et al. b\u03c1<1/8 \u21d2 SGD=PAC, b\u03c1\u00b2=\u03c9(log n) \u21d2 SGD\u2286SQ\u228aPAC; SST Thm 1; SQ\u228anoisy-PAC; Valiant/Feldman evolvability=CSQ)"
+        },
+        {
+          "row": "GMI-T10",
+          "field": "status",
+          "old": "PROVED (A, conditional) / OPEN (B) / BLOCKED (C on B)",
+          "new": "PROVED (A, conditional; hypothesis (iii) indexed store access now EXPLICIT after Stage D P4) / FINITE_CERTIFIED (B: frontier executed; handover NOT OBSERVABLE in the binding ecology \u2014 local rows dominate at every (H,r) in every column, as the axis theory predicts for PH-2 conditions) / OPEN (C)"
+        },
+        {
+          "row": "GMI-T10",
+          "field": "exact_checker",
+          "old": "TARGET Stage E (EXACT_MICROSCOPE_V1.md) with PH-REV and PH-5 frozen \u2014 NOT YET RUN",
+          "new": "STAGE_E_FRONTIER_V1.json; Stage D P4: written cells per event constant for M1/M5 on the ladder in every column (locality observable basis-independent) while charged upd grows 2-3x under linear-scan store emulation \u2014 Lemma A bounds writes, not total charged update. Codex V3 GMI-T18: common expected-cost form 'too generic' \u2014 consistent: the content is in binding costs to observables, and at this scope the binding held for writes but not for charged totals without the indexed-store hypothesis."
+        },
+        {
+          "row": "GMI-T11",
+          "field": "status",
+          "old": "PROVED (impossibility) / OPEN (positive)",
+          "new": "PROVED (impossibility) / FINITE_CERTIFIED (positive part: update_locality identifiable from write counts on the ladder in every column; charged-cost growth is NOT a basis-independent identifier)"
+        },
+        {
+          "row": "GMI-T11",
+          "field": "exact_checker",
+          "old": "TARGET: Stage D/E identifiability check \u2014 for each pair of registered signatures, does the probe family separate them? \u2014 NOT YET RUN",
+          "new": "STAGE_D_MATRIX_V1.json observables_by_row_col.writes_per_event_by_size; Codex V3 GMI-T15 (burden vectors do not identify morphology) is the same impossibility from the burden side."
+        },
+        {
+          "row": "GMI-T12",
+          "field": "status",
+          "old": "BLOCKED (on T10-B) / PARENT_ANCHORED (limits)",
+          "new": "BLOCKED / PARENT_ANCHORED (limits) \u2014 Stage F E2 exploratory: label-free search recovered local-update forms in the binding ecology and a numeric non-store form in the smooth ecology; frozen classifier criteria (store use; \u22653 cells) failed; recorded as bounded failure with revival records, not as support"
+        },
+        {
+          "row": "GMI-T12",
+          "field": "exact_checker",
+          "old": "HST exact Ev oracle (heritable-search-transformation-v1/exact) lifted to classes \u2014 TARGET after Stage E",
+          "new": "STAGE_F_BLIND_RECOVERY_V1.json (frozen budget) and _RUN2.json (declared 4x budget); ledger P4/P9B: Kirsch et al. GPICL transition axes (#tasks \u22652^13, state size, meta-batch); Chalmers 1990 and Mikulik 2020 queued as load-bearing blind-recovery / law-convergence data (W4)."
+        }
+      ]
     }
   ]
 }

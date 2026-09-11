@@ -1,0 +1,186 @@
+{
+ "claim_ceiling": "E2 exploratory at tiny scope, single search family, one basis column (B0), one seed; post-hoc label-free classification; not a confirmatory blind-recovery result (#377 \u00a713 requires matched generic search parents, multiple encodings and seeds).",
+ "declared": "V1 = frozen budget (3000/40); RUN2 = declared exploratory re-run at 4x budget after V1 returned no E_smooth winner; V1 is preserved and remains the frozen result",
+ "ecologies": {
+  "E_bind16": {
+   "all_x": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "events": 32,
+   "kind": "bind",
+   "train": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  }
+ },
+ "issue": 377,
+ "receipt_sha256": "87121035db3fe85c3a850c19c2eff70063349f0baa03e9aeb605f2ede3164391",
+ "results": {
+  "E_bind16": {
+   "best_score": 1.0,
+   "hill_steps": 80,
+   "n_random": 6000,
+   "n_winners_at_theta": 9,
+   "random_baseline_fraction_at_theta": 0.0015,
+   "theta": 1.0,
+   "topk": 12,
+   "winner_classes": [
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
+    "STORE_PLUS_NUMERIC (hybrid)",
+    "STORE_PLUS_NUMERIC (hybrid)"
+   ],
+   "winner_details": [
+    {
+     "class": "STORE_PLUS_NUMERIC (hybrid)",
+     "cost": {
+      "desc": 362,
+      "exec": 272,
+      "rev": 0,
+      "upd": 440,
+      "ver": 0
+     },
+     "f": "\"L\"",
+     "g": "[[\"INSERT\", \"y\"], [\"c2\", \"x0\"]]",
+     "max_writes": 3,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": true
+    },
+    {
+     "class": "STORE_PLUS_NUMERIC (hybrid)",
+     "cost": {
+      "desc": 362,
+      "exec": 320,
+      "rev": 0,
+      "upd": 472,
+      "ver": 0
+     },
+     "f": "[\"NEG\", \"L\"]",
+     "g": "[[\"c3\", \"out\"], [\"INSERT\", [\"NEG\", \"y\"]]]",
+     "max_writes": 3,
+     "n_fx_cells_written": 1,
+     "score": 1.0,
+     "used_store": true
+    },
+    {
+     "class": "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
+     "cost": {
+      "desc": 362,
+      "exec": 320,
+      "rev": 0,
+      "upd": 472,
+      "ver": 0
+     },
+     "f": "[\"THRESH\", \"L\"]",
+     "g": "[[\"c1\", \"kq\"], [\"INSERT\", \"y\"], [\"c3\", \"e\"]]",
+     "max_writes": 2,
+     "n_fx_cells_written": 2,
+     "score": 1.0,
+     "used_store": true
+    },
+    {
+     "class": "STORE_PLUS_NUMERIC (hybrid)",
+     "cost": {
+      "desc": 362,
+      "exec": 272,
+      "rev": 0,
+      "upd": 568,
+      "ver": 0
+     },
+     "f": "\"L\"",
+     "g": "[[\"c2\", \"out\"], [\"INSERT\", [\"SUB\", [\"ADD\", \"k1\", \"y\"], [\"OR\", \"c3\", \"k1\"]]], [\"c1\", \"kh\"]]",
+     "max_writes": 3,
+     "n_fx_cells_written": 2,
+     "score": 1.0,
+     "used_store": true
+    },
+    {
+     "class": "STORE_PLUS_NUMERIC (hybrid)",
+     "cost": {
+      "desc": 362,
+      "exec": 272,
+      "rev": 0,
+      "upd": 568,
+      "ver": 0
+     },
+     "f": "\"L\"",
+     "g": "[[\"c2\", \"kh\"], [\"INSERT\", [\"ADD\", [\"THRESH\", \"y\"], \"k0\"]], [\"c2\", \"e\"], [\"c3\", \"y\"]]",
+     "max_writes": 4,
+     "n_fx_cells_written": 2,
+     "score": 1.0,
+     "used_store": true
+    },
+    {
+     "class": "STORE_PLUS_NUMERIC (hybrid)",
+     "cost": {
+      "desc": 362,
+      "exec": 464,
+      "rev": 0,
+      "upd": 568,
+      "ver": 0
+     },
+     "f": "[\"ADD\", [\"SEL\", [\"ADD\", \"kh\", \"c2\"], [\"XOR\", \"c3\", \"L\"], \"x2\"], \"k0\"]",
+     "g": "[[\"INSERT\", [\"NOT\", [\"SUB\", \"y\", \"e\"]]], [\"c3\", \"out\"], [\"c3\", \"kq\"], [\"c1\", \"e\"]]",
+     "max_writes": 4,
+     "n_fx_cells_written": 2,
+     "score": 1.0,
+     "used_store": true
+    }
+   ]
+  }
+ },
+ "run_tag": "RUN3_BIND16",
+ "schema": "StageFBlindRecoveryV1",
+ "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)",
+ "seed": 2,
+ "status": "EXECUTED_AT_TINY_SCOPE",
+ "verdict": {
+  "F1_bind_winners_store_local": {
+   "fraction_numeric_dense": 0.0,
+   "fraction_store_local": 0.2222222222222222,
+   "holds": false
+  },
+  "F2_smooth_winners_numeric_dense": {
+   "fraction_numeric_dense": null,
+   "fraction_store_local": null,
+   "holds": false
+  },
+  "F3_handover": "NOT_OBSERVABLE__NO_STORE_LOCAL_CANDIDATE_REACHED_THETA_IN_E_SMOOTH"
+ }
+}

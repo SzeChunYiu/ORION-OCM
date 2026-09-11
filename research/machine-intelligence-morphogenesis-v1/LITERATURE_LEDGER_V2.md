@@ -2517,7 +2517,7 @@ Load-bearing quotes (verbatim from sources actually read):
 > "The memory required to compute gradients is in our graph is constant in the number of layers n, but the number of node evaluations scales with n^2." — [0] Gavranovic 2022, footnote 8 (sic)
 > "to the best of our knowledge this is the first time the connection between lenses and gradient checkpointing has been established." — [0] Gavranovic 2022, Remark 1
 > "As the current categorical framework doesn’t have a high-enough resolution to formally capture these distinctions, we seek to provide one." — [0] Gavranovic 2022, Section 1
-> "This allows optics to break down the problem of saving intermediate state into smaller pieces: each optics takes care of storing their own data. In turn, this removes the need to recompute any information, at the expense of needing more memory." — [0] Gavranovic 2022, Section 3 (sic)
+> "each optics takes care of storing their own data. In turn, this removes the need to recompute any information, at the expense of needing more memory." — [0] Gavranovic 2022, Section 3 (sic)
 
 Verification notes: Census statements for entries 1-9 are traceable to the quotes recorded in those entries. Gavranovic 2022 read partially via page queries (pages listed). Codex ledgers have no resource census of the categorical family; Codex PARENT_EXPANSION_V2 §D lists information-theoretic resource parents (Tishby, Sims, Lieder-Griffiths) which are NOT categorical and do not price learning laws.
 

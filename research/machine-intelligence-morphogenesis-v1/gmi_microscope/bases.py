@@ -100,6 +100,20 @@ P3 = Basis(
     "the lower band",
 )
 
+import copy as _copy
+
+
+def _indexed_variant(b, suffix="i"):
+    v = _copy.deepcopy(b)
+    v.name = b.name.replace("_", suffix + "_", 1)
+    v.indexed_emulation = True
+    v.note = b.note + " | DECLARED AMENDMENT R2: emulated store carries a charged binary index (1+ceil(log2(n+1)) compares per access; index maintenance on insert)"
+    return v
+
+
+B0i, B1i, B3i = _indexed_variant(B0), _indexed_variant(B1), _indexed_variant(B3)
+INDEXED_VARIANTS = {b.name: b for b in (B0i, B1i, B3i)}
+
 CANDIDATES = {b.name: b for b in (B0, B1, B2, B3)}
 PARENTS = {b.name: b for b in (U, P3)}
 ALL = {**CANDIDATES, **PARENTS}

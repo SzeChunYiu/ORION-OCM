@@ -378,4 +378,23 @@ class M5Memory(Reference):
         return (2 ** self.size) * 4
 
 
-ROWS = {"M0": M0Transducer, "M1": M1Production, "M2": M2Program, "M3": M3Particles, "M4": M4Net, "M5": M5Memory}
+class M5ListScan(M5Memory):
+    """Same phenotype as M5 (exemplar memory) but the lookup is an EXPLICIT linear-scan program over
+    S_SCAN + EQ, so its exec grows with the store even in indexed-store columns. Registered as the
+    sub-band witness candidate of RV-377-004: table-equal to M5, resource-separated at large n."""
+    row = "M5L"
+    declared = {"execution_shape": "STORE_MATCH_CYCLE", "store_discipline": "INDEXED_EXEMPLARS"}
+
+    def query(self, M, x):
+        for k, v in M.op("S_SCAN", "mem"):
+            if M.op("EQ", k, x):
+                return v
+        return M.read("default")
+
+    def parent_cost(self):
+        n = self.size
+        return {"desc": n * 3, "exec": n, "upd": 2, "ver": 4, "rev": 1, "note": "exemplar list with linear scan: n compares per lookup"}
+
+
+ROWS = {"M0": M0Transducer, "M1": M1Production, "M2": M2Program, "M3": M3Particles, "M4": M4Net, "M5": M5Memory, "M5L": M5ListScan}
+R2_LADDER = {"M0": (1, 2, 4, 8, 16), "M1": (1, 2, 4, 8, 16), "M5": (2, 4, 8, 16), "M5L": (2, 4, 8, 16), "M4": (1, 2, 4), "M3": (2, 4, 8), "M2": (2, 4, 8)}

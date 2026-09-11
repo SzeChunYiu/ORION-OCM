@@ -85,7 +85,7 @@
     },
     "M3_PROBABILISTIC": {
       "theta_type": "MIXED",
-      "update_locality": "SPARSE_SUBLINEAR",
+      "update_locality": "DENSE_LINEAR|LOCAL_O1 (see amendment SIG_V2_AMEND_1)",
       "feedback_dependence": [
         "likelihood_score"
       ],
@@ -168,5 +168,30 @@
       "why": "touching Theta(|Theta|) coordinates per event on a growing exemplar/rule/term store contradicts the store discipline; dense updates act on fixed arrays or fixed state"
     }
   ],
-  "classifier_discipline": "Frozen (sha256 in FREEZE file) before any D6 search; runs post-hoc only; receives x and E only, never a generator label; multiple membership reported as HYBRID_OR_AMBIGUOUS; none as NOVELTY_CANDIDATE_AT_K."
+  "classifier_discipline": "Frozen (sha256 in FREEZE file) before any D6 search; runs post-hoc only; receives x and E only, never a generator label; multiple membership reported as HYBRID_OR_AMBIGUOUS; none as NOVELTY_CANDIDATE_AT_K.",
+  "amendments": [
+    {
+      "amendment_id": "SIG_V2_AMEND_1",
+      "utc": "2026-09-11T11:28:31Z",
+      "changes": [
+        {
+          "signature": "M3_PROBABILISTIC",
+          "field": "update_locality",
+          "old": "SPARSE_SUBLINEAR",
+          "new": "DENSE_LINEAR (particle/trace-reweighting conditioning) | LOCAL_O1 (conjugate sufficient-statistic conditioning)",
+          "evidence": "Stage D measured M3 (particle set) rewrites every weight per event"
+        },
+        {
+          "signature": "M1_PRODUCTION vs M5_MEMORY_RETRIEVAL",
+          "field": "class relation",
+          "note": "at the Stage D scope (key-matched rules vs exemplars on a 4-input target) the two signatures are ONE class (identical Dev tables, resources within K_FLAT in every column); the store_discipline coordinate separates them only where rules generalize beyond keys \u2014 a scope obligation for the next microscope"
+        },
+        {
+          "signature": "classifier",
+          "field": "store vs cells",
+          "note": "Stage F: with |X| \u2264 number of numeric cells, cells act as an exemplar store; a classifier keyed on store-primitive USE mislabels local cell-memory forms \u2014 the locality observable (writes/event) is the robust coordinate, store use is not"
+        }
+      ]
+    }
+  ]
 }
