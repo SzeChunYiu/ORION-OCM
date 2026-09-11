@@ -38,6 +38,26 @@ def test_pareto_frontier_retains_incomparable_and_removes_dominated():
     )
 
 
+def test_higher_capability_at_identical_resources_strictly_dominates():
+    candidates = (
+        Realization("LOW_Q", True, 1.0, (2.0, 3.0)),
+        Realization("HIGH_Q", True, 2.0, (2.0, 3.0)),
+    )
+    assert tuple(c.name for c in realization_frontier(candidates, capability_floor=1.0)) == (
+        "HIGH_Q",
+    )
+
+
+def test_higher_capability_with_better_resources_strictly_dominates():
+    candidates = (
+        Realization("WEAK", True, 1.0, (4.0, 4.0)),
+        Realization("STRONG", True, 2.0, (3.0, 4.0)),
+    )
+    assert tuple(c.name for c in realization_frontier(candidates, capability_floor=1.0)) == (
+        "STRONG",
+    )
+
+
 def test_price_vectors_reverse_incomparable_winner():
     candidates = (
         Realization("A", True, 1.0, (1.0, 4.0)),
