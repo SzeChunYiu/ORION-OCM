@@ -854,3 +854,36 @@ LUNARC seeds 617–621 were already running v6.4 and are kept as descriptive rec
 worlds (s603 shift; ABC s605, s606, s613 ablation arm): v6.5 base, base + (a) only, base + (c) only.
 The base run must reproduce v6.3 exactly — the check that the log changes nothing.
 
+## v6.4 attribution — outcome (records/attribution/)
+
+| world | v6.5 base (= v6.3) | + (a) never reset the regime window | + (c) failure evidence |
+|---|---|---|---|
+| s603 shift | 1 576.8 | **1 800.4** (2 failed deployments) | 1 576.8 |
+| ABC s606 (ablation arm) | 2 077.4 | **2 760.8** (5) | 2 077.4 |
+| ABC s605 (ablation arm) | 2 761.5 | **2 930.4** (2) | 2 761.5 |
+| ABC s613 (ablation arm) | 2 612.5 | **3 066.5** (4) | 2 612.5 |
+
+The base reproduces v6.3 byte-for-byte on every world with a v6.3 record (the log changes nothing).
+**(a) is the whole regression; (c) is neutral here** and is what took FV8 from +13.7 % to +6.6 %.
+**Current controller: v6.6 = v6.3 + (c)** (failure evidence on by default).
+
+**Why (a) failed, from the attribution.** The regime reset is right at a genuine change (A → B: the
+incumbent stands down and the new regime must not be mined on the old one's corpus) and wrong only
+when an old library that was re-probed back to life stands down again inside the window (s604's
+oscillation on a mixed regime). (a) removed both.
+
+## v6.7 — incumbent-only regime reset (registered 2026-09-11, before any run)
+
+A regime change is signalled only by the stand-down of the **incumbent** — a library that was live
+when the current regime window began; a library reactivated inside the window and failing again is
+recorded as an oscillation and does not reset the corpus. One change on top of v6.6 (`M2_V67`).
+
+Predictions: **s604** — the ablation arm's regime-C cost ≤ RESET's (3 808); the four attribution
+worlds and SHIFT45 / s602 / s604-shift within ± 2 % of v6.6; **fresh K1 test** on 613–615 (laptop) and
+617–621 (LUNARC; 616 failed the ecology gate): both continual arms' regime-C cost ≤ RESET's on ≥ 7 / 8
+fresh seeds and lifetimes ≤ the fixed controller's on ≥ 7 / 8, every arm verifying every target. The
+same seeds also run v6.6 so the comparison is paired.
+**Stop rule, stated now:** if v6.7 fails the s604 diagnostic or the fresh bar, the mixed-regime
+limitation is recorded as a **boundary** — within a regime assembled from two earlier ones the
+continual arm can cost more than RESET, while its lifetime stays below RESET — and this chain ends.
+
