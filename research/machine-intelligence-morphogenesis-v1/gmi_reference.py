@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import log2
-from typing import Callable, Dict, Iterable, Mapping, Sequence, Tuple
+from typing import Callable, Iterable, Mapping, Sequence, Tuple
 
 
 Vector = Tuple[float, ...]
@@ -61,7 +61,6 @@ def pareto_frontier(points: Iterable[FrontierPoint]) -> Tuple[FrontierPoint, ...
         if any(i != j and strictly_dominates(q, p) for j, q in enumerate(pts)):
             continue
         out.append(p)
-    # deterministic output for receipts/tests
     return tuple(sorted(set(out), key=lambda p: (p.capability, p.resources)))
 
 
@@ -77,9 +76,11 @@ def profile_dominance(
     profile_a: Mapping[str, Sequence[FrontierPoint]],
     profile_b: Mapping[str, Sequence[FrontierPoint]],
 ) -> Tuple[bool, bool]:
-    """Return (a >= b on all shared ecologies, a > b somewhere).
+    """Return (A weakly dominates B on the whole family, A strictly dominates B).
 
-    The caller must register the ecology family explicitly; mismatched keys are rejected.
+    Strict family-wide dominance means weak dominance on every registered ecology and a
+    strict frontier improvement on at least one ecology. Winning one ecology while losing
+    another is a tradeoff, not strict generality dominance.
     """
 
     if set(profile_a) != set(profile_b):
@@ -90,11 +91,13 @@ def profile_dominance(
     for ecology in sorted(profile_a):
         fa = pareto_frontier(profile_a[ecology])
         fb = pareto_frontier(profile_b[ecology])
-        if not frontier_weakly_dominates(fa, fb):
+        a_over_b = frontier_weakly_dominates(fa, fb)
+        b_over_a = frontier_weakly_dominates(fb, fa)
+        if not a_over_b:
             all_weak = False
-        if frontier_weakly_dominates(fa, fb) and not frontier_weakly_dominates(fb, fa):
+        if a_over_b and not b_over_a:
             strict_somewhere = True
-    return all_weak, strict_somewhere
+    return all_weak, all_weak and strict_somewhere
 
 
 def scalar_profile_score(
