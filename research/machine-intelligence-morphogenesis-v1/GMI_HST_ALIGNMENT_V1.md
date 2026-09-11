@@ -47,23 +47,29 @@ This remains authoritative.
 
 ## 2.1 Developmental sufficient state
 
-GMI defines a quotient of legal histories relative to a registered future obligation:
+GMI forms a **developmental situation** from the current machine configuration, registered history and relevant current ecology/authority context:
 
 \[
-z_t=[h_t]_{\sim_{\mathcal O}}.
+d_t=(\chi_t,h_t,\xi_t).
 \]
 
-This is not an additional persistent store. It is an abstract semantic state used to reason about when two histories/machine states are future-equivalent.
+It then defines the task-relative semantic quotient
+
+\[
+z_t=[d_t]_{\sim_{\mathcal O}}.
+\]
+
+This is not an additional persistent store. It is an abstract semantic state used to reason about when two complete machine situations are future-equivalent under the registered obligation.
 
 Mapping into HST:
 
 ```text
-HST H_t + current runtime/configuration + relevant E_t/R_t context
-          ↓ quotient under future obligation
+HST L_t/Q_t/H_t + current runtime/configuration + relevant E_t/R_t/C context
+          ↓ future-obligation equivalence quotient
 GMI z_t
 ```
 
-The quotient may be impossible/intractable to construct exactly; it is a theory object.
+The exact quotient may be impossible/intractable to construct; it is a theory object. Practical systems may use beliefs, predictive states or other approximations.
 
 ## 2.2 Morphology
 
@@ -101,17 +107,17 @@ For task `tau`:
 
 from HST is the raw resource burden until first admissible verified solution.
 
-GMI aggregates this with capability over an ecology:
+GMI aggregates this with capability over an ecology from a developmental situation `d`:
 
 \[
-\mathcal F_M(E)=Pareto\{(Q,\mathbf B)\}.
+\mathcal F_M(E\mid d)=Pareto\{(Q,\mathbf B)\}.
 \]
 
 Thus:
 
 ```text
 HST measures how development transforms future search burden.
-GMI embeds that burden in an intelligence/generality profile across ecologies.
+GMI embeds that burden in an intelligence/generality profile across ecologies and situations.
 ```
 
 ---
@@ -153,7 +159,7 @@ constitutional/governance boundary
 ## GMI child work owns
 
 ```text
-task-relative developmental-state equivalence/minimality
+task-relative developmental-situation equivalence/minimality
 morphology-as-realization/factorization semantics
 capability-resource frontier / generality preorder
 known-form specialization maps
@@ -172,6 +178,7 @@ The combined theory can be drawn as:
 \boxed{
 \begin{array}{c}
 \text{HST developmental state }\Sigma_t\\
+\downarrow\ \text{construct complete developmental situation }d_t\\
 \downarrow\ \text{future-obligation quotient / semantics}\\
 \text{GMI developmental sufficient state } z_t\\
 \downarrow\ \text{resource-bounded realization}\\
@@ -179,13 +186,13 @@ The combined theory can be drawn as:
 \downarrow\ \text{interaction + development}\\
 \text{verified capability/resource trajectories}\\
 \downarrow\\
-\text{developmental frontier }\mathcal F_M(E)\\
+\text{developmental frontier }\mathcal F_M(E\mid d)\\
 \downarrow\\
 \text{generality profile over }\mathfrak E
 \end{array}}
 \]
 
-Experience transforms `Sigma`, hence potentially `z`, `M`, the frontier, and eventually the process that changes them.
+Experience transforms `Sigma` and the concrete machine situation, hence potentially `z`, `M`, the frontier, and eventually the process that changes them.
 
 ---
 
