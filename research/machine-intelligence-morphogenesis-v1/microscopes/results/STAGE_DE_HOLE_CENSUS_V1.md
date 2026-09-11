@@ -14,8 +14,15 @@
 | STAGE_DE_SMOOTH_V6_SYM5.json | smooth [0.3125, 0.3125, 0.3125, 0.3125] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a |  |
 | STAGE_DE_SMOOTH_V6_SYM7.json | smooth [0.4375, 0.4375, 0.4375, 0.4375] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a |  |
 | STAGE_DE_SMOOTH_V6_SYM8.json | smooth [0.5, 0.5, 0.5, 0.5] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a |  |
+| STAGE_DE_SMOOTH_V7_PARITY_COSET_XOR.json | parity  | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | — | HOLE |
+| STAGE_DE_SMOOTH_V7_PARITY_MIXED_XOR.json | parity  | unseen | [0, 3, 5, 6, 7, 11, 13, 14] | S6 |  |
+| STAGE_DE_SMOOTH_V7_SMOOTH3_XOR.json | smooth [0.5, 0.25, -0.5, 0.375] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S4 |  |
+| STAGE_DE_SMOOTH_V8_SMOOTH3_H.json | smooth [0.5, 0.25, -0.5, 0.375] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S4, S5h |  |
 | STAGE_DE_SMOOTH_V8_SYM3_H.json | smooth [0.1875, 0.1875, 0.1875, 0.1875] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S4, S5h |  |
 | STAGE_DE_SMOOTH_V8_SYM5_H.json | smooth [0.3125, 0.3125, 0.3125, 0.3125] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S5h |  |
+| STAGE_DE_SMOOTH_V8_SYM7_H.json | smooth [0.4375, 0.4375, 0.4375, 0.4375] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S5h |  |
+| STAGE_DE_SMOOTH_V8_SYM8_H.json | smooth [0.5, 0.5, 0.5, 0.5] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a |  |
+| STAGE_DE_SMOOTH_V9_SMOOTH3_H_SHRFIX.json | smooth [0.5, 0.25, -0.5, 0.375] | unseen | [0, 3, 5, 6, 9, 10, 12, 15] | S2a, S4, S5h |  |
 
 Predicted occupant property per hole kind (declared before any occupant row): {
 "parity": "closure under the target algebra (XOR-linear identification); admissible only where the seen inputs span GF(2)^4",
