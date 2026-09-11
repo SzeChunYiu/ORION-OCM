@@ -1,0 +1,27 @@
+{
+  "schema": "ExactEcologyBiasAlignmentV1",
+  "ecology": "P_p=[p/2,p/2,(1-p)/2,(1-p)/2]",
+  "structured_prior": [0.4,0.4,0.1,0.1],
+  "uniform_prior": [0.25,0.25,0.25,0.25],
+  "per_task_proxy": "ideal surprisal / code length = -ln Q(h)",
+  "lifetime_cost": "C_M = C_build(M) + H * E_{h~P}[ -ln Q_M(h) ]",
+  "identity": "E[-ln Q]=H(P)+D_KL(P||Q)",
+  "phase_boundary": "p*(H,B) = [ln(2.5)+B/H]/ln(4)",
+  "rows": [
+    {"horizon":1,"structured_build_cost":1.0,"p_star":1.382311567888163,"structured_can_win_for_p_in_[0,1]":false,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":2,"structured_build_cost":1.0,"p_star":1.021637807665922,"structured_can_win_for_p_in_[0,1]":false,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":4,"structured_build_cost":1.0,"p_star":0.8413009275548017,"structured_can_win_for_p_in_[0,1]":true,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":8,"structured_build_cost":1.0,"p_star":0.7511324874992414,"structured_can_win_for_p_in_[0,1]":true,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":16,"structured_build_cost":1.0,"p_star":0.7060482674714613,"structured_can_win_for_p_in_[0,1]":true,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":64,"structured_build_cost":1.0,"p_star":0.6722351024506262,"structured_can_win_for_p_in_[0,1]":true,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"},
+    {"horizon":256,"structured_build_cost":1.0,"p_star":0.6637818111954175,"structured_can_win_for_p_in_[0,1]":true,"winner_if_p_above_threshold":"STRUCTURED","winner_if_p_below_threshold":"UNIFORM"}
+  ],
+  "interpretation": [
+    "At long horizons, a biased morphology wins when the ecology places enough mass on the hypotheses that morphology favors.",
+    "At short horizons, the structured morphology's build cost can prevent it from winning even under a favorable ecology.",
+    "This is an information-theoretic/amortization calibration, not a novel morphology law.",
+    "Track B must derive Q/K/c from morphology structure and predict them prospectively; assuming the priors by hand is insufficient."
+  ],
+  "terminal": "ECOLOGY_BIAS_ALIGNMENT_PHASE_EXACT__INFORMATION_THEORY_PARENT",
+  "claim_ceiling": "analytic calibration of bias/ecology/lifetime interaction"
+}
