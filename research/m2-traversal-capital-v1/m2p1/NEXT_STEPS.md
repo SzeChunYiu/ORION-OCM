@@ -65,8 +65,14 @@ set no learner can mine (ledger 58). No further controller revision is registere
    - **RSI-6 re-score** — **done**, and superseded by RSI-7 (active 0.818 at 2.93 per verified
      improvement). Note the file convention: `rsi/RSI{N}_*.json` holds generations G0…G{N-1}, so
      `RSI8_*.json` is RSI-7's own data file, not an unwritten result.
-   - **The P=6 analogue** — **still open.** Its first run was retracted for a budget defect
-     (`CORE.md`); no completed P=6 analogue is recorded in this lane.
+   - **The P=6 analogue** — **CLOSED, and it completed long ago.** Only the *first* run was
+     retracted for a budget defect (`CORE.md`); the analogue then ran to completion.
+     [D2_REGISTERED_GRAMMAR.md](D2_REGISTERED_GRAMMAR.md) records **6 seeds** (1000–1002,
+     1010–1012) under `PRIMS6 = (inc, dec, double, square, triple, neg)`, **all
+     `BENEFIT_SURVIVES_AT_D2`**, benefit not decaying from d=1 to d=2 on any seed; records
+     `records/EXT_DISTANCE_*.json`. Research analogue, EXACT_MATCH-controlled — not the
+     registered grammar. (An earlier revision of this file called it open; that was an absence
+     claim made from a retraction line without searching for the result by name.)
 
 ## What would still falsify the picture
 
