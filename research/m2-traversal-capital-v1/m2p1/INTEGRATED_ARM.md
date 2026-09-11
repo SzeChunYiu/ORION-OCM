@@ -597,3 +597,43 @@ wide margin (hc01, hc05) it works.
 matters, and the bootstrap shows the tuning stream itself points the wrong way there. What decides those worlds is **mining coverage**: MDL compression drops 3-chunks that the deployed probe
 needs, and frequency mining drops others. The next registered attempt belongs at mining (a library that keeps the
 chunks the probe cannot reconstruct within its depth), not at the controller, and it must be tested on fresh worlds.
+
+## Mining coverage: how much a better library could buy (diagnostic, records/m2p2_gf_coverage/)
+
+This diagnostic sizes the lever that ledger row 58 points to. It is **not** a registered result: it runs on the eight worlds that
+falsified target (3), on the same dev state (LUNARC 3599534 and 3599667; runner `m2p2_gf/m2p1_runner_gfu.py`, sha
+`4bb7a173`, which is the guided-first runner plus two arm families). `PARENT_GF_D4` was re-run as an identity check and
+reproduces 3598971 on all eight worlds.
+
+- `PARENT_GFU_D*` serves the union of the MDL and frequency libraries. **It is not constructible on six worlds:** the
+  registered `GeneratorMethod` caps a library at 16 fragments, and the frequency library alone is already 16, so the union
+  is 17–19. Those six worlds are CANNOT_CHECK by the frozen unit, not by choice. On hc03 and hc09, where the union is exactly
+  16, it is worse than either library alone (hc03 9 426 vs 3 593; hc09 5 884 vs 3 344). Every added fragment widens each
+  enumeration level, so a bigger library does not fix coverage.
+- `PARENT_GFO_D*` serves the author's true hidden chunk set. It is **calibration only**, since no learner can know the
+  chunks, and it measures what perfect chunk recovery would buy.
+
+| world | true chunks, depth 4 | best real parent | oracle vs best real parent |
+|---|---|---|---|
+| hc01-binary-ladder | 2 164 | 1 632 `GFQ_D3` | +32.6 % |
+| hc02-square-shift | 3 113 | 9 745 `GF_D4` | **−68.1 %** |
+| hc03-shift-runs | 6 560 | 3 593 `GF_D4` | +82.6 % |
+| hc05-long-form | 5 905 | 6 398 `GF_D4` | −7.7 % |
+| hc06-decoy-pair | 3 989 | 2 546 `GF_D4` | +56.7 % |
+| hc08-drawn-lot-b | 1 681 | 12 891 `GF_D4` | **−87.0 %** |
+| hc09-negative-ladder | 2 487 | 3 344 `GFQ_D4` | −25.6 % |
+| hc10-quartic-climb | 2 311 | 8 576 `GF_D4` | **−73.1 %** |
+
+(Depth 3 with the true chunks is far worse everywhere: most targets need four tokens.)
+
+**Reading.**
+- **The headroom is real, and it is at mining.** On five worlds a better library would cut cost by 8–87 %, and by more
+  than two-thirds on hc02, hc08 and hc10. None of it is reachable by the controller, whose parts ledger rows 55–57
+  showed to be neutral or negative.
+- **"Recover the hidden chunks" is the wrong target.** On hc01, hc03 and hc06 the mined libraries beat the true chunk
+  set by 33–83 %. Compression finds longer, composite fragments that serve the scored stream better than the author's
+  own chunks. The objective a miner should optimise is the deployed probe cost on the stream, not chunk recovery.
+- **What this does and does not license.** A learned library is a parent's object (DreamCoder / Stitch). Mining the
+  deployed-cost-optimal library from history would be a gain in history-induced search capital (target (2) / C2).
+  It would not be an OCM-specific residual (target (3)) unless it beats the strongest library-learning parent on fresh
+  worlds. Any such attempt is registered before its run and tested prospectively, never on these eight worlds.
