@@ -1040,3 +1040,76 @@ closes: K1 on mixed regimes is NOT_ESTABLISHED at this grammar for the continual
 next attempt must be a different mechanism class (for example an explicit regime-change detector),
 not another retry or retirement flag.
 
+## Outcomes of the v6.8 / v6.9 registrations (2026-09-11; every arm verifies every target)
+
+**K1-v6.8 confirmation (fresh seeds 634–645, all 12 gated; records/k1v68conf/) — FAILED.** Full-arm
+lifetime below the fixed controller **8 / 12** (bar ≥ 10 / 12); below RESET 12 / 12; regime-C cost at or
+below RESET **7 / 12** (bar ≥ 9 / 12). **The registered stop rule fires: K1 on mixed regimes is
+NOT_ESTABLISHED at this grammar.** This is recorded as the outcome, not as pending a later version.
+
+**v6.8 diagnostic (records/k1diag/) — second bar FAILED.** On s623 / s626 / s628 / s629, +d+e cut the full
+arm's regime-C cost on all four (9 417 → 5 223, 10 054 → 4 635, 9 751 → 6 444, 7 726 → 5 311), but below
+RESET on **0 / 4** (registered ≥ 3 / 4). Lifetimes stay 13–34 % above the fixed controller on all four.
+
+**v6.8 FV8 regression:** 58 325 vs 59 741 (−2.4 %).
+
+**v6.9 regressions — E7 → E8m7 FALSIFIED.** 20 511 against the registered ≤ 14 732 (v6.8: 21 921). (f)
+worked as stated — the stood-down library was retired at 40 and a new one deployed at 49 — but the
+residual gap is d's later schedule: the early failed attempts on this pair were **uncharged**, so d's
+spacing bought nothing and delayed the first deployment from 24 to 28. Every other regression was
+identical to or cheaper than v6.8: SHIFT45 1 497, s602 1 642, s603 1 538, s604 1 891, A→B→C s604 3 478,
+s613 2 135, s614 2 038, s615 2 108, E5 414, FV6 2 103, FV8 58 325, E5 → E7 29 974, E8m7 → E7 30 028.
+v6.9 diagnostic: regime-C at or below +d+e on 4 / 4 (identical on three; s628 6 296 vs 6 444) — passed.
+*Latent limitation seen in the logs:* in the shift worlds the regime-B library stands down at 91–92, just
+after the return to A, and (f) classes that as an in-regime stand-down and retires it; costless in these
+lifetimes, but a lifetime returning to B a second time would have to re-mine instead of paying one probe.
+
+**K1-v6.9 confirmation (fresh seeds 646–657, all 12 gated; records/k1v69conf/) — FAILED.** Lifetime
+below the fixed controller **11 / 12**; below RESET 12 / 12; regime-C at or below RESET **5 / 12** (bar ≥ 9 / 12).
+Per the v6.9 stop rule the flag-level revision chain for mixed-regime K1 is **closed**.
+
+## CORRECTED: the primary cause of the K1-v6.6 falsification is a failure-evidence lock-out
+
+The attribution recorded above (retry spacing; oscillation) was secondary. The v6.4(c) / v6.6
+failure-evidence bar requires a candidate to tile **more** validation tasks than the best library that
+failed in deployment. With `val_n` = 8, a failed library that tiled 8 / 8 sets a bar of 8 that **no
+candidate can clear**, and the bar is never lowered. From then on every re-mining attempt still charges its
+validation probes and cannot deploy: s623's first such attempt had an MDL candidate winning 8 / 8 with a
+positive lower bound, refused. Charges on these impossible attempts: s623 253 877, s626 210 441, s628
+251 482, s629 95 567 (0.7–1.9 k per target of lifetime); d only halves their number.
+
+*Observational separation, pooled over K1-v6.6 / v6.8 / v6.9 (three runner versions, 35 seeds):* every
+seed that entered the lock-out lost to the fixed controller (**7 / 7**); seeds that never entered it beat
+the fixed controller on **25 / 28**. The causal test is v6.10 below. The regime-C bar is a separate
+negative: six seeds with no lock-out still pay more than RESET in C — the recombination regime already
+recorded as C3 NOT_ESTABLISHED.
+
+## continual_v6.10 (registered 2026-09-11, before any v6.10 run)
+
+Registered after K1-v6.9's outcome and after its stop rule closed the flag chain. It is **not** a further
+K1 revision and cannot rescue v6.6 / v6.8 / v6.9: it repairs a defect found in the evidence (the lock-out),
+and it tests a **narrower, separately named claim**, stated here before its run.
+
+- **(h) futility bar** (`M2_V610H`): a candidate whose tilable count cannot clear the failure-evidence bar is
+  not probed — the bar is the third conjunct of the deployment criterion and is known before any probe.
+  **Decision-invariant by construction.** Falsifier: on every run, the deploy / stand-down / retirement /
+  reactivation log must be **identical** to v6.9 (the `chosen` field of failed re-mining events is exempt: a
+  skipped candidate reports zero wins, so the reported best of a failed attempt can differ); lifetime never
+  higher, and lower by at least the impossible-attempt charge over the target count on lock-out seeds.
+  (h) alone is **not** predicted to beat the fixed controller.
+- **(i) regime-scoped failure evidence** (`M2_V610I`): the bar is reset when a new regime begins (where
+  retirements are already lifted). Behavioural. Predicted **inert** (identical results) where no regime
+  reset follows a failed deployment: the three cross-world pairs, E5 and FV6.
+- **Diagnostic** (LUNARC, one variable at a time on top of v6.9): h / i / h+i on the seven lock-out seeds
+  (623, 626, 628, 629, 636, 642, 647) and three identity controls (634, 640, 646). Prediction for h+i:
+  lifetime below the fixed controller on ≥ 5 / 7 lock-out seeds.
+- **Claim under test — K1-L, lifetime advantage on mixed regimes** (narrower than K1, which stays
+  NOT_ESTABLISHED): on new fresh seeds 658–669 under h+i, full-arm lifetime below the fixed controller on
+  ≥ 10 / 12 gated seeds and below RESET on every one, every arm verifying every target. The regime-C bar is
+  **not** predicted to pass and is reported alongside. Regressions: everything above identical to v6.9 under
+  (h), and within + 2 % of v6.9 under h+i. Stop rule: if K1-L fails, the lifetime claim on mixed regimes is
+  NOT_ESTABLISHED at this grammar too.
+
+Defaults remain continual_v6.6 throughout, so the standing positives — regime-shift lifetimes (12 / 12) and
+cross-world acquisition (3 / 3 pairs) — are unaffected by any of the above.
+

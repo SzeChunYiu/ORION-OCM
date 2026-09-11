@@ -60,3 +60,10 @@ controller (hc10 loses by 28 % under controller_v4), not 8 / 8; controller_v5 is
 (6 / 11 below the fixed controller); v6.8 is registered with a stop rule. The rung remains C2; the
 K1 claims that stand are regime shifts (12 / 12) and cross-world acquisition (3 / 3).
 
+**Update (2026-09-11, night).** K1 on mixed regimes failed confirmation twice (v6.8: 8/12 below fixed,
+regime-C 7/12; v6.9: 11/12, regime-C 5/12). The registered stop rule fired: **K1 on mixed regimes is
+NOT_ESTABLISHED at this grammar.** The primary cause of the earlier falsification is corrected to a
+failure-evidence lock-out. A narrower lifetime claim (K1-L) is registered under continual_v6.10 with its
+own stop rule. The rung remains **C2**; the standing K1 positives are regime shifts (12/12) and
+cross-world acquisition (3/3), both under the unchanged v6.6 defaults.
+
