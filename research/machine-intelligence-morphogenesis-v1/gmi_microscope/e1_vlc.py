@@ -41,6 +41,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(os.path.dirname(HERE), "microscopes", "results")
 N_F = 4
 SCOPES = list(itertools.combinations(range(N_F), 2))
+SCOPES_BY_SIZE = {1: [(i,) for i in range(N_F)], 2: SCOPES, 4: [tuple(range(N_F))]}
 COEFF_VALUES = [fx(v) for v in (0.25, 0.5, 0.75, 1.0)]
 THETA = 0.85
 H_GRID = [1, 2, 4, 8, 16, 32, 64, 128]; U_GRID = [0, 1, 2, 4, 8, 16, 32]
@@ -71,8 +72,11 @@ def x_single(i, p):
 
 
 DEV_EVENTS = [(x_single(i, p), tuple(sorted((i, j)))) for i in range(N_F) for p in ((1, 0), (0, 1)) for j in range(N_F) if j != i]  # 24 events
-EVAL_QUERIES = [(x, s) for s in SCOPES for x in (0b11111111, 0b11110101, 0b01011111, 0b11010111)]  # unseen-pattern inputs
+EVAL_X = (0b11111111, 0b11110101, 0b01011111, 0b11010111)
+EVAL_QUERIES = [(x, s) for s in SCOPES for x in EVAL_X]  # unseen-pattern inputs
 UNAFFECTED_PROBES = [(x, s) for s in SCOPES for x in (0b00010110, 0b01100001)]
+EVAL_BY_SIZE = {k: [(x, s) for s in v for x in EVAL_X] for k, v in SCOPES_BY_SIZE.items()}
+PROBES_BY_SIZE = {k: [(x, s) for s in v for x in (0b00010110, 0b01100001)] for k, v in SCOPES_BY_SIZE.items()}
 
 
 class Learner:
@@ -124,10 +128,12 @@ class MonoCompiled:
     def init(self, M):
         self.L = Learner(M); M.declare_store("table"); M.declare_program(6); self.built = False
 
+    scopes = SCOPES
+
     def _build(self, M):
         M.stores["table"] = []
         for x in range(256):
-            for s in SCOPES:
+            for s in self.scopes:
                 M.op("S_INSERT", "table", (x, s), clamp(sum(self.L.value(i, x) for i in s)))
         self.built = True
 
@@ -288,23 +294,26 @@ CELLS = {  # updates U, cone size, retention price lambda (per wrong answer serv
 }
 
 
-def run(row, basis, U, cone, seed=0):
+def run(row, basis, U, cone, seed=0, scope_size=2):
     """One lifecycle: development, then U revision rounds (each: revise `cone` factors, 3 fresh feedback events per factor,
-    probe the unaffected queries before/after to measure collateral regression). Returns per-phase charges, capability, regression."""
+    probe the unaffected queries before/after to measure collateral regression). Returns per-phase charges, capability, regression.
+    scope_size selects the query family (RV-377-036 collision cells): 1 = local single-factor queries, 2 = registered pairs, 4 = global."""
     ref = ROWS[row](); M = Machine(basis, seed=seed)
+    if row == "MONO_C": ref.scopes = SCOPES_BY_SIZE[scope_size]
+    EVALQ = EVAL_BY_SIZE[scope_size]; PROBES = PROBES_BY_SIZE[scope_size]
     coeffs = [(COEFF_VALUES[(2 * i) % 4], COEFF_VALUES[(2 * i + 1) % 4]) for i in range(N_F)]
     M.phase("exec"); ref.init(M)
     for x, s in DEV_EVENTS:
         M.phase("upd"); ref.feedback(M, x, s, truth(coeffs, x, s)); M.end_event()
     M.phase("exec")
-    for x, s in EVAL_QUERIES: ref.query(M, x, s)
+    for x, s in EVALQ: ref.query(M, x, s)
     n_probe = 0; regress = 0; wrong = 0; abstain = 0
     for u in range(U):
         factors = [(u + j) % N_F for j in range(cone)]
-        before = {q: ref.query(M, *q) for q in UNAFFECTED_PROBES if not (set(q[1]) & set(factors))}
+        before = {q: ref.query(M, *q) for q in PROBES if not (set(q[1]) & set(factors))}
         for i in factors: coeffs[i] = (COEFF_VALUES[(coeffs[i][0] // 4 + 1 + u) % 4], COEFF_VALUES[(coeffs[i][1] // 4 + 2 + u) % 4])
         M.phase("rev"); ref.revise(M, factors); M.end_event()
-        affected = [q for q in EVAL_QUERIES if set(q[1]) & set(factors)]
+        affected = [q for q in EVALQ if set(q[1]) & set(factors)]
         for i in factors:
             for p in ((1, 0), (0, 1), (0, 0)):
                 x = x_single(i, p); j = (i + 1) % N_F; s = tuple(sorted((i, j)))
@@ -318,15 +327,52 @@ def run(row, basis, U, cone, seed=0):
         for q, v in before.items():
             n_probe += 1; after = ref.query(M, *q); regress += 0 if (after is not None and M.op("EQ", after, v)) else 1
         M.phase("exec")
-        for x, s in EVAL_QUERIES: ref.query(M, x, s)
-    M.phase("exec"); final = {q: ref.query(M, *q) for q in EVAL_QUERIES}
-    cap = sum(int(final[q] is not None and abs(final[q] - truth(coeffs, *q)) <= 1) for q in EVAL_QUERIES) / len(EVAL_QUERIES)
-    n_q = len(EVAL_QUERIES) * (U + 1) + (U * 3 * cone * len(EVAL_QUERIES) // 2)
+        for x, s in EVALQ: ref.query(M, x, s)
+    M.phase("exec"); final = {q: ref.query(M, *q) for q in EVALQ}
+    cap = sum(int(final[q] is not None and abs(final[q] - truth(coeffs, *q)) <= 1) for q in EVALQ) / len(EVALQ)
+    n_q = len(EVALQ) * (U + 1) + sum(1 for _ in range(U) for _ in range(3 * cone) for q in EVALQ) * 0 + (U * 3 * cone * len([q for q in EVALQ]) * 0)
+    n_q = len(EVALQ) * (U + 1) + U * 3 * cone * len([q for q in EVALQ if True]) // (2 if scope_size == 2 else (4 if scope_size == 1 else 1))
     desc_state = sum(M.basis.desc_bits(M.cell_types[n]) for n in M.cells) + sum(M.basis.desc_store_header + len(st) * M.basis.desc_store_entry for st in M.stores.values())
-    return {"row": row, "basis": basis.name, "U": U, "cone": cone, "R": dict(M.L.c), "desc_state": desc_state, "capability": round(cap, 4), "regressions": regress, "n_probes": n_probe,
+    return {"row": row, "basis": basis.name, "U": U, "cone": cone, "scope_size": scope_size, "R": dict(M.L.c), "desc_state": desc_state, "capability": round(cap, 4), "regressions": regress, "n_probes": n_probe,
             "wrong_served_in_window": wrong, "abstained_in_window": abstain,
             "per_query_exec": M.L.c["exec"] / n_q, "per_update": {k: (M.L.c[k] / U if U else 0) for k in ("upd", "ver", "rev")}, "regress_per_update": (regress / U if U else 0),
             "wrong_per_update": (wrong / U if U else 0), "abstain_per_update": (abstain / U if U else 0), "rejected_swaps": getattr(ref, "rejected", None)}
+
+
+COLLISION_CELLS = {  # RV-377-036: ChatGPT gate G1 / theorem MN5 — query geometry x update geometry, retention price 256, H = 64
+    "CQU1_LOCAL_U_LOCAL_Q": {"U": 8, "cone": 1, "lambda": 256, "H": 64, "scope_size": 1},
+    "CQU2_LOCAL_U_GLOBAL_Q": {"U": 8, "cone": 1, "lambda": 256, "H": 64, "scope_size": 4},
+    "CQU3_GLOBAL_U_LOCAL_Q": {"U": 8, "cone": 4, "lambda": 256, "H": 64, "scope_size": 1},
+    "CQU4_GLOBAL_U_GLOBAL_Q": {"U": 8, "cone": 4, "lambda": 256, "H": 64, "scope_size": 4},
+}
+COLLISION_ROWS = ("MONO_C", "MOD_U", "VLC")
+
+
+def main_collision(tag="V17_E1_CQU", seed=0):
+    cols = list(bases.ALL); cells = {}
+    for cell, spec in COLLISION_CELLS.items():
+        for row in COLLISION_ROWS:
+            for col in cols: cells[(cell, row, col)] = run(row, bases.ALL[col], spec["U"], spec["cone"], seed, spec["scope_size"])
+    frontier = {}; adm = {}
+    for cell, spec in COLLISION_CELLS.items():
+        for col in cols:
+            rows_adm = [row for row in COLLISION_ROWS if cells[(cell, row, col)]["capability"] >= THETA]; adm[f"{cell}|{col}"] = rows_adm
+            for Hh in H_GRID:
+                for Uu in U_GRID:
+                    c2 = {row: lifecycle_cost(cells[(cell, row, col)], Hh, Uu, spec["lambda"]) for row in rows_adm}
+                    frontier[f"{cell}|{col}|H={Hh}|U={Uu}"] = sorted(r for r, c in c2.items() if c <= min(c2.values()) + 1e-9) if c2 else []
+            costs = {row: lifecycle_cost(cells[(cell, row, col)], spec["H"], spec["U"], spec["lambda"]) for row in rows_adm}
+            frontier[f"{cell}|{col}"] = sorted(r for r, c in costs.items() if c <= min(costs.values()) + 1e-9) if costs else []
+    c2 = {f"{cell}|{row}": all(cells[(cell, row, col)]["capability"] == cells[(cell, row, cols[0])]["capability"] and cells[(cell, row, col)]["wrong_served_in_window"] == cells[(cell, row, cols[0])]["wrong_served_in_window"] for col in cols) for cell in COLLISION_CELLS for row in COLLISION_ROWS}
+    receipt = {"schema": "StageE1CollisionV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "related": [418, 419], "revival_record": "RV-377-036", "run_tag": tag,
+               "cells_spec": COLLISION_CELLS, "rows": list(COLLISION_ROWS), "C2": c2, "cells": {f"{cell}|{row}|{col}": {k: v for k, v in r.items() if k not in ("row", "basis")} for (cell, row, col), r in cells.items()},
+               "admissible": adm, "frontier": frontier, "claim_ceiling": "exact charged lifecycle; MN5's construction executed with learned factors; three organizations"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_E1_{tag}.json"), "w"), indent=1, sort_keys=True, default=str)
+    print("C2 all:", all(c2.values()))
+    for cell in COLLISION_CELLS:
+        print(cell, {row: cells[(cell, row, cols[0])]["capability"] for row in COLLISION_ROWS}, "| frontier H=64:", {c.split('_')[0]: frontier[f"{cell}|{c}"] for c in cols}, "| H=128,U=0:", {c.split('_')[0]: frontier[f"{cell}|{c}|H=128|U=0"] for c in cols})
+    return receipt
 
 
 def lifecycle_cost(r, H, U, lam_wrong, lam_abstain=None):
@@ -373,4 +419,6 @@ def main(tag="V13_E1_VLC", seed=0):
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "collision": main_collision()
+    else: main()
