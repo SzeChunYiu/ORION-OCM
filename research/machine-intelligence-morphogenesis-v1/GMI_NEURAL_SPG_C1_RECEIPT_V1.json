@@ -1,0 +1,120 @@
+{
+  "schema": "GMINeuralSPGC1ReceiptV1",
+  "protocol": {
+    "path": "research/machine-intelligence-morphogenesis-v1/GMI_NEURAL_SPG_PROTOCOL_V1.md",
+    "git_blob_sha1": "618338f54b02ba9844be19dfb6014312a3af98f0",
+    "freeze_commit": "6449fcf940796315949603662151bcf05edde5f4",
+    "pilot_disclosure": "pilot seeds 100..111 / 200..219 / 300..319 were exploratory only and excluded from C1"
+  },
+  "executable": {
+    "path": "research/machine-intelligence-morphogenesis-v1/gmi_neural_spg_c1.py",
+    "git_blob_sha1": "f87ca6363026d83ee756cef9461965382be17d31",
+    "commit_before_registered_execution": "0b04c791188c97f282ccc3c2edf3aa834c301247"
+  },
+  "registered_config": {
+    "input_dimension": 20,
+    "latent_dimension": 4,
+    "latent_matrix_seeds": {"A1": 17, "A2": 23},
+    "development_task_seeds": [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011],
+    "development_examples_per_task": 512,
+    "pretraining_steps": 1200,
+    "pretraining_batch_size": 64,
+    "pretraining_optimizer": "Adam",
+    "pretraining_learning_rate": 0.03,
+    "replicate_seeds": [41,42,43,44],
+    "A1_target_task_seeds": [2100,2101,2102,2103,2104,2105,2106,2107,2108,2109,2110,2111],
+    "A2_target_task_seeds": [3100,3101,3102,3103,3104,3105,3106,3107,3108,3109,3110,3111],
+    "support_examples": 16,
+    "query_examples": 512,
+    "target_head_steps": 300,
+    "target_head_learning_rate": 0.05,
+    "target_head_weight_decay": 0.0001,
+    "acceptance": {
+      "min_positive_rows_each_ecology": 40,
+      "min_median_matched_gain_bits": 0.25,
+      "min_median_specificity_gap_bits": 0.25,
+      "max_median_cross_gain_bits": 0.10,
+      "oracle_headroom_required": true
+    }
+  },
+  "environment": {
+    "python": "3.13.5",
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "device": "cpu",
+    "torch_num_threads": 1,
+    "deterministic_algorithms": true
+  },
+  "spg_semantics": {
+    "semantic_candidate_space": ["LABEL_0", "LABEL_1"],
+    "semantic_target": "evaluator-known correct query label, never supplied before prediction",
+    "proposal_geometry": "Bernoulli probability of the correct semantic label after the same 16-example target support set",
+    "task_statistic": "mean -log2(correct-label probability) over 512 query examples",
+    "matched_shift": "RESET mean query surprisal - MATCHED_HISTORY mean query surprisal",
+    "cross_history_shift": "RESET mean query surprisal - CROSS_HISTORY mean query surprisal"
+  },
+  "results": {
+    "A1": {
+      "positive_matched_rows": 40,
+      "paired_row_count": 48,
+      "median_matched_gain_bits": 0.5803868174552917,
+      "median_cross_gain_bits": -0.10949945449829102,
+      "median_specificity_gap_bits": 0.6898862719535828,
+      "oracle_headroom": true,
+      "arm_summary": {
+        "MATCHED_HISTORY_NEURAL": {"mean_task_mean_surprisal_bits": 0.8966705355172356, "median_task_mean_surprisal_bits": 0.8092866241931915, "mean_accuracy": 0.7888590494791666, "mean_target_probability": 0.7661143417159716},
+        "CROSS_HISTORY_NEURAL": {"mean_task_mean_surprisal_bits": 1.836963859697183, "median_task_mean_surprisal_bits": 1.515123426914215, "mean_accuracy": 0.5696614583333334, "mean_target_probability": 0.5546944414575895},
+        "RESET_NEURAL": {"mean_task_mean_surprisal_bits": 1.5373766248424847, "median_task_mean_surprisal_bits": 1.438086450099945, "mean_accuracy": 0.5633951822916666, "mean_target_probability": 0.5495407767593861},
+        "RAW_LINEAR_PARENT": {"mean_task_mean_surprisal_bits": 1.6413908923665683, "median_task_mean_surprisal_bits": 1.7028090357780457, "mean_accuracy": 0.7185465494791666, "mean_target_probability": 0.7094850788513819},
+        "ORACLE_REPRESENTATION": {"mean_task_mean_surprisal_bits": 0.3140027231226365, "median_task_mean_surprisal_bits": 0.2774224132299423, "mean_accuracy": 0.9095052083333334, "mean_target_probability": 0.8700023628771305}
+      }
+    },
+    "A2": {
+      "positive_matched_rows": 40,
+      "paired_row_count": 48,
+      "median_matched_gain_bits": 0.6070562601089478,
+      "median_cross_gain_bits": -0.1385827660560608,
+      "median_specificity_gap_bits": 0.7456390261650085,
+      "oracle_headroom": true,
+      "arm_summary": {
+        "MATCHED_HISTORY_NEURAL": {"mean_task_mean_surprisal_bits": 0.9569636012117068, "median_task_mean_surprisal_bits": 0.854658842086792, "mean_accuracy": 0.7821044921875, "mean_target_probability": 0.7654090883831183},
+        "CROSS_HISTORY_NEURAL": {"mean_task_mean_surprisal_bits": 1.8610197678208351, "median_task_mean_surprisal_bits": 1.602273941040039, "mean_accuracy": 0.6014811197916666, "mean_target_probability": 0.5846451390534639},
+        "RESET_NEURAL": {"mean_task_mean_surprisal_bits": 1.7071298323571682, "median_task_mean_surprisal_bits": 1.4394777417182922, "mean_accuracy": 0.574951171875, "mean_target_probability": 0.5614511352032423},
+        "RAW_LINEAR_PARENT": {"mean_task_mean_surprisal_bits": 1.862193450331688, "median_task_mean_surprisal_bits": 1.6356428265571594, "mean_accuracy": 0.6902262369791666, "mean_target_probability": 0.6835790425539017},
+        "ORACLE_REPRESENTATION": {"mean_task_mean_surprisal_bits": 0.47162317267308634, "median_task_mean_surprisal_bits": 0.35512675344944, "mean_accuracy": 0.8659261067708334, "mean_target_probability": 0.8352382220327854}
+      }
+    }
+  },
+  "prediction_results": {
+    "A1.P1_positive_rows": true,
+    "A1.P1_median_gain": true,
+    "A1.P2_specificity_gap": true,
+    "A1.P3_cross_gain_ceiling": true,
+    "A1.P4_oracle_headroom": true,
+    "A2.P1_positive_rows": true,
+    "A2.P1_median_gain": true,
+    "A2.P2_specificity_gap": true,
+    "A2.P3_cross_gain_ceiling": true,
+    "A2.P4_oracle_headroom": true
+  },
+  "resource_receipt": {
+    "wall_seconds_observed_reference_execution": 39.39872384299997,
+    "history_trunks_trained": 8,
+    "pretraining_gradient_steps_per_history_trunk": 1200,
+    "total_pretraining_gradient_steps": 9600,
+    "target_task_arm_evaluations": 480,
+    "target_head_gradient_steps_per_arm_task": 300,
+    "total_target_head_gradient_steps": 144000,
+    "parameter_counts": {
+      "neural_trunk": 84,
+      "neural_target_head": 5,
+      "raw_linear_target_head": 21,
+      "development_task_heads_total": 60
+    }
+  },
+  "terminal": "NEURAL_K1_SEMANTIC_PROPOSAL_GEOMETRY_SUPPORTED_AT_REGISTERED_SYNTHETIC_SCOPE",
+  "candidate_capital_level": "K1",
+  "k2_status": "NOT_TESTED",
+  "parent_disposition": "MULTITASK_REPRESENTATION_TRANSFER_LEARNING_PARENT_OWNS_MECHANISM_CLASS",
+  "claim_ceiling": "Controlled synthetic neural representation-learning SPG/K1 result only. The same architecture-neutral pre-solution semantic geometry definition used for #323 program search transfers to a gradient-trained neural realization on a disjoint frozen grid. This is parent-owned representation learning, not K2, modern deep-network generality, resource dominance, or a universal GMI law."
+}

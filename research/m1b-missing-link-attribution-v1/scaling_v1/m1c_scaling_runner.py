@@ -564,19 +564,6 @@ def phase_analyze(run_dir: Path, rungs: tuple = None) -> dict:
         rule = (row.get("note") or "?")
         tertiary["rule_distribution"][rule] = tertiary["rule_distribution"].get(rule, 0) + 1
 
-    # ---- merged M1B invariants stay in the loop (freeze entry gate 4): the three
-    # checkers whose inputs the M1C summary carries run; the two that read M1B-only
-    # arm schemas (mirror arms / CONTINUED) are recorded NOT_APPLICABLE, never passed.
-    import m1b_invariants as IV
-    inv = {"observation_horizon": IV.observation_horizon_consistency(run_dir),
-           "amortisation_divisor": IV.amortisation_divisor_consistency(run_dir),
-           "retrieval_no_fire_no_effect":
-               {"invariant": "retrieval_no_fire_no_effect", "status": "NOT_APPLICABLE",
-                "detail": "M1C arm set has no RETR_ORACLE mirror arm"},
-           "typed_failure_cross_path":
-               {"invariant": "typed_failure_cross_path_consistency", "status": "NOT_APPLICABLE",
-                "detail": "M1C arm set has no mirror-path arms"}}
-
     # ---- frozen terminal (precedence + halting idiom)
     if receipt_binding_defects:
         terminal = "RECEIPT_BINDING_DEFECT"
@@ -612,10 +599,25 @@ def phase_analyze(run_dir: Path, rungs: tuple = None) -> dict:
                "cost_ledger_hdi14": {a: r.get("cost_ledger_hdi14", {})
                                      for a, r in reports.items()},
                "recovery_share_vs_known_structure_oracle": recovery_vs_ks,
-               "m1b_invariants": inv,
+               "m1b_invariants": {},
                "terminal": terminal,
                "wall_seconds": round(time.perf_counter() - started, 6)}
-    inv["recovery_over_unit"] = IV.recovery_over_unit_flag(summary)
+    R1.write_json(paths["summary"], summary)
+    # ---- merged M1B invariants stay in the loop (freeze entry gate 4): the
+    # checkers whose inputs the M1C summary carries run ON THE WRITTEN SUMMARY;
+    # the two that read M1B-only arm schemas (mirror arms / CONTINUED) are recorded
+    # NOT_APPLICABLE, never passed.
+    import m1b_invariants as IV
+    summary["m1b_invariants"] = {
+        "observation_horizon": IV.observation_horizon_consistency(run_dir),
+        "amortisation_divisor": IV.amortisation_divisor_consistency(run_dir),
+        "recovery_over_unit": IV.recovery_over_unit_flag(summary),
+        "retrieval_no_fire_no_effect":
+            {"invariant": "retrieval_no_fire_no_effect", "status": "NOT_APPLICABLE",
+             "detail": "M1C arm set has no RETR_ORACLE mirror arm"},
+        "typed_failure_cross_path":
+            {"invariant": "typed_failure_cross_path_consistency", "status": "NOT_APPLICABLE",
+             "detail": "M1C arm set has no mirror-path arms"}}
     R1.write_json(paths["summary"], summary)
     R1.events_append(run_dir, "analyze", "M1C_SUMMARY",
                      {"terminal": terminal, "crossing_rung": crossing_rung,

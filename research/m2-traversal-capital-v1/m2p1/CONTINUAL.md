@@ -937,3 +937,106 @@ verifies every target. **Falsifier:** fewer than 10 / 12 below the fixed control
 above RESET. Claim ceiling if it holds: in-life acquisition of a mixed regime by the current
 controller beats the fixed-library controller over a lifetime, on fresh seeds, in this grammar.
 
+## K1-v6.6 confirmation — outcome: FALSIFIED (records/k1v66conf/; every arm verifies every target)
+
+Twelve fresh seeds were registered; s630 failed the ecology gate (reported, not replaced), leaving 11.
+
+| seed | RESET life | fixed life | **full-arm life** | RESET C | full-arm C |
+|---|---|---|---|---|---|
+| 622 | 3,589 | 3,184 | **2,518** | 3,514 | 2,627 |
+| 623 | 3,551 | 2,742 | **4,719** | 3,539 | 9,417 |
+| 624 | 3,858 | 3,574 | **3,699** | 4,338 | 3,978 |
+| 625 | 3,570 | 2,352 | **1,982** | 3,502 | 2,609 |
+| 626 | 3,626 | 2,973 | **4,825** | 3,589 | 10,054 |
+| 627 | 3,577 | 3,120 | **2,497** | 3,996 | 3,798 |
+| 628 | 3,481 | 2,506 | **4,466** | 3,151 | 9,751 |
+| 629 | 3,555 | 2,724 | **4,296** | 3,780 | 7,726 |
+| 631 | 3,468 | 2,706 | **2,024** | 3,338 | 3,053 |
+| 632 | 3,592 | 2,791 | **2,308** | 3,329 | 3,307 |
+| 633 | 3,658 | 2,688 | **2,289** | 3,887 | 4,048 |
+
+| bar | registered | measured |
+|---|---|---|
+| full-arm lifetime below the fixed controller | ≥ 10 / 12 | **6 / 11** |
+| full-arm lifetime below RESET | every seed | **7 / 11** |
+| full-arm regime-C cost at or below RESET | ≥ 9 / 12 | **6 / 11** |
+
+The 8 / 8 on the seeds that suggested the claim did not replicate on fresh seeds — the reason it was
+registered for confirmation rather than promoted. On four seeds (s623, s626, s628, s629) the full arm's
+regime-C cost is 2.2–2.8 × RESET.
+
+**Attribution (liveness logs and per-target excess, records/k1v66conf/).** Two defects, both visible:
+(i) **retry spacing** — v4.2 retries a failed re-mining attempt after `min_new − min_new_after_fail`
+new solutions and v6.2 lowered `need` to 12 when a pool exists, so the two composed into an attempt
+every **4** targets instead of the intended 8; on s623 and s628 each failed validation charged
+35–60 k (targets 109, 113, 117, 121, 125, 129); (ii) **oscillation of a library already recorded as
+failing in deployment** — v6.4(c) raises the bar for *new* candidates but the failed library itself keeps
+being re-probed back to life (s629: five `failed_deployment` events on the same library; s626: the
+β = 8 420 library re-probed every cadence).
+
+## continual_v6.8 (registered 2026-09-11, before any run)
+
+(d) after a failed attempt the retry comes after `min_new_after_fail` **new** solutions whatever `need`
+is (a composition bug, fixed to its stated intent); (e) a library that failed in deployment is
+**retired** — not re-probed — until a regime change lifts retirements. Flags `M2_V68D`, `M2_V68E`;
+defaults unchanged until validated.
+
+*Diagnostic (one variable at a time; the failing seeds, not confirmation):* s623, s626, s628, s629 under
+base / +d / +e / +d+e from the same dev states; registered expectation: +d+e cuts the full arm's
+regime-C cost on all four and below RESET on ≥ 3 / 4. *Regressions:* SHIFT45 / s602 / s603 / s604,
+E5, FV6, FV8 and the three cross-world pairs within ± 2 % of v6.6. **K1-v6.8 confirmation** on new
+fresh seeds 634–645 (LUNARC; five arms, full dev phase): the same bars as K1-v6.6, unchanged —
+full-arm lifetime below the fixed controller on ≥ 10 / 12 of the seeds that pass the gate, below RESET
+on every one, regime-C at or below RESET on ≥ 9 / 12, every arm verifying every target.
+**Stop rule, stated now:** if K1-v6.8 fails, the continual controller's K1 claim on mixed regimes is
+recorded **NOT_ESTABLISHED at this grammar**; the continual-development claim stays scoped to regime
+shifts (12 / 12 lifetimes) and cross-world acquisition (3 / 3 pairs).
+
+## continual_v6.8 regressions — outcome: one registered bar FAILED (laptop billy, billy-old; every target verified)
+
+| run | v6.6 | v6.8 | change |
+|---|---|---|---|
+| SHIFT45 | 1 497 | 1 497 | 0 |
+| SHIFT45 s602 | 1 758 | 1 642 | −6.6 % |
+| SHIFT45 s603 | 1 577 (v6.7) | 1 538 | −2.5 % |
+| SHIFT45 s604 | 1 891 | 1 891 | 0 |
+| A→B→C s604 (full arm) | 3 498 | 3 478 | −0.6 % |
+| A→B→C s613 | 2 414 | 2 156 | −10.7 % |
+| A→B→C s614 | 2 228 | 2 060 | −7.5 % |
+| A→B→C s615 | 2 204 | 2 143 | −2.8 % |
+| E5 | 414 | 414 | 0 |
+| FV6 | 2 103 | 2 103 | 0 |
+| cross-world E5 → E7 | 29 974 | 29 974 | 0 |
+| cross-world E8m7 → E7 | 30 028 | 30 028 | 0 |
+| **cross-world E7 → E8m7** | **14 443** | **21 921** | **+51.8 % (bar: ± 2 %)** |
+
+Several runs improved by more than the ± 2 % band (reported as outside the band, in the favourable
+direction). E7 → E8m7 regressed far outside it; it is still below the fixed controller (41 036) but
+the cross-world ratio worsens from 0.35 to 0.53. **v6.8 therefore cannot become the default**, whatever
+its K1 confirmation shows. FV8 is still running.
+
+**Attribution (one variable at a time, billy-old):** d alone reproduces 21 921 exactly; e alone gives
+14 443, identical to v6.7. Mechanism, from the liveness and re-mining logs: (d) moves the re-mining
+schedule from targets 12 / 16 / 20 / 24 to 12 / 20 / 28, so a different first library deploys (MDL
+at 28, not frequency at 24); it stands down at 40 after three consecutive misses — positive realised
+value, so (e) does not retire it; the re-mine at 41 finds no candidate that passes the tilability bar;
+and at 44 the cadence re-probe **revives the stood-down library on a single hit**, which pre-empts every
+further re-mining until 62 (targets that v6.7's second library solved at ≈ 12 k cost 45–80 k).
+v6.7 avoided this only because its re-mine at 39 succeeded before a cadence tick. d is not the defect
+— it does what it states; the defect is that a library measured and stood down *inside the regime it
+was learned in* can be revived by a sporadic hit — the same oscillation seen on s626 and s629, which
+(e) covers only when the library's value went negative.
+
+## continual_v6.9 (registered 2026-09-11, before any v6.9 run)
+
+(f) a library that stands down inside its own regime (the v5.4 branch: not a regime change) is
+**retired until the regime changes**, like a library that failed in deployment. Flag `M2_V69F` on top
+of d and e; defaults unchanged. Predictions: **E7 → E8m7 ≤ 14 732** (v6.7 + 2 %); every other
+regression above no more than 2 % worse than v6.8; on the diagnostic seeds s623 / s626 / s628 / s629
+the full arm's regime-C cost at or below v6.8's (+d+e) on each. **K1-v6.9 confirmation** on new fresh
+seeds 646–657 (LUNARC), same bars as K1-v6.6 / v6.8. **Stop rules:** v6.8's stop rule stands for v6.8
+and is not rescued by v6.9. If K1-v6.9 also fails, the flag-level revision chain for mixed-regime K1
+closes: K1 on mixed regimes is NOT_ESTABLISHED at this grammar for the continual controller, and the
+next attempt must be a different mechanism class (for example an explicit regime-change detector),
+not another retry or retirement flag.
+
