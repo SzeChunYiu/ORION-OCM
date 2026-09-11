@@ -1,0 +1,36 @@
+{
+  "schema": "ExactDevelopmentalGeometryPhaseV1",
+  "hypothesis_space": "all 4-bit states",
+  "start": [0,0,0,0],
+  "target": [1,1,1,1],
+  "legal_moves_shared": ["flip any one bit", "flip aligned pair (0,1)", "flip aligned pair (2,3)"],
+  "local_geometry": {
+    "single_move_total_mass": "9/10",
+    "pair_move_total_mass": "1/10"
+  },
+  "chunk_geometry": {
+    "single_move_total_mass": "1/10",
+    "pair_move_total_mass": "9/10"
+  },
+  "acceptance": "accept proposal iff registered ecology quality strictly improves",
+  "expected_first_hit_proposals": {
+    "additive_feedback": {
+      "LOCAL": "247/29",
+      "CHUNK": "223/21",
+      "winner": "LOCAL"
+    },
+    "chunk_feedback": {
+      "LOCAL": "30",
+      "CHUNK": "10/3",
+      "winner": "CHUNK"
+    }
+  },
+  "interpretation": [
+    "Both morphologies have identical reachability and legal moves; only proposal probability geometry differs.",
+    "Changing feedback/credit structure reverses which developmental geometry reaches the same target with lower expected proposal burden.",
+    "This is an exact calibration of ecology-by-developmental-geometry interaction, not a new general intelligence law.",
+    "Evolutionary search, local-search, meta-learning and inductive-bias parents own the generic principle that proposal bias aligned with problem structure improves search."
+  ],
+  "terminal": "EXACT_DEVELOPMENTAL_GEOMETRY_PHASE_REVERSAL__PARENT_PRINCIPLE_CALIBRATION",
+  "claim_ceiling": "finite exact proof-of-concept that morphology phase differences can arise from update/proposal geometry even when expressivity is identical"
+}
