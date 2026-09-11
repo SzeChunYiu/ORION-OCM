@@ -176,3 +176,28 @@ fires at the first re-probe cadence with ≥ 20 in-regime solutions (≈ target 
 A / A′ unchanged, lifetime ≤ 1 580. The fresh worlds s602 / s603 run their continual arm
 last in their chains and therefore under v4.1; their predictions stand as registered.
 
+## Outcome, continual_v4.1 on SHIFT45 (records/continual/SHIFT45_v4.1_*)
+
+| arm | lifetime | A | B | A′ |
+|---|---|---|---|---|
+| RESET | 3 476 | 3 407 | 3 776 | 3 245 |
+| CONTINUED_OCM (fixed library, v3 controller) | 2 038 | 536 | 4 703 (+24.5 %) | 875 |
+| **continual_v4.1** | **1 506 (−56.7 %)** | 536 | **3 471 (−8.1 %)** | **510** |
+
+The attempt fired at target 72 as registered (16-program corpus, deployed, 5 321 charged)
+and served 17 targets. B ≤ 3 400 **missed by 2 points** (−8.1 % vs the registered −10 %);
+B < RESET, A unchanged and lifetime ≤ 1 580 held; A′ came out *better* than registered
+(510 vs "unchanged 735"): the B library stood down after three misses at the boundary, A's
+library was re-probed at once, and A′ now costs less than A itself (no cold-start cadence).
+Against the fixed-library controller the continual arm is −26 % over the lifetime.
+
+```text
+B segment, five registered rounds:  +24.5 %  →  +9.0 %  →  +3.0 %  →  −2.6 %  →  −8.1 %
+(fixed library) (v1 corpus)  (v2 regime corpus + window)  (v3 3-miss stand-down, no interleave)  (v4.1 corpus ≥ 12, counter fix)
+```
+
+What remains of B's cost is mechanical and priced: the old library's three-miss transition
+(≈ 14 k), the validation probes (5.3 k) and the 27 targets before enough in-regime solutions
+exist to learn from. The out-of-sample test is the two fresh shift worlds (A seeds 602 /
+603), registered above; their outcome decides whether any of this is tuned to SHIFT45.
+
