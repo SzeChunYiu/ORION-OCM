@@ -118,6 +118,28 @@ Experiment (to freeze as RV-033): E_factored with three regimes over the same fa
 
 Both are conjunctions of parent-owned mechanisms; the theory's claim is the **phase law** (where the conjunction wins and loses), not the mechanisms. Novelty requires the E5 reduction attack: a bounded compilation into sparse MoE / SISA / TMS / knowledge-compilation / self-adjusting-computation parents that preserves the ability vector at ≤ 2× cost would end the novelty claim with the parent-sufficient terminal. At the exact layer this attack is executable: compile the VLC/CP row into each parent row and compare lifecycle costs cell by cell.
 
+## 5b. Integration of the ChatGPT lane's theory hardening (seven documents merged 2026-09-12)
+
+The ChatGPT lane added a typed demand signature (`GMI_REALIZATION_DEMAND_SIGNATURE_V1`: Ξ_obl = (σ, Δ_Q, Δ_U, γ_F, ν, χ_V, ρ_use, λ_R, β_lin) with the price vector moved to a context P), mechanism witnesses A1–A7 with behavioural scoring (`GMI_MECHANISM_WITNESS_REGISTRY_V1`), necessity theorems MN1–MN8 (`GMI_MECHANISM_NECESSITY_THEOREMS_V1`), pre-execution gates G0–G12 for E1–E3 (`GMI_E1_E3_THEORY_VALIDATION_GATE_V2`), a predictive-sufficiency no-go (`GMI_PREDICTIVE_SUFFICIENCY_NO_GO_V1`) and a 48-item gap ledger (`GMI_THEORY_GAP_LEDGER_V1`). None of these cite the executed records; they extend without conflict. Reconciliation with the executed layer:
+
+| their object | executed instance in this lane | status |
+|---|---|---|
+| A1 factor/materialization partition; A3 dependency-tracked incremental repair | MOD_U and VLC rows (per-factor tables; cone rebuild); measured blast radius = cone (RV-032) | A1+A3 bundled in both rows: their G2 (matched ablations) asks for A1-only and A3-only variants — **not yet executed** |
+| A4 speculative candidate isolation (verify-before-swap) | VLC row: shadow build, verifier, atomic swap, abstention (0 wrong served vs 60) | executed as a bundle with A1+A3; per-basis threshold λ* = {92, 142, 4 036} is the A4 activation boundary |
+| A2 authority/serving separation | all compiled rows (source learner + tables); CP row (source + regime phenotypes) | executed; MN2's side-information bound not measured |
+| A5 historical persistence, β_lin | no ecology with legal historical queries yet | **open** (their MN4 twin is executable at this layer) |
+| Δ_Q vs Δ_U split (MN5) | E_factored has scope-2 queries (Δ_Q partial) and cone revisions (Δ_U); the C-Q/U collision cells are not yet separated | **next: RV-036 (query scope local vs global × cone local vs global)** |
+| P (price vector as context, not demand) | the six registered columns + the declared HW_TENSOR_PRICED column (RV-035) | executed as L4b/L4e basis-dependence |
+| G0 typed measurement freeze | our coordinates are exact op counts (I0) | passes by construction at this layer |
+| G1 collision matrix; G2 factorial; G3 implementation tournament | RV-032/033 vary one ecology axis per twin but test composite rows | **RV-032/033 count as their E1-L3 (parent frontier) only; L1/L2/L4 need the factorial** |
+| G4 adaptive-search firewall (D/V/P layers) | the freeze-before-run rule with disclosed calibrations; no protected layer separate from development | partially satisfied; a protected world set must be declared before E3 |
+| G11 phase language | this lane already restricts itself to finite frontier crossovers (r*, H*, λ*) | satisfied |
+| MN1 rollback information ≥ log2 max fiber | VLC keeps two copies of a 4-entry table (rollback information = 32 bits) | consistent; bound not tested |
+| MN5 overcompression no-go (F vs G cost table) | MONO_C (coarse) vs MOD_U (fine) at scope-2 queries: fine wins everywhere except B2 at H ≥ 128 with no updates | consistent with MN5's Q-global/U-small regime |
+| their gap ledger G-07/09/12/14/22/23/27/31/32/34 (P0, block strengthened E1–E3) | this lane's G3/G4/G6/G8 overlap G-14 (history), G-27 (frontier uncertainty), G-31/32 (search firewall/encoding) | cross-referenced; P0 items executable here: G-07 (RV-036), G-23 (factorial), G-27 (frontier margin rule already used: 10%) |
+
+Executable asks from their documents at this layer, in order of cost: (1) C-Q/U collision cells (RV-036); (2) A1/A3/A4 matched ablations of the VLC row (their G2); (3) MN4 lineage twin with legal historical queries (A5); (4) the A4 implementation tournament (shadow copy vs copy-on-write vs undo log vs persistent root) — four encodings of the same witness; (5) MN1 fiber-size rollback test; (6) PS1 signature-collision construction.
+
 ## 6. E-series status across the three lanes
 
 | lane | level | status |
