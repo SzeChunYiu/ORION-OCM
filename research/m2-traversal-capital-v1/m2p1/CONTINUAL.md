@@ -1351,3 +1351,16 @@ laptop A → B → C s604 / s613 / s614 / s615 reported against v6.11, with the 
 Stop rule: if it fails on regime C, K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of the
 recombination regime itself (C3), not a further controller flag.
 
+## Outcome of K1 under v6.12ps (fresh seeds 706–717; s711 failed the ecology gate and is reported, not replaced; records/k1v612/)
+
+**FAILED on two bars.** Lifetime below the fixed controller **9 / 11 = 0.818** (bar ≥ 0.833; s707 2 921 vs 2 873,
+s712 2 783 vs 2 765); below RESET **11 / 11**; regime-C at or below RESET **6 / 11 = 0.545** (bar ≥ 0.750). Every arm
+verifies every target. **K1 on mixed regimes stays NOT_ESTABLISHED.** Per the registered stop rule, the next step is a
+diagnosis of the recombination regime itself (C3), not a further controller flag.
+
+**Inertness — FAILED.** On the laptop against v6.11: **SHIFT45 +21.0 %** (1 449 → 1 753) and **s602 +7.1 %** (1 642 → 1 758),
+both over the + 2 % bar; s603 0.0 %, s604 +0.3 %; A → B → C (no bar) s604 −7.5 %, s613 0.0 %, s614 +1.4 %, s615 −4.3 %.
+Neither (p) nor (s) had been run on the shift worlds; a one-variable attribution (v6.11 + p, v6.11 + s on SHIFT45 and
+s602) is running, and **neither v6.12 mechanism is adopted anywhere until it reports.** Defaults remain
+continual_v6.6+h.
+

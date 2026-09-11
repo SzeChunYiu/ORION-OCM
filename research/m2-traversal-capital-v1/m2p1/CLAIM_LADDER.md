@@ -88,3 +88,6 @@ failed (mechanism 6/11, one inertness world +2.5 %). Rung remains **C2** until t
 registered v6.11 samples (below the fixed controller and below RESET on 23/23 gated seeds), reported as
 components. Rung remains **C2**.
 
+**Update (2026-09-11, v6.12ps).** K1 under v6.12ps failed (lifetime below fixed 9/11, regime-C 6/11) and regressed two
+shift worlds; K1 on mixed regimes stays NOT_ESTABLISHED and the next step is a diagnosis of regime C (C3). Rung **C2**.
+
