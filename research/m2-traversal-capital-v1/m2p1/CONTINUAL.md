@@ -577,3 +577,58 @@ ablation. The parent is library persistence in DreamCoder-style learners; the re
 here is that the organism *decides by charged validation on its own acquisitions* which
 retained fragments to recombine and when. One grammar; not yet K3.
 
+## C3 test, continual_v6 — outcome: NEGATIVE (records/abc/ABC_s60{1,2,3}_v6_*)
+
+| seed | segment | RESET | same-library parent | fixed controller | continual, no recombination | **continual + recombination** |
+|---|---|---|---|---|---|---|
+| 601 | C | 4 080 | 7 415 | 4 243 | 3 459 | **3 459** |
+|  | lifetime | 3 755 | 5 346 | 2 982 | 2 416 | **2 416** |
+| 602 | C | 3 554 | 6 441 | 3 763 | 3 494 | **3 494** |
+|  | lifetime | 3 560 | 4 888 | 2 912 | 2 575 | **2 575** |
+| 603 | C | 3 619 | 6 670 | 3 800 | 4 654 | **4 840** |
+|  | lifetime | 3 620 | 5 004 | 2 825 | 2 815 | **2 877** |
+
+**Falsified on all three seeds.** Recombination equals the ablation on s601 / s602 and is worse
+on s603 (C +4 %, and its lifetime is 1.8 % *above* the fixed controller). Prediction (1) — a C
+library covering ≥ 6 / 8 motifs from ≤ 14 in-regime solutions — did not happen on any seed.
+Regressions held on SHIFT45 / s602 / s603 / s604, E5, FV6 and the three cross-world pairs
+(byte-identical); **FV8 regressed** (+4.96 % vs RESET; attributed below).
+
+**Attribution (records, not conjecture).** Both learned B libraries carry `regime 47`: the
+B → C change was never registered as a new regime, because v5.4 treats the stand-down of a
+library learned in the current regime as *not* a regime change and keeps the corpus. At C the
+kept corpus was ≈ three-quarters B, so the recombination candidate was ranked on B programs:
+on s601 it held B's motifs and one of C's four A-motifs and tiled 4 / 8 validation tasks
+(refused, correctly); at 104 and 112 the same; the deployment finally came from full mining at
+112. On s603 the recombined candidate tied MDL at 104 (5 / 8) and its validation probes were
+charged (16 530 vs 8 173) — the 4 % loss. The v5.4 invariant is right on E7 → E8_m7 (the
+same regime, an incomplete library) and wrong on A → B → C (a new regime): **the organism
+cannot tell the two apart at stand-down time**, so deciding there is the defect.
+
+**FV8 attribution (records/continual/FV8_v6_*).** Not the recombination candidate (refused at
+zero cost). At target 88 v5.5's compact-frequency candidate — first exercised on FV8 in this
+run — validated 7 / 8 at depth 4 (β 54 240 ≈ the expected baseline 53 338; mean delta
++19 500), was deployed, and then hit ≈ 54 % of targets: seven hits saved 201 k, six misses cost
+β each (325 k), and the validation itself charged 244 827. An eight-task validation slice
+overestimated the hit rate of a library whose single miss costs a whole baseline.
+
+## continual_v6.1 (registered 2026-09-11 before any run)
+
+Three mechanism changes, each derived from a recorded failure and none a tuned constant:
+
+1. **Two windows, validation chooses** (C3 attribution). Candidates are built both on the regime
+   window and on the window since the last stand-down of *any* library; the charged
+   validation on the organism's most recent acquisitions decides which corpus was right.
+2. **Deploy on a positive lower confidence bound** of the validation delta (FV8 attribution) —
+   the lane's own EU-admission rule (mean − 1.96 · s.e. > 0) applied to in-life validation.
+3. **Non-tilable validation tasks are not probed** (the probe cannot reach them at the chosen
+   depth; their outcome is recorded as a miss at −β and nothing is charged).
+
+**Predictions.** C3 (unchanged thresholds from the v6 registration): on ≥ 2 / 3 seeds the
+recombination arm's C segment ≤ 0.85 × the ablation's, and it deploys a C library from ≤ 14
+post-stand-down solutions; lifetime ≤ ablation on 3 / 3. FV8: the depth-4 deployment is
+blocked by the confidence bound (`blocked_by_ci` recorded) and FV8 ends ≤ +3.0 % vs RESET — the
+earlier +0.05 % bound was set when validation was cheap and is kept as a **recorded miss**, not
+re-tuned. Regressions: SHIFT45 / s602 / s603 / s604 / E5 / FV6 / three cross-world pairs within
+± 2 %. Falsifiers: recombination C ≥ ablation C on 2 / 3 seeds; any regression > 2 %.
+
