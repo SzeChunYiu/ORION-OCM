@@ -44,3 +44,12 @@ Parent absorption at this rung: EU admission (decision theory), MDL library sele
 (Stitch/DreamCoder), bounded-regret interleaving, liveness as sequential testing. None owns
 the *history-learned probe depth with charged validation on the organism's own acquisitions*;
 that residual is the lane's, and it is what C3 will be tested on.
+
+**Update (2026-09-11, after C3b).** The C3 attempt in this grammar ended at its registered terminal:
+**NOT_ESTABLISHED** — recombining retained capital cut a new regime's acquisition cost on 2 / 9
+fresh A → B → C seeds against a registered 2 / 3. The rung stays C2. What moved upward instead is
+cross-world acquisition: the continual procedure learns a world it was never developed on at
+0.35–0.47 × the fixed controller's cost (three pairs, every target verified), which is designed K1
+acquisition, not K2. The honest statement of what would advance C3 now is a *different* grammar or a
+different acquisition mechanism with its own prospective registration, not another revision here.
+
