@@ -1,0 +1,27 @@
+{
+  "schema": "ExactDevelopmentalEquivalenceV1",
+  "status": "EXECUTED_CALIBRATION",
+  "terminal": "CURRENT_BEHAVIOR_EQUIVALENCE_DOES_NOT_IMPLY_DEVELOPMENTAL_EQUIVALENCE_EXACT",
+  "registered_universe": {
+    "inputs": [0, 1],
+    "outputs": [0, 1],
+    "experience": {"x": 1, "label": 1}
+  },
+  "machines": [
+    {
+      "id": "STATIC_NO_OP",
+      "initial_behavior": [0, 0],
+      "update_rule": "NO_OP",
+      "post_experience_behavior": [0, 0]
+    },
+    {
+      "id": "ADAPTIVE_MEMORIZE",
+      "initial_behavior": [0, 0],
+      "update_rule": "SUPERVISED_MEMORIZE",
+      "post_experience_behavior": [0, 1]
+    }
+  ],
+  "exact_result": "The two machines are extensionally equal on every registered input before experience and unequal after the same experience.",
+  "scientific_use": "Calibrates Track-B developmental equivalence: current input-output equivalence is strictly weaker than equality of update/development dynamics.",
+  "claim_boundary": "Finite exact counterexample only. No claim about a unique machine-intelligence morphology taxonomy or fundamental cognitive basis."
+}
