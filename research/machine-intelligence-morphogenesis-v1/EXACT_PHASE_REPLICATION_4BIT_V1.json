@@ -1,0 +1,52 @@
+{
+  "schema": "PhaseReplication4BitV1",
+  "freeze": "PHASE_REPLICATION_4BIT_FREEZE_V1.md",
+  "universe_size": 65536,
+  "max_minimum_expression_size": 21,
+  "strata": {
+    "simple_threshold": "<=4",
+    "simple_count": 46,
+    "complex_threshold": ">=15",
+    "complex_pool_count": 37351,
+    "complex_sample_count": 256
+  },
+  "training": {
+    "examples": 4,
+    "subset_count": 64,
+    "seed": 20260911
+  },
+  "costs": {
+    "label": 1.0,
+    "verify": 0.5
+  },
+  "simple": {
+    "queries": 35328,
+    "correct": 21734,
+    "wrong": 8634,
+    "abstain": 4960,
+    "correct_rate": 0.6152060688405797,
+    "wrong_rate": 0.24439538043478262,
+    "abstain_rate": 0.1403985507246377,
+    "proposal_precision": 0.7156875658587988,
+    "mean_acquisition_cost": 0.8145946557971014
+  },
+  "complex": {
+    "queries": 196608,
+    "correct": 81257,
+    "wrong": 86898,
+    "abstain": 28453,
+    "correct_rate": 0.4132944742838542,
+    "wrong_rate": 0.441986083984375,
+    "abstain_rate": 0.14471944173177084,
+    "proposal_precision": 0.4832267848116321,
+    "mean_acquisition_cost": 1.0143458048502605
+  },
+  "frozen_predictions": {
+    "R1_simple_cost_lt_direct": true,
+    "R2_complex_cost_ge_direct": true,
+    "R3_complex_cost_gt_simple": true,
+    "complex_minus_simple_cost": 0.19975114905315905
+  },
+  "terminal": "DESCRIPTION_COMPLEXITY_AND_VERIFIER_PRICE_PREDICT_PARENT_POLICY_REGION_AT_4BIT_SCOPE",
+  "claim_boundary": "Prospectively frozen finite parent-policy crossover. The mechanism is MDL/version-space/value-of-verification and is parent-owned. This calibrates a D3-style ecology/resource -> policy-region prediction; it is not a new GMI mechanism or a cross-paradigm morphology law."
+}
