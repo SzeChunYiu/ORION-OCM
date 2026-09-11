@@ -1,6 +1,6 @@
 """Validate private H1 coding-K1 task custody manifests before execution.
 
-The manifest itself may remain in protected evaluator custody.  This validator is
+The manifest itself may remain in protected evaluator custody. This validator is
 public so the admission rule is frozen before any protected outcome access.
 """
 
@@ -77,7 +77,9 @@ def _duplicates(values: list[str]) -> set[str]:
     return {value for value, count in Counter(values).items() if count > 1}
 
 
-def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool = True) -> list[str]:
+def validate_manifest(
+    manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool = True
+) -> list[str]:
     errors: list[str] = []
 
     missing_top = REQUIRED_TOP - set(manifest)
@@ -117,6 +119,8 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
     protected_identifiers: set[str] = set()
     development_artifacts: set[str] = set()
     protected_secret_digests: set[str] = set()
+    development_base_digests: set[str] = set()
+    protected_base_digests: set[str] = set()
 
     for index, task in enumerate(tasks):
         prefix = f"task[{index}]"
@@ -146,12 +150,23 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
         if family in FAMILIES and role in ROLES:
             role_counts[family][role] += 1
 
-        if task.get("base_repo_digest") == task.get("mutated_repo_digest"):
+        base_digest = str(task.get("base_repo_digest"))
+        mutated_digest = str(task.get("mutated_repo_digest"))
+        if base_digest == mutated_digest:
             errors.append(f"{prefix}: base_repo_digest equals mutated_repo_digest")
+        if role == "DEVELOPMENT":
+            development_base_digests.add(base_digest)
+        elif role == "PROTECTED":
+            protected_base_digests.add(base_digest)
+
         if task.get("base_full_suite_passed") is not True:
-            errors.append(f"{prefix}: base repository must pass full evaluator before mutation")
+            errors.append(
+                f"{prefix}: base repository must pass full evaluator before mutation"
+            )
         if task.get("mutated_full_suite_failed") is not True:
-            errors.append(f"{prefix}: mutated repository must fail full evaluator after mutation")
+            errors.append(
+                f"{prefix}: mutated repository must fail full evaluator after mutation"
+            )
 
         for flag in HIDDEN_FLAGS:
             if task.get(flag) is not False:
@@ -164,7 +179,9 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
             try:
                 canonical = [canonical_repo_path(value) for value in fault_files]
                 if len(set(canonical)) != len(canonical):
-                    errors.append(f"{prefix}.fault_files contain duplicate canonical paths")
+                    errors.append(
+                        f"{prefix}.fault_files contain duplicate canonical paths"
+                    )
             except (TypeError, ValueError) as exc:
                 errors.append(f"{prefix}.fault_files invalid: {exc}")
 
@@ -193,7 +210,7 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
             }
 
         task_ids.append(str(task.get("task_id")))
-        mutated_digests.append(str(task.get("mutated_repo_digest")))
+        mutated_digests.append(mutated_digest)
         statement_digests.append(str(task.get("task_statement_digest")))
 
     for label, values in (
@@ -204,6 +221,13 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
         duplicates = _duplicates(values)
         if duplicates:
             errors.append(f"duplicate {label}: {sorted(duplicates)}")
+
+    base_overlap = development_base_digests & protected_base_digests
+    if base_overlap:
+        errors.append(
+            "protected base repositories overlap development base repositories: "
+            f"{sorted(base_overlap)}"
+        )
 
     identifier_overlap = (development_identifiers & protected_identifiers) - allowlist
     if identifier_overlap:
@@ -228,17 +252,25 @@ def validate_manifest(manifest: Mapping[str, Any], *, enforce_h1a_minimum: bool 
             if dev < 4:
                 errors.append(f"{family}: requires >=4 DEVELOPMENT tasks, got {dev}")
             if protected < 4:
-                errors.append(f"{family}: requires >=4 PROTECTED tasks, got {protected}")
+                errors.append(
+                    f"{family}: requires >=4 PROTECTED tasks, got {protected}"
+                )
         if total_protected < 12:
-            errors.append(f"H1a requires >=12 protected tasks total, got {total_protected}")
+            errors.append(
+                f"H1a requires >=12 protected tasks total, got {total_protected}"
+            )
 
     return errors
 
 
-def load_and_validate(path: str | Path, *, enforce_h1a_minimum: bool = True) -> list[str]:
+def load_and_validate(
+    path: str | Path, *, enforce_h1a_minimum: bool = True
+) -> list[str]:
     with Path(path).open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
-    return validate_manifest(manifest, enforce_h1a_minimum=enforce_h1a_minimum)
+    return validate_manifest(
+        manifest, enforce_h1a_minimum=enforce_h1a_minimum
+    )
 
 
 def main() -> int:
