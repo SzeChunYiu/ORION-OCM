@@ -284,10 +284,10 @@
    ]
   }
  },
- "g_depth": 2,
+ "g_depth": 3,
  "issue": 377,
  "n_bits": 8,
- "receipt_sha256": "cc168c294bf4af5cf838422b107a469a688f4067d9128349d386d774e4f0f9e9",
+ "receipt_sha256": "96550d97e4f9956519b3a84f58350b3cbc4b3470fce326e87deb4baa6c1cc0ec",
  "results": {
   "E_smooth8": {
    "best_score": 0.7676,
@@ -300,8 +300,8 @@
    "top_elites": [
     {
      "class": "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
-     "f": "[\"SUB\", \"x2\", [\"ADD\", \"k0\", [\"THRESH\", \"x1\"]]]",
-     "g": "[[\"c2\", \"x4\"]]",
+     "f": "[\"MUL\", [\"GT\", [\"NEG\", \"c1\"], \"x1\"], [\"NOT\", [\"NOT\", \"x2\"]]]",
+     "g": "[[\"c1\", [\"NEG\", \"x3\"]]]",
      "max_writes": 1,
      "n_fx_cells_written": 1,
      "score": 0.7676,
@@ -309,17 +309,17 @@
     },
     {
      "class": "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
-     "f": "[\"GT\", \"x2\", [\"OR\", [\"SUB\", \"c3\", \"kh\"], \"x1\"]]",
-     "g": "[[\"c2\", \"c2\"]]",
-     "max_writes": 0,
-     "n_fx_cells_written": 1,
+     "f": "[\"SEL\", \"kq\", [\"AND\", [\"XOR\", \"x1\", \"x2\"], [\"NOT\", \"x1\"]], [\"NEG\", [\"THRESH\", \"x5\"]]]",
+     "g": "[[\"c3\", \"x0\"], [\"c2\", \"x2\"], [\"c2\", \"x7\"]]",
+     "max_writes": 2,
+     "n_fx_cells_written": 2,
      "score": 0.7676,
      "used_store": false
     },
     {
      "class": "LOCAL_MEMORY (store or cell-memory; M1/M5 class)",
-     "f": "[\"THRESH\", [\"THRESH\", [\"GT\", \"x2\", \"x1\"]]]",
-     "g": "[[\"c2\", \"k1\"], [\"c3\", \"x2\"], [\"c3\", \"c1\"]]",
+     "f": "[\"SEL\", [\"THRESH\", [\"ADD\", \"x7\", \"k1\"]], [\"GT\", \"x2\", [\"AND\", \"x1\", \"c2\"]], [\"SEL\", [\"OR\", \"x2\", \"k0\"], \"k1\", [\"MUL\", \"x5\", \"kh\"]]]",
+     "g": "[[\"c3\", \"out\"], [\"c2\", \"k1\"]]",
      "max_writes": 1,
      "n_fx_cells_written": 2,
      "score": 0.7676,
@@ -331,10 +331,10 @@
    "winner_details": []
   }
  },
- "run_tag": "RUN4_SMOOTH8",
+ "run_tag": "RUN6_SMOOTH8_GDEPTH3",
  "schema": "StageFBlindRecoveryV1",
  "search": "random N + hill-climb from top-k by single-node mutation; label-free; scored by (score, -charged cost)",
- "seed": 3,
+ "seed": 5,
  "smooth8_coeffs": [
   0.375,
   -0.625,

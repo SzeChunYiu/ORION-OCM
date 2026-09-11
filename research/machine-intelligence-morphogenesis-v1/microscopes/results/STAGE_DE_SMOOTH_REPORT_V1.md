@@ -1,6 +1,6 @@
 # Stage D'/E' — smooth-generalization ecology: report V1
 
-Target coefficients [0.25, 0.5, -0.25, 0.5]. Receipt `STAGE_DE_SMOOTH_V1.json` (sha256 `03df00b11fa996fd…`). 16 inputs, 8 seen; θ = 0.85; rows S4 (gradient net), S2 (exact linear search, grammar of 2401), S5 (exemplar memory), S3 (particles over the grammar).
+Target coefficients [0.25, 0.5, -0.25, 0.5]. Receipt `STAGE_DE_SMOOTH_V1.json` (sha256 `7d87ac2208a4baf8…`). 16 inputs, 8 seen; θ = 0.85; rows S4 (gradient net), S2 (exact linear search, grammar of 2401), S5 (exemplar memory), S3 (particles over the grammar).
 
 ## Capability after the protocol (largest ladder size, by column)
 

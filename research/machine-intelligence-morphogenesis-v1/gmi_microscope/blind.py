@@ -214,6 +214,26 @@ def classify_locality(res):
     return "STORE_PLUS_NUMERIC (hybrid)"
 
 
+def classify_locality_v2(res, cand=None):
+    """RV-377-016 addendum (not used by any committed receipt): adds an INERT class — no live write depends on the
+    feedback (e, y, out) — so fixed programs found by search are not reported as memory forms. cand is the
+    canonicalized candidate; without it the function falls back to classify_locality."""
+    if cand is not None:
+        feeds = {"e", "y", "out"}
+        live_uses_feedback = any(_reads(expr, set()) is not None and (feeds & set(_leaves(expr))) for _, expr in cand["g"])
+        if not live_uses_feedback:
+            return "INERT (fixed program; M0/M2 class)"
+    return classify_locality(res)
+
+
+def _leaves(t, acc=None):
+    acc = [] if acc is None else acc
+    if isinstance(t, str):
+        acc.append(t); return acc
+    for sub in t[1:]: _leaves(sub, acc)
+    return acc
+
+
 def classify(res):
     """post-hoc label-free class from observables (MORPHOLOGY_SIGNATURES_V2 reading)."""
     if res["used_store"] and res["max_writes"] <= 2:

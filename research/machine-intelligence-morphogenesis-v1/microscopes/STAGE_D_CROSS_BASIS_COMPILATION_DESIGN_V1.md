@@ -145,3 +145,31 @@ Estimated cost: enumeration of `Gen_12` over ≤ 10 primitives with canonicaliza
 composites per column; a laptop-scale exhaustive run. If a column's enumeration exceeds 10^8 at
 `n_max = 12` the run stops and reports `CANNOT_CHECK_ENUMERATION_BUDGET` for that column rather than
 sampling.
+
+## 9. Amendments learned from execution (RV-377-001…016) — binding on every later lane
+
+Recorded after the revival chain; none applied retroactively to a committed receipt.
+
+1. **Existence certificate before any blind run (RV-377-015).** For every morphology class the ecology
+   is predicted to select, a planted occupant written *inside the exact search grammar* must reach θ
+   before the search is launched. Without it a no-winner result is void (the frozen depth-2 update grammar
+   could not express a stable multi-input gradient step: learning rate 1 diverges for ≥ 2 active inputs;
+   one more depth level gives 0.926). The certificate is part of the frozen protocol, not the result.
+2. **Canonicalize before classifying (RV-377-008).** Dead-write elimination (live set = cells/store read
+   by f, closed under the reads of live writes) with a score-identity assertion; RUN3 moved from 2/9 to
+   7/9 LOCAL_MEMORY with no score change.
+3. **INERT class (RV-377-016).** A candidate none of whose live writes depends on e/y/out is a fixed
+   program (M0/M2 class), not a memory form; `classify_locality_v2` implements it and is not used by any
+   committed receipt.
+4. **Growth laws per phase and by order (RV-377-012/013).** The R vector carries `exec_build` (init)
+   separately from `exec_query`; P4-type claims are increment-ratio statements on fresh sizes, never a
+   fixed total-growth cut over a fixed ladder.
+5. **Admissibility before phase (RV-377-009/014).** A revision-axis test is undefined until at least two
+   rows of opposite update class reach θ at the registered development length; the length is a declared
+   protocol parameter (Codex H2), not a tuning knob, and the approximate-search row S2a is the declared
+   search row whenever the grammar lacks the target.
+6. **Search family for B5 (RV-377-016).** The lane's random + hill-climb family plateaus on inert programs
+   (0.7676 on E_smooth8 at two seeds and two grammar depths) with a divergence valley between the plateau
+   and the certified dense learner. The next decisive B5 experiment is a declared population search with
+   structured mutation and functional-equivalence caching (the AutoML-Zero setting) at ≥ 10^5 evaluations
+   × ≥ 3 seeds — HPC scale, outside this lane (#377: no HPC/search launch).

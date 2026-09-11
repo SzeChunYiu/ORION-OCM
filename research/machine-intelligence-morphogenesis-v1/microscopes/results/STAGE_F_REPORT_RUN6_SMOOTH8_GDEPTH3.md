@@ -1,8 +1,8 @@
 # Stage F — blind recovery at tiny scope: report V1
 
-Receipt `microscopes/results/STAGE_F_BLIND_RECOVERY_V1.json` (sha256 `cc168c294bf4af5c…`).
+Receipt `microscopes/results/STAGE_F_BLIND_RECOVERY_V1.json` (sha256 `96550d97e4f99565…`).
 
-Search: 12000 random candidates + 160 hill-climb steps from the top 12, per ecology, seed 3; the search saw only (score, charged cost).
+Search: 12000 random candidates + 160 hill-climb steps from the top 12, per ecology, seed 5; the search saw only (score, charged cost).
 
 ## E_smooth8
 best score 0.7676, winners at θ=0.85: 0 (random-baseline fraction at θ: 0.0); classes: []
