@@ -78,3 +78,8 @@ recorded as FRAGILE. The decision-invariant futility repair (h) is now part of t
 (identity 14/14). Rung remains **C2**; the robust K1 positives are regime shifts and cross-world
 acquisition.
 
+**Update (2026-09-11, evening).** K1 under continual_v6.11 (regime-change detector) **passed all three bars
+on its registered fresh sample** (lifetime below fixed 11/11, below RESET 11/11, regime-C 10/11; no
+lock-outs). Recorded as passed once, replication pending on seeds 694–705; two of its diagnostic falsifiers
+failed (mechanism 6/11, one inertness world +2.5 %). Rung remains **C2** until the replication reports.
+

@@ -1245,3 +1245,38 @@ flagged at both switches (targets 50 and 94 for changes at 45 and 90); a station
 controller_v5 is still running on hc02 and hc10 (the hc10 prediction, ≤ 13 760, is open); six of eight authored
 worlds beat their strongest parent so far.
 
+## Outcomes of the continual_v6.11 registration (2026-09-11; every arm verifies every target)
+
+**K1 under v6.11 (freshly generated seeds 682–693; s693 failed the ecology gate and is reported, not replaced;
+records/k1v611/) — PASSED on its registered sample.** Lifetime below the fixed controller **11 / 11 = 1.000**
+(bar ≥ 0.833); below RESET **11 / 11**; regime-C at or below RESET **10 / 11 = 0.909** (bar ≥ 0.750). No seed
+entered the failure-evidence lock-out. This is the first registered pass of all three K1 bars. Because K1-L
+passed once and then failed to replicate, it is recorded as **passed once, replication pending** — not as a
+robust result, and the rung is not raised on it.
+
+**Diagnostic falsifiers (records/k1diag611/).**
+- *Mechanism, as registered — FAILED:* a detection followed by an evidence reset after the reference lock-out
+  began on **6 / 11** lock-out seeds (bar ≥ 8). Observation, not registered: on four more seeds (628, 636, 642,
+  647) an earlier detection meant the lock-out never formed (zero impossible attempts), and none of the
+  eleven fresh K1 seeds entered it.
+- *Lifetime — PASSED:* the eleven lock-out seeds beat the fixed controller on **7 / 11** (bar ≥ 6; v6.10hi 3 / 11).
+  Per seed against v6.10hi: s623 −35 %, s628 −18 %, s642 −19 %, s674 −19 %, s636 −4 %, s679 −3.5 %, s647 −1 %;
+  s662 +3 %, s626 +13 %, s629 +15 %, s672 +36 %.
+- *Inertness — FAILED on one world:* SHIFT45 s603 +2.5 % (1 538 → 1 577), over the + 2 % bar; SHIFT45 −3.2 %,
+  s602 0, s604 −11.8 %; the three cross-world pairs, E5, FV6 and FV8 had no detections and are identical.
+  Clean A → B → C controls (no bar): s634 −10.6 %, s658 −7.6 %, s670 −7.4 %, s646 +20.3 %; laptop A → B → C
+  s604 −30.7 %, s613 −16.9 %, s614 −2.3 %, s615 +3.7 %.
+
+**Attribution of the losses.** The detector fires at the true boundaries (within ≈ 5 targets) and occasionally
+inside a regime. Every detection lifts *all* retirements, so libraries that already **lost value in
+deployment** are revived by a sporadic hit and fail again — the s626 / s629 oscillation that v6.8(e) removed,
+reintroduced by the reset (s672: three failed redeployments of 5–25 k each after the detection at 95).
+s603's +2.5 % is a correct detection that changed which candidate library was mined first.
+
+## K1 under v6.11 — replication (registered 2026-09-11, before the run)
+
+The same registered configuration (`m2_abc611.sbatch`, runner unchanged) on freshly generated seeds
+**694–705**, whose ecologies no study has inspected; the same three bars under the fixed proportion rule.
+If it passes, K1 on mixed regimes is recorded as replicated at C2 scope under continual_v6.11. If it fails,
+K1 under v6.11 is recorded FRAGILE, like K1-L, and K1 on mixed regimes stays NOT_ESTABLISHED.
+
