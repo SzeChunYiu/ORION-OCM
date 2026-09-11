@@ -1,0 +1,100 @@
+{
+  "schema": "GMIVLCExactPhaseReceiptV2",
+  "status": "confirmatory exact finite correction/calibration",
+  "all_green": true,
+  "terminal": "VLC_PHASE_DECOMPOSITION_V2_EXACT_GREEN",
+  "predictions": {
+    "R2_versioned": true,
+    "R2_intermediate": true,
+    "S2_unversioned_factorized": true,
+    "W2_unversioned": true,
+    "H2_no_coarser": true,
+    "C2_no_finer": true
+  },
+  "winners": {
+    "R2_TARGET": {
+      "module_size": 6,
+      "module_count": 3,
+      "versioned": true,
+      "avg_query_modules": 2.722689075630252,
+      "avg_update_modules": 1.0,
+      "build": 192.0,
+      "serve": 647899.1596638656,
+      "update": 80640.0,
+      "memory": 2304.0,
+      "retention": 3456.0,
+      "total": 734491.1596638656
+    },
+    "S2_STATIONARY_HIGH_SIGMA": {
+      "module_size": 9,
+      "module_count": 2,
+      "versioned": false,
+      "avg_query_modules": 1.9705882352941178,
+      "avg_update_modules": 1.0,
+      "build": 1024.0,
+      "serve": 452352.9411764706,
+      "update": 0.0,
+      "memory": 6144.0,
+      "retention": 0.0,
+      "total": 459520.9411764706
+    },
+    "W2_WEAK_RETENTION": {
+      "module_size": 6,
+      "module_count": 3,
+      "versioned": false,
+      "avg_query_modules": 2.722689075630252,
+      "avg_update_modules": 1.0,
+      "build": 192.0,
+      "serve": 647899.1596638656,
+      "update": 80640.0,
+      "memory": 1152.0,
+      "retention": 0.0,
+      "total": 729883.1596638656
+    },
+    "H2_SHORT_REUSE": {
+      "module_size": 3,
+      "module_count": 6,
+      "versioned": true,
+      "avg_query_modules": 3.8970588235294117,
+      "avg_update_modules": 1.0,
+      "build": 48.0,
+      "serve": 47661.76470588235,
+      "update": 10080.0,
+      "memory": 576.0,
+      "retention": 432.0,
+      "total": 58797.76470588235
+    },
+    "C2_HIGH_COORDINATION": {
+      "module_size": 6,
+      "module_count": 3,
+      "versioned": true,
+      "avg_query_modules": 2.722689075630252,
+      "avg_update_modules": 1.0,
+      "build": 192.0,
+      "serve": 1061344.5378151261,
+      "update": 80640.0,
+      "memory": 2304.0,
+      "retention": 3456.0,
+      "total": 1147936.5378151261
+    }
+  },
+  "analytic_versioning_threshold": {
+    "agreement_rows": 66,
+    "agreement_total": 66,
+    "all_agree": true,
+    "first_registered_update_count_where_versioning_wins_by_module_size": {
+      "1": 50,
+      "2": 20,
+      "3": 20,
+      "6": 10,
+      "9": 5,
+      "18": 5
+    }
+  },
+  "interpretation": [
+    "The first falsified twin was informative: low invalidation removed versioning but not factorization because high semantic/materialization curvature remained.",
+    "The corrected two-phase prediction transferred to a new exact world: the R2 target selected intermediate versioned factors; stationary high-sigma remained factorized but unversioned; weak retention removed versioning; short reuse refined factors.",
+    "The analytic fixed-k versioning inequality agreed with enumeration on every registered (k,U) row."
+  ],
+  "claim_ceiling": "Exact finite lifecycle correction/calibration only. This supports the causal decomposition of factorization and versioning pressures; it does not establish VLC as a new machine-intelligence morphology or a general empirical GMI law."
+}
