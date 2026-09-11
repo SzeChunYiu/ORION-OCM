@@ -52,7 +52,9 @@ The verifier is separate from the learner's internal training objective. A loss,
 
 ---
 
-# 2. Histories and developmental sufficient state
+# 2. Developmental situations and sufficient state
+
+A history alone may not determine the future of a learning machine: two identical external histories can leave different hidden optimizer, memory, random-state, posterior, replay-buffer or structural configurations.
 
 Let
 
@@ -60,28 +62,38 @@ Let
 h_t=(o_0,a_0,e_0,r_0,\ldots,o_t)
 \]
 
-be the complete legal interaction/development history visible under the registered constitution, including observations, actions/computations, evidence/feedback and resource receipts as required by the obligation.
+be the complete registered interaction/development history and let `chi_t` denote the current machine configuration relevant to future protected behavior/development at the theory level.
+
+Define the **developmental situation**
+
+\[
+d_t=(\chi_t,h_t,\xi_t),
+\]
+
+where `xi_t` contains any registered current ecology/authority context not already encoded in `h_t` that can affect future protected quantities.
+
+If `chi_t` is not directly observable to an experimenter, the operational representation may be a belief/predictive state over it. The theory-level equivalence below is semantic, not a requirement that the exact state be computable.
 
 ## 2.1 Future developmental equivalence
 
 For obligation `O`, define
 
 \[
-h \sim_{\mathcal O} h'
+d \sim_{\mathcal O} d'
 \]
 
-when, for every admissible future intervention/action programme `\alpha` in the registered class, the conditional law of every future protected quantity is identical (or equal within a declared approximation relation):
+when, for every admissible future intervention/action programme `alpha` in the registered class, the conditional law of every future protected quantity is identical (or equal within a declared approximation relation):
 
 \[
-\mathsf P(\text{verified future traces, future machine changes, resource receipts}\mid h,\alpha)
+\mathsf P(\text{verified future traces, future machine changes, resource receipts}\mid d,\alpha)
 =
-\mathsf P(\cdot\mid h',\alpha).
+\mathsf P(\cdot\mid d',\alpha).
 \]
 
 The **developmental sufficient state** is the equivalence class
 
 \[
-z=[h]_{\sim_{\mathcal O}}.
+z=[d]_{\sim_{\mathcal O}}.
 \]
 
 This is the strongest representation-independent candidate for the theory's primitive state distinction.
@@ -196,7 +208,7 @@ A fourth meta-level is possible when experience changes `Gamma` itself; that is 
 
 # 5. Verified developmental burden
 
-For a task `tau`, capability threshold/contract `q`, history `h`, and morphology `M`, define the stopping time
+For a task `tau`, capability threshold/contract `q`, developmental situation `d`, and morphology `M`, define the stopping time
 
 \[
 T_q=\inf\{t:\ V(\text{outcome}_t,\tau;C)\ge q\}.
@@ -205,8 +217,8 @@ T_q=\inf\{t:\ V(\text{outcome}_t,\tau;C)\ge q\}.
 Define complete raw burden
 
 \[
-\mathbf B_M(\tau,q\mid h)
-=\mathbb E\left[\sum_{t=0}^{T_q}\rho(t)\mid M,h,\tau\right].
+\mathbf B_M(\tau,q\mid d)
+=\mathbb E\left[\sum_{t=0}^{T_q}\rho(t)\mid M,d,\tau\right].
 \]
 
 Coordinates may include:
@@ -234,25 +246,25 @@ No scalar is canonical. A scalar cost is allowed only after a prospective price/
 For ecology `E`, define the reachable capability-resource set
 
 \[
-\mathcal A_M(E\mid h)
+\mathcal A_M(E\mid d)
 =\{(Q,\mathbf B): (Q,\mathbf B)\text{ reachable under legal development}\}.
 \]
 
 The **developmental frontier** is
 
 \[
-\mathcal F_M(E\mid h)=\operatorname{Pareto}(\mathcal A_M(E\mid h)).
+\mathcal F_M(E\mid d)=\operatorname{Pareto}(\mathcal A_M(E\mid d)).
 \]
 
 The most representation-neutral GMI object is the **intelligence profile**
 
 \[
-\mathcal I_M:\ E\mapsto\mathcal F_M(E\mid h).
+\mathcal I_{M,d}:\ E\mapsto\mathcal F_M(E\mid d).
 \]
 
 This is set-valued rather than one magic scalar.
 
-It records both what the machine can eventually do and what it must spend to get there.
+It records both what the machine can eventually do and what it must spend to get there from its current developmental situation.
 
 ---
 
@@ -263,10 +275,10 @@ It records both what the machine can eventually do and what it must spend to get
 For registered ecology family `\mathfrak E`, define
 
 \[
-M_1\succeq_{\mathfrak E} M_2
+(M_1,d_1)\succeq_{\mathfrak E}(M_2,d_2)
 \]
 
-when `M1`'s frontier weakly dominates `M2`'s on every ecology in `\mathfrak E`, with strict improvement on at least one registered coordinate/ecology if strict dominance is claimed.
+when the first profile weakly dominates the second on every ecology in `\mathfrak E`, with strict improvement on at least one registered coordinate/ecology if strict dominance is claimed.
 
 Because of No-Free-Lunch, speedup and resource-tradeoff limits, no unrestricted global total order is expected.
 
@@ -275,8 +287,8 @@ Because of No-Free-Lunch, speedup and resource-tradeoff limits, no unrestricted 
 If a task/ecology distribution `mu` and utility functional `u(Q,B)` are prospectively declared, define
 
 \[
-G_{\mu,u}(M)
-=\mathbb E_{E\sim\mu}\left[\sup_{(Q,\mathbf B)\in\mathcal F_M(E)}u(Q,\mathbf B)\right].
+G_{\mu,u}(M,d)
+=\mathbb E_{E\sim\mu}\left[\sup_{(Q,\mathbf B)\in\mathcal F_M(E\mid d)}u(Q,\mathbf B)\right].
 \]
 
 This turns the profile into a scalar for a declared question.
@@ -287,7 +299,7 @@ Universal-Intelligence/AIXI-style expected performance is a special limiting ori
 
 # 8. Capital hierarchy
 
-Let `RESET` denote the matched system without the relevant developmental history, with the same external tools, evaluator, architecture family and protected information.
+Let `RESET` denote the matched system without the relevant developmental history/state, with the same external tools, evaluator, architecture family and protected information.
 
 ## K0 — solution capital
 
@@ -361,7 +373,7 @@ Levin search, Solomonoff/Hutter universal induction, OOPS/PowerPlay and program 
 
 ## P-META — developmental transfer layer
 
-Baxter, PAC-Bayes lifelong/meta-learning, MAML, learned optimizers and related theory own conditional learning-to-learn / learned inductive-bias results under explicit task-environment assumptions.
+Baxter, PAC-Bayes lifelong/meta-learning, MAML, learned optimizers and related theory own conditional learning-to-learn / learned-inductive-bias results under explicit task-environment assumptions.
 
 ## P-MORPH — morphology emergence layer
 
@@ -385,7 +397,7 @@ Status: supported by Track-B finite flattening/granularity results + parent comp
 
 ## GMI-T2 — task-relative minimal developmental state is well posed at finite deterministic scope
 
-Quotient histories/configurations by equality of all registered future output/update traces. The resulting minimal Mealy/transducer representation is unique up to isomorphism.
+Quotient developmental situations by equality of all registered future output/update traces. The resulting minimal Mealy/transducer representation is unique up to isomorphism.
 
 Status: parent automata theorem; Track-B exact calibration present.
 
@@ -479,7 +491,7 @@ F      grammar/program/library/call graph
 Theta  library, search priors, partial programs
 K      enumeration/synthesis/execution
 U      abstraction/library induction/search-prior update
-Gamma  grammar/operator/library-structure growth
+Gamma  grammar/operator/library structural change
 rho    proposal/execution/checking/storage/maintenance
 ```
 
