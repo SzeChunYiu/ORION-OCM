@@ -1,7 +1,7 @@
 {
  "registry_id": "GMI_THEOREM_REGISTRY_CANONICAL_377",
  "schema_version": "canonical-377.1",
- "status": "CANONICAL_377_ROWS__AMENDED_FOUR_TIMES_BY_EXECUTED_EVIDENCE__RECONCILED_WITH_CODEX_V6_AND_RP_REGISTRY",
+ "status": "CANONICAL_377_ROWS__AMENDED_FIVE_TIMES_BY_EXECUTED_EVIDENCE__RECONCILED_WITH_CODEX_V6_AND_RP_REGISTRY__NEURAL_OCCUPANCY_ROW_ADDED",
  "supersedes_for_current_work": [
   "(none) — coexists with THEOREM_REGISTRY_V4.json (Codex); the canonical rows are the #377-numbered view, the Codex rows are the execution-lane view"
  ],
@@ -468,6 +468,46 @@
    ],
    "terminal": "CHARGED_COMPILATION_PRESERVES_GROWTH_ORDER__DATA_STRUCTURE_PARENT_OWNED",
    "added_by": "CANONICAL_377_AMEND_2"
+  },
+  {
+   "theorem_id": "GMI-TN1",
+   "title": "Neural occupancy (finite exact): why a gradient-trained network is a machine intelligence and when it is the occupant",
+   "statement": "Under A1 (a numeric-native basis with + and x on the parameter type), A2 (real-valued targets approximable by the parametric family to tolerance theta), A3 (a stable expressible step: learning rate below 2 over the number of simultaneously active inputs), A4 (development length at least the certified length), the gradient realization exists in the basis, is admissible under the unseen-input criterion, and occupies every (H, r >= r*) frontier cell in which no Hamming-smooth memory is admissible or the basis's native query cost favours the gradient row; a neutral search reaches it only under an ecology with a selection gradient toward learning (task diversity) and a search family able to assemble the coordinated writes.",
+   "formal_objects": "basis B with +, x, adjoint (native or macro); ecology Omega = (target class, criterion, H, r); rows S4 (gradient), S2/S2a (search), S5h (kNN), S5 (memory); cost C = desc + H exec_q + r (upd + ver) + (r/4) rev",
+   "assumptions": "A1-A4 as stated; frozen charged price vector; 8-bit fixed point at scope",
+   "quantifiers": "for every executed ecology and basis at scope; general case parent-owned",
+   "proof_class": "PARENT (universal approximation; gradient stability; enumeration complexity; Levin/OOPS accounting) + FINITE_CERTIFIED (RV-377-015/017/025)",
+   "secondary_class": "D0-D3 derivation ladder",
+   "parent_theorem": "Cybenko 1989; Rumelhart-Hinton-Williams 1986; Gavranovic 2022 (lens/adjoint); Codex GMI-RP3/RP5/RP15; AutoML-Zero (Real 2020)",
+   "track_b_residual": "the executed prediction of the occupancy region before the run (RV-017, RV-025) and the reachability gates (RV-018/023)",
+   "proof_artifact": "GMI_THEORY_CORE_V3_EXECUTED.md section 1b",
+   "exact_checker": "gmi_microscope/compare_smooth3.py, compare_sym2.py; STAGE_DE_SMOOTH3_VERDICT.json, STAGE_DE_SYM2_VERDICT.json",
+   "counterexample_when_assumption_removed": "A3 removed: the depth-2 update grammar (learning rate 1) diverges for >= 2 active inputs (RV-015, score 0.0); A2 removed: parity target, capability 0.30 (RV-020/022); basis U/P3: memory loses, gradient wins (RV-025)",
+   "empirical_bridge": "Codex GMI_NEURAL_SPG_C1_RECEIPT_V1 (synthetic neural K1); real-system validation OPEN (E3/E4)",
+   "claim_ceiling": "NEURAL_FORM_DERIVED_D0_D3_AT_EXACT_SCOPE__GENERAL_CASE_PARENT_OWNED__REAL_SYSTEM_VALIDATION_OPEN",
+   "falsifier": "a certified-admissible gradient row losing an r >= r* cell to a non-memory form; a memory form winning U/P3 at equal admissibility; a blind dense winner without a selection-gradient ecology",
+   "status": "FINITE_CERTIFIED (occupancy, RV-017/025) / PARENT_ANCHORED (general case) / PENDING (reachability at 1e6, RV-028)",
+   "v2_evidence": "RV-377-015/017/018/023/025"
+  },
+  {
+   "theorem_id": "GMI-TN2",
+   "title": "Machine-learning algorithms as update-law specializations with predicted occupancy regions",
+   "statement": "Every registered machine-learning update law (gradient step, Bayesian conditioning, rule addition, program search, memory insertion, nearest-neighbour averaging, XOR-linear identification, reward-consistency search) is a compiled specialization in the charged primitive universe and satisfies the definition's clauses (candidate generation; experience-driven change of generation); which law is the intelligence of an ecology is the frontier occupant of the cost law, predicted before the run for the gradient, search, memory, algebraic and RL-inference laws; the probabilistic and policy-gradient laws are precision/estimator-gated at 8 bits.",
+   "formal_objects": "rows S2/S2a/S3/S4/S5/S5h/S6/S7/R1-R4; ecologies E_smooth*, E_sym*, parity (two splits), E_credit",
+   "assumptions": "frozen charged price vector; 8-bit fixed point; registered ecologies",
+   "quantifiers": "for the registered laws and ecologies",
+   "proof_class": "FINITE_CERTIFIED (compilation: GMI-T4..T8 and the D matrices; occupancy: RV-017/024/025/030) / PARENT (each law's own theory)",
+   "secondary_class": "S1 derivation table",
+   "parent_theorem": "GMI-T4..T8; Codex realization normal form; Kearns 1998 (SQ/parity); Angluin identification; Sutton-Barto; Williams 1992",
+   "track_b_residual": "one instrument, one cost model, prospective occupancy predictions across five law families",
+   "proof_artifact": "GMI_EXPERIMENT_PROGRAMME_V2_EXECUTED_LANE.md section 1; GMI_THEORY_CORE_V3_EXECUTED.md",
+   "exact_checker": "test_gmi_microscope.py; the STAGE_DE_* verdict receipts",
+   "counterexample_when_assumption_removed": "precision: S7 admissible only at full observation (RV-031); R3 never admissible (RV-030)",
+   "empirical_bridge": "none beyond the exact layer",
+   "claim_ceiling": "ML_LAWS_DERIVED_AND_OCCUPANCY_PREDICTED_AT_EXACT_SCOPE__TWO_LAWS_PRECISION_GATED",
+   "falsifier": "a registered law whose occupancy prediction fails on a fresh ecology outside the desc-dominated corner",
+   "status": "FINITE_CERTIFIED at scope / PRECISION_GATED for S7 and R3",
+   "v2_evidence": "RV-377-017/024/025/029/030/031"
   }
  ],
  "extension_rows_codex_v3": [
@@ -992,6 +1032,29 @@
      "field": "status",
      "old": "BLOCKED / PARENT_ANCHORED (limits) — Stage F E2 exploratory: label-free search recovered local-update forms in the binding ecology and a numeric non-store form in the smooth ecology; frozen classifier criteria (store use; ≥3 cells) failed; recorded as bounded failure with revival records, not as support",
      "new": "BLOCKED / PARENT_ANCHORED (limits) — Stage F E2 exploratory: label-free search recovered local-update forms in the binding ecology and a numeric non-store form in the smooth ecology; frozen classifier criteria (store use; ≥3 cells) failed; recorded as bounded failure with revival records, not as support (Blind recovery under diversity) RV-377-023: label-free regularized evolution under sign-flip task diversity converges in 3/3 seeds on a context-conditioned memory form (cell <- last label, multiplied into a fixed feature; 0.73) instead of the inert plateau of the single-target ecology (RV-018, 0.79 inert); the dense form (0.92, certified) is not assembled at 1e5 x 3. The diversity axis changes WHICH class the search reaches — an executed instance of the ecology-selects-form claim at the search level, not a resolution of T12."
+    }
+   ]
+  },
+  {
+   "amendment_id": "CANONICAL_377_AMEND_5",
+   "utc": "2026-09-11T22:25:22Z",
+   "rule": "two extension rows added (GMI-TN1, GMI-TN2); no canonical statement changed",
+   "sources": [
+    "GMI_THEORY_CORE_V3_EXECUTED.md section 1b",
+    "REVIVAL_LEDGER.jsonl RV-377-015..031"
+   ],
+   "changes": [
+    {
+     "row": "GMI-TN1",
+     "field": "(new row)",
+     "old": null,
+     "new": "Under A1 (a numeric-native basis with + and x on the parameter type), A2 (real-valued targets approximable by the parametric family to tolerance theta), A3 (a stable expressible step: learning rate be"
+    },
+    {
+     "row": "GMI-TN2",
+     "field": "(new row)",
+     "old": null,
+     "new": "Every registered machine-learning update law (gradient step, Bayesian conditioning, rule addition, program search, memory insertion, nearest-neighbour averaging, XOR-linear identification, reward-cons"
     }
    ]
   }
