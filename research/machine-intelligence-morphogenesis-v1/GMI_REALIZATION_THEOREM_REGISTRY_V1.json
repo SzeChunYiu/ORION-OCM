@@ -102,6 +102,16 @@
       "parent_owner": "No-Free-Lunch / decision theory",
       "ocm_residual": "explicit claim ceiling",
       "status": "SPECIFIED"
+    },
+    {
+      "id": "GMI-RP11",
+      "name": "Semantic-state information lower bound and factorization interpretation",
+      "class": "PARENT_THEOREM_IMPORT_AND_CORRECTION",
+      "statement": "For a finite exact semantic sufficient-state set with N pairwise future-distinguishable states, a lossless fixed-length binary encoding requires at least ceil(log2 N) bits. Thus N=3^n implies Theta(n) state-information bits, not Theta(3^n). Any exponential factorization advantage must identify another quantity such as global model/transition enumeration, search enumeration, or update/revision work.",
+      "assumptions": ["finite exact semantic states", "lossless unique decoding", "pairwise future-distinguishable under the registered obligation", "fixed-length binary encoding for the stated bound"],
+      "parent_owner": "counting/source coding plus minimal-state theory",
+      "ocm_residual": "prevents false exponential current-state compression claims and separates state information from model/update complexity",
+      "status": "SPECIFIED_AND_FINITE_CALIBRATED"
     }
   ],
   "required_finite_calibrations": [
@@ -110,14 +120,16 @@
     "horizon_crossover",
     "discovery_cost_reversal",
     "semantic_inadmissibility_exclusion",
-    "bounded_search_misses_normative_optimum"
+    "bounded_search_misses_normative_optimum",
+    "semantic_state_bits_vs_global_model_enumeration"
   ],
   "forbidden_inference": [
     "new theorem from Python calibration",
     "universal best morphology",
     "phase law from post-hoc architecture labels",
     "morphogenesis claim from normative optimum alone",
-    "efficiency win from weakened verifier/capability semantics"
+    "efficiency win from weakened verifier/capability semantics",
+    "exponential current-state information cost inferred from exponentially many global configurations"
   ],
   "terminal": "GMI_REALIZATION_THEOREM_REGISTRY_V1_FROZEN"
 }
