@@ -88,7 +88,10 @@ def _probe(M, nf, lib, depth, beta):
 
 
 # ------------------------------------------------ continual development (CONTINUAL_OCM)
-CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "version": "continual_v6.2"}
+CONTINUAL = {"mine_n": 32, "val_n": 8, "min_new": 16, "min_corpus": 12, "standdown_misses": 3, "min_new_after_fail": 8, "value_window": 8, "recomb_corpus": 4, "recomb_size": 8, "recomb_support": 1, "deploy_ci": False, "version": "continual_v6.3"}
+# v6.3: deploy_ci retired -- its only claimed benefit (FV8, v6.1) was a survivorship artefact
+# (the blocked attempt starved target 88 of budget and the failed row left the mean); it cost
+# s603 +5.4 % and E7 -> E8m7 +43 %.
 # v5: VALUE-BASED liveness. s604: a 16-fragment learned library (beta 8 420) kept hitting one
 # A-prime target in three and was therefore never stood down by the consecutive-miss rule,
 # paying beta + baseline on every miss for 17 targets. A library stays live while the realised
@@ -248,7 +251,7 @@ def _remine(M, solved, pool=None, recent=None):
     def _passes(r, need_ci):
         base = r["val_mean_delta"] > 0 and r["val_better"] * 2 > r["val_n"]
         return base and (not need_ci or (r.get("val_ci95_low") is not None and r["val_ci95_low"] > 0))
-    eligible = [r for r in fitted.values() if _passes(r, True)]
+    eligible = [r for r in fitted.values() if _passes(r, CONTINUAL["deploy_ci"])]
     blocked = (not eligible) and any(_passes(r, False) for r in fitted.values())
     best = max(eligible or list(fitted.values()), key=lambda r: (r["val_better"], r["val_mean_delta"]))
     ok = bool(eligible)
@@ -607,7 +610,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                             "active": None, "hits": [], "vals": [], "solved": [], "since_mine": 0, "events": [], "regime_start": 0, "standdown_at": 0}
                 C = P._c
                 use_pool = arm == "CONTINUAL_OCM"                # v6: the ablation never recombines
-                prog, used = None, 0
+                prog, used, learn_charge = None, 0, 0    # v6.3: learning is overhead, not search
                 if C["active"] is not None:
                     L = C["libs"][C["active"]]
                     prog, used = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
@@ -647,8 +650,13 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                 break
                 else:
                     C["hits"].append(False)
-                    if (len(C["hits"]) - 1) % 8 == 0:           # re-probe every retained library
-                        for k, L in enumerate(C["libs"]):
+                    if True:
+                        # v6.3: re-probing retained libraries is CHARGED, so it stays on the cadence;
+                        # re-mining is free unless a candidate validates, so it may be attempted on
+                        # ANY stood-down target. The cadence quantised learning: in A -> B -> C the
+                        # post-stand-down corpus at the 104 tick was 6 / 4 / 3 programs by chance.
+                        cadence = (len(C["hits"]) - 1) % 8 == 0
+                        for k, L in (enumerate(C["libs"]) if cadence else []):
                             pr, u = _probe(M, task.coefficients, [tuple(f) for f in L["lib"]], L["probe_depth"], min(L["beta"], q))
                             used += u
                             if pr is not None:
@@ -660,7 +668,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                         if prog is None and C["since_mine"] >= need:
                             rec, charged, ev = _remine(M, C["solved"][C.get("regime_start", 0):], pool,
                                                        recent=C["solved"][C.get("standdown_at", 0):])
-                            used += charged
+                            learn_charge += charged     # v6.3: never deducted from the search budget
                             if "skipped" not in ev:
                                 # v4.1: a SKIPPED attempt (corpus too small) mined nothing and must not
                                 # consume the counter; v4.2: a FAILED attempt retries after min_new_after_fail
@@ -676,7 +684,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                                     prog = pr
                 if prog is not None:
                     res = M.SearchResult(task.fingerprint, method.fingerprint, "VERIFIED_POLYNOMIAL_IDENTITY",
-                                         prog, used, used, (0,), 8)
+                                         prog, used + learn_charge, used, (0,), 8)
                 else:
                     L = C["libs"][C["active"]] if C["active"] is not None else None
                     # v3: only the dev-fitted rule (fitted on interleave-vs-baseline deltas) may
@@ -688,7 +696,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                     meth = M.GeneratorMethod(tuple(tuple(f) for f in L["lib"]), method.training_tasks) if use_inter else None
                     r2 = M.solve(task, rest, meth) if meth else M.solve(task, rest)
                     res = M.SearchResult(task.fingerprint, method.fingerprint, r2.status, r2.program,
-                                         used + r2.slots, r2.candidates_checked, r2.counterexamples, 8)
+                                         used + r2.slots + learn_charge, r2.candidates_checked, r2.counterexamples, 8)
                 if M.verify_solution(task, res):
                     C["solved"].append((task, res, res.slots)); C["since_mine"] += 1
             elif arm == "CONTINUED_OCM" and method.fragments:
@@ -758,6 +766,7 @@ def phase_acquire(M, repo, eco, run: Path, arm: str, ladder, targets_n: int) -> 
                        "pid_changed": os.getpid() != ck["pre_restart_pid"]},
            "targets": len(prot), "ladder": ladder,
            "successes": len(ok_rows), "attempts": len(rows),
+           "all_targets_verified": len({r["target"] for r in ok_rows}) == len(prot),
            "ladder_total": len(ok_rows),
            "mean_B_slots": round(statistics.fmean(r["B_slots"] for r in ok_rows), 1) if ok_rows else None,
            "external_verifications": verifications,

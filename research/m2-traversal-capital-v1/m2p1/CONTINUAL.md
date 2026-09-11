@@ -674,3 +674,64 @@ recombination at this grammar and cadence: the 8-solution validation slice needs
 regime's own solutions, and once it has them, mining the same corpus already recovers the
 regime — retained capital has no window in which it is both admissible and better.
 
+## C3 test, continual_v6.2 — outcome: registered claim NOT MET (records/abc/*_v6.2_*)
+
+| seed | recombination C | ablation C (v6.1) | ratio | recombination lifetime | ablation lifetime |
+|---|---|---|---|---|---|
+| 601 | **1 918** | 2 700 | **0.710** | 1 886 | 2 147 |
+| 602 | 2 842 | 2 842 | 1.000 | 2 334 | 2 334 |
+| 603 | 4 424 | 4 424 | 1.000 | 2 818 | 2 818 |
+
+The registered claim (≤ 0.85 × on ≥ 2 / 3 seeds) is **not met** (1 / 3) and the falsifier fires.
+The registration said the chain would then terminate at NO_TRANSFERABLE_HEADROOM *because
+retained capital has no window in which it is both admissible and better* — **s601 contradicts
+that premise**: there the recombination candidate built from six post-stand-down programs
+tiled 8 / 8 (lower bound +3 052), deployed at target 104, and cut regime C's cost 29 % while the
+ablation waited until 112. So the terminal is recorded as *registered claim not met*, not as a
+proven absence of headroom.
+
+**What separates the seeds (records).** Not coverage: the retained libraries cover 7 / 8, 7 / 8
+and 8 / 8 of C's motifs. The number of post-stand-down C programs available at the 104 attempt
+was **6 / 4 / 3** — set by where the stand-down happened to fall relative to the 8-target
+re-mining cadence. With 4 programs, support-1 admitted boundary artefacts that crowded out true
+motifs (0 / 8 tiled); with 3, no candidate could be formed. The cadence exists to limit *charged*
+re-probes of stood-down libraries; re-mining costs nothing unless a candidate validates.
+
+## Assay defect found and closed: survivorship in one record
+
+v6.1's FV8 figure (56 072, "+0.03 %") is **withdrawn**. The confidence-bound-blocked attempt at
+target 88 charged 190 587 slots against that target's 200 000 search budget, the solve then ran
+out of budget, and `mean_B_slots` — which averages verified rows — silently dropped the target
+(119 / 120 verified). Counted, FV8 under v6.1 is ≈ +4 %, no better than v6. A scan of **all 814
+arm records** on the three hosts (173 billy-old, 277 laptop, 364 LUNARC; per-target criterion,
+any rung, with a must-flag control) finds this to be the **only** failed target in the lane —
+every other reported mean is over the full target set. (A first LUNARC scan flagged 153 files: a
+false-positive class — the frozen multi-rung ladder records one row per target per rung, so
+unsolved low rungs are normal; the checker was corrected and re-run before anything was reported.)
+
+Fix in the runner (v6.3): learning charges are added to a target's cost but are **never deducted
+from its search budget**, and every arm report now carries `all_targets_verified`.
+
+**The in-life confidence bound is retired.** Its only claimed benefit was the survivorship figure
+above; it cost s603 +5.4 % and E7 → E8_m7 +43 % (23 159 vs 16 229 — it blocked the second
+deployment). It stays in the code behind `deploy_ci = False`, on the record.
+
+## C3b — new registration (2026-09-11, before any run; fresh seeds only)
+
+Because the fix below was suggested by seeds 601–603, those seeds are **regressions, not
+confirmation**. The test is on fresh A → B → C lifetimes, A seeds 604–612 (604–606 on laptop
+billy, 607–612 on LUNARC), five arms each.
+
+**Mechanism (continual_v6.3).** Re-probing retained libraries stays on the 8-target cadence
+(charged); **re-mining may be attempted on any stood-down target** (free unless a candidate
+validates). Plus the two corrections above (budget-independent learning charges; bound retired).
+
+**Predictions.** On ≥ 2 / 3 of the fresh seeds that pass the ecology gate, the recombination arm's
+regime-C cost ≤ 0.85 × the ablation's; its lifetime ≤ the ablation's on every fresh seed; every
+arm verifies every target. Regressions: s601–603, the four shift lifetimes, E5 and FV6 within
+± 2 % of v6.2, except that retiring the bound should return s603 to ≤ 1 701.8 and E7 → E8_m7 to
+≤ 16 229 × 1.02; FV8 verifies all 120 targets and its cost is recorded as the priced boundary it
+is (validating a depth-4 library there costs ≈ three baselines). **Falsifier:** fewer than 2 / 3
+of fresh seeds meet the 0.85 bar — then C3 is recorded **NOT_ESTABLISHED at this grammar** and
+this chain stops.
+
