@@ -42,7 +42,8 @@ VALIDATED = {"E7_longhorizon": "MDL_SELECTION", "E3_16motifs": "MDL_SELECTION",
              "E6_healthy": "none", "PLAST_shift": "DEPLOYMENT_LIVENESS"}
 COST = {"composability": 4, "guided_depth": 4, "winrate": 1, "ci_shape": 1,
         "compression_gain": 3, "oracle_also_fails": 6, "drift_signal": 2,
-        "mdl_response": 8}   # re-mine + re-validate: the dearest probe
+        "mdl_response": 8,   # re-mine + re-validate: the dearest probe
+        "probe_pays": 2, "admitted": 0}   # arithmetic on the library; the gate's own verdict
 
 
 def obs(c):
@@ -55,6 +56,9 @@ def obs(c):
         "compression_gain": "high" if c.get("mdl_gain", 0) >= .35 else "low" if c.get("mdl_gain", 0) >= .12 else "none",
         "oracle_also_fails": "yes" if c.get("oracle_fails") else "no",
         "drift_signal": "yes" if c.get("drift") else "no",
+        "probe_pays": ("unknown" if c.get("probe_pays_frac") is None else
+                       "high" if c["probe_pays_frac"] >= 0.6 else "low" if c["probe_pays_frac"] >= 0.2 else "none"),
+        "admitted": ("unknown" if c.get("admitted") is None else "yes" if c["admitted"] else "no"),
         "mdl_response": ("unknown" if c.get("mdl_response") is None else
                          "improves" if c["mdl_response"] > 0 else
                          "flat" if c["mdl_response"] == 0 else "worsens"),
@@ -81,6 +85,20 @@ LIK = {
  "oracle_also_fails": {"yes": {"C2": .85, "C5": .08, "C3": .04, "C1": .02, "C4": .01, "C0": .01},
                        "no": {"C1": .28, "C0": .22, "C3": .20, "C4": .15, "C5": .10, "C2": .05}},
  # drift: a library that WAS admitted and helped, and now hurts on a rolling window
+ # depth bound: if even the cheapest target sits below 2g, no library can be reached
+ # before baseline on it -- depth is the binding constraint regardless of recovery
+ # probe_pays: the cost rule's own estimate of how many solved validation targets a
+ # guided probe would reach before their baseline index. "none" with a complete-looking
+ # library is depth (C2); "high" is a library that pays (C0-like); C1 sits in between
+ # because an incomplete library tiles fewer targets at all.
+ "probe_pays": {"none": {"C2": .55, "C3": .20, "C1": .15, "C5": .06, "C4": .03, "C0": .01},
+                "low": {"C1": .35, "C2": .30, "C3": .15, "C4": .10, "C5": .07, "C0": .03},
+                "high": {"C0": .45, "C1": .25, "C4": .15, "C5": .10, "C2": .03, "C3": .02},
+                "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
+ # the gate's own verdict: an admitted library is, by definition, not a failure
+ "admitted": {"yes": {"C0": .85, "C5": .08, "C4": .04, "C1": .01, "C2": .01, "C3": .01},
+              "no": {"C1": .30, "C2": .25, "C3": .18, "C4": .15, "C5": .10, "C0": .02},
+              "unknown": {c: 1/6 for c in ("C0","C1","C2","C3","C4","C5")}},
  # MDL reselection helps iff displaced structure EXISTS (C1). No structure (C3) -> flat;
  # depth (C2) -> flat, the library is not the bottleneck; healthy (C0) -> flat/worse.
  "mdl_response": {"improves": {"C1": .70, "C5": .10, "C4": .08, "C2": .05, "C3": .04, "C0": .03},
@@ -97,6 +115,8 @@ GENERATIONS = [
     ("G2", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails"]),
     ("G3", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal"]),
     ("G4", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response"]),
+    ("G5", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response", "probe_pays"]),
+    ("G6", ["composability", "guided_depth", "winrate", "ci_shape", "compression_gain", "oracle_also_fails", "drift_signal", "mdl_response", "probe_pays", "admitted"]),
 ]
 
 
@@ -171,7 +191,10 @@ def main() -> int:
                 cost += sum(COST[p] for p in probes)
             calls[c["name"]] = top
             correct_cause += int(top == c["true_cause"])
-            correct_repair += int(REPAIR[top] == VALIDATED.get(c["name"]))
+            # scoring fix: mechanically-labelled cases carry no hand-validated repair;
+            # their validated repair is the one mapped to the true cause, exactly as for
+            # the originals (each of whose validated repairs IS REPAIR[true_cause]).
+            correct_repair += int(REPAIR[top] == VALIDATED.get(c["name"], REPAIR[c["true_cause"]]))
         acc = correct_cause / len(cases)
         rep = correct_repair / len(cases)
         ctvi = cost / correct_repair if correct_repair else float("inf")
@@ -181,6 +204,13 @@ def main() -> int:
         print("%s probes=%d cost=%-4d cause_acc=%.3f repair_acc=%.3f  cost_to_verified_improvement=%.2f" % (
             name, len(probes), cost, acc, rep, ctvi))
 
+    # confusion for the last generation, to localise the next missing probe
+    last = gens[-1]; conf = {}
+    for c in cases:
+        conf.setdefault(c["true_cause"], {}); conf[c["true_cause"]][last["calls"][c["name"]]] = conf[c["true_cause"]].get(last["calls"][c["name"]], 0) + 1
+    print("\nconfusion (%s):" % last["generation"])
+    for tc, row in sorted(conf.items()):
+        print("  %-24s -> %s" % (tc, ", ".join("%s:%d" % (k.split("_")[0], v) for k, v in sorted(row.items(), key=lambda kv: -kv[1]))))
     ctv = [g["cost_to_verified_improvement"] for g in gens]
     acc = [g["repair_accuracy"] for g in gens]
     slope_ok = all(ctv[i + 1] <= ctv[i] for i in range(len(ctv) - 1)) and acc[-1] > acc[0]
@@ -189,7 +219,7 @@ def main() -> int:
            "generations": gens,
            "cost_to_verified_improvement_by_generation": ctv,
            "repair_accuracy_by_generation": acc,
-           "improving_slope": slope_ok,
+           "improving_slope": slope_ok, "confusion_last": conf,
            "terminal": ("RECURSIVE_ACCELERATION_CANDIDATE" if slope_ok
                         else "NO_IMPROVING_SLOPE"),
            "matching": ("generations differ by exactly one mechanism-derived probe each, "
