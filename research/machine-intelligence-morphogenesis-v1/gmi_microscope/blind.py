@@ -279,6 +279,107 @@ def planted_check(seed=3):
     return {"score": r["score"], "class": classify_locality(r), "max_writes": r["max_writes"], "used_store": r["used_store"], "n_fx_cells_written": r["n_fx_cells_written"], "cost": r["cost"], "dropped_writes": dropped}
 
 
+def _paths(t, path=()):
+    """all node paths of a tree (root first)"""
+    yield path, t
+    if not isinstance(t, str):
+        for i, sub in enumerate(t[1:], 1):
+            yield from _paths(sub, path + (i,))
+
+
+def _replace(t, path, new):
+    if not path:
+        return new
+    t = list(t); t[path[0]] = _replace(t[path[0]], path[1:], new); return t
+
+
+def mutate_gp(rng, cand, depth_f=3):
+    """RV-377-018 declared search family operator (Koza subtree mutation): replace a random subtree of f, or of one
+    g-write expression, with a fresh random subtree of the depth that remains at that node; with prob 0.15 replace a
+    whole g-write (target cell or INSERT) as before."""
+    c = json.loads(json.dumps(cand))
+    if rng.random() < 0.5:
+        nodes = list(_paths(c["f"])); path, _ = rng.choice(nodes)
+        c["f"] = _replace(c["f"], path, rand_tree(rng, max(0, depth_f - len(path)), LEAVES_F))
+    else:
+        i = rng.randrange(len(c["g"]))
+        if rng.random() < 0.15:
+            c["g"][i] = ["INSERT", rand_tree(rng, G_DEPTH, LEAVES_G)] if rng.random() < 0.3 else [f"c{rng.randrange(N_CELLS)}", rand_tree(rng, G_DEPTH, LEAVES_G)]
+        else:
+            nodes = list(_paths(c["g"][i][1])); path, _ = rng.choice(nodes)
+            c["g"][i][1] = _replace(c["g"][i][1], path, rand_tree(rng, max(0, G_DEPTH - len(path)), LEAVES_G))
+    return c
+
+
+def evolve(ecology, rng, seed, P=100, S=25, evaluations=100000, log_every=10000):
+    """Regularized (aging) evolution, Real et al. 2019 Alg. 1, with genotype caching; fitness = (score, -charged cost)."""
+    from collections import deque
+    cache = {}; n_eval = 0; hits = 0
+    def ev_c(c):
+        nonlocal n_eval, hits
+        k = json.dumps(c, sort_keys=True)
+        if k in cache: hits += 1; return cache[k]
+        r = run_candidate(c, ecology, seed); cache[k] = r; n_eval += 1; return r
+    key = lambda cr: (cr[1]["score"], -sum(cr[1]["cost"].values()))
+    pop = deque()
+    while len(pop) < P:
+        c = rand_candidate(rng); pop.append((c, ev_c(c)))
+    best = max(pop, key=key); traj = [(n_eval, best[1]["score"])]; next_log = log_every
+    while n_eval < evaluations:
+        sample = [pop[rng.randrange(len(pop))] for _ in range(S)]
+        parent = max(sample, key=key)
+        child = mutate_gp(rng, parent[0]); cr = (child, ev_c(child))
+        pop.append(cr); pop.popleft()
+        if key(cr) > key(best): best = cr
+        if n_eval >= next_log:
+            traj.append((n_eval, best[1]["score"])); next_log += log_every
+    traj.append((n_eval, best[1]["score"]))
+    return best, list(pop), traj, n_eval, hits
+
+
+def main_evolve(seed, evaluations=100000, tag="RUN7_SMOOTH8_REGEVO", P=100, S=25):
+    """RV-377-018: regularized evolution on E_smooth8 with the RV-016 grammar (G_DEPTH 3), dead-write elimination and the
+    INERT-aware classifier. Existence certified (planted learner 0.9258). Writes STAGE_F_BLIND_RECOVERY_<tag>_S<seed>.json."""
+    global G_DEPTH
+    G_DEPTH = 3; set_bits(8)
+    rng = random.Random(seed)
+    e = ecologies(run4=True)["E_smooth8"]
+    best, pop, traj, n_eval, hits = evolve(e, rng, seed, P=P, S=S, evaluations=evaluations)
+    theta = THETA_SMOOTH
+    def canon(c, r):
+        c2, dropped = eliminate_dead_writes(c); r2 = run_candidate(c2, e, seed)
+        assert r2["score"] == r["score"]
+        return c2, r2, dropped
+    winners = []
+    seen = set()
+    for c, r in sorted(pop + [best], key=lambda cr: cr[1]["score"], reverse=True):
+        k = json.dumps(c, sort_keys=True)
+        if k in seen: continue
+        seen.add(k)
+        if r["score"] >= theta:
+            c2, r2, dropped = canon(c, r)
+            winners.append({"score": r["score"], "class": classify_locality_v2(r2, c2), "max_writes": r2["max_writes"], "used_store": r2["used_store"], "n_fx_cells_written": r2["n_fx_cells_written"], "dropped_writes": dropped, "f": json.dumps(c2["f"]), "g": json.dumps(c2["g"])})
+    top = []
+    for c, r in sorted(pop + [best], key=lambda cr: cr[1]["score"], reverse=True)[:3]:
+        c2, r2, dropped = canon(c, r)
+        top.append({"score": r["score"], "class": classify_locality_v2(r2, c2), "max_writes": r2["max_writes"], "used_store": r2["used_store"], "n_fx_cells_written": r2["n_fx_cells_written"], "f": json.dumps(c2["f"]), "g": json.dumps(c2["g"])})
+    classes = [w["class"] for w in winners]
+    frac_dense = (sum(1 for c in classes if c.startswith("NUMERIC_DENSE")) / len(classes)) if classes else None
+    receipt = {"schema": "StageFBlindRecoveryRegEvoV1", "status": "EXECUTED_AT_TINY_SCOPE", "issue": 377, "revival_record": "RV-377-018", "seed": seed, "run_tag": tag,
+               "search_family": f"regularized (aging) evolution, Real et al. 2019 Alg. 1: P={P}, S={S}, Koza subtree mutation on f and g, genotype cache; fitness (score, -charged cost)",
+               "grammar": {"n_bits": 8, "n_cells": N_CELLS, "f_depth": 3, "g_depth": G_DEPTH, "leaves_f": LEAVES_F, "leaves_g": LEAVES_G}, "existence_certificate": "planted 4-coefficient learner 0.9258 (RV-377-015 diagnosis)",
+               "ecology": {"kind": "smooth", "inputs": 256, "train": e["train"], "events": e["events"], "coeffs": list(SMOOTH8_COEFFS), "theta": theta},
+               "n_evaluations": n_eval, "cache_hits": hits, "best_score": best[1]["score"], "best_score_trajectory": traj,
+               "n_winners_at_theta": len(winners), "winner_classes": classes, "fraction_numeric_dense_among_winners": frac_dense, "winners": winners[:10], "top_elites_canonicalized": top,
+               "claim_ceiling": "E2 blind recovery at tiny scope with a declared population search family; one grammar; classification post hoc after dead-write elimination"}
+    receipt["receipt_sha256"] = sha256_of({k: v for k, v in receipt.items() if k != "receipt_sha256"})
+    json.dump(receipt, open(os.path.join(RES, f"STAGE_F_BLIND_RECOVERY_{tag}_S{seed}.json"), "w"), indent=1, sort_keys=True, default=str)
+    print(json.dumps({k: receipt[k] for k in ("seed", "n_evaluations", "cache_hits", "best_score", "n_winners_at_theta", "winner_classes")}))
+    print("trajectory:", traj)
+    for t in top: print("  ", t["score"], t["class"], "writes", t["max_writes"], "cells", t["n_fx_cells_written"], "store", t["used_store"])
+    return receipt
+
+
 def search(ecology, rng, seed):
     pop = [rand_candidate(rng) for _ in range(N_RANDOM)]
     scored = []
@@ -377,6 +478,10 @@ if __name__ == "__main__":
         print(json.dumps(planted_check(), indent=1))
     elif len(sys.argv) > 1 and sys.argv[1] == "run6":
         main(seed=5, n_random=12000, hill_steps=160, tag="RUN6_SMOOTH8_GDEPTH3", run4=True, dwe=True, g_depth=3)
+    elif len(sys.argv) > 1 and sys.argv[1] == "run3b":
+        main(seed=4, n_random=6000, hill_steps=80, tag="RUN3B_BIND16_SEED4", run3=True, dwe=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "run7":
+        main_evolve(seed=int(sys.argv[2]), evaluations=int(sys.argv[3]) if len(sys.argv) > 3 else 100000)
     elif len(sys.argv) > 1 and sys.argv[1] == "run5":
         main(seed=4, n_random=120000, hill_steps=1600, tag="RUN5_SMOOTH8_10X", run4=True, dwe=True)
     else:

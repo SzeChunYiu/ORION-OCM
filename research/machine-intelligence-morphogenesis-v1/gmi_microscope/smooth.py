@@ -42,6 +42,11 @@ COEFFS_V3 = (0.5, 0.25, -0.5, 0.375)  # RV-377-017 fresh ecology E_smooth3 (0.37
 UNSEEN = [x for x in ALL_X if x not in TRAIN]
 
 
+def make_parity_target():
+    """PH-5 negative control (ECOLOGY_AXES_V2): 4-bit parity as a scalar target, feedback = scalar error only."""
+    return {x: clamp(fx(1.0 if bin(x).count("1") % 2 else 0.0)) for x in ALL_X}
+
+
 def make_target(coeffs):
     return {x: clamp(fx(sum(c * ((x >> i) & 1) for i, c in enumerate(coeffs)))) for x in ALL_X}
 
@@ -285,9 +290,9 @@ def analytic_rstar(pe_i, pe_j, Hh):
     return round(a / b, 3) if b > 0 and a > 0 else None
 
 
-def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all"):
+def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H, rows=None, criterion="all", target=None):
     rows = rows or ROWS
-    target = make_target(coeffs)
+    target = make_target(coeffs) if target is None else target
     cols = list(bases.ALL)
     cells = {}
     for row, cls in rows.items():
@@ -342,7 +347,7 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
                 else:
                     within = obs is not None and obs[0] <= pred <= obs[1] * 1.0 + 1e-9 or (obs is not None and (pred < obs[0] and obs[0] == 0)) or (obs is not None and R_GRID.index(obs[1]) - R_GRID.index(obs[0]) == 1 and obs[0] <= pred <= obs[1])
             rstar[col] = {"predicted_rstar_from_E_smooth": pred, "observed_crossing_interval": obs, "both_admissible": adm, "within_one_grid_step": within}
-    receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "run_tag": tag, "target_coeffs": list(coeffs), "analytic_rstar_test": rstar,
+    receipt = {"schema": "StageDESmoothV1", "status": "EXECUTED_EXACT_AT_SCOPE", "issue": 377, "run_tag": tag, "target_coeffs": list(coeffs) if target is None or coeffs is not None else None, "target_table": {str(k): v for k, v in target.items()}, "analytic_rstar_test": rstar,
                "ecology": {"inputs": 16, "train": TRAIN, "H": n_events, "revoke_at": REVOKE_AT if n_events == H else n_events // 2 + 1, "theta": THETA, "rows": list(rows), "capability_criterion": criterion},
                "C2": c2, "capability_by_cell": caps, "R_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["R"] for (row, col, size) in cells},
                "writes_by_cell": {f"{row}|{col}|{size}": cells[(row, col, size)]["max_writes"] for (row, col, size) in cells},
@@ -373,7 +378,9 @@ def main(seed=0, coeffs=COEFFS_V1, tag="V1", reference_receipt=None, n_events=H,
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "smooth3":
+    if len(sys.argv) > 1 and sys.argv[1] == "parity":
+        main(coeffs=None, tag="V5_PARITY_PH5", n_events=16, rows=ROWS_V3, criterion="unseen", target=make_parity_target())
+    elif len(sys.argv) > 1 and sys.argv[1] == "smooth3":
         main(coeffs=COEFFS_V3, tag="V4_SMOOTH3_GEN", n_events=16, rows=ROWS_V3, criterion="unseen")
     elif len(sys.argv) > 1 and sys.argv[1] == "smooth2_d48":
         main(coeffs=COEFFS_V2, tag="V3_SMOOTH2_D48", reference_receipt="STAGE_DE_SMOOTH_V1.json", n_events=48, rows=ROWS_V3)
