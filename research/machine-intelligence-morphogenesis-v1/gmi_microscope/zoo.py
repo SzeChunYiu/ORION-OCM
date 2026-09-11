@@ -10,9 +10,9 @@ from . import morph
 def gradient_net(h=2, lr=4):
     """S4-like: x -> AFFINE(h) -> THRESH -> LINEAR(v) + c -> out; GRAD on both parameter blocks; EVIDENCE for revocation replay."""
     per = 5  # 4 weights + bias per hidden unit
-    return morph.make({0: ("INPUT", {"width": 4}), 1: ("DENSE", {"width": per * h}), 2: ("AFFINE", {"width": h}), 3: ("NONLIN", {"fn": 0}), 4: ("DENSE", {"width": h}), 5: ("LINEAR", {}),
-                       6: ("CONST", {"value": 0}), 7: ("SUM", {}), 8: ("OUTPUT", {}), 9: ("TARGET", {}), 10: ("GRAD", {"lr": lr}), 11: ("GRAD", {"lr": lr}), 12: ("EVIDENCE", {"cap": 64})},
-                      [(1, 2, 0), (0, 2, 1), (2, 3, 0), (4, 5, 0), (3, 5, 1), (5, 7, 0), (6, 7, 1), (7, 8, 0), (1, 10, 0), (7, 10, 1), (9, 10, 2), (4, 11, 0), (7, 11, 1), (9, 11, 2), (0, 12, 0), (9, 12, 1)],
+    return morph.make({0: ("INPUT", {"width": 4}), 1: ("DENSE", {"width": per * h}), 2: ("AFFINE", {"width": h}), 3: ("NONLIN", {"fn": 0}), 4: ("DENSE", {"width": h + 1}), 5: ("LINEAR", {}),
+                       8: ("OUTPUT", {}), 9: ("TARGET", {}), 10: ("GRAD", {"lr": lr}), 11: ("GRAD", {"lr": lr}), 12: ("EVIDENCE", {"cap": 64})},
+                      [(1, 2, 0), (0, 2, 1), (2, 3, 0), (4, 5, 0), (3, 5, 1), (5, 8, 0), (1, 10, 0), (5, 10, 1), (9, 10, 2), (4, 11, 0), (5, 11, 1), (9, 11, 2), (0, 12, 0), (9, 12, 1)],
                       meta={"zoo": "gradient_net"})
 
 

@@ -218,3 +218,12 @@ def test_vm_zoo_deterministic_and_remint_invariant_response():
     for name, cap in expect.items():
         g = zoo.ZOO[name](); r = runit(g); assert r["capability"] == cap, (name, r["capability"])
         r2 = runit(morph.remint(g, 5)); assert r2["R"] == r["R"] and r2["capability"] == cap, name
+
+
+def test_b0_equivalence_receipt_reproduces(tmp_path):
+    """B0: implementation-equivalent rewrites merge, collision pairs split, init audited; the receipt is deterministic."""
+    from gmi_microscope import equiv
+    o = equiv.main(tag="TEST_TMP")
+    ref = json.load(open(RES / "STAGE_B0_EQUIVALENCE_METERING_V1.json"))
+    (RES / "STAGE_B0_EQUIVALENCE_METERING_TEST_TMP.json").unlink()
+    assert o["terminal"] == "BIOSPHERE_B0_EQUIVALENCE_AND_METERING_GREEN" and o["receipt_sha256"] == ref["receipt_sha256"]

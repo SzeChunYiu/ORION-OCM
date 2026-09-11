@@ -89,13 +89,19 @@ class VM:
     # ------------------------------------------------------------------------------------------------ allocation
     def init(self):
         M = self.M
+        # dense initialization: one contiguous declared sequence over the DENSE nodes ordered by (-width, canonical label);
+        # the offset of a node depends only on the widths of the wider DENSE nodes, so it is invariant under remint and
+        # under implementation-equivalent rewrites that add non-DENSE nodes (B0.1), and reproduces the S4 row's init
+        init = [0.5, -0.25, 0.75, -0.5, 0.25, 0.5, -0.75, 0.25, 0.5, -0.5, 0.25, 0.75, -0.25, 0.5, 0.25, -0.5, 0.125, -0.125, 0.375, -0.375, 0.625, -0.625, 0.875, -0.875]
+        dense = sorted([i for i in self.order if self.nodes[i][0] == "DENSE"], key=lambda i: (-self.nodes[i][1]["width"], self.clabel[i]))
+        offset = {}; acc = 0
+        for i in dense: offset[i] = acc; acc += self.nodes[i][1]["width"]
         for i in self.order:
             k, p = self.nodes[i]
             if k == "DENSE":
-                init = [0.5, -0.25, 0.75, -0.5, 0.25, 0.5, -0.75, 0.25, 0.5, -0.5, 0.25, 0.75, -0.25, 0.5, 0.25, -0.5, 0.125, -0.125, 0.375, -0.375, 0.625, -0.625, 0.875, -0.875]
                 names = []
                 for j in range(p["width"]):
-                    n = f"{i}_w{j}"; M.declare(n, "fx", fx(init[(self.clabel[i] % 7 + j) % len(init)])); names.append(n)
+                    n = f"{i}_w{j}"; M.declare(n, "fx", fx(init[(offset[i] + j) % len(init)])); names.append(n)
                 self.state[i] = names; self.initial_dense[i] = [M.read(n) for n in names]
             elif k in ("TABLE", "KVSTORE", "EVIDENCE"):
                 M.declare_store(f"{i}_s"); self.state[i] = f"{i}_s"
@@ -127,12 +133,15 @@ class VM:
         return tuple(1 if v.v > 0 else 0 for v in xvec[:keybits])
 
     def _dot(self, w_names, xvec, tape):
+        """dot product of a parameter block with a vector; one extra parameter cell beyond the vector length acts as a bias."""
         M = self.M; s = Val(0)
         for n, xv in zip(w_names, xvec):
             w = Val(M.read(n)); prod = M.op("MUL", w.v, xv.v)
             pv = Val(prod, [(w, xv.v), (xv, w.v)] if tape else None)
             s = Val(M.op("ADD", s.v, pv.v), [(s, FX_ONE), (pv, FX_ONE)] if tape else None)
             if tape: pv.parents.append(("param", n))
+        if len(w_names) == len(xvec) + 1:
+            b = Val(M.read(w_names[-1])); s = Val(M.op("ADD", s.v, b.v), [(s, FX_ONE), (b, FX_ONE), ("param", w_names[-1])] if tape else None)
         return s
 
     def evaluate(self, x, y=None, tape=False):
