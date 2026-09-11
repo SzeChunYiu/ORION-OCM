@@ -112,7 +112,7 @@ Predicted abilities in P+ (≥ 3 regimes sharing one latent semantics, ongoing r
 - B2 update cost independent of the number of *inactive* phenotypes (lazy recompilation), against an eager multi-phenotype hybrid whose update cost grows linearly with the phenotype count;
 - B3 stale-phenotype exposure bounded by the version/dependency check (no stale phenotype certifies itself);
 - B4 loses to the eager hybrid when regimes ≤ 2 (N1) or compile cost ≥ retrain cost (N2), and to the broad fixed realization when regimes share no semantics (N3).
-Experiment (to freeze as RV-033): E_factored with three regimes over the same factors — exact scope sums, thresholded Boolean answers, and top-factor argmax — rows: eager multi-phenotype hybrid, single broad interpreter, CP lazy source→phenotype with version tags, per-regime independent learners (no sharing); cells P+, N1 (one regime), N2 (compile price × 16), N3 (independent factor sets per regime). Kill: B1 fails (no transfer) or the eager hybrid wins P+.
+Experiment (RV-033, executed): E_factored with three regimes over the same factors — exact scope sums, thresholded Boolean answers, and top-factor argmax — rows: eager multi-phenotype hybrid, single broad interpreter, CP lazy source→phenotype with version tags, per-regime independent learners (no sharing); cells P+, N1 (one regime), N2 (compile price × 16), N3 (independent factor sets per regime). Kill: B1 fails (no transfer) or the eager hybrid wins P+. **Outcome (RV-377-033):** B1, B2 and B4 held as measured (transfer 1.0 with zero labels in the derived regimes; lazy update work 2.6× below eager with one of three regimes active, collapsing to 1.0× under dense activity; N1/N2/N3 remove the advantage, N3 is a hole for every organization; the eager hybrid wins no cell). Occupancy: the single interpreter wins P+ at 64 queries per window in every basis; compiled polyphenism enters the frontier only in the store-native basis beyond H* ≈ 1 410 reuses per rebuild. So the CP positive region at this scope is narrower than the document's qualitative P+: `PARENT_FRONTIER_HOLE_NOT_SUPPORTED_AT_THIS_SCOPE_FOR_OCCUPANCY`, `CP_ABILITIES_B1_B2_B4_SUPPORTED_AT_SCOPE`.
 
 ### 5.3 What would make either a *new form* rather than a parent product
 
@@ -151,7 +151,7 @@ Executable asks from their documents at this layer, in order of cost: (1) C-Q/U 
 | Codex | E3 math/code | gates frozen; #46 locked; code H0 episode (#208) pending — **not runnable here** |
 | ChatGPT | VLC E0 (v1 failed twin, v2 green) | GREEN; E1 → this lane's RV-032 (running) |
 | ChatGPT | CP E0 exact phase | GREEN; E1 → RV-033 (designed above) |
-| this lane | D/E/F exact microscopes, RV-001…032 | 10 held / 8 failed-and-revived / 2 pending (RV-028 at 10^6, RV-032) |
+| this lane | D/E/F exact microscopes, RV-001…037 | held: 013, 017, 019, 020, 022, 024, 026, 030, 034 (+ partial 025, 031, 032, 033); failed-and-revived: 009, 014, 015, 016, 018, 021, 029; pending: 028 (10^6), 035 (hardware price vector), 036 (query/update collision cells), 037 (mechanism ablations) |
 
 ## 7. What success requires now (in order) and the kill terminals
 
